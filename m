@@ -1,25 +1,34 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F0DD06E7D0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E2616F309
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 20:51:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Feb 2014 12:51:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,557,1389772800"; d="scan'208";a="483134277"
-Received: from unknown (HELO [10.255.14.50]) ([10.255.14.50])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Feb 2014 12:51:20 -0800
-Message-ID: <530FA547.9020504@linux.intel.com>
-Date: Thu, 27 Feb 2014 22:51:19 +0200
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: =?UTF-8?B?U8OpYmFzdGllbiBNZW5uZXRyaWVy?= <s.mennetrier@innotis.org>, 
-	openembedded-core@lists.openembedded.org
-References: <1393509724-26931-1-git-send-email-s.mennetrier@innotis.org>
-In-Reply-To: <1393509724-26931-1-git-send-email-s.mennetrier@innotis.org>
-Subject: Re: [PATCH] libomxil: Fix link issue for gst-omx
+	Thu, 27 Feb 2014 21:04:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1RL43nb030196; Thu, 27 Feb 2014 21:04:03 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uhL6aOrOqGgv; Thu, 27 Feb 2014 21:04:03 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1RL3vSl030181
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 27 Feb 2014 21:03:59 GMT
+Message-ID: <1393535030.31769.160.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 27 Feb 2014 21:03:50 +0000
+In-Reply-To: <CAJTo0LYoCqic_4OwwMHJdwMwwMDC-ARyu1e_5PdV0+HnqNxLzg@mail.gmail.com>
+References: <1393524104.31769.148.camel@ted>
+	<CAJTo0LaG9SeGd2Pi3-dksPd_FHH4TEWK2MGJU-d=2kte6aTg7Q@mail.gmail.com>
+	<CAP9ODKrpyH-R4LYRt6kt0SiQEfAmaVUPHZq0XEzcYJxXY7BuRQ@mail.gmail.com>
+	<CAJTo0LYoCqic_4OwwMHJdwMwwMDC-ARyu1e_5PdV0+HnqNxLzg@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools-brokensep: Mark recipes with broken separate build dir support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 20:51:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Feb 2014 21:04:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 02/27/2014 04:02 PM, Sébastien Mennetrier wrote:
-> gst-omx element can not load due to a missing symbol.
-> Missing symbol RM_Deinit.
->
-> Signed-off-by: Sébastien Mennetrier <s.mennetrier@innotis.org>
-> ---
->   .../libomxil/libomxil-0.9.3/dynamicloader-linking.patch       | 11 +++++++++++
->   meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb            |  3 ++-
->   2 files changed, 13 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
->
-> diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
-> new file mode 100644
-> index 0000000..c0fa6d8
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
+On Thu, 2014-02-27 at 20:13 +0000, Burton, Ross wrote:
+> On 27 February 2014 20:06, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> > On Thu, Feb 27, 2014 at 3:52 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> >> On 27 February 2014 18:01, Richard Purdie
+> >> <richard.purdie@linuxfoundation.org> wrote:
+> >>> +inherit autotools
+> >>> +B = "${S}"
+> >>
+> >> Why is this preferable to directly setting B in the recipe, which
+> >> seems more obvious to me.
+> >
+> > I see one benefit for it being easier to grep for; so we know this is
+> > one recipe which ought to be fixed and that rely on autotools.
+> 
+> I'm apprehensive of adding a class whose sole purpose is to set a
+> variable that can be set in the recipe itself, and will be another
+> class to explain/document for the future.  Grepping for an assignment
+> to B is almost as simple too.
 
-This patch needs a Upstream-Status and Signed-off-by: tag
+I ended up doing it this way as:
 
-Sau!
+a) its easier to change in the recipes than typing the magic B=...
+   incantation
+b) its easier to search for (sure you can grep B= but how do you know 
+   they're autotools recipes? This is particular hard when the inherit 
+   is in a common include file
+c) it means we can set (and change) policy globally from one place
+d) it contains the word "broken" nice and clearly
 
-> @@ -0,0 +1,11 @@
-> +--- a/src/dynamic_loader/Makefile.am	2014-02-25 15:29:10.128549636 +0100
-> ++++ b/src/dynamic_loader/Makefile.am	2014-02-25 15:30:15.756548808 +0100
-> +@@ -3,7 +3,7 @@
-> + omxdynamicloader_LTLIBRARIES = libomxdynamicloader.la
-> + libomxdynamicloader_la_SOURCES = ste_dynamic_component_loader.c ste_dynamic_component_loader.h
-> +
-> +-libomxdynamicloader_la_LDFLAGS =
-> ++libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs
-> + libomxdynamicloader_la_CFLAGS = -I$(top_srcdir)/include \
-> + 			-I$(top_srcdir)/src \
-> + 			-I$(top_srcdir)/src/base \
-> diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-> index f6c6a16..4a7633d 100644
-> --- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-> +++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-> @@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
->   SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
->              file://configure-fix.patch \
->              file://parallel-make.patch \
-> -           file://makefile-docdir-fix.patch"
-> +           file://makefile-docdir-fix.patch \
-> +           file://dynamicloader-linking.patch"
->
->   SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
->   SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
->
+Cheers,
+
+Richard
+
 
