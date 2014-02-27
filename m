@@ -1,39 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A76DE60DD7
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9845860DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 20:15:44 +0000 (UTC)
-Received: by mail-yh0-f53.google.com with SMTP id v1so3308874yhn.12
+	Thu, 27 Feb 2014 20:20:48 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id gf5so2022323lab.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 12:15:46 -0800 (PST)
+	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=jJPzBg0jljyajsgBoyhMXNHEAfG7E5BGz2ikqHUqQZw=;
-	b=qY0Ki3SFaM+XrGEt+FNrcdzj31zJB+OBRw5XvfEzJ7h/bkcxzGpY5OtOse962bgLVg
-	RlawM4xuZYY1A/FSI4cKRqXehya1gPb2gvOOr4pxC84xm4EopouVlmlpVxGasizvXt00
-	iyc91ZsJF4yPrZ7qaNIaoPVUaJ1wP1M0TgxEMzptBAr1Zog6K34NzoMjgIkrR5SDpo3C
-	7fn2365sX8cTnrPCV1RWCO4RCHk4TmkI7dyVR5979joJ26HShEEpv6GqU3Jy9w2FNALn
-	wiaAm8kis+NJmqAYSufiGIugdLJ6TycPMB5FoZCorYtm5LbMSJOE1LbYvi4UXgKJ4NQ6
-	dbQA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=adwY67AplqNFnhELmObCvKLkJx7QAPa717YfhE71fcE=;
+	b=ddWeT3lb4ta2ZtEMho5xWU1LuYQg3gZUiC8PtAlwgELj4iasH5UpUJbFAHsia+tfAf
+	CLhR06eSeZ5/634GBEMX5FMP9xEmgF0rhhPRLplr45Zrk96R77eG57P5pg+WduzEGBMa
+	xFR9MDPHLwJ3Spl6u7qRu4uf5Crg0pbUbYJRCwlh8Ux8sR8yufOOoRiu+nCw3aOVhtSQ
+	sId0sULJXjeMFnAYx52GuYYjIEHOv1Ab/BfXjatu27T5OfFbvJEsfupmMNtpakXVJ/vF
+	ktnTP03i+RqfjElC6Oxw0okbcO7TdfpkMhUUpUpMk2tMtB3l7pUJyn13aexEPMoSlM85
+	5nAg==
+X-Received: by 10.112.125.225 with SMTP id mt1mr7544238lbb.35.1393532448877;
+	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
+Received: from localhost (c-5eeaaa2a-74736162.cust.telenor.se. [94.234.170.42])
+	by mx.google.com with ESMTPSA id e1sm9376454laa.8.2014.02.27.12.20.47
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
+Received: by localhost (Postfix, from userid 1000)
+	id E2DBAB4001A; Thu, 27 Feb 2014 21:20:44 +0100 (CET)
+From: =?UTF-8?q?David=20Nystr=C3=B6m?= <david.c.nystrom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Feb 2014 21:20:38 +0100
+Message-Id: <1393532438-6852-2-git-send-email-david.c.nystrom@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
+References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.236.66.143 with SMTP id h15mr17095364yhd.36.1393532145962;
-	Thu, 27 Feb 2014 12:15:45 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.217.136 with HTTP; Thu, 27 Feb 2014 12:15:45 -0800 (PST)
-In-Reply-To: <CAJTo0LYoCqic_4OwwMHJdwMwwMDC-ARyu1e_5PdV0+HnqNxLzg@mail.gmail.com>
-References: <1393524104.31769.148.camel@ted>
-	<CAJTo0LaG9SeGd2Pi3-dksPd_FHH4TEWK2MGJU-d=2kte6aTg7Q@mail.gmail.com>
-	<CAP9ODKrpyH-R4LYRt6kt0SiQEfAmaVUPHZq0XEzcYJxXY7BuRQ@mail.gmail.com>
-	<CAJTo0LYoCqic_4OwwMHJdwMwwMDC-ARyu1e_5PdV0+HnqNxLzg@mail.gmail.com>
-Date: Thu, 27 Feb 2014 17:15:45 -0300
-X-Google-Sender-Auth: HRs2ydPeIe3kvP9oAcgkve_38ZM
-Message-ID: <CAP9ODKoHexNY7nVrAVyTu5fBnfmWN-f9_D42SDAx89-ODE5PxQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools-brokensep: Mark recipes with broken separate build dir support
+Subject: [PATCH 2/2] do_rootfs: Add PACKAGE_FEED_URIS as a vardep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +47,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 20:15:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 27 Feb 2014 20:20:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 27, 2014 at 5:13 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 27 February 2014 20:06, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> On Thu, Feb 27, 2014 at 3:52 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>> On 27 February 2014 18:01, Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>>> +inherit autotools
->>>> +B = "${S}"
->>>
->>> Why is this preferable to directly setting B in the recipe, which
->>> seems more obvious to me.
->>
->> I see one benefit for it being easier to grep for; so we know this is
->> one recipe which ought to be fixed and that rely on autotools.
->
-> I'm apprehensive of adding a class whose sole purpose is to set a
-> variable that can be set in the recipe itself, and will be another
-> class to explain/document for the future.  Grepping for an assignment
-> to B is almost as simple too.
+A bit uncertain on where to put this, suggestions welcome.
+Needed to automatically rebuild do_rootfs when PACKAGE_FEED_URIS
+change.
 
-Indeed; I agree with you now.
+Signed-off-by: David Nyström <david.c.nystrom@gmail.com>
+Signed-off-by: David Nyström <david.nystrom@enea.com>
 
+---
+ meta/classes/rootfs_deb.bbclass | 1 +
+ meta/classes/rootfs_ipk.bbclass | 1 +
+ meta/classes/rootfs_rpm.bbclass | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index 728ea0e..a42a472 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -8,6 +8,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
+ do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_package_write_deb"
+ rootfs_deb_do_rootfs[vardepsexclude] += "BUILDNAME"
++do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ 
+ do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+ 
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 1887dd3..f5fef00 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -11,6 +11,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
+ 
+ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_package_write_ipk"
++do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ rootfs_ipk_do_rootfs[vardepsexclude] += "BUILDNAME"
+ 
+ do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 032dabc..4b02247 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -23,6 +23,7 @@ do_rootfs[depends] += "createrepo-native:do_populate_sysroot"
+ 
+ do_rootfs[recrdeptask] += "do_package_write_rpm"
+ rootfs_rpm_do_rootfs[vardepsexclude] += "BUILDNAME"
++do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ 
+ # RPM doesn't work with multiple rootfs generation at once due to collisions in the use of files 
+ # in ${DEPLOY_DIR_RPM}. This can be removed if package_update_index_rpm can be called concurrently
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.2
+
 
