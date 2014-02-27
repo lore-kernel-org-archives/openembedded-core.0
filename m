@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0524C6F2FF
+	by mail.openembedded.org (Postfix) with ESMTP id 0285A6F1BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:03:45 +0000 (UTC)
+	Thu, 27 Feb 2014 18:04:32 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1RI3efK022716 for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:03:41 GMT
+	s1RI4Sbo022823 for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Feb 2014 18:04:28 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oqQ02xgso2hB
+	with LMTP id k9-yFGcPuINB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:03:40 +0000 (GMT)
+	Thu, 27 Feb 2014 18:04:28 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1RI3bRo022711
+	s1RI4NVf022815
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:03:38 GMT
-Message-ID: <1393524209.31769.150.camel@ted>
+	Thu, 27 Feb 2014 18:04:25 GMT
+Message-ID: <1393524255.31769.151.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Feb 2014 18:03:29 +0000
+Date: Thu, 27 Feb 2014 18:04:15 +0000
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] autotools: Enable separate builddir by default
+Subject: [PATCH] libnotify: Fix separate build dir support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 18:03:46 -0000
+X-List-Received-Date: Thu, 27 Feb 2014 18:04:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Building on the previous patch, enable separate builddir support 
-by default (${B} != ${S}). This moves the functionality from the include
-to become the default. Recipes where this support is broken can inherit
-autotools-brokensep instead.
+Fix ${B} != ${S} support for libnotify.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 2f2a407..0a71c0e 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -288,3 +288,4 @@ inherit siteconfig
+
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
+index 61ae5e6..dd3ff31 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
+@@ -12,6 +12,6 @@ SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
+ SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
  
- EXPORT_FUNCTIONS do_configure do_install
- 
-+B = "${WORKDIR}/build"
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index 6fc522c..5557350 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -2,7 +2,6 @@ include conf/distro/include/default-providers.inc
- include conf/distro/include/default-versions.inc
- include conf/distro/include/default-distrovars.inc
- include conf/distro/include/world-broken.inc
--include conf/distro/include/seperatebuilddir.inc
- 
- TCMODE ?= "default"
- require conf/distro/include/tcmode-${TCMODE}.inc
+ do_configure_prepend() {
+-    sed -i /GTK3/d configure.ac
+-    sed -i -e /test-gtk3/d -e 's/test-xy-stress \\/test-xy-stress/' tests/Makefile.am
++    sed -i /GTK3/d ${S}/configure.ac
++    sed -i -e /test-gtk3/d -e 's/test-xy-stress \\/test-xy-stress/' ${S}/tests/Makefile.am
+ }
 
 
 
