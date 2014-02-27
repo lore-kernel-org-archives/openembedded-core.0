@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 13A736F3E0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 963EE6F0FE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 16:05:40 +0000 (UTC)
+	Thu, 27 Feb 2014 16:05:48 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Feb 2014 08:05:41 -0800
+	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2014 08:01:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,555,1389772800"; d="scan'208";a="463509435"
+X-IronPort-AV: E=Sophos;i="4.97,555,1389772800"; d="scan'208";a="463509424"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2014 08:04:43 -0800
+	by orsmga001.jf.intel.com with ESMTP; 27 Feb 2014 08:04:42 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2014 18:07:33 +0200
-Message-Id: <1664f6f8f35d9e5b87e1aa12fa146f07a8be111f.1393517205.git.cristian.iorga@intel.com>
+Date: Thu, 27 Feb 2014 18:07:32 +0200
+Message-Id: <efb18b19540663bfd62117f8e90c1af7f9bdbd7a.1393517205.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1393517205.git.cristian.iorga@intel.com>
 References: <cover.1393517205.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1393517205.git.cristian.iorga@intel.com>
 References: <cover.1393517205.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/4] telepathy-mission-control: upgrade to 5.16.1
+Subject: [PATCH 3/4] telepathy-glib: upgrade to 0.23.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 16:05:40 -0000
+X-List-Received-Date: Thu, 27 Feb 2014 16:05:49 -0000
 
-- Switched to {BP} variable.
+- switched to {BP} variable.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- ...n-control_5.16.0.bb => telepathy-mission-control_5.16.1.bb} | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.16.0.bb => telepathy-mission-control_5.16.1.bb} (89%)
+ .../{telepathy-glib_0.23.0.bb => telepathy-glib_0.23.2.bb}         | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.23.0.bb => telepathy-glib_0.23.2.bb} (76%)
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.1.bb
-similarity index 89%
-rename from meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb
-rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.1.bb
-index fbd8ba2..b242f1a 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.1.bb
-@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499 \
- SECTION = "libs"
- DEPENDS = "libtelepathy dbus-glib gconf libxslt-native"
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.23.0.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.23.2.bb
+similarity index 76%
+rename from meta/recipes-connectivity/telepathy/telepathy-glib_0.23.0.bb
+rename to meta/recipes-connectivity/telepathy/telepathy-glib_0.23.2.bb
+index 14787ea..7d849a0 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.23.0.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.23.2.bb
+@@ -4,10 +4,9 @@ HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
+ DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib libxslt-native"
+ LICENSE = "LGPLv2.1+"
  
--SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz \
--	file://tmc-Makefile-fix-race.patch \
--	"
--SRC_URI[md5sum] = "736ae9d71028d8e6d95017433c07fa06"
--SRC_URI[sha256sum] = "edc3c7265c291343d5d7d47c20add4d426e894068c66c79696795502a4e1c1d0"
-+SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/${BP}.tar.gz \
-+           file://tmc-Makefile-fix-race.patch \
-+          "
-+SRC_URI[md5sum] = "421115a35b9e427807326877f86e7f43"
-+SRC_URI[sha256sum] = "14ceb7d53535b43d44b8271ad11319d1d0fe6d193d154636b9e62b42799b9723"
+-SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "e4fff5885d4840c965b71c1c113d731e"
+-SRC_URI[sha256sum] = "d9e08f3af867846c3f81e8ab85bbb71f30ea914f004065419ea65a14bb30d809"
++SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BP}.tar.gz"
++SRC_URI[md5sum] = "834ff3b4e2f0e696492a525fe1838f06"
++SRC_URI[sha256sum] = "37d5d0eb8cb801822d579182b84a9abdc24e51e5a54b663f865fd1ba2e062c83"
  
- inherit autotools pkgconfig pythonnative
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e413d83db6ee8f2c8e6055719096a48e"
  
 -- 
 1.8.3.2
