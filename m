@@ -1,34 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E2616F309
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C41E6D759
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 21:04:15 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1RL43nb030196; Thu, 27 Feb 2014 21:04:03 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uhL6aOrOqGgv; Thu, 27 Feb 2014 21:04:03 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1RL3vSl030181
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 27 Feb 2014 21:03:59 GMT
-Message-ID: <1393535030.31769.160.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 27 Feb 2014 21:03:50 +0000
-In-Reply-To: <CAJTo0LYoCqic_4OwwMHJdwMwwMDC-ARyu1e_5PdV0+HnqNxLzg@mail.gmail.com>
-References: <1393524104.31769.148.camel@ted>
-	<CAJTo0LaG9SeGd2Pi3-dksPd_FHH4TEWK2MGJU-d=2kte6aTg7Q@mail.gmail.com>
-	<CAP9ODKrpyH-R4LYRt6kt0SiQEfAmaVUPHZq0XEzcYJxXY7BuRQ@mail.gmail.com>
-	<CAJTo0LYoCqic_4OwwMHJdwMwwMDC-ARyu1e_5PdV0+HnqNxLzg@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools-brokensep: Mark recipes with broken separate build dir support
+	Thu, 27 Feb 2014 21:12:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1RLCm4j008931
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Feb 2014 13:12:48 -0800 (PST)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 27 Feb 2014 13:12:48 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 27 Feb 2014 16:12:35 -0500
+Message-ID: <7d732756e9fe71b5504dab39417efe46f71e7008.1393535348.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1393535348.git.bruce.ashfield@windriver.com>
+References: <cover.1393535348.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] kernel-yocto: always checkout machine branch when existing validate_branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,41 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 21:04:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Feb 2014 21:12:51 -0000
+Content-Type: text/plain
 
-On Thu, 2014-02-27 at 20:13 +0000, Burton, Ross wrote:
-> On 27 February 2014 20:06, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> > On Thu, Feb 27, 2014 at 3:52 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> >> On 27 February 2014 18:01, Richard Purdie
-> >> <richard.purdie@linuxfoundation.org> wrote:
-> >>> +inherit autotools
-> >>> +B = "${S}"
-> >>
-> >> Why is this preferable to directly setting B in the recipe, which
-> >> seems more obvious to me.
-> >
-> > I see one benefit for it being easier to grep for; so we know this is
-> > one recipe which ought to be fixed and that rely on autotools.
-> 
-> I'm apprehensive of adding a class whose sole purpose is to set a
-> variable that can be set in the recipe itself, and will be another
-> class to explain/document for the future.  Grepping for an assignment
-> to B is almost as simple too.
+The validate_branches routine is responsible for ensuring that the specified
+SRCREV exists, and that the tree has been prepared for eventual patching
+starting directly from that SRCREV.
 
-I ended up doing it this way as:
+On exit, the routine checks out the specified machine branch and the
+preparation is complete .. except if a KMETA branch isn't used, we exit
+early since the branch can't be validated.
 
-a) its easier to change in the recipes than typing the magic B=...
-   incantation
-b) its easier to search for (sure you can grep B= but how do you know 
-   they're autotools recipes? This is particular hard when the inherit 
-   is in a common include file
-c) it means we can set (and change) policy globally from one place
-d) it contains the word "broken" nice and clearly
+To make the exit condition consistent for all cases, we can move the
+KMETA validation inside a conditional and allow the same exit path for
+both cases.
 
-Cheers,
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass | 37 ++++++++++++++++---------------------
+ 1 file changed, 16 insertions(+), 21 deletions(-)
 
-Richard
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index fab5d4c57055..fb8e04e704fb 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -358,31 +358,26 @@ do_validate_branches() {
+ 		fi
+ 	done
+ 
+-	## KMETA branch validation
++	## KMETA branch validation.
++	## We do validation if the meta branch exists, and AUTOREV hasn't been set
+  	meta_head=`git show-ref -s --heads ${KMETA}`
+  	target_meta_head="${SRCREV_meta}"
+ 	git show-ref --quiet --verify -- "refs/heads/${KMETA}"
+-	if [ $? -eq 1 ]; then
+-		return
+-	fi
+-
+-	if [ "${target_meta_head}" = "AUTOINC" ]; then
+-		return
+-	fi
+-
+-	if [ "$meta_head" != "$target_meta_head" ]; then
+-		ref=`git show ${target_meta_head} 2>&1 | head -n1 || true`
+-		if [ "$ref" = "fatal: bad object ${target_meta_head}" ]; then
+-			echo "ERROR ${target_meta_head} is not a valid commit ID"
+-			echo "The kernel source tree may be out of sync"
+-			exit 1
+-		else
+-			echo "[INFO] Setting branch ${KMETA} to ${target_meta_head}"
+-			git branch -m ${KMETA} ${KMETA}-orig
+-			git checkout -q -b ${KMETA} ${target_meta_head}
+-			if [ $? -ne 0 ];then
+-				echo "ERROR: could not checkout ${KMETA} branch from known hash ${target_meta_head}"
++	if [ $? -eq 0 ] && [ "${target_meta_head}" != "AUTOINC" ]; then
++		if [ "$meta_head" != "$target_meta_head" ]; then
++			ref=`git show ${target_meta_head} 2>&1 | head -n1 || true`
++			if [ "$ref" = "fatal: bad object ${target_meta_head}" ]; then
++				echo "ERROR ${target_meta_head} is not a valid commit ID"
++				echo "The kernel source tree may be out of sync"
+ 				exit 1
++			else
++				echo "[INFO] Setting branch ${KMETA} to ${target_meta_head}"
++				git branch -m ${KMETA} ${KMETA}-orig
++				git checkout -q -b ${KMETA} ${target_meta_head}
++				if [ $? -ne 0 ];then
++					echo "ERROR: could not checkout ${KMETA} branch from known hash ${target_meta_head}"
++					exit 1
++				fi
+ 			fi
+ 		fi
+ 	fi
+-- 
+1.8.1.2
 
 
