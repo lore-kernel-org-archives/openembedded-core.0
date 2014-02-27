@@ -1,24 +1,31 @@
-Return-Path: <David.Nystrom@enea.com>
+Return-Path: <Tudor.Florea@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id B1AFC6E74C
+	by mail.openembedded.org (Postfix) with SMTP id BADBF6F139
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 14:35:58 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 27 Feb 2014 15:35:55 +0100
-Message-ID: <530F4D46.1060401@enea.com>
-Date: Thu, 27 Feb 2014 15:35:50 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Thu, 27 Feb 2014 14:50:43 +0000 (UTC)
+Received: from SESTOEX05.enea.se ([fe80::41cb:8d2e:2e90:a183]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Thu, 27 Feb 2014 15:50:40 +0100
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: Lu Chong <Chong.Lu@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] diffutils: enable ptest support
+Thread-Index: AQHPJ89nifnVPP/FkEKiH5lJTr10u5rIt7kAgAAfzwCAAA2iAIAAXq/A
+Date: Thu, 27 Feb 2014 14:50:40 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A4289C714A@sestoex05.enea.se>
+References: <cover.1392194903.git.Chong.Lu@windriver.com>
+	<117d903587f2a50aefa11a1271ce66f62e551a68.1392194903.git.Chong.Lu@windriver.com>
+	<530EE6AC.8070801@windriver.com>
+	<26724FB0BFCB3D4C91BDE184751AA3A4289C6EC8@sestoex05.enea.se>
+	<530F0CCA.6090208@windriver.com>
+In-Reply-To: <530F0CCA.6090208@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.14.159]
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <1393507701-22512-1-git-send-email-david.nystrom@enea.com>
-	<20140227142404.GB3534@lpalcu-linux>
-In-Reply-To: <20140227142404.GB3534@lpalcu-linux>
-X-Originating-IP: [172.16.141.133]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] Attempt to unify predefined package feed handling
+Subject: Re: [PATCH 1/1] diffutils: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,271 +38,405 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 14:36:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 27 Feb 2014 14:50:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On 2014-02-27 15:24, Laurentiu Palcu wrote:
-> Hi David,
+Since the recipe is inheriting autotools, then I think the Makefile is recr=
+eated from Makefile.am/Makefile.in. If this is not the case this means=20
+that do we ignore the changes eventually done upstream in those files?
+
+One more small comment: I'd recommend using: "install -D" instead of "cp -r=
+" in do_install_ptest().
+
+Regards,
+  Tudor.
+
+-----Original Message-----
+From: Lu Chong [mailto:Chong.Lu@windriver.com]=20
+Sent: Thursday, February 27, 2014 12:01
+To: Tudor Florea; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/1] diffutils: enable ptest support
+
+If use Makefile.am, many variables and paths need be modified.
+So I add a new Makefile for ptest.
+
+Chong
+
+On 02/27/2014 04:14 PM, Tudor Florea wrote:
+> Isn't possible to modify Makefile.am and/or Makefile.in instead of Makefi=
+le?
+>   Regards,
+>     Tudor.
 >
-> My comments/questions below.
-
-Thank you for your detailed comments on the RFC.
-I will return with V2, where your comments are addressed when the=20
-general approach is Acked.
-
-What do you think about the general approach ?
-I guess it was you who added the insert_feeds_uris stubs in rootfs.py ?
-
-Br,
-David
-
-> laurentiu
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-core-bounces@lists.openembedded.org] On Behalf Of Lu Chong
+> Sent: Thursday, February 27, 2014 09:18
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/1] diffutils: enable ptest support
 >
-> On Thu, Feb 27, 2014 at 02:28:21PM +0100, David Nystr=F6m wrote:
->> local.conf defines
->> PACKAGE_FEED_URIS =3D "http://www.feed_repo.org/repo/"
+> ping
+>
+> On 02/12/2014 04:49 PM, Chong Lu wrote:
+>> Install diffutils test suite and run it as ptest.
 >>
->> should we do it this way or some other way ?
->>
->> [Bug 5407]
->>
->>
->>
->> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
+>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 >> ---
->>   meta/lib/oe/package_manager.py | 76 ++++++++++++++++++++++++++++++++++=
-+++++++-
->>   meta/lib/oe/rootfs.py          | 15 +++++++--
->>   2 files changed, 87 insertions(+), 4 deletions(-)
+>>    .../diffutils/diffutils-3.3/Makefile               | 284 ++++++++++++=
++++++++++
+>>    .../diffutils/diffutils-3.3/run-ptest              |   3 +
+>>    meta/recipes-extended/diffutils/diffutils_3.3.bb   |  15 +-
+>>    3 files changed, 301 insertions(+), 1 deletion(-)
+>>    create mode 100644 meta/recipes-extended/diffutils/diffutils-3.3/Make=
+file
+>>    create mode 100644 meta/recipes-extended/diffutils/diffutils-3.3/run-=
+ptest
 >>
->> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manage=
-r.py
->> index d29adac..d4050c6 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -223,6 +223,7 @@ class PackageManager(object):
->>           self.d =3D d
->>           self.deploy_dir =3D None
->>           self.deploy_lock =3D None
->> +        self.feed_uris =3D None
-> I guess you can do:
->             self.feed_uris =3D self.d.getVar('PACKAGE_FEED_URIS', True) o=
-r ""
-> since we're using the same variable for all backends.
->
->>
->>       """
->>       Update the package manager package database.
->> @@ -262,6 +263,10 @@ class PackageManager(object):
->>       def list_installed(self, format=3DNone):
->>           pass
->>
->> +    @abstractmethod
->> +    def insert_feeds_uris(self):
->> +        pass
+>> diff --git a/meta/recipes-extended/diffutils/diffutils-3.3/Makefile b/me=
+ta/recipes-extended/diffutils/diffutils-3.3/Makefile
+>> new file mode 100644
+>> index 0000000..d3bb587
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/diffutils/diffutils-3.3/Makefile
+>> @@ -0,0 +1,284 @@
+>> +am__tty_colors_dummy =3D \
+>> +  mgn=3D red=3D grn=3D lgn=3D blu=3D brg=3D std=3D; \
+>> +  am__color_tests=3Dno
+>> +am__tty_colors =3D { \
+>> +  $(am__tty_colors_dummy); \
+>> +  if test "X$(AM_COLOR_TESTS)" =3D Xno; then \
+>> +    am__color_tests=3Dno; \
+>> +  elif test "X$(AM_COLOR_TESTS)" =3D Xalways; then \
+>> +    am__color_tests=3Dyes; \
+>> +  elif test "X$$TERM" !=3D Xdumb && { test -t 1; } 2>/dev/null; then \
+>> +    am__color_tests=3Dyes; \
+>> +  fi; \
+>> +  if test $$am__color_tests =3D yes; then \
+>> +    red=3D'=1B[0;31m'; \
+>> +    grn=3D'=1B[0;32m'; \
+>> +    lgn=3D'=1B[1;32m'; \
+>> +    blu=3D'=1B[1;34m'; \
+>> +    mgn=3D'=1B[0;35m'; \
+>> +    brg=3D'=1B[1m'; \
+>> +    std=3D'=1B[m'; \
+>> +  fi; \
+>> +}
 >> +
->>       """
->>       Install complementary packages based upon the list of currently in=
-stalled
->>       packages e.g. locales, *-dev, *-dbg, etc. This will only attempt t=
-o install
->> @@ -339,6 +344,7 @@ class RpmPM(PackageManager):
->>           self.providename =3D providename
->>           self.fullpkglist =3D list()
->>           self.deploy_dir =3D self.d.getVar('DEPLOY_DIR_RPM', True)
->> +        self.feed_uris =3D self.d.getVar('PACKAGE_FEED_URIS', True)
-> can be removed, see above.
->
->>           self.etcrpm_dir =3D os.path.join(self.target_rootfs, "etc/rpm"=
-)
->>           self.install_dir =3D os.path.join(self.target_rootfs, "install=
-")
->>           self.rpm_cmd =3D bb.utils.which(os.getenv('PATH'), "rpm")
->> @@ -358,6 +364,41 @@ class RpmPM(PackageManager):
->>
->>           self.ml_prefix_list, self.ml_os_list =3D self.indexer.get_ml_p=
-refix_and_os_list(arch_var, os_var)
->>
+>> +am__vpath_adj_setup =3D srcdirstrip=3D`echo "$(srcdir)" | sed 's|.|.|g'=
+`;
+>> +am__vpath_adj =3D case $$p in \
+>> +    $(srcdir)/*) f=3D`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+>> +    *) f=3D$$p;; \
+>> +  esac;
+>> +am__rst_title =3D { sed 's/.*/   &   /;h;s/./=3D/g;p;x;s/ *$$//;p;g' &&=
+ echo; }
+>> +am__sh_e_setup =3D case $$- in *e*) set +e;; esac
+>> +am__common_driver_flags =3D \
+>> +  --color-tests "$$am__color_tests" \
+>> +  --enable-hard-errors "$$am__enable_hard_errors" \
+>> +  --expect-failure "$$am__expect_failure"
 >> +
->> +    def insert_feeds_uris(self):
-> shouldn't we check that self.feed_uris !=3D "" before continuing?
->
->> +        # List must be prefered to least preferred order
->> +        channel_priority =3D 5
->> +        default_platform_extra =3D set()
->> +        platform_extra =3D set()
->> +        bbextendvariant =3D self.d.getVar('BBEXTENDVARIANT', True) or "=
-"
->> +        for mlib in self.ml_os_list:
->> +            for arch in self.ml_prefix_list[mlib]:
->> +                plt =3D arch.replace('-', '_') + '-.*-' + self.ml_os_li=
-st[mlib]
->> +                if mlib =3D=3D bbextendvariant:
->> +                        default_platform_extra.add(plt)
->> +                else:
->> +                        platform_extra.add(plt)
->> +                channel_priority +=3D 5
+>> +am__check_pre =3D \
+>> +$(am__sh_e_setup); \
+>> +$(am__vpath_adj_setup) $(am__vpath_adj) \
+>> +$(am__tty_colors); \
+>> +srcdir=3D$(srcdir); export srcdir; \
+>> +case "$@" in \
+>> +  */*) am__odir=3D`echo "./$@" | sed 's|/[^/]*$$||'`;; \
+>> +    *) am__odir=3D.;; \
+>> +esac; \
+>> +test "x$$am__odir" =3D x"." || test -d "$$am__odir" \
+>> +  || $(MKDIR_P) "$$am__odir" || exit $$?; \
+>> +if test -f "./$$f"; then dir=3D./; \
+>> +elif test -f "$$f"; then dir=3D; \
+>> +else dir=3D"$(srcdir)/"; fi; \
+>> +tst=3D$$dir$$f; log=3D'$@'; \
+>> +if test -n '$(DISABLE_HARD_ERRORS)'; then \
+>> +  am__enable_hard_errors=3Dno; \
+>> +else \
+>> +  am__enable_hard_errors=3Dyes; \
+>> +fi; \
+>> +$(TESTS_ENVIRONMENT)
 >> +
->> +        platform_extra =3D platform_extra.union(default_platform_extra)
+>> +am__set_TESTS_bases =3D \
+>> +  bases=3D'$(TEST_LOGS)'; \
+>> +  bases=3D`for i in $$bases; do echo $$i; done | sed 's/\.log$$//'`; \
+>> +  bases=3D`echo $$bases`
 >> +
->> +        for uri in self.feed_uris.split():
->> +            channel_priority *=3D 2
->> +            uri_iterator =3D 0
->> +            for canonical_arch in platform_extra:
->> +                arch =3D canonical_arch.split('-')[0]
->> +                if arch =3D=3D "noarch" or arch =3D=3D "any":
->> +                    continue
+>> +RECHECK_LOGS =3D $(TEST_LOGS)
+>> +TEST_SUITE_LOG =3D test-suite.log
+>> +LOG_DRIVER =3D $(SHELL) $(top_srcdir)/build-aux/test-driver
+>> +am__test_logs1 =3D $(TESTS:=3D.log)
+>> +am__test_logs2 =3D $(am__test_logs1:.log=3D.log)
+>> +TEST_LOGS =3D $(am__test_logs2:.test.log=3D.log)
+>> +TEST_LOG_DRIVER =3D $(SHELL) $(top_srcdir)/build-aux/test-driver
+>> +AWK =3D awk
+>> +MKDIR_P =3D /bin/mkdir -p
+>> +PACKAGE_BUGREPORT =3D bug-diffutils@gnu.org
+>> +PACKAGE_STRING =3D GNU diffutils 3.3
+>> +SHELL =3D /bin/sh
+>> +VERSION =3D 3.3
+>> +abs_srcdir =3D $(PWD)
+>> +abs_top_builddir =3D $(PWD)/..
+>> +abs_top_srcdir =3D $(PWD)/..
+>> +srcdir =3D .
+>> +top_srcdir =3D ..
+>> +subdir =3D tests
 >> +
->> +                bb.note('Note: adding Smart channel url%d%s (%s)' %
->> +                        (uri_iterator, arch, channel_priority))
->> +                self._invoke_smart('channel --add url%d-%s type=3Drpm-m=
-d baseurl=3D%s/rpm/%s -y'
->> +                                   % (uri_iterator, arch, uri, arch))
->> +                self._invoke_smart('channel --set url%d-%s priority=3D%=
-d' %
->> +                                   (uri_iterator, arch, channel_priorit=
-y))
->> +                channel_priority -=3D 5
->> +            uri_iterator +=3D 1
+>> +TESTS =3D \
+>> +  basic \
+>> +  binary \
+>> +  colliding-file-names \
+>> +  excess-slash \
+>> +  help-version \
+>> +  function-line-vs-leading-space \
+>> +  label-vs-func	\
+>> +  new-file \
+>> +  no-dereference \
+>> +  no-newline-at-eof \
+>> +  stdin \
+>> +  filename-quoting
 >> +
->>       '''
->>       Create configs for rpm and smart, and multilib is supported
->>       '''
->> @@ -944,7 +985,7 @@ class OpkgPM(PackageManager):
->>
->>           self.deploy_dir =3D self.d.getVar("DEPLOY_DIR_IPK", True)
->>           self.deploy_lock_file =3D os.path.join(self.deploy_dir, "deplo=
-y.lock")
->> -
->> +        self.feed_uris =3D self.d.getVar('PACKAGE_FEED_URIS', True)
-> can be removed, see above.
->
->>           self.opkg_cmd =3D bb.utils.which(os.getenv('PATH'), "opkg-cl")
->>           self.opkg_args =3D "-f %s -o %s " % (self.config_file, target_=
-rootfs)
->>           self.opkg_args +=3D self.d.getVar("OPKG_ARGS", True)
->> @@ -1050,6 +1091,24 @@ class OpkgPM(PackageManager):
->>                       config_file.write("src oe-%s file:%s\n" %
->>                                         (arch, pkgs_dir))
->>
->> +    def insert_feeds_uris(self):
-> check self.feed_uris !=3D "" here?
->> +        rootfs_config =3D os.path.join('%s/etc/opkg/base-feeds.conf'
->> +                                  % self.target_rootfs)
+>> +TESTS_ENVIRONMENT =3D \
+>> +  tmp__=3D$$TMPDIR; test -d "$$tmp__" || tmp__=3D.; \
+>> +  TMPDIR=3D$$tmp__; export TMPDIR; \
+>> +  export \
+>> +  VERSION=3D'$(VERSION)' \
+>> +  abs_top_builddir=3D'$(abs_top_builddir)' \
+>> +  abs_top_srcdir=3D'$(abs_top_srcdir)' \
+>> +  abs_srcdir=3D'$(abs_srcdir)' \
+>> +  built_programs=3Ddiff \
+>> +  srcdir=3D'$(srcdir)' \
+>> +  top_srcdir=3D'$(top_srcdir)' \
+>> +  MAKE=3D$(MAKE) \
+>> +  PACKAGE_BUGREPORT=3D'$(PACKAGE_BUGREPORT)' \
+>> +  PATH=3D'$(abs_top_builddir)/src$(PATH_SEPARATOR)'"$$PATH" \
+>> +  ; 9>&2
 >> +
->> +        with open(rootfs_config, "w+") as config_file:
->> +            priority =3D 5
-> apparently this is not used at all in the code below, can be removed.
->
->> +            uri_iterator =3D 0
->> +            for uri in self.feed_uris.split():
->> +                config_file.write("src/gz url-%d %s/ipk\n" %
->> +                                  (uri_iterator, uri))
+>> +$(TEST_SUITE_LOG): $(TEST_LOGS)
+>> +	@$(am__set_TESTS_bases); \
+>> +	am__f_ok () { test -f "$$1" && test -r "$$1"; }; \
+>> +	redo_bases=3D`for i in $$bases; do \
+>> +	              am__f_ok $$i.trs && am__f_ok $$i.log || echo $$i; \
+>> +	            done`; \
+>> +	st=3D0;  \
+>> +	errmsg=3D"fatal: making $(TEST_SUITE_LOG): failed to create"; \
+>> +	for i in $$redo_bases; do \
+>> +	    test -f $$i.trs && test -r $$i.trs \
+>> +	      || { echo "$$errmsg $$i.trs" >&2; st=3D1; }; \
+>> +	    test -f $$i.log && test -r $$i.log \
+>> +	      || { echo "$$errmsg $$i.log" >&2; st=3D1; }; \
+>> +	done; \
+>> +	test $$st -eq 0 || exit 1;
+>> +	@$(am__sh_e_setup); $(am__tty_colors); $(am__set_TESTS_bases); \
+>> +	ws=3D'[ 	]'; \
+>> +	results=3D`for b in $$bases; do echo $$b.trs; done`; \
+>> +	test -n "$$results" || results=3D/dev/null; \
+>> +	all=3D`  grep "^$$ws*:test-result:"           $$results | wc -l`; \
+>> +	pass=3D` grep "^$$ws*:test-result:$$ws*PASS"  $$results | wc -l`; \
+>> +	fail=3D` grep "^$$ws*:test-result:$$ws*FAIL"  $$results | wc -l`; \
+>> +	skip=3D` grep "^$$ws*:test-result:$$ws*SKIP"  $$results | wc -l`; \
+>> +	xfail=3D`grep "^$$ws*:test-result:$$ws*XFAIL" $$results | wc -l`; \
+>> +	xpass=3D`grep "^$$ws*:test-result:$$ws*XPASS" $$results | wc -l`; \
+>> +	error=3D`grep "^$$ws*:test-result:$$ws*ERROR" $$results | wc -l`; \
+>> +	if test `expr $$fail + $$xpass + $$error` -eq 0; then \
+>> +	  success=3Dtrue; \
+>> +	else \
+>> +	  success=3Dfalse; \
+>> +	fi; \
+>> +	br=3D'=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D'; br=
+=3D$$br$$br$$br$$br; \
+>> +	result_count () \
+>> +	{ \
+>> +	    if test x"$$1" =3D x"--maybe-color"; then \
+>> +	      maybe_colorize=3Dyes; \
+>> +	    elif test x"$$1" =3D x"--no-color"; then \
+>> +	      maybe_colorize=3Dno; \
+>> +	    else \
+>> +	      echo "$@: invalid 'result_count' usage" >&2; exit 4; \
+>> +	    fi; \
+>> +	    shift; \
+>> +	    desc=3D$$1 count=3D$$2; \
+>> +	    if test $$maybe_colorize =3D yes && test $$count -gt 0; then \
+>> +	      color_start=3D$$3 color_end=3D$$std; \
+>> +	    else \
+>> +	      color_start=3D color_end=3D; \
+>> +	    fi; \
+>> +	    echo "$${color_start}# $$desc $$count$${color_end}"; \
+>> +	}; \
+>> +	create_testsuite_report () \
+>> +	{ \
+>> +	  result_count $$1 "TOTAL:" $$all   "$$brg"; \
+>> +	  result_count $$1 "PASS: " $$pass  "$$grn"; \
+>> +	  result_count $$1 "SKIP: " $$skip  "$$blu"; \
+>> +	  result_count $$1 "XFAIL:" $$xfail "$$lgn"; \
+>> +	  result_count $$1 "FAIL: " $$fail  "$$red"; \
+>> +	  result_count $$1 "XPASS:" $$xpass "$$red"; \
+>> +	  result_count $$1 "ERROR:" $$error "$$mgn"; \
+>> +	}; \
+>> +	{								\
+>> +	  echo "$(PACKAGE_STRING): $(subdir)/$(TEST_SUITE_LOG)" |	\
+>> +	    $(am__rst_title);						\
+>> +	  create_testsuite_report --no-color;				\
+>> +	  echo;								\
+>> +	  echo ".. contents:: :depth: 2";				\
+>> +	  echo;								\
+>> +	  for b in $$bases; do echo $$b; done;				\
+>> +	} >$(TEST_SUITE_LOG).tmp || exit 1;				\
+>> +	mv $(TEST_SUITE_LOG).tmp $(TEST_SUITE_LOG);			\
+>> +	if $$success; then						\
+>> +	  col=3D"$$grn";							\
+>> +	 else								\
+>> +	  col=3D"$$red";							\
+>> +	  test x"$$VERBOSE" =3D x || cat $(TEST_SUITE_LOG);		\
+>> +	fi;								\
+>> +	echo "$${col}$$br$${std}"; 					\
+>> +	echo "$${col}Testsuite summary for $(PACKAGE_STRING)$${std}";	\
+>> +	echo "$${col}$$br$${std}"; 					\
+>> +	create_testsuite_report --maybe-color;				\
+>> +	echo "$$col$$br$$std";						\
+>> +	if $$success; then :; else					\
+>> +	  echo "$${col}See $(subdir)/$(TEST_SUITE_LOG)$${std}";		\
+>> +	  if test -n "$(PACKAGE_BUGREPORT)"; then			\
+>> +	    echo "$${col}Please report to $(PACKAGE_BUGREPORT)$${std}";	\
+>> +	  fi;								\
+>> +	  echo "$$col$$br$$std";					\
+>> +	fi;								\
+>> +	$$success || exit 1
 >> +
->> +                for arch in self.pkg_archs.split():
->> +                    if arch =3D=3D "noarch" or arch =3D=3D "any":
->> +                        continue
->> +                    config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
->> +                                      (arch, uri_iterator, uri, arch))
->> +                uri_iterator +=3D 1
+>> +check-TESTS:
+>> +	@list=3D'$(RECHECK_LOGS)';           test -z "$$list" || rm -f $$list
+>> +	@list=3D'$(RECHECK_LOGS:.log=3D.trs)'; test -z "$$list" || rm -f $$lis=
+t
+>> +	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
+>> +	@set +e; $(am__set_TESTS_bases); \
+>> +	log_list=3D`for i in $$bases; do echo $$i.log; done`; \
+>> +	trs_list=3D`for i in $$bases; do echo $$i.trs; done`; \
+>> +	log_list=3D`echo $$log_list`; trs_list=3D`echo $$trs_list`; \
+>> +	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS=3D"$$log_list"; \
+>> +	exit $$?;
+>> +basic.log: basic
+>> +	@p=3D'basic'; \
+>> +	b=3D'basic'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +binary.log: binary
+>> +	@p=3D'binary'; \
+>> +	b=3D'binary'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +colliding-file-names.log: colliding-file-names
+>> +	@p=3D'colliding-file-names'; \
+>> +	b=3D'colliding-file-names'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +excess-slash.log: excess-slash
+>> +	@p=3D'excess-slash'; \
+>> +	b=3D'excess-slash'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +help-version.log: help-version
+>> +	@p=3D'help-version'; \
+>> +	b=3D'help-version'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +function-line-vs-leading-space.log: function-line-vs-leading-space
+>> +	@p=3D'function-line-vs-leading-space'; \
+>> +	b=3D'function-line-vs-leading-space'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +label-vs-func.log: label-vs-func
+>> +	@p=3D'label-vs-func'; \
+>> +	b=3D'label-vs-func'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +new-file.log: new-file
+>> +	@p=3D'new-file'; \
+>> +	b=3D'new-file'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +no-dereference.log: no-dereference
+>> +	@p=3D'no-dereference'; \
+>> +	b=3D'no-dereference'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +no-newline-at-eof.log: no-newline-at-eof
+>> +	@p=3D'no-newline-at-eof'; \
+>> +	b=3D'no-newline-at-eof'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +stdin.log: stdin
+>> +	@p=3D'stdin'; \
+>> +	b=3D'stdin'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +filename-quoting.log: filename-quoting
+>> +	@p=3D'filename-quoting'; \
+>> +	b=3D'filename-quoting'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> diff --git a/meta/recipes-extended/diffutils/diffutils-3.3/run-ptest b/m=
+eta/recipes-extended/diffutils/diffutils-3.3/run-ptest
+>> new file mode 100644
+>> index 0000000..695c5e8
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/diffutils/diffutils-3.3/run-ptest
+>> @@ -0,0 +1,3 @@
+>> +#!/bin/sh
 >> +
->>       def update(self):
->>           self.deploy_dir_lock()
->>
->> @@ -1250,6 +1309,7 @@ class DpkgPM(PackageManager):
->>       def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_d=
-ir=3DNone):
->>           super(DpkgPM, self).__init__(d)
->>           self.target_rootfs =3D target_rootfs
->> +        self.feed_uris =3D self.d.getVar('PACKAGE_FEED_URIS', True)
-> can be removed, see above.
->
->>           self.deploy_dir =3D self.d.getVar('DEPLOY_DIR_DEB', True)
->>           if apt_conf_dir is None:
->>               self.apt_conf_dir =3D self.d.expand("${APTCONF_TARGET}/apt=
-")
->> @@ -1410,6 +1470,20 @@ class DpkgPM(PackageManager):
->>           if result is not None:
->>               bb.fatal(result)
->>
->> +    def insert_feeds_uris(self):
-> check self.feed_uris !=3D "" here?
->
->> +        sources_conf =3D os.path.join("%s/etc/apt/sources.list"
->> +                                    % self.target_rootfs)
->> +        arch_list =3D []
->> +        archs =3D self.d.getVar('PACKAGE_ARCHS', True)
->> +        arch_list =3D archs.split()
->> +        with open(sources_conf, "w+") as sources_file:
->> +            for uri in self.feed_uris.split():
->> +                for arch in arch_list:
->> +                    if arch =3D=3D "noarch" or arch =3D=3D "any":
->> +                        continue
->> +                    sources_file.write("deb %s/deb/%s ./\n" %
->> +                                       (uri, arch))
+>> +make -C tests check-TESTS
+>> diff --git a/meta/recipes-extended/diffutils/diffutils_3.3.bb b/meta/rec=
+ipes-extended/diffutils/diffutils_3.3.bb
+>> index 7a95c1a..ab6928a 100644
+>> --- a/meta/recipes-extended/diffutils/diffutils_3.3.bb
+>> +++ b/meta/recipes-extended/diffutils/diffutils_3.3.bb
+>> @@ -3,7 +3,10 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673=
+463ab874e80d47fae504"
+>>   =20
+>>    require diffutils.inc
+>>   =20
+>> -SRC_URI =3D "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz"
+>> +SRC_URI =3D "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+>> +           file://Makefile \
+>> +           file://run-ptest \
+>> +"
+>>   =20
+>>    do_configure_prepend () {
+>>    	# Need to remove gettext macros with weird mix of versions
+>> @@ -14,3 +17,13 @@ do_configure_prepend () {
+>>   =20
+>>    SRC_URI[md5sum] =3D "99180208ec2a82ce71f55b0d7389f1b3"
+>>    SRC_URI[sha256sum] =3D "a25e89a8ab65fded1731e4186be1bb25cda967834b6df=
+973599cdcd5abdfc19c"
 >> +
->>       def _create_configs(self, archs, base_archs):
->>           base_archs =3D re.sub("_", "-", base_archs)
->>
->> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
->> index be0afa6..7be2a18 100644
->> --- a/meta/lib/oe/rootfs.py
->> +++ b/meta/lib/oe/rootfs.py
->> @@ -350,7 +350,10 @@ class RpmRootfs(Rootfs):
->>                       bb.fatal(message)
->>
->>       def _insert_feed_uris(self):
->> -        pass
->> +        if base_contains("IMAGE_FEATURES", "package-management",
->> +                         False, True, self.d):
->> +            return
->> +        self.pm.insert_feeds_uris()
-> For the sake of code clarity, I would suggest:
+>> +inherit ptest
+>> +
+>> +do_install_ptest() {
+>> +	t=3D${D}${PTEST_PATH}
+>> +	mkdir $t/build-aux
+>> +	cp ${S}/build-aux/test-driver $t/build-aux/
+>> +	cp -r ${S}/tests $t
+>> +	cp ${WORKDIR}/Makefile $t/tests/
+>> +}
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
->          if base_contains("IMAGE_FEATURES", "package-management",
->                           True, False, self.d):
->              self.pm.insert_feeds_uris()
 >
->>
->>       def _handle_intercept_failure(self, registered_pkgs):
->>           rpm_postinsts_dir =3D self.image_rootfs + self.d.expand('${sys=
-confdir}/rpm-postinsts/')
->> @@ -433,7 +436,10 @@ class DpkgRootfs(Rootfs):
->>           pass
->>
->>       def _insert_feed_uris(self):
->> -        pass
->> +        if base_contains("IMAGE_FEATURES", "package-management",
->> +                         False, True, self.d):
->> +            return
->> +        self.pm.insert_feeds_uris()
-> same here.
->
->>
->>
->>   class OpkgRootfs(Rootfs):
->> @@ -699,8 +705,11 @@ class OpkgRootfs(Rootfs):
->>           pass
->>
->>       def _insert_feed_uris(self):
->> -        pass
->> +        if base_contains("IMAGE_FEATURES", "package-management",
->> +                         False, True, self.d):
->> +            return
->>
->> +        self.pm.insert_feeds_uris()
-> same here.
->
->>
->>   def create_rootfs(d, manifest_dir=3DNone):
->>       env_bkp =3D os.environ.copy()
->> --
->> 1.8.3.2
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
