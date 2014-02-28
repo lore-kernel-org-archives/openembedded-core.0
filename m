@@ -1,23 +1,46 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D9F56ED65
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A182D6F1A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 14:56:17 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 28 Feb 2014 06:56:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,562,1389772800"; d="scan'208";a="344531841"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 Feb 2014 06:56:18 -0800
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 598D56A4007;
-	Fri, 28 Feb 2014 06:56:07 -0800 (PST)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2014 18:59:28 +0200
-Message-Id: <1393606768-3317-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] oe-selftest: Fix test_sstate_cache_management_script*
+	Fri, 28 Feb 2014 15:00:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D244B182E1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Du-zrZyy2JYb
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id A9759181F4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 8FE3BEA4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 84AAAEA0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id 81F5234005
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.2.255.0; Fri, 28 Feb 2014
+	16:00:49 +0100
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 4F3A89C29D; 
+	Fri, 28 Feb 2014 16:00:49 +0100 (CET)
+From: Olof Johansson <olof.johansson@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Feb 2014 16:00:49 +0100
+Message-ID: <1393599649-10573-1-git-send-email-olof.johansson@axis.com>
+X-Mailer: git-send-email 1.8.5.3
+MIME-Version: 1.0
+Subject: [RFC] sanity.bbclass: support wildcards in SANITY_TESTED_DISTROS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,81 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2014 14:56:20 -0000
+X-List-Received-Date: Fri, 28 Feb 2014 15:00:51 -0000
+Content-Type: text/plain
 
-Fixed tests for sstate-cache-management.sh that ware failing due to:
- - recent changes to sstate-cache structure
- - recent changes to the script itself
+With this change, you can use wildcards for entries in
+SANITY_TESTED_DISTROS. This makes it possible to say that, e.g. "all
+Debian 7 Wheezy releases are supported" with the entry "Debian-7.*".
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+[YOCTO #5265]
+
+Signed-off-by: Olof Johansson <olof.johansson@axis.com>
 ---
- meta/lib/oeqa/selftest/sstatetests.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ meta/classes/sanity.bbclass | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index acc0c27..27561ca 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -105,7 +105,8 @@ class SStateTests(SStateBase):
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index bae010d..59f663b 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -245,6 +245,15 @@ def check_connectivity(d):
  
+     return retval
  
-     # Test the sstate-cache-management script. Each element in the global_config list is used with the corresponding element in the target_config list
--    def run_test_sstate_cache_management_script(self, target, global_config=[''], target_config=['']):
-+    # global_config elements are expected to not generate any sstate files that would be removed by sstate-cache-management.sh (such as changing the value of MACHINE)
-+    def run_test_sstate_cache_management_script(self, target, global_config=[''], target_config=[''], ignore_patterns=[]):
-         self.assertTrue(global_config)
-         self.assertTrue(target_config)
-         self.assertTrue(len(global_config) == len(target_config), msg='Lists global_config and target_config should have the same number of elements')
-@@ -119,23 +120,27 @@ class SStateTests(SStateBase):
-         # For not this only checks if random sstate tasks are handled correctly as a group.
-         # In the future we should add control over what tasks we check for.
++def _distro_match_glob(distro, supported):
++    if not '*' in supported:
++        return distro == supported
++
++    bb.debug(2, "Glob matching found for %s. Trying to match against %s" % (
++        supported, distro))
++    prefix, sufix = supported.split('*', 1)
++    return distro.startswith(prefix) and distro.endswith(sufix)
++
+ def check_supported_distro(sanity_data):
+     tested_distros = sanity_data.getVar('SANITY_TESTED_DISTROS', True)
+     if not tested_distros:
+@@ -255,12 +264,15 @@ def check_supported_distro(sanity_data):
+     except Exception:
+         distro = None
  
-+        sstate_archs_list = []
-         expected_remaining_sstate = []
-         for idx in range(len(target_config)):
-             self.append_config(global_config[idx])
-             self.append_recipeinc(target, target_config[idx])
-+            sstate_arch = get_bb_var('SSTATE_PKGARCH', target)
-+            if not sstate_arch in sstate_archs_list:
-+                sstate_archs_list.append(sstate_arch)
-             if target_config[idx] == target_config[-1]:
-                 target_sstate_before_build = self.search_sstate(target + '.*?\.tgz$')
-             bitbake("-cclean %s" % target)
-             result = bitbake(target, ignore_status=True)
-             if target_config[idx] == target_config[-1]:
-                 target_sstate_after_build = self.search_sstate(target + '.*?\.tgz$')
--                expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build]
-+                expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build if not any(pattern in x for pattern in ignore_patterns)]
-             self.remove_config(global_config[idx])
-             self.remove_recipeinc(target, target_config[idx])
-             self.assertEqual(result.status, 0)
+-    if distro:
+-        if distro not in [x.strip() for x in tested_distros.split('\\n')]:
+-            bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
+-    else:
++    if not distro:
+         bb.warn('Host distribution could not be determined; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.')
  
--        runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated" % self.sstate_path)
--        actual_remaining_sstate = self.search_sstate(target + '.*?\.tgz$')
-+        runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated --extra-archs=%s" % (self.sstate_path, ','.join(map(str, sstate_archs_list))))
-+        actual_remaining_sstate = [x for x in self.search_sstate(target + '.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
- 
-         actual_not_expected = [x for x in actual_remaining_sstate if x not in expected_remaining_sstate]
-         self.assertFalse(actual_not_expected, msg="Files should have been removed but ware not: %s" % ', '.join(map(str, actual_not_expected)))
-@@ -168,7 +173,7 @@ class SStateTests(SStateBase):
-         target_config.append('PR = "1"')
-         global_config.append('MACHINE = "qemux86"')
-         target_config.append('PR = "1"')
--        self.run_test_sstate_cache_management_script('m4', global_config,  target_config)
-+        self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
- 
-     def test_sstate_cache_management_script_using_machine(self):
-         global_config = []
-@@ -177,7 +182,7 @@ class SStateTests(SStateBase):
-         target_config.append('')
-         global_config.append('MACHINE = "qemux86"')
-         target_config.append('')
--        self.run_test_sstate_cache_management_script('m4', global_config,  target_config)
-+        self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
- 
- 
- 
++    for supported in [x.strip() for x in tested_distros.split('\\n')]:
++        if _distro_match_glob(distro, supported):
++            return
++
++    bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
++
+ # Checks we should only make if MACHINE is set correctly
+ def check_sanity_validmachine(sanity_data):
+     messages = ""
 -- 
-1.8.3.2
+1.8.5.3
 
 
