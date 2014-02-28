@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 821F66F203
+	by mail.openembedded.org (Postfix) with ESMTP id 4611C6E00C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 16:37:29 +0000 (UTC)
+	Fri, 28 Feb 2014 16:37:30 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Feb 2014 08:37:30 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 28 Feb 2014 08:37:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,562,1389772800"; d="scan'208";a="490064808"
+X-IronPort-AV: E=Sophos;i="4.97,562,1389772800"; d="scan'208";a="490064822"
 Received: from davidllo-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.227])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2014 08:37:29 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2014 08:37:30 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2014 16:37:20 +0000
-Message-Id: <61fcec9ea51e103e8a86308ca9213abb20a93485.1393605405.git.paul.eggleton@linux.intel.com>
+Date: Fri, 28 Feb 2014 16:37:21 +0000
+Message-Id: <960b57328b098894ba9d552ac9586408f16940e8.1393605405.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <cover.1393605405.git.paul.eggleton@linux.intel.com>
 References: <cover.1393605405.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1393605405.git.paul.eggleton@linux.intel.com>
 References: <cover.1393605405.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/6] cmake: upgrade to 2.8.12.2
+Subject: [PATCH 4/6] augeas: upgrade to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2014 16:37:29 -0000
+X-List-Received-Date: Fri, 28 Feb 2014 16:37:30 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../cmake/{cmake-native_2.8.12.1.bb => cmake-native_2.8.12.2.bb}      | 4 ++--
- meta/recipes-devtools/cmake/{cmake_2.8.12.1.bb => cmake_2.8.12.2.bb}  | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_2.8.12.1.bb => cmake-native_2.8.12.2.bb} (58%)
- rename meta/recipes-devtools/cmake/{cmake_2.8.12.1.bb => cmake_2.8.12.2.bb} (88%)
+ meta/recipes-extended/augeas/augeas_1.1.0.bb | 6 ------
+ meta/recipes-extended/augeas/augeas_1.2.0.bb | 5 +++++
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-extended/augeas/augeas_1.1.0.bb
+ create mode 100644 meta/recipes-extended/augeas/augeas_1.2.0.bb
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.1.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-similarity index 58%
-rename from meta/recipes-devtools/cmake/cmake-native_2.8.12.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-index c813795..08b2c02 100644
---- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.1.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-@@ -6,5 +6,5 @@ DEPENDS += "bzip2-native zlib-native"
- 
- SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
- 
--SRC_URI[md5sum] = "9d38cd4e2c94c3cea97d0e2924814acc"
--SRC_URI[sha256sum] = "fa28c12791d64c36ba6b6cb062a4b4bd4223053f6b9ea501b1bdbdf4d5df3a67"
-+SRC_URI[md5sum] = "17c6513483d23590cbce6957ec6d1e66"
-+SRC_URI[sha256sum] = "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37fccf067eb1a44a120e5e"
-diff --git a/meta/recipes-devtools/cmake/cmake_2.8.12.1.bb b/meta/recipes-devtools/cmake/cmake_2.8.12.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/cmake/cmake_2.8.12.1.bb
-rename to meta/recipes-devtools/cmake/cmake_2.8.12.2.bb
-index c220aba..52c3b32 100644
---- a/meta/recipes-devtools/cmake/cmake_2.8.12.1.bb
-+++ b/meta/recipes-devtools/cmake/cmake_2.8.12.2.bb
-@@ -6,8 +6,8 @@ DEPENDS += "curl expat zlib libarchive ncurses"
- 
- SRC_URI += "file://dont-run-cross-binaries.patch"
- 
--SRC_URI[md5sum] = "9d38cd4e2c94c3cea97d0e2924814acc"
--SRC_URI[sha256sum] = "fa28c12791d64c36ba6b6cb062a4b4bd4223053f6b9ea501b1bdbdf4d5df3a67"
-+SRC_URI[md5sum] = "17c6513483d23590cbce6957ec6d1e66"
-+SRC_URI[sha256sum] = "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37fccf067eb1a44a120e5e"
- 
- # Strip ${prefix} from ${docdir}, set result into docdir_stripped
- python () {
+diff --git a/meta/recipes-extended/augeas/augeas_1.1.0.bb b/meta/recipes-extended/augeas/augeas_1.1.0.bb
+deleted file mode 100644
+index 5eebcc6..0000000
+--- a/meta/recipes-extended/augeas/augeas_1.1.0.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require augeas.inc
+-
+-PR = "r1"
+-
+-SRC_URI[md5sum] = "520ce983457ff9ffa3816bc41a9f328b"
+-SRC_URI[sha256sum] = "9d81e4228329e2d5cccb018ab06bc8b734fb2dede2c4d9b5c02303d4a690b76b"
+diff --git a/meta/recipes-extended/augeas/augeas_1.2.0.bb b/meta/recipes-extended/augeas/augeas_1.2.0.bb
+new file mode 100644
+index 0000000..67b3941
+--- /dev/null
++++ b/meta/recipes-extended/augeas/augeas_1.2.0.bb
+@@ -0,0 +1,5 @@
++require augeas.inc
++
++
++SRC_URI[md5sum] = "dce2f52cbd20f72c7da48e014ad48076"
++SRC_URI[sha256sum] = "f4aeb28ebe0b0921920fe1c9b4c016739c25261a15de04cb97db02d669f481e0"
 -- 
 1.8.5.3
 
