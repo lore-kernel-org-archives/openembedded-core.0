@@ -1,29 +1,21 @@
-Return-Path: <jvp.vuorivirta@gmail.com>
-Received: from mail-wg0-f65.google.com (mail-wg0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 08CD86D305
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A4FC36F3A7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 09:02:57 +0000 (UTC)
-Received: by mail-wg0-f65.google.com with SMTP id l18so120360wgh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 01:02:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=//E5sRaN4n+o3F9AB0GOc8gJPtu5jGLy0I9x/raVy5o=;
-	b=p50CAIC/Tx8MPSmqYU0cEFdGlJioZSkW0j1JrZl+5wzsmvzMPxH8KKVUIrQtiZyVkz
-	lt7q4CDMtRGGsSn0Cvbg+7a3GO96BlXJORxSClI8m5pPUsq+a45lhikB21K/6Ea1rwIQ
-	Jr1bkwksUO2WNb+tiri5hiDPwF0y/e452ViJSiqAOnnuPZgEIagsZ8+aH74P/D2IVL7O
-	IJs4V/su3cNXE4Ub698bSCvtN4PDJ106xMxvWnzka5tM2fNUoJ5cm/EB3oFDgsp09iWq
-	Ksk3ZSOdig7oPGYhOh0lGGZng8N+Dz4vQTe2TkWeSWDbzurtULSvSgSgTRmq4JYOK6QU
-	5sfw==
-MIME-Version: 1.0
-X-Received: by 10.194.92.164 with SMTP id cn4mr649417wjb.74.1393578177835;
-	Fri, 28 Feb 2014 01:02:57 -0800 (PST)
-Received: by 10.194.22.39 with HTTP; Fri, 28 Feb 2014 01:02:57 -0800 (PST)
-Date: Fri, 28 Feb 2014 11:02:57 +0200
-Message-ID: <CAEpurxHdgtzVsGo1+YTNiOx1YFAAxEMUkt8muL2kkG3jKC7EuQ@mail.gmail.com>
-From: Juha Vuorivirta <jvp.vuorivirta@gmail.com>
+	Fri, 28 Feb 2014 09:35:04 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Feb 2014 01:30:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,560,1389772800"; d="scan'208";a="463992433"
+Received: from unknown (HELO localhost.localdomain) ([10.255.12.193])
+	by orsmga001.jf.intel.com with ESMTP; 28 Feb 2014 01:35:04 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Update linux-firmware files.
+Date: Fri, 28 Feb 2014 11:35:00 +0200
+Message-Id: <cover.1393579948.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL 00/30] Kernel Update, updates & misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +28,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2014 09:02:58 -0000
-Content-Type: multipart/alternative; boundary=047d7bfceb4a41ba6104f373b40e
+X-List-Received-Date: Fri, 28 Feb 2014 09:35:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---047d7bfceb4a41ba6104f373b40e
-Content-Type: text/plain; charset=ISO-8859-1
+Richard,
 
-Hello!
+Here is a set of patches that are currently on the Autobuilder, I have 
+reviewed them.
 
-I have ath6k WLAN drivers enabled and linux-firmware-ath6k package added in
-my custom board build. Now we need to update aht6k files in
-/lib/firmware/ath6k/AR6003/hw2.1.1 to match our needs.
+THe qt-mobility is a back-ported mega-patch, otherwise I most of the 
+other patches look OK to me.
 
-How can I do this properly? I tried with linux-firmware_git.bbappend file
-but it tries to pull files from git, but I have those files already, so I
-do not need to pull them from git.
+Sau!
 
-Furthermore I tried to add files to my own layer and install files there
-but got lots of QA issue errors.
+The following changes since commit 010d5b437413156c3f4dc90a14698231bb195c2e:
 
-br,
+  security-flags: Avoid lttng-tools issue on arm (2014-02-26 13:48:17 +0000)
 
-JV
+are available in the git repository at:
 
---047d7bfceb4a41ba6104f373b40e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-<div dir=3D"ltr"><div>Hello!</div><div>=A0</div><div>I have ath6k WLAN driv=
-ers enabled and linux-firmware-ath6k package added in my custom board build=
-. Now we need to update=A0aht6k files in /lib/firmware/ath6k/AR6003/hw2.1.1=
- to match our needs.</div>
-<div>=A0</div><div>How can I do this properly? I tried with linux-firmware_=
-git.bbappend file but it tries to pull files from git, but I have those fil=
-es=A0already, so I do not need to pull them from git.</div><div>=A0</div><d=
-iv>
-Furthermore I tried to add files to my own layer and install files there bu=
-t got lots of=A0QA issue errors.</div><div>=A0</div><div>br,</div><div>=A0<=
-/div><div>JV=A0=A0</div></div>
+Alexandru Palalau (1):
+  libnotify: don't use gnome.bbclass
 
---047d7bfceb4a41ba6104f373b40e--
+Alexandru-Cezar Sardan (1):
+  gcc: Enable SPE & AltiVec generation on powepc*linux target.
+
+Bruce Ashfield (4):
+  kernel-yocto: always checkout machine branch when existing
+    validate_branches
+  linux-yocto/3.10: update to v3.10.32
+  linux-yocto/3.4: update to v3.4.82 and latest LTSI
+  linux-yocto/3.10: integrate latest LTSI changes
+
+Corneliu Stoicescu (1):
+  oe-selftest: Fix for test_rm_old_image
+
+Cristian Iorga (3):
+  bluez5: upgrade to 5.15
+  telepathy-glib: upgrade to 0.23.2
+  telepathy-mission-control: upgrade to 5.16.1
+
+David Nyström (2):
+  do_rootfs: Added PACKAGE_FEED_URIS functionality
+  do_rootfs: Add PACKAGE_FEED_URIS as a vardep
+
+Hongxu Jia (1):
+  qt-mobility: fix metaobjectbuilder build errors
+
+Jackie Huang (1):
+  mailx: fix the path to sendmail interface
+
+Khem Raj (1):
+  python3: Fix race condition at high parallelism factor
+
+Laurentiu Palcu (1):
+  adt_installer: fix issue with x86_64
+
+Otavio Salvador (1):
+  uboot-config.bbclass: Skip the package if no valid configuration is
+    found
+
+Richard Purdie (4):
+  base: Remove pointless createCopy/update_data calls
+  libnotify: Fix separate build dir support
+  webkit-gtk: Fix separate builddir support
+  dpkg: Fix dpkg-native dependency on target xz
+
+Robert Yang (1):
+  weston: fix build without wayland in distro_features
+
+Roy Li (1):
+  dbus: proper error handler should be given after
+    send_negotiate_unix_fd failed
+
+Saul Wold (6):
+  initrdscripts: Add rootimage option
+  base-files: sed installed file instead of original
+  base-passwd: sed installed file instead of original
+  systemd: sed installed file instead of original
+  core-image-minimal-initramfs: Use PACKAGE_INSTALL instead of
+    IMAGE_INSTALL
+  man-pages: Update to 3.60
+
+Stefan Stanacar (1):
+  oeqa/targetcontrol: make BaseTarget an abstract class
+
+ meta/classes/base.bbclass                          |   17 +-
+ meta/classes/kernel-yocto.bbclass                  |   37 +-
+ meta/classes/rootfs_deb.bbclass                    |    1 +
+ meta/classes/rootfs_ipk.bbclass                    |    1 +
+ meta/classes/rootfs_rpm.bbclass                    |    1 +
+ meta/classes/uboot-config.bbclass                  |    4 +-
+ meta/lib/oe/package_manager.py                     |   89 +-
+ meta/lib/oe/rootfs.py                              |   16 +-
+ meta/lib/oeqa/selftest/buildoptions.py             |   12 +-
+ meta/lib/oeqa/targetcontrol.py                     |   16 +
+ meta/recipes-connectivity/bluez5/bluez5_5.14.bb    |    5 -
+ meta/recipes-connectivity/bluez5/bluez5_5.15.bb    |    4 +
+ ...thy-glib_0.23.0.bb => telepathy-glib_0.23.2.bb} |    7 +-
+ ...16.0.bb => telepathy-mission-control_5.16.1.bb} |   10 +-
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +-
+ .../recipes-core/base-passwd/base-passwd_3.5.29.bb |    2 +-
+ meta/recipes-core/dbus/dbus-ptest_1.6.18.bb        |    1 +
+ meta/recipes-core/dbus/dbus.inc                    |    1 +
+ ...guid_from_server-if-send_negotiate_unix_f.patch |  104 +
+ .../images/core-image-minimal-initramfs.bb         |    2 +-
+ meta/recipes-core/initrdscripts/files/init-live.sh |    4 +-
+ meta/recipes-core/systemd/systemd_208.bb           |    5 +
+ meta/recipes-devtools/dpkg/dpkg.inc                |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+ ...AltiVec-generation-on-powepc-linux-target.patch |   42 +
+ meta/recipes-devtools/gcc/libgcc.inc               |   24 +-
+ .../adt-installer/scripts/adt_installer_internal   |   61 +-
+ .../python/python3-native_3.3.3.bb                 |    1 +
+ .../python/python3/fix-ast.h-dependency.patch      |   26 +
+ meta/recipes-devtools/python/python3_3.3.3.bb      |    1 +
+ meta/recipes-extended/mailx/mailx_12.5.bb          |    1 +
+ .../{man-pages_3.57.bb => man-pages_3.60.bb}       |    4 +-
+ meta/recipes-gnome/libnotify/libnotify_0.6.0.bb    |    6 +-
+ meta/recipes-graphics/wayland/weston_1.4.0.bb      |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    8 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    8 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   18 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   16 +-
+ .../fix_metaobjectbuilder_build_err.patch          | 4707 ++++++++++++++++++++
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    1 +
+ meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb       |    2 +-
+ 43 files changed, 5148 insertions(+), 136 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.14.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.15.bb
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.23.0.bb => telepathy-glib_0.23.2.bb} (76%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.16.0.bb => telepathy-mission-control_5.16.1.bb} (89%)
+ create mode 100644 meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+ create mode 100644 meta/recipes-devtools/python/python3/fix-ast.h-dependency.patch
+ rename meta/recipes-extended/man-pages/{man-pages_3.57.bb => man-pages_3.60.bb} (82%)
+ create mode 100644 meta/recipes-qt/qt4/qt-mobility-1.2.0/fix_metaobjectbuilder_build_err.patch
+
+-- 
+1.8.3.1
+
+
