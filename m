@@ -1,31 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D07F66F2FE
+Return-Path: <net147@gmail.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id E46416F203
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 00:00:09 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1S004lW004154 for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 00:00:04 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id X_qb87ZlCuD1
+	Fri, 28 Feb 2014 00:04:08 +0000 (UTC)
+Received: by mail-qg0-f42.google.com with SMTP id q107so7860861qgd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 00:00:03 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1S000Gw004129
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 00:00:01 GMT
-Message-ID: <1393545592.31769.193.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Feb 2014 23:59:52 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: dpkg: Fix dpkg-native dependency on target xz
+	Thu, 27 Feb 2014 16:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=P5Gjzu08l0oPXCkF3DT911DfM0H8apbN0jD7pLaZQX8=;
+	b=KrHBlS+LCbS5ZhYfuFFHU1AWoXdVserjznMmEz8Q8vL7fpG3KuU3lKTt4Ky23Woqmt
+	jP0g2Vulx4xEr90t2XCf98TnVXtJaJdt345rOKZWl3pvbrj6PbusLd5q9lHqacOLQEMR
+	g7G40izbNNq2zb3j07gd3+2oLmsbarBwHYHUc/01DlJ7nBMriSMtrpkDeDxQXKIlR7U9
+	F8e6yXVAnfIhoErw6vBdvO9CoyngUfPc094WCHiDKged8l8USA+O6TKS9spNhX/nuFMF
+	rbHn7NbsM5kC8u/AujDz+GRxt1m0Ee522LCAhke8E5UVpD36UNzG1QIDVKfR4EAt1avw
+	vS8Q==
+MIME-Version: 1.0
+X-Received: by 10.140.49.109 with SMTP id p100mr11463295qga.52.1393545849549; 
+	Thu, 27 Feb 2014 16:04:09 -0800 (PST)
+Received: by 10.96.33.35 with HTTP; Thu, 27 Feb 2014 16:04:09 -0800 (PST)
+In-Reply-To: <1392957737-959-1-git-send-email-net147@gmail.com>
+References: <1392957737-959-1-git-send-email-net147@gmail.com>
+Date: Fri, 28 Feb 2014 11:04:09 +1100
+Message-ID: <CANwerB29+ZAbLsHanbh19ybYzsp=9QyDJe2zPBBOfgNEQkLbKA@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: fix console-kit-log-system-start.service startup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2014 00:00:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Feb 2014 00:04:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-dpkg-native should not depend on the target xz. Fix this.
+On 21 February 2014 15:42, Jonathan Liu <net147@gmail.com> wrote:
+> console-kit-log-system-start.service fails to to start if the
+> /var/log/ConsoleKit directory does not exist. Normally it is created
+> automatically but as we mount a tmpfs at /var/log, we need to add
+> a tmpfiles.d entry to create it.
+>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-core/systemd/systemd/00-create-volatile.conf | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+> index 9ffa88e..dc6b462 100644
+> --- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+> +++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
+> @@ -4,4 +4,5 @@
+>
+>
+>  d              /var/volatile/log               -       -       -       -
+> +d              /var/volatile/log/ConsoleKit            -       -       -       -
+>  d              /var/volatile/tmp               -       -       -       -
+> --
+> 1.8.5.4
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 044a8eb..c0c897c 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -8,7 +8,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
- DEPENDS = "zlib bzip2 perl ncurses"
- DEPENDS_class-native = "bzip2-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz"
--RDEPENDS_${PN}_class-native = "xz"
-+RDEPENDS_${PN}_class-native = "xz-native"
- 
- S = "${WORKDIR}/${BPN}-${PV}"
- 
+Please disregard this patch. I will send a patch for the consolekit
+recipe instead,
 
-
+Regards,
+Jonathan
 
