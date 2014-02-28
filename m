@@ -1,24 +1,23 @@
-Return-Path: <David.Nystrom@enea.com>
+Return-Path: <Maxin.John@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 39F956E8E2
+	by mail.openembedded.org (Postfix) with SMTP id 56B286E8E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 11:47:21 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Fri, 28 Feb 2014 12:47:20 +0100
-Message-ID: <53107740.2080508@enea.com>
-Date: Fri, 28 Feb 2014 12:47:12 +0100
-From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Fri, 28 Feb 2014 11:53:38 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Fri, 28 Feb 2014 12:53:39 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 407A32880FA;
+	Fri, 28 Feb 2014 12:53:39 +0100 (CET)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Feb 2014 12:53:33 +0100
+Message-ID: <1393588413-55392-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1393587200-16322-1-git-send-email-david.nystrom@enea.com>
-	<CAJTo0LbhW_UfQkXXgNzf2H+xN4=ygaNQbih4=6mjY0Mp26OK0g@mail.gmail.com>
-In-Reply-To: <CAJTo0LbhW_UfQkXXgNzf2H+xN4=ygaNQbih4=6mjY0Mp26OK0g@mail.gmail.com>
-X-Originating-IP: [172.16.141.133]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] e2fsprogs: Add util-linux-libuuid to DEPENDS
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] python: Backport CVE-2013-1752 fix from upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +30,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2014 11:47:24 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Feb 2014 11:53:43 -0000
+Content-Type: text/plain
 
-On 2014-02-28 12:44, Burton, Ross wrote:
-> On 28 February 2014 11:33, David Nystr=C3=B6m <david.c.nystrom@gmail.com>=
- wrote:
->> -DEPENDS =3D "util-linux"
->> +DEPENDS =3D "util-linux util-linux-libuuid"
->
-> That makes no sense: the value of DEPENDS is a list of recipes, and
-> util-linux is the recipe.
->
-> Ross
->
+From: "Maxin B. John" <maxin.john@enea.com>
 
-Correct, scrap this patch.
+This back ported patch fixes CVE-2013-1752 for smtplib
 
-//DD
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+Reviewed-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../python-2.7.3-CVE-2013-1752-smtplib-fix.patch   |  101 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.3.bb       |    1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-smtplib-fix.patch
+
+diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-smtplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-smtplib-fix.patch
+new file mode 100644
+index 0000000..f34ff40
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-smtplib-fix.patch
+@@ -0,0 +1,101 @@
++Upstream-Status: Backport
++
++Reference: http://bugs.python.org/issue16042
++
++CVE-2013-1752: smtplib: Limit amount of data read by limiting the 
++call to readline().  Original patch by Christian Heimes
++
++Signed-off-by: Maxin B. John <maxin.john@enea.com>
++---
++diff -Naur Python-2.7.3-orig/Lib/smtplib.py Python-2.7.3/Lib/smtplib.py
++--- Python-2.7.3-orig/Lib/smtplib.py	2012-04-10 01:07:31.000000000 +0200
+++++ Python-2.7.3/Lib/smtplib.py	2014-02-27 14:15:24.444198465 +0100
++@@ -57,6 +57,7 @@
++ SMTP_PORT = 25
++ SMTP_SSL_PORT = 465
++ CRLF = "\r\n"
+++_MAXLINE = 8192 # more than 8 times larger than RFC 821, 4.5.3
++ 
++ OLDSTYLE_AUTH = re.compile(r"auth=(.*)", re.I)
++ 
++@@ -179,10 +180,14 @@
++         def __init__(self, sslobj):
++             self.sslobj = sslobj
++ 
++-        def readline(self):
+++        def readline(self, size=-1):
+++            if size < 0:
+++                size = None
++             str = ""
++             chr = None
++             while chr != "\n":
+++                if size is not None and len(str) >= size:
+++                    break
++                 chr = self.sslobj.read(1)
++                 if not chr:
++                     break
++@@ -351,7 +356,7 @@
++             self.file = self.sock.makefile('rb')
++         while 1:
++             try:
++-                line = self.file.readline()
+++                line = self.file.readline(_MAXLINE + 1)
++             except socket.error as e:
++                 self.close()
++                 raise SMTPServerDisconnected("Connection unexpectedly closed: "
++@@ -361,6 +366,8 @@
++                 raise SMTPServerDisconnected("Connection unexpectedly closed")
++             if self.debuglevel > 0:
++                 print>>stderr, 'reply:', repr(line)
+++            if len(line) > _MAXLINE:
+++                raise SMTPResponseException(500, "Line too long.")
++             resp.append(line[4:].strip())
++             code = line[:3]
++             # Check that the error code is syntactically correct.
++diff -Naur Python-2.7.3-orig/Lib/test/test_smtplib.py Python-2.7.3/Lib/test/test_smtplib.py
++--- Python-2.7.3-orig/Lib/test/test_smtplib.py	2012-04-10 01:07:32.000000000 +0200
+++++ Python-2.7.3/Lib/test/test_smtplib.py	2014-02-27 14:15:24.448198293 +0100
++@@ -292,6 +292,33 @@
++                             HOST, self.port, 'localhost', 3)
++ 
++ 
+++@unittest.skipUnless(threading, 'Threading required for this test.')
+++class TooLongLineTests(unittest.TestCase):
+++    respdata = '250 OK' + ('.' * smtplib._MAXLINE * 2) + '\n'
+++
+++    def setUp(self):
+++        self.old_stdout = sys.stdout
+++        self.output = StringIO.StringIO()
+++        sys.stdout = self.output
+++
+++        self.evt = threading.Event()
+++        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+++        self.sock.settimeout(15)
+++        self.port = test_support.bind_port(self.sock)
+++        servargs = (self.evt, self.respdata, self.sock)
+++        threading.Thread(target=server, args=servargs).start()
+++        self.evt.wait()
+++        self.evt.clear()
+++
+++    def tearDown(self):
+++        self.evt.wait()
+++        sys.stdout = self.old_stdout
+++
+++    def testLineTooLong(self):
+++        self.assertRaises(smtplib.SMTPResponseException, smtplib.SMTP,
+++                          HOST, self.port, 'localhost', 3)
+++
+++
++ sim_users = {'Mr.A@somewhere.com':'John A',
++              'Ms.B@somewhere.com':'Sally B',
++              'Mrs.C@somewhereesle.com':'Ruth C',
++@@ -511,7 +538,8 @@
++ def test_main(verbose=None):
++     test_support.run_unittest(GeneralTests, DebuggingServerTests,
++                               NonConnectingTests,
++-                              BadHELOServerTests, SMTPSimTests)
+++                              BadHELOServerTests, SMTPSimTests,
+++                              TooLongLineTests)
++ 
++ if __name__ == '__main__':
++     test_main()
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index ae4a1a6..aaa72e5 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -33,6 +33,7 @@ SRC_URI += "\
+   file://CVE-2013-4073_py27.patch \
+   file://pypirc-secure.patch \
+   file://parallel-makeinst-create-bindir.patch \
++  file://python-2.7.3-CVE-2013-1752-smtplib-fix.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+-- 
+1.7.10.4
 
 
