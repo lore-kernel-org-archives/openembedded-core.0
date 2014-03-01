@@ -1,31 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id EEBCC6BC8B
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp07.online.nl (smtp07.online.nl [194.134.42.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 630AA6ED65
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Mar 2014 15:22:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s21FMDVU032076 for <openembedded-core@lists.openembedded.org>;
-	Sat, 1 Mar 2014 15:22:14 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4uTONXyxKuQB
+	Sat,  1 Mar 2014 17:46:27 +0000 (UTC)
+Received: from smtp07.online.nl (localhost [127.0.0.1])
+	by smtp07.online.nl (Postfix) with ESMTP id C4CFA98137
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Mar 2014 15:22:13 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s21FM8QX032071
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	Sat,  1 Mar 2014 18:46:26 +0100 (CET)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp07.online.nl (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 1 Mar 2014 15:22:10 GMT
-Message-ID: <1393687321.20876.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 01 Mar 2014 15:22:01 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] oeqa/runtime/dmesg: Ignore DMA timeout errors
+	Sat,  1 Mar 2014 18:46:26 +0100 (CET)
+Message-ID: <53121CF2.6090402@topic.nl>
+Date: Sat, 01 Mar 2014 18:46:26 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Online-Scanned: by Cloudmark authority (on smtp07.online.nl)
+Subject: rootfs fails to build in current master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,26 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Mar 2014 15:22:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 01 Mar 2014 17:46:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-We see these from qemu images on servers under load. They're not interesting
-and clutter the build output so lets ignore them.
+I get this mysterious error at rootfs after updating to current master:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
-index a53d1f0..64247ea 100644
---- a/meta/lib/oeqa/runtime/dmesg.py
-+++ b/meta/lib/oeqa/runtime/dmesg.py
-@@ -7,5 +7,5 @@ class DmesgTest(oeRuntimeTest):
- 
-     @skipUnlessPassed('test_ssh')
-     def test_dmesg(self):
--        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -i error')
-+        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -iv "dma timeout" | grep -i error')
-         self.assertEqual(status, 1, msg = "Error messages in dmesg log: %s" % output)
+Exception: AttributeError: 'module' object has no attribute 
+'shell_trap_code'
 
 
+I haven't been following OE for a while, so I have no clue as to what 
+caused this.
+
+Stack trace:
+
+File: '/media/work/master-next/openembedded-core/meta/lib/oe/image.py', 
+lineno: 248, function: _write_script
+      0244:        self.d.setVarFlag('img_creation_func', 'func', 1)
+      0245:        self.d.setVarFlag('img_creation_func', 'fakeroot', 1)
+      0246:
+      0247:        with open(script_name, "w+") as script:
+  *** 0248:            script.write("%s" % bb.build.shell_trap_code())
+      0249:            script.write("export ROOTFS_SIZE=%d\n" % 
+self._get_rootfs_size())
+      0250:            bb.data.emit_func('img_creation_func', script, 
+self.d)
+      0251:            script.write("img_creation_func\n")
+      0252:
+
+
+
+-- 
+Mike Looijmans
 
