@@ -1,37 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 861046F4D2
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id DB3236BD13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Mar 2014 01:54:22 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id gf5so3198627lab.21
+	Sat,  1 Mar 2014 11:29:17 +0000 (UTC)
+Received: by mail-pb0-f42.google.com with SMTP id rr13so1888131pbb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2014 17:54:22 -0800 (PST)
+	Sat, 01 Mar 2014 03:29:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=WubZFprGTqqDgzenb4XLJbILgpF9cBpZO4ACH8vrTO8=;
-	b=gDR0f1watNfwmPt5Wx4sFb+YEAtJgWtG/db4x/IXAWiWWIAbtwANmVBpzaK8SNCzHH
-	oWayJniRCqBK4PKs/aQamO2T1SAUBpR7aF9wh89lvRVZxnBMOfrNkY+Hc5tg2Ak1uVeb
-	OupFou/27yI7cKfVWm2kRc/KrJaE0iGBCIjeq3eVX/VJVygtdsZiBMH7vA+OPQT7EOfv
-	BoQN+K0zQJomCQRrsomAMKG2c/GlEgHTrXbDeDoXTsVAWTNR3Yc/Y5i6nKLkdCNfhwDR
-	50Aldy6B9f0e5NkfXN/OvLQo4hhWUH0ExRnDRNRlfq53hhA0OL7+NOM2Ve1k7kqrUU+B
-	domA==
-MIME-Version: 1.0
-X-Received: by 10.152.219.132 with SMTP id po4mr9074411lac.41.1393638862524;
-	Fri, 28 Feb 2014 17:54:22 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Fri, 28 Feb 2014 17:54:22 -0800 (PST)
-In-Reply-To: <1393627333.20876.2.camel@ted>
-References: <1393597694-5843-1-git-send-email-bruce.ashfield@windriver.com>
-	<CADkTA4OEvrDPDPq3-cKsX+_gN_qgR_dEVJKPWvkM2bV1TW0NHQ@mail.gmail.com>
-	<1393627333.20876.2.camel@ted>
-Date: Fri, 28 Feb 2014 20:54:22 -0500
-Message-ID: <CADkTA4M-GiLi15gyUyD-fdsFf=NV0Q4SjWjnHbQRFjxPQ-PSuw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto-dev: bump to v3.14-rc4
+	h=from:to:cc:subject:date:message-id;
+	bh=V+wcN+xZbMsKfw6dS/c/8ELy0CRIuJpmTfpwH+bDPRg=;
+	b=xevGASzdtdgUeWy/Gj8rBUhggPRHrscrp+h/905IX2gpf4qCZBl5vF8knSmPeUpPHm
+	isjjCV3GWuApHAp0s7oz/E1U7AkGdPg4DmvbsaEn0WRKl6Xe9wzI86Rfn8Pu40/GO2nH
+	b6NjFFA6mgtXON4fvvsTRV4LBFBOHSuIFF9ZIvn8/IkYOzQQWvZRrDz7wtgwRnFQyFAR
+	RzzYnw0OuTBvXzorbEG3+o6NfTcrLQxKSfA8qRVQ/4paedeV3lfCaQRy66nyhGtsmSKU
+	qgff9swnztzR8SZF8YgaM90J4M5JjJYFHCHCQx+JkwoVof8+RP8CBhArESekMkqStHEB
+	edcw==
+X-Received: by 10.68.129.5 with SMTP id ns5mr83837pbb.147.1393673358402;
+	Sat, 01 Mar 2014 03:29:18 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id e3sm15473467pbc.17.2014.03.01.03.29.16
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 01 Mar 2014 03:29:17 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  1 Mar 2014 22:33:45 +1100
+Message-Id: <1393673625-20996-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] image.bbclass: add BAD_RECOMMENDATIONS/NO_RECOMMENDATIONS rootfs vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Mar 2014 01:54:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 01 Mar 2014 11:29:18 -0000
 
-On Fri, Feb 28, 2014 at 5:42 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2014-02-28 at 13:41 -0500, Bruce Ashfield wrote:
->> FYI: Some extended testing with my image-core-kernel-dev image type
->> has shown that lttng and perf have some build issues, so we are
->> finding the issues that we wanted to with this -dev kernel :)
->
-> Yes, the autobuilder has shown up a raft of issues in that area.
->
-> http://autobuilder.yoctoproject.org/main/tgrid
->
-> the line starting 7a30f308b07... is pretty much all kernel related from
-> the dev kernel.
+Changes to BAD_RECOMMENDATIONS or NO_RECOMMENDATIONS require the rootfs
+for the image to be rebuilt.
 
-Yep, I consider the kernel available to BSp writers at the moment, the rest of
-the failures need to be addressed by updating and fixing the packages.
+[YOCTO #5898]
 
-That being said, I can never make heads or tails of those autobuilder
-summaries .. what exactly would I click on to see if my builds and the
-autobuilder have the same packages causing problems ?
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/image.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-Bruce
-
->
-> Cheers,
->
-> Richard
->
-
-
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 28b68f9..64f4359 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -70,6 +70,7 @@ LDCONFIGDEPEND_libc-uclibc = ""
+ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
+ do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_packagedata"
++do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
+ 
+ do_build[depends] += "virtual/kernel:do_deploy"
+ 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.0
+
 
