@@ -1,35 +1,35 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
-	[209.85.160.42])
-	by mail.openembedded.org (Postfix) with ESMTP id DB3236BD13
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.102])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C9606F273
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Mar 2014 11:29:17 +0000 (UTC)
-Received: by mail-pb0-f42.google.com with SMTP id rr13so1888131pbb.1
+	Sat,  1 Mar 2014 14:29:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kmu-office.ch (Postfix) with ESMTP id BD803440968
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Mar 2014 03:29:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=V+wcN+xZbMsKfw6dS/c/8ELy0CRIuJpmTfpwH+bDPRg=;
-	b=xevGASzdtdgUeWy/Gj8rBUhggPRHrscrp+h/905IX2gpf4qCZBl5vF8knSmPeUpPHm
-	isjjCV3GWuApHAp0s7oz/E1U7AkGdPg4DmvbsaEn0WRKl6Xe9wzI86Rfn8Pu40/GO2nH
-	b6NjFFA6mgtXON4fvvsTRV4LBFBOHSuIFF9ZIvn8/IkYOzQQWvZRrDz7wtgwRnFQyFAR
-	RzzYnw0OuTBvXzorbEG3+o6NfTcrLQxKSfA8qRVQ/4paedeV3lfCaQRy66nyhGtsmSKU
-	qgff9swnztzR8SZF8YgaM90J4M5JjJYFHCHCQx+JkwoVof8+RP8CBhArESekMkqStHEB
-	edcw==
-X-Received: by 10.68.129.5 with SMTP id ns5mr83837pbb.147.1393673358402;
-	Sat, 01 Mar 2014 03:29:18 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id e3sm15473467pbc.17.2014.03.01.03.29.16
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Mar 2014 03:29:17 -0800 (PST)
-From: Jonathan Liu <net147@gmail.com>
+	Sat,  1 Mar 2014 15:26:53 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at kmu-office.ch
+Received: from mail.kmu-office.ch ([127.0.0.1])
+	by localhost (mail.kmu-office.ch [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OjIDI0h8df5q
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  1 Mar 2014 15:26:53 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kmu-office.ch (Postfix) with ESMTP id A0BC4441D6F
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  1 Mar 2014 15:26:53 +0100 (CET)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	(Authenticated sender: stefan@agner.ch)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9771D440968
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  1 Mar 2014 15:26:53 +0100 (CET)
+MIME-Version: 1.0
+Date: Sat, 01 Mar 2014 15:28:09 +0100
+From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Mar 2014 22:33:45 +1100
-Message-Id: <1393673625-20996-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] image.bbclass: add BAD_RECOMMENDATIONS/NO_RECOMMENDATIONS rootfs vardeps
+Message-ID: <9362603aca1b9e36631265991dc556a5@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.0-rc
+Subject: relocate_sdk.py: Possible bug, /lib64/ld-linux-x86-64.so.2 not relocated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Mar 2014 11:29:18 -0000
+X-List-Received-Date: Sat, 01 Mar 2014 14:29:35 -0000
+Content-Type: text/plain; charset=
+Content-Transfer-Encoding: 7bit
 
-Changes to BAD_RECOMMENDATIONS or NO_RECOMMENDATIONS require the rootfs
-for the image to be rebuilt.
+Hi,
 
-[YOCTO #5898]
+Using top of dylan branch, I generated a SDK using bitbake
+meta-toolchain. I'm running Arch Linux, but I also see similar issues on
+Ubuntu 12.04.4 LTS:
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/image.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Some binaries segfault when running them. I discovered, that the dynamic
+linker of the host is used:
+$ ldd
+/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+linux-vdso.so.1 (0x00007fffc8f11000)
+libc.so.6 =>
+/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/../../../lib/libc.so.6
+(0x00007f4d85eb1000)
+/lib64/ld-linux-x86-64.so.2 (0x00007f4d8625f000)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 28b68f9..64f4359 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -70,6 +70,7 @@ LDCONFIGDEPEND_libc-uclibc = ""
- do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
- do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_packagedata"
-+do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
- 
- do_build[depends] += "virtual/kernel:do_deploy"
- 
--- 
-1.9.0
+When forcing the dynamic linker of the SDK, the binary works:
+$
+/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
+/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+arm-angstrom-linux-gnueabi-gcc: fatal error: no input files
+compilation terminated.
 
+Digging around I found this commit by Jason:
+3752a9c6d772b39bbe04d62ef4d3527b4c7198c1
+relocate_sdk.py: Fix corruption of sdk binaries
+
+It changes the behavior and don't relocates stuff which start with
+/lib64. When I install the SDK with -S (copy the relocate scripts), and
+remove the condition around line 95, the binaries work as expected. Also
+LDD shows that ld-linux-x86-64.so.2 of the SDK will be used.
+
+Btw, I think this bug is related to that:
+https://github.com/Angstrom-distribution/setup-scripts/issues/25
+
+Since I don't understand the original intention of that commit, I'm not
+sure how to fix this properly...
+
+--
+Stefan
 
