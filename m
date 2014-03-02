@@ -1,37 +1,40 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AEF826F4B8
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D1A4760D9D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Mar 2014 02:53:39 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id hz1so2383019pad.22
+	Sun,  2 Mar 2014 02:54:52 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id p10so2346648pdj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Mar 2014 18:53:40 -0800 (PST)
+	Sat, 01 Mar 2014 18:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OIuAgsqGlkNW3Rv0QpbWl03EZ+k6ZfCgFDw+UXOO13Q=;
-	b=YCjACKmU/FtupUghjepqg1eE/qJxgpb4NUmffQ9xKDZXNqNGjPgGyrYj6BTN2duz/J
-	zcYcJJtzG8OBEMXlq4YpdGNdpoLPX14v5xn8JfaBQqhTjXKSiVtJDdToi0UPB4NiBlXj
-	y6jo39iTP4ZnqTra388QMwjxyBGfqjg4xGzW7SlMbskFbBxfM7ODyeqsE8GsrVPgzWrH
-	Hmr4/wsqO7YyVKyZjveLGeZBocnePTsgnvn4DhKKpiPAo7KgwfFa1jkAV7Yw6PAIroPB
-	mof/BQ791B0UvNF29pg070FG0x+Ri1Foq9yi3wwQlY/HM9xAhdmd7T3+kqwUVbR8Rizk
-	djaA==
-X-Received: by 10.67.1.202 with SMTP id bi10mr12235655pad.68.1393728820630;
-	Sat, 01 Mar 2014 18:53:40 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	eb5sm50853825pad.22.2014.03.01.18.53.38 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Mar 2014 18:53:39 -0800 (PST)
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=AbwJlihFY77bT0NAihMCxWijzEuc0LvdcYC8GJ4ekJo=;
+	b=FxUm8F+AgEwxreu0UHR/dViBi/UIF4q0fyHTOi6KBbmbosI0xGpESiMbw6RPTAu1Yu
+	2xQAPBYqDhejJ6yjr3RwK5odiRbvgzWH+JFEYFvJ2tctVh+Aw8skubS/E0CXAPxiINf5
+	7I2+xKR/RO3spCY6C+XlSrP6WCVriA7OlUWf0b9nSdm+/ifU2r8bPRD2KUtROg6KPGBK
+	KOTSUrOd8feerEcklppC/hB9/TYOsqXnXTvyUk67QgNTohsichqvfMS8+cK2yvuSez24
+	SWz+1KdIlBMqCtZDG2/X2bdK2nQviqRjdePBptfQLYlgK5i5Z3E1ZmT96AVVj6A76qOG
+	Y+Mw==
+X-Received: by 10.68.108.1 with SMTP id hg1mr12108415pbb.80.1393728893692;
+	Sat, 01 Mar 2014 18:54:53 -0800 (PST)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244])
+	by mx.google.com with ESMTPSA id g6sm50959168pat.2.2014.03.01.18.54.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 01 Mar 2014 18:54:52 -0800 (PST)
+Message-ID: <53129D76.9060802@gmail.com>
+Date: Sun, 02 Mar 2014 13:54:46 +1100
 From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Mar 2014 13:58:11 +1100
-Message-Id: <1393729091-12840-2-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <1393729091-12840-1-git-send-email-net147@gmail.com>
 References: <1393729091-12840-1-git-send-email-net147@gmail.com>
-Subject: [meta-qt5][PATCH v2 2/2] packagegroup-qt5-toolchain-target: include all modules for development
+In-Reply-To: <1393729091-12840-1-git-send-email-net147@gmail.com>
+Subject: Re: [meta-qt5][PATCH v2 1/2] qtimageformats: allow empty qtimageformats package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,98 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Mar 2014 02:53:39 -0000
+X-List-Received-Date: Sun, 02 Mar 2014 02:54:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This adds the necessary target packages for development with all of the
-Qt 5 modules.
+On 2/03/2014 1:58 PM, Jonathan Liu wrote:
+> This fixes installing qtimageformats-dev with opkg as it depends on the
+> qtimageformats package which wasn't created.
+>
+> The qtimageformats package was not created as it is empty and BitBake
+> avoids producing empty packages by default. The installed files consist
+> of source files split into qtimageformats-dbg, CMake files split into
+> qtimageformats-dev, plugins split into qtimageformats-plugins and
+> debug build of plugins split into qtimageformats-plugins-dbg.
+>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>   recipes-qt/qt5/qtimageformats.inc | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/recipes-qt/qt5/qtimageformats.inc b/recipes-qt/qt5/qtimageformats.inc
+> index 1b4bb4f..f90e58a 100644
+> --- a/recipes-qt/qt5/qtimageformats.inc
+> +++ b/recipes-qt/qt5/qtimageformats.inc
+> @@ -1,3 +1,4 @@
+>   require qt5.inc
+>   
+>   DEPENDS += "qtbase tiff"
+> +ALLOW_EMPTY_${PN} = "1"
+Whoops, wrong mailing list.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- .../packagegroup-qt5-toolchain-target.bb           | 60 +++++++++++++++++-----
- 1 file changed, 46 insertions(+), 14 deletions(-)
-
-diff --git a/recipes-qt/packagegroups/packagegroup-qt5-toolchain-target.bb b/recipes-qt/packagegroups/packagegroup-qt5-toolchain-target.bb
-index 997df18..13cac33 100644
---- a/recipes-qt/packagegroups/packagegroup-qt5-toolchain-target.bb
-+++ b/recipes-qt/packagegroups/packagegroup-qt5-toolchain-target.bb
-@@ -11,30 +11,62 @@ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
- USE_RUBY = " \
-     qtwebkit-mkspecs \
-     qtwebkit-dev \
-+    qtwebkit-qmlplugins \
-+"
-+
-+# Requires X11 to work
-+USE_X11 = " \
-+    qtx11extras-dev \
-+    qtx11extras-mkspecs \
- "
- 
- RDEPENDS_${PN} += " \
-     packagegroup-core-standalone-sdk-target \
-     libsqlite3-dev \
--    qtbase-mkspecs \
--    qtscript-mkspecs \
--    qtxmlpatterns-mkspecs \
--    qtdeclarative-mkspecs \
--    qtsensors-mkspecs \
-+    qt3d-dev \
-     qt3d-mkspecs \
--    qtlocation-mkspecs \
--    qtsvg-mkspecs \
-+    qt3d-qmlplugins \
-     qtbase-dev \
-+    qtbase-fonts \
-+    qtbase-mkspecs \
-+    qtbase-plugins \
-+    qtbase-staticdev \
-+    qtconnectivity-dev \
-+    qtconnectivity-mkspecs \
-+    qtconnectivity-qmlplugins \
-     qtdeclarative-dev \
--    qtscript-dev \
--    qt3d-dev \
-+    qtdeclarative-mkspecs \
-+    qtdeclarative-plugins \
-+    qtdeclarative-qmlplugins \
-+    qtdeclarative-staticdev \
-+    qtgraphicaleffects-qmlplugins \
-+    qtimageformats-dev \
-+    qtimageformats-plugins \
-     qtlocation-dev \
-+    qtlocation-mkspecs \
-+    qtlocation-plugins \
-+    qtlocation-qmlplugins \
-+    qtquick1-dev \
-+    qtquick1-mkspecs \
-+    qtquick1-plugins \
-+    qtquick1-qmlplugins \
-+    qtquickcontrols-qmlplugins \
-+    qtscript-dev \
-+    qtscript-mkspecs \
-     qtsensors-dev \
-+    qtsensors-mkspecs \
-+    qtsensors-plugins \
-+    qtsensors-qmlplugins \
-+    qtserialport-dev \
-+    qtserialport-mkspecs \
-     qtsvg-dev \
--    qtxmlpatterns-dev \
--    qtdeclarative-dev \
--    qtdeclarative-plugins \
--    qtdeclarative-qmlplugins \
--    qtgraphicaleffects-dev \
-+    qtsvg-mkspecs \
-+    qtsvg-plugins \
-+    qtsystems-dev \
-+    qtsystems-mkspecs \
-+    qtsystems-qmlplugins \
-     ${@base_contains('BBFILE_COLLECTIONS', 'ruby-layer', '${USE_RUBY}', '', d)} \
-+    ${@base_contains('DISTRO_FEATURES', 'x11', '${USE_X11}', '', d)} \
-+    qtxmlpatterns-dev \
-+    qtxmlpatterns-mkspecs \
- "
--- 
-1.9.0
-
+Regards,
+Jonathan
 
