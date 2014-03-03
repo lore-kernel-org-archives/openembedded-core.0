@@ -1,35 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 87F806EA4A
+Return-Path: <emil.sjolin@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id DDFA56A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 14:24:01 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id y10so3258212wgg.13
+	Mon,  3 Mar 2014 14:35:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id DD1622E470
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Mar 2014 06:24:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=TaT9cjNoTmgG2j3X6yf+TCpRkR91uEhklMOhOOHrF8g=;
-	b=KJtNpyXrdyNwqGvL+mYRLBHadwddcsg+AHe3Nm9B/SYUjdjE4TIj/SJnOJyAHieOBw
-	Kg/h0icHJlmUtBXJpfEU0xrLyakzYqDp0a7NrQzpWx1JmdQ3tRfOvCHYaiZmuB2ktIb6
-	ml/dQost+SWxj2h9jkMzh7Uua92b4LyOLJP6WnXGOhz6AcxoUXHbh56pREUZ1lQx+05s
-	V/omRpZYFrlteZInG6C4O5IqgrjGM43v2vk+d/RmbJYhwst4odeLytoslblL4YCRMddv
-	aYLJVA69h5lBSR6i+uaKPvSy2TE7KawtYnUBZPffgzR5KhPHsaVmifPM0tRsrjmAcqyh
-	Zaaw==
-X-Gm-Message-State: ALoCoQlXID0bcP57J3/qrJaelhYYo4zLTQqFqA+r4DziWdRkHBsg/1/fSZmUNIGlMbwr6knitueT
-X-Received: by 10.194.82.69 with SMTP id g5mr6286338wjy.85.1393856309308;
-	Mon, 03 Mar 2014 06:18:29 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id t5sm36019486wjw.15.2014.03.03.06.18.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Mar 2014 06:18:28 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon,  3 Mar 2014 15:35:36 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id nuV5cIxu75eR
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Mar 2014 15:35:35 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id E66632E332
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Mar 2014 15:35:34 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id CF5DEC00
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Mar 2014 15:35:34 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id C3CBC38D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Mar 2014 15:35:34 +0100 (CET)
+Received: from lnxemilsn.se.axis.com (lnxemilsn.se.axis.com [10.92.35.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id C1C4D34005;
+	Mon,  3 Mar 2014 15:35:34 +0100 (CET)
+Received: by lnxemilsn.se.axis.com (Postfix, from userid 21110)
+	id B422292061; Mon,  3 Mar 2014 15:35:34 +0100 (CET)
+From: =?UTF-8?q?Emil=20Sj=C3=B6lin?= <emil.sjolin@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Mar 2014 14:18:25 +0000
-Message-Id: <1393856305-1517-1-git-send-email-ross.burton@intel.com>
+Date: Mon,  3 Mar 2014 15:35:33 +0100
+Message-Id: <1393857333-14692-1-git-send-email-emilsn@axis.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] mtdev: upgrade to 1.1.5
+MIME-Version: 1.0
+Subject: [dora][PATCH] iproute2: de-bash its scripts to remove the bash dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,69 +49,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 14:24:03 -0000
+X-List-Received-Date: Mon, 03 Mar 2014 14:35:39 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Removed the following patch(es):
- * fixsepbuild.patch (changes included in release)
+If we build a minimal image with iproute2 installed, the following
+error will appear during rootfs.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+error: Can't install iproute2-3.10.0-r0.0@i586: no package provides /bin/bash
+
+The problem is that iproute2 has an implicit dependency on 'bash'.
+This dependency is from per-file dependency checking.
+
+Patch two scripts, ifcfg and rtpr, from iproute2 to remove the bash
+specific syntax.
+
+NOTE: This fix is taken from master branch
+(SHA1 ID: 1132c4210eddd59b22b2640935ab0bb8f48c0124) and applied on dora.
+
+Signed-off-by: Emil Sjölin <emilsn@axis.com>
 ---
- .../wayland/mtdev/fixsepbuild.patch                |   24 --------------------
- .../wayland/{mtdev_1.1.4.bb => mtdev_1.1.5.bb}     |    7 +++---
- 2 files changed, 3 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch
- rename meta/recipes-graphics/wayland/{mtdev_1.1.4.bb => mtdev_1.1.5.bb} (69%)
+ .../iproute2/0001-iproute2-de-bash-scripts.patch   |   64 ++++++++++++++++++++
+ .../iproute2/iproute2_3.10.0.bb                    |    1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
 
-diff --git a/meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch b/meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch
-deleted file mode 100644
-index 9895650..0000000
---- a/meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--Some tests do #include  relative to the top-level, so add top_srcdir to the
--include path as otherwise out-of-tree builds can't find the files.
--
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- test/Makefile.am |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/test/Makefile.am b/test/Makefile.am
--index 2b504bd..6688b41 100644
----- a/test/Makefile.am
--+++ b/test/Makefile.am
--@@ -1,7 +1,7 @@
-- noinst_PROGRAMS = mtdev-mapgen mtdev-matching mtdev-kernel
-- bin_PROGRAMS = mtdev-test
-- 
---AM_CPPFLAGS=-I$(top_srcdir)/include/
--+AM_CPPFLAGS=-I$(top_srcdir) -I$(top_srcdir)/include/
-- 
-- mtdev_mapgen_SOURCES = mtdev-mapgen.c
-- 
---- 
--1.7.10.4
-diff --git a/meta/recipes-graphics/wayland/mtdev_1.1.4.bb b/meta/recipes-graphics/wayland/mtdev_1.1.5.bb
-similarity index 69%
-rename from meta/recipes-graphics/wayland/mtdev_1.1.4.bb
-rename to meta/recipes-graphics/wayland/mtdev_1.1.5.bb
-index 6b38f58..ccd0ebb 100644
---- a/meta/recipes-graphics/wayland/mtdev_1.1.4.bb
-+++ b/meta/recipes-graphics/wayland/mtdev_1.1.5.bb
-@@ -11,9 +11,8 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ea6bd0268bb0fcd6b27698616ceee5d6"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
+new file mode 100644
+index 0000000..39c7d40
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
+@@ -0,0 +1,64 @@
++Subject: [PATCH] iproute2: de-bash scripts
++
++de-bash these two scripts to make iproute2 not depend on bash.
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++---
++ ip/ifcfg |   15 ++++++++-------
++ ip/rtpr  |    2 +-
++ 2 files changed, 9 insertions(+), 8 deletions(-)
++
++diff --git a/ip/ifcfg b/ip/ifcfg
++index 083d9df..60bcf1f 100644
++--- a/ip/ifcfg
+++++ b/ip/ifcfg
++@@ -1,12 +1,13 @@
++-#! /bin/bash
+++#! /bin/sh
++ 
++ CheckForwarding () {
++-  local sbase fwd
+++  local sbase fwd forwarding
++   sbase=/proc/sys/net/ipv4/conf
++   fwd=0
++   if [ -d $sbase ]; then
++     for dir in $sbase/*/forwarding; do
++-      fwd=$[$fwd + `cat $dir`]
+++      forwarding=`cat $dir`
+++      fwd=$(($fwd+$forwarding))
++     done
++   else
++     fwd=2
++@@ -127,12 +128,12 @@ fi
++ arping -q -A -c 1 -I $dev $ipaddr
++ noarp=$?
++ ( sleep 2 ;
++-  arping -q -U -c 1 -I $dev $ipaddr ) >& /dev/null </dev/null &
+++  arping -q -U -c 1 -I $dev $ipaddr ) > /dev/null 2>&1 </dev/null &
++ 
++-ip route add unreachable 224.0.0.0/24 >& /dev/null
++-ip route add unreachable 255.255.255.255 >& /dev/null
+++ip route add unreachable 224.0.0.0/24 > /dev/null 2>&1
+++ip route add unreachable 255.255.255.255 > /dev/null 2>&1
++ if [ `ip link ls $dev | grep -c MULTICAST` -ge 1 ]; then
++-  ip route add 224.0.0.0/4 dev $dev scope global >& /dev/null
+++  ip route add 224.0.0.0/4 dev $dev scope global > /dev/null 2>&1
++ fi
++ 
++ if [ $fwd -eq 0 ]; then
++diff --git a/ip/rtpr b/ip/rtpr
++index c3629fd..674198d 100644
++--- a/ip/rtpr
+++++ b/ip/rtpr
++@@ -1,4 +1,4 @@
++-#! /bin/bash
+++#! /bin/sh
++ 
++ exec tr "[\\\\]" "[
++ ]"
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.10.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.10.0.bb
+index 2220467..721fa55 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_3.10.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.10.0.bb
+@@ -2,6 +2,7 @@ require iproute2.inc
  
--SRC_URI = "http://bitmath.org/code/${BPN}/${BP}.tar.bz2 \
--           file://fixsepbuild.patch"
--SRC_URI[md5sum] = "73a915d6075b31db4f08ab8c6d314695"
--SRC_URI[sha256sum] = "6b59b055ff22f2b91d4284187c2515826c338b81f6f33bd90f6bedc7c1fb9a38"
-+SRC_URI = "http://bitmath.org/code/${BPN}/${BP}.tar.bz2"
-+SRC_URI[md5sum] = "52c9610b6002f71d1642dc1a1cca5ec1"
-+SRC_URI[sha256sum] = "6677d5708a7948840de734d8b4675d5980d4561171c5a8e89e54adf7a13eba7f"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BPN}-${PV}.tar.xz \
+            file://configure-cross.patch \
++           file://0001-iproute2-de-bash-scripts.patch \
+           "
  
- inherit autotools pkgconfig
+ SRC_URI[md5sum] = "45fb5427fc723a0001c72b92c931ba02"
 -- 
 1.7.10.4
 
