@@ -1,49 +1,35 @@
-Return-Path: <alexandru.sardan@freescale.com>
-Received: from co9outboundpool.messaging.microsoft.com
-	(co9ehsobe004.messaging.microsoft.com [207.46.163.27])
-	by mail.openembedded.org (Postfix) with ESMTP id 277466E9A3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D5406EDF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 17:46:00 +0000 (UTC)
-Received: from mail28-co9-R.bigfish.com (10.236.132.251) by
-	CO9EHSOBE025.bigfish.com (10.236.130.88) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 3 Mar 2014 17:46:00 +0000
-Received: from mail28-co9 (localhost [127.0.0.1])	by mail28-co9-R.bigfish.com
-	(Postfix) with ESMTP id A37E81001CC	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 17:46:00 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch1155h)
-Received: from mail28-co9 (localhost.localdomain [127.0.0.1]) by mail28-co9
-	(MessageSwitch) id 1393868758438814_18162;
-	Mon,  3 Mar 2014 17:45:58 +0000 (UTC)
-Received: from CO9EHSMHS006.bigfish.com (unknown [10.236.132.250])	by
-	mail28-co9.bigfish.com (Postfix) with ESMTP id 66313400047;
-	Mon,  3 Mar 2014 17:45:58 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS006.bigfish.com
-	(10.236.130.16) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Mon, 3 Mar 2014 17:45:58 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server (TLS) id 14.3.158.2; Mon, 3 Mar 2014 17:45:57 +0000
-Received: from fsr-ub1264-102.ea.freescale.net
-	(fsr-ub1264-102.ea.freescale.net [10.171.74.5])	by
-	tx30smr01.am.freescale.net
-	(8.14.3/8.14.0) with ESMTP id s23Hjte3011517;
-	Mon, 3 Mar 2014 10:45:56 -0700
-From: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Mar 2014 19:45:38 +0200
-Message-ID: <1393868738-7330-1-git-send-email-alexandru.sardan@freescale.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1393860775.31845.13.camel@ted>
-References: <1393860775.31845.13.camel@ted>
+	Mon,  3 Mar 2014 18:18:08 +0000 (UTC)
+Received: by mail-ie0-f171.google.com with SMTP id ar20so1303449iec.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Mar 2014 10:18:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=OaFuiDDhReJgeY8k8XZFa5bclP16rrYR0Uh4oFZ+9WE=;
+	b=Ro0GskGU5WoGCWum7XrUy/mnzEaTnfaETNNejcFuXMc+gWU5/gLGvnvfqa2TZHqa1b
+	FJ0Z9O7KsdDfcFRe/7v/1oJlXf3xvscjNXAorcV762TdyjeIeynqY2+fxY4VwurSBRHv
+	2SSehaN5ql1aI511UyGtESkG/iGxUNDYw9aNiwTrLS5TbpiYuTxpjCk1SBFTasKWDFCn
+	GOdqR3jZSeMCndwbTXQZu6SkEkW/ZU/Q4m6dyJXukB8QPzy4FLQamR0DjWlzkfgmflVS
+	EbiZ/nHRtLvKdoZVb4bG3R81sBvCnneqMU0c1OpqV2CIp8XzR7NKCfctjUrJocPFSd3H
+	Jd+A==
+X-Received: by 10.50.103.101 with SMTP id fv5mr23561219igb.2.1393870688959;
+	Mon, 03 Mar 2014 10:18:08 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] libgcc: make sure symlinks are created in a valid directory
+Received: by 10.50.224.136 with HTTP; Mon, 3 Mar 2014 10:17:38 -0800 (PST)
+In-Reply-To: <1393857456-18343-1-git-send-email-olof.johansson@axis.com>
+References: <1393857456-18343-1-git-send-email-olof.johansson@axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Mar 2014 10:17:38 -0800
+Message-ID: <CAMKF1sq5C01yFquzWjAUaHDgr30ZFXj-dnujS0XWBWrWHC5YXA@mail.gmail.com>
+To: Olof Johansson <olof.johansson@axis.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] sanity.bbclass: support wildcards in SANITY_TESTED_DISTROS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 17:46:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Mar 2014 18:18:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When adding extra symlinks, we have to make sure that the directory
-that the links are created in is valid. Added a check for this.
+On Mon, Mar 3, 2014 at 6:37 AM, Olof Johansson <olof.johansson@axis.com> wrote:
+> With this change, you can use shell like globbing expressions (as
+> supported by Python's fnmatch) for entries in SANITY_TESTED_DISTROS.
+> This makes it possible to say that, e.g. "all Debian 7 Wheezy releases
+> are supported" with the entry "Debian-7.*".
 
-This is an incremental addition to commit
-97f2a81d6796ddaf7bbaab86c2ab9039673c732c
+I dont think its a good thing. We should be strict about it as we are.
+otherwise it can end up
+with bigger problems to save few  typing words
 
-Signed-off-by: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
----
- meta/recipes-devtools/gcc/libgcc.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index b185660..96f1969 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -150,7 +150,7 @@ python do_extra_symlinks() {
-     if targetsysnoext != d.getVar('TARGET_SYS', True):
-         dest = d.getVar('D', True) + d.getVar('libdir', True) + '/' + targetsysnoext
-         src = d.getVar('TARGET_SYS', True)
--        if not os.path.lexists(dest):
-+        if not os.path.lexists(dest) and os.path.lexists(d.getVar('D', True) + d.getVar('libdir', True)):
-             os.symlink(src, dest)
- }
- 
--- 
-1.7.9.5
-
-
+>
+> [YOCTO #5265]
+>
+> Signed-off-by: Olof Johansson <olof.johansson@axis.com>
+> ---
+>  meta/classes/sanity.bbclass | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index bae010d..d79db8f 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -246,6 +246,8 @@ def check_connectivity(d):
+>      return retval
+>
+>  def check_supported_distro(sanity_data):
+> +    from fnmatch import fnmatch
+> +
+>      tested_distros = sanity_data.getVar('SANITY_TESTED_DISTROS', True)
+>      if not tested_distros:
+>          return
+> @@ -255,12 +257,15 @@ def check_supported_distro(sanity_data):
+>      except Exception:
+>          distro = None
+>
+> -    if distro:
+> -        if distro not in [x.strip() for x in tested_distros.split('\\n')]:
+> -            bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
+> -    else:
+> +    if not distro:
+>          bb.warn('Host distribution could not be determined; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.')
+>
+> +    for supported in [x.strip() for x in tested_distros.split('\\n')]:
+> +        if fnmatch(distro, supported):
+> +            return
+> +
+> +    bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
+> +
+>  # Checks we should only make if MACHINE is set correctly
+>  def check_sanity_validmachine(sanity_data):
+>      messages = ""
+> --
+> 1.8.5.3
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
