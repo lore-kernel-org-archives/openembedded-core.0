@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id CB4D26BD75
+	by mail.openembedded.org (Postfix) with ESMTP id 1260A6BD75
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:51:00 +0000 (UTC)
+	Mon,  3 Mar 2014 15:52:15 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s23FoueY021656 for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 15:50:56 GMT
+	s23FqB9O021693 for <openembedded-core@lists.openembedded.org>;
+	Mon, 3 Mar 2014 15:52:11 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id G8-KexS9-bPZ
+	with LMTP id dkiNQ19_93Wb
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:50:56 +0000 (GMT)
+	Mon,  3 Mar 2014 15:52:11 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s23For1X021652
+	s23Fq7Nm021687
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 15:50:54 GMT
-Message-ID: <1393861845.31845.18.camel@ted>
+	Mon, 3 Mar 2014 15:52:08 GMT
+Message-ID: <1393861919.31845.19.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 03 Mar 2014 15:50:45 +0000
+Date: Mon, 03 Mar 2014 15:51:59 +0000
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] bzip: Add extra files as a specific task
+Subject: [PATCH] openjade: Fix configure assumptions about file moves
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,7 +38,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 15:51:01 -0000
+X-List-Received-Date: Mon, 03 Mar 2014 15:52:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -47,25 +47,22 @@ and ensures aclocal files get copied in.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index 176421d..e9d745d 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -27,11 +27,13 @@ ALTERNATIVE_${PN} = "bunzip2 bzcat"
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 9dbd442..ccce421 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -42,9 +42,10 @@ SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
+ SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
  
- #install binaries to bzip2-native under sysroot for replacement-native
- EXTRA_OECONF_append_class-native = " --bindir=${STAGING_BINDIR_NATIVE}/${PN}"
+ # configure.in needs to be reloacted to trigger reautoconf
 -do_configure_prepend () {
 +do_extraunpack () {
- 	cp ${WORKDIR}/configure.ac ${S}/
- 	cp ${WORKDIR}/Makefile.am ${S}/
+ 	cp ${S}/config/configure.in ${S}/
  }
++addtask extraunpack after do_patch before do_configure
  
-+addtask extraunpack after do_unpack before do_patch
-+
- do_install_ptest () {
- 	sed -i -e "s|^Makefile:|_Makefile:|" ${D}${PTEST_PATH}/Makefile
- }
+ # We need to do this else the source interdependencies aren't generated and
+ # build failures can result (e.g. zero size style/Makefile.dep file)
 
 
 
