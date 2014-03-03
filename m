@@ -1,46 +1,26 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 53D5A6F582
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CBB26A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 14:37:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 987121807F
+	Mon,  3 Mar 2014 14:45:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s23EjvVG005945
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id nopAlzoNXWui
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 736F918078
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 5CC35C00
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 5192938D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by thoth.se.axis.com (Postfix) with ESMTP id 4FB7E34005
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
-	Mon, 3 Mar 2014 15:37:36 +0100
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 1A4639C29D; 
-	Mon,  3 Mar 2014 15:37:36 +0100 (CET)
-From: Olof Johansson <olof.johansson@axis.com>
+	Mon, 3 Mar 2014 06:45:57 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 3 Mar 2014 06:45:56 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Mar 2014 15:37:36 +0100
-Message-ID: <1393857456-18343-1-git-send-email-olof.johansson@axis.com>
-X-Mailer: git-send-email 1.8.5.3
+Date: Mon, 3 Mar 2014 22:49:48 +0800
+Message-ID: <213d7368c3c13140bbdc0f47e85e44bb932b1857.1393855671.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1393855671.git.liezhi.yang@windriver.com>
+References: <cover.1393855671.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] sanity.bbclass: support wildcards in SANITY_TESTED_DISTROS
+Subject: [PATCH 1/3] grub 2.00: add oe's kernel name to the conf file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 14:37:40 -0000
+X-List-Received-Date: Mon, 03 Mar 2014 14:46:00 -0000
 Content-Type: text/plain
 
-With this change, you can use shell like globbing expressions (as
-supported by Python's fnmatch) for entries in SANITY_TESTED_DISTROS.
-This makes it possible to say that, e.g. "all Debian 7 Wheezy releases
-are supported" with the entry "Debian-7.*".
+Our kernel's name is bzImage, we need add it to grub.d/10_linux.in so
+that the grub-mkconfig and grub-install can work correctly on the
+target.
 
-[YOCTO #5265]
-
-Signed-off-by: Olof Johansson <olof.johansson@axis.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/sanity.bbclass | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ .../grub/files/grub-2.00-add-oe-kernel.patch       | 53 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index bae010d..d79db8f 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -246,6 +246,8 @@ def check_connectivity(d):
-     return retval
- 
- def check_supported_distro(sanity_data):
-+    from fnmatch import fnmatch
+diff --git a/meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch b/meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch
+new file mode 100644
+index 0000000..eb8916c
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch
+@@ -0,0 +1,53 @@
++From 7ab576a7c61406b7e63739d1b11017ae336b9008 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Mon, 3 Mar 2014 03:34:48 -0500
++Subject: [PATCH] grub.d/10_linux.in: add oe's kernel name
 +
-     tested_distros = sanity_data.getVar('SANITY_TESTED_DISTROS', True)
-     if not tested_distros:
-         return
-@@ -255,12 +257,15 @@ def check_supported_distro(sanity_data):
-     except Exception:
-         distro = None
- 
--    if distro:
--        if distro not in [x.strip() for x in tested_distros.split('\\n')]:
--            bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
--    else:
-+    if not distro:
-         bb.warn('Host distribution could not be determined; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.')
- 
-+    for supported in [x.strip() for x in tested_distros.split('\\n')]:
-+        if fnmatch(distro, supported):
-+            return
++Our kernel's name is bzImage, we need add it to grub.d/10_linux.in so
++that the grub-mkconfig and grub-install can work correctly.
 +
-+    bb.warn('Host distribution "%s" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.' % distro)
++We only need add the bzImage to util/grub.d/10_linux.in, but also add it
++to util/grub.d/20_linux_xen.in to keep compatibility.
 +
- # Checks we should only make if MACHINE is set correctly
- def check_sanity_validmachine(sanity_data):
-     messages = ""
++Upstream-Status: Inappropriate [OE specific]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ util/grub.d/10_linux.in     |    4 ++--
++ util/grub.d/20_linux_xen.in |    2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
++index 14402e8..c58f417 100644
++--- a/util/grub.d/10_linux.in
+++++ b/util/grub.d/10_linux.in
++@@ -153,11 +153,11 @@ EOF
++ machine=`uname -m`
++ case "x$machine" in
++     xi?86 | xx86_64)
++-	list=`for i in /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
+++	list=`for i in /boot/bzImage-* /bzImage-* /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
++                   if grub_file_is_not_garbage "$i" ; then echo -n "$i " ; fi
++               done` ;;
++     *) 
++-	list=`for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
+++	list=`for i in /boot/bzImage-* /boot/vmlinuz-* /boot/vmlinux-* /bzImage-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
++                   if grub_file_is_not_garbage "$i" ; then echo -n "$i " ; fi
++ 	     done` ;;
++ esac
++diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
++index 1d94502..b2decf3 100644
++--- a/util/grub.d/20_linux_xen.in
+++++ b/util/grub.d/20_linux_xen.in
++@@ -138,7 +138,7 @@ EOF
++ EOF
++ }
++ 
++-linux_list=`for i in /boot/vmlinu[xz]-* /vmlinu[xz]-* /boot/kernel-*; do
+++linux_list=`for i in /boot/bzImage[xz]-* /bzImage[xz]-* /boot/vmlinu[xz]-* /vmlinu[xz]-* /boot/kernel-*; do
++     if grub_file_is_not_garbage "$i"; then
++     	basename=$(basename $i)
++ 	version=$(echo $basename | sed -e "s,^[^0-9]*-,,g")
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+index ff9a7c6..c21031b 100644
+--- a/meta/recipes-bsp/grub/grub_2.00.bb
++++ b/meta/recipes-bsp/grub/grub_2.00.bb
+@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+           file://check-if-liblzma-is-disabled.patch \
+           file://40_custom \
+           file://fix-issue-with-flex-2.5.37.patch \
++          file://grub-2.00-add-oe-kernel.patch \
+           "
+ 
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
 -- 
-1.8.5.3
+1.8.3.1
 
 
