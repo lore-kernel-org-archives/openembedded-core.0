@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 157F26BE7E
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
+	[209.85.160.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 891606A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 20:26:41 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id w61so3828002wes.18
+	Mon,  3 Mar 2014 20:41:41 +0000 (UTC)
+Received: by mail-yk0-f171.google.com with SMTP id q9so11865748ykb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Mar 2014 12:26:42 -0800 (PST)
+	Mon, 03 Mar 2014 12:41:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kd9fDtuStPAwCIhUbonxk02nbIMdEY60bLTF559antc=;
-	b=jblwrB0A4+H5fSuvgTEOWCjRtvYQ/o9iVzwcFX/6y0pPrIoIgqOZ7aRLQ7WuXAJPur
-	oCituBiOO3mRgu4dbOUmZfhXl6Veumh5EFxWCboEK9Dg5zg9aQfYIblAyGCxc8dnY6gB
-	VUAXRrj145m2pCLiAgho3QtwjEg87mJ/bzC7Rlp16SWIyDU8CTs7XukbcIwYnnUT3KS/
-	kuk/6kwkS5UvO8E/ZgHzk6tEuqXsTzVVOa1fOWFYF+Lb+HtuMQIBKXFMgm+Vj9uNtF2e
-	QiQN74gwz/c/xuun7+v/hQUUtwKD6wItilMzX/Zd3gwmzRXeBU2QKYovH8ipM1RwVf06
-	IX3A==
-X-Gm-Message-State: ALoCoQnWrqx3DECoTGbAvQVcj9Ule0j+c6jgdihZ3V8T9TAZB10frFo/PIAvBIpQ0/MAugP8pH4Q
-X-Received: by 10.194.118.228 with SMTP id kp4mr6995034wjb.94.1393878382889;
-	Mon, 03 Mar 2014 12:26:22 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id z1sm40783012wjq.19.2014.03.03.12.26.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Mar 2014 12:26:22 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Mar 2014 20:26:19 +0000
-Message-Id: <1393878379-27866-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] lib/oe: drop custom implementation of oe.path.relative
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=VS/bNC3zB2sRo0TThRdK03+1jI4xAudOrtdCteVLtc8=;
+	b=l5X4ZCoqJXHO4IjgiaFC3MDR3Z+3aRZUSsZdifbYJqdpHvzynI6dYOvHH3jzjlUHlt
+	tad8NPVOxHtEP8qDJvwkQrz5qU732qz0xuiAJcxHvV/FJgposqz8/qCJfb+mb3168Pex
+	0NWFS6h0nc0hxvY9EBY3uDZdIYFiOlKLhwSLElELSDyzaMXJkeD2jlYGEfIuiHaqajk/
+	kEIHVd77uKnExMIY2+2yQNWLfUISPIBLe0Bhl1MQ38MzlZWsRVRjdh1jg8whBuvnVZHj
+	Q2a1tmlhyYtqPB86UMn5+Rn4z2lXPBFXjUm3BjsMlJRf7MvVLz7I4k4ALKct5glz+PKw
+	4szA==
+X-Gm-Message-State: ALoCoQlqq71rkCy7OyNxxErCAt/1uCqvd2TTx85TqX80JGeNUek0CglSi4tHrc4GTVpQ9UQJgWcW
+MIME-Version: 1.0
+X-Received: by 10.236.106.99 with SMTP id l63mr4255748yhg.81.1393879302590;
+	Mon, 03 Mar 2014 12:41:42 -0800 (PST)
+Received: by 10.170.132.148 with HTTP; Mon, 3 Mar 2014 12:41:42 -0800 (PST)
+In-Reply-To: <53105913.6020407@enea.com>
+References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
+	<4343044.DpKneM5m4P@peggleto-mobl5.ger.corp.intel.com>
+	<53105913.6020407@enea.com>
+Date: Mon, 3 Mar 2014 15:41:42 -0500
+Message-ID: <CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +46,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 20:26:42 -0000
+X-List-Received-Date: Mon, 03 Mar 2014 20:41:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-As we now require Python 2.7 and os.path.relpath() was added in 2.6 we can now
-drop the reimplementation in oe.path.
-
-oe.path.relative is simple now a wrapper that changes the order of the arguments
-and it's use discouraged.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/path.py |   18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
-
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 46783f8..413ebfb 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -21,23 +21,7 @@ def relative(src, dest):
-     foo/bar
-     """
- 
--    if hasattr(os.path, "relpath"):
--        return os.path.relpath(dest, src)
--    else:
--        destlist = os.path.normpath(dest).split(os.path.sep)
--        srclist = os.path.normpath(src).split(os.path.sep)
--
--        # Find common section of the path
--        common = os.path.commonprefix([destlist, srclist])
--        commonlen = len(common)
--
--        # Climb back to the point where they differentiate
--        relpath = [ os.path.pardir ] * (len(srclist) - commonlen)
--        if commonlen < len(destlist):
--            # Add remaining portion
--            relpath += destlist[commonlen:]
--
--        return os.path.sep.join(relpath)
-+    return os.path.relpath(dest, src)
- 
- def make_relative_symlink(path):
-     """ Convert an absolute symlink to a relative one """
--- 
-1.7.10.4
-
+Does this resolve issue 5407?
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5407
 
