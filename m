@@ -1,38 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AE5B66F585
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 87F806EA4A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 11:52:41 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id c41so37272eek.8
+	Mon,  3 Mar 2014 14:24:01 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id y10so3258212wgg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Mar 2014 03:52:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0WOH2g9wzk3qjiIJD33cjWO8k4GENMUkZB6S4GRtxzA=;
-	b=eD9rzdGiZh5B/KCNaVa7lAo3txi6vGP7M4JJBsvWNwtF3aVFB8fc3ebb/rFFVkUyqw
-	nyJiFWwwFP2PKWwyiFRr2AOAMhHGtJD9FNODhwTixO+GACrnX6vFX/UezvkwGJ1f6MrW
-	ihHFRM3qkHe5r7hVfzimWq/iIr5NmfkKfrTy5vIjYHr1LJaN9b8KfW+KlkKp4MYFXygD
-	Bh4KqWjwYU10UIjV2c4S33MDX6pyTh/pSPSwSIdX32AihU0d0LTwwdKdNY6sNHlprVq+
-	kEupk0TaVbojdi2xIIjHcv0QJlSs5ROF1vAj5iyCwwGOkvFPfzfK3RWCmQCQ39suXd5P
-	8GDw==
-X-Received: by 10.14.176.195 with SMTP id b43mr5263058eem.99.1393847561603;
-	Mon, 03 Mar 2014 03:52:41 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	a2sm49133081eem.18.2014.03.03.03.52.38 for <multiple recipients>
+	Mon, 03 Mar 2014 06:24:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=TaT9cjNoTmgG2j3X6yf+TCpRkR91uEhklMOhOOHrF8g=;
+	b=KJtNpyXrdyNwqGvL+mYRLBHadwddcsg+AHe3Nm9B/SYUjdjE4TIj/SJnOJyAHieOBw
+	Kg/h0icHJlmUtBXJpfEU0xrLyakzYqDp0a7NrQzpWx1JmdQ3tRfOvCHYaiZmuB2ktIb6
+	ml/dQost+SWxj2h9jkMzh7Uua92b4LyOLJP6WnXGOhz6AcxoUXHbh56pREUZ1lQx+05s
+	V/omRpZYFrlteZInG6C4O5IqgrjGM43v2vk+d/RmbJYhwst4odeLytoslblL4YCRMddv
+	aYLJVA69h5lBSR6i+uaKPvSy2TE7KawtYnUBZPffgzR5KhPHsaVmifPM0tRsrjmAcqyh
+	Zaaw==
+X-Gm-Message-State: ALoCoQlXID0bcP57J3/qrJaelhYYo4zLTQqFqA+r4DziWdRkHBsg/1/fSZmUNIGlMbwr6knitueT
+X-Received: by 10.194.82.69 with SMTP id g5mr6286338wjy.85.1393856309308;
+	Mon, 03 Mar 2014 06:18:29 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id t5sm36019486wjw.15.2014.03.03.06.18.27
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Mar 2014 03:52:40 -0800 (PST)
-Date: Mon, 3 Mar 2014 12:52:38 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140303115238.GP26981@jama>
-References: <1393781961.22581.7.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1393781961.22581.7.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC] bitbake.conf/base.bbclass: Drop PRINC support
+	Mon, 03 Mar 2014 06:18:28 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Mar 2014 14:18:25 +0000
+Message-Id: <1393856305-1517-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] mtdev: upgrade to 1.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,85 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 11:52:44 -0000
-X-Groupsio-MsgNum: 50784
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Y4E6tNLPdzD/Rx2+"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Mar 2014 14:24:03 -0000
 
---Y4E6tNLPdzD/Rx2+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Removed the following patch(es):
+ * fixsepbuild.patch (changes included in release)
 
-On Sun, Mar 02, 2014 at 05:39:21PM +0000, Richard Purdie wrote:
-> PRINC is no longer needed since we have the PR service instead
-> which people should be using. Drop the PRINC code.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../wayland/mtdev/fixsepbuild.patch                |   24 --------------------
+ .../wayland/{mtdev_1.1.4.bb => mtdev_1.1.5.bb}     |    7 +++---
+ 2 files changed, 3 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch
+ rename meta/recipes-graphics/wayland/{mtdev_1.1.4.bb => mtdev_1.1.5.bb} (69%)
 
-Many layers are still using it and there wasn't enough of PV bumps to
-remove them :(.
+diff --git a/meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch b/meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch
+deleted file mode 100644
+index 9895650..0000000
+--- a/meta/recipes-graphics/wayland/mtdev/fixsepbuild.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Some tests do #include  relative to the top-level, so add top_srcdir to the
+-include path as otherwise out-of-tree builds can't find the files.
+-
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- test/Makefile.am |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/test/Makefile.am b/test/Makefile.am
+-index 2b504bd..6688b41 100644
+---- a/test/Makefile.am
+-+++ b/test/Makefile.am
+-@@ -1,7 +1,7 @@
+- noinst_PROGRAMS = mtdev-mapgen mtdev-matching mtdev-kernel
+- bin_PROGRAMS = mtdev-test
+- 
+--AM_CPPFLAGS=-I$(top_srcdir)/include/
+-+AM_CPPFLAGS=-I$(top_srcdir) -I$(top_srcdir)/include/
+- 
+- mtdev_mapgen_SOURCES = mtdev-mapgen.c
+- 
+--- 
+-1.7.10.4
+diff --git a/meta/recipes-graphics/wayland/mtdev_1.1.4.bb b/meta/recipes-graphics/wayland/mtdev_1.1.5.bb
+similarity index 69%
+rename from meta/recipes-graphics/wayland/mtdev_1.1.4.bb
+rename to meta/recipes-graphics/wayland/mtdev_1.1.5.bb
+index 6b38f58..ccd0ebb 100644
+--- a/meta/recipes-graphics/wayland/mtdev_1.1.4.bb
++++ b/meta/recipes-graphics/wayland/mtdev_1.1.5.bb
+@@ -11,9 +11,8 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ea6bd0268bb0fcd6b27698616ceee5d6"
+ 
+-SRC_URI = "http://bitmath.org/code/${BPN}/${BP}.tar.bz2 \
+-           file://fixsepbuild.patch"
+-SRC_URI[md5sum] = "73a915d6075b31db4f08ab8c6d314695"
+-SRC_URI[sha256sum] = "6b59b055ff22f2b91d4284187c2515826c338b81f6f33bd90f6bedc7c1fb9a38"
++SRC_URI = "http://bitmath.org/code/${BPN}/${BP}.tar.bz2"
++SRC_URI[md5sum] = "52c9610b6002f71d1642dc1a1cca5ec1"
++SRC_URI[sha256sum] = "6677d5708a7948840de734d8b4675d5980d4561171c5a8e89e54adf7a13eba7f"
+ 
+ inherit autotools pkgconfig
+-- 
+1.7.10.4
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 3e9051c..3cbf2cb 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -455,18 +455,6 @@ python () {
->          else:
->              appendVar('EXTRA_OECONF', extraconf)
-> =20
-> -    # If PRINC is set, try and increase the PR value by the amount speci=
-fied
-> -    princ =3D d.getVar('PRINC', True)
-> -    if princ and princ !=3D "0":
-> -        pr =3D d.getVar('PR', True)
-> -        pr_prefix =3D re.search("\D+",pr)
-> -        prval =3D re.search("\d+",pr)
-> -        if pr_prefix is None or prval is None:
-> -            bb.error("Unable to analyse format of PR variable: %s" % pr)
-> -        nval =3D int(prval.group(0)) + int(princ)
-> -        pr =3D pr_prefix.group(0) + str(nval) + pr[prval.end():]
-> -        d.setVar('PR', pr)
-> -
->      pn =3D d.getVar('PN', True)
->      license =3D d.getVar('LICENSE', True)
->      if license =3D=3D "INVALID":
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 4879aa2..a4a7107 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -188,7 +188,6 @@ ASSUME_PROVIDED =3D "\
->  PN =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or '=
-defaultpkgname'}"
->  PV =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '=
-1.0'}"
->  PR =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or '=
-r0'}"
-> -PRINC ?=3D "0"
->  PF =3D "${PN}-${EXTENDPE}${PV}-${PR}"
->  EXTENDPE =3D "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
->  P =3D "${PN}-${PV}"
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Y4E6tNLPdzD/Rx2+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMUbQYACgkQN1Ujt2V2gByTeACgtpn8jW0vAEZVgbzpztcwB9k6
-0TYAoI+P0AqYMiv6VSj5ydqsnSxa5uvR
-=zPRw
------END PGP SIGNATURE-----
-
---Y4E6tNLPdzD/Rx2+--
