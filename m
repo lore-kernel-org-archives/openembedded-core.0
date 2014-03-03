@@ -1,26 +1,38 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE6F66F592
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F03A6F4B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 10:56:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s23AuEps001827
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Mar 2014 02:56:14 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 3 Mar 2014 02:56:14 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Mar 2014 18:55:58 +0800
-Message-ID: <f199fec4be58f52db54e6daf2f3161e8b9f60a47.1393839207.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1393839207.git.hongxu.jia@windriver.com>
-References: <cover.1393839207.git.hongxu.jia@windriver.com>
+	Mon,  3 Mar 2014 11:50:29 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id w8so1843629qac.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Mar 2014 03:50:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jIyFZAtVcYzxHbpvJXdqC5FIMkcaHE20x69FTOzhkyI=;
+	b=fGDwKvvlWIrLmUqrL4I0S6RsdYJOMk9Frk9PyRyDf0dMEelQ18oH581J/PThX026R6
+	odWLgQDfYKzAAJ52h2dO/ydtbmuWvuw3nFokLjA+GdJjbEF8VmZw7Rj8rMF8mIz7l4An
+	55wpOrTcZSI5DV8Wm3X5v3KhZRxO7HiW9R2+ijBvKY7p1ue+kldSLrMj08/n2eWZakA1
+	0NrWEnNskTinElDHIBaGv1s+FbibzrZT+hmMHeyx4nQhVspB3q1ZxxA/HWTrCzPWrH+x
+	MYgsXJJQzBwJT0bH5OSjQJIwBL/tsrKVNB7t8Rjq8oxGSmToNQxPenT9Ap2If95tWURg
+	7wMA==
+X-Gm-Message-State: ALoCoQkm2uCSLMm3rKTiSGP/zt9KnOQhtjOCXs6mpuyqgUwN0kAMz3wrGMgojRo03b+t6y5+ANRl
+X-Received: by 10.140.42.54 with SMTP id b51mr21375289qga.87.1393847430431;
+	Mon, 03 Mar 2014 03:50:30 -0800 (PST)
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 2/2] bash: update build-tests.patch
+Received: by 10.140.48.79 with HTTP; Mon, 3 Mar 2014 03:50:09 -0800 (PST)
+In-Reply-To: <26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
+References: <1393612134-15665-1-git-send-email-ross.burton@intel.com>
+	<5313F632.60207@windriver.com>
+	<26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Mar 2014 11:50:09 +0000
+Message-ID: <CAJTo0Lbw5-7JmuHak4-hU35c73LG7CZWmxZ-0kDQ4rDrFDSZmA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ncurses: use ln -r to generate relative symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 10:56:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Mar 2014 11:50:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../bash/{bash-4.2 => bash}/build-tests.patch      | 33 +++++++++++++---------
- 1 file changed, 20 insertions(+), 13 deletions(-)
- rename meta/recipes-extended/bash/{bash-4.2 => bash}/build-tests.patch (51%)
+On 3 March 2014 03:29, Khem Raj <raj.khem@gmail.com> wrote:
+> count debian in too.
 
-diff --git a/meta/recipes-extended/bash/bash-4.2/build-tests.patch b/meta/recipes-extended/bash/bash/build-tests.patch
-similarity index 51%
-rename from meta/recipes-extended/bash/bash-4.2/build-tests.patch
-rename to meta/recipes-extended/bash/bash/build-tests.patch
-index 0360881..73a81b6 100644
---- a/meta/recipes-extended/bash/bash-4.2/build-tests.patch
-+++ b/meta/recipes-extended/bash/bash/build-tests.patch
-@@ -1,29 +1,33 @@
- Add 'ptest' target to Makefile, to run tests without checking dependencies.
- 
--Signed-off-by: Anders Roxell <anders.roxell@enea.com>
- Upstream-Status: Pending
-+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
--diff -uNr a/Makefile.in b/Makefile.in
----- a/Makefile.in	2012-11-06 08:40:07.552403063 +0100
--+++ b/Makefile.in	2012-11-06 11:13:36.958297555 +0100
--@@ -827,20 +827,34 @@
-+ Makefile.in | 24 +++++++++++++++++++-----
-+ 1 file changed, 19 insertions(+), 5 deletions(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -848,20 +848,34 @@ maybe-clean:
-  	fi
-  
-  recho$(EXEEXT):		$(SUPPORT_SRC)recho.c
---	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)recho.c ${LIBS_FOR_BUILD}
--+	@$(CC) $(CCFLAGS) -o $@ $<
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) ${LDFLAGS_FOR_BUILD} -o $@ $(SUPPORT_SRC)recho.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) ${LDFLAGS} -o $@ $<
-  
-  zecho$(EXEEXT):		$(SUPPORT_SRC)zecho.c
---	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)zecho.c ${LIBS_FOR_BUILD}
--+	@$(CC) $(CCFLAGS) -o $@ $<
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) ${LDFLAGS_FOR_BUILD} -o $@ $(SUPPORT_SRC)zecho.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) ${LDFLAGS} -o $@ $<
-  
-  printenv$(EXEEXT):	$(SUPPORT_SRC)printenv.c
---	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)printenv.c ${LIBS_FOR_BUILD}
--+	@$(CC) $(CCFLAGS) -o $@ $<
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) ${LDFLAGS_FOR_BUILD} -o $@ $(SUPPORT_SRC)printenv.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) ${LDFLAGS} -o $@ $<
-  
-  xcase$(EXEEXT):	$(SUPPORT_SRC)xcase.c
---	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)xcase.c ${LIBS_FOR_BUILD}
--+	@$(CC) $(CCFLAGS) -o $@ $<
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) ${LDFLAGS_FOR_BUILD} -o $@ $(SUPPORT_SRC)xcase.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) ${LDFLAGS} -o $@ $<
-  
- -test tests check:	force $(Program) $(TESTS_SUPPORT)
- +test tests check:
-@@ -46,3 +50,6 @@ diff -uNr a/Makefile.in b/Makefile.in
-  	@( cd $(srcdir)/tests && \
-  		PATH=$(BUILD_DIR)/tests:$$PATH THIS_SH=$(THIS_SH) $(SHELL) ${TESTSCRIPT} )
-  
-+-- 
-+1.8.1.2
-+
--- 
-1.8.1.2
+I wrote this patch on Debian stable...
 
+But oh well.
+
+Ross
 
