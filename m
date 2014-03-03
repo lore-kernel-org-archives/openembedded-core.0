@@ -1,38 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F03A6F4B3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AE5B66F585
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 11:50:29 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id w8so1843629qac.26
+	Mon,  3 Mar 2014 11:52:41 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id c41so37272eek.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Mar 2014 03:50:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=jIyFZAtVcYzxHbpvJXdqC5FIMkcaHE20x69FTOzhkyI=;
-	b=fGDwKvvlWIrLmUqrL4I0S6RsdYJOMk9Frk9PyRyDf0dMEelQ18oH581J/PThX026R6
-	odWLgQDfYKzAAJ52h2dO/ydtbmuWvuw3nFokLjA+GdJjbEF8VmZw7Rj8rMF8mIz7l4An
-	55wpOrTcZSI5DV8Wm3X5v3KhZRxO7HiW9R2+ijBvKY7p1ue+kldSLrMj08/n2eWZakA1
-	0NrWEnNskTinElDHIBaGv1s+FbibzrZT+hmMHeyx4nQhVspB3q1ZxxA/HWTrCzPWrH+x
-	MYgsXJJQzBwJT0bH5OSjQJIwBL/tsrKVNB7t8Rjq8oxGSmToNQxPenT9Ap2If95tWURg
-	7wMA==
-X-Gm-Message-State: ALoCoQkm2uCSLMm3rKTiSGP/zt9KnOQhtjOCXs6mpuyqgUwN0kAMz3wrGMgojRo03b+t6y5+ANRl
-X-Received: by 10.140.42.54 with SMTP id b51mr21375289qga.87.1393847430431;
-	Mon, 03 Mar 2014 03:50:30 -0800 (PST)
+	Mon, 03 Mar 2014 03:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0WOH2g9wzk3qjiIJD33cjWO8k4GENMUkZB6S4GRtxzA=;
+	b=eD9rzdGiZh5B/KCNaVa7lAo3txi6vGP7M4JJBsvWNwtF3aVFB8fc3ebb/rFFVkUyqw
+	nyJiFWwwFP2PKWwyiFRr2AOAMhHGtJD9FNODhwTixO+GACrnX6vFX/UezvkwGJ1f6MrW
+	ihHFRM3qkHe5r7hVfzimWq/iIr5NmfkKfrTy5vIjYHr1LJaN9b8KfW+KlkKp4MYFXygD
+	Bh4KqWjwYU10UIjV2c4S33MDX6pyTh/pSPSwSIdX32AihU0d0LTwwdKdNY6sNHlprVq+
+	kEupk0TaVbojdi2xIIjHcv0QJlSs5ROF1vAj5iyCwwGOkvFPfzfK3RWCmQCQ39suXd5P
+	8GDw==
+X-Received: by 10.14.176.195 with SMTP id b43mr5263058eem.99.1393847561603;
+	Mon, 03 Mar 2014 03:52:41 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	a2sm49133081eem.18.2014.03.03.03.52.38 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Mar 2014 03:52:40 -0800 (PST)
+Date: Mon, 3 Mar 2014 12:52:38 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140303115238.GP26981@jama>
+References: <1393781961.22581.7.camel@ted>
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Mon, 3 Mar 2014 03:50:09 -0800 (PST)
-In-Reply-To: <26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
-References: <1393612134-15665-1-git-send-email-ross.burton@intel.com>
-	<5313F632.60207@windriver.com>
-	<26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Mar 2014 11:50:09 +0000
-Message-ID: <CAJTo0Lbw5-7JmuHak4-hU35c73LG7CZWmxZ-0kDQ4rDrFDSZmA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ncurses: use ln -r to generate relative symlink
+In-Reply-To: <1393781961.22581.7.camel@ted>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC] bitbake.conf/base.bbclass: Drop PRINC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,15 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 11:50:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 03 Mar 2014 11:52:44 -0000
+X-Groupsio-MsgNum: 50784
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Y4E6tNLPdzD/Rx2+"
+Content-Disposition: inline
 
-On 3 March 2014 03:29, Khem Raj <raj.khem@gmail.com> wrote:
-> count debian in too.
+--Y4E6tNLPdzD/Rx2+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I wrote this patch on Debian stable...
+On Sun, Mar 02, 2014 at 05:39:21PM +0000, Richard Purdie wrote:
+> PRINC is no longer needed since we have the PR service instead
+> which people should be using. Drop the PRINC code.
 
-But oh well.
+Many layers are still using it and there wasn't enough of PV bumps to
+remove them :(.
 
-Ross
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 3e9051c..3cbf2cb 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -455,18 +455,6 @@ python () {
+>          else:
+>              appendVar('EXTRA_OECONF', extraconf)
+> =20
+> -    # If PRINC is set, try and increase the PR value by the amount speci=
+fied
+> -    princ =3D d.getVar('PRINC', True)
+> -    if princ and princ !=3D "0":
+> -        pr =3D d.getVar('PR', True)
+> -        pr_prefix =3D re.search("\D+",pr)
+> -        prval =3D re.search("\d+",pr)
+> -        if pr_prefix is None or prval is None:
+> -            bb.error("Unable to analyse format of PR variable: %s" % pr)
+> -        nval =3D int(prval.group(0)) + int(princ)
+> -        pr =3D pr_prefix.group(0) + str(nval) + pr[prval.end():]
+> -        d.setVar('PR', pr)
+> -
+>      pn =3D d.getVar('PN', True)
+>      license =3D d.getVar('LICENSE', True)
+>      if license =3D=3D "INVALID":
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 4879aa2..a4a7107 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -188,7 +188,6 @@ ASSUME_PROVIDED =3D "\
+>  PN =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or '=
+defaultpkgname'}"
+>  PV =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '=
+1.0'}"
+>  PR =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or '=
+r0'}"
+> -PRINC ?=3D "0"
+>  PF =3D "${PN}-${EXTENDPE}${PV}-${PR}"
+>  EXTENDPE =3D "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
+>  P =3D "${PN}-${PV}"
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Y4E6tNLPdzD/Rx2+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlMUbQYACgkQN1Ujt2V2gByTeACgtpn8jW0vAEZVgbzpztcwB9k6
+0TYAoI+P0AqYMiv6VSj5ydqsnSxa5uvR
+=zPRw
+-----END PGP SIGNATURE-----
+
+--Y4E6tNLPdzD/Rx2+--
