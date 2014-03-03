@@ -1,29 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F33466F57F
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from tx2outboundpool.messaging.microsoft.com
+	(tx2ehsobe005.messaging.microsoft.com [65.55.88.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 360EC6BD75
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:02:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s23F2bSN020089
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 07:02:37 -0800 (PST)
-Received: from [147.11.119.201] (147.11.119.201) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 3 Mar 2014 07:02:37 -0800
-Message-ID: <5314998B.8050102@windriver.com>
-Date: Mon, 3 Mar 2014 09:02:35 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
+	Mon,  3 Mar 2014 15:28:07 +0000 (UTC)
+Received: from mail121-tx2-R.bigfish.com (10.9.14.235) by
+	TX2EHSOBE011.bigfish.com (10.9.40.31) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 3 Mar 2014 15:28:07 +0000
+Received: from mail121-tx2 (localhost [127.0.0.1])	by
+	mail121-tx2-R.bigfish.com (Postfix) with ESMTP id 7E73F3A015D;
+	Mon,  3 Mar 2014 15:28:07 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 11
+X-BigFish: VS11(z52aesze0eahzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh8275dh1de097h186068hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch1155h)
+Received: from mail121-tx2 (localhost.localdomain [127.0.0.1]) by mail121-tx2
+	(MessageSwitch) id 1393860486108884_5455;
+	Mon,  3 Mar 2014 15:28:06 +0000 (UTC)
+Received: from TX2EHSMHS001.bigfish.com (unknown [10.9.14.241])	by
+	mail121-tx2.bigfish.com (Postfix) with ESMTP id 0B302160218;
+	Mon,  3 Mar 2014 15:28:06 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS001.bigfish.com
+	(10.9.99.101) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Mon, 3 Mar 2014 15:28:05 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Mon, 3 Mar 2014 15:28:05 +0000
+Received: from fsr-ub1264-102.ea.freescale.net
+	(fsr-ub1264-102.ea.freescale.net [10.171.74.5])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s23FRvOj015808;
+	Mon, 3 Mar 2014 08:27:59 -0700
+From: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1393839480.git.laurentiu.palcu@intel.com>
-	<bb06f92710d0567d5019cf13d6c11caa1fc91d32.1393839480.git.laurentiu.palcu@intel.com>
-In-Reply-To: <bb06f92710d0567d5019cf13d6c11caa1fc91d32.1393839480.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 2/2] package_manager.py: RpmPM: don't add smart channel if already added
+Date: Mon, 3 Mar 2014 17:27:55 +0200
+Message-ID: <1393860475-31036-1-git-send-email-alexandru.sardan@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <20140228160857.GL26981@jama>
+References: <20140228160857.GL26981@jama>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] gcc: Enable SPE & AltiVec generation on powepc*linux target.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +54,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 15:02:38 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Mar 2014 15:28:10 -0000
+Content-Type: text/plain
 
-On 3/3/14, 3:43 AM, Laurentiu Palcu wrote:
-> Make sure the channel was not already added, before attempting to add.
->
-> [YOCTO #5890]
+[ADT bug #5761] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=5761
 
-When generating the rootfs/etc/rpm/platform file, the order should be in the 
-order of highest to lowest priority as well.
+Also this patch adds symlinks to libgcc such that a GCC configured
+by passing the target parameter without LIBCEXTENSION and ABIEXTENSION
+specifiers to find the correct startup files from a libgcc configured
+with these variables.
 
-Smart uses this order (via an RPM API) to help determine scores when two 
-packages from repositories at the same priority (with different architectures) 
-are selected.
+(From OE-Core rev: 97f2a81d6796ddaf7bbaab86c2ab9039673c732c)
 
---Mark
+Signed-off-by: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+ ...AltiVec-generation-on-powepc-linux-target.patch |   42 ++++++++++++++++++++
+ meta/recipes-devtools/gcc/libgcc.inc               |   24 ++++++++++-
+ 3 files changed, 66 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->   meta/lib/oe/package_manager.py |    6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 6c133c3..ee42952 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -604,11 +604,11 @@ class RpmPM(PackageManager):
->           # self._invoke_smart('config --set rpm-log-level=debug')
->           # cmd = 'config --set rpm-log-file=/tmp/smart-debug-logfile'
->           # self._invoke_smart(cmd)
-> -
-> +        ch_already_added = []
->           for canonical_arch in platform_extra:
->               arch = canonical_arch.split('-')[0]
->               arch_channel = os.path.join(self.deploy_dir, arch)
-> -            if os.path.exists(arch_channel):
-> +            if os.path.exists(arch_channel) and not arch in ch_already_added:
->                   bb.note('Note: adding Smart channel %s (%s)' %
->                           (arch, channel_priority))
->                   self._invoke_smart('channel --add %s type=rpm-md baseurl=%s -y'
-> @@ -617,6 +617,8 @@ class RpmPM(PackageManager):
->                                      (arch, channel_priority))
->                   channel_priority -= 5
->
-> +                ch_already_added.append(arch)
-> +
->           bb.note('adding Smart RPM DB channel')
->           self._invoke_smart('channel --add rpmsys type=rpm-sys -y')
->
->
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index fdd0c12..f5e583d 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -69,6 +69,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0046-libatomic-deptracking.patch \
+ 	   file://0047-repomembug.patch \
+ 	   file://0048-PR58854_fix_arm_apcs_epilogue.patch \
++	   file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \ 
+ 	  "
+ SRC_URI[md5sum] = "a3d7d63b9cb6b6ea049469a0c4a43c9d"
+ SRC_URI[sha256sum] = "09dc2276c73424bbbfda1dbddc62bbbf900c9f185acf7f3e1d773ce2d7e3cdc8"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-4.8/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+new file mode 100644
+index 0000000..b98f8ff
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+@@ -0,0 +1,42 @@
++From 9e0e19eac2562f73858602fe26e2044eb8b20c47 Mon Sep 17 00:00:00 2001
++From: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
++Date: Wed, 5 Feb 2014 16:52:31 +0200
++Subject: [PATCH] Enable SPE & AltiVec generation on powepc*linux target
++
++When is configured with --target=powerpc-linux, the resulting GCC will 
++not be able to generate code for SPE targets (e500v1/v2).
++GCC configured with --target=powerpc-linuxspe will not be able to
++generate AltiVec instructions (for e6500).
++This patch modifies the configured file such that SPE or AltiVec code
++can be generated when gcc is configured with --target=powerpc-linux.
++The ABI and speciffic instructions can be selected through the
++"-mabi=spe or -mabi=altivec" and the "-mspe or -maltivec" parameters.
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
++---
++ gcc/config.gcc |    7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/gcc/config.gcc b/gcc/config.gcc
++index cb7a94e..d392c2b 100644
++--- a/gcc/config.gcc
+++++ b/gcc/config.gcc
++@@ -2068,7 +2068,12 @@ powerpc-*-rtems*)
++ 	tmake_file="rs6000/t-fprules rs6000/t-rtems t-rtems rs6000/t-ppccomm"
++ 	;;
++ powerpc*-*-linux*)
++-	tm_file="${tm_file} dbxelf.h elfos.h freebsd-spec.h rs6000/sysv4.h"
+++	case ${target} in
+++	    powerpc*-*-linux*spe* | powerpc*-*-linux*altivec*)
+++		tm_file="${tm_file} dbxelf.h elfos.h freebsd-spec.h rs6000/sysv4.h" ;;
+++	    *)
+++		tm_file="${tm_file} dbxelf.h elfos.h freebsd-spec.h rs6000/sysv4.h rs6000/linuxaltivec.h rs6000/linuxspe.h rs6000/e500.h" ;;
+++	esac
++ 	extra_options="${extra_options} rs6000/sysv4.opt"
++ 	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
++ 	case ${target} in
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
+index fe98238..96f1969 100644
+--- a/meta/recipes-devtools/gcc/libgcc.inc
++++ b/meta/recipes-devtools/gcc/libgcc.inc
+@@ -17,7 +17,8 @@ FILES_${PN}-dev = " \
+   ${libdir}/${TARGET_SYS}/${BINV}/32 \
+   ${libdir}/${TARGET_SYS}/${BINV}/x32 \
+   ${libdir}/${TARGET_SYS}/${BINV}/n32 \
+-  ${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
++  ${libdir}/${TARGET_SYS}/${BINV}/libgcc* \
++  ${@base_conditional('TARGET_SYS_NO_EXTENSION', '${TARGET_SYS}', '', '${libdir}/${TARGET_SYS_NO_EXTENSION}', d)}"
+ FILES_libgcov-dev = " \
+   ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
+   "
+@@ -141,3 +142,24 @@ python do_multilib_install() {
+             os.unlink(dest)
+         os.symlink(src, dest)
+ }
++
++addtask extra_symlinks after do_multilib_install before do_package do_populate_sysroot
++python do_extra_symlinks() {
++    targetsysnoext = d.getVar('TARGET_SYS_NO_EXTENSION', True)
++
++    if targetsysnoext != d.getVar('TARGET_SYS', True):
++        dest = d.getVar('D', True) + d.getVar('libdir', True) + '/' + targetsysnoext
++        src = d.getVar('TARGET_SYS', True)
++        if not os.path.lexists(dest) and os.path.lexists(d.getVar('D', True) + d.getVar('libdir', True)):
++            os.symlink(src, dest)
++}
++
++python () {
++    targetsysnoext = d.getVar('TARGET_SYS', True)
++
++    for suffix in [d.getVar('ABIEXTENSION', True), d.getVar('LIBCEXTENSION', True)]:
++        if suffix and targetsysnoext.endswith(suffix):
++            targetsysnoext = targetsysnoext[:-len(suffix)]
++
++    d.setVar('TARGET_SYS_NO_EXTENSION', targetsysnoext)
++}
+-- 
+1.7.9.5
+
 
 
