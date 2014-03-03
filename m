@@ -1,26 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 32AC66F582
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 098D96E76D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 14:45:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s23EjwHG019846
+	Mon,  3 Mar 2014 14:59:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s23ExqOL010322
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 06:45:58 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 3 Mar 2014 06:45:58 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Mar 2014 22:49:49 +0800
-Message-ID: <b3828bf9a42717d8a1732a7469f6f95a4f26f1ae.1393855671.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1393855671.git.liezhi.yang@windriver.com>
-References: <cover.1393855671.git.liezhi.yang@windriver.com>
+	Mon, 3 Mar 2014 06:59:52 -0800 (PST)
+Received: from [147.11.119.201] (147.11.119.201) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 3 Mar 2014 06:59:51 -0800
+Message-ID: <531498E3.1090004@windriver.com>
+Date: Mon, 3 Mar 2014 08:59:47 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Subject: [PATCH 2/3] grub git: add oe's kernel name to the conf file
+To: <openembedded-core@lists.openembedded.org>
+References: <1393781961.22581.7.camel@ted>
+In-Reply-To: <1393781961.22581.7.camel@ted>
+Subject: Re: [PATCH RFC] bitbake.conf/base.bbclass: Drop PRINC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 14:46:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Mar 2014 14:59:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Our kernel's name is bzImage, we need add it to grub.d/10_linux.in so
-that the grub-mkconfig and grub-install can work correctly on the
-target.
+On 3/2/14, 11:39 AM, Richard Purdie wrote:
+> PRINC is no longer needed since we have the PR service instead
+> which people should be using. Drop the PRINC code.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-bsp/grub/grub_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+Will dropping this support break someone who is moving from a prior version of 
+oe-core (i.e. will any of the PRs go backwards?)
 
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 82a25c9..9b5d9bb 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -21,6 +21,7 @@ SRCREV = "0776112c5311196889a15058a3b1be4c81ba5e05"
- SRC_URI = "git://git.savannah.gnu.org/grub.git \
-            file://40_custom \
-            file://autogen.sh-exclude-pc.patch \
-+           file://grub-2.00-add-oe-kernel.patch \
-           "
- 
- S = "${WORKDIR}/git"
--- 
-1.8.3.1
+--Mark
+
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 3e9051c..3cbf2cb 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -455,18 +455,6 @@ python () {
+>           else:
+>               appendVar('EXTRA_OECONF', extraconf)
+>
+> -    # If PRINC is set, try and increase the PR value by the amount specified
+> -    princ = d.getVar('PRINC', True)
+> -    if princ and princ != "0":
+> -        pr = d.getVar('PR', True)
+> -        pr_prefix = re.search("\D+",pr)
+> -        prval = re.search("\d+",pr)
+> -        if pr_prefix is None or prval is None:
+> -            bb.error("Unable to analyse format of PR variable: %s" % pr)
+> -        nval = int(prval.group(0)) + int(princ)
+> -        pr = pr_prefix.group(0) + str(nval) + pr[prval.end():]
+> -        d.setVar('PR', pr)
+> -
+>       pn = d.getVar('PN', True)
+>       license = d.getVar('LICENSE', True)
+>       if license == "INVALID":
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 4879aa2..a4a7107 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -188,7 +188,6 @@ ASSUME_PROVIDED = "\
+>   PN = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or 'defaultpkgname'}"
+>   PV = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '1.0'}"
+>   PR = "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or 'r0'}"
+> -PRINC ?= "0"
+>   PF = "${PN}-${EXTENDPE}${PV}-${PR}"
+>   EXTENDPE = "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
+>   P = "${PN}-${PV}"
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
