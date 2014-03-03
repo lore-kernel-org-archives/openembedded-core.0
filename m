@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D025E6F564
+	by mail.openembedded.org (Postfix) with ESMTP id 125F36F564
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 09:44:42 +0000 (UTC)
+	Mon,  3 Mar 2014 09:44:43 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 03 Mar 2014 01:44:42 -0800
+	by azsmga101.ch.intel.com with ESMTP; 03 Mar 2014 01:44:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,576,1389772800"; d="scan'208";a="484729176"
+X-IronPort-AV: E=Sophos;i="4.97,576,1389772800"; d="scan'208";a="484729179"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2014 01:43:34 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2014 01:43:35 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Mar 2014 11:43:30 +0200
-Message-Id: <0d516ff4d652cf74a5a43106f46321ff52c97900.1393839480.git.laurentiu.palcu@intel.com>
+Date: Mon,  3 Mar 2014 11:43:31 +0200
+Message-Id: <bb06f92710d0567d5019cf13d6c11caa1fc91d32.1393839480.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1393839480.git.laurentiu.palcu@intel.com>
 References: <cover.1393839480.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1393839480.git.laurentiu.palcu@intel.com>
 References: <cover.1393839480.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/2] Revert "lib/oe/package_manager.py: RpmPM: fix issue with multilib builds"
+Subject: [PATCH 2/2] package_manager.py: RpmPM: don't add smart channel if already added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 03 Mar 2014 09:44:43 -0000
 
-Converting a list to a set does not keep the order of the items, as they
-were added, which might result in the wrong packages being installed in
-the final image...
-
-This reverts commit 12f47c23df8c109676f66d580d666a3147f3b046.
+Make sure the channel was not already added, before attempting to add.
 
 [YOCTO #5890]
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/lib/oe/package_manager.py |   13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ meta/lib/oe/package_manager.py |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index ff4f1de..6c133c3 100644
+index 6c133c3..ee42952 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -368,18 +368,19 @@ class RpmPM(PackageManager):
-                                 self.ml_os_list['default'])
- 
-         # List must be prefered to least preferred order
--        default_platform_extra = set()
--        platform_extra = set()
-+        default_platform_extra = list()
-+        platform_extra = list()
-         bbextendvariant = self.d.getVar('BBEXTENDVARIANT', True) or ""
-         for mlib in self.ml_os_list:
-             for arch in self.ml_prefix_list[mlib]:
-                 plt = arch.replace('-', '_') + '-.*-' + self.ml_os_list[mlib]
-                 if mlib == bbextendvariant:
--                        default_platform_extra.add(plt)
-+                    if plt not in default_platform_extra:
-+                        default_platform_extra.append(plt)
-                 else:
--                        platform_extra.add(plt)
+@@ -604,11 +604,11 @@ class RpmPM(PackageManager):
+         # self._invoke_smart('config --set rpm-log-level=debug')
+         # cmd = 'config --set rpm-log-file=/tmp/smart-debug-logfile'
+         # self._invoke_smart(cmd)
 -
--        platform_extra = platform_extra.union(default_platform_extra)
-+                    if plt not in platform_extra:
-+                        platform_extra.append(plt)
-+        platform_extra = default_platform_extra + platform_extra
++        ch_already_added = []
+         for canonical_arch in platform_extra:
+             arch = canonical_arch.split('-')[0]
+             arch_channel = os.path.join(self.deploy_dir, arch)
+-            if os.path.exists(arch_channel):
++            if os.path.exists(arch_channel) and not arch in ch_already_added:
+                 bb.note('Note: adding Smart channel %s (%s)' %
+                         (arch, channel_priority))
+                 self._invoke_smart('channel --add %s type=rpm-md baseurl=%s -y'
+@@ -617,6 +617,8 @@ class RpmPM(PackageManager):
+                                    (arch, channel_priority))
+                 channel_priority -= 5
  
-         self._create_configs(platform, platform_extra)
++                ch_already_added.append(arch)
++
+         bb.note('adding Smart RPM DB channel')
+         self._invoke_smart('channel --add rpmsys type=rpm-sys -y')
  
 -- 
 1.7.9.5
