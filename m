@@ -1,25 +1,38 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 7E73E6F57B
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AF986EFA9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 08:54:30 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Mon, 3 Mar 2014
-	09:54:27 +0100
-Message-ID: <53144333.8020509@enea.com>
-Date: Mon, 3 Mar 2014 09:54:11 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Mon,  3 Mar 2014 09:07:37 +0000 (UTC)
+Received: by mail-la0-f41.google.com with SMTP id gl10so4428017lab.14
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Mar 2014 01:07:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=kkAqXkiGRnCTKCck2IrNK07GAnIkv3fJBIottrYIrdQ=;
+	b=d+UdwsqA06psd5EjWmvKxYrSJVMG45bkcRODscz4q+W06n+M3qBqee/iv0tQWrbaJi
+	HtNx7DmtUSk9KUg7SAKe++g+lLL4LH6ZFSdQ6a1/yLEejeLrMgPPzjbX4vSQMwlOMJ09
+	VQcLpUaZwpOU3hz37Qg+6enabjh91upOaRSM3SQKg9W2CFalNNUHj3Sib8LNm1PKZqfX
+	bucfsidGoO8maFoeHfl5XSQPuLeOBl2P9DD496sZF9/Hz1ODYcZeOu10F5J2RaaawfaY
+	+r+5ij2MzUJTVigBFPqwbBFc9BnzCnPAXnVyb9oSeIxoRlfqImxHijuB+3q7UB1FEhSp
+	m3qw==
+X-Gm-Message-State: ALoCoQlDvkM96W56Wgqsb8nI+C8UOEUrWtbLoZqtBgtON2fGkXy52BSvWayP9Eeu4W5eRsA5B2gH
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1393507701-22512-1-git-send-email-david.nystrom@enea.com>	<20140227142404.GB3534@lpalcu-linux>	<530F4D46.1060401@enea.com>	<20140227151815.GC3534@lpalcu-linux>	<530F9913.4080704@gmail.com>
-	<CAP9ODKpqMHG239UczMVLhiGEhvz_X6ppuiV_yD2pEvjzP510sw@mail.gmail.com>
-In-Reply-To: <CAP9ODKpqMHG239UczMVLhiGEhvz_X6ppuiV_yD2pEvjzP510sw@mail.gmail.com>
-X-Originating-IP: [172.16.141.133]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] Attempt to unify predefined package feed handling
+X-Received: by 10.152.5.229 with SMTP id v5mr22375947lav.11.1393837657517;
+	Mon, 03 Mar 2014 01:07:37 -0800 (PST)
+Received: by 10.112.91.227 with HTTP; Mon, 3 Mar 2014 01:07:37 -0800 (PST)
+In-Reply-To: <26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
+References: <1393612134-15665-1-git-send-email-ross.burton@intel.com>
+	<5313F632.60207@windriver.com>
+	<26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
+Date: Mon, 3 Mar 2014 11:07:37 +0200
+Message-ID: <CAGNsrLBuZdSP1+UP3xf_AzcpnmUdmSWXN11+ZdDRW-6c9tETKQ@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ncurses: use ln -r to generate relative symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +45,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 08:54:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Mar 2014 09:07:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2014-03-01 19:10, Otavio Salvador wrote:
-> Hello David,
+Same here, daily build failed.
+
+Builders are using latest Ubuntu LTS shipped with coreutils 8.13 version.
+--relative is introduced in coreutils 8.16:
+http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=commit;h=15b8318e93a947d1422e9a927f699eda1085cf0d
+
+On 3 March 2014 05:29, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On Thu, Feb 27, 2014 at 4:59 PM, David Nystr=F6m <david.c.nystrom@gmail.c=
-om>wrote:
+> On Mar 2, 2014, at 7:25 PM, Lu Chong <Chong.Lu@windriver.com> wrote:
 >
 >>
->> On 2014-02-27 16:18, Laurentiu Palcu wrote:
->>
->>> On Thu, Feb 27, 2014 at 03:35:50PM +0100, David Nystr=F6m wrote:
+>> On 03/01/2014 02:28 AM, Ross Burton wrote:
+>>> Instead of using a Python do_install() and calling
+>>> oe.path.make_relative_symlink, just pass -r to ln to generate a relative symlink
+>>> directly.
 >>>
->>>> On 2014-02-27 15:24, Laurentiu Palcu wrote:
->>>>
->>>>> Hi David,
->>>>>
->>>>> My comments/questions below.
->>>>>
->>>> Thank you for your detailed comments on the RFC.
->>>> I will return with V2, where your comments are addressed when the
->>>> general approach is Acked.
->>>>
->>>> What do you think about the general approach ?
->>>>
->>> I think the approach is ok. I don't know a simpler way than this to add
->>> package feeds into the image.
+>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>> ---
+>>>  meta/recipes-core/ncurses/ncurses.inc |   10 ++--------
+>>>  1 file changed, 2 insertions(+), 8 deletions(-)
 >>>
+>>> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+>>> index a94466a..835ecc3 100644
+>>> --- a/meta/recipes-core/ncurses/ncurses.inc
+>>> +++ b/meta/recipes-core/ncurses/ncurses.inc
+>>> @@ -147,12 +147,7 @@ _install_cfgs = "\
+>>>    PKG_CONFIG_LIBDIR='${libdir}/pkgconfig' \
+>>>  "
+>>>  -python do_install () {
+>>> -    bb.build.exec_func("shell_do_install", d)
+>>> -    oe.path.make_relative_symlink(d.expand("${D}${libdir}/libtinfo.so"))
+>>> -}
+>>> -
+>>> -shell_do_install() {
+>>> +do_install() {
+>>>          # Order of installation is important; widec installs a 'curses.h'
+>>>          # header with more definitions and must be installed last hence.
+>>>          # Compatibility of these headers will be checked in 'do_test()'.
+>>> @@ -226,8 +221,7 @@ shell_do_install() {
+>>>                mv ${D}${libdir}/libtinfo.so.* ${D}${base_libdir}
+>>>              rm ${D}${libdir}/libtinfo.so
+>>> -            # We'll turn this into a relative symlink after do_install returns
+>>> -            ln -sf ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinfo.so
+>>> +            ln -rsf ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinfo.so
+>> Hi Ross,
 >>
->> OK, there seems to be no screaming objections from other parties either.
+>> In Ubuntu 12.04, `ln' command doesn't have '-r' option.
+>> we will get following error during building ncurses
+>>    ln: invalid option -- 'r'
+>
+>
+> count debian in too.
+>
 >>
->> I'll resend v2
+>> Best Regards
+>> Chong
+>>>          fi
+>>>            oe_multilib_header curses.h
 >>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> I understand why you are adding this here but I think it'd be good to the
-> settings to be put in a package so in a product we may add extra
-> repositories updating the package.
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Good point.
-
-> I am trying to think now how this could be done (or optionally done).
->
-> What you think?
-
-Yes, how would we determine the repo subdirs for a specific machine=20
-without too much
-anonymous python magic in a recipe, considering multilib setups?
-
-Example for qemux86-64:
---=20
-all
-x86_64 =3D ${TARGET_ARCH}
-core2-64 =3D ${??}
-qemu86_64 =3D ${MACHINE}
---=20
-
-If we can get a sane way to retrieve them, modifying the repo feeds via=20
-install/postinstall should be the easy part.
 
 
-> Other point, PACKAGE_FEED_URIS could be change to PACKAGE_FEED_URI as it
-> matches SRC_URI for example.
-
-Agreed.
-
+-- 
+Fathi Boudra
+Builds and Baselines Manager | Release Manager
+Linaro.org | Open source software for ARM SoCs
 
