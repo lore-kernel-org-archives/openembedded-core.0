@@ -1,24 +1,25 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DD376F57D
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 7E73E6F57B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 08:39:19 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 03 Mar 2014 00:39:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,576,1389772800"; d="scan'208";a="484702075"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2014 00:38:47 -0800
-Date: Mon, 3 Mar 2014 10:38:46 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Stefan Agner <stefan@agner.ch>
-Message-ID: <20140303083846.GA3698@lpalcu-linux>
-References: <9362603aca1b9e36631265991dc556a5@agner.ch>
+	Mon,  3 Mar 2014 08:54:30 +0000 (UTC)
+Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Mon, 3 Mar 2014
+	09:54:27 +0100
+Message-ID: <53144333.8020509@enea.com>
+Date: Mon, 3 Mar 2014 09:54:11 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-In-Reply-To: <9362603aca1b9e36631265991dc556a5@agner.ch>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: relocate_sdk.py: Possible bug, /lib64/ld-linux-x86-64.so.2 not relocated
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1393507701-22512-1-git-send-email-david.nystrom@enea.com>	<20140227142404.GB3534@lpalcu-linux>	<530F4D46.1060401@enea.com>	<20140227151815.GC3534@lpalcu-linux>	<530F9913.4080704@gmail.com>
+	<CAP9ODKpqMHG239UczMVLhiGEhvz_X6ppuiV_yD2pEvjzP510sw@mail.gmail.com>
+In-Reply-To: <CAP9ODKpqMHG239UczMVLhiGEhvz_X6ppuiV_yD2pEvjzP510sw@mail.gmail.com>
+X-Originating-IP: [172.16.141.133]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] Attempt to unify predefined package feed handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 08:39:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Mar 2014 08:54:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stefan,
+On 2014-03-01 19:10, Otavio Salvador wrote:
+> Hello David,
+>
+> On Thu, Feb 27, 2014 at 4:59 PM, David Nystr=F6m <david.c.nystrom@gmail.c=
+om>wrote:
+>
+>>
+>> On 2014-02-27 16:18, Laurentiu Palcu wrote:
+>>
+>>> On Thu, Feb 27, 2014 at 03:35:50PM +0100, David Nystr=F6m wrote:
+>>>
+>>>> On 2014-02-27 15:24, Laurentiu Palcu wrote:
+>>>>
+>>>>> Hi David,
+>>>>>
+>>>>> My comments/questions below.
+>>>>>
+>>>> Thank you for your detailed comments on the RFC.
+>>>> I will return with V2, where your comments are addressed when the
+>>>> general approach is Acked.
+>>>>
+>>>> What do you think about the general approach ?
+>>>>
+>>> I think the approach is ok. I don't know a simpler way than this to add
+>>> package feeds into the image.
+>>>
+>>
+>> OK, there seems to be no screaming objections from other parties either.
+>>
+>> I'll resend v2
+>>
+>
+> I understand why you are adding this here but I think it'd be good to the
+> settings to be put in a package so in a product we may add extra
+> repositories updating the package.
+>
 
-On Sat, Mar 01, 2014 at 03:28:09PM +0100, Stefan Agner wrote:
-> Hi,
-> 
-> Using top of dylan branch, I generated a SDK using bitbake
-> meta-toolchain. I'm running Arch Linux, but I also see similar issues on
-> Ubuntu 12.04.4 LTS:
-> 
-> Some binaries segfault when running them. I discovered, that the dynamic
-> linker of the host is used:
-> $ ldd
-> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
-> linux-vdso.so.1 (0x00007fffc8f11000)
-> libc.so.6 =>
-> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/../../../lib/libc.so.6
-> (0x00007f4d85eb1000)
-> /lib64/ld-linux-x86-64.so.2 (0x00007f4d8625f000)
-> 
-> When forcing the dynamic linker of the SDK, the binary works:
-> $
-> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
-> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
-> arm-angstrom-linux-gnueabi-gcc: fatal error: no input files
-> compilation terminated.
-> 
-> Digging around I found this commit by Jason:
-> 3752a9c6d772b39bbe04d62ef4d3527b4c7198c1
-> relocate_sdk.py: Fix corruption of sdk binaries
-> 
-> It changes the behavior and don't relocates stuff which start with
-> /lib64.
-This is the correct behavior. We shouldn't relocate binaries that use
-host's dynamic loader.
+Good point.
 
-> When I install the SDK with -S (copy the relocate scripts), and
-> remove the condition around line 95, the binaries work as expected. 
-Can you please run the installer script with "-R" so it doesn't perform
-any relocation on binaries, and then:
+> I am trying to think now how this could be done (or optionally done).
+>
+> What you think?
 
-readelf -p ".interp" /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+Yes, how would we determine the repo subdirs for a specific machine=20
+without too much
+anonymous python magic in a recipe, considering multilib setups?
 
-It looks like the default dynamic loader path of the toolchain binaries
-start with /lib* or /usr/lib* which is not quite right... It should be:
-${SDKPATH}/sysroots/${SDK_SYS}.
+Example for qemux86-64:
+--=20
+all
+x86_64 =3D ${TARGET_ARCH}
+core2-64 =3D ${??}
+qemu86_64 =3D ${MACHINE}
+--=20
 
-laurentiu
+If we can get a sane way to retrieve them, modifying the repo feeds via=20
+install/postinstall should be the easy part.
+
+
+> Other point, PACKAGE_FEED_URIS could be change to PACKAGE_FEED_URI as it
+> matches SRC_URI for example.
+
+Agreed.
+
 
