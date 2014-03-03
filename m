@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1260A6BD75
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C8156F57A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:52:15 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s23FqB9O021693 for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 15:52:11 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dkiNQ19_93Wb
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:52:11 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s23Fq7Nm021687
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 15:52:08 GMT
-Message-ID: <1393861919.31845.19.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 03 Mar 2014 15:51:59 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] openjade: Fix configure assumptions about file moves
+	Mon,  3 Mar 2014 16:37:03 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Mar 2014 08:32:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,578,1389772800"; d="scan'208";a="465587406"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by orsmga001.jf.intel.com with ESMTP; 03 Mar 2014 08:36:42 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Mar 2014 18:36:38 +0200
+Message-Id: <cover.1393864497.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] image.py, rootfs.py, package_manager.py: redirect stderr to stdout when calling check_output()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 15:52:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Mar 2014 16:37:03 -0000
 
-This means that do_configure prefunc code can see the files in question
-and ensures aclocal files get copied in.
+The following changes since commit 54c2e993ec129563c7ae9f3fdee74ab60da28698:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index 9dbd442..ccce421 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -42,9 +42,10 @@ SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
- SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
- 
- # configure.in needs to be reloacted to trigger reautoconf
--do_configure_prepend () {
-+do_extraunpack () {
- 	cp ${S}/config/configure.in ${S}/
- }
-+addtask extraunpack after do_patch before do_configure
- 
- # We need to do this else the source interdependencies aren't generated and
- # build failures can result (e.g. zero size style/Makefile.dep file)
+  bsps: update H/W reference boards to v3.10.32 (2014-03-02 17:25:30 +0000)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b5902_errors_not_displayed
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b5902_errors_not_displayed
+
+Laurentiu Palcu (1):
+  image.py, rootfs.py, package_manager.py: redirect stderr to stdout
+    when calling check_output()
+
+ meta/lib/oe/image.py           |    2 +-
+ meta/lib/oe/package_manager.py |   48 +++++++++++++++++++++-------------------
+ meta/lib/oe/rootfs.py          |    2 +-
+ 3 files changed, 27 insertions(+), 25 deletions(-)
+
+-- 
+1.7.9.5
 
 
