@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 607D26F584
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DD376F57D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 08:27:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s238RqOw010336
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Mar 2014 00:27:52 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 3 Mar 2014 00:27:52 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Mar 2014 16:27:32 +0800
-Message-ID: <0e2e1178c038894f7511df7fdaf266cb546d4535.1393835059.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1393835059.git.hongxu.jia@windriver.com>
-References: <cover.1393835059.git.hongxu.jia@windriver.com>
+	Mon,  3 Mar 2014 08:39:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 03 Mar 2014 00:39:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,576,1389772800"; d="scan'208";a="484702075"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2014 00:38:47 -0800
+Date: Mon, 3 Mar 2014 10:38:46 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Stefan Agner <stefan@agner.ch>
+Message-ID: <20140303083846.GA3698@lpalcu-linux>
+References: <9362603aca1b9e36631265991dc556a5@agner.ch>
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 3/3] ppp: drop if_pppol2tp.h patches
+In-Reply-To: <9362603aca1b9e36631265991dc556a5@agner.ch>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: relocate_sdk.py: Possible bug, /lib64/ld-linux-x86-64.so.2 not relocated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,163 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 08:27:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Mar 2014 08:39:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The old version of Linux if_pppol2tp.h was removed, so droped the
-related patches.
+Hi Stefan,
 
-Here is the commit from git://github.com/paulusmack/ppp.git
-...
-commit c41092dd4c49267f232f6cba3d31c6c68bfdf68d
-Author: Paul Mackerras <paulus@samba.org>
-Date:   Sun May 20 16:48:17 2012 +1000
+On Sat, Mar 01, 2014 at 03:28:09PM +0100, Stefan Agner wrote:
+> Hi,
+> 
+> Using top of dylan branch, I generated a SDK using bitbake
+> meta-toolchain. I'm running Arch Linux, but I also see similar issues on
+> Ubuntu 12.04.4 LTS:
+> 
+> Some binaries segfault when running them. I discovered, that the dynamic
+> linker of the host is used:
+> $ ldd
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+> linux-vdso.so.1 (0x00007fffc8f11000)
+> libc.so.6 =>
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/../../../lib/libc.so.6
+> (0x00007f4d85eb1000)
+> /lib64/ld-linux-x86-64.so.2 (0x00007f4d8625f000)
+> 
+> When forcing the dynamic linker of the SDK, the binary works:
+> $
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+> arm-angstrom-linux-gnueabi-gcc: fatal error: no input files
+> compilation terminated.
+> 
+> Digging around I found this commit by Jason:
+> 3752a9c6d772b39bbe04d62ef4d3527b4c7198c1
+> relocate_sdk.py: Fix corruption of sdk binaries
+> 
+> It changes the behavior and don't relocates stuff which start with
+> /lib64.
+This is the correct behavior. We shouldn't relocate binaries that use
+host's dynamic loader.
 
-Remove old version of Linux if_pppol2tp.h
+> When I install the SDK with -S (copy the relocate scripts), and
+> remove the condition around line 95, the binaries work as expected. 
+Can you please run the installer script with "-R" so it doesn't perform
+any relocation on binaries, and then:
 
-This has been in the Linux kernel source now for long enough that we
-can rely on getting a usable version from /usr/include on all
-distributions that we care about.  The version we have here had started
-to lag behind what is in the Linux kernel, causing compilation errors
-due to struct pppol2tpv3_addr being undefined.  Removing our local
-version means we will use what is in /usr/include instead.
-...
+readelf -p ".interp" /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...1-ppp-Add-two-structures-in-if_pppol2tp.h.patch | 60 ----------------------
- .../ppp/ppp-2.4.5/update_if_pppol2tp.patch         | 54 -------------------
- 2 files changed, 114 deletions(-)
- delete mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
- delete mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
+It looks like the default dynamic loader path of the toolchain binaries
+start with /lib* or /usr/lib* which is not quite right... It should be:
+${SDKPATH}/sysroots/${SDK_SYS}.
 
-diff --git a/meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch b/meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
-deleted file mode 100644
-index 33b200a..0000000
---- a/meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From 17ffc69db08c809c069e73aa2f2ed2ce02df5fa8 Mon Sep 17 00:00:00 2001
--From: Lu Chong <Chong.Lu@windriver.com>
--Date: Sat, 2 Nov 2013 14:34:24 +0800
--Subject: [PATCH] ppp: Add two structures in if_pppol2tp.h
--
--Some further structure definitions are needed in include/linux/if_pppol2tp.h for IPv6 support.
--
--Upstream-Status: Pending
--
--Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
-----
-- include/linux/if_pppol2tp.h |   25 +++++++++++++++++++++++++
-- 1 file changed, 25 insertions(+)
--
--diff --git a/include/linux/if_pppol2tp.h b/include/linux/if_pppol2tp.h
--index 7ee86b2..9d626d1 100644
----- a/include/linux/if_pppol2tp.h
--+++ b/include/linux/if_pppol2tp.h
--@@ -32,6 +32,20 @@ struct pppol2tp_addr {
-- 	__u16 d_tunnel, d_session;	/* For sending outgoing packets */
-- };
-- 
--+/* Structure used to connect() the socket to a particular tunnel UDP
--+ * socket over IPv6.
--+ */
--+struct pppol2tpin6_addr {
--+        __kernel_pid_t  pid;            /* pid that owns the fd.
--+                                         * 0 => current */
--+        int     fd;                     /* FD of UDP socket to use */
--+
--+        __u16 s_tunnel, s_session;      /* For matching incoming packets */
--+        __u16 d_tunnel, d_session;      /* For sending outgoing packets */
--+
--+        struct sockaddr_in6 addr;       /* IP address and port to send to */
--+};
--+
-- /* The L2TPv3 protocol changes tunnel and session ids from 16 to 32
--  * bits. So we need a different sockaddr structure.
--  */
--@@ -46,6 +60,17 @@ struct pppol2tpv3_addr {
-- 	__u32 d_tunnel, d_session;	/* For sending outgoing packets */
-- };
-- 
--+struct pppol2tpv3in6_addr {
--+        __kernel_pid_t  pid;            /* pid that owns the fd.
--+                                         * 0 => current */
--+        int     fd;                     /* FD of UDP or IP socket to use */
--+
--+        __u32 s_tunnel, s_session;      /* For matching incoming packets */
--+        __u32 d_tunnel, d_session;      /* For sending outgoing packets */
--+
--+        struct sockaddr_in6 addr;       /* IP address and port to send to */
--+};
--+
-- /* Socket options:
--  * DEBUG	- bitmask of debug message categories
--  * SENDSEQ	- 0 => don't send packets with sequence numbers
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch b/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
-deleted file mode 100644
-index e034f19..0000000
---- a/meta/recipes-connectivity/ppp/ppp-2.4.5/update_if_pppol2tp.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--Upstream-Status: Pending
--diff --git a/include/linux/if_pppol2tp.h b/include/linux/if_pppol2tp.h
--index 4113d6a..7ee86b2 100644
----- a/include/linux/if_pppol2tp.h
--+++ b/include/linux/if_pppol2tp.h
--@@ -2,7 +2,7 @@
--  * Linux PPP over L2TP (PPPoL2TP) Socket Implementation (RFC 2661)
--  *
--  * This file supplies definitions required by the PPP over L2TP driver
--- * (pppol2tp.c).  All version information wrt this file is located in pppol2tp.c
--+ * (l2tp_ppp.c).  All version information wrt this file is located in l2tp_ppp.c
--  *
--  * License:
--  *		This program is free software; you can redistribute it and/or
--@@ -15,14 +15,14 @@
-- #ifndef __LINUX_IF_PPPOL2TP_H
-- #define __LINUX_IF_PPPOL2TP_H
-- 
---#include <asm/types.h>
--+#include <linux/types.h>
--+
-- 
-- /* Structure used to connect() the socket to a particular tunnel UDP
--  * socket.
--  */
---struct pppol2tp_addr
---{
---	pid_t	pid;			/* pid that owns the fd.
--+struct pppol2tp_addr {
--+	__kernel_pid_t	pid;		/* pid that owns the fd.
-- 					 * 0 => current */
-- 	int	fd;			/* FD of UDP socket to use */
-- 
--@@ -32,6 +32,20 @@ struct pppol2tp_addr
-- 	__u16 d_tunnel, d_session;	/* For sending outgoing packets */
-- };
-- 
--+/* The L2TPv3 protocol changes tunnel and session ids from 16 to 32
--+ * bits. So we need a different sockaddr structure.
--+ */
--+struct pppol2tpv3_addr {
--+	pid_t	pid;			/* pid that owns the fd.
--+					 * 0 => current */
--+	int	fd;			/* FD of UDP or IP socket to use */
--+
--+	struct sockaddr_in addr;	/* IP address and port to send to */
--+
--+	__u32 s_tunnel, s_session;	/* For matching incoming packets */
--+	__u32 d_tunnel, d_session;	/* For sending outgoing packets */
--+};
--+
-- /* Socket options:
--  * DEBUG	- bitmask of debug message categories
--  * SENDSEQ	- 0 => don't send packets with sequence numbers
--- 
-1.8.1.2
-
+laurentiu
 
