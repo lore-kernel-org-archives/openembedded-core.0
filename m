@@ -1,24 +1,24 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 125F36F564
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD8306F594
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 09:44:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 03 Mar 2014 01:44:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,576,1389772800"; d="scan'208";a="484729179"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2014 01:43:35 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Mar 2014 11:43:31 +0200
-Message-Id: <bb06f92710d0567d5019cf13d6c11caa1fc91d32.1393839480.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1393839480.git.laurentiu.palcu@intel.com>
-References: <cover.1393839480.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1393839480.git.laurentiu.palcu@intel.com>
-References: <cover.1393839480.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 2/2] package_manager.py: RpmPM: don't add smart channel if already added
+	Mon,  3 Mar 2014 10:56:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s23Au9mr001818
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Mar 2014 02:56:09 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 3 Mar 2014 02:56:09 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 3 Mar 2014 18:55:56 +0800
+Message-ID: <cover.1393839207.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/2] bash: upgrade to 4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 09:44:43 -0000
+X-List-Received-Date: Mon, 03 Mar 2014 10:56:13 -0000
+Content-Type: text/plain
 
-Make sure the channel was not already added, before attempting to add.
+The following changes since commit 54c2e993ec129563c7ae9f3fdee74ab60da28698:
 
-[YOCTO #5890]
+  bsps: update H/W reference boards to v3.10.32 (2014-03-02 17:25:30 +0000)
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/lib/oe/package_manager.py |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 6c133c3..ee42952 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -604,11 +604,11 @@ class RpmPM(PackageManager):
-         # self._invoke_smart('config --set rpm-log-level=debug')
-         # cmd = 'config --set rpm-log-file=/tmp/smart-debug-logfile'
-         # self._invoke_smart(cmd)
--
-+        ch_already_added = []
-         for canonical_arch in platform_extra:
-             arch = canonical_arch.split('-')[0]
-             arch_channel = os.path.join(self.deploy_dir, arch)
--            if os.path.exists(arch_channel):
-+            if os.path.exists(arch_channel) and not arch in ch_already_added:
-                 bb.note('Note: adding Smart channel %s (%s)' %
-                         (arch, channel_priority))
-                 self._invoke_smart('channel --add %s type=rpm-md baseurl=%s -y'
-@@ -617,6 +617,8 @@ class RpmPM(PackageManager):
-                                    (arch, channel_priority))
-                 channel_priority -= 5
- 
-+                ch_already_added.append(arch)
-+
-         bb.note('adding Smart RPM DB channel')
-         self._invoke_smart('channel --add rpmsys type=rpm-sys -y')
- 
+  git://git.pokylinux.org/poky-contrib hongxu/bash
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/bash
+
+Hongxu Jia (2):
+  bash: upgrade to 4.3
+  bash: update build-tests.patch
+
+ .../bash/{bash-4.2 => bash}/build-tests.patch      | 33 ++++++++------
+ .../bash/{bash-4.2 => bash}/execute_cmd.patch      |  0
+ .../mkbuiltins_have_stringize.patch                |  0
+ .../bash/{bash-4.2 => bash}/run-ptest              |  0
+ .../bash/{bash-4.2 => bash}/test-output.patch      |  0
+ meta/recipes-extended/bash/bash_4.2.bb             | 50 ----------------------
+ meta/recipes-extended/bash/bash_4.3.bb             | 18 ++++++++
+ 7 files changed, 38 insertions(+), 63 deletions(-)
+ rename meta/recipes-extended/bash/{bash-4.2 => bash}/build-tests.patch (51%)
+ rename meta/recipes-extended/bash/{bash-4.2 => bash}/execute_cmd.patch (100%)
+ rename meta/recipes-extended/bash/{bash-4.2 => bash}/mkbuiltins_have_stringize.patch (100%)
+ rename meta/recipes-extended/bash/{bash-4.2 => bash}/run-ptest (100%)
+ rename meta/recipes-extended/bash/{bash-4.2 => bash}/test-output.patch (100%)
+ delete mode 100644 meta/recipes-extended/bash/bash_4.2.bb
+ create mode 100644 meta/recipes-extended/bash/bash_4.3.bb
+
 -- 
-1.7.9.5
+1.8.1.2
 
 
