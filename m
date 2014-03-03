@@ -1,26 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D491F6E74C
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C9E266EFC3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Mar 2014 20:53:28 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Mar 2014 12:53:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,573,1389772800"; d="scan'208";a="490934769"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.120.49])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Mar 2014 12:53:27 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun, 02 Mar 2014 20:53:26 +0000
-Message-ID: <2434502.a14tfVEIXy@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.2 (Linux/3.13.4-200.fc20.x86_64; KDE/4.12.2; x86_64; ; )
-In-Reply-To: <1393782102.22581.9.camel@ted>
-References: <1393782102.22581.9.camel@ted>
+	Mon,  3 Mar 2014 03:25:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s233PgFk014698
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 2 Mar 2014 19:25:42 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Sun, 2 Mar 2014 19:25:41 -0800
+Message-ID: <5313F632.60207@windriver.com>
+Date: Mon, 3 Mar 2014 11:25:38 +0800
+From: Lu Chong <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] acpica: Add recipe for latest version
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1393612134-15665-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1393612134-15665-1-git-send-email-ross.burton@intel.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH] ncurses: use ln -r to generate relative symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Mar 2014 20:53:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Mar 2014 03:25:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sunday 02 March 2014 17:41:42 Richard Purdie wrote:
-> This is now used by multiple architectures and is useful when working
-> with firmware. I'd love to see more BSPs shipping working firmware
-> builds and this should bring us a step closer to that.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
+
+On 03/01/2014 02:28 AM, Ross Burton wrote:
+> Instead of using a Python do_install() and calling
+> oe.path.make_relative_symlink, just pass -r to ln to generate a relative symlink
+> directly.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
-> diff --git a/meta/recipes-bsp/acpica/acpica_20140114.bb
-> b/meta/recipes-bsp/acpica/acpica_20140114.bb new file mode 100644
-> index 0000000..584023d
-> --- /dev/null
-> +++ b/meta/recipes-bsp/acpica/acpica_20140114.bb
-> @@ -0,0 +1,16 @@
-> +SRC_URI =
-> "http://acpica.org/sites/acpica/files/acpica-unix2-20140114.tar.gz"
-> +LICENSE = "GPLv2.0 | ACPICA"
-> +LIC_FILES_CHKSUM =
-> "file://source/include/acpi.h;endline=42;md5=23044abac8549f92999615207f2b8f
-> 56" +
-> +S = "${WORKDIR}/acpica-unix2-${PV}/"
-> +
-> +EXTRA_OEMAKE = "CC='${CC}'"
-> +
-> +do_install () {
-> +	oe_runmake install DESTDIR='${D}' INSTALLFLAGS='-m 555'
-> INSTALLDIR=${bindir} +}
-> +
-> +SRC_URI[md5sum] = "fcd4b7304f1bfabc7d4b9cfdecc6b0c6"
-> +SRC_URI[sha256sum] =
-> "0d5bd32690ab77e21ab143ef25361c314a4ed13c33a5fb3ddd6f5559ab24ebc3" +
-> +BBCLASSEXTEND = "native"
+>   meta/recipes-core/ncurses/ncurses.inc |   10 ++--------
+>   1 file changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index a94466a..835ecc3 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -147,12 +147,7 @@ _install_cfgs = "\
+>     PKG_CONFIG_LIBDIR='${libdir}/pkgconfig' \
+>   "
+>   
+> -python do_install () {
+> -    bb.build.exec_func("shell_do_install", d)
+> -    oe.path.make_relative_symlink(d.expand("${D}${libdir}/libtinfo.so"))
+> -}
+> -
+> -shell_do_install() {
+> +do_install() {
+>           # Order of installation is important; widec installs a 'curses.h'
+>           # header with more definitions and must be installed last hence.
+>           # Compatibility of these headers will be checked in 'do_test()'.
+> @@ -226,8 +221,7 @@ shell_do_install() {
+>   
+>               mv ${D}${libdir}/libtinfo.so.* ${D}${base_libdir}
+>               rm ${D}${libdir}/libtinfo.so
+> -            # We'll turn this into a relative symlink after do_install returns
+> -            ln -sf ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinfo.so
+> +            ln -rsf ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinfo.so
+Hi Ross,
 
+In Ubuntu 12.04, `ln' command doesn't have '-r' option.
+we will get following error during building ncurses
+     ln: invalid option -- 'r'
 
-Not sure if you saw it already but meta-oe has an acpica recipe:
+Best Regards
+Chong
+>           fi
+>   
+>           oe_multilib_header curses.h
 
-http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/acpica
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
