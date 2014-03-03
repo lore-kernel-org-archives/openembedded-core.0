@@ -1,26 +1,31 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D5CC6E717
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C5A8A6BD75
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Mar 2014 15:42:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Mar 2014 07:42:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,578,1389772800"; d="scan'208";a="491324436"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Mar 2014 07:42:42 -0800
-Date: Mon, 3 Mar 2014 17:42:41 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20140303154240.GB21480@lpalcu-linux>
-References: <cover.1393839480.git.laurentiu.palcu@intel.com>
-	<bb06f92710d0567d5019cf13d6c11caa1fc91d32.1393839480.git.laurentiu.palcu@intel.com>
-	<5314998B.8050102@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <5314998B.8050102@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] package_manager.py: RpmPM: don't add smart channel if already added
+	Mon,  3 Mar 2014 15:48:19 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s23FmEHk021565 for <openembedded-core@lists.openembedded.org>;
+	Mon, 3 Mar 2014 15:48:15 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1uHTC88LusBQ
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Mar 2014 15:48:14 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s23Fm9F5021562
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 3 Mar 2014 15:48:10 GMT
+Message-ID: <1393861681.31845.14.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 03 Mar 2014 15:48:01 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] sstate: Ensure SSTATEPOSTINSTFUNCS is accounted for in signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 15:42:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Mar 2014 15:48:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+Bitbake can't interpret the python execution of these functions so
+include the dependency manually.
 
-On Mon, Mar 03, 2014 at 09:02:35AM -0600, Mark Hatle wrote:
-> On 3/3/14, 3:43 AM, Laurentiu Palcu wrote:
-> >Make sure the channel was not already added, before attempting to add.
-> >
-> >[YOCTO #5890]
-> 
-> When generating the rootfs/etc/rpm/platform file, the order should
-> be in the order of highest to lowest priority as well.
-> 
-> Smart uses this order (via an RPM API) to help determine scores when
-> two packages from repositories at the same priority (with different
-> architectures) are selected.
-Thanks for the info. This patchset should restore the behavior to the
-one you describe. Python's sets messed up the order, so I reverted that
-patch.
+[YOCTO #4507]
 
-laurentiu
-> 
-> --Mark
-> 
-> >Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> >---
-> >  meta/lib/oe/package_manager.py |    6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> >diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> >index 6c133c3..ee42952 100644
-> >--- a/meta/lib/oe/package_manager.py
-> >+++ b/meta/lib/oe/package_manager.py
-> >@@ -604,11 +604,11 @@ class RpmPM(PackageManager):
-> >          # self._invoke_smart('config --set rpm-log-level=debug')
-> >          # cmd = 'config --set rpm-log-file=/tmp/smart-debug-logfile'
-> >          # self._invoke_smart(cmd)
-> >-
-> >+        ch_already_added = []
-> >          for canonical_arch in platform_extra:
-> >              arch = canonical_arch.split('-')[0]
-> >              arch_channel = os.path.join(self.deploy_dir, arch)
-> >-            if os.path.exists(arch_channel):
-> >+            if os.path.exists(arch_channel) and not arch in ch_already_added:
-> >                  bb.note('Note: adding Smart channel %s (%s)' %
-> >                          (arch, channel_priority))
-> >                  self._invoke_smart('channel --add %s type=rpm-md baseurl=%s -y'
-> >@@ -617,6 +617,8 @@ class RpmPM(PackageManager):
-> >                                     (arch, channel_priority))
-> >                  channel_priority -= 5
-> >
-> >+                ch_already_added.append(arch)
-> >+
-> >          bb.note('adding Smart RPM DB channel')
-> >          self._invoke_smart('channel --add rpmsys type=rpm-sys -y')
-> >
-> >
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index a45fe1e..9e09a73 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -216,6 +216,7 @@ def sstate_install(ss, d):
+         bb.utils.unlockfile(lock)
+ 
+ sstate_install[vardepsexclude] = "SSTATE_DUPWHITELIST STATE_MANMACH SSTATE_MANFILEPREFIX"
++sstate_install[vardeps] += "${SSTATEPOSTINSTFUNCS}"
+ 
+ def sstate_installpkg(ss, d):
+     import oe.path
+
+
 
