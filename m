@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F14B86EAFA
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 14BA96EAFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 22:51:07 +0000 (UTC)
+	Tue,  4 Mar 2014 22:51:08 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2014 14:51:09 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 04 Mar 2014 14:51:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="492416800"
+X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="492416811"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.227])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 14:51:07 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 14:51:08 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Mar 2014 14:51:00 -0800
-Message-Id: <de03acecec237d9d737364f5945accf128fc317f.1393973357.git.sgw@linux.intel.com>
+Date: Tue,  4 Mar 2014 14:51:02 -0800
+Message-Id: <f4a8117a063733ed6353baf0eb89377ec9ba26c8.1393973357.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
 References: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1393973357.git.sgw@linux.intel.com>
 References: <cover.1393973357.git.sgw@linux.intel.com>
-Subject: [PATCH 3/6] dhcp: Update to 4.3.0
+Subject: [PATCH 5/6] parted: add patch to handle deprecated readline function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,215 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 22:51:08 -0000
-
-Rebase fix-external-bind patch
-LICENSE file has date update to 2014
+X-List-Received-Date: Tue, 04 Mar 2014 22:51:09 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc            |   2 +-
- .../dhcp/dhcp/fix-external-bind.patch              | 115 +++++++++++----------
- meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb    |  12 ---
- 3 files changed, 63 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
+ .../parted-3.1/fix-deprecated-readline.patch       | 34 ++++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.1.bb         |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index ad82b57..512127c 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -8,7 +8,7 @@ easier to administer devices."
- HOMEPAGE = "http://www.isc.org/"
- 
- LICENSE = "ISC"
--LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=bb6fd41f5895b67088ebea61ad365e74"
-+LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=c5c64d696107f84b56fe337d14da1753"
- 
- DEPENDS = "openssl bind"
- 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-index 4f11655..a291fda 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-@@ -6,37 +6,39 @@ this patch is to allow building with external bind
- 
- Signed-off-by: Qing He <qing.he@intel.com>
- 
--diff --git a/Makefile.am b/Makefile.am
--index 928d926..cd17af8 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -21,7 +21,7 @@ EXTRA_DIST = RELNOTES LICENSE \
-- 	     util/bindvar.sh \
-- 	     bind/Makefile bind/bind.tar.gz bind/version.tmp 
-+Index: dhcp-4.3.0/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/Makefile.am
-++++ dhcp-4.3.0/Makefile.am
-+@@ -25,7 +25,7 @@ EXTRA_DIST = RELNOTES LICENSE \
-+ 	     bind/Makefile bind/bind.tar.gz bind/version.tmp \
-+ 	     common/tests/Atffile server/tests/Atffile
-  
- -SUBDIRS = bind includes tests common dst omapip client dhcpctl relay server
- +SUBDIRS = includes tests common dst omapip client dhcpctl relay server
-  
-  nobase_include_HEADERS = dhcpctl/dhcpctl.h
-  
--diff --git a/client/Makefile.am b/client/Makefile.am
--index 77ed055..5a77f2d 100644
----- a/client/Makefile.am
--+++ b/client/Makefile.am
--@@ -5,7 +5,7 @@ dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
-+Index: dhcp-4.3.0/client/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/client/Makefile.am
-++++ dhcp-4.3.0/client/Makefile.am
-+@@ -4,8 +4,8 @@ dhclient_SOURCES = clparse.c dhclient.c
-+ 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-  		   scripts/netbsd scripts/nextstep scripts/openbsd \
-  		   scripts/solaris scripts/openwrt
-- dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---		 ../bind/lib/libdns.a ../bind/lib/libisc.a
--+		 $(libbind)/libdns.a $(libbind)/libisc.a
-+-dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a ../bind/lib/libirs.a \
-+-		 ../bind/lib/libdns.a ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a $(libbind)/libirs.a \
-++		 $(libbind)/libdns.a $(libbind)/libisccfg.a $(libbind)/libisc.a
-  man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
-  EXTRA_DIST = $(man_MANS)
-  
--diff --git a/configure.ac b/configure.ac
--index ff832aa..60d342c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -500,6 +500,7 @@ no)
-+Index: dhcp-4.3.0/configure.ac
-+===================================================================
-+--- dhcp-4.3.0.orig/configure.ac
-++++ dhcp-4.3.0/configure.ac
-+@@ -566,6 +566,7 @@ no)
-  	libbind="$use_libbind"
-  	;;
-  esac
-@@ -44,60 +46,67 @@ index ff832aa..60d342c 100644
-  
-  # OpenLDAP support.
-  AC_ARG_WITH(ldap,
--diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
--index 61049be..85aefa3 100644
----- a/dhcpctl/Makefile.am
--+++ b/dhcpctl/Makefile.am
--@@ -6,10 +6,10 @@ EXTRA_DIST = $(man_MANS)
-+Index: dhcp-4.3.0/dhcpctl/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/dhcpctl/Makefile.am
-++++ dhcp-4.3.0/dhcpctl/Makefile.am
-+@@ -6,12 +6,12 @@ EXTRA_DIST = $(man_MANS)
-  
-  omshell_SOURCES = omshell.c
-  omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	        ../bind/lib/libdns.a ../bind/lib/libisc.a
--+	        $(libbind)/libdns.a $(libbind)/libisc.a
-+-	        ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-	        ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++	        $(libbind)/libirs.a $(libbind)/libdns.a \
-++	        $(libbind)/libisccfg.a $(libbind)/libisc.a
-  
-  libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
-  
-  cltest_SOURCES = cltest.c
-  cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	       ../bind/lib/libdns.a ../bind/lib/libisc.a
--\ No newline at end of file
--+	       $(libbind)/libdns.a $(libbind)/libisc.a
--diff --git a/omapip/Makefile.am b/omapip/Makefile.am
--index 595950a..17f2233 100644
----- a/omapip/Makefile.am
--+++ b/omapip/Makefile.am
--@@ -10,5 +10,5 @@ man_MANS = omapi.3
-+-	       ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-               ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++	       $(libbind)/libirs.a $(libbind)/libdns.a \
-++               $(libbind)/libisccfg.a $(libbind)/libisc.a
-+Index: dhcp-4.3.0/omapip/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/omapip/Makefile.am
-++++ dhcp-4.3.0/omapip/Makefile.am
-+@@ -10,6 +10,6 @@ man_MANS = omapi.3
-  EXTRA_DIST = $(man_MANS)
-  
-  svtest_SOURCES = test.c
---svtest_LDADD = libomapi.a ../bind/lib/libdns.a ../bind/lib/libisc.a
--+svtest_LDADD = libomapi.a $(libbind)/libdns.a $(libbind)/libisc.a
-+-svtest_LDADD = libomapi.a ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-		../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++svtest_LDADD = libomapi.a $(libbind)/libirs.a $(libbind)/libdns.a \
-++		$(libbind)/libisccfg.a $(libbind)/libisc.a
-  
--diff --git a/relay/Makefile.am b/relay/Makefile.am
--index d8757ca..a7885da 100644
----- a/relay/Makefile.am
--+++ b/relay/Makefile.am
--@@ -3,7 +3,7 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
-+Index: dhcp-4.3.0/relay/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/relay/Makefile.am
-++++ dhcp-4.3.0/relay/Makefile.am
-+@@ -3,8 +3,8 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localst
-  sbin_PROGRAMS = dhcrelay
-  dhcrelay_SOURCES = dhcrelay.c
-  dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---		 ../bind/lib/libdns.a ../bind/lib/libisc.a
--+		 $(libbind)/libdns.a $(libbind)/libisc.a
-+-		 ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-		 ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++		 $(libbind)/libirs.a $(libbind)/libdns.a \
-++		 $(libbind)/libisccfg.a $(libbind)/libisc.a
-  man_MANS = dhcrelay.8
-  EXTRA_DIST = $(man_MANS)
-  
--diff --git a/server/Makefile.am b/server/Makefile.am
--index cdfaf47..d2c254b 100644
----- a/server/Makefile.am
--+++ b/server/Makefile.am
--@@ -8,8 +8,8 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
-+Index: dhcp-4.3.0/server/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/server/Makefile.am
-++++ dhcp-4.3.0/server/Makefile.am
-+@@ -14,8 +14,8 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c c
-  
-  dhcpd_CFLAGS = $(LDAP_CFLAGS)
-  dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---	      ../dhcpctl/libdhcpctl.a ../bind/lib/libdns.a \
---	      ../bind/lib/libisc.a
--+	      ../dhcpctl/libdhcpctl.a $(libbind)/libdns.a \
--+	      $(libbind)/libisc.a
-+-	      ../dhcpctl/libdhcpctl.a ../bind/lib/libirs.a \
-+-	      ../bind/lib/libdns.a ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++	      ../dhcpctl/libdhcpctl.a $(libbind)/libirs.a \
-++	      $(libbind)/libdns.a $(libbind)/libisccfg.a $(libbind)/libisc.a
-  
-  man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
-  EXTRA_DIST = $(man_MANS)
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-deleted file mode 100644
-index 08db41b..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-+++ /dev/null
-@@ -1,12 +0,0 @@
--require dhcp.inc
--
--PR = "r1"
--
--SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
--            file://fix-external-bind.patch \
--            file://link-with-lcrypto.patch \
--            file://fixsepbuild.patch \
--           "
--
--SRC_URI[md5sum] = "f68e3c1f00a9af5742bc5e71d567cf93"
--SRC_URI[sha256sum] = "59b06c9f5d775e46999b422c45b9229402c462b114ce1685617bfb2b8b028250"
+diff --git a/meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch b/meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
+new file mode 100644
+index 0000000..c4ca06d
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
+@@ -0,0 +1,34 @@
++
++From: Gustavo Zacarias
++Subject: bug#16929: [PATCH] ui: switch to new-style readline typedef
++Date: Mon, 3 Mar 2014 10:40:08 -0300
++
++The CPPFunction typedef (among others) have been deprecated in favour of
++specific prototyped typedefs since readline 4.2 (circa 2001).
++It's been working since because compatibility typedefs have been in
++place until they where removed in the recent readline 6.3 release.
++Switch to the new style to avoid build breakage.
++
++Signed-off-by: Gustavo Zacarias <address@hidden>
++
++Upstream-Status: Backport
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++---
++ parted/ui.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/parted/ui.c b/parted/ui.c
++index 786deed..b33f6fc 100644
++--- a/parted/ui.c
+++++ b/parted/ui.c
++@@ -1470,7 +1470,7 @@ init_readline (void)
++ #ifdef HAVE_LIBREADLINE
++   if (!opt_script_mode) {
++     rl_initialize ();
++-    rl_attempted_completion_function = (CPPFunction*) complete_function;
+++    rl_attempted_completion_function = (rl_completion_func_t *) complete_function;
++     readline_state.in_readline = 0;
++   }
++ #endif
+diff --git a/meta/recipes-extended/parted/parted_3.1.bb b/meta/recipes-extended/parted/parted_3.1.bb
+index 1e07da4..8344ea8 100644
+--- a/meta/recipes-extended/parted/parted_3.1.bb
++++ b/meta/recipes-extended/parted/parted_3.1.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://fix-git-version-gen.patch \
+            file://fix-doc-mandir.patch \
+            file://fix-dvh-overflows.patch \
++           file://fix-deprecated-readline.patch \
+            file://run-ptest \
+            file://Makefile \
+ "
 -- 
 1.8.3.1
 
