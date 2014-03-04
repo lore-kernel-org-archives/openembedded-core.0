@@ -1,24 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D49A6EFC4
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 765166EAC7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 22:51:09 +0000 (UTC)
+	Tue,  4 Mar 2014 23:05:25 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Mar 2014 14:51:09 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2014 15:05:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="492416817"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.227])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 14:51:09 -0800
+X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="492424843"
+Received: from unknown (HELO [10.255.12.227]) ([10.255.12.227])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 15:05:14 -0800
+Message-ID: <53165C2A.10403@linux.intel.com>
+Date: Tue, 04 Mar 2014 15:05:14 -0800
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Mar 2014 14:51:03 -0800
-Message-Id: <fbf82d4d5ea79392747eaeaeabb6c2142f08d5c6.1393973357.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
-References: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1393973357.git.sgw@linux.intel.com>
-References: <cover.1393973357.git.sgw@linux.intel.com>
-Subject: [PATCH 6/6] security_flags: Update to correctly link X modules
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Andrey Belous <abelous@broadcom.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1393965644-17393-1-git-send-email-abelous@broadcom.com>
+In-Reply-To: <1393965644-17393-1-git-send-email-abelous@broadcom.com>
+Subject: Re: [PATCH] Signed-off-by: Andrey Belous <abelous@broadcom.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 22:51:09 -0000
+X-List-Received-Date: Tue, 04 Mar 2014 23:05:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove the -z,now flag from linking
+On 03/04/2014 12:40 PM, Andrey Belous wrote:
+> Setting of a variable PREFERRED_PROVIDER_virtual/libc only if it doesn't have a value
 
-[YOCTO #5885]
+The format of your commit message is backwards, you need to have a short 
+message with the filename:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/distro/include/security_flags.inc | 9 +++++++++
- 1 file changed, 9 insertions(+)
+tclibc-uclibc: <short message>
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index a871a3f..fa604fd 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -1,6 +1,7 @@
- SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
- SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all -D_FORTIFY_SOURCE=2"
- SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
-+SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
- 
- # powerpc does not get on with pie for reasons not looked into as yet
- SECURITY_CFLAGS_powerpc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
-@@ -72,3 +73,11 @@ SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
- 
- TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
- TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
-+
-+SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
-+SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
-+SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
-+SECURITY_LDFLAGS_pn-xf86-video-omap = "${SECURITY_X_LDFLAGS}"
-+SECURITY_LDFLAGS_pn-xf86-video-vesa = "${SECURITY_X_LDFLAGS}"
-+SECURITY_LDFLAGS_pn-xf86-video-vmware = "${SECURITY_X_LDFLAGS}"
-+SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
--- 
-1.8.3.1
+<long message>
 
+Signed-off-by: ....
+
+
+Also this kind of change is distro specific and could be in your distro 
+specific information, don;'t you need to override more of what's in here 
+if you are using a prebuilt library?
+
+Sau!
+
+> ---
+>   meta/conf/distro/include/tclibc-uclibc.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
+> index 9245112..a4d8c39 100644
+> --- a/meta/conf/distro/include/tclibc-uclibc.inc
+> +++ b/meta/conf/distro/include/tclibc-uclibc.inc
+> @@ -8,7 +8,7 @@ LIBCEXTENSION = "-uclibc"
+>   LIBCOVERRIDE = ":libc-uclibc"
+>   OVERRIDES .= "${LIBCOVERRIDE}"
+>
+> -PREFERRED_PROVIDER_virtual/libc = "uclibc"
+> +PREFERRED_PROVIDER_virtual/libc ?= "uclibc"
+>   PREFERRED_PROVIDER_virtual/libiconv ?= "libiconv"
+>   PREFERRED_PROVIDER_virtual/libintl ?= "gettext"
+>   PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-eglibc"
+>
 
