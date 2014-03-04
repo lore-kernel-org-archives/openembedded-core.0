@@ -1,37 +1,27 @@
-Return-Path: <abelous@broadcom.com>
-Received: from mail-gw3-out.broadcom.com (mail-gw3-out.broadcom.com
-	[216.31.210.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AEC26E7A1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 21:55:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="17558405"
-Received: from irvexchcas08.broadcom.com (HELO
-	IRVEXCHCAS08.corp.ad.broadcom.com) ([10.9.208.57])
-	by mail-gw3-out.broadcom.com with ESMTP; 04 Mar 2014 14:07:45 -0800
-Received: from SJEXCHCAS03.corp.ad.broadcom.com (10.16.203.8) by
-	IRVEXCHCAS08.corp.ad.broadcom.com (10.9.208.57) with Microsoft SMTP
-	Server (TLS) id 14.3.174.1; Tue, 4 Mar 2014 13:55:23 -0800
-Received: from SJEXCHMB06.corp.ad.broadcom.com ([fe80::65ea:1de7:41c4:e948])
-	by SJEXCHCAS03.corp.ad.broadcom.com ([::1]) with mapi id 14.03.0174.001;
-	Tue, 4 Mar 2014 13:55:23 -0800
-From: Andrey Belous <abelous@broadcom.com>
-To: Phil Blundell <pb@pbcl.net>
-Thread-Topic: [OE-core] [PATCH] Signed-off-by: Andrey Belous
-	<abelous@broadcom.com>
-Thread-Index: AQHPN+oY3Rz3GGrpNEOo+lmb5Tm36JrR+7kA//98/PA=
-Date: Tue, 4 Mar 2014 21:55:22 +0000
-Message-ID: <AC63B68CC9C36B4FBF9FD4FEEFE754AA20DAA367@SJEXCHMB06.corp.ad.broadcom.com>
-References: <1393965644-17393-1-git-send-email-abelous@broadcom.com>
-	<1393969384.4151.5.camel@e130.pbcl.net>
-In-Reply-To: <1393969384.4151.5.camel@e130.pbcl.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.16.203.100]
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B92B86E759
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue,  4 Mar 2014 22:27:08 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2014 14:27:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="494101166"
+Received: from unknown (HELO [10.254.121.201]) ([10.254.121.201])
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2014 14:26:33 -0800
+Message-ID: <53165319.7020506@intel.com>
+Date: Tue, 04 Mar 2014 14:26:33 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Signed-off-by: Andrey Belous <abelous@broadcom.com>
+To: Phil Blundell <pb@pbcl.net>
+References: <cover.1393957379.git.nitin.a.kamble@intel.com>	
+	<a63693d8974ab55ba1031cf36302f28c4cc86c22.1393957379.git.nitin.a.kamble@intel.com>
+	<1393969091.4151.3.camel@e130.pbcl.net>
+In-Reply-To: <1393969091.4151.3.camel@e130.pbcl.net>
+Cc: Openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: Re: [PATCH 1/1] QA_check: special case kernel modules for x32 targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 21:55:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 04 Mar 2014 22:27:09 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgUGhpbCwNCkkgaGF2ZSBwcmVidWlsZCB1Y2xpYmMgbGlicmFyeSB0aGF0IEkgd291bGQgbGlr
-ZSB0byB1c2UsIHdpdGhvdXQgdGhhdCBjaGFuZ2UgSSBjYW5ub3QgZm9yY2UgdG8gdXNlIG15IHBy
-ZWJ1aWxkIGxpYnJhcnkNCg0KLUFuZHJleQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
-RnJvbTogUGhpbCBCbHVuZGVsbCBbbWFpbHRvOnBiQHBiY2wubmV0XSANClNlbnQ6IFR1ZXNkYXks
-IE1hcmNoIDA0LCAyMDE0IDQ6NDMgUE0NClRvOiBBbmRyZXkgQmVsb3VzDQpDYzogb3BlbmVtYmVk
-ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-UEFUQ0hdIFNpZ25lZC1vZmYtYnk6IEFuZHJleSBCZWxvdXMgPGFiZWxvdXNAYnJvYWRjb20uY29t
-Pg0KDQpPbiBUdWUsIDIwMTQtMDMtMDQgYXQgMTU6NDAgLTA1MDAsIEFuZHJleSBCZWxvdXMgd3Jv
-dGU6DQo+IC1QUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC9saWJjID0gInVjbGliYyINCj4gK1BS
-RUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2xpYmMgPz0gInVjbGliYyINCg0KV2h5IHdvdWxkIHlv
-dSBiZSBpbmNsdWRpbmcgdGNsaWJjLXVjbGliYy5pbmMgaWYgeW91IGRvbid0IHdhbnQgdG8gdXNl
-DQp1Y2xpYmM/DQoNCnAuDQoNCg0K
+
+On 3/4/2014 1:38 PM, Phil Blundell wrote:
+> On Tue, 2014-03-04 at 10:28 -0800, nitin.a.kamble@intel.com wrote:
+>> -        ("virtual/kernel" in provides) and (target_os == "linux-gnux32")):
+>> +        (("virtual/kernel" in provides) or (KERNEL_MODULE_RECIPE == "1")) and (target_os == "linux-gnux32")):
+> Can you not use bb.data.inherits_class("module") rather than adding this
+> extra variable?
+This would simplify the code.
+> Also, out of curiosity, I don't entirely understand how the code above
+> can possibly work.  KERNEL_MODULE_RECIPE is a bitbake variable that's
+> either defined to 1 or not defined at all, right?  Is there some special
+> magic nowadays that allows you to refer to it transparently from python
+> code without using d.getVar()?
+There is no such special magic. This fix need to be fixed.
+
+Thanks,
+Nitin
+
+> p.
+>
+>
+
 
