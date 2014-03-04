@@ -1,40 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C36A96E759
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D9A26E85D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 00:57:42 +0000 (UTC)
-Received: by mail-yh0-f47.google.com with SMTP id c41so4328497yho.20
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Mar 2014 16:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=3UG58ennSfixMMy4drqISMm7s0en+FshDg4R+sFZ46c=;
-	b=drkt39ufGqzxioHOLjwLxoVB+61PmSFTeb+e8P+37J1V39M1Q+S8etRTer1Hu8p2Yf
-	y3aWQatmJN/UQiHtyouVsSIQ36VuLPeq/SYBX4j63d+pz6Pc8ZwXBljL7ivKMLoxobc7
-	C5ZgWgVCtyVnYLHEve2QQ22+rWiwUCiH7l8Haq9yFrTxLX0nOQOHiafjJwHdt3noDB3/
-	/9Fwm4Y3qNXnAISJVA0Sz0fg7Aj4vNy2CXi7slmRwmY3r5BYjHXBL19g6iSGu7fE2V6X
-	XrhpLmdETKZvhxhXsHzZ0znH9LNJ3UwqxcHu+kd/2OZDiO3FBUyGw1YH5/Okf9VZEA5r
-	Tr6A==
+	Tue,  4 Mar 2014 01:27:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s241RFwu026388
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Mar 2014 17:27:15 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 3 Mar 2014 17:27:14 -0800
+Message-ID: <53152BF1.3050806@windriver.com>
+Date: Tue, 4 Mar 2014 09:27:13 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.236.3.10 with SMTP id 10mr5401512yhg.79.1393894662679; Mon,
-	03 Mar 2014 16:57:42 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Mon, 3 Mar 2014 16:57:42 -0800 (PST)
-In-Reply-To: <CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
-References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
-	<4343044.DpKneM5m4P@peggleto-mobl5.ger.corp.intel.com>
-	<53105913.6020407@enea.com>
-	<CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
-Date: Mon, 3 Mar 2014 21:57:42 -0300
-X-Google-Sender-Auth: nD_KuQR9qEgyZ9_tDLqRsqV6XWQ
-Message-ID: <CAP9ODKoDYzbYmRkCuTFypk+4uA+JE1aFifdj2KBw=hp2_hwCRg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1393256563.git.liezhi.yang@windriver.com>
+	<CAJTo0Lb=a40bP3R-YtSoxeixcKaPjASwiXU8617cfMSqx4cKMw@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb=a40bP3R-YtSoxeixcKaPjASwiXU8617cfMSqx4cKMw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5 V2] refactor the archiver*.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,18 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 00:57:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 04 Mar 2014 01:27:17 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 3, 2014 at 5:41 PM, Trevor Woerner
-<trevor.woerner@linaro.org> wrote:
-> Does this resolve issue 5407?
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5407
 
-Seems so :D
+Hi Ross,
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Thanks for your reply, please see my comments inline.
+
+On 02/27/2014 09:05 PM, Burton, Ross wrote:
+> Hi Robert,
+>
+> Having a look at this and playing with my own toy archiver makes me
+> think that this shouldn't be using the postfuncs at all.
+>
+
+Yes, I gree as we had talked.
+
+> The main task, deploy_archives, should depend on the subtasks that it
+> needs and be simply ordered before do_build.  I see that your code
+> does this but changes it to be before do_rootfs if the recipe is an
+> image: I'm not sure I understand why this is as do_rootfs is just a
+> task that executes before do_build so this shouldn't need
+> special-casing.
+>
+
+This part of code is derived from the previous archiver.bbclass, I will
+remove it.
+
+> Why did you implement the subtasks as postfuncs instead of normal
+> tasks?  This has the effect of causing more work to be done if the
+
+What I had thought was that use the postfuncs will always make sure it
+will run, for example, if do_unpack runs, then do_unpack[postfuncs] will
+always run, but if we use a new task:
+
+addtask do_ar_unpacked after do_unpack before do_patch
+
+If do_patch doesn't run, the do_ar_unpacked would not run either, as had
+talked, we will use new ${S}, so this problem will be gone, I will use
+new tasks.
+
+> archiver needs to run: for example do_ar_unpacked() is a postfunc on
+> do_unpack so either enabling/disabling the archiver or editing the
+> archiver class causes the do_unpack hash to change, so everything
+> afterwards (do_patch, do_configure, do_compile, ...) has to
+> re-execute.
+>
+> My toy archiver was implemented as a new task which is after do_fetch
+> but before do_build.  This means that it executes after fetch has
+> completed but is outside of the
+> fetch->patch->configure->compile->install sequence.
+>
+> https://github.com/rossburton/meta-ross/blob/master/classes/rearchiver.bbclass
+>
+> (it also has a way of archiving the original sources in a way that
+> actually archives the original sources)
+
+Great, thanks, I will send a V3 sooner.
+
+// Robert
+
+
+>
+> Ross
+>
+>
 
