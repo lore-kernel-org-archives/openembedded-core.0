@@ -1,27 +1,20 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B92B86E759
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 22:27:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2014 14:27:07 -0800
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 67B7E6EAFA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  4 Mar 2014 22:51:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 04 Mar 2014 14:46:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="494101166"
-Received: from unknown (HELO [10.254.121.201]) ([10.254.121.201])
-	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2014 14:26:33 -0800
-Message-ID: <53165319.7020506@intel.com>
-Date: Tue, 04 Mar 2014 14:26:33 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1393957379.git.nitin.a.kamble@intel.com>	
-	<a63693d8974ab55ba1031cf36302f28c4cc86c22.1393957379.git.nitin.a.kamble@intel.com>
-	<1393969091.4151.3.camel@e130.pbcl.net>
-In-Reply-To: <1393969091.4151.3.camel@e130.pbcl.net>
-Cc: Openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 1/1] QA_check: special case kernel modules for x32 targets
+X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="466667132"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.227])
+	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2014 14:51:03 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Mar 2014 14:51:02 -0800
+Message-Id: <cover.1393973357.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 0/6] Patches and Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 22:27:09 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Mar 2014 22:51:06 -0000
+
+Ricahrd,
+
+Some patches and updates that I have been working on to resolve
+various issues.
+
+The bind and dhcp go hand in hand and address some CVE issues.
+
+Sau!
 
 
-On 3/4/2014 1:38 PM, Phil Blundell wrote:
-> On Tue, 2014-03-04 at 10:28 -0800, nitin.a.kamble@intel.com wrote:
->> -        ("virtual/kernel" in provides) and (target_os == "linux-gnux32")):
->> +        (("virtual/kernel" in provides) or (KERNEL_MODULE_RECIPE == "1")) and (target_os == "linux-gnux32")):
-> Can you not use bb.data.inherits_class("module") rather than adding this
-> extra variable?
-This would simplify the code.
-> Also, out of curiosity, I don't entirely understand how the code above
-> can possibly work.  KERNEL_MODULE_RECIPE is a bitbake variable that's
-> either defined to 1 or not defined at all, right?  Is there some special
-> magic nowadays that allows you to refer to it transparently from python
-> code without using d.getVar()?
-There is no such special magic. This fix need to be fixed.
+The following changes since commit 82c773e88aaefd9321481ad297554d5b4a3ae0b2:
 
-Thanks,
-Nitin
+  Revert "ncurses: use ln -r to generate relative symlink" (2014-03-03 15:52:26 +0000)
 
-> p.
->
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
+
+Saul Wold (6):
+  util-linux: Update to 2.24.1
+  bind: Update to 9.9.5
+  dhcp: Update to 4.3.0
+  grub-efi: use autotools-brokensep
+  parted: add patch to handle deprecated readline function
+  security_flags: Update to correctly link X modules
+
+ meta/conf/distro/include/security_flags.inc        |   9 ++
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |   2 +-
+ .../bind-9.8.1-CVE-2012-5166.patch                 |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch  |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch  |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch  |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch  |   0
+ .../bind-Fix-CVE-2012-4244.patch                   |   0
+ .../bind/{bind-9.8.1 => bind}/conf.patch           |   0
+ .../{bind-9.8.1 => bind}/cross-build-fix.patch     |   0
+ .../make-etc-initd-bind-stop-work.patch            |   0
+ .../mips1-not-support-opcode.diff                  |   0
+ .../bind/{bind_9.8.1.bb => bind_9.9.5.bb}          |  15 +--
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   2 +-
+ .../dhcp/dhcp/fix-external-bind.patch              | 115 +++++++++++----------
+ meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb    |  12 ---
+ meta/recipes-core/util-linux/util-linux.inc        |  12 +--
+ .../{util-linux_2.23.2.bb => util-linux_2.24.1.bb} |   7 +-
+ .../parted-3.1/fix-deprecated-readline.patch       |  34 ++++++
+ meta/recipes-extended/parted/parted_3.1.bb         |   1 +
+ 20 files changed, 121 insertions(+), 88 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-9.8.1-CVE-2012-5166.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-Fix-CVE-2012-4244.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/cross-build-fix.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/mips1-not-support-opcode.diff (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.8.1.bb => bind_9.9.5.bb} (77%)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
+ rename meta/recipes-core/util-linux/{util-linux_2.23.2.bb => util-linux_2.24.1.bb} (79%)
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
+
+-- 
+1.8.3.1
 
 
