@@ -1,35 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 08ADA6E9D8
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6A26EFA7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 16:46:06 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id x13so4140693wgg.2
+	Tue,  4 Mar 2014 16:46:09 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id u56so941643wes.23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Mar 2014 08:46:07 -0800 (PST)
+	Tue, 04 Mar 2014 08:46:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kd9fDtuStPAwCIhUbonxk02nbIMdEY60bLTF559antc=;
-	b=Y8v+92TzI0tWzfUbMWVqwvcaN3YqGPueE9tnQ96NlWoHgsgHvr25ZQzCtYKBusdMgy
-	wFUsPJZ4fte3nx1ZVFXwvvDqFeNXmRhi72F0ZQswSpyhVJHB72+NxkHUXWGOtop1Qn3Z
-	+jyFZn2WiUDNtUQNrUrUudpSUpVWwkejXForwtWLFzf+F9IcKSAriIv9CadDxS935dHi
-	muiM2FzAU7meYmyTXw4JvSS/oYbs3dbQA42HSvJTRSuuOhC3tA9repgHY4F+rkCzoiPl
-	UgrwtH/yknJJ3EGzTBBDOUZhJZxppvLSrAKlH/o2/+wRjMjkONquZLmWpk8XpZcthg+r
-	ph/A==
-X-Gm-Message-State: ALoCoQl7As1kuGo1d6fFsOfdpUhUjDOcuy2o8IhVlhhCvjCsYSKyEj6hMVfsc0TA8pmMBzlOFnKJ
-X-Received: by 10.195.12.5 with SMTP id em5mr579220wjd.77.1393951566988;
-	Tue, 04 Mar 2014 08:46:06 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=crm3BK6KhnAggJwKWxHuHvIY7ZaPY2H7CYCg/vlWNy4=;
+	b=iCQNoCT7dMgbVvrnVAmfCU5jotUG4u0T0UyjviDF+vjGBeWAHDvRxB8Qt0qp/uSD/C
+	JfHVMtz0TWjOJ1LOj0WjgSDHSlnLtX8qB17d171rrcMlV/RyNby6xBaIHyZOqixga5Cy
+	6k97Kn3uF15VnniU2QRjwCAP+g6lCLbOtR8xwOs+J8A9E5sMPUGFhwxbNxTjLkCLCmrr
+	nCQHHfpRPAUFVcVbLHmBVikfCMyjBR8pibLKJcRFMjL48XzyNXKcz5/KX/cxA4q5Wt82
+	MZIdoIa2so0Cm6UkrsPSppzDR0aHMuqcQhsmRRPUuQROmVU3BjTJINa3pvISVS+PbIwX
+	Eq1w==
+X-Gm-Message-State: ALoCoQl+AHT5k1tEHicvokeuN7A7mulvrNOOSCIRQ+NEpW2k3ArVxkEXUe3ih5ZUzmbFsd1vjGPq
+X-Received: by 10.194.60.16 with SMTP id d16mr923988wjr.46.1393951569825;
+	Tue, 04 Mar 2014 08:46:09 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id uq2sm54540928wjc.5.2014.03.04.08.46.05
+	by mx.google.com with ESMTPSA id uq2sm54540928wjc.5.2014.03.04.08.46.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Mar 2014 08:46:06 -0800 (PST)
+	Tue, 04 Mar 2014 08:46:09 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Mar 2014 16:46:00 +0000
-Message-Id: <1393951562-14251-1-git-send-email-ross.burton@intel.com>
+Date: Tue,  4 Mar 2014 16:46:02 +0000
+Message-Id: <1393951562-14251-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/3] lib/oe: drop custom implementation of oe.path.relative
+In-Reply-To: <1393951562-14251-1-git-send-email-ross.burton@intel.com>
+References: <1393951562-14251-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 3/3] perf: don't use oe.path.relative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +48,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 04 Mar 2014 16:46:09 -0000
 
-As we now require Python 2.7 and os.path.relpath() was added in 2.6 we can now
-drop the reimplementation in oe.path.
-
-oe.path.relative is simple now a wrapper that changes the order of the arguments
-and it's use discouraged.
+Instead of using oe.path.relative, use the Python Standard Library function
+os.path.relpath.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/path.py |   18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ meta/recipes-kernel/perf/perf.bb |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 46783f8..413ebfb 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -21,23 +21,7 @@ def relative(src, dest):
-     foo/bar
-     """
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 6258cbb..56576d5 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -86,10 +86,10 @@ EXTRA_OEMAKE += "\
+ 	'sysconfdir=${sysconfdir}' \
+ 	'perfexecdir=${libexecdir}/perf-core' \
+ 	\
+-	'ETC_PERFCONFIG=${@oe.path.relative(prefix, sysconfdir)}' \
+-	'sharedir=${@oe.path.relative(prefix, datadir)}' \
+-	'mandir=${@oe.path.relative(prefix, mandir)}' \
+-	'infodir=${@oe.path.relative(prefix, infodir)}' \
++	'ETC_PERFCONFIG=${@os.path.relpath(sysconfdir, prefix)}' \
++	'sharedir=${@os.path.relpath(datadir, prefix)}' \
++	'mandir=${@os.path.relpath(mandir, prefix)}' \
++	'infodir=${@os.path.relpath(infodir, prefix)}' \
+ "
  
--    if hasattr(os.path, "relpath"):
--        return os.path.relpath(dest, src)
--    else:
--        destlist = os.path.normpath(dest).split(os.path.sep)
--        srclist = os.path.normpath(src).split(os.path.sep)
--
--        # Find common section of the path
--        common = os.path.commonprefix([destlist, srclist])
--        commonlen = len(common)
--
--        # Climb back to the point where they differentiate
--        relpath = [ os.path.pardir ] * (len(srclist) - commonlen)
--        if commonlen < len(destlist):
--            # Add remaining portion
--            relpath += destlist[commonlen:]
--
--        return os.path.sep.join(relpath)
-+    return os.path.relpath(dest, src)
- 
- def make_relative_symlink(path):
-     """ Convert an absolute symlink to a relative one """
+ # PPC64 uses long long for u64 in the kernel, but powerpc's asm/types.h
 -- 
 1.7.10.4
 
