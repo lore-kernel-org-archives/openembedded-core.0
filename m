@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 14BA96EAFA
+	by mail.openembedded.org (Postfix) with ESMTP id 3D49A6EFC4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 22:51:08 +0000 (UTC)
+	Tue,  4 Mar 2014 22:51:09 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 04 Mar 2014 14:51:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="492416811"
+X-IronPort-AV: E=Sophos;i="4.97,588,1389772800"; d="scan'208";a="492416817"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.227])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 14:51:08 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 14:51:09 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Mar 2014 14:51:02 -0800
-Message-Id: <f4a8117a063733ed6353baf0eb89377ec9ba26c8.1393973357.git.sgw@linux.intel.com>
+Date: Tue,  4 Mar 2014 14:51:03 -0800
+Message-Id: <fbf82d4d5ea79392747eaeaeabb6c2142f08d5c6.1393973357.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
 References: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1393973357.git.sgw@linux.intel.com>
 References: <cover.1393973357.git.sgw@linux.intel.com>
-Subject: [PATCH 5/6] parted: add patch to handle deprecated readline function
+Subject: [PATCH 6/6] security_flags: Update to correctly link X modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +33,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 04 Mar 2014 22:51:09 -0000
 
+Remove the -z,now flag from linking
+
+[YOCTO #5885]
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../parted-3.1/fix-deprecated-readline.patch       | 34 ++++++++++++++++++++++
- meta/recipes-extended/parted/parted_3.1.bb         |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
+ meta/conf/distro/include/security_flags.inc | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch b/meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
-new file mode 100644
-index 0000000..c4ca06d
---- /dev/null
-+++ b/meta/recipes-extended/parted/parted-3.1/fix-deprecated-readline.patch
-@@ -0,0 +1,34 @@
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index a871a3f..fa604fd 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -1,6 +1,7 @@
+ SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
+ SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+ SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ SECURITY_CFLAGS_powerpc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+@@ -72,3 +73,11 @@ SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+ TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
 +
-+From: Gustavo Zacarias
-+Subject: bug#16929: [PATCH] ui: switch to new-style readline typedef
-+Date: Mon, 3 Mar 2014 10:40:08 -0300
-+
-+The CPPFunction typedef (among others) have been deprecated in favour of
-+specific prototyped typedefs since readline 4.2 (circa 2001).
-+It's been working since because compatibility typedefs have been in
-+place until they where removed in the recent readline 6.3 release.
-+Switch to the new style to avoid build breakage.
-+
-+Signed-off-by: Gustavo Zacarias <address@hidden>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+---
-+ parted/ui.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/parted/ui.c b/parted/ui.c
-+index 786deed..b33f6fc 100644
-+--- a/parted/ui.c
-++++ b/parted/ui.c
-+@@ -1470,7 +1470,7 @@ init_readline (void)
-+ #ifdef HAVE_LIBREADLINE
-+   if (!opt_script_mode) {
-+     rl_initialize ();
-+-    rl_attempted_completion_function = (CPPFunction*) complete_function;
-++    rl_attempted_completion_function = (rl_completion_func_t *) complete_function;
-+     readline_state.in_readline = 0;
-+   }
-+ #endif
-diff --git a/meta/recipes-extended/parted/parted_3.1.bb b/meta/recipes-extended/parted/parted_3.1.bb
-index 1e07da4..8344ea8 100644
---- a/meta/recipes-extended/parted/parted_3.1.bb
-+++ b/meta/recipes-extended/parted/parted_3.1.bb
-@@ -12,6 +12,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://fix-git-version-gen.patch \
-            file://fix-doc-mandir.patch \
-            file://fix-dvh-overflows.patch \
-+           file://fix-deprecated-readline.patch \
-            file://run-ptest \
-            file://Makefile \
- "
++SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xf86-video-intel = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xf86-video-omapfb = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xf86-video-omap = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xf86-video-vesa = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xf86-video-vmware = "${SECURITY_X_LDFLAGS}"
++SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
 -- 
 1.8.3.1
 
