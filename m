@@ -1,35 +1,45 @@
-Return-Path: <sebmennetrier@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B3F36F009
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F34A6EFCB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 08:19:04 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id t19so1953357igi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Mar 2014 00:19:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=uV+sQTcS8A0gG94E5kyMgBASwRCkUr2KOT+0bjM+JCQ=;
-	b=EZwUiudOUX5vvBPGAhj4muOG5hRFrA5QYba3PkrHqAc5Eqw4r4HIKg6ZhaVJrpjs4o
-	Ec6rEg+H/HTbGRJdfT4r/SFdp97GgPviPpABH/OsmbHNplKmM2Wxdi9wJqIY8xxLCpX6
-	OCkJqDpQlynSW2NjF1EA3wgQ7pfbCO4gpjv2L/lNi1mXzuGQvQQ5SdBGFhzpRTZwqDeh
-	rKxebxxkH+ILuIKWhHqcm1yr8TyfPb1qlZFyyyjYqaPj0n3IRdbIk7QECEfl5SvIP04o
-	MngzRssWi8eQHuLOldIaXZiGba8DCGTEHJeTxeMT1ERPoZ1WCe9iXVP8ey4WHmvRbyjb
-	AEIw==
+	Tue,  4 Mar 2014 08:37:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 06639180DE;
+	Tue,  4 Mar 2014 09:37:22 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id VuFGdlFKu9X1; Tue,  4 Mar 2014 09:37:21 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 65F7B180DC;
+	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 4FA44B30;
+	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 448129FC;
+	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id 423893E048;
+	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
+	Tue, 4 Mar 2014 09:37:21 +0100
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 0E2059C29D; 
+	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
+Date: Tue, 4 Mar 2014 09:37:21 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20140304083720.GA30745@axis.com>
+References: <1393857456-18343-1-git-send-email-olof.johansson@axis.com>
+	<CAMKF1sq5C01yFquzWjAUaHDgr30ZFXj-dnujS0XWBWrWHC5YXA@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.42.232.206 with SMTP id jv14mr30140545icb.52.1393921145518; 
-	Tue, 04 Mar 2014 00:19:05 -0800 (PST)
-Sender: sebmennetrier@gmail.com
-Received: by 10.42.198.139 with HTTP; Tue, 4 Mar 2014 00:19:05 -0800 (PST)
-In-Reply-To: <1393509239-26637-1-git-send-email-s.mennetrier@innotis.org>
-References: <1393509239-26637-1-git-send-email-s.mennetrier@innotis.org>
-Date: Tue, 4 Mar 2014 09:19:05 +0100
-X-Google-Sender-Auth: mod-UtgsZmDrFbW6c1y_raNec4Q
-Message-ID: <CABgO3_O069SpHEeF0ALPuimB6Yag8W72tjAuLLsqaQT-7XgNWA@mail.gmail.com>
-From: Sebastien MENNETRIER <s.mennetrier@innotis.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Create gstreamer-1.0 package groups
+In-Reply-To: <CAMKF1sq5C01yFquzWjAUaHDgr30ZFXj-dnujS0XWBWrWHC5YXA@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] sanity.bbclass: support wildcards in SANITY_TESTED_DISTROS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,221 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 08:19:06 -0000
-Content-Type: multipart/alternative; boundary=047d7b86eae6b93ff704f3c38e39
+X-List-Received-Date: Tue, 04 Mar 2014 08:37:26 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
---047d7b86eae6b93ff704f3c38e39
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+On 14-03-03 19:17 +0100, Khem Raj wrote:
+> On Mon, Mar 3, 2014 at 6:37 AM, Olof Johansson <olof.johansson@axis.com> wrote:
+> > With this change, you can use shell like globbing expressions (as
+> > supported by Python's fnmatch) for entries in SANITY_TESTED_DISTROS.
+> > This makes it possible to say that, e.g. "all Debian 7 Wheezy releases
+> > are supported" with the entry "Debian-7.*".
+> 
+> I dont think its a good thing. We should be strict about it as we are.
+> otherwise it can end up
+> with bigger problems to save few  typing words
 
-Ping
+I don't really think we are strict about it today. Currently,
+Ubuntu LTS (12.04) does not include point release number in its
+lsb release name. Debian does (and I noticed a similar bump patch
+was sent for CentOS recently). I suspect that in many cases, a
+new Ubuntu point release contains about the same changes that the
+Debian point release does.
 
+The issue is that new point releases, at least in the case of
+Debian, happens about every two months. These bumps are
+integrated to master, backported to older branches, but it still
+won't reach people working off releases immediately.
 
-2014-02-27 14:53 GMT+01:00 S=E9bastien Mennetrier <s.mennetrier@innotis.org=
->:
+Even if Poky chooses not to adopt this, it would still be a nice
+thing to have support for doing this internally for our
+layer/distro.
 
-> This recipe is based on gst-meta-base
->
-> Signed-off-by: S=E9bastien Mennetrier <s.mennetrier@innotis.org>
-> ---
->  .../gstreamer/gstreamer1.0-meta-base.bb            | 63
-> ++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-meta-base.bb
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bbb=
-/meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-meta-base.bb
-> new file mode 100644
-> index 0000000..3b797f0
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> @@ -0,0 +1,63 @@
-> +DESCRIPTION =3D "Gstreamer1.0 package groups"
-> +LICENSE =3D "MIT"
-> +DEPENDS =3D "gstreamer1.0 gstreamer1.0-plugins-base
-> gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
-> +LIC_FILES_CHKSUM =3D
-> "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3b58 \
-> +
->  file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de204=
-20"
-> +
-> +PACKAGES =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-meta-x11-base \
-> +    gstreamer1.0-meta-audio \
-> +    gstreamer1.0-meta-debug \
-> +    gstreamer1.0-meta-video"
-> +
-> +ALLOW_EMPTY_gstreamer1.0-meta-base =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-x11-base =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-audio =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-debug =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-video =3D "1"
-> +
-> +RDEPENDS_gstreamer1.0-meta-base =3D "\
-> +    ${@base_contains('DISTRO_FEATURES', 'x11',
-> 'gstreamer1.0-meta-x11-base', '', d)} \
-> +    gstreamer1.0 \
-> +    gstreamer1.0-plugins-base-playback \
-> +    gstreamer1.0-plugins-base-gio \
-> +    gstreamer1.0-plugins-base-alsa \
-> +    gstreamer1.0-plugins-base-volume \
-> +    gstreamer1.0-plugins-base-audioconvert \
-> +    gstreamer1.0-plugins-base-audioresample \
-> +    gstreamer1.0-plugins-base-typefindfunctions \
-> +    gstreamer1.0-plugins-base-videoscale \
-> +    gstreamer1.0-plugins-base-videoconvert \
-> +    gstreamer1.0-plugins-good-autodetect \
-> +    gstreamer1.0-plugins-good-souphttpsrc"
-> +
-> +RRECOMMENDS_gstreamer1.0-meta-x11-base =3D "\
-> +    gstreamer1.0-plugins-base-ximagesink \
-> +    gstreamer1.0-plugins-base-xvimagesink"
-> +
-> +RDEPENDS_gstreamer1.0-meta-audio =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-plugins-base-vorbis \
-> +    gstreamer1.0-plugins-base-ogg \
-> +    gstreamer1.0-plugins-good-wavparse \
-> +    gstreamer1.0-plugins-good-flac \
-> +    ${COMMERCIAL_AUDIO_PLUGINS}"
-> +
-> +
-> +RDEPENDS_gstreamer1.0-meta-debug =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-plugins-good-debug \
-> +    gstreamer1.0-plugins-base-audiotestsrc \
-> +    gstreamer1.0-plugins-base-videotestsrc"
-> +
-> +
-> +RDEPENDS_gstreamer1.0-meta-video =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-plugins-good-avi \
-> +    gstreamer1.0-plugins-good-matroska \
-> +    gstreamer1.0-plugins-base-theora \
-> +    ${COMMERCIAL_VIDEO_PLUGINS}"
-> +
-> +RRECOMMENDS_gstreamer1.0-meta-video =3D "\
-> +    gstreamer1.0-meta-audio"
-> --
-> 1.8.1.2
->
->
+-- 
+olofjn
 
-
---=20
-
-Regards,
-S=E9bastien
-
---047d7b86eae6b93ff704f3c38e39
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ping<br></div><div class=3D"gmail_extra"><br><br><div clas=
-s=3D"gmail_quote">2014-02-27 14:53 GMT+01:00 S=E9bastien Mennetrier <span d=
-ir=3D"ltr">&lt;<a href=3D"mailto:s.mennetrier@innotis.org" target=3D"_blank=
-">s.mennetrier@innotis.org</a>&gt;</span>:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">This recipe is based on gst-meta-base<br>
-<br>
-Signed-off-by: S=E9bastien Mennetrier &lt;<a href=3D"mailto:s.mennetrier@in=
-notis.org">s.mennetrier@innotis.org</a>&gt;<br>
----<br>
-=A0.../gstreamer/<a href=3D"http://gstreamer1.0-meta-base.bb" target=3D"_bl=
-ank">gstreamer1.0-meta-base.bb</a> =A0 =A0 =A0 =A0 =A0 =A0| 63 ++++++++++++=
-++++++++++<br>
-=A01 file changed, 63 insertions(+)<br>
-=A0create mode 100644 meta/recipes-multimedia/gstreamer/<a href=3D"http://g=
-streamer1.0-meta-base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a><b=
-r>
-<br>
-diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
-.0-meta-base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a> b/meta/rec=
-ipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta-base.bb" targ=
-et=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
-
-new file mode 100644<br>
-index 0000000..3b797f0<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta=
--base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
-@@ -0,0 +1,63 @@<br>
-+DESCRIPTION =3D &quot;Gstreamer1.0 package groups&quot;<br>
-+LICENSE =3D &quot;MIT&quot;<br>
-+DEPENDS =3D &quot;gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plug=
-ins-good gstreamer1.0-plugins-bad&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;md5=3D3f40d799439710=
-9285ec7b81fdeb3b58 \<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0file://${COREBASE}/meta/COPYING.MI=
-T;md5=3D3da9cfbcb788c80a0384361b4de20420&quot;<br>
-+<br>
-+PACKAGES =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-meta-x11-base \<br>
-+ =A0 =A0gstreamer1.0-meta-audio \<br>
-+ =A0 =A0gstreamer1.0-meta-debug \<br>
-+ =A0 =A0gstreamer1.0-meta-video&quot;<br>
-+<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-base =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-x11-base =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-audio =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-debug =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-video =3D &quot;1&quot;<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-base =3D &quot;\<br>
-+ =A0 =A0${@base_contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;gs=
-treamer1.0-meta-x11-base&#39;, &#39;&#39;, d)} \<br>
-+ =A0 =A0gstreamer1.0 \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-playback \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-gio \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-alsa \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-volume \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-audioconvert \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-audioresample \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-typefindfunctions \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-videoscale \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-videoconvert \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-autodetect \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-souphttpsrc&quot;<br>
-+<br>
-+RRECOMMENDS_gstreamer1.0-meta-x11-base =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-plugins-base-ximagesink \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-xvimagesink&quot;<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-audio =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-vorbis \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-ogg \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-wavparse \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-flac \<br>
-+ =A0 =A0${COMMERCIAL_AUDIO_PLUGINS}&quot;<br>
-+<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-debug =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-debug \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-audiotestsrc \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-videotestsrc&quot;<br>
-+<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-video =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-avi \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-matroska \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-theora \<br>
-+ =A0 =A0${COMMERCIAL_VIDEO_PLUGINS}&quot;<br>
-+<br>
-+RRECOMMENDS_gstreamer1.0-meta-video =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-audio&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.8.1.2<br>
-<br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div dir=
-=3D"ltr"><div><br>Regards,<br></div>S=E9bastien<br></div>
-</div>
-
---047d7b86eae6b93ff704f3c38e39--
