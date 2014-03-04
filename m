@@ -1,36 +1,27 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DCDD6EEF3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DA876EEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 11:02:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 387FE3149CAF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 12:02:44 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id IbQFFXdJC5hX
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 12:02:41 +0100 (CET)
-Received: from [172.22.22.61] (unknown [212.255.119.172])
-	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id C36333149AA8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 12:02:41 +0100 (CET)
-Message-ID: <5315B2D1.2020804@opendreambox.org>
-Date: Tue, 04 Mar 2014 12:02:41 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Tue,  4 Mar 2014 11:03:44 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Mar 2014 03:03:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,584,1389772800"; d="scan'208";a="492015329"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.51])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 03:03:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Sebastien MENNETRIER <s.mennetrier@innotis.org>
+Date: Tue, 04 Mar 2014 11:03:17 +0000
+Message-ID: <2447389.R95WFYxmmQ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.13.5-200.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <CABgO3_M8pJCRN1HDccUx0OwDZQ3gTGhS50zwu7R_+KYieT6sYg@mail.gmail.com>
+References: <1393584230-6405-1-git-send-email-s.mennetrier@innotis.org>
+	<CABgO3_M8pJCRN1HDccUx0OwDZQ3gTGhS50zwu7R_+KYieT6sYg@mail.gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>	<CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>	<53159295.9060600@enea.com>
-	<1742132.ri7Qh8tc7U@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <1742132.ri7Qh8tc7U@peggleto-mobl5.ger.corp.intel.com>
-Subject: Re: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] libomxil: Fix link issue for gst-omx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,28 +34,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 11:02:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Mar 2014 11:03:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 04.03.2014 11:29, Paul Eggleton wrote:
-> On Tuesday 04 March 2014 09:45:09 David Nyström wrote:
->> On 2014-03-03 21:41, Trevor Woerner wrote:
->>> Does this resolve issue 5407?
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5407
->>
->> This patch satisfies a small part of 5407, when this patch has been
->> reworked into a recipe and merged
-> 
-> I'm still confused as to why reworking this into a recipe is beneficial... ?
+On Tuesday 04 March 2014 09:18:26 Sebastien MENNETRIER wrote:
+> Ping
 
-Because if the feed info is stored in a package, it can be updated
-without reflashing.
+This was already merged on Friday.
 
-We used this once to stop updates for selected machines from a shared
-feed (due to memory constraints), but allowed other machines to continue
-to receive updates by pointing them to a new feed location.
+Cheers,
+Paul
 
-Regards,
-Andreas
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
