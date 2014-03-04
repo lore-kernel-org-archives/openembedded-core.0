@@ -1,23 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 90BCD6E918;
-	Tue,  4 Mar 2014 14:05:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 04 Mar 2014 06:05:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,585,1389772800"; d="scan'208";a="485794444"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.51])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2014 06:04:59 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Date: Tue, 04 Mar 2014 14:04:57 +0000
-Message-ID: <1973526.0VMS3EOL8u@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.2 (Linux/3.13.5-200.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 603C06D284
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  4 Mar 2014 14:17:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s24EHJm8009874
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Mar 2014 06:17:19 -0800 (PST)
+Received: from mark-t5610.wrs.com (128.224.147.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Tue, 4 Mar 2014 06:17:19 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Mar 2014 09:17:08 -0500
+Message-ID: <1393942628-31667-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-Subject: Public TSC / OE Workgroup meeting today
+X-Originating-IP: [128.224.147.123]
+Subject: [PATCH] mc: Add 'inherit pkgconfig'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,28 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 14:05:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 04 Mar 2014 14:17:21 -0000
+Content-Type: text/plain
 
-Hi all,
+mc's configure script uses pkg-config so we should 'inherit pgkconfig'
+to ensure the sysroot is properly populated. Currently we are lucky as
+mc DEPENDS on glib-2.0 which inherits pkgconfig but we should not rely
+on this dependency chain.
 
-There will be a public OpenEmbedded TSC/workgroup IRC meeting today. If you're 
-interested in discussing long-term technical efforts around the OpenEmbedded 
-project please join us on irc.freenode.net in channel #oe at 
-17:00 GMT (9am PST, 11am CST, 12 EST, 18:00 CET) today.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta/recipes-extended/mc/mc_4.7.5.2.bb | 2 +-
+ meta/recipes-extended/mc/mc_4.8.10.bb  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Possible topics for discussion (based on the last meeting):
-- Upcoming release
-- Bug blitz weekend
-- Website and other infrastructure issues
-
-New issues for discussion are welcome.
-
-Cheers,
-Paul
+diff --git a/meta/recipes-extended/mc/mc_4.7.5.2.bb b/meta/recipes-extended/mc/mc_4.7.5.2.bb
+index ac2216d..0e4434c 100644
+--- a/meta/recipes-extended/mc/mc_4.7.5.2.bb
++++ b/meta/recipes-extended/mc/mc_4.7.5.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "bdae966244496cd4f6d282d80c9cf3c6"
+ SRC_URI[sha256sum] = "a68338862bb30017eb65ed569a58e80ab66ae8cef11c886440c9e9f4d1efc6ab"
+ 
+-inherit autotools gettext
++inherit autotools gettext pkgconfig
+ 
+ EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x --without-samba"
+ 
+diff --git a/meta/recipes-extended/mc/mc_4.8.10.bb b/meta/recipes-extended/mc/mc_4.8.10.bb
+index 09cfa3c..511771a 100644
+--- a/meta/recipes-extended/mc/mc_4.8.10.bb
++++ b/meta/recipes-extended/mc/mc_4.8.10.bb
+@@ -11,7 +11,7 @@ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "eb4bdc23abd4fdfa14911d53d65c8186"
+ SRC_URI[sha256sum] = "5f4166fe78fbf4b42f51ed526ca7f79fea8c77d04355c2b97d4df2a6bd2a1b1a"
+ 
+-inherit autotools gettext
++inherit autotools gettext pkgconfig
+ 
+ EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x --without-samba"
+ 
 -- 
+1.8.3.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
