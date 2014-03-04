@@ -1,20 +1,22 @@
 Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 75E036EA1C
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B1F466EA1C
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 23:33:04 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Mar 2014 15:28:39 -0800
+	Tue,  4 Mar 2014 23:33:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2014 15:33:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,589,1389772800"; d="scan'208";a="494133818"
+X-IronPort-AV: E=Sophos;i="4.97,589,1389772800"; d="scan'208";a="466688152"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
-	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2014 15:33:05 -0800
+	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2014 15:33:06 -0800
 From: nitin.a.kamble@intel.com
 To: pb@pbcl.net, saul.wold@intel.com, Openembedded-core@lists.openembedded.org
-Date: Tue,  4 Mar 2014 15:28:32 -0800
-Message-Id: <cover.1393975557.git.nitin.a.kamble@intel.com>
+Date: Tue,  4 Mar 2014 15:28:40 -0800
+Message-Id: <48a8043e42837082df9858ed6f4e33c2cb4c1596.1393975557.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [Patch v2 0/1] A fix for QA_check
+In-Reply-To: <cover.1393975557.git.nitin.a.kamble@intel.com>
+References: <cover.1393975557.git.nitin.a.kamble@intel.com>
+Subject: [Patch v2 1/1] QA_check: special case kernel modules for x32 targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 23:33:06 -0000
+X-List-Received-Date: Tue, 04 Mar 2014 23:33:16 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This v2 fix is improved as per feedback from Phil Blundell <pb@pbcl.net>
+The Kernel module packages for x32 target have 64 bit binaries, which
+breaks the QA_check expecting all the packages to be 32bit.
 
-Thanks,
-Nitin
+Make a special case for kernel module packages for x32 targets, to avoid
+this false error.
 
-The following changes since commit 83b3e3e8e34a2512bcb1fe298715ece58c83dca3:
+Fixes Bug:
+[YOCTO #5903]
 
-  package_manager.py: RpmPM: don't add smart channel if already added (2014-03-03 15:05:32 -0800)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib nitin/fix1
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/fix1
-
-Nitin A Kamble (1):
-  QA_check: special case kernel modules for x32 targets
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  meta/classes/insane.bbclass | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index cf00e12..1195c10 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -443,11 +443,11 @@ def package_qa_check_arch(path,name,d, elf, messages):
+ 
+     # Check the architecture and endiannes of the binary
+     if not ((machine == elf.machine()) or \
+-        ("virtual/kernel" in provides) and (target_os == "linux-gnux32")):
++        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32"))):
+         messages.append("Architecture did not match (%d to %d) on %s" % \
+                  (machine, elf.machine(), package_qa_clean_path(path,d)))
+     elif not ((bits == elf.abiSize()) or  \
+-        ("virtual/kernel" in provides) and (target_os == "linux-gnux32")):
++        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32"))):
+         messages.append("Bit size did not match (%d to %d) %s on %s" % \
+                  (bits, elf.abiSize(), bpn, package_qa_clean_path(path,d)))
+     elif not littleendian == elf.isLittleEndian():
 -- 
 1.8.1.4
 
