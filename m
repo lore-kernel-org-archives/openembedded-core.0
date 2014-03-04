@@ -1,45 +1,25 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F34A6EFCB
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 4354460DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 08:37:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 06639180DE;
-	Tue,  4 Mar 2014 09:37:22 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id VuFGdlFKu9X1; Tue,  4 Mar 2014 09:37:21 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 65F7B180DC;
-	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 4FA44B30;
-	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 448129FC;
-	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 423893E048;
-	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
-	Tue, 4 Mar 2014 09:37:21 +0100
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 0E2059C29D; 
-	Tue,  4 Mar 2014 09:37:21 +0100 (CET)
-Date: Tue, 4 Mar 2014 09:37:21 +0100
-From: Olof Johansson <olof.johansson@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140304083720.GA30745@axis.com>
-References: <1393857456-18343-1-git-send-email-olof.johansson@axis.com>
-	<CAMKF1sq5C01yFquzWjAUaHDgr30ZFXj-dnujS0XWBWrWHC5YXA@mail.gmail.com>
+	Tue,  4 Mar 2014 08:45:15 +0000 (UTC)
+Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Tue, 4 Mar 2014
+	09:45:12 +0100
+Message-ID: <53159295.9060600@enea.com>
+Date: Tue, 4 Mar 2014 09:45:09 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq5C01yFquzWjAUaHDgr30ZFXj-dnujS0XWBWrWHC5YXA@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] sanity.bbclass: support wildcards in SANITY_TESTED_DISTROS
+To: Trevor Woerner <trevor.woerner@linaro.org>
+References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>	<4343044.DpKneM5m4P@peggleto-mobl5.ger.corp.intel.com>	<53105913.6020407@enea.com>
+	<CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
+In-Reply-To: <CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
+X-Originating-IP: [172.16.141.133]
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 08:37:26 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 04 Mar 2014 08:45:17 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14-03-03 19:17 +0100, Khem Raj wrote:
-> On Mon, Mar 3, 2014 at 6:37 AM, Olof Johansson <olof.johansson@axis.com> wrote:
-> > With this change, you can use shell like globbing expressions (as
-> > supported by Python's fnmatch) for entries in SANITY_TESTED_DISTROS.
-> > This makes it possible to say that, e.g. "all Debian 7 Wheezy releases
-> > are supported" with the entry "Debian-7.*".
-> 
-> I dont think its a good thing. We should be strict about it as we are.
-> otherwise it can end up
-> with bigger problems to save few  typing words
+On 2014-03-03 21:41, Trevor Woerner wrote:
+> Does this resolve issue 5407?
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5407
+>
 
-I don't really think we are strict about it today. Currently,
-Ubuntu LTS (12.04) does not include point release number in its
-lsb release name. Debian does (and I noticed a similar bump patch
-was sent for CentOS recently). I suspect that in many cases, a
-new Ubuntu point release contains about the same changes that the
-Debian point release does.
+This patch satisfies a small part of 5407, when this patch has been 
+reworked into a recipe and merged, there is still the issue to 
+synchonize the formatting for repositories in f.ex. IPK_FEED_URIS, and a 
+general cleanup of code made obsolete(poky-feed-config-ipk, distro-feeds 
+et.c.)
 
-The issue is that new point releases, at least in the case of
-Debian, happens about every two months. These bumps are
-integrated to master, backported to older branches, but it still
-won't reach people working off releases immediately.
+Br,
+David
 
-Even if Poky chooses not to adopt this, it would still be a nice
-thing to have support for doing this internally for our
-layer/distro.
-
--- 
-olofjn
 
