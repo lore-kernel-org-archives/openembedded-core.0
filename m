@@ -1,24 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F9186EFC3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B5BA6E8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 10:07:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s24A7Mdh000543
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Mar 2014 02:07:22 -0800 (PST)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 4 Mar 2014 02:07:22 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Mar 2014 18:07:57 +0800
-Message-ID: <1393927677-18898-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue,  4 Mar 2014 10:29:49 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2014 02:29:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,583,1389772800"; d="scan'208";a="466253846"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.51])
+	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2014 02:29:48 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.nystrom@enea.com>
+Date: Tue, 04 Mar 2014 10:29:47 +0000
+Message-ID: <1742132.ri7Qh8tc7U@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.13.5-200.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <53159295.9060600@enea.com>
+References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
+	<CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
+	<53159295.9060600@enea.com>
 MIME-Version: 1.0
-Subject: [PATCH] rpcbind: add rpc user and run rpcbind daemon with rpc user
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 10:07:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Mar 2014 10:29:50 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Tuesday 04 March 2014 09:45:09 David Nystr=F6m wrote:
+> On 2014-03-03 21:41, Trevor Woerner wrote:
+> > Does this resolve issue 5407?
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5407
+>=20
+> This patch satisfies a small part of 5407, when this patch has been
+> reworked into a recipe and merged
 
-For security policy, change to run rpcbind daemon with rpc user
-just like Redhat does, so set the --with-rpcuser to rpc and add rpc user.
+I'm still confused as to why reworking this into a recipe is beneficial=
+... ?
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Cheers,
+Paul
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
-index d9eb1a2..23219e0 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
-@@ -37,7 +37,13 @@ INITSCRIPT_PARAMS = "start 12 2 3 4 5 . stop 60 0 1 6 ."
- SYSTEMD_SERVICE_${PN} = "rpcbind.service"
- SYSTEMD_AUTO_ENABLE = "disable"
- 
--EXTRA_OECONF += " --enable-warmstarts "
-+inherit useradd
-+
-+USERADD_PACKAGES = "${PN}"
-+USERADD_PARAM_${PN} = "--system --no-create-home \
-+                       --shell /bin/false --user-group rpc"
-+
-+EXTRA_OECONF += " --enable-warmstarts --with-rpcuser=rpc"
- 
- do_install_append () {
- 	mv ${D}${bindir} ${D}${sbindir}
--- 
-1.7.9.5
+--=20
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
