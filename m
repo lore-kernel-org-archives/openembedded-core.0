@@ -1,35 +1,27 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 66F9B6EF8D
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C0686E36F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 18:37:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2014 10:37:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,586,1389772800"; d="scan'208";a="492293898"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2014 10:37:53 -0800
-Received: from orsmsx103.amr.corp.intel.com ([169.254.2.166]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.1.197]) with mapi id
-	14.03.0123.003; Tue, 4 Mar 2014 10:37:53 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Palcu, Laurentiu" <laurentiu.palcu@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] Revert "lib/oe/package_manager.py:
-	RpmPM: fix	issue with multilib builds"
-Thread-Index: AQHPNsVXn54yH4Io4E2N9GpUKr2kBZrRQ/YA
-Date: Tue, 4 Mar 2014 18:37:53 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C7CDB013B@ORSMSX103.amr.corp.intel.com>
-References: <cover.1393839480.git.laurentiu.palcu@intel.com>
-	<0d516ff4d652cf74a5a43106f46321ff52c97900.1393839480.git.laurentiu.palcu@intel.com>
-In-Reply-To: <0d516ff4d652cf74a5a43106f46321ff52c97900.1393839480.git.laurentiu.palcu@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
+	Tue,  4 Mar 2014 18:55:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s24Isxtr002593
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Mar 2014 10:54:59 -0800 (PST)
+Received: from [172.25.32.43] (172.25.32.43) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 4 Mar 2014 10:54:58 -0800
+Message-ID: <53162181.6020609@windriver.com>
+Date: Tue, 4 Mar 2014 12:54:57 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] Revert "lib/oe/package_manager.py: RpmPM: fix	issue with multilib builds"
+To: Stefan Agner <stefan@agner.ch>, <openembedded-core@lists.openembedded.org>
+References: <6fbd0612b6340318098692ee610e850f@agner.ch>
+In-Reply-To: <6fbd0612b6340318098692ee610e850f@agner.ch>
+X-Enigmail-Version: 1.6
+Subject: Re: relocate_sdk.py: Possible bug, /lib64/ld-linux-x86-64.so.2 not relocated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,80 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 18:37:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Mar 2014 18:55:02 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On 03/01/2014 08:26 AM, Stefan Agner wrote:
+> Hi,
+>
+> Using top of dylan branch, I generated a SDK using bitbake
+> meta-toolchain. I'm running Arch Linux, but I also see similar issues on
+> Ubuntu 12.04.4 LTS:
+>
+> Some binaries segfault when running them. I discovered, that the dynamic
+> linker of the host is used:
+> $ ldd
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+> linux-vdso.so.1 (0x00007fffc8f11000)
+> libc.so.6 =>
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/../../../lib/libc.so.6
+> (0x00007f4d85eb1000)
+> /lib64/ld-linux-x86-64.so.2 (0x00007f4d8625f000)
+>
+> When forcing the dynamic linker of the SDK, the binary works:
+> $
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+> arm-angstrom-linux-gnueabi-gcc: fatal error: no input files
+> compilation terminated.
+>
+> Digging around I found this commit by Jason:
+> 3752a9c6d772b39bbe04d62ef4d3527b4c7198c1
+> relocate_sdk.py: Fix corruption of sdk binaries
+>
+> It changes the behavior and don't relocates stuff which start with
+> /lib64. When I install the SDK with -S (copy the relocate scripts), and
+> remove the condition around line 95, the binaries work as expected. Also
+> LDD shows that ld-linux-x86-64.so.2 of the SDK will be used.
+>
+> Btw, I think this bug is related to that:
+> https://github.com/Angstrom-distribution/setup-scripts/issues/25
+>
+> Since I don't understand the original intention of that commit, I'm not
+> sure how to fix this properly...
 
+My guess is that the compiler recipe is not using the right linker.  The change to ignore binaries that are linked against the host libc is there intentionally.  We don't want to relocate binaries that are for a specific host or set of hosts.  The main reason it is there is to allow for the inclusion of binaries that were generated by the SDK as well as binaries that came from outside the SDK.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Laurentiu Palcu
-> Sent: Monday, March 03, 2014 1:44 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/2] Revert "lib/oe/package_manager.py:
-> RpmPM: fix issue with multilib builds"
->=20
-> Converting a list to a set does not keep the order of the items, as they =
-were
-> added, which might result in the wrong packages being installed in the fi=
-nal
-> image...
->=20
-> This reverts commit 12f47c23df8c109676f66d580d666a3147f3b046.
->=20
-> [YOCTO #5890]
->=20
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Acked-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+When you use the host's ld to link something and end up linking against the host's linux-vdso.so.1 there is not enough space for the path relocations.  The proper fix should be to ensure the recipe that builds your compiler has the same patches and linking of binaries as the oe-core cross compiler.
 
-This resolves the packaging issues I was seeing.
-Thanks,
-Nitin
-
-
-> ---
->  meta/lib/oe/package_manager.py |   13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/lib/oe/package_manager.py
-> b/meta/lib/oe/package_manager.py index ff4f1de..6c133c3 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -368,18 +368,19 @@ class RpmPM(PackageManager):
->                                  self.ml_os_list['default'])
->=20
->          # List must be prefered to least preferred order
-> -        default_platform_extra =3D set()
-> -        platform_extra =3D set()
-> +        default_platform_extra =3D list()
-> +        platform_extra =3D list()
->          bbextendvariant =3D self.d.getVar('BBEXTENDVARIANT', True) or ""
->          for mlib in self.ml_os_list:
->              for arch in self.ml_prefix_list[mlib]:
->                  plt =3D arch.replace('-', '_') + '-.*-' + self.ml_os_lis=
-t[mlib]
->                  if mlib =3D=3D bbextendvariant:
-> -                        default_platform_extra.add(plt)
-> +                    if plt not in default_platform_extra:
-> +                        default_platform_extra.append(plt)
->                  else:
-> -                        platform_extra.add(plt)
-> -
-> -        platform_extra =3D platform_extra.union(default_platform_extra)
-> +                    if plt not in platform_extra:
-> +                        platform_extra.append(plt)
-> +        platform_extra =3D default_platform_extra + platform_extra
->=20
->          self._create_configs(platform, platform_extra)
->=20
-> --
-> 1.7.9.5
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+Jason.
 
