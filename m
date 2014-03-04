@@ -1,28 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E0EA60DD7
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A99CF6F4F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 02:53:07 +0000 (UTC)
+	Tue,  4 Mar 2014 03:38:26 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s242r73K027043
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s243cQXA018283
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Mar 2014 18:53:08 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 3 Mar 2014 18:53:07 -0800
-Message-ID: <53154012.10502@windriver.com>
-Date: Tue, 4 Mar 2014 10:53:06 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
+	Mon, 3 Mar 2014 19:38:26 -0800 (PST)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 3 Mar 2014 19:38:25 -0800
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1393855671.git.liezhi.yang@windriver.com>
-	<213d7368c3c13140bbdc0f47e85e44bb932b1857.1393855671.git.liezhi.yang@windriver.com>
-In-Reply-To: <213d7368c3c13140bbdc0f47e85e44bb932b1857.1393855671.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/3] grub 2.00: add oe's kernel name to the conf file
+Date: Tue, 4 Mar 2014 11:39:00 +0800
+Message-ID: <1393904340-21216-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH] nfs-utils: run rpc.statd as rpcuser:rpcuser instead of rpcuser:root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,102 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 02:53:10 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Mar 2014 03:38:26 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
+For security policy, change the group of running rpc.stdtd to rpcuser,
+just like Radhat does.
 
-On 03/03/2014 10:49 PM, Robert Yang wrote:
-> Our kernel's name is bzImage, we need add it to grub.d/10_linux.in so
-> that the grub-mkconfig and grub-install can work correctly on the
-> target.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   .../grub/files/grub-2.00-add-oe-kernel.patch       | 53 ++++++++++++++++++++++
->   meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
->   2 files changed, 54 insertions(+)
->   create mode 100644 meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch
->
-> diff --git a/meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch b/meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch
-> new file mode 100644
-> index 0000000..eb8916c
-> --- /dev/null
-> +++ b/meta/recipes-bsp/grub/files/grub-2.00-add-oe-kernel.patch
-> @@ -0,0 +1,53 @@
-> +From 7ab576a7c61406b7e63739d1b11017ae336b9008 Mon Sep 17 00:00:00 2001
-> +From: Robert Yang <liezhi.yang@windriver.com>
-> +Date: Mon, 3 Mar 2014 03:34:48 -0500
-> +Subject: [PATCH] grub.d/10_linux.in: add oe's kernel name
-> +
-> +Our kernel's name is bzImage, we need add it to grub.d/10_linux.in so
-> +that the grub-mkconfig and grub-install can work correctly.
-> +
-> +We only need add the bzImage to util/grub.d/10_linux.in, but also add it
-> +to util/grub.d/20_linux_xen.in to keep compatibility.
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +---
-> + util/grub.d/10_linux.in     |    4 ++--
-> + util/grub.d/20_linux_xen.in |    2 +-
-> + 2 files changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
-> +index 14402e8..c58f417 100644
-> +--- a/util/grub.d/10_linux.in
-> ++++ b/util/grub.d/10_linux.in
-> +@@ -153,11 +153,11 @@ EOF
-> + machine=`uname -m`
-> + case "x$machine" in
-> +     xi?86 | xx86_64)
-> +-	list=`for i in /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
-> ++	list=`for i in /boot/bzImage-* /bzImage-* /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
-> +                   if grub_file_is_not_garbage "$i" ; then echo -n "$i " ; fi
-> +               done` ;;
-> +     *)
-> +-	list=`for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
-> ++	list=`for i in /boot/bzImage-* /boot/vmlinuz-* /boot/vmlinux-* /bzImage-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
-> +                   if grub_file_is_not_garbage "$i" ; then echo -n "$i " ; fi
-> + 	     done` ;;
-> + esac
-> +diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
-> +index 1d94502..b2decf3 100644
-> +--- a/util/grub.d/20_linux_xen.in
-> ++++ b/util/grub.d/20_linux_xen.in
-> +@@ -138,7 +138,7 @@ EOF
-> + EOF
-> + }
-> +
-> +-linux_list=`for i in /boot/vmlinu[xz]-* /vmlinu[xz]-* /boot/kernel-*; do
-> ++linux_list=`for i in /boot/bzImage[xz]-* /bzImage[xz]-* /boot/vmlinu[xz]-* /vmlinu[xz]-* /boot/kernel-*; do
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../nfs-utils/nfs-utils/nfscommon                  |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I've updated the repo, it should be bzImage, not bzImage[xz].
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
+index c949b96..65fdd1d 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfscommon
+@@ -36,7 +36,7 @@ create_directories(){
+ 		umask 077
+ 		mkdir -p rpc_pipefs
+ 		mkdir -p sm sm.bak statd
+-		chown rpcuser sm sm.bak statd
++		chown rpcuser:rpcuser sm sm.bak statd
+ 		test -w statd/state || {
+ 			rm -f statd/state
+ 			:>statd/state
+@@ -50,7 +50,7 @@ create_directories(){
+ 			}
+ 		done
+ 	)
+-	chown rpcuser "$NFS_STATEDIR"
++	chown rpcuser:rpcuser "$NFS_STATEDIR"
+ 	echo done
+ }
+ 
+-- 
+1.7.9.5
 
-   git://git.pokylinux.org/poky-contrib rbt/grub
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/grub
-
-// Robert
-
-> +     if grub_file_is_not_garbage "$i"; then
-> +     	basename=$(basename $i)
-> + 	version=$(echo $basename | sed -e "s,^[^0-9]*-,,g")
-> +--
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-> index ff9a7c6..c21031b 100644
-> --- a/meta/recipes-bsp/grub/grub_2.00.bb
-> +++ b/meta/recipes-bsp/grub/grub_2.00.bb
-> @@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
->             file://check-if-liblzma-is-disabled.patch \
->             file://40_custom \
->             file://fix-issue-with-flex-2.5.37.patch \
-> +          file://grub-2.00-add-oe-kernel.patch \
->             "
->
->   SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
->
 
