@@ -1,25 +1,30 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 4354460DD7
+Return-Path: <anders@chargestorm.se>
+Received: from STOEXHUB02.domain01.net (STOEXHUB02.domain01.net
+	[83.145.59.143])
+	by mail.openembedded.org (Postfix) with ESMTP id 4571C6B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 08:45:15 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Tue, 4 Mar 2014
-	09:45:12 +0100
-Message-ID: <53159295.9060600@enea.com>
-Date: Tue, 4 Mar 2014 09:45:09 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Tue,  4 Mar 2014 08:57:02 +0000 (UTC)
+Received: from ad.chargestorm.se (2.69.203.166) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Tue, 4 Mar 2014 09:57:01 +0100
+Date: Tue, 4 Mar 2014 09:56:53 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20140304085653.GA3511@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1393857456-18343-1-git-send-email-olof.johansson@axis.com>
+	<CAMKF1sq5C01yFquzWjAUaHDgr30ZFXj-dnujS0XWBWrWHC5YXA@mail.gmail.com>
+	<20140304083720.GA30745@axis.com>
 MIME-Version: 1.0
-To: Trevor Woerner <trevor.woerner@linaro.org>
-References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>	<4343044.DpKneM5m4P@peggleto-mobl5.ger.corp.intel.com>	<53105913.6020407@enea.com>
-	<CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
-In-Reply-To: <CALmOhgm_ScJQNZecKUQS-ki4+YkX_nYuZUDpYZcsLqjYSsECZg@mail.gmail.com>
-X-Originating-IP: [172.16.141.133]
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
+In-Reply-To: <20140304083720.GA30745@axis.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH v2] sanity.bbclass: support wildcards in SANITY_TESTED_DISTROS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,22 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 08:45:17 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Mar 2014 08:57:06 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On 2014-03-03 21:41, Trevor Woerner wrote:
-> Does this resolve issue 5407?
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5407
->
+* Olof Johansson <olof.johansson@axis.com> [140304 09:37]:
 
-This patch satisfies a small part of 5407, when this patch has been 
-reworked into a recipe and merged, there is still the issue to 
-synchonize the formatting for repositories in f.ex. IPK_FEED_URIS, and a 
-general cleanup of code made obsolete(poky-feed-config-ipk, distro-feeds 
-et.c.)
+> On 14-03-03 19:17 +0100, Khem Raj wrote:
+> > On Mon, Mar 3, 2014 at 6:37 AM, Olof Johansson <olof.johansson@axis.com> wrote:
+> > > With this change, you can use shell like globbing expressions (as
+> > > supported by Python's fnmatch) for entries in SANITY_TESTED_DISTROS.
+> > > This makes it possible to say that, e.g. "all Debian 7 Wheezy releases
+> > > are supported" with the entry "Debian-7.*".
 
-Br,
-David
+> > I dont think its a good thing. We should be strict about it as we are.
+> > otherwise it can end up
+> > with bigger problems to save few  typing words
 
+> I don't really think we are strict about it today. Currently,
+> Ubuntu LTS (12.04) does not include point release number in its
+> lsb release name. Debian does (and I noticed a similar bump patch
+> was sent for CentOS recently). I suspect that in many cases, a
+> new Ubuntu point release contains about the same changes that the
+> Debian point release does.
+
+> The issue is that new point releases, at least in the case of
+> Debian, happens about every two months. These bumps are
+> integrated to master, backported to older branches, but it still
+> won't reach people working off releases immediately.
+
+> Even if Poky chooses not to adopt this, it would still be a nice
+> thing to have support for doing this internally for our
+> layer/distro.
+
+I'm with Olof and Mark on this one. 
+
+We should at least add the code for allowing wildcards in the
+SANITY_TESTED_DISTROS. Then everyone creating our own setups/distros can
+choose to add wildcards or not.
+
+Whether we should add wildcards in Poky is a separate question. Though,
+we should treat e.g. Debian and Ubuntu in the same way.
+
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
