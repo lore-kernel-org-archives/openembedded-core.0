@@ -1,23 +1,24 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 8AA5E6BFA9
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A419D6BFA9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 12:34:52 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Wed, 5 Mar 2014
-	13:34:46 +0100
-Message-ID: <531719E1.2080501@enea.com>
-Date: Wed, 5 Mar 2014 13:34:41 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1394018657.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1394018657.git.paul.eggleton@linux.intel.com>
-X-Originating-IP: [172.16.141.133]
-Subject: Re: [PATCH 0/3] gnutls fixes for master
+	Wed,  5 Mar 2014 12:39:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Mar 2014 04:39:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,592,1389772800"; d="scan'208";a="494441764"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2014 04:39:45 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Mar 2014 14:39:40 +0200
+Message-Id: <81c080b0f74e7195514d45554767eb52d3036080.1394023121.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1394023121.git.laurentiu.palcu@intel.com>
+References: <cover.1394023121.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1394023121.git.laurentiu.palcu@intel.com>
+References: <cover.1394023121.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/3] package_manager.py: make list_installed() list pkg dependencies too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 12:34:54 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Mar 2014 12:39:48 -0000
 
-On 2014-03-05 12:25, Paul Eggleton wrote:
-> Turns out we're using the same old version of gnutls in master as in
-> dylan and dora, and we need a fix for a compile failure.
->
->
-> The following changes since commit 82c773e88aaefd9321481ad297554d5b4a3ae0b2:
->
->    Revert "ncurses: use ln -r to generate relative symlink" (2014-03-03 15:52:26 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib paule/gnutls
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/gnutls
->
-> Karl Hiramoto (2):
->    gnutls: CVE-2014-0092 correct return codes
->    gnutls: Fixed bug that prevented the rejection of v1 intermediate CA
->      certificates.
->
-> Paul Eggleton (1):
->    gnutls: fix failure during do_compile
+list_installed("deps") will now return the package dependencies.
 
-Any specific reasons why we still have the old gnuTLS-2.12.23 ?
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/lib/oe/package_manager.py |   31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Br,
-David
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index ff4f1de..f2c88bb 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -765,7 +765,22 @@ class RpmPM(PackageManager):
+                             self.image_rpmlib,
+                             symlinks=True)
+ 
++    def _list_pkg_deps(self):
++        cmd = [bb.utils.which(os.getenv('PATH'), "rpmresolve"),
++               "-t", self.image_rpmlib]
++
++        try:
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).strip()
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Cannot get the package dependencies. Command '%s' "
++                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output))
++
++        return output
++
+     def list_installed(self, format=None):
++        if format == "deps":
++            return self._list_pkg_deps()
++
+         cmd = self.rpm_cmd + ' --root ' + self.target_rootfs
+         cmd += ' -D "_dbpath /var/lib/rpm" -qa'
+         cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
+@@ -1131,6 +1146,9 @@ class OpkgPM(PackageManager):
+         elif format == "ver":
+             cmd = "%s %s status | %s -v" % \
+                 (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
++        elif format == "deps":
++            cmd = "%s %s status | %s" % \
++                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
+         else:
+             cmd = "%s %s list_installed | cut -d' ' -f1" % \
+                 (self.opkg_cmd, self.opkg_args)
+@@ -1494,6 +1512,8 @@ class DpkgPM(PackageManager):
+             cmd.append("-f=${Package} ${Package}_${Version}_${Architecture}.deb ${PackageArch}\n")
+         elif format == "ver":
+             cmd.append("-f=${Package} ${PackageArch} ${Version}\n")
++        elif format == "deps":
++            cmd.append("-f=Package: ${Package}\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n")
+         else:
+             cmd.append("-f=${Package}\n")
+ 
+@@ -1514,6 +1534,17 @@ class DpkgPM(PackageManager):
+                     tmp_output += "%s %s %s\n" % (pkg, pkg_file, pkg_arch)
+ 
+             output = tmp_output
++        elif format == "deps":
++            opkg_query_cmd = bb.utils.which(os.getenv('PATH'), "opkg-query-helper.py")
++
++            try:
++                output = subprocess.check_output("echo -e '%s' | %s" %
++                                                 (output, opkg_query_cmd),
++                                                 stderr=subprocess.STDOUT,
++                                                 shell=True)
++            except subprocess.CalledProcessError as e:
++                bb.fatal("Cannot compute packages dependencies. Command '%s' "
++                         "returned %d:\n%s" % (e.cmd, e.returncode, e.output))
+ 
+         return output
+ 
+-- 
+1.7.9.5
+
 
