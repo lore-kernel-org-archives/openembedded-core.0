@@ -1,28 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 876A26B89F
+Return-Path: <ajlennon@gmail.com>
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 88E946C8BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 09:08:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2598xvW015943
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Mar 2014 01:08:59 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 5 Mar 2014 01:08:58 -0800
-Message-ID: <5316E9A9.3060901@windriver.com>
-Date: Wed, 5 Mar 2014 17:08:57 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1394009171.git.hongxu.jia@windriver.com>
-	<5dd65618f76bdc0e159bd98762a5ea9f639223be.1394009171.git.hongxu.jia@windriver.com>
-In-Reply-To: <5dd65618f76bdc0e159bd98762a5ea9f639223be.1394009171.git.hongxu.jia@windriver.com>
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 1/1] dhcp-client: fix invoke dhclient-script failed on Read-only file system
+	Wed,  5 Mar 2014 09:17:17 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id n12so853290wgh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Mar 2014 01:17:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:in-reply-to:references;
+	bh=7TUz6foJzg3XYkg61PGUosjThHznsw65vQiIHTz9tVs=;
+	b=jl0V13MFTZWULtr9XjWFxvcHJ+UiAjbHLYKD433ZjSskTfdUHC7BuICBQcK4IZgzMw
+	92G8Amw+9LIG146FZ0Y1fhSGegK6R1PP7E58sIRQRNj2No8tdPZeVTvbYOOYZiAe32F5
+	8kp54nV/oA/1d0zuFJn+G7blb7pRDTNCrAa2Iv8KUDAFSb+iuj5zz2ExbFp5P2dYo+E+
+	sJH1n16tZKq1gbrk9KwZXUFsZMTq1bqX8Ng9rNmYmABzMeMPnLzA4qg/0HdnRVHvJn9V
+	FEEdvWi9LTI2cQeOCtsiWvBUJYM7rEv/ctlXa4s/vy0i8B8hVoHOE+3Da+qgrqZcBDpR
+	3iSw==
+X-Received: by 10.194.179.69 with SMTP id de5mr6946465wjc.4.1394011037657;
+	Wed, 05 Mar 2014 01:17:17 -0800 (PST)
+Received: from localhost.localdomain
+	(cpc32-live22-2-0-cust59.17-2.cable.virginm.net. [82.36.253.60])
+	by mx.google.com with ESMTPSA id uq2sm8714344wjc.5.2014.03.05.01.17.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 05 Mar 2014 01:17:16 -0800 (PST)
+Sender: Alex Lennon <ajlennon@gmail.com>
+From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Mar 2014 09:16:23 +0000
+Message-Id: <ce88733ef0143e96e323aff0ac34909d43eda4bf.1394010806.git.ajlennon@dynamicdevices.co.uk>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1394010806.git.ajlennon@dynamicdevices.co.uk>
+References: <cover.1394010806.git.ajlennon@dynamicdevices.co.uk>
+Subject: [meta-oe] [PATCH 1/1] daq: Update from 2.0.1 to 2.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,128 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 09:09:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Mar 2014 09:17:21 -0000
 
-On 03/05/2014 04:52 PM, Hongxu Jia wrote:
-> In read-only file system, '/etc' is on the readonly partition,
-> and '/etc/resolv.conf' is symlinked to a separate writable
-> partition.
->
-> In this situation, we should use shell variable to instead of
-> the temp file '/etc/resolv.conf.dhclient'.
->
-> [YOCTO #5624]
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   ...dhclient-script-drop-resolv.conf.dhclient.patch | 70 ++++++++++++++++++++++
->   meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb    |  3 +-
->   2 files changed, 71 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
->
-> diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
-> new file mode 100644
-> index 0000000..99ad91c
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
-> @@ -0,0 +1,70 @@
-> +dhclient-script: drop resolv.conf.dhclient
-> +
-> +Even though '/etc' is on the readonly partition, it's possible that
-> +/etc/resolv.conf is on a separate writable partition.
-> +
-> +In this situation, we should drop the temp file resolv.conf.dhclient,
-> +use shell variable instead.
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + client/scripts/linux | 18 +++++++++---------
-> + 1 file changed, 9 insertions(+), 9 deletions(-)
-> +
-> +diff --git a/client/scripts/linux b/client/scripts/linux
-> +index 6f8ea4b..b369bef 100755
-> +--- a/client/scripts/linux
-> ++++ b/client/scripts/linux
-> +@@ -27,27 +27,27 @@ ip=/sbin/ip
-> +
-> + make_resolv_conf() {
-> +   if [ x"$new_domain_name_servers" != x ]; then
-> +-    cat /dev/null > /etc/resolv.conf.dhclient
-> +-    chmod 644 /etc/resolv.conf.dhclient
-> ++    resolv_conf=""
-> +     if [ x"$new_domain_search" != x ]; then
-> +-      echo search $new_domain_search >> /etc/resolv.conf.dhclient
-> ++      resolv_conf="search ${new_domain_search}\n"
-> +     elif [ x"$new_domain_name" != x ]; then
-> +       # Note that the DHCP 'Domain Name Option' is really just a domain
-> +       # name, and that this practice of using the domain name option as
-> +       # a search path is both nonstandard and deprecated.
-> +-      echo search $new_domain_name >> /etc/resolv.conf.dhclient
-> ++      resolv_conf="search ${new_domain_name}\n"
-> +     fi
-> +     for nameserver in $new_domain_name_servers; do
-> +-      echo nameserver $nameserver >>/etc/resolv.conf.dhclient
-> ++      resolv_conf="${resolv_conf}nameserver ${nameserver}\n"
-> +     done
-> +
-> +-    mv /etc/resolv.conf.dhclient /etc/resolv.conf
-> ++    echo -e "${resolv_conf}" > /etc/resolv.conf
-> +   elif [ "x${new_dhcp6_name_servers}" != x ] ; then
-> +     cat /dev/null > /etc/resolv.conf.dhclient6
-> +     chmod 644 /etc/resolv.conf.dhclient6
+daq-2.0.1.tar.gz is missing from SRC_URI location. Presumably replaced with 2.02.
 
-The above two calling should be removed,
-Sorry for the missing.
+Signed-off-by: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+---
+ meta-oe/recipes-connectivity/daq/daq_2.0.2.bb |   16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 meta-oe/recipes-connectivity/daq/daq_2.0.2.bb
 
-I have updated 
-http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-dhcpclient
-Not resend V4.
-
-//Hongxu
-
-> ++    resolv_conf=""
-> +
-> +     if [ "x${new_dhcp6_domain_search}" != x ] ; then
-> +-      echo search ${new_dhcp6_domain_search} >> /etc/resolv.conf.dhclient6
-> ++      resolv_conf="search ${new_dhcp6_domain_search}\n"
-> +     fi
-> +     shopt -s nocasematch
-> +     for nameserver in ${new_dhcp6_name_servers} ; do
-> +@@ -59,11 +59,11 @@ make_resolv_conf() {
-> +       else
-> + 	zone_id=
-> +       fi
-> +-      echo nameserver ${nameserver}$zone_id >> /etc/resolv.conf.dhclient6
-> ++      resolv_conf="${resolv_conf}nameserver ${nameserver}$zone_id\n"
-> +     done
-> +     shopt -u nocasematch
-> +
-> +-    mv /etc/resolv.conf.dhclient6 /etc/resolv.conf
-> ++    echo -e "${resolv_conf}" > /etc/resolv.conf
-> +   fi
-> + }
-> +
-> +--
-> +1.8.1.2
-> +
-> diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-> index 08db41b..d823350 100644
-> --- a/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-> @@ -1,11 +1,10 @@
->   require dhcp.inc
->   
-> -PR = "r1"
-> -
->   SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
->               file://fix-external-bind.patch \
->               file://link-with-lcrypto.patch \
->               file://fixsepbuild.patch \
-> +            file://dhclient-script-drop-resolv.conf.dhclient.patch \
->              "
->   
->   SRC_URI[md5sum] = "f68e3c1f00a9af5742bc5e71d567cf93"
+diff --git a/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb b/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb
+new file mode 100644
+index 0000000..2675e2a
+--- /dev/null
++++ b/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "The dump DAQ test the various inline mode features "
++HOMEPAGE = "http://www.snort.org"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=f9ce51a65dd738dc1ae631d8b21c40e0"
++
++PARALLEL_MAKE = ""
++
++DEPENDS = "libpcap libpcre "
++
++SRC_URI = "http://fossies.org/linux/misc/daq-${PV}.tar.gz \
++            file://disable-run-test-program-while-cross-compiling.patch "
++
++SRC_URI[md5sum] = "865bf9b750a2a2ca632591a3c70b0ea0"
++SRC_URI[sha256sum] = "d65d1e67c4994e02c3142c49a648642e780b7e3d942b4a51f605309beac269a8"
++
++inherit autotools
+-- 
+1.7.9.5
 
 
