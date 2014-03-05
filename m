@@ -1,37 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id C44F36A8F0
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 423126E8A6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Mar 2014 23:48:36 +0000 (UTC)
-Received: by mail-ie0-f176.google.com with SMTP id rd18so305533iec.35
+	Wed,  5 Mar 2014 05:13:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s255Duum019463
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Mar 2014 15:48:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=QWQ7uMnOW2rcBRsl+Ktd9mPvzT6RZr2dTToZsifTpCc=;
-	b=AO6l4Hl1ThtqRvw2/WDJl5Q50pWUqw55DaNSALmhbVUPEVX8FkQv09a4moJ3/iJ0u2
-	HsD9zFkGQ5YQHoys+pXGB46BmtL11VpElH3CF6aAlS0qv7/Ja4fXfuAcOekAlan8w0g/
-	SmKEFcMkoZY1cuFtMF9ZSJQ6BQy7B5Ph0+LqgYCQuBMqSaVRvNOIdo0EA0MOMWl2lQlz
-	MGJT1j84rGRH9sba5Su2itp5ASwV5sBmPURH5cBsTewgfScDym+E8fsCIACSU6RBOvEB
-	sjaA76MWyG+nmOop5rzwDh32lkga2YsIRmZFYZktMD2ntrshNNAUZIu8QU3o6czhSPNS
-	WulA==
-X-Received: by 10.50.43.170 with SMTP id x10mr6302861igl.20.1393976917098;
-	Tue, 04 Mar 2014 15:48:37 -0800 (PST)
+	Tue, 4 Mar 2014 21:13:57 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 4 Mar 2014 21:13:56 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Mar 2014 13:14:31 +0800
+Message-ID: <cover.1393996274.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Tue, 4 Mar 2014 15:48:06 -0800 (PST)
-In-Reply-To: <CAJTo0Lbw5-7JmuHak4-hU35c73LG7CZWmxZ-0kDQ4rDrFDSZmA@mail.gmail.com>
-References: <1393612134-15665-1-git-send-email-ross.burton@intel.com>
-	<5313F632.60207@windriver.com>
-	<26065539-945D-4AB2-8AB3-797BB63B01D3@gmail.com>
-	<CAJTo0Lbw5-7JmuHak4-hU35c73LG7CZWmxZ-0kDQ4rDrFDSZmA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 4 Mar 2014 15:48:06 -0800
-Message-ID: <CAMKF1spVxO2CYVzQqaUVydGbR4HS+V+w4DNw+sj2sn-wJ45b6A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ncurses: use ln -r to generate relative symlink
+Subject: [PATCH 0/1] e2fsprogs: fix cross compilation problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,12 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Mar 2014 23:48:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Mar 2014 05:13:57 -0000
+Content-Type: text/plain
 
-On Mon, Mar 3, 2014 at 3:50 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> I wrote this patch on Debian stable...
+The following changes since commit 82c773e88aaefd9321481ad297554d5b4a3ae0b2:
 
-yeah I jumped in too quick, master was debian, but this failed slave
-node was ubuntu 12.04
+  Revert "ncurses: use ln -r to generate relative symlink" (2014-03-03 15:52:26 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/e2fsprogs-qemumips64
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/e2fsprogs-qemumips64
+
+Chen Qi (1):
+  e2fsprogs: fix cross compilation problem
+
+ ...1-e2fsprogs-fix-cross-compilation-problem.patch |   55 ++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-cross-compilation-problem.patch
+
+-- 
+1.7.9.5
+
 
