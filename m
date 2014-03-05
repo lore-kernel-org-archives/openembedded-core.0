@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FCA86C8BD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 252B860E07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 09:21:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s259LbHB005577; Wed, 5 Mar 2014 09:21:37 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rpsXQrJ5eseS; Wed,  5 Mar 2014 09:21:37 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s259LU1L005570
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 5 Mar 2014 09:21:32 GMT
-Message-ID: <1394011283.31845.97.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Wed, 05 Mar 2014 09:21:23 +0000
+	Wed,  5 Mar 2014 09:43:43 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id i50so2271893qgf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Mar 2014 01:43:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=xiq4UR1tbNFNuYgv87q/J5Jugt0zb7w6NZSpQdl2Sqg=;
+	b=jVvaBfKlO8gOZNbN+8rpzDIN/Tft9nZzzGkX969u2PkQ13fi2h/zuZSLhsUNWO6mDQ
+	DXcdH2j3SFZCJ94oVZhYfWxQhXj3V+L+kOZGtGuMsVSY5JjOrgWvVeQ3AECeBiMGLqnc
+	a8Ob5w7PxHCHJRNs6f9mnIzU3AJW7OwV0vR0q+OvL/zFzhLBJxcI9fPFa8TZTdiMMyAR
+	fC0Q1oSe/IvA8O3iQlPr5PeDrRWHuNrlwgLR/VwhMy2qQGpVk3DYV6Xg9PraDrXAkPdk
+	NH+LxPljJiczRVG7YtVezEOd0ILei39GhqQ+Xh6C/S0ckPtIX5mJ0rBPh0TIXF2pWoPe
+	Ed3g==
+X-Gm-Message-State: ALoCoQmeaRTwbkQyhWQCKZoJXOgLC3F3QXanfZUTdhWH3sxILKIgENBfIGLFQygD9F24NIBQD6xr
+X-Received: by 10.140.98.203 with SMTP id o69mr1083560qge.102.1394012623988;
+	Wed, 05 Mar 2014 01:43:43 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Wed, 5 Mar 2014 01:43:23 -0800 (PST)
 In-Reply-To: <c00e7a2047ec6a4b4f46722f49176b08ded90509.1394010463.git.Chong.Lu@windriver.com>
 References: <cover.1394010463.git.Chong.Lu@windriver.com>
 	<c00e7a2047ec6a4b4f46722f49176b08ded90509.1394010463.git.Chong.Lu@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 5 Mar 2014 09:43:23 +0000
+Message-ID: <CAJTo0LYyVf5PeZBW98Ee9seX5t7ONdj1ZZMv29=TYLJTT8mTVQ@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] flex: not to build shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -38,34 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 09:21:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Mar 2014 09:43:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2014-03-05 at 17:18 +0800, Chong Lu wrote:
+On 5 March 2014 09:18, Chong Lu <Chong.Lu@windriver.com> wrote:
 > Some packages do not link successfully using shared libraries.
 > When link something to libfl.so, we will get this:
-> 
-> 	libfl.so: undefined reference to `yylex'
-> 
-> So we only build static libraries to fix this issue.
-> 
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->  .../files/flex-not-to-build-shared-libraries.patch | 39 ++++++++++++++++++++++
->  meta/recipes-devtools/flex/flex.inc                |  1 +
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-devtools/flex/files/flex-not-to-build-shared-libraries.patch
+>
+>         libfl.so: undefined reference to `yylex'
 
-Why aren't the shared libraries working? Which packages show this
-problem? Is this not a problem in the recipes using the shared
-libraries?
+Isn't that generally because the makefile is doing it wrong, for
+example linking the lexer in C++ mode instead of C?
 
-At the very least this patch needs more explanation but I don't like the
-idea.
+Remove a shared library and forcing everyone to static link doesn't
+seem like a long-term solution to me.
 
-Cheers,
-
-Richard
-
+Ross
 
