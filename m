@@ -1,35 +1,34 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 520756D189
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 69EE66E7D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 19:54:01 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id y1so1036153lam.6
+	Wed,  5 Mar 2014 20:06:37 +0000 (UTC)
+Received: by mail-lb0-f180.google.com with SMTP id 10so1076976lbg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Mar 2014 11:54:02 -0800 (PST)
+	Wed, 05 Mar 2014 12:06:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=EbXYo5hB/GbWHvF3pXjP7kpOIyOdKdfTkg+s7Ic2Khg=;
-	b=M3ZFu3GSX5Jom2UMRwErR8LqMZaoGrvFIKYchFnz6KREAHiYA/62BubMLjaulPdM8Q
-	kI+oaLl6P4NbpTx8w8Ft9WbWFfOdt1uQctmb8pEeiv7h3lqVFshwwsAGXivyI5EXkz1g
-	077Px5yXmd8jZg46bBtJma94Ce1Rbj1p1gLy+KWPfSfVanTn8LON6XPdiVT3TxmyYdn3
-	wfoZCZVAoo9nAx4Ix4lXEuYphIwLiCp4X7Iorxb8NhmbDJjplU3er94iDKy7uI/JonvW
-	N6Np67jUbguUKH+Yw3DRomT36tpym6CvPazB8mEZ+C3dHcRxtn5NcMUE4K9xQ3VqF2fo
-	5zzw==
-X-Received: by 10.112.235.133 with SMTP id um5mr4687693lbc.28.1394049241774;
-	Wed, 05 Mar 2014 11:54:01 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=uKoYv2+wstAIQy20dD7Q8/CXHiIrSKQ14xYFeAfdzw8=;
+	b=w7Wp20eoJiYSrWdaveCfBMQivwwPbRbyzfwKK6BT+dNfM+hfSBMGCOM3/ZoyugabwR
+	oaYTIJyhm/3E0/GI6dXu5/DgQUg6t0GOvd/eBEzbFe141EE5FfWKrLmuOPDmaVFkWNJP
+	fjRcC10wWpCstgzLXJeu6XLpY9mexk+hW3HYDn/dutq7czBxNpCph3gfQkaYF69a3Dow
+	GgyPGq75o161zJ7wxBZMz6WFyn6R8AJAf6VkH63ZXCPz/M/lh7VSZsu7Sx4SJQ3oNHv2
+	UI1EwLvVv8r4uVrjIG1H2B28bu5DVG7OBitC3FR8e3dUuEyu+rahMT3pG7N/RskbNMYN
+	q2uQ==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.35.200 with HTTP; Wed, 5 Mar 2014 11:53:41 -0800 (PST)
-In-Reply-To: <1394041627.31845.127.camel@ted>
+X-Received: by 10.112.143.228 with SMTP id sh4mr37414lbb.57.1394049997614;
+	Wed, 05 Mar 2014 12:06:37 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Wed, 5 Mar 2014 12:06:37 -0800 (PST)
+In-Reply-To: <CABcZAN=E+XFNCegQy+foqsfqdn+NjfgUKrvTjBFvDZK2nNFe5g@mail.gmail.com>
 References: <1394038191-26474-1-git-send-email-matt@console-pimps.org>
 	<1394041627.31845.127.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 5 Mar 2014 12:53:41 -0700
-X-Google-Sender-Auth: oS1-hFYQRGYfw8V20XQQBqWhSyU
-Message-ID: <CABcZAN=E+XFNCegQy+foqsfqdn+NjfgUKrvTjBFvDZK2nNFe5g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CABcZAN=E+XFNCegQy+foqsfqdn+NjfgUKrvTjBFvDZK2nNFe5g@mail.gmail.com>
+Date: Wed, 5 Mar 2014 15:06:37 -0500
+Message-ID: <CADkTA4Obe_kcN71A=K0OqkL0XP27PHJLGgOfD+tiE5rGACMdoA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chris Larson <clarson@kergoth.com>
 Cc: Matt Fleming <matt.fleming@intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -46,90 +45,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 19:54:03 -0000
-Content-Type: multipart/alternative; boundary=001a11c3cc90db004d04f3e16188
+X-List-Received-Date: Wed, 05 Mar 2014 20:06:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---001a11c3cc90db004d04f3e16188
-Content-Type: text/plain; charset=UTF-8
-
-On Wed, Mar 5, 2014 at 10:47 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2014-03-05 at 16:49 +0000, Matt Fleming wrote:
-> > From: Matt Fleming <matt.fleming@intel.com>
-> >
-> > 'git branch' may use ANSI escape codes in its output (to provide colour)
-> > which doesn't play well with commands expecting pure plain text, e.g.
-> >
-> >     fatal: '^[[31mmaster^[[m' is not a valid branch name.
-> >
-> > Furthermore, the output of 'git branch' is subject to change and trying
-> > to parse it could potentially lead to breakage in the future.
-> >
-> > Signed-off-by: Matt Fleming <matt.fleming@intel.com>
-> > ---
-> >  meta/classes/kernel-yocto.bbclass | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
+On Wed, Mar 5, 2014 at 2:53 PM, Chris Larson <clarson@kergoth.com> wrote:
 >
-> My worry with this change is that it will cause the system to hit the
-> network. We specifically support builds from archives of the
-> repositories so I'd worry about using ls-remote like this :/.
+> On Wed, Mar 5, 2014 at 10:47 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> On Wed, 2014-03-05 at 16:49 +0000, Matt Fleming wrote:
+>> > From: Matt Fleming <matt.fleming@intel.com>
+>> >
+>> > 'git branch' may use ANSI escape codes in its output (to provide colour)
+>> > which doesn't play well with commands expecting pure plain text, e.g.
+>> >
+>> >     fatal: '^[[31mmaster^[[m' is not a valid branch name.
+>> >
+>> > Furthermore, the output of 'git branch' is subject to change and trying
+>> > to parse it could potentially lead to breakage in the future.
+>> >
+>> > Signed-off-by: Matt Fleming <matt.fleming@intel.com>
+>> > ---
+>> >  meta/classes/kernel-yocto.bbclass | 10 +++++-----
+>> >  1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> My worry with this change is that it will cause the system to hit the
+>> network. We specifically support builds from archives of the
+>> repositories so I'd worry about using ls-remote like this :/.
+>
+>
+> What about git for-each-ref? If we just need a list of refs, that's what
+> for-each-ref is ideal for.
+
+Good suggestion, that can definitely work. With the format, it saves the
+awkward awking and cutting :
+
+I've used this in the past:
+
+   git for-each-ref --shell --format="%(refname)"  refs/heads/ refs/remotes
+
+The minimum footprint change is still just --no-color, that way we don't change
+just for the sake of changing.
+
+Cheers,
+
+Bruce
 
 
-What about git for-each-ref? If we just need a list of refs, that's what
-for-each-ref is ideal for.
+> --
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
---001a11c3cc90db004d04f3e16188
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Mar 5, 2014 at 10:47 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"">On Wed, 2014-03-05 at 16:49 =
-+0000, Matt Fleming wrote:<br>
-&gt; From: Matt Fleming &lt;<a href=3D"mailto:matt.fleming@intel.com">matt.=
-fleming@intel.com</a>&gt;<br>
-&gt;<br>
-&gt; &#39;git branch&#39; may use ANSI escape codes in its output (to provi=
-de colour)<br>
-&gt; which doesn&#39;t play well with commands expecting pure plain text, e=
-.g.<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 fatal: &#39;^[[31mmaster^[[m&#39; is not a valid branch =
-name.<br>
-&gt;<br>
-&gt; Furthermore, the output of &#39;git branch&#39; is subject to change a=
-nd trying<br>
-&gt; to parse it could potentially lead to breakage in the future.<br>
-&gt;<br>
-&gt; Signed-off-by: Matt Fleming &lt;<a href=3D"mailto:matt.fleming@intel.c=
-om">matt.fleming@intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/classes/kernel-yocto.<span class=3D"il">bbclass</span> | 10=
- +++++-----<br>
-&gt; =C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
-<br>
-</div>My worry with this change is that it will cause the system to hit the=
-<br>
-network. We specifically support builds from archives of the<br>
-repositories so I&#39;d worry about using ls-remote like this :/.</blockquo=
-te></div><br></div><div class=3D"gmail_extra">What about git for-each-ref? =
-If we just need a list of refs, that&#39;s what for-each-ref is ideal for.<=
-br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
-
---001a11c3cc90db004d04f3e16188--
