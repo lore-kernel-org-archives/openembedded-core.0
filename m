@@ -1,25 +1,25 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B9ECD6E3BB
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ECD36EEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 10:08:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s25A8Fad016799
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Mar 2014 02:08:15 -0800 (PST)
-Received: from localhost.localdomain (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Wed, 5 Mar 2014 02:08:15 -0800
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Mar 2014 18:08:03 +0800
-Message-ID: <1394014083-9969-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-X-Originating-IP: [128.224.153.21]
-Subject: [PATCH] package: let dependency on a package name to be architecture specific
+	Wed,  5 Mar 2014 10:59:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Mar 2014 02:59:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,592,1389772800"; d="scan'208";a="466974643"
+Received: from maurorob-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.80])
+	by orsmga001.jf.intel.com with ESMTP; 05 Mar 2014 02:59:50 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Mar 2014 10:59:29 +0000
+Message-Id: <30d4603ac00cd1eb47a679b5a6e23bec9983b18c.1394017098.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+In-Reply-To: <cover.1394017098.git.paul.eggleton@linux.intel.com>
+References: <cover.1394017098.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1394017098.git.paul.eggleton@linux.intel.com>
+References: <cover.1394017098.git.paul.eggleton@linux.intel.com>
+Subject: [dora][PATCH 2/2] gnutls: Fixed bug that prevented the rejection of v1 intermediate CA certificates.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,216 +32,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 10:08:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Mar 2014 10:59:51 -0000
 
-For multilib builds that rpm is the first package backend, it would be
-often desireable to express that a package of compatible architecture
-is needed to satisfy a dependency. In most of the cases this is already
-handled by the automatically extracted soname dependencies, but this is
-not always the case: sometimes it's necessary to disable the automatic
-dependency generation, and then there are cases where the information
-cannot be automatically generated, such as: -dev package dependencies
-on other -dev packages or plugins are dynamically loaded via dlopen,
-leading to obscure build failure that a 32bit package would incorrectly
-satisfy the dependency for a 64bit package and similarly vice versa.
+From: Karl Hiramoto <karl@hiramoto.org>
 
-The patch mainly aims to resolve this problem, the basic idea is adding
-a ARCH_SPECIFIC variable for packages satisfying following scenarios:
-  * when rpm is being set as the first package backend
-  * it's not a allarch package
-  * it only provides libs without bins meanwhile
+This patch is for the OE-Core dora branch - it comes from upstream:
 
-Every satisfied package would be set with
-"ARCH_SPECIFIC_pkgname = 1:${TARGET_ARCH}" and it's gonna be written into
-pkgdata if it exists, to mark the package as architecture specific, and
-it will be checked during runtime_mapping_rename, all architecture
-specific dependencies would be expanded with a ${TARGET_ARCH} suffix,
-that declares a dependency on a package name architecture specific and
-permits differentiating between 32-bit and 64-bit versions.
+From 467478d8ff08a3cb4be3034ff04c9d08a0ceba3e
+From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+Date: Wed, 12 Feb 2014 16:41:33 +0100
 
-Off course, the user could set "ARCH_SPECIFIC_pkgname = 0" in recipes to
-disable this feature.
+For more info see:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1959
+http://www.gnutls.org/security.html#GNUTLS-SA-2014-1
+https://www.gitorious.org/gnutls/gnutls/commit/467478d8ff08a3cb4be3034ff04c9d08a0ceba3e
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Signed-off-by: Karl Hiramoto <karl@hiramoto.org>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/image.bbclass             |    6 +-
- meta/classes/package.bbclass           |   78 ++++++++++++++++++++++++++------
- meta/classes/populate_sdk_base.bbclass |    2 +-
- 3 files changed, 68 insertions(+), 18 deletions(-)
+ ...14-1959-rejection-of-v1-intermediate-cert.patch | 33 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_2.12.23.bb      |  3 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2014-1959-rejection-of-v1-intermediate-cert.patch
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 28b68f9..670f173 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -225,9 +225,9 @@ do_rootfs[prefuncs] += "rootfs_process_ignore"
- # may have occurred.
- python rootfs_runtime_mapping() {
-     pn = d.getVar('PN', True)
--    runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
--    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
--    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
-+    runtime_mapping_rename("PACKAGE_INSTALL", pn, False, d)
-+    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, False, d)
-+    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, False, d)
- }
- do_rootfs[prefuncs] += "rootfs_runtime_mapping"
- 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0018a62..3e0ca30 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -346,19 +346,29 @@ def copydebugsources(debugsrcdir, d):
- # Package data handling routines
- #
- 
--def get_package_mapping (pkg, basepkg, d):
-+def get_package_mapping (pkg, basepkg, check_arch, d):
-     import oe.packagedata
- 
-+    ret = pkg
-     data = oe.packagedata.read_subpkgdata(pkg, d)
--    key = "PKG_%s" % pkg
-+    pkg_key = "PKG_%s" % pkg
-+    arch_key = "ARCH_SPECIFIC_%s" % pkg
-+    arch_specific = '0'
- 
--    if key in data:
-+    if pkg_key in data:
-         # Have to avoid undoing the write_extra_pkgs(global_variants...)
--        if bb.data.inherits_class('allarch', d) and data[key] == basepkg:
-+        if bb.data.inherits_class('allarch', d) and data[pkg_key] == basepkg:
-             return pkg
--        return data[key]
-+        ret = data[pkg_key]
- 
--    return pkg
-+    if arch_key in data:
-+        arch_specific = data[arch_key]
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2014-1959-rejection-of-v1-intermediate-cert.patch b/meta/recipes-support/gnutls/gnutls/CVE-2014-1959-rejection-of-v1-intermediate-cert.patch
+new file mode 100644
+index 0000000..6567257
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2014-1959-rejection-of-v1-intermediate-cert.patch
+@@ -0,0 +1,33 @@
++From 467478d8ff08a3cb4be3034ff04c9d08a0ceba3e Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@redhat.com>
++Date: Wed, 12 Feb 2014 16:41:33 +0100
++Subject: [PATCH 1/5] Fixed bug that prevented the rejection of v1 intermediate
++ CA certificates.
 +
-+    items = arch_specific.split(':')
-+    if len(items) > 1 and items[0] == '1' and check_arch == True:
-+        ret += '(' + items[1] + ')'
++Upstream-Status: Backport
 +
-+    return ret
- 
- def get_package_additional_metadata (pkg_type, d):
-     base_key = "PACKAGE_ADD_METADATA"
-@@ -371,13 +381,13 @@ def get_package_additional_metadata (pkg_type, d):
-         metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
-         return "\n".join(metadata_fields).strip()
- 
--def runtime_mapping_rename (varname, pkg, d):
-+def runtime_mapping_rename (varname, pkg, check_arch, d):
-     #bb.note("%s before: %s" % (varname, d.getVar(varname, True)))
- 
-     new_depends = {}
-     deps = bb.utils.explode_dep_versions2(d.getVar(varname, True) or "")
-     for depend in deps:
--        new_depend = get_package_mapping(depend, pkg, d)
-+        new_depend = get_package_mapping(depend, pkg, check_arch, d)
-         new_depends[new_depend] = deps[depend]
- 
-     d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
-@@ -1119,6 +1129,34 @@ python package_fixsymlinks () {
-         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
- }
- 
-+python package_check_arch () {
-+    import glob, re
++Signed-off-by: Karl Hiramoto <karl@hiramoto.org>
 +
-+    def check_arch_specific(pkg):
-+        bin_re = re.compile(".*/s?" + os.path.basename(d.getVar("bindir", True)) + "$")
-+        lib_re = re.compile(".*/" + os.path.basename(d.getVar("libdir", True)) + "($|/.*$)")
-+        has_bins = 0
-+        has_libs = 0
++---
++ lib/x509/verify.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+        for file in pkgfiles[pkg]:
-+            root = os.path.dirname(file)
-+            if bin_re.match(root):
-+                has_bins = 1
-+            if lib_re.match(root):
-+                has_libs = 1
++diff --git a/lib/x509/verify.c b/lib/x509/verify.c
++index 2efcebf..c9a6b0d 100644
++--- a/lib/x509/verify.c
+++++ b/lib/x509/verify.c
++@@ -645,7 +645,10 @@ _gnutls_x509_verify_certificate (const gnutls_x509_crt_t * certificate_list,
++        * certificates can exist in a supplied chain.
++        */
++       if (!(flags & GNUTLS_VERIFY_ALLOW_ANY_X509_V1_CA_CRT))
++-        flags &= ~(GNUTLS_VERIFY_ALLOW_X509_V1_CA_CRT);
+++        {
+++          flags &= ~(GNUTLS_VERIFY_ALLOW_X509_V1_CA_CRT);
+++          flags |= GNUTLS_VERIFY_DO_NOT_ALLOW_X509_V1_CA_CRT;
+++        }
++       if ((ret =
++            _gnutls_verify_certificate2 (certificate_list[i - 1],
++                                         &certificate_list[i], 1, flags,
++-- 
++1.8.3.2
 +
-+        if not bb.data.inherits_class('allarch', d) and not has_bins and has_libs:
-+            if not d.getVar('ARCH_SPECIFIC_' + pkg):
-+                d.setVar('ARCH_SPECIFIC_' + pkg, "%s:%s" % ('1', d.getVar('TARGET_ARCH', True)))
-+
-+    # Do nothing if rpm is not the first package backend
-+    if d.getVar('PACKAGE_CLASSES', True).split()[0] != "package_rpm":
-+        return
-+
-+    for pkg in sorted((d.getVar('PACKAGES', True) or "").split()):
-+        check_arch_specific(pkg)
-+}
-+
- PKGDESTWORK = "${WORKDIR}/pkgdata"
+diff --git a/meta/recipes-support/gnutls/gnutls_2.12.23.bb b/meta/recipes-support/gnutls/gnutls_2.12.23.bb
+index e26b154..04605dd 100644
+--- a/meta/recipes-support/gnutls/gnutls_2.12.23.bb
++++ b/meta/recipes-support/gnutls/gnutls_2.12.23.bb
+@@ -6,7 +6,8 @@ SRC_URI += "file://gnutls-openssl.patch \
+             file://correct_rpl_gettimeofday_signature.patch \
+             file://configure-fix.patch \
+             file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
+-	    file://CVE-2014-0092-corrected-return-codes.patch \
++            file://CVE-2014-1959-rejection-of-v1-intermediate-cert.patch \
++            file://CVE-2014-0092-corrected-return-codes.patch \
+             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
+            "
  
- python emit_pkgdata() {
-@@ -1184,6 +1222,16 @@ python emit_pkgdata() {
-             pkgval = pkg
-             d.setVar('PKG_%s' % pkg, pkg)
- 
-+        arch_specific = d.getVar('ARCH_SPECIFIC_%s' % pkg, True) or ""
-+        items = arch_specific.split(':')
-+        if len(items) > 1 and items[0] == '1':
-+            rprovides = d.getVar('RPROVIDES_%s' % pkg, True)
-+            if rprovides == None:
-+                rprovides = pkg + ' (=' + d.getVar('EXTENDPKGV', True) + ')'
-+            else:
-+                rprovides += ' ' + pkg + ' (=' + d.getVar('EXTENDPKGV', True) + ')'
-+            d.setVar('RPROVIDES_%s' % pkg, rprovides)
-+
-         pkgdestpkg = os.path.join(pkgdest, pkg)
-         files = {}
-         total_size = 0
-@@ -1215,6 +1263,7 @@ python emit_pkgdata() {
-         write_if_exists(sf, pkg, 'SECTION')
-         write_if_exists(sf, pkg, 'PKG')
-         write_if_exists(sf, pkg, 'ALLOW_EMPTY')
-+        write_if_exists(sf, pkg, 'ARCH_SPECIFIC')
-         write_if_exists(sf, pkg, 'FILES')
-         write_if_exists(sf, pkg, 'pkg_postinst')
-         write_if_exists(sf, pkg, 'pkg_postrm')
-@@ -1878,6 +1927,7 @@ PACKAGESPLITFUNCS ?= " \
- PACKAGEFUNCS += " \
-                 package_fixsymlinks \
-                 package_name_hook \
-+                package_check_arch \
-                 package_do_filedeps \
-                 package_do_shlibs \
-                 package_do_pkgconfig \
-@@ -2010,10 +2060,10 @@ def mapping_rename_hook(d):
-     like debian.bbclass or manual PKG variable name changes
-     """
-     pkg = d.getVar("PKG", True)
--    runtime_mapping_rename("RDEPENDS", pkg, d)
--    runtime_mapping_rename("RRECOMMENDS", pkg, d)
--    runtime_mapping_rename("RSUGGESTS", pkg, d)
--    runtime_mapping_rename("RPROVIDES", pkg, d)
--    runtime_mapping_rename("RREPLACES", pkg, d)
--    runtime_mapping_rename("RCONFLICTS", pkg, d)
-+    runtime_mapping_rename("RDEPENDS", pkg, True, d)
-+    runtime_mapping_rename("RRECOMMENDS", pkg, True, d)
-+    runtime_mapping_rename("RSUGGESTS", pkg, True, d)
-+    runtime_mapping_rename("RPROVIDES", pkg, True, d)
-+    runtime_mapping_rename("RREPLACES", pkg, True, d)
-+    runtime_mapping_rename("RCONFLICTS", pkg, True, d)
- 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 235d672..3a7927a 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -54,7 +54,7 @@ fakeroot python do_populate_sdk() {
-     from oe.manifest import create_manifest, Manifest
- 
-     pn = d.getVar('PN', True)
--    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
-+    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, False, d)
- 
-     # create target/host SDK manifests
-     create_manifest(d, manifest_dir=d.getVar('SDK_DIR', True),
 -- 
-1.7.1
+1.8.5.3
 
 
