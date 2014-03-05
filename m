@@ -1,36 +1,34 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DC6C6E442
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 35F1F6EF79
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 17:02:27 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id s7so920146lbd.29
+	Wed,  5 Mar 2014 17:17:13 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id f15so1184132eak.19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Mar 2014 09:02:27 -0800 (PST)
+	Wed, 05 Mar 2014 09:17:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=OHQeWYxmC5sR5whuh7uk/CF7ktAjqVs+t0KYC0a8hjc=;
-	b=v6SI+flZkQutVJk+v6Uos4hwxAQq7tIFcqgE7/kFpRTNAPw3T/DFrOlF3KWGpCQxo3
-	/JW5/j8DQjj49pyNKApzVwMuPMxZJh8a10+Qtnyh0gpsH1KomWEil5tTKgHmqzkD2vTA
-	FqAkuOTQO+WOjTCgnwQq3sojV+zQDNB0Qw62OU2ZisST5L7E0T832GBwHU4dP1V+O2aj
-	LkupP40MNdyH5uZwKnSONZfwyX//R0Fwai6Yypl//WU+zxpb3pTteDB+mUZ+bnFCx3fI
-	tjh3xHMNR+TtUFfxB6jqMobaGob4t9U69wA+EbQZWft4avOl9NCJB1ORpfcBZM2KPCgz
-	tbcg==
-MIME-Version: 1.0
-X-Received: by 10.112.125.225 with SMTP id mt1mr4034428lbb.35.1394038947675;
-	Wed, 05 Mar 2014 09:02:27 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Wed, 5 Mar 2014 09:02:27 -0800 (PST)
-In-Reply-To: <1394038191-26474-1-git-send-email-matt@console-pimps.org>
-References: <1394038191-26474-1-git-send-email-matt@console-pimps.org>
-Date: Wed, 5 Mar 2014 12:02:27 -0500
-Message-ID: <CADkTA4M=JH7cv+kxY58sCA7vgT5O+h-u-SgAgvzqXS=qb6heqA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Matt Fleming <matt@console-pimps.org>
-Cc: Matt Fleming <matt.fleming@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-yocto: Inspect remote branches with git ls-remote
+	h=from:to:cc:subject:date:message-id;
+	bh=diYoKIatG5OuTb9yW6MVXdiSlTMKPYO/zv/kSLlUQXs=;
+	b=0CkoqDNiVrSE5lF4CdFzOp3RKBIXS5S18lphMKEIfBOOPkxuIeXbRCtXa1L8v13AFF
+	1ry/76BXqlBpcCb0wPk5rFbBDL/z2/XHTPqh3iX6pL3JVc6+7J2xQARJHBXh3OFaQmEA
+	2jlOZaejatQTA/3GX1n0OsZwBjRKntLKFVcWqBhyzXPgrIrvSulb/abCQw3KOihPXKlk
+	b64QOS3jWQuzwTt8xOY4EwovyFrB089B0ZWGOw2fLKi7AfNEYo918VN8U1zDTthOdC2t
+	93HhsdGFVS8Ltdxd2DSMK9rd7J/1fX7KQnsdMn/J0X+uHMzqICHXC4Q6zg2ThYrO1RMG
+	OL0A==
+X-Received: by 10.14.221.4 with SMTP id q4mr6927019eep.47.1394039834075;
+	Wed, 05 Mar 2014 09:17:14 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	w6sm11346138eex.9.2014.03.05.09.17.12 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Mar 2014 09:17:13 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Mar 2014 18:17:17 +0100
+Message-Id: <1394039838-8933-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH 1/2] base: Show PRINC value in the warning message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,92 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 17:02:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 05 Mar 2014 17:17:18 -0000
 
-Please cc' me directly on any kernel-yocto changes, I only noticed this
-by chance.
+* it's useful to know by how much we need to bump PR in original recipe to preserve upgrade path
 
-On Wed, Mar 5, 2014 at 11:49 AM, Matt Fleming <matt@console-pimps.org> wrote:
-> From: Matt Fleming <matt.fleming@intel.com>
->
-> 'git branch' may use ANSI escape codes in its output (to provide colour)
-> which doesn't play well with commands expecting pure plain text, e.g.
->
->     fatal: '^[[31mmaster^[[m' is not a valid branch name.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Nasty corner case, one I've never run into .. but that's why the --no-color
-option exists. I'd prefer that it be used, and we reduce the footprint of
-the change. See below.
-
->
-> Furthermore, the output of 'git branch' is subject to change and trying
-> to parse it could potentially lead to breakage in the future.
-
-I've never had a problem with it in 7 years of the tools and their variants, so
-the point is arguable and could be dropped from the commit log.
-
->
-> Signed-off-by: Matt Fleming <matt.fleming@intel.com>
-> ---
->  meta/classes/kernel-yocto.bbclass | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index fb8e04e..1115056 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -196,7 +196,7 @@ do_kernel_checkout() {
->                 # If KMETA is defined, the branch must exist, but a machine branch
->         # can be missing since it may be created later by the tools.
->         if [ -n "${KMETA}" ]; then
-> -               git branch -a | grep -q ${KMETA}
-> +               git ls-remote --heads 2>/dev/null | awk '{print $NF}' | grep -q ${KMETA}
-
-cut is lighter weight than awk, and doesn't have any variants (like
-awk does), so I'd
-prefer cut in the pipeline versus awk. Sure that's a preference, but I
-support the
-class, so I get the pain when it breaks (and it has).
-
-Good catch on the issue, like I said, I've never run into it .. but I
-can definitely see
-the need for the tweak.
-
-Cheers,
-
-Bruce
-
->                 if [ $? -ne 0 ]; then
->                         echo "ERROR. The branch '${KMETA}' is required and was not"
->                         echo "found. Ensure that the SRC_URI points to a valid linux-yocto"
-> @@ -214,11 +214,11 @@ do_kernel_checkout() {
->         fi
->
->         # convert any remote branches to local tracking ones
-> -       for i in `git branch -a | grep remotes | grep -v HEAD`; do
-> -               b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
-> -               git show-ref --quiet --verify -- "refs/heads/$b"
-> +       for i in `git ls-remote --heads 2>/dev/null | awk '{print $NF}'`; do
-> +               b=`echo $i | sed 's%refs/heads/%%'`;
-> +               git show-ref --quiet --verify -- "$i"
->                 if [ $? -ne 0 ]; then
-> -                       git branch $b $i > /dev/null
-> +                       git branch $b remotes/origin/$b > /dev/null
->                 fi
->         done
->
-> --
-> 1.8.5.3
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 27b5f53..76a4ef6 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -461,7 +461,7 @@ python () {
+     # obsolete.  Return a warning to the user.
+     princ = d.getVar('PRINC', True)
+     if princ and princ != "0":
+-        bb.warn("Use of PRINC was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % d.getVar("FILE", True))
++        bb.warn("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
+         pr = d.getVar('PR', True)
+         pr_prefix = re.search("\D+",pr)
+         prval = re.search("\d+",pr)
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.0
+
 
