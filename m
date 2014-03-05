@@ -1,24 +1,38 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D423F6EECA
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B38D26B5B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Mar 2014 12:39:48 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Mar 2014 04:39:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,592,1389772800"; d="scan'208";a="494441783"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 05 Mar 2014 04:39:47 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Mar 2014 14:39:42 +0200
-Message-Id: <b431b1bf8b66981e1797e1d9f3119784be306e5e.1394023121.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1394023121.git.laurentiu.palcu@intel.com>
-References: <cover.1394023121.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1394023121.git.laurentiu.palcu@intel.com>
-References: <cover.1394023121.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 3/3] populate_sdk_*.bbclass: remove old rootfs_list_installed_depends()
+	Wed,  5 Mar 2014 12:50:31 +0000 (UTC)
+Received: by mail-ve0-f177.google.com with SMTP id sa20so955602veb.36
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Mar 2014 04:50:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=p44jHYwvxGi3RIY0YcLy0Fx0dOdV3jFnbLfX39gBS5w=;
+	b=t7ZdqTbIpv6LGhKCZ2n843V/Vwgl/Zj5LweT1ubeRqjNVt4cn23i4xn0MAnk8n2Zie
+	uYzlAFR/YYTRUDyP7fdnThf53fBVVu/mCr8OpxLPgBB+H8HyT+ibETVfHHoZT4I3wMG4
+	QKS5peiWaWbkbF3BrA+UiYZhSCwZn3urSpChZjTPv4jbUI7unxOz4+qNanz2D0nQ+GOS
+	z7dEZId5pIGWaU0zzkCAz9rD9Vs7FvxnvRFgxQpVuf3pTm0Y6cZGop70qIXbTp3YiaKY
+	2oW+kldovZCHMr/DeYQkmrSRnQZE7dQG5Zb6+ZAGDI41L9/y2XYrc/g/ErgEhGLeZv2S
+	A87A==
+X-Received: by 10.58.128.72 with SMTP id nm8mr245211veb.18.1394023832689; Wed,
+	05 Mar 2014 04:50:32 -0800 (PST)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Wed, 5 Mar 2014 04:49:52 -0800 (PST)
+In-Reply-To: <5316F554.1030201@windriver.com>
+References: <cover.1394010463.git.Chong.Lu@windriver.com>
+	<c00e7a2047ec6a4b4f46722f49176b08ded90509.1394010463.git.Chong.Lu@windriver.com>
+	<1394011283.31845.97.camel@ted> <5316F554.1030201@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 5 Mar 2014 12:49:52 +0000
+X-Google-Sender-Auth: Fl_8j3x0L8PNavYiHS3CN9pDvhk
+Message-ID: <CANyK_8eviu1Tpoggak7UGEX_i7EJBfWN8ugwUoSMifC8hNXjDA@mail.gmail.com>
+To: Lu Chong <Chong.Lu@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] flex: not to build shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Mar 2014 12:39:49 -0000
+X-List-Received-Date: Wed, 05 Mar 2014 12:50:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-We're using the python routines now.
+On 5 March 2014 09:58, Lu Chong <Chong.Lu@windriver.com> wrote:
+>
+> In flex 2.5.38, libfl.so was built by libtool.
+>
+> ipsec-tools shows this problem.
+> When link libipsec.so to libfl.so, it uses '-lfl' flag. It will link from
+> libfl.so.
+> But libfl.so doesn't define yylex, we may get "libfl.so not found" through
+> `ldd libipsec.so'.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/classes/populate_sdk_deb.bbclass |    5 -----
- meta/classes/populate_sdk_ipk.bbclass |    4 ----
- meta/classes/populate_sdk_rpm.bbclass |    4 ----
- 3 files changed, 13 deletions(-)
+I've used flex before, this is correct, libfl is not supposed to
+define yylex. See for example
+https://www.mail-archive.com/tools-linking@mail.opensolaris.org/msg00601.html
 
-diff --git a/meta/classes/populate_sdk_deb.bbclass b/meta/classes/populate_sdk_deb.bbclass
-index 462525f..833feca 100644
---- a/meta/classes/populate_sdk_deb.bbclass
-+++ b/meta/classes/populate_sdk_deb.bbclass
-@@ -10,8 +10,3 @@ do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- 
- # This will of course only work after rootfs_deb_do_rootfs or populate_sdk_deb has been called
- DPKG_QUERY_COMMAND = "${STAGING_BINDIR_NATIVE}/dpkg-query --admindir=$INSTALL_ROOTFS_DEB/var/lib/dpkg"
--
--rootfs_list_installed_depends() {
--	# Cheat here a little bit by using the opkg query helper util
--	${DPKG_QUERY_COMMAND} -W -f='Package: ${Package}\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n' | opkg-query-helper.py
--}
-diff --git a/meta/classes/populate_sdk_ipk.bbclass b/meta/classes/populate_sdk_ipk.bbclass
-index 4c23f05..e2e3523 100644
---- a/meta/classes/populate_sdk_ipk.bbclass
-+++ b/meta/classes/populate_sdk_ipk.bbclass
-@@ -2,7 +2,3 @@ do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:d
- do_populate_sdk[recrdeptask] += "do_package_write_ipk"
- 
- do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
--
--rootfs_list_installed_depends() {
--	opkg-cl ${OPKG_ARGS} status | opkg-query-helper.py
--}
-diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
-index 06605d3..0fdef3b 100644
---- a/meta/classes/populate_sdk_rpm.bbclass
-+++ b/meta/classes/populate_sdk_rpm.bbclass
-@@ -16,7 +16,3 @@ do_populate_sdk[recrdeptask] += "do_package_write_rpm"
- rpmlibdir = "/var/lib/rpm"
- 
- do_populate_sdk[lockfiles] += "${DEPLOY_DIR_RPM}/rpm.lock"
--
--rootfs_list_installed_depends() {
--	rpmresolve -t $INSTALL_ROOTFS_RPM/${rpmlibdir}
--}
+The problem is in how ipsec-tools is being linked, not in flex. I'd
+suggest patching that recipe instead.
+
+Cheers,
+
 -- 
-1.7.9.5
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
