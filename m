@@ -1,21 +1,36 @@
-Return-Path: <matt@arkanian.console-pimps.org>
-Received: from arkanian.console-pimps.org (arkanian.console-pimps.org
-	[212.110.184.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B3D6E7D3
+Return-Path: <andreea.b.proca@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F22206E7CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 11:04:48 +0000 (UTC)
-Received: by arkanian.console-pimps.org (Postfix, from userid 1002)
-	id 15E5D6C076; Thu,  6 Mar 2014 11:04:49 +0000 (GMT)
-Received: from localhost (unknown [94.8.38.236])
-	by arkanian.console-pimps.org (Postfix) with ESMTPSA id 84B7C6C055;
-	Thu,  6 Mar 2014 11:04:45 +0000 (GMT)
-From: Matt Fleming <matt@console-pimps.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 11:04:34 +0000
-Message-Id: <1394103874-32687-1-git-send-email-matt@console-pimps.org>
-X-Mailer: git-send-email 1.8.5.3
-Cc: Matt Fleming <matt.fleming@intel.com>
-Subject: [PATCH v2] kernel-yocto: Disable ANSI escape codes from git branch
+	Thu,  6 Mar 2014 11:45:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Mar 2014 03:41:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,599,1389772800"; d="scan'208";a="467675223"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2014 03:45:39 -0800
+Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 6 Mar 2014 11:45:35 +0000
+Received: from irsmsx106.ger.corp.intel.com ([169.254.8.177]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.61]) with mapi id
+	14.03.0123.003; Thu, 6 Mar 2014 11:45:35 +0000
+From: "Proca, Andreea B" <andreea.b.proca@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: error-report-web django-nvd3 version
+Thread-Index: AQHPONxje1OXDGKaOkGsfzsKFWX7jJrT8TtQ
+Date: Thu, 6 Mar 2014 11:44:54 +0000
+Message-ID: <C76456D50C459F418509335BC413076F169032A3@IRSMSX106.ger.corp.intel.com>
+References: <20140306013131.GE26981@jama>
+In-Reply-To: <20140306013131.GE26981@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: error-report-web django-nvd3 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,50 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 11:04:50 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 11:45:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Matt Fleming <matt.fleming@intel.com>
+Hi Martin,
 
-'git branch' may use ANSI escape codes in its output (to provide colour)
-which doesn't play well with commands expecting pure plain text, e.g.
+I should have been more specific about the versions, sorry.=20
+I've updated the README, it needs django-nvd3 0.1.11 and python-nvd3 0.6.0.
 
-    fatal: '^[[31mmaster^[[m' is not a valid branch name.
+I usually install those on my Ubuntu host using pip.=20
 
-Use the --no-color option to ensure all branch names are plain text.
+Regards,
+Andreea
 
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Matt Fleming <matt.fleming@intel.com>
----
+-----Original Message-----
+From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
+Sent: Thursday, March 06, 2014 3:32 AM
+To: Proca, Andreea B
+Cc: openembedded-core@lists.openembedded.org
+Subject: error-report-web django-nvd3 version
 
-v2: Make the minimum change necessary to disable the escape codes per
-    Bruce's suggestion.
+Hi,
 
- meta/classes/kernel-yocto.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+can you be more specific about django-nvd3 version required by error-report=
+-web?
+http://git.yoctoproject.org/cgit/cgit.cgi/error-report-web/tree/README
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index fb8e04e..7913dd8 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -196,7 +196,7 @@ do_kernel_checkout() {
-        	# If KMETA is defined, the branch must exist, but a machine branch
- 	# can be missing since it may be created later by the tools.
- 	if [ -n "${KMETA}" ]; then
--		git branch -a | grep -q ${KMETA}
-+		git branch -a --no-color | grep -q ${KMETA}
- 		if [ $? -ne 0 ]; then
- 			echo "ERROR. The branch '${KMETA}' is required and was not"
- 			echo "found. Ensure that the SRC_URI points to a valid linux-yocto"
-@@ -214,7 +214,7 @@ do_kernel_checkout() {
- 	fi
- 
- 	# convert any remote branches to local tracking ones
--	for i in `git branch -a | grep remotes | grep -v HEAD`; do
-+	for i in `git branch -a --no-color | grep remotes | grep -v HEAD`; do
- 		b=`echo $i | cut -d' ' -f2 | sed 's%remotes/origin/%%'`;
- 		git show-ref --quiet --verify -- "refs/heads/$b"
- 		if [ $? -ne 0 ]; then
--- 
-1.8.5.3
+with 0.6.* it was complaining about missing kw_args param in load_chart cal=
+ls, older versions were complaining about other changes.
 
+I'm testing it (currently without graphs) in order to extend it to collect =
+some build metrics and statistics from our builds (like every jenkins build=
+ and very local developer build will upload back description of HW, build t=
+imes and other metrics so we can better evaluate icecc, sstate reuse ratio =
+etc).
+
+If something like that would be useful for upstream I can eventually contri=
+bute it back.
+
+I've also updated the .bbclass to read all "configuration" from bb data and=
+ to upload the report after every build (sort of like tinderbox, oestats bb=
+class worked), that way is easier for us to globally enable it for all buil=
+ds in our distro config without any interaction from developers.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
