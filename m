@@ -1,26 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 99D746DC27
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EFB26E7D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 10:27:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Mar 2014 02:23:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,599,1389772800"; d="scan'208";a="495066660"
-Received: from lbhoopat-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.174])
-	by orsmga002.jf.intel.com with ESMTP; 06 Mar 2014 02:27:25 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 06 Mar 2014 10:27:24 +0000
-Message-ID: <2288928.xThRbmMvUj@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.5-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <20140306013131.GE26981@jama>
-References: <20140306013131.GE26981@jama>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: error-report-web django-nvd3 version
+	Thu,  6 Mar 2014 10:58:40 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s26AwZJf004410 for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Mar 2014 10:58:36 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id aMKbYN1y1z4n
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Mar 2014 10:58:35 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s26AwXON004407
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Mar 2014 10:58:35 GMT
+Message-ID: <1394103505.8531.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 06 Mar 2014 10:58:25 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] js: Fix missing aclocal files for configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 10:27:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 06 Mar 2014 10:58:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Martin,
+The aclocal copy is done as a prefunc so we need to ensure configure.ac
+is available before those functions run. The easiest way is inserting
+an extra task.
 
-On Thursday 06 March 2014 02:31:31 Martin Jansa wrote:
-> can you be more specific about django-nvd3 version required by
-> error-report-web?
-> http://git.yoctoproject.org/cgit/cgit.cgi/error-report-web/tree/README
-> 
-> with 0.6.* it was complaining about missing kw_args param in load_chart
-> calls, older versions were complaining about other changes.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb b/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+index e320504..e466354 100644
+--- a/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
++++ b/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+@@ -23,10 +23,11 @@ S = "${WORKDIR}/js/src"
+ # don't bother with automake
+ inherit autotools-brokensep
+ 
+-do_configure_prepend() {
++do_extraunpack() {
+ 	cp -f ${WORKDIR}/configure.ac ${S}
+ 	cp -f ${WORKDIR}/jsautocfg.h ${S}
+ }
++addtask extraunpack before do_configure after do_unpack
+ 
+ EXTRA_OEMAKE = "'CC=${CC}' 'LD=${LD}' 'XCFLAGS=${CFLAGS}' 'XLDFLAGS=${LDFLAGS} -Wl,-soname=libjs' \
+                 'BUILD_CC=${BUILD_CC}' 'BUILD_CFLAGS=${BUILD_CFLAGS}' 'BUILD_LDFLAGS=${BUILD_LDFLAGS}'"
 
-I'm not sure of the original version, but FWIW I did make a fix for this
-problem with 0.6 in the layer index the other day that might be useful
-as a reference:
 
-http://git.yoctoproject.org/cgit/cgit.cgi/layerindex-web/commit/?id=5aa533b678a2a60f989e4686e0880e24761a9aca
-
-As you can see I found I needed to update the d3/nvd3 js files at the same
-time.
-
-> I'm testing it (currently without graphs) in order to extend it to collect
-> some build metrics and statistics from our builds (like every jenkins build
-> and very local developer build will upload back description of HW, build
-> times and other metrics so we can better evaluate icecc, sstate reuse ratio
-> etc).
-> 
-> If something like that would be useful for upstream I can eventually
-> contribute it back.
-
-Seems reasonable to me, as long as it doesn't get in the way of handling
-error reports.
-
-> I've also updated the .bbclass to read all "configuration" from bb data
-> and to upload the report after every build (sort of like tinderbox,
-> oestats bbclass worked), that way is easier for us to globally enable it
-> for all builds in our distro config without any interaction from
-> developers.
-
-As long as this is an option and not on by default (and ideally make it
-a trinary switch so you can decide to send just errors automatically)
-this should be OK also. Showing some kind of notification that it's doing
-it would be a good thing as well I think.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
