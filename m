@@ -1,24 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E405C6F5AB
+	by mail.openembedded.org (Postfix) with ESMTP id 87BD86F5AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 17:09:51 +0000 (UTC)
+	Thu,  6 Mar 2014 17:09:55 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 09:09:52 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 09:09:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,601,1389772800"; d="scan'208";a="487325532"
+X-IronPort-AV: E=Sophos;i="4.97,601,1389772800"; d="scan'208";a="487325501"
 Received: from unknown (HELO localhost) ([10.255.13.79])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2014 09:09:40 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2014 09:09:43 -0800
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 11:09:29 -0600
-Message-Id: <a0c82119ec77c1ad5c8b6a7dc941a96eaeba3fe7.1394124934.git.tom.zanussi@linux.intel.com>
+Date: Thu,  6 Mar 2014 11:09:31 -0600
+Message-Id: <08cd04eeca83045bd48e5212a82fd9818b889574.1394124934.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
 References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1394124934.git.tom.zanussi@linux.intel.com>
 References: <cover.1394124934.git.tom.zanussi@linux.intel.com>
-Subject: [PATCH 4/6] lttng-modules: Exclude arm
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 6/6] lttng-ust: Disable doc/examples in the build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 17:09:52 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 17:09:55 -0000
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+Don't build the doc examples - we don't need them and in fact they
+never successfully built in previous iterations of the lttng-ust
+recipe anyway.
 
-lttng-modules and gcc-4.8 don't mix, according to the lttng ML
-'current_thread_info() not respecting program order with gcc 4.8.x',
-so remove it from arm builds.
-
-Without lttng-modules, lttng-tools etc don't make sense either so
-exclude them as well.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 4 ++++
- meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb                   | 4 ++++
- 2 files changed, 8 insertions(+)
+ .../lttng-ust/lttng-ust-doc-examples-disable.patch     | 18 ++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb           |  1 +
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 4a97c24..8771dbe 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -52,15 +52,19 @@ SYSTEMTAP_aarch64 = ""
- LTTNGUST = "lttng-ust"
- LTTNGUST_libc-uclibc = ""
- LTTNGUST_aarch64 = ""
-+LTTNGUST_arm = ""
- 
- LTTNGTOOLS = "lttng-tools"
- LTTNGTOOLS_aarch64 = ""
-+LTTNGTOOLS_arm = ""
- 
- LTTNGMODULES = "lttng-modules"
- LTTNGMODULES_aarch64 = ""
-+LTTNGMODULES_arm = ""
- 
- BABELTRACE = "babeltrace"
- BABELTRACE_aarch64 = ""
-+BABELTRACE_arm = ""
- 
- # valgrind does not work on mips
- 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
-index 0b7d5e8..79d9382 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
-@@ -13,6 +13,9 @@ inherit module
- SRCREV = "fb2c37799306d16fb590aebee6fad8be431264b7"
- PV = "2.4.0"
- 
-+# lttng currently blacklists arm with gcc-4.8
-+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
+new file mode 100644
+index 0000000..b68a989
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
+@@ -0,0 +1,18 @@
++Upstream-Status: Inappropriate [embedded specific]
 +
- SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.4 \
-            file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
- 
-@@ -20,6 +23,7 @@ export INSTALL_MOD_DIR="kernel/lttng-modules"
- export KERNEL_SRC="${STAGING_KERNEL_DIR}"
- 
- 
++Don't build the doc examples - we don't need them and in fact they
++never successfully built in previous iterations of the lttng-ust
++recipe anyway.
 +
++Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
++
++Index: doc/Makefile.am
++===================================================================
++--- a/doc/Makefile.am
+++++ b/doc/Makefile.am
++@@ -1,4 +1,4 @@
++-SUBDIRS = . examples
+++SUBDIRS = .
++ 
++ dist_man_MANS = man/lttng-gen-tp.1 \
++ 	man/lttng-ust.3 \
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
+index 9f806c1..1629554 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
+@@ -22,6 +22,7 @@ PV = "2.4.0"
+ PE = "2"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.4 \
++           file://lttng-ust-doc-examples-disable.patch \
+ 	   "
+ 
  S = "${WORKDIR}/git"
- 
- do_install_append() {
 -- 
 1.8.3.1
 
