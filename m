@@ -1,20 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D66F6DB40
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 934BF60E68
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 00:08:29 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 05 Mar 2014 16:08:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,596,1389772800"; d="scan'208";a="486799283"
-Received: from unknown (HELO swold-linux.myhome.westell.com) ([10.255.12.231])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Mar 2014 16:06:23 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Mar 2014 16:06:22 -0800
-Message-Id: <1394064382-29376-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] gconf: remove depreated configure flag
+	Thu,  6 Mar 2014 01:31:24 +0000 (UTC)
+Received: by mail-ee0-f43.google.com with SMTP id e53so809831eek.30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Mar 2014 17:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=MuvWoXFlkLem17PEponGhchzz237AGzbcVAm7V5Yn5k=;
+	b=VbY64MuPc8yV6dPkZO/5KdQOqylAHWTLAtISpiTMwLT/rSImbucNROJOXKKzcJLAAi
+	VOeFmtjAEiT+GEu1tWCgrmY8d1sgesMMsQAUUObxaLgNQo4YpKYVwxO2ShfBUrBtjZu3
+	kyE3FEPd9ikwmbnF9gDOi/Zmox3YxLH/KqraG/uOiQwtG6hPsHyqphmM6zQNFkIeV47R
+	c9ZEngsI6/c2T61rrmODXVibbixe9++clQQgZll3hYS1K8AVjwof/QqIctR9uCZw6x2T
+	FzngXfcYvoo1NYfCLDwWCwRBOG6m/KpHX/4NUmhxwP2uuR++1cpg9s4EVRWBbtTb2DGO
+	Fa+A==
+X-Received: by 10.15.44.202 with SMTP id z50mr6173848eev.81.1394069485267;
+	Wed, 05 Mar 2014 17:31:25 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	46sm15674774ees.4.2014.03.05.17.31.23 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Mar 2014 17:31:24 -0800 (PST)
+Date: Thu, 6 Mar 2014 02:31:31 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Andreea Proca <andreea.b.proca@intel.com>
+Message-ID: <20140306013131.GE26981@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: error-report-web django-nvd3 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,34 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 00:08:32 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 01:31:28 -0000
+X-Groupsio-MsgNum: 50916
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="uY6A4WM8GrQcEArj"
+Content-Disposition: inline
 
-[YOCTO #5905]
-[YOCTO #5906]
-[YOCTO #5907]
-[YOCTO #5908]
-[YOCTO #5909]
-[YOCTO #5910]
-[YOCTO #5911]
+--uY6A4WM8GrQcEArj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/gconf.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+Hi,
 
-diff --git a/meta/classes/gconf.bbclass b/meta/classes/gconf.bbclass
-index e9076b2..0794ba7 100644
---- a/meta/classes/gconf.bbclass
-+++ b/meta/classes/gconf.bbclass
-@@ -10,7 +10,6 @@ export GCONF_BACKEND_DIR = "${STAGING_LIBDIR_NATIVE}/GConf/2"
- # Disable install-time schema registration as we're a packaging system so this
- # happens in the postinst script, not at install time.  Set both the configure
- # script option and the traditional envionment variable just to make sure.
--EXTRA_OECONF += "--disable-schemas-install"
- export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL = "1"
- 
- gconf_postinst() {
--- 
-1.8.3.1
+can you be more specific about django-nvd3 version required by
+error-report-web?
+http://git.yoctoproject.org/cgit/cgit.cgi/error-report-web/tree/README
 
+with 0.6.* it was complaining about missing kw_args param in load_chart
+calls, older versions were complaining about other changes.
 
+I'm testing it (currently without graphs) in order to extend it to collect =
+some build metrics and
+statistics from our builds (like every jenkins build and very local
+developer build will upload back description of HW, build times and
+other metrics so we can better evaluate icecc, sstate reuse ratio etc).
+
+If something like that would be useful for upstream I can eventually
+contribute it back.
+
+I've also updated the .bbclass to read all "configuration" from bb data
+and to upload the report after every build (sort of like tinderbox,
+oestats bbclass worked), that way is easier for us to globally enable it
+for all builds in our distro config without any interaction from
+developers.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--uY6A4WM8GrQcEArj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlMXz/MACgkQN1Ujt2V2gBzX7gCeOJ1Rs9KhY/wdjsiXXfDESBn5
+XhsAoIWO++HyNpT5x0QFEvbzSJgkgVZr
+=TFrI
+-----END PGP SIGNATURE-----
+
+--uY6A4WM8GrQcEArj--
