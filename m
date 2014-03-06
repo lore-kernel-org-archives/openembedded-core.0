@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 91AF36E826
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 191EE6E826
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 10:01:19 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id x13so2512176qcv.5
+	Thu,  6 Mar 2014 10:04:47 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id w5so2238341qac.20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Mar 2014 02:01:20 -0800 (PST)
+	Thu, 06 Mar 2014 02:04:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=y4B8YLkwXxlOimjSzcv1Mj/w0Ft3N3bmun7mNrw5M7Y=;
-	b=i6dO04AP+nbxcgxI8QVOA8HXZNWX7g4Vj6jlBZtUlSSqDMjz2rz7KOH5Dk5xVrz5E/
-	xYWaPKJDJEN8NYm8TI3pB+kXtM9my/Ipc+8CfDeygfXwOhO3RmH9zHyRjY6BTxuyUA4f
-	GoGTvir0I4qWdeWPcnfKzl3/oGiaZ8gAlLMTRkr0MR49Iny7Y2ulDHhI/XAF8Ukkrl0C
-	/sbDLTQ3xqubUZZUZ6po/oJGhCqcbaCFplVS6P1alX8ZNV35E4mFUPp+rKeG0Cta/v+b
-	sj6hor0Bu5io6vt5Q9Ibu13CaaCf/Pl5wAqUAFFwy5SXpHhrLHUra+zElPfo/WEc4dbD
-	WJpw==
-X-Gm-Message-State: ALoCoQmY9484ld/5Fzvq7YS76mORP5+b/JEQnRGcXTmpfsgt36KgjpLM09QXJ4kjDZmh0mnDAL7R
-X-Received: by 10.224.98.139 with SMTP id q11mr12942645qan.64.1394100079956;
-	Thu, 06 Mar 2014 02:01:19 -0800 (PST)
+	bh=XCRLsO/IjHp+W7sStzumNjXwcXkMdalF3cS+3bdDUqo=;
+	b=cgOS/4jNfag3H3azk+T+uodDHPcirB/F/Itz5WswX86PWD1Daxv6Hqt3PIcYZAuszc
+	U7IDHoO1BH7+OKwgccF6RcYq3oTHimfLydSKBebNUvKsQ0091W1e9CdVj3ucssuUt/Us
+	hW6Ja7yIzaUtQBueOX1+BA6JGS/cJYHi7J5EqXFO/D1H9QQiy4YUCKkSdCFe8qdazA9H
+	Ifd4UnKzq0dFdBtOJPmnFiEMn1hxUFLvbm24KUkfgqnoV/tivZNAwFpYC9QfLVgcFjMy
+	IHBzm7VE1ghxY6HuzNXoAvedp+scjVn5r7LFRGGPvXCRqRJ6P8X3BhnKokYHZEOZDbUr
+	BsiA==
+X-Gm-Message-State: ALoCoQncVcZSLYTZzLoHpCNPuEOdSKD9mcpiBOwPt+YG+/neDET4cwfq3HEDKxZDkbDuE2xpuocu
+X-Received: by 10.229.193.136 with SMTP id du8mr6416436qcb.11.1394100288330;
+	Thu, 06 Mar 2014 02:04:48 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 6 Mar 2014 02:00:59 -0800 (PST)
-In-Reply-To: <1394064382-29376-1-git-send-email-sgw@linux.intel.com>
-References: <1394064382-29376-1-git-send-email-sgw@linux.intel.com>
+Received: by 10.140.48.79 with HTTP; Thu, 6 Mar 2014 02:04:28 -0800 (PST)
+In-Reply-To: <9477177f82743adfab34256b7bc002a37dd61787.1394093112.git.Chong.Lu@windriver.com>
+References: <cover.1394093112.git.Chong.Lu@windriver.com>
+	<9477177f82743adfab34256b7bc002a37dd61787.1394093112.git.Chong.Lu@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Mar 2014 10:00:59 +0000
-Message-ID: <CAJTo0Lak4ArnT+KHGdioGwAYTHBDPcPs=NX55fBOyup0FxNVCQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 6 Mar 2014 10:04:28 +0000
+Message-ID: <CAJTo0LZ_OjXVhoNv6wk085=5vY=i64_8T6s=Tef5h7qgFC5Sfw@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gconf: remove depreated configure flag
+Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 10:01:19 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 10:04:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 6 March 2014 00:06, Saul Wold <sgw@linux.intel.com> wrote:
-> [YOCTO #5905]
-> [YOCTO #5906]
-> [YOCTO #5907]
-> [YOCTO #5908]
-> [YOCTO #5909]
-> [YOCTO #5910]
-> [YOCTO #5911]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/classes/gconf.bbclass | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/classes/gconf.bbclass b/meta/classes/gconf.bbclass
-> index e9076b2..0794ba7 100644
-> --- a/meta/classes/gconf.bbclass
-> +++ b/meta/classes/gconf.bbclass
-> @@ -10,7 +10,6 @@ export GCONF_BACKEND_DIR = "${STAGING_LIBDIR_NATIVE}/GConf/2"
->  # Disable install-time schema registration as we're a packaging system so this
->  # happens in the postinst script, not at install time.  Set both the configure
->  # script option and the traditional envionment variable just to make sure.
-> -EXTRA_OECONF += "--disable-schemas-install"
->  export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL = "1"
+On 6 March 2014 08:06, Chong Lu <Chong.Lu@windriver.com> wrote:
+> +PACKAGES += "dbus-ptest"
+> +ALLOW_EMPTY_${PN}-ptest = "1"
+> +RDEPENDS_${PN}-ptest = "${@base_contains('IMAGE_FEATURES', 'ptest-pkgs', 'dbus-test-ptest', 'dbus-test', d)}"
 
-NAK.  It's only deprecated if a recipe migrated from gconf to (eg)
-gsettings.  If they didn't, they this is still required.
-
-The fix for those bugs is to stop using gnome.bbclass as it pulls in
-*all* GNOME classes, and instead use gnomebase + any other relevant
-classes.
+Nice idea, but wouldn't a more correct solution be to have dbus-ptest
+added to PACKAGES conditionally (instead of always generating
+dbus-ptest and conditionally adding the dependency)?
 
 Ross
 
