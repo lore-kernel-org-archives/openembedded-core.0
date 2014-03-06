@@ -1,25 +1,21 @@
-Return-Path: <corneliux.stoicescu@intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E2EDD6F597
+	by mail.openembedded.org (Postfix) with ESMTP id B3A156F589
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 14:32:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 06 Mar 2014 06:28:18 -0800
+	Thu,  6 Mar 2014 15:26:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Mar 2014 07:22:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,600,1389772800"; d="scan'208";a="487237278"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2014 06:32:44 -0800
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 5CFD36A4083;
-	Thu,  6 Mar 2014 06:32:33 -0800 (PST)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,601,1389772800"; d="scan'208";a="495217415"
+Received: from lbhoopat-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.174])
+	by orsmga002.jf.intel.com with ESMTP; 06 Mar 2014 07:26:06 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 18:35:56 +0200
-Message-Id: <1394123756-25130-2-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1394123756-25130-1-git-send-email-corneliux.stoicescu@intel.com>
-References: <1394123756-25130-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH 2/2] oe-selftest: force some values in local.conf for _sstatetests_noauto.py
+Date: Thu,  6 Mar 2014 15:25:59 +0000
+Message-Id: <cover.1394119524.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH 0/2] Recipe removals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 14:32:44 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 15:26:56 -0000
 
-1) Some values should have default values in order for tests like sstate relocation to be relevant
-   - SSTATE_DIR needs to have default value
-   - SSTATE_MIRRORS need to be unset (we need the sstate files to be created)
-   - TMPDIR needs to be in default location
+The following changes since commit c6825ec6e92e20bb64a051d1576f363c16e98d68:
 
-2) Added conf/auto.conf to list of ported files to secondary build directories
+  recipes: bump PRs (2014-03-05 17:26:24 +0000)
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/selftest/_sstatetests_noauto.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/lib/oeqa/selftest/_sstatetests_noauto.py b/meta/lib/oeqa/selftest/_sstatetests_noauto.py
-index 97366d9..fc9ae7e 100644
---- a/meta/lib/oeqa/selftest/_sstatetests_noauto.py
-+++ b/meta/lib/oeqa/selftest/_sstatetests_noauto.py
-@@ -28,7 +28,17 @@ class RebuildFromSState(SStateBase):
-         self.track_for_cleanup(builddir)
-         os.mkdir(os.path.join(builddir, 'conf'))
-         shutil.copyfile(os.path.join(os.environ.get('BUILDDIR'), 'conf/local.conf'), os.path.join(builddir, 'conf/local.conf'))
-+        config = {}
-+        config['default_sstate_dir'] = "SSTATE_DIR ?= \"${TOPDIR}/sstate-cache\""
-+        config['null_sstate_mirrors'] = "SSTATE_MIRRORS = \"\""
-+        config['default_tmp_dir'] = "TMPDIR = \"${TOPDIR}/tmp\""
-+        for key in config:
-+            ftools.append_file(os.path.join(builddir, 'conf/selftest.inc'), config[key])
-         shutil.copyfile(os.path.join(os.environ.get('BUILDDIR'), 'conf/bblayers.conf'), os.path.join(builddir, 'conf/bblayers.conf'))
-+        try:
-+            shutil.copyfile(os.path.join(os.environ.get('BUILDDIR'), 'conf/auto.conf'), os.path.join(builddir, 'conf/auto.conf'))
-+        except:
-+            pass
- 
-     def hardlink_tree(self, src, dst):
-         os.mkdir(dst)
+  git://git.openembedded.org/openembedded-core-contrib paule/cleanup5
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/cleanup5
+
+Paul Eggleton (2):
+  zaurusd: remove
+  js: remove
+
+ meta/recipes-bsp/zaurusd/zaurusd_git.bb           | 20 ------
+ meta/recipes-support/js/files/buildcc.patch       | 22 -------
+ meta/recipes-support/js/files/configure.ac        | 28 ---------
+ meta/recipes-support/js/files/jsautocfg.h         | 74 -----------------------
+ meta/recipes-support/js/files/link_with_gcc.patch | 15 -----
+ meta/recipes-support/js/files/usepic.patch        | 26 --------
+ meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb      | 51 ----------------
+ 7 files changed, 236 deletions(-)
+ delete mode 100644 meta/recipes-bsp/zaurusd/zaurusd_git.bb
+ delete mode 100644 meta/recipes-support/js/files/buildcc.patch
+ delete mode 100644 meta/recipes-support/js/files/configure.ac
+ delete mode 100644 meta/recipes-support/js/files/jsautocfg.h
+ delete mode 100644 meta/recipes-support/js/files/link_with_gcc.patch
+ delete mode 100644 meta/recipes-support/js/files/usepic.patch
+ delete mode 100644 meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+
 -- 
-1.8.3.2
+1.8.5.3
 
 
