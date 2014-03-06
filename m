@@ -1,22 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 40E526F4EB
+	by mail.openembedded.org (Postfix) with ESMTP id 6FB7A6F59E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 17:09:29 +0000 (UTC)
+	Thu,  6 Mar 2014 17:09:37 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 09:09:30 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 09:09:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,601,1389772800"; d="scan'208";a="493589984"
+X-IronPort-AV: E=Sophos;i="4.97,601,1389772800"; d="scan'208";a="493590062"
 Received: from unknown (HELO localhost) ([10.255.13.79])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2014 09:09:30 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2014 09:09:38 -0800
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 11:09:27 -0600
-Message-Id: <cover.1394124934.git.tom.zanussi@linux.intel.com>
+Date: Thu,  6 Mar 2014 11:09:28 -0600
+Message-Id: <dc3a1e7880668e9afa9c9ee3834332dda0f0362c.1394124934.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
+References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
+In-Reply-To: <cover.1394124934.git.tom.zanussi@linux.intel.com>
+References: <cover.1394124934.git.tom.zanussi@linux.intel.com>
 MIME-Version: 1.0
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/6] lttng update (add 2.4.0)
+Subject: [PATCH 3/6] lttng-ust: Add version 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 17:09:31 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 17:09:37 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This adds lttng 2.4.0, which addresses build failures with
-linux-yocto-dev, but still works with 3.10.
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Tested with qemux86 and both linux-yocto and linux-yocto-dev.
+This updates lttng-ust to 2.4.0, codenamed Époque Opaque, needed
+for interoperability with lttng-modules and the 3.14 (dev) kernel.
 
-Note that this disables lttng for arm, due to a problem with
-lttng-modules and gcc-4.8.x (this is also a problem for lttng 2.3.x).
-
-The following changes since commit f03955041d0e44d377ca1c4def630982f24f1e8b:
-
-  Revert "ncurses: use ln -r to generate relative symlink" (2014-03-03 15:55:27 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/lttng-2.4.0-update
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/lttng-2.4.0-update
-
-Tom Zanussi (6):
-  lttng-modules: Add version 2.4.0
-  lttng-tools: Add version 2.4.0
-  lttng-ust: Add version 2.4.0
-  lttng-modules: Exclude arm
-  lttng-modules: Fix 3.14 bio tracepoints
-  lttng-ust: Disable doc/examples in the build
-
- .../packagegroup-core-tools-profile.bb             |   4 +
- .../lttng/lttng-modules/bio-bvec-iter.patch        | 156 +++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb   |  39 ++++++
- .../lttng/lttng-tools/runtest-2.4.0.patch          |  27 ++++
- meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     |  59 ++++++++
- .../lttng-ust/lttng-ust-doc-examples-disable.patch |  18 +++
- meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb       |  32 +++++
- 7 files changed, 335 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
+ meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb | 31 ++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
  create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
 
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
+new file mode 100644
+index 0000000..9f806c1
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
+@@ -0,0 +1,31 @@
++SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.x"
++DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library to trace userspace codes."
++HOMEPAGE = "http://lttng.org/ust"
++BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
++
++LICENSE = "LGPLv2.1+ & BSD & GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
++                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
++                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
++
++inherit autotools lib_package
++
++DEPENDS = "liburcu util-linux"
++
++# For backwards compatibility after rename
++RPROVIDES_${PN} = "lttng2-ust"
++RREPLACES_${PN} = "lttng2-ust"
++RCONFLICTS_${PN} = "lttng2-ust"
++
++SRCREV = "5ba5bf7fba804d2de773ae1c71106a8ed856c56a"
++PV = "2.4.0"
++PE = "2"
++
++SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.4 \
++	   "
++
++S = "${WORKDIR}/git"
++
++do_configure_prepend () {
++	( cd ${S}; ${S}/bootstrap )
++}
 -- 
 1.8.3.1
 
