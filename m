@@ -1,25 +1,39 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E98B6F58A
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 675066F588
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 17:10:36 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Mar 2014 09:10:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,601,1389772800"; d="scan'208";a="467829574"
-Received: from unknown (HELO localhost) ([10.255.13.79])
-	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2014 09:09:36 -0800
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 11:09:27 -0600
-Message-Id: <de79449a7af0dd95a6b0355c222d2a9db72e0eb1.1394124934.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
-References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1394124934.git.tom.zanussi@linux.intel.com>
-References: <cover.1394124934.git.tom.zanussi@linux.intel.com>
+	Thu,  6 Mar 2014 17:25:21 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id va2so2886948obc.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Mar 2014 09:25:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ZsNbzYcyB90+btu6YXGmbZvYi2z7oDJVNoIEf061o1k=;
+	b=TVwlYJrY0xzjwpFKlPkqo3ReGmeK1huw6GxUkmQ0I/JloD19qJRB7/xLu0N7hLSqNl
+	Ty/lZOZeCqjQsrPASWPA8KY+6YkoSPyObWjKt1PO47vuv8V2K14gWrrDv1HNao5wgHQH
+	DSG+LPwU0O7SnLA5l+9kLxJahySxWZsy25XdXIXmkOEMeqsnaWadRT8tOdLI6KZPUPdL
+	kiUOQ5uYWiDzCRDnRmvmnJ22DSTnlM0yAOPUYNlmfRSdfQrHRbC5L8MZvbw86fkM6XyK
+	Kv/eo3VKepBz2tA1qAuqiM8IEctpUo7nFROVfa3lJZb7FkSwaIHJQcAHXGDBAJ0yz2Qw
+	N0GA==
+X-Gm-Message-State: ALoCoQl+RHua0A7Z7RO84E5rd6GH3q1SvfMAwTQvxtJ51rtQVamxrY0l8C31kEIjLRyFgjNMPvFa
+X-Received: by 10.60.15.38 with SMTP id u6mr2936428oec.26.1394126722535; Thu,
+	06 Mar 2014 09:25:22 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/6] lttng-tools: Add version 2.4.0
+Received: by 10.76.182.99 with HTTP; Thu, 6 Mar 2014 09:25:02 -0800 (PST)
+In-Reply-To: <AC63B68CC9C36B4FBF9FD4FEEFE754AA20DAA4CA@SJEXCHMB06.corp.ad.broadcom.com>
+References: <1393965644-17393-1-git-send-email-abelous@broadcom.com>
+	<53165C2A.10403@linux.intel.com>
+	<AC63B68CC9C36B4FBF9FD4FEEFE754AA20DAA4CA@SJEXCHMB06.corp.ad.broadcom.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 7 Mar 2014 01:25:02 +0800
+Message-ID: <CAP71WjyrU5Fyb0+ocAkUt-f=4j+YCWRqf1GA1t0eaVDVNnCiFw@mail.gmail.com>
+To: Andrey Belous <abelous@broadcom.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Signed-off-by: Andrey Belous <abelous@broadcom.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,122 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 17:10:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Mar 2014 17:25:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+Hi,
 
-This updates lttng-tools to 2.4.0, codenamed Époque Opaque, needed
-for interoperability with lttng-modules and the 3.14 (dev) kernel.
+On Wed, Mar 5, 2014 at 7:11 AM, Andrey Belous <abelous@broadcom.com> wrote:
+> Yes I overwriting more  , but other variable already with ?= and allow to override them
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- .../lttng/lttng-tools/runtest-2.4.0.patch          | 27 ++++++++++
- meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     | 59 ++++++++++++++++++++++
- 2 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+I think I am okay with the patch proposed here. i don't see why the
+late assignment is missing just for this specific variable while it's
+used for every other variables and in the eglibc include file we
+already use the ?= for virtual/libc.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-new file mode 100644
-index 0000000..958bce4
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-@@ -0,0 +1,27 @@
-+diff --git a/Makefile.am b/Makefile.am
-+index 584f59b..c2bcabd 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -12,3 +12,9 @@ dist_doc_DATA = LICENSE \
-+ dist_noinst_DATA = CodingStyle
-+ 
-+ EXTRA_DIST = extras/lttng-bash_completion gpl-2.0.txt lgpl-2.1.txt
-++
-++install-ptest:
-++	cp -r $(srcdir)/tests $(DESTDIR)
-++	for m in $$(find $(DESTDIR)/tests -name Makefile); do \
-++          sed -i -e 's|^Makefile:|_Makefile:|' $$m; \
-++        done
-+diff --git a/tests/run.sh b/tests/run.sh
-+index c6c50fd..6455359 100755
-+--- a/tests/run.sh
-++++ b/tests/run.sh
-+@@ -19,4 +19,7 @@
-+ 
-+ [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
-+ 
-+-prove --merge --exec '' - < $1
-++prove --merge -v --exec '' - < $1 | sed \
-++  -e 's|^ok \(.*\)|PASS: \1|' \
-++  -e 's|^not ok \(.*\)|FAIL: \1|' \
-++  | egrep -h 'PASS|FAIL'
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-new file mode 100644
-index 0000000..223b52e
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-@@ -0,0 +1,59 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit Control"
-+DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
-+to extract program execution details from the Linux operating system \
-+and interpret them."
-+
-+LICENSE = "GPLv2 & LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
-+                    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
-+
-+DEPENDS = "liburcu popt lttng-ust"
-+RDEPENDS_${PN}-ptest += "make"
-+
-+SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
-+PV = "v2.4.0"
-+
-+SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.4 \
-+           file://runtest-2.4.0.patch \
-+           file://run-ptest \
-+	  "
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools-brokensep ptest
-+
-+export KERNELDIR="${STAGING_KERNEL_DIR}"
-+
-+FILES_${PN} += "${libdir}/lttng/libexec/*"
-+FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
-+
-+# Since files are installed into ${libdir}/lttng/libexec we match 
-+# the libexec insane test so skip it.
-+INSANE_SKIP_${PN} = "libexec"
-+INSANE_SKIP_${PN}-dbg = "libexec"
-+
-+
-+do_install_ptest () {
-+	chmod +x ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
-+	for i in `find ${D}/${libdir}/${PN}/ptest -perm /u+x -type f`; do
-+		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -i $i
-+	done
-+
-+	sed -e "s:src/bin/lttng-sessiond:$bindir:g" \
-+	    -e "s:src/bin/lttng-consumerd:${libexecdir}/libexec/:g" \
-+	-i ${D}/${libdir}/${PN}/ptest/tests/regression/run-report.py
-+	sed -e "s:src/bin:bin:g" \
-+	-i ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
-+
-+}
--- 
-1.8.3.1
+as far as I am concerned, assuming the commit log gets rewritten
+properly, you can add:
 
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
+cheers,
+
+nico
 
