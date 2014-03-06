@@ -1,31 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id E99D6610CD
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 73C4E6E8A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 21:56:05 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s26LtqWN019552; Thu, 6 Mar 2014 21:55:53 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xJrYBM-KnXRk; Thu,  6 Mar 2014 21:55:52 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s26Ltk4o019544
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 6 Mar 2014 21:55:48 GMT
-Message-ID: <1394142938.12327.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Thu, 06 Mar 2014 21:55:38 +0000
-In-Reply-To: <9b59e3360cdf97a4bcde6bf979aa30dc56a84be4.1394023121.git.laurentiu.palcu@intel.com>
-References: <cover.1394023121.git.laurentiu.palcu@intel.com>
-	<9b59e3360cdf97a4bcde6bf979aa30dc56a84be4.1394023121.git.laurentiu.palcu@intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] buildhistory.bbclass: Fix dependency files creation
+	Thu,  6 Mar 2014 22:27:38 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 06 Mar 2014 14:27:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,603,1389772800"; d="scan'208";a="487523252"
+Received: from clee270-mobl4.amr.corp.intel.com (HELO [10.254.88.187])
+	([10.254.88.187])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2014 14:27:31 -0800
+User-Agent: Microsoft-MacOutlook/14.3.9.131030
+Date: Thu, 06 Mar 2014 14:27:43 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <CF3E35F9.74FDC%dvhart@linux.intel.com>
+Thread-Topic: [PATCH 1/3] recipes-bsp: Add gummiboot and gnu-efi recipes
+References: <cover.1394128875.git.stefanx.stanacar@intel.com>
+	<2adce7a20be3b0ab03029cfe1a62a67bee285bd5.1394128875.git.stefanx.stanacar@intel.com>
+In-Reply-To: <2adce7a20be3b0ab03029cfe1a62a67bee285bd5.1394128875.git.stefanx.stanacar@intel.com>
+Mime-version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/3] recipes-bsp: Add gummiboot and gnu-efi recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,105 +35,234 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 21:56:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Mar 2014 22:27:40 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
-On Wed, 2014-03-05 at 14:39 +0200, Laurentiu Palcu wrote:
-> Call the new python routines.
-> 
-> [YOCTO #5904]
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/classes/buildhistory.bbclass |    9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index ef4135b..01b0082 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -319,6 +319,12 @@ python buildhistory_list_installed() {
->  
->      with open(pkgs_list_file, 'w') as pkgs_list:
->          pkgs_list.write(list_installed_packages(d, 'file'))
-> +
-> +    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
-> +                                  "bh_installed_pkgs_deps.txt")
-> +
-> +    with open(pkgs_deps_file, 'w') as pkgs_deps:
-> +        pkgs_deps.write(list_installed_packages(d, 'deps'))
->  }
->  
-> 
-> @@ -338,7 +344,8 @@ buildhistory_get_installed() {
->  
->  	# Produce dependency graph
->  	# First, quote each name to handle characters that cause issues for dot
-> -	rootfs_list_installed_depends | sed 's:\([^| ]*\):"\1":g' > $1/depends.tmp
-> +	cat ${WORKDIR}/bh_installed_pkgs_deps.txt | sed 's:\([^| ]*\):"\1":g' > $1/depends.tmp && \
-> +		rm ${WORKDIR}/bh_installed_pkgs_deps.txt
->  	# Change delimiter from pipe to -> and set style for recommend lines
->  	sed -i -e 's:|: -> :' -e 's:"\[REC\]":[style=dotted]:' -e 's:$:;:' $1/depends.tmp
->  	# Add header, sorted and de-duped contents and footer and then delete the temp file
+On 3/6/14, 10:15, "Stefan Stanacar" <stefanx.stanacar@intel.com> wrote:
 
-With this patch, a bitbake core-image-minimal -c populate_sdk resulted
-in:
+>gummiboot is  is a simple UEFI boot manager (not a boot loader ;-) )
+>
+>These recipes are imported from meta-intel with these changes:
+> - drop PR and update configure options
+> - gummiboot was upgraded to latest version
+>
+>A couple of notes:
+> - If you wish you can install the gummiboot package on the target and
+>use 'gummiboot install' to add the payload to the ESP (see gummiboot
+>--help,
+>just make sure the ESP partition has the boot flag on as gummiboot won't
+>accept it
+>otherwise). However the point of this recipe is to be used by
+>bootimg.bbclass and
+>generate images with gummiboot instead of grub-efi.
+> - You need a kernel which has CONFIG_EFI_STUB=y at least
+> - The default linux-yocto kernel config does not enable that, easiest way
+>to enable is to build with KERNEL_FEATURES_append = " cfg/efi-ext" in
+>local.conf
+>
+>Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 
-ERROR: Error executing a python function in /media/build1/poky/meta/recipes-core/images/core-image-minimal.bb:
+I don't know if Saul or RP would prefer gnu-efi and gummiboot to arrive as
+separate patches, probably a good idea. But in general, I agree with this
+direction:
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'buildhistory_list_installed', lineno: 18, function: <module>
-     0014:    with open(pkgs_deps_file, 'w') as pkgs_deps:
-     0015:        pkgs_deps.write(list_installed_packages(d, 'deps'))
-     0016:
-     0017:
- *** 0018:buildhistory_list_installed(d)
-     0019:
-File: 'buildhistory_list_installed', lineno: 9, function: buildhistory_list_installed
-     0005:    pkgs_list_file = os.path.join(d.getVar('WORKDIR', True),
-     0006:                                  "bh_installed_pkgs.txt")
-     0007:
-     0008:    with open(pkgs_list_file, 'w') as pkgs_list:
- *** 0009:        pkgs_list.write(list_installed_packages(d, 'file'))
-     0010:
-     0011:    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
-     0012:                                  "bh_installed_pkgs_deps.txt")
-     0013:
-File: '/media/build1/poky/meta/lib/oe/rootfs.py', lineno: 721, function: list_installed_packages
-     0717:    if img_type == "rpm":
-     0718:        return RpmPM(d,
-     0719:                     rootfs_dir,
-     0720:                     d.getVar('TARGET_VENDOR', True)
- *** 0721:                     ).list_installed(format)
-     0722:    elif img_type == "ipk":
-     0723:        return OpkgPM(d,
-     0724:                      rootfs_dir,
-     0725:                      d.getVar("IPKGCONF_TARGET", True),
-File: '/media/build1/poky/meta/lib/oe/package_manager.py', lineno: 854, function: list_installed
-     0850:            pkg = line.split()[0]
-     0851:            arch = line.split()[1]
-     0852:            ver = line.split()[2]
-     0853:            pkgorigin = line.split()[3]
- *** 0854:            new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
-     0855:
-     0856:            if format == "arch":
-     0857:                output.append('%s %s' % (new_pkg, new_arch))
-     0858:            elif format == "file":
-File: '/media/build1/poky/meta/lib/oe/package_manager.py', lineno: 476, function: _pkg_translate_smart_to_oe
-     0472:
-     0473:            if found == 1 and fixed_arch == fixed_cmp_arch:
-     0474:                break
-     0475:        #bb.note('%s, %s -> %s, %s' % (pkg, arch, new_pkg, new_arch))
- *** 0476:        return new_pkg, new_arch
-     0477:
-     0478:    def _search_pkg_name_in_feeds(self, pkg, feed_archs):
-     0479:        for arch in feed_archs:
-     0480:            arch = arch.replace('-', '_')
-Exception: UnboundLocalError: local variable 'new_arch' referenced before assignment
+Acked-by: Darren Hart <dvhart@linux.intel.com>
 
-ERROR: Function failed: buildhistory_list_installed
-ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.d
+Note: Added Koen on Cc, as he happens to also have been working on
+something similar in his "spare" time.
+
+>---
+> .../gnu-efi/gnu-efi/parallel-make-archives.patch   | 48
+>++++++++++++++++++++++
+> .../gnu-efi/gnu-efi/parallel-make.patch            | 22 ++++++++++
+> meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb           | 33 +++++++++++++++
+> meta/recipes-bsp/gummiboot/gummiboot_git.bb        | 25 +++++++++++
+> 4 files changed, 128 insertions(+)
+> create mode 100644
+>meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+> create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+> create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+> create mode 100644 meta/recipes-bsp/gummiboot/gummiboot_git.bb
+>
+>diff --git 
+>a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+>b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+>new file mode 100644
+>index 0000000..e5b47c1
+>--- /dev/null
+>+++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+>@@ -0,0 +1,48 @@
+>+Fix parallel make failure for archives
+>+
+>+Upstream-Status: Pending
+>+
+>+The lib and gnuefi makefiles were using the lib.a() form which compiles
+>+and ar's as a pair instead of compiling all and then ar'ing which can
+>+parallelize better. This was resulting in build failures on larger values
+>+of -j.
+>+
+>+See 
+>http://www.chemie.fu-berlin.de/chemnet/use/info/make/make_toc.html#TOC105
+>+for details.
+>+
+>+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>+---
+>+---
+>+ gnuefi/Makefile |    3 ++-
+>+ lib/Makefile    |    3 ++-
+>+ 2 files changed, 4 insertions(+), 2 deletions(-)
+>+
+>+Index: gnu-efi-3.0/lib/Makefile
+>+===================================================================
+>+--- gnu-efi-3.0.orig/lib/Makefile
+>++++ gnu-efi-3.0/lib/Makefile
+>+@@ -66,7 +66,8 @@ all: libsubdirs libefi.a
+>+ libsubdirs:
+>+ 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
+>+ 
+>+-libefi.a: $(patsubst %,libefi.a(%),$(OBJS))
+>++libefi.a: $(OBJS)
+>++	$(AR) rv $@ $(OBJS)
+>+ 
+>+ clean:
+>+ 	rm -f libefi.a *~ $(OBJS) */*.o
+>+Index: gnu-efi-3.0/gnuefi/Makefile
+>+===================================================================
+>+--- gnu-efi-3.0.orig/gnuefi/Makefile
+>++++ gnu-efi-3.0/gnuefi/Makefile
+>+@@ -51,7 +51,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
+>+ 
+>+ all:	$(TARGETS)
+>+ 
+>+-libgnuefi.a: $(patsubst %,libgnuefi.a(%),$(OBJS))
+>++libgnuefi.a: $(OBJS)
+>++	$(AR) rv $@ $(OBJS)
+>+ 
+>+ clean:
+>+ 	rm -f $(TARGETS) *~ *.o $(OBJS)
+>diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+>b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+>new file mode 100644
+>index 0000000..27c94e8
+>--- /dev/null
+>+++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+>@@ -0,0 +1,22 @@
+>+Fix parallel make failure
+>+
+>+Upstream-Status: Submitted [Maintainer directly]
+>+
+>+Add a missing dependency which resulted in a race leading to failure
+>+on larger values of -j.
+>+
+>+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>+
+>+Index: gnu-efi-3.0/Makefile
+>+===================================================================
+>+--- gnu-efi-3.0.orig/Makefile
+>++++ gnu-efi-3.0/Makefile
+>+@@ -42,6 +42,8 @@ include $(SRCDIR)/Make.defaults
+>+ 
+>+ SUBDIRS = lib gnuefi inc apps
+>+ 
+>++gnuefi: lib
+>++
+>+ all:	check_gcc $(SUBDIRS)
+>+ 
+>+ $(SUBDIRS):
+>diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+>b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+>new file mode 100644
+>index 0000000..0dbdba2
+>--- /dev/null
+>+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+>@@ -0,0 +1,33 @@
+>+SUMMARY = "Libraries for producing EFI binaries"
+>+HOMEPAGE = "http://sourceforge.net/projects/gnu-efi/"
+>+SECTION = "devel"
+>+LICENSE = "GPLv2+"
+>+LIC_FILES_CHKSUM =
+>"file://debian/copyright;md5=5fb358a180f484b285b0d99acdc29666"
+>+
+>+SRC_URI = 
+>"http://downloads.sourceforge.net/gnu-efi/gnu-efi_3.0u.orig.tar.gz \
+>+           file://parallel-make.patch \
+>+           file://parallel-make-archives.patch \
+>+          "
+>+SRC_URI[md5sum] = "d15d3c700e79a1e2938544d73edc572d"
+>+SRC_URI[sha256sum] =
+>"3c0d450d5829204ca05dcb3b2aae772e52c379b7c7e09146759c6315606f934e"
+>+
+>+COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+>+
+>+S = "${WORKDIR}/gnu-efi-3.0"
+>+
+>+def gnu_efi_arch(d):
+>+    import re
+>+    tarch = d.getVar("TARGET_ARCH", True)
+>+    if re.match("i[3456789]86", tarch):
+>+        return "ia32"
+>+    return tarch
+>+
+>+EXTRA_OEMAKE = "'ARCH=${@gnu_efi_arch(d)}' 'CC=${CC}' 'AS=${AS}'
+>'LD=${LD}' 'AR=${AR}' \
+>+                'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}'
+>'PREFIX=${prefix}'\
+>+                "
+>+
+>+do_install() {
+>+        oe_runmake install INSTALLROOT="${D}"
+>+}
+>+
+>+FILES_${PN} += "${libdir}/*.lds"
+>diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+>b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+>new file mode 100644
+>index 0000000..b55064f
+>--- /dev/null
+>+++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+>@@ -0,0 +1,25 @@
+>+SUMMARY = "Gummiboot is a simple UEFI boot manager which executes
+>configured EFI images."
+>+HOMEPAGE = "http://freedesktop.org/wiki/Software/gummiboot"
+>+
+>+LICENSE = "LGPLv2.1"
+>+LIC_FILES_CHKSUM = "file://LICENSE;md5=4fbd65380cdd255951079008b364516c"
+>+
+>+DEPENDS = "gnu-efi util-linux"
+>+
+>+inherit autotools
+>+inherit deploy
+>+
+>+PV = "43+git${SRCPV}"
+>+SRCREV = "4062c51075ba054d4949c714fe06123f9ad3097d"
+>+SRC_URI = "git://anongit.freedesktop.org/gummiboot"
+>+
+>+S = "${WORKDIR}/git"
+>+
+>+EXTRA_OECONF = "--disable-manpages
+>--with-efi-includedir=${STAGING_INCDIR} \
+>+                --with-efi-ldsdir=${STAGING_LIBDIR} \
+>+                --with-efi-libdir=${STAGING_LIBDIR}"
+>+
+>+do_deploy () {
+>+        install ${S}/gummiboot*.efi ${DEPLOYDIR}/
+>+}
+>+addtask deploy before do_build after do_compile
+>-- 
+>1.8.5.3
+>
+>
+
+
+-- 
+Darren Hart
+Yocto Project - Linux Kernel
+Intel Open Source Technology Center
+
+
 
 
 
