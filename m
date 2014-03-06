@@ -1,17 +1,17 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E69B6F5DF
+	by mail.openembedded.org (Postfix) with ESMTP id 86F146EE40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 17:56:39 +0000 (UTC)
+	Thu,  6 Mar 2014 18:04:13 +0000 (UTC)
 Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
 	helo=[172.30.1.45])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
 	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1WLcX8-0007ro-SX; Thu, 06 Mar 2014 18:56:39 +0100
-Message-ID: <1394128597.24424.269.camel@phil-desktop.brightsign>
+	id 1WLceT-0007sW-K3; Thu, 06 Mar 2014 19:04:13 +0100
+Message-ID: <1394129048.24424.271.camel@phil-desktop.brightsign>
 From: Phil Blundell <pb@pbcl.net>
 To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Thu, 06 Mar 2014 17:56:37 +0000
+Date: Thu, 06 Mar 2014 18:04:08 +0000
 In-Reply-To: <a0c82119ec77c1ad5c8b6a7dc941a96eaeba3fe7.1394124934.git.tom.zanussi@linux.intel.com>
 References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
 	<a0c82119ec77c1ad5c8b6a7dc941a96eaeba3fe7.1394124934.git.tom.zanussi@linux.intel.com>
@@ -27,12 +27,13 @@ X-Spam_report: Spam detection software,
 	label similar future email.  If you have any questions, see
 	@@CONTACT_ADDRESS@@ for details.
 	Content preview:  On Thu, 2014-03-06 at 11:09 -0600,
-	Tom Zanussi wrote: > Without
-	lttng-modules, lttng-tools etc don't make sense either so > exclude them
-	as well. This isn't entirely true;
-	one can quite happily use the ust tracers
-	without the modules. I've no idea why ust is disabled on aarch64
-	either. [...] 
+	Tom Zanussi wrote: > +#
+	lttng currently blacklists arm with gcc-4.8 > +COMPATIBLE_HOST =
+	'(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+	If the issue at hand here is GCC PR 58854 (which the lttng mailing list
+	thread seems to suggest it is),
+	can't we just apply the patch for it rather than
+	disabling lttng-modules altogether? [...] 
 	Content analysis details:   (-1.0 points, 5.0 required)
 	pts rule name              description
 	---- ----------------------
@@ -52,17 +53,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 17:56:41 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 18:04:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2014-03-06 at 11:09 -0600, Tom Zanussi wrote:
-> Without lttng-modules, lttng-tools etc don't make sense either so
-> exclude them as well.
+> +# lttng currently blacklists arm with gcc-4.8
+> +COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
 
-This isn't entirely true; one can quite happily use the ust tracers
-without the modules.  I've no idea why ust is disabled on aarch64
-either.
+If the issue at hand here is GCC PR 58854 (which the lttng mailing list
+thread seems to suggest it is), can't we just apply the patch for it
+rather than disabling lttng-modules altogether?
 
 p.
 
