@@ -1,33 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C4A6F598
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C3426F5B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 18:10:45 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id k14so3629295wgh.23
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Mar 2014 10:10:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=F28Rgp5RTUP70Y1/MiJx8MtCVhxcfmcwJs+5rCmQhrI=;
-	b=rZ89TPCpiPogH0rOvI0CLlzBcRE4z16EtNj8MCnVexS2F+2M0D9EUeNZBohVlVmr8R
-	7c13MdNWNc7z/St0ZKkSWx49zVj+YghROzdQmB+1y/+MkfVelnEC9VGz/ZF8AZZ3Sp91
-	C2aUJ1iUdrWl/F1y5paIFkvx+plKWSzoXQlh4DTkwJul8sIEUEtNJdl8V+Wh66yytWAw
-	cOGDdgcbh0e/5imXKH/9l/E3QYBt/eiQN6ntGOV08NBT1XxsjcZnVwwa31ZSp/glZ+b/
-	jbDVU8B/DoMSPtspYTJPgixMxCLgcUjSx45xZUEdvTk00IWYiU0DFyOJYY+Itp5dbVHo
-	lEXQ==
-X-Received: by 10.194.2.168 with SMTP id 8mr12459634wjv.8.1394129445741;
-	Thu, 06 Mar 2014 10:10:45 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id ju6sm20437106wjc.1.2014.03.06.10.10.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 06 Mar 2014 10:10:45 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
+	Thu,  6 Mar 2014 18:16:01 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 06 Mar 2014 10:16:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,602,1389772800"; d="scan'208";a="345991262"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Mar 2014 10:16:01 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id 281BD6A4007;
+	Thu,  6 Mar 2014 10:15:49 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 11:10:43 -0700
-Message-Id: <1394129443-1427-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] kernel-yocto: fix diffconfig/kernel_configme breakage
+Date: Thu,  6 Mar 2014 20:15:53 +0200
+Message-Id: <cover.1394128875.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Cc: dvhart@linux.intel.com
+Subject: [PATCH 0/3] Add gummiboot boot manager alongside grub-efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 18:10:47 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 18:16:02 -0000
 
-The bbclass did the following:
+Hello,
 
-    do_diffconfig[depends] += "virtual/kernel:do_kernel_configme"
+This series adds recipes for gummiboot and a class allowing it to be used
+as the boot loader for live/hddimg images.
+Without changing EFI_PROVIDER, we have the same behaviour for EFI machines.
+Using EFI_PROVIDER = "gummiboot" an installed image will use gummiboot instead
+of grub-efi as it's boot manager.
 
-This clearly introduces a cross-kernel task dependency if the recipe
-inheriting this class isn't the preferred provider of virtual/kernel, which is
-obviously wrong, but further, will break the build if a kernel-yocto based
-kernel is parsed and not skipped, but virtual/kernel refers to
-a non-kernel-yocto recipe, which would not have the do_kernel_configme task.
+I've tested this on FRI2, NUC and minnow (live USB boot and install from USB and boot) 
+with  EFI_PROVIDER = "gummiboot" and  KERNEL_FEATURES_append = " cfg/efi-ext"
+in local.conf
 
-Work around this by adding the in-recipe task dep programmatically with
-bb.build.addtask when do_diffconfig exists.
+This is a partial fix for YB#4082.
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- meta/classes/kernel-yocto.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Cheers,
+Stefan
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index fb8e04e..ef9b9d1 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -263,6 +263,8 @@ do_kernel_configme() {
- 	echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
- }
- 
-+addtask kernel_configme after do_patch
-+
- python do_kernel_configcheck() {
-     import re, string, sys
- 
-@@ -407,4 +409,8 @@ OE_TERMINAL_EXPORTS += "GUILT_BASE KBUILD_OUTPUT"
- GUILT_BASE = "meta"
- KBUILD_OUTPUT = "${B}"
- 
--do_diffconfig[depends] += "virtual/kernel:do_kernel_configme"
-+python () {
-+    # If diffconfig is available, ensure it runs after kernel_configme
-+    if 'do_diffconfig' in d:
-+        bb.build.addtask('do_diffconfig', None, 'do_kernel_configme', d)
-+}
+The following changes since commit a01af0202558e6ed9d16590b3a8d1dd1b95c0374:
+
+  recipes: bump PRs (2014-03-05 17:36:37 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib stefans/gummiboot
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stefans/gummiboot
+
+Stefan Stanacar (3):
+  recipes-bsp: Add gummiboot and gnu-efi recipes
+  bootimg/grub-efi.bbclass: allow using a different class for EFI images
+  classes: Add gummiboot class
+
+ meta/classes/boot-directdisk.bbclass               |   7 +-
+ meta/classes/bootimg.bbclass                       |   9 +-
+ meta/classes/grub-efi.bbclass                      |   6 ++
+ meta/classes/gummiboot.bbclass                     | 112 +++++++++++++++++++++
+ .../gnu-efi/gnu-efi/parallel-make-archives.patch   |  48 +++++++++
+ .../gnu-efi/gnu-efi/parallel-make.patch            |  22 ++++
+ meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb           |  33 ++++++
+ meta/recipes-bsp/gummiboot/gummiboot_git.bb        |  25 +++++
+ .../initrdscripts/files/init-install-efi.sh        |  51 +++++++---
+ 9 files changed, 290 insertions(+), 23 deletions(-)
+ create mode 100644 meta/classes/gummiboot.bbclass
+ create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+ create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+ create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+ create mode 100644 meta/recipes-bsp/gummiboot/gummiboot_git.bb
+
 -- 
-1.8.3.4
+1.8.5.3
 
 
