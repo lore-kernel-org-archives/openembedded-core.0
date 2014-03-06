@@ -1,24 +1,41 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 40B8E6F465
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 93C296F588
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 12:15:49 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Mar 2014 04:15:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,599,1389772800"; d="scan'208";a="467688632"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 06 Mar 2014 04:15:49 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 14:15:42 +0200
-Message-Id: <823cc54137098c5cc765b3f6ef52dc4cfc94388f.1394099850.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1394099850.git.laurentiu.palcu@intel.com>
-References: <cover.1394099850.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1394099850.git.laurentiu.palcu@intel.com>
-References: <cover.1394099850.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 2/2] opkg/dpkg: remove the postinstalls
+	Thu,  6 Mar 2014 13:46:00 +0000 (UTC)
+Received: by mail-ea0-f173.google.com with SMTP id r15so1700573ead.32
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Mar 2014 05:46:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=VzEr4TVZ5cfZfDbfShhQif5ik1vEhhSgZiEdNW3+ybQ=;
+	b=Nw6SJ6RZ3QdibI4f7ODZ5+wGU0+jC0ky5QdYj3sTv0BIFO4VmJnxF7JCeAcOBRD+n+
+	vCEot7btUXwKCZulDkGB+v6UY8h6t5ctKlXHntlzNHZjPLe6I/YuHeDn6usycTue58eP
+	9018wB3Dho7+7wLObztnrF3zH3x/OUX5EYjD8ADjakUpI6H3LF3IqXG4HJh4H7EhVqSR
+	fIi8L1x5Mh5k0m3PK/W1TNDjOQjCuPrNlWdABnL9eNKsBXG8Gxbl143azYt+F4FkMJ1l
+	lGlroBWXHL+NU2UfL3eXHN2VooYXxHjgUfeXT30DFiEUGZf0qzjFGuMJ+ErvQ0CyyxZo
+	5EEA==
+X-Received: by 10.14.29.6 with SMTP id h6mr9804717eea.84.1394113561007;
+	Thu, 06 Mar 2014 05:46:01 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	m9sm21964257eeh.3.2014.03.06.05.45.59 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Mar 2014 05:45:59 -0800 (PST)
+Date: Thu, 6 Mar 2014 14:46:07 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Proca, Andreea B" <andreea.b.proca@intel.com>
+Message-ID: <20140306134607.GG26981@jama>
+References: <20140306013131.GE26981@jama>
+	<C76456D50C459F418509335BC413076F169032A3@IRSMSX106.ger.corp.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <C76456D50C459F418509335BC413076F169032A3@IRSMSX106.ger.corp.intel.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: error-report-web django-nvd3 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,112 +48,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 12:15:49 -0000
+X-List-Received-Date: Thu, 06 Mar 2014 13:46:03 -0000
+X-Groupsio-MsgNum: 50935
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QoiSMj+lAls+FAFy"
+Content-Disposition: inline
 
-Just use the run-postinsts recipe for running first boot postinstalls.
+--QoiSMj+lAls+FAFy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #5666]
+On Thu, Mar 06, 2014 at 11:44:54AM +0000, Proca, Andreea B wrote:
+> Hi Martin,
+>=20
+> I should have been more specific about the versions, sorry.=20
+> I've updated the README, it needs django-nvd3 0.1.11 and python-nvd3 0.6.=
+0.
+>=20
+> I usually install those on my Ubuntu host using pip.=20
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-devtools/dpkg/dpkg.inc |   24 +-----------------------
- meta/recipes-devtools/opkg/opkg.inc |   28 +---------------------------
- 2 files changed, 2 insertions(+), 50 deletions(-)
+Thank you, I didn't go that far into django-nvd3 history to try 0.1.11
+version :).
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 471151e..eef7ce9 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -7,7 +7,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
- 
- DEPENDS = "zlib bzip2 perl ncurses"
- DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz"
-+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts"
- RDEPENDS_${PN}_class-native = "xz-native"
- 
- S = "${WORKDIR}/${BPN}-${PV}"
-@@ -43,8 +43,6 @@ do_configure () {
-     autotools_do_configure
- }
- 
--DPKG_INIT_POSITION ?= "98"
--
- do_install_append () {
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
-@@ -66,26 +64,6 @@ do_install_append () {
- 	fi
- }
- 
--pkg_postinst_${PN} () {
--#!/bin/sh
--if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)} && \
--	[ "x$D" != "x" ] && [ -f $D/var/lib/dpkg/status ]; then
--	install -d $D${sysconfdir}/rcS.d
--
--	# this happens at S98 where our good 'ole packages script used to run
--	echo "#!/bin/sh
--[ -e ${sysconfdir}/default/postinst ] && . ${sysconfdir}/default/postinst
--if [ \"\$POSTINST_LOGGING\" = \"1\" ]; then
--    dpkg --configure -a >\$LOGFILE 2>&1
--else
--    dpkg --configure -a
--fi
--rm -f ${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
--" > $D${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
--	chmod 0755 $D${sysconfdir}/rcS.d/S${DPKG_INIT_POSITION}run-postinsts
--fi
--}
--
- PROV = "virtual/update-alternatives"
- PROV_class-native = ""
- 
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index 7bea26d..9f87df5 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -38,7 +38,7 @@ EXTRA_OECONF = "\
-   --with-opkglibdir=${OPKGLIBDIR} \
- "
- 
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-base"
-+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-base run-postinsts"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
- RREPLACES_${PN} = "opkg-nogpg"
-@@ -73,30 +73,4 @@ do_install_append() {
- 	rm ${D}${bindir}/update-alternatives
- }
- 
--pkg_postinst_${PN} () {
--#!/bin/sh
--if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)} && \
--	[ "x$D" != "x" ] && [ -f $D${OPKGLIBDIR}/opkg/status ]; then
--	install -d $D${sysconfdir}/rcS.d
--
--	# this happens at S98 where our good 'ole packages script used to run
--	echo "#!/bin/sh
--[ -e ${sysconfdir}/default/postinst ] && . ${sysconfdir}/default/postinst
--if [ \"\$POSTINST_LOGGING\" = \"1\" ]; then
--    opkg-cl configure >\$LOGFILE 2>&1
--else
--    opkg-cl configure
--fi
--rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
--" > $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
--	chmod 0755 $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
--fi
--}
--
- BBCLASSEXTEND = "native nativesdk"
--
--# Define a variable to allow distros to run configure earlier.
--# (for example, to enable loading of ethernet kernel modules before networking starts)
--# note: modifying name or default value for POSTINSTALL_INITPOSITION requires
--# changes in systemd-compat-units.bb
--POSTINSTALL_INITPOSITION ?= "98"
--- 
-1.7.9.5
+I've small fix to make it compatible with 0.6.0, but I'll first try it
+with 0.1.11 to see if it's supposed to look like this.
 
+Thank you very much for this project it came in right time for me :).
 
+> -----Original Message-----
+> From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
+> Sent: Thursday, March 06, 2014 3:32 AM
+> To: Proca, Andreea B
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: error-report-web django-nvd3 version
+>=20
+> Hi,
+>=20
+> can you be more specific about django-nvd3 version required by error-repo=
+rt-web?
+> http://git.yoctoproject.org/cgit/cgit.cgi/error-report-web/tree/README
+>=20
+> with 0.6.* it was complaining about missing kw_args param in load_chart c=
+alls, older versions were complaining about other changes.
+>=20
+> I'm testing it (currently without graphs) in order to extend it to collec=
+t some build metrics and statistics from our builds (like every jenkins bui=
+ld and very local developer build will upload back description of HW, build=
+ times and other metrics so we can better evaluate icecc, sstate reuse rati=
+o etc).
+>=20
+> If something like that would be useful for upstream I can eventually cont=
+ribute it back.
+>=20
+> I've also updated the .bbclass to read all "configuration" from bb data a=
+nd to upload the report after every build (sort of like tinderbox, oestats =
+bbclass worked), that way is easier for us to globally enable it for all bu=
+ilds in our distro config without any interaction from developers.
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--QoiSMj+lAls+FAFy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlMYfB8ACgkQN1Ujt2V2gBxDKwCgtMfUNl+dP9k8EK36SfdIzNYG
+C9MAnjwvrioIC7bhSBf2k9cuusagNLZL
+=v4aC
+-----END PGP SIGNATURE-----
+
+--QoiSMj+lAls+FAFy--
