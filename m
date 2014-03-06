@@ -1,26 +1,35 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C0C26F3AF
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B3736F5E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 18:36:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 10:36:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,602,1389772800"; d="scan'208";a="487390889"
-Received: from unknown (HELO [10.255.13.79]) ([10.255.13.79])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2014 10:36:04 -0800
-Message-ID: <1394130964.28420.53.camel@empanada>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Thu, 06 Mar 2014 12:36:04 -0600
-In-Reply-To: <1394128597.24424.269.camel@phil-desktop.brightsign>
-References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394124934.git.tom.zanussi@linux.intel.com>
-	<a0c82119ec77c1ad5c8b6a7dc941a96eaeba3fe7.1394124934.git.tom.zanussi@linux.intel.com>
-	<1394128597.24424.269.camel@phil-desktop.brightsign>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/6] lttng-modules: Exclude arm
+	Thu,  6 Mar 2014 18:40:57 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id p9so2035260lbv.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Mar 2014 10:40:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=g/3NXXvp83oKuJTugORSemWRBfD6DbbmASPDg5nrAgg=;
+	b=ZgC7NUCA7qsMTFi227SOOEnP9Xox/Tzf4MJVWg+teUhYgj3g7D2EIP3mpNknzebylX
+	yE05Z3XCkG2g20oN5Hs4Sk9Jlr8oKe2ufOjAbOx+ODysR0xaFe03Ml89S2NJKOth6dGY
+	RP0mvXAmJsTS1mSEEc/jHzS8CILbwdwVZX+4n+yrQLIkC247df8sYVGwgVjduLOIsEha
+	RclHRmHtR8f4zs2V8vW838133024/pmH+cZI8mvPEBzmlP3rWlKrNkn24uLEh7JaNmb4
+	BJcyf8UapWOTyQdS4GXK+qHP+Gjp9MT712x+6uliP7cpPMmK8WhprFRuFYpo/f48LH3O
+	DfeA==
+MIME-Version: 1.0
+X-Received: by 10.112.72.40 with SMTP id a8mr778647lbv.68.1394131257163; Thu,
+	06 Mar 2014 10:40:57 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Thu, 6 Mar 2014 10:40:57 -0800 (PST)
+In-Reply-To: <1394129443-1427-1-git-send-email-kergoth@gmail.com>
+References: <1394129443-1427-1-git-send-email-kergoth@gmail.com>
+Date: Thu, 6 Mar 2014 13:40:57 -0500
+Message-ID: <CADkTA4M96iZh48Hieup38Gwf9DB24PgvKw7Uw0WVtaGLBwByFA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-yocto: fix diffconfig/kernel_configme breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +42,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 18:36:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Mar 2014 18:40:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2014-03-06 at 17:56 +0000, Phil Blundell wrote:
-> On Thu, 2014-03-06 at 11:09 -0600, Tom Zanussi wrote:
-> > Without lttng-modules, lttng-tools etc don't make sense either so
-> > exclude them as well.
-> 
-> This isn't entirely true; one can quite happily use the ust tracers
-> without the modules.  I've no idea why ust is disabled on aarch64
-> either.
-> 
+On Thu, Mar 6, 2014 at 1:10 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> The bbclass did the following:
+>
+>     do_diffconfig[depends] += "virtual/kernel:do_kernel_configme"
+>
+> This clearly introduces a cross-kernel task dependency if the recipe
+> inheriting this class isn't the preferred provider of virtual/kernel, which is
+> obviously wrong, but further, will break the build if a kernel-yocto based
+> kernel is parsed and not skipped, but virtual/kernel refers to
+> a non-kernel-yocto recipe, which would not have the do_kernel_configme task.
+>
+> Work around this by adding the in-recipe task dep programmatically with
+> bb.build.addtask when do_diffconfig exists.
+>
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index fb8e04e..ef9b9d1 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -263,6 +263,8 @@ do_kernel_configme() {
+>         echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
+>  }
+>
+> +addtask kernel_configme after do_patch
+> +
 
-OK, I can remove the lttng-removal..
+linux-yocto.inc already has:
 
-Tom
+addtask kernel_configme before do_configure after do_patch
 
-> p.
-> 
-> 
+So we should be able to avoid adding the task to the class, right ? I
+suppose the task could move into the class, but it was always a per
+recipe include in the past, I just don't want any unintended issues to
+happen from the double task add.
+
+>  python do_kernel_configcheck() {
+>      import re, string, sys
+>
+> @@ -407,4 +409,8 @@ OE_TERMINAL_EXPORTS += "GUILT_BASE KBUILD_OUTPUT"
+>  GUILT_BASE = "meta"
+>  KBUILD_OUTPUT = "${B}"
+>
+> -do_diffconfig[depends] += "virtual/kernel:do_kernel_configme"
+> +python () {
+> +    # If diffconfig is available, ensure it runs after kernel_configme
+> +    if 'do_diffconfig' in d:
+> +        bb.build.addtask('do_diffconfig', None, 'do_kernel_configme', d)
+> +}
+
+Thanks for the fixup!
+
+Bruce
+
+> --
+> 1.8.3.4
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
