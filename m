@@ -1,36 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 934BF60E68
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B00686E760
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Mar 2014 01:31:24 +0000 (UTC)
-Received: by mail-ee0-f43.google.com with SMTP id e53so809831eek.30
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Mar 2014 17:31:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=MuvWoXFlkLem17PEponGhchzz237AGzbcVAm7V5Yn5k=;
-	b=VbY64MuPc8yV6dPkZO/5KdQOqylAHWTLAtISpiTMwLT/rSImbucNROJOXKKzcJLAAi
-	VOeFmtjAEiT+GEu1tWCgrmY8d1sgesMMsQAUUObxaLgNQo4YpKYVwxO2ShfBUrBtjZu3
-	kyE3FEPd9ikwmbnF9gDOi/Zmox3YxLH/KqraG/uOiQwtG6hPsHyqphmM6zQNFkIeV47R
-	c9ZEngsI6/c2T61rrmODXVibbixe9++clQQgZll3hYS1K8AVjwof/QqIctR9uCZw6x2T
-	FzngXfcYvoo1NYfCLDwWCwRBOG6m/KpHX/4NUmhxwP2uuR++1cpg9s4EVRWBbtTb2DGO
-	Fa+A==
-X-Received: by 10.15.44.202 with SMTP id z50mr6173848eev.81.1394069485267;
-	Wed, 05 Mar 2014 17:31:25 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	46sm15674774ees.4.2014.03.05.17.31.23 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Mar 2014 17:31:24 -0800 (PST)
-Date: Thu, 6 Mar 2014 02:31:31 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Andreea Proca <andreea.b.proca@intel.com>
-Message-ID: <20140306013131.GE26981@jama>
+	Thu,  6 Mar 2014 05:33:02 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Mar 2014 21:33:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,598,1389772800"; d="scan'208";a="493265525"
+Received: from unknown (HELO [10.255.12.231]) ([10.255.12.231])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Mar 2014 21:33:00 -0800
+Message-ID: <5318088B.9090506@linux.intel.com>
+Date: Wed, 05 Mar 2014 21:32:59 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: error-report-web django-nvd3 version
+To: openembedded-core@lists.openembedded.org
+References: <c8001854a355061a1c36a51eced9f72f2ce294d3.1393973357.git.sgw@linux.intel.com>
+	<fcfa2539551a2688b638b4b361a4ce4c55e6b649.1393973357.git.sgw@linux.intel.com>
+In-Reply-To: <fcfa2539551a2688b638b4b361a4ce4c55e6b649.1393973357.git.sgw@linux.intel.com>
+Subject: Re: [PATCH 2/6] bind: Update to 9.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,54 +32,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Mar 2014 01:31:28 -0000
-X-Groupsio-MsgNum: 50916
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uY6A4WM8GrQcEArj"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 06 Mar 2014 05:33:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---uY6A4WM8GrQcEArj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Please Hold this and the DHCP update which relies on the version of bind.
 
-can you be more specific about django-nvd3 version required by
-error-report-web?
-http://git.yoctoproject.org/cgit/cgit.cgi/error-report-web/tree/README
+I will submit a v2 in the next couple of days.
 
-with 0.6.* it was complaining about missing kw_args param in load_chart
-calls, older versions were complaining about other changes.
+Sau!
 
-I'm testing it (currently without graphs) in order to extend it to collect =
-some build metrics and
-statistics from our builds (like every jenkins build and very local
-developer build will upload back description of HW, build times and
-other metrics so we can better evaluate icecc, sstate reuse ratio etc).
+On 03/04/2014 02:50 PM, Saul Wold wrote:
+> Remove CVE patches that are in bind
+> Updated COPYRIGHT includes date changes the NetBSD Copyright
+> Modifies the Base BSD License to 3-Clause (removes advertising clause)w
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   .../{bind-9.8.1 => bind}/bind-9.8.1-CVE-2012-5166.patch   |  0
+>   .../bind/{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch    |  0
+>   .../bind/{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch    |  0
+>   .../bind/{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch    |  0
+>   .../bind/{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch    |  0
+>   .../{bind-9.8.1 => bind}/bind-Fix-CVE-2012-4244.patch     |  0
+>   .../bind/{bind-9.8.1 => bind}/conf.patch                  |  0
+>   .../bind/{bind-9.8.1 => bind}/cross-build-fix.patch       |  0
+>   .../make-etc-initd-bind-stop-work.patch                   |  0
+>   .../{bind-9.8.1 => bind}/mips1-not-support-opcode.diff    |  0
+>   .../bind/{bind_9.8.1.bb => bind_9.9.5.bb}                 | 15 ++++-----------
+>   11 files changed, 4 insertions(+), 11 deletions(-)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-9.8.1-CVE-2012-5166.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-Fix-CVE-2012-4244.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/conf.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/cross-build-fix.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/make-etc-initd-bind-stop-work.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/mips1-not-support-opcode.diff (100%)
+>   rename meta/recipes-connectivity/bind/{bind_9.8.1.bb => bind_9.9.5.bb} (77%)
+>
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-9.8.1-CVE-2012-5166.patch b/meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-9.8.1-CVE-2012-5166.patch
+> rename to meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2011-4313.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2011-4313.patch
+> rename to meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-1667.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-1667.patch
+> rename to meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-3817.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-3817.patch
+> rename to meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2013-2266.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2013-2266.patch
+> rename to meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-Fix-CVE-2012-4244.patch b/meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-Fix-CVE-2012-4244.patch
+> rename to meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/conf.patch
+> rename to meta/recipes-connectivity/bind/bind/conf.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/cross-build-fix.patch b/meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/cross-build-fix.patch
+> rename to meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/make-etc-initd-bind-stop-work.patch
+> rename to meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff b/meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff
+> rename to meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+> diff --git a/meta/recipes-connectivity/bind/bind_9.8.1.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+> similarity index 77%
+> rename from meta/recipes-connectivity/bind/bind_9.8.1.bb
+> rename to meta/recipes-connectivity/bind/bind_9.9.5.bb
+> index e12bb39..998d111 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.8.1.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+> @@ -3,32 +3,25 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+>   SECTION = "console/network"
+>
+>   LICENSE = "ISC & BSD"
+> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=0fbe2a3ab3c68ac3fea3cad13093877c"
+> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=a3df5f651469919a0e6cb42f84fb6ff1"
+>
+>   DEPENDS = "openssl libcap"
+> -PR = "r5"
+>
+>   SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+>              file://conf.patch \
+>              file://cross-build-fix.patch \
+>              file://make-etc-initd-bind-stop-work.patch \
+> -           file://bind-9.8.1-CVE-2012-5166.patch \
+> -           file://bind-CVE-2011-4313.patch \
+> -           file://bind-CVE-2012-1667.patch \
+> -           file://bind-CVE-2012-3817.patch \
+> -           file://bind-CVE-2013-2266.patch \
+> -           file://bind-Fix-CVE-2012-4244.patch \
+>              file://mips1-not-support-opcode.diff \
+>   	   "
+>
+> -SRC_URI[md5sum] = "cf31117c5d35af34d4c0702970ad9fb7"
+> -SRC_URI[sha256sum] = "02285dc429cb2a6687a1b2446e9ee22c1df27f2577225b05be5092395ee7c92c"
+> +SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
+> +SRC_URI[sha256sum] = "d4b64c1dde442145a316679acff2df4008aa117ae52dfa3a6bc69efecc7840d1"
+>
+>   # --enable-exportlib is necessary for building dhcp
+>   ENABLE_IPV6 = "--enable-ipv6=${@base_contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+>   EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
+>                    --disable-devpoll --disable-epoll --with-gost=no \
+> -                 --with-gssapi=no \
+> +                 --with-gssapi=no --with-ecdsa=yes \
+>                    --sysconfdir=${sysconfdir}/bind \
+>                    --with-openssl=${STAGING_LIBDIR}/.. --with-libxml2=${STAGING_LIBDIR}/.. \
+>                    --enable-exportlib --with-export-includedir=${includedir} --with-export-libdir=${libdir} \
+>
 
-If something like that would be useful for upstream I can eventually
-contribute it back.
-
-I've also updated the .bbclass to read all "configuration" from bb data
-and to upload the report after every build (sort of like tinderbox,
-oestats bbclass worked), that way is easier for us to globally enable it
-for all builds in our distro config without any interaction from
-developers.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---uY6A4WM8GrQcEArj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMXz/MACgkQN1Ujt2V2gBzX7gCeOJ1Rs9KhY/wdjsiXXfDESBn5
-XhsAoIWO++HyNpT5x0QFEvbzSJgkgVZr
-=TFrI
------END PGP SIGNATURE-----
-
---uY6A4WM8GrQcEArj--
