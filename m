@@ -1,21 +1,28 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 998A76F698
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E70BB6F7A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 14:48:56 +0000 (UTC)
+	Fri,  7 Mar 2014 15:36:41 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Mar 2014 06:48:57 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 07 Mar 2014 07:36:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,608,1389772800"; d="scan'208";a="494194854"
+X-IronPort-AV: E=Sophos;i="4.97,608,1389772800"; d="scan'208";a="494220747"
 Received: from lbhoopat-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.98])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2014 06:48:54 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2014 07:36:40 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Mar 2014 14:48:48 +0000
-Message-Id: <1394203728-12471-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] classes/uboot-config: ignore doc varflag
+To: =?ISO-8859-1?Q?S=E9bastien?= Mennetrier <s.mennetrier@innotis.org>
+Date: Fri, 07 Mar 2014 15:36:39 +0000
+Message-ID: <1626841.1TdQbzb3V4@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.5-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <CABgO3_Pe8-0rZ3hFELYfNWnNnWXtYz99w0BbgTi4+C6Zk1JtQg@mail.gmail.com>
+References: <1393509239-26637-1-git-send-email-s.mennetrier@innotis.org>
+	<1394199246.12327.37.camel@ted>
+	<CABgO3_Pe8-0rZ3hFELYfNWnNnWXtYz99w0BbgTi4+C6Zk1JtQg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Create gstreamer-1.0 package groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 14:48:58 -0000
+X-List-Received-Date: Fri, 07 Mar 2014 15:36:42 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-The doc varflag on UBOOT_CONFIG should be ignored by this code; without
-this the recent addition of the UBOOT_CONFIG[doc] to documentation.conf
-causes errors when UBOOT_MACHINE is used.
+On Friday 07 March 2014 14:36:59 S=E9bastien Mennetrier wrote:
+> Ok, I will test my patch with this change on master branch.
+>=20
+> Thanks for your help and your tips.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/uboot-config.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+BTW, if this recipe inherited packagegroup (as I think it should, since=
+ that's=20
+what it claims to be creating) then LIC_FILES_CHKSUM isn't necessary. A=
+s a=20
+bonus a number of behaviours desirable for packagegroups are enabled by=
+ the=20
+class.
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 3e09f17..8ac1b71 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -14,6 +14,8 @@
- python () {
-     ubootmachine = d.getVar("UBOOT_MACHINE", True)
-     ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-+    # The "doc" varflag is special, we don't want to see it here
-+    ubootconfigflags.pop('doc', None)
- 
-     if not ubootmachine and not ubootconfigflags:
-         PN = d.getVar("PN", True)
--- 
-1.8.5.3
+Cheers,
+Paul
 
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
