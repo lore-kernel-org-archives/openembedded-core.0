@@ -1,23 +1,20 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 43BBF6E8AC
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0070D6DCFF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 14:20:05 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Mar 2014 06:20:06 -0800
+	Fri,  7 Mar 2014 14:33:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 07 Mar 2014 06:33:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,608,1389772800"; d="scan'208";a="494184141"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2014 06:20:05 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id 13E776A4007;
-	Fri,  7 Mar 2014 06:19:53 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,608,1389772800"; d="scan'208";a="487941796"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2014 06:33:07 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Mar 2014 16:20:07 +0200
-Message-Id: <1394202007-14964-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] oeqa/utils/qemurunner: search for login string in the entire boot log
+Date: Fri,  7 Mar 2014 16:33:04 +0200
+Message-Id: <cover.1394202750.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] xf86-video-intel: add recipe for 2.99.910, remove the git one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +27,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 14:20:08 -0000
+X-List-Received-Date: Fri, 07 Mar 2014 14:33:08 -0000
 
-If some service is to spammy we might miss the login, so search
-in the entire log instead of just the last few lines.
-Use qemu in regex too (to avoid a login string from some service).
+The following changes since commit 2f9bf7bc97cb832f4db13df62ce09d96ce75e810:
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/utils/qemurunner.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+  PR bumps to remove PRINC use in meta-fsl-arm (2014-03-07 13:39:11 +0000)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 5366a63..c664d00 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -133,8 +133,7 @@ class QemuRunner:
-                         if data:
-                             self.log(data)
-                             self.bootlog += data
--                            lastlines = "\n".join(self.bootlog.splitlines()[-2:])
--                            if re.search("login:", lastlines):
-+                            if re.search("qemu.* login:", self.bootlog):
-                                 stopread = True
-                                 reachedlogin = True
-                                 bb.note("Reached login banner")
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b5705_q4_intel_graphics_stack
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b5705_q4_intel_graphics_stack
+
+Laurentiu Palcu (1):
+  xf86-video-intel: add recipe for 2.99.910, remove the git one
+
+ meta/conf/distro/include/default-versions.inc      |    3 ++
+ .../xorg-driver/xf86-video-intel_2.99.910.bb       |   31 ++++++++++++++++++++
+ .../xorg-driver/xf86-video-intel_git.bb            |   23 ---------------
+ 3 files changed, 34 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.910.bb
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+
 -- 
-1.8.5.3
+1.7.9.5
 
 
