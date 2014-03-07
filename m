@@ -1,40 +1,39 @@
-Return-Path: <sebmennetrier@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 67F296E766
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 731C86E81B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 13:36:58 +0000 (UTC)
-Received: by mail-ie0-f172.google.com with SMTP id as1so4317965iec.17
+	Fri,  7 Mar 2014 13:37:31 +0000 (UTC)
+Received: by mail-yh0-f51.google.com with SMTP id f10so4184748yha.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Mar 2014 05:36:59 -0800 (PST)
+	Fri, 07 Mar 2014 05:37:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=gqyGBunbDJnrFTvOmPQVuBxqKMEEd2xxg+YnuCpaxF0=;
-	b=MWGxEiRzW99mj60GMD62M/GaH+nalAHLw/BYSF5/Mv/iuTzwaJ6kxKo+StqzzJUY7C
-	s/Mmr1tLX40DP7yS3aKqD3t9F2d4crfYE4zWoPDw4Vo02T/Mh6HoLJmV/1ykN8UfvxBN
-	X94jO/AvTWca6sxGySQnrAdZU4SJV8F3VTOLHoVkeSl+ZaUoiRjNnjlgmutCZDUcWHOm
-	iYyyt3Q81gtAwpKezCGZo11bs3e58c0jZS7T/7NxW4nxtk/6SiTR5/F1flQocCwR0zGF
-	l4ge1WoHdaSmJHK7i7ywfOL7qRlR3LZn7eZHNIjqp+CyADEysB8TEWupZX9S/5w4AG+f
-	Rn7Q==
-MIME-Version: 1.0
-X-Received: by 10.50.61.147 with SMTP id p19mr2738523igr.49.1394199419806;
-	Fri, 07 Mar 2014 05:36:59 -0800 (PST)
-Sender: sebmennetrier@gmail.com
-Received: by 10.42.198.139 with HTTP; Fri, 7 Mar 2014 05:36:59 -0800 (PST)
-In-Reply-To: <1394199246.12327.37.camel@ted>
-References: <1393509239-26637-1-git-send-email-s.mennetrier@innotis.org>
-	<CABgO3_O069SpHEeF0ALPuimB6Yag8W72tjAuLLsqaQT-7XgNWA@mail.gmail.com>
-	<1394195975.12327.33.camel@ted>
-	<CABgO3_M1-S7vQC=ypS58T9w6pJTjomAT1uM+Fik4ETA3GSOHzQ@mail.gmail.com>
-	<1394199246.12327.37.camel@ted>
-Date: Fri, 7 Mar 2014 14:36:59 +0100
-X-Google-Sender-Auth: 2thzzqWZcE4NqZsxH5wM-8EhYSk
-Message-ID: <CABgO3_Pe8-0rZ3hFELYfNWnNnWXtYz99w0BbgTi4+C6Zk1JtQg@mail.gmail.com>
-From: =?ISO-8859-1?Q?S=E9bastien_Mennetrier?= <s.mennetrier@innotis.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Create gstreamer-1.0 package groups
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=l2KSGvSa1I5DRa3hywJGF1B6+qn+p8H9UeB3ZtOc3XQ=;
+	b=N8m3rV46/d+GBufH1rTEagwESwA1oz/JaoqDPoQEeE14KLowwXBhNNrLqI201h703d
+	2DYMck4cVyKpxP4c25RTVtif7gx8+xovTlWM8uvVVJp+wDVxtfRNfhWhjb8q5lj2waHx
+	GR5t/Gmba1WYvzMdT1wFEEEzeR4PGhqKzzUPE9oyfOsys2AOCGut0jt30+zwR6ilk6hB
+	5cbscSd7yxdFrap9PIMIW/mfSfjya1TQJMSRKmNQUk15rSrnLOsGwLwzfU9BQOWz1C6J
+	mWh6+eCKQ5AUzPmqiIfV9uhcJ0J6BBHEwWs0cjDLapdWPZtpwcn12vLeszIu8POHmDBp
+	WWaQ==
+X-Received: by 10.236.147.107 with SMTP id s71mr22468248yhj.45.1394199452739; 
+	Fri, 07 Mar 2014 05:37:32 -0800 (PST)
+Received: from nano.lab.ossystems.com.br ([177.194.208.225])
+	by mx.google.com with ESMTPSA id n4sm28819244yhc.13.2014.03.07.05.37.31
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Mar 2014 05:37:32 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 6C2991921C2BE; Fri,  7 Mar 2014 10:37:28 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri,  7 Mar 2014 10:37:27 -0300
+Message-Id: <1394199447-2781-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.9.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] PR bumps to remove PRINC use in meta-fsl-arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,124 +46,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 13:36:59 -0000
-Content-Type: multipart/alternative; boundary=047d7bdca43829ea0804f40459ae
+X-List-Received-Date: Fri, 07 Mar 2014 13:37:32 -0000
 
---047d7bdca43829ea0804f40459ae
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Those recipes need PR bump so we drop PRINC from meta-fsl-arm layer.
 
-Ok, I will test my patch with this change on master branch.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-bsp/alsa-state/alsa-state.bb                          | 2 +-
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-base.bb               | 2 +-
+ meta/recipes-core/udev/udev-extraconf_1.0.bb                       | 2 +-
+ meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb      | 2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb      | 2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb         | 2 ++
+ 7 files changed, 8 insertions(+), 6 deletions(-)
 
-Thanks for your help and your tips.
+diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
+index c996cd9..5ab1b13 100644
+--- a/meta/recipes-bsp/alsa-state/alsa-state.bb
++++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+@@ -10,7 +10,7 @@ sound state at system boot and save it at system shut down."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ PV = "0.2.0"
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "\
+   file://asound.conf \
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 09e0aef..0c6a530 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -3,7 +3,7 @@
+ #
+ 
+ SUMMARY = "Host packages for the standalone SDK or external toolchain"
+-PR = "r11"
++PR = "r12"
+ LICENSE = "MIT"
+ 
+ inherit packagegroup nativesdk
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index d3e35df..368c318 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Merge machine and distro options to create a basic machine task/package"
+ LICENSE = "MIT"
+-PR = "r82"
++PR = "r83"
+ 
+ inherit packagegroup
+ 
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+index abfd9a0..3810b28 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-PR = "r15"
++PR = "r16"
+ 
+ SRC_URI = " \
+        file://automount.rules \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+index 3fe72e2..3749a1d 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.x.org"
+ SECTION = "x11/base"
+ LICENSE = "MIT-X"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r19"
++PR = "r27"
+ 
+ SRC_URI = "file://xorg.conf"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+index 19473ba..53cc55c 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+@@ -14,7 +14,7 @@ SRC_URI += "file://gst-plugins-base-tremor.patch \
+ SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
+ SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
+index 4474e1e..60de7c0 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
+@@ -10,6 +10,8 @@ SRC_URI += " file://0001-conditional-gl-framebuffer-undefined-use.patch"
+ 
+ DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg libpng glew"
+ 
++PR = "r4"
++
+ inherit gettext gconf
+ 
+ # This package doesn't have a configure switch for EGL or GL, so forcibly tell
+-- 
+1.9.0
 
 
-Regards,
-S=E9bastien
-
-
-2014-03-07 14:34 GMT+01:00 Richard Purdie <
-richard.purdie@linuxfoundation.org>:
-
-> On Fri, 2014-03-07 at 14:24 +0100, S=E9bastien Mennetrier wrote:
-> > Hi,
-> >
-> >
-> > This patch was written in dora branch. I will try to adapt it for
-> > master branch and I will send a new patch ASAP.
-> >
-> > Sorry for my mistake.
-> >
-> I think it needs:
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bbb=
-/meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-meta-base.bb
-> index 3b797f0..a73b04c 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> @@ -1,7 +1,7 @@
-> DESCRIPTION =3D "Gstreamer1.0 package groups"
-> LICENSE =3D "MIT"
-> DEPENDS =3D "gstreamer1.0 gstreamer1.0-plugins-base
-> gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
-> -LIC_FILES_CHKSUM =3D
-> "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3b58 \
-> +LIC_FILES_CHKSUM =3D
-> "file://${COREBASE}/LICENSE;md5=3D4d92cd373abda3937c2bc47fbc49d690 \
-> file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0384361b4de2042=
-0"
-> PACKAGES =3D "\
->
-> in future can you please say which branch it was tested on if its not
-> master.
->
-> Cheers,
->
-> Richard
->
->
->
->
-
---047d7bdca43829ea0804f40459ae
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Ok, I will test my patch with this change on master b=
-ranch.<br><br></div>Thanks for your help and your tips.</div><div class=3D"=
-gmail_extra"><br clear=3D"all"><div><div dir=3D"ltr"><div><br>Regards,<br><=
-/div>
-S=E9bastien<br></div></div>
-<br><br><div class=3D"gmail_quote">2014-03-07 14:34 GMT+01:00 Richard Purdi=
-e <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
-g" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span>:<br>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<div class=3D"">On Fri, 2014-03-07 at 14:24 +0100, S=E9bastien Mennetrier w=
-rote:<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt;<br>
-&gt; This patch was written in dora branch. I will try to adapt it for<br>
-&gt; master branch and I will send a new patch ASAP.<br>
-&gt;<br>
-&gt; Sorry for my mistake.<br>
-&gt;<br>
-</div>I think it needs:<br>
-<br>
-diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
-.0-meta-base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a> b/meta/rec=
-ipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta-base.bb" targ=
-et=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
-
-index 3b797f0..a73b04c 100644<br>
---- a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta=
--base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
-+++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta=
--base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
-@@ -1,7 +1,7 @@<br>
-DESCRIPTION =3D &quot;Gstreamer1.0 package groups&quot;<br>
-LICENSE =3D &quot;MIT&quot;<br>
-<div class=3D"">DEPENDS =3D &quot;gstreamer1.0 gstreamer1.0-plugins-base gs=
-treamer1.0-plugins-good gstreamer1.0-plugins-bad&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;md5=3D3f40d799439710=
-9285ec7b81fdeb3b58 \<br>
-</div>+LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;md5=3D4d92cd37=
-3abda3937c2bc47fbc49d690 \<br>
-<div class=3D"">file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788c80a0=
-384361b4de20420&quot;<br>
-</div>PACKAGES =3D &quot;\<br>
-<br>
-in future can you please say which branch it was tested on if its not maste=
-r.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div><br></div>
-
---047d7bdca43829ea0804f40459ae--
