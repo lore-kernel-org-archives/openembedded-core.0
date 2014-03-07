@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C705C6EABD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CDA226F664
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 06:59:37 +0000 (UTC)
+	Fri,  7 Mar 2014 06:59:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s276xaqv017115
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s276xd2B016387
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Mar 2014 22:59:38 -0800 (PST)
+	Thu, 6 Mar 2014 22:59:39 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 6 Mar 2014 22:59:36 -0800
+	14.3.169.1; Thu, 6 Mar 2014 22:59:38 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 01:59:21 -0500
-Message-ID: <cover.1394174908.git.liezhi.yang@windriver.com>
+Date: Fri, 7 Mar 2014 01:59:22 -0500
+Message-ID: <b0d870674638d7abbcabbdfeb96f8c9b9150b280.1394174908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1394174908.git.liezhi.yang@windriver.com>
+References: <cover.1394174908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/14] use "mke2fs -d" to create the ext2/3/4 image
+Subject: [PATCH 01/14] e2fsprogs: mke2fs: add the ability to copy files from a given directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +36,142 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 07 Mar 2014 06:59:39 -0000
 Content-Type: text/plain
 
-Benefits:
-* The "mke2fs -d" is more faster than populate-extfs.sh, it will save about 25
-  seconds for a core-image-sato rootfs from my testing.
+We will add a -d option which will be used for adding the files from a
+given directory to the filesystem, it is similiar to genext2fs, but
+genext2fs doesn't fully support ext4.
 
-* Will fix these bugs:
-  5901: Error at rootfs time if 'ptest-pkgs' is in IMAGE_FEATURES
-  5797: populate-extfs.sh: problem with large images
-  5712: /var/lib/opkg/alternatives/[[: File not found by ext2_lookup
+* We already have the basic operations in debugfs:
+  - Copy regular file
+  - Create directory
+  - Create symlink
+  - Create special file
 
-NOTE:
-* These patches have been merged into e2fsprogs's next branch, we can
-  drop them when the new e2fsprogs releases and we upgrade it. It is a
-  little different from the upstream since I've fixed it a little
-  according to the feedback.
+  We will move these operations into create_inode.h and create_inode.c,
+  then let both mke2fs and debugfs use them.
 
-* Thanks for Darren's great help.
+* What we need to do are:
+  - Copy the given directory recursively, this will be done by the
+    populate_fs()
+  - Set the owner, mode and other informations
+  - Handle the hard links
 
-// Robert
+TODO:
+  - The libext2fs can't create the socket file (S_IFSOCK), do we have a
+    plan to support it ?
 
-The following changes since commit c6825ec6e92e20bb64a051d1576f363c16e98d68:
+[YOCTO #4083]
 
-  recipes: bump PRs (2014-03-05 17:26:24 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/e2fs
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/e2fs
-
-Robert Yang (14):
-  e2fsprogs: mke2fs: add the ability to copy files from a given
-    directory
-  e2fsprogs: mke2fs: copy files recursively
-  e2fsprogs: mke2fs: create special file
-  e2fsprogs: mke2fs: create symlink
-  e2fsprogs: mke2fs: copy regular file
-  e2fsprogs: mke2fs: create directory
-  e2fsprogs: mke2fs: set owner/mode/time for the inode
-  e2fsprogs: mke2fs: add an option: -d root-directory
-  e2fsprogs: mke2fs: handle hardlinks
-  e2fsprogs: debugfs: use the functions in misc/create_inode.c
-  e2fsprogs: mke2fs: update the manual for the -d option
-  e2fsprogs: enable the "-d" related patches
-  image_types.bbclass: use mke2fs -d to create the ext2/3/4 image
-  e2fsprogs: populate-extfs.sh: remove it
-
- meta/classes/image_types.bbclass                   |    3 +-
- ...the-ability-to-copy-files-from-a-given-di.patch |   98 ++++
- ...isc-create_inode.c-copy-files-recursively.patch |  135 ++++++
- ...3-misc-create_inode.c-create-special-file.patch |  103 ++++
- .../0004-misc-create_inode.c-create-symlink.patch  |   63 +++
- ...005-misc-create_inode.c-copy-regular-file.patch |  224 +++++++++
- ...0006-misc-create_inode.c-create-directory.patch |   62 +++
- ..._inode.c-set-owner-mode-time-for-the-inod.patch |   81 ++++
- ...8-mke2fs.c-add-an-option-d-root-directory.patch |  168 +++++++
- ...0009-misc-create_inode.c-handle-hardlinks.patch |  210 +++++++++
- ...-use-the-functions-in-misc-create_inode.c.patch |  496 ++++++++++++++++++++
- ...s.8.in-update-the-manual-for-the-d-option.patch |   43 ++
- .../e2fsprogs/e2fsprogs/populate-extfs.sh          |   96 ----
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |   13 +-
- 14 files changed, 1695 insertions(+), 100 deletions(-)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+---
+ ...the-ability-to-copy-files-from-a-given-di.patch |   98 ++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0003-misc-create_inode.c-create-special-file.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0004-misc-create_inode.c-create-symlink.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0010-debugfs-use-the-functions-in-misc-create_inode.c.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
+new file mode 100644
+index 0000000..9ea413e
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
+@@ -0,0 +1,98 @@
++From c98fec004f077e566b9dfa20b25e3b86cb462a2e Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Tue, 24 Dec 2013 01:41:08 -0500
++Subject: [PATCH 01/11] mke2fs: add the ability to copy files from a given
++ directory
++
++We will add a -d option which will be used for adding the files from a
++given directory to the filesystem, it is similiar to genext2fs, but
++genext2fs doesn't fully support ext4.
++
++* We already have the basic operations in debugfs:
++  - Copy regular file
++  - Create directory
++  - Create symlink
++  - Create special file
++
++  We will move these operations into create_inode.h and create_inode.c,
++  then let both mke2fs and debugfs use them.
++
++* What we need to do are:
++  - Copy the given directory recursively, this will be done by the
++    populate_fs()
++  - Set the owner, mode and other informations
++  - Handle the hard links
++
++TODO:
++  - The libext2fs can't create the socket file (S_IFSOCK), do we have a
++    plan to support it ?
++
++Upstream-Status: Backport
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Reviewed-by: Darren Hart <dvhart@linux.intel.com>
++---
++ misc/create_inode.c |   26 ++++++++++++++++++++++++++
++ misc/create_inode.h |   17 +++++++++++++++++
++ 2 files changed, 43 insertions(+)
++ create mode 100644 misc/create_inode.c
++ create mode 100644 misc/create_inode.h
++
++diff --git a/misc/create_inode.c b/misc/create_inode.c
++new file mode 100644
++index 0000000..46aaa60
++--- /dev/null
+++++ b/misc/create_inode.c
++@@ -0,0 +1,26 @@
+++#include "create_inode.h"
+++
+++/* Make a special file which is block, character and fifo */
+++errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+++{
+++}
+++
+++/* Make a symlink name -> target */
+++errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target)
+++{
+++}
+++
+++/* Make a directory in the fs */
+++errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+++{
+++}
+++
+++/* Copy the native file to the fs */
+++errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
+++{
+++}
+++
+++/* Copy files from source_dir to fs */
+++errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+++{
+++}
++diff --git a/misc/create_inode.h b/misc/create_inode.h
++new file mode 100644
++index 0000000..9fc97fa
++--- /dev/null
+++++ b/misc/create_inode.h
++@@ -0,0 +1,17 @@
+++#include <sys/types.h>
+++#include <sys/stat.h>
+++#include <fcntl.h>
+++#include "et/com_err.h"
+++#include "e2p/e2p.h"
+++#include "ext2fs/ext2fs.h"
+++#include "nls-enable.h"
+++
+++ext2_filsys    current_fs;
+++ext2_ino_t     root;
+++
+++/* For populating the filesystem */
+++extern errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir);
+++extern errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st);
+++extern errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target);
+++extern errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st);
+++extern errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest);
++-- 
++1.7.10.4
++
 -- 
 1.7.10.4
 
