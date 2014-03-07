@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 348216F6AB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8211B6F5E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 07:00:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s27706Uu017152
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Mar 2014 23:00:07 -0800 (PST)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 6 Mar 2014 23:00:06 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 01:59:35 -0500
-Message-ID: <f4d9644bd2cacfa78ac0d83b678f4c6abe8b2899.1394174908.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1394174908.git.liezhi.yang@windriver.com>
-References: <cover.1394174908.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 14/14] e2fsprogs: populate-extfs.sh: remove it
+	Fri,  7 Mar 2014 07:27:17 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s277RCl8005896; Fri, 7 Mar 2014 07:27:13 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id WGRIMOGNNJKi; Fri,  7 Mar 2014 07:27:12 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s277R8ki005887
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 7 Mar 2014 07:27:09 GMT
+Message-ID: <1394177219.12327.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Fri, 07 Mar 2014 07:26:59 +0000
+In-Reply-To: <1394014083-9969-1-git-send-email-ming.liu@windriver.com>
+References: <1394014083-9969-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package: let dependency on a package name to be architecture specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,144 +37,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 07:00:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Mar 2014 07:27:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Remove it since we don't need it anymore, and there is one inside the
-e2fsprogs.
+On Wed, 2014-03-05 at 18:08 +0800, Ming Liu wrote:
+> For multilib builds that rpm is the first package backend, it would be
+> often desireable to express that a package of compatible architecture
+> is needed to satisfy a dependency. In most of the cases this is already
+> handled by the automatically extracted soname dependencies, but this is
+> not always the case: sometimes it's necessary to disable the automatic
+> dependency generation, and then there are cases where the information
+> cannot be automatically generated, such as: -dev package dependencies
+> on other -dev packages or plugins are dynamically loaded via dlopen,
+> leading to obscure build failure that a 32bit package would incorrectly
+> satisfy the dependency for a 64bit package and similarly vice versa.
+> 
+> The patch mainly aims to resolve this problem, the basic idea is adding
+> a ARCH_SPECIFIC variable for packages satisfying following scenarios:
+>   * when rpm is being set as the first package backend
 
-[YOCTO #4083]
+I don't like this idea at all. It shouldn't matter whether rpm is set
+first or last, it should behave the same.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../e2fsprogs/e2fsprogs/populate-extfs.sh          |   96 --------------------
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    2 -
- 2 files changed, 98 deletions(-)
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
+I'm also rather dubious about this patch in general. It seems wrong to
+have to put this into generic code for what amounts to an rpm backend
+issue.
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
-deleted file mode 100644
-index 7de720b..0000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
-+++ /dev/null
-@@ -1,96 +0,0 @@
--#!/bin/sh
--
--do_usage () {
--	cat << _EOF
--Usage: populate-extfs.sh <source> <device>
--Create an ext2/ext3/ext4 filesystem from a directory or file
--
--  source: The source directory or file
--  device: The target device
--
--_EOF
--	exit 1
--}
--
--[ $# -ne 2 ] && do_usage
--
--SRCDIR=${1%%/}
--DEVICE=$2
--DEBUGFS="debugfs"
--
--{
--	CWD="/"
--	find $SRCDIR | while read FILE; do
--                TGT="${FILE##*/}"
--                DIR="${FILE#$SRCDIR}"
--                DIR="${DIR%$TGT}"
--
--		# Skip the root dir
--		[ ! -z "$DIR" ] || continue
--		[ ! -z "$TGT" ] || continue
--
--		if [ "$DIR" != "$CWD" ]; then
--			echo "cd $DIR"
--			CWD="$DIR"
--		fi
--
--		# Only stat once since stat is a time consuming command
--		STAT=$(stat -c "TYPE=\"%F\";DEVNO=\"0x%t 0x%T\";MODE=\"%f\";U=\"%u\";G=\"%g\"" "$FILE")
--		eval $STAT
--
--		case $TYPE in
--		"directory")
--			echo "mkdir $TGT"
--			;;
--		"regular file" | "regular empty file")
--			echo "write \"$FILE\" \"$TGT\""
--			;;
--		"symbolic link")
--			LINK_TGT=$(readlink "$FILE")
--			echo "symlink \"$TGT\" \"$LINK_TGT\""
--			;;
--		"block special file")
--			echo "mknod \"$TGT\" b $DEVNO"
--			;;
--		"character special file")
--			echo "mknod \"$TGT\" c $DEVNO"
--			;;
--		"fifo")
--			echo "mknod \"$TGT\" p"
--			;;
--		*)
--			echo "Unknown/unhandled file type '$TYPE' file: $FILE" 1>&2
--			;;
--		esac
--
--		# Set the file mode
--		echo "sif \"$TGT\" mode 0x$MODE"
--
--		# Set uid and gid
--		echo "sif \"$TGT\" uid $U"
--		echo "sif \"$TGT\" gid $G"
--	done
--
--	# Handle the hard links.
--	# Save the hard links to a file, use the inode number as the filename, for example:
--	# If a and b's inode number is 6775928, save a and b to /tmp/tmp.VrCwHh5gdt/6775928.
--	INODE_DIR=`mktemp -d` || exit 1
--	for i in `find $SRCDIR -type f -links +1 -printf 'INODE=%i###FN=%p\n'`; do
--		eval `echo $i | sed 's$###$ $'`
--		echo ${FN#$SRCDIR} >>$INODE_DIR/$INODE
--	done
--	# Use the debugfs' ln and "sif links_count" to handle them.
--	for i in `ls $INODE_DIR`; do
--		# The link source
--		SRC=`head -1 $INODE_DIR/$i`
--		# Remove the files and link them again except the first one
--		for TGT in `sed -n -e '1!p' $INODE_DIR/$i`; do
--			echo "rm $TGT"
--			echo "ln $SRC $TGT"
--		done
--		LN_CNT=`cat $INODE_DIR/$i | wc -l`
--		# Set the links count
--		echo "sif $SRC links_count $LN_CNT"
--	done
--	rm -fr $INODE_DIR
--} | $DEBUGFS -w -f - $DEVICE
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index b369038..3864ec1 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -4,7 +4,6 @@ require e2fsprogs.inc
- SRC_URI += "file://acinclude.m4 \
-             file://remove.ldconfig.call.patch \
-             file://fix-icache.patch \
--            file://populate-extfs.sh \
-             file://quiet-debugfs.patch \
-             file://0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch \
-             file://0002-misc-create_inode.c-copy-files-recursively.patch \
-@@ -51,7 +50,6 @@ do_install () {
- 		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
- 		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
- 	fi
--	install -m 0755 ${WORKDIR}/populate-extfs.sh ${D}${bindir}
- }
- 
- RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
--- 
-1.7.10.4
+Finally, this patch causes build failures in do_package_write_deb:
+
+eg:
+
+http://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/61/steps/BuildImages_1/logs/stdio
+http://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/82/steps/BuildImages/logs/stdio
+
+and many more. I'm trying to get the tree stablised and having build
+failures like this is extremely frustrating as once again I'm blocked on
+merging patches until I remove this patch and run another build :(
+
+Cheers,
+
+Richard 
+
+
+
+>   * it's not a allarch package
+>   * it only provides libs without bins meanwhile
+> 
+> Every satisfied package would be set with
+> "ARCH_SPECIFIC_pkgname = 1:${TARGET_ARCH}" and it's gonna be written into
+> pkgdata if it exists, to mark the package as architecture specific, and
+> it will be checked during runtime_mapping_rename, all architecture
+> specific dependencies would be expanded with a ${TARGET_ARCH} suffix,
+> that declares a dependency on a package name architecture specific and
+> permits differentiating between 32-bit and 64-bit versions.
+> 
+> Off course, the user could set "ARCH_SPECIFIC_pkgname = 0" in recipes to
+> disable this feature.
+> 
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> ---
+>  meta/classes/image.bbclass             |    6 +-
+>  meta/classes/package.bbclass           |   78 ++++++++++++++++++++++++++------
+>  meta/classes/populate_sdk_base.bbclass |    2 +-
+>  3 files changed, 68 insertions(+), 18 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 28b68f9..670f173 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -225,9 +225,9 @@ do_rootfs[prefuncs] += "rootfs_process_ignore"
+>  # may have occurred.
+>  python rootfs_runtime_mapping() {
+>      pn = d.getVar('PN', True)
+> -    runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
+> -    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
+> -    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
+> +    runtime_mapping_rename("PACKAGE_INSTALL", pn, False, d)
+> +    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, False, d)
+> +    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, False, d)
+>  }
+>  do_rootfs[prefuncs] += "rootfs_runtime_mapping"
+>  
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 0018a62..3e0ca30 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -346,19 +346,29 @@ def copydebugsources(debugsrcdir, d):
+>  # Package data handling routines
+>  #
+>  
+> -def get_package_mapping (pkg, basepkg, d):
+> +def get_package_mapping (pkg, basepkg, check_arch, d):
+>      import oe.packagedata
+>  
+> +    ret = pkg
+>      data = oe.packagedata.read_subpkgdata(pkg, d)
+> -    key = "PKG_%s" % pkg
+> +    pkg_key = "PKG_%s" % pkg
+> +    arch_key = "ARCH_SPECIFIC_%s" % pkg
+> +    arch_specific = '0'
+>  
+> -    if key in data:
+> +    if pkg_key in data:
+>          # Have to avoid undoing the write_extra_pkgs(global_variants...)
+> -        if bb.data.inherits_class('allarch', d) and data[key] == basepkg:
+> +        if bb.data.inherits_class('allarch', d) and data[pkg_key] == basepkg:
+>              return pkg
+> -        return data[key]
+> +        ret = data[pkg_key]
+>  
+> -    return pkg
+> +    if arch_key in data:
+> +        arch_specific = data[arch_key]
+> +
+> +    items = arch_specific.split(':')
+> +    if len(items) > 1 and items[0] == '1' and check_arch == True:
+> +        ret += '(' + items[1] + ')'
+> +
+> +    return ret
+>  
+>  def get_package_additional_metadata (pkg_type, d):
+>      base_key = "PACKAGE_ADD_METADATA"
+> @@ -371,13 +381,13 @@ def get_package_additional_metadata (pkg_type, d):
+>          metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
+>          return "\n".join(metadata_fields).strip()
+>  
+> -def runtime_mapping_rename (varname, pkg, d):
+> +def runtime_mapping_rename (varname, pkg, check_arch, d):
+>      #bb.note("%s before: %s" % (varname, d.getVar(varname, True)))
+>  
+>      new_depends = {}
+>      deps = bb.utils.explode_dep_versions2(d.getVar(varname, True) or "")
+>      for depend in deps:
+> -        new_depend = get_package_mapping(depend, pkg, d)
+> +        new_depend = get_package_mapping(depend, pkg, check_arch, d)
+>          new_depends[new_depend] = deps[depend]
+>  
+>      d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
+> @@ -1119,6 +1129,34 @@ python package_fixsymlinks () {
+>          d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
+>  }
+>  
+> +python package_check_arch () {
+> +    import glob, re
+> +
+> +    def check_arch_specific(pkg):
+> +        bin_re = re.compile(".*/s?" + os.path.basename(d.getVar("bindir", True)) + "$")
+> +        lib_re = re.compile(".*/" + os.path.basename(d.getVar("libdir", True)) + "($|/.*$)")
+> +        has_bins = 0
+> +        has_libs = 0
+> +
+> +        for file in pkgfiles[pkg]:
+> +            root = os.path.dirname(file)
+> +            if bin_re.match(root):
+> +                has_bins = 1
+> +            if lib_re.match(root):
+> +                has_libs = 1
+> +
+> +        if not bb.data.inherits_class('allarch', d) and not has_bins and has_libs:
+> +            if not d.getVar('ARCH_SPECIFIC_' + pkg):
+> +                d.setVar('ARCH_SPECIFIC_' + pkg, "%s:%s" % ('1', d.getVar('TARGET_ARCH', True)))
+> +
+> +    # Do nothing if rpm is not the first package backend
+> +    if d.getVar('PACKAGE_CLASSES', True).split()[0] != "package_rpm":
+> +        return
+> +
+> +    for pkg in sorted((d.getVar('PACKAGES', True) or "").split()):
+> +        check_arch_specific(pkg)
+> +}
+> +
+>  PKGDESTWORK = "${WORKDIR}/pkgdata"
+>  
+>  python emit_pkgdata() {
+> @@ -1184,6 +1222,16 @@ python emit_pkgdata() {
+>              pkgval = pkg
+>              d.setVar('PKG_%s' % pkg, pkg)
+>  
+> +        arch_specific = d.getVar('ARCH_SPECIFIC_%s' % pkg, True) or ""
+> +        items = arch_specific.split(':')
+> +        if len(items) > 1 and items[0] == '1':
+> +            rprovides = d.getVar('RPROVIDES_%s' % pkg, True)
+> +            if rprovides == None:
+> +                rprovides = pkg + ' (=' + d.getVar('EXTENDPKGV', True) + ')'
+> +            else:
+> +                rprovides += ' ' + pkg + ' (=' + d.getVar('EXTENDPKGV', True) + ')'
+> +            d.setVar('RPROVIDES_%s' % pkg, rprovides)
+> +
+>          pkgdestpkg = os.path.join(pkgdest, pkg)
+>          files = {}
+>          total_size = 0
+> @@ -1215,6 +1263,7 @@ python emit_pkgdata() {
+>          write_if_exists(sf, pkg, 'SECTION')
+>          write_if_exists(sf, pkg, 'PKG')
+>          write_if_exists(sf, pkg, 'ALLOW_EMPTY')
+> +        write_if_exists(sf, pkg, 'ARCH_SPECIFIC')
+>          write_if_exists(sf, pkg, 'FILES')
+>          write_if_exists(sf, pkg, 'pkg_postinst')
+>          write_if_exists(sf, pkg, 'pkg_postrm')
+> @@ -1878,6 +1927,7 @@ PACKAGESPLITFUNCS ?= " \
+>  PACKAGEFUNCS += " \
+>                  package_fixsymlinks \
+>                  package_name_hook \
+> +                package_check_arch \
+>                  package_do_filedeps \
+>                  package_do_shlibs \
+>                  package_do_pkgconfig \
+> @@ -2010,10 +2060,10 @@ def mapping_rename_hook(d):
+>      like debian.bbclass or manual PKG variable name changes
+>      """
+>      pkg = d.getVar("PKG", True)
+> -    runtime_mapping_rename("RDEPENDS", pkg, d)
+> -    runtime_mapping_rename("RRECOMMENDS", pkg, d)
+> -    runtime_mapping_rename("RSUGGESTS", pkg, d)
+> -    runtime_mapping_rename("RPROVIDES", pkg, d)
+> -    runtime_mapping_rename("RREPLACES", pkg, d)
+> -    runtime_mapping_rename("RCONFLICTS", pkg, d)
+> +    runtime_mapping_rename("RDEPENDS", pkg, True, d)
+> +    runtime_mapping_rename("RRECOMMENDS", pkg, True, d)
+> +    runtime_mapping_rename("RSUGGESTS", pkg, True, d)
+> +    runtime_mapping_rename("RPROVIDES", pkg, True, d)
+> +    runtime_mapping_rename("RREPLACES", pkg, True, d)
+> +    runtime_mapping_rename("RCONFLICTS", pkg, True, d)
+>  
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index 235d672..3a7927a 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -54,7 +54,7 @@ fakeroot python do_populate_sdk() {
+>      from oe.manifest import create_manifest, Manifest
+>  
+>      pn = d.getVar('PN', True)
+> -    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
+> +    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, False, d)
+>  
+>      # create target/host SDK manifests
+>      create_manifest(d, manifest_dir=d.getVar('SDK_DIR', True),
+
 
 
