@@ -1,28 +1,47 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E70BB6F7A8
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id A28A76F64A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 15:36:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Mar 2014 07:36:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,608,1389772800"; d="scan'208";a="494220747"
-Received: from lbhoopat-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.98])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2014 07:36:40 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?S=E9bastien?= Mennetrier <s.mennetrier@innotis.org>
-Date: Fri, 07 Mar 2014 15:36:39 +0000
-Message-ID: <1626841.1TdQbzb3V4@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.5-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <CABgO3_Pe8-0rZ3hFELYfNWnNnWXtYz99w0BbgTi4+C6Zk1JtQg@mail.gmail.com>
-References: <1393509239-26637-1-git-send-email-s.mennetrier@innotis.org>
-	<1394199246.12327.37.camel@ted>
-	<CABgO3_Pe8-0rZ3hFELYfNWnNnWXtYz99w0BbgTi4+C6Zk1JtQg@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Create gstreamer-1.0 package groups
+	Fri,  7 Mar 2014 18:26:22 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WLzTP-00016x-VW; Fri, 07 Mar 2014 19:26:21 +0100
+Message-ID: <1394216779.6805.36.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Andrey Belous <abelous@broadcom.com>
+Date: Fri, 07 Mar 2014 18:26:19 +0000
+In-Reply-To: <AC63B68CC9C36B4FBF9FD4FEEFE754AA20DAA367@SJEXCHMB06.corp.ad.broadcom.com>
+References: <1393965644-17393-1-git-send-email-abelous@broadcom.com>
+	<1393969384.4151.5.camel@e130.pbcl.net>
+	<AC63B68CC9C36B4FBF9FD4FEEFE754AA20DAA367@SJEXCHMB06.corp.ad.broadcom.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview: Fair enough. I also agree that these variables should
+	at least
+	be consistent, and if we're assigning everything else with ?= then there
+	seems no reason for that one provider to be treated specially. So I
+	think your patch is fine,
+	though it might be a good idea to re-send it with a less
+	messed up commit message if you didn't already do that. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Signed-off-by: Andrey Belous <abelous@broadcom.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 15:36:42 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Fri, 07 Mar 2014 18:26:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Friday 07 March 2014 14:36:59 S=E9bastien Mennetrier wrote:
-> Ok, I will test my patch with this change on master branch.
->=20
-> Thanks for your help and your tips.
+Fair enough.  I also agree that these variables should at least be
+consistent, and if we're assigning everything else with ?= then there
+seems no reason for that one provider to be treated specially.  So I
+think your patch is fine, though it might be a good idea to re-send it
+with a less messed up commit message if you didn't already do that.
 
-BTW, if this recipe inherited packagegroup (as I think it should, since=
- that's=20
-what it claims to be creating) then LIC_FILES_CHKSUM isn't necessary. A=
-s a=20
-bonus a number of behaviours desirable for packagegroups are enabled by=
- the=20
-class.
+p.
 
-Cheers,
-Paul
+On Tue, 2014-03-04 at 21:55 +0000, Andrey Belous wrote:
+> Hi Phil,
+> I have prebuild uclibc library that I would like to use, without that change I cannot force to use my prebuild library
+> 
+> -Andrey
+> 
+> -----Original Message-----
+> From: Phil Blundell [mailto:pb@pbcl.net] 
+> Sent: Tuesday, March 04, 2014 4:43 PM
+> To: Andrey Belous
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] Signed-off-by: Andrey Belous <abelous@broadcom.com>
+> 
+> On Tue, 2014-03-04 at 15:40 -0500, Andrey Belous wrote:
+> > -PREFERRED_PROVIDER_virtual/libc = "uclibc"
+> > +PREFERRED_PROVIDER_virtual/libc ?= "uclibc"
+> 
+> Why would you be including tclibc-uclibc.inc if you don't want to use
+> uclibc?
+> 
+> p.
+> 
+> 
 
---=20
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
