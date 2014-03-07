@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D64D36F67F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BE796F682
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 06:59:55 +0000 (UTC)
+	Fri,  7 Mar 2014 06:59:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s276xubn016408
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s276xsMH017127
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Mar 2014 22:59:56 -0800 (PST)
+	Thu, 6 Mar 2014 22:59:55 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 6 Mar 2014 22:59:56 -0800
+	14.3.169.1; Thu, 6 Mar 2014 22:59:54 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 01:59:30 -0500
-Message-ID: <882f5870d08e3036ad38b16216feed332a7f89eb.1394174908.git.liezhi.yang@windriver.com>
+Date: Fri, 7 Mar 2014 01:59:29 -0500
+Message-ID: <5c3aaed84af23b29ce49623f6a35f3abd8363a85.1394174908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1394174908.git.liezhi.yang@windriver.com>
 References: <cover.1394174908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/14] e2fsprogs: mke2fs: handle hardlinks
+Subject: [PATCH 08/14] e2fsprogs: mke2fs: add an option: -d root-directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,235 +36,190 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 07 Mar 2014 06:59:56 -0000
 Content-Type: text/plain
 
-Create the inode and save the native inode number when we meet the hard
-link (st_nlink > 1) at the first time, use ext2fs_link() to link the
-name to the target inode number when we meet the same native inode
-number again.
-
-This algorithm is referred from the genext2fs.
+This option is used for adding the files from a given directory (the
+root-directory) to the filesystem, it is similiar to genext2fs, but
+genext2fs doesn't fully support ext4.
 
 [YOCTO #4083]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 ---
- ...0009-misc-create_inode.c-handle-hardlinks.patch |  210 ++++++++++++++++++++
- 1 file changed, 210 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
+ ...8-mke2fs.c-add-an-option-d-root-directory.patch |  168 ++++++++++++++++++++
+ 1 file changed, 168 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
 new file mode 100644
-index 0000000..a330ee4
+index 0000000..1f98673
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
-@@ -0,0 +1,210 @@
-+From d83dc950b3ec1fbde33b23d42c5154091a74f4d9 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
+@@ -0,0 +1,168 @@
++From df856929e42bd4f3bdc8d4f59ee82ae8b28532e6 Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 23 Dec 2013 03:44:03 -0500
-+Subject: [PATCH 09/11] misc/create_inode.c: handle hardlinks
++Date: Tue, 24 Dec 2013 01:50:45 -0500
++Subject: [PATCH 08/11] mke2fs.c: add an option: -d root-directory
 +
-+Create the inode and save the native inode number when we meet the hard
-+link (st_nlink > 1) at the first time, use ext2fs_link() to link the
-+name to the target inode number when we meet the same native inode
-+number again.
-+
-+This algorithm is referred from the genext2fs.
++This option is used for adding the files from a given directory (the
++root-directory) to the filesystem, it is similiar to genext2fs, but
++genext2fs doesn't fully support ext4.
 +
 +Upstream-Status: Backport
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 +---
-+ misc/create_inode.c |   88 +++++++++++++++++++++++++++++++++++++++++++++++++++
-+ misc/create_inode.h |   18 +++++++++++
-+ misc/mke2fs.c       |   12 +++++++
-+ 3 files changed, 118 insertions(+)
++ misc/Makefile.in |   14 ++++++++++----
++ misc/mke2fs.c    |   32 +++++++++++++++++++++++---------
++ 2 files changed, 33 insertions(+), 13 deletions(-)
 +
-+diff --git a/misc/create_inode.c b/misc/create_inode.c
-+index aad7354..763504d 100644
-+--- a/misc/create_inode.c
-++++ b/misc/create_inode.c
-+@@ -18,6 +18,44 @@
-+ #define S_BLKSIZE 512
-+ #endif
++diff --git a/misc/Makefile.in b/misc/Makefile.in
++index 553c361..8253723 100644
++--- a/misc/Makefile.in
+++++ b/misc/Makefile.in
++@@ -42,7 +42,8 @@ LPROGS=		@E2INITRD_PROG@
 + 
-++/* For saving the hard links */
-++int hdlink_cnt = HDLINK_CNT;
-++
-++/* Link an inode number to a directory */
-++static errcode_t add_link(ext2_ino_t parent_ino, ext2_ino_t ino, const char *name)
-++{
-++	struct ext2_inode	inode;
-++	errcode_t		retval;
-++
-++	retval = ext2fs_read_inode(current_fs, ino, &inode);
-++        if (retval) {
-++		com_err(__func__, retval, "while reading inode %u", ino);
-++		return retval;
-++	}
-++
-++	retval = ext2fs_link(current_fs, parent_ino, name, ino, inode.i_flags);
-++	if (retval == EXT2_ET_DIR_NO_SPACE) {
-++		retval = ext2fs_expand_dir(current_fs, parent_ino);
-++		if (retval) {
-++			com_err(__func__, retval, "while expanding directory");
-++			return retval;
-++		}
-++		retval = ext2fs_link(current_fs, parent_ino, name, ino, inode.i_flags);
-++	}
-++	if (retval) {
-++		com_err(__func__, retval, "while linking %s", name);
-++		return retval;
-++	}
-++
-++	inode.i_links_count++;
-++
-++	retval = ext2fs_write_inode(current_fs, ino, &inode);
-++	if (retval)
-++		com_err(__func__, retval, "while writing inode %u", ino);
-++
-++	return retval;
-++}
-++
-+ /* Fill the uid, gid, mode and time for the inode */
-+ static void fill_inode(struct ext2_inode *inode, struct stat *st)
-+ {
-+@@ -278,6 +316,17 @@ fail:
-+ 	return retval;
-+ }
++ TUNE2FS_OBJS=	tune2fs.o util.o
++ MKLPF_OBJS=	mklost+found.o
++-MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o
+++MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o \
+++			create_inode.o
++ CHATTR_OBJS=	chattr.o
++ LSATTR_OBJS=	lsattr.o
++ UUIDGEN_OBJS=	uuidgen.o
++@@ -60,7 +61,8 @@ E2FREEFRAG_OBJS= e2freefrag.o
++ PROFILED_TUNE2FS_OBJS=	profiled/tune2fs.o profiled/util.o
++ PROFILED_MKLPF_OBJS=	profiled/mklost+found.o
++ PROFILED_MKE2FS_OBJS=	profiled/mke2fs.o profiled/util.o profiled/profile.o \
++-			profiled/prof_err.o profiled/default_profile.o
+++			profiled/prof_err.o profiled/default_profile.o \
+++			profiled/create_inode.o
++ PROFILED_CHATTR_OBJS=	profiled/chattr.o
++ PROFILED_LSATTR_OBJS=	profiled/lsattr.o
++ PROFILED_UUIDGEN_OBJS=	profiled/uuidgen.o
++@@ -82,7 +84,7 @@ SRCS=	$(srcdir)/tune2fs.c $(srcdir)/mklost+found.c $(srcdir)/mke2fs.c \
++ 		$(srcdir)/uuidgen.c $(srcdir)/blkid.c $(srcdir)/logsave.c \
++ 		$(srcdir)/filefrag.c $(srcdir)/base_device.c \
++ 		$(srcdir)/ismounted.c $(srcdir)/../e2fsck/profile.c \
++-		$(srcdir)/e2undo.c $(srcdir)/e2freefrag.c
+++		$(srcdir)/e2undo.c $(srcdir)/e2freefrag.c $(srcdir)/create_inode.c
 + 
-++int is_hardlink(ext2_ino_t ino)
-++{
-++	int i;
-++
-++	for(i = 0; i < hdlinks.count; i++) {
-++		if(hdlinks.hdl[i].src_ino == ino)
-++			return i;
-++	}
-++	return -1;
-++}
-++
-+ /* Copy the native file to the fs */
-+ errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
-+ {
-+@@ -388,9 +437,11 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
-+ 	struct dirent	*dent;
-+ 	struct stat	st;
-+ 	char		ln_target[PATH_MAX];
-++	unsigned int	save_inode;
-+ 	ext2_ino_t	ino;
-+ 	errcode_t	retval;
-+ 	int		read_cnt;
-++	int		hdlink;
-+ 
-+ 	root = EXT2_ROOT_INO;
-+ 
-+@@ -412,6 +463,22 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
-+ 		lstat(dent->d_name, &st);
-+ 		name = dent->d_name;
-+ 
-++		/* Check for hardlinks */
-++		save_inode = 0;
-++		if (!S_ISDIR(st.st_mode) && !S_ISLNK(st.st_mode) && st.st_nlink > 1) {
-++			hdlink = is_hardlink(st.st_ino);
-++			if (hdlink >= 0) {
-++				retval = add_link(parent_ino,
-++						hdlinks.hdl[hdlink].dst_ino, name);
-++				if (retval) {
-++					com_err(__func__, retval, "while linking %s", name);
-++					return retval;
-++				}
-++				continue;
-++			} else
-++				save_inode = 1;
-++		}
-++
-+ 		switch(st.st_mode & S_IFMT) {
-+ 			case S_IFCHR:
-+ 			case S_IFBLK:
-+@@ -480,6 +547,27 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
-+ 				_("while setting inode for \"%s\""), name);
-+ 			return retval;
-+ 		}
-++
-++		/* Save the hardlink ino */
-++		if (save_inode) {
-++			/*
-++			 * Check whether need more memory, and we don't need
-++			 * free() since the lifespan will be over after the fs
-++			 * populated.
-++			 */
-++			if (hdlinks.count == hdlink_cnt) {
-++				if ((hdlinks.hdl = realloc (hdlinks.hdl,
-++						(hdlink_cnt + HDLINK_CNT) *
-++						sizeof (struct hdlink_s))) == NULL) {
-++					com_err(name, errno, "Not enough memory");
-++					return errno;
-++				}
-++				hdlink_cnt += HDLINK_CNT;
-++			}
-++			hdlinks.hdl[hdlinks.count].src_ino = st.st_ino;
-++			hdlinks.hdl[hdlinks.count].dst_ino = ino;
-++			hdlinks.count++;
-++		}
-+ 	}
-+ 	closedir(dh);
-+ 	return retval;
-+diff --git a/misc/create_inode.h b/misc/create_inode.h
-+index 9fc97fa..2b6d429 100644
-+--- a/misc/create_inode.h
-++++ b/misc/create_inode.h
-+@@ -6,9 +6,27 @@
-+ #include "ext2fs/ext2fs.h"
-+ #include "nls-enable.h"
-+ 
-++struct hdlink_s
-++{
-++	ext2_ino_t src_ino;
-++	ext2_ino_t dst_ino;
-++};
-++
-++struct hdlinks_s
-++{
-++	int count;
-++	struct hdlink_s *hdl;
-++};
-++
-++struct hdlinks_s hdlinks;
-++
-+ ext2_filsys    current_fs;
-+ ext2_ino_t     root;
-+ 
-++/* For saving the hard links */
-++#define HDLINK_CNT     4
-++extern int hdlink_cnt;
-++
-+ /* For populating the filesystem */
-+ extern errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir);
-+ extern errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st);
++ LIBS= $(LIBEXT2FS) $(LIBCOM_ERR) 
++ DEPLIBS= $(LIBEXT2FS) $(DEPLIBCOM_ERR)
++@@ -630,7 +632,7 @@ mke2fs.o: $(srcdir)/mke2fs.c $(top_builddir)/lib/config.h \
++  $(top_srcdir)/lib/ext2fs/ext2_ext_attr.h $(top_srcdir)/lib/ext2fs/bitops.h \
++  $(top_srcdir)/lib/e2p/e2p.h $(top_srcdir)/lib/ext2fs/ext2fs.h \
++  $(srcdir)/util.h profile.h prof_err.h $(top_srcdir)/version.h \
++- $(srcdir)/nls-enable.h $(top_srcdir)/lib/quota/mkquota.h \
+++ $(srcdir)/nls-enable.h $(top_srcdir)/lib/quota/mkquota.h $(srcdir)/create_inode.h\
++  $(top_srcdir)/lib/quota/quotaio.h $(top_srcdir)/lib/quota/dqblk_v2.h \
++  $(top_srcdir)/lib/quota/quotaio_tree.h $(top_srcdir)/lib/../e2fsck/dict.h
++ chattr.o: $(srcdir)/chattr.c $(top_builddir)/lib/config.h \
++@@ -710,3 +712,7 @@ e2freefrag.o: $(srcdir)/e2freefrag.c $(top_builddir)/lib/config.h \
++  $(top_srcdir)/lib/ext2fs/ext2_io.h $(top_builddir)/lib/ext2fs/ext2_err.h \
++  $(top_srcdir)/lib/ext2fs/ext2_ext_attr.h $(top_srcdir)/lib/ext2fs/bitops.h \
++  $(srcdir)/e2freefrag.h
+++create_inode.o: $(srcdir)/create_inode.h $(srcdir)/create_inode.c \
+++ $(top_builddir)/lib/config.h $(top_srcdir)/lib/ext2fs/ext2fs.h \
+++ $(top_srcdir)/lib/et/com_err.h $(top_srcdir)/lib/e2p/e2p.h \
+++ $(srcdir)/nls-enable.h
 +diff --git a/misc/mke2fs.c b/misc/mke2fs.c
-+index 578b62d..a63f0b7 100644
++index 2e8ba60..578b62d 100644
 +--- a/misc/mke2fs.c
 ++++ b/misc/mke2fs.c
-+@@ -2730,6 +2730,18 @@ no_journal:
-+ 		if (!quiet)
-+ 			printf("%s", _("Copying files into the device: "));
++@@ -22,7 +22,6 @@
++ #include <stdio.h>
++ #include <string.h>
++ #include <strings.h>
++-#include <fcntl.h>
++ #include <ctype.h>
++ #include <time.h>
++ #ifdef __linux__
++@@ -44,24 +43,19 @@ extern int optind;
++ #include <errno.h>
++ #endif
++ #include <sys/ioctl.h>
++-#include <sys/types.h>
++-#include <sys/stat.h>
++ #include <libgen.h>
++ #include <limits.h>
++ #include <blkid/blkid.h>
 + 
-++		/*
-++		 * Allocate memory for the hardlinks, we don't need free()
-++		 * since the lifespan will be over after the fs populated.
-++		 */
-++		if ((hdlinks.hdl = (struct hdlink_s *)
-++				malloc(hdlink_cnt * sizeof(struct hdlink_s))) == NULL) {
-++			fprintf(stderr, "%s", _("\nNot enough memory\n"));
-++			retval = ext2fs_close(fs);
-++			return retval;
-++		}
++ #include "ext2fs/ext2_fs.h"
++ #include "ext2fs/ext2fsP.h"
++-#include "et/com_err.h"
++ #include "uuid/uuid.h"
++-#include "e2p/e2p.h"
++-#include "ext2fs/ext2fs.h"
++ #include "util.h"
++ #include "profile.h"
++ #include "prof_err.h"
++ #include "../version.h"
++-#include "nls-enable.h"
++ #include "quota/mkquota.h"
+++#include "create_inode.h"
++ 
++ #define STRIDE_LENGTH 8
++ 
++@@ -105,6 +99,7 @@ static char *mount_dir;
++ char *journal_device;
++ static int sync_kludge;	/* Set using the MKE2FS_SYNC env. option */
++ static char **fs_types;
+++const char *root_dir;  /* Copy files from the specified directory */
++ 
++ static profile_t	profile;
++ 
++@@ -116,7 +111,8 @@ static void usage(void)
++ 	fprintf(stderr, _("Usage: %s [-c|-l filename] [-b block-size] "
++ 	"[-C cluster-size]\n\t[-i bytes-per-inode] [-I inode-size] "
++ 	"[-J journal-options]\n"
++-	"\t[-G flex-group-size] [-N number-of-inodes]\n"
+++	"\t[-G flex-group-size] [-N number-of-inodes] "
+++	"[-d root-directory]\n"
++ 	"\t[-m reserved-blocks-percentage] [-o creator-os]\n"
++ 	"\t[-g blocks-per-group] [-L volume-label] "
++ 	"[-M last-mounted-directory]\n\t[-O feature[,...]] "
++@@ -1394,7 +1390,7 @@ profile_error:
++ 	}
++ 
++ 	while ((c = getopt (argc, argv,
++-		    "b:cg:i:jl:m:no:qr:s:t:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
+++		    "b:cg:i:jl:m:no:qr:s:t:d:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
++ 		switch (c) {
++ 		case 'b':
++ 			blocksize = parse_num_blocks2(optarg, -1);
++@@ -1582,6 +1578,9 @@ profile_error:
++ 		case 'U':
++ 			fs_uuid = optarg;
++ 			break;
+++		case 'd':
+++			root_dir = optarg;
+++			break;
++ 		case 'v':
++ 			verbose = 1;
++ 			break;
++@@ -2726,6 +2725,21 @@ no_journal:
++ 				       EXT4_FEATURE_RO_COMPAT_QUOTA))
++ 		create_quota_inodes(fs);
++ 
+++	/* Copy files from the specified directory */
+++	if (root_dir) {
+++		if (!quiet)
+++			printf("%s", _("Copying files into the device: "));
 ++
-++		hdlinks.count = 0;
-+ 		current_fs = fs;
-+ 		root = EXT2_ROOT_INO;
-+ 		retval = populate_fs(root, root_dir);
+++		current_fs = fs;
+++		root = EXT2_ROOT_INO;
+++		retval = populate_fs(root, root_dir);
+++		if (retval)
+++			fprintf(stderr, "%s",
+++				_("\nError while populating file system"));
+++		else if (!quiet)
+++			printf("%s", _("done\n"));
+++	}
+++
++ 	if (!quiet)
++ 		printf("%s", _("Writing superblocks and "
++ 		       "filesystem accounting information: "));
 +-- 
 +1.7.10.4
 +
