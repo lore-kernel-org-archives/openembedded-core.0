@@ -1,41 +1,39 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D43AD6F57A;
-	Fri,  7 Mar 2014 18:28:49 +0000 (UTC)
-Received: by mail-ea0-f169.google.com with SMTP id h14so2531014eaj.28
-	for <multiple recipients>; Fri, 07 Mar 2014 10:28:50 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B2EB46E221
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  7 Mar 2014 18:41:14 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id uq10so3075078igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Mar 2014 10:41:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=h6No4Vnowd8hMjVfGYRZGpbUOkHYDilP5RbyXkUxIJU=;
-	b=jb532QrEtPdEh0B17pz60GEpgAK+D9baWqGpyASyR8WR5uF2tA7JhbyN2nRgUsNtEz
-	OnzuEdG4IH9bwT2FNRLky+v6xVeU19Xtt8wkjzHLf3XV2v7nrq/UzCRXL3bjS3571VLs
-	bgo8g8922dlb7lCWlydY6A3NrGvpKycmiUUW+8ESHIE95Nf8ALU4YY78iMHKdTV495tt
-	CiD977B3OXt4HCpvT0Y5gB2UualEnygTFL5ZNtJDUNlYO1jYoEWU0xYdC83b/qoregMq
-	2AnRJpoWSwpjON4ROgeANwwu1SaLxl1adytR+fReQF52PBg0mWmAgd61Qwft9HY0kqeB
-	m9mg==
-X-Received: by 10.14.216.3 with SMTP id f3mr20696845eep.66.1394216930096;
-	Fri, 07 Mar 2014 10:28:50 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	i1sm9605809eeo.16.2014.03.07.10.28.48 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Mar 2014 10:28:48 -0800 (PST)
-Date: Fri, 7 Mar 2014 19:28:58 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140307182858.GL26981@jama>
-References: <1394125490-2945-1-git-send-email-Martin.Jansa@gmail.com>
-	<2403049.xWs40izQYL@peggleto-mobl5.ger.corp.intel.com>
-	<20140306192122.GJ26981@jama>
-	<3158053.US3HkBfSAc@peggleto-mobl5.ger.corp.intel.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=b1HVIRqPvJLeNtS/+OffR7rIOJywm6jXP4W7gpo3HMA=;
+	b=cMoIAm86r0K84bVnjCsGZ4ZF9DocAD82FeeUa7C6yjlWWT4TSMPZNBc9quqkyGyvz2
+	YkN/B+91lS828Sx4Gd9GhYDQCWMQB5aZUrIrMasjxALgHDxVm3GUuuncS5vXCuICcvMh
+	2JHW4Mf22weOcCEQm8IeAlNsAS1jY4O05EawQazj9bAsaxXvDXeeI2UB+piIn6MlstwZ
+	qJWRRG3KRMmxuJ+gzsfOTvow4hHr1egUICrYK7CBU29xNxaP+/01U0WqrxENDlJUBII8
+	z0cnKTAWz4zsYKKgkv85CfdY8Sl14if9Nclvbig1LwqlD4tA1+jQXwCaQrA3h31Y4icU
+	Aapg==
+X-Received: by 10.42.235.197 with SMTP id kh5mr16672704icb.25.1394217675097;
+	Fri, 07 Mar 2014 10:41:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3158053.US3HkBfSAc@peggleto-mobl5.ger.corp.intel.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [meta-oe][PATCH] bash-completion: remove allarch
+Received: by 10.50.224.136 with HTTP; Fri, 7 Mar 2014 10:40:45 -0800 (PST)
+In-Reply-To: <CAP71WjyKO+CKgNAr-ZB+17O=8dwb=_-aRKWNWnNRmMikoibyrA@mail.gmail.com>
+References: <1393965644-17393-1-git-send-email-abelous@broadcom.com>
+	<1393969384.4151.5.camel@e130.pbcl.net>
+	<AC63B68CC9C36B4FBF9FD4FEEFE754AA20DAA367@SJEXCHMB06.corp.ad.broadcom.com>
+	<CAMKF1sqrQ7y=UVUVgBt0nuYM=xTGofwSw2cuha91CN6rQg0TKQ@mail.gmail.com>
+	<CAP71WjyKO+CKgNAr-ZB+17O=8dwb=_-aRKWNWnNRmMikoibyrA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 7 Mar 2014 10:40:45 -0800
+Message-ID: <CAMKF1srTAexcmFvCvFrCoYDNdgQJb6ZpJFTHZsj+DkZ19C5KyQ@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Signed-off-by: Andrey Belous <abelous@broadcom.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,88 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 18:28:51 -0000
-X-Groupsio-MsgNum: 51033
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="TvNyW/zmhQDwPqM/"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Mar 2014 18:41:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
---TvNyW/zmhQDwPqM/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Mar 7, 2014 at 2:33 AM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> Hi Khem,
+>
+> On Fri, Mar 7, 2014 at 6:43 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Tue, Mar 4, 2014 at 1:55 PM, Andrey Belous <abelous@broadcom.com> wrote:
+>>> Hi Phil,
+>>> I have prebuild uclibc library that I would like to use, without that change I cannot force to use my prebuild library
+>>>
+>>
+>> OK so write a uclibc recipe for it and let it provide virtual/libc
+>> and, we can very well have multiple version of recipes, this is no
+>> different. Then use higher DEFAULT_PREFERENCE for your recipe.
+>
+> I still don't get it why in distro/include/tclibc-uclibc.inc we have
+>
+> PREFERRED_PROVIDER_virtual/libc = "uclibc"
+> PREFERRED_PROVIDER_virtual/libiconv ?= "libiconv"
+> PREFERRED_PROVIDER_virtual/libintl ?= "gettext"
+> PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-eglibc"
+> PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-eglibc"
+>
+> and in distro/include/tclibc-eglibc.inc, we have:
+>
+> PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc"
+> PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-eglibc"
+> PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-eglibc"
+> PREFERRED_PROVIDER_virtual/libintl ?= "eglibc"
+> PREFERRED_PROVIDER_virtual/libc ?= "eglibc"
+> PREFERRED_PROVIDER_virtual/nativesdk-libc ?= "nativesdk-eglibc"
+> PREFERRED_PROVIDER_virtual/libc-locale ?= "eglibc-locale"
+>
+> Is a specific reason why in the first case we use "=" and not "?="
+> like used everywhere else? This file is loaded last, so we have no
+> chance to override the value. regardless of the actual reason, don't
+> we need the change anyways?
 
-On Fri, Mar 07, 2014 at 10:09:00AM +0000, Paul Eggleton wrote:
-> On Thursday 06 March 2014 20:21:22 Martin Jansa wrote:
-> > On Thu, Mar 06, 2014 at 05:59:29PM +0000, Paul Eggleton wrote:
-> > > On Thursday 06 March 2014 18:04:50 Martin Jansa wrote:
-> > > > * it has runtime dependency on TUNE_PKGARCH bash, so it cannot be
-> > > > allarch
-> > >=20
-> > > As we've already discussed this is not universally true. There are ot=
-her
-> > > ways to solve this.
-> >=20
-> > Like making it special case like packagegroups? That is still making me
-> > headaches when some library (for some reason) included in packagegroup
-> > is renamed thanks to debian.bbclass and packagegroup isn't rebuilt, so
-> > it breaks do_rootfs..
->=20
-> Did you report this? FWIW it's the first I recall hearing of the problem;=
-=20
-> perhaps I just missed it.
+I would think eglibc.inc should be fixed as well.
 
-I've discussed this with RP on IRC, but haven't filled the bugzilla
-ticket, my fault, will do that later.
-
-> > I would rather build bash-completion only once per architecture than
-> > rebuilding it as "allarch" every time I'm building for MACHINE with
-> > different TUNE_PKGARCH.
->=20
-> As I said last time, I'm not arguing that rebuilding allarch recipes on=
-=20
-> machine change is preferable - obviously it isn't. On the other hand, wha=
-t=20
-> you're doing with this kind of change is telling the build system that th=
-e=20
-> recipe needs to be built differently depending on what the target archite=
-cture=20
-> is, which is *not* true; this is only being done to work around the build=
-=20
-> system making an assumption that the rebuild needs to happen. Fix the=20
-> assumption and the problem is fixed, properly.=20
->=20
-> If we need to make changes to the core or BitBake to make it easier to ha=
-ndle=20
-> this properly, by all means let's do that; but if we go down the road of=
-=20
-> applying the workaround to every recipe where we hit this issue (and as w=
-e=20
-> have seen it's not just one or two recipes) we will never get around to f=
-ixing=20
-> the underlying problem.
-
-What I'm trying to do is to prevent rebuilding them until the
-underlaying problem is fixed (which can be tracked in bugzilla with 2
-very simple recipes as reproducer).
-
-I don't want this to show in every build and as "known-possitive" in
-every sstate-diff-machine.sh call. It's less pain to just rebuild them
-once per TUNE_PKGARCH even when they could be allarch.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---TvNyW/zmhQDwPqM/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMaD+oACgkQN1Ujt2V2gByTOQCfbzY8CHQyCI8deYKq8alDc5Nu
-JSAAnis4VsachSckxXwfrzToUBrrIFr5
-=GDbh
------END PGP SIGNATURE-----
-
---TvNyW/zmhQDwPqM/--
