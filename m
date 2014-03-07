@@ -1,31 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FB6E6B89F
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BFD1D60C02
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 10:50:16 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s27AoCUw014852 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Mar 2014 10:50:12 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VrtDgGGeQsf2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 10:50:11 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s27Ao7MT014847
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Mar 2014 10:50:09 GMT
-Message-ID: <1394189399.12327.31.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Mar 2014 10:49:59 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] wayland: Add target sysroot scanner m4 macro
+	Fri,  7 Mar 2014 11:08:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Mar 2014 03:08:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,607,1389772800"; d="scan'208";a="494103981"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2014 03:08:31 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id 37B1F6A4007;
+	Fri,  7 Mar 2014 03:08:17 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Mar 2014 13:08:30 +0200
+Message-Id: <1394190510-4316-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] oeqa/targetcontrol: allow a custom port for SimpleRemoteTarget
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 10:50:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Mar 2014 11:08:46 -0000
 
-With the new aclocals process, accesses to the macros is a lot stricter and
-the native macros are not used. We need to ensure the modified macros are used
-in target builds to get the correct scanner functionality. Inserting the
-native macro into the target is the correct thing to do in this case.
+We had the ability to use a custom port for the ssh connection,
+but we weren't using it.
 
-This resolves build failures in libva.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
-diff --git a/meta/recipes-graphics/wayland/wayland_1.4.0.bb b/meta/recipes-graphics/wayland/wayland_1.4.0.bb
-index 0f08cac..604b7f4 100644
---- a/meta/recipes-graphics/wayland/wayland_1.4.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.4.0.bb
-@@ -34,3 +34,7 @@ do_install_append_class-native() {
-       -e 's,$PKG_CONFIG,pkg-config-native,g' \
-       -i ${D}/${datadir}/aclocal/wayland-scanner.m4
- }
-+
-+sysroot_stage_all_append_class-target () {
-+	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
-+}
+ meta/lib/oeqa/targetcontrol.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index d8a6ac0..17871f5 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -144,7 +144,12 @@ class SimpleRemoteTarget(BaseTarget):
+ 
+     def __init__(self, d):
+         super(SimpleRemoteTarget, self).__init__(d)
+-        self.ip = d.getVar("TEST_TARGET_IP", True) or bb.fatal('Please set TEST_TARGET_IP with the IP address of the machine you want to run the tests on.')
++        addr = d.getVar("TEST_TARGET_IP", True) or bb.fatal('Please set TEST_TARGET_IP with the IP address of the machine you want to run the tests on.')
++        self.ip = addr.split(":")[0]
++        try:
++            self.port = addr.split(":")[1]
++        except IndexError:
++            self.port = None
+         bb.note("Target IP: %s" % self.ip)
+         self.server_ip = d.getVar("TEST_SERVER_IP", True)
+         if not self.server_ip:
+@@ -158,7 +163,7 @@ class SimpleRemoteTarget(BaseTarget):
+         super(SimpleRemoteTarget, self).deploy()
+ 
+     def start(self, params=None):
+-        self.connection = SSHControl(self.ip, logfile=self.sshlog)
++        self.connection = SSHControl(self.ip, logfile=self.sshlog, port=self.port)
+ 
+     def stop(self):
+         self.connection = None
+-- 
+1.8.5.3
 
 
