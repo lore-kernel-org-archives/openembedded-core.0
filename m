@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 44D676EABD
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FB626F667
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 06:59:45 +0000 (UTC)
+	Fri,  7 Mar 2014 06:59:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s276xkeM016393
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s276xpnW017124
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Mar 2014 22:59:46 -0800 (PST)
+	Thu, 6 Mar 2014 22:59:51 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 6 Mar 2014 22:59:45 -0800
+	14.3.169.1; Thu, 6 Mar 2014 22:59:47 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 01:59:26 -0500
-Message-ID: <550d63e74d20fbf0bc67963b188366412d57c8a8.1394174908.git.liezhi.yang@windriver.com>
+Date: Fri, 7 Mar 2014 01:59:27 -0500
+Message-ID: <8ed8b039e47b47ba52c1c08120504717eeb76a25.1394174908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1394174908.git.liezhi.yang@windriver.com>
 References: <cover.1394174908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/14] e2fsprogs: mke2fs: copy regular file
+Subject: [PATCH 06/14] e2fsprogs: mke2fs: create directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,249 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 06:59:45 -0000
+X-List-Received-Date: Fri, 07 Mar 2014 06:59:50 -0000
 Content-Type: text/plain
 
-The do_write_internal() is used for copying file from native fs to
-target, most of the code are from debugfs/debugfs.c, the
-debugfs/debugfs.c will be modified to use this function.
+The do_mkdir_internal() is used for making dir on the target fs, most of
+the code are from debugfs/debugfs.c, the debugfs/debugfs.c will be
+modified to use this function.
 
 [YOCTO #4083]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 ---
- ...005-misc-create_inode.c-copy-regular-file.patch |  224 ++++++++++++++++++++
- 1 file changed, 224 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
+ ...0006-misc-create_inode.c-create-directory.patch |   62 ++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
 new file mode 100644
-index 0000000..7935cd8
+index 0000000..5c7ca9c
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
-@@ -0,0 +1,224 @@
-+From 2973c74afaa532f3f72639b463322b2523519c20 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
+@@ -0,0 +1,62 @@
++From c8d1c43be24489036137f8fdebcfccc208f7cc8b Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 23 Dec 2013 03:28:12 -0500
-+Subject: [PATCH 05/11] misc/create_inode.c: copy regular file
++Date: Mon, 23 Dec 2013 03:34:14 -0500
++Subject: [PATCH 06/11] misc/create_inode.c: create directory
 +
-+The do_write_internal() is used for copying file from native fs to
-+target, most of the code are from debugfs/debugfs.c, the
-+debugfs/debugfs.c will be modified to use this function.
++The do_mkdir_internal() is used for making dir on the target fs, most of
++the code are from debugfs/debugfs.c, the debugfs/debugfs.c will be
++modified to use this function.
 +
 +Upstream-Status: Backport
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 +---
-+ misc/create_inode.c |  183 +++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 183 insertions(+)
++ misc/create_inode.c |   31 +++++++++++++++++++++++++++++++
++ 1 file changed, 31 insertions(+)
 +
 +diff --git a/misc/create_inode.c b/misc/create_inode.c
-+index f845103..98f4a93 100644
++index 98f4a93..6a8c92a 100644
 +--- a/misc/create_inode.c
 ++++ b/misc/create_inode.c
-+@@ -8,6 +8,16 @@
-+ # endif
-+ #endif
-+ 
-++/* 64KiB is the minimium blksize to best minimize system call overhead. */
-++#ifndef IO_BUFSIZE
-++#define IO_BUFSIZE 64*1024
-++#endif
-++
-++/* Block size for `st_blocks' */
-++#ifndef S_BLKSIZE
-++#define S_BLKSIZE 512
-++#endif
-++
-+ /* Make a special file which is block, character and fifo */
-+ errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
++@@ -135,6 +135,37 @@ try_again:
++ /* Make a directory in the fs */
++ errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
 + {
-+@@ -127,9 +137,182 @@ errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
-+ {
-+ }
-+ 
-++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
-++{
-++	ext2_file_t	e2_file;
-++	errcode_t	retval;
-++	int		got;
-++	unsigned int	written;
-++	char		*buf;
-++	char		*ptr;
-++	char		*zero_buf;
-++	int		cmp;
+++	char			*cp;
+++	ext2_ino_t		parent_ino, ino;
+++	errcode_t		retval;
+++	struct ext2_inode	inode;
 ++
-++	retval = ext2fs_file_open(current_fs, newfile,
-++				  EXT2_FILE_WRITE, &e2_file);
-++	if (retval)
-++		return retval;
 ++
-++	retval = ext2fs_get_mem(bufsize, &buf);
-++	if (retval) {
-++		com_err("copy_file", retval, "can't allocate buffer\n");
-++		return retval;
-++	}
-++
-++	/* This is used for checking whether the whole block is zero */
-++	retval = ext2fs_get_memzero(bufsize, &zero_buf);
-++	if (retval) {
-++		com_err("copy_file", retval, "can't allocate buffer\n");
-++		ext2fs_free_mem(&buf);
-++		return retval;
-++	}
-++
-++	while (1) {
-++		got = read(fd, buf, bufsize);
-++		if (got == 0)
-++			break;
-++		if (got < 0) {
-++			retval = errno;
-++			goto fail;
-++		}
-++		ptr = buf;
-++
-++		/* Sparse copy */
-++		if (make_holes) {
-++			/* Check whether all is zero */
-++			cmp = memcmp(ptr, zero_buf, got);
-++			if (cmp == 0) {
-++				 /* The whole block is zero, make a hole */
-++				retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
-++				if (retval)
-++					goto fail;
-++				got = 0;
-++			}
-++		}
-++
-++		/* Normal copy */
-++		while (got > 0) {
-++			retval = ext2fs_file_write(e2_file, ptr,
-++						   got, &written);
-++			if (retval)
-++				goto fail;
-++
-++			got -= written;
-++			ptr += written;
-++		}
-++	}
-++	ext2fs_free_mem(&buf);
-++	ext2fs_free_mem(&zero_buf);
-++	retval = ext2fs_file_close(e2_file);
-++	return retval;
-++
-++fail:
-++	ext2fs_free_mem(&buf);
-++	ext2fs_free_mem(&zero_buf);
-++	(void) ext2fs_file_close(e2_file);
-++	return retval;
-++}
-++
-+ /* Copy the native file to the fs */
-+ errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
-+ {
-++	int		fd;
-++	struct stat	statbuf;
-++	ext2_ino_t	newfile;
-++	errcode_t	retval;
-++	struct ext2_inode inode;
-++	int		bufsize = IO_BUFSIZE;
-++	int		make_holes = 0;
-++
-++	fd = open(src, O_RDONLY);
-++	if (fd < 0) {
-++		com_err(src, errno, 0);
-++		return errno;
-++	}
-++	if (fstat(fd, &statbuf) < 0) {
-++		com_err(src, errno, 0);
-++		close(fd);
-++		return errno;
-++	}
-++
-++	retval = ext2fs_namei(current_fs, root, cwd, dest, &newfile);
-++	if (retval == 0) {
-++		com_err(__func__, 0, "The file '%s' already exists\n", dest);
-++		close(fd);
-++		return retval;
-++	}
-++
-++	retval = ext2fs_new_inode(current_fs, cwd, 010755, 0, &newfile);
-++	if (retval) {
-++		com_err(__func__, retval, 0);
-++		close(fd);
-++		return retval;
-++	}
-++#ifdef DEBUGFS
-++	printf("Allocated inode: %u\n", newfile);
-++#endif
-++	retval = ext2fs_link(current_fs, cwd, dest, newfile,
-++				EXT2_FT_REG_FILE);
-++	if (retval == EXT2_ET_DIR_NO_SPACE) {
-++		retval = ext2fs_expand_dir(current_fs, cwd);
-++		if (retval) {
-++			com_err(__func__, retval, "while expanding directory");
-++			close(fd);
+++	cp = strrchr(name, '/');
+++	if (cp) {
+++		*cp = 0;
+++		if ((retval =  ext2fs_namei(current_fs, root, cwd, name, &parent_ino))){
+++			com_err(name, retval, 0);
 ++			return retval;
 ++		}
-++		retval = ext2fs_link(current_fs, cwd, dest, newfile,
-++					EXT2_FT_REG_FILE);
+++		name = cp+1;
+++	} else
+++		parent_ino = cwd;
+++
+++try_again:
+++	retval = ext2fs_mkdir(current_fs, parent_ino, 0, name);
+++	if (retval == EXT2_ET_DIR_NO_SPACE) {
+++		retval = ext2fs_expand_dir(current_fs, parent_ino);
+++		if (retval) {
+++			com_err(__func__, retval, "while expanding directory");
+++			return retval;
+++		}
+++		goto try_again;
 ++	}
 ++	if (retval) {
-++		com_err(dest, retval, 0);
-++		close(fd);
+++		com_err("ext2fs_mkdir", retval, 0);
 ++		return retval;
 ++	}
-++        if (ext2fs_test_inode_bitmap2(current_fs->inode_map, newfile))
-++		com_err(__func__, 0, "Warning: inode already set");
-++	ext2fs_inode_alloc_stats2(current_fs, newfile, +1, 0);
-++	memset(&inode, 0, sizeof(inode));
-++	inode.i_mode = (statbuf.st_mode & ~LINUX_S_IFMT) | LINUX_S_IFREG;
-++	inode.i_atime = inode.i_ctime = inode.i_mtime =
-++		current_fs->now ? current_fs->now : time(0);
-++	inode.i_links_count = 1;
-++	inode.i_size = statbuf.st_size;
-++	if (current_fs->super->s_feature_incompat &
-++	    EXT3_FEATURE_INCOMPAT_EXTENTS) {
-++		int i;
-++		struct ext3_extent_header *eh;
-++
-++		eh = (struct ext3_extent_header *) &inode.i_block[0];
-++		eh->eh_depth = 0;
-++		eh->eh_entries = 0;
-++		eh->eh_magic = ext2fs_cpu_to_le16(EXT3_EXT_MAGIC);
-++		i = (sizeof(inode.i_block) - sizeof(*eh)) /
-++			sizeof(struct ext3_extent);
-++		eh->eh_max = ext2fs_cpu_to_le16(i);
-++		inode.i_flags |= EXT4_EXTENTS_FL;
-++	}
-++
-++	if ((retval = ext2fs_write_new_inode(current_fs, newfile, &inode))) {
-++		com_err(__func__, retval, "while creating inode %u", newfile);
-++		close(fd);
-++		return retval;
-++	}
-++	if (LINUX_S_ISREG(inode.i_mode)) {
-++		if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
-++			make_holes = 1;
-++			/*
-++			 * Use I/O blocksize as buffer size when
-++			 * copying sparse files.
-++			 */
-++			bufsize = statbuf.st_blksize;
-++		}
-++		retval = copy_file(fd, newfile, bufsize, make_holes);
-++		if (retval)
-++			com_err("copy_file", retval, 0);
-++	}
-++	close(fd);
-++
-++	return 0;
 + }
 + 
-+ /* Copy files from source_dir to fs */
++ static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
 +-- 
 +1.7.10.4
 +
