@@ -1,25 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DA1F6F66D
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 79CC06F604
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 04:26:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Mar 2014 20:26:34 -0800
+	Fri,  7 Mar 2014 04:26:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 20:26:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,605,1389772800"; d="scan'208";a="487690805"
+X-IronPort-AV: E=Sophos;i="4.97,605,1389772800"; d="scan'208";a="493931321"
 Received: from unknown (HELO localhost) ([10.255.13.79])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Mar 2014 20:26:33 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2014 20:26:24 -0800
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 22:26:22 -0600
-Message-Id: <0548a63a7dfc14bf42046189de83a111d153c3b5.1394165774.git.tom.zanussi@linux.intel.com>
+Date: Thu,  6 Mar 2014 22:26:17 -0600
+Message-Id: <de79449a7af0dd95a6b0355c222d2a9db72e0eb1.1394165774.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394165774.git.tom.zanussi@linux.intel.com>
 References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394165774.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1394165774.git.tom.zanussi@linux.intel.com>
 References: <cover.1394165774.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 7/7] gcc: Add upstream fix for gcc bug 58595
+MIME-Version: 1.0
+Subject: [PATCH 2/7] lttng-tools: Add version 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,172 +32,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 04:26:33 -0000
+X-List-Received-Date: Fri, 07 Mar 2014 04:26:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fix for internal compiler error hit when building lttng-tools_4.2.0:
+From: Tom Zanussi <tom.zanussi@intel.com>
 
- kernel-consumer.c:324:1: internal compiler error: in gen_movsi, at
-   config/arm/arm.md:5539
+This updates lttng-tools to 2.4.0, codenamed Époque Opaque, needed
+for interoperability with lttng-modules and the 3.14 (dev) kernel.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc              |   3 +-
- .../gcc/gcc-4.8/0050-PR-target-58595.patch         | 132 +++++++++++++++++++++
- 2 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0050-PR-target-58595.patch
+ .../lttng/lttng-tools/runtest-2.4.0.patch          | 27 ++++++++++
+ meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     | 59 ++++++++++++++++++++++
+ 2 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index f5e583d..855ec26 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -69,7 +69,8 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0046-libatomic-deptracking.patch \
- 	   file://0047-repomembug.patch \
- 	   file://0048-PR58854_fix_arm_apcs_epilogue.patch \
--	   file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \ 
-+	   file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
-+	   file://0050-PR-target-58595.patch \
- 	  "
- SRC_URI[md5sum] = "a3d7d63b9cb6b6ea049469a0c4a43c9d"
- SRC_URI[sha256sum] = "09dc2276c73424bbbfda1dbddc62bbbf900c9f185acf7f3e1d773ce2d7e3cdc8"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0050-PR-target-58595.patch b/meta/recipes-devtools/gcc/gcc-4.8/0050-PR-target-58595.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
 new file mode 100644
-index 0000000..4470596
+index 0000000..958bce4
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/0050-PR-target-58595.patch
-@@ -0,0 +1,132 @@
-+Backport fix for PR target/58595
++++ b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
+@@ -0,0 +1,27 @@
++diff --git a/Makefile.am b/Makefile.am
++index 584f59b..c2bcabd 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -12,3 +12,9 @@ dist_doc_DATA = LICENSE \
++ dist_noinst_DATA = CodingStyle
++ 
++ EXTRA_DIST = extras/lttng-bash_completion gpl-2.0.txt lgpl-2.1.txt
+++
+++install-ptest:
+++	cp -r $(srcdir)/tests $(DESTDIR)
+++	for m in $$(find $(DESTDIR)/tests -name Makefile); do \
+++          sed -i -e 's|^Makefile:|_Makefile:|' $$m; \
+++        done
++diff --git a/tests/run.sh b/tests/run.sh
++index c6c50fd..6455359 100755
++--- a/tests/run.sh
+++++ b/tests/run.sh
++@@ -19,4 +19,7 @@
++ 
++ [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
++ 
++-prove --merge --exec '' - < $1
+++prove --merge -v --exec '' - < $1 | sed \
+++  -e 's|^ok \(.*\)|PASS: \1|' \
+++  -e 's|^not ok \(.*\)|FAIL: \1|' \
+++  | egrep -h 'PASS|FAIL'
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+new file mode 100644
+index 0000000..223b52e
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+@@ -0,0 +1,59 @@
++SECTION = "devel"
++SUMMARY = "Linux Trace Toolkit Control"
++DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
++to extract program execution details from the Linux operating system \
++and interpret them."
 +
-+From: jakub <jakub@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 6 Mar 2014 12:07:07 +0000
-+Subject: [PATCH] 	PR target/58595 	* config/arm/arm.c
-+ (arm_tls_symbol_p): Remove. 	(arm_legitimize_address): Call
-+ legitimize_tls_address for any 	arm_tls_referenced_p expression,
-+ handle constant addend.  Call it 	before testing for !TARGET_ARM. 
-+ (thumb_legitimize_address): Don't handle arm_tls_symbol_p here.
++LICENSE = "GPLv2 & LGPLv2.1"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
++                    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
 +
-+	* gcc.dg/tls/pr58595.c: New test.
++DEPENDS = "liburcu popt lttng-ust"
++RDEPENDS_${PN}-ptest += "make"
++
++SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
++PV = "v2.4.0"
++
++SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.4 \
++           file://runtest-2.4.0.patch \
++           file://run-ptest \
++	  "
++
++S = "${WORKDIR}/git"
++
++inherit autotools-brokensep ptest
++
++export KERNELDIR="${STAGING_KERNEL_DIR}"
++
++FILES_${PN} += "${libdir}/lttng/libexec/*"
++FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
++
++# Since files are installed into ${libdir}/lttng/libexec we match 
++# the libexec insane test so skip it.
++INSANE_SKIP_${PN} = "libexec"
++INSANE_SKIP_${PN}-dbg = "libexec"
 +
 +
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@208380 138bc75d-0d04-0410-961f-82ee72b054a4
++do_install_ptest () {
++	chmod +x ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
++	for i in `find ${D}/${libdir}/${PN}/ptest -perm /u+x -type f`; do
++		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
++		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
++		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
++		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
++		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
++		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
++		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
++		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
++		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
++		  -i $i
++	done
 +
-+Index: gcc-4.8.2/gcc/ChangeLog
-+===================================================================
-+--- gcc-4.8.2.orig/gcc/ChangeLog
-++++ gcc-4.8.2/gcc/ChangeLog
-+@@ -1,3 +1,13 @@
-++2014-03-06  Jakub Jelinek  <jakub@redhat.com>
-++	    Meador Inge  <meadori@codesourcery.com>
-++
-++	PR target/58595
-++	* config/arm/arm.c (arm_tls_symbol_p): Remove.
-++	(arm_legitimize_address): Call legitimize_tls_address for any
-++	arm_tls_referenced_p expression, handle constant addend.  Call it
-++	before testing for !TARGET_ARM.
-++	(thumb_legitimize_address): Don't handle arm_tls_symbol_p here.
-++
-+ 2013-10-16  Release Manager
-+ 
-+ 	* GCC 4.8.2 released.
-+Index: gcc-4.8.2/gcc/config/arm/arm.c
-+===================================================================
-+--- gcc-4.8.2.orig/gcc/config/arm/arm.c
-++++ gcc-4.8.2/gcc/config/arm/arm.c
-+@@ -230,7 +230,6 @@ static tree arm_gimplify_va_arg_expr (tr
-+ static void arm_option_override (void);
-+ static unsigned HOST_WIDE_INT arm_shift_truncation_mask (enum machine_mode);
-+ static bool arm_cannot_copy_insn_p (rtx);
-+-static bool arm_tls_symbol_p (rtx x);
-+ static int arm_issue_rate (void);
-+ static void arm_output_dwarf_dtprel (FILE *, int, rtx) ATTRIBUTE_UNUSED;
-+ static bool arm_output_addr_const_extra (FILE *, rtx);
-+@@ -6573,6 +6572,32 @@ legitimize_tls_address (rtx x, rtx reg)
-+ rtx
-+ arm_legitimize_address (rtx x, rtx orig_x, enum machine_mode mode)
-+ {
-++  if (arm_tls_referenced_p (x))
-++    {
-++      rtx addend = NULL;
-++
-++      if (GET_CODE (x) == CONST && GET_CODE (XEXP (x, 0)) == PLUS)
-++	{
-++	  addend = XEXP (XEXP (x, 0), 1);
-++	  x = XEXP (XEXP (x, 0), 0);
-++	}
-++
-++      if (GET_CODE (x) != SYMBOL_REF)
-++	return x;
-++
-++      gcc_assert (SYMBOL_REF_TLS_MODEL (x) != 0);
-++
-++      x = legitimize_tls_address (x, NULL_RTX);
-++
-++      if (addend)
-++	{
-++	  x = gen_rtx_PLUS (SImode, x, addend);
-++	  orig_x = x;
-++	}
-++      else
-++	return x;
-++    }
-++
-+   if (!TARGET_ARM)
-+     {
-+       /* TODO: legitimize_address for Thumb2.  */
-+@@ -6581,9 +6606,6 @@ arm_legitimize_address (rtx x, rtx orig_
-+       return thumb_legitimize_address (x, orig_x, mode);
-+     }
-+ 
-+-  if (arm_tls_symbol_p (x))
-+-    return legitimize_tls_address (x, NULL_RTX);
-+-
-+   if (GET_CODE (x) == PLUS)
-+     {
-+       rtx xop0 = XEXP (x, 0);
-+@@ -6695,9 +6717,6 @@ arm_legitimize_address (rtx x, rtx orig_
-+ rtx
-+ thumb_legitimize_address (rtx x, rtx orig_x, enum machine_mode mode)
-+ {
-+-  if (arm_tls_symbol_p (x))
-+-    return legitimize_tls_address (x, NULL_RTX);
-+-
-+   if (GET_CODE (x) == PLUS
-+       && CONST_INT_P (XEXP (x, 1))
-+       && (INTVAL (XEXP (x, 1)) >= 32 * GET_MODE_SIZE (mode)
-+@@ -6988,20 +7007,6 @@ thumb_legitimize_reload_address (rtx *x_
-+ 
-+ /* Test for various thread-local symbols.  */
-+ 
-+-/* Return TRUE if X is a thread-local symbol.  */
-+-
-+-static bool
-+-arm_tls_symbol_p (rtx x)
-+-{
-+-  if (! TARGET_HAVE_TLS)
-+-    return false;
-+-
-+-  if (GET_CODE (x) != SYMBOL_REF)
-+-    return false;
-+-
-+-  return SYMBOL_REF_TLS_MODEL (x) != 0;
-+-}
-+-
-+ /* Helper for arm_tls_referenced_p.  */
-+ 
-+ static int
-+Index: gcc-4.8.2/gcc/testsuite/ChangeLog
-+===================================================================
-+--- gcc-4.8.2.orig/gcc/testsuite/ChangeLog
-++++ gcc-4.8.2/gcc/testsuite/ChangeLog
-+@@ -1,3 +1,8 @@
-++2014-03-06  Jakub Jelinek  <jakub@redhat.com>
-++
-++	PR target/58595
-++	* gcc.dg/tls/pr58595.c: New test.
-++
-+ 2013-10-16  Release Manager
-+ 
-+ 	* GCC 4.8.2 released.
++	sed -e "s:src/bin/lttng-sessiond:$bindir:g" \
++	    -e "s:src/bin/lttng-consumerd:${libexecdir}/libexec/:g" \
++	-i ${D}/${libdir}/${PN}/ptest/tests/regression/run-report.py
++	sed -e "s:src/bin:bin:g" \
++	-i ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
++
++}
 -- 
 1.8.3.1
 
