@@ -1,25 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 79CC06F604
+	by mail.openembedded.org (Postfix) with ESMTP id A05DE6F673
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 04:26:52 +0000 (UTC)
+	Fri,  7 Mar 2014 04:26:53 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 20:26:53 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 06 Mar 2014 20:26:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,605,1389772800"; d="scan'208";a="493931321"
+X-IronPort-AV: E=Sophos;i="4.97,605,1389772800"; d="scan'208";a="493931383"
 Received: from unknown (HELO localhost) ([10.255.13.79])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2014 20:26:24 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2014 20:26:26 -0800
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Mar 2014 22:26:17 -0600
-Message-Id: <de79449a7af0dd95a6b0355c222d2a9db72e0eb1.1394165774.git.tom.zanussi@linux.intel.com>
+Date: Thu,  6 Mar 2014 22:26:18 -0600
+Message-Id: <dc3a1e7880668e9afa9c9ee3834332dda0f0362c.1394165774.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394165774.git.tom.zanussi@linux.intel.com>
 References: <489d4a5c88148ee8864e93a2b5a393065e1f80b2.1394165774.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1394165774.git.tom.zanussi@linux.intel.com>
 References: <cover.1394165774.git.tom.zanussi@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/7] lttng-tools: Add version 2.4.0
+Subject: [PATCH 3/7] lttng-ust: Add version 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,114 +38,51 @@ Content-Transfer-Encoding: 8bit
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This updates lttng-tools to 2.4.0, codenamed Époque Opaque, needed
+This updates lttng-ust to 2.4.0, codenamed Époque Opaque, needed
 for interoperability with lttng-modules and the 3.14 (dev) kernel.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- .../lttng/lttng-tools/runtest-2.4.0.patch          | 27 ++++++++++
- meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     | 59 ++++++++++++++++++++++
- 2 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+ meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb | 31 ++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
 new file mode 100644
-index 0000000..958bce4
+index 0000000..9f806c1
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools/runtest-2.4.0.patch
-@@ -0,0 +1,27 @@
-+diff --git a/Makefile.am b/Makefile.am
-+index 584f59b..c2bcabd 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -12,3 +12,9 @@ dist_doc_DATA = LICENSE \
-+ dist_noinst_DATA = CodingStyle
-+ 
-+ EXTRA_DIST = extras/lttng-bash_completion gpl-2.0.txt lgpl-2.1.txt
-++
-++install-ptest:
-++	cp -r $(srcdir)/tests $(DESTDIR)
-++	for m in $$(find $(DESTDIR)/tests -name Makefile); do \
-++          sed -i -e 's|^Makefile:|_Makefile:|' $$m; \
-++        done
-+diff --git a/tests/run.sh b/tests/run.sh
-+index c6c50fd..6455359 100755
-+--- a/tests/run.sh
-++++ b/tests/run.sh
-+@@ -19,4 +19,7 @@
-+ 
-+ [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
-+ 
-+-prove --merge --exec '' - < $1
-++prove --merge -v --exec '' - < $1 | sed \
-++  -e 's|^ok \(.*\)|PASS: \1|' \
-++  -e 's|^not ok \(.*\)|FAIL: \1|' \
-++  | egrep -h 'PASS|FAIL'
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-new file mode 100644
-index 0000000..223b52e
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-@@ -0,0 +1,59 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit Control"
-+DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
-+to extract program execution details from the Linux operating system \
-+and interpret them."
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
+@@ -0,0 +1,31 @@
++SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.x"
++DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library to trace userspace codes."
++HOMEPAGE = "http://lttng.org/ust"
++BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
 +
-+LICENSE = "GPLv2 & LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
-+                    file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
++LICENSE = "LGPLv2.1+ & BSD & GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
++                    file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
++                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
 +
-+DEPENDS = "liburcu popt lttng-ust"
-+RDEPENDS_${PN}-ptest += "make"
++inherit autotools lib_package
 +
-+SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
-+PV = "v2.4.0"
++DEPENDS = "liburcu util-linux"
 +
-+SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.4 \
-+           file://runtest-2.4.0.patch \
-+           file://run-ptest \
-+	  "
++# For backwards compatibility after rename
++RPROVIDES_${PN} = "lttng2-ust"
++RREPLACES_${PN} = "lttng2-ust"
++RCONFLICTS_${PN} = "lttng2-ust"
++
++SRCREV = "5ba5bf7fba804d2de773ae1c71106a8ed856c56a"
++PV = "2.4.0"
++PE = "2"
++
++SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.4 \
++	   "
 +
 +S = "${WORKDIR}/git"
 +
-+inherit autotools-brokensep ptest
-+
-+export KERNELDIR="${STAGING_KERNEL_DIR}"
-+
-+FILES_${PN} += "${libdir}/lttng/libexec/*"
-+FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
-+
-+# Since files are installed into ${libdir}/lttng/libexec we match 
-+# the libexec insane test so skip it.
-+INSANE_SKIP_${PN} = "libexec"
-+INSANE_SKIP_${PN}-dbg = "libexec"
-+
-+
-+do_install_ptest () {
-+	chmod +x ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
-+	for i in `find ${D}/${libdir}/${PN}/ptest -perm /u+x -type f`; do
-+		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -i $i
-+	done
-+
-+	sed -e "s:src/bin/lttng-sessiond:$bindir:g" \
-+	    -e "s:src/bin/lttng-consumerd:${libexecdir}/libexec/:g" \
-+	-i ${D}/${libdir}/${PN}/ptest/tests/regression/run-report.py
-+	sed -e "s:src/bin:bin:g" \
-+	-i ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
-+
++do_configure_prepend () {
++	( cd ${S}; ${S}/bootstrap )
 +}
 -- 
 1.8.3.1
