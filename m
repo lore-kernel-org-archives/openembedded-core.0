@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 531276F695
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A36C6F691
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 07:00:03 +0000 (UTC)
+	Fri,  7 Mar 2014 07:00:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s27704Wr017147
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s27705tO016504
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Mar 2014 23:00:04 -0800 (PST)
+	Thu, 6 Mar 2014 23:00:05 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 6 Mar 2014 23:00:00 -0800
+	14.3.169.1; Thu, 6 Mar 2014 23:00:05 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 01:59:33 -0500
-Message-ID: <a9d1eeeadbd96d90bbbfd53e90227fa80d352e14.1394174908.git.liezhi.yang@windriver.com>
+Date: Fri, 7 Mar 2014 01:59:34 -0500
+Message-ID: <472b3f35379635d1cb8705b69292621f132cdea9.1394174908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1394174908.git.liezhi.yang@windriver.com>
 References: <cover.1394174908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/14] e2fsprogs: enable the "-d" related patches
+Subject: [PATCH 13/14] image_types.bbclass: use mke2fs -d to create the ext2/3/4 image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 07:00:03 -0000
+X-List-Received-Date: Fri, 07 Mar 2014 07:00:04 -0000
 Content-Type: text/plain
 
-These patches should be enabled at the same time, so enable them in a
-single commit, and thus we can disable it easily.
+We used populate-extfs.sh which invoked the debugfs to create the image,
+now the mke2fs' option "-d root-directory" can do the same thing, and
+which is more faster, for example, the core-imag-sato:
+
+* In the past:
+$ time mke2fs -t ext4 rootfs.ext4
+real    0m0.249s
+user    0m0.036s
+sys     0m0.132s
+$ time populate-extfs.sh /path/to/rootfs/ rootfs.ext4
+real    0m29.355s
+user    0m10.637s
+sys     0m5.544s
+
+* Now:
+$ time mkfs.ext4 -F -d /path/to/rootfs/ rootfs.ext4
+real    0m6.338s
+user    0m3.824s
+sys     0m1.356s
+
+More than 25 seconds are saved.
 
 [YOCTO #4083]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |   11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/classes/image_types.bbclass |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 0c8ec71..b369038 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -6,6 +6,17 @@ SRC_URI += "file://acinclude.m4 \
-             file://fix-icache.patch \
-             file://populate-extfs.sh \
-             file://quiet-debugfs.patch \
-+            file://0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch \
-+            file://0002-misc-create_inode.c-copy-files-recursively.patch \
-+            file://0003-misc-create_inode.c-create-special-file.patch \
-+            file://0004-misc-create_inode.c-create-symlink.patch \
-+            file://0005-misc-create_inode.c-copy-regular-file.patch \
-+            file://0006-misc-create_inode.c-create-directory.patch \
-+            file://0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch \
-+            file://0008-mke2fs.c-add-an-option-d-root-directory.patch \
-+            file://0009-misc-create_inode.c-handle-hardlinks.patch \
-+            file://0010-debugfs-use-the-functions-in-misc-create_inode.c.patch \
-+            file://0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch \
- "
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 602c1f0..5864006 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -49,8 +49,7 @@ oe_mkext234fs () {
  
- SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+ 	# Create a sparse image block
+ 	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype seek=$ROOTFS_SIZE count=0 bs=1k
+-	mkfs.$fstype -F $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
+-	populate-extfs.sh ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
++	mkfs.$fstype -F $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype -d ${IMAGE_ROOTFS}
+ }
+ 
+ IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
 -- 
 1.7.10.4
 
