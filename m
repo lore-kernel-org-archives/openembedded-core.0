@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CDA226F664
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F21C6EABD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 06:59:38 +0000 (UTC)
+	Fri,  7 Mar 2014 06:59:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s276xd2B016387
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s276xfPM017118
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Mar 2014 22:59:39 -0800 (PST)
+	Thu, 6 Mar 2014 22:59:41 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 6 Mar 2014 22:59:38 -0800
+	14.3.169.1; Thu, 6 Mar 2014 22:59:40 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 01:59:22 -0500
-Message-ID: <b0d870674638d7abbcabbdfeb96f8c9b9150b280.1394174908.git.liezhi.yang@windriver.com>
+Date: Fri, 7 Mar 2014 01:59:23 -0500
+Message-ID: <e422d5ab351c6fa28f8d4d01bac68ad431ffc0a6.1394174908.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1394174908.git.liezhi.yang@windriver.com>
 References: <cover.1394174908.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/14] e2fsprogs: mke2fs: add the ability to copy files from a given directory
+Subject: [PATCH 02/14] e2fsprogs: mke2fs: copy files recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,142 +33,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 06:59:39 -0000
+X-List-Received-Date: Fri, 07 Mar 2014 06:59:40 -0000
 Content-Type: text/plain
 
-We will add a -d option which will be used for adding the files from a
-given directory to the filesystem, it is similiar to genext2fs, but
-genext2fs doesn't fully support ext4.
+Use opendir() and readdir() to read the native directory, then use
+lstat() to identify the file type and call the corresponding function to
+add the file to the filesystem, call the populate_fs() recursively if it
+is a directory.
 
-* We already have the basic operations in debugfs:
-  - Copy regular file
-  - Create directory
-  - Create symlink
-  - Create special file
-
-  We will move these operations into create_inode.h and create_inode.c,
-  then let both mke2fs and debugfs use them.
-
-* What we need to do are:
-  - Copy the given directory recursively, this will be done by the
-    populate_fs()
-  - Set the owner, mode and other informations
-  - Handle the hard links
-
-TODO:
-  - The libext2fs can't create the socket file (S_IFSOCK), do we have a
-    plan to support it ?
+NOTE: the libext2fs can't create the socket file.
 
 [YOCTO #4083]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 ---
- ...the-ability-to-copy-files-from-a-given-di.patch |   98 ++++++++++++++++++++
- 1 file changed, 98 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
+ ...isc-create_inode.c-copy-files-recursively.patch |  135 ++++++++++++++++++++
+ 1 file changed, 135 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
 new file mode 100644
-index 0000000..9ea413e
+index 0000000..9bff644
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
-@@ -0,0 +1,98 @@
-+From c98fec004f077e566b9dfa20b25e3b86cb462a2e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
+@@ -0,0 +1,135 @@
++From 08dfbaf4e3f704232ff46d78c0758a6cfe3961c8 Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 24 Dec 2013 01:41:08 -0500
-+Subject: [PATCH 01/11] mke2fs: add the ability to copy files from a given
-+ directory
++Date: Mon, 23 Dec 2013 02:59:10 -0500
++Subject: [PATCH 02/11] misc/create_inode.c: copy files recursively
 +
-+We will add a -d option which will be used for adding the files from a
-+given directory to the filesystem, it is similiar to genext2fs, but
-+genext2fs doesn't fully support ext4.
++Use opendir() and readdir() to read the native directory, then use
++lstat() to identify the file type and call the corresponding function to
++add the file to the filesystem, call the populate_fs() recursively if it
++is a directory.
 +
-+* We already have the basic operations in debugfs:
-+  - Copy regular file
-+  - Create directory
-+  - Create symlink
-+  - Create special file
-+
-+  We will move these operations into create_inode.h and create_inode.c,
-+  then let both mke2fs and debugfs use them.
-+
-+* What we need to do are:
-+  - Copy the given directory recursively, this will be done by the
-+    populate_fs()
-+  - Set the owner, mode and other informations
-+  - Handle the hard links
-+
-+TODO:
-+  - The libext2fs can't create the socket file (S_IFSOCK), do we have a
-+    plan to support it ?
++NOTE: the libext2fs can't create the socket file.
 +
 +Upstream-Status: Backport
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 +---
-+ misc/create_inode.c |   26 ++++++++++++++++++++++++++
-+ misc/create_inode.h |   17 +++++++++++++++++
-+ 2 files changed, 43 insertions(+)
-+ create mode 100644 misc/create_inode.c
-+ create mode 100644 misc/create_inode.h
++ misc/create_inode.c |   97 +++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 97 insertions(+)
 +
 +diff --git a/misc/create_inode.c b/misc/create_inode.c
-+new file mode 100644
-+index 0000000..46aaa60
-+--- /dev/null
++index 46aaa60..b68b910 100644
++--- a/misc/create_inode.c
 ++++ b/misc/create_inode.c
-+@@ -0,0 +1,26 @@
-++#include "create_inode.h"
++@@ -1,5 +1,13 @@
++ #include "create_inode.h"
++ 
+++#if __STDC_VERSION__ < 199901L
+++# if __GNUC__ >= 2
+++#  define __func__ __FUNCTION__
+++# else
+++#  define __func__ "<unknown>"
+++# endif
+++#endif
 ++
-++/* Make a special file which is block, character and fifo */
-++errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
-++{
-++}
++ /* Make a special file which is block, character and fifo */
++ errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
++ {
++@@ -23,4 +31,93 @@ errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
++ /* Copy files from source_dir to fs */
++ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
++ {
+++	const char	*name;
+++	DIR		*dh;
+++	struct dirent	*dent;
+++	struct stat	st;
+++	char		ln_target[PATH_MAX];
+++	ext2_ino_t	ino;
+++	errcode_t	retval;
+++	int		read_cnt;
 ++
-++/* Make a symlink name -> target */
-++errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target)
-++{
-++}
+++	root = EXT2_ROOT_INO;
 ++
-++/* Make a directory in the fs */
-++errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
-++{
-++}
+++	if (chdir(source_dir) < 0) {
+++		com_err(__func__, errno,
+++			_("while changing working directory to \"%s\""), source_dir);
+++		return errno;
+++	}
 ++
-++/* Copy the native file to the fs */
-++errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
-++{
-++}
+++	if (!(dh = opendir("."))) {
+++		com_err(__func__, errno,
+++			_("while openning directory \"%s\""), source_dir);
+++		return errno;
+++	}
 ++
-++/* Copy files from source_dir to fs */
-++errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
-++{
-++}
-+diff --git a/misc/create_inode.h b/misc/create_inode.h
-+new file mode 100644
-+index 0000000..9fc97fa
-+--- /dev/null
-++++ b/misc/create_inode.h
-+@@ -0,0 +1,17 @@
-++#include <sys/types.h>
-++#include <sys/stat.h>
-++#include <fcntl.h>
-++#include "et/com_err.h"
-++#include "e2p/e2p.h"
-++#include "ext2fs/ext2fs.h"
-++#include "nls-enable.h"
+++	while((dent = readdir(dh))) {
+++		if((!strcmp(dent->d_name, ".")) || (!strcmp(dent->d_name, "..")))
+++			continue;
+++		lstat(dent->d_name, &st);
+++		name = dent->d_name;
 ++
-++ext2_filsys    current_fs;
-++ext2_ino_t     root;
-++
-++/* For populating the filesystem */
-++extern errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir);
-++extern errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st);
-++extern errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target);
-++extern errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st);
-++extern errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest);
+++		switch(st.st_mode & S_IFMT) {
+++			case S_IFCHR:
+++			case S_IFBLK:
+++			case S_IFIFO:
+++				if ((retval = do_mknod_internal(parent_ino, name, &st))) {
+++					com_err(__func__, retval,
+++						_("while creating special file \"%s\""), name);
+++					return retval;
+++				}
+++				break;
+++			case S_IFSOCK:
+++				/* FIXME: there is no make socket function atm. */
+++				com_err(__func__, 0,
+++					_("ignoring socket file \"%s\""), name);
+++				continue;
+++			case S_IFLNK:
+++				if((read_cnt = readlink(name, ln_target, sizeof(ln_target))) == -1) {
+++					com_err(__func__, errno,
+++						_("while trying to readlink \"%s\""), name);
+++					return errno;
+++				}
+++				ln_target[read_cnt] = '\0';
+++				if ((retval = do_symlink_internal(parent_ino, name, ln_target))) {
+++					com_err(__func__, retval,
+++						_("while writing symlink\"%s\""), name);
+++					return retval;
+++				}
+++				break;
+++			case S_IFREG:
+++				if ((retval = do_write_internal(parent_ino, name, name))) {
+++					com_err(__func__, retval,
+++						_("while writing file \"%s\""), name);
+++					return retval;
+++				}
+++				break;
+++			case S_IFDIR:
+++				if ((retval = do_mkdir_internal(parent_ino, name, &st))) {
+++					com_err(__func__, retval,
+++						_("while making dir \"%s\""), name);
+++					return retval;
+++				}
+++				if ((retval = ext2fs_namei(current_fs, root, parent_ino, name, &ino))) {
+++					com_err(name, retval, 0);
+++						return retval;
+++				}
+++				/* Populate the dir recursively*/
+++				retval = populate_fs(ino, name);
+++				if (retval) {
+++					com_err(__func__, retval, _("while adding dir \"%s\""), name);
+++					return retval;
+++				}
+++				chdir("..");
+++				break;
+++			default:
+++				com_err(__func__, 0,
+++					_("ignoring entry \"%s\""), name);
+++		}
+++	}
+++	closedir(dh);
+++	return retval;
++ }
 +-- 
 +1.7.10.4
 +
