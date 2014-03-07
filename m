@@ -1,40 +1,30 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EBF16F648
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A693260E07
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 01:16:38 +0000 (UTC)
-Received: by mail-vc0-f178.google.com with SMTP id ik5so3425783vcb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Mar 2014 17:16:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=2l9IOerfkoUao+FSgTZo+1cHiOy0oS0F6/qqAo7GE00=;
-	b=Zg6kwzHiPAPBYGNKNDf92F0SbACBuY/2uIFoU1+fkzUBi+uT/qj4l/x/IrtEUH52hO
-	nvOK6ySjKkM8vMUhXSCDY/DT5PNcd10ADwH4/ZRoYWeiFdondN9MCFrNvqBNe5H4aRG/
-	JC609E0HVxS8nmUQENK7+5q1uF+Hy4be36rd6XLG3ZrDp37pJhV9hX42TuLRnhuyCe6M
-	guV4/RubfEOqWz5g4Cm1MvJabIKzqD+YpOyEGh7sPllmBinNJfo/uurCZBj467LBWdrj
-	zIHG4MycqlUHDg15uLNeti6vTmOG+jb/jAptprBIdNSQ8AUg/NRWXkFBMAJQm7uoExa2
-	1BBA==
-X-Received: by 10.52.26.161 with SMTP id m1mr243955vdg.24.1394154999597; Thu,
-	06 Mar 2014 17:16:39 -0800 (PST)
+	Fri,  7 Mar 2014 02:13:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s272DEOc015173
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Mar 2014 18:13:14 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Thu, 6 Mar 2014 18:13:13 -0800
+Message-ID: <53192B35.3060807@windriver.com>
+Date: Fri, 7 Mar 2014 10:13:09 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Thu, 6 Mar 2014 17:15:59 -0800 (PST)
-In-Reply-To: <CANyK_8e+MOp6TSL_-yAxeo7ebXWYQt+OsD_nGBYq9y2kuYC4vA@mail.gmail.com>
-References: <cover.1394010463.git.Chong.Lu@windriver.com>
-	<c00e7a2047ec6a4b4f46722f49176b08ded90509.1394010463.git.Chong.Lu@windriver.com>
-	<1394011283.31845.97.camel@ted> <5316F554.1030201@windriver.com>
-	<CANyK_8eviu1Tpoggak7UGEX_i7EJBfWN8ugwUoSMifC8hNXjDA@mail.gmail.com>
-	<CANyK_8e+MOp6TSL_-yAxeo7ebXWYQt+OsD_nGBYq9y2kuYC4vA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 7 Mar 2014 01:15:59 +0000
-X-Google-Sender-Auth: zpcXFBnzYE8avvHZVEjFMdDSuDc
-Message-ID: <CANyK_8eEGr9DRy45jsCQb0LRHF6PfF_B=mVCXFMWq7EyWGB1_A@mail.gmail.com>
-To: Lu Chong <Chong.Lu@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] flex: not to build shared libraries
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1394093112.git.Chong.Lu@windriver.com>
+	<9477177f82743adfab34256b7bc002a37dd61787.1394093112.git.Chong.Lu@windriver.com>
+	<CAJTo0LZ_OjXVhoNv6wk085=5vY=i64_8T6s=Tef5h7qgFC5Sfw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ_OjXVhoNv6wk085=5vY=i64_8T6s=Tef5h7qgFC5Sfw@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 01:16:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 07 Mar 2014 02:13:17 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 5 March 2014 13:45, Paul Barker <paul@paulbarker.me.uk> wrote:
-> On 5 March 2014 12:49, Paul Barker <paul@paulbarker.me.uk> wrote:
->> On 5 March 2014 09:58, Lu Chong <Chong.Lu@windriver.com> wrote:
->>>
->>> In flex 2.5.38, libfl.so was built by libtool.
->>>
->>> ipsec-tools shows this problem.
->>> When link libipsec.so to libfl.so, it uses '-lfl' flag. It will link from
->>> libfl.so.
->>> But libfl.so doesn't define yylex, we may get "libfl.so not found" through
->>> `ldd libipsec.so'.
->>
->> I've used flex before, this is correct, libfl is not supposed to
->> define yylex. See for example
->> https://www.mail-archive.com/tools-linking@mail.opensolaris.org/msg00601.html
->>
->> The problem is in how ipsec-tools is being linked, not in flex. I'd
->> suggest patching that recipe instead.
->>
->> Cheers,
->>
+
+On 03/06/2014 06:04 PM, Burton, Ross wrote:
+> On 6 March 2014 08:06, Chong Lu <Chong.Lu@windriver.com> wrote:
+>> +PACKAGES += "dbus-ptest"
+>> +ALLOW_EMPTY_${PN}-ptest = "1"
+>> +RDEPENDS_${PN}-ptest = "${@base_contains('IMAGE_FEATURES', 'ptest-pkgs', 'dbus-test-ptest', 'dbus-test', d)}"
+> Nice idea, but wouldn't a more correct solution be to have dbus-ptest
+> added to PACKAGES conditionally (instead of always generating
+> dbus-ptest and conditionally adding the dependency)?
 >
-> I've patched ipsec-tools to fix this, will send the patch to the oe-devel list.
+> Ross
 >
+>
+Hi Ross,
 
-Sent.
+Do you mean using PACKAGES += "${@base_contains('IMAGE_FEATURES', 
+'ptest-pkgs', 'dbus-ptest-ptest', 'dbus-ptest', d)}" or something else?
 
--- 
-Paul Barker
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Best Regards
+Chong
 
