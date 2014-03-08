@@ -1,35 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id BAF7F6EF9F
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DEF436E87A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Mar 2014 00:13:57 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id uq10so3789429igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Mar 2014 16:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=232W+8K6dNii/RzujSsopjTnq4d6MP5noZHPMgejJ9s=;
-	b=gmTGCrjbeucl4bHu1yHwQ3mcHOHmV3caMpi8rkfq/+KaEjhJZYO8jGar6T9HIRENCT
-	qJutZse5fk4Il+6BDit392B3qFm7PoCUFSsdR0BhuZQ7gH5tpl8Mqu8DL1y897aAeVf1
-	wgVrV/Emeeo+I0nfanwzCleEu+eLAG/+rfcTBR+XkWWqr4KeIm7YIarBfdQ2E1zQTjz6
-	4ZhVqLKmZqzIxAF8fj7oTQpQH6Z2gTASyOugaaBl8Av5kBazxS41lxNxCAqJLjy7C//x
-	nXB0bCQ+G6o6rkCRWuGsWS7ZKjXUXntcrVAqnrGmOxn7mPFdpAyXUQE4J+W37fHs97ru
-	M1tg==
-X-Received: by 10.50.60.103 with SMTP id g7mr6173699igr.20.1394237638708; Fri,
-	07 Mar 2014 16:13:58 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Fri, 7 Mar 2014 16:13:28 -0800 (PST)
-In-Reply-To: <1394199544-19668-1-git-send-email-cosmin.paraschiv@freescale.com>
-References: <1394199544-19668-1-git-send-email-cosmin.paraschiv@freescale.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 7 Mar 2014 16:13:28 -0800
-Message-ID: <CAMKF1sq_hMS_eeF=aV4YkY6EFZP7gVgjfyabVE4p35uT8uYGRA@mail.gmail.com>
-To: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-runtime: Build libatomic
+	Sat,  8 Mar 2014 00:31:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Mar 2014 16:27:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,611,1389772800"; d="scan'208";a="496148663"
+Received: from ranerica-desk01.sc.intel.com ([10.3.52.86])
+	by orsmga002.jf.intel.com with ESMTP; 07 Mar 2014 16:31:31 -0800
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri,  7 Mar 2014 16:30:10 -0800
+Message-Id: <1394238610-25905-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH][resend] runqemu: Add option for custom BIOS directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +28,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Mar 2014 00:14:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 08 Mar 2014 00:31:31 -0000
 
-On Fri, Mar 7, 2014 at 5:39 AM, Cosmin Paraschiv
-<cosmin.paraschiv@freescale.com> wrote:
-> GCC 4.8 includes a new runtime library, libatomic, which supports
-> atomic operations not supported by hardware or the OS. Build it,
-> so other packages can link against it, if needed.
+Add support to specify a directory for custom BIOS, VGA BIOS and
+keymaps as supported by qemu (-L option). Even though this can be
+done through qemuparams, having this option provides better user
+experience by not having to specify a long and cluttered path along
+other qemuparams that the user might want to specify.
 
-what all architectures did you test
+This new options assumes that the path provided is relative to
+OECORE_NATIVE_SYSROOT and will check whether it exists before proceeding.
 
->
-> Signed-off-by: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc |   12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index d3b11a7..f8c1109 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -12,7 +12,7 @@ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
->  EXTRA_OECONF += "--disable-libunwind-exceptions"
->  EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
->
-> -RUNTIMETARGET = "libssp libstdc++-v3 libgomp"
-> +RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic"
->  #  ?
->  # libiberty
->  # libmudflap
-> @@ -87,6 +87,9 @@ PACKAGES = "\
->    libgomp \
->    libgomp-dev \
->    libgomp-staticdev \
-> +  libatomic \
-> +  libatomic-dev \
-> +  libatomic-staticdev \
->  "
->  # The base package doesn't exist, so we clear the recommends.
->  RRECOMMENDS_${PN}-dbg = ""
-> @@ -161,6 +164,13 @@ FILES_libgomp-staticdev = "\
->    ${libdir}/libgomp*.a \
->    "
->
-> +FILES_libatomic = "${libdir}/libatomic.so.*"
-> +FILES_libatomic-dev = " \
-> +  ${libdir}/libatomic.so \
-> +  ${libdir}/libatomic.la"
-> +FILES_libatomic-staticdev = " \
-> +  ${libdir}/libatomic.a"
-> +
->  do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
->  do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
->  do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
-> --
-> 1.7.9.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+---
+ scripts/runqemu | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 619ffb6..9eff90d 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -149,6 +149,9 @@ while true; do
+             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
+             SERIALSTDIO="1"
+             ;;
++	"biosdir="*)
++            CUSTOMBIOSDIR="${arg##biosdir=}"
++	    ;;
+         "qemuparams="*)
+             SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+ 
+@@ -489,5 +492,16 @@ if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
+ INTERNAL_SCRIPT=`which runqemu-internal`
+ fi
+ 
++# Specify directory for BIOS, VGA BIOS and keymaps
++if [ ! -z "$CUSTOMBIOSDIR" ]; then
++    if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
++           echo "Assuming $CUSTOMBIOSDIR really means $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
++           SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
++       else
++           echo "Custom BIOS directory $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR not found."
++           exit 1;
++    fi
++fi
++
+ . $INTERNAL_SCRIPT
+ exit $?
+-- 
+1.8.1.2
+
 
