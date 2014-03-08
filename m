@@ -1,47 +1,35 @@
-Return-Path: <Lauren.Post@freescale.com>
-Received: from co9outboundpool.messaging.microsoft.com
-	(co9ehsobe002.messaging.microsoft.com [207.46.163.25])
-	by mail.openembedded.org (Postfix) with ESMTP id F1C4E6E8A2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id BAF7F6EF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 22:04:17 +0000 (UTC)
-Received: from mail178-co9-R.bigfish.com (10.236.132.243) by
-	CO9EHSOBE034.bigfish.com (10.236.130.97) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 7 Mar 2014 22:04:18 +0000
-Received: from mail178-co9 (localhost [127.0.0.1])	by
-	mail178-co9-R.bigfish.com (Postfix) with ESMTP id 0160E5E047A	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri,  7 Mar 2014 22:04:18 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh8275dh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h1155h)
-Received: from mail178-co9 (localhost.localdomain [127.0.0.1]) by mail178-co9
-	(MessageSwitch) id 1394229856798445_28459;
-	Fri,  7 Mar 2014 22:04:16 +0000 (UTC)
-Received: from CO9EHSMHS028.bigfish.com (unknown [10.236.132.240])	by
-	mail178-co9.bigfish.com (Postfix) with ESMTP id B465F5C00A5;
-	Fri,  7 Mar 2014 22:04:16 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS028.bigfish.com
-	(10.236.130.38) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Fri, 7 Mar 2014 22:04:16 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.3.158.2; Fri, 7 Mar 2014 22:04:15 +0000
-Received: from neo.am.freescale.net (neo.am.freescale.net [10.81.16.89])	by
-	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s27M4BJ5017769;
-	Fri, 7 Mar 2014 15:04:15 -0700
-From: Lauren Post <lauren.post@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Mar 2014 15:52:43 -0600
-Message-ID: <1394229163-28529-1-git-send-email-lauren.post@freescale.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <lauren.post@freescale.com>
-References: <lauren.post@freescale.com>
+	Sat,  8 Mar 2014 00:13:57 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id uq10so3789429igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Mar 2014 16:13:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=232W+8K6dNii/RzujSsopjTnq4d6MP5noZHPMgejJ9s=;
+	b=gmTGCrjbeucl4bHu1yHwQ3mcHOHmV3caMpi8rkfq/+KaEjhJZYO8jGar6T9HIRENCT
+	qJutZse5fk4Il+6BDit392B3qFm7PoCUFSsdR0BhuZQ7gH5tpl8Mqu8DL1y897aAeVf1
+	wgVrV/Emeeo+I0nfanwzCleEu+eLAG/+rfcTBR+XkWWqr4KeIm7YIarBfdQ2E1zQTjz6
+	4ZhVqLKmZqzIxAF8fj7oTQpQH6Z2gTASyOugaaBl8Av5kBazxS41lxNxCAqJLjy7C//x
+	nXB0bCQ+G6o6rkCRWuGsWS7ZKjXUXntcrVAqnrGmOxn7mPFdpAyXUQE4J+W37fHs97ru
+	M1tg==
+X-Received: by 10.50.60.103 with SMTP id g7mr6173699igr.20.1394237638708; Fri,
+	07 Mar 2014 16:13:58 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] mtd-utils: Update version to include fixes after 1.5.0
+Received: by 10.50.224.136 with HTTP; Fri, 7 Mar 2014 16:13:28 -0800 (PST)
+In-Reply-To: <1394199544-19668-1-git-send-email-cosmin.paraschiv@freescale.com>
+References: <1394199544-19668-1-git-send-email-cosmin.paraschiv@freescale.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 7 Mar 2014 16:13:28 -0800
+Message-ID: <CAMKF1sq_hMS_eeF=aV4YkY6EFZP7gVgjfyabVE4p35uT8uYGRA@mail.gmail.com>
+To: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-runtime: Build libatomic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Mar 2014 22:04:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Mar 2014 00:14:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This includes fixes on master branch not in the 1.5.0 release
+On Fri, Mar 7, 2014 at 5:39 AM, Cosmin Paraschiv
+<cosmin.paraschiv@freescale.com> wrote:
+> GCC 4.8 includes a new runtime library, libatomic, which supports
+> atomic operations not supported by hardware or the OS. Build it,
+> so other packages can link against it, if needed.
 
-Signed-off-by: Lauren Post <lauren.post@freescale.com>
----
- .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
- ...t-cleanmarker-with-flash_erase--j-command.patch |    0
- .../mtd/{mtd-utils_1.5.0.bb => mtd-utils_git.bb}   |   11 ++++++-----
- 3 files changed, 6 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.5.0 => mtd-utils}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.5.0 => mtd-utils}/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils_1.5.0.bb => mtd-utils_git.bb} (83%)
+what all architectures did you test
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.5.0/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch
-similarity index 100%
-rename from meta/recipes-devtools/mtd/mtd-utils-1.5.0/add-exclusion-to-mkfs-jffs2-git-2.patch
-rename to meta/recipes-devtools/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch
-diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.5.0/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
-similarity index 100%
-rename from meta/recipes-devtools/mtd/mtd-utils-1.5.0/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
-rename to meta/recipes-devtools/mtd/mtd-utils/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-similarity index 83%
-rename from meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-rename to meta/recipes-devtools/mtd/mtd-utils_git.bb
-index 94940f8..f1e2a8e 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -6,14 +6,15 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
- 
--SRCREV = "ca39eb1d98e736109c64ff9c1aa2a6ecca222d8f"
-+# Use the latest version at 26 Oct, 2013
-+SRCREV = "dcea43eba91642939c82739387147da26d572758"
- SRC_URI = "git://git.infradead.org/mtd-utils.git \
--           file://add-exclusion-to-mkfs-jffs2-git-2.patch \
--           file://mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch "
-+		file://add-exclusion-to-mkfs-jffs2-git-2.patch \
-+"
- 
--S = "${WORKDIR}/git/"
-+PV = "1.5.0+git${SRCPV}"
- 
--PR = "r3"
-+S = "${WORKDIR}/git/"
- 
- EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
- 
--- 
-1.7.9.5
-
-
+>
+> Signed-off-by: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-runtime.inc |   12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index d3b11a7..f8c1109 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -12,7 +12,7 @@ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
+>  EXTRA_OECONF += "--disable-libunwind-exceptions"
+>  EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+>
+> -RUNTIMETARGET = "libssp libstdc++-v3 libgomp"
+> +RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic"
+>  #  ?
+>  # libiberty
+>  # libmudflap
+> @@ -87,6 +87,9 @@ PACKAGES = "\
+>    libgomp \
+>    libgomp-dev \
+>    libgomp-staticdev \
+> +  libatomic \
+> +  libatomic-dev \
+> +  libatomic-staticdev \
+>  "
+>  # The base package doesn't exist, so we clear the recommends.
+>  RRECOMMENDS_${PN}-dbg = ""
+> @@ -161,6 +164,13 @@ FILES_libgomp-staticdev = "\
+>    ${libdir}/libgomp*.a \
+>    "
+>
+> +FILES_libatomic = "${libdir}/libatomic.so.*"
+> +FILES_libatomic-dev = " \
+> +  ${libdir}/libatomic.so \
+> +  ${libdir}/libatomic.la"
+> +FILES_libatomic-staticdev = " \
+> +  ${libdir}/libatomic.a"
+> +
+>  do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+>  do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+>  do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
