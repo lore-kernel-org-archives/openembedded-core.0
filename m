@@ -1,28 +1,36 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D4F16F62F
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EEB16F60E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Mar 2014 16:05:01 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 Mar 2014 09:05:02 -0700
+	Sun,  9 Mar 2014 16:19:28 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2014 09:19:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,618,1389772800"; d="scan'208";a="416711251"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 09 Mar 2014 09:04:36 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id D42BE6A4007;
-	Sun,  9 Mar 2014 09:04:24 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Mar 2014 18:04:29 +0200
-Message-Id: <3fd54b6e1e285c1a86829f6f37ab2395079d24a2.1394379902.git.stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1394379900.git.stefanx.stanacar@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,618,1389772800"; d="scan'208";a="496657807"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga002.jf.intel.com with ESMTP; 09 Mar 2014 09:19:29 -0700
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Sun, 9 Mar 2014 16:19:28 +0000
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.62]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.149]) with mapi id
+	14.03.0123.003; Sun, 9 Mar 2014 16:19:28 +0000
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/4] Add gummiboot boot manager alongside
+	grub-efi
+Thread-Index: AQHPO7Cwr8C7PNAy2Ead60puIO4GzZrY71MA
+Date: Sun, 9 Mar 2014 16:19:26 +0000
+Message-ID: <1394381972.12559.2.camel@firebird.rb.intel.com>
 References: <cover.1394379900.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1394379900.git.stefanx.stanacar@intel.com>
-References: <cover.1394379900.git.stefanx.stanacar@intel.com>
-Cc: dvhart@linux.intel.com
-Subject: [PATCH 3/4] bootimg/grub-efi.bbclass: allow using a different class for EFI images
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.156]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/4] Add gummiboot boot manager alongside grub-efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,133 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Mar 2014 16:05:04 -0000
+X-List-Received-Date: Sun, 09 Mar 2014 16:19:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <79A84E9D86EA984CACD068FD659EAB75@intel.com>
+Content-Transfer-Encoding: base64
 
-Abstract away some names so one can select using EFI_PROVIDER a different
-class than grub-efi for populating live images, basically allowing the use
-of a different bootloader than grub-efi.
-
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/classes/boot-directdisk.bbclass |  7 ++++---
- meta/classes/bootimg.bbclass         |  9 +++++----
- meta/classes/grub-efi.bbclass        | 12 ++++++------
- 3 files changed, 15 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 42b3415..88e5c52 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -32,7 +32,8 @@ BOOTDD_VOLUME_ID   ?= "boot"
- BOOTDD_EXTRA_SPACE ?= "16384"
- 
- EFI = "${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
--EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "", d)}"
-+EFI_PROVIDER ?= "grub-efi"
-+EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
- 
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
- # contain "efi". This way legacy is supported by default if neither is
-@@ -87,7 +88,7 @@ build_boot_dd() {
- 		syslinux_hddimg_populate $HDDDIR
- 	fi
- 	if [ "${EFI}" = "1" ]; then
--		grubefi_hddimg_populate $HDDDIR
-+		efi_hddimg_populate $HDDDIR
- 	fi
- 
- 	if [ "${IS_VMDK}" = "true" ]; then
-@@ -154,7 +155,7 @@ python do_bootdirectdisk() {
-     if d.getVar("PCBIOS", True) == "1":
-         bb.build.exec_func('build_syslinux_cfg', d)
-     if d.getVar("EFI", True) == "1":
--        bb.build.exec_func('build_grub_cfg', d)
-+        bb.build.exec_func('build_efi_cfg', d)
-     bb.build.exec_func('build_boot_dd', d)
- }
- 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index c370bd6..b13eef9 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -42,7 +42,8 @@ BOOTIMG_VOLUME_ID   ?= "boot"
- BOOTIMG_EXTRA_SPACE ?= "512"
- 
- EFI = "${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
--EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "", d)}"
-+EFI_PROVIDER ?= "grub-efi"
-+EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER}", "", d)}"
- 
- # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
- # contain "efi". This way legacy is supported by default if neither is
-@@ -89,7 +90,7 @@ build_iso() {
- 		syslinux_iso_populate ${ISODIR}
- 	fi
- 	if [ "${EFI}" = "1" ]; then
--		grubefi_iso_populate ${ISODIR}
-+		efi_iso_populate ${ISODIR}
- 		build_fat_img ${EFIIMGDIR} ${ISODIR}/efi.img
- 	fi
- 
-@@ -206,7 +207,7 @@ build_hddimg() {
- 			syslinux_hddimg_populate ${HDDDIR}
- 		fi
- 		if [ "${EFI}" = "1" ]; then
--			grubefi_hddimg_populate ${HDDDIR}
-+			efi_hddimg_populate ${HDDDIR}
- 		fi
- 
- 		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
-@@ -227,7 +228,7 @@ python do_bootimg() {
-     if d.getVar("PCBIOS", True) == "1":
-         bb.build.exec_func('build_syslinux_cfg', d)
-     if d.getVar("EFI", True) == "1":
--        bb.build.exec_func('build_grub_cfg', d)
-+        bb.build.exec_func('build_efi_cfg', d)
-     bb.build.exec_func('build_hddimg', d)
-     bb.build.exec_func('build_iso', d)
- }
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 71bd00f..5c80c17 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -26,7 +26,7 @@ GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
- 
- EFIDIR = "/EFI/BOOT"
- 
--grubefi_populate() {
-+efi_populate() {
- 	# DEST must be the root of the image so that EFIDIR is not
- 	# nested under a top level directory.
- 	DEST=$1
-@@ -42,9 +42,9 @@ grubefi_populate() {
- 	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
- }
- 
--grubefi_iso_populate() {
-+efi_iso_populate() {
- 	iso_dir=$1
--	grubefi_populate $iso_dir
-+	efi_populate $iso_dir
- 	# Build a EFI directory to create efi.img
- 	mkdir -p ${EFIIMGDIR}/${EFIDIR}
- 	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-@@ -55,11 +55,11 @@ grubefi_iso_populate() {
- 	fi
- }
- 
--grubefi_hddimg_populate() {
--	grubefi_populate $1
-+efi_hddimg_populate() {
-+	efi_populate $1
- }
- 
--python build_grub_cfg() {
-+python build_efi_cfg() {
-     import sys
- 
-     workdir = d.getVar('WORKDIR', True)
--- 
-1.8.5.3
-
+DQpJJ3ZlIGZvcmdvdCB0byBhZGQgdjIgdG8gdGhlIHN1YmplY3QgbGluZXMgOigNCkknbGwgcmVz
+ZW5kIHdpdGggdGhhdCBhZGRlZC4NCg0KT24gU3VuLCAyMDE0LTAzLTA5IGF0IDE4OjA0ICswMjAw
+LCBTdGVmYW4gU3RhbmFjYXIgd3JvdGU6DQo+IEhlbGxvLA0KPiANCj4gVGhpcyBzZXJpZXMgYWRk
+cyByZWNpcGVzIGZvciBndW1taWJvb3QgYW5kIGEgY2xhc3MgYWxsb3dpbmcgaXQgdG8gYmUgdXNl
+ZA0KPiBhcyB0aGUgYm9vdCBsb2FkZXIgZm9yIGxpdmUvaGRkaW1nIGltYWdlcy4NCj4gV2l0aG91
+dCBjaGFuZ2luZyBFRklfUFJPVklERVIsIHdlIGhhdmUgdGhlIHNhbWUgYmVoYXZpb3VyIGZvciBF
+RkkgbWFjaGluZXMuDQo+IFVzaW5nIEVGSV9QUk9WSURFUiA9ICJndW1taWJvb3QiIGFuIGluc3Rh
+bGxlZCBpbWFnZSB3aWxsIHVzZSBndW1taWJvb3QgaW5zdGVhZA0KPiBvZiBncnViLWVmaSBhcyBp
+dCdzIGJvb3QgbWFuYWdlci4NCj4gDQo+IEkndmUgdGVzdGVkIHRoaXMgb24gRlJJMiwgTlVDIGFu
+ZCBtaW5ub3cgKGxpdmUgVVNCIGJvb3QgYW5kIGluc3RhbGwgZnJvbSBVU0IgYW5kIGJvb3QpIA0K
+PiB3aXRoICBFRklfUFJPVklERVIgPSAiZ3VtbWlib290IiBhbmQgIEtFUk5FTF9GRUFUVVJFU19h
+cHBlbmQgPSAiIGNmZy9lZmktZXh0Ig0KPiBpbiBsb2NhbC5jb25mDQo+IA0KPiBUaGlzIGlzIGEg
+cGFydGlhbCBmaXggZm9yIFlCIzQwODIuDQo+IA0KPiBDaGFuZ2VzIGluIFYyOg0KPiAgLSBzcGxp
+dCB0aGUgZmlyc3QgcGF0Y2ggaW4gdHdvDQo+ICAtIHVzZWQgJHtCfSBpbnN0ZWFkIG9mICR7U30g
+aW4gZ3VtbWlib290IGRvX2RlcGxveQ0KPiAgLSBjaGFuZ2UgdGhlIGZ1bmN0aW9uIG5hbWVzIGlu
+IGJvb3RpbWcvZ3J1Yi1lZmkgaW5zdGVhZCBvZiB1c2luZyBhDQo+IHByZWZpeA0KPiANCj4gSSd2
+ZSB0ZXN0ZWQgYWdhaW4gdGhlIGNoYW5nZXMgb24gdG9wIG9mIG1hc3Rlci4NCj4gDQo+IENoZWVy
+cywNCj4gU3RlZmFuDQo+IA0KPiANCj4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1p
+dCBhYmU0MTdlMjJiMWI1NWM0NDQ0NjBmNzIyY2E0MzRmOWQzODJlZjg3Og0KPiANCj4gICBjbGFz
+c2VzL3Vib290LWNvbmZpZzogaWdub3JlIGRvYyB2YXJmbGFnICgyMDE0LTAzLTA3IDE1OjA1OjA5
+ICswMDAwKQ0KPiANCj4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgZ2l0IHJlcG9zaXRvcnkgYXQ6DQo+
+IA0KPiAgIGdpdDovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3ktY29udHJpYiBzdGVmYW5zL2d1
+bW1pYm9vdA0KPiAgIGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5LWNv
+bnRyaWIvbG9nLz9oPXN0ZWZhbnMvZ3VtbWlib290DQo+IA0KPiBTdGVmYW4gU3RhbmFjYXIgKDQp
+Og0KPiAgIHJlY2lwZXMtYnNwOiBhZGQgZ251LWVmaSByZWNpcGUNCj4gICByZWNpcGVzLWJzcDog
+QWRkIGd1bW1pYm9vdCByZWNpcGUNCj4gICBib290aW1nL2dydWItZWZpLmJiY2xhc3M6IGFsbG93
+IHVzaW5nIGEgZGlmZmVyZW50IGNsYXNzIGZvciBFRkkgaW1hZ2VzDQo+ICAgY2xhc3NlczogQWRk
+IGd1bW1pYm9vdCBjbGFzcw0KPiANCj4gIG1ldGEvY2xhc3Nlcy9ib290LWRpcmVjdGRpc2suYmJj
+bGFzcyAgICAgICAgICAgICAgIHwgICA3ICstDQo+ICBtZXRhL2NsYXNzZXMvYm9vdGltZy5iYmNs
+YXNzICAgICAgICAgICAgICAgICAgICAgICB8ICAgOSArLQ0KPiAgbWV0YS9jbGFzc2VzL2dydWIt
+ZWZpLmJiY2xhc3MgICAgICAgICAgICAgICAgICAgICAgfCAgMTIgKy0tDQo+ICBtZXRhL2NsYXNz
+ZXMvZ3VtbWlib290LmJiY2xhc3MgICAgICAgICAgICAgICAgICAgICB8IDExNCArKysrKysrKysr
+KysrKysrKysrKysNCj4gIC4uLi9nbnUtZWZpL2dudS1lZmkvcGFyYWxsZWwtbWFrZS1hcmNoaXZl
+cy5wYXRjaCAgIHwgIDQ4ICsrKysrKysrKw0KPiAgLi4uL2dudS1lZmkvZ251LWVmaS9wYXJhbGxl
+bC1tYWtlLnBhdGNoICAgICAgICAgICAgfCAgMjIgKysrKw0KPiAgbWV0YS9yZWNpcGVzLWJzcC9n
+bnUtZWZpL2dudS1lZmlfMy4wdS5iYiAgICAgICAgICAgfCAgMzMgKysrKysrDQo+ICBtZXRhL3Jl
+Y2lwZXMtYnNwL2d1bW1pYm9vdC9ndW1taWJvb3RfZ2l0LmJiICAgICAgICB8ICAyNSArKysrKw0K
+PiAgLi4uL2luaXRyZHNjcmlwdHMvZmlsZXMvaW5pdC1pbnN0YWxsLWVmaS5zaCAgICAgICAgfCAg
+NTEgKysrKysrLS0tDQo+ICA5IGZpbGVzIGNoYW5nZWQsIDI5MiBpbnNlcnRpb25zKCspLCAyOSBk
+ZWxldGlvbnMoLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL2NsYXNzZXMvZ3VtbWlib290
+LmJiY2xhc3MNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtYnNwL2dudS1lZmkv
+Z251LWVmaS9wYXJhbGxlbC1tYWtlLWFyY2hpdmVzLnBhdGNoDQo+ICBjcmVhdGUgbW9kZSAxMDA2
+NDQgbWV0YS9yZWNpcGVzLWJzcC9nbnUtZWZpL2dudS1lZmkvcGFyYWxsZWwtbWFrZS5wYXRjaA0K
+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ic3AvZ251LWVmaS9nbnUtZWZpXzMu
+MHUuYmINCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtYnNwL2d1bW1pYm9vdC9n
+dW1taWJvb3RfZ2l0LmJiDQo+IA0KPiAtLSANCj4gMS44LjUuMw0KPiANCg0K
 
