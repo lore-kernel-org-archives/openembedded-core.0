@@ -1,18 +1,19 @@
 Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F0FAA6EE40
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 23C746E8D8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Mar 2014 01:48:47 +0000 (UTC)
+	Sun,  9 Mar 2014 02:16:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s291mjWr015572
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 8 Mar 2014 17:48:45 -0800 (PST)
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s292GbSk009658
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 8 Mar 2014 18:16:37 -0800 (PST)
 Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Sat, 8 Mar 2014 17:48:44 -0800
-Message-ID: <531BC878.1080002@windriver.com>
-Date: Sun, 9 Mar 2014 09:48:40 +0800
+	Sat, 8 Mar 2014 18:16:34 -0800
+Message-ID: <531BCEFF.6040403@windriver.com>
+Date: Sun, 9 Mar 2014 10:16:31 +0800
 From: Ming Liu <ming.liu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
@@ -34,22 +35,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Mar 2014 01:48:49 -0000
+X-List-Received-Date: Sun, 09 Mar 2014 02:16:39 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
-
-Changes in V2:
-1 tuned package_check_arch to be a general function for all package 
-backends not just for rpm.
-2 added a parameter 'check_arch' to mapping_rename_hook to determine if 
-the build for a package type needs check ARCH_SPECIFIC flag.
-3 I keeped most of the revision in package.bbclass as general code for I 
-found there was not a esay way to move them into package_rpm.bbclass 
-unless I completely copy some functions like 
-mapping_rename_hook/runtime_mapping_rename/get_package_mapping and the 
-same process of mapping_rename_hook will be run twice.
-
-//Ming Liu
 
 On 03/09/2014 09:26 AM, Ming Liu wrote:
 > For multilib builds that rpm is the first package backend, it would be
@@ -70,6 +58,9 @@ On 03/09/2014 09:26 AM, Ming Liu wrote:
 >
 > Every satisfied package would be set with
 > "ARCH_SPECIFIC_pkgname = 1:${TARGET_ARCH}" by package_check_arch function
+s/TARGET_ARCH /PACKAGE_ARCH.
+
+//Ming Liu
 > added in PACKAGEFUNCS and the variable is gonna be written into pkgdata
 > if it exists, to mark the package as architecture specific, and it will
 > be checked during runtime_mapping_rename is executed when generating rpm
