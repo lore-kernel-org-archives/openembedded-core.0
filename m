@@ -1,28 +1,27 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C746E8D8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D1116E40A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Mar 2014 02:16:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s292GbSk009658
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Mar 2014 18:16:37 -0800 (PST)
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Sat, 8 Mar 2014 18:16:34 -0800
-Message-ID: <531BCEFF.6040403@windriver.com>
-Date: Sun, 9 Mar 2014 10:16:31 +0800
-From: Ming Liu <ming.liu@windriver.com>
+	Sun,  9 Mar 2014 08:00:19 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Mar 2014 00:00:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,617,1389772800"; d="scan'208";a="494904150"
+Received: from unknown (HELO [10.255.12.212]) ([10.255.12.212])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Mar 2014 00:00:13 -0800
+Message-ID: <531C1F8D.2050000@linux.intel.com>
+Date: Sun, 09 Mar 2014 00:00:13 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1394328376-8296-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1394328376-8296-1-git-send-email-ming.liu@windriver.com>
-X-Originating-IP: [128.224.162.153]
-Subject: Re: [PATCH V2] package: let dependency on a package name to be architecture specific
+To: Stefan Stanacar <stefanx.stanacar@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1394128875.git.stefanx.stanacar@intel.com>
+	<2adce7a20be3b0ab03029cfe1a62a67bee285bd5.1394128875.git.stefanx.stanacar@intel.com>
+In-Reply-To: <2adce7a20be3b0ab03029cfe1a62a67bee285bd5.1394128875.git.stefanx.stanacar@intel.com>
+Cc: dvhart@linux.intel.com
+Subject: Re: [PATCH 1/3] recipes-bsp: Add gummiboot and gnu-efi recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,265 +34,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Mar 2014 02:16:39 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Sun, 09 Mar 2014 08:00:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/09/2014 09:26 AM, Ming Liu wrote:
-> For multilib builds that rpm is the first package backend, it would be
-> often desireable to express that a package of compatible architecture
-> is needed to satisfy a dependency. In most of the cases this is already
-> handled by the automatically extracted soname dependencies, but this is
-> not always the case: sometimes it's necessary to disable the automatic
-> dependency generation, and then there are cases where the information
-> cannot be automatically generated, such as: -dev package dependencies
-> on other -dev packages or plugins are dynamically loaded via dlopen,
-> leading to obscure build failure that a 32bit package would incorrectly
-> satisfy the dependency for a 64bit package and similarly vice versa.
+On 03/06/2014 10:15 AM, Stefan Stanacar wrote:
+> gummiboot is  is a simple UEFI boot manager (not a boot loader ;-) )
 >
-> The patch mainly aims to resolve this problem, the basic idea is adding
-> a ARCH_SPECIFIC variable for packages satisfying following scenarios:
->    * it's not a allarch package
->    * it only provides libs without bins meanwhile
+> These recipes are imported from meta-intel with these changes:
+>   - drop PR and update configure options
+>   - gummiboot was upgraded to latest version
 >
-> Every satisfied package would be set with
-> "ARCH_SPECIFIC_pkgname = 1:${TARGET_ARCH}" by package_check_arch function
-s/TARGET_ARCH /PACKAGE_ARCH.
-
-//Ming Liu
-> added in PACKAGEFUNCS and the variable is gonna be written into pkgdata
-> if it exists, to mark the package as architecture specific, and it will
-> be checked during runtime_mapping_rename is executed when generating rpm
-> packages, all architecture specific dependencies would be expanded with
-> a ${PACKAGE_ARCH} suffix, that declares a dependency on a package name
-> architecture specific and permits differentiating between 32-bit and
-> 64-bit versions.
+> A couple of notes:
+>   - If you wish you can install the gummiboot package on the target and
+> use 'gummiboot install' to add the payload to the ESP (see gummiboot --help,
+> just make sure the ESP partition has the boot flag on as gummiboot won't accept it
+> otherwise). However the point of this recipe is to be used by bootimg.bbclass and
+> generate images with gummiboot instead of grub-efi.
+>   - You need a kernel which has CONFIG_EFI_STUB=y at least
+>   - The default linux-yocto kernel config does not enable that, easiest way
+> to enable is to build with KERNEL_FEATURES_append = " cfg/efi-ext" in local.conf
 >
-> The end user could set "ARCH_SPECIFIC_pkgname = 0" in recipes to disable
-> this feature.
->
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 > ---
->   meta/classes/image.bbclass             |    6 +-
->   meta/classes/package.bbclass           |   76 +++++++++++++++++++++++++------
->   meta/classes/package_deb.bbclass       |    2 +-
->   meta/classes/package_ipk.bbclass       |    2 +-
->   meta/classes/package_rpm.bbclass       |    2 +-
->   meta/classes/populate_sdk_base.bbclass |    2 +-
->   6 files changed, 68 insertions(+), 22 deletions(-)
+>   .../gnu-efi/gnu-efi/parallel-make-archives.patch   | 48 ++++++++++++++++++++++
+>   .../gnu-efi/gnu-efi/parallel-make.patch            | 22 ++++++++++
+>   meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb           | 33 +++++++++++++++
+>   meta/recipes-bsp/gummiboot/gummiboot_git.bb        | 25 +++++++++++
+>   4 files changed, 128 insertions(+)
+>   create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+>   create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+>   create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+>   create mode 100644 meta/recipes-bsp/gummiboot/gummiboot_git.bb
 >
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 51d16d7..36528fd 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -230,9 +230,9 @@ do_rootfs[prefuncs] += "rootfs_process_ignore"
->   # may have occurred.
->   python rootfs_runtime_mapping() {
->       pn = d.getVar('PN', True)
-> -    runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
-> -    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
-> -    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
-> +    runtime_mapping_rename("PACKAGE_INSTALL", pn, False, d)
-> +    runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, False, d)
-> +    runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, False, d)
->   }
->   do_rootfs[prefuncs] += "rootfs_runtime_mapping"
->   
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 0018a62..1fda2f7 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -346,19 +346,29 @@ def copydebugsources(debugsrcdir, d):
->   # Package data handling routines
->   #
->   
-> -def get_package_mapping (pkg, basepkg, d):
-> +def get_package_mapping (pkg, basepkg, check_arch, d):
->       import oe.packagedata
->   
-> +    ret = pkg
->       data = oe.packagedata.read_subpkgdata(pkg, d)
-> -    key = "PKG_%s" % pkg
-> +    pkg_key = "PKG_%s" % pkg
-> +    arch_key = "ARCH_SPECIFIC_%s" % pkg
-> +    arch_specific = '0'
->   
-> -    if key in data:
-> +    if pkg_key in data:
->           # Have to avoid undoing the write_extra_pkgs(global_variants...)
-> -        if bb.data.inherits_class('allarch', d) and data[key] == basepkg:
-> +        if bb.data.inherits_class('allarch', d) and data[pkg_key] == basepkg:
->               return pkg
-> -        return data[key]
-> +        ret = data[pkg_key]
->   
-> -    return pkg
-> +    if arch_key in data:
-> +        arch_specific = data[arch_key]
+> diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+> new file mode 100644
+> index 0000000..e5b47c1
+> --- /dev/null
+> +++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+> @@ -0,0 +1,48 @@
+> +Fix parallel make failure for archives
 > +
-> +    items = arch_specific.split(':')
-> +    if len(items) > 1 and items[0] == '1' and check_arch == True:
-> +        ret += '(' + items[1] + ')'
+> +Upstream-Status: Pending
 > +
-> +    return ret
->   
->   def get_package_additional_metadata (pkg_type, d):
->       base_key = "PACKAGE_ADD_METADATA"
-> @@ -371,13 +381,13 @@ def get_package_additional_metadata (pkg_type, d):
->           metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
->           return "\n".join(metadata_fields).strip()
->   
-> -def runtime_mapping_rename (varname, pkg, d):
-> +def runtime_mapping_rename (varname, pkg, check_arch, d):
->       #bb.note("%s before: %s" % (varname, d.getVar(varname, True)))
->   
->       new_depends = {}
->       deps = bb.utils.explode_dep_versions2(d.getVar(varname, True) or "")
->       for depend in deps:
-> -        new_depend = get_package_mapping(depend, pkg, d)
-> +        new_depend = get_package_mapping(depend, pkg, check_arch, d)
->           new_depends[new_depend] = deps[depend]
->   
->       d.setVar(varname, bb.utils.join_deps(new_depends, commasep=False))
-> @@ -1119,6 +1129,30 @@ python package_fixsymlinks () {
->           d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
->   }
->   
-> +# Check architecture specific packages
-> +python package_check_arch () {
-> +    import glob, re
-> +    def check_arch_specific(pkg):
-> +        bin_re = re.compile(".*/s?" + os.path.basename(d.getVar("bindir", True)) + "$")
-> +        lib_re = re.compile(".*/" + os.path.basename(d.getVar("libdir", True)) + "($|/.*$)")
-> +        has_bins = 0
-> +        has_libs = 0
+> +The lib and gnuefi makefiles were using the lib.a() form which compiles
+> +and ar's as a pair instead of compiling all and then ar'ing which can
+> +parallelize better. This was resulting in build failures on larger values
+> +of -j.
 > +
-> +        for file in pkgfiles[pkg]:
-> +            root = os.path.dirname(file)
-> +            if bin_re.match(root):
-> +                has_bins = 1
-> +            if lib_re.match(root):
-> +                has_libs = 1
+> +See http://www.chemie.fu-berlin.de/chemnet/use/info/make/make_toc.html#TOC105
+> +for details.
 > +
-> +        if not bb.data.inherits_class('allarch', d) and not has_bins and has_libs:
-> +            if not d.getVar('ARCH_SPECIFIC_' + pkg):
-> +                d.setVar('ARCH_SPECIFIC_' + pkg, "%s:%s" % ('1', d.getVar('PACKAGE_ARCH', True)))
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> +---
+> +---
+> + gnuefi/Makefile |    3 ++-
+> + lib/Makefile    |    3 ++-
+> + 2 files changed, 4 insertions(+), 2 deletions(-)
 > +
-> +    for pkg in sorted((d.getVar('PACKAGES', True) or "").split()):
-> +        check_arch_specific(pkg)
+> +Index: gnu-efi-3.0/lib/Makefile
+> +===================================================================
+> +--- gnu-efi-3.0.orig/lib/Makefile
+> ++++ gnu-efi-3.0/lib/Makefile
+> +@@ -66,7 +66,8 @@ all: libsubdirs libefi.a
+> + libsubdirs:
+> + 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
+> +
+> +-libefi.a: $(patsubst %,libefi.a(%),$(OBJS))
+> ++libefi.a: $(OBJS)
+> ++	$(AR) rv $@ $(OBJS)
+> +
+> + clean:
+> + 	rm -f libefi.a *~ $(OBJS) */*.o
+> +Index: gnu-efi-3.0/gnuefi/Makefile
+> +===================================================================
+> +--- gnu-efi-3.0.orig/gnuefi/Makefile
+> ++++ gnu-efi-3.0/gnuefi/Makefile
+> +@@ -51,7 +51,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
+> +
+> + all:	$(TARGETS)
+> +
+> +-libgnuefi.a: $(patsubst %,libgnuefi.a(%),$(OBJS))
+> ++libgnuefi.a: $(OBJS)
+> ++	$(AR) rv $@ $(OBJS)
+> +
+> + clean:
+> + 	rm -f $(TARGETS) *~ *.o $(OBJS)
+> diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+> new file mode 100644
+> index 0000000..27c94e8
+> --- /dev/null
+> +++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make.patch
+> @@ -0,0 +1,22 @@
+> +Fix parallel make failure
+> +
+> +Upstream-Status: Submitted [Maintainer directly]
+> +
+> +Add a missing dependency which resulted in a race leading to failure
+> +on larger values of -j.
+> +
+> +Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> +
+> +Index: gnu-efi-3.0/Makefile
+> +===================================================================
+> +--- gnu-efi-3.0.orig/Makefile
+> ++++ gnu-efi-3.0/Makefile
+> +@@ -42,6 +42,8 @@ include $(SRCDIR)/Make.defaults
+> +
+> + SUBDIRS = lib gnuefi inc apps
+> +
+> ++gnuefi: lib
+> ++
+> + all:	check_gcc $(SUBDIRS)
+> +
+> + $(SUBDIRS):
+> diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+> new file mode 100644
+> index 0000000..0dbdba2
+> --- /dev/null
+> +++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+> @@ -0,0 +1,33 @@
+> +SUMMARY = "Libraries for producing EFI binaries"
+> +HOMEPAGE = "http://sourceforge.net/projects/gnu-efi/"
+> +SECTION = "devel"
+> +LICENSE = "GPLv2+"
+> +LIC_FILES_CHKSUM = "file://debian/copyright;md5=5fb358a180f484b285b0d99acdc29666"
+> +
+> +SRC_URI = "http://downloads.sourceforge.net/gnu-efi/gnu-efi_3.0u.orig.tar.gz \
+> +           file://parallel-make.patch \
+> +           file://parallel-make-archives.patch \
+> +          "
+> +SRC_URI[md5sum] = "d15d3c700e79a1e2938544d73edc572d"
+> +SRC_URI[sha256sum] = "3c0d450d5829204ca05dcb3b2aae772e52c379b7c7e09146759c6315606f934e"
+> +
+> +COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+> +
+> +S = "${WORKDIR}/gnu-efi-3.0"
+> +
+> +def gnu_efi_arch(d):
+> +    import re
+> +    tarch = d.getVar("TARGET_ARCH", True)
+> +    if re.match("i[3456789]86", tarch):
+> +        return "ia32"
+> +    return tarch
+> +
+> +EXTRA_OEMAKE = "'ARCH=${@gnu_efi_arch(d)}' 'CC=${CC}' 'AS=${AS}' 'LD=${LD}' 'AR=${AR}' \
+> +                'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}' 'PREFIX=${prefix}'\
+> +                "
+> +
+> +do_install() {
+> +        oe_runmake install INSTALLROOT="${D}"
 > +}
 > +
->   PKGDESTWORK = "${WORKDIR}/pkgdata"
->   
->   python emit_pkgdata() {
-> @@ -1184,6 +1218,16 @@ python emit_pkgdata() {
->               pkgval = pkg
->               d.setVar('PKG_%s' % pkg, pkg)
->   
-> +        arch_specific = d.getVar('ARCH_SPECIFIC_%s' % pkg, True) or ""
-> +        items = arch_specific.split(':')
-> +        if len(items) > 1 and items[0] == '1':
-> +            rprovides = d.getVar('RPROVIDES_%s' % pkg, True)
-> +            if rprovides == None:
-> +                rprovides = pkg + ' (=' + d.getVar('EXTENDPKGV', True) + ')'
-> +            else:
-> +                rprovides += ' ' + pkg + ' (=' + d.getVar('EXTENDPKGV', True) + ')'
-> +            d.setVar('RPROVIDES_%s' % pkg, rprovides)
+> +FILES_${PN} += "${libdir}/*.lds"
+> diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+> new file mode 100644
+> index 0000000..b55064f
+> --- /dev/null
+> +++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+> @@ -0,0 +1,25 @@
+> +SUMMARY = "Gummiboot is a simple UEFI boot manager which executes configured EFI images."
+> +HOMEPAGE = "http://freedesktop.org/wiki/Software/gummiboot"
 > +
->           pkgdestpkg = os.path.join(pkgdest, pkg)
->           files = {}
->           total_size = 0
-> @@ -1215,6 +1259,7 @@ python emit_pkgdata() {
->           write_if_exists(sf, pkg, 'SECTION')
->           write_if_exists(sf, pkg, 'PKG')
->           write_if_exists(sf, pkg, 'ALLOW_EMPTY')
-> +        write_if_exists(sf, pkg, 'ARCH_SPECIFIC')
->           write_if_exists(sf, pkg, 'FILES')
->           write_if_exists(sf, pkg, 'pkg_postinst')
->           write_if_exists(sf, pkg, 'pkg_postrm')
-> @@ -1878,6 +1923,7 @@ PACKAGESPLITFUNCS ?= " \
->   PACKAGEFUNCS += " \
->                   package_fixsymlinks \
->                   package_name_hook \
-> +                package_check_arch \
->                   package_do_filedeps \
->                   package_do_shlibs \
->                   package_do_pkgconfig \
-> @@ -2004,16 +2050,16 @@ addtask do_packagedata_setscene
->   # Helper functions for the package writing classes
->   #
->   
-> -def mapping_rename_hook(d):
-> +def mapping_rename_hook(check_arch, d):
->       """
->       Rewrite variables to account for package renaming in things
->       like debian.bbclass or manual PKG variable name changes
->       """
->       pkg = d.getVar("PKG", True)
-> -    runtime_mapping_rename("RDEPENDS", pkg, d)
-> -    runtime_mapping_rename("RRECOMMENDS", pkg, d)
-> -    runtime_mapping_rename("RSUGGESTS", pkg, d)
-> -    runtime_mapping_rename("RPROVIDES", pkg, d)
-> -    runtime_mapping_rename("RREPLACES", pkg, d)
-> -    runtime_mapping_rename("RCONFLICTS", pkg, d)
-> +    runtime_mapping_rename("RDEPENDS", pkg, check_arch, d)
-> +    runtime_mapping_rename("RRECOMMENDS", pkg, check_arch, d)
-> +    runtime_mapping_rename("RSUGGESTS", pkg, check_arch, d)
-> +    runtime_mapping_rename("RPROVIDES", pkg, check_arch, d)
-> +    runtime_mapping_rename("RREPLACES", pkg, check_arch, d)
-> +    runtime_mapping_rename("RCONFLICTS", pkg, check_arch, d)
->   
-> diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-> index a16d57e..846f13e 100644
-> --- a/meta/classes/package_deb.bbclass
-> +++ b/meta/classes/package_deb.bbclass
-> @@ -178,7 +178,7 @@ python do_package_deb () {
->               ctrlfile.write(unicode(custom_fields_chunk))
->               ctrlfile.write("\n")
->   
-> -        mapping_rename_hook(localdata)
-> +        mapping_rename_hook(False, localdata)
->   
->           def debian_cmp_remap(var):
->               # dpkg does not allow for '(' or ')' in a dependency name
-> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-> index aab31e5..1c88d07 100644
-> --- a/meta/classes/package_ipk.bbclass
-> +++ b/meta/classes/package_ipk.bbclass
-> @@ -142,7 +142,7 @@ python do_package_ipk () {
->               ctrlfile.write(custom_fields_chunk)
->               ctrlfile.write("\n")
->   
-> -        mapping_rename_hook(localdata)
-> +        mapping_rename_hook(False, localdata)
->   
->           def debian_cmp_remap(var):
->               # In debian '>' and '<' do not mean what it appears they mean
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index bce5648..7c13d61 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -329,7 +329,7 @@ python write_specfile () {
->           translate_vers('RCONFLICTS', localdata)
->   
->           # Map the dependencies into their final form
-> -        mapping_rename_hook(localdata)
-> +        mapping_rename_hook(True, localdata)
->   
->           splitrdepends    = strip_multilib_deps(localdata.getVar('RDEPENDS', True), d)
->           splitrrecommends = strip_multilib_deps(localdata.getVar('RRECOMMENDS', True), d)
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index 235d672..3a7927a 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -54,7 +54,7 @@ fakeroot python do_populate_sdk() {
->       from oe.manifest import create_manifest, Manifest
->   
->       pn = d.getVar('PN', True)
-> -    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
-> +    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, False, d)
->   
->       # create target/host SDK manifests
->       create_manifest(d, manifest_dir=d.getVar('SDK_DIR', True),
+> +LICENSE = "LGPLv2.1"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=4fbd65380cdd255951079008b364516c"
+> +
+> +DEPENDS = "gnu-efi util-linux"
+> +
+> +inherit autotools
+> +inherit deploy
+> +
+> +PV = "43+git${SRCPV}"
+> +SRCREV = "4062c51075ba054d4949c714fe06123f9ad3097d"
+> +SRC_URI = "git://anongit.freedesktop.org/gummiboot"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +EXTRA_OECONF = "--disable-manpages --with-efi-includedir=${STAGING_INCDIR} \
+> +                --with-efi-ldsdir=${STAGING_LIBDIR} \
+> +                --with-efi-libdir=${STAGING_LIBDIR}"
+> +
+> +do_deploy () {
+> +        install ${S}/gummiboot*.efi ${DEPLOYDIR}/
+> +}
 
+With the potential introduction of split source (S) and build (B) 
+directories, this should be ${B} not ${S}.
+
+This should be 2 commit.
+
+Sau!
+
+> +addtask deploy before do_build after do_compile
+>
 
