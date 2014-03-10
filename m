@@ -1,39 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 52BAC6F09E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5D060EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 11:52:14 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id q108so11230174qgd.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 04:52:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9uL0Eq14NTVk8Jq0+UsB49LVyeNbxn4V3jGArOEw2ag=;
-	b=NuEzxIyKn17ZnEKi9NvKREyak9W8/DHZ/tgeUsluQOES72z6+5OGePVnff0QqzSjm9
-	vl4nxvu2RnVeL4qX2UGBiDywvCeG0X59mn7fWzzccvwDUuHPH//6JNDFAJB/P2sSnKzY
-	Rsd0tckje6+i0DBMVvG5ZjAC5jVUepuV1K5+BpaHR705JEWL8T/5qAPZVl8BrtfkD87B
-	Cjy5tYNm16q0LqFOmtqPto6aLUx+OgHRPDOF+fEjyvFikcls9D55dJV/hRZFQsPF1D60
-	YiUxKjU06WD6Uxr5w3A04S3IVkfIXNY2vZeP85fLM3wek9iPx9Im9IU+tLMy6Zzw2o2l
-	DZAg==
-X-Gm-Message-State: ALoCoQm0tJsfc2bUGBbHUSaEL1WPeM3ogsdf2+6Hi7K00SCg+3eE20oSbno+e3+LJJnPDMNJg4W0
-X-Received: by 10.224.127.129 with SMTP id g1mr39943806qas.22.1394452335771;
-	Mon, 10 Mar 2014 04:52:15 -0700 (PDT)
+	Mon, 10 Mar 2014 14:13:00 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 10 Mar 2014 07:08:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,624,1389772800"; d="scan'208";a="497045322"
+Received: from unknown (HELO [10.255.12.212]) ([10.255.12.212])
+	by orsmga002.jf.intel.com with ESMTP; 10 Mar 2014 07:12:59 -0700
+Message-ID: <531DC86B.7040008@linux.intel.com>
+Date: Mon, 10 Mar 2014 07:12:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Mon, 10 Mar 2014 04:51:55 -0700 (PDT)
-In-Reply-To: <53192B35.3060807@windriver.com>
-References: <cover.1394093112.git.Chong.Lu@windriver.com>
-	<9477177f82743adfab34256b7bc002a37dd61787.1394093112.git.Chong.Lu@windriver.com>
-	<CAJTo0LZ_OjXVhoNv6wk085=5vY=i64_8T6s=Tef5h7qgFC5Sfw@mail.gmail.com>
-	<53192B35.3060807@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Mar 2014 11:51:55 +0000
-Message-ID: <CAJTo0LZx5doYDH9XD6UkYfB5KHrX_2s9+tWAP2-OwKA9JUHLjw@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1394423288-11049-1-git-send-email-sgw@linux.intel.com>	
+	<1394423288-11049-4-git-send-email-sgw@linux.intel.com>
+	<1394431792.7883.51.camel@ted>
+In-Reply-To: <1394431792.7883.51.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] bind: Update to 9.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,15 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Mar 2014 11:52:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 10 Mar 2014 14:13:00 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 7 March 2014 02:13, Chong Lu <Chong.Lu@windriver.com> wrote:
-> Do you mean using PACKAGES += "${@base_contains('IMAGE_FEATURES',
-> 'ptest-pkgs', 'dbus-ptest-ptest', 'dbus-ptest', d)}" or something else?
+On 03/09/2014 11:09 PM, Richard Purdie wrote:
+> On Sun, 2014-03-09 at 20:48 -0700, Saul Wold wrote:
+>> Remove CVE patches that are in bind
+>> Updated COPYRIGHT includes date changes the NetBSD Copyright
+>> Modifies the Base BSD License to 3-Clause (removes advertising clause)w
+>> Add patch to disable running tests on host
+>> bind: Add python-core for dnssec
+>>
+>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>
+> Judging from the autobuilder failures, this one could still use some
+> work :/
+>
+That should have been addressed with the RDEPENDS_${PN} = "python-core" 
+since the new dnssec-* scripts are python based.
 
-Clearly I wasn't thinking clearly last week.  You can't check
-IMAGE_FEATURES in a non-image recipe so this isn't a good solution.
+Sau!
 
-Ross
+> Cheers,
+>
+> Richard
+>
+>
+>
 
