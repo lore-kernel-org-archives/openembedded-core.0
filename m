@@ -1,22 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 51C2760E07
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E89B6F66F
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 10 Mar 2014 03:48:36 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 09 Mar 2014 20:48:37 -0700
+	by orsmga101.jf.intel.com with ESMTP; 09 Mar 2014 20:48:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,621,1389772800"; d="scan'208";a="488936391"
+X-IronPort-AV: E=Sophos;i="4.97,621,1389772800"; d="scan'208";a="488936392"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.212])
 	by fmsmga001.fm.intel.com with ESMTP; 09 Mar 2014 20:48:10 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Mar 2014 20:48:07 -0700
-Message-Id: <1394423288-11049-3-git-send-email-sgw@linux.intel.com>
+Date: Sun,  9 Mar 2014 20:48:08 -0700
+Message-Id: <1394423288-11049-4-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1394423288-11049-1-git-send-email-sgw@linux.intel.com>
 References: <1394423288-11049-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/3] dhcp: Update to 4.3.0
+Subject: [PATCH 3/3] bind: Update to 9.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,218 +31,155 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 10 Mar 2014 03:48:40 -0000
 
-Rebase fix-external-bind patch
-LICENSE file has date update to 2014
+Remove CVE patches that are in bind
+Updated COPYRIGHT includes date changes the NetBSD Copyright
+Modifies the Base BSD License to 3-Clause (removes advertising clause)w
+Add patch to disable running tests on host
+bind: Add python-core for dnssec
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc            |   2 +-
- .../dhcp/dhcp/fix-external-bind.patch              | 115 +++++++++++----------
- .../dhcp/{dhcp_4.2.5-P1.bb => dhcp_4.3.0.bb}       |   6 +-
- 3 files changed, 65 insertions(+), 58 deletions(-)
- rename meta/recipes-connectivity/dhcp/{dhcp_4.2.5-P1.bb => dhcp_4.3.0.bb} (65%)
+ .../bind-9.8.1-CVE-2012-5166.patch                   |  0
+ .../{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch    |  0
+ .../{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch    |  0
+ .../{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch    |  0
+ .../{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch    |  0
+ .../bind-Fix-CVE-2012-4244.patch                     |  0
+ .../bind/{bind-9.8.1 => bind}/conf.patch             |  0
+ .../bind/{bind-9.8.1 => bind}/cross-build-fix.patch  |  0
+ .../bind/bind/dont-test-on-host.patch                | 13 +++++++++++++
+ .../make-etc-initd-bind-stop-work.patch              |  0
+ .../mips1-not-support-opcode.diff                    |  0
+ .../bind/{bind_9.8.1.bb => bind_9.9.5.bb}            | 20 ++++++++------------
+ 12 files changed, 21 insertions(+), 12 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-9.8.1-CVE-2012-5166.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-Fix-CVE-2012-4244.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/cross-build-fix.patch (100%)
+ create mode 100644 meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/mips1-not-support-opcode.diff (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.8.1.bb => bind_9.9.5.bb} (76%)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index ad82b57..512127c 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -8,7 +8,7 @@ easier to administer devices."
- HOMEPAGE = "http://www.isc.org/"
- 
- LICENSE = "ISC"
--LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=bb6fd41f5895b67088ebea61ad365e74"
-+LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=c5c64d696107f84b56fe337d14da1753"
- 
- DEPENDS = "openssl bind"
- 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-index 4f11655..a291fda 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-@@ -6,37 +6,39 @@ this patch is to allow building with external bind
- 
- Signed-off-by: Qing He <qing.he@intel.com>
- 
--diff --git a/Makefile.am b/Makefile.am
--index 928d926..cd17af8 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -21,7 +21,7 @@ EXTRA_DIST = RELNOTES LICENSE \
-- 	     util/bindvar.sh \
-- 	     bind/Makefile bind/bind.tar.gz bind/version.tmp 
-+Index: dhcp-4.3.0/Makefile.am
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-9.8.1-CVE-2012-5166.patch b/meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-9.8.1-CVE-2012-5166.patch
+rename to meta/recipes-connectivity/bind/bind/bind-9.8.1-CVE-2012-5166.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2011-4313.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2011-4313.patch
+rename to meta/recipes-connectivity/bind/bind/bind-CVE-2011-4313.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-1667.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-1667.patch
+rename to meta/recipes-connectivity/bind/bind/bind-CVE-2012-1667.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-3817.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2012-3817.patch
+rename to meta/recipes-connectivity/bind/bind/bind-CVE-2012-3817.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2013-2266.patch b/meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-CVE-2013-2266.patch
+rename to meta/recipes-connectivity/bind/bind/bind-CVE-2013-2266.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-Fix-CVE-2012-4244.patch b/meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/bind-Fix-CVE-2012-4244.patch
+rename to meta/recipes-connectivity/bind/bind/bind-Fix-CVE-2012-4244.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/conf.patch
+rename to meta/recipes-connectivity/bind/bind/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/cross-build-fix.patch b/meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/cross-build-fix.patch
+rename to meta/recipes-connectivity/bind/bind/cross-build-fix.patch
+diff --git a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+new file mode 100644
+index 0000000..8920740
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+@@ -0,0 +1,13 @@
++Index: bind-9.9.5/bin/Makefile.in
 +===================================================================
-+--- dhcp-4.3.0.orig/Makefile.am
-++++ dhcp-4.3.0/Makefile.am
-+@@ -25,7 +25,7 @@ EXTRA_DIST = RELNOTES LICENSE \
-+ 	     bind/Makefile bind/bind.tar.gz bind/version.tmp \
-+ 	     common/tests/Atffile server/tests/Atffile
-  
- -SUBDIRS = bind includes tests common dst omapip client dhcpctl relay server
- +SUBDIRS = includes tests common dst omapip client dhcpctl relay server
-  
-  nobase_include_HEADERS = dhcpctl/dhcpctl.h
-  
--diff --git a/client/Makefile.am b/client/Makefile.am
--index 77ed055..5a77f2d 100644
----- a/client/Makefile.am
--+++ b/client/Makefile.am
--@@ -5,7 +5,7 @@ dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
-+Index: dhcp-4.3.0/client/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/client/Makefile.am
-++++ dhcp-4.3.0/client/Makefile.am
-+@@ -4,8 +4,8 @@ dhclient_SOURCES = clparse.c dhclient.c
-+ 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-  		   scripts/netbsd scripts/nextstep scripts/openbsd \
-  		   scripts/solaris scripts/openwrt
-- dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---		 ../bind/lib/libdns.a ../bind/lib/libisc.a
--+		 $(libbind)/libdns.a $(libbind)/libisc.a
-+-dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a ../bind/lib/libirs.a \
-+-		 ../bind/lib/libdns.a ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a $(libbind)/libirs.a \
-++		 $(libbind)/libdns.a $(libbind)/libisccfg.a $(libbind)/libisc.a
-  man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
-  EXTRA_DIST = $(man_MANS)
-  
--diff --git a/configure.ac b/configure.ac
--index ff832aa..60d342c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -500,6 +500,7 @@ no)
-+Index: dhcp-4.3.0/configure.ac
-+===================================================================
-+--- dhcp-4.3.0.orig/configure.ac
-++++ dhcp-4.3.0/configure.ac
-+@@ -566,6 +566,7 @@ no)
-  	libbind="$use_libbind"
-  	;;
-  esac
-@@ -44,60 +46,67 @@ index ff832aa..60d342c 100644
-  
-  # OpenLDAP support.
-  AC_ARG_WITH(ldap,
--diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
--index 61049be..85aefa3 100644
----- a/dhcpctl/Makefile.am
--+++ b/dhcpctl/Makefile.am
--@@ -6,10 +6,10 @@ EXTRA_DIST = $(man_MANS)
-+Index: dhcp-4.3.0/dhcpctl/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/dhcpctl/Makefile.am
-++++ dhcp-4.3.0/dhcpctl/Makefile.am
-+@@ -6,12 +6,12 @@ EXTRA_DIST = $(man_MANS)
-  
-  omshell_SOURCES = omshell.c
-  omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	        ../bind/lib/libdns.a ../bind/lib/libisc.a
--+	        $(libbind)/libdns.a $(libbind)/libisc.a
-+-	        ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-	        ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++	        $(libbind)/libirs.a $(libbind)/libdns.a \
-++	        $(libbind)/libisccfg.a $(libbind)/libisc.a
-  
-  libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
-  
-  cltest_SOURCES = cltest.c
-  cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	       ../bind/lib/libdns.a ../bind/lib/libisc.a
--\ No newline at end of file
--+	       $(libbind)/libdns.a $(libbind)/libisc.a
--diff --git a/omapip/Makefile.am b/omapip/Makefile.am
--index 595950a..17f2233 100644
----- a/omapip/Makefile.am
--+++ b/omapip/Makefile.am
--@@ -10,5 +10,5 @@ man_MANS = omapi.3
-+-	       ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-               ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++	       $(libbind)/libirs.a $(libbind)/libdns.a \
-++               $(libbind)/libisccfg.a $(libbind)/libisc.a
-+Index: dhcp-4.3.0/omapip/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/omapip/Makefile.am
-++++ dhcp-4.3.0/omapip/Makefile.am
-+@@ -10,6 +10,6 @@ man_MANS = omapi.3
-  EXTRA_DIST = $(man_MANS)
-  
-  svtest_SOURCES = test.c
---svtest_LDADD = libomapi.a ../bind/lib/libdns.a ../bind/lib/libisc.a
--+svtest_LDADD = libomapi.a $(libbind)/libdns.a $(libbind)/libisc.a
-+-svtest_LDADD = libomapi.a ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-		../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++svtest_LDADD = libomapi.a $(libbind)/libirs.a $(libbind)/libdns.a \
-++		$(libbind)/libisccfg.a $(libbind)/libisc.a
-  
--diff --git a/relay/Makefile.am b/relay/Makefile.am
--index d8757ca..a7885da 100644
----- a/relay/Makefile.am
--+++ b/relay/Makefile.am
--@@ -3,7 +3,7 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
-+Index: dhcp-4.3.0/relay/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/relay/Makefile.am
-++++ dhcp-4.3.0/relay/Makefile.am
-+@@ -3,8 +3,8 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localst
-  sbin_PROGRAMS = dhcrelay
-  dhcrelay_SOURCES = dhcrelay.c
-  dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---		 ../bind/lib/libdns.a ../bind/lib/libisc.a
--+		 $(libbind)/libdns.a $(libbind)/libisc.a
-+-		 ../bind/lib/libirs.a ../bind/lib/libdns.a \
-+-		 ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++		 $(libbind)/libirs.a $(libbind)/libdns.a \
-++		 $(libbind)/libisccfg.a $(libbind)/libisc.a
-  man_MANS = dhcrelay.8
-  EXTRA_DIST = $(man_MANS)
-  
--diff --git a/server/Makefile.am b/server/Makefile.am
--index cdfaf47..d2c254b 100644
----- a/server/Makefile.am
--+++ b/server/Makefile.am
--@@ -8,8 +8,8 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
-+Index: dhcp-4.3.0/server/Makefile.am
-+===================================================================
-+--- dhcp-4.3.0.orig/server/Makefile.am
-++++ dhcp-4.3.0/server/Makefile.am
-+@@ -14,8 +14,8 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c c
-  
-  dhcpd_CFLAGS = $(LDAP_CFLAGS)
-  dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---	      ../dhcpctl/libdhcpctl.a ../bind/lib/libdns.a \
---	      ../bind/lib/libisc.a
--+	      ../dhcpctl/libdhcpctl.a $(libbind)/libdns.a \
--+	      $(libbind)/libisc.a
-+-	      ../dhcpctl/libdhcpctl.a ../bind/lib/libirs.a \
-+-	      ../bind/lib/libdns.a ../bind/lib/libisccfg.a ../bind/lib/libisc.a
-++	      ../dhcpctl/libdhcpctl.a $(libbind)/libirs.a \
-++	      $(libbind)/libdns.a $(libbind)/libisccfg.a $(libbind)/libisc.a
-  
-  man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
-  EXTRA_DIST = $(man_MANS)
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.0.bb
-similarity index 65%
-rename from meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-rename to meta/recipes-connectivity/dhcp/dhcp_4.3.0.bb
-index 77cdb4e..6da28fa 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.0.bb
-@@ -1,7 +1,5 @@
- require dhcp.inc
++--- bind-9.9.5.orig/bin/Makefile.in
+++++ bind-9.9.5/bin/Makefile.in
++@@ -19,7 +19,7 @@ srcdir =	@srcdir@
++ VPATH =		@srcdir@
++ top_srcdir =	@top_srcdir@
++ 
++-SUBDIRS =	named rndc dig dnssec tools tests nsupdate \
+++SUBDIRS =	named rndc dig dnssec tools nsupdate \
++ 		check confgen @PYTHON_TOOLS@ @PKCS11_TOOLS@
++ TARGETS =
++ 
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff b/meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff
+rename to meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+diff --git a/meta/recipes-connectivity/bind/bind_9.8.1.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+similarity index 76%
+rename from meta/recipes-connectivity/bind/bind_9.8.1.bb
+rename to meta/recipes-connectivity/bind/bind_9.9.5.bb
+index d59f7e5..1d70b62 100644
+--- a/meta/recipes-connectivity/bind/bind_9.8.1.bb
++++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+@@ -3,32 +3,26 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
  
--PR = "r4"
--
- SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://fix-external-bind.patch \
-             file://link-with-lcrypto.patch \
-@@ -9,5 +7,5 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://dhclient-script-drop-resolv.conf.dhclient.patch \
-            "
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=0fbe2a3ab3c68ac3fea3cad13093877c"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=a3df5f651469919a0e6cb42f84fb6ff1"
  
--SRC_URI[md5sum] = "f68e3c1f00a9af5742bc5e71d567cf93"
--SRC_URI[sha256sum] = "59b06c9f5d775e46999b422c45b9229402c462b114ce1685617bfb2b8b028250"
-+SRC_URI[md5sum] = "1020d77e1a4c1f01b76279caff9beb80"
-+SRC_URI[sha256sum] = "a7b6517d5cf32c5e49d2323a63de00efe5391df7cb0045dfa0ec8f6ee46ebe8a"
+ DEPENDS = "openssl libcap"
+-PR = "r6"
+ 
+ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://conf.patch \
+            file://cross-build-fix.patch \
+            file://make-etc-initd-bind-stop-work.patch \
+-           file://bind-9.8.1-CVE-2012-5166.patch \
+-           file://bind-CVE-2011-4313.patch \
+-           file://bind-CVE-2012-1667.patch \
+-           file://bind-CVE-2012-3817.patch \
+-           file://bind-CVE-2013-2266.patch \
+-           file://bind-Fix-CVE-2012-4244.patch \
+            file://mips1-not-support-opcode.diff \
++           file://dont-test-on-host.patch \
+ 	   "
+ 
+-SRC_URI[md5sum] = "cf31117c5d35af34d4c0702970ad9fb7"
+-SRC_URI[sha256sum] = "02285dc429cb2a6687a1b2446e9ee22c1df27f2577225b05be5092395ee7c92c"
++SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
++SRC_URI[sha256sum] = "d4b64c1dde442145a316679acff2df4008aa117ae52dfa3a6bc69efecc7840d1"
+ 
+ # --enable-exportlib is necessary for building dhcp
+ ENABLE_IPV6 = "--enable-ipv6=${@base_contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+ EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
+                  --disable-devpoll --disable-epoll --with-gost=no \
+-                 --with-gssapi=no \
++                 --with-gssapi=no --with-ecdsa=yes \
+                  --sysconfdir=${sysconfdir}/bind \
+                  --with-openssl=${STAGING_LIBDIR}/.. --with-libxml2=${STAGING_LIBDIR}/.. \
+                  --enable-exportlib --with-export-includedir=${includedir} --with-export-libdir=${libdir} \
+@@ -40,7 +34,9 @@ INITSCRIPT_PARAMS = "defaults"
+ 
+ PARALLEL_MAKE = ""
+ 
+-PACKAGES_prepend = "${PN}-utils "
++RDEPENDS_${PN} = "python-core"
++
++PACKAGES_preprend = " ${PN}-utils "
+ FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/nslookup"
+ FILES_${PN}-dev += "${bindir}/isc-config.h"
+ 
 -- 
 1.8.3.1
 
