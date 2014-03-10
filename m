@@ -1,27 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A3A66F64C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 52B266F66B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 02:43:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2A2hZ5K014939
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 9 Mar 2014 19:43:36 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Sun, 9 Mar 2014 19:43:35 -0700
-Message-ID: <531D26D5.3050700@windriver.com>
-Date: Mon, 10 Mar 2014 10:43:33 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-References: <1394418034.7883.50.camel@ted>
-In-Reply-To: <1394418034.7883.50.camel@ted>
-Subject: Re: Status Update
+	Mon, 10 Mar 2014 03:48:36 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 09 Mar 2014 20:48:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,621,1389772800"; d="scan'208";a="488936389"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.212])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Mar 2014 20:48:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  9 Mar 2014 20:48:05 -0700
+Message-Id: <1394423288-11049-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 0/3] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,117 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Mar 2014 02:43:40 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Mar 2014 03:48:40 -0000
 
+These are some core packages for larger systems that had updates
+that should be included in 1.6.
 
+The bind update provides CVE fixes
 
-On 03/10/2014 10:20 AM, Richard Purdie wrote:
-> Its been a while since I sent one of these out, I never got back into
-> the habit after I was away last year. I'm told they're useful to various
-> people and they stop me having to repeat myself to people so I'm going
-> to give them another go.
->
-> Pending Patches
-> ===============
->
-> The feature freeze point for the 1.6 release is today. Some things of
-> note that have merged recently including:
->
-> * Reworked ext2/3/4 rootfs generation. Great work to the people involved
->    in getting the patches upstream! Can we delete genext2fs now? Please?
+Sau!
 
-Yes, I think that we can delete the genext2fs since the "mke2fs -d" can
-do the same thing as genext2fs.
+Saul Wold (3):
+  util-linux: Update to 2.24.1
+  dhcp: Update to 4.3.0
+  bind: Update to 9.9.5
 
-// Robert
+ .../bind-9.8.1-CVE-2012-5166.patch                 |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch  |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch  |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch  |   0
+ .../{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch  |   0
+ .../bind-Fix-CVE-2012-4244.patch                   |   0
+ .../bind/{bind-9.8.1 => bind}/conf.patch           |   0
+ .../{bind-9.8.1 => bind}/cross-build-fix.patch     |   0
+ .../bind/bind/dont-test-on-host.patch              |  13 ++
+ .../make-etc-initd-bind-stop-work.patch            |   0
+ .../mips1-not-support-opcode.diff                  |   0
+ .../bind/{bind_9.8.1.bb => bind_9.9.5.bb}          |  20 +--
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   2 +-
+ .../dhcp/dhcp/fix-external-bind.patch              | 115 +++++++-------
+ .../dhcp/{dhcp_4.2.5-P1.bb => dhcp_4.3.0.bb}       |   6 +-
+ meta/recipes-core/util-linux/util-linux.inc        |  12 +-
+ .../util-linux/util-linux/fix-configure.patch      |  20 +--
+ .../util-linux/util-linux/util-linux-native.patch  | 173 +++------------------
+ .../{util-linux_2.23.2.bb => util-linux_2.24.1.bb} |   6 +-
+ 19 files changed, 123 insertions(+), 244 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-9.8.1-CVE-2012-5166.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2011-4313.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-1667.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2012-3817.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-CVE-2013-2266.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/bind-Fix-CVE-2012-4244.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/cross-build-fix.patch (100%)
+ create mode 100644 meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.8.1 => bind}/mips1-not-support-opcode.diff (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.8.1.bb => bind_9.9.5.bb} (76%)
+ rename meta/recipes-connectivity/dhcp/{dhcp_4.2.5-P1.bb => dhcp_4.3.0.bb} (65%)
+ rename meta/recipes-core/util-linux/{util-linux_2.23.2.bb => util-linux_2.24.1.bb} (83%)
 
-> * ToasterUI Updates
-> * Systemd Upgrade to 209/210ish
-> * lttng updates
-> * core-image-basic renaming
-> * PRINC deprecation warning
-> * autotools aclocal improvements
-> * using the separate build include by default
-> * bitbake manual updates
-> * various oe-selftest improvements/tweaks
->
-> Its good to see many of these coming in, some have been long awaited.
->
-> I'm aware we don't quite have some things yet, in particular the 3.14
-> kernel so there are some changes to still to come in. We've been testing
-> the -dev kernel on the autobuilder, we have a list of issues we need to
-> resolve (perf mainly at this point) and as soon as 3.14 is officially
-> released we'll be good to go. Other things I'm aware of as pending for
-> 1.6 are:
->
-> * gummiboot recipes (various versions exist in various layers, this
->    pulls things together hopefully)
-> * oe-init-build-env tweaks from Gary
-> * some parts of the "on hardware" automated testing
-> * possibly some bitbake fetcher extension code for automated "upgrade"
->    detection
-> * Enabling Separate B from S by default. Martin asked me to hold off
->    this until the issues form the previous changes get sorted out.
->    OE-Core is ready for it, the question is the other layers. We
->    probably need to bump the tmpdir ABI number for this change.
->
-> I get the feeling there may be some other things which I don't have on
-> the list too, please let me know of major pending features I don't have
-> here.
->
-> There are also some things looking very unlikely to get done in 1.6 at
-> this point. These include:
->
-> * Memory Resident and Interactive Bitbake work
-> * Kernel installation footprint optimisation
-> * python devshell
-> * PR Server improvements
-> * Locked SState support
->
-> Patches for some parts of these exist but we're running out of runway to
-> get them into a state ready to merge.
->
-> The recent autobuilder changes did cause a backlog of patches waiting
-> for testing. On the positive side the autobuilder does seem to have
-> stabilised now and the changes present there have been worth waiting
-> for. I believe we have caught up with most of the backlog now and had a
-> mostly green build on Friday.
->
->
-> Bitbake Changes
-> ===============
->
-> We found there were some issues when SIGTERM was sent to bitbake's
-> various (sub)processes, as might happen on a buildbot or jenkins setup
-> when stopping builds. The exact effect depended on the order the
-> processes received the signal and ranged from locking up to using 100%
-> CPU. There is a fairly comprehensive set of patches on the bitbake-devel
-> list which should make things behave better.
->
-> I've also been a little frustrated with the latency of certain bitbake
-> commands, it seems to do nothing at some points and debugging confirmed
-> that (e.g. setting the server/process.py select call timeout to 5s made
-> the issues extremely obvious). Again, there are patches out to try and
-> optimise out the various delays which are pointless and bitbake feels
-> snappier as a result, at least to me anyway.
->
-> I'd also like to give a mention to the BitBake manual once again. Its
-> been heavily reworked, improved and brought up to date. The edits are
-> now in bitbake master branch.
->
-> 1.4.3
-> =====
->
-> This was held back due to the recent gnutls CVE, its now undergoing
-> testing and should be ready for release soon if that is successful. If
-> not, it will have to wait until after 1.6 ships.
->
->
-> Cheers,
->
-> Richard
->
->
+-- 
+1.8.3.1
+
 
