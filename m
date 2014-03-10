@@ -1,22 +1,39 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id A274D6F09E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 52BAC6F09E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 11:51:28 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Mon, 10 Mar 2014 12:51:27 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id E43FC28208D;
-	Mon, 10 Mar 2014 12:51:27 +0100 (CET)
-From: Tudor Florea <tudor.florea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Mar 2014 12:51:26 +0100
-Message-ID: <1394452286-65337-1-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.7.10.4
+	Mon, 10 Mar 2014 11:52:14 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id q108so11230174qgd.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Mar 2014 04:52:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9uL0Eq14NTVk8Jq0+UsB49LVyeNbxn4V3jGArOEw2ag=;
+	b=NuEzxIyKn17ZnEKi9NvKREyak9W8/DHZ/tgeUsluQOES72z6+5OGePVnff0QqzSjm9
+	vl4nxvu2RnVeL4qX2UGBiDywvCeG0X59mn7fWzzccvwDUuHPH//6JNDFAJB/P2sSnKzY
+	Rsd0tckje6+i0DBMVvG5ZjAC5jVUepuV1K5+BpaHR705JEWL8T/5qAPZVl8BrtfkD87B
+	Cjy5tYNm16q0LqFOmtqPto6aLUx+OgHRPDOF+fEjyvFikcls9D55dJV/hRZFQsPF1D60
+	YiUxKjU06WD6Uxr5w3A04S3IVkfIXNY2vZeP85fLM3wek9iPx9Im9IU+tLMy6Zzw2o2l
+	DZAg==
+X-Gm-Message-State: ALoCoQm0tJsfc2bUGBbHUSaEL1WPeM3ogsdf2+6Hi7K00SCg+3eE20oSbno+e3+LJJnPDMNJg4W0
+X-Received: by 10.224.127.129 with SMTP id g1mr39943806qas.22.1394452335771;
+	Mon, 10 Mar 2014 04:52:15 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] ptest: Don't enable ptest for nativesdk and cross-canadian packages
+Received: by 10.140.48.79 with HTTP; Mon, 10 Mar 2014 04:51:55 -0700 (PDT)
+In-Reply-To: <53192B35.3060807@windriver.com>
+References: <cover.1394093112.git.Chong.Lu@windriver.com>
+	<9477177f82743adfab34256b7bc002a37dd61787.1394093112.git.Chong.Lu@windriver.com>
+	<CAJTo0LZ_OjXVhoNv6wk085=5vY=i64_8T6s=Tef5h7qgFC5Sfw@mail.gmail.com>
+	<53192B35.3060807@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Mar 2014 11:51:55 +0000
+Message-ID: <CAJTo0LZx5doYDH9XD6UkYfB5KHrX_2s9+tWAP2-OwKA9JUHLjw@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +46,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Mar 2014 11:51:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Mar 2014 11:52:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The ptest is useful in context of deployment to the target hence
-we don't need ptest for nativesdk and cross-canadian packages
+On 7 March 2014 02:13, Chong Lu <Chong.Lu@windriver.com> wrote:
+> Do you mean using PACKAGES += "${@base_contains('IMAGE_FEATURES',
+> 'ptest-pkgs', 'dbus-ptest-ptest', 'dbus-ptest', d)}" or something else?
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
----
- meta/classes/ptest.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
+Clearly I wasn't thinking clearly last week.  You can't check
+IMAGE_FEATURES in a non-image recipe so this isn't a good solution.
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index c37dfac..5c5505d 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -8,6 +8,8 @@ SECTION_${PN}-ptest = "devel"
- ALLOW_EMPTY_${PN}-ptest = "1"
- PTEST_ENABLED = "${@base_contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
- PTEST_ENABLED_class-native = ""
-+PTEST_ENABLED_class-nativesdk = ""
-+PTEST_ENABLED_class-cross-canadian = ""
- RDEPENDS_${PN}-ptest_class-native = ""
- RDEPENDS_${PN}-ptest_class-nativesdk = ""
- 
--- 
-1.7.10.4
-
+Ross
 
