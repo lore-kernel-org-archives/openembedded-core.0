@@ -1,34 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B19AC6F719
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1988E6F757
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 15:51:49 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id p10so7187224pdj.26
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 08:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=8iqm2jYxtyvZV6mFOW8h2bPzYHupt/6Z2LN0ZkT71dA=;
-	b=p+gZXtHSJyMs4SRAPjkEtccGBLnZz0r9qY6iB38xodHzpcWsvPXbisn3avAOyS8Zbu
-	6ULy9k+0iAS6SG+t9zoSjXoAZXFG0hUlOzxP7MV3TjqW/l97ZX9pohflMtqBEDSp+Iqz
-	6USwb4NTWX3zbHVlHU1z9adUNNPgZc2VztH+6YYwPkyQeYBnB0GNUf+vyCVpuCnO07UY
-	bDhLVibIUEMVHx+L+TXGiVZba8CwYdCF5Ce78rSiSYk7r2beJucfbmfd1MrdO4P/xymG
-	IV6YOaTQsjyqq9ajyCiAE/9zn53IZ8QsZgl3EoZp66u4jC60P/vwhJlMyUMgf8LP3zey
-	PxdA==
-X-Received: by 10.69.31.43 with SMTP id kj11mr40650235pbd.67.1394466709979;
-	Mon, 10 Mar 2014 08:51:49 -0700 (PDT)
-Received: from leo.jnpr.net (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	oz7sm66857986pbc.41.2014.03.10.08.51.48 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 10 Mar 2014 08:51:49 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Mar 2014 08:51:37 -0700
-Message-Id: <1394466697-6539-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] eglibc: Fix build for FSL ppc/fpu
+	Mon, 10 Mar 2014 18:15:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Mar 2014 11:15:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,625,1389772800"; d="scan'208";a="495623894"
+Received: from unknown (HELO [10.255.12.212]) ([10.255.12.212])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2014 11:15:37 -0700
+Message-ID: <531E0149.7010905@linux.intel.com>
+Date: Mon, 10 Mar 2014 11:15:37 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Paul Barker <paul@paulbarker.me.uk>, 
+	openembedded-core@lists.openembedded.org
+References: <1394153667-4247-1-git-send-email-paul@paulbarker.me.uk>
+	<1394153667-4247-2-git-send-email-paul@paulbarker.me.uk>
+In-Reply-To: <1394153667-4247-2-git-send-email-paul@paulbarker.me.uk>
+Subject: Re: [PATCH] python3: Add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,399 +33,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Mar 2014 15:51:49 -0000
+X-List-Received-Date: Mon, 10 Mar 2014 18:15:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The patch needs to adapt to upstream changes
-should fix errors on e500mc+ based SOCs
+On 03/06/2014 04:54 PM, Paul Barker wrote:
+> A run-ptest script written in python is added which defines a new TestRunner
+> subclass which prints test results in the required ptest format and then
+> executes python's built-in testsuite using this new TestRunner subclass.
+>
+> The built-in testsuite is included in the python standard library and we ensure
+> we have the complete library by adding ${PN}-modules and ${PN}-misc to the
+> RDEPENDS for the ptest package. We also require libgcc for pthread support.
+>
+> Tested on qemux86. Several tests fail and many skip; further investigation
+> should be done to check that the current status is acceptable. In addition, the
+> testsuite causes an out-of-memory crash when qemu is configured with 256 MB of
+> RAM. The testsuite completes without crashing with 1 GB RAM.
+>
+> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+> ---
+>   meta/recipes-devtools/python/python3/run-ptest | 56 ++++++++++++++++++++++++++
+>   meta/recipes-devtools/python/python3_3.3.3.bb  | 12 ++++++
+>   2 files changed, 68 insertions(+)
+>   create mode 100644 meta/recipes-devtools/python/python3/run-ptest
+>
+> diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipes-devtools/python/python3/run-ptest
+> new file mode 100644
+> index 0000000..bd3ea11
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3/run-ptest
+> @@ -0,0 +1,56 @@
+> +#! /usr/bin/env python3
+> +
+> +from test import support
+> +from test import regrtest
+> +import unittest
+> +import sys
+> +
+> +# Define a test result class which outputs results in the desired format.
+> +class ptestResult(unittest.TestResult):
+> +    def __init__(self, runner):
+> +        super(ptestResult, self).__init__()
+> +        self.runner = runner
+> +
+> +    def addError(self, test, err):
+> +        super(ptestResult, self).addError(test, err)
+> +        self.runner.write("ERROR: %s: %s\n" % (str(test), str(err[1])))
+> +
+> +    def addSuccess(self, test):
+> +        super(ptestResult, self).addSuccess(test)
+> +        self.runner.write("PASS: %s\n" % str(test))
+> +
+> +    def addFailure(self, test, err):
+> +        super(ptestResult, self).addFailure(test, err)
+> +        self.runner.write("FAIL: %s: %s\n" % (str(test), str(err[1])))
+> +
+> +    def addSkip(self, test, reason):
+> +        super(ptestResult, self).addSkip(test, reason)
+> +        self.runner.write("SKIP: %s: %s\n" % (str(test), str(reason)))
+> +
+> +    def addExpectedFailure(self, test, err):
+> +        super(ptestResult, self).addExpectedFailure(test, err)
+> +        self.runner.write("XFAIL: %s\n" % (str(test)))
+> +
+> +    def addUnexpectedSuccess(self, test):
+> +        super(ptestResult, self).addUnexpectedSuccess(test)
+> +        self.runner.write("XPASS: %s\n" % str(test))
+> +
+> +# Define a test runner which uses the above output class.
+> +class ptestRunner:
+> +    def __init__(self, stream=sys.stderr):
+> +        self.stream = stream
+> +
+> +    def write(self, message):
+> +        self.stream.write(message)
+> +
+> +    def run(self, test):
+> +        result = ptestResult(self)
+> +        test(result)
+> +        return result
+> +
+> +# Replace the test runner in python's standard library 'test.support'.
+> +support.BasicTestRunner = ptestRunner
+> +
+> +# Run the python regression test suite - the replacement test runner will be
+> +# used.
+> +regrtest.main()
+> diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb b/meta/recipes-devtools/python/python3_3.3.3.bb
+> index b6f6def..e405a25 100644
+> --- a/meta/recipes-devtools/python/python3_3.3.3.bb
+> +++ b/meta/recipes-devtools/python/python3_3.3.3.bb
+> @@ -35,6 +35,7 @@ SRC_URI += "\
+>               file://sysroot-include-headers.patch \
+>               file://unixccompiler.patch \
+>               file://avoid-ncursesw-include-path.patch \
+> +            file://run-ptest \
+>              "
+>   SRC_URI[md5sum] = "f3ebe34d4d8695bf889279b54673e10c"
+>   SRC_URI[sha256sum] = "e526e9b612f623888364d30cc9f3dfc34dcef39065c713bdbcddf47df84d8dcb"
+> @@ -209,6 +210,17 @@ FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
+>   PACKAGES += "${PN}-misc"
+>   FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
+>
+> +#inherit ptest after "require python-${PYTHON_MAJMIN}-manifest.inc" so PACKAGES doesn't get overwritten
+> +inherit ptest
+> +
 
-This should fix [YOCTO #5871]
+Seems like there is an issue with the multi-lib build.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../eglibc/eglibc-2.19/glibc.fix_sqrt2.patch       | 162 ++++++++++++---------
- 1 file changed, 90 insertions(+), 72 deletions(-)
+ERROR: QA Issue: lib32-python3: Files/directories were installed but not 
+shipped
+   /usr/lib/python3
+   /usr/lib/python3/ptest
+NOTE: recipe lib32-pulseaudio-4.0-r0: task do_package_write_rpm: Started
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch b/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch
-index a669729..037feeb 100644
---- a/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch
-+++ b/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch
-@@ -1,9 +1,10 @@
- Signed-of-by: Edmar Wienskoski <edmar@freescale.com>
- Upstream-Status: Pending
- 
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
----- libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-06-14 14:51:50.452001745 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
- @@ -0,0 +1,134 @@
- +/* Double-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -87,7 +88,7 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c libc/sysdeps/pow
- +
- +          g = b * y;
- +          h = 0.5 * y;
--+  
-++
- +          /* Handle small numbers by scaling.  */
- +          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
- +            return __ieee754_sqrt (b * two108) * twom54;
-@@ -132,16 +133,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c libc/sysdeps/pow
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_wash (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
----- libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-06-14 14:51:50.452001745 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
- @@ -0,0 +1,101 @@
- +/* Single-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -237,16 +239,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c libc/sysdeps/po
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_washf (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
----- libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c	2012-06-14 14:55:14.749001061 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c
- @@ -0,0 +1,134 @@
- +/* Double-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -330,7 +333,7 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c libc/sysdeps/p
- +
- +          g = b * y;
- +          h = 0.5 * y;
--+  
-++
- +          /* Handle small numbers by scaling.  */
- +          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
- +            return __ieee754_sqrt (b * two108) * twom54;
-@@ -375,16 +378,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrt.c libc/sysdeps/p
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_wash (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
----- libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c	2012-06-14 14:55:14.749001061 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c
- @@ -0,0 +1,101 @@
- +/* Single-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -480,16 +484,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e500mc/fpu/e_sqrtf.c libc/sysdeps/
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_washf (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
----- libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c	2012-06-14 14:55:21.812002270 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c
- @@ -0,0 +1,134 @@
- +/* Double-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -573,7 +578,7 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c libc/sysdeps/po
- +
- +          g = b * y;
- +          h = 0.5 * y;
--+  
-++
- +          /* Handle small numbers by scaling.  */
- +          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
- +            return __ieee754_sqrt (b * two108) * twom54;
-@@ -618,16 +623,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrt.c libc/sysdeps/po
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_wash (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
----- libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c	2012-06-14 14:55:21.812002270 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c
- @@ -0,0 +1,101 @@
- +/* Single-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -723,16 +729,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e5500/fpu/e_sqrtf.c libc/sysdeps/p
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_washf (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
----- libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c	2012-06-14 14:55:24.620001266 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
- @@ -0,0 +1,134 @@
- +/* Double-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -816,7 +823,7 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c libc/sysdeps/po
- +
- +          g = b * y;
- +          h = 0.5 * y;
--+  
-++
- +          /* Handle small numbers by scaling.  */
- +          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
- +            return __ieee754_sqrt (b * two108) * twom54;
-@@ -861,16 +868,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c libc/sysdeps/po
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_wash (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
----- libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c	2012-06-14 14:55:24.620001266 -0500
-+Index: libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
- @@ -0,0 +1,101 @@
- +/* Single-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -966,16 +974,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c libc/sysdeps/p
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_washf (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
----- libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-06-14 14:51:50.452001745 -0500
-+Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
- @@ -0,0 +1,134 @@
- +/* Double-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -1059,7 +1068,7 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c libc/sysdeps/po
- +
- +          g = b * y;
- +          h = 0.5 * y;
--+  
-++
- +          /* Handle small numbers by scaling.  */
- +          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
- +            return __ieee754_sqrt (b * two108) * twom54;
-@@ -1104,16 +1113,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c libc/sysdeps/po
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_wash (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
----- libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-06-14 14:51:50.452001745 -0500
-+Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
- @@ -0,0 +1,101 @@
- +/* Single-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -1209,16 +1219,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c libc/sysdeps/p
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_washf (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
----- libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c	2012-06-14 14:56:02.080000985 -0500
-+Index: libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c
- @@ -0,0 +1,134 @@
- +/* Double-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -1302,7 +1313,7 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c libc/sysdeps/po
- +
- +          g = b * y;
- +          h = 0.5 * y;
--+  
-++
- +          /* Handle small numbers by scaling.  */
- +          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
- +            return __ieee754_sqrt (b * two108) * twom54;
-@@ -1347,16 +1358,17 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrt.c libc/sysdeps/po
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_wash (b);
- +}
--diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
----- libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c	2012-06-14 14:56:02.080000985 -0500
-+Index: libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c
- @@ -0,0 +1,101 @@
- +/* Single-precision floating point square root.
- +   Copyright (C) 2010 Free Software Foundation, Inc.
-@@ -1452,40 +1464,46 @@ diff -ruN libc-orig/sysdeps/powerpc/powerpc64/e6500/fpu/e_sqrtf.c libc/sysdeps/p
- +      feraiseexcept (FE_INVALID_SQRT);
- +
- +      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
-++      if ((u.l & FE_INVALID) == 0)
- +#endif
- +	feraiseexcept (FE_INVALID);
- +      b = a_nan.value;
- +    }
- +  return f_washf (b);
- +}
--diff -ruN libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
----- libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies	2012-06-14 14:51:50.452001745 -0500
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
- @@ -0,0 +1 @@
- +powerpc/powerpc32/603e/fpu
--diff -ruN libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
----- libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies	2012-06-14 14:54:00.481000876 -0500
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
- @@ -0,0 +1 @@
- +powerpc/powerpc32/e500mc/fpu
--diff -ruN libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
----- libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies	2012-06-14 14:54:17.000001007 -0500
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
- @@ -0,0 +1 @@
- +powerpc/powerpc32/e5500/fpu
--diff -ruN libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
----- libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies	2012-06-14 14:54:31.054001299 -0500
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e6500/fpu/Implies
- @@ -0,0 +1 @@
- +powerpc/powerpc32/e6500/fpu
--diff -ruN libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
----- libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies	2012-06-14 14:51:50.453001709 -0500
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
- @@ -0,0 +1 @@
- +powerpc/powerpc64/e5500/fpu
--diff -ruN libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
----- libc-orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies	1969-12-31 18:00:00.000000000 -0600
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies	2012-06-14 14:58:14.298001288 -0500
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
-+===================================================================
-+--- /dev/null
-++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e6500/fpu/Implies
- @@ -0,0 +1 @@
- +powerpc/powerpc64/e6500/fpu
--- 
-1.9.0
+Sau!
 
+
+> +# This must come after inherit ptest for the override to take effect
+> +do_install_ptest() {
+> +    install -m 0755 -d ${D}/${libdir}/python3/ptest
+> +    install -m 0755 ${S}/../run-ptest ${D}/${libdir}/${PN}/ptest
+> +}
+> +
+> +RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-misc libgcc"
+> +
+>   # catch manpage
+>   PACKAGES += "${PN}-man"
+>   FILES_${PN}-man = "${datadir}/man"
+>
 
