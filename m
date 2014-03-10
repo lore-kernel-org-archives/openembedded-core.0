@@ -1,21 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 508906F09E
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id A274D6F09E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Mar 2014 11:50:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Mar 2014 04:50:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,623,1389772800"; d="scan'208";a="495411320"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.120.155])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2014 04:50:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Mar 2014 11:50:22 +0000
-Message-Id: <1394452222-32692-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] classes/sstate: don't overwrite buildhistory vardepsexclude
+	Mon, 10 Mar 2014 11:51:28 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Mon, 10 Mar 2014 12:51:27 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id E43FC28208D;
+	Mon, 10 Mar 2014 12:51:27 +0100 (CET)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Mar 2014 12:51:26 +0100
+Message-ID: <1394452286-65337-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] ptest: Don't enable ptest for nativesdk and cross-canadian packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,33 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Mar 2014 11:50:36 -0000
+X-List-Received-Date: Mon, 10 Mar 2014 11:51:31 -0000
+Content-Type: text/plain
 
-This was stomping over the value added in buildhistory.bbclass, leading
-to task signatures *still* changing when buildhistory was added to
-INHERIT.
+The ptest is useful in context of deployment to the target hence
+we don't need ptest for nativesdk and cross-canadian packages
 
-Fixes [YOCTO #5897].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 ---
- meta/classes/sstate.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/ptest.bbclass |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 9e09a73..03ee820 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -215,7 +215,7 @@ def sstate_install(ss, d):
-     for lock in locks:
-         bb.utils.unlockfile(lock)
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index c37dfac..5c5505d 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -8,6 +8,8 @@ SECTION_${PN}-ptest = "devel"
+ ALLOW_EMPTY_${PN}-ptest = "1"
+ PTEST_ENABLED = "${@base_contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
+ PTEST_ENABLED_class-native = ""
++PTEST_ENABLED_class-nativesdk = ""
++PTEST_ENABLED_class-cross-canadian = ""
+ RDEPENDS_${PN}-ptest_class-native = ""
+ RDEPENDS_${PN}-ptest_class-nativesdk = ""
  
--sstate_install[vardepsexclude] = "SSTATE_DUPWHITELIST STATE_MANMACH SSTATE_MANFILEPREFIX"
-+sstate_install[vardepsexclude] += "SSTATE_DUPWHITELIST STATE_MANMACH SSTATE_MANFILEPREFIX"
- sstate_install[vardeps] += "${SSTATEPOSTINSTFUNCS}"
- 
- def sstate_installpkg(ss, d):
 -- 
-1.8.5.3
+1.7.10.4
 
 
