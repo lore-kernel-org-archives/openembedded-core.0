@@ -1,35 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 381116F894
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F8D76F8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 17:34:31 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id bj1so9129397pad.30
+	Tue, 11 Mar 2014 19:24:35 +0000 (UTC)
+Received: by mail-ve0-f180.google.com with SMTP id jz11so9146436veb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 10:34:32 -0700 (PDT)
+	Tue, 11 Mar 2014 12:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Njm26SiHk28HmGHqDymiF8L+Q1uNzZBR15pefvsp8Iw=;
-	b=woSyeGeCpTGQCDAa5XKFqTt3qHYV/N8EA90fWZYNY4kpfeoqSfzZTVDn8iiTshaiRu
-	/kns6paZ/mSxn47mZOYdMfNlCgXDTh7Ve9inWSqQhJbu2fFsT4wiaeu0TlpnG0JhTtJQ
-	vDxhqQKpyOUru9P4e6FHClIBClEC6DiXs6dSrdS4LAMJ3V1v+7qcMzVz4xUtCkdQhepI
-	c2rpc6X0lmRbFs9Qx2owa+kFriWkGJ/1P8gUCGqDGNFi5mony1Q4hXbtP2duZLEgPH+9
-	9krrKNgcsLi4JdpCQsE+8JmfdAO+WoidDyaAti/IFaK3fVpG7qTf4EIpNPkWEcVOMgws
-	SXCg==
-X-Received: by 10.68.196.226 with SMTP id ip2mr48605820pbc.106.1394559272405; 
-	Tue, 11 Mar 2014 10:34:32 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id
-	it4sm76936668pbc.39.2014.03.11.10.34.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Mar 2014 10:34:31 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Mar 2014 10:36:00 -0700
-Message-Id: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] pulseaudio: Upgrade 4.0 -> 5.0
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=X/Jo02PjMOTcfupfipPELorA7stg3a5nKhN/oTQIEQg=;
+	b=xszuk1KQ0VdgZgjfRd4pWVYRC3viTSsSL0y9klKd0knm7+r6Zs2uwrP3t0ejJQMpOX
+	IfRQNN7alM6T4hohmyTUdkjmQjo3p5D1LG502k6jTrglNILSampuRmcpJxdRYN8m5lKz
+	Y3bIbNCDGSkE8nbJsHHTcyCTapZRyV3a2nDC5b2uBdQm7Hbrz2Xgn5a9Zbh3m5B2Q48J
+	hl0kxQ7/2dGe1YgtPsHlyrjq6s18GSNbx/j8bDhPekSGrGOaEYj7R28kkPA3rcx0XJx5
+	w0VXUez9OgbbMwPPKU7xHal/GQfdAHHXcIMh6AOcOmc5Zsdvb2Ax6MQxoqD5jpzF+fad
+	Q05w==
+X-Received: by 10.52.113.1 with SMTP id iu1mr1399453vdb.35.1394565876673; Tue,
+	11 Mar 2014 12:24:36 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Tue, 11 Mar 2014 12:23:50 -0700 (PDT)
+In-Reply-To: <531E0149.7010905@linux.intel.com>
+References: <1394153667-4247-1-git-send-email-paul@paulbarker.me.uk>
+	<1394153667-4247-2-git-send-email-paul@paulbarker.me.uk>
+	<531E0149.7010905@linux.intel.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 11 Mar 2014 19:23:50 +0000
+X-Google-Sender-Auth: dTNUqRMOSDr59UWTvB65INziSD0
+Message-ID: <CANyK_8eb29MDTxadMxVF+G+P5PYZMgH4sr3fyD16-tXNOYHj-w@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: Add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,57 +45,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Mar 2014 17:34:32 -0000
+X-List-Received-Date: Tue, 11 Mar 2014 19:24:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-bluetooth-proximity has been removed in 5.0
+On 10 March 2014 18:15, Saul Wold <sgw@linux.intel.com> wrote:
+> On 03/06/2014 04:54 PM, Paul Barker wrote:
+>>
+>> A run-ptest script written in python is added which defines a new
+>> TestRunner
+>> subclass which prints test results in the required ptest format and then
+>> executes python's built-in testsuite using this new TestRunner subclass.
+>>
+>> The built-in testsuite is included in the python standard library and we
+>> ensure
+>> we have the complete library by adding ${PN}-modules and ${PN}-misc to the
+>> RDEPENDS for the ptest package. We also require libgcc for pthread
+>> support.
+>>
+>> Tested on qemux86. Several tests fail and many skip; further investigation
+>> should be done to check that the current status is acceptable. In
+>> addition, the
+>> testsuite causes an out-of-memory crash when qemu is configured with 256
+>> MB of
+>> RAM. The testsuite completes without crashing with 1 GB RAM.
+>>
+>> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+>> ---
+>> <snip>
+>
+> Seems like there is an issue with the multi-lib build.
+>
+> ERROR: QA Issue: lib32-python3: Files/directories were installed but not
+> shipped
+>   /usr/lib/python3
+>   /usr/lib/python3/ptest
+> NOTE: recipe lib32-pulseaudio-4.0-r0: task do_package_write_rpm: Started
+>
+> Sau!
+>
+>
+>
+>> +# This must come after inherit ptest for the override to take effect
+>> +do_install_ptest() {
+>> +    install -m 0755 -d ${D}/${libdir}/python3/ptest
+>> +    install -m 0755 ${S}/../run-ptest ${D}/${libdir}/${PN}/ptest
+>> +}
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc                    | 2 --
- .../pulseaudio/{pulseaudio_4.0.bb => pulseaudio_5.0.bb}              | 5 ++---
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-multimedia/pulseaudio/{pulseaudio_4.0.bb => pulseaudio_5.0.bb} (63%)
+Should I be using something other than ${libdir} here? I can see
+${PTEST_PATH} used in the do_install_ptest function for python2,
+should I be using that instead?
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 103f72e..3d35b6b 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -5,7 +5,6 @@ SECTION = "libs/multimedia"
- LICENSE = "GPLv2+ & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
-                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/modules/bluetooth/proximity-helper.c;beginline=1;endline=25;md5=e4cc710e40a4d900c2c294167bc58270 \
-                     file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
- 
- DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
-@@ -145,7 +144,6 @@ RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
- RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
- 
- FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
--FILES_pulseaudio-module-bluetooth-proximity += "${libexecdir}/pulse/proximity-helper"
- FILES_pulseaudio-module-alsa-card += "${datadir}/pulseaudio/alsa-mixer"
- 
- RDEPENDS_pulseaudio-server += "\
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
-similarity index 63%
-rename from meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-rename to meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
-index b419c54..f02359a 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
-@@ -2,9 +2,8 @@ require pulseaudio.inc
- 
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
-            file://volatiles.04_pulse"
--
--SRC_URI[md5sum] = "591f211db2790a7e4d222f2dc6858db3"
--SRC_URI[sha256sum] = "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff2111f01fd8778928f9cdae"
-+SRC_URI[md5sum] = "c43749838612f4860465e83ed62ca38e"
-+SRC_URI[sha256sum] = "99c13a8b1249ddbd724f195579df79484e9af6418cecf6a15f003a7f36caf939"
- 
- do_compile_prepend() {
-     mkdir -p ${S}/libltdl
+As I think I noted elsewhere, this is the first ptest related patch
+I've done so I don't really know much beyond what's documented at
+https://wiki.yoctoproject.org/wiki/Ptest.
+
+Cheers,
+
 -- 
-1.9.0
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
