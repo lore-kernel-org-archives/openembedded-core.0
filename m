@@ -1,22 +1,23 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B73196F88B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DE8E96F817
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 16:49:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Mar 2014 09:48:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,631,1389772800"; d="scan'208";a="497805177"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.212])
-	by orsmga002.jf.intel.com with ESMTP; 11 Mar 2014 09:48:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Mar 2014 09:48:41 -0700
-Message-Id: <1394556521-16893-2-git-send-email-sgw@linux.intel.com>
+	Tue, 11 Mar 2014 17:03:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2BH3ksC010743
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Mar 2014 10:03:47 -0700 (PDT)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 11 Mar 2014 10:03:46 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 12 Mar 2014 01:08:18 +0800
+Message-ID: <cover.1394555880.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1394556521-16893-1-git-send-email-sgw@linux.intel.com>
-References: <1394556521-16893-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/2] btrfs: patch to allow for relative paths
+MIME-Version: 1.0
+Subject: [PATCH 0/6 V3] refactor the archiver*.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,98 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Mar 2014 16:49:45 -0000
+X-List-Received-Date: Tue, 11 Mar 2014 17:03:53 -0000
+Content-Type: text/plain
 
-This seems to address the btrfs image failure
+=== V3:
+* Do the unpack, patch and configure in another WORKDIR as RP and Ross
+  suggested, so that it would not affact the default build dependencies,
+  thanks for Ross' prototype.
+* Don't archive the logs (temp/log.do*), mainly because of:
+  - We can easily get the log via reset the T rather than use the
+    archiver.
+  - If we need archive the logs, we must let the task to run as the last
+    one, but it's hard to do this.
 
-[YOCTO #5146]
+=== V2:
+* Fix the warning between different machines which is reported by Martin
+* Fix the error when the archiver.bbclass is not inherited but
+  ARCHIVER_MODE[type] = "srpm" is set, reported by Ross.
+* Fix the archiving for gcc staff which uses the shared source according
+  to the recently changes of prefuncs and postfuncs in bitbake, so it only
+  works well with bitbake's up to date master branch, if we want to backport it,
+  we also need backport the pre/postfuncs related patches.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../btrfs-tools/allow-relative-path.patch          | 58 ++++++++++++++++++++++
- .../btrfs-tools/btrfs-tools_git.bb                 |  4 +-
- 2 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/allow-relative-path.patch
+=== V1:
+* The archive*.bbclass didn't work, and there were a few problems, for
+  example:
+  1) There were a few duplicated code
+  2) There was no src_dir.org (or orig), but the diff command still use
+     it, and it is not easy to fix this issue if we don't change a lot
+     of the code.
+  3) It didn't archive the source for the native or gcc
+  4) The work flow is not very well
+  5) The "subprocess.call('fakeroot cp xxxx'" should be removed
+  6) And others ...
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/allow-relative-path.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/allow-relative-path.patch
-new file mode 100644
-index 0000000..9cd64a5
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/allow-relative-path.patch
-@@ -0,0 +1,58 @@
-+From: Gui Hecheng <guihc.fnst@cn.fujitsu.com>
-+
-+The bug accurs when exec:
-+	# mkfs.btrfs -r <a relative path> <device>
-+	(note: the path should be 'valid' correspond to your `pwd`)
-+error msg:
-+	$ scandir for <a relative path> failed: No such file...
-+
-+Replace strdup() with realpath() to get the correct scan path.
-+
-+Upstream-Status: Backport (pending)
-+
-+Reported-by: Saul Wold <sgw@linux.intel.com>
-+Signed-off-by: Gui Hecheng <guihc.fnst@cn.fujitsu.com>
-+---
-+ mkfs.c | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
-+
-+diff --git a/mkfs.c b/mkfs.c
-+index 2dc90c2..1bd3069 100644
-+--- a/mkfs.c
-++++ b/mkfs.c
-+@@ -756,6 +756,7 @@ static int traverse_directory(struct btrfs_trans_handle *trans,
-+ 	ino_t parent_inum, cur_inum;
-+ 	ino_t highest_inum = 0;
-+ 	char *parent_dir_name;
-++	char real_path[PATH_MAX];
-+ 	struct btrfs_path path;
-+ 	struct extent_buffer *leaf;
-+ 	struct btrfs_key root_dir_key;
-+@@ -764,7 +765,7 @@ static int traverse_directory(struct btrfs_trans_handle *trans,
-+ 	/* Add list for source directory */
-+ 	dir_entry = malloc(sizeof(struct directory_name_entry));
-+ 	dir_entry->dir_name = dir_name;
-+-	dir_entry->path = strdup(dir_name);
-++	dir_entry->path = realpath(dir_name, real_path);
-+ 
-+ 	parent_inum = highest_inum + BTRFS_FIRST_FREE_OBJECTID;
-+ 	dir_entry->inum = parent_inum;
-+@@ -876,7 +877,6 @@ static int traverse_directory(struct btrfs_trans_handle *trans,
-+ 		}
-+ 
-+ 		free_namelist(files, count);
-+-		free(parent_dir_entry->path);
-+ 		free(parent_dir_entry);
-+ 
-+ 		index_cnt = 2;
-+@@ -887,7 +887,6 @@ static int traverse_directory(struct btrfs_trans_handle *trans,
-+ fail:
-+ 	free_namelist(files, count);
-+ fail_no_files:
-+-	free(parent_dir_entry->path);
-+ 	free(parent_dir_entry);
-+ 	return -1;
-+ }
-+-- 
-+1.8.1.4
-+
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index 7ecce60..8129cd5 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -14,7 +14,9 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
- 
- SRCREV = "8cae1840afb3ea44dcc298f32983e577480dfee4"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git \
--           file://weak-defaults.patch"
-+           file://weak-defaults.patch \
-+           file://allow-relative-path.patch \
-+          "
- 
- S = "${WORKDIR}/git"
- 
+* So that we have to refactor it, the benefits are:
+  1) Fix the problems and make it work well.
+  2) Reduce more than 400 lines in total.
+  3) Make it easy to use.
+
+// Robert
+
+
+The following changes since commit 23f7decb84922a3467c5b10b013e66596926b5cf:
+
+  .templateconf: New file for customized template defaults (2014-03-11 08:11:07 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/archiver_v3
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/archiver_v3
+
+Robert Yang (6):
+  classes/archive*.bbclass: remove archive-*-source.bbclass
+  archiver.bbclass: refactor it
+  package_rpm.bbclass: archive the source to srpm package
+  archiver.bbclass: move a few code to copyleft_compliance.bbclass
+  local.conf.sample.extended: update for the archiver
+  patch.bbclass: do_patch: unset TMPDIR from environment
+
+ meta/classes/archive-configured-source.bbclass |  65 --
+ meta/classes/archive-original-source.bbclass   |  65 --
+ meta/classes/archive-patched-source.bbclass    |  65 --
+ meta/classes/archiver.bbclass                  | 791 +++++++++----------------
+ meta/classes/copyleft_compliance.bbclass       |  55 +-
+ meta/classes/package_rpm.bbclass               |  33 +-
+ meta/classes/patch.bbclass                     |   1 +
+ meta/conf/local.conf.sample.extended           |  63 +-
+ 8 files changed, 367 insertions(+), 771 deletions(-)
+ delete mode 100644 meta/classes/archive-configured-source.bbclass
+ delete mode 100644 meta/classes/archive-original-source.bbclass
+ delete mode 100644 meta/classes/archive-patched-source.bbclass
+
 -- 
 1.8.3.1
 
