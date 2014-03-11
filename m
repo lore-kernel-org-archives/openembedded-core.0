@@ -1,25 +1,25 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 412596F7D4
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 293D86F783
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 00:05:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 10 Mar 2014 17:00:44 -0700
+	Tue, 11 Mar 2014 03:15:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Mar 2014 20:15:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,627,1389772800"; d="scan'208";a="497337277"
-Received: from unknown (HELO [10.255.12.213]) ([10.255.12.213])
-	by orsmga002.jf.intel.com with ESMTP; 10 Mar 2014 17:05:11 -0700
-Message-ID: <1394496310.1279.25.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 10 Mar 2014 19:05:10 -0500
-In-Reply-To: <1394413459.7883.23.camel@ted>
-References: <1394317437-6551-1-git-send-email-joaohf@gmail.com>
-	<1394413459.7883.23.camel@ted>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+X-IronPort-AV: E=Sophos;i="4.97,628,1389772800"; d="scan'208";a="495875203"
+Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.86]) ([10.3.52.86])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2014 20:15:36 -0700
+Message-ID: <1394507658.2792.23.camel@ranerica-desk01>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 10 Mar 2014 20:14:18 -0700
+In-Reply-To: <531C21B8.3000308@linux.intel.com>
+References: <1394238610-25905-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+	<531C21B8.3000308@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: Use mke2fs to create the ext2/3/4 image
+Subject: Re: [PATCH][resend] runqemu: Add option for custom BIOS directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +32,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Mar 2014 00:05:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Mar 2014 03:15:38 -0000
+Content-Type: text/plain; charset="TIS-620"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 2014-03-09 at 18:04 -0700, Richard Purdie wrote:
-> On Sat, 2014-03-08 at 19:23 -0300, João Henrique Ferreira de Freitas
-> wrote:
-> > OE-core commit f3a95ca6886b55e5819b068bdbd2cceb882d91a6 removed the
-> > populate-extfs.sh. So mke2fs should be used to create ext2/3/4 image.
-> > 
-> > Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+On Sun, 2014-03-09 at 00:09 -0800, Saul Wold wrote:
+> On 03/07/2014 04:30 PM, Ricardo Neri wrote:
+> > Add support to specify a directory for custom BIOS, VGA BIOS and
+> > keymaps as supported by qemu (-L option). Even though this can be
+> > done through qemuparams, having this option provides better user
+> > experience by not having to specify a long and cluttered path along
+> > other qemuparams that the user might want to specify.
+> >
+> > This new options assumes that the path provided is relative to
+> > OECORE_NATIVE_SYSROOT and will check whether it exists before proceeding.
+> >
+> > Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 > > ---
-> >  scripts/lib/mic/kickstart/custom_commands/partition.py | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > index 91d751e..e0a82f5 100644
-> > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > @@ -174,7 +174,6 @@ class Wic_PartData(Mic_PartData):
-> >          """
-> >          Prepare content for an ext2/3/4 rootfs partition.
-> >          """
-> > -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
-> >  
-> >          image_rootfs = rootfs_dir
-> >          rootfs = "%s/rootfs.%s" % (cr_workdir, self.fstype)
-> > @@ -199,11 +198,10 @@ class Wic_PartData(Mic_PartData):
-> >  
-> >          extra_imagecmd = "-i 8192"
-> >  
-> > -        mkfs_cmd = "mkfs.%s -F %s %s" % (self.fstype, extra_imagecmd, rootfs)
-> > +        mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
-> > +            (self.fstype, extra_imagecmd, rootfs, image_rootfs)
-> >          rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
-> >  
-> > -        populate_cmd = populate_script + " " + image_rootfs + " " + rootfs
-> > -        rc, out = exec_native_cmd(pseudo + populate_cmd, native_sysroot)
-> >  
-> >          # get the rootfs size in the right units for kickstart (Mb)
-> >          du_cmd = "du -Lbms %s" % rootfs
+> >   scripts/runqemu | 14 ++++++++++++++
+> >   1 file changed, 14 insertions(+)
+> >
+> > diff --git a/scripts/runqemu b/scripts/runqemu
+> > index 619ffb6..9eff90d 100755
+> > --- a/scripts/runqemu
+> > +++ b/scripts/runqemu
+> > @@ -149,6 +149,9 @@ while true; do
+> >               SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
+> >               SERIALSTDIO="1"
+> >               ;;
+> > +	"biosdir="*)
+> > +            CUSTOMBIOSDIR="${arg##biosdir=}"
+> > +	    ;;
+> >           "qemuparams="*)
+> >               SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+> >
+> > @@ -489,5 +492,16 @@ if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
+> >   INTERNAL_SCRIPT=`which runqemu-internal`
+> >   fi
+> >
+> > +# Specify directory for BIOS, VGA BIOS and keymaps
+> > +if [ ! -z "$CUSTOMBIOSDIR" ]; then
+> > +    if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
+> I don't think we should be assuming anything here, if the direcotry is 
+> passed then it should be given that it is an accurate path to the 
+> directory that contains the customer bios, don't make people second gess 
+> that it needs to be in the native sysroot.
 > 
-> Don't we need to be careful to find the binary from the native sysroot
-> here since that is the one with the root directory option?
+> Sau!
+
+Thanks for your comments Saul! Are you saying that providing paths to
+items outside the build environment is a supported use case? That is the
+reason I made it relative to OECORE_NATIVE_SYSROOT. If absolute paths to
+anywhere can be provided, I could first check whether the provided
+absolute path exist and, if not, assume that it is relative to
+OECORE_NATIVE_SYSROOT. Does that make sense to you?
+
+BR,
+Ricardo
 > 
-
-Hmm, exec_native_cmd(mkfs_cmd, native_sysroot) is being used to do the
-'mke2fs -d', which should do the right thing... Am I missing something?
-
-Tom
-
-
-> Cheers,
-> 
-> Richard
-> 
+> > +           echo "Assuming $CUSTOMBIOSDIR really means $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> > +           SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> > +       else
+> > +           echo "Custom BIOS directory $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR not found."
+> > +           exit 1;
+> > +    fi
+> > +fi
+> > +
+> >   . $INTERNAL_SCRIPT
+> >   exit $?
+> >
 
 
 
