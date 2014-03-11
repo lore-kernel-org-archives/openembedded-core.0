@@ -1,35 +1,30 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 09DC26F6FE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 373866F7DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 10:07:44 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id hr17so5477011lab.33
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 03:07:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=u0WVjiSO+gYE3oL+g1KW2fbFhFCOgMgx7WAtgpR6qoE=;
-	b=QHM24EOBJpY3zk6fxOY5MAvUZDLymjOO+QV8tNyciqK7LR6QU1YAgxa8B/TYot7iXS
-	3bHo6CtkYw+6cHhur6UDEuA2oOgYi9AU4np/1cpzsgXIzKF1MUDtOu+iQD3MHg+qyhWP
-	d5TDW28ezqZNsLy56qdQh3o+t1Ofm36HqR/z1h4bxlSFSBLkO4rV5ihNZbtHBTLt6Vi+
-	CH4PxOfv4ZKojomrfKG/vze8AYPjIT8k2dXPfo4fOVBbQ8dF/qVi4wYqqMBDKZ4acidk
-	rD+O0KJi4jzNDz1tsnQZpaXmTJiYAvaWv4dXg5rJEPnmESUxF2stDwvCLWjo8HizsO2e
-	6XjQ==
-X-Received: by 10.112.158.230 with SMTP id wx6mr9823lbb.62.1394532464296;
-	Tue, 11 Mar 2014 03:07:44 -0700 (PDT)
-Received: from neopili.qtec.com (x1-6-30-46-9a-6d-3c-54.cpe.webspeed.dk.
-	[80.167.66.223])
-	by mx.google.com with ESMTPSA id v5sm34397489laj.0.2014.03.11.03.07.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Mar 2014 03:07:43 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Mar 2014 11:07:35 +0100
-Message-Id: <1394532455-17512-1-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] package_deb: Map TARGET_ARCH x86_64 to DPKG_ARCH amd64
+	Tue, 11 Mar 2014 10:40:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2BAebKp024049
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Mar 2014 03:40:37 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 11 Mar 2014 03:40:36 -0700
+Message-ID: <531EE822.7070201@windriver.com>
+Date: Tue, 11 Mar 2014 18:40:34 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <531ECDCE.3020805@sonarnerd.net> <531ED455.50702@windriver.com>
+	<2472430.vmDQzt5qix@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2472430.vmDQzt5qix@peggleto-mobl5.ger.corp.intel.com>
+Cc: Jussi Laako <jussi@sonarnerd.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora]Re: Failure in license.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Mar 2014 10:07:45 -0000
+X-List-Received-Date: Tue, 11 Mar 2014 10:40:41 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Without this patch packages are generated as x86_64. Which cannot be
-installed by default.
+On 03/11/2014 06:02 PM, Paul Eggleton wrote:
+> Hi Hongxu,
+>
+> The person you need to CC is Robert Yang since he maintains the dora branch.
+> FWIW I hadn't anticipated this patch being backported, but I guess if
+> functionality now in dora relies upon it we have no choice :(
+>
 
-root@qt5022:~# dpkg -i alsa-utils_1.0.27.2-r0_x86-64.deb
-dpkg: error processing alsa-utils_1.0.27.2-r0_x86-64.deb (--install):
- package architecture (x86-64) does not match system (amd64)
-Errors were encountered while processing:
- alsa-utils_1.0.27.2-r0_x86-64.deb
+I'm sorry to say that it seems that we can't backport this patch since
+we need at least the following patches, it is not a good idea to backport
+it:
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- meta/classes/package_deb.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+d69931d scripts/oe-pkgdata-util: fix global name 'debug' is not defined
+6ce2879 scripts/oe-pkgdata-util: add ability to find a recipe from a target package
+948a714 scripts/oe-pkgdata-util: add ability to look up runtime package names
+48755f1 scripts/oe-pkgdata-util: add ability to search for a target path
+4ec1f8c scripts/oe-pkgdata-util: check path arguments to ensure they exist
+8b42409 scripts/oe-pkgdata-util: improve help text and command line parsing
+9ce903b scripts/oe-pkgdata-util: remove remnants of former pkgdata structure
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 6a8e080..b391e5c 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -430,6 +430,8 @@ python () {
-     darch = d.getVar('DPKG_ARCH', True)
-     if darch in ["x86", "i486", "i586", "i686", "pentium"]:
-          d.setVar('DPKG_ARCH', 'i386')
-+    elif darch == "x86_64":
-+         d.setVar('DPKG_ARCH', 'amd64')
-     elif darch == "arm":
-          d.setVar('DPKG_ARCH', 'armel')
- }
--- 
-1.9.0
+It is because I backported this commit: (I'm sorry about that)
 
+commit e58a1499accd74d3e6fe4f899711d4c680ebc18f
+Author: Hongxu Jia <hongxu.jia@windriver.com>
+Date:   Wed Nov 20 18:35:39 2013 +0800
+
+     license.bbclass: fix copying license directories failed
+
+It is used for fixing this bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5572
+
+Enalbe COPY_LIC_MANIFEST and COPY_LIC_DIRS: No kernel license is installed in image
+
+But it used the "oe-pkgdata-util lookup-recipe" which is only on master branch,
+I think that we'd better:
+
+1) Revert this commit, then it works with minor problems.
+
+Or
+
+2) Fix the "oe-pkgdata-util lookup-recipe" on dora.
+
+// Robert
+
+> Cheers,
+> Paul
+>
+>
+> On Tuesday 11 March 2014 17:16:05 Hongxu Jia wrote:
+>> It seems dora has some patches of oe-pkgdata-util not
+>> rebased from poky, such as:
+>>
+>> commit 6ce287937e86a43d696e3615aa18d439928b7691
+>> Author: Paul Eggleton <paul.eggleton@linux.intel.com>
+>> Date:   Fri Oct 18 14:52:10 2013 +0100
+>>
+>>       scripts/oe-pkgdata-util: add ability to find a recipe from a target
+>> package
+>>
+>> //Hongxu
+>>
+>> On 03/11/2014 04:48 PM, Jussi Laako wrote:
+>>> Hi,
+>>>
+>>> Your recent (from November) change to license.bbclass in Yocto Dora
+>>> release completely breaks COPY_LIC_DIRS.
+>>>
+>>> Running the command manually for any package results in command line
+>>> syntax error:
+>>> jussi@porkkala:/home/scratch/jussi/poky/build> oe-pkgdata-util
+>>> lookup-recipe
+>>> /home/scratch/jussi/poky/build/tmp/sysroots/cubox-i/pkgdata
+>>> alsa-conf-base
+>>> syntax: oe-pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist>
+>>> "<globs>"
+>>>
+>>>                       read-value [-d] <pkgdatadir> <vendor-os>
+>>>
+>>> <value-name> "<package-name>_<package_architecture>"
+>>>
+>>>
+>>> Best regards,
+>>>
+>>>      - Jussi
+>
 
