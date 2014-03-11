@@ -1,35 +1,35 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E9AEC6F811
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 381116F894
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 17:22:42 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id gf5so5873184lab.35
+	Tue, 11 Mar 2014 17:34:31 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id bj1so9129397pad.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 10:22:43 -0700 (PDT)
+	Tue, 11 Mar 2014 10:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=Fq1hxcwuC3IjzDcRysYhmHKjDYGSZOr/HElVD0eYCro=;
-	b=UJMRF91upzwZfUsEGCgMu3UxcK+UtX7QwFM07tbLGLkeiW27ofM9l2ZUZwiJiDicuk
-	c0KwhH1z3iagyd9dQT9SxTLPYeczEw+N9BF6fefXgSB2vMdJ2b3toKcOUBMmFIBsnS2V
-	HDt9gTuXJ6pBt2M5NG6mvy5kXrwUBeMA5/rVMf5/51HLmU2stt8yrBCANnsWZjLhrkY3
-	nuoqXKGtkYz6BHoFJrDVS7XEPP9UEVXrrIxK3nVfk5DeOGx8Bgx6TF+YejZXDwb+qvIy
-	vGnmuonCTqjMLfA1D2ivlVnfO4j31AZjWtSzFIcq2qT6S718ZCBB49LcKirmAxVIk+gW
-	gVlw==
-X-Received: by 10.112.55.99 with SMTP id r3mr2082275lbp.54.1394558563393;
-	Tue, 11 Mar 2014 10:22:43 -0700 (PDT)
-Received: from neopili.qtec.com (0x4dd4aed9.adsl.cybercity.dk.
-	[77.212.174.217])
-	by mx.google.com with ESMTPSA id q8sm25806170lbr.3.2014.03.11.10.22.41
-	for <multiple recipients>
+	bh=Njm26SiHk28HmGHqDymiF8L+Q1uNzZBR15pefvsp8Iw=;
+	b=woSyeGeCpTGQCDAa5XKFqTt3qHYV/N8EA90fWZYNY4kpfeoqSfzZTVDn8iiTshaiRu
+	/kns6paZ/mSxn47mZOYdMfNlCgXDTh7Ve9inWSqQhJbu2fFsT4wiaeu0TlpnG0JhTtJQ
+	vDxhqQKpyOUru9P4e6FHClIBClEC6DiXs6dSrdS4LAMJ3V1v+7qcMzVz4xUtCkdQhepI
+	c2rpc6X0lmRbFs9Qx2owa+kFriWkGJ/1P8gUCGqDGNFi5mony1Q4hXbtP2duZLEgPH+9
+	9krrKNgcsLi4JdpCQsE+8JmfdAO+WoidDyaAti/IFaK3fVpG7qTf4EIpNPkWEcVOMgws
+	SXCg==
+X-Received: by 10.68.196.226 with SMTP id ip2mr48605820pbc.106.1394559272405; 
+	Tue, 11 Mar 2014 10:34:32 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id
+	it4sm76936668pbc.39.2014.03.11.10.34.31 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 11 Mar 2014 10:22:41 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+	Tue, 11 Mar 2014 10:34:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Mar 2014 18:22:37 +0100
-Message-Id: <1394558557-4962-1-git-send-email-ricardo.ribalda@gmail.com>
+Date: Tue, 11 Mar 2014 10:36:00 -0700
+Message-Id: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] populate_sdk_deb: Fix meta-toolchain-sdk with amd64 ARCH
+Subject: [PATCH] pulseaudio: Upgrade 4.0 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +42,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Mar 2014 17:22:44 -0000
+X-List-Received-Date: Tue, 11 Mar 2014 17:34:32 -0000
 
-Map SDK_ARCH x86_64 to DEB_SDK_ARCH amd64
+bluetooth-proximity has been removed in 5.0
 
-Without this patch meta-toolchain-gmae fails to do_populate_sdk
-
-| The following packages have unmet dependencies:
-|  nativesdk-packagegroup-sdk-host : Depends: nativesdk-autoconf but it
-is not installable
-|                                    Depends: nativesdk-libtool but it
-is not installable
-|                                    Depends: nativesdk-shadow but it is
-not installable
-|                                    Depends: nativesdk-unfs-server but
-it is not installable
-|                                    Depends: nativesdk-makedevs but it
-is not installable
-|                                    Depends: nativesdk-automake but it
-is not installable
-|                                    Depends: nativesdk-qemu but it is
-not installable
-|                                    Depends: nativesdk-pkgconfig but it
-is not installable
-|                                    Depends: nativesdk-pseudo but it is
-not installable
-|                                    Depends: nativesdk-qemu-helper but
-it is not installable
-|                                    Depends: nativesdk-opkg but it is
-not installable
-|  packagegroup-cross-canadian-qt5022 : Depends:
-gdb-cross-canadian-x86-64 but it is not installable
-|                                       Depends:
-binutils-cross-canadian-x86-64 but it is not installable
-|                                       Depends:
-gcc-cross-canadian-x86-64 but it is not installable
-|                                       Depends: meta-environment-qt5022
-but it is not installable
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/populate_sdk_deb.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc                    | 2 --
+ .../pulseaudio/{pulseaudio_4.0.bb => pulseaudio_5.0.bb}              | 5 ++---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/pulseaudio/{pulseaudio_4.0.bb => pulseaudio_5.0.bb} (63%)
 
-diff --git a/meta/classes/populate_sdk_deb.bbclass b/meta/classes/populate_sdk_deb.bbclass
-index ebb842b..aa2b6eb 100644
---- a/meta/classes/populate_sdk_deb.bbclass
-+++ b/meta/classes/populate_sdk_deb.bbclass
-@@ -6,6 +6,9 @@ DEB_SDK_ARCH = "${@[d.getVar('SDK_ARCH', True), "i386"]\
-                 [d.getVar('SDK_ARCH', True) in \
-                 ["x86", "i486", "i586", "i686", "pentium"]]}"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 103f72e..3d35b6b 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -5,7 +5,6 @@ SECTION = "libs/multimedia"
+ LICENSE = "GPLv2+ & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://src/modules/bluetooth/proximity-helper.c;beginline=1;endline=25;md5=e4cc710e40a4d900c2c294167bc58270 \
+                     file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
  
-+DEB_SDK_ARCH = "${@[d.getVar('SDK_ARCH', True), "amd64"]\
-+                [d.getVar('SDK_ARCH', True) == "x86_64"]}"
-+
- do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+@@ -145,7 +144,6 @@ RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
+ RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
  
- populate_sdk_post_deb () {
+ FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
+-FILES_pulseaudio-module-bluetooth-proximity += "${libexecdir}/pulse/proximity-helper"
+ FILES_pulseaudio-module-alsa-card += "${datadir}/pulseaudio/alsa-mixer"
+ 
+ RDEPENDS_pulseaudio-server += "\
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
+similarity index 63%
+rename from meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
+rename to meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
+index b419c54..f02359a 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
+@@ -2,9 +2,8 @@ require pulseaudio.inc
+ 
+ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
+            file://volatiles.04_pulse"
+-
+-SRC_URI[md5sum] = "591f211db2790a7e4d222f2dc6858db3"
+-SRC_URI[sha256sum] = "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff2111f01fd8778928f9cdae"
++SRC_URI[md5sum] = "c43749838612f4860465e83ed62ca38e"
++SRC_URI[sha256sum] = "99c13a8b1249ddbd724f195579df79484e9af6418cecf6a15f003a7f36caf939"
+ 
+ do_compile_prepend() {
+     mkdir -p ${S}/libltdl
 -- 
 1.9.0
 
