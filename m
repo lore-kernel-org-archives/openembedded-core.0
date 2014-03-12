@@ -1,23 +1,25 @@
 Return-Path: <alexandrux.palalau@linux.intel.com>
 Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 17C556F778
+	by mail.openembedded.org (Postfix) with ESMTP id 4DDEA6F778
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 08:32:04 +0000 (UTC)
+	Wed, 12 Mar 2014 08:32:07 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 12 Mar 2014 01:32:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,636,1389772800"; d="scan'208";a="417105573"
+X-IronPort-AV: E=Sophos;i="4.97,636,1389772800"; d="scan'208";a="417105579"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 12 Mar 2014 01:31:59 -0700
+	by azsmga001.ch.intel.com with ESMTP; 12 Mar 2014 01:32:04 -0700
 Received: from localhost.localdomain (unknown [10.237.112.121])
-	by linux.intel.com (Postfix) with ESMTP id 039606A4083;
-	Wed, 12 Mar 2014 01:31:46 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 38AAC6A4083;
+	Wed, 12 Mar 2014 01:31:52 -0700 (PDT)
 From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Mar 2014 10:36:16 +0200
-Message-Id: <1394613382-28992-1-git-send-email-alexandrux.palalau@linux.intel.com>
+Date: Wed, 12 Mar 2014 10:36:20 +0200
+Message-Id: <1394613382-28992-5-git-send-email-alexandrux.palalau@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH 0/6] Remove gconf for several gnome recipes
+In-Reply-To: <1394613382-28992-1-git-send-email-alexandrux.palalau@linux.intel.com>
+References: <1394613382-28992-1-git-send-email-alexandrux.palalau@linux.intel.com>
+Subject: [PATCH 4/6] gsettings-desktop-schemas: removed gconf inheritance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +34,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 12 Mar 2014 08:32:07 -0000
 
-This patchset removes gconf inheritance for several gconf recipes that reported 
-a WARN-QA message at buildtime regarding unrecognised --disable-schemas-install
-configure option. This option is required by gconf.bbclass
-
-Alexandru Palalau (6):
-  gnome-desktop: removed gconf inheritance in order to remove WARN-QA
-    message                    regarding --disable-schemas-install
-    configure option
-  gst-plugins-gl: removed gconf inheritance in order to remove WARN-QA
-    message                     regarding --disable-schemas-install
-    configure option
-  gnome-mime-data: removed gconf inheritance in order to remove WARN-QA
-    message                      regarding --disable-schemas-install
-    configure option
-  gsettings-desktop-schemas: removed gconf inheritance in order to
-    remove WARN-QA message                                regarding
-    --disable-schemas-install configure option
-  gnome-doc-utils: removed gconf inheritance in order to remove WARN-QA
-    message                      regarding --disable-schemas-install
-    configure option
-  gtk-engines: removed gconf inheritance in order to remove WARN-QA
-    message                  regarding --disable-schemas-install
-    configure option
-
- meta/recipes-gnome/gnome/gnome-desktop.inc                  | 2 +-
- meta/recipes-gnome/gnome/gnome-doc-utils.inc                | 2 +-
- meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb          | 3 +--
+Signed-off-by: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+---
  meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb | 2 +-
- meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb        | 2 +-
- meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb  | 2 +-
- 6 files changed, 6 insertions(+), 7 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
+index 40e5b11..cdb094c 100644
+--- a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
++++ b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
+@@ -8,7 +8,7 @@ PR = "r1"
+ 
+ DEPENDS = "glib-2.0"
+ 
+-inherit gnome gsettings gettext
++inherit gnomebase gsettings gettext gtk-icon-cache mime
+ 
+ GNOME_COMPRESS_TYPE = "xz"
+ 
 -- 
 1.8.3.1
 
