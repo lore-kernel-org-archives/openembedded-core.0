@@ -1,30 +1,30 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A3506B7A6
+Return-Path: <matt@arkanian.console-pimps.org>
+Received: from arkanian.console-pimps.org (arkanian.console-pimps.org
+	[212.110.184.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BB006F790
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 09:28:36 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,636,1389740400"; d="scan'208";a="42545214"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 12 Mar 2014 10:28:37 +0100
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.243]) by
-	COSNADEXC21.usr.ingenico.loc ([10.31.4.221]) with mapi id
-	14.02.0328.009; Wed, 12 Mar 2014 10:28:37 +0100
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] oe-setup-builddir: small rework
-Thread-Index: AQHPPdS6tyafb/1RHkm6MwgrONJgN5rdLmeQ
-Date: Wed, 12 Mar 2014 09:28:36 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B5754B2F6@COSNADEXC13.usr.ingenico.loc>
-References: <1394581224-4752-1-git-send-email-sgw@linux.intel.com>
-	<1394615726-32367-1-git-send-email-Matthieu.Crapet@ingenico.com>
-In-Reply-To: <1394615726-32367-1-git-send-email-Matthieu.Crapet@ingenico.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+	Wed, 12 Mar 2014 09:39:49 +0000 (UTC)
+Received: by arkanian.console-pimps.org (Postfix, from userid 1002)
+	id D332E6C075; Wed, 12 Mar 2014 09:39:46 +0000 (GMT)
+Received: from localhost (unknown [94.8.38.236])
+	by arkanian.console-pimps.org (Postfix) with ESMTPSA id 858B56C050;
+	Wed, 12 Mar 2014 09:39:43 +0000 (GMT)
+Date: Wed, 12 Mar 2014 09:39:42 +0000
+From: Matt Fleming <matt@console-pimps.org>
+To: Darren Hart <dvhart@linux.intel.com>
+Message-ID: <20140312093942.GD5834@console-pimps.org>
+References: <cover.1394128875.git.stefanx.stanacar@intel.com>
+	<23d446488f4304516b483a2293bd34c86a23bdff.1394128875.git.stefanx.stanacar@intel.com>
+	<CF3E3767.74FE9%dvhart@linux.intel.com>
+	<1394186245.29948.5.camel@firebird.rb.intel.com>
+	<CF44C1BC.76A1B%dvhart@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] oe-setup-builddir: small rework
+In-Reply-To: <CF44C1BC.76A1B%dvhart@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "koen@dominion.thruhere.net" <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] classes: Add gummiboot class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 09:28:41 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Mar 2014 09:39:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+On Tue, 11 Mar, at 01:38:08PM, Darren Hart wrote:
+> 
+> I'm surprised gummiboot requires STUB... Since STUB is there to allow the
+> kernel to be booted directly, no bootloader required. I guess gummiboot is
+> slightly less than a boot loader :-)
 
-Saul, I included your bashism fix in my patch.
+Gummiboot is an EFI application loader.
 
-I wanted to update copyright to something like:
+Since CONFIG_EFI_STUB sticks a PE/COFF header at the front of the
+bzImage, it appears as an EFI application which gummiboot knows how to
+load and run. This is also the reason you can execute the bzImage from
+the EFI shell (or Boot Manager).
 
-# Copyright (C) 2012-2012 OpenEmbedded Team
-
-but didn't know if this was appropriate.
-
-Regards,
-Matthieu
+-- 
+Matt Fleming, Intel Open Source Technology Center
 
