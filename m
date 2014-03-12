@@ -1,28 +1,37 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 4252F6C716
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DC566B58B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 15:30:50 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id s2CFUjYg027538
+	Wed, 12 Mar 2014 15:38:03 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id x13so11152756qcv.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 16:30:50 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0387.000; Wed, 12 Mar 2014 16:30:44 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: libm accuracy, eglibc compared to glibc
-Thread-Index: Ac8+BQu6b+elda9pTAWbBsq3s0UQDQ==
-Date: Wed, 12 Mar 2014 15:30:43 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B18163B@post.tritech.se>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+	Wed, 12 Mar 2014 08:38:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ximuhi8ysBd/wsHYsYo7CdPwJkUrKl0yNN1PdcGz09k=;
+	b=DhJUhmEdLFV8nKGT1Uc7BVZ3WyYmHeu+VCXG8Vnz7+9Mfwx7XwyrIPmx+FUsl66go0
+	UfpqMri5xDpiauwg46TjBX1Uonp5zXlePD1rZf2NAjMMqRY61VcpsW/eWAoVqM9EkvPA
+	SNTf6ocSKgTE5gTW9Fd6GNxVkPeKo5xt+1Om3a/ydEI7DEna31kiv4WX8srONyQvXdje
+	USWYDeZ8J9e9n+zrUrPGJxCRgiHbd28J/4w5Zc3+sTbMx5mNBhURw6iPExxnj8QGSzq+
+	YiYkmyCal5fGro2kbDow3LJqSRLeRpUkjHrKB+0dooXIg0jEfcWxUcrzdzKYFFyInXi6
+	SDjA==
+X-Gm-Message-State: ALoCoQmZo9ooc7MgozmnYhdXsNsh49I82KoKPPrRCG/g0l/wpUcp3nzJ6CSLn9QpgmvIPyZ112IK
+X-Received: by 10.140.106.195 with SMTP id e61mr44346464qgf.66.1394638684795; 
+	Wed, 12 Mar 2014 08:38:04 -0700 (PDT)
 MIME-Version: 1.0
-Subject: libm accuracy, eglibc compared to glibc
+Received: by 10.140.48.79 with HTTP; Wed, 12 Mar 2014 08:37:44 -0700 (PDT)
+In-Reply-To: <1394627248-13097-6-git-send-email-alexandrux.palalau@linux.intel.com>
+References: <1394627248-13097-1-git-send-email-alexandrux.palalau@linux.intel.com>
+	<1394627248-13097-6-git-send-email-alexandrux.palalau@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Mar 2014 15:37:44 +0000
+Message-ID: <CAJTo0LYd_--2XzBsDA4d3vRRyqTGFbdi_-c3J84hWY9H8tog2Q@mail.gmail.com>
+To: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 5/6] gnome-doc-utils: removed gconf inheritance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 15:30:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Mar 2014 15:38:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,=0A=
-=0A=
-I face a problem with libm. With my Dora build the following assertion does=
-n't hold:=0A=
-=0A=
-sqrt( pow( sqrt( 2.0 ), 4.0 ) ) =3D=3D 2.0=0A=
-=0A=
-1) With my old OE-classic / glibc-2.9 / PowerPC-hf it holds.=0A=
-2) With my Debian desktop PC / glibc-2.17 / amd64 it holds.=0A=
-3) With my new OE-core Dora / eglibc-2.18 / PowerPC-hf it doesn't hold.=0A=
-=0A=
-Close enough one can think but the standardized test case I run requires th=
-e result to be 2.0.=0A=
-A simple test program:=0A=
---------------------------------------------------------------------=0A=
-#include <stdio.h>=0A=
-#include <math.h>=0A=
-=0A=
-int main(){=0A=
-=0A=
-	double two =3D 2.0;=0A=
-	double four =3D 4.0;=0A=
-=0A=
-	double s1 =3D sqrt(two);=0A=
-	printf("sqrt(%.20f) =3D %.20f\n", two, s1);=0A=
-	double p   =3D pow(s1, four);=0A=
-	printf("pow(%.20f, %.20f) =3D %.20f\n", s1, four, p);=0A=
-	double s2 =3D sqrt(p);=0A=
-	printf("sqrt(%.20f) =3D %.20f\n", p, s2);=0A=
-=0A=
-}=0A=
---------------------------------------------------------------------=0A=
-=0A=
-results from 1 and 2 (identical):=0A=
-sqrt(2.00000000000000000000) =3D 1.41421356237309514547=0A=
-pow(1.41421356237309514547, 4.00000000000000000000) =3D 4.00000000000000088=
-818=0A=
-sqrt(4.00000000000000088818) =3D 2.00000000000000000000=0A=
-=0A=
-results from 3:=0A=
-sqrt(2.00000000000000000000) =3D 1.41421356237309492343=0A=
-pow(1.41421356237309492343, 4.00000000000000000000) =3D 3.99999999999999866=
-773=0A=
-sqrt(3.99999999999999866773) =3D 1.99999999999999955591=0A=
-=0A=
-Does anyone know if this is a known "feature" of eglibc or know any other r=
-eason=0A=
-for this difference?=0A=
-=0A=
-Best Regards,=0A=
-Mats=0A=
+On 12 March 2014 12:27, Alexandru Palalau
+<alexandrux.palalau@linux.intel.com> wrote:
+> +inherit gnomebase gettext python-dir pythonnative autotools-brokensep gtk-icon-cache mime
+
+I can't see any reason for gtk-icon-cache and mime to be inherited.
+
+Ross
 
