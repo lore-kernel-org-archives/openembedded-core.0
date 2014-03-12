@@ -1,38 +1,37 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AAE16F7B2
+Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
+	[209.85.160.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 70D0B6F7AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 15:05:36 +0000 (UTC)
-Received: by mail-yk0-f170.google.com with SMTP id 9so27385370ykp.1
+	Wed, 12 Mar 2014 15:07:18 +0000 (UTC)
+Received: by mail-yk0-f171.google.com with SMTP id q9so27393807ykb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 08:05:37 -0700 (PDT)
+	Wed, 12 Mar 2014 08:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=8PB3ntc37WMH1FFj1zPGFyTrKxT+ikuiTINn0sNV1j0=;
-	b=QXlUbWF8hm2elhLz/b6s8Jori3sbqh5zFYfBu1jcfWWKlUaW72UbpWrSsJDr02zMEc
-	ocpFgRX+X0p2XrdXEnU4lxDG+yh5Y6O8QiDdG+B9VMQ4qwCvURsgeRza8dDBmkrOuBi3
-	ZzwBOtVhm2sv4ZerMfbpWP6yFrtlp983avHg0xPYiwFGseo+B0icihRrImCXlcc6sHPa
-	ersugkg/f8bSwDDzvV0W9EqOaoIEMruJB0F25aZNMV6Gm+5Gu/rvRKSKXAjS2e7Il6Ac
-	LSIT/Bto4OI18fEy3yqPIxFuCQZLirCXzMZ4d+PTKyOfNFmsa0eI3prVoAkHEh+5lcag
-	ZCFA==
+	bh=sjz7RS3nM+BlD8ZpwPtJ3lf2NP7bVEhyHTgjg3tbilM=;
+	b=KLR9PekMoYDlWhD3bF8cYR/YgSrgOHhj7v8zm0Bb9VCM+mh17JC9pCI2paisMa+cet
+	WSjflruGscBlGmAK9TkN/7UJsuHwtcOpP4iII/wqf0wHpaomaarKdGNHsAWFURUBg+qv
+	9gQwwP8uXo3xxcMq3t1C9gzdIfPDoEBiXblbDOdKLPA/dAakwLLz0eg0l6vG7IvYVLzn
+	dv81pUDP3SX2hvoKAa9PqeRngCyz5SgJwWdmZQA2j3BdAIuTCjB/W8iSyBrgN6DaGqqO
+	rJROSBm3UzsqYQM8NRgLpNbMC2yVcvv0OZZ2byL4T4H8kTruB4eQWl1QR2xJf/Trv0th
+	gjKg==
 MIME-Version: 1.0
-X-Received: by 10.236.60.68 with SMTP id t44mr61053512yhc.47.1394636737438;
-	Wed, 12 Mar 2014 08:05:37 -0700 (PDT)
+X-Received: by 10.236.40.12 with SMTP id e12mr1657843yhb.155.1394636839740;
+	Wed, 12 Mar 2014 08:07:19 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Wed, 12 Mar 2014 08:05:37 -0700 (PDT)
-In-Reply-To: <53204079.9030806@pr.hu>
-References: <53204079.9030806@pr.hu>
-Date: Wed, 12 Mar 2014 12:05:37 -0300
-X-Google-Sender-Auth: 6Ax-JjwTwv5Hib9oJADsjpgW0qQ
-Message-ID: <CAP9ODKra6NpM_jz=bFVHH45gEbjs6Sz3pD3oyh6OKT9XVhgZag@mail.gmail.com>
+Received: by 10.170.124.72 with HTTP; Wed, 12 Mar 2014 08:07:19 -0700 (PDT)
+In-Reply-To: <1394617444-15843-1-git-send-email-s.mennetrier@innotis.org>
+References: <1394617444-15843-1-git-send-email-s.mennetrier@innotis.org>
+Date: Wed, 12 Mar 2014 12:07:19 -0300
+X-Google-Sender-Auth: 3DfEp7Hh_Xo7LpbqC7dHOeOvi2g
+Message-ID: <CAP9ODKoB4nmMhpbveVhDavAVQRDdhJ1buYMBn_TYC==4gU-77w@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Boszormenyi Zoltan <zboszor@pr.hu>, 
-	Patches and discussions about the oe-core layer
+To: =?ISO-8859-1?Q?S=E9bastien_Mennetrier?= <s.mennetrier@innotis.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
-Subject: Re: [meta-freescale] systemtap fails to build
+Subject: Re: [PATCH v2] Create gstreamer-1.0 package groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,92 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 15:05:41 -0000
-Content-Type: multipart/alternative; boundary=bcaec508238c53759f04f46a2b2c
+X-List-Received-Date: Wed, 12 Mar 2014 15:07:22 -0000
+Content-Type: multipart/alternative; boundary=001a113676346c805204f46a3168
 
---bcaec508238c53759f04f46a2b2c
+--001a113676346c805204f46a3168
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Wed, Mar 12, 2014 at 6:44 AM, S=E9bastien Mennetrier <
+s.mennetrier@innotis.org> wrote:
 
-This is not meta-fsl-arm specific so I am adding OE-Core mailing list in
-copy.
-
-On Wed, Mar 12, 2014 at 8:09 AM, Boszormenyi Zoltan <zboszor@pr.hu> wrote:
-
-> I was trying to "bitbake core-image-lsb-sdk" and it failed with the error
-> below.
-> Even after "repo sync ; bitbake -c clean systemtap"
+> This recipe is based on gst-meta-base
 >
-> | In file included from /usr/include/stdio.h:27:0,
-> |                  from /home/zozo/fsl-community-bsp/
-> build-master-next/tmp/work/x86_64-linux/systemtap-native/
-> 2.5+gitAUTOINC+508059f048-r0/git/staprun/staprun.h:18,
-> |                  from /home/zozo/fsl-community-bsp/
-> build-master-next/tmp/work/x86_64-linux/systemtap-native/
-> 2.5+gitAUTOINC+508059f048-r0/git/staprun/staprun.c:24:
-> | /usr/include/features.h:148:3: error: #warning "_BSD_SOURCE and
-> _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Werror=cpp]
-> |  # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use
-> _DEFAULT_SOURCE"
-> |    ^
-> | cc1: all warnings being treated as errors
-> | make[3]: *** [staprun-staprun.o] Error 1
->
-> I am using a hybrid system, host is mostly Fedora 20 with some
-> packages upgraded from Rawhide, like GLIBC 2.19.90.
-> The attached (shortsighted) patch allows it to build here.
+> Signed-off-by: S=E9bastien Mennetrier <s.mennetrier@innotis.org>
 >
 
-Do someone know if it is being in worked by someone?
 
--- 
+I think you ought to use a better commit log (as this is not a packagegroup
+at all) or change it to be a package group. Either way works for me :)
+
+--=20
 Otavio Salvador                             O.S. Systems
 http://www.ossystems.com.br        http://code.ossystems.com.br
 Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---bcaec508238c53759f04f46a2b2c
+--001a113676346c805204f46a3168
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hello,<br><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">This is not meta-fsl-arm specific so I am adding OE-Core m=
-ailing list in copy.<br><br><div class=3D"gmail_quote">On Wed, Mar 12, 2014=
- at 8:09 AM, Boszormenyi Zoltan <span dir=3D"ltr">&lt;<a href=3D"mailto:zbo=
-szor@pr.hu" target=3D"_blank">zboszor@pr.hu</a>&gt;</span> wrote:<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Wed, Mar 12, 2014 at 6:44 AM, S=E9bastien Mennetrier <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:s.mennetrier@innotis.org" target=3D"_blank">=
+s.mennetrier@innotis.org</a>&gt;</span> wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">I was trying to &quot;bitbake core-image-lsb=
--sdk&quot; and it failed with the error below.<br>
-Even after &quot;repo sync ; bitbake -c clean systemtap&quot;<br>
+x #ccc solid;padding-left:1ex">This recipe is based on gst-meta-base<br>
 <br>
-| In file included from /usr/include/stdio.h:27:0,<br>
-| =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0from /home/zozo/fsl-community-bsp/<u><=
-/u>build-master-next/tmp/work/<u></u>x86_64-linux/systemtap-native/<u></u>2=
-.5+gitAUTOINC+508059f048-r0/<u></u>git/staprun/staprun.h:18,<br>
-| =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0from /home/zozo/fsl-community-bsp/<u><=
-/u>build-master-next/tmp/work/<u></u>x86_64-linux/systemtap-native/<u></u>2=
-.5+gitAUTOINC+508059f048-r0/<u></u>git/staprun/staprun.c:24:<br>
-| /usr/include/features.h:148:3: error: #warning &quot;_BSD_SOURCE and _SVI=
-D_SOURCE are deprecated, use _DEFAULT_SOURCE&quot; [-Werror=3Dcpp]<br>
-| =A0# warning &quot;_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFA=
-ULT_SOURCE&quot;<br>
-| =A0 =A0^<br>
-| cc1: all warnings being treated as errors<br>
-| make[3]: *** [staprun-staprun.o] Error 1<br>
-<br>
-I am using a hybrid system, host is mostly Fedora 20 with some<br>
-packages upgraded from Rawhide, like GLIBC 2.19.90.<br>
-The attached (shortsighted) patch allows it to build here.<br></blockquote>=
-<div><br></div><div>Do someone know if it is being in worked by someone?</d=
-iv></div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
-ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" targ=
-et=3D"_blank">http://code.ossystems.com.br</a><br><span>Mobile: +55 (53) 99=
-81-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D"gc-number-4" class=3D"gc=
--cs-link" title=3D"Call with Google Voice">+1 (347) 903-9750</span></span><=
-br>
-
+Signed-off-by: S=E9bastien Mennetrier &lt;<a href=3D"mailto:s.mennetrier@in=
+notis.org">s.mennetrier@innotis.org</a>&gt;<br></blockquote><div><br></div>=
+<div><br></div><div>I think you ought to use a better commit log (as this i=
+s not a packagegroup at all) or change it to be a package group. Either way=
+ works for me :)</div>
+</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
+m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
+ref=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystem=
+s.com.br</a><br>
+<span>Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D=
+"gc-number-5" class=3D"gc-cs-link" title=3D"Call with Google Voice">+1 (347=
+) 903-9750</span></span><br>
 </div></div>
 
---bcaec508238c53759f04f46a2b2c--
+--001a113676346c805204f46a3168--
