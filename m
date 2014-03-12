@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D2B6F7DE
+Return-Path: <alexandrux.palalau@linux.intel.com>
+Received: from mga14.intel.com (unknown [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 6767D6F791
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 10:36:58 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id w8so9619043qac.41
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 03:36:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5YSfUETMq4rnXVno1dPD1lVt5CQ8dWw3lG895zWwuKg=;
-	b=Jc9HrXhinEFSGJhbuUOux6ZiQY50NlVIfyWyQg8iTgQAMDUkYwu04fRlDqFgm+YeZJ
-	mM8SvacZJBPglrlzhC18o8vJ4K59WezVsc/wxXlnFI/kAqqxbiG4A1VYQcDUqB3fljoe
-	CH3YO09EcXhltDu6wfUdgKENKUveW79LPFmRo5InJC8HX8EAqpgAEUBPsj/xBCAZ4kB/
-	qYaYX3QpBREbm6jXaLbJ+u1B76JBPgMpgalfmIixnv3Zj5LYF62gQUx6tgSClI76eQvQ
-	3aLdzeYbZUGbMYeQAtyBZfXQSQaiMy1LGEK14CGOGnhvhZYC2jqkoGbaE0Kt3JZlkJUw
-	r5Hw==
-X-Gm-Message-State: ALoCoQndO/5loSx0un2wVIrTINi5yP4SsBhFFUIiN+BdMDVdT+alGC05NSpccQJ6E124UOCLiXYy
-X-Received: by 10.140.81.74 with SMTP id e68mr1117958qgd.99.1394620618973;
-	Wed, 12 Mar 2014 03:36:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Wed, 12 Mar 2014 03:36:38 -0700 (PDT)
-In-Reply-To: <1394613382-28992-4-git-send-email-alexandrux.palalau@linux.intel.com>
-References: <1394613382-28992-1-git-send-email-alexandrux.palalau@linux.intel.com>
-	<1394613382-28992-4-git-send-email-alexandrux.palalau@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Mar 2014 10:36:38 +0000
-Message-ID: <CAJTo0LbucMbdpEFFLN59jcYxJkr5STTe5_w2fpyYO4kTs9Heaw@mail.gmail.com>
-To: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] gnome-mime-data: removed gconf inheritance
+	Wed, 12 Mar 2014 12:23:05 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Mar 2014 05:23:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,637,1389772800"; d="scan'208";a="346800020"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Mar 2014 05:23:06 -0700
+Received: from localhost.localdomain (unknown [10.237.112.121])
+	by linux.intel.com (Postfix) with ESMTP id 9F0326A4083;
+	Wed, 12 Mar 2014 05:22:53 -0700 (PDT)
+From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Mar 2014 14:27:23 +0200
+Message-Id: <1394627248-13097-2-git-send-email-alexandrux.palalau@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1394627248-13097-1-git-send-email-alexandrux.palalau@linux.intel.com>
+References: <1394627248-13097-1-git-send-email-alexandrux.palalau@linux.intel.com>
+Subject: [PATCH v2 1/6] gnome-desktop: removed gconf inheritance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 10:36:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Mar 2014 12:23:08 -0000
 
-On 12 March 2014 08:36, Alexandru Palalau
-<alexandrux.palalau@linux.intel.com> wrote:
-> +inherit gnomebase gtk-icon-cache mime
+In order to remove WARN-QA message regarding --disable-schemas-install configure option.
 
-Should just need gnomebase and mime.
+Signed-off-by: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+---
+ meta/recipes-gnome/gnome/gnome-desktop.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-gnome/gnome/gnome-desktop.inc b/meta/recipes-gnome/gnome/gnome-desktop.inc
+index 4fcf6ab..8bdf476 100644
+--- a/meta/recipes-gnome/gnome/gnome-desktop.inc
++++ b/meta/recipes-gnome/gnome/gnome-desktop.inc
+@@ -13,7 +13,7 @@ FILES_${PN} += "${datadir}/gnome-about ${datadir}/libgnome-desktop/pnp.ids"
+ 
+ PR = "r6"
+ 
+-inherit gnome pkgconfig
++inherit gnomebase mime gtk-icon-cache
+ 
+ do_install_append () {
+ 	sed -i -e's,${STAGING_BINDIR_NATIVE},${bindir},g' ${D}${bindir}/gnome-about
+-- 
+1.8.3.1
+
 
