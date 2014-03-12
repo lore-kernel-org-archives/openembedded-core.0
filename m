@@ -1,27 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 710106F589
+Return-Path: <alexandrux.palalau@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A6C86F58D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 07:47:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2C7lHRf017098
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 00:47:18 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Wed, 12 Mar 2014 00:47:17 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Mar 2014 15:47:01 +0800
-Message-ID: <eaf248b590ed38e4ad4135ff58e99e23336c9f75.1394610315.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1394610315.git.kai.kang@windriver.com>
-References: <cover.1394610315.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH 5/5] libnewt: update to 0.52.17
+	Wed, 12 Mar 2014 08:32:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Mar 2014 01:27:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,636,1389772800"; d="scan'208";a="470763926"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 12 Mar 2014 01:32:00 -0700
+Received: from localhost.localdomain (unknown [10.237.112.121])
+	by linux.intel.com (Postfix) with ESMTP id 47ECA6A4083;
+	Wed, 12 Mar 2014 01:31:48 -0700 (PDT)
+From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Mar 2014 10:36:17 +0200
+Message-Id: <1394613382-28992-2-git-send-email-alexandrux.palalau@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1394613382-28992-1-git-send-email-alexandrux.palalau@linux.intel.com>
+References: <1394613382-28992-1-git-send-email-alexandrux.palalau@linux.intel.com>
+Subject: [PATCH 1/6] gnome-desktop: removed gconf inheritance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,134 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 07:47:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Mar 2014 08:32:03 -0000
 
-Update libnewt and libnewt-python to 0.52.17.
-
-* remove PR
-* update cross_ar.patch and fix_SHAREDDIR.patch that context changed
-* remove fix_python_fpic.patch which is merged
-* update so file name in libnewt-python recipe
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
 ---
- meta/recipes-extended/newt/files/cross_ar.patch      | 16 ++++------------
- meta/recipes-extended/newt/files/fix_SHAREDDIR.patch |  4 ++--
- meta/recipes-extended/newt/libnewt-python_0.52.14.bb |  5 ++---
- meta/recipes-extended/newt/libnewt_0.52.14.bb        | 10 ++++------
- 4 files changed, 12 insertions(+), 23 deletions(-)
+ meta/recipes-gnome/gnome/gnome-desktop.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
-index f67239a..2035cc4 100644
---- a/meta/recipes-extended/newt/files/cross_ar.patch
-+++ b/meta/recipes-extended/newt/files/cross_ar.patch
-@@ -19,16 +19,8 @@ Upstream-Status: Pending
+diff --git a/meta/recipes-gnome/gnome/gnome-desktop.inc b/meta/recipes-gnome/gnome/gnome-desktop.inc
+index 4fcf6ab..8bdf476 100644
+--- a/meta/recipes-gnome/gnome/gnome-desktop.inc
++++ b/meta/recipes-gnome/gnome/gnome-desktop.inc
+@@ -13,7 +13,7 @@ FILES_${PN} += "${datadir}/gnome-about ${datadir}/libgnome-desktop/pnp.ids"
  
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
-- LDFLAGS = @LDFLAGS@
-- CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@ 
-- GNU_LD = @GNU_LD@
--+AR = @AR@
-- 
-- VERSION = @VERSION@
-- TAG = r$(subst .,-,$(VERSION))
--@@ -95,7 +96,7 @@ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
-- 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
-+@@ -109,7 +109,7 @@
-+ 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.$(SOEXT) $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
-  
-  $(LIBNEWT): $(LIBOBJS)
- -	ar rv $@ $^
-@@ -38,10 +30,10 @@ Upstream-Status: Pending
-  
- --- a/configure.ac
- +++ b/configure.ac
--@@ -14,6 +14,10 @@ AC_PROG_CC
-- AC_PROG_INSTALL
-+@@ -15,6 +15,10 @@
-  AC_PROG_LN_S
-  AC_PROG_GREP
-+ AC_SYS_LARGEFILE
- +AN_MAKEVAR([AR], [AC_PROG_AR])
- +AN_PROGRAM([ar], [AC_PROG_AR])
- +AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
-diff --git a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
-index 7795260..1907aef 100644
---- a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
-+++ b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
-@@ -12,14 +12,14 @@ Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+ PR = "r6"
  
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -114,12 +114,12 @@
-+@@ -128,12 +128,12 @@
-  
-  sharedlib: $(LIBNEWTSH)
-  
- -$(LIBNEWTSH): $(SHAREDDIR) $(SHAREDOBJS)
- +$(LIBNEWTSH): $(SHAREDOBJS)
-  	$(CC) -shared -o $(LIBNEWTSH) $(SHLIBFLAGS) $(SHAREDOBJS) $(LDFLAGS) $(LIBS)
-- 	ln -fs $(LIBNEWTSONAME) libnewt.so
-+ 	ln -fs $(LIBNEWTSONAME) libnewt.$(SOEXT)
-  	ln -fs $(LIBNEWTSH) $(LIBNEWTSONAME)
-  
- -$(SHAREDDIR)/%.o : %.c
-diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-index 871b195..70ab202 100644
---- a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-+++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-@@ -9,15 +9,14 @@ inherit pythonnative python-dir
- EXTRA_OECONF += "--with-python"
- EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+-inherit gnome pkgconfig
++inherit gnomebase mime gtk-icon-cache
  
--
- do_compile () {
- 	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
--	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
-+	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snack.so
- }
- 
- do_install () {
- 	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
--	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
-+	install -m 0755 ${PYTHON_DIR}/_snack.so ${D}${PYTHON_SITEPACKAGES_DIR}/
- 	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
- }
- 
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-index 65bcf40..46598e6 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-@@ -12,21 +12,19 @@ HOMEPAGE = "https://fedorahosted.org/newt/"
- SECTION = "libs"
- 
- LICENSE = "LGPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
- 
- # slang needs to be >= 2.2
- DEPENDS = "slang popt"
- 
--PR = "r2"
--
- SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-            file://remove_slang_include.patch \
-            file://fix_SHAREDDIR.patch \
-            file://cross_ar.patch \
--           file://fix_python_fpic.patch"
-+          "
- 
--SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
--SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
-+SRC_URI[md5sum] = "f36d4d908965a0c89fd6fd8b61a6118b"
-+SRC_URI[sha256sum] = "69837973ef2ee2fa644426f1c3e48d2b18785ebcd382ef7fd01eb2e67d2d632b"
- 
- S = "${WORKDIR}/newt-${PV}"
- 
+ do_install_append () {
+ 	sed -i -e's,${STAGING_BINDIR_NATIVE},${bindir},g' ${D}${bindir}/gnome-about
 -- 
-1.8.1.2
+1.8.3.1
 
 
