@@ -1,26 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F38CE6F800
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 076F86F81D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 01:57:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2C1vu3d015909
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 12 Mar 2014 05:45:18 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id y13so595547pdi.33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 18:57:56 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 11 Mar 2014 18:57:55 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Mar 2014 09:57:48 +0800
-Message-ID: <cc2a0f3eb8ee38699f9d862d63f54cd184aad037.1394589334.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1394589334.git.Qi.Chen@windriver.com>
-References: <cover.1394589334.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] gettext: upgrade from 0.18.3.1 to 0.18.3.2
+	Tue, 11 Mar 2014 22:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=gI5URUKakKiDHfG5kU19fv+RKUKM6MNH5/qOZ+Tku2c=;
+	b=IPn7Khq0DuvO44TzcBYQTq0S9F297DibyTL4ZhR272LKbFV7+RcXVyAwHhbsTCMKoh
+	0j6LuLk03crKNAjsBYaZu7dwgCDVrkz9M+gH5P8YZXtf+ExxViXKEC4QKQk7TBUjJ9vx
+	nvDIpa33l9WsjFJMDjw7Cft9o09bscDILWo33CSi2QMB+hyr3Iky7fZJZenDyhIF4/Qo
+	+sOQoS90YlUkuLyAcrexWhSF9IXcuvBfd6OC/GPps8CLpA6/rD/joUggIE+lmzuG/EyC
+	uaarh9nGL7vuAiYNUrWZvOGKgWAtZPZF+Kde5IF3Mq3Ppip9KHWw18MWlYYhxeraTQN3
+	zzhw==
+X-Received: by 10.66.119.136 with SMTP id ku8mr2564458pab.121.1394603118911;
+	Tue, 11 Mar 2014 22:45:18 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id
+	id10sm2308393pbc.35.2014.03.11.22.45.17 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 11 Mar 2014 22:45:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Mar 2014 22:46:50 -0700
+Message-Id: <1394603210-678-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] eglibc: Update SRC_URI to point to final download location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 01:57:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Mar 2014 05:45:21 -0000
 
-Upgrade gettext from 0.18.3.1 to 0.18.3.2.
+We have been using interim location for the src_uri
+now the tarballs are placed in usual location so update
+the src_uri accordingly
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../parallel.patch                                 |    0
- .../COPYING                                        |    0
- .../Makefile.in.in                                 |    0
- .../Makevars.template                              |    0
- .../aclocal.tgz                                    |  Bin 37591 -> 37591 bytes
- .../config.rpath                                   |    0
- ...conv-m4-remove-the-test-to-convert-euc-jp.patch |    0
- .../remove-potcdate.sin                            |    0
- ...8.3.1.bb => gettext-minimal-native_0.18.3.2.bb} |    0
- .../{gettext_0.18.3.1.bb => gettext_0.18.3.2.bb}   |    4 ++--
- 10 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/gettext/{gettext-0.18.3.1 => gettext-0.18.3.2}/parallel.patch (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/COPYING (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/Makefile.in.in (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/Makevars.template (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/aclocal.tgz (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/config.rpath (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/iconv-m4-remove-the-test-to-convert-euc-jp.patch (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.3.1 => gettext-minimal-0.18.3.2}/remove-potcdate.sin (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-native_0.18.3.1.bb => gettext-minimal-native_0.18.3.2.bb} (100%)
- rename meta/recipes-core/gettext/{gettext_0.18.3.1.bb => gettext_0.18.3.2.bb} (97%)
+ meta/recipes-core/eglibc/cross-localedef-native_2.19.bb | 2 +-
+ meta/recipes-core/eglibc/eglibc_2.19.bb                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext-0.18.3.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.3.2/parallel.patch
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-0.18.3.1/parallel.patch
-rename to meta/recipes-core/gettext/gettext-0.18.3.2/parallel.patch
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/COPYING b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/COPYING
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/COPYING
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/COPYING
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/Makefile.in.in b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/Makefile.in.in
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/Makefile.in.in
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/Makefile.in.in
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/Makevars.template b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/Makevars.template
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/Makevars.template
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/Makevars.template
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/aclocal.tgz b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/aclocal.tgz
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/aclocal.tgz
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/aclocal.tgz
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/config.rpath b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/config.rpath
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/config.rpath
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/config.rpath
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/iconv-m4-remove-the-test-to-convert-euc-jp.patch b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.3.1/remove-potcdate.sin b/meta/recipes-core/gettext/gettext-minimal-0.18.3.2/remove-potcdate.sin
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-0.18.3.1/remove-potcdate.sin
-rename to meta/recipes-core/gettext/gettext-minimal-0.18.3.2/remove-potcdate.sin
-diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.18.3.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.18.3.2.bb
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-minimal-native_0.18.3.1.bb
-rename to meta/recipes-core/gettext/gettext-minimal-native_0.18.3.2.bb
-diff --git a/meta/recipes-core/gettext/gettext_0.18.3.1.bb b/meta/recipes-core/gettext/gettext_0.18.3.2.bb
-similarity index 97%
-rename from meta/recipes-core/gettext/gettext_0.18.3.1.bb
-rename to meta/recipes-core/gettext/gettext_0.18.3.2.bb
-index 1a31ab0..553d522 100644
---- a/meta/recipes-core/gettext/gettext_0.18.3.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.3.2.bb
-@@ -18,8 +18,8 @@ PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--
+diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb
+index d3f43bd..3ce0e1d 100644
+--- a/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb
++++ b/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb
+@@ -16,7 +16,7 @@ inherit autotools
+ # pick up an eglibc patch
+ FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
  
- LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
+-SRC_URI = "http://sakrah.homelinux.org/files/eglibc-${PV}-svnr25243.tar.bz2 \
++SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25243.tar.bz2 \
+ 	   file://fix_for_centos_5.8.patch;patchdir=.. \
+ 	  "
+ SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
+diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
+index 7e582b6..2bedf26 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.19.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
+@@ -2,7 +2,7 @@ require eglibc.inc
  
--SRC_URI[md5sum] = "3fc808f7d25487fc72b5759df7419e02"
--SRC_URI[sha256sum] = "0d8f9a33531b77776b3dc473e7940019ca19bfca5b4c06db6e96065eeb07245d"
-+SRC_URI[md5sum] = "241aba309d07aa428252c74b40a818ef"
-+SRC_URI[sha256sum] = "d1a4e452d60eb407ab0305976529a45c18124bd518d976971ac6dc7aa8b4c5d7"
+ DEPENDS += "gperf-native kconfig-frontends-native"
  
- inherit autotools
- 
+-SRC_URI = "http://sakrah.homelinux.org/files/eglibc-${PV}-svnr25243.tar.bz2 \
++SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25243.tar.bz2 \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
 -- 
-1.7.9.5
+1.9.0
 
 
