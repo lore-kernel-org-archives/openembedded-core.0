@@ -1,31 +1,21 @@
-Return-Path: <abelous@broadcom.com>
-Received: from mail-gw3-out.broadcom.com (mail-gw3-out.broadcom.com
-	[216.31.210.64])
-	by mail.openembedded.org (Postfix) with ESMTP id A4BC460B9B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 585E560B9B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 18:58:08 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,639,1389772800"; d="scan'208";a="18887057"
-Received: from irvexchcas06.broadcom.com (HELO
-	IRVEXCHCAS06.corp.ad.broadcom.com) ([10.9.208.53])
-	by mail-gw3-out.broadcom.com with ESMTP; 12 Mar 2014 12:11:38 -0700
-Received: from IRVEXCHSMTP2.corp.ad.broadcom.com (10.9.207.52) by
-	IRVEXCHCAS06.corp.ad.broadcom.com (10.9.208.53) with Microsoft SMTP
-	Server (TLS) id 14.3.174.1; Wed, 12 Mar 2014 11:58:06 -0700
-Received: from mail-irva-13.broadcom.com (10.10.10.20) by
-	IRVEXCHSMTP2.corp.ad.broadcom.com (10.9.207.52) with Microsoft SMTP
-	Server id 14.3.174.1; Wed, 12 Mar 2014 11:58:07 -0700
-Received: from stbboot-mhtb-01.and.broadcom.com
-	(stbboot-mhtb-01.and.broadcom.com [10.28.6.99])	by
-	mail-irva-13.broadcom.com (Postfix) with ESMTP id 84B99EAD4B;
-	Wed, 12 Mar 2014 11:58:06 -0700 (PDT)
-From: Andrey Belous <abelous@broadcom.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Mar 2014 14:57:03 -0400
-Message-ID: <1394650623-18854-1-git-send-email-abelous@broadcom.com>
-X-Mailer: git-send-email 1.9.0
-MIME-Version: 1.0
-Cc: Andrey Belous <abelous@hotmail.com>
-Subject: [PATCH] tclibc-uclibc: Changing assignment to conditional variable assignment
+	Wed, 12 Mar 2014 18:59:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Mar 2014 11:59:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,639,1389772800"; d="scan'208";a="497176494"
+Received: from drewstep-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.61])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Mar 2014 11:59:44 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Mar 2014 18:59:27 +0000
+Message-Id: <cover.1394650701.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [dora][PATCH 0/1] Dora backport of master fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,33 +28,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 18:58:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Mar 2014 18:59:51 -0000
 
-From: Andrey Belous <abelous@hotmail.com>
+Backporting this to dora since it's about to be backported to dylan as
+well.
 
-Setting of a variable PREFERRED_PROVIDER_virtual/libc only if it doesn't have a value
 
-Signed-off-by: Andrey Belous <abelous@broadcom.com>
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/conf/distro/include/tclibc-uclibc.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit ca55e7321f0c52fbe13d301d0dfe3adff5435639:
 
-diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
-index 9245112..a4d8c39 100644
---- a/meta/conf/distro/include/tclibc-uclibc.inc
-+++ b/meta/conf/distro/include/tclibc-uclibc.inc
-@@ -8,7 +8,7 @@ LIBCEXTENSION = "-uclibc"
- LIBCOVERRIDE = ":libc-uclibc"
- OVERRIDES .= "${LIBCOVERRIDE}"
- 
--PREFERRED_PROVIDER_virtual/libc = "uclibc"
-+PREFERRED_PROVIDER_virtual/libc ?= "uclibc"
- PREFERRED_PROVIDER_virtual/libiconv ?= "libiconv"
- PREFERRED_PROVIDER_virtual/libintl ?= "gettext"
- PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-eglibc"
+  iproute2: de-bash its scripts to remove the bash dependency (2014-03-11 07:56:29 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/dora-lsbtest
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dora-lsbtest
+
+Stefan Stanacar (1):
+  lsbtest: fix comparison bashism
+
+ meta/recipes-extended/lsb/lsbtest/LSB_Test.sh | 2 +-
+ meta/recipes-extended/lsb/lsbtest_1.0.bb      | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
 -- 
-1.9.0
+1.8.5.3
 
 
