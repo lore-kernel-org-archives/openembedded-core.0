@@ -1,20 +1,38 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E416DA6E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AAE16F7B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 14:52:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Mar 2014 07:51:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,638,1389772800"; d="scan'208";a="470959156"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 12 Mar 2014 07:51:33 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Mar 2014 16:54:29 +0200
-Message-Id: <1394636069-6139-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [meta-multimedia][PATCH] musicpd: upgrade to 0.18.9
+	Wed, 12 Mar 2014 15:05:36 +0000 (UTC)
+Received: by mail-yk0-f170.google.com with SMTP id 9so27385370ykp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Mar 2014 08:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=8PB3ntc37WMH1FFj1zPGFyTrKxT+ikuiTINn0sNV1j0=;
+	b=QXlUbWF8hm2elhLz/b6s8Jori3sbqh5zFYfBu1jcfWWKlUaW72UbpWrSsJDr02zMEc
+	ocpFgRX+X0p2XrdXEnU4lxDG+yh5Y6O8QiDdG+B9VMQ4qwCvURsgeRza8dDBmkrOuBi3
+	ZzwBOtVhm2sv4ZerMfbpWP6yFrtlp983avHg0xPYiwFGseo+B0icihRrImCXlcc6sHPa
+	ersugkg/f8bSwDDzvV0W9EqOaoIEMruJB0F25aZNMV6Gm+5Gu/rvRKSKXAjS2e7Il6Ac
+	LSIT/Bto4OI18fEy3yqPIxFuCQZLirCXzMZ4d+PTKyOfNFmsa0eI3prVoAkHEh+5lcag
+	ZCFA==
+MIME-Version: 1.0
+X-Received: by 10.236.60.68 with SMTP id t44mr61053512yhc.47.1394636737438;
+	Wed, 12 Mar 2014 08:05:37 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Wed, 12 Mar 2014 08:05:37 -0700 (PDT)
+In-Reply-To: <53204079.9030806@pr.hu>
+References: <53204079.9030806@pr.hu>
+Date: Wed, 12 Mar 2014 12:05:37 -0300
+X-Google-Sender-Auth: 6Ax-JjwTwv5Hib9oJADsjpgW0qQ
+Message-ID: <CAP9ODKra6NpM_jz=bFVHH45gEbjs6Sz3pD3oyh6OKT9XVhgZag@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Boszormenyi Zoltan <zboszor@pr.hu>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
+Subject: Re: [meta-freescale] systemtap fails to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,44 +45,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 14:52:10 -0000
+X-List-Received-Date: Wed, 12 Mar 2014 15:05:41 -0000
+Content-Type: multipart/alternative; boundary=bcaec508238c53759f04f46a2b2c
 
-- Upgrade fixes a crash with libvorbis 1.3.4;
-- Simplified SRC_URI;
-- Reference for S no longer necessary.
+--bcaec508238c53759f04f46a2b2c
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../recipes-multimedia/musicpd/{mpd_0.18.4.bb => mpd_0.18.9.bb}  | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
- rename meta-multimedia/recipes-multimedia/musicpd/{mpd_0.18.4.bb => mpd_0.18.9.bb} (89%)
+Hello,
 
-diff --git a/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.4.bb b/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb
-similarity index 89%
-rename from meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.4.bb
-rename to meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb
-index 77ccc1f..349ccbb 100644
---- a/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.4.bb
-+++ b/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb
-@@ -6,14 +6,11 @@ HOMEPAGE ="http://sourceforge.net/projects/musicpd"
- DEPENDS = "alsa-lib libsamplerate0 libsndfile1 libvorbis libogg faad2 ffmpeg curl sqlite bzip2 pulseaudio"
- 
- SRC_URI = " \
--    http://www.musicpd.org/download/${PN}/stable/${PN}-0.18.tar.xz \
-+    http://www.musicpd.org/download/${PN}/stable/${BP}.tar.xz \
-     file://mpd.conf.in \
- "
--
--SRC_URI[md5sum] = "0d881fb32f9d31afcdb0bb13cb78b9ab"
--SRC_URI[sha256sum] = "6b171985f192603150c879d105dc4d05d701ac60a2db41630a4dce823e068388"
--
--S = "${WORKDIR}/${PN}-0.18"
-+SRC_URI[md5sum] = "0e5156a831d4302d2032998bcfd5c36f"
-+SRC_URI[sha256sum] = "0d4d3e6977cb607419abbb14c63d1e2b982acb84cd2be5346f19de5f699a68de"
- 
- inherit autotools useradd systemd
- 
+This is not meta-fsl-arm specific so I am adding OE-Core mailing list in
+copy.
+
+On Wed, Mar 12, 2014 at 8:09 AM, Boszormenyi Zoltan <zboszor@pr.hu> wrote:
+
+> I was trying to "bitbake core-image-lsb-sdk" and it failed with the error
+> below.
+> Even after "repo sync ; bitbake -c clean systemtap"
+>
+> | In file included from /usr/include/stdio.h:27:0,
+> |                  from /home/zozo/fsl-community-bsp/
+> build-master-next/tmp/work/x86_64-linux/systemtap-native/
+> 2.5+gitAUTOINC+508059f048-r0/git/staprun/staprun.h:18,
+> |                  from /home/zozo/fsl-community-bsp/
+> build-master-next/tmp/work/x86_64-linux/systemtap-native/
+> 2.5+gitAUTOINC+508059f048-r0/git/staprun/staprun.c:24:
+> | /usr/include/features.h:148:3: error: #warning "_BSD_SOURCE and
+> _SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Werror=cpp]
+> |  # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use
+> _DEFAULT_SOURCE"
+> |    ^
+> | cc1: all warnings being treated as errors
+> | make[3]: *** [staprun-staprun.o] Error 1
+>
+> I am using a hybrid system, host is mostly Fedora 20 with some
+> packages upgraded from Rawhide, like GLIBC 2.19.90.
+> The attached (shortsighted) patch allows it to build here.
+>
+
+Do someone know if it is being in worked by someone?
+
 -- 
-1.8.3.2
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
+--bcaec508238c53759f04f46a2b2c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hello,<br><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">This is not meta-fsl-arm specific so I am adding OE-Core m=
+ailing list in copy.<br><br><div class=3D"gmail_quote">On Wed, Mar 12, 2014=
+ at 8:09 AM, Boszormenyi Zoltan <span dir=3D"ltr">&lt;<a href=3D"mailto:zbo=
+szor@pr.hu" target=3D"_blank">zboszor@pr.hu</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">I was trying to &quot;bitbake core-image-lsb=
+-sdk&quot; and it failed with the error below.<br>
+Even after &quot;repo sync ; bitbake -c clean systemtap&quot;<br>
+<br>
+| In file included from /usr/include/stdio.h:27:0,<br>
+| =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0from /home/zozo/fsl-community-bsp/<u><=
+/u>build-master-next/tmp/work/<u></u>x86_64-linux/systemtap-native/<u></u>2=
+.5+gitAUTOINC+508059f048-r0/<u></u>git/staprun/staprun.h:18,<br>
+| =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0from /home/zozo/fsl-community-bsp/<u><=
+/u>build-master-next/tmp/work/<u></u>x86_64-linux/systemtap-native/<u></u>2=
+.5+gitAUTOINC+508059f048-r0/<u></u>git/staprun/staprun.c:24:<br>
+| /usr/include/features.h:148:3: error: #warning &quot;_BSD_SOURCE and _SVI=
+D_SOURCE are deprecated, use _DEFAULT_SOURCE&quot; [-Werror=3Dcpp]<br>
+| =A0# warning &quot;_BSD_SOURCE and _SVID_SOURCE are deprecated, use _DEFA=
+ULT_SOURCE&quot;<br>
+| =A0 =A0^<br>
+| cc1: all warnings being treated as errors<br>
+| make[3]: *** [staprun-staprun.o] Error 1<br>
+<br>
+I am using a hybrid system, host is mostly Fedora 20 with some<br>
+packages upgraded from Rawhide, like GLIBC 2.19.90.<br>
+The attached (shortsighted) patch allows it to build here.<br></blockquote>=
+<div><br></div><div>Do someone know if it is being in worked by someone?</d=
+iv></div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
+ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" targ=
+et=3D"_blank">http://code.ossystems.com.br</a><br><span>Mobile: +55 (53) 99=
+81-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D"gc-number-4" class=3D"gc=
+-cs-link" title=3D"Call with Google Voice">+1 (347) 903-9750</span></span><=
+br>
+
+</div></div>
+
+--bcaec508238c53759f04f46a2b2c--
