@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A4736B181
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 710106F589
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 07:47:14 +0000 (UTC)
+	Wed, 12 Mar 2014 07:47:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2C7lGJv018467
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2C7lHRf017098
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 00:47:16 -0700 (PDT)
+	Wed, 12 Mar 2014 00:47:18 -0700 (PDT)
 Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Wed, 12 Mar 2014 00:47:12 -0700
+	(TLS) id 14.3.169.1; Wed, 12 Mar 2014 00:47:17 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Mar 2014 15:47:00 +0800
-Message-ID: <b84fe2bf41cf2fbc2ef07acd682368136aad9788.1394610315.git.kai.kang@windriver.com>
+Date: Wed, 12 Mar 2014 15:47:01 +0800
+Message-ID: <eaf248b590ed38e4ad4135ff58e99e23336c9f75.1394610315.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1394610315.git.kai.kang@windriver.com>
 References: <cover.1394610315.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.231]
-Subject: [PATCH 4/5] alsa-tools: update to version 1.0.27
+Subject: [PATCH 5/5] libnewt: update to 0.52.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +34,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 07:47:15 -0000
+X-List-Received-Date: Wed, 12 Mar 2014 07:47:17 -0000
 Content-Type: text/plain
 
-Update alsa-tools to latest version 1.0.27:
+Update libnewt and libnewt-python to 0.52.17.
 
 * remove PR
-* update autotools.patch
-* add build dependency gkt+3 that hdajackretask requires it.
+* update cross_ar.patch and fix_SHAREDDIR.patch that context changed
+* remove fix_python_fpic.patch which is merged
+* update so file name in libnewt-python recipe
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-multimedia/alsa/alsa-tools/autotools.patch   | 15 ++++++---------
- .../alsa/{alsa-tools_1.0.26.1.bb => alsa-tools_1.0.27.bb} |  8 +++-----
- 2 files changed, 9 insertions(+), 14 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.26.1.bb => alsa-tools_1.0.27.bb} (87%)
+ meta/recipes-extended/newt/files/cross_ar.patch      | 16 ++++------------
+ meta/recipes-extended/newt/files/fix_SHAREDDIR.patch |  4 ++--
+ meta/recipes-extended/newt/libnewt-python_0.52.14.bb |  5 ++---
+ meta/recipes-extended/newt/libnewt_0.52.14.bb        | 10 ++++------
+ 4 files changed, 12 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-index 294e970..5aec84c 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-@@ -19,17 +19,14 @@ diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.1/ld10k1
- diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
- --- alsa-tools-1.0.24.1-orig//Makefile	2011-07-06 11:27:40.207665000 +0800
- +++ alsa-tools-1.0.24.1/Makefile	2011-07-14 15:08:08.877665009 +0800
--@@ -1,9 +1,9 @@
-- VERSION = 1.0.26.1
-+@@ -1,8 +1,8 @@
-+ VERSION = 1.0.27
-  TOP = .
---SUBDIRS = ac3dec as10k1 envy24control hdsploader hdspconf hdspmixer \
---	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
-+-SUBDIRS = as10k1 envy24control hdsploader hdspconf hdspmixer \
-++SUBDIRS = as10k1 envy24control \
-+ 	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
- -	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
---	  hwmixvolume hdajackretask hda-verb
--+SUBDIRS = ac3dec as10k1 envy24control \
--+	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
- +	  us428control usx2yloader vxloader echomixer \
--+	  hwmixvolume hda-verb
-+ 	  hwmixvolume hdajackretask hda-verb
+diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
+index f67239a..2035cc4 100644
+--- a/meta/recipes-extended/newt/files/cross_ar.patch
++++ b/meta/recipes-extended/newt/files/cross_ar.patch
+@@ -19,16 +19,8 @@ Upstream-Status: Pending
+ 
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
+- LDFLAGS = @LDFLAGS@
+- CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@ 
+- GNU_LD = @GNU_LD@
+-+AR = @AR@
+- 
+- VERSION = @VERSION@
+- TAG = r$(subst .,-,$(VERSION))
+-@@ -95,7 +96,7 @@ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
+- 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
++@@ -109,7 +109,7 @@
++ 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.$(SOEXT) $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
   
-  all:
-- 	@for i in $(SUBDIRS); do \
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-similarity index 87%
-rename from meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-rename to meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-index b154233..b3c02b3 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.26.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-@@ -3,9 +3,7 @@ HOMEPAGE = "http://www.alsa-project.org"
- BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
- SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2+"
--DEPENDS = "alsa-lib ncurses"
+  $(LIBNEWT): $(LIBOBJS)
+ -	ar rv $@ $^
+@@ -38,10 +30,10 @@ Upstream-Status: Pending
+  
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -14,6 +14,10 @@ AC_PROG_CC
+- AC_PROG_INSTALL
++@@ -15,6 +15,10 @@
+  AC_PROG_LN_S
+  AC_PROG_GREP
++ AC_SYS_LARGEFILE
+ +AN_MAKEVAR([AR], [AC_PROG_AR])
+ +AN_PROGRAM([ar], [AC_PROG_AR])
+ +AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
+diff --git a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
+index 7795260..1907aef 100644
+--- a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
++++ b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
+@@ -12,14 +12,14 @@ Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+ 
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -114,12 +114,12 @@
++@@ -128,12 +128,12 @@
+  
+  sharedlib: $(LIBNEWTSH)
+  
+ -$(LIBNEWTSH): $(SHAREDDIR) $(SHAREDOBJS)
+ +$(LIBNEWTSH): $(SHAREDOBJS)
+  	$(CC) -shared -o $(LIBNEWTSH) $(SHLIBFLAGS) $(SHAREDOBJS) $(LDFLAGS) $(LIBS)
+- 	ln -fs $(LIBNEWTSONAME) libnewt.so
++ 	ln -fs $(LIBNEWTSONAME) libnewt.$(SOEXT)
+  	ln -fs $(LIBNEWTSH) $(LIBNEWTSONAME)
+  
+ -$(SHAREDDIR)/%.o : %.c
+diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+index 871b195..70ab202 100644
+--- a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
++++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+@@ -9,15 +9,14 @@ inherit pythonnative python-dir
+ EXTRA_OECONF += "--with-python"
+ EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+ 
 -
--PR = "r1"
-+DEPENDS = "alsa-lib ncurses gtk+3"
+ do_compile () {
+ 	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
+-	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
++	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snack.so
+ }
  
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
-@@ -15,8 +13,8 @@ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://autotools.patch \
-            ${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
+ do_install () {
+ 	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+-	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
++	install -m 0755 ${PYTHON_DIR}/_snack.so ${D}${PYTHON_SITEPACKAGES_DIR}/
+ 	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
+ }
  
--SRC_URI[md5sum] = "805526ea5d6c40e1f2c94cee86141230"
--SRC_URI[sha256sum] = "553338693707fe6ddfc430b9edc4cd2677390e200c9e38de82ede3394e733841"
-+SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
-+SRC_URI[sha256sum] = "6562611b5a6560712f109e09740a9d4fa47296b07ed9590cb44139c5f154ada2"
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+index 65bcf40..46598e6 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+@@ -12,21 +12,19 @@ HOMEPAGE = "https://fedorahosted.org/newt/"
+ SECTION = "libs"
  
- inherit autotools-brokensep
+ LICENSE = "LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ 
+ # slang needs to be >= 2.2
+ DEPENDS = "slang popt"
+ 
+-PR = "r2"
+-
+ SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
+            file://remove_slang_include.patch \
+            file://fix_SHAREDDIR.patch \
+            file://cross_ar.patch \
+-           file://fix_python_fpic.patch"
++          "
+ 
+-SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
+-SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
++SRC_URI[md5sum] = "f36d4d908965a0c89fd6fd8b61a6118b"
++SRC_URI[sha256sum] = "69837973ef2ee2fa644426f1c3e48d2b18785ebcd382ef7fd01eb2e67d2d632b"
+ 
+ S = "${WORKDIR}/newt-${PV}"
  
 -- 
 1.8.1.2
