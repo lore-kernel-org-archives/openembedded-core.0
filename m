@@ -1,33 +1,34 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 716E56BF4E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CC38B6E760
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 15:45:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Mar 2014 08:45:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,639,1389772800"; d="scan'208";a="490577328"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2014 08:45:03 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Wed, 12 Mar 2014 15:43:47 +0000
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.62]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.149]) with mapi id
-	14.03.0123.003; Wed, 12 Mar 2014 15:43:47 +0000
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "Mats.Karrman@tritech.se" <Mats.Karrman@tritech.se>
-Thread-Topic: [OE-core] libm accuracy, eglibc compared to glibc
-Thread-Index: Ac8+BQu6b+elda9pTAWbBsq3s0UQDQABNfOA
-Date: Wed, 12 Mar 2014 15:43:47 +0000
-Message-ID: <1394639041.18740.8.camel@firebird.rb.intel.com>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B18163B@post.tritech.se>
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B18163B@post.tritech.se>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.60]
+	Wed, 12 Mar 2014 15:58:49 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id i50so25263970qgf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Mar 2014 08:58:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=IAqbMSyauzfaHTNKVSiPugB6yS0BQKq22AQdlW2l/h0=;
+	b=QDD/DZYsgmOK+FAlnfjFbN49ExCJP11R/ZcmlA1MCn0Z5TmrvhODz9Inb6jo0W8GjC
+	08+9/5PNw0ZkVMWiAZdyvwVLDg/GYIgcv6521WZXNI52TrM+VCYnGi0JrtrIwvEjL6i4
+	c0wnl96N91fG5hWwOp4g7fDx4lFHxEl0v8JlGoSYE9Wxj26vS0fRjHZVGBM6DMGOxFXW
+	ZdhojwpR1iG/hNdzghp9cyHxaMzdAhlFL9kkSvFV2/lGsCJpEHpJpY+jbi7eG8PoYUGD
+	VXPTK3di1IUtgODkKxp516RkL+Dup0HKtQY0xDNPRdnYFSrU5I5YwmCXY6EyGCUsvDEu
+	LVSg==
+X-Gm-Message-State: ALoCoQkPt602POJrWnpq4GTlJZDM5dHkZWPCSpt8hPUxWQ7KB/NS8a7nNmaRPbIxUhdfmVIsYPmi
+X-Received: by 10.224.127.129 with SMTP id g1mr56144779qas.22.1394639930290;
+	Wed, 12 Mar 2014 08:58:50 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Wed, 12 Mar 2014 08:58:30 -0700 (PDT)
+In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B18163B@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B18163B@post.tritech.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Mar 2014 15:58:30 +0000
+Message-ID: <CAJTo0LZeuTEU4My3N=Ux6QR2eU09ct-Kah_XbJrPYrHBx3aOCw@mail.gmail.com>
+To: =?UTF-8?Q?Mats_K=C3=A4rrman?= <Mats.Karrman@tritech.se>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: libm accuracy, eglibc compared to glibc
@@ -43,45 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 15:45:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <405C11AB9452CF458883DC3C263A28F5@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 12 Mar 2014 15:58:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-DQpIZWxsbywNCg0KSSBqdXN0IHdhbnQgdG8gcG9pbnQgb3V0IHRoYXQgdGhpcyBsb29rcyB2ZXJ5
-IHNpbWlsYXIgdG8gYSBxZW11cHBjDQptYWNoaW5lIGJ1ZyB3ZSd2ZSBzZWVuIGJlZm9yZSB3aXRo
-IGxpYm0gYW5kIGZsb29yKCkgY2FsbDoNCmh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9y
-Zy9zaG93X2J1Zy5jZ2k/aWQ9NDg1NA0KDQpJdCB3YXMgZml4ZWQgd2l0aDoNCmh0dHA6Ly9naXQu
-eW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3kvY29tbWl0Lz9pZD0yYTQ4ZTkwMDdj
-YzkyZmVkZmRiNjkxOTQxMTg1OWZiOTQzZWFjYzk0DQoNCkhUSCwNClN0ZWZhbg0KDQpPbiBXZWQs
-IDIwMTQtMDMtMTIgYXQgMTU6MzAgKzAwMDAsIE1hdHMgS8OkcnJtYW4gd3JvdGU6DQo+IEhpLA0K
-PiANCj4gSSBmYWNlIGEgcHJvYmxlbSB3aXRoIGxpYm0uIFdpdGggbXkgRG9yYSBidWlsZCB0aGUg
-Zm9sbG93aW5nIGFzc2VydGlvbiBkb2Vzbid0IGhvbGQ6DQo+IA0KPiBzcXJ0KCBwb3coIHNxcnQo
-IDIuMCApLCA0LjAgKSApID09IDIuMA0KPiANCj4gMSkgV2l0aCBteSBvbGQgT0UtY2xhc3NpYyAv
-IGdsaWJjLTIuOSAvIFBvd2VyUEMtaGYgaXQgaG9sZHMuDQo+IDIpIFdpdGggbXkgRGViaWFuIGRl
-c2t0b3AgUEMgLyBnbGliYy0yLjE3IC8gYW1kNjQgaXQgaG9sZHMuDQo+IDMpIFdpdGggbXkgbmV3
-IE9FLWNvcmUgRG9yYSAvIGVnbGliYy0yLjE4IC8gUG93ZXJQQy1oZiBpdCBkb2Vzbid0IGhvbGQu
-DQo+IA0KPiBDbG9zZSBlbm91Z2ggb25lIGNhbiB0aGluayBidXQgdGhlIHN0YW5kYXJkaXplZCB0
-ZXN0IGNhc2UgSSBydW4gcmVxdWlyZXMgdGhlIHJlc3VsdCB0byBiZSAyLjAuDQo+IEEgc2ltcGxl
-IHRlc3QgcHJvZ3JhbToNCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gI2luY2x1ZGUgPHN0ZGlvLmg+DQo+ICNp
-bmNsdWRlIDxtYXRoLmg+DQo+IA0KPiBpbnQgbWFpbigpew0KPiANCj4gCWRvdWJsZSB0d28gPSAy
-LjA7DQo+IAlkb3VibGUgZm91ciA9IDQuMDsNCj4gDQo+IAlkb3VibGUgczEgPSBzcXJ0KHR3byk7
-DQo+IAlwcmludGYoInNxcnQoJS4yMGYpID0gJS4yMGZcbiIsIHR3bywgczEpOw0KPiAJZG91Ymxl
-IHAgICA9IHBvdyhzMSwgZm91cik7DQo+IAlwcmludGYoInBvdyglLjIwZiwgJS4yMGYpID0gJS4y
-MGZcbiIsIHMxLCBmb3VyLCBwKTsNCj4gCWRvdWJsZSBzMiA9IHNxcnQocCk7DQo+IAlwcmludGYo
-InNxcnQoJS4yMGYpID0gJS4yMGZcbiIsIHAsIHMyKTsNCj4gDQo+IH0NCj4gLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0N
-Cj4gDQo+IHJlc3VsdHMgZnJvbSAxIGFuZCAyIChpZGVudGljYWwpOg0KPiBzcXJ0KDIuMDAwMDAw
-MDAwMDAwMDAwMDAwMDApID0gMS40MTQyMTM1NjIzNzMwOTUxNDU0Nw0KPiBwb3coMS40MTQyMTM1
-NjIzNzMwOTUxNDU0NywgNC4wMDAwMDAwMDAwMDAwMDAwMDAwMCkgPSA0LjAwMDAwMDAwMDAwMDAw
-MDg4ODE4DQo+IHNxcnQoNC4wMDAwMDAwMDAwMDAwMDA4ODgxOCkgPSAyLjAwMDAwMDAwMDAwMDAw
-MDAwMDAwDQo+IA0KPiByZXN1bHRzIGZyb20gMzoNCj4gc3FydCgyLjAwMDAwMDAwMDAwMDAwMDAw
-MDAwKSA9IDEuNDE0MjEzNTYyMzczMDk0OTIzNDMNCj4gcG93KDEuNDE0MjEzNTYyMzczMDk0OTIz
-NDMsIDQuMDAwMDAwMDAwMDAwMDAwMDAwMDApID0gMy45OTk5OTk5OTk5OTk5OTg2Njc3Mw0KPiBz
-cXJ0KDMuOTk5OTk5OTk5OTk5OTk4NjY3NzMpID0gMS45OTk5OTk5OTk5OTk5OTk1NTU5MQ0KPiAN
-Cj4gRG9lcyBhbnlvbmUga25vdyBpZiB0aGlzIGlzIGEga25vd24gImZlYXR1cmUiIG9mIGVnbGli
-YyBvciBrbm93IGFueSBvdGhlciByZWFzb24NCj4gZm9yIHRoaXMgZGlmZmVyZW5jZT8NCj4gDQo+
-IEJlc3QgUmVnYXJkcywNCj4gTWF0cw0KDQo=
+On 12 March 2014 15:30, Mats K=C3=A4rrman <Mats.Karrman@tritech.se> wrote:
+> Does anyone know if this is a known "feature" of eglibc or know any other=
+ reason
+> for this difference?
+
+I expect the standard response from upstream here would be that
+floating point mathematics isn't exact and if you want exact answers
+then you should use a different representation. The differences start
+at the first sqrt():
+
+Test 1 and 2:
+sqrt(2.00000000000000000000) =3D 1.41421356237309514547
+Test 3:
+sqrt(2.00000000000000000000) =3D 1.41421356237309492343
+Test using bc and scale=3D30 (bc is fixed-point not floating-point):
+sqrt(2.00000000000000000000) =3D 1.414213562373095048801688724209
+
+The output from bc is a truncation of the "real" value of sqrt(2)
+whereas both values from C's sqrt() function using floats are
+approximations, both equally close.  Why does your test case expect
+the answer to be 2.0?  That's a massive assumption to make, floats can
+trivially lose accuracy rapidly as
+http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems
+explains.
+
+Ross
 
