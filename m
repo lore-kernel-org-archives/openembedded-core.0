@@ -1,26 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C35F6F800
+	by mail.openembedded.org (Postfix) with ESMTP id BECCE6DE07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 06:38:56 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2C6cv8v017752
+	Wed, 12 Mar 2014 07:47:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2C7l6nX018461
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Mar 2014 23:38:58 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 11 Mar 2014 23:38:57 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Wed, 12 Mar 2014 00:47:07 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.169.1; Wed, 12 Mar 2014 00:47:06 -0700
+From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Mar 2014 02:38:54 -0400
-Message-ID: <015d5a2ffbf03ecfe5804b2c3418cdfb14d45579.1394606302.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1394606302.git.liezhi.yang@windriver.com>
-References: <cover.1394606302.git.liezhi.yang@windriver.com>
+Date: Wed, 12 Mar 2014 15:46:56 +0800
+Message-ID: <cover.1394610315.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH 1/1] docbook-sgml-dtd-native: remove catalog file when do_clean
+X-Originating-IP: [128.224.162.231]
+Subject: [PATCH 0/5] Update some packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 06:38:58 -0000
+X-List-Received-Date: Wed, 12 Mar 2014 07:47:07 -0000
 Content-Type: text/plain
 
-The docbook_sgml_dtd_sstate_postinst adds catalog file to
-/etc/sgml/sgml-docbook.cat, but the do_clean would not remove the file,
-which would cause unexpected errors since we have multiple versions
-of docbook-sgml-dtd:
+The following changes since commit 1960f6b2ecbb793b40ebc9aed25c8f9cb7884c9a:
 
-docbook-sgml-dtd-3.1-native_3.1.bb
-docbook-sgml-dtd-4.1-native_4.1.bb
-docbook-sgml-dtd-4.5-native.bb
+  populate_sdk_deb: Fix meta-toolchain-sdk with amd64 ARCH (2014-03-11 20:28:58 -0700)
 
-If we run:
+are available in the git repository at:
 
-$ bitbake docbook-sgml-dtd-4.1-native
-$ bitbake docbook-sgml-dtd-4.1-native -ccleansstate && bitbake docbook-sgml-dtd-3.1-native
-$ bitbake docbook-utils-native
+  git://git.yoctoproject.org/poky-contrib kangkai/update-pkgs
+  http://git.yoctoproject.org/cgit.cgi//log/?h=kangkai/update-pkgs
 
-We would get this error:
+Kai Kang (5):
+  qmmp: update to 0.7.5
+  directfb: update to 1.7.1
+  directfb-examples: update to 1.7.0
+  alsa-tools: update to version 1.0.27
+  libnewt: update to 0.52.17
 
-jade: cannot open "/path/to/etc/sgml/sgml-docbook-dtd-4.1.cat" (No such file or directory)
-make[2]: *** [sgmldiff.html] Error 1
+ meta/recipes-extended/newt/files/cross_ar.patch     | 16 ++++------------
+ .../recipes-extended/newt/files/fix_SHAREDDIR.patch |  4 ++--
+ .../recipes-extended/newt/libnewt-python_0.52.14.bb |  5 ++---
+ meta/recipes-extended/newt/libnewt_0.52.14.bb       | 10 ++++------
+ ...examples_1.6.0.bb => directfb-examples_1.7.0.bb} |  4 ++--
+ meta/recipes-graphics/directfb/directfb.inc         |  4 +---
+ .../{directfb_1.6.3.bb => directfb_1.7.1.bb}        | 10 ++++------
+ .../alsa/alsa-tools/autotools.patch                 | 15 ++++++---------
+ ...{alsa-tools_1.0.26.1.bb => alsa-tools_1.0.27.bb} |  8 +++-----
+ meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch    | 13 +++++++------
+ .../recipes-qt/qt-apps/qmmp/no-sessionmanager.patch | 21 ---------------------
+ .../qt-apps/{qmmp_0.6.6.bb => qmmp_0.7.5.bb}        |  6 +++---
+ 12 files changed, 38 insertions(+), 78 deletions(-)
+ rename meta/recipes-graphics/directfb/{directfb-examples_1.6.0.bb => directfb-examples_1.7.0.bb} (78%)
+ rename meta/recipes-graphics/directfb/{directfb_1.6.3.bb => directfb_1.7.1.bb} (54%)
+ mode change 100755 => 100644
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.26.1.bb => alsa-tools_1.0.27.bb} (87%)
+ delete mode 100644 meta/recipes-qt/qt-apps/qmmp/no-sessionmanager.patch
+ rename meta/recipes-qt/qt-apps/{qmmp_0.6.6.bb => qmmp_0.7.5.bb} (93%)
 
-Remove the catalog entry when do_clean will fix the problem.
-
-[YOCTO #5949]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../docbook-sgml-dtd/docbook-sgml-dtd-native.inc             |   10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-index 1b357b5..bf2affb 100644
---- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-+++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-@@ -58,3 +58,13 @@ docbook_sgml_dtd_sysroot_preprocess () {
-     install -m 755 ${STAGING_BINDIR_NATIVE}/install-catalog ${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-docbook-sgml-dtd-${DTD_VERSION}
- }
- 
-+CLEANFUNCS += "docbook_sgml_dtd_sstate_clean"
-+
-+docbook_sgml_dtd_sstate_clean () {
-+	# Ensure that the catalog file sgml-docbook.cat is properly
-+	# updated when the package is removed from sstate cache.
-+	if [ -s ${sysconfdir}/sgml/sgml-docbook.bak ]; then
-+		sed -i '/'"\/sgml\/sgml-docbook-dtd-${DTD_VERSION}.cat"'/d' \
-+			${sysconfdir}/sgml/sgml-docbook.bak
-+	fi
-+}
 -- 
-1.7.10.4
+1.8.1.2
 
 
