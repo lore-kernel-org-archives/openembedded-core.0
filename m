@@ -1,35 +1,40 @@
-Return-Path: <sebmennetrier@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1988F6D305
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DD0E6F763
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 13:15:54 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id as1so10535686iec.11
+	Wed, 12 Mar 2014 13:38:46 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id cz12so10118319veb.16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 06:15:55 -0700 (PDT)
+	Wed, 12 Mar 2014 06:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=lUG7ffqo5XbaKMoaC6DIHvEaY1NGxzmS/QpUHepEcbA=;
-	b=utM+dwlCYGj2axbypWTXJZt/kEZXNaKNI5gjRaD24JPayZuzr58HCQlOE3byKa7ZID
-	eD6yTcbGmhylzkk5tgHMCnHs1DuqK382/lJYNpw93ZIor4OuC6ycRGmrafEGRl5mOTiD
-	cC1ZxDC5GTLEz2GLQkxz+h6Ra7hjeHU8MVxjLUJATI04RJAW9cUWVdFe3f1Y6eh4ciNn
-	btMGh4uMIGV09pwj6Etr+VRQK6gF3YcGSCUfQpQozds5YcXTAjr05RshrDrCMPt+MUz+
-	Es4AgO88dWJSx9kscvCTFG4EMROxBlYc/l7LoZ8jmJ5xa6fYoP3AB124j7UlJ30Nu34o
-	99KA==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=w1HluHWTiX2fh/3lArK/MwVgTJagF1mHHiuROI0rqvI=;
+	b=jPXZjmYs8qaFQU7dOmyFMu9GYGe0hsIwxaEkCz+1VjIYIkSSwWoAiOmHnGOeHO59yQ
+	bWQry2FpkfeJ2NOYtnIq7aSui1cR5/FWjI9pdicwbuedJjBBA0Cxgr+FYNeRbq7cmjG/
+	rxfSGAqHBYc8bn4dyIgU6JmJpgBfpwBUu8vmnzspLM6TMWqruYBxWbV9eF/3sEkTxNo5
+	MZVeFEBRcVJt4gjOx6jzC98b7aik5hLuwRDWz+QFiyIqQnNLuQh5YUVgvSU/O1knM7Z8
+	4jnRlRozYZRwPps/5jN8VHD5A+U9qXFOlgvOYBgF6TP3xo9g9IdOaFMNxuT3NHx+YKK5
+	0r6w==
+X-Received: by 10.220.83.4 with SMTP id d4mr101501vcl.39.1394631527676; Wed,
+	12 Mar 2014 06:38:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.50.62.178 with SMTP id z18mr29641784igr.49.1394630155361;
-	Wed, 12 Mar 2014 06:15:55 -0700 (PDT)
-Sender: sebmennetrier@gmail.com
-Received: by 10.42.78.143 with HTTP; Wed, 12 Mar 2014 06:15:55 -0700 (PDT)
-In-Reply-To: <1394617444-15843-1-git-send-email-s.mennetrier@innotis.org>
-References: <1394617444-15843-1-git-send-email-s.mennetrier@innotis.org>
-Date: Wed, 12 Mar 2014 14:15:55 +0100
-X-Google-Sender-Auth: QJBt0kz8Gk-eiH-WxjWBJ5wCHoA
-Message-ID: <CABgO3_O=gqY2cE96Lom_0oXKrVWd8mEe40eUwV_OBL1u7GWmcw@mail.gmail.com>
-From: =?ISO-8859-1?Q?S=E9bastien_Mennetrier?= <s.mennetrier@innotis.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] Create gstreamer-1.0 package groups
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Wed, 12 Mar 2014 06:38:07 -0700 (PDT)
+In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A4289CC2BB@sestoex05.enea.se>
+References: <1394153667-4247-1-git-send-email-paul@paulbarker.me.uk>
+	<1394153667-4247-2-git-send-email-paul@paulbarker.me.uk>
+	<531E0149.7010905@linux.intel.com>
+	<CANyK_8eb29MDTxadMxVF+G+P5PYZMgH4sr3fyD16-tXNOYHj-w@mail.gmail.com>
+	<26724FB0BFCB3D4C91BDE184751AA3A4289CC2BB@sestoex05.enea.se>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 12 Mar 2014 13:38:07 +0000
+X-Google-Sender-Auth: NQH_GLJ7-HfUqNvdNr4c_VeGKOI
+Message-ID: <CANyK_8e7QKJ3BtM1M+v6wvthUPg3K064V=KyKDs4d-XCXnkwgQ@mail.gmail.com>
+To: Tudor Florea <Tudor.Florea@enea.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: Add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,216 +47,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 13:15:56 -0000
-Content-Type: multipart/alternative; boundary=047d7bd760c200e57c04f468a3f3
-
---047d7bd760c200e57c04f468a3f3
+X-List-Received-Date: Wed, 12 Mar 2014 13:38:51 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-This patch was tested on dora branch on build and runtime.
-Also, it was tested on master branch, only on build.
-
-
-Regards,
-S=E9bastien
-
-
-2014-03-12 10:44 GMT+01:00 S=E9bastien Mennetrier <s.mennetrier@innotis.org=
->:
-
-> This recipe is based on gst-meta-base
->
-> Signed-off-by: S=E9bastien Mennetrier <s.mennetrier@innotis.org>
-> ---
->  .../gstreamer/gstreamer1.0-meta-base.bb            | 62
-> ++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-meta-base.bb
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bbb=
-/meta/recipes-multimedia/gstreamer/
-> gstreamer1.0-meta-base.bb
-> new file mode 100644
-> index 0000000..cb8dd1a
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-> @@ -0,0 +1,62 @@
-> +DESCRIPTION =3D "Gstreamer1.0 package groups"
-> +LICENSE =3D "MIT"
-> +
-> +inherit packagegroup
-> +
-> +DEPENDS =3D "gstreamer1.0 gstreamer1.0-plugins-base
-> gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
-> +
-> +PACKAGES =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-meta-x11-base \
-> +    gstreamer1.0-meta-audio \
-> +    gstreamer1.0-meta-debug \
-> +    gstreamer1.0-meta-video"
-> +
-> +ALLOW_EMPTY_gstreamer1.0-meta-base =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-x11-base =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-audio =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-debug =3D "1"
-> +ALLOW_EMPTY_gstreamer1.0-meta-video =3D "1"
-> +
-> +RDEPENDS_gstreamer1.0-meta-base =3D "\
-> +    ${@base_contains('DISTRO_FEATURES', 'x11',
-> 'gstreamer1.0-meta-x11-base', '', d)} \
-> +    gstreamer1.0 \
-> +    gstreamer1.0-plugins-base-playback \
-> +    gstreamer1.0-plugins-base-gio \
-> +    gstreamer1.0-plugins-base-alsa \
-> +    gstreamer1.0-plugins-base-volume \
-> +    gstreamer1.0-plugins-base-audioconvert \
-> +    gstreamer1.0-plugins-base-audioresample \
-> +    gstreamer1.0-plugins-base-typefindfunctions \
-> +    gstreamer1.0-plugins-base-videoscale \
-> +    gstreamer1.0-plugins-base-videoconvert \
-> +    gstreamer1.0-plugins-good-autodetect \
-> +    gstreamer1.0-plugins-good-souphttpsrc"
-> +
-> +RRECOMMENDS_gstreamer1.0-meta-x11-base =3D "\
-> +    gstreamer1.0-plugins-base-ximagesink \
-> +    gstreamer1.0-plugins-base-xvimagesink"
-> +
-> +RDEPENDS_gstreamer1.0-meta-audio =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-plugins-base-vorbis \
-> +    gstreamer1.0-plugins-base-ogg \
-> +    gstreamer1.0-plugins-good-wavparse \
-> +    gstreamer1.0-plugins-good-flac \
-> +    ${COMMERCIAL_AUDIO_PLUGINS}"
-> +
-> +RDEPENDS_gstreamer1.0-meta-debug =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-plugins-good-debug \
-> +    gstreamer1.0-plugins-base-audiotestsrc \
-> +    gstreamer1.0-plugins-base-videotestsrc"
-> +
-> +RDEPENDS_gstreamer1.0-meta-video =3D "\
-> +    gstreamer1.0-meta-base \
-> +    gstreamer1.0-plugins-good-avi \
-> +    gstreamer1.0-plugins-good-matroska \
-> +    gstreamer1.0-plugins-base-theora \
-> +    ${COMMERCIAL_VIDEO_PLUGINS}"
-> +
-> +RRECOMMENDS_gstreamer1.0-meta-video =3D "\
-> +    gstreamer1.0-meta-audio"
-> --
-> 1.8.1.2
+On 11 March 2014 21:27, Tudor Florea <Tudor.Florea@enea.com> wrote:
 >
 >
+>>On 10 March 2014 18:15, Saul Wold <sgw@linux.intel.com> wrote:
+>>> On 03/06/2014 04:54 PM, Paul Barker wrote:
+>>>>
+>>>> A run-ptest script written in python is added which defines a new
+>>>> TestRunner
+>>>> subclass which prints test results in the required ptest format and then
+>>>> executes python's built-in testsuite using this new TestRunner subclass.
+>>>> <snip>
+>>>
+>>> Seems like there is an issue with the multi-lib build.
+>>>
+>>> ERROR: QA Issue: lib32-python3: Files/directories were installed but not
+>>> shipped
+>>>   /usr/lib/python3
+>>>   /usr/lib/python3/ptest
+>>> NOTE: recipe lib32-pulseaudio-4.0-r0: task do_package_write_rpm: Started
+>>>
+>>> Sau!
+>>>
+>>>
+>>>
+>>>> +# This must come after inherit ptest for the override to take effect
+>>>> +do_install_ptest() {
+>>>> +    install -m 0755 -d ${D}/${libdir}/python3/ptest
+>>>> +    install -m 0755 ${S}/../run-ptest ${D}/${libdir}/${PN}/ptest
+>>>> +}
+>>
+>> Should I be using something other than ${libdir} here? I can see
+>> ${PTEST_PATH} used in the do_install_ptest function for python2,
+>> should I be using that instead?
+>>
+>> As I think I noted elsewhere, this is the first ptest related patch
+>> I've done so I don't really know much beyond what's documented at
+>> https://wiki.yoctoproject.org/wiki/Ptest.
+>
+> I think you may have to add a line like
+> FILES_${PN} += "/usr/lib/python3/ptest"
+> in the recipe (meta/recipes-devtools/python/python3_3.3.3.bb).
 
---047d7bd760c200e57c04f468a3f3
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+No, this belongs in the -ptest package. I just don't know what I'm doing wrong.
 
-<div dir=3D"ltr"><div>This patch was tested on dora branch on build and run=
-time.<br></div>Also, it was tested on master branch, only on build.<br></di=
-v><div class=3D"gmail_extra"><br clear=3D"all"><div><div dir=3D"ltr"><div><=
-br>Regards,<br>
-</div>S=E9bastien<br></div></div>
-<br><br><div class=3D"gmail_quote">2014-03-12 10:44 GMT+01:00 S=E9bastien M=
-ennetrier <span dir=3D"ltr">&lt;<a href=3D"mailto:s.mennetrier@innotis.org"=
- target=3D"_blank">s.mennetrier@innotis.org</a>&gt;</span>:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">
-This recipe is based on gst-meta-base<br>
-<br>
-Signed-off-by: S=E9bastien Mennetrier &lt;<a href=3D"mailto:s.mennetrier@in=
-notis.org">s.mennetrier@innotis.org</a>&gt;<br>
----<br>
-=A0.../gstreamer/<a href=3D"http://gstreamer1.0-meta-base.bb" target=3D"_bl=
-ank">gstreamer1.0-meta-base.bb</a> =A0 =A0 =A0 =A0 =A0 =A0| 62 ++++++++++++=
-++++++++++<br>
-=A01 file changed, 62 insertions(+)<br>
-=A0create mode 100644 meta/recipes-multimedia/gstreamer/<a href=3D"http://g=
-streamer1.0-meta-base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a><b=
-r>
-<br>
-diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
-.0-meta-base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a> b/meta/rec=
-ipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta-base.bb" targ=
-et=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
+> ${PTEST_PATH} might be different than the above due to the use of suffix  ${PYTHON_MAJMIN}.
+> Alternatively you might they to install ptest stuff here: ${D}${libdir}/python${PYTHON_MAJMIN}
 
-new file mode 100644<br>
-index 0000000..cb8dd1a<br>
---- /dev/null<br>
-+++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0-meta=
--base.bb" target=3D"_blank">gstreamer1.0-meta-base.bb</a><br>
-@@ -0,0 +1,62 @@<br>
-+DESCRIPTION =3D &quot;Gstreamer1.0 package groups&quot;<br>
-+LICENSE =3D &quot;MIT&quot;<br>
-+<br>
-+inherit packagegroup<br>
-+<br>
-+DEPENDS =3D &quot;gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plug=
-ins-good gstreamer1.0-plugins-bad&quot;<br>
-+<br>
-+PACKAGES =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-meta-x11-base \<br>
-+ =A0 =A0gstreamer1.0-meta-audio \<br>
-+ =A0 =A0gstreamer1.0-meta-debug \<br>
-+ =A0 =A0gstreamer1.0-meta-video&quot;<br>
-+<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-base =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-x11-base =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-audio =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-debug =3D &quot;1&quot;<br>
-+ALLOW_EMPTY_gstreamer1.0-meta-video =3D &quot;1&quot;<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-base =3D &quot;\<br>
-+ =A0 =A0${@base_contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;gs=
-treamer1.0-meta-x11-base&#39;, &#39;&#39;, d)} \<br>
-+ =A0 =A0gstreamer1.0 \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-playback \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-gio \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-alsa \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-volume \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-audioconvert \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-audioresample \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-typefindfunctions \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-videoscale \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-videoconvert \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-autodetect \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-souphttpsrc&quot;<br>
-+<br>
-+RRECOMMENDS_gstreamer1.0-meta-x11-base =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-plugins-base-ximagesink \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-xvimagesink&quot;<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-audio =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-vorbis \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-ogg \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-wavparse \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-flac \<br>
-+ =A0 =A0${COMMERCIAL_AUDIO_PLUGINS}&quot;<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-debug =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-debug \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-audiotestsrc \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-videotestsrc&quot;<br>
-+<br>
-+RDEPENDS_gstreamer1.0-meta-video =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-base \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-avi \<br>
-+ =A0 =A0gstreamer1.0-plugins-good-matroska \<br>
-+ =A0 =A0gstreamer1.0-plugins-base-theora \<br>
-+ =A0 =A0${COMMERCIAL_VIDEO_PLUGINS}&quot;<br>
-+<br>
-+RRECOMMENDS_gstreamer1.0-meta-video =3D &quot;\<br>
-+ =A0 =A0gstreamer1.0-meta-audio&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.8.1.2<br>
-<br>
-</font></span></blockquote></div><br></div>
+I think the path should be based on the package name (python3), not on
+an internal identifier.
 
---047d7bd760c200e57c04f468a3f3--
+Thanks,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
