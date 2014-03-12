@@ -1,21 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <tom.zanussi@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 470536E8A5
+	by mail.openembedded.org (Postfix) with ESMTP id 66F9D6F7CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 19:03:57 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 12 Mar 2014 12:03:45 -0700
+	Wed, 12 Mar 2014 19:54:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Mar 2014 12:54:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,639,1389772800"; d="scan'208";a="490708296"
-Received: from drewstep-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.61])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2014 12:03:44 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Mar 2014 19:03:29 +0000
-Message-Id: <cover.1394650870.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [dylan][PATCH 0/5] Fixes for 1.4.3 QA failures (cover letter only)
+X-IronPort-AV: E=Sophos;i="4.97,640,1389772800"; d="scan'208";a="498667092"
+Received: from unknown (HELO [10.255.13.117]) ([10.255.13.117])
+	by orsmga002.jf.intel.com with ESMTP; 12 Mar 2014 12:54:35 -0700
+Message-ID: <1394654074.28022.28.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 12 Mar 2014 14:54:34 -0500
+In-Reply-To: <1394514414.19455.23.camel@ted>
+References: <1394317437-6551-1-git-send-email-joaohf@gmail.com>
+	<1394413459.7883.23.camel@ted> <1394496310.1279.25.camel@empanada>
+	<1394514414.19455.23.camel@ted>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: Use mke2fs to create the ext2/3/4 image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,50 +33,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 19:04:02 -0000
+X-List-Received-Date: Wed, 12 Mar 2014 19:54:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-These are all fixes for 1.4.3 QA failures, and are all backports from
-master. One of the fixes is not yet in dora and I have sent that for
-dora separately.
+On Mon, 2014-03-10 at 22:06 -0700, Richard Purdie wrote:
+> On Mon, 2014-03-10 at 19:05 -0500, Tom Zanussi wrote:
+> > On Sun, 2014-03-09 at 18:04 -0700, Richard Purdie wrote:
+> > > On Sat, 2014-03-08 at 19:23 -0300, João Henrique Ferreira de Freitas
+> > > wrote:
+> > > > OE-core commit f3a95ca6886b55e5819b068bdbd2cceb882d91a6 removed the
+> > > > populate-extfs.sh. So mke2fs should be used to create ext2/3/4 image.
+> > > > 
+> > > > Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+> > > > ---
+> > > >  scripts/lib/mic/kickstart/custom_commands/partition.py | 6 ++----
+> > > >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > > index 91d751e..e0a82f5 100644
+> > > > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > > @@ -174,7 +174,6 @@ class Wic_PartData(Mic_PartData):
+> > > >          """
+> > > >          Prepare content for an ext2/3/4 rootfs partition.
+> > > >          """
+> > > > -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
+> > > >  
+> > > >          image_rootfs = rootfs_dir
+> > > >          rootfs = "%s/rootfs.%s" % (cr_workdir, self.fstype)
+> > > > @@ -199,11 +198,10 @@ class Wic_PartData(Mic_PartData):
+> > > >  
+> > > >          extra_imagecmd = "-i 8192"
+> > > >  
+> > > > -        mkfs_cmd = "mkfs.%s -F %s %s" % (self.fstype, extra_imagecmd, rootfs)
+> > > > +        mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
+> > > > +            (self.fstype, extra_imagecmd, rootfs, image_rootfs)
+> > > >          rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
+> > > >  
+> > > > -        populate_cmd = populate_script + " " + image_rootfs + " " + rootfs
+> > > > -        rc, out = exec_native_cmd(pseudo + populate_cmd, native_sysroot)
+> > > >  
+> > > >          # get the rootfs size in the right units for kickstart (Mb)
+> > > >          du_cmd = "du -Lbms %s" % rootfs
+> > > 
+> > > Don't we need to be careful to find the binary from the native sysroot
+> > > here since that is the one with the root directory option?
+> > > 
+> > 
+> > Hmm, exec_native_cmd(mkfs_cmd, native_sysroot) is being used to do the
+> > 'mke2fs -d', which should do the right thing... Am I missing something?
+> 
+> I hadn't realised that the exec_native_cmd took care of resolving the
+> prefix for you. The populate_script had a prefix because its used with
+> pseudo (I'd thought it was so it found the right command). 
+> 
+> That does raise another question though, how does this work now pseudo
+> isn't used?
+> 
+
+Good point, it did miss pseudo.  Here's a fix to the fix:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-ext2fs-fix-fix
 
 
-The following changes since commit fae45abd37636741d51e5b75ad2c09f43b72d01d:
 
-  gnutls: fix failure during do_compile (2014-03-06 10:31:45 +0000)
+[PATCH] wic: Use pseudo for ext mkfs command
 
-are available in the git repository at:
+The switchover from populate-exfs.sh to mke2fs forgot to preserve
+pseudo, add it back.
 
-  git://git.openembedded.org/openembedded-core-contrib paule/dylan-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-fixes
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ scripts/lib/mic/kickstart/custom_commands/partition.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Darren Hart (1):
-  init-install-efi.sh: Remove unnecessary udev rules file to avoid
-    errors
-
-Mark Hatle (1):
-  rpm: Enable compatibility with older RPM packages that have invalid
-    platforms
-
-Richard Purdie (2):
-  python-2.7-manifest: Add missing python-ctypes dependency to
-    python-multiprocessing
-  runqemu: Use correct kvm CPU options for qemux86* with kvm
-
-Stefan Stanacar (1):
-  lsbtest: fix comparison bashism
-
- .../initrdscripts/files/init-install-efi.sh        |  1 +
- .../python/python-2.7-manifest.inc                 |  2 +-
- .../rpm/rpm/rpm-lsb-compatibility.patch            | 24 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |  3 ++-
- meta/recipes-extended/lsb/lsbtest/LSB_Test.sh      |  2 +-
- meta/recipes-extended/lsb/lsbtest_1.0.bb           |  6 +++---
- scripts/contrib/python/generate-manifest-2.7.py    |  2 +-
- scripts/runqemu                                    |  6 +++++-
- 8 files changed, 38 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lsb-compatibility.patch
-
+diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
+index e0a82f5..e15150b 100644
+--- a/scripts/lib/mic/kickstart/custom_commands/partition.py
++++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
+@@ -200,7 +200,7 @@ class Wic_PartData(Mic_PartData):
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
+             (self.fstype, extra_imagecmd, rootfs, image_rootfs)
+-        rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
++        rc, out = exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
+ 
+ 
+         # get the rootfs size in the right units for kickstart (Mb)
 -- 
-1.8.5.3
+1.8.3.1
+
+
+
+> Cheers,
+> 
+> Richard
+> 
+
 
 
