@@ -1,37 +1,24 @@
-Return-Path: <sebmennetrier@gmail.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 642396F7B5
+Return-Path: <Yanjun.Zhu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E27456F672
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 09:44:19 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id x13so11281638wgg.14
+	Wed, 12 Mar 2014 09:46:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2C9kVkq002223
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 02:44:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=9+z1lb9i/d7CF21t41vbM7KuJvalOMjBoqgH8tUgiOo=;
-	b=sS5BTznirGXSfbpJ4MRA0TZ2IMQ0rltFEtFLud8tnp8AuRk4SYEiIqcec1q8SfOaVk
-	00CmjnP0V1CSVEPtxW+GCEk9CiCgRCTJ9XYuq050X8xlo2HjLzWlTK3IPzZb/AFb8oc2
-	bof05xRMf2TMT/WeJeWCab9qdMxWCzhKmsPNfNzsFbNQmX2VryaY5KptiZYr8qXrZdsM
-	XJi6pEvDnTF/YXspD3YoJgoKkbAj0NSBYUtO7NqOu4HdWcZWLJLm+Ly3dLjBzgZjtk+x
-	4qx7n87zvx6k9rbEk7pjLLTj+TsFBCFFFmAEYI9xQ9YKjDRdr/fYSqQrFXcYre+38xYk
-	VzaQ==
-X-Received: by 10.194.90.196 with SMTP id by4mr11995318wjb.45.1394617460349;
-	Wed, 12 Mar 2014 02:44:20 -0700 (PDT)
-Received: from smennetrier-desktop.mpl.mstarsemi.fr
-	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
-	by mx.google.com with ESMTPSA id fo6sm14407548wib.7.2014.03.12.02.44.18
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 12 Mar 2014 02:44:19 -0700 (PDT)
-Sender: =?UTF-8?Q?S=C3=A9bastien_Mennetrier?= <sebmennetrier@gmail.com>
-From: =?UTF-8?q?S=C3=A9bastien=20Mennetrier?= <s.mennetrier@innotis.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Mar 2014 10:44:04 +0100
-Message-Id: <1394617444-15843-1-git-send-email-s.mennetrier@innotis.org>
-X-Mailer: git-send-email 1.8.1.2
+	Wed, 12 Mar 2014 02:46:31 -0700 (PDT)
+Received: from wind-OptiPlex-780.corp.ad.wrs.com (128.224.162.219) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 12 Mar 2014 02:46:30 -0700
+From: Zhu Yanjun <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Mar 2014 17:46:29 +0800
+Message-ID: <1394617589-29064-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH v2] Create gstreamer-1.0 package groups
+Subject: [PATCH] libparted: make sure not to treat percentages as exact
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,87 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 09:44:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Mar 2014 09:46:32 -0000
+Content-Type: text/plain
 
-This recipe is based on gst-meta-base
-
-Signed-off-by: Sébastien Mennetrier <s.mennetrier@innotis.org>
 ---
- .../gstreamer/gstreamer1.0-meta-base.bb            | 62 ++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+ ...ke-sure-not-to-treat-percentages-as-exact.patch |   22 ++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.1.bb         |    3 ++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/parted/parted-3.1/parted-libparted-make-sure-not-to-treat-percentages-as-exact.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+diff --git a/meta/recipes-extended/parted/parted-3.1/parted-libparted-make-sure-not-to-treat-percentages-as-exact.patch b/meta/recipes-extended/parted/parted-3.1/parted-libparted-make-sure-not-to-treat-percentages-as-exact.patch
 new file mode 100644
-index 0000000..cb8dd1a
+index 0000000..1cf8309
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
-@@ -0,0 +1,62 @@
-+DESCRIPTION = "Gstreamer1.0 package groups"
-+LICENSE = "MIT"
++++ b/meta/recipes-extended/parted/parted-3.1/parted-libparted-make-sure-not-to-treat-percentages-as-exact.patch
+@@ -0,0 +1,22 @@
++libparted: make sure not to treat percentages as exact
 +
-+inherit packagegroup
++If 1% of the drive size worked out ot be an even power of
++two, it would trigger the exact placement.  Add an exception
++for the percent units.
++---
++ libparted/unit.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
-+
-+PACKAGES = "\
-+    gstreamer1.0-meta-base \
-+    gstreamer1.0-meta-x11-base \
-+    gstreamer1.0-meta-audio \
-+    gstreamer1.0-meta-debug \
-+    gstreamer1.0-meta-video"
-+
-+ALLOW_EMPTY_gstreamer1.0-meta-base = "1"
-+ALLOW_EMPTY_gstreamer1.0-meta-x11-base = "1"
-+ALLOW_EMPTY_gstreamer1.0-meta-audio = "1"
-+ALLOW_EMPTY_gstreamer1.0-meta-debug = "1"
-+ALLOW_EMPTY_gstreamer1.0-meta-video = "1"
-+
-+RDEPENDS_gstreamer1.0-meta-base = "\
-+    ${@base_contains('DISTRO_FEATURES', 'x11', 'gstreamer1.0-meta-x11-base', '', d)} \
-+    gstreamer1.0 \
-+    gstreamer1.0-plugins-base-playback \
-+    gstreamer1.0-plugins-base-gio \
-+    gstreamer1.0-plugins-base-alsa \
-+    gstreamer1.0-plugins-base-volume \
-+    gstreamer1.0-plugins-base-audioconvert \
-+    gstreamer1.0-plugins-base-audioresample \
-+    gstreamer1.0-plugins-base-typefindfunctions \
-+    gstreamer1.0-plugins-base-videoscale \
-+    gstreamer1.0-plugins-base-videoconvert \
-+    gstreamer1.0-plugins-good-autodetect \
-+    gstreamer1.0-plugins-good-souphttpsrc"
-+
-+RRECOMMENDS_gstreamer1.0-meta-x11-base = "\
-+    gstreamer1.0-plugins-base-ximagesink \
-+    gstreamer1.0-plugins-base-xvimagesink"
-+
-+RDEPENDS_gstreamer1.0-meta-audio = "\
-+    gstreamer1.0-meta-base \
-+    gstreamer1.0-plugins-base-vorbis \
-+    gstreamer1.0-plugins-base-ogg \
-+    gstreamer1.0-plugins-good-wavparse \
-+    gstreamer1.0-plugins-good-flac \
-+    ${COMMERCIAL_AUDIO_PLUGINS}"
-+
-+RDEPENDS_gstreamer1.0-meta-debug = "\
-+    gstreamer1.0-meta-base \
-+    gstreamer1.0-plugins-good-debug \
-+    gstreamer1.0-plugins-base-audiotestsrc \
-+    gstreamer1.0-plugins-base-videotestsrc"
-+
-+RDEPENDS_gstreamer1.0-meta-video = "\
-+    gstreamer1.0-meta-base \
-+    gstreamer1.0-plugins-good-avi \
-+    gstreamer1.0-plugins-good-matroska \
-+    gstreamer1.0-plugins-base-theora \
-+    ${COMMERCIAL_VIDEO_PLUGINS}"
-+
-+RRECOMMENDS_gstreamer1.0-meta-video = "\
-+    gstreamer1.0-meta-audio"
++diff --git a/libparted/unit.c b/libparted/unit.c
++index e545985..ff479f1 100644
++--- a/libparted/unit.c
+++++ b/libparted/unit.c
++@@ -548,7 +548,7 @@ ped_unit_parse_custom (const char* str, const PedDevice* dev, PedUnit unit,
++ 	   do not use 4MiB as the range.  Rather, presume that they
++ 	   are specifying precisely the starting or ending number,
++ 	   and treat "4MiB" just as we would treat "4194304B".  */
++-	if (is_power_of_2 (unit_size))
+++	if (is_power_of_2 (unit_size) && unit != PED_UNIT_PERCENT)
++ 		radius = 0;
++ 
++ 	*sector = num * unit_size / dev->sector_size;
+diff --git a/meta/recipes-extended/parted/parted_3.1.bb b/meta/recipes-extended/parted/parted_3.1.bb
+index 8344ea8..d791275 100644
+--- a/meta/recipes-extended/parted/parted_3.1.bb
++++ b/meta/recipes-extended/parted/parted_3.1.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
+ SECTION = "console/tools"
+ DEPENDS = "ncurses readline util-linux"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://no_check.patch \
+@@ -15,6 +15,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://fix-deprecated-readline.patch \
+            file://run-ptest \
+            file://Makefile \
++           file://parted-libparted-make-sure-not-to-treat-percentages-as-exact.patch \
+ "
+ 
+ SRC_URI[md5sum] = "5d89d64d94bcfefa9ce8f59f4b81bdcb"
 -- 
-1.8.1.2
+1.7.9.5
 
 
