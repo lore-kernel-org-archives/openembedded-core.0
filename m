@@ -1,29 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id AE32960144
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga14.intel.com (unknown [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id DE48B60144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 20:34:59 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2CKYfYY004932; Wed, 12 Mar 2014 20:34:42 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cl6eN_SsvtVD; Wed, 12 Mar 2014 20:34:41 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2CKYUVL004917
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 12 Mar 2014 20:34:36 GMT
-Message-ID: <1394656465.3808.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tom Zanussi <tom.zanussi@intel.com>
-Date: Wed, 12 Mar 2014 13:34:25 -0700
-In-Reply-To: <1394654074.28022.28.camel@empanada>
+	Wed, 12 Mar 2014 20:43:58 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 12 Mar 2014 13:43:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,640,1389772800"; d="scan'208";a="490765168"
+Received: from unknown (HELO [10.255.13.117]) ([10.255.13.117])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2014 13:43:57 -0700
+Message-ID: <1394657035.28022.32.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 12 Mar 2014 15:43:55 -0500
+In-Reply-To: <1394656465.3808.2.camel@ted>
 References: <1394317437-6551-1-git-send-email-joaohf@gmail.com>
 	<1394413459.7883.23.camel@ted> <1394496310.1279.25.camel@empanada>
 	<1394514414.19455.23.camel@ted> <1394654074.28022.28.camel@empanada>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
+	<1394656465.3808.2.camel@ted>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] wic: Use mke2fs to create the ext2/3/4 image
@@ -39,98 +34,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Mar 2014 20:35:04 -0000
+X-List-Received-Date: Wed, 12 Mar 2014 20:44:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2014-03-12 at 14:54 -0500, Tom Zanussi wrote:
-> On Mon, 2014-03-10 at 22:06 -0700, Richard Purdie wrote:
-> > On Mon, 2014-03-10 at 19:05 -0500, Tom Zanussi wrote:
-> > > On Sun, 2014-03-09 at 18:04 -0700, Richard Purdie wrote:
-> > > > On Sat, 2014-03-08 at 19:23 -0300, João Henrique Ferreira de Freitas
-> > > > wrote:
-> > > > > OE-core commit f3a95ca6886b55e5819b068bdbd2cceb882d91a6 removed the
-> > > > > populate-extfs.sh. So mke2fs should be used to create ext2/3/4 image.
+On Wed, 2014-03-12 at 13:34 -0700, Richard Purdie wrote:
+> On Wed, 2014-03-12 at 14:54 -0500, Tom Zanussi wrote:
+> > On Mon, 2014-03-10 at 22:06 -0700, Richard Purdie wrote:
+> > > On Mon, 2014-03-10 at 19:05 -0500, Tom Zanussi wrote:
+> > > > On Sun, 2014-03-09 at 18:04 -0700, Richard Purdie wrote:
+> > > > > On Sat, 2014-03-08 at 19:23 -0300, João Henrique Ferreira de Freitas
+> > > > > wrote:
+> > > > > > OE-core commit f3a95ca6886b55e5819b068bdbd2cceb882d91a6 removed the
+> > > > > > populate-extfs.sh. So mke2fs should be used to create ext2/3/4 image.
+> > > > > > 
+> > > > > > Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+> > > > > > ---
+> > > > > >  scripts/lib/mic/kickstart/custom_commands/partition.py | 6 ++----
+> > > > > >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > > > > index 91d751e..e0a82f5 100644
+> > > > > > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > > > > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > > > > @@ -174,7 +174,6 @@ class Wic_PartData(Mic_PartData):
+> > > > > >          """
+> > > > > >          Prepare content for an ext2/3/4 rootfs partition.
+> > > > > >          """
+> > > > > > -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
+> > > > > >  
+> > > > > >          image_rootfs = rootfs_dir
+> > > > > >          rootfs = "%s/rootfs.%s" % (cr_workdir, self.fstype)
+> > > > > > @@ -199,11 +198,10 @@ class Wic_PartData(Mic_PartData):
+> > > > > >  
+> > > > > >          extra_imagecmd = "-i 8192"
+> > > > > >  
+> > > > > > -        mkfs_cmd = "mkfs.%s -F %s %s" % (self.fstype, extra_imagecmd, rootfs)
+> > > > > > +        mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
+> > > > > > +            (self.fstype, extra_imagecmd, rootfs, image_rootfs)
+> > > > > >          rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
+> > > > > >  
+> > > > > > -        populate_cmd = populate_script + " " + image_rootfs + " " + rootfs
+> > > > > > -        rc, out = exec_native_cmd(pseudo + populate_cmd, native_sysroot)
+> > > > > >  
+> > > > > >          # get the rootfs size in the right units for kickstart (Mb)
+> > > > > >          du_cmd = "du -Lbms %s" % rootfs
 > > > > > 
-> > > > > Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
-> > > > > ---
-> > > > >  scripts/lib/mic/kickstart/custom_commands/partition.py | 6 ++----
-> > > > >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > > > > Don't we need to be careful to find the binary from the native sysroot
+> > > > > here since that is the one with the root directory option?
 > > > > > 
-> > > > > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > > > > index 91d751e..e0a82f5 100644
-> > > > > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > > > > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > > > > @@ -174,7 +174,6 @@ class Wic_PartData(Mic_PartData):
-> > > > >          """
-> > > > >          Prepare content for an ext2/3/4 rootfs partition.
-> > > > >          """
-> > > > > -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
-> > > > >  
-> > > > >          image_rootfs = rootfs_dir
-> > > > >          rootfs = "%s/rootfs.%s" % (cr_workdir, self.fstype)
-> > > > > @@ -199,11 +198,10 @@ class Wic_PartData(Mic_PartData):
-> > > > >  
-> > > > >          extra_imagecmd = "-i 8192"
-> > > > >  
-> > > > > -        mkfs_cmd = "mkfs.%s -F %s %s" % (self.fstype, extra_imagecmd, rootfs)
-> > > > > +        mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
-> > > > > +            (self.fstype, extra_imagecmd, rootfs, image_rootfs)
-> > > > >          rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
-> > > > >  
-> > > > > -        populate_cmd = populate_script + " " + image_rootfs + " " + rootfs
-> > > > > -        rc, out = exec_native_cmd(pseudo + populate_cmd, native_sysroot)
-> > > > >  
-> > > > >          # get the rootfs size in the right units for kickstart (Mb)
-> > > > >          du_cmd = "du -Lbms %s" % rootfs
 > > > > 
-> > > > Don't we need to be careful to find the binary from the native sysroot
-> > > > here since that is the one with the root directory option?
-> > > > 
+> > > > Hmm, exec_native_cmd(mkfs_cmd, native_sysroot) is being used to do the
+> > > > 'mke2fs -d', which should do the right thing... Am I missing something?
 > > > 
-> > > Hmm, exec_native_cmd(mkfs_cmd, native_sysroot) is being used to do the
-> > > 'mke2fs -d', which should do the right thing... Am I missing something?
+> > > I hadn't realised that the exec_native_cmd took care of resolving the
+> > > prefix for you. The populate_script had a prefix because its used with
+> > > pseudo (I'd thought it was so it found the right command). 
+> > > 
+> > > That does raise another question though, how does this work now pseudo
+> > > isn't used?
+> > > 
 > > 
-> > I hadn't realised that the exec_native_cmd took care of resolving the
-> > prefix for you. The populate_script had a prefix because its used with
-> > pseudo (I'd thought it was so it found the right command). 
+> > Good point, it did miss pseudo.  Here's a fix to the fix:
 > > 
-> > That does raise another question though, how does this work now pseudo
-> > isn't used?
+> > http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-ext2fs-fix-fix
 > > 
+> > 
+> > 
+> > [PATCH] wic: Use pseudo for ext mkfs command
+> > 
+> > The switchover from populate-exfs.sh to mke2fs forgot to preserve
+> > pseudo, add it back.
+> > 
+> > Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+> > ---
+> >  scripts/lib/mic/kickstart/custom_commands/partition.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > index e0a82f5..e15150b 100644
+> > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > @@ -200,7 +200,7 @@ class Wic_PartData(Mic_PartData):
+> >  
+> >          mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
+> >              (self.fstype, extra_imagecmd, rootfs, image_rootfs)
+> > -        rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
+> > +        rc, out = exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
 > 
-> Good point, it did miss pseudo.  Here's a fix to the fix:
+> In the original version the full path to mkfs.X was specified, in this
+> version PATH will be used to find it. Will it find the right version?
 > 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-ext2fs-fix-fix
-> 
-> 
-> 
-> [PATCH] wic: Use pseudo for ext mkfs command
-> 
-> The switchover from populate-exfs.sh to mke2fs forgot to preserve
-> pseudo, add it back.
-> 
-> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> ---
->  scripts/lib/mic/kickstart/custom_commands/partition.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> index e0a82f5..e15150b 100644
-> --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> @@ -200,7 +200,7 @@ class Wic_PartData(Mic_PartData):
->  
->          mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
->              (self.fstype, extra_imagecmd, rootfs, image_rootfs)
-> -        rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
-> +        rc, out = exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
 
-In the original version the full path to mkfs.X was specified, in this
-version PATH will be used to find it. Will it find the right version?
+Yeah, that's what exec_native_cmd does:
 
-Cheers,
+    native_paths = \
+        "export PATH=%s/sbin:%s/usr/sbin:%s/usr/bin:$PATH" % \
+        (native_sysroot, native_sysroot, native_sysroot)
 
-Richard
+The original didn't need to specify the full path, not sure why it
+did...
+
+Tom
+
+> Cheers,
+> 
+> Richard
+> 
+
 
 
