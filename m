@@ -1,28 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48AB76F7AB
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 73FAB6F7EB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 06:21:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2D6LSR6003315
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Mar 2014 23:21:28 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 12 Mar 2014 23:21:27 -0700
-Message-ID: <53214E66.70401@windriver.com>
-Date: Thu, 13 Mar 2014 14:21:26 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 13 Mar 2014 07:45:23 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s2D7jFdT029509;
+	Thu, 13 Mar 2014 08:45:20 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Thu, 13 Mar 2014 08:45:15 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] libm accuracy, eglibc compared to glibc
+Thread-Index: Ac8+BQu6b+elda9pTAWbBsq3s0UQDf///PgAgAAYDBw=
+Date: Thu, 13 Mar 2014 07:45:15 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B181C86@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B18163B@post.tritech.se>,
+	<CAJTo0LZeuTEU4My3N=Ux6QR2eU09ct-Kah_XbJrPYrHBx3aOCw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZeuTEU4My3N=Ux6QR2eU09ct-Kah_XbJrPYrHBx3aOCw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1394606302.git.liezhi.yang@windriver.com>
-	<015d5a2ffbf03ecfe5804b2c3418cdfb14d45579.1394606302.git.liezhi.yang@windriver.com>
-In-Reply-To: <015d5a2ffbf03ecfe5804b2c3418cdfb14d45579.1394606302.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] docbook-sgml-dtd-native: remove catalog file when do_clean
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libm accuracy, eglibc compared to glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,94 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 06:21:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Mar 2014 07:45:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 03/12/2014 02:38 PM, Robert Yang wrote:
-> The docbook_sgml_dtd_sstate_postinst adds catalog file to
-> /etc/sgml/sgml-docbook.cat, but the do_clean would not remove the file,
-> which would cause unexpected errors since we have multiple versions
-> of docbook-sgml-dtd:
->
-> docbook-sgml-dtd-3.1-native_3.1.bb
-> docbook-sgml-dtd-4.1-native_4.1.bb
-> docbook-sgml-dtd-4.5-native.bb
->
-> If we run:
->
-> $ bitbake docbook-sgml-dtd-4.1-native
-> $ bitbake docbook-sgml-dtd-4.1-native -ccleansstate && bitbake docbook-sgml-dtd-3.1-native
-> $ bitbake docbook-utils-native
->
-> We would get this error:
->
-> jade: cannot open "/path/to/etc/sgml/sgml-docbook-dtd-4.1.cat" (No such file or directory)
-> make[2]: *** [sgmldiff.html] Error 1
->
-> Remove the catalog entry when do_clean will fix the problem.
->
-> [YOCTO #5949]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   .../docbook-sgml-dtd/docbook-sgml-dtd-native.inc             |   10 ++++++++++
->   1 file changed, 10 insertions(+)
->
-> diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-> index 1b357b5..bf2affb 100644
-> --- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-> +++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-> @@ -58,3 +58,13 @@ docbook_sgml_dtd_sysroot_preprocess () {
->       install -m 755 ${STAGING_BINDIR_NATIVE}/install-catalog ${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-docbook-sgml-dtd-${DTD_VERSION}
->   }
->
-> +CLEANFUNCS += "docbook_sgml_dtd_sstate_clean"
-> +
-> +docbook_sgml_dtd_sstate_clean () {
-> +	# Ensure that the catalog file sgml-docbook.cat is properly
-> +	# updated when the package is removed from sstate cache.
-> +	if [ -s ${sysconfdir}/sgml/sgml-docbook.bak ]; then
-> +		sed -i '/'"\/sgml\/sgml-docbook-dtd-${DTD_VERSION}.cat"'/d' \
-> +			${sysconfdir}/sgml/sgml-docbook.bak
-
-I updated the patch a little, we need also remove the catalog file from
-sgml-docbook.cat, please see the PULL:
-
-git://git.pokylinux.org/poky-contrib rbt/sgml
-
-
-And here is the patch:
-
-diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc 
-b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-index 1b357b5..b2381bd 100644
---- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-+++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
-@@ -58,3 +58,15 @@ docbook_sgml_dtd_sysroot_preprocess () {
-      install -m 755 ${STAGING_BINDIR_NATIVE}/install-catalog 
-${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-docbook-sgml-dtd-${DTD_VERSION}
-  }
-
-+CLEANFUNCS += "docbook_sgml_dtd_sstate_clean"
-+
-+docbook_sgml_dtd_sstate_clean () {
-+       # Ensure that the catalog file sgml-docbook.cat is properly
-+       # updated when the package is removed from sstate cache.
-+       if [ -f ${sysconfdir}/sgml/sgml-docbook.bak ]; then
-+               sed -i '/'"\/sgml\/sgml-docbook-dtd-${DTD_VERSION}.cat"'/d' \
-+                       ${sysconfdir}/sgml/sgml-docbook.bak
-+               sed -i '/'"\/sgml\/sgml-docbook-dtd-${DTD_VERSION}.cat"'/d' \
-+                       ${sysconfdir}/sgml/sgml-docbook.cat
-+       fi
-+}
-
-// Robert
-
-
-> +	fi
-> +}
->
+On Wednesday, March 12, 2014 4:58 PM, Burton, Ross wrote:=0A=
+> On 12 March 2014 15:30, Mats K=E4rrman <Mats.Karrman@tritech.se> wrote:=
+=0A=
+>> Does anyone know if this is a known "feature" of eglibc or know any othe=
+r reason=0A=
+>> for this difference?=0A=
+>=0A=
+> I expect the standard response from upstream here would be that=0A=
+> floating point mathematics isn't exact and if you want exact answers=0A=
+> then you should use a different representation. The differences start=0A=
+> at the first sqrt():=0A=
+> =0A=
+> Test 1 and 2:=0A=
+> sqrt(2.00000000000000000000) =3D 1.41421356237309514547=0A=
+> Test 3:=0A=
+> sqrt(2.00000000000000000000) =3D 1.41421356237309492343=0A=
+> Test using bc and scale=3D30 (bc is fixed-point not floating-point):=0A=
+> sqrt(2.00000000000000000000) =3D 1.414213562373095048801688724209=0A=
+> =0A=
+> The output from bc is a truncation of the "real" value of sqrt(2)=0A=
+> whereas both values from C's sqrt() function using floats are=0A=
+> approximations, both equally close.  Why does your test case expect=0A=
+> the answer to be 2.0?  That's a massive assumption to make, floats can=0A=
+> trivially lose accuracy rapidly as=0A=
+> http://en.wikipedia.org/wiki/Floating_point#Accuracy_problems=0A=
+> explains.=0A=
+=0A=
+I am aware of the problems with floating point math. The test cases are fro=
+m IBM=0A=
+and used to validate their J9 JVM on new platforms. AfaIk they normally wor=
+k (as=0A=
+they do for my old OE-classic system and for my Debian PC).=0A=
+=0A=
+Any reason that EGLIBC should be different from GLIBC?=0A=
+=0A=
+// Mats=0A=
 
