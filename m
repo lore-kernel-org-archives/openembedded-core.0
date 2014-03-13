@@ -1,24 +1,20 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AB1666F81F
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BDF206F776
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 11:09:30 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 13 Mar 2014 04:09:30 -0700
+	Thu, 13 Mar 2014 11:29:09 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Mar 2014 04:24:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,646,1389772800"; d="scan'208";a="491174246"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Mar 2014 04:09:29 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,646,1389772800"; d="scan'208";a="499115199"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
+	by orsmga002.jf.intel.com with ESMTP; 13 Mar 2014 04:29:09 -0700
+From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Mar 2014 13:12:41 +0200
-Message-Id: <a601e4ee9eb6d74ed7092142dafff8288f8c313a.1394709053.git.cristian.iorga@intel.com>
+Date: Thu, 13 Mar 2014 13:28:53 +0200
+Message-Id: <1394710133-18659-1-git-send-email-valentin.popa@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1394709053.git.cristian.iorga@intel.com>
-References: <cover.1394709053.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1394709053.git.cristian.iorga@intel.com>
-References: <cover.1394709053.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 2/2] packagegroup-core-tools-testapps: added connman tools and tests
+Subject: [PATCH] Set ac_cv_sizeof_ssize_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 11:09:30 -0000
+X-List-Received-Date: Thu, 13 Mar 2014 11:29:11 -0000
 
-Added connman-tools and connman-tests packages.
+Set ac_cv_sizeof_ssize_t for mips64;
+mips-common will not overwrite it.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+[YOCTO #5935]
+
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/site/mips64-linux | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index fe22f07..d8a7306 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -54,6 +54,8 @@ RDEPENDS_${PN} = "\
-     gst-meta-video \
-     gst-meta-audio \
-     ltp \
-+    connman-tools \
-+    connman-tests \
-     connman-client \
-     ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
-     ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
+diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
+index 4449c96..ed0fbbe 100644
+--- a/meta/site/mips64-linux
++++ b/meta/site/mips64-linux
+@@ -35,6 +35,7 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+ ac_cv_alignof_guint32=4
+ ac_cv_alignof_guint64=8
+ ac_cv_alignof_unsigned_long=8
++ac_cv_sizeof_ssize_t=8
+ 
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
 -- 
 1.8.3.2
 
