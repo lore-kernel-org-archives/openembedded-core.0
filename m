@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A3F706E78E
+	by mail.openembedded.org (Postfix) with ESMTP id 3C5176F7D5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 09:42:02 +0000 (UTC)
+	Thu, 13 Mar 2014 09:42:05 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2014 02:42:03 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2014 02:42:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,646,1389772800"; d="scan'208";a="497621586"
+X-IronPort-AV: E=Sophos;i="4.97,646,1389772800"; d="scan'208";a="497621609"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2014 02:42:02 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2014 02:42:04 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Mar 2014 11:45:10 +0200
-Message-Id: <cover.1394703743.git.cristian.iorga@intel.com>
+Date: Thu, 13 Mar 2014 11:45:12 +0200
+Message-Id: <1165b2080580b27086ed8b77fa85ba41668ab199.1394703743.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH 0/2] Add new comm tools to testapps
+In-Reply-To: <cover.1394703743.git.cristian.iorga@intel.com>
+References: <cover.1394703743.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1394703743.git.cristian.iorga@intel.com>
+References: <cover.1394703743.git.cristian.iorga@intel.com>
+Subject: [PATCH 2/2] packagegroup-core-tools-testapps: added connman tools and tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,26 +33,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 13 Mar 2014 09:42:05 -0000
 
-Add new tools related to connman and ofono into the 
-packagegroup-core-tools-testapps packagegroup.
-Useful for investigating/debugging comm issues/features.
+Added connman-tools and connman-tests packages.
 
-The following changes since commit 463cd34f8c17c67c4f3adf3468424730b22f3974:
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-  Create gstreamer-1.0 package groups (2014-03-12 06:15:09 -0700)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/tools-testapps
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/tools-testapps
-
-Cristian Iorga (2):
-  packagegroup-core-tools-testapp: added 3G tools
-  packagegroup-core-tools-testapps: added connman tools and tests
-
- .../packagegroups/packagegroup-core-tools-testapps.bb            | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index 5a55591..f2c02d2 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -5,7 +5,7 @@
+ SUMMARY = "Testing tools/applications"
+ LICENSE = "MIT"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit packagegroup
+ 
+@@ -54,6 +54,8 @@ RDEPENDS_${PN} = "\
+     gst-meta-video \
+     gst-meta-audio \
+     ltp \
++    connman-tools \
++    connman-tests \
+     connman-client \
+     ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
+     ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
 -- 
 1.8.3.2
 
