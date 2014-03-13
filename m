@@ -1,38 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 58F1E6F6AC
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F0376F815
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 16:54:24 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id f11so1301980qae.31
+	Thu, 13 Mar 2014 17:40:14 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id j15so1354649qaq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 09:54:25 -0700 (PDT)
+	Thu, 13 Mar 2014 10:40:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=i3bT04xgs0Zcn4SvM+mPrvpmlQ0MGGD74W4UtKf3hbc=;
-	b=j6hGLSaB3SzBvRX2xULlN0A/sRLXVGMBK8e4zG0cF6BCJ7rt/CHHxZEhUzHi5/6Un9
-	ooTUw4GCDFPoync9tZrxIDggu7ofet2r6L0QN/V28FimCHe0hVE8TPH5dqW8r/R7I0Ss
-	LCnbWHvTUA9s7Ci1brk5gdFEpxDguamYS9/yojsMzowTHbnNueganW+Yrxffd6oQygLv
-	kHC+t+uPFHv5A0VlFl+1EEWqBxwlzDGmgJVtbo8CmR8kN3inPKQYDn/4DaaIxIvOtLrl
-	gwv30HAP1M/FCJBM1drZWn6oel5aqOkuImVULNq+6DgDcUk1LZ5pVACSomVe/NNzfP0u
-	W4ug==
-X-Gm-Message-State: ALoCoQmGLL4A7rqyQQeaWjY59Ogz5TBNrFL8+CyXzVQo8m9JhnXPpoxRUKY5ZDSxbpyL76cRoKlB
-X-Received: by 10.224.45.197 with SMTP id g5mr3812200qaf.52.1394729665721;
-	Thu, 13 Mar 2014 09:54:25 -0700 (PDT)
+	bh=Hgy9F0dfkdyVssEPzaVdifRq/oyF9HvCIvJzUuRyHts=;
+	b=EwxqDZB5OaoWJQ2yZ667QQk490BPM1KOvJqxOT8SImVY0L0MTeffNw0lxaDe3GUsEv
+	sJJX9ADAPeiaSuDQs58zzg1lEQubRHHHYGkV/RuqUmYKudIGQ6fphqDmGs2HUOf053Mn
+	obprhKJqAdZqJ+BL6EJD7E322p7P5DKChYdNIJKwPOQwqrXp4Y38EGz8+eHpyg8CGNzb
+	uX6VRp/iz1abhFjtckTgWk5W62bm5qjknV42qPtYLEha6RrKXNV2Z+LjZS4C9RXNQqps
+	20o0cq7nCMYkyErxIKe/0DHilpozI2DrEjGYLBtKimJgKp+7RewlXBloh7vQyceZxlwF
+	F2Zg==
+X-Gm-Message-State: ALoCoQl4tv7azqC2foGQz29J29MzhOKzWirTUmZCvK4yZ/Jpn+3MNbYIZDMqTgVamGicMZRtBcHh
+X-Received: by 10.224.127.129 with SMTP id g1mr4110327qas.22.1394732415322;
+	Thu, 13 Mar 2014 10:40:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 13 Mar 2014 09:54:05 -0700 (PDT)
-In-Reply-To: <CAJTo0LbpZ=aSRwcu8TAZsqXKb+jmtCqgj07YAm7kdrLUawQkRg@mail.gmail.com>
+Received: by 10.140.48.79 with HTTP; Thu, 13 Mar 2014 10:39:55 -0700 (PDT)
+In-Reply-To: <7337ad5ac0c8f13c3b23160f2a2ea6e9dc383f64.1394555880.git.liezhi.yang@windriver.com>
 References: <cover.1394555880.git.liezhi.yang@windriver.com>
-	<5a1dbe79b2581b458e5c43a262c9b9c8a809d081.1394555880.git.liezhi.yang@windriver.com>
-	<CAJTo0LbpZ=aSRwcu8TAZsqXKb+jmtCqgj07YAm7kdrLUawQkRg@mail.gmail.com>
+	<7337ad5ac0c8f13c3b23160f2a2ea6e9dc383f64.1394555880.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Mar 2014 16:54:05 +0000
-Message-ID: <CAJTo0LZXYBmSy4bme8Y3MaYCZ=X2VRabbXOeSNVX7TEubVOKPg@mail.gmail.com>
+Date: Thu, 13 Mar 2014 17:39:55 +0000
+Message-ID: <CAJTo0LYPyrTpEN6w4g5KcmsXMB6=GvaKxcshObb1Co6Lh3A8VA@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] patch.bbclass: do_patch: unset TMPDIR from environment
+Subject: Re: [PATCH 3/6] package_rpm.bbclass: archive the source to srpm package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,23 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 16:54:28 -0000
+X-List-Received-Date: Thu, 13 Mar 2014 17:40:17 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 March 2014 16:46, Burton, Ross <ross.burton@intel.com> wrote:
-> On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
->> We need unset it after we use it, otherwise it would affect the env
->> after we run "bb.build.exec_func('do_patch', d)", and will cause
->> unexpected errors.
->
-> This assignment has been there since October 2012, so what are the
-> problems that this causes?
+On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
+> -        # Remove the source (SOURCE0, SOURCE1 ...)
+> -        cmd = cmd + " --rmsource "
 
-So what bothers me about this (and the original patch) is that TMPDIR
-has special meaning to bitbake and the conflict with patch's temporary
-directory is unfortunate.  Maybe a better solution is to change
-meta/lib/oe/patch.py to set TMPDIR when invoking patch so the changed
-TMPDIR is constrained to the patch process and nothing else.
+You probably want to keep this as otherwise
+deploy/sources/MACHINE/RECIPE/ contains both the .src.rpm and the
+separate sources.
 
 Ross
 
