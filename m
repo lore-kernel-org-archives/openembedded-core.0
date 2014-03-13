@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D39F6F66B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 123A26DCFF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 17:45:20 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id e16so1561411qcx.6
+	Thu, 13 Mar 2014 18:12:05 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id w7so982554lbi.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 10:45:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=gbLUtOdcJv4vAKvKYQJp/mbajkPolCREm9JkZf5BEng=;
-	b=b451ro4xWQvPOkb5hpQ1K4z2mp2q1mPBxeDj9MKpyU5PxeW+yRLcVjSFhs/Mi9vK6h
-	mkDKmMPse1kdR1wPZ/B+c7Rh/KYRCEMIPcOIaeS0e/1eBjq6Pas1mmFEiG84Cp+vJSMU
-	iXnks1CVBg/fxnOfnAlEgrqm4+tu2DCN4un61T4INw2jJv1p2ER+hW8TZkqPSVAvXSBX
-	xTpXHp1/nh7qM/CS0cXT/abjTAh5mgxok2s9gbJ4xTl9iSf/T07cLkJ9aG9XR6YBm6Vt
-	LMxsvhoiRdTpdoD+QQmS3zryPz+SyNm+9Aat6N/KDiW5RvceAQeJNwG3E5aCzkGr1vFe
-	VeQg==
-X-Gm-Message-State: ALoCoQlYSW08E3mBUvPsgt1kFscp81/3+L1CoACfi0SXhIw8/8geLsrt2ZrqzgXCQo4kauDdxpK2
-X-Received: by 10.140.106.195 with SMTP id e61mr3915824qgf.66.1394732721521;
-	Thu, 13 Mar 2014 10:45:21 -0700 (PDT)
+	Thu, 13 Mar 2014 11:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=kWyNOXmdfIGCZcdrC+M6iJZfXeI0vC5d6cwsoDUq7co=;
+	b=iMilg4j3dYevR8E9hSHlFXMJrsB4yuo5J7jKePMS7R7r2XjCIzk+WskZDx9+MFDhBm
+	cG4RZUNArxS1qRmkKtPZT2utIUzYX4peOw85NRvGNFLLseV7W4ZHfBoXDGfGUmKiVw7W
+	Z8/JwlgYvXhB+XcnCVhRIqfRcCU04wOFSGpFTgTsIFb34KvhLFP6MCcaqRhrDsZTbX4Y
+	yOjj4qWYNg2BKrZjaHGWLCMCszMUUwsTeCLLKMBnBrldgIKS81p6Rv6R8l52MdwpTSHH
+	xoJuDj5gGoj337JZ3fIiaK54IV1NK053wgYgSm6pgbZHVBJtGA4pF+ujT+bRbICWKvnk
+	rVuw==
+X-Received: by 10.112.35.130 with SMTP id h2mr2124902lbj.15.1394734325380;
+	Thu, 13 Mar 2014 11:12:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 13 Mar 2014 10:45:01 -0700 (PDT)
-In-Reply-To: <cover.1394555880.git.liezhi.yang@windriver.com>
+Received: by 10.112.35.200 with HTTP; Thu, 13 Mar 2014 11:11:45 -0700 (PDT)
+In-Reply-To: <CAJTo0LZXYBmSy4bme8Y3MaYCZ=X2VRabbXOeSNVX7TEubVOKPg@mail.gmail.com>
 References: <cover.1394555880.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Mar 2014 17:45:01 +0000
-Message-ID: <CAJTo0LZPGDftsVZD0NQKSWYD9BnKkMOrdTGUOKnQ2bVY+b-jwg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+	<5a1dbe79b2581b458e5c43a262c9b9c8a809d081.1394555880.git.liezhi.yang@windriver.com>
+	<CAJTo0LbpZ=aSRwcu8TAZsqXKb+jmtCqgj07YAm7kdrLUawQkRg@mail.gmail.com>
+	<CAJTo0LZXYBmSy4bme8Y3MaYCZ=X2VRabbXOeSNVX7TEubVOKPg@mail.gmail.com>
+From: Chris Larson <kergoth@gmail.com>
+Date: Thu, 13 Mar 2014 11:11:45 -0700
+Message-ID: <CABcZANnVyoUPY6o_UDNEPhUL=O6GH7+heYR1w-YBpEOeEXB6UQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6 V3] refactor the archiver*.bbclass
+Subject: Re: [PATCH 6/6] patch.bbclass: do_patch: unset TMPDIR from environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,22 +44,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 17:45:24 -0000
+X-List-Received-Date: Thu, 13 Mar 2014 18:12:06 -0000
+Content-Type: multipart/alternative; boundary=001a11c3735a053a1c04f480e49a
+
+--001a11c3735a053a1c04f480e49a
 Content-Type: text/plain; charset=UTF-8
 
-On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Robert Yang (6):
->   classes/archive*.bbclass: remove archive-*-source.bbclass
->   archiver.bbclass: refactor it
->   package_rpm.bbclass: archive the source to srpm package
->   archiver.bbclass: move a few code to copyleft_compliance.bbclass
->   local.conf.sample.extended: update for the archiver
->   patch.bbclass: do_patch: unset TMPDIR from environment
+On Thu, Mar 13, 2014 at 9:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
 
-This series appears to work for me and doesn't cause rebuilds (after
-removing the patch change, as that obviously does).  Can anyone else
-who actively uses the archiver verify that it still works for them?
+> On 13 March 2014 16:46, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
+> >> We need unset it after we use it, otherwise it would affect the env
+> >> after we run "bb.build.exec_func('do_patch', d)", and will cause
+> >> unexpected errors.
+> >
+> > This assignment has been there since October 2012, so what are the
+> > problems that this causes?
+>
+> So what bothers me about this (and the original patch) is that TMPDIR
+> has special meaning to bitbake and the conflict with patch's temporary
+> directory is unfortunate.  Maybe a better solution is to change
+> meta/lib/oe/patch.py to set TMPDIR when invoking patch so the changed
+> TMPDIR is constrained to the patch process and nothing else.
 
-Cheers,
-Ross
 
+That sounds like a clean approach to me.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a11c3735a053a1c04f480e49a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Mar 13, 2014 at 9:54 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb adM"><div class=3D"h5">=
+On 13 March 2014 16:46, Burton, Ross &lt;<a href=3D"mailto:ross.burton@inte=
+l.com">ross.burton@intel.com</a>&gt; wrote:<br>
+
+
+&gt; On 11 March 2014 17:08, Robert Yang &lt;<a href=3D"mailto:liezhi.yang@=
+windriver.com">liezhi.yang@windriver.com</a>&gt; wrote:<br>
+&gt;&gt; We need unset it after we use it, otherwise it would affect the en=
+v<br>
+&gt;&gt; after we run &quot;bb.build.exec_func(&#39;do_patch&#39;, d)&quot;=
+, and will cause<br>
+&gt;&gt; unexpected errors.<br>
+&gt;<br>
+&gt; This assignment has been there since October 2012, so what are the<br>
+&gt; problems that this causes?<br>
+<br>
+</div></div>So what bothers me about this (and the original patch) is that =
+TMPDIR<br>
+has special meaning to bitbake and the conflict with patch&#39;s temporary<=
+br>
+directory is unfortunate. =C2=A0Maybe a better solution is to change<br>
+meta/lib/oe/patch.py to set TMPDIR when invoking patch so the changed<br>
+TMPDIR is constrained to the patch process and nothing else.</blockquote></=
+div><br></div><div class=3D"gmail_extra">That sounds like a clean approach =
+to me.<br>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founde=
+r - BitBake, OpenEmbedded, OpenZaurus<br>
+
+Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
+</div></div>
+
+--001a11c3735a053a1c04f480e49a--
