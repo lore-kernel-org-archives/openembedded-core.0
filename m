@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F0376F815
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D39F6F66B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 17:40:14 +0000 (UTC)
-Received: by mail-qa0-f43.google.com with SMTP id j15so1354649qaq.2
+	Thu, 13 Mar 2014 17:45:20 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id e16so1561411qcx.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 10:40:15 -0700 (PDT)
+	Thu, 13 Mar 2014 10:45:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Hgy9F0dfkdyVssEPzaVdifRq/oyF9HvCIvJzUuRyHts=;
-	b=EwxqDZB5OaoWJQ2yZ667QQk490BPM1KOvJqxOT8SImVY0L0MTeffNw0lxaDe3GUsEv
-	sJJX9ADAPeiaSuDQs58zzg1lEQubRHHHYGkV/RuqUmYKudIGQ6fphqDmGs2HUOf053Mn
-	obprhKJqAdZqJ+BL6EJD7E322p7P5DKChYdNIJKwPOQwqrXp4Y38EGz8+eHpyg8CGNzb
-	uX6VRp/iz1abhFjtckTgWk5W62bm5qjknV42qPtYLEha6RrKXNV2Z+LjZS4C9RXNQqps
-	20o0cq7nCMYkyErxIKe/0DHilpozI2DrEjGYLBtKimJgKp+7RewlXBloh7vQyceZxlwF
-	F2Zg==
-X-Gm-Message-State: ALoCoQl4tv7azqC2foGQz29J29MzhOKzWirTUmZCvK4yZ/Jpn+3MNbYIZDMqTgVamGicMZRtBcHh
-X-Received: by 10.224.127.129 with SMTP id g1mr4110327qas.22.1394732415322;
-	Thu, 13 Mar 2014 10:40:15 -0700 (PDT)
+	bh=gbLUtOdcJv4vAKvKYQJp/mbajkPolCREm9JkZf5BEng=;
+	b=b451ro4xWQvPOkb5hpQ1K4z2mp2q1mPBxeDj9MKpyU5PxeW+yRLcVjSFhs/Mi9vK6h
+	mkDKmMPse1kdR1wPZ/B+c7Rh/KYRCEMIPcOIaeS0e/1eBjq6Pas1mmFEiG84Cp+vJSMU
+	iXnks1CVBg/fxnOfnAlEgrqm4+tu2DCN4un61T4INw2jJv1p2ER+hW8TZkqPSVAvXSBX
+	xTpXHp1/nh7qM/CS0cXT/abjTAh5mgxok2s9gbJ4xTl9iSf/T07cLkJ9aG9XR6YBm6Vt
+	LMxsvhoiRdTpdoD+QQmS3zryPz+SyNm+9Aat6N/KDiW5RvceAQeJNwG3E5aCzkGr1vFe
+	VeQg==
+X-Gm-Message-State: ALoCoQlYSW08E3mBUvPsgt1kFscp81/3+L1CoACfi0SXhIw8/8geLsrt2ZrqzgXCQo4kauDdxpK2
+X-Received: by 10.140.106.195 with SMTP id e61mr3915824qgf.66.1394732721521;
+	Thu, 13 Mar 2014 10:45:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 13 Mar 2014 10:39:55 -0700 (PDT)
-In-Reply-To: <7337ad5ac0c8f13c3b23160f2a2ea6e9dc383f64.1394555880.git.liezhi.yang@windriver.com>
+Received: by 10.140.48.79 with HTTP; Thu, 13 Mar 2014 10:45:01 -0700 (PDT)
+In-Reply-To: <cover.1394555880.git.liezhi.yang@windriver.com>
 References: <cover.1394555880.git.liezhi.yang@windriver.com>
-	<7337ad5ac0c8f13c3b23160f2a2ea6e9dc383f64.1394555880.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Mar 2014 17:39:55 +0000
-Message-ID: <CAJTo0LYPyrTpEN6w4g5KcmsXMB6=GvaKxcshObb1Co6Lh3A8VA@mail.gmail.com>
+Date: Thu, 13 Mar 2014 17:45:01 +0000
+Message-ID: <CAJTo0LZPGDftsVZD0NQKSWYD9BnKkMOrdTGUOKnQ2bVY+b-jwg@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] package_rpm.bbclass: archive the source to srpm package
+Subject: Re: [PATCH 0/6 V3] refactor the archiver*.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,16 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 17:40:17 -0000
+X-List-Received-Date: Thu, 13 Mar 2014 17:45:24 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
-> -        # Remove the source (SOURCE0, SOURCE1 ...)
-> -        cmd = cmd + " --rmsource "
+> Robert Yang (6):
+>   classes/archive*.bbclass: remove archive-*-source.bbclass
+>   archiver.bbclass: refactor it
+>   package_rpm.bbclass: archive the source to srpm package
+>   archiver.bbclass: move a few code to copyleft_compliance.bbclass
+>   local.conf.sample.extended: update for the archiver
+>   patch.bbclass: do_patch: unset TMPDIR from environment
 
-You probably want to keep this as otherwise
-deploy/sources/MACHINE/RECIPE/ contains both the .src.rpm and the
-separate sources.
+This series appears to work for me and doesn't cause rebuilds (after
+removing the patch change, as that obviously does).  Can anyone else
+who actively uses the archiver verify that it still works for them?
 
+Cheers,
 Ross
 
