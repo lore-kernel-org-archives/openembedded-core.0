@@ -1,35 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FD526F7CF
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 78CB96E720
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 10:10:14 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id m20so803351qcx.38
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 03:10:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=AyuFfG1J4yJGphPgP5Vpb9ZkPgmbLwatzkgsXlDvEwE=;
-	b=DMnR7TZn8f0UZzdVyo6AalyOfdHRxS1qoI7MRLkidfW8eBs+Y4eTLIeLp8fv1ldnK8
-	zGeUY4mcwmfv7vY354MkL866Mp1RpxzZPzRLnaHxWSlmKvUSyRVpIrjaUMB/Sy4tg4Kq
-	ihKEEmMNZIOw9jLjdhQAe6MuliwkppJ5cguj0gIyW7XQ7KWQz/L1zKKulPm5RXcnzVLa
-	Ak6fyqVhsShAzDCnWVLT1zEOz5EszKn84yeg2gP8q+GHfQZN5m6SBMPHQxgq1Ug4QKDm
-	8rJcpd4ocRVOUx/nXDrt3+mhrFQI3q0HQLEoyxzkKp+h8+gPidju4+82SAkD9t45y9hJ
-	woTg==
-X-Gm-Message-State: ALoCoQmurosQwKgMCdoGOXRT1AGOCrB2cQwv+uddSntCLeR/iTJmyVD1CGD6qgBmzxn9m6Gq0MAI
-X-Received: by 10.229.12.197 with SMTP id y5mr1169079qcy.22.1394705415147;
-	Thu, 13 Mar 2014 03:10:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 13 Mar 2014 03:09:55 -0700 (PDT)
-In-Reply-To: <fcd2f5c2d7d8063a6084de454c0847cba830480d.1394703743.git.cristian.iorga@intel.com>
+	Thu, 13 Mar 2014 10:21:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Mar 2014 03:21:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,646,1389772800"; d="scan'208";a="497644970"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2014 03:21:03 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.87]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.222]) with mapi id
+	14.03.0123.003; Thu, 13 Mar 2014 10:20:09 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] packagegroup-core-tools-testapp: added
+	3G tools
+Thread-Index: AQHPPqR3bjsF6JhdTkWhCNCSyDNyn5rezjOQ
+Date: Thu, 13 Mar 2014 10:20:09 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16D5ADA1@IRSMSX105.ger.corp.intel.com>
 References: <cover.1394703743.git.cristian.iorga@intel.com>
 	<fcd2f5c2d7d8063a6084de454c0847cba830480d.1394703743.git.cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Mar 2014 10:09:55 +0000
-Message-ID: <CAJTo0Lb2GW2LPQBeWJ45tBwnMTwAYrt9u9edi1nDb6vogLYkgQ@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
+	<CAJTo0Lb2GW2LPQBeWJ45tBwnMTwAYrt9u9edi1nDb6vogLYkgQ@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb2GW2LPQBeWJ45tBwnMTwAYrt9u9edi1nDb6vogLYkgQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] packagegroup-core-tools-testapp: added 3G tools
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,14 +42,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 10:10:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 13 Mar 2014 10:21:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 13 March 2014 09:45, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> -PR = "r2"
-> +PR = "r3"
-
-No need to bump PR.
-
-Ross
+QnV0IGluIHRoaXMgY2FzZSwgY2FuIGJlIHJlbW92ZWQ/DQovQ3Jpc3RpYW4NCg0KLS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9u
+QGludGVsLmNvbV0gDQpTZW50OiBUaHVyc2RheSwgTWFyY2ggMTMsIDIwMTQgMTI6MTAgUE0NClRv
+OiBJb3JnYSwgQ3Jpc3RpYW4NCkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
+QVRDSCAxLzJdIHBhY2thZ2Vncm91cC1jb3JlLXRvb2xzLXRlc3RhcHA6IGFkZGVkIDNHIHRvb2xz
+DQoNCk9uIDEzIE1hcmNoIDIwMTQgMDk6NDUsIENyaXN0aWFuIElvcmdhIDxjcmlzdGlhbi5pb3Jn
+YUBpbnRlbC5jb20+IHdyb3RlOg0KPiAtUFIgPSAicjIiDQo+ICtQUiA9ICJyMyINCg0KTm8gbmVl
+ZCB0byBidW1wIFBSLg0KDQpSb3NzDQo=
 
