@@ -1,37 +1,32 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 123A26DCFF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 952396B7D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 18:12:05 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id w7so982554lbi.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Mar 2014 11:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=kWyNOXmdfIGCZcdrC+M6iJZfXeI0vC5d6cwsoDUq7co=;
-	b=iMilg4j3dYevR8E9hSHlFXMJrsB4yuo5J7jKePMS7R7r2XjCIzk+WskZDx9+MFDhBm
-	cG4RZUNArxS1qRmkKtPZT2utIUzYX4peOw85NRvGNFLLseV7W4ZHfBoXDGfGUmKiVw7W
-	Z8/JwlgYvXhB+XcnCVhRIqfRcCU04wOFSGpFTgTsIFb34KvhLFP6MCcaqRhrDsZTbX4Y
-	yOjj4qWYNg2BKrZjaHGWLCMCszMUUwsTeCLLKMBnBrldgIKS81p6Rv6R8l52MdwpTSHH
-	xoJuDj5gGoj337JZ3fIiaK54IV1NK053wgYgSm6pgbZHVBJtGA4pF+ujT+bRbICWKvnk
-	rVuw==
-X-Received: by 10.112.35.130 with SMTP id h2mr2124902lbj.15.1394734325380;
-	Thu, 13 Mar 2014 11:12:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.112.35.200 with HTTP; Thu, 13 Mar 2014 11:11:45 -0700 (PDT)
-In-Reply-To: <CAJTo0LZXYBmSy4bme8Y3MaYCZ=X2VRabbXOeSNVX7TEubVOKPg@mail.gmail.com>
-References: <cover.1394555880.git.liezhi.yang@windriver.com>
-	<5a1dbe79b2581b458e5c43a262c9b9c8a809d081.1394555880.git.liezhi.yang@windriver.com>
-	<CAJTo0LbpZ=aSRwcu8TAZsqXKb+jmtCqgj07YAm7kdrLUawQkRg@mail.gmail.com>
-	<CAJTo0LZXYBmSy4bme8Y3MaYCZ=X2VRabbXOeSNVX7TEubVOKPg@mail.gmail.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Thu, 13 Mar 2014 11:11:45 -0700
-Message-ID: <CABcZANnVyoUPY6o_UDNEPhUL=O6GH7+heYR1w-YBpEOeEXB6UQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] patch.bbclass: do_patch: unset TMPDIR from environment
+	Fri, 14 Mar 2014 01:41:29 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2E1fNta027926; Fri, 14 Mar 2014 01:41:23 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id w4_TtKRdg4pL; Fri, 14 Mar 2014 01:41:23 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2E1fDHp027922
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 14 Mar 2014 01:41:17 GMT
+Message-ID: <1394761267.3808.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 13 Mar 2014 18:41:07 -0700
+In-Reply-To: <FA39033B-6625-4625-A550-8A55B5D70FBE@dominion.thruhere.net>
+References: <1390302081-29499-1-git-send-email-koen.kooi@linaro.org>
+	<20140121130110.GC4100@jama> <52DE6FEA.5070300@linaro.org>
+	<FA39033B-6625-4625-A550-8A55B5D70FBE@dominion.thruhere.net>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd 208: move stray /usr/lib/systemd/* into /lib/systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,76 +39,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Mar 2014 18:12:06 -0000
-Content-Type: multipart/alternative; boundary=001a11c3735a053a1c04f480e49a
+X-List-Received-Date: Fri, 14 Mar 2014 01:41:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11c3735a053a1c04f480e49a
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2014-03-13 at 10:09 +0100, Koen Kooi wrote:
+> Op 21 jan. 2014, om 14:02 heeft Koen Kooi <koen.kooi@linaro.org> het volgende geschreven:
+> 
+> > On 01/21/2014 02:01 PM, Martin Jansa wrote:
+> >> On Tue, Jan 21, 2014 at 12:01:21PM +0100, Koen Kooi wrote:
+> >>> From: Koen Kooi <koen@dominion.thruhere.net>
+> >>> 
+> >>> Apps testing for systemd config get confused when both /usr/lib/systemd and /lib/systemd exist. This fixes (among other things) dracut systemd detections.
+> >>> 
+> >>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >>> ---
+> >>>  meta/recipes-core/systemd/systemd_208.bb | 6 ++++++
+> >>>  1 file changed, 6 insertions(+)
+> >>> 
+> >>> diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
+> >>> index 6590235..710624c 100644
+> >>> --- a/meta/recipes-core/systemd/systemd_208.bb
+> >>> +++ b/meta/recipes-core/systemd/systemd_208.bb
+> >>> @@ -113,6 +113,12 @@ do_install() {
+> >>> 
+> >>>          # Delete journal README, as log can be symlinked inside volatile.
+> >>>          rm -f ${D}/${localstatedir}/log/README
+> >>> +
+> >>> +	# fix up libdir confusion
+> >>> +	if [ -d ${D}${libdir}/systemd ] ; then
+> >>> +		cp -a ${D}${libdir}/systemd/* ${D}${systemd_unitdir}
+> >>> +		rm -rf ${D}${libdir}/systemd
+> >>> +	fi
+> >> 
+> >> It's not your fault, but the indentation looks inconsistent with rest of
+> >> do_install()
+> > 
+> > And I did especially pay attention to use tabs after all the meta-oe patches I did :)
+> 
+> Ping
 
-On Thu, Mar 13, 2014 at 9:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
+This kind of patch sets off all the alarm bells. Why? It becomes
+impossible to know which recipes this is fixing and whether there are
+other underlying issues. Once added it would be near impossible to
+remove or improve upon.
 
-> On 13 March 2014 16:46, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
-> >> We need unset it after we use it, otherwise it would affect the env
-> >> after we run "bb.build.exec_func('do_patch', d)", and will cause
-> >> unexpected errors.
-> >
-> > This assignment has been there since October 2012, so what are the
-> > problems that this causes?
->
-> So what bothers me about this (and the original patch) is that TMPDIR
-> has special meaning to bitbake and the conflict with patch's temporary
-> directory is unfortunate.  Maybe a better solution is to change
-> meta/lib/oe/patch.py to set TMPDIR when invoking patch so the changed
-> TMPDIR is constrained to the patch process and nothing else.
+I'd much rather we fix recipes to put files into the correct location
+and thrown errors if they put files somewhere incorrect.
+
+I appreciate its tempting to hack around it but I'm not keen...
+
+Cheers,
+
+Richard
 
 
-That sounds like a clean approach to me.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
 
---001a11c3735a053a1c04f480e49a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Mar 13, 2014 at 9:54 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb adM"><div class=3D"h5">=
-On 13 March 2014 16:46, Burton, Ross &lt;<a href=3D"mailto:ross.burton@inte=
-l.com">ross.burton@intel.com</a>&gt; wrote:<br>
-
-
-&gt; On 11 March 2014 17:08, Robert Yang &lt;<a href=3D"mailto:liezhi.yang@=
-windriver.com">liezhi.yang@windriver.com</a>&gt; wrote:<br>
-&gt;&gt; We need unset it after we use it, otherwise it would affect the en=
-v<br>
-&gt;&gt; after we run &quot;bb.build.exec_func(&#39;do_patch&#39;, d)&quot;=
-, and will cause<br>
-&gt;&gt; unexpected errors.<br>
-&gt;<br>
-&gt; This assignment has been there since October 2012, so what are the<br>
-&gt; problems that this causes?<br>
-<br>
-</div></div>So what bothers me about this (and the original patch) is that =
-TMPDIR<br>
-has special meaning to bitbake and the conflict with patch&#39;s temporary<=
-br>
-directory is unfortunate. =C2=A0Maybe a better solution is to change<br>
-meta/lib/oe/patch.py to set TMPDIR when invoking patch so the changed<br>
-TMPDIR is constrained to the patch process and nothing else.</blockquote></=
-div><br></div><div class=3D"gmail_extra">That sounds like a clean approach =
-to me.<br>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founde=
-r - BitBake, OpenEmbedded, OpenZaurus<br>
-
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-</div></div>
-
---001a11c3735a053a1c04f480e49a--
