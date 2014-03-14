@@ -1,20 +1,37 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 80ACD6F595
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 012D06F75F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 11:12:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Mar 2014 04:12:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,654,1389772800"; d="scan'208";a="498446466"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2014 04:12:41 -0700
-From: Valentin Popa <valentin.popa@intel.com>
+	Fri, 14 Mar 2014 14:31:36 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id d1so2679083wiv.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Mar 2014 07:31:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dTo+w3JGgOe/83AGLlgAViHXAbmahS3tVW+I6bpAYQY=;
+	b=UEQhrNZI0t4lpNOINqm9eBJlmnRSGAW+qDtGdj6swdQB0PbIKNQq4WowWq+tcm+dD2
+	C8UWfQGk/avbHS7DREbe4P5qbBXSfSw8qrrotdKOcVKLxSYqqJiurPVlna5KaZXVo7Da
+	OHNHmEZNKcwPcXwrQmR/fJnjhZiHWG9iJomh4MobUY0b0MX9ohM++69if2ETcnSVC+iR
+	c+uUK2aUdY0Fd+SZOjjMv7XrSDUsyARvaeBhXlky8abqwrEgV/xAOG/X2bq1qDdsihKy
+	LHo/lM9aSRk3D3I+n0Hzua9A6B4tUN/VAnDRub1yk/Anm5jogy5tO/Y+8XjIx4mqLCwX
+	whAg==
+X-Gm-Message-State: ALoCoQmXlVX6xVf9+jutxBkFH5krYH/6XDUQPz0FnAaf9Xmmj1dTcYPkVCpneKuQLobGliAbZ89A
+X-Received: by 10.194.82.69 with SMTP id g5mr69475wjy.85.1394807496959;
+	Fri, 14 Mar 2014 07:31:36 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id pm2sm5664748wic.0.2014.03.14.07.31.36
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Mar 2014 07:31:36 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Mar 2014 13:12:25 +0200
-Message-Id: <1394795545-6093-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH_V2] mips64-linux: set ac_cv_sizeof_ssize_t
+Date: Fri, 14 Mar 2014 15:31:27 +0100
+Message-Id: <1394807487-28947-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] libsdl: add missing libglu dependency for openGL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 11:12:44 -0000
+X-List-Received-Date: Fri, 14 Mar 2014 14:31:37 -0000
 
-Set ac_cv_sizeof_ssize_t for mips64;
-mips-common will not overwrite it.
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-"ssize_t is a posix define which is architecture specific whose value
-is signed size_t, glibc/uclibc for mips64/n64 linux platform defines
-it to be equivalent of 'long' and long here is 8bytes because
-mips64/n64 follows LP64 model. In OpenEmbedded our default ABI for
-mips64 platforms is N64, having said that autoconf decides to poke at
-the platform for finding these kind of sizes which fails when you are
-doing cross compiling hence we have to cache it." - Khem Raj
+Configure checks for glu.h to determine if openGL is available.
 
-[YOCTO #5935]
-
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/site/mips64-linux | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
-index 4449c96..ed0fbbe 100644
---- a/meta/site/mips64-linux
-+++ b/meta/site/mips64-linux
-@@ -35,6 +35,7 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
- ac_cv_alignof_guint32=4
- ac_cv_alignof_guint64=8
- ac_cv_alignof_unsigned_long=8
-+ac_cv_sizeof_ssize_t=8
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index dd2c540..e19c388 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ PROVIDES = "virtual/libsdl"
  
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
++           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
+            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+            tslib"
+ DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
 -- 
-1.8.3.2
+1.8.4.2
 
 
