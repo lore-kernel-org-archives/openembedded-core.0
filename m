@@ -1,40 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 943C960EFA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F8C36EAB6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 19:14:08 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id y1so2099320lam.34
+	Fri, 14 Mar 2014 19:16:11 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id t19so6197985igi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 12:14:09 -0700 (PDT)
+	Fri, 14 Mar 2014 12:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=FBWU15UHFhlzyKrYafFzvFIwptnrNxHoUDGy/NiDx+k=;
-	b=deFuOple9WUCD6Z1INz2VUzTKKOROg6AU7PbvtOie78N68RHMq9zl6xlmXyddQmbGK
-	OjT+2m5qoIG4q0DnNdX9WmRwvkMVOB8a6/72lNa6Qc/1ccwBuEJKjof4W/uiufC4lEYO
-	IkTy/O2qW7fqZOJ7KHBmy62flDdXSK9RpIPNvsQFzUS8u6JNaAf7J1ZQFBtN3NMO9dCe
-	tc+NJtWC7dud30LNjxd16yzwNAModR7aEb8x3zr26hin0kxtrPUBUzdDJpgdepqT2ir/
-	lNXexZwcEgL0jf/wSgrnvTaC3np3NOkF9ZlxW2x8MgXH3b2iWc6VnCBj6wkX6G6c5rX9
-	nt1g==
-X-Received: by 10.152.246.43 with SMTP id xt11mr2851223lac.34.1394824448975;
-	Fri, 14 Mar 2014 12:14:08 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=E773wWIeu4EpOqvWCTNHiaa1DsjddgoEOj7H0LO8ADE=;
+	b=ydBiRRsB/qlacdcLQBLa0w1DotB1jKeTWUNG9/bxN5YaN/JrOV2V3detsXuMa0t5pj
+	p68tgvM3Prylwavtg8HSE45k74C9OWVQNXjeJWtVScPEFW4a6PeU/QgtXTiQoBvMddm4
+	6I592TUjASreORjsdr11DxKDGrpOQtNS7up17oNpq08CDiBBUBwVaiwv2dPezq6qM99d
+	/tyMD9jSoVBbC5AlmYZygOmFNQZ6he2ZO/j3qq5OwY2pwnxP5bqsuVnUp1FGVGY0cN30
+	6g33bMLDADtgKXFKWBZETWWbmST5GkXAOxDWLK1SirMP3mV+UxaFefP7B6dmUh7XWpbx
+	BAhg==
+X-Received: by 10.42.203.202 with SMTP id fj10mr7775907icb.51.1394824572894;
+	Fri, 14 Mar 2014 12:16:12 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.35.200 with HTTP; Fri, 14 Mar 2014 12:13:48 -0700 (PDT)
-In-Reply-To: <CANyK_8ex42HU9pDjkMri4vCs7hyGQTSk4eZ_dB25NXSXRY3JSA@mail.gmail.com>
+Received: by 10.50.224.136 with HTTP; Fri, 14 Mar 2014 12:15:42 -0700 (PDT)
+In-Reply-To: <5323545F.5080205@communistcode.co.uk>
 References: <CANyK_8dJY0nbt6aNeLYeRggTHXj9qiGbSemngbZAdf7LU_KzCQ@mail.gmail.com>
-	<CAMKF1so_=HgkVWr4ftsFny+9ipZ-Yy4PSRXx+=b=Z9NQAq1GaQ@mail.gmail.com>
-	<CANyK_8euVvKOgKbKGmYwwGnYwC+w=L8EFEfCdMy==+qBEnhrTA@mail.gmail.com>
-	<CAMKF1sp0WUMyC8zsnQEei8=azDsy5xpM9UWUUsnw5rNqjytWVQ@mail.gmail.com>
-	<CABcZANkrJYK7xgf=A=WcL9+xHbX1=jTkcDGs=pC3wjpwS-G3sw@mail.gmail.com>
-	<CANyK_8ex42HU9pDjkMri4vCs7hyGQTSk4eZ_dB25NXSXRY3JSA@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 14 Mar 2014 12:13:48 -0700
-X-Google-Sender-Auth: Lwh3PLjU32zTSkJDTCSJ5GroFwY
-Message-ID: <CABcZAN=z8mB1LkJ05SmTk6Gg+UJgp2+-yQNWKNwNPpvHcdrVtQ@mail.gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+	<53235105.4060205@linux.intel.com>
+	<5323545F.5080205@communistcode.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Mar 2014 12:15:42 -0700
+Message-ID: <CAMKF1soPLaFmpo5Vu0r5j54ETigG-SsAduzv69BbNYOhix2r7w@mail.gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [dylan] Backport request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -48,52 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 19:14:11 -0000
-Content-Type: multipart/alternative; boundary=001a1133a774ce29f104f495dfc1
-
---001a1133a774ce29f104f495dfc1
+X-List-Received-Date: Fri, 14 Mar 2014 19:16:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Mar 14, 2014 at 12:11 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
-
-> >> I use containers. systemd-nspawn goes long way
-> >
-> >
-> > Yeah, containers (systemd-nspawn, docker) or even a chroot can be
-> > invaluable. schroot on a debian machine works quite well too for
-> something
-> > as simple as builds. I end up aliasing bb and bitbake to transparently
-> run
-> > in the chroot at all times.
+On Fri, Mar 14, 2014 at 12:11 PM, Jack Mitchell <ml@communistcode.co.uk> wrote:
 >
-> It's time I learnt how to use these newfangled containers then...
+>
+> On 14/03/2014 18:57, Saul Wold wrote:
+>>
+>> On 03/14/2014 11:34 AM, Paul Barker wrote:
+>>>
+>>> I'm stuck using Dylan for a project as I need a 3.2 series kernel.
+>>> Building on my current development machine I ran into two failures:
+>>>
+>>> eglibc-initial, do_configure: Make 4.0 isn't recognised
+>>>
+>>> This can be fixed by backporting
+>>> a678243d6e4add90c1e9459da42de34d3724db5d (already in Dora).
+>>>
+>>> linux-yocto_3.2: do_patch: Unsupported version of git (1.9.0)
+>>>
+>>> I fixed this by removing git-native from ASSUME_PROVIDED in
+>>> meta/conf/bitbake.conf so that git-native-1.8.1.4 was built and used.
+>>> That isn't something we should commit in Dylan but may be useful for
+>>> others to know the solution if they run into the same problem.
+>>>
+>> Can't you use the buildtools tarball?  It includes the right version of
+>> make and git.
+>
+>
+> Indeed, this is what I do on my ArchLinux machines when something is too
+> new; it's just a simple sourcing of an environment file before the build and
+> you're good to go.
 
+build system underneath might still inject bugs into your cross build
+even though you got it building.
 
-You'll be amazed how many headaches you can save having the host
-environment be a known quantity :)
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1133a774ce29f104f495dfc1
-Content-Type: text/html; charset=UTF-8
-
-<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Fri, Mar 14, 2014 at 12:11 PM, Paul Barker <span dir="ltr">&lt;<a href="mailto:paul@paulbarker.me.uk" target="_blank">paul@paulbarker.me.uk</a>&gt;</span> wrote:<br>
-
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="HOEnZb adM"><div class="">&gt;&gt; I use containers. systemd-nspawn goes long way<br>
-&gt;<br>
-&gt;<br>
-&gt; Yeah, containers (systemd-nspawn, docker) or even a chroot can be<br>
-&gt; invaluable. schroot on a debian machine works quite well too for something<br>
-&gt; as simple as builds. I end up aliasing bb and bitbake to transparently run<br>
-&gt; in the chroot at all times.<br>
-<br>
-</div></div>It&#39;s time I learnt how to use these newfangled containers then...</blockquote></div><br></div><div class="gmail_extra">You&#39;ll be amazed how many headaches you can save having the host environment be a known quantity :)<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-</div></div>
-
---001a1133a774ce29f104f495dfc1--
