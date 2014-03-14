@@ -1,45 +1,30 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B56D6F66A
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id E76746E413
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 07:59:50 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id u57so1761645wes.22
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 00:59:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=nS272VBxmO5EqA/20IUKMVmnjyD3rzTTI7awNnZqW1E=;
-	b=esyqtQ1z2qs0Ev7G8xt9bMUxdE6riauEN04DrV7XL/8iJ6+E/jLtri7uXoTlzQ6UyU
-	CG51gFbVFqnuBNZRK/nVeR8Q5SJ6bsMkpKylvNlWJg6O6AqWB4yDadnDCIHxU0/lgWS2
-	jnpTixLfU1PGExQMTVz+GXIRDgDOMJwFIulj7i0yGQwyFD2qbZE8qkRUUENJqIn4MrfW
-	Hi5lHd4Jj3OkgTr8A9V/CLw1xfWM7GEiPRqW53iKVgHGsEu+8qfItWu7Po5DzZct1d6r
-	zhnRlku/emBVl4BU4IUDeiiNnyUESgOCr36ASRxVkvRl/D2OZuPKQHXrTidcgkzCM9H/
-	EiEA==
-X-Gm-Message-State: ALoCoQmEu/QcVc2K5JwRRmIFkL2C7ALDmBDzwcO6OQf/MDCNq8IafcbY+lZh0bpJfTHwL29+2j1m
-X-Received: by 10.180.221.68 with SMTP id qc4mr4903086wic.30.1394783991011;
-	Fri, 14 Mar 2014 00:59:51 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::554e:e619:6eeb:4131?
-	([2001:610:612:0:554e:e619:6eeb:4131])
-	by mx.google.com with ESMTPSA id f3sm14546261wiv.2.2014.03.14.00.59.49
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 14 Mar 2014 00:59:50 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1394761267.3808.5.camel@ted>
-Date: Fri, 14 Mar 2014 08:59:42 +0100
-Message-Id: <0D740EA4-F9C7-40AD-A580-C745899C3FEB@dominion.thruhere.net>
-References: <1390302081-29499-1-git-send-email-koen.kooi@linaro.org>
-	<20140121130110.GC4100@jama> <52DE6FEA.5070300@linaro.org>
-	<FA39033B-6625-4625-A550-8A55B5D70FBE@dominion.thruhere.net>
-	<1394761267.3808.5.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1874)
-Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd 208: move stray /usr/lib/systemd/* into /lib/systemd
+	Fri, 14 Mar 2014 09:11:51 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id BBEFDF811DC; Fri, 14 Mar 2014 03:11:52 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 05786F811DA;
+	Fri, 14 Mar 2014 03:11:52 -0600 (MDT)
+Message-ID: <5322C7DE.3070202@mlbassoc.com>
+Date: Fri, 14 Mar 2014 03:11:58 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1394710133-18659-1-git-send-email-valentin.popa@intel.com>
+	<5322B25F.7040301@linux.intel.com>
+In-Reply-To: <5322B25F.7040301@linux.intel.com>
+X-Enigmail-Version: 1.5.2
+Subject: Re: [PATCH] Set ac_cv_sizeof_ssize_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,85 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 07:59:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Mar 2014 09:11:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+On 2014-03-14 01:40, Saul Wold wrote:
+> On 03/13/2014 04:28 AM, Valentin Popa wrote:
+>> Set ac_cv_sizeof_ssize_t for mips64;
+>> mips-common will not overwrite it.
+>>
+> 
+> This really needed a little more about "why" this change is needed.
 
-Op 14 mrt. 2014, om 02:41 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
+Also, the email subject is missing the 'mips64-linux: ' prefix which is the
+preferred form.
 
-> On Thu, 2014-03-13 at 10:09 +0100, Koen Kooi wrote:
->> Op 21 jan. 2014, om 14:02 heeft Koen Kooi <koen.kooi@linaro.org> het =
-volgende geschreven:
->>=20
->>> On 01/21/2014 02:01 PM, Martin Jansa wrote:
->>>> On Tue, Jan 21, 2014 at 12:01:21PM +0100, Koen Kooi wrote:
->>>>> From: Koen Kooi <koen@dominion.thruhere.net>
->>>>>=20
->>>>> Apps testing for systemd config get confused when both =
-/usr/lib/systemd and /lib/systemd exist. This fixes (among other things) =
-dracut systemd detections.
->>>>>=20
->>>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->>>>> ---
->>>>> meta/recipes-core/systemd/systemd_208.bb | 6 ++++++
->>>>> 1 file changed, 6 insertions(+)
->>>>>=20
->>>>> diff --git a/meta/recipes-core/systemd/systemd_208.bb =
-b/meta/recipes-core/systemd/systemd_208.bb
->>>>> index 6590235..710624c 100644
->>>>> --- a/meta/recipes-core/systemd/systemd_208.bb
->>>>> +++ b/meta/recipes-core/systemd/systemd_208.bb
->>>>> @@ -113,6 +113,12 @@ do_install() {
->>>>>=20
->>>>>         # Delete journal README, as log can be symlinked inside =
-volatile.
->>>>>         rm -f ${D}/${localstatedir}/log/README
->>>>> +
->>>>> +	# fix up libdir confusion
->>>>> +	if [ -d ${D}${libdir}/systemd ] ; then
->>>>> +		cp -a ${D}${libdir}/systemd/* ${D}${systemd_unitdir}
->>>>> +		rm -rf ${D}${libdir}/systemd
->>>>> +	fi
->>>>=20
->>>> It's not your fault, but the indentation looks inconsistent with =
-rest of
->>>> do_install()
->>>=20
->>> And I did especially pay attention to use tabs after all the meta-oe =
-patches I did :)
->>=20
->> Ping
->=20
-> This kind of patch sets off all the alarm bells. Why? It becomes
-> impossible to know which recipes this is fixing
+>> [YOCTO #5935]
+>>
+>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>> ---
+>>   meta/site/mips64-linux | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
+>> index 4449c96..ed0fbbe 100644
+>> --- a/meta/site/mips64-linux
+>> +++ b/meta/site/mips64-linux
+>> @@ -35,6 +35,7 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+>>   ac_cv_alignof_guint32=4
+>>   ac_cv_alignof_guint64=8
+>>   ac_cv_alignof_unsigned_long=8
+>> +ac_cv_sizeof_ssize_t=8
+>>
+>>   # libpcap
+>>   ac_cv_linux_vers=${ac_cv_linux_vers=2}
+>>
 
-It's fixing the systemd_208.bb recipe to address runtime issues with =
-systemd itself (ignored files in the wrong dir) and issues with runtime =
-rootlibdir detection by e.g. dracut. I'm working on a patch for dracut =
-to check for systemd binaries instead of 'if [ -d =
-/usr/lib/systemd/systemd ]', but I suspect there are a lot more scripts =
-out there with similar (broken) logic.
-
-> and whether there are
-> other underlying issues.
-
-The underlying issue is that upstream doesn't really care for rootlibdir =
-!=3D /usr/lib, which means bugs like this happen :(
-
-> Once added it would be near impossible to
-> remove or improve upon.
->=20
-> I'd much rather we fix recipes to put files into the correct location
-> and thrown errors if they put files somewhere incorrect.
->=20
-> I appreciate its tempting to hack around it but I'm not keen...
-
-Systemd 211 should have a partial fix for this, but you still need =
-patching for the case where rootlibdir !=3D /usr/lib
-
-regards,
-
-Koen=
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
