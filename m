@@ -1,29 +1,39 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F12736BC8C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f49.google.com (mail-qa0-f49.google.com
+	[209.85.216.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B92896BC8C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 10:58:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Mar 2014 03:58:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,654,1389772800"; d="scan'208";a="491867480"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.47])
-	([10.237.105.47])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Mar 2014 03:58:15 -0700
-Message-ID: <5322E0B7.7030107@intel.com>
-Date: Fri, 14 Mar 2014 12:57:59 +0200
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Fri, 14 Mar 2014 11:00:17 +0000 (UTC)
+Received: by mail-qa0-f49.google.com with SMTP id j7so2276913qaq.22
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Mar 2014 04:00:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=j6gkLpPCwGqL4XhqTn14ahIloxSlpFvbW6xt5oV0DIQ=;
+	b=k9S/9wcjIzdeH3SLqpJnfrjJzWWjD76BdJGpws8BctWYxxwoSNrqMQj2bjZ5llQeZE
+	lvhe4gwqMxlIPwv9X3AGdhK2WhW4fKc8SRv7XYh+NRVgMnRbVjdITgXNZs4R9qO6s78x
+	RuRu/hqwwUb1/lBWd9eUQPomzXQPp8Wber/0/luAsv9CsDnTKqNT4GBzbXe2UbQfGigq
+	zl21/FzNWxZo+t/3XlnYSX7nM6Pv9z+//5DQhAzdgtnjEiRH+Mfy/GeCZb3DdxqedYNu
+	2QvHpXPm20DOTn/VWOUvJ8ipNDujhvYY/kfRp2RXtP2OIcG4QuGxs0yZX25UzrsvOVDn
+	iaaA==
+X-Gm-Message-State: ALoCoQkh1kZosHZWzHKD046wTzQuV5RQBsqxz7ynN9zuvfH704FEVShzbYyc7+VNVAQjNvLEmjYj
+X-Received: by 10.140.42.9 with SMTP id b9mr8141798qga.87.1394794818684; Fri,
+	14 Mar 2014 04:00:18 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, Saul Wold <sgw@linux.intel.com>
-References: <1394710133-18659-1-git-send-email-valentin.popa@intel.com>
-	<5322B25F.7040301@linux.intel.com>
-	<CAMKF1sp_HEF+er0z-S5DPgYKirmxGgP5m0vrsvZC9UuaYL-3-A@mail.gmail.com>
-In-Reply-To: <CAMKF1sp_HEF+er0z-S5DPgYKirmxGgP5m0vrsvZC9UuaYL-3-A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Set ac_cv_sizeof_ssize_t
+Received: by 10.140.48.79 with HTTP; Fri, 14 Mar 2014 03:59:58 -0700 (PDT)
+In-Reply-To: <532265E8.1010907@windriver.com>
+References: <cover.1394555880.git.liezhi.yang@windriver.com>
+	<7337ad5ac0c8f13c3b23160f2a2ea6e9dc383f64.1394555880.git.liezhi.yang@windriver.com>
+	<CAJTo0LYPyrTpEN6w4g5KcmsXMB6=GvaKxcshObb1Co6Lh3A8VA@mail.gmail.com>
+	<532265E8.1010907@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Mar 2014 10:59:58 +0000
+Message-ID: <CAJTo0LaxADf1+jyUNMZe5ZLGCxtocoPo_Pr9WiZ_aLMs3d8=XQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] package_rpm.bbclass: archive the source to srpm package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +46,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 10:58:18 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Mar 2014 11:00:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 03/14/2014 12:10 PM, Khem Raj wrote:
-> On Fri, Mar 14, 2014 at 12:40 AM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 03/13/2014 04:28 AM, Valentin Popa wrote:
->>> Set ac_cv_sizeof_ssize_t for mips64;
->>> mips-common will not overwrite it.
->>>
->> This really needed a little more about "why" this change is needed.
->>
-> ssize_t is a posix define which is architecture specific whose value
-> is signed size_t, glibc/uclibc for mips64/n64 linux platform defines
-> it to be equivalent of 'long' and long here is 8bytes because
-> mips64/n64 follows LP64 model. In OpenEmbedded our default ABI for
-> mips64 platforms is N64, having said that autoconf decides to poke at
-> the platform for finding these kind of sizes which fails when you are
-> doing cross compiling hence we have to cache it.
-     Thanks for the explanation Khem!
->
->> Sau!
->>
->>
->>> [YOCTO #5935]
->>>
->>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
->>> ---
->>>    meta/site/mips64-linux | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
->>> index 4449c96..ed0fbbe 100644
->>> --- a/meta/site/mips64-linux
->>> +++ b/meta/site/mips64-linux
->>> @@ -35,6 +35,7 @@
->>> glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
->>>    ac_cv_alignof_guint32=4
->>>    ac_cv_alignof_guint64=8
->>>    ac_cv_alignof_unsigned_long=8
->>> +ac_cv_sizeof_ssize_t=8
->>>
->>>    # libpcap
->>>    ac_cv_linux_vers=${ac_cv_linux_vers=2}
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 14 March 2014 02:14, Robert Yang <liezhi.yang@windriver.com> wrote:
+> I'd like to remove the sources in the first thought, but that would
+> cause a problem: if we only re-run the do_package_write_rpm, for example,
+> when the FILES is changed, then the sources are gone, and we would get
+> nothing in the .src.rpm. I thing that keep both the .src.rpm and.tar.gz
+> is not a big problem, so I changed the usage to:
 
+Good argument, fair enough.
+
+Ross
 
