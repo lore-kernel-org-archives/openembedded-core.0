@@ -1,30 +1,31 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id E76746E413
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 953156E413
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 09:11:51 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id BBEFDF811DC; Fri, 14 Mar 2014 03:11:52 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 05786F811DA;
-	Fri, 14 Mar 2014 03:11:52 -0600 (MDT)
-Message-ID: <5322C7DE.3070202@mlbassoc.com>
-Date: Fri, 14 Mar 2014 03:11:58 -0600
-From: Gary Thomas <gary@mlbassoc.com>
+	Fri, 14 Mar 2014 09:14:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2E9EVng022080
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 14 Mar 2014 02:14:31 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Fri, 14 Mar 2014 02:14:31 -0700
+Message-ID: <5322C873.6020709@windriver.com>
+Date: Fri, 14 Mar 2014 17:14:27 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1394710133-18659-1-git-send-email-valentin.popa@intel.com>
-	<5322B25F.7040301@linux.intel.com>
-In-Reply-To: <5322B25F.7040301@linux.intel.com>
-X-Enigmail-Version: 1.5.2
-Subject: Re: [PATCH] Set ac_cv_sizeof_ssize_t
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1394093112.git.Chong.Lu@windriver.com>
+	<CAJTo0LZ_OjXVhoNv6wk085=5vY=i64_8T6s=Tef5h7qgFC5Sfw@mail.gmail.com>
+	<5321803B.90400@windriver.com>
+	<3035449.StOc9XfpzV@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <3035449.StOc9XfpzV@peggleto-mobl5.ger.corp.intel.com>
+X-Originating-IP: [128.224.162.204]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +38,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 09:11:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 14 Mar 2014 09:14:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2014-03-14 01:40, Saul Wold wrote:
-> On 03/13/2014 04:28 AM, Valentin Popa wrote:
->> Set ac_cv_sizeof_ssize_t for mips64;
->> mips-common will not overwrite it.
->>
-> 
-> This really needed a little more about "why" this change is needed.
 
-Also, the email subject is missing the 'mips64-linux: ' prefix which is the
-preferred form.
+On 03/13/2014 06:01 PM, Paul Eggleton wrote:
+> On Thursday 13 March 2014 17:54:03 Chong Lu wrote:
+>> On 03/06/2014 06:04 PM, Burton, Ross wrote:
+>>> On 6 March 2014 08:06, Chong Lu <Chong.Lu@windriver.com> wrote:
+>>>> +PACKAGES += "dbus-ptest"
+>>>> +ALLOW_EMPTY_${PN}-ptest = "1"
+>>>> +RDEPENDS_${PN}-ptest = "${@base_contains('IMAGE_FEATURES', 'ptest-pkgs',
+>>>> 'dbus-test-ptest', 'dbus-test', d)}"
+>>> Clearly I wasn't thinking clearly last week.  You can't check
+>>> IMAGE_FEATURES in a non-image recipe so this isn't a good solution.
+>> Do you have any suggestion about this issue?
+>> If we don't check IMAGE_FEATURES, I have no way to resolve this problem
+>> that only build but not install ptest. I'm very confused.
+> This should check DISTRO_FEATURES, not IMAGE_FEATURES. Assuming ptest is in
+> DISTRO_FEATURES, even if ptest is not in IMAGE_FEATURES it doesn't matter if
+> the dependency between dbus-ptest and dbus-ptest-ptest exists because dbus-
+> ptest itself shouldn't be in the image, so dbus-ptest-ptest shouldn't be
+> pulled in either. Does that make sense?
+>
+> Cheers,
+> Paul
+>
+Hi Paul,
 
->> [YOCTO #5935]
->>
->> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
->> ---
->>   meta/site/mips64-linux | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
->> index 4449c96..ed0fbbe 100644
->> --- a/meta/site/mips64-linux
->> +++ b/meta/site/mips64-linux
->> @@ -35,6 +35,7 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
->>   ac_cv_alignof_guint32=4
->>   ac_cv_alignof_guint64=8
->>   ac_cv_alignof_unsigned_long=8
->> +ac_cv_sizeof_ssize_t=8
->>
->>   # libpcap
->>   ac_cv_linux_vers=${ac_cv_linux_vers=2}
->>
+Thanks for your reply!
+But I still have a question.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+I try to following way:
+
+# git diff
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb 
+b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+index bc260de..50dfe54 100644
+--- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+@@ -9,6 +9,7 @@ DEPENDS = "python-pygobject dbus dbus-glib"
+
+  RDEPENDS_${PN} += "make"
+  RDEPENDS_${PN}-dev = ""
++ALLOW_EMPTY_${PN} = "1"
+
+  SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+             file://tmpdir.patch \
+diff --git a/meta/recipes-core/dbus/dbus.inc 
+b/meta/recipes-core/dbus/dbus.inc
+index 677ff78..ba7f3cb 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -6,7 +6,7 @@ LICENSE = "AFL-2 | GPLv2+"
+  LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
+  DEPENDS = "expat virtual/libintl"
+-RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 
+'dbus-ptest-ptest', '', d)}"
++RDEPENDS_dbus = "dbus-ptest"
+  RDEPENDS_dbus_class-native = ""
+  RDEPENDS_dbus_class-nativesdk = ""
+
+In local.conf, I set following thing:
++EXTRA_IMAGE_FEATURES += "ptest-pkgs"
++CORE_IMAGE_EXTRA_INSTALL += "dbus"
+
+Then, I run "bitbake core-image-minimal" command.
+Finally, I start target through runqemu.
+But dbus ptest is not installed.
+
+I alway try to many ways to fix this issue, but the result is not 
+satisfactory.
+
+I think the point of this defect is the following question:
+If we only want to build dbus-ptest (generate dbus-ptest-ptest-***.rpm), 
+but not install it. How to resolve it?
+
+Best Regards
+Chong
 
