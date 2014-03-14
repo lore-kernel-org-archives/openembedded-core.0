@@ -1,44 +1,23 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B12E6E8E2
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id ED5136F7E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 19:38:22 +0000 (UTC)
-Received: by mail-ve0-f182.google.com with SMTP id jw12so3302549veb.27
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 12:38:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=kFVvp9R3iLWadzsGuTBiyGXvpXRy8dEbAbYUirk73DM=;
-	b=0furwUEv5mSfJTHTAxEIjzlzLIOc+ffk+BfZEW5BdEKopBnapdLnKge3rdtGZZXzYB
-	mZkqQ8sIAGhbnN4Xm1xkiQ8DnHCwZ0lXE+C3EQ07dIyCuEE9YaCCKUK2fVquDaP0WFZ/
-	TVkZlAb3DezAEfqrmEn8NoNcD1sNRgcmIm2H5vRWBL7X2qK23QFLDJGfSy/u4mRogmW3
-	mSGs5/1zOhprm2b6d6v5jifU8hR2+CtqFR6sJbwL0HAstgd8/f34B2CiXGbWgscTrz7M
-	arL2skL85YHnykWTVyO55YSXNwZ/BuMi7yUV03ATVppmKmOtsi+ESYsnnRbDPvqPAC2n
-	fyTA==
-X-Received: by 10.220.103.141 with SMTP id k13mr2464897vco.25.1394825903701;
-	Fri, 14 Mar 2014 12:38:23 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Fri, 14 Mar 2014 12:37:43 -0700 (PDT)
-In-Reply-To: <CAMKF1srjEOYoNoT5T3weMkKSKN3MNPTnqCVbfXgR9RHn=erxmA@mail.gmail.com>
-References: <CANyK_8dJY0nbt6aNeLYeRggTHXj9qiGbSemngbZAdf7LU_KzCQ@mail.gmail.com>
-	<CAMKF1so_=HgkVWr4ftsFny+9ipZ-Yy4PSRXx+=b=Z9NQAq1GaQ@mail.gmail.com>
-	<CANyK_8euVvKOgKbKGmYwwGnYwC+w=L8EFEfCdMy==+qBEnhrTA@mail.gmail.com>
-	<CAMKF1sp0WUMyC8zsnQEei8=azDsy5xpM9UWUUsnw5rNqjytWVQ@mail.gmail.com>
-	<CABcZANkrJYK7xgf=A=WcL9+xHbX1=jTkcDGs=pC3wjpwS-G3sw@mail.gmail.com>
-	<CANyK_8ex42HU9pDjkMri4vCs7hyGQTSk4eZ_dB25NXSXRY3JSA@mail.gmail.com>
-	<CABcZAN=z8mB1LkJ05SmTk6Gg+UJgp2+-yQNWKNwNPpvHcdrVtQ@mail.gmail.com>
-	<CAMKF1srjEOYoNoT5T3weMkKSKN3MNPTnqCVbfXgR9RHn=erxmA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 14 Mar 2014 19:37:43 +0000
-X-Google-Sender-Auth: 3zaPo1oJU3oXIVX8S3gYinI2FpY
-Message-ID: <CANyK_8e7DT39nuTAYAPwK_n24k4jpX4JhkUCevRT6xovQiFOQg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Chris Larson <clarson@kergoth.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [dylan] Backport request
+	Fri, 14 Mar 2014 21:08:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Mar 2014 14:08:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,657,1389772800"; d="scan'208";a="472787489"
+Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
+	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2014 14:08:57 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Saul Wold <sgw@linux.intel.com>
+Date: Fri, 14 Mar 2014 14:15:20 -0700
+Message-Id: <0b46d38b8e08d22c308a49d3ccb96ae9c8f14121.1394831720.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH] linux-yocto-custom: Use SRCREV_machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 19:38:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 14 Mar 2014 21:08:58 -0000
 
-On 14 March 2014 19:16, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Mar 14, 2014 at 12:13 PM, Chris Larson <clarson@kergoth.com> wrote:
->> You'll be amazed how many headaches you can save having the host environment
->> be a known quantity :)
->
-> absolutely
-> I cant agree more.
-> -Khem
+The Yocto kernel tools look for SRCREV_machine in do_validate_branches,
+if it's empty, it just returns and silently continues. This likely needs
+at least a warning. However, this recipe should be using SRCREV_machine,
+and not just SRCREV.
 
-I used to do this with a separate build VM but after a hardware
-re-arrange I don't have the spare machine anymore. I've never used
-containers before but I've read plenty about them. Just setup Ubuntu
-Server 12.04 in a container and I'm going to see if I can get the
-builds running in this.
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Reported-by: Saul Wold <sgw@linux.intel.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ .../recipes-kernel/linux/linux-yocto-custom.bb     |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I still think the backport of the fix for eglibc-2.17 with make
-version > 4.0 is worth doing, but this route gives me a more stable
-build environment anyway.
-
-Cheers for the advice!
-
+diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+index 4115d2f..42162f3 100644
+--- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
++++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+@@ -54,7 +54,7 @@ LINUX_VERSION_EXTENSION ?= "-custom"
+ # Override SRCREV to point to a different commit in a bbappend file to
+ # build a different release of the Linux kernel.
+ # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
+-SRCREV="76e10d158efb6d4516018846f60c2ab5501900bc"
++SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
+ 
+ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
-Paul Barker
+1.7.9.5
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
