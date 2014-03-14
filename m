@@ -1,38 +1,39 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AB716F873
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 943C960EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 19:11:51 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id jz11so3141730veb.39
+	Fri, 14 Mar 2014 19:14:08 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id y1so2099320lam.34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Mar 2014 12:11:52 -0700 (PDT)
+	Fri, 14 Mar 2014 12:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=1Nzrj4XBk15QE4s2fL1jNXthwc3BajfCG4lsBZrudBg=;
-	b=Na/anVLQ40Dns/0KBpOEGtzVeYbzeFpWMIA3ks9hEH5kxXFRHxkVmQyPZ/gkUNPV6h
-	hkeyO4cJd6A8n7bT5XsgRy/EefUi0usz46gDEafDtThnKnP0t5QyOTJoDT8IZJ0xOaBb
-	ojALA2iT3xktOMCuCj0ALbOYJwb2XMmnOtXm2a/v4INlk1xR0CUqN3RqsamckGqu8vHH
-	BOY236YntxZlpXv/nVfWp6bMBp+jjlIhfjk0f24b0z5g+ql/mqpDriVGpL6oVTa1voIX
-	X+tV37rQzz7DhxsAY3GOhehy6wwiWzNXWnr0f0ngnvmbgfCijLWxX2HGt3CPofZZENxa
-	fPMA==
-X-Received: by 10.52.18.70 with SMTP id u6mr6518906vdd.11.1394824312563; Fri,
-	14 Mar 2014 12:11:52 -0700 (PDT)
+	bh=FBWU15UHFhlzyKrYafFzvFIwptnrNxHoUDGy/NiDx+k=;
+	b=deFuOple9WUCD6Z1INz2VUzTKKOROg6AU7PbvtOie78N68RHMq9zl6xlmXyddQmbGK
+	OjT+2m5qoIG4q0DnNdX9WmRwvkMVOB8a6/72lNa6Qc/1ccwBuEJKjof4W/uiufC4lEYO
+	IkTy/O2qW7fqZOJ7KHBmy62flDdXSK9RpIPNvsQFzUS8u6JNaAf7J1ZQFBtN3NMO9dCe
+	tc+NJtWC7dud30LNjxd16yzwNAModR7aEb8x3zr26hin0kxtrPUBUzdDJpgdepqT2ir/
+	lNXexZwcEgL0jf/wSgrnvTaC3np3NOkF9ZlxW2x8MgXH3b2iWc6VnCBj6wkX6G6c5rX9
+	nt1g==
+X-Received: by 10.152.246.43 with SMTP id xt11mr2851223lac.34.1394824448975;
+	Fri, 14 Mar 2014 12:14:08 -0700 (PDT)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Fri, 14 Mar 2014 12:11:11 -0700 (PDT)
-In-Reply-To: <CABcZANkrJYK7xgf=A=WcL9+xHbX1=jTkcDGs=pC3wjpwS-G3sw@mail.gmail.com>
+Sender: kergoth@gmail.com
+Received: by 10.112.35.200 with HTTP; Fri, 14 Mar 2014 12:13:48 -0700 (PDT)
+In-Reply-To: <CANyK_8ex42HU9pDjkMri4vCs7hyGQTSk4eZ_dB25NXSXRY3JSA@mail.gmail.com>
 References: <CANyK_8dJY0nbt6aNeLYeRggTHXj9qiGbSemngbZAdf7LU_KzCQ@mail.gmail.com>
 	<CAMKF1so_=HgkVWr4ftsFny+9ipZ-Yy4PSRXx+=b=Z9NQAq1GaQ@mail.gmail.com>
 	<CANyK_8euVvKOgKbKGmYwwGnYwC+w=L8EFEfCdMy==+qBEnhrTA@mail.gmail.com>
 	<CAMKF1sp0WUMyC8zsnQEei8=azDsy5xpM9UWUUsnw5rNqjytWVQ@mail.gmail.com>
 	<CABcZANkrJYK7xgf=A=WcL9+xHbX1=jTkcDGs=pC3wjpwS-G3sw@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 14 Mar 2014 19:11:11 +0000
-X-Google-Sender-Auth: c0iYoYmKmSTZxGjRGRpBMmK0o4Q
-Message-ID: <CANyK_8ex42HU9pDjkMri4vCs7hyGQTSk4eZ_dB25NXSXRY3JSA@mail.gmail.com>
-To: Chris Larson <clarson@kergoth.com>
+	<CANyK_8ex42HU9pDjkMri4vCs7hyGQTSk4eZ_dB25NXSXRY3JSA@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 14 Mar 2014 12:13:48 -0700
+X-Google-Sender-Auth: Lwh3PLjU32zTSkJDTCSJ5GroFwY
+Message-ID: <CABcZAN=z8mB1LkJ05SmTk6Gg+UJgp2+-yQNWKNwNPpvHcdrVtQ@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [dylan] Backport request
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,54 +48,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Mar 2014 19:11:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 14 Mar 2014 19:14:11 -0000
+Content-Type: multipart/alternative; boundary=001a1133a774ce29f104f495dfc1
 
-On 14 March 2014 19:06, Chris Larson <clarson@kergoth.com> wrote:
->
-> On Fri, Mar 14, 2014 at 11:46 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Fri, Mar 14, 2014 at 11:44 AM, Paul Barker <paul@paulbarker.me.uk>
->> wrote:
->> > On 14 March 2014 18:37, Khem Raj <raj.khem@gmail.com> wrote:
->> >> On Fri, Mar 14, 2014 at 11:34 AM, Paul Barker <paul@paulbarker.me.uk>
->> >> wrote:
->> >>> I'm stuck using Dylan for a project as I need a 3.2 series kernel.
->> >>> Building on my current development machine I ran into two failures:
->> >>>
->> >>> eglibc-initial, do_configure: Make 4.0 isn't recognised
->> >>>
->> >>> This can be fixed by backporting
->> >>> a678243d6e4add90c1e9459da42de34d3724db5d (already in Dora).
->> >>>
->> >>> linux-yocto_3.2: do_patch: Unsupported version of git (1.9.0)
->> >>>
->> >>> I fixed this by removing git-native from ASSUME_PROVIDED in
->> >>> meta/conf/bitbake.conf so that git-native-1.8.1.4 was built and used.
->> >>> That isn't something we should commit in Dylan but may be useful for
->> >>> others to know the solution if they run into the same problem.
->> >>
->> >> I think if you also lock your build machine OS along with yocto
->> >> release, it is less painful.
->> >
->> > It is definitely less painful. I'm lacking the spare hardware though
->> > and I want to avoid building inside a VM if I can as I'll be limited
->> > on how much RAM I can allocate to it and I think the performance will
->> > take a hit. Thankfully this project isn't far off end-of-life now.
->>
->> I use containers. systemd-nspawn goes long way
->
->
-> Yeah, containers (systemd-nspawn, docker) or even a chroot can be
-> invaluable. schroot on a debian machine works quite well too for something
-> as simple as builds. I end up aliasing bb and bitbake to transparently run
-> in the chroot at all times.
+--001a1133a774ce29f104f495dfc1
+Content-Type: text/plain; charset=UTF-8
 
-It's time I learnt how to use these newfangled containers then...
+On Fri, Mar 14, 2014 at 12:11 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
 
+> >> I use containers. systemd-nspawn goes long way
+> >
+> >
+> > Yeah, containers (systemd-nspawn, docker) or even a chroot can be
+> > invaluable. schroot on a debian machine works quite well too for
+> something
+> > as simple as builds. I end up aliasing bb and bitbake to transparently
+> run
+> > in the chroot at all times.
+>
+> It's time I learnt how to use these newfangled containers then...
+
+
+You'll be amazed how many headaches you can save having the host
+environment be a known quantity :)
 -- 
-Paul Barker
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+--001a1133a774ce29f104f495dfc1
+Content-Type: text/html; charset=UTF-8
 
+<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Fri, Mar 14, 2014 at 12:11 PM, Paul Barker <span dir="ltr">&lt;<a href="mailto:paul@paulbarker.me.uk" target="_blank">paul@paulbarker.me.uk</a>&gt;</span> wrote:<br>
+
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="HOEnZb adM"><div class="">&gt;&gt; I use containers. systemd-nspawn goes long way<br>
+&gt;<br>
+&gt;<br>
+&gt; Yeah, containers (systemd-nspawn, docker) or even a chroot can be<br>
+&gt; invaluable. schroot on a debian machine works quite well too for something<br>
+&gt; as simple as builds. I end up aliasing bb and bitbake to transparently run<br>
+&gt; in the chroot at all times.<br>
+<br>
+</div></div>It&#39;s time I learnt how to use these newfangled containers then...</blockquote></div><br></div><div class="gmail_extra">You&#39;ll be amazed how many headaches you can save having the host environment be a known quantity :)<br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
+</div></div>
+
+--001a1133a774ce29f104f495dfc1--
