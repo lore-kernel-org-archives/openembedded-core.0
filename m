@@ -1,40 +1,40 @@
 Return-Path: <joaohf@gmail.com>
-Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 45DDF6E757
+Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 274D06E757
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Mar 2014 21:18:18 +0000 (UTC)
-Received: by mail-ve0-f170.google.com with SMTP id pa12so4302116veb.29
+	Sat, 15 Mar 2014 21:18:21 +0000 (UTC)
+Received: by mail-ve0-f173.google.com with SMTP id oy12so4187010veb.18
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Mar 2014 14:18:20 -0700 (PDT)
+	Sat, 15 Mar 2014 14:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=CCkKj/Se/n3ZBqkgAmxDdtxTGN5NaMfFPjxxsWdKbf4=;
-	b=klxyGinhpbusAIDi47fbWP3Iiy8HZdvdx2RXHw42i878p/DcCHsizuQ9EaMf+G52Rm
-	6UuzQEUXjoKZGb+3xikdo8jQ8mEXMM1pw80gCus0QILwbV0H5F9mID8IIkghLLzxgEmj
-	pnL1hewjcucyYxe5Dof+PJkJpEQGMQ6E988xdtjDaS3V7povEB9s+pinH1V1RTC/6i27
-	RHjfUSKiTowz/Oo99vW5DhoPlZluOzzBzN/0zSfu8VzWxP3cgTaj4sjMZIOJzIVV9yNy
-	RkjLS28JUFv7JYwjWrmkRl0EUCvVmQ8MQTC5T5o5SqADFa9gtr2FxUFmFPzK2WnbU0rP
-	8vvw==
-X-Received: by 10.52.171.68 with SMTP id as4mr10755612vdc.0.1394918299964;
-	Sat, 15 Mar 2014 14:18:19 -0700 (PDT)
+	bh=fCQGvdW2NXnw/0H9jgDWnmkx6DaYSVS5EVa3N3nW/nc=;
+	b=tQ914ZRdqQ2TbNHckyeEt7z+Zm5rigeQhal/SXodJGQNuWjNbxr03VgBidUDanPiez
+	1pqDREdc0xBvuNAJ+PnGB9dG2KYFWXOjnCATfh+10zcgZJvmgLeJS3Jvu95N1CY4iAfH
+	UKh6D/Jd5/NkM77qaAJlGQ91sg1iZPkErgVjl5jbthoJquBTNc51qqyNgFAiKCbseU2P
+	en1rUair9J2lBhy+GVZEGErnEfWESjXVi3rFdMMAs22hfyGbxi/vhAX84bm0I3aa8f2i
+	CPi+pbtgXw828GPDt8MU721oaRw+ZB9nOGawkxMVhcgF2gFd652MYZCf8CdPxJBWsZUw
+	xgpg==
+X-Received: by 10.58.34.101 with SMTP id y5mr12845108vei.8.1394918302377;
+	Sat, 15 Mar 2014 14:18:22 -0700 (PDT)
 Received: from localhost.localdomain ([187.106.6.19])
-	by mx.google.com with ESMTPSA id am5sm4382714vdc.15.2014.03.15.14.18.18
+	by mx.google.com with ESMTPSA id am5sm4382714vdc.15.2014.03.15.14.18.20
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 15 Mar 2014 14:18:19 -0700 (PDT)
+	Sat, 15 Mar 2014 14:18:21 -0700 (PDT)
 From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
 	<joaohf@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Mar 2014 18:17:48 -0300
-Message-Id: <1394918271-14153-3-git-send-email-joaohf@gmail.com>
+Date: Sat, 15 Mar 2014 18:17:49 -0300
+Message-Id: <1394918271-14153-4-git-send-email-joaohf@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
 References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
 MIME-Version: 1.0
 Cc: tom.zanussi@linux.intel.com
-Subject: [PATCH 2/5] wic: Hook up RootfsPlugin plugin
+Subject: [PATCH 3/5] wic: Add rootfs_dir argument to do_prepare_partition() method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,62 +47,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Mar 2014 21:18:19 -0000
+X-List-Received-Date: Sat, 15 Mar 2014 21:18:22 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Remove the 'rootfs' case when internal call code is used and
-replace to call the general-purpose plugin.
+The do_prepare_partition() method from RootfsPlugin class need
+to know what will be the rootfs_dir. This makes sense when .wks
+file has a partition set up like this:
 
-For now RootfsPluing class continues to invoke prepare_rootfs()
-method from Wic_PartData. However RootfsPlugin could implement them.
+  part /standby --source rootfs --rootfs=<special rootfs> ...
+
+then do_prepare_partition() will work with the correct rootfs.
 
 Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
 ---
- .../lib/mic/kickstart/custom_commands/partition.py | 28 ++++++++++------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ scripts/lib/mic/pluginbase.py                    | 2 +-
+ scripts/lib/mic/plugins/source/bootimg-efi.py    | 2 +-
+ scripts/lib/mic/plugins/source/bootimg-pcbios.py | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index e15150b..c3bb9a5 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -114,24 +114,20 @@ class Wic_PartData(Mic_PartData):
-                                              native_sysroot)
-             return
+diff --git a/scripts/lib/mic/pluginbase.py b/scripts/lib/mic/pluginbase.py
+index e26b525..9cf4c62 100644
+--- a/scripts/lib/mic/pluginbase.py
++++ b/scripts/lib/mic/pluginbase.py
+@@ -126,7 +126,7 @@ class SourcePlugin(_Plugin):
  
--        if self.source.startswith("rootfs"):
--            self.prepare_rootfs(cr_workdir, oe_builddir, rootfs_dir,
--                                native_sysroot)
--        else:
--            self._source_methods = pluginmgr.get_source_plugin_methods(self.source, partition_methods)
--            self._source_methods["do_configure_partition"](self, cr, cr_workdir,
--                                                           oe_builddir,
--                                                           bootimg_dir,
--                                                           kernel_dir,
--                                                           native_sysroot)
--            self._source_methods["do_stage_partition"](self, cr, cr_workdir,
-+        self._source_methods = pluginmgr.get_source_plugin_methods(self.source, partition_methods)
-+        self._source_methods["do_configure_partition"](self, cr, cr_workdir,
-                                                        oe_builddir,
--                                                       bootimg_dir, kernel_dir,
-+                                                       bootimg_dir,
-+                                                       kernel_dir,
-                                                        native_sysroot)
--            self._source_methods["do_prepare_partition"](self, cr, cr_workdir,
--                                                         oe_builddir,
--                                                         bootimg_dir, kernel_dir,
--                                                         native_sysroot)
-+        self._source_methods["do_stage_partition"](self, cr, cr_workdir,
-+                                                   oe_builddir,
-+                                                   bootimg_dir, kernel_dir,
-+                                                   native_sysroot)
-+        self._source_methods["do_prepare_partition"](self, cr, cr_workdir,
-+                                                     oe_builddir,
-+                                                     bootimg_dir, kernel_dir, rootfs_dir,
-+                                                     native_sysroot)
+     @classmethod
+     def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
+-                             kernel_dir, native_sysroot):
++                             kernel_dir, rootfs_dir, native_sysroot):
+         """
+         Called to do the actual content population for a partition i.e. it
+         'prepares' the partition to be incorporated into the image.
+diff --git a/scripts/lib/mic/plugins/source/bootimg-efi.py b/scripts/lib/mic/plugins/source/bootimg-efi.py
+index 1974b06..2cc179a 100644
+--- a/scripts/lib/mic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/mic/plugins/source/bootimg-efi.py
+@@ -96,7 +96,7 @@ class BootimgEFIPlugin(SourcePlugin):
  
-     def prepare_rootfs_from_fs_image(self, cr_workdir, oe_builddir,
-                                      rootfs_dir):
+     @classmethod
+     def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
+-                             kernel_dir, native_sysroot):
++                             kernel_dir, rootfs_dir, native_sysroot):
+         """
+         Called to do the actual content population for a partition i.e. it
+         'prepares' the partition to be incorporated into the image.
+diff --git a/scripts/lib/mic/plugins/source/bootimg-pcbios.py b/scripts/lib/mic/plugins/source/bootimg-pcbios.py
+index fad150f..1211e5c 100644
+--- a/scripts/lib/mic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/mic/plugins/source/bootimg-pcbios.py
+@@ -124,7 +124,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+ 
+     @classmethod
+     def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
+-                             kernel_dir, native_sysroot):
++                             kernel_dir, rootfs_dir, native_sysroot):
+         """
+         Called to do the actual content population for a partition i.e. it
+         'prepares' the partition to be incorporated into the image.
 -- 
 1.8.3.2
 
