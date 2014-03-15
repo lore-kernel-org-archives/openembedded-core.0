@@ -1,41 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id E45436F884;
-	Sat, 15 Mar 2014 16:01:17 +0000 (UTC)
-Received: by mail-ee0-f45.google.com with SMTP id d17so2483066eek.4
-	for <multiple recipients>; Sat, 15 Mar 2014 09:01:18 -0700 (PDT)
+Return-Path: <joaohf@gmail.com>
+Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id DE3766E757
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 15 Mar 2014 21:18:12 +0000 (UTC)
+Received: by mail-ve0-f177.google.com with SMTP id sa20so4119960veb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 15 Mar 2014 14:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=D8AyiAjj5uCjc3PdlDBzG5uTnHCrYEhFbERYiE0x3B8=;
-	b=F719BX89DFHg+ioZd3TaqbIx7gFW5zHzQdJwkowxUQU9Us/kP9CRIfzVn8E6IvSSOg
-	ATuGwcAbZDx1U84pVJtmgkZEepSyTLcU0GksVs7Gv+IyelC4sBj1Y78VFcWnGS9o2Hc+
-	x1lFqnDLL5gCFAXt+WPF0UFukfjhRvLGVHTCZlZAgb3qkhYjEvwcI2pcTi676gGzkAul
-	4kzKT+CIQ/y/LfcQtcVB3CsgiQv0ZibbK8oJFKx/khr20pwPHurJnAV2MXMo3sGg6wTt
-	3sUj9zc981MJGSIqu5SM7jp0O/6nRhTOFgCnYrfj7IfXFKE0IixZvDUIW9dN8AejGc2R
-	Zucg==
-X-Received: by 10.15.35.200 with SMTP id g48mr83482eev.111.1394899277984;
-	Sat, 15 Mar 2014 09:01:17 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	x3sm25553593eep.17.2014.03.15.09.01.16 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 15 Mar 2014 09:01:16 -0700 (PDT)
-Date: Sat, 15 Mar 2014 17:01:32 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140315160132.GM3759@jama>
-References: <1394125490-2945-1-git-send-email-Martin.Jansa@gmail.com>
-	<2403049.xWs40izQYL@peggleto-mobl5.ger.corp.intel.com>
-	<20140306192122.GJ26981@jama>
-	<3158053.US3HkBfSAc@peggleto-mobl5.ger.corp.intel.com>
-	<20140307182858.GL26981@jama>
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=Re5BoZKmrRS8KFyAsCOAuYAXLZkW3xDcsPNxggvJSLk=;
+	b=TQociGIXXmZ0Y1KwyhO7jwNh4/sZwggbcEg7NppoTaz3GhC1f1cYXyKGMaXZhP/HlO
+	OuXetrmyC/H9A8SgavhrLWpp7ybV7OMdSW4LUMLBfvhXIxS55dNh+7DvCWWyf8xX/4jW
+	bbqD5cND7Xzh+A+i94gwLo+rBICXU2zGj+ZGPKc5rZcXk3O5aiPA5OfxaTj639sBuPxa
+	3idO8M3wvCCp/Lwo+g+KCLmpUcvpVORyGW/boGfyKdDSgCKjKLQ8mZN53Cfc4pCOxq54
+	wkucMYMMUZmKa9UDwBdzZxAVhqDCKi089+zDntSyCjeJKGtpc4r3qrGJ4BdRAaBHWGfM
+	kmMw==
+X-Received: by 10.58.220.161 with SMTP id px1mr12996068vec.13.1394918293239;
+	Sat, 15 Mar 2014 14:18:13 -0700 (PDT)
+Received: from localhost.localdomain ([187.106.6.19])
+	by mx.google.com with ESMTPSA id am5sm4382714vdc.15.2014.03.15.14.18.11
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 15 Mar 2014 14:18:12 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Mar 2014 18:17:46 -0300
+Message-Id: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-In-Reply-To: <20140307182858.GL26981@jama>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [meta-oe][PATCH] bash-completion: remove allarch
+Cc: tom.zanussi@linux.intel.com
+Subject: [PATCH 0/5] wic: Add --rootfs option to --source param
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,57 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Mar 2014 16:01:19 -0000
-X-Groupsio-MsgNum: 51246
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="g6DVDhPhk1bqxDrC"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 15 Mar 2014 21:18:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---g6DVDhPhk1bqxDrC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi, 
 
-On Fri, Mar 07, 2014 at 07:28:58PM +0100, Martin Jansa wrote:
-> On Fri, Mar 07, 2014 at 10:09:00AM +0000, Paul Eggleton wrote:
-> > On Thursday 06 March 2014 20:21:22 Martin Jansa wrote:
-> > > On Thu, Mar 06, 2014 at 05:59:29PM +0000, Paul Eggleton wrote:
-> > > > On Thursday 06 March 2014 18:04:50 Martin Jansa wrote:
-> > > > > * it has runtime dependency on TUNE_PKGARCH bash, so it cannot be
-> > > > > allarch
-> > > >=20
-> > > > As we've already discussed this is not universally true. There are =
-other
-> > > > ways to solve this.
-> > >=20
-> > > Like making it special case like packagegroups? That is still making =
-me
-> > > headaches when some library (for some reason) included in packagegroup
-> > > is renamed thanks to debian.bbclass and packagegroup isn't rebuilt, so
-> > > it breaks do_rootfs..
-> >=20
-> > Did you report this? FWIW it's the first I recall hearing of the proble=
-m;=20
-> > perhaps I just missed it.
->=20
-> I've discussed this with RP on IRC, but haven't filled the bugzilla
-> ticket, my fault, will do that later.
+These patchs allows the user create the following directdisk-multi-rootfs.wks file:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5970
+  part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos \
+    --label boot --active --align 1024
+  part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  part /standby --source rootfs --rootfs=<special rootfs directory> \
+    --ondisk sda --fstype=ext3 --label secondary --align 1024
 
---g6DVDhPhk1bqxDrC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+The special thing is the /standby partition. Which using rootfs with
+a extra '--rootfs' argument instruct the RootfsPlugin what should be
+the rootfs directory to be used to create the partition.
 
-iEYEARECAAYFAlMkeVwACgkQN1Ujt2V2gByodgCeM2eqlxB/Nh6o6yYwt+hrIKDm
-soMAoKC/rZmsWthPabK+O8sYexRGkp0I
-=a23b
------END PGP SIGNATURE-----
+It is a very simple features that let users to customize your partition
+setup. I thought in the case where we have two rootfs (like active and
+standby, e.g used to software update). Or the odd cases when a special
+partition need to be create to hold whatever files.
 
---g6DVDhPhk1bqxDrC--
+The workflow of wic use remains the same. All the config needs to be done
+in .wks file.
+
+To test I used <special rootfs directory> as a rootfs created by 'bitbkae core-image-minimal-dev'
+(e.g: /srv/build/yocto/master/tmp/work/genericx86-poky-linux/core-image-minimal-dev/1.0-r0/rootfs).
+
+Thanks.
+
+João Henrique Ferreira de Freitas (5):
+  wic: Add RootfsPlugin
+  wic: Hook up RootfsPlugin plugin
+  wic: Add rootfs_dir argument to do_prepare_partition() method
+  wic: Use partition label to be part of rootfs filename
+  wic: Add option --rootfs to --source
+
+ .../lib/mic/kickstart/custom_commands/partition.py | 38 +++++++-------
+ scripts/lib/mic/pluginbase.py                      |  2 +-
+ scripts/lib/mic/plugins/source/bootimg-efi.py      |  2 +-
+ scripts/lib/mic/plugins/source/bootimg-pcbios.py   |  2 +-
+ scripts/lib/mic/plugins/source/rootfs.py           | 58 ++++++++++++++++++++++
+ 5 files changed, 81 insertions(+), 21 deletions(-)
+ create mode 100644 scripts/lib/mic/plugins/source/rootfs.py
+
+-- 
+1.8.3.2
+
+
