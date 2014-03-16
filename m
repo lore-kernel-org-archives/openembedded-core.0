@@ -1,40 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 31BFD6F60A
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B72C6F5B9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Mar 2014 05:41:08 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id r10so4243901pdi.30
+	Sun, 16 Mar 2014 05:41:09 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id fp1so4235819pdb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Mar 2014 22:41:10 -0700 (PDT)
+	Sat, 15 Mar 2014 22:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=6zfREK07thjsgmtnFbpUk1A6wjNb/reWh3/NKxVls7I=;
-	b=b6yOSEkyBXHWo2gnQrCB3N4H1PDahP1ZsZsA5NibBsnk9z2RBjS0IVLtWEk9yaE95l
-	qqNtx9lweo3+vJctg1lX7axIPfTbl4U+yIdWLTw6noRhrBGs8ElGEf0dS7sMzs4jEVZx
-	Jm+Ish3need0ua4U7TNaVB65AQyJc5EEpDNGpYHLn9XEAsJ/iFE/1tiFHHPRCf4pHG1X
-	iX5XdCl2OWDpgoy8BPwRRygwcyqWZbmaKhEzVg3/pxg5Iq4iztBcwOYrMSgNPdt1rOuQ
-	lS+FPqmUxtLsR4vfsGBq0hTmHwJqrpaABTsVTgfFw+V48b+n7C/7fQrUE/QtcvkpqWjh
-	/Vpg==
-X-Received: by 10.67.5.7 with SMTP id ci7mr18141701pad.99.1394948470067;
-	Sat, 15 Mar 2014 22:41:10 -0700 (PDT)
+	bh=9Nn83Vl24ufOIrk0YupLKYuxSGRFY7cYUHvY2s7AtXw=;
+	b=X8R6Ek6yFPpeev5uqJBlX9Ac2DV3pxHp+pm0fKBI9fHYlHKSMLS49I1SBCVZcC05hz
+	w7FpLLTlLxxmLSggajQ0yiKFriMwhtiTiq+F46o3yN0/AhTQmslwG4maTKPNwoHwg2VM
+	YuooYX8z+dPQlak+zdxfd4i8h4uCHVkc63rs90+ZCEqdOtcsUzlM7B9TY8F3AiVM2HS3
+	C6U0zu0uyGLuQjG0D8yhQeOVaC9Q460PHqE/EiYyGvhwPYazf1QeufUw0j6Fw3h502xP
+	fi4Gn2aoW70W5jVxCSAmWLv2EYYlPa6xuQUWL+spqgVYSrTXMRECEUWm9KhqowByi/BD
+	0/Cg==
+X-Received: by 10.68.136.133 with SMTP id qa5mr18330446pbb.63.1394948471141;
+	Sat, 15 Mar 2014 22:41:11 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
 	by mx.google.com with ESMTPSA id
-	vo1sm51397193pab.32.2014.03.15.22.41.09 for <multiple recipients>
+	vo1sm51397193pab.32.2014.03.15.22.41.10 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 15 Mar 2014 22:41:09 -0700 (PDT)
+	Sat, 15 Mar 2014 22:41:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Mar 2014 22:42:29 -0700
-Message-Id: <4fe38ebdc644fa0880bd83bcf3325fd34070a73e.1394948105.git.raj.khem@gmail.com>
+Date: Sat, 15 Mar 2014 22:42:30 -0700
+Message-Id: <a856ac4a0c03a5374e8e2f3567a213f09f33c10b.1394948105.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <f781f5c6b9ef505eb86992a27cfb6e3e480db408.1394948105.git.raj.khem@gmail.com>
 References: <f781f5c6b9ef505eb86992a27cfb6e3e480db408.1394948105.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1394948105.git.raj.khem@gmail.com>
 References: <cover.1394948105.git.raj.khem@gmail.com>
-Subject: [PATCH 4/7] glib-2.0: Fix localedir expectations for uclibc
+Subject: [PATCH 5/7] util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,59 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Mar 2014 05:41:09 -0000
+X-List-Received-Date: Sun, 16 Mar 2014 05:41:10 -0000
 
-DATADIRNAME is used by many applications using autotools
-to install locale data, we get a wrong value for uclibc
-systems since it does not recognise it as proper linux
-systems and start putting locale info in /usr/lib instead
-of /usr/share
+This patch actually makes sense for uclibc more than glibc
+since if we did not cache scanf_cv_alloc_modifier configure
+test will determine it correctly for glibc but the test does
+not do proper job when uclibc is involved the reason is it
+depends on define __GLIBC_ and uclibc unfortunately poses as
+glibc and defines this variable.
+
+%m is implemented in uclibc as well and we enable it so caching value of
+'ms' specifier is going to work across all libcs
+
+This fixes mounting errors we see with util-linux/mount on
+uclibc/systemd
+
+Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: /proc/self/mountinfo: parse error: ignore entry at line 21.
+Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: /proc/self/mountinfo: parse error: ignore entry at line 22.
+Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: can't find / in /etc/fstab
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glib-2.0/glib-2.0/uclibc.patch | 20 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb    |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/uclibc.patch
+ meta/recipes-core/util-linux/util-linux_2.24.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/uclibc.patch b/meta/recipes-core/glib-2.0/glib-2.0/uclibc.patch
-new file mode 100644
-index 0000000..2a154fd
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/uclibc.patch
-@@ -0,0 +1,20 @@
-+Fix DATADIRNAME on uclibc/Linux
-+
-+translation files are always installed under PREFIX/share/locale in uclibc
-+based systems therefore lets set DATADIRNAME to "share".
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+Index: glib-2.38.2/m4macros/glib-gettext.m4
-+===================================================================
-+--- glib-2.38.2.orig/m4macros/glib-gettext.m4	2013-11-07 07:29:13.000000000 -0800
-++++ glib-2.38.2/m4macros/glib-gettext.m4	2014-03-15 14:51:54.712135644 -0700
-+@@ -239,7 +239,7 @@
-+ 	      [CATOBJEXT=.mo
-+                DATADIRNAME=lib])
-+ 	    ;;
-+-	    *-*-openbsd*)
-++	    *-*-openbsd* | *-*-linux-uclibc*)
-+ 	    CATOBJEXT=.mo
-+             DATADIRNAME=share
-+ 	    ;;
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
-index 6c336f7..4052950 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://ptest-paths.patch \
-            file://gtest-skip-fixes.patch \
-            file://gio-test-race.patch \
-+           file://uclibc.patch \
-           "
+diff --git a/meta/recipes-core/util-linux/util-linux_2.24.1.bb b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+index b08d68d..aa98b65 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.24.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+@@ -17,7 +17,8 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+ SRC_URI[md5sum] = "88d46ae23ca599ac5af9cf96b531590f"
+ SRC_URI[sha256sum] = "835eb6232cfab0118ef2e4fd649de0ba9f5bd1b8cbf9a7d4d84594541dec8410"
  
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+-CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
++CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
++
+ EXTRA_OECONF_class-native = "${SHARED_EXTRA_OECONF} \
+                              --disable-fallocate --disable-use-tty-group \
+ "
 -- 
 1.9.0
 
