@@ -1,31 +1,31 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E2806EE4D
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9746C6EF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 09:25:15 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id c41so3807830eek.22
+	Mon, 17 Mar 2014 09:25:21 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id d17so3910636eek.29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 02:25:16 -0700 (PDT)
+	Mon, 17 Mar 2014 02:25:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
 	bh=QwXYQN/65cuZh2dvPYYY+nANqnDc2bvsSN8lstO8yoE=;
-	b=dLeVxOKr4Gmxy1JzMSyI8SwnLgqmugK49owR5abcWcjQRTiNWa4s2WhhRs24UQZEgs
-	aPz9j/7XjRcUEv20xM912QZn0PrSu1XaOSsfpqVBid7ikaF9LI2wig0SSpDentEYGJVj
-	YPfkqzo+2lmeGn9dsDUemg0ZqCQYJ7zkeEOCP2EnLa1KPTMzNvawGyY+gxk9fAq3XasN
-	MelOhcer5S2xYRRVF8SJpkPKgwwWkup/oFfv/4WIpSUpMgl/mr34Bj0V4BLQrPXfEvfL
-	p8n8Nzf+QC91nbv68sOuYnN26Y9885FKzJq34Ds/hCIYyMy5vOkBc9dxuxD65IPECzQl
-	S0SQ==
-X-Received: by 10.15.49.65 with SMTP id i41mr2502114eew.87.1395048316157;
-	Mon, 17 Mar 2014 02:25:16 -0700 (PDT)
+	b=i/gpdaqumWDPYMYUg8BOgWh+pB8SfOrtJpCuiv8XwQezcSjZukGNNONX7PVRIgebsY
+	hT2puB+vprJlOXsabq7By7hibY6A1EDqtLZmOErsAVIXLa+D19SkbXDtjTYZdj1H1dQ3
+	ifsaFggUcI8kUapztZNK04CtSwnYzK5YQYD73qPoBC9pdm9EVI2Em3D1EfHqC367/e28
+	Mitu0ZjwoSbEOpF53MVylrRtlD191V89Gd8TjgAEtkNBKkwqaGtCRz4B8M+Jz67LMxhA
+	6NqpPH1j7rIrqMFjWeM8v/ieVFvEsMriNmuHU5OPCN/UOoRhQtvFiminVTP+JZuxzL0E
+	46RQ==
+X-Received: by 10.14.122.193 with SMTP id t41mr272109eeh.110.1395048322861;
+	Mon, 17 Mar 2014 02:25:22 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	u1sm25988492eex.31.2014.03.17.02.25.14 for <multiple recipients>
+	m8sm38287194eeg.11.2014.03.17.02.25.21 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Mar 2014 02:25:15 -0700 (PDT)
+	Mon, 17 Mar 2014 02:25:22 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Mar 2014 10:25:30 +0100
-Message-Id: <1395048330-25714-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Mon, 17 Mar 2014 10:25:38 +0100
+Message-Id: <1395048338-25754-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <1394820950-17162-1-git-send-email-Martin.Jansa@gmail.com>
 References: <1394820950-17162-1-git-send-email-Martin.Jansa@gmail.com>
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 09:25:17 -0000
+X-List-Received-Date: Mon, 17 Mar 2014 09:25:22 -0000
 
 * useful when distro wants to collect build statistics from
   all users/developers without any manual interaction from them
