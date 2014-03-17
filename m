@@ -1,39 +1,20 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yh0-f44.google.com (mail-yh0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id AF5636F751
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 610606F7A6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 16:20:12 +0000 (UTC)
-Received: by mail-yh0-f44.google.com with SMTP id f10so5514839yha.17
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 09:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=af7FWx0yy+5M9W+wjdHhVjcoHjjMcawKfCmNFU3a3K8=;
-	b=1E4CEkbPUScXmCQ6zlS+6WvRU9tPPuNWwoLUiP/hFZi4x9LM7uYTXiO1bqvtqeQO6L
-	csfqD2rsiwmLsmTIOIRN/1A+Ah2Kp48Y3hnzUEoimptw1imOTOI3SydvMoZDirSqZ8OS
-	t0DWbQ1mYzgjsZiq6+OSdmm9a/2RQMToaJEvDeBSOhqm6zgWwz/pkaDMGuL0TdPyilmC
-	JtObFkGBvSTGU+zPWO8goji8NjSnvsm0TEf2dD8mh0Df8Ib4t44vxaxHF/5ZP/NuEjJ1
-	hRO8IxmX6xOEkNp/CZW3A+khutzyLgjFFrBn2Ipi43shzoZokOj26g0GuPIkxZo0RgRr
-	KpNA==
-MIME-Version: 1.0
-X-Received: by 10.236.198.197 with SMTP id v45mr10689960yhn.87.1395073213631; 
-	Mon, 17 Mar 2014 09:20:13 -0700 (PDT)
-Received: by 10.170.140.138 with HTTP; Mon, 17 Mar 2014 09:20:13 -0700 (PDT)
-In-Reply-To: <CAP9ODKqVPgoyH_XveWsJugSyHfBd0q0cccKWD2wkTMg7dKJd-Q@mail.gmail.com>
-References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
-	<CAP9ODKoAeOS46F4LqnaMGfJ_5QJKo=vnnRLOgHU0sRC4imRz3Q@mail.gmail.com>
-	<CANFVK7_uz3pr=WTdjqg8eXnfQzCSPnvaQq+kymud=YTj-8AV9g@mail.gmail.com>
-	<CAP9ODKqVPgoyH_XveWsJugSyHfBd0q0cccKWD2wkTMg7dKJd-Q@mail.gmail.com>
-Date: Mon, 17 Mar 2014 13:20:13 -0300
-Message-ID: <CANFVK7-g6PjF4-GsR9Ea_5Xsy4-oJr-vEWzc8ZwJU0Ey5e-9Jw@mail.gmail.com>
-From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
+	Mon, 17 Mar 2014 17:01:04 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 17 Mar 2014 09:56:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,671,1389772800"; d="scan'208";a="501662247"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.240])
+	by orsmga002.jf.intel.com with ESMTP; 17 Mar 2014 10:00:49 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Mar 2014 10:00:49 -0700
+Message-Id: <1395075649-10987-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] openssh: dont use DNS lookup for Qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,42 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 16:20:14 -0000
-Content-Type: multipart/alternative; boundary=089e0160aa0055906404f4cfcb56
+X-List-Received-Date: Mon, 17 Mar 2014 17:01:07 -0000
 
---089e0160aa0055906404f4cfcb56
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Since we are always using ip address to connect to the sshd server, it does not need
+to use reverse DNS to look up the ip address.  This will save some time during testing.
 
-Hi Otavio
+[YOCTO #5954]
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-connectivity/openssh/openssh_6.5p1.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+index 6c413af..9ad25fa 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+@@ -109,6 +109,10 @@ do_install_append () {
+ 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
+ }
+ 
++do_install_append_qemuall() {
++	sed -i -e 's:#UseDNS yes:UseDNS no:' ${WORKDIR}/sshd_config ${D}${sysconfdir}/ssh/sshd_config
++}
++
+ ALLOW_EMPTY_${PN} = "1"
+ 
+ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
+-- 
+1.8.3.1
 
 
-> No, I don't. I think passing an image helps a lot.
->
->
-Ok, I will work on it.
-
-Thanks.
-
---=20
-Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
-
---089e0160aa0055906404f4cfcb56
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div>Hi Otavio<br><div><br><div class=3D"gmail_e=
-xtra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=
-=3D"">
-<br>
-</div>No, I don&#39;t. I think passing an image helps a lot.<br>
-<br></blockquote><div><br></div><div>Ok, I will work on it.<br></div><div>=
-=C2=A0</div>Thanks.<br><br></div>-- <br><div dir=3D"ltr">Jo=C3=A3o Henrique=
- Ferreira de Freitas - <a href=3D"http://joaohf_at_gmail.com" target=3D"_bl=
-ank">joaohf_at_gmail.com</a><br>
-Campinas-SP-Brasil</div>
-</div></div></div>
-
---089e0160aa0055906404f4cfcb56--
