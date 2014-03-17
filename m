@@ -1,37 +1,36 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 47B176F725
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id AB4B96F725
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 15:47:08 +0000 (UTC)
-Received: by mail-yk0-f172.google.com with SMTP id 200so15392591ykr.3
+	Mon, 17 Mar 2014 16:07:07 +0000 (UTC)
+Received: by mail-ie0-f175.google.com with SMTP id to1so5627407ieb.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 08:47:09 -0700 (PDT)
+	Mon, 17 Mar 2014 09:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=oOJqWBAR88dRwXSiBWbl6HaT8ITQYPiVHPkrRr++dGw=;
-	b=LTrPYuBrGa5RDzl3asB4LPserxvReEuvn9VNQaDd71LNkI4NIeK7QgpeYFrP5alIQ9
-	sGhCVVc9/xOls++XCFp3BQaiGtzHQbzJSttXxlcuJJ3lp+TmQFn+UasSWLYXDpBoKc7P
-	yEjkOZw2lr3K43WuTYN9h7J+32etUr1KR6WvtmFORr1BG1EKIRihgbw2xxfoTg50AQ4P
-	E9a8PbxV1qzsJH6WoEYmJoJ5UOCzqULjJrd4rVqglQHIpgaOMoNf3hrLOkDQky4eE15Y
-	nwgN/Y7Y8ow394Qu3bSVt8u/bI80Wpvyvzm6lot5KDx6tGK6ULdL00jgu/xnf6vqkOGU
-	WlXg==
+	bh=BgH7U6O8qxPRR5XAbXOo0p5nxOadkjD61KWWYKe+yMc=;
+	b=iIZWzTPFYwAQDmghnpwQw/YTud4UdSv2B5iOV/x+7BvzEhBu5DOCED8qfSyUKogEb0
+	USvPrUXPZ28dzozJeEJbsNT4J+40on+PiNbHFcPl2xLBQZHfDdJgU98IRtbVNmf4bovs
+	NiMVvt4Qo8fG6uo6h6LeDVeclq8wjLxD5tFagOg/QWejeZ/epdd7ap/IzjfuW2HxYlHE
+	Flg0O4Q5JI2fOg6zbh4WNEfL8W2/1XdTRWa2wpGwEINhbtU//Mm1dW/2JvBPWZtunrqM
+	R/R5yNAA5MfR6Xx2VAet2+lDoa9HRzfVLVf2QymjdnN6bXQdCO7uugUsH2ocQ83CbzE3
+	XZHA==
+X-Received: by 10.42.20.6 with SMTP id e6mr19277140icb.29.1395072428204; Mon,
+	17 Mar 2014 09:07:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.236.16.83 with SMTP id g59mr11135807yhg.14.1395071229284;
-	Mon, 17 Mar 2014 08:47:09 -0700 (PDT)
-Received: by 10.170.140.138 with HTTP; Mon, 17 Mar 2014 08:47:09 -0700 (PDT)
-In-Reply-To: <CAP9ODKoAeOS46F4LqnaMGfJ_5QJKo=vnnRLOgHU0sRC4imRz3Q@mail.gmail.com>
-References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
-	<CAP9ODKoAeOS46F4LqnaMGfJ_5QJKo=vnnRLOgHU0sRC4imRz3Q@mail.gmail.com>
-Date: Mon, 17 Mar 2014 12:47:09 -0300
-Message-ID: <CANFVK7_uz3pr=WTdjqg8eXnfQzCSPnvaQq+kymud=YTj-8AV9g@mail.gmail.com>
-From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+Received: by 10.50.224.136 with HTTP; Mon, 17 Mar 2014 09:06:37 -0700 (PDT)
+In-Reply-To: <1395055876.3808.38.camel@ted>
+References: <cover.1394948105.git.raj.khem@gmail.com>
+	<1395055876.3808.38.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 17 Mar 2014 09:06:37 -0700
+Message-ID: <CAMKF1sp+=gNJGsgAQAEhg2z_F1_fMG0_E7_j0ekBi+d_dPO-og@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
+Subject: Re: [PATCH 0/7] systemd-211 upgrade and uclibc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,119 +43,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 15:47:11 -0000
-Content-Type: multipart/alternative; boundary=089e01634eee0ed64c04f4cf55ac
-
---089e01634eee0ed64c04f4cf55ac
+X-List-Received-Date: Mon, 17 Mar 2014 16:07:09 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 17, 2014 at 11:53 AM, Otavio Salvador
-<otavio@ossystems.com.br>wrote:
+On Mon, Mar 17, 2014 at 4:31 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2014-03-15 at 22:42 -0700, Khem Raj wrote:
+>> Finally, managed to get systemd 211 to boot on uclibc and eglibc
+>> on all supported qemu machines, this should fix bug #5940
+>>
+>> Additional functionality in uclibc is needed to support this
+>> systemd
+>>
+>> gnutls, glib-2.0, intltool fixes are uclibc specific and are needed
+>> to get uclibc images going
+>>
+>> util-linux fix is moulded to support uclibc
+>>
+>> I have been testing this fix on the qemuarm/qemuppc/qemumips/qemux86/qemux86-64
+>> on both uclibc/eglibc images and its been working good.
+>>
+>> The following changes since commit 58aae40bbf8edd9c5ca70b2094eeb724391f1993:
+>>
+>>   eglibc: Update SRC_URI to point to final download location (2014-03-13 20:44:48 -0700)
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib kraj/systemd-211
+>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-211
+>>
+>> Khem Raj (7):
+>>   uclibc: Implement clock_adjtime()
+>>   uclibc: Remove iconv.h
+>>   gnutls: Link in pthread explicitly for uclibc
+>>   glib-2.0: Fix localedir expectations for uclibc
+>>   util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
+>>   intltool: Define DATADIRNAME=share for uclibc based systems
+>>   Upgrade to systemd 211+
+>
+> I tried this on the autobuilder, with and without the pulseaudio 4->5
+> upgrade. The result was:
+>
+> http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/111
+> http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/112
+>
+> so I'm afraid I can't take the systemd part of this series. Its getting
+> late in the cycle for a pulseaudio 4->5 upgrade too :/
+
+I was fighting with runtime issues than the build time so I was
+building minimal images for quick debug/test cycles.
+my bad since I kept pulseaudio out of this pull request the systemd
+patch that Martin had
+was also left out.
+
 
 >
-> So this allows you to include 'a directory' as source of a partition
-> to be created, right?
->
+> Does anyone have any strong opinions on this?
 
-Yes.
+Give it a shot, if you can otherwise it can wait, 208 still shows
+issues with journald where journal
+sometimes misses chunks of logs of chatty daemons for an interval of
+time after few hours of running, I haven't seen this issue with 211
+yet so this is an improvement.
+however 208 will keep getting fixes it probably isnt a bad choice to
+stick with for this release.
 
-
 >
-> If my understand is right, I like the feature. My only concern is
-> people overusing it and adding contents which are not 'tracked' in the
-> build system in a product release which seems attractive when we first
-> think about it but cause some management, tracking and authenticity
-> check problems in long term.
+> Cheers,
 >
->
-I don't know how to better address this from wic perspective. Usually
-> we end doing multiple images as part of the build process for those
-> special cases and I don't know how wic could be 'told' about those
-> secondary rootfs existence.
+> Richard
 >
 >
-I agree that this could be a problem. I will start to think a way to pass
---image param. Like this:
 
- part /standby --source rootfs --image=3Dcore-image-xpto \
-     --ondisk sda --fstype=3Dext3 --label secondary --align 1024
-
-So, wic could check it and add management, tracking, authenticity.
-
-Do you have any suggestion?
-
-Thanks.
-
-
-
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
-
-
-
---=20
-Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
-
---089e01634eee0ed64c04f4cf55ac
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Mon, Mar 17, 2014 at 11:53 AM, Otavio Salvador <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@os=
-systems.com.br</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D""><br>
-</div>So this allows you to include &#39;a directory&#39; as source of a pa=
-rtition<br>
-to be created, right?<br></blockquote><div><br></div><div>Yes.<br></div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-If my understand is right, I like the feature. My only concern is<br>
-people overusing it and adding contents which are not &#39;tracked&#39; in =
-the<br>
-build system in a product release which seems attractive when we first<br>
-think about it but cause some management, tracking and authenticity<br>
-check problems in long term.<br>=C2=A0
-<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-I don&#39;t know how to better address this from wic perspective. Usually<b=
-r>
-we end doing multiple images as part of the build process for those<br>
-special cases and I don&#39;t know how wic could be &#39;told&#39; about th=
-ose<br>
-secondary rootfs existence.<br>
-<span class=3D""><font color=3D"#888888"><br></font></span></blockquote><di=
-v><br></div><div>I agree that this could be a problem. I will start to thin=
-k a way to pass --image param. Like this:<br><br>=C2=A0part /standby --sour=
-ce rootfs --image=3Dcore-image-xpto \<br>
-=C2=A0=C2=A0 =C2=A0 --ondisk sda --fstype=3Dext3 --label secondary --align =
-1024<br><br></div><div>So, wic could check it and add management, tracking,=
- authenticity.<br><br></div><div>Do you have any suggestion?<br><br></div><=
-div>Thanks.<br>
-</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex"><span class=3D""><font color=3D"#888888">
---<br>
-Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
-ems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.=
-com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-">+55 (53) 9981-7854</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: <=
-a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
-903-9750</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div dir=
-=3D"ltr">Jo=C3=A3o Henrique Ferreira de Freitas - <a href=3D"http://joaohf_=
-at_gmail.com" target=3D"_blank">joaohf_at_gmail.com</a><br>Campinas-SP-Bras=
-il</div>
-</div></div>
-
---089e01634eee0ed64c04f4cf55ac--
