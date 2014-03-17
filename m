@@ -1,38 +1,36 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 009276EF77
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C8B506CE74
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 07:38:41 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Mar 2014 00:38:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,668,1389772800"; d="scan'208";a="473943612"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by orsmga001.jf.intel.com with ESMTP; 17 Mar 2014 00:38:20 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 17 Mar 2014 07:38:19 +0000
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.87]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.180]) with mapi id
-	14.03.0123.003; Mon, 17 Mar 2014 07:38:19 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [meta-multimedia][PATCH] musicpd: upgrade to 0.18.9
-Thread-Index: AQHPPgKh6mF+eFAZu06xd7cYnsSq+Zrk6GEAgAADBQCAAAA+EA==
-Date: Mon, 17 Mar 2014 07:38:18 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16D633AF@IRSMSX105.ger.corp.intel.com>
-References: <1394636069-6139-1-git-send-email-cristian.iorga@intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16D63376@IRSMSX105.ger.corp.intel.com>
-	<17035415-79DD-4EA9-80C6-4C855B49F853@dominion.thruhere.net>
-In-Reply-To: <17035415-79DD-4EA9-80C6-4C855B49F853@dominion.thruhere.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Mon, 17 Mar 2014 08:00:14 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id wo20so5045117obc.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Mar 2014 01:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ShtZ3C2XMQaVChVE2eiVpjQ2wg0Y30ZuZTyvzMVoRzs=;
+	b=LMmtO57OLehgAnUJ+O7q3Py7Z5jOhOe1fxC8bUOafqetp4TvJV9vlyPpqgv9CIjDaL
+	viopgEHeAPHXQcQzZ7jmrmpzvfUwpslPmgtCyhDqCmt3CXIZzQyJg4jPzwX2m4V+5l2q
+	lKROzc+UtSxEOVPbkB55Qt4BvRyX4udK4Ao4Bys/EJaSu4ichNY+QVziYl0QY+yEXxZD
+	zEDoCS0YbWXpZY4VrV2BeQGDaLtVpdvyovzcpYnN3Hkdr24XJ5fS77Skh3iynfusqSGD
+	qYBRfJLUib57/lmrPTuDe4k2QrTlCosziJf9Fsr7KRRxcKlGeHX65Xu7ybGshIkc+dZR
+	GIzg==
+X-Received: by 10.60.116.74 with SMTP id ju10mr19293388oeb.6.1395043215049;
+	Mon, 17 Mar 2014 01:00:15 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-multimedia][PATCH] musicpd: upgrade to 0.18.9
+Received: by 10.182.116.194 with HTTP; Mon, 17 Mar 2014 00:59:55 -0700 (PDT)
+In-Reply-To: <1395010872.3808.16.camel@ted>
+References: <1394717224-15283-1-git-send-email-ricardo.ribalda@gmail.com>
+	<1394717224-15283-2-git-send-email-ricardo.ribalda@gmail.com>
+	<1395010872.3808.16.camel@ted>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Mon, 17 Mar 2014 08:59:55 +0100
+Message-ID: <CAPybu_1RgpyAU++8oiW4avYeyQzKOV6NV65OknFUooaeANdVEA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] package_deb: Use apt-ftparchive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,83 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 07:38:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 17 Mar 2014 08:00:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-OK, thanks, will do.
-/Cristian
+Hello Richard.
 
------Original Message-----
-From: Koen Kooi [mailto:koen@dominion.thruhere.net]=20
-Sent: Monday, March 17, 2014 9:37 AM
-To: Iorga, Cristian
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [meta-multimedia][PATCH] musicpd: upgrade to 0.18.9
+I have tested it with dora. I can rebase it.
 
-Wrong list, you need openembedded-devel for this one
+Shall I rebase it over git://git.yoctoproject.org/poky or over
+git://git.openembedded.org/openembedded-core
 
-Op 17 mrt. 2014, om 08:26 heeft Iorga, Cristian <cristian.iorga@intel.com> =
-het volgende geschreven:
+Thanks!
 
-> Ping!
->=20
-> -----Original Message-----
-> From: Iorga, Cristian=20
-> Sent: Wednesday, March 12, 2014 4:54 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Iorga, Cristian
-> Subject: [meta-multimedia][PATCH] musicpd: upgrade to 0.18.9
->=20
-> - Upgrade fixes a crash with libvorbis 1.3.4;
-> - Simplified SRC_URI;
-> - Reference for S no longer necessary.
->=20
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
-> .../recipes-multimedia/musicpd/{mpd_0.18.4.bb =3D> mpd_0.18.9.bb}  | 9 ++=
-+------
-> 1 file changed, 3 insertions(+), 6 deletions(-)  rename meta-multimedia/r=
-ecipes-multimedia/musicpd/{mpd_0.18.4.bb =3D> mpd_0.18.9.bb} (89%)
->=20
-> diff --git a/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.4.bb b/m=
-eta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb
-> similarity index 89%
-> rename from meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.4.bb
-> rename to meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb
-> index 77ccc1f..349ccbb 100644
-> --- a/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.4.bb
-> +++ b/meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb
-> @@ -6,14 +6,11 @@ HOMEPAGE =3D"http://sourceforge.net/projects/musicpd"
-> DEPENDS =3D "alsa-lib libsamplerate0 libsndfile1 libvorbis libogg faad2 f=
-fmpeg curl sqlite bzip2 pulseaudio"
->=20
-> SRC_URI =3D " \
-> -    http://www.musicpd.org/download/${PN}/stable/${PN}-0.18.tar.xz \
-> +    http://www.musicpd.org/download/${PN}/stable/${BP}.tar.xz \
->     file://mpd.conf.in \
-> "
-> -
-> -SRC_URI[md5sum] =3D "0d881fb32f9d31afcdb0bb13cb78b9ab"
-> -SRC_URI[sha256sum] =3D "6b171985f192603150c879d105dc4d05d701ac60a2db4163=
-0a4dce823e068388"
-> -
-> -S =3D "${WORKDIR}/${PN}-0.18"
-> +SRC_URI[md5sum] =3D "0e5156a831d4302d2032998bcfd5c36f"
-> +SRC_URI[sha256sum] =3D "0d4d3e6977cb607419abbb14c63d1e2b982acb84cd2be534=
-6f19de5f699a68de"
->=20
-> inherit autotools useradd systemd
->=20
-> --
-> 1.8.3.2
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
+On Mon, Mar 17, 2014 at 12:01 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2014-03-13 at 14:27 +0100, Ricardo Ribalda Delgado wrote:
+>> Use apt-ftparchive to create a Release file compatible with SecureApt.
+>>
+>> apt-ftparchive is not compatible with libpseudo. The calls to ftw()
+>> returns the path in absolute format instead of relative. This produces
+>> wrong Packages and Release files.
+>>
+>> ie:
+>> MD5Sum:
+>> d20227a958f6870137ce0e41b7b84307             1453
+>> /home/ricardo/curro/qtec/qt5022/build-qt5022-cesium/build/tmp/deploy/deb/all/Release
+>>
+>> This is why it is called with PSEUDO_UNLOAD.
+>>
+>> apt-ftparchive is also a more efficient replacement of dpkg-scanpackages:
+>>
+>> root@neopili:~/curro/qtec/qt5022/build-qt5022-cesium/build/tmp/deploy/deb/bobcat
+>> _64# time PSEUDO_UNLOAD=1 apt-ftparchive packages . >/tmp/kkk
+>> real 0m26.873s
+>> user 0m20.968s
+>> sys 0m1.212s
+>>
+>> root@neopili:~/curro/qtec/qt5022/build-qt5022-cesium/build/tmp/deploy/deb/bobcat
+>> _64# time PSEUDO_UNLOAD=1 dpkg-scanpackages . >/tmp/kkk
+>> dpkg-scanpackages: info: Wrote 6022 entries to output Packages file.
+>> real 0m59.721s
+>> user 0m16.668s
+>> sys 0m11.164s
+>>
+>> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>> ---
+>>  meta/classes/package_deb.bbclass | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> This doesn't apply against master? What was this tested against?
+>
+> Cheers,
+>
+> Richard
+>
 
+
+
+-- 
+Ricardo Ribalda
 
