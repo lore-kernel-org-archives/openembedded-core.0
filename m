@@ -1,43 +1,43 @@
 Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C80B16F719
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DDE96F719
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 17 Mar 2014 15:04:12 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id f8so2297298wiw.12
+Received: by mail-wg0-f50.google.com with SMTP id x13so4644313wgg.21
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 17 Mar 2014 08:04:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=hABUyvN8nBJtmy9rYuu55EJDvHRMJYrZ/nE/jiVMvAI=;
-	b=EdGbuJuGcUON5Fv8vYwzbdt16KZ7EP6f5am8aLFcoxQhohkR0WEB52lXPJOyIuSfKa
-	cZ0waacu11ZVrlfApzS9kGE+75DzpdrO6Z2gWYN41X/LvMalKwC2PmjnPr8qR4rOwFrQ
-	6C8J8RITYMfVpArtOjiJq2MfuUpszb5HYXopIq7YlfOEIHkFPRzM43Rbs+HB/RvVVFEe
-	TFrdVzaptAFnWrQpKMUqGWvIEku+YwLMmUn6dKXB3XXnLWFvg6WTe8kOhuKsPlCOUctV
-	ZHghFFUVIE/V7uVduzhWl9Y6F4wDxSXmnBbvHN6cURLuFAxFlHrTq8RzuwIvi/C3LNvq
-	vt4A==
-X-Gm-Message-State: ALoCoQmE9fja8Gtouuf4c3RJRfjnYu9TXhAhemlXauglVan+efYn52PwylIwXKdneyBoR6fWKYYN
-X-Received: by 10.194.241.132 with SMTP id wi4mr18944132wjc.14.1395068652992; 
-	Mon, 17 Mar 2014 08:04:12 -0700 (PDT)
+	bh=b6HyyxbGL71FE2569yyhtjmWzRXbLdMWkR6QFcZO4aw=;
+	b=SY2YmlBTd1Jp9OryShDWIVyMm4lSxZ51JPkJamRk9wH4mkfBnsDvXRUuzLM1w38ZLI
+	dRX60WAC6dbxf1cY3cob1pJ2t9uH0g1OZBKrMJZ/5lKJK+SgFwI3UOBj8uzuo9G2LQzo
+	vaZCjsmSOnyi01ALOTp2JuKeeQrKToTBEPviPM7Y3QOkXTByDe8wh/6UgdNiK+kvBqPu
+	bufMOpL90FpE+4AO9TPr2MgbRe3q6+y8WcVcAuQRV8su/TzNNjR96bU8RMo3MEPKQwxu
+	baQLiwzxUq/UM6zeH4ZsrYz3W3vInqzntuvDAmOmpd6xQ6pMMyjKD21oIdYtS2gprBwI
+	l7wA==
+X-Gm-Message-State: ALoCoQlLeU+dCJsPJ8pi0p8KGGV9/kph/ZHcnogxcYu2E+BQjvpq4YWjQmukZzbuasQwFU6EjOCs
+X-Received: by 10.195.13.103 with SMTP id ex7mr18762086wjd.3.1395068653351;
+	Mon, 17 Mar 2014 08:04:13 -0700 (PDT)
 Received: from adamian-desk.corp.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id d6sm25714387wiz.4.2014.03.17.08.04.11
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id
+	jw4sm39012064wjc.20.2014.03.17.08.04.11 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Mon, 17 Mar 2014 08:04:12 -0700 (PDT)
 Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
-	id 8558D561008; Mon, 17 Mar 2014 15:04:11 +0000 (GMT)
+	id 83C65560DD7; Mon, 17 Mar 2014 15:04:11 +0000 (GMT)
 From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Mar 2014 15:04:10 +0000
-Message-Id: <6f3acb92219b832f847d4e59342c8c4582ac5b78.1395068545.git.alexandru.damian@intel.com>
+Date: Mon, 17 Mar 2014 15:04:09 +0000
+Message-Id: <609daac07f29f0e935ed8ac3239430981305d19e.1395068545.git.alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <b01b97b0f8a67d3aeae9ed01e24c5e6bace8e43b.1395068545.git.alexandru.damian@intel.com>
 References: <b01b97b0f8a67d3aeae9ed01e24c5e6bace8e43b.1395068545.git.alexandru.damian@intel.com>
 In-Reply-To: <cover.1395068545.git.alexandru.damian@intel.com>
 References: <cover.1395068545.git.alexandru.damian@intel.com>
-Subject: [PATCH 3/3] buildstats: use TaskBase time for elapsed time
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH 2/3] sstate: list missing files for toaster
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,91 +52,64 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 17 Mar 2014 15:04:13 -0000
 
-From: Marius Avram <marius.avram@intel.com>
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-To avoid any further inconsistencies between buildstats and buildinfohelper
-from toaster, buildstats will measure task duration using the time field
-from within the TaskBase events: TaskStarted and TaskSucceeded/TaskFailed.
+Toaster needs to record the attempts to restore
+setscene tasks that don't have a sstate file.
 
-Signed-off-by: Marius Avram <marius.avram@intel.com>
+We build a list of tasks for which we can't find an
+sstate file, and if we're running under Toaster data
+collection, we send it off with a MetadataEvent.
+
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/classes/buildstats.bbclass | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ meta/classes/sstate.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index 72fff11..89ae72c 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -109,14 +109,17 @@ def get_diskdata(var, dev, data):
-         diskdata["End"+key] = str(int(newdiskdata[key]))    
-     return diskdata
-     
--def set_timedata(var, data):
-+def set_timedata(var, data, server_time=None):
-     import time
--    time = time.time()
-+    if server_time:
-+        time = server_time
-+    else:
-+        time = time.time()
-     cputime = get_cputime()
-     proctime = get_process_cputime(os.getpid())
-     data.setVar(var, (time, cputime, proctime))
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 03ee820..25b8d72 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -625,6 +625,7 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
  
--def get_timedata(var, data):
-+def get_timedata(var, data, server_time=None):
-     import time
-     timedata = data.getVar(var, False)
-     if timedata is None:
-@@ -124,7 +127,11 @@ def get_timedata(var, data):
-     oldtime, oldcpu, oldproc = timedata
-     procdiff = get_process_cputime(os.getpid()) - oldproc
-     cpudiff = get_cputime() - oldcpu
--    timediff = time.time() - oldtime
-+    if server_time:
-+        end_time = server_time
-+    else:
-+        end_time = time.time()
-+    timediff = end_time - oldtime
-     if cpudiff > 0:
-         cpuperc = float(procdiff) * 100 / cpudiff
-     else:
-@@ -136,7 +143,7 @@ def write_task_data(status, logfile, dev, e):
-     bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
-     taskdir = os.path.join(bsdir, e.data.expand("${PF}"))
-     file = open(os.path.join(logfile), "a")
--    timedata = get_timedata("__timedata_task", e.data)
-+    timedata = get_timedata("__timedata_task", e.data, e.time)
-     if timedata:
-         elapsedtime, cpu = timedata
-         file.write(bb.data.expand("${PF}: %s: Elapsed time: %0.2f seconds \n" %
-@@ -160,7 +167,7 @@ def write_task_data(status, logfile, dev, e):
- 	    file.write("Status: PASSED \n")
-     else:
-         file.write("Status: FAILED \n")
--    file.write("Ended: %0.2f \n" % time.time())
-+    file.write("Ended: %0.2f \n" % e.time)
-     file.close()
+     ret = []
++    missed = []
  
- python run_buildstats () {
-@@ -234,7 +241,7 @@ python run_buildstats () {
-         taskdir = os.path.join(bsdir, e.data.expand("${PF}"))
-         if device != "NoLogicalDevice":
-             set_diskdata("__diskdata_task", device, e.data)
--        set_timedata("__timedata_task", e.data)
-+        set_timedata("__timedata_task", e.data, e.time)
-         try:
-             bb.utils.mkdirhier(taskdir)
-         except:
-@@ -242,7 +249,7 @@ python run_buildstats () {
-         # write into the task event file the name and start time
-         file = open(os.path.join(taskdir, e.task), "a")
-         file.write("Event: %s \n" % bb.event.getName(e))
--        file.write("Started: %0.2f \n" % time.time())
-+        file.write("Started: %0.2f \n" % e.time)
-         file.close()
+     def getpathcomponents(task, d):
+         # Magic data from BB_HASHFILENAME
+@@ -646,11 +647,13 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+         spec, extrapath, tname = getpathcomponents(task, d)
  
-     elif isinstance(e, bb.build.TaskSucceeded):
+         sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz.siginfo")
++
+         if os.path.exists(sstatefile):
+             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
+             ret.append(task)
+             continue
+         else:
++            missed.append(task)
+             bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
+ 
+     mirrors = d.getVar("SSTATE_MIRRORS", True)
+@@ -688,9 +691,17 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
+                 ret.append(task)
+             except:
++                missed.append(task)
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
+                 pass     
+ 
++    inheritlist = d.getVar("INHERIT", True)
++    if "toaster" in inheritlist:
++        evdata = []
++        for task in missed:
++            evdata.append( (sq_fn[task], sq_task[task], sq_hash[task], generate_sstatefn(spec, sq_hash[task],d) ) )
++        bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
++
+     return ret
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
 -- 
 1.8.3.2
 
