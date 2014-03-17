@@ -1,36 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id AB4B96F725
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A10A56F799
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 16:07:07 +0000 (UTC)
-Received: by mail-ie0-f175.google.com with SMTP id to1so5627407ieb.20
+	Mon, 17 Mar 2014 16:11:40 +0000 (UTC)
+Received: by mail-yh0-f43.google.com with SMTP id b6so5453189yha.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 09:07:08 -0700 (PDT)
+	Mon, 17 Mar 2014 09:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=BgH7U6O8qxPRR5XAbXOo0p5nxOadkjD61KWWYKe+yMc=;
-	b=iIZWzTPFYwAQDmghnpwQw/YTud4UdSv2B5iOV/x+7BvzEhBu5DOCED8qfSyUKogEb0
-	USvPrUXPZ28dzozJeEJbsNT4J+40on+PiNbHFcPl2xLBQZHfDdJgU98IRtbVNmf4bovs
-	NiMVvt4Qo8fG6uo6h6LeDVeclq8wjLxD5tFagOg/QWejeZ/epdd7ap/IzjfuW2HxYlHE
-	Flg0O4Q5JI2fOg6zbh4WNEfL8W2/1XdTRWa2wpGwEINhbtU//Mm1dW/2JvBPWZtunrqM
-	R/R5yNAA5MfR6Xx2VAet2+lDoa9HRzfVLVf2QymjdnN6bXQdCO7uugUsH2ocQ83CbzE3
-	XZHA==
-X-Received: by 10.42.20.6 with SMTP id e6mr19277140icb.29.1395072428204; Mon,
-	17 Mar 2014 09:07:08 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=0k2tztRFiUdhrrKdd9ay4QVQC+89KdamgIlBklPkAbM=;
+	b=gWAsYpPwsdpBk6is4KasXpVxv3dzc1ewXRPmg4RJkkxWPj2XM5UtxIZWjF9i/EIlNt
+	PE9oWZk6jqEGwmIjliVX78ZZy8Y/P0buYkaWAM+MCcRZVDqnCKeRLlyeE0ZJtnpi7XwT
+	W44Cxnm64yPlPO56cSDtm4x8EgnkZRFJ54Lke+ZyyqW4Y/60Uaq8vNBISOlLdwLc7zoB
+	Q5HCsHK37ljOZU/GiS5KzzIgCFHHnTSo0b/8ulvNCicjZjFLyV3+xAkFyajD/6/1+SNA
+	RCpyf+M74bKiSFhMDC5kva+Xpjk/TBJdeKdrfCTgvPPXwP6IUsbNTRYHS8xkbVG24/8k
+	ndTA==
 MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Mon, 17 Mar 2014 09:06:37 -0700 (PDT)
-In-Reply-To: <1395055876.3808.38.camel@ted>
-References: <cover.1394948105.git.raj.khem@gmail.com>
-	<1395055876.3808.38.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 17 Mar 2014 09:06:37 -0700
-Message-ID: <CAMKF1sp+=gNJGsgAQAEhg2z_F1_fMG0_E7_j0ekBi+d_dPO-og@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.236.118.212 with SMTP id l60mr11700582yhh.78.1395072701363; 
+	Mon, 17 Mar 2014 09:11:41 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Mon, 17 Mar 2014 09:11:41 -0700 (PDT)
+In-Reply-To: <CANFVK7_uz3pr=WTdjqg8eXnfQzCSPnvaQq+kymud=YTj-8AV9g@mail.gmail.com>
+References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+	<CAP9ODKoAeOS46F4LqnaMGfJ_5QJKo=vnnRLOgHU0sRC4imRz3Q@mail.gmail.com>
+	<CANFVK7_uz3pr=WTdjqg8eXnfQzCSPnvaQq+kymud=YTj-8AV9g@mail.gmail.com>
+Date: Mon, 17 Mar 2014 13:11:41 -0300
+X-Google-Sender-Auth: tUAj7h7xB0n-_mtZ7v7Sh1qWIag
+Message-ID: <CAP9ODKqVPgoyH_XveWsJugSyHfBd0q0cccKWD2wkTMg7dKJd-Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Jo=E3o_Henrique_Freitas?= <joaohf@gmail.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] systemd-211 upgrade and uclibc fixes
+Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,75 +47,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 16:07:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Mar 2014 16:11:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 17, 2014 at 4:31 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sat, 2014-03-15 at 22:42 -0700, Khem Raj wrote:
->> Finally, managed to get systemd 211 to boot on uclibc and eglibc
->> on all supported qemu machines, this should fix bug #5940
->>
->> Additional functionality in uclibc is needed to support this
->> systemd
->>
->> gnutls, glib-2.0, intltool fixes are uclibc specific and are needed
->> to get uclibc images going
->>
->> util-linux fix is moulded to support uclibc
->>
->> I have been testing this fix on the qemuarm/qemuppc/qemumips/qemux86/qemux86-64
->> on both uclibc/eglibc images and its been working good.
->>
->> The following changes since commit 58aae40bbf8edd9c5ca70b2094eeb724391f1993:
->>
->>   eglibc: Update SRC_URI to point to final download location (2014-03-13 20:44:48 -0700)
->>
->> are available in the git repository at:
->>
->>   git://git.openembedded.org/openembedded-core-contrib kraj/systemd-211
->>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-211
->>
->> Khem Raj (7):
->>   uclibc: Implement clock_adjtime()
->>   uclibc: Remove iconv.h
->>   gnutls: Link in pthread explicitly for uclibc
->>   glib-2.0: Fix localedir expectations for uclibc
->>   util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
->>   intltool: Define DATADIRNAME=share for uclibc based systems
->>   Upgrade to systemd 211+
->
-> I tried this on the autobuilder, with and without the pulseaudio 4->5
-> upgrade. The result was:
->
-> http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/111
-> http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/112
->
-> so I'm afraid I can't take the systemd part of this series. Its getting
-> late in the cycle for a pulseaudio 4->5 upgrade too :/
+Hello Joao,
 
-I was fighting with runtime issues than the build time so I was
-building minimal images for quick debug/test cycles.
-my bad since I kept pulseaudio out of this pull request the systemd
-patch that Martin had
-was also left out.
+On Mon, Mar 17, 2014 at 12:47 PM, Jo=E3o Henrique Freitas
+<joaohf@gmail.com> wrote:
+> On Mon, Mar 17, 2014 at 11:53 AM, Otavio Salvador <otavio@ossystems.com.b=
+r>
+> wrote:
+>>
+>> So this allows you to include 'a directory' as source of a partition
+>> to be created, right?
+>
+>
+> Yes.
+>
+>>
+>>
+>> If my understand is right, I like the feature. My only concern is
+>> people overusing it and adding contents which are not 'tracked' in the
+>> build system in a product release which seems attractive when we first
+>> think about it but cause some management, tracking and authenticity
+>> check problems in long term.
+>>
+>>
+>> I don't know how to better address this from wic perspective. Usually
+>> we end doing multiple images as part of the build process for those
+>> special cases and I don't know how wic could be 'told' about those
+>> secondary rootfs existence.
+>>
+>
+> I agree that this could be a problem. I will start to think a way to pass
+> --image param. Like this:
+>
+>  part /standby --source rootfs --image=3Dcore-image-xpto \
+>
+>      --ondisk sda --fstype=3Dext3 --label secondary --align 1024
+>
+> So, wic could check it and add management, tracking, authenticity.
+>
+> Do you have any suggestion?
 
+No, I don't. I think passing an image helps a lot.
 
->
-> Does anyone have any strong opinions on this?
+We've been not using wic at O.S. Systems as we've not been working in
+PC-style (EFI and BIOS) boards for a while. We started some discussion
+with Tom about how to better flexibilize wip so we can also use it for
+ARM based systems and extend it by BSP basis but didn't find time to
+work on this yet.
 
-Give it a shot, if you can otherwise it can wait, 208 still shows
-issues with journald where journal
-sometimes misses chunks of logs of chatty daemons for an interval of
-time after few hours of running, I haven't seen this issue with 211
-yet so this is an improvement.
-however 208 will keep getting fixes it probably isnt a bad choice to
-stick with for this release.
+It is nice to see more people involved with it.
 
->
-> Cheers,
->
-> Richard
->
->
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
