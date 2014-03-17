@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B3966EE3B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f49.google.com (mail-yh0-f49.google.com
+	[209.85.213.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AAAAE6EF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 12:29:53 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2HCTk1V001819; Mon, 17 Mar 2014 12:29:46 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qV6EaU9v-ny5; Mon, 17 Mar 2014 12:29:46 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2HCThQv001816
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 17 Mar 2014 12:29:45 GMT
-Message-ID: <1395059378.3808.40.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 17 Mar 2014 12:29:38 +0000
-In-Reply-To: <20140317114101.GG3725@jama>
-References: <cover.1394948105.git.raj.khem@gmail.com>
-	<1395055876.3808.38.camel@ted> <20140317114101.GG3725@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/7] systemd-211 upgrade and uclibc fixes
+	Mon, 17 Mar 2014 14:53:04 +0000 (UTC)
+Received: by mail-yh0-f49.google.com with SMTP id z6so5290114yhz.22
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Mar 2014 07:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=Rc3vVtxOE7kUUEbr5L4kvrpoa/4JpC9mRRxUqZzPnsg=;
+	b=FG8pQd4ZScWBe8DDMpTxgfmbAgoDXGuBb6b/OTDp8tLnGmxRCVDrDzgaD5vwPT+AGF
+	gWdEmJtfy5poR6Jl6sAuoQ5gePfUNpTVZYqQBgWSU/rmipnRwjmxwNBlLUYNU0yi9Fy3
+	E/RTIGKRtYWTH8YwejhIuFKxbPs62hmeQ+yCV+6XVE8H9dqeOPVrZR6gPxA38HTvzFE/
+	VOdOD4EPLtCBGC/b5TEQWLsVQuQkwEe7MObBb3HRIqtW27d8IkfrviwY3gE/spkmh28J
+	geK2Das8D5xoBETjV99m6Yi0KN9ETtTGzxoBm0q78BXFq3dj33F7uJ2Uye3c7rGCMIhH
+	BNvw==
+MIME-Version: 1.0
+X-Received: by 10.236.198.197 with SMTP id v45mr10055036yhn.87.1395067985837; 
+	Mon, 17 Mar 2014 07:53:05 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Mon, 17 Mar 2014 07:53:05 -0700 (PDT)
+In-Reply-To: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+Date: Mon, 17 Mar 2014 11:53:05 -0300
+X-Google-Sender-Auth: G12mC0aBGk-bgLHiJah2-CzhWrg
+Message-ID: <CAP9ODKoAeOS46F4LqnaMGfJ_5QJKo=vnnRLOgHU0sRC4imRz3Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Jo=E3o_Henrique_Ferreira_de_Freitas?= <joaohf@gmail.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 12:29:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Mar 2014 14:53:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2014-03-17 at 12:41 +0100, Martin Jansa wrote:
-> On Mon, Mar 17, 2014 at 11:31:16AM +0000, Richard Purdie wrote:
-> > On Sat, 2014-03-15 at 22:42 -0700, Khem Raj wrote:
-> > > Finally, managed to get systemd 211 to boot on uclibc and eglibc
-> > > on all supported qemu machines, this should fix bug #5940
-> > > 
-> > > Additional functionality in uclibc is needed to support this
-> > > systemd
-> > > 
-> > > gnutls, glib-2.0, intltool fixes are uclibc specific and are needed
-> > > to get uclibc images going
-> > > 
-> > > util-linux fix is moulded to support uclibc
-> > > 
-> > > I have been testing this fix on the qemuarm/qemuppc/qemumips/qemux86/qemux86-64
-> > > on both uclibc/eglibc images and its been working good.
-> > > 
-> > > The following changes since commit 58aae40bbf8edd9c5ca70b2094eeb724391f1993:
-> > > 
-> > >   eglibc: Update SRC_URI to point to final download location (2014-03-13 20:44:48 -0700)
-> > > 
-> > > are available in the git repository at:
-> > > 
-> > >   git://git.openembedded.org/openembedded-core-contrib kraj/systemd-211
-> > >   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-211
-> > > 
-> > > Khem Raj (7):
-> > >   uclibc: Implement clock_adjtime()
-> > >   uclibc: Remove iconv.h
-> > >   gnutls: Link in pthread explicitly for uclibc
-> > >   glib-2.0: Fix localedir expectations for uclibc
-> > >   util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
-> > >   intltool: Define DATADIRNAME=share for uclibc based systems
-> > >   Upgrade to systemd 211+
-> > 
-> > I tried this on the autobuilder, with and without the pulseaudio 4->5
-> > upgrade. The result was:
-> > 
-> > http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/111
-> > http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/112
+On Sat, Mar 15, 2014 at 6:17 PM, Jo=E3o Henrique Ferreira de Freitas
+<joaohf@gmail.com> wrote:
+> These patchs allows the user create the following directdisk-multi-rootfs=
+.wks file:
+>
+>   part /boot --source bootimg-pcbios --ondisk sda --fstype=3Dmsdos \
+>     --label boot --active --align 1024
+>   part / --source rootfs --ondisk sda --fstype=3Dext3 --label primary --a=
+lign 1024
+>
+>   part /standby --source rootfs --rootfs=3D<special rootfs directory> \
+>     --ondisk sda --fstype=3Dext3 --label secondary --align 1024
+>
+>   bootloader  --timeout=3D0  --append=3D"rootwait rootfstype=3Dext3 video=
+=3Dvesafb vga=3D0x318 console=3Dtty0"
+>
+> The special thing is the /standby partition. Which using rootfs with
+> a extra '--rootfs' argument instruct the RootfsPlugin what should be
+> the rootfs directory to be used to create the partition.
 
-Sorry, pa-5 is:
+So this allows you to include 'a directory' as source of a partition
+to be created, right?
 
-http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/110/
+If my understand is right, I like the feature. My only concern is
+people overusing it and adding contents which are not 'tracked' in the
+build system in a product release which seems attractive when we first
+think about it but cause some management, tracking and authenticity
+check problems in long term.
 
-> Both links show pulseaudio/4.0 in error log and 4.0 needs something
-> like:
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-February/089796.html
+I don't know how to better address this from wic perspective. Usually
+we end doing multiple images as part of the build process for those
+special cases and I don't know how wic could be 'told' about those
+secondary rootfs existence.
 
-Thanks, will take a look at that.
-
-Cheers,
-
-Richard
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
