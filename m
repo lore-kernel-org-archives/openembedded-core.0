@@ -1,38 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DBB506BA0D
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CF1316F86A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 22:43:06 +0000 (UTC)
-Received: by mail-ie0-f174.google.com with SMTP id rp18so6063821iec.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 15:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Pxd1bHthN5KvJ0MN4Xd4pvZ71TZ5poOdLQzU3tU5JIM=;
-	b=JgCnGqrBHbBo7vUie8GhuHUvClB1lMeqD52Ad/0AH8FkkPco61Kz6GcI/CsIG1cA5i
-	NzfmijswsYUZ+CPPEKHwyPsREWctEgXQUkgj86tuTNKpY9AlYRhMI+HV59dYttAweB6C
-	XkZDsOb24H1/W0mOJgy+11SvSPS195YrYLeYJf4UxWuDQnVOa5hXPso+I2bvbbRd7PKi
-	Dj3A9g6x52RInqdQWItnQoOMReCopi5y2uWRagTSQVbIEGGRR8EJOlfEiSJ2svEO2Sw6
-	e0d/iptRre9LH313Nmu7Ok3FkyPK+eYGs4TgtXaYOnOJrE94Db6n8DBo64X+bW0bkNVL
-	FarQ==
-X-Received: by 10.42.232.206 with SMTP id jv14mr3786692icb.52.1395096187132;
-	Mon, 17 Mar 2014 15:43:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Mon, 17 Mar 2014 15:42:35 -0700 (PDT)
-In-Reply-To: <20140317220552.GK3725@jama>
-References: <cover.1394948105.git.raj.khem@gmail.com>
-	<1395055876.3808.38.camel@ted>
-	<CAMKF1sp+=gNJGsgAQAEhg2z_F1_fMG0_E7_j0ekBi+d_dPO-og@mail.gmail.com>
-	<1395093175.3808.54.camel@ted> <20140317220552.GK3725@jama>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 17 Mar 2014 15:42:35 -0700
-Message-ID: <CAMKF1sqw411rm+o-tptHr=XCJMZVQhx5Ug-HkxGejpsJQX_7JA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] systemd-211 upgrade and uclibc fixes
+	Mon, 17 Mar 2014 23:05:24 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Mar 2014 16:05:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,673,1389772800"; d="scan'208";a="474480911"
+Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.86]) ([10.3.52.86])
+	by orsmga001.jf.intel.com with ESMTP; 17 Mar 2014 16:04:11 -0700
+Message-ID: <1395097374.2792.58.camel@ranerica-desk01>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 17 Mar 2014 16:02:54 -0700
+In-Reply-To: <1394507658.2792.23.camel@ranerica-desk01>
+References: <1394238610-25905-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+	<531C21B8.3000308@linux.intel.com>
+	<1394507658.2792.23.camel@ranerica-desk01>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][resend] runqemu: Add option for custom BIOS directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,85 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 22:43:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Mar 2014 23:05:24 -0000
+Content-Type: text/plain; charset="TIS-620"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 17, 2014 at 3:05 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Mon, Mar 17, 2014 at 09:52:55PM +0000, Richard Purdie wrote:
->> On Mon, 2014-03-17 at 09:06 -0700, Khem Raj wrote:
->> > On Mon, Mar 17, 2014 at 4:31 AM, Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> > > On Sat, 2014-03-15 at 22:42 -0700, Khem Raj wrote:
->> > >> Finally, managed to get systemd 211 to boot on uclibc and eglibc
->> > >> on all supported qemu machines, this should fix bug #5940
->> > >>
->> > >> Additional functionality in uclibc is needed to support this
->> > >> systemd
->> > >>
->> > >> gnutls, glib-2.0, intltool fixes are uclibc specific and are needed
->> > >> to get uclibc images going
->> > >>
->> > >> util-linux fix is moulded to support uclibc
->> > >>
->> > >> I have been testing this fix on the qemuarm/qemuppc/qemumips/qemux86/qemux86-64
->> > >> on both uclibc/eglibc images and its been working good.
->> > >>
->> > >> The following changes since commit 58aae40bbf8edd9c5ca70b2094eeb724391f1993:
->> > >>
->> > >>   eglibc: Update SRC_URI to point to final download location (2014-03-13 20:44:48 -0700)
->> > >>
->> > >> are available in the git repository at:
->> > >>
->> > >>   git://git.openembedded.org/openembedded-core-contrib kraj/systemd-211
->> > >>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-211
->> > >>
->> > >> Khem Raj (7):
->> > >>   uclibc: Implement clock_adjtime()
->> > >>   uclibc: Remove iconv.h
->> > >>   gnutls: Link in pthread explicitly for uclibc
->> > >>   glib-2.0: Fix localedir expectations for uclibc
->> > >>   util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
->> > >>   intltool: Define DATADIRNAME=share for uclibc based systems
->> > >>   Upgrade to systemd 211+
->> > >
->> > > I tried this on the autobuilder, with and without the pulseaudio 4->5
->> > > upgrade. The result was:
->> > >
->> > > http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/111
->> > > http://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/112
->> > >
->> > > so I'm afraid I can't take the systemd part of this series. Its getting
->> > > late in the cycle for a pulseaudio 4->5 upgrade too :/
->> >
->> > I was fighting with runtime issues than the build time so I was
->> > building minimal images for quick debug/test cycles.
->> > my bad since I kept pulseaudio out of this pull request the systemd
->> > patch that Martin had
->> > was also left out.
->> >
->> >
->> > >
->> > > Does anyone have any strong opinions on this?
->> >
->> > Give it a shot, if you can otherwise it can wait, 208 still shows
->> > issues with journald where journal
->> > sometimes misses chunks of logs of chatty daemons for an interval of
->> > time after few hours of running, I haven't seen this issue with 211
->> > yet so this is an improvement.
->> > however 208 will keep getting fixes it probably isnt a bad choice to
->> > stick with for this release.
->>
->> FWIW Martin's patch showed a green build. I'm therefore more widely
->> testing that combination.
->
-> I should say that my pulseaudio change was also motivated mostly to get
-> green build and to allow me to flash new image on my MACHINEs, and test systemd
-> in runtime, but then I don't use pulseaudio in runtime, so it wasn't properly
-> tested there.
+On Mon, 2014-03-10 at 20:14 -0700, Ricardo Neri wrote:
+> On Sun, 2014-03-09 at 00:09 -0800, Saul Wold wrote:
+> > On 03/07/2014 04:30 PM, Ricardo Neri wrote:
+> > > Add support to specify a directory for custom BIOS, VGA BIOS and
+> > > keymaps as supported by qemu (-L option). Even though this can be
+> > > done through qemuparams, having this option provides better user
+> > > experience by not having to specify a long and cluttered path along
+> > > other qemuparams that the user might want to specify.
+> > >
+> > > This new options assumes that the path provided is relative to
+> > > OECORE_NATIVE_SYSROOT and will check whether it exists before proceeding.
+> > >
+> > > Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> > > ---
+> > >   scripts/runqemu | 14 ++++++++++++++
+> > >   1 file changed, 14 insertions(+)
+> > >
+> > > diff --git a/scripts/runqemu b/scripts/runqemu
+> > > index 619ffb6..9eff90d 100755
+> > > --- a/scripts/runqemu
+> > > +++ b/scripts/runqemu
+> > > @@ -149,6 +149,9 @@ while true; do
+> > >               SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
+> > >               SERIALSTDIO="1"
+> > >               ;;
+> > > +	"biosdir="*)
+> > > +            CUSTOMBIOSDIR="${arg##biosdir=}"
+> > > +	    ;;
+> > >           "qemuparams="*)
+> > >               SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+> > >
+> > > @@ -489,5 +492,16 @@ if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
+> > >   INTERNAL_SCRIPT=`which runqemu-internal`
+> > >   fi
+> > >
+> > > +# Specify directory for BIOS, VGA BIOS and keymaps
+> > > +if [ ! -z "$CUSTOMBIOSDIR" ]; then
+> > > +    if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
+> > I don't think we should be assuming anything here, if the direcotry is 
+> > passed then it should be given that it is an accurate path to the 
+> > directory that contains the customer bios, don't make people second gess 
+> > that it needs to be in the native sysroot.
+> > 
+> > Sau!
+> 
+> Thanks for your comments Saul! Are you saying that providing paths to
+> items outside the build environment is a supported use case? That is the
+> reason I made it relative to OECORE_NATIVE_SYSROOT. If absolute paths to
+> anywhere can be provided, I could first check whether the provided
+> absolute path exist and, if not, assume that it is relative to
+> OECORE_NATIVE_SYSROOT. Does that make sense to you?
 
-I think, this change should be done a bit differently where it looks
-for both libraries and then it will become
-worthy of submitting to pulseaudio upstream. There might be couple  of
-other packages that integrate with systemd
-APIs which will need this kind of fix.
+So what do you think about this? Besides, I would like to comment that
+the idea of making the path relative to OECORE_NATIVE_SYSROOT is that
+the user does not have to write a very long and cluttered path in case
+his/her BIOS directory is inside the build environment. The whole idea
+is to make the script more usable.
+
+Thanks and BR,
+Ricardo
+> 
+> 
+> BR,
+> Ricardo
+> > 
+> > > +           echo "Assuming $CUSTOMBIOSDIR really means $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> > > +           SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> > > +       else
+> > > +           echo "Custom BIOS directory $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR not found."
+> > > +           exit 1;
+> > > +    fi
+> > > +fi
+> > > +
+> > >   . $INTERNAL_SCRIPT
+> > >   exit $?
+> > >
+> 
+> 
+
+
 
