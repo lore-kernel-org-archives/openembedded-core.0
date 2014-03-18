@@ -1,31 +1,40 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D1DF6EA2F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 344996E700
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 07:12:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2I7Ctj8007227
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Mar 2014 00:12:55 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Tue, 18 Mar 2014 00:12:54 -0700
-Message-ID: <5327F1F3.9000307@windriver.com>
-Date: Tue, 18 Mar 2014 15:12:51 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1394093112.git.Chong.Lu@windriver.com>
-	<53265958.6050806@windriver.com>
-	<4460653.1fTuVUzje8@peggleto-mobl5.ger.corp.intel.com>
-	<2336481.uJ8DxcTUgT@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2336481.uJ8DxcTUgT@peggleto-mobl5.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.204]
+	Tue, 18 Mar 2014 07:14:07 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id c13so4912632eek.37
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 00:14:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=7IFEt7z/+m0FKW+7R3FqN4J5B3fxguKaPEly+NajFbA=;
+	b=ev64Zyj3PhJcAlNRZTe2Xu9LIDbd1U7PhGtYd0FL6J7cwdrdWj4v4vBJmcv6Oq2Kx9
+	PcMWAtNDBGcXkzv5o80JX3tYIGA5zhly6dAfzubqnawLUIb0MeOiH3EaK9G1b5Y4MSMk
+	SwLpoGI9C59Pw5h/Xp2DZXmyj3/0jmRZNJ2NsGxfNPShEM1psh3OFRw9HrzVkW8GFeEK
+	THDcBmNoldLwNAQpd7z05j0n8eTZcu79YxsQuCF8X7cVKCyTgjitpKSvv0FvVfqtzR/b
+	qjS/CNNpP5ab24nH/T7hgjYBCFW/Leco42qkuKr83KFy8ze025FuH0HARPc2qxhxtX63
+	3rMw==
+X-Gm-Message-State: ALoCoQknkwaNFdh1IkZdAPqy4mSnfkZO2mzjgScQ6B+eCPRl2IvCttkBz42cS9J6avRunB3KHoFu
+X-Received: by 10.15.43.132 with SMTP id x4mr27788841eev.59.1395126848291;
+	Tue, 18 Mar 2014 00:14:08 -0700 (PDT)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id
+	cb5sm45161928eeb.18.2014.03.18.00.14.07 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 18 Mar 2014 00:14:07 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1395075649-10987-1-git-send-email-sgw@linux.intel.com>
+Date: Tue, 18 Mar 2014 08:14:04 +0100
+Message-Id: <33178621-848B-42B4-86D0-FAF76AE23BC7@dominion.thruhere.net>
+References: <1395075649-10987-1-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1874)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
+Subject: Re: [PATCH] openssh: dont use DNS lookup for Qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,113 +47,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 07:12:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Mar 2014 07:14:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-On 03/17/2014 07:05 PM, Paul Eggleton wrote:
-> On Monday 17 March 2014 10:44:44 Paul Eggleton wrote:
->> On Monday 17 March 2014 10:09:28 Chong Lu wrote:
->>> On 03/14/2014 06:12 PM, Paul Eggleton wrote:
->>>> On Friday 14 March 2014 17:14:27 Chong Lu wrote:
->>>>> On 03/13/2014 06:01 PM, Paul Eggleton wrote:
->>>>>> On Thursday 13 March 2014 17:54:03 Chong Lu wrote:
->>>>>>> On 03/06/2014 06:04 PM, Burton, Ross wrote:
->>>>>>>> On 6 March 2014 08:06, Chong Lu <Chong.Lu@windriver.com> wrote:
->>>>>>>>> +PACKAGES += "dbus-ptest"
->>>>>>>>> +ALLOW_EMPTY_${PN}-ptest = "1"
->>>>>>>>> +RDEPENDS_${PN}-ptest = "${@base_contains('IMAGE_FEATURES',
->>>>>>>>> 'ptest-pkgs',
->>>>>>>>> 'dbus-test-ptest', 'dbus-test', d)}"
->>>>>>>> Clearly I wasn't thinking clearly last week.  You can't check
->>>>>>>> IMAGE_FEATURES in a non-image recipe so this isn't a good solution.
->>>>>>> Do you have any suggestion about this issue?
->>>>>>> If we don't check IMAGE_FEATURES, I have no way to resolve this
->>>>>>> problem
->>>>>>> that only build but not install ptest. I'm very confused.
->>>>>> This should check DISTRO_FEATURES, not IMAGE_FEATURES. Assuming ptest
->>>>>> is
->>>>>> in
->>>>>> DISTRO_FEATURES, even if ptest is not in IMAGE_FEATURES it doesn't
->>>>>> matter
->>>>>> if the dependency between dbus-ptest and dbus-ptest-ptest exists
->>>>>> because
->>>>>> dbus- ptest itself shouldn't be in the image, so dbus-ptest-ptest
->>>>>> shouldn't be pulled in either. Does that make sense?
->>>>>>
->>>>>> Cheers,
->>>>>> Paul
->>>>> Hi Paul,
->>>>>
->>>>> Thanks for your reply!
->>>>> But I still have a question.
->>>>>
->>>>> I try to following way:
->>>>>
->>>>> # git diff
->>>>> diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
->>>>> b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
->>>>> index bc260de..50dfe54 100644
->>>>> --- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
->>>>> +++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
->>>>> @@ -9,6 +9,7 @@ DEPENDS = "python-pygobject dbus dbus-glib"
->>>>>
->>>>>     RDEPENDS_${PN} += "make"
->>>>>     RDEPENDS_${PN}-dev = ""
->>>>>
->>>>> +ALLOW_EMPTY_${PN} = "1"
->>>>>
->>>>>     SRC_URI =
->>>>>     "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz
->>>>>     \
->>>>>     
->>>>>                file://tmpdir.patch \
->>>>>
->>>>> diff --git a/meta/recipes-core/dbus/dbus.inc
->>>>> b/meta/recipes-core/dbus/dbus.inc
->>>>> index 677ff78..ba7f3cb 100644
->>>>> --- a/meta/recipes-core/dbus/dbus.inc
->>>>> +++ b/meta/recipes-core/dbus/dbus.inc
->>>>> @@ -6,7 +6,7 @@ LICENSE = "AFL-2 | GPLv2+"
->>>>>
->>>>>     LIC_FILES_CHKSUM =
->>>>>     "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
->>>>>
->>>>> file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974
->>>>> 53
->>>>> 8bb 3c" DEPENDS = "expat virtual/libintl"
->>>>> -RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest',
->>>>> 'dbus-ptest-ptest', '', d)}"
->>>>> +RDEPENDS_dbus = "dbus-ptest"
->>>> The line above is the problem. You *cannot* do this or dbus-ptest (and
->>>> therefore dbus-ptest-ptest) will always be installed whether you want it
->>>> or not. You need to remove this line.
->>> Do you mean the patch we only need to remove RDEPENDS_dbus =
->>> "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '',
->>> d)}" in dbus.inc ?
->>> If do this, we can't build and install dbus-ptest through `bitbake dbus'
->>> command.
->>> How to relate between dbus and dbus-ptest?
->> Assuming you rename the current dbus-ptest recipe to dbus-test:
->>
->> 1) If the dbus recipe refers to dbus-test-ptest elsewhere (i.e.
->> RDEPENDS_dbus-ptest = "dbus-test-ptest") then dbus-ptest will be built as
->> needed.
-> Sorry that should have been "dbus-test will be built as needed".
->
->> 2) If dbus is part of the image and ptest-pkgs is in IMAGE_FEATURES, the
->> dbus- ptest package (and therefore the dbus-test-ptest) will be brought in
->> automatically. The relationship between dbus and dbus-ptest is solely on
->> the name, you do not need to add any RDEPENDS for that part.
-> I should also mention that we need a fix for this soon in order to make the 1.6
-> release (and we *really* don't want to release 1.6 with this issue.)
->
-> Thanks,
-> Paul
->
-Thanks a lot. I will send a V2, please check it.
+Op 17 mrt. 2014, om 18:00 heeft Saul Wold <sgw@linux.intel.com> het =
+volgende geschreven:
 
-Chong
+> Since we are always using ip address to connect to the sshd server, it =
+does not need
+> to use reverse DNS to look up the ip address.  This will save some =
+time during testing.
+
+This is better done in your image file as IMAGE_PREPROCESS_CMD since not =
+everyone uses qemu the way you are using it.
+
+>=20
+> [YOCTO #5954]
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> meta/recipes-connectivity/openssh/openssh_6.5p1.bb | 4 ++++
+> 1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb =
+b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+> index 6c413af..9ad25fa 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+> @@ -109,6 +109,10 @@ do_install_append () {
+> 		${D}${systemd_unitdir}/system/sshd.socket =
+${D}${systemd_unitdir}/system/*.service
+> }
+>=20
+> +do_install_append_qemuall() {
+> +	sed -i -e 's:#UseDNS yes:UseDNS no:' ${WORKDIR}/sshd_config =
+${D}${sysconfdir}/ssh/sshd_config
+> +}
+> +
+> ALLOW_EMPTY_${PN} =3D "1"
+>=20
+> PACKAGES =3D+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp =
+${PN}-misc ${PN}-sftp-server"
+> --=20
+> 1.8.3.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
 
 
