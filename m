@@ -1,26 +1,28 @@
-Return-Path: <simone.agresta@bticino.it>
-Received: from bticino.it (mx1.bticino.it [91.208.195.90])
-	by mail.openembedded.org (Postfix) with ESMTP id A62FB6F911
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 505156B7A6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 15:27:30 +0000 (UTC)
-Received: from ([10.31.15.91])
-	by smtp1.bticino.it with ESMTP  id 5RSHRF1.113926256;
-	Tue, 18 Mar 2014 16:27:28 +0100
-Received: from bticino-yocto.eu.dir.grpleg.com ([10.39.61.78])
-	by notes-mta.srvnts.grpleg.com (Lotus Domino Release 8.5.3FP1)
-	with ESMTP id 2014031816272707-124 ; Tue, 18 Mar 2014 16:27:27 +0100 
-From: Simone Agresta <simone.agresta@bticino.it>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Mar 2014 16:27:30 +0100
-Message-Id: <1395156450-7172-1-git-send-email-simone.agresta@bticino.it>
-X-Mailer: git-send-email 1.7.10.4
-X-MIMETrack: Itemize by SMTP Server on NOTES-MTA/BTICINO/IT(Release
-	8.5.3FP1|March 07, 2012) at 18/03/2014 16:27:27,
-	Serialize by Router on IT-VAR-HUB-01/SRV/GRPLEG(Release 8.5.3FP1|March
-	07, 2012) at 18/03/2014 16.27.28,
-	Serialize complete at 18/03/2014 16.27.28
-X-TNEFEvaluated: 1
-Subject: [PATCH v3] alsa-tools: fix build when x11 and gtk+ not available
+	Tue, 18 Mar 2014 15:43:46 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2014 08:37:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,678,1389772800"; d="scan'208";a="474965091"
+Received: from mcmahond-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.153])
+	by orsmga001.jf.intel.com with ESMTP; 18 Mar 2014 08:42:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Chong Lu <Chong.Lu@windriver.com>
+Date: Tue, 18 Mar 2014 15:42:01 +0000
+Message-ID: <1799716.5KSDNaHqD4@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <CAJTo0LZbXvNgOAXibaLoxuViCv16QzcLdhoMxLhipkooqBtFpg@mail.gmail.com>
+References: <cover.1395126237.git.Chong.Lu@windriver.com>
+	<eff32371a8b9d824ff74e80bd2c3dffbf42961f4.1395126237.git.Chong.Lu@windriver.com>
+	<CAJTo0LZbXvNgOAXibaLoxuViCv16QzcLdhoMxLhipkooqBtFpg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 15:27:34 -0000
-Content-Type: text/plain;
-	charset="UTF-8"
+X-List-Received-Date: Tue, 18 Mar 2014 15:43:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
- Updated patch to work with alsa-tools version 1.0.27
+On Tuesday 18 March 2014 15:15:23 Burton, Ross wrote:
+> On 18 March 2014 07:11, Chong Lu <Chong.Lu@windriver.com> wrote:
+> > +PACKAGES += "dbus-ptest"
+> 
+> This should be conditional on DISTRO_FEATURES containing ptest.
+> 
+> > +ALLOW_EMPTY_${PN}-ptest = "1"
+> > +RDEPENDS_dbus-ptest = "dbus-test-ptest"
+> 
+> Please be consistent with the use of dbus-ptest and ${PN}-ptest.
+> 
+> > +RPROVIDES_dbus-ptest = "${@base_contains('DISTRO_FEATURES', 'ptest', '',
+> > 'dbus-test-ptest', d)}"
+>
+> This line took me a minute to understand and won't be needed if the
+> PACKAGES addition is conditional.
 
-Signed-off-by: Simone Agresta <simone.agresta@bticino.it>
----
- meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch |    9 +++++----
- meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb             |    2 +-
- 2 files changed, 6 insertions(+), 5 deletions(-)
+Right, agreed on all three.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-index 51f934d..81d12da 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-@@ -8,14 +8,15 @@ diff --git a/Makefile b/Makefile
- --- a/Makefile
- +++ b/Makefile
- @@ -1,8 +1,8 @@
-- VERSION = 1.0.26.1
-+ VERSION = 1.0.27
-  TOP = .
---SUBDIRS = ac3dec as10k1 envy24control \
-+-SUBDIRS = as10k1 envy24control \
- -   mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
- -   us428control usx2yloader vxloader echomixer \
--+SUBDIRS = ac3dec as10k1 \
-+-   hwmixvolume hdajackretask hda-verb
-++SUBDIRS = as10k1 \
- +   mixartloader pcxhrloader sb16_csp seq sscape_ctl \
- +   us428control usx2yloader vxloader \
--    hwmixvolume hda-verb
-++   hwmixvolume hda-verb
-  
-  all:
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-index b3c02b3..492f8a4 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.alsa-project.org"
- BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
- SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2+"
--DEPENDS = "alsa-lib ncurses gtk+3"
-+DEPENDS = "alsa-lib ncurses ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+3', '', d)}"
- 
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
-
-
-Ce message, ainsi que tous les fichiers joints à ce message,
-peuvent contenir des informations sensibles et/ ou confidentielles
-ne devant pas être divulguées. Si vous n'êtes pas le destinataire
-de ce message (ou que vous recevez ce message par erreur), nous
-vous remercions de le notifier immédiatement à son expéditeur, et
-de détruire ce message. Toute copie, divulgation, modification,
-utilisation ou diffusion, non autorisée, directe ou indirecte, de
-tout ou partie de ce message, est strictement interdite.
-
-This e-mail, and any document attached hereby, may contain
-confidential and/or privileged information. If you are not the
-intended recipient (or have received this e-mail in error) please
-notify the sender immediately and destroy this e-mail. Any
-unauthorized, direct or indirect, copying, disclosure, distribution
-or other use of the material or parts thereof is strictly
-forbidden.
+Paul Eggleton
+Intel Open Source Technology Centre
 
