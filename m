@@ -1,28 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 505156B7A6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id F2F976ADA2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 15:43:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2014 08:37:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,678,1389772800"; d="scan'208";a="474965091"
-Received: from mcmahond-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.153])
-	by orsmga001.jf.intel.com with ESMTP; 18 Mar 2014 08:42:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Chong Lu <Chong.Lu@windriver.com>
-Date: Tue, 18 Mar 2014 15:42:01 +0000
-Message-ID: <1799716.5KSDNaHqD4@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <CAJTo0LZbXvNgOAXibaLoxuViCv16QzcLdhoMxLhipkooqBtFpg@mail.gmail.com>
-References: <cover.1395126237.git.Chong.Lu@windriver.com>
-	<eff32371a8b9d824ff74e80bd2c3dffbf42961f4.1395126237.git.Chong.Lu@windriver.com>
-	<CAJTo0LZbXvNgOAXibaLoxuViCv16QzcLdhoMxLhipkooqBtFpg@mail.gmail.com>
+	Tue, 18 Mar 2014 15:51:51 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id k15so7222283qaq.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 08:51:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=shhdLNgtp6jSEf0AM0WNzE6CKePfXUc2cQ5smCVIx8c=;
+	b=KHdey7ab8IYmV/0JXkxN1RkiQEvTmVF3WAkHFFm7o6lk+JZvdBpNGgH0gecpvCJpG6
+	dm5fdhGu3l3PAipAJLnxGO2FDK+xNfeZEGok0gE5J3Cwe2x8p5KtnkolrK0psOtXxqIT
+	b8j4g/z6CjeBt6EK27Z0Iaw2gA+kXTA9bOMaEPcZm3xPJYlUKRgW91NY3Bay9m6DWKt1
+	u0jo8S3rhk26orCqxpvAY1d+3HGpDTqvjHs3omAaVqrq+fIN1GExK1fR6p+1dQT4sOfM
+	D7v/Xuqumunp1c7v2dgKPky3Af9HCpsc7I8haYKT1+vqr4YWoDKtCSi/dhYRZ+8A+kKY
+	lL8A==
+X-Gm-Message-State: ALoCoQmGlM13dB2Zu5K12mj0g/LiXGsaIRQ9wEqeeTO8T31xdfUBqHae6pXI5SuBD0TXpW3Bny/g
+X-Received: by 10.140.106.195 with SMTP id e61mr34418371qgf.66.1395157912148; 
+	Tue, 18 Mar 2014 08:51:52 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] dbus: fix a hard dependency about dbus-ptest
+Received: by 10.140.27.167 with HTTP; Tue, 18 Mar 2014 08:51:31 -0700 (PDT)
+In-Reply-To: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
+References: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Mar 2014 15:51:31 +0000
+Message-ID: <CAJTo0LY4_XK3-KCTON_tnzhqTnOgH4UfKVTBcBfzYGrXy-wi3A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pulseaudio: Upgrade 4.0 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 15:43:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 18 Mar 2014 15:51:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 18 March 2014 15:15:23 Burton, Ross wrote:
-> On 18 March 2014 07:11, Chong Lu <Chong.Lu@windriver.com> wrote:
-> > +PACKAGES += "dbus-ptest"
-> 
-> This should be conditional on DISTRO_FEATURES containing ptest.
-> 
-> > +ALLOW_EMPTY_${PN}-ptest = "1"
-> > +RDEPENDS_dbus-ptest = "dbus-test-ptest"
-> 
-> Please be consistent with the use of dbus-ptest and ${PN}-ptest.
-> 
-> > +RPROVIDES_dbus-ptest = "${@base_contains('DISTRO_FEATURES', 'ptest', '',
-> > 'dbus-test-ptest', d)}"
->
-> This line took me a minute to understand and won't be needed if the
-> PACKAGES addition is conditional.
+On 11 March 2014 17:36, Khem Raj <raj.khem@gmail.com> wrote:
+> bluetooth-proximity has been removed in 5.0
 
-Right, agreed on all three.
+This brings in a new QA warning:
 
-Cheers,
-Paul
+WARNING: QA Issue: pulseaudio: configure was passed unrecognised
+options: --enable-bluez
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
