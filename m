@@ -1,29 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE186F918
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D48526F924
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 16:54:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Mar 2014 09:54:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,678,1389772800"; d="scan'208";a="501320233"
-Received: from mcmahond-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.153])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Mar 2014 09:54:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chris Larson <kergoth@gmail.com>
-Date: Tue, 18 Mar 2014 16:54:55 +0000
-Message-ID: <2043857.2aMlfpaTVP@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <CABcZAN=owvQPkgnnzaU3tCvDvtGCZZEDLLFL9RXTZM1ZqRQnAQ@mail.gmail.com>
-References: <1394849186-25396-1-git-send-email-kergoth@gmail.com>
-	<CABcZANnY5ni7nShC0mXJP0kndowTeTet4qb0nCRvEe2V=1_pXQ@mail.gmail.com>
-	<CABcZAN=owvQPkgnnzaU3tCvDvtGCZZEDLLFL9RXTZM1ZqRQnAQ@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe: turn oe into a namespace package
+	Tue, 18 Mar 2014 17:03:24 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id kl14so7588607pab.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 10:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ByDNKDIPmDfSQmcH1RY12F/xjkTHiV5jMrt2hQJZVuk=;
+	b=i6pWXmcY6i9pCso3kHBS73F2N/Y2zj3yct32sgBar/ZkP1whREbIPV7rZQr+z0UhOj
+	hPjGYcSY/ExAkLexRlbMpYA7dKHzmi0bCwTCzEh3k4mwV6Lg/wJvtUQeB0qHnWMLsdDn
+	dMQXU9F6eNN456PknqajsweeVAe4sHG5hz0Ibgaa9mpWnE8aPHQgOtimhOWT7mbuTKKw
+	2ns2D89ASWisGSumt4sAwDDw3drZNrHbudOCwfv9Hx52N6RQ7SM7E3CKA6dS0dr4ekuF
+	MLqAKCxOAy/rZkPhC1Ze4d2w0Oyc1shdQV0wljbnpnUAFPUVXCSVwE03x+9GvaPxdcim
+	JeSA==
+X-Received: by 10.66.66.66 with SMTP id d2mr34632176pat.80.1395162205722;
+	Tue, 18 Mar 2014 10:03:25 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id
+	i10sm90429182pat.36.2014.03.18.10.03.24 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 18 Mar 2014 10:03:24 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Mar 2014 10:04:44 -0700
+Message-Id: <1395162284-27934-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH V2] pulseaudio: Upgrade 4.0 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +42,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 16:55:08 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 18 Mar 2014 17:03:25 -0000
 
-On Tuesday 18 March 2014 09:52:23 Chris Larson wrote:
-> On Tue, Mar 18, 2014 at 7:38 AM, Chris Larson <kergoth@gmail.com> wrote:
-> > On Tue, Mar 18, 2014 at 6:48 AM, Paul Eggleton <
-> > paul.eggleton@linux.intel.com> wrote:
-> >> FWIW, this broke builds on my CentOS build machine that uses a slightly
-> >> older
-> >> buildtools install from 1.4. I hope we have pkgutil in our more current
-> >> buildtools - if not could you please send a fix for that as well?
-> > 
-> > Ah, interesting, sorry about the hassle there. I'm 90% certain it's in the
-> > current buildtools tarball, as I do all my build testing with a CentOS 6
-> > chroot using a buildtools tarball, and didn't hit that problem, but I'll
-> > double check.
-> 
-> Looks like it was added in
-> https://github.com/openembedded/oe-core/commit/7d93288.
+bluetooth-proximity has been removed in 5.0
 
-OK, thanks for checking; it looks like this commit is in dora as well. I'll 
-update to a 1.5.x buildtools on my build server.
+pulseaudio now differentiates between bluez4 and bluez5
 
-Cheers,
-Paul
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |  7 +++----
+ meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb | 12 ------------
+ meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb | 11 +++++++++++
+ 3 files changed, 14 insertions(+), 16 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 103f72e..2176731 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -5,7 +5,6 @@ SECTION = "libs/multimedia"
+ LICENSE = "GPLv2+ & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://src/modules/bluetooth/proximity-helper.c;beginline=1;endline=25;md5=e4cc710e40a4d900c2c294167bc58270 \
+                     file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
+ 
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+@@ -32,11 +31,12 @@ EXTRA_OECONF = "\
+                 ac_cv_header_valgrind_memcheck_h=no \
+ "
+ 
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4 sbc"
++PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
++PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
+ PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
+@@ -145,7 +145,6 @@ RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
+ RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
+ 
+ FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
+-FILES_pulseaudio-module-bluetooth-proximity += "${libexecdir}/pulse/proximity-helper"
+ FILES_pulseaudio-module-alsa-card += "${datadir}/pulseaudio/alsa-mixer"
+ 
+ RDEPENDS_pulseaudio-server += "\
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
+deleted file mode 100644
+index b419c54..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require pulseaudio.inc
+-
+-SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
+-           file://volatiles.04_pulse"
+-
+-SRC_URI[md5sum] = "591f211db2790a7e4d222f2dc6858db3"
+-SRC_URI[sha256sum] = "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff2111f01fd8778928f9cdae"
+-
+-do_compile_prepend() {
+-    mkdir -p ${S}/libltdl
+-    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
+-}
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
+new file mode 100644
+index 0000000..f02359a
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_5.0.bb
+@@ -0,0 +1,11 @@
++require pulseaudio.inc
++
++SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
++           file://volatiles.04_pulse"
++SRC_URI[md5sum] = "c43749838612f4860465e83ed62ca38e"
++SRC_URI[sha256sum] = "99c13a8b1249ddbd724f195579df79484e9af6418cecf6a15f003a7f36caf939"
++
++do_compile_prepend() {
++    mkdir -p ${S}/libltdl
++    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
++}
 -- 
+1.9.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
