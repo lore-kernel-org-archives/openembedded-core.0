@@ -1,37 +1,29 @@
 Return-Path: <chase.maupin@ti.com>
-Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
-	by mail.openembedded.org (Postfix) with ESMTP id ADDF56F904
+Received: from bear.ext.ti.com (bear.ext.ti.com [192.94.94.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B1086C6EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 13:40:29 +0000 (UTC)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id s2IDeS5o014010;
-	Tue, 18 Mar 2014 08:40:28 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s2IDeSXb031364;
-	Tue, 18 Mar 2014 08:40:28 -0500
-Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
-	DFLE73.ent.ti.com ([fe80::c9be:a3a9:7cd8:c8b3%28]) with mapi id
-	14.03.0174.001; Tue, 18 Mar 2014 08:40:27 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Koen Kooi
-	<koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH 1/2] linaro-pm-qa-utils: Add power management
-	test utils
-Thread-Index: AQHPQql+Yj1gx/Tt70SiikaU8EtTG5rm2YrA
-Date: Tue, 18 Mar 2014 13:40:27 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED1015CF3A345@DLEE11.ent.ti.com>
-References: <1395143773-26375-1-git-send-email-Chase.Maupin@ti.com>
-	<23BFBADE-120F-4DBC-AABF-A9F802B8222C@dominion.thruhere.net>
-	<1395147366.3808.70.camel@ted>
-In-Reply-To: <1395147366.3808.70.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
+	Tue, 18 Mar 2014 13:44:12 +0000 (UTC)
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id s2IDiDv2016769
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 08:44:13 -0500
+Received: from DLEE70.ent.ti.com (dlemailx.itg.ti.com [157.170.170.113])
+	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id s2IDiDI3000781
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 08:44:13 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE70.ent.ti.com
+	(157.170.170.113) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 18 Mar 2014 08:44:12 -0500
+Received: from sdit-build04.dal.design.ti.com (dbdp20.itg.ti.com
+	[172.24.170.38])	by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id
+	s2IDi9vA018843;	Tue, 18 Mar 2014 08:44:11 -0500
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Mar 2014 08:44:07 -0500
+Message-ID: <1395150247-27937-1-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] linaro-pm-qa-utils: Add power management test utils
+Subject: [PATCHv2 1/2] pm-qa-utils: Add power management test utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +36,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 13:40:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 18 Mar 2014 13:44:15 -0000
+Content-Type: text/plain
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogUmljaGFyZCBQdXJkaWUgW21haWx0
-bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPlNlbnQ6IFR1ZXNkYXksIE1h
-cmNoIDE4LCAyMDE0IDc6NTYgQU0NCj5UbzogS29lbiBLb29pDQo+Q2M6IE1hdXBpbiwgQ2hhc2U7
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj5TdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFtQQVRDSCAxLzJdIGxpbmFyby1wbS1xYS11dGlsczogQWRkIHBvd2VyDQo+bWFu
-YWdlbWVudCB0ZXN0IHV0aWxzDQo+DQo+T24gVHVlLCAyMDE0LTAzLTE4IGF0IDEzOjI5ICswMTAw
-LCBLb2VuIEtvb2kgd3JvdGU6DQo+PiBPcCAxOCBtcnQuIDIwMTQsIG9tIDEyOjU2IGhlZWZ0IENo
-YXNlIE1hdXBpbg0KPjxDaGFzZS5NYXVwaW5AdGkuY29tPiBoZXQgdm9sZ2VuZGUgZ2VzY2hyZXZl
-bjoNCj4+DQo+PiA+ICogVGhlIHBvd2VyIG1hbmFnZW1lbnQgdGVzdCB1dGlsaXRpZXMgZnJvbSBM
-aW5hcm8gY2FuIGJlIHVzZWQNCj4+ID4gIHRvIHRlc3QgbXVsdGlwbGUgUE0gZmVhdHVyZXMgc3Vj
-aCBhcyBjcHVmcmVxLCBjcHVpZGxlLA0KPnRoZXJtYWwNCj4+ID4gIGNvbnRyb2wgYW5kIHN1c3Bl
-bmQgb3BlcmF0aW9ucy4NCj4+ID4gKiBUaGVzZSB1dGlsaXRpZXMgYXJlIG5vdCBwbGF0Zm9ybSBz
-cGVjaWZpYyBhbmQgY2FuIGJlIHVzZWQgYnkNCj4+ID4gIGEgYnJvYWRlciBiYXNlIG9mIHVzZXJz
-Lg0KPj4NCj4+IFBOIHNob3VsZCBtZSAncG0tcWEnIG9yICdwbS1xYS11dGlscycuDQo+DQo+QWdy
-ZWVkLg0KDQpJJ2xsIGNoYW5nZSB0aGUgbmFtZS4NCg0KPg0KPj4gIEFuZCBpdCB3b3VsZCBmaXQg
-YmV0dGVyIGluIG1ldGEtb2Ugc2luY2UgaXQncyBub3QgJ2NvcmUnIGVub3VnaA0KPmZvciBvZS1j
-b3JlLg0KPg0KPkknbSBvcGVuIHRvIGRpc2N1c3Npb24gb24gdGhhdC4gQ2VydGFpbmx5IGlmIHRo
-ZXJlIGlzIGp1c3Qgb25lDQo+dXNlciwNCj5tZXRhLW9lIHdvdWxkIGJlIGFwcHJvcHJpYXRlLiBJ
-ZiB0aGVzZSBhcmUgZ2VuZXJpY2FsbHkgdXNlZnVsIGFuZA0KPnRoZQ0KPnBsYW4gaXMgd2UgaW50
-ZWdyYXRlIHRoZXNlIGludG8gdGhlIGxhcmdlciBhdXRvbWF0ZWQgdGVzdCBwaWN0dXJlLA0KPm9l
-LWNvcmUgbWF5IG1ha2Ugc2Vuc2UuDQo+DQo+U28gaWYgdGhlcmUgYSBiaWdnZXIgcGljdHVyZSBw
-bGFuIGhlcmU/IFdvdWxkIHRoZXNlIG1ha2Ugc2Vuc2UgaW4NCj50aGUNCj5icm9hZGVyIHBpY3R1
-cmU/DQoNCldlbGwsIHdlIGNlcnRhaW5seSB1c2UgdGhlbSBmb3IgdGVzdCBhbmQgdGhleSBhcmUg
-Z2VuZXJpYyBlbm91Z2ggdG8gYXBwbHkgdG8gYSBicm9hZGVyIGF1ZGllbmNlIHdoaWNoIGlzIHdo
-eSBJIHRob3VnaHQgdG8gcHV0IHRoZW0gaGVyZSBmaXJzdC4gIFRoZXJlIGlzIG5vdGhpbmcgVEkg
-c3BlY2lmaWMgYW5kIEkgZG9uJ3QgdGhpbmsgdGhleSBhcmUgZXZlbiBuZWNlc3NhcmlseSBBUk0g
-c3BlY2lmaWMgZWl0aGVyLg0KDQo+DQo+Q2hlZXJzLA0KPg0KPlJpY2hhcmQNCg0K
+* The power management test utilities from Linaro can be used
+  to test multiple PM features such as cpufreq, cpuidle, thermal
+  control and suspend operations.
+* These utilities are not platform specific and can be used by
+  a broader base of users.
+
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+---
+* Updated in version 2
+    * Changed the recipe name and directory to pm-qa-utils, removing
+      the linaro prefix.
+---
+ .../pm-qa-utils/pm-qa-utils_git.bb                 |   63 ++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/pm-qa-utils/pm-qa-utils_git.bb
+
+diff --git a/meta/recipes-devtools/pm-qa-utils/pm-qa-utils_git.bb b/meta/recipes-devtools/pm-qa-utils/pm-qa-utils_git.bb
+new file mode 100644
+index 0000000..610f3a7
+--- /dev/null
++++ b/meta/recipes-devtools/pm-qa-utils/pm-qa-utils_git.bb
+@@ -0,0 +1,63 @@
++DESCRIPTION = "Utilities from Linaro for testing Power Management"
++HOMEPAGE = "https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQa"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++
++PV = "0.4.4"
++
++BRANCH ?= "master"
++SRCREV = "fbc2762359b863dfbf4fd0bab1e8abd2a6125ed4"
++
++SRC_URI = "git://git.linaro.org/tools/pm-qa.git;protocol=git;branch=${BRANCH}"
++
++S = "${WORKDIR}/git"
++
++CFLAGS += "-pthread"
++
++do_compile () {
++    # Find all the .c files in this project and build them.
++    for x in `find . -name "*.c"`
++    do
++        util=`echo ${x} | sed s/.c$//`
++        oe_runmake ${util}
++    done
++}
++
++do_install () {
++    install -d ${D}${bindir}
++    install -d ${D}${bindir}/linaro-pm-qa-include
++
++    # Install the compiled binaries the were built in the previous step
++    for x in `find . -name "*.c"`
++    do
++        util=`echo ${x} | sed s/.c$//`
++        util_basename=`basename ${util}`
++        install -m 0755 ${util} ${D}${bindir}/${util_basename}
++    done
++
++    # Install the helper scripts in the include directory
++    for script in `find . -name "*.sh" | grep include`
++    do
++        # Remove hardcoded relative paths
++        sed -i -e 's#..\/utils\/##' ${script}
++
++        script_basename=`basename ${script}`
++        install -m 0755 $script ${D}${bindir}/linaro-pm-qa-include/${script_basename}
++    done
++
++    # Install the shell scripts NOT in the include directory since those
++    # will be installed elsewhere
++    for script in `find . -name "*.sh" | grep -v include`
++    do
++        # if the script includes any helper scripts from the include
++        # directory then change the include path to the absolute path
++        # to reflect the install location of the helper scripts.
++        sed -i -e "s#source ../include#source ${bindir}/linaro-pm-qa-include#g" ${script}
++        # Remove hardcoded relative paths
++        sed -i -e 's#..\/utils\/##' ${script}
++
++        script_basename=`basename ${script}`
++        install -m 0755 $script ${D}${bindir}/${script_basename}
++    done
++}
+-- 
+1.7.9.5
+
 
