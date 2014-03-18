@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 03DF26F865
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BE7F06E78E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Mar 2014 23:13:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Mar 2014 16:13:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,673,1389772800"; d="scan'208";a="493948217"
-Received: from davidllo-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.82])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Mar 2014 16:13:48 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Mar 2014 23:13:37 +0000
-Message-Id: <f990b34e31ca5c2fdbdf5253ee1473b134d2d1e9.1395097868.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1395097868.git.paul.eggleton@linux.intel.com>
-References: <cover.1395097868.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1395097868.git.paul.eggleton@linux.intel.com>
-References: <cover.1395097868.git.paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 1/1] sstate: Drop 'SafeDep' code from setscene validation function
+	Tue, 18 Mar 2014 07:11:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2I7BKbb028260
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 00:11:20 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 18 Mar 2014 00:11:20 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Mar 2014 15:11:17 +0800
+Message-ID: <cover.1395126237.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH V2 0/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Mar 2014 23:13:48 -0000
+X-List-Received-Date: Tue, 18 Mar 2014 07:11:24 -0000
+Content-Type: text/plain
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Changes since V1:
 
-I have a feeling this code exists from the time before we had proper
-coverage of one sstate task by another task. At that time it was a
-"poor" persons version of that idea, we now have much better
-code internal to bitbake which handles this.
+It can't check IMAGE_FEATURES in a non-image recipe.
+When ptest doesn't be included in DISTRO_FEATURES, we need RPROVIDES.
 
-Worse, this code actually breaks certain rebuild scenarios,
-e.g.:
+The following changes since commit 1f16ca9fba325f5ddbb1edad5bbad78d990de5e0:
 
-bitbake libtool-cross
-bitbake libtool-cross -c cleansstate
-rm tmp -rf
-bitbake libtool-cross
+  bitbake: hob: sync after image deploy (2014-03-17 15:57:35 +0000)
 
-would fail as binutils-cross wasn't installed from sstate.
+are available in the git repository at:
 
-The easiest fix is to remove the obsolete/broken code.
+  git://git.pokylinux.org/poky-contrib chonglu/dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/dbus
 
-[YOCTO #5773]
+Chong Lu (1):
+  dbus: fix a hard dependency about dbus-ptest
 
-(From OE-Core master rev: ccad07f35fb7f959e24fd50d04c7d10dd5cf20d0)
+ meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb => dbus-test_1.6.18.bb} | 0
+ meta/recipes-core/dbus/dbus.inc                                      | 5 ++++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+ rename meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb => dbus-test_1.6.18.bb} (100%)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sstate.bbclass | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 0358d14..13abf33 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -639,19 +639,12 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         return x.endswith("-native")
-     def isNativeCross(x):
-         return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
--    def isSafeDep(x):
--        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
--            return True
--        return False
-+
-     def isPostInstDep(x):
-         if x in ["qemu-native", "gdk-pixbuf-native", "qemuwrapper-cross", "depmodwrapper-cross", "systemd-systemctl-native", "gtk-update-icon-cache-native"]:
-             return True
-         return False
- 
--    # We can skip these "safe" dependencies since the aren't runtime dependencies, just build time
--    if isSafeDep(taskdependees[task][0]) and taskdependees[task][1] == "do_populate_sysroot":
--        return True
--
-     # We only need to trigger populate_lic through direct dependencies
-     if taskdependees[task][1] == "do_populate_lic":
-         return True
 -- 
-1.8.5.3
+1.8.1.2
 
 
