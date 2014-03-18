@@ -1,24 +1,29 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DC296F8FC
+Return-Path: <chase.maupin@ti.com>
+Received: from bear.ext.ti.com (bear.ext.ti.com [192.94.94.41])
+	by mail.openembedded.org (Postfix) with ESMTP id BBEFC6F8DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 11:38:56 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Mar 2014 04:38:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,677,1389772800"; d="scan'208";a="494272094"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2014 04:38:56 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Mar 2014 13:38:49 +0200
-Message-Id: <5b61081abc7539b3884f09bf8e58517618b83a27.1395142153.git.laurentiu.palcu@intel.com>
+	Tue, 18 Mar 2014 11:56:20 +0000 (UTC)
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id s2IBuKIb003922
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 06:56:20 -0500
+Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s2IBuJqu002285
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 06:56:20 -0500
+Received: from dlep33.itg.ti.com (157.170.170.75) by DFLE72.ent.ti.com
+	(128.247.5.109) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 18 Mar 2014 06:56:19 -0500
+Received: from sdit-build04.dal.design.ti.com (dbdp20.itg.ti.com
+	[172.24.170.38])	by dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id
+	s2IBuGSS032759;	Tue, 18 Mar 2014 06:56:18 -0500
+From: Chase Maupin <Chase.Maupin@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Mar 2014 06:56:12 -0500
+Message-ID: <1395143773-26375-1-git-send-email-Chase.Maupin@ti.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1395142153.git.laurentiu.palcu@intel.com>
-References: <cover.1395142153.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1395142153.git.laurentiu.palcu@intel.com>
-References: <cover.1395142153.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 4/4] buildhistory.bbclass: create proper dependency files for SDK
+MIME-Version: 1.0
+Subject: [PATCH 1/2] linaro-pm-qa-utils: Add power management test utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,92 +36,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 11:38:56 -0000
+X-List-Received-Date: Tue, 18 Mar 2014 11:56:22 -0000
+Content-Type: text/plain
 
-The old functions were calling the list_installed_packages() wrapper
-function that only listed the packages in an image rootfs. Even for
-target/host SDK. Also, a python crash was possible if 'bitbake -c
-populate_sdk core-image-*' was called without calling 'bitbake
-core-image-*' first. That's because the wrapper was always looking into
-the image rootfs...
+* The power management test utilities from Linaro can be used
+  to test multiple PM features such as cpufreq, cpuidle, thermal
+  control and suspend operations.
+* These utilities are not platform specific and can be used by
+  a broader base of users.
 
-This commit fixes the problem and calls the right wrapper for image/sdk.
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
 ---
- meta/classes/buildhistory.bbclass |   40 +++++++++++++++++++++++++------------
- 1 file changed, 27 insertions(+), 13 deletions(-)
+ .../linaro-pm-qa/linaro-pm-qa-utils_git.bb         |   63 ++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/linaro-pm-qa/linaro-pm-qa-utils_git.bb
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 5d0a229..262095f 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -313,22 +313,36 @@ def write_pkghistory(pkginfo, d):
-             if os.path.exists(filevarpath):
-                 os.unlink(filevarpath)
- 
--python buildhistory_list_installed() {
--    from oe.rootfs import list_installed_packages
-+#
-+# rootfs_type can be: image, sdk_target, sdk_host
-+#
-+def buildhistory_list_installed(d, rootfs_type="image"):
-+    from oe.rootfs import image_list_installed_packages
-+    from oe.sdk import sdk_list_installed_packages
+diff --git a/meta/recipes-devtools/linaro-pm-qa/linaro-pm-qa-utils_git.bb b/meta/recipes-devtools/linaro-pm-qa/linaro-pm-qa-utils_git.bb
+new file mode 100644
+index 0000000..610f3a7
+--- /dev/null
++++ b/meta/recipes-devtools/linaro-pm-qa/linaro-pm-qa-utils_git.bb
+@@ -0,0 +1,63 @@
++DESCRIPTION = "Utilities from Linaro for testing Power Management"
++HOMEPAGE = "https://wiki.linaro.org/WorkingGroups/PowerManagement/Resources/TestSuite/PmQa"
 +
-+    process_list = [('file', 'bh_installed_pkgs.txt'),\
-+                    ('deps', 'bh_installed_pkgs_deps.txt')]
- 
--    pkgs_list_file = os.path.join(d.getVar('WORKDIR', True),
--                                  "bh_installed_pkgs.txt")
-+    for output_type, output_file in process_list:
-+        output_file_full = os.path.join(d.getVar('WORKDIR', True), output_file)
- 
--    with open(pkgs_list_file, 'w') as pkgs_list:
--        pkgs_list.write(list_installed_packages(d, 'file'))
-+        with open(output_file_full, 'w') as output:
-+            if rootfs_type == "image":
-+                output.write(image_list_installed_packages(d, output_type))
-+            else:
-+                output.write(sdk_list_installed_packages(d, rootfs_type == "sdk_target", output_type))
- 
--    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
--                                  "bh_installed_pkgs_deps.txt")
-+python buildhistory_list_installed_image() {
-+    buildhistory_list_installed(d)
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++
++PV = "0.4.4"
++
++BRANCH ?= "master"
++SRCREV = "fbc2762359b863dfbf4fd0bab1e8abd2a6125ed4"
++
++SRC_URI = "git://git.linaro.org/tools/pm-qa.git;protocol=git;branch=${BRANCH}"
++
++S = "${WORKDIR}/git"
++
++CFLAGS += "-pthread"
++
++do_compile () {
++    # Find all the .c files in this project and build them.
++    for x in `find . -name "*.c"`
++    do
++        util=`echo ${x} | sed s/.c$//`
++        oe_runmake ${util}
++    done
 +}
- 
--    with open(pkgs_deps_file, 'w') as pkgs_deps:
--        pkgs_deps.write(list_installed_packages(d, 'deps'))
-+python buildhistory_list_installed_sdk_target() {
-+    buildhistory_list_installed(d, "sdk_target")
- }
- 
-+python buildhistory_list_installed_sdk_host() {
-+    buildhistory_list_installed(d, "sdk_host")
++
++do_install () {
++    install -d ${D}${bindir}
++    install -d ${D}${bindir}/linaro-pm-qa-include
++
++    # Install the compiled binaries the were built in the previous step
++    for x in `find . -name "*.c"`
++    do
++        util=`echo ${x} | sed s/.c$//`
++        util_basename=`basename ${util}`
++        install -m 0755 ${util} ${D}${bindir}/${util_basename}
++    done
++
++    # Install the helper scripts in the include directory
++    for script in `find . -name "*.sh" | grep include`
++    do
++        # Remove hardcoded relative paths
++        sed -i -e 's#..\/utils\/##' ${script}
++
++        script_basename=`basename ${script}`
++        install -m 0755 $script ${D}${bindir}/linaro-pm-qa-include/${script_basename}
++    done
++
++    # Install the shell scripts NOT in the include directory since those
++    # will be installed elsewhere
++    for script in `find . -name "*.sh" | grep -v include`
++    do
++        # if the script includes any helper scripts from the include
++        # directory then change the include path to the absolute path
++        # to reflect the install location of the helper scripts.
++        sed -i -e "s#source ../include#source ${bindir}/linaro-pm-qa-include#g" ${script}
++        # Remove hardcoded relative paths
++        sed -i -e 's#..\/utils\/##' ${script}
++
++        script_basename=`basename ${script}`
++        install -m 0755 $script ${D}${bindir}/${script_basename}
++    done
 +}
- 
- buildhistory_get_installed() {
- 	mkdir -p $1
-@@ -471,15 +485,15 @@ END
- }
- 
- # By prepending we get in before the removal of packaging files
--ROOTFS_POSTPROCESS_COMMAND =+ " buildhistory_list_installed ;\
-+ROOTFS_POSTPROCESS_COMMAND =+ " buildhistory_list_installed_image ;\
-                                 buildhistory_get_image_installed ; "
- 
- IMAGE_POSTPROCESS_COMMAND += " buildhistory_get_imageinfo ; "
- 
- # We want these to be the last run so that we get called after complementary package installation
--POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed ;\
-+POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target ;\
-                                             buildhistory_get_sdk_installed_target ; "
--POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed ;\
-+POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host ;\
-                                           buildhistory_get_sdk_installed_host ; "
- 
- SDK_POSTPROCESS_COMMAND += "buildhistory_get_sdkinfo ; "
 -- 
 1.7.9.5
 
