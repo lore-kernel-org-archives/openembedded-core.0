@@ -1,26 +1,26 @@
 Return-Path: <simone.agresta@bticino.it>
 Received: from bticino.it (mx1.bticino.it [91.208.195.90])
-	by mail.openembedded.org (Postfix) with ESMTP id E3A006F909
+	by mail.openembedded.org (Postfix) with ESMTP id A62FB6F911
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 15:19:25 +0000 (UTC)
+	Tue, 18 Mar 2014 15:27:30 +0000 (UTC)
 Received: from ([10.31.15.91])
-	by smtp1.bticino.it with ESMTP  id 5RSHRF1.113925652;
-	Tue, 18 Mar 2014 16:18:54 +0100
+	by smtp1.bticino.it with ESMTP  id 5RSHRF1.113926256;
+	Tue, 18 Mar 2014 16:27:28 +0100
 Received: from bticino-yocto.eu.dir.grpleg.com ([10.39.61.78])
 	by notes-mta.srvnts.grpleg.com (Lotus Domino Release 8.5.3FP1)
-	with ESMTP id 2014031816185290-122 ; Tue, 18 Mar 2014 16:18:52 +0100 
+	with ESMTP id 2014031816272707-124 ; Tue, 18 Mar 2014 16:27:27 +0100 
 From: Simone Agresta <simone.agresta@bticino.it>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Mar 2014 16:18:33 +0100
-Message-Id: <1395155913-19296-1-git-send-email-simone.agresta@bticino.it>
+Date: Tue, 18 Mar 2014 16:27:30 +0100
+Message-Id: <1395156450-7172-1-git-send-email-simone.agresta@bticino.it>
 X-Mailer: git-send-email 1.7.10.4
 X-MIMETrack: Itemize by SMTP Server on NOTES-MTA/BTICINO/IT(Release
-	8.5.3FP1|March 07, 2012) at 18/03/2014 16:18:52,
+	8.5.3FP1|March 07, 2012) at 18/03/2014 16:27:27,
 	Serialize by Router on IT-VAR-HUB-01/SRV/GRPLEG(Release 8.5.3FP1|March
-	07, 2012) at 18/03/2014 16.18.54,
-	Serialize complete at 18/03/2014 16.18.54
+	07, 2012) at 18/03/2014 16.27.28,
+	Serialize complete at 18/03/2014 16.27.28
 X-TNEFEvaluated: 1
-Subject: [PATCH v2] alsa-tools: fix build when x11 and gtk+ not available
+Subject: [PATCH v3] alsa-tools: fix build when x11 and gtk+ not available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 15:19:27 -0000
+X-List-Received-Date: Tue, 18 Mar 2014 15:27:34 -0000
 Content-Type: text/plain;
 	charset="UTF-8"
 
@@ -46,7 +46,7 @@ Signed-off-by: Simone Agresta <simone.agresta@bticino.it>
  2 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-index 51f934d..11c5ad5 100644
+index 51f934d..81d12da 100644
 --- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
 +++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
 @@ -8,14 +8,15 @@ diff --git a/Makefile b/Makefile
@@ -61,12 +61,12 @@ index 51f934d..11c5ad5 100644
  -   mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
  -   us428control usx2yloader vxloader echomixer \
 -+SUBDIRS = ac3dec as10k1 \
-+-    hwmixvolume hdajackretask hda-verb
++-   hwmixvolume hdajackretask hda-verb
 ++SUBDIRS = as10k1 \
  +   mixartloader pcxhrloader sb16_csp seq sscape_ctl \
  +   us428control usx2yloader vxloader \
 -    hwmixvolume hda-verb
-++    hwmixvolume hda-verb
+++   hwmixvolume hda-verb
   
   all:
 diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
