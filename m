@@ -1,26 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B9C2B6F8DC
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D1DF6EA2F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 07:11:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2I7BwJX028312
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 00:11:58 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 18 Mar 2014 00:11:57 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Mar 2014 15:12:08 +0800
-Message-ID: <53677fd8cacfc60c12318fc0350603ce25fa9046.1395126624.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1395126624.git.Qi.Chen@windriver.com>
-References: <cover.1395126624.git.Qi.Chen@windriver.com>
+	Tue, 18 Mar 2014 07:12:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2I7Ctj8007227
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Mar 2014 00:12:55 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Tue, 18 Mar 2014 00:12:54 -0700
+Message-ID: <5327F1F3.9000307@windriver.com>
+Date: Tue, 18 Mar 2014 15:12:51 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] expect: fix do_install failure on SLED 11.2
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1394093112.git.Chong.Lu@windriver.com>
+	<53265958.6050806@windriver.com>
+	<4460653.1fTuVUzje8@peggleto-mobl5.ger.corp.intel.com>
+	<2336481.uJ8DxcTUgT@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2336481.uJ8DxcTUgT@peggleto-mobl5.ger.corp.intel.com>
+X-Originating-IP: [128.224.162.204]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +38,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 07:11:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Mar 2014 07:12:55 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Previously we were encountering do_install failures on older machines
-like SLED 11.2. These machines have relatively lower versions of glibc.
 
-     tclsh8.6: /lib64/libc.so.6: version `GLIBC_2.14' not found
+On 03/17/2014 07:05 PM, Paul Eggleton wrote:
+> On Monday 17 March 2014 10:44:44 Paul Eggleton wrote:
+>> On Monday 17 March 2014 10:09:28 Chong Lu wrote:
+>>> On 03/14/2014 06:12 PM, Paul Eggleton wrote:
+>>>> On Friday 14 March 2014 17:14:27 Chong Lu wrote:
+>>>>> On 03/13/2014 06:01 PM, Paul Eggleton wrote:
+>>>>>> On Thursday 13 March 2014 17:54:03 Chong Lu wrote:
+>>>>>>> On 03/06/2014 06:04 PM, Burton, Ross wrote:
+>>>>>>>> On 6 March 2014 08:06, Chong Lu <Chong.Lu@windriver.com> wrote:
+>>>>>>>>> +PACKAGES += "dbus-ptest"
+>>>>>>>>> +ALLOW_EMPTY_${PN}-ptest = "1"
+>>>>>>>>> +RDEPENDS_${PN}-ptest = "${@base_contains('IMAGE_FEATURES',
+>>>>>>>>> 'ptest-pkgs',
+>>>>>>>>> 'dbus-test-ptest', 'dbus-test', d)}"
+>>>>>>>> Clearly I wasn't thinking clearly last week.  You can't check
+>>>>>>>> IMAGE_FEATURES in a non-image recipe so this isn't a good solution.
+>>>>>>> Do you have any suggestion about this issue?
+>>>>>>> If we don't check IMAGE_FEATURES, I have no way to resolve this
+>>>>>>> problem
+>>>>>>> that only build but not install ptest. I'm very confused.
+>>>>>> This should check DISTRO_FEATURES, not IMAGE_FEATURES. Assuming ptest
+>>>>>> is
+>>>>>> in
+>>>>>> DISTRO_FEATURES, even if ptest is not in IMAGE_FEATURES it doesn't
+>>>>>> matter
+>>>>>> if the dependency between dbus-ptest and dbus-ptest-ptest exists
+>>>>>> because
+>>>>>> dbus- ptest itself shouldn't be in the image, so dbus-ptest-ptest
+>>>>>> shouldn't be pulled in either. Does that make sense?
+>>>>>>
+>>>>>> Cheers,
+>>>>>> Paul
+>>>>> Hi Paul,
+>>>>>
+>>>>> Thanks for your reply!
+>>>>> But I still have a question.
+>>>>>
+>>>>> I try to following way:
+>>>>>
+>>>>> # git diff
+>>>>> diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+>>>>> b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+>>>>> index bc260de..50dfe54 100644
+>>>>> --- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+>>>>> +++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+>>>>> @@ -9,6 +9,7 @@ DEPENDS = "python-pygobject dbus dbus-glib"
+>>>>>
+>>>>>     RDEPENDS_${PN} += "make"
+>>>>>     RDEPENDS_${PN}-dev = ""
+>>>>>
+>>>>> +ALLOW_EMPTY_${PN} = "1"
+>>>>>
+>>>>>     SRC_URI =
+>>>>>     "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz
+>>>>>     \
+>>>>>     
+>>>>>                file://tmpdir.patch \
+>>>>>
+>>>>> diff --git a/meta/recipes-core/dbus/dbus.inc
+>>>>> b/meta/recipes-core/dbus/dbus.inc
+>>>>> index 677ff78..ba7f3cb 100644
+>>>>> --- a/meta/recipes-core/dbus/dbus.inc
+>>>>> +++ b/meta/recipes-core/dbus/dbus.inc
+>>>>> @@ -6,7 +6,7 @@ LICENSE = "AFL-2 | GPLv2+"
+>>>>>
+>>>>>     LIC_FILES_CHKSUM =
+>>>>>     "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+>>>>>
+>>>>> file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974
+>>>>> 53
+>>>>> 8bb 3c" DEPENDS = "expat virtual/libintl"
+>>>>> -RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest',
+>>>>> 'dbus-ptest-ptest', '', d)}"
+>>>>> +RDEPENDS_dbus = "dbus-ptest"
+>>>> The line above is the problem. You *cannot* do this or dbus-ptest (and
+>>>> therefore dbus-ptest-ptest) will always be installed whether you want it
+>>>> or not. You need to remove this line.
+>>> Do you mean the patch we only need to remove RDEPENDS_dbus =
+>>> "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '',
+>>> d)}" in dbus.inc ?
+>>> If do this, we can't build and install dbus-ptest through `bitbake dbus'
+>>> command.
+>>> How to relate between dbus and dbus-ptest?
+>> Assuming you rename the current dbus-ptest recipe to dbus-test:
+>>
+>> 1) If the dbus recipe refers to dbus-test-ptest elsewhere (i.e.
+>> RDEPENDS_dbus-ptest = "dbus-test-ptest") then dbus-ptest will be built as
+>> needed.
+> Sorry that should have been "dbus-test will be built as needed".
+>
+>> 2) If dbus is part of the image and ptest-pkgs is in IMAGE_FEATURES, the
+>> dbus- ptest package (and therefore the dbus-test-ptest) will be brought in
+>> automatically. The relationship between dbus and dbus-ptest is solely on
+>> the name, you do not need to add any RDEPENDS for that part.
+> I should also mention that we need a fix for this soon in order to make the 1.6
+> release (and we *really* don't want to release 1.6 with this issue.)
+>
+> Thanks,
+> Paul
+>
+Thanks a lot. I will send a V2, please check it.
 
-The above failure is due to that fact that we are using the fixline1
-tcl script to install commands under the example directory. The purpose
-of fixline1 is to ensure that the installed scripts begin with '#!/bin/sh'.
-However, the scripts under the example directory have already got
-the correct first line. That's why we don't need to modify anything and could
-just copy them.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...all-scripts-without-using-the-fixline1-tc.patch |   34 ++++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.bb        |    1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-expect-install-scripts-without-using-the-fixline1-tc.patch
-
-diff --git a/meta/recipes-devtools/expect/expect/0001-expect-install-scripts-without-using-the-fixline1-tc.patch b/meta/recipes-devtools/expect/expect/0001-expect-install-scripts-without-using-the-fixline1-tc.patch
-new file mode 100644
-index 0000000..274ad86
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-expect-install-scripts-without-using-the-fixline1-tc.patch
-@@ -0,0 +1,34 @@
-+Upstream-Status: Inappropriate [wrlinux specific]
-+
-+Subject: expect: install scripts without using the fixline1 tcl script
-+
-+On older machines like SLED11.2, we are encountering do_install failures
-+complaining that 'GLIBC_2.14' is not found in /lib64/libc.so.6 but is required
-+by libtcl8.6.so.0.
-+
-+This is because that we're executing the fixline1 tcl script which requires
-+libtcl8.6.so.0 in sysroot. However, all commands in SCRIPTS already have got
-+the correct first line, that is '#!/bin/sh'. We don't need to modify anything.
-+That's why we could just copy them.
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ Makefile.in |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index c05c880..f1394ff 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -380,7 +380,7 @@ dist: dist-clean doc
-+ 	cp $(DIST_ROOT)/$(PKG_DIR).tar.gz $(top_builddir)
-+ 
-+ $(SCRIPTS):
-+-	$(TCLSH) $(srcdir)/fixline1 $(SHORT_BINDIR) < $(srcdir)/example/$@ > $@
-++	cp $(srcdir)/example/$@ $@
-+ 
-+ ## We cannot use TCL_LIBS below (after TCL_LIB_SPEC) because its
-+ ## expansion references the contents of LIBS, which contains linker
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
-index 037aaaa..970f4a5 100644
---- a/meta/recipes-devtools/expect/expect_5.45.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://0001-configure.in.patch \
-            file://0002-tcl.m4.patch \
-            file://01-example-shebang.patch \
-+           file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
-           "
- SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
- SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
--- 
-1.7.9.5
+Chong
 
 
