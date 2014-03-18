@@ -1,37 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 83A3F6F8DA
+Return-Path: <simone.agresta@bticino.it>
+Received: from bticino.it (mx1.bticino.it [91.208.195.90])
+	by mail.openembedded.org (Postfix) with ESMTP id 628716F894
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 11:13:59 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id m20so7446487qcx.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 04:14:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=98aZj7NwneLLZYCygaO80BtPmHQnwNMiX7xnug/7N1w=;
-	b=GrAvwtLv0xChzTVKnV//V5PW51GAWtwaBOIT2/S2L9A282lemIJ6Ae183NxiWqxGtV
-	oETEBDhKYfTyKVfF714vrkcvDq/UyfNHY9sWaGfnNVShT1aASUwVONEIJINKbE11Q7KR
-	qXic6gU8v5bGfmrGQUHzs6qkM0P2qI216OSnUp6mh+xVrEAyhBqYUtGqPivORVN2Nszt
-	Y9971blvSvzGwT5sv6ZVEoQD2IC/W4RRjkwB9UwgxupncFy5ScS1pxN3fCxSf+VeA5D2
-	nUffsLrnU48CFfVWB8dOjifR7DCMIdxpaS2wa3z0JnxiQaTYL07/eaQqaUspR3/jurWh
-	dZ9g==
-X-Gm-Message-State: ALoCoQnfDsh59KQizL6XpoRoT4IJ8YarBdTXhqamVN5ibREwt6C7OkrfZyPys977+CBeHQsRwKgk
-X-Received: by 10.140.81.74 with SMTP id e68mr1749242qgd.99.1395141240859;
-	Tue, 18 Mar 2014 04:14:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Tue, 18 Mar 2014 04:13:40 -0700 (PDT)
-In-Reply-To: <4fe38ebdc644fa0880bd83bcf3325fd34070a73e.1394948105.git.raj.khem@gmail.com>
-References: <cover.1394948105.git.raj.khem@gmail.com>
-	<4fe38ebdc644fa0880bd83bcf3325fd34070a73e.1394948105.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Mar 2014 11:13:40 +0000
-Message-ID: <CAJTo0La2Xtib5BrN3hpZbKZdXT8zqGdObQ1kjXni2MYM1Ly+UQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] glib-2.0: Fix localedir expectations for uclibc
+	Tue, 18 Mar 2014 11:25:40 +0000 (UTC)
+Received: from ([10.31.15.91])
+	by smtp1.bticino.it with ESMTP  id 5RSHRF1.113910469;
+	Tue, 18 Mar 2014 12:25:38 +0100
+Received: from bticino-yocto.eu.dir.grpleg.com ([10.39.61.78])
+	by notes-mta.srvnts.grpleg.com (Lotus Domino Release 8.5.3FP1)
+	with ESMTP id 2014031812253714-75 ; Tue, 18 Mar 2014 12:25:37 +0100 
+From: Simone Agresta <simone.agresta@bticino.it>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Mar 2014 12:25:38 +0100
+Message-Id: <1395141938-15967-1-git-send-email-simone.agresta@bticino.it>
+X-Mailer: git-send-email 1.7.10.4
+X-MIMETrack: Itemize by SMTP Server on NOTES-MTA/BTICINO/IT(Release
+	8.5.3FP1|March 07, 2012) at 18/03/2014 12:25:37,
+	Serialize by Router on IT-VAR-HUB-01/SRV/GRPLEG(Release 8.5.3FP1|March
+	07, 2012) at 18/03/2014 12.25.38,
+	Serialize complete at 18/03/2014 12.25.38
+X-TNEFEvaluated: 1
+Subject: [PATCH] alsa-tools: fix build when x11 and gtk+ not available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,13 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 11:14:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Mar 2014 11:25:42 -0000
+Content-Type: text/plain;
+	charset="UTF-8"
 
-On 16 March 2014 05:42, Khem Raj <raj.khem@gmail.com> wrote:
-> ++          *-*-openbsd* | *-*-linux-uclibc*)
+ Updated patch to work with alsa-tools version 1.0.27
 
-Does uclibc have the same file naming as bsd?  eglibc uses .gmo.
+Signed-off-by: Simone Agresta <simone.agresta@bticino.it>
+---
+ meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Ross
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+index 51f934d..c6cb5b1 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
++++ b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+@@ -8,14 +8,14 @@ diff --git a/Makefile b/Makefile
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,8 +1,8 @@
+- VERSION = 1.0.26.1
++ VERSION = 1.0.27
+  TOP = .
+--SUBDIRS = ac3dec as10k1 envy24control \
++-SUBDIRS = as10k1 envy24control \
+ -   mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+ -   us428control usx2yloader vxloader echomixer \
+-+SUBDIRS = ac3dec as10k1 \
+++SUBDIRS = as10k1 \
+ +   mixartloader pcxhrloader sb16_csp seq sscape_ctl \
+ +   us428control usx2yloader vxloader \
+-    hwmixvolume hda-verb
++    hwmixvolume hdajackretask hda-verb
+  
+  all:
+-- 
+1.7.10.4
+
+
+
+Ce message, ainsi que tous les fichiers joints à ce message,
+peuvent contenir des informations sensibles et/ ou confidentielles
+ne devant pas être divulguées. Si vous n'êtes pas le destinataire
+de ce message (ou que vous recevez ce message par erreur), nous
+vous remercions de le notifier immédiatement à son expéditeur, et
+de détruire ce message. Toute copie, divulgation, modification,
+utilisation ou diffusion, non autorisée, directe ou indirecte, de
+tout ou partie de ce message, est strictement interdite.
+
+This e-mail, and any document attached hereby, may contain
+confidential and/or privileged information. If you are not the
+intended recipient (or have received this e-mail in error) please
+notify the sender immediately and destroy this e-mail. Any
+unauthorized, direct or indirect, copying, disclosure, distribution
+or other use of the material or parts thereof is strictly
+forbidden.
 
