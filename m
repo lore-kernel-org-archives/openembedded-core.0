@@ -1,39 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4957C6F7D2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DD2C6DEDA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 23:14:25 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id hl1so10027645igb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 16:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Ok4lDU2BPXDapR/ZFygAp3RNuy1C+S5d+CvTi5cRCOM=;
-	b=TQpYZkOHediZ6uCZ3uqKT5kYfkaS9uKz8e5zbKITGJo9SUfhUbmsyVAV4jHEbu6djK
-	Lh8ltoIVmdriQUcwPZZyP9+IpVwohNC0XnTAufBf1wXGT2SqXruZQ7lWiPaPVayYnzs3
-	+8Tnreys5zYltwCMyGXm2yOAU7hyd3qksq+M/1Xk55L0IZRS8z64hGR0GIFQeNrn0Y07
-	ycjvFo86IhxUNHb+efLYlmvDB6af4QfnUeYXx9o3zZaN0OE+VYyUv0yPys0BDrYGr8b+
-	NfYeMTyuQqxQ4Q6EPrSvTyMFwDZwpMifoZ9IVlwsfPRQIrN3R5Tc/qQO1wIRxPO01Inl
-	5lkg==
-X-Received: by 10.50.43.170 with SMTP id x10mr21856729igl.20.1395184466548;
-	Tue, 18 Mar 2014 16:14:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Tue, 18 Mar 2014 16:13:56 -0700 (PDT)
-In-Reply-To: <CAMKF1son=Mf8_yyOLtmy1kQ2HGA6ALH9N=9aG+YtUmvfCkfk8g@mail.gmail.com>
-References: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LY4_XK3-KCTON_tnzhqTnOgH4UfKVTBcBfzYGrXy-wi3A@mail.gmail.com>
-	<CAMKF1srprf=54e_nh2+j5fCCRCkrTGxNxM7DgVVgqRxSDMRNCA@mail.gmail.com>
-	<1395184093.3808.100.camel@ted>
-	<CAMKF1son=Mf8_yyOLtmy1kQ2HGA6ALH9N=9aG+YtUmvfCkfk8g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Mar 2014 16:13:56 -0700
-Message-ID: <CAMKF1sr=a1BLpvcqQHt+UQqvWff1GGWJGo22dEoMMwWpQVWWwQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: Upgrade 4.0 -> 5.0
+	Tue, 18 Mar 2014 23:15:40 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2INFL4f022032; Tue, 18 Mar 2014 23:15:21 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tZCOb72Dk4D1; Tue, 18 Mar 2014 23:15:21 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2INFHvZ022020
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 18 Mar 2014 23:15:19 GMT
+Message-ID: <1395184511.3808.101.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 18 Mar 2014 23:15:11 +0000
+In-Reply-To: <5328C8A0.1010100@linux.intel.com>
+References: <b01b97b0f8a67d3aeae9ed01e24c5e6bace8e43b.1395068545.git.alexandru.damian@intel.com>
+	<6f3acb92219b832f847d4e59342c8c4582ac5b78.1395068545.git.alexandru.damian@intel.com>
+	<5328C8A0.1010100@linux.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Alex DAMIAN <alexandru.damian@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] buildstats: use TaskBase time for elapsed time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 23:14:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Mar 2014 23:15:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-These two
+On Tue, 2014-03-18 at 15:28 -0700, Saul Wold wrote:
+> On 03/17/2014 08:04 AM, Alex DAMIAN wrote:
+> > From: Marius Avram <marius.avram@intel.com>
+> >
+> > To avoid any further inconsistencies between buildstats and buildinfohelper
+> > from toaster, buildstats will measure task duration using the time field
+> > from within the TaskBase events: TaskStarted and TaskSucceeded/TaskFailed.
+> >
+> 
+> This patch seems to be causing some problems:
 
-http://patchwork.openembedded.org/patch/68851/
-http://patchwork.openembedded.org/patch/68853/
+I suspect this is dependent on a bitbake change...
 
+Cheers,
 
-On Tue, Mar 18, 2014 at 4:11 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> i think so look for v2
->
-> -Khem
->
-> On Mar 18, 2014 4:08 PM, "Richard Purdie"
-> <richard.purdie@linuxfoundation.org> wrote:
->>
->> On Tue, 2014-03-18 at 10:07 -0700, Khem Raj wrote:
->> > On Tue, Mar 18, 2014 at 8:51 AM, Burton, Ross <ross.burton@intel.com>
->> > wrote:
->> > > On 11 March 2014 17:36, Khem Raj <raj.khem@gmail.com> wrote:
->> > >> bluetooth-proximity has been removed in 5.0
->> > >
->> > > This brings in a new QA warning:
->> > >
->> > > WARNING: QA Issue: pulseaudio: configure was passed unrecognised
->> > > options: --enable-bluez
->> >
->> > yeah now it differentiates between bluez4 and bluez5 so the options
->> > are also renamed
->> > accordingly. I have sent a v2
->>
->> Did you sent the right patch?
->>
->> Cheers,
->>
->> Richard
->>
->
+Richard
+
 
