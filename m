@@ -1,38 +1,38 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C42CF6F910
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B741F6F90B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 16:05:59 +0000 (UTC)
-Received: by mail-ve0-f170.google.com with SMTP id pa12so7347481veb.15
+	Tue, 18 Mar 2014 16:35:50 +0000 (UTC)
+Received: by mail-yh0-f51.google.com with SMTP id f10so7190017yha.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 09:06:00 -0700 (PDT)
+	Tue, 18 Mar 2014 09:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zsh4QItvUP3Tn13G4g03zeJVjIgS5Zxn7CcV1nef3T8=;
-	b=iGC2Bj//32yFAT+eSuaxm8Iqp0Y1W60/csfmPt+v0iV10nsZ6/AZ6H/yi5cWn9JFp3
-	RZGMQgY4A58t/ivdlE/S68+kuPBJbAz4a2sEMs9qxbiXTCz5T39Tn7OiX61x4zK0CrI8
-	MiKUgjC6p1LAyl1ivvdkghANmVoVQ7EDi5v9gCA97garZSImIBPMmWXxIqWYAgYXU/gW
-	6W+gyTKx2ORcTu8tnutJU3UdiGKGLlE/6USVPpZ819zo48DHC0EtaFwcHjcxAl6UPMbY
-	o4qI/t5CVShF783qWX06GIn+vvpV+YVZ+hgNkquRpYcfyQkHGxIxoUe/VuBOvPcwXsPG
-	n1Mg==
-X-Received: by 10.58.221.102 with SMTP id qd6mr876079vec.47.1395158760358;
-	Tue, 18 Mar 2014 09:06:00 -0700 (PDT)
-Received: from localhost.localdomain ([187.106.6.19])
-	by mx.google.com with ESMTPSA id v20sm4467408vdj.0.2014.03.18.09.05.59
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 18 Mar 2014 09:05:59 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
-	<joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Mar 2014 13:05:45 -0300
-Message-Id: <1395158745-9424-2-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=GgT2S4KTQ1beo7abEcT3ApwXN3oDw8P0fn8CB0g1Cho=;
+	b=piB2aiKJCFQzTUTd5tPCFwV3xBlkhL0H55NwENJBTWMVVhz562JphUGC8jKg2m0ACa
+	brXaojUCtjgJNUFrUECkghZS6ratiLWsWx6V43nN4qj4DHYsSLsWKUResyo+o8/hyHw7
+	B2WHK3CTZV6mJ3dEqigA+t4S2vUYrvu6NP4IeU7uoLxEl8riFt8ZfJgNDWpyiQsG2u0d
+	LXmU3Vg7tGUpEOFp6f9ER5SG6kQT4vIGcxzmd9Qzv82ZAWdvZjnAn/PYKWOrUH0wU1hN
+	xvA1UdxuaRBI9N9Rf0Uz0d31BWCn6okCb5XXafQMDrUadjB9MMhK6YlrhxAv90O4kmTb
+	NtFA==
+MIME-Version: 1.0
+X-Received: by 10.236.16.83 with SMTP id g59mr19250390yhg.14.1395160551279;
+	Tue, 18 Mar 2014 09:35:51 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Tue, 18 Mar 2014 09:35:51 -0700 (PDT)
 In-Reply-To: <1395158745-9424-1-git-send-email-joaohf@gmail.com>
 References: <1395158745-9424-1-git-send-email-joaohf@gmail.com>
-Cc: tom.zanussi@linux.intel.com
-Subject: [PATCH] wic: Add SD/MMC-Cards support to '--ondisk' param
+Date: Tue, 18 Mar 2014 13:35:51 -0300
+X-Google-Sender-Auth: PN2I0s8ALSOPcQx2hQRqvIyOzzY
+Message-ID: <CAP9ODKpKYfqvO=bYWQS-rd8JmzC1roH-wZS0QACyNoWTbTMb=g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Jo=E3o_Henrique_Ferreira_de_Freitas?= <joaohf@gmail.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic: Add SD/MMC-Cards support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,38 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 16:06:02 -0000
+X-List-Received-Date: Tue, 18 Mar 2014 16:35:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The special case when wic is set up to use SD/MMC-Cards in place
-of sdX disks is not handled properly.
+On Tue, Mar 18, 2014 at 1:05 PM, Jo=E3o Henrique Ferreira de Freitas
+<joaohf@gmail.com> wrote:
+> If the following .wks is set up to mmcblk0 (sdcard)
+>
+> part /boot --source bootimg-pcbios --ondisk mmcblk0 --fstype=3Dmsdos --la=
+bel boot --active --align 1024
+> part / --source rootfs --ondisk mmcblk0 --fstype=3Dext3 --label platform =
+--align 1024
+>
+> bootloader  --timeout=3D0  --append=3D"rootwait rootfstype=3Dext3 video=
+=3Dvesafb vga=3D0x318 console=3Dtty0"
+>
+> And the user inspect this file /var/tmp/wic/build/hdd/boot/syslinux.cfg,
+> the 'root=3D' will be '/dev/mmcblk02' instead of '/dev/mmcblk0p2'.
+>
+> This patch add the support to constrain the disk and make the adjusts whe=
+n
+> mmcblk devices are used.
+>
+> I am not sure if is not necessary to fix others places. Until now it's th=
+e single point.
 
-Append 'p' to the rootdev when disk is SD/MMC-Cards fix this situation.
----
- scripts/lib/mic/imager/direct.py | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+I think this is a sub-optimal solution; we ought to add support for
+UUID as this is ensure to be stable across boot iterations; we cannot
+guarantee all kernels will enumerate the devices in same order,
+specially in DeviceTree time where this is async. There are some
+patches merged in master to partially address this issue for the grub
+and maybe you could see if a similar approach fits here as well.
 
-diff --git a/scripts/lib/mic/imager/direct.py b/scripts/lib/mic/imager/direct.py
-index f8c300c..1f2f8fc 100644
---- a/scripts/lib/mic/imager/direct.py
-+++ b/scripts/lib/mic/imager/direct.py
-@@ -345,10 +345,14 @@ class DirectImageCreator(BaseImageCreator):
-         parts = self._get_parts()
-         for num, p in enumerate(parts, 1):
-             if p.mountpoint == "/":
-+                part = ''
-+                if p.disk.startswith('mmcblk'):
-+                    part = 'p'
-+
-                 if self._ptable_format == 'msdos' and num > 3:
--                    rootdev = "/dev/%s%-d" % (p.disk, num + 1)
-+                    rootdev = "/dev/%s%s%-d" % (p.disk, part, num + 1)
-                 else:
--                    rootdev = "/dev/%s%-d" % (p.disk, num)
-+                    rootdev = "/dev/%s%s%-d" % (p.disk, part, num)
-                 root_part_uuid = p.part_type
- 
-         return (rootdev, root_part_uuid)
--- 
-1.8.3.2
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
