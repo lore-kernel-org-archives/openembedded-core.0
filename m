@@ -1,36 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F2F976ADA2
+Return-Path: <joaohf@gmail.com>
+Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E26A6F8F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 15:51:51 +0000 (UTC)
-Received: by mail-qa0-f42.google.com with SMTP id k15so7222283qaq.29
+	Tue, 18 Mar 2014 16:05:55 +0000 (UTC)
+Received: by mail-vc0-f178.google.com with SMTP id im17so7732893vcb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Mar 2014 08:51:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=shhdLNgtp6jSEf0AM0WNzE6CKePfXUc2cQ5smCVIx8c=;
-	b=KHdey7ab8IYmV/0JXkxN1RkiQEvTmVF3WAkHFFm7o6lk+JZvdBpNGgH0gecpvCJpG6
-	dm5fdhGu3l3PAipAJLnxGO2FDK+xNfeZEGok0gE5J3Cwe2x8p5KtnkolrK0psOtXxqIT
-	b8j4g/z6CjeBt6EK27Z0Iaw2gA+kXTA9bOMaEPcZm3xPJYlUKRgW91NY3Bay9m6DWKt1
-	u0jo8S3rhk26orCqxpvAY1d+3HGpDTqvjHs3omAaVqrq+fIN1GExK1fR6p+1dQT4sOfM
-	D7v/Xuqumunp1c7v2dgKPky3Af9HCpsc7I8haYKT1+vqr4YWoDKtCSi/dhYRZ+8A+kKY
-	lL8A==
-X-Gm-Message-State: ALoCoQmGlM13dB2Zu5K12mj0g/LiXGsaIRQ9wEqeeTO8T31xdfUBqHae6pXI5SuBD0TXpW3Bny/g
-X-Received: by 10.140.106.195 with SMTP id e61mr34418371qgf.66.1395157912148; 
-	Tue, 18 Mar 2014 08:51:52 -0700 (PDT)
+	Tue, 18 Mar 2014 09:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=KCDmflReCj51Ee8M2+h4T8K7ZkE5qvPbGMmGcbbS6Yw=;
+	b=Y7j2ksKzSs6iuMhwwp2R8t8ak9/aF9rq/asPOn7DpAX6Cj13qh7WUFg5TNlCorOhX7
+	73DHvUPAS8A9bINI61yPhqptewzomXgf16QNnroH2NIV7cUi00AvAcLW6PFsSRr83NHr
+	uNZscUejICr+Nu7RY4j2oSImkQ+l2MPygz937rKqMlIGLP3aiB335Auy42/I+tJrmSjw
+	/fxWsSxlqPY4hOcha2HhLFc75yb/ZznGb34QdHfzujv40MX957gpFL+fkZ1IRNrSPV8p
+	rG7keY5X6hy9g8stNC8fLd2H+wa/R4YuNjl+maycO33mpdc/JFZss4zmj7RZl+PIQh97
+	8jrg==
+X-Received: by 10.52.0.176 with SMTP id 16mr132064vdf.60.1395158756565;
+	Tue, 18 Mar 2014 09:05:56 -0700 (PDT)
+Received: from localhost.localdomain ([187.106.6.19])
+	by mx.google.com with ESMTPSA id v20sm4467408vdj.0.2014.03.18.09.05.55
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 18 Mar 2014 09:05:56 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Mar 2014 13:05:44 -0300
+Message-Id: <1395158745-9424-1-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Tue, 18 Mar 2014 08:51:31 -0700 (PDT)
-In-Reply-To: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
-References: <1394559360-27718-1-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Mar 2014 15:51:31 +0000
-Message-ID: <CAJTo0LY4_XK3-KCTON_tnzhqTnOgH4UfKVTBcBfzYGrXy-wi3A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: Upgrade 4.0 -> 5.0
+Cc: tom.zanussi@linux.intel.com
+Subject: [PATCH] wic: Add SD/MMC-Cards support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,16 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 15:51:55 -0000
+X-List-Received-Date: Tue, 18 Mar 2014 16:06:02 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 11 March 2014 17:36, Khem Raj <raj.khem@gmail.com> wrote:
-> bluetooth-proximity has been removed in 5.0
+If the following .wks is set up to mmcblk0 (sdcard)
 
-This brings in a new QA warning:
+part /boot --source bootimg-pcbios --ondisk mmcblk0 --fstype=msdos --label boot --active --align 1024
+part / --source rootfs --ondisk mmcblk0 --fstype=ext3 --label platform --align 1024
 
-WARNING: QA Issue: pulseaudio: configure was passed unrecognised
-options: --enable-bluez
+bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
 
-Ross
+And the user inspect this file /var/tmp/wic/build/hdd/boot/syslinux.cfg, 
+the 'root=' will be '/dev/mmcblk02' instead of '/dev/mmcblk0p2'.
+
+This patch add the support to constrain the disk and make the adjusts when
+mmcblk devices are used.
+
+I am not sure if is not necessary to fix others places. Until now it's the single point.
+
+João Henrique Ferreira de Freitas (1):
+  wic: Add SD/MMC-Cards support to '--ondisk' param
+
+ scripts/lib/mic/imager/direct.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+1.8.3.2
+
 
