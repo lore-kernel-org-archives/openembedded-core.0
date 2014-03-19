@@ -1,22 +1,40 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A3096B8BF
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 1703B6D8C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 10:56:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Mar 2014 03:56:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,685,1389772800"; d="scan'208";a="495007800"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Mar 2014 03:56:05 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Mar 2014 12:56:04 +0200
-Message-Id: <cover.1395226050.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1395142153.git.laurentiu.palcu@intel.com>
-References: <cover.1395142153.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 0/4] SDK buildhistory fixes (cover letter only)
+	Wed, 19 Mar 2014 11:20:05 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id d49so6446389eek.41
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Mar 2014 04:20:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=BfXtEvdJcpfsa0Bs3CyrJtAvs1lbjjRjg5A6Ka7U4LU=;
+	b=UDPeA5/Fd4KTHmzQLM3xPeMfo1kPsj66g2W94AlWvQ+Jsl8bliD7WFyvaPfnVbyngt
+	6g550o/fiK/qaProfWCSZVrDrige20uT6Rz7rNctlIiuNIn8ur5t9p+GuC/SKnDcsSS+
+	ONt+bEGqU4BLKlaEJnPidAlTYBrg1wiWnLokKKtqjy88Wr6s33dLbgOwLrzyTcqXTjW6
+	5ZXsx3CQ00emqOAeyhUX4FKuxxQAdi+MqrhBU0Bj9ODUVXVHLrmFhJoj0zc0sJpqG4xK
+	z7jv+3HPbB8OGVjykzM0cROpOr+YBgCHqLdIfs97F/YMsOMSTuIkh+k/x8UPbeDq4h4T
+	iCUw==
+X-Gm-Message-State: ALoCoQnYQyjckpKLvAFZy+jTMt/wx5pYB0uTCHhUTeuOxzSvl9Y2MAH3QOSWSSx4xmbQZKEv/Jrl
+X-Received: by 10.14.224.6 with SMTP id w6mr36025179eep.60.1395228005416;
+	Wed, 19 Mar 2014 04:20:05 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id
+	l42sm54011637eew.19.2014.03.19.04.20.03 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 19 Mar 2014 04:20:04 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
+Date: Wed, 19 Mar 2014 12:20:02 +0100
+Message-Id: <E29EEF7C-83DE-4EF0-84D9-C8E1BE71C9F3@dominion.thruhere.net>
+References: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] testimage: dont use DNS lookup for qemu based testimages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 10:56:08 -0000
+X-List-Received-Date: Wed, 19 Mar 2014 11:20:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-v2:
- * I passed deploy_dir instead of target_rootfs to RpmPkgsList constructor...
-   Strangely enough, this could be caught only when building core-image-minimal
-   (which I didn't use in my tests).
 
-The buildhistory dependency files for target/host SDK packages were not properly
-created because the wrapper function called, list_installed_packages(), was always
-looking in the image rootfs.
+Op 19 mrt. 2014, om 01:31 heeft Saul Wold <sgw@linux.intel.com> het =
+volgende geschreven:
 
-This patchset will rename the old wrapper function to image_list_installed_packages()
-and create a new one, for SDK stuff, sdk_list_installed_packages().
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> meta/classes/testimage.bbclass | 10 ++++++++++
+> 1 file changed, 10 insertions(+)
+>=20
+> diff --git a/meta/classes/testimage.bbclass =
+b/meta/classes/testimage.bbclass
+> index 691c7f6..ee028e1 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall =3D =
+"qemu-native:do_populate_sysroot qemu-helper-native:d
+> TESTIMAGELOCK =3D "${TMPDIR}/testimage.lock"
+> TESTIMAGELOCK_qemuall =3D ""
+>=20
+> +IMAGE_POSTPROCESS_COMMAND_qemuall +=3D "fix_dns_lookup_for_qemu"
 
-The changes in package_manager.py, even though they appear to be lots, its the
-same code moved around from one class to a newly created PkgsList class. So, the
-logic remains the same.
+Overrides and +=3D don't do what you expect most of the time, =
+_append_qemuall =3D " fix_dns_lookup_for_qemu" is a safer way to specify =
+this. But more importantly, you're missing the trailing semicolon :)=20
 
-Tested for all backends (buildhistory activated) with the following:
+	IMAGE_POSTPROCESS_COMMAND_append_qemuall =3D " =
+fix_dns_lookup_for_qemu ;"
 
-bitbake core-image-sato && bitbake -c populate_sdk core-image-sato
+regards,
 
-laurentiu
+Koen
 
-The following changes since commit 0150bc30d3674301631c2e9b6c64e01058fd1070:
-
-  bitbake: runqueue: Really fix sigchld handling (2014-03-18 23:05:53 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/buildhistory_sdk_dep_files_fix
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/buildhistory_sdk_dep_files_fix
-
-Laurentiu Palcu (4):
-  package_manager.py: create separate class for installed packages
-    listing
-  rootfs.py, sdk.py: adjust/create the wrappers for creating installed
-    packages list
-  image.bbclass, license.bbclass: adjust the name of
-    list_installed_packages()
-  buildhistory.bbclass: create proper dependency files for SDK
-
- meta/classes/buildhistory.bbclass |   40 ++--
- meta/classes/image.bbclass        |    4 +-
- meta/classes/license.bbclass      |    4 +-
- meta/lib/oe/package_manager.py    |  376 +++++++++++++++++++++----------------
- meta/lib/oe/rootfs.py             |   19 +-
- meta/lib/oe/sdk.py                |   18 ++
- 6 files changed, 264 insertions(+), 197 deletions(-)
-
--- 
-1.7.9.5
+> +
+> +fix_dns_lookup_for_qemu() {
+> +	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+> +		sed -i -e 's:#UseDNS yes:UseDNS no:' =
+${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+> +	fi
+> +}
+> +
+> +EXPORT_FUNCTIONS fix_dns_lookup_for_qemu
+> +
+> python do_testimage() {
+>     testimage_main(d)
+> }
+> --=20
+> 1.8.3.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
 
 
