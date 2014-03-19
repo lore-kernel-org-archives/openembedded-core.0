@@ -1,35 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0183B6F909
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C5C160E79
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 22:58:24 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id kq14so21351pab.37
+	Wed, 19 Mar 2014 22:59:31 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id y13so28573pdi.19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 15:58:25 -0700 (PDT)
+	Wed, 19 Mar 2014 15:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=LG0nZCROZ61dIoUSADR8L36NQ3Ld+v4gUphmlGhr6Lo=;
-	b=rV9xKu5DBhdwU5a56IbJDsE/xanS4loICOpY5l67G8j7PIFSynVMZTHZPzZmmeZQID
-	jrdsZZPOsaeSrAPA/qmow9BkbJx8H5HX8XS6M1yt5FmTJDKbd1XIgo1V1TRG06RI4GWd
-	v1S9vPs86pW9eJ5bo9mS94pHC4eMwKAf5BrZ+INd73JIZfCP6KY4tPdOAzV05BfsFRWu
-	jeUq2fJ7adt1XXApbZ+zasghFCuYt7CIMpBpfpXkaKyA94Cw+H3AIfiDWHVbOpawFQL2
-	s+3sTCO6W6YWg+8CdZDcFQs9euDKG15+IfV/nsFvKkPas0o0P9uGcgm95+zSDBW3QU6k
-	WVVA==
-X-Received: by 10.67.13.134 with SMTP id ey6mr43358565pad.44.1395269905505;
-	Wed, 19 Mar 2014 15:58:25 -0700 (PDT)
+	bh=fkbFYmAeQG/jOokvQUyPq/XZoOAB3thhEE39wUmk6po=;
+	b=grUtyVOIs8/Wm4+vXS4YaXQGnKUWIF9y/JI5rgj84M14e8AxMXqCpMpG2gqTQNZw85
+	l45glCmy5zYcxRfKsMp/XqYHLk1wB/ZJa9VYkgAjxn1gdQzpCQZE1MyqbK3HaNT3Tknn
+	xHKQDqU/KFMKjw2JrpgzGWTlQdnD3lFJjg6rjAWlYPlo5CIw1LjwZpElc1YNT1su+kRe
+	zf1eHseLGivJFYeVXkRjPicOGzpG28jzhL+LfjqfHOqtHgpCq+YdXHzWR0TyQzgmozC3
+	eknAVfB+FQpWfQDgzW8sUh9C5eL6yKaDKHlJb4q8ekRiUZCtle+nxXvan+CaQtzAKQbu
+	rxvQ==
+X-Received: by 10.66.164.36 with SMTP id yn4mr42578253pab.25.1395269972714;
+	Wed, 19 Mar 2014 15:59:32 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id dk1sm2473pbc.46.2014.03.19.15.58.23
+	by mx.google.com with ESMTPSA id eb5sm7609pad.22.2014.03.19.15.59.30
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Mar 2014 15:58:24 -0700 (PDT)
+	Wed, 19 Mar 2014 15:59:32 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2014 10:02:41 +1100
-Message-Id: <1395270161-24084-1-git-send-email-net147@gmail.com>
+Date: Thu, 20 Mar 2014 10:05:04 +1100
+Message-Id: <1395270304-24331-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] base-files: use /dev/root in /etc/fstab for systemd support
+Subject: [PATCH v2] base-files: use /dev/root in /etc/fstab for systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 22:58:27 -0000
+X-List-Received-Date: Wed, 19 Mar 2014 22:59:33 -0000
 
 systemd does not recognize "rootfs" in /etc/fstab so the root
 filesystem is not checked. As a result, the following message
@@ -53,6 +53,8 @@ is not a device
 Changing "rootfs" to "/dev/root" in /etc/fstab allows systemd to
 check the root filesystem when the kernel is booted with the root
 filesystem mounted read-only.
+
+[YOCTO #5950]
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
