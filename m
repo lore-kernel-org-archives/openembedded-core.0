@@ -1,24 +1,26 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id D24A16116C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 432B66D8A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 17:15:15 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,687,1389740400"; d="scan'208";a="42961483"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 19 Mar 2014 18:15:16 +0100
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Wed, 19 Mar 2014 18:15:15 +0100
-Received: from u85.usr.ingenico.loc (10.23.7.85) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Wed, 19 Mar 2014 18:15:14 +0100
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Mar 2014 18:08:00 +0100
-Message-ID: <1395248880-1075-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.5.4
+	Wed, 19 Mar 2014 19:06:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Mar 2014 12:06:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,687,1389772800"; d="scan'208";a="495317371"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.192])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Mar 2014 12:05:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>
+Date: Wed, 19 Mar 2014 19:05:54 +0000
+Message-ID: <10573578.XnzgTfVZqB@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <cover.1395069742.git.stefanx.stanacar@intel.com>
+References: <cover.1395069742.git.stefanx.stanacar@intel.com>
 MIME-Version: 1.0
-Subject: [RFC][PATCH] fontcache.bbclass: add fontconfig-utils runtime dependency
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [RFC PATCH v2 0/3] Master image generation and testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,88 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 17:15:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Mar 2014 19:06:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-In an image recipe, you can get a warning, for example:
-WARNING: The postinstall intercept hook 'update_font_cache' failed (exit code: 1)! See log for details!
-WARNING: The postinstalls for the following packages will be postponed for first boot: ttf-dejavu-sans-mono
+Hi Stefan,
 
-(because /usr/bin/fc-cache is missing)
+On Monday 17 March 2014 17:42:13 Stefan Stanacar wrote:
+> This is what I currently use for doing automated deployment
+> for a genericx86-64 image. More details on the commit
+> messages. There is nothing particular to genericx86-64,
+> it should work on any EFI-enabled device with gummiboot as bootloader.
+> 
+> Changes since v2:
+>   - droped the kernel options patch, the required options are now in the
+> default config fragments. You still neeed to build with an updated SRCREV
+> though, as the kernel recipes haven't picked up the changes yet.
+> (SRCREV_meta_pn-linux-yocto = "${AUTOREV}" in local.conf)
+>   - impove a bit the master image recipe (inherit core-image and add to
+> IMAGE_INSTALL instead of overwriting IMAGE_INSTALL, that ensures we pick up
+> the correct modules, as core-image brings in packagegroup-base-extended)
+>   - tweaks and fixes for GenericEfi - I did a complete test run for a NUC
+> device connected to a web power strip. The powercontrol command is an
+> expect script that does ssh on a device which controls the power strip
+> (this is particular to a network setup that I can't control). It still
+> works for the no power command available case.
+> 
+> Also see YB#1596 and it's sub-bug #5614 for a bit of background.
+> Any comments, questions, most welcome.
+> 
+> Cheers,
+> Stefan
+> 
+> 
+> Please review the following changes for suitability for inclusion. If you
+> have any objections or suggestions for improvement, please respond to the
+> patches. If you agree with the changes, please provide your Acked-by.
+> 
+> The following changes since commit 92155fde2079251739f455bca599a52cd21ef12b:
+> 
+>   bitbake: runqueue: Don't error if we never setup workers (2014-03-17
+> 15:04:46 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib stefans/masterimage
+>  
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stefans/masterimag
+> e
 
-In OE-core, rdepend is correctly done in each recipe:
-- ttf-fonts/liberation-fonts
-- ttf-fonts/ttf-bitstream-vera
+Looks good. Some review comments:
 
-In meta-OE, rdepend is not done but packagegroup-fonts-truetype.bb includes fontconfig-utils:
-- ttf-fonts/ttf-arphic-uming
-- ttf-fonts/ttf-dejavu
-- ttf-fonts/ttf-droid
-- ttf-fonts/ttf-gentium
-- ttf-fonts/ttf-hunkyfonts
-- ttf-fonts/ttf-inconsolata
-- ttf-fonts/ttf-liberation
-- ttf-fonts/ttf-mplus
-- ttf-fonts/ttf-sazanami
-- ttf-fonts/ttf-ubuntu-font-family
-- ttf-fonts/ttf-wqy-zenhei
+* Is all of packagegroup-core-full-cmdline really needed for the master image 
+or just some specific utilities that it pulls in?
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/classes/fontcache.bbclass                             | 4 ++++
- meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb   | 1 -
- meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb | 1 -
- 3 files changed, 4 insertions(+), 2 deletions(-)
+* Could we have TEST_POWERCONTROL_EXTRA_ARGS so that TEST_POWERCONTROL_CMD can 
+be set generically for the user's setup and extra machine-specific arguments 
+(such as serial port numbers or other identifiers) can be set easily on a per-
+machine basis if needed?
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index 325bcae..65fdce1 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -7,6 +7,7 @@ DEPENDS += "qemu-native"
- inherit qemu
- 
- FONT_PACKAGES ??= "${PN}"
-+FONTCACHE_RDEPEND ?= "1"
- 
- fontcache_common() {
- if [ "x$D" != "x" ] ; then
-@@ -19,8 +20,11 @@ fi
- 
- python populate_packages_append() {
-     font_pkgs = d.getVar('FONT_PACKAGES', True).split()
-+    cache = d.getVar("FONTCACHE_RDEPEND", True)
- 
-     for pkg in font_pkgs:
-+        if cache == "1": d.appendVar('RDEPENDS_' + pkg, ' fontconfig-utils')
-+
-         bb.note("adding fonts postinst and postrm scripts to %s" % pkg)
-         postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
-         if not postinst:
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index c99521f..89fa4b2 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -8,7 +8,6 @@ BUGTRACKER = "https://bugzilla.redhat.com/"
- SECTION = "x11/fonts"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--RDEPENDS_${PN} = "fontconfig-utils"
- PR = "r4"
- PE = "1"
- 
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index 75f78a2..b2e4cef 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -8,7 +8,6 @@ SECTION = "x11/fonts"
- LICENSE = "BitstreamVera"
- LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
- PR = "r7"
--RDEPENDS_${PN} = "fontconfig-utils"
- 
- inherit fontcache
- 
+* I wonder if TEST_DEPLOY_CMDS should be lower-case since it would be most 
+easily defined as a function i.e. testimage_deploy_cmds() { ... } than a 
+traditional variable. (Reading it is exactly the same i.e. d.getVar().)
+
+All of this seems generic enough that I think the better place for it would be 
+OE-Core rather than meta-yocto-bsp. If you could apply these changes on top of 
+OE-Core and send v3 to the OE-Core mailing list that would be great.
+
+Thanks,
+Paul
+
 -- 
-1.8.5.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
