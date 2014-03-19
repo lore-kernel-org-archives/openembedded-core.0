@@ -1,28 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 011C160E79
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0183B6F909
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 22:57:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 19 Mar 2014 15:57:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,689,1389772800"; d="scan'208";a="503405966"
-Received: from justinda-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.80])
-	by orsmga002.jf.intel.com with ESMTP; 19 Mar 2014 15:57:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 19 Mar 2014 22:57:24 +0000
-Message-ID: <2064465.3drej2sMLZ@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <5329F8DB.8030306@linux.intel.com>
-References: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
-	<1803761.bM8W6F0XkC@peggleto-mobl5.ger.corp.intel.com>
-	<5329F8DB.8030306@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] testimage: dont use DNS lookup for qemu based testimages
+	Wed, 19 Mar 2014 22:58:24 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id kq14so21351pab.37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Mar 2014 15:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=LG0nZCROZ61dIoUSADR8L36NQ3Ld+v4gUphmlGhr6Lo=;
+	b=rV9xKu5DBhdwU5a56IbJDsE/xanS4loICOpY5l67G8j7PIFSynVMZTHZPzZmmeZQID
+	jrdsZZPOsaeSrAPA/qmow9BkbJx8H5HX8XS6M1yt5FmTJDKbd1XIgo1V1TRG06RI4GWd
+	v1S9vPs86pW9eJ5bo9mS94pHC4eMwKAf5BrZ+INd73JIZfCP6KY4tPdOAzV05BfsFRWu
+	jeUq2fJ7adt1XXApbZ+zasghFCuYt7CIMpBpfpXkaKyA94Cw+H3AIfiDWHVbOpawFQL2
+	s+3sTCO6W6YWg+8CdZDcFQs9euDKG15+IfV/nsFvKkPas0o0P9uGcgm95+zSDBW3QU6k
+	WVVA==
+X-Received: by 10.67.13.134 with SMTP id ey6mr43358565pad.44.1395269905505;
+	Wed, 19 Mar 2014 15:58:25 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id dk1sm2473pbc.46.2014.03.19.15.58.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Mar 2014 15:58:24 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Mar 2014 10:02:41 +1100
+Message-Id: <1395270161-24084-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] base-files: use /dev/root in /etc/fstab for systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,89 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 22:57:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 19 Mar 2014 22:58:27 -0000
 
-On Wednesday 19 March 2014 13:06:51 Saul Wold wrote:
-> On 03/19/2014 06:17 AM, Paul Eggleton wrote:
-> > On Wednesday 19 March 2014 12:23:37 Stanacar, StefanX wrote:
-> >> On Tue, 2014-03-18 at 17:31 -0700, Saul Wold wrote:
-> >>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> >>> ---
-> >>> 
-> >>>   meta/classes/testimage.bbclass | 10 ++++++++++
-> >>>   1 file changed, 10 insertions(+)
-> >>> 
-> >>> diff --git a/meta/classes/testimage.bbclass
-> >>> b/meta/classes/testimage.bbclass index 691c7f6..ee028e1 100644
-> >>> --- a/meta/classes/testimage.bbclass
-> >>> +++ b/meta/classes/testimage.bbclass
-> >>> @@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall =
-> >>> "qemu-native:do_populate_sysroot qemu-helper-native:d>
-> >>> 
-> >>>   TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
-> >>>   TESTIMAGELOCK_qemuall = ""
-> >>> 
-> >>> +IMAGE_POSTPROCESS_COMMAND_qemuall += "fix_dns_lookup_for_qemu"
-> >>> +
-> >> 
-> >> I might be wrong, but this won't have any effect with the default
-> >> (manual) way we use testimage. The testimage class isn't in the global
-> >> inherit, so that  IMAGE_POSTPROCESS_COMMAND won't run as the image isn't
-> >> reconstructed.
-> >> 
-> >> The AB does: bitbake core-image-sato on one step and then adds INHERIT
-> >> +="testimage" in local.conf in the next step and runs bitbake
-> >> core-image-sato -c testimage, no more do_rootfs here.
-> >> 
-> >> As it this it will only work with testimage-auto when you have
-> >> TEST_IMAGE="1" in local.conf in the first build step so you only need to
-> >> do bitbake core-image-sato and do_testimage gets run after do_rootfs,
-> >> but we don't use this. And the fix should work for running the task
-> >> manually too.
-> > 
-> > I have to say I agree; this is not the right fix.
-> 
-> Is there any reason that we can't include the INHERIT += "testimage"
-> during the core build?
+systemd does not recognize "rootfs" in /etc/fstab so the root
+filesystem is not checked. As a result, the following message
+is logged by journalctl:
+systemd-fstab-generator[68]: Checking was requested for "rootfs", but it
+is not a device
 
-I don't want testimage.bbclass influencing how images are constructed. It's 
-just as valid a workaround for people running qemu manually on their machines 
-as it is for the automated testing.
+Changing "rootfs" to "/dev/root" in /etc/fstab allows systemd to
+check the root filesystem when the kernel is booted with the root
+filesystem mounted read-only.
 
-> The other choice is to move the function into the openssh recipe and
-> then the actual setting of the IMAGE_POSTPROCESS_COMMAND can happen in
-> the local.conf or auto.conf
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-core/base-files/base-files/fstab | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That can't work. The function has to be defined in the scope of the image not 
-the openssh recipe or it can't be called from IMAGE_POSTPROCESS_COMMAND.
-
-To be honest we already have code in image.bbclass for allowing empty 
-passwords in OpenSSH / dropbear; this seems to me to be in the same category, 
-so I would suggest putting at least the function there (with a more generic 
-name that does not contain "qemu").
-
-> >> I liked v1, I don't really see what the problem was there. No mattter
-> >> the way you run our qemu images, you still have to set a proper DNS, and
-> >> have network connectivity in the image (which usually involves the host
-> >> too) so defaulting to UseDNS no for qemu images seems a sensible default
-> >> to me.
-> > 
-> > Well, v1 was unconditional in the openssh recipe; I think it still needs
-> > to be just for qemuall.
-> 
-> It was originally for qemuall, but was also for all images and was to
-> broad as some may not want it disabled in this way.
-
-OK, I missed that; but v1 still made openssh machine-specific which is not 
-desirable.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
+index e625ebc..739b844 100644
+--- a/meta/recipes-core/base-files/base-files/fstab
++++ b/meta/recipes-core/base-files/base-files/fstab
+@@ -1,6 +1,6 @@
+ # stock fstab - you probably want to override this with a machine specific one
+ 
+-rootfs               /                    auto       defaults              1  1
++/dev/root            /                    auto       defaults              1  1
+ proc                 /proc                proc       defaults              0  0
+ devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
+ usbdevfs             /proc/bus/usb        usbdevfs   noauto                0  0
 -- 
+1.9.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
