@@ -1,20 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DD5D6E8D1
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CC5D56E8C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 00:31:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 18 Mar 2014 17:31:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,681,1389772800"; d="scan'208";a="494730454"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.240])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Mar 2014 17:31:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Mar 2014 17:31:19 -0700
-Message-Id: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v2] testimage: dont use DNS lookup for qemu based testimages
+	Wed, 19 Mar 2014 02:00:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2J20DSw006602
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Mar 2014 19:00:13 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 18 Mar 2014 19:00:13 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Mar 2014 10:00:10 +0800
+Message-ID: <cover.1395194072.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH V3 0/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,35 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 00:31:26 -0000
+X-List-Received-Date: Wed, 19 Mar 2014 02:00:15 -0000
+Content-Type: text/plain
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/testimage.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Changes since V2:
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 691c7f6..ee028e1 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall = "qemu-native:do_populate_sysroot qemu-helper-native:d
- TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
- TESTIMAGELOCK_qemuall = ""
- 
-+IMAGE_POSTPROCESS_COMMAND_qemuall += "fix_dns_lookup_for_qemu"
-+
-+fix_dns_lookup_for_qemu() {
-+	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-+		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+	fi
-+}
-+
-+EXPORT_FUNCTIONS fix_dns_lookup_for_qemu
-+
- python do_testimage() {
-     testimage_main(d)
- }
+PACKAGES is conditional on DISTRO_FEATURES containing ptest.
+Modify ${PN}-ptest to dbus-ptest.
+Remove RPROVIDES_dbus-ptest.
+
+The following changes since commit 0150bc30d3674301631c2e9b6c64e01058fd1070:
+
+  bitbake: runqueue: Really fix sigchld handling (2014-03-18 23:05:53 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/dbus
+
+Chong Lu (1):
+  dbus: fix a hard dependency about dbus-ptest
+
+ meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb => dbus-test_1.6.18.bb} | 0
+ meta/recipes-core/dbus/dbus.inc                                      | 4 +++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb => dbus-test_1.6.18.bb} (100%)
+
 -- 
-1.8.3.1
+1.8.1.2
 
 
