@@ -1,28 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 51FF76E7C7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id DEA5B6BF88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 13:17:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Mar 2014 06:17:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,685,1389772800"; d="scan'208";a="501971735"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.192])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Mar 2014 06:17:10 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>, "Wold,
-	Saul" <sgw@linux.intel.com>
-Date: Wed, 19 Mar 2014 13:17:09 +0000
-Message-ID: <1803761.bM8W6F0XkC@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <1395231830.31252.10.camel@firebird.rb.intel.com>
-References: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
-	<1395231830.31252.10.camel@firebird.rb.intel.com>
-MIME-Version: 1.0
+	Wed, 19 Mar 2014 14:18:11 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2JEHxVO017764; Wed, 19 Mar 2014 14:17:59 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NvncoR7osgIB; Wed, 19 Mar 2014 14:17:59 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2JEHuux017755
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 19 Mar 2014 14:17:58 GMT
+Message-ID: <1395238671.3808.122.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Date: Wed, 19 Mar 2014 14:17:51 +0000
+In-Reply-To: <1395097374.2792.58.camel@ranerica-desk01>
+References: <1394238610-25905-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+	<531C21B8.3000308@linux.intel.com>
+	<1394507658.2792.23.camel@ranerica-desk01>
+	<1395097374.2792.58.camel@ranerica-desk01>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] testimage: dont use DNS lookup for qemu based testimages
+Subject: Re: [PATCH][resend] runqemu: Add option for custom BIOS directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +40,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 13:18:03 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 19 Mar 2014 14:18:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 19 March 2014 12:23:37 Stanacar, StefanX wrote:
-> On Tue, 2014-03-18 at 17:31 -0700, Saul Wold wrote:
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
+On Mon, 2014-03-17 at 16:02 -0700, Ricardo Neri wrote:
+> On Mon, 2014-03-10 at 20:14 -0700, Ricardo Neri wrote:
+> > On Sun, 2014-03-09 at 00:09 -0800, Saul Wold wrote:
+> > > On 03/07/2014 04:30 PM, Ricardo Neri wrote:
+> > > > Add support to specify a directory for custom BIOS, VGA BIOS and
+> > > > keymaps as supported by qemu (-L option). Even though this can be
+> > > > done through qemuparams, having this option provides better user
+> > > > experience by not having to specify a long and cluttered path along
+> > > > other qemuparams that the user might want to specify.
+> > > >
+> > > > This new options assumes that the path provided is relative to
+> > > > OECORE_NATIVE_SYSROOT and will check whether it exists before proceeding.
+> > > >
+> > > > Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> > > > ---
+> > > >   scripts/runqemu | 14 ++++++++++++++
+> > > >   1 file changed, 14 insertions(+)
+> > > >
+> > > > diff --git a/scripts/runqemu b/scripts/runqemu
+> > > > index 619ffb6..9eff90d 100755
+> > > > --- a/scripts/runqemu
+> > > > +++ b/scripts/runqemu
+> > > > @@ -149,6 +149,9 @@ while true; do
+> > > >               SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
+> > > >               SERIALSTDIO="1"
+> > > >               ;;
+> > > > +	"biosdir="*)
+> > > > +            CUSTOMBIOSDIR="${arg##biosdir=}"
+> > > > +	    ;;
+> > > >           "qemuparams="*)
+> > > >               SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+> > > >
+> > > > @@ -489,5 +492,16 @@ if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
+> > > >   INTERNAL_SCRIPT=`which runqemu-internal`
+> > > >   fi
+> > > >
+> > > > +# Specify directory for BIOS, VGA BIOS and keymaps
+> > > > +if [ ! -z "$CUSTOMBIOSDIR" ]; then
+> > > > +    if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
+> > > I don't think we should be assuming anything here, if the direcotry is 
+> > > passed then it should be given that it is an accurate path to the 
+> > > directory that contains the customer bios, don't make people second gess 
+> > > that it needs to be in the native sysroot.
+> > > 
+> > > Sau!
 > > 
-> >  meta/classes/testimage.bbclass | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/meta/classes/testimage.bbclass
-> > b/meta/classes/testimage.bbclass index 691c7f6..ee028e1 100644
-> > --- a/meta/classes/testimage.bbclass
-> > +++ b/meta/classes/testimage.bbclass
-> > @@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall =
-> > "qemu-native:do_populate_sysroot qemu-helper-native:d> 
-> >  TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
-> >  TESTIMAGELOCK_qemuall = ""
-> > 
-> > +IMAGE_POSTPROCESS_COMMAND_qemuall += "fix_dns_lookup_for_qemu"
-> > +
+> > Thanks for your comments Saul! Are you saying that providing paths to
+> > items outside the build environment is a supported use case? That is the
+> > reason I made it relative to OECORE_NATIVE_SYSROOT. If absolute paths to
+> > anywhere can be provided, I could first check whether the provided
+> > absolute path exist and, if not, assume that it is relative to
+> > OECORE_NATIVE_SYSROOT. Does that make sense to you?
 > 
-> I might be wrong, but this won't have any effect with the default
-> (manual) way we use testimage. The testimage class isn't in the global
-> inherit, so that  IMAGE_POSTPROCESS_COMMAND won't run as the image isn't
-> reconstructed.
-> 
-> The AB does: bitbake core-image-sato on one step and then adds INHERIT
-> +="testimage" in local.conf in the next step and runs bitbake
-> core-image-sato -c testimage, no more do_rootfs here.
-> 
-> As it this it will only work with testimage-auto when you have
-> TEST_IMAGE="1" in local.conf in the first build step so you only need to
-> do bitbake core-image-sato and do_testimage gets run after do_rootfs,
-> but we don't use this. And the fix should work for running the task
-> manually too.
+> So what do you think about this? Besides, I would like to comment that
+> the idea of making the path relative to OECORE_NATIVE_SYSROOT is that
+> the user does not have to write a very long and cluttered path in case
+> his/her BIOS directory is inside the build environment. The whole idea
+> is to make the script more usable.
 
-I have to say I agree; this is not the right fix.
- 
-> I liked v1, I don't really see what the problem was there. No mattter
-> the way you run our qemu images, you still have to set a proper DNS, and
-> have network connectivity in the image (which usually involves the host
-> too) so defaulting to UseDNS no for qemu images seems a sensible default
-> to me.
-
-Well, v1 was unconditional in the openssh recipe; I think it still needs to be 
-just for qemuall.
+I think what you suggested makes sense. Treat relative paths as being in
+the sysroot and absolute paths as being external files. You could test
+whether the relative path exists first, then assume it must be the
+sysroot if it doesn't exist I guess.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
