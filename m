@@ -1,39 +1,30 @@
-Return-Path: <elizabeth.flanagan@intel.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 281836E7D4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 748A86E7D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 21:43:15 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id oz11so9382157veb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 14:43:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=P1KCeNfUYB7t4q04SU5vCyWcZc4h0yDQH5ig8td0eYc=;
-	b=KmhLzinAUJ35suytl/JkCdzt+/RKHMoV459qzxvyvrVL5nKI17PrstHA8SCcR748nM
-	nRXHFmM5TvlqC9zRIYqQMhSjOqYIF0yJ4rYm8dvt0UxdWB9YfgX9TIMvSGB5saBi9oVY
-	/D2S1DlBMOakCl4ulOmByrojmHLYwI9tdX34zZQBxzFpzTndlbZfiEvymNnvyW5IqiNN
-	pRRVGaGTKSn5eyTfVF2r5Xjy+3c8/wpcBSa5++cRtJZ6k5wFjvqz4ZhNEq3QFgyd6WgI
-	/plqHyHvRymOl1G1PziW/29iomIk23ZjbBw1/5Qrm3JzWvVM/pI15qxqbRtTQM3CliA+
-	L3OA==
-X-Gm-Message-State: ALoCoQlj9WsEzvw9samahtFQaf27ilwLH69UwK3KllAaAoMClBFLKzjiTNhenViywK/FHK/JsVt8
-MIME-Version: 1.0
-X-Received: by 10.52.240.207 with SMTP id wc15mr27535492vdc.14.1395265395889; 
-	Wed, 19 Mar 2014 14:43:15 -0700 (PDT)
-Received: by 10.52.173.69 with HTTP; Wed, 19 Mar 2014 14:43:15 -0700 (PDT)
-In-Reply-To: <5329F8DB.8030306@linux.intel.com>
+	Wed, 19 Mar 2014 21:45:04 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2JLi83D004239; Wed, 19 Mar 2014 21:44:45 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id u-vS0rILRXUQ; Wed, 19 Mar 2014 21:44:45 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2JLignm004248
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 19 Mar 2014 21:44:44 GMT
+Message-ID: <1395265477.3808.140.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+Date: Wed, 19 Mar 2014 21:44:37 +0000
+In-Reply-To: <1395231830.31252.10.camel@firebird.rb.intel.com>
 References: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
 	<1395231830.31252.10.camel@firebird.rb.intel.com>
-	<1803761.bM8W6F0XkC@peggleto-mobl5.ger.corp.intel.com>
-	<5329F8DB.8030306@linux.intel.com>
-Date: Wed, 19 Mar 2014 14:43:15 -0700
-Message-ID: <CAPhnLPDpUH3qVamcbNO1hnw0vUCkDRZq-y6BpzX7FET0AMcWjQ@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] testimage: dont use DNS lookup for qemu based testimages
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,95 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 21:43:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 19 Mar 2014 21:45:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We can add the INHERIT either in the nightly*.conf as an atextappend
-or in CreateAutoConf. So doing it via the ab isn't difficult at all.
-Let me know what you guys think and I'll pull together a patch for it.
+On Wed, 2014-03-19 at 12:23 +0000, Stanacar, StefanX wrote:
+> 
+> 
+> On Tue, 2014-03-18 at 17:31 -0700, Saul Wold wrote:
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> >  meta/classes/testimage.bbclass | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> > index 691c7f6..ee028e1 100644
+> > --- a/meta/classes/testimage.bbclass
+> > +++ b/meta/classes/testimage.bbclass
+> > @@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall = "qemu-native:do_populate_sysroot qemu-helper-native:d
+> >  TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
+> >  TESTIMAGELOCK_qemuall = ""
+> >  
+> > +IMAGE_POSTPROCESS_COMMAND_qemuall += "fix_dns_lookup_for_qemu"
+> > +
+> 
+> I might be wrong, but this won't have any effect with the default
+> (manual) way we use testimage. The testimage class isn't in the global
+> inherit, so that  IMAGE_POSTPROCESS_COMMAND won't run as the image isn't
+> reconstructed.
 
--b
+Surely it will have run when the rootfs was originally constructed
+though?
 
-On Wed, Mar 19, 2014 at 1:06 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 03/19/2014 06:17 AM, Paul Eggleton wrote:
->>
->> On Wednesday 19 March 2014 12:23:37 Stanacar, StefanX wrote:
->>>
->>> On Tue, 2014-03-18 at 17:31 -0700, Saul Wold wrote:
->>>>
->>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->>>> ---
->>>>
->>>>   meta/classes/testimage.bbclass | 10 ++++++++++
->>>>   1 file changed, 10 insertions(+)
->>>>
->>>> diff --git a/meta/classes/testimage.bbclass
->>>> b/meta/classes/testimage.bbclass index 691c7f6..ee028e1 100644
->>>> --- a/meta/classes/testimage.bbclass
->>>> +++ b/meta/classes/testimage.bbclass
->>>> @@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall =
->>>> "qemu-native:do_populate_sysroot qemu-helper-native:d>
->>>>   TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
->>>>   TESTIMAGELOCK_qemuall = ""
->>>>
->>>> +IMAGE_POSTPROCESS_COMMAND_qemuall += "fix_dns_lookup_for_qemu"
->>>> +
->>>
->>>
->>> I might be wrong, but this won't have any effect with the default
->>> (manual) way we use testimage. The testimage class isn't in the global
->>> inherit, so that  IMAGE_POSTPROCESS_COMMAND won't run as the image isn't
->>> reconstructed.
->>>
->>> The AB does: bitbake core-image-sato on one step and then adds INHERIT
->>> +="testimage" in local.conf in the next step and runs bitbake
->>> core-image-sato -c testimage, no more do_rootfs here.
->>>
->>> As it this it will only work with testimage-auto when you have
->>> TEST_IMAGE="1" in local.conf in the first build step so you only need to
->>> do bitbake core-image-sato and do_testimage gets run after do_rootfs,
->>> but we don't use this. And the fix should work for running the task
->>> manually too.
->>
->>
->> I have to say I agree; this is not the right fix.
->>
-> Is there any reason that we can't include the INHERIT += "testimage" during
-> the core build?
->
-> The other choice is to move the function into the openssh recipe and then
-> the actual setting of the IMAGE_POSTPROCESS_COMMAND can happen in the
-> local.conf or auto.conf
->
->
->
->>> I liked v1, I don't really see what the problem was there. No mattter
->>> the way you run our qemu images, you still have to set a proper DNS, and
->>> have network connectivity in the image (which usually involves the host
->>> too) so defaulting to UseDNS no for qemu images seems a sensible default
->>> to me.
->>
->>
->> Well, v1 was unconditional in the openssh recipe; I think it still needs
->> to be
->> just for qemuall.
->>
-> It was originally for qemuall, but was also for all images and was to broad
-> as some may not want it disabled in this way.
->
-> Further thoughts?
->
-> Sau!
->>
->> Cheers,
->> Paul
->>
->
+Koen is right, that override is incorrect.
 
+Cheers,
 
+Richard
 
--- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
 
