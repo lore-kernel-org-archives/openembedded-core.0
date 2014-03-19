@@ -1,24 +1,41 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BF176EAB6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 343846E8AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 15:53:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,686,1389740400"; d="scan'208";a="42956046"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 19 Mar 2014 16:53:23 +0100
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Wed, 19 Mar 2014 16:53:23 +0100
-Received: from u85.usr.ingenico.loc (10.23.7.85) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Wed, 19 Mar 2014 16:53:23 +0100
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Mar 2014 16:46:09 +0100
-Message-ID: <1395243969-1148-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.5.4
-MIME-Version: 1.0
-Subject: [RFC][PATCH] linux-dummy: provide kernel-modules (empty) package
+	Wed, 19 Mar 2014 16:24:46 +0000 (UTC)
+Received: by mail-yk0-f172.google.com with SMTP id 200so23774254ykr.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Mar 2014 09:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+	:organization; bh=bZiNgdVLlre/td6xVTTRLQNBvktTDTVIqc7eGfJO7ZQ=;
+	b=lGWSbm0vst67gY5QQnQT0S+mXOunG6ky2cM0Mrfa2/an66VgeX1JHsIaLlaC6uzW+J
+	BRpfIjFudQi6KuKZRe6FxHQr4djmy8rIykZb8Y8n24FW4DLAiNJLs8fjCipfb/Rana0E
+	C0d3Csm41KbRRruBFA1GsPHyiXUHf4BsfptadGQvjLESTU2WKZGJ8LtB/Aak4dAzjgnQ
+	iX9GUt8PtSaDKMR/1IJLiHH4cLQh7gj0qTOsKFa73IBnmT7I5G/eYtSUDq7ijcyFy20M
+	CkpFK8D0vbACeVifvbtcaeypBilW4+5IH2Q21Es0D2rvgO3hpGG1JiUCDR4g+eEM2Zuv
+	kQGg==
+X-Received: by 10.236.231.101 with SMTP id k95mr27738317yhq.34.1395246287209; 
+	Wed, 19 Mar 2014 09:24:47 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.194.208.225])
+	by mx.google.com with ESMTPSA id r3sm23903077yhl.38.2014.03.19.09.24.45
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Mar 2014 09:24:46 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 29D35198E98E3; Wed, 19 Mar 2014 13:24:43 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Mar 2014 13:24:41 -0300
+Message-Id: <1395246282-8546-3-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.9.0
+In-Reply-To: <1395246282-8546-1-git-send-email-otavio@ossystems.com.br>
+References: <1395246282-8546-1-git-send-email-otavio@ossystems.com.br>
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 3/4] cairo: Add 'egl' and 'glesv2' PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 15:53:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Mar 2014 16:24:49 -0000
 
-Like it is done in kernel.bbclass
-
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-kernel/linux/linux-dummy.bb | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ meta/recipes-graphics/cairo/cairo.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index bab1ac1..5d29f5c 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -1,16 +1,22 @@
--SECTION = "kernel"
- SUMMARY = "Dummy Linux kernel"
- DESCRIPTION = "Dummy Linux kernel, to be selected as the preferred \
- provider for virtual/kernel to satisfy dependencies for situations \
- where you wish to build the kernel externally from the build system."
--LICENSE = "GPLv2"
-+SECTION = "kernel"
- 
-+LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
- 
- PROVIDES += "virtual/kernel"
- 
- PACKAGES_DYNAMIC += "^kernel-module-.*"
- PACKAGES_DYNAMIC += "^kernel-image-.*"
-+PACKAGES_DYNAMIC += "^kernel-firmware-.*"
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index 5212f8b..b15fbc9 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -12,12 +12,14 @@ SECTION = "libs"
+ LICENSE = "MPL-1 & LGPLv2.1"
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
 +
-+PACKAGES += "kernel-modules"
-+FILES_kernel-modules = ""
-+ALLOW_EMPTY_kernel-modules = "1"
-+DESCRIPTION_kernel-modules = "Kernel modules meta package"
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+            ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
+ PACKAGECONFIG[x11] = "--with-x=yes,--without-x,${X11DEPENDS}"
+ PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+-BBCLASSEXTEND = "native"
++PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
++PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
  
- #COMPATIBLE_MACHINE = "your_machine"
- 
-@@ -20,19 +26,19 @@ SRC_URI = "file://COPYING.GPL"
- S = "${WORKDIR}"
- 
- do_configure() {
--        :
-+	:
- }
- 
- do_compile () {
--        :
-+	:
- }
- 
- do_install() {
--        :
-+	:
- }
- 
- do_bundle_initramfs() {
--        :
-+	:
- }
- 
- do_deploy() {
+ #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
+ require cairo-fpu.inc
+@@ -31,3 +33,5 @@ inherit autotools pkgconfig
+ export ac_cv_lib_bfd_bfd_openr="no"
+ # Ensure we don't depend on LZO
+ export ac_cv_lib_lzo2_lzo2a_decompress="no"
++
++BBCLASSEXTEND = "native"
 -- 
-1.8.5.4
+1.9.0
 
 
