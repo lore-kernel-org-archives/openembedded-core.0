@@ -1,32 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 748A86E7D4
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D57F860DFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 21:45:04 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2JLi83D004239; Wed, 19 Mar 2014 21:44:45 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id u-vS0rILRXUQ; Wed, 19 Mar 2014 21:44:45 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2JLignm004248
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 19 Mar 2014 21:44:44 GMT
-Message-ID: <1395265477.3808.140.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-Date: Wed, 19 Mar 2014 21:44:37 +0000
-In-Reply-To: <1395231830.31252.10.camel@firebird.rb.intel.com>
-References: <1395189079-18831-1-git-send-email-sgw@linux.intel.com>
-	<1395231830.31252.10.camel@firebird.rb.intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+	Wed, 19 Mar 2014 22:38:43 +0000 (UTC)
+Received: by mail-yh0-f50.google.com with SMTP id c41so5802yho.37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Mar 2014 15:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=iDE5BCnSX0sNm4/qY8FEiM49vjG1mSlqrSMVAN9pEfA=;
+	b=OIx+h7EHYeJkYwa3JRdXfp4YP23iZ5uAt3hbTf+nAVLhUbvbiOG6lKtxZ0dr10jrEq
+	KVBNlnOeEyKcM0kQkYTZu4m57sIXo5X8Al2YhcyoavJh92ALKF9spb44Jgw1UpD4UOlH
+	kTkEdc/yDfOsc6c9jktf0F4hfbsvKnZcdqRjKksfZSXvyqkI0mHRURq6o/kIPOMD0Qwi
+	ORSrAGbTpTXIyyRhyugMFEWxkQiftcutAnrLJQNBKfqsLfJwIBWaZZlcCnoz5qW9S8wY
+	U2K78g9sSg0Iowx9U2oYrw34DMdSRKtiFiYTBX17DkkPfMJ3KY/9lR0PhBFQ65Uutewo
+	ldTQ==
+MIME-Version: 1.0
+X-Received: by 10.236.131.19 with SMTP id l19mr30217392yhi.0.1395268724117;
+	Wed, 19 Mar 2014 15:38:44 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Wed, 19 Mar 2014 15:38:44 -0700 (PDT)
+In-Reply-To: <1395147366.3808.70.camel@ted>
+References: <1395143773-26375-1-git-send-email-Chase.Maupin@ti.com>
+	<23BFBADE-120F-4DBC-AABF-A9F802B8222C@dominion.thruhere.net>
+	<1395147366.3808.70.camel@ted>
+Date: Wed, 19 Mar 2014 19:38:44 -0300
+X-Google-Sender-Auth: SuWMv0b16EZmzECcctSt3U8E0xI
+Message-ID: <CAP9ODKqhnScZ+__098Q7OS53WrkkASfrfSxdkGt3OeozZ=2yJA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] testimage: dont use DNS lookup for qemu based testimages
+Subject: Re: [PATCH 1/2] linaro-pm-qa-utils: Add power management test utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,42 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 21:45:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Mar 2014 22:38:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, 2014-03-19 at 12:23 +0000, Stanacar, StefanX wrote:
-> 
-> 
-> On Tue, 2014-03-18 at 17:31 -0700, Saul Wold wrote:
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> >  meta/classes/testimage.bbclass | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-> > index 691c7f6..ee028e1 100644
-> > --- a/meta/classes/testimage.bbclass
-> > +++ b/meta/classes/testimage.bbclass
-> > @@ -45,6 +45,16 @@ TESTIMAGEDEPENDS_qemuall = "qemu-native:do_populate_sysroot qemu-helper-native:d
-> >  TESTIMAGELOCK = "${TMPDIR}/testimage.lock"
-> >  TESTIMAGELOCK_qemuall = ""
-> >  
-> > +IMAGE_POSTPROCESS_COMMAND_qemuall += "fix_dns_lookup_for_qemu"
-> > +
-> 
-> I might be wrong, but this won't have any effect with the default
-> (manual) way we use testimage. The testimage class isn't in the global
-> inherit, so that  IMAGE_POSTPROCESS_COMMAND won't run as the image isn't
-> reconstructed.
+On Tue, Mar 18, 2014 at 9:56 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-03-18 at 13:29 +0100, Koen Kooi wrote:
+>> Op 18 mrt. 2014, om 12:56 heeft Chase Maupin <Chase.Maupin@ti.com> het volgende geschreven:
+>>
+>> > * The power management test utilities from Linaro can be used
+>> >  to test multiple PM features such as cpufreq, cpuidle, thermal
+>> >  control and suspend operations.
+>> > * These utilities are not platform specific and can be used by
+>> >  a broader base of users.
+>>
+>> PN should me 'pm-qa' or 'pm-qa-utils'.
+>
+> Agreed.
+>
+>>  And it would fit better in meta-oe since it's not 'core' enough for oe-core.
+>
+> I'm open to discussion on that. Certainly if there is just one user,
+> meta-oe would be appropriate. If these are generically useful and the
+> plan is we integrate these into the larger automated test picture,
+> oe-core may make sense.
+>
+> So if there a bigger picture plan here? Would these make sense in the
+> broader picture?
 
-Surely it will have run when the rootfs was originally constructed
-though?
+I prefer if this is done in meta-oe first and we move to oe-core when
+needed. For now it is at very beginning so we still does not know what
+will be the real final picture of t.
 
-Koen is right, that override is incorrect.
-
-Cheers,
-
-Richard
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
