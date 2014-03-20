@@ -1,26 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AFD676BBDC
+Return-Path: <darren.hart@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 503F06EBA4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 02:13:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2K2DqAK009584
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 19:13:53 -0700 (PDT)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 19 Mar 2014 19:13:49 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Mar 2014 10:19:06 +0800
-Message-ID: <9753034a8ce8a49dff6c3c02b50786b4af643631.1395281861.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1395281861.git.liezhi.yang@windriver.com>
-References: <cover.1395281861.git.liezhi.yang@windriver.com>
+	Thu, 20 Mar 2014 02:47:58 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 19 Mar 2014 19:43:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,691,1389772800"; d="scan'208";a="495537885"
+Received: from fmsmsx105.amr.corp.intel.com ([10.19.9.36])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Mar 2014 19:47:58 -0700
+Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
+	FMSMSX105.amr.corp.intel.com (10.19.9.36) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 19 Mar 2014 19:47:58 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.9]) by
+	fmsmsx117.amr.corp.intel.com ([169.254.13.248]) with mapi id
+	14.03.0123.003; Wed, 19 Mar 2014 19:47:58 -0700
+From: "Hart, Darren" <darren.hart@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: libnewt and kexec-tools do_compile failure, missing DEPENDS?
+Thread-Index: AQHPQ+bMKvsu6Ih11kiFVNnr7jX/ew==
+Date: Thu, 20 Mar 2014 02:47:57 +0000
+Message-ID: <CF4FA521.7A471%darren.hart@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.254.20.163]
 MIME-Version: 1.0
-Subject: [PATCH 4/4] mklibs-native: upgrade from 0.1.38 to 0.1.39
+Subject: libnewt and kexec-tools do_compile failure, missing DEPENDS?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +40,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 02:13:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Mar 2014 02:47:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <C7179DDC1EAA0C4BBD4079CAF12AC507@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-* Fix the HOMEPAGE
-* Fix the SRC_URI, .tar.gz has gone, only .tar.xz now.
+I tripped over a couple of do_compile failures today with lib newt and
+kexec-tools from master. After letting the -k image build complete and
+performing a clean all on the two packages, the subsequent build command
+succeeded. I suspect we have a missing DEPENDS in there that my modestly
+parallel build system tripped over.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../mklibs/{mklibs-native_0.1.38.bb => mklibs-native_0.1.39.bb}   | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.38.bb => mklibs-native_0.1.39.bb} (73%)
+ERROR: Function failed: do_compile (log file is located at
+/build/yocto/master/intel
+-corei7-64_20140114211153/build/tmp/work/corei7-64-poky-linux/libnewt/0.52.
+14-r2/tem
+p/log.do_compile.11594)
+ERROR: Logfile of failure stored in:
+/build/yocto/master/intel-corei7-64_20140114211
+153/build/tmp/work/corei7-64-poky-linux/libnewt/0.52.14-r2/temp/log.do_comp
+ile.11594
+Log data follows:
+| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+'bit-64', 'x86
+_64-linux', 'common']
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 12
+| make: *** No rule to make target
+`/build/yocto/master/intel-corei7-64_201401142111
+53/build/tmp/sysroots/intel-corei7-64/usr/include/bits/predefs.h', needed
+by `test.o
+'.  Stop.
+| ERROR: oe_runmake failed
+| WARNING:=20
+/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/work/corei7-
+64-poky-linux/libnewt/0.52.14-r2/temp/run.do_compile.11594:1 exit 1 from
+|   exit 1
+| ERROR: Function failed: do_compile (log file is located at
+/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/work/corei7-64
+-poky-linux/libnewt/0.52.14-r2/temp/log.do_compile.11594)
+ERROR: Task 2714=20
+(/build/yocto/master/intel-corei7-64_20140114211153/poky/meta/recipes-exten
+ded/newt/libnewt_0.52.14.bb, do_compile) failed with exit code '1'
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
-similarity index 73%
-rename from meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-rename to meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
-index fd04c97..ff8d500 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
-@@ -1,18 +1,18 @@
- SUMMARY = "Shared library optimisation tool"
- DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
--HOMEPAGE = "https://code.launchpad.net/mklibs"
-+HOMEPAGE = "https://launchpad.net/mklibs"
- SECTION = "devel"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
- DEPENDS = "python-native dpkg-native"
- 
--SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
-+SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
- 	file://ac_init_fix.patch\
- 	file://fix_STT_GNU_IFUNC.patch\
- "
- 
--SRC_URI[md5sum] = "e597b01548204874feef396403615d9f"
--SRC_URI[sha256sum] = "e7fe79db2673bb26c98c63fd8b40dcb44b9b94c4bc52a8c4c8112a5cbaf29bf4"
-+SRC_URI[md5sum] = "38a579a531401eb76f4bab4ccfb774a2"
-+SRC_URI[sha256sum] = "fa2881ab4fe72b0504878357f1fc6b17920459b56e8a60dfb083ca28fb64e733"
- 
- inherit autotools gettext native pythonnative
- 
--- 
-1.8.3.1
+ERROR: Function failed: do_compile (log file is located at
+/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/work/corei7-64
+-poky-linux/kexec-tools/2.0.4-r0/temp/log.do_compile.11603)
+ERROR: Logfile of failure stored in:
+/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/work/corei7-64
+-poky-linux/kexec-tools/2.0.4-r0/temp/log.do_compile.11603
+Log data follows:
+| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
+'bit-64', 'x86_64-linux', 'common']
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 12
+| make: *** No rule to make target
+`/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/sysroots/inte
+l-corei7-64/usr/include/bits/predefs.h', needed by `kexec/kexec.o'.  Stop.
+| ERROR: oe_runmake failed
+| WARNING:=20
+/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/work/corei7-64
+-poky-linux/kexec-tools/2.0.4-r0/temp/run.do_compile.11603:1 exit 1 from
+|   exit 1
+| ERROR: Function failed: do_compile (log file is located at
+/build/yocto/master/intel-corei7-64_20140114211153/build/tmp/work/corei7-64
+-poky-linux/kexec-tools/2.0.4-r0/temp/log.do_compile.11603)
+ERROR: Task 1788=20
+(/build/yocto/master/intel-corei7-64_20140114211153/poky/meta/recipes-kerne
+l/kexec/kexec-tools_2.0.4.bb, do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 5943 tasks of which 5941 didn't need to be
+rerun and 2 failed.
+No currently running tasks (4019 of 5970)
+
+
+
+--=20
+Darren Hart
+Yocto Project - Linux Kernel
+Intel Open Source Technology Center
+
+
 
 
