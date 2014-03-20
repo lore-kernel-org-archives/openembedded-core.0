@@ -1,35 +1,30 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C5C160E79
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 621956DB40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 22:59:31 +0000 (UTC)
-Received: by mail-pd0-f174.google.com with SMTP id y13so28573pdi.19
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 15:59:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=fkbFYmAeQG/jOokvQUyPq/XZoOAB3thhEE39wUmk6po=;
-	b=grUtyVOIs8/Wm4+vXS4YaXQGnKUWIF9y/JI5rgj84M14e8AxMXqCpMpG2gqTQNZw85
-	l45glCmy5zYcxRfKsMp/XqYHLk1wB/ZJa9VYkgAjxn1gdQzpCQZE1MyqbK3HaNT3Tknn
-	xHKQDqU/KFMKjw2JrpgzGWTlQdnD3lFJjg6rjAWlYPlo5CIw1LjwZpElc1YNT1su+kRe
-	zf1eHseLGivJFYeVXkRjPicOGzpG28jzhL+LfjqfHOqtHgpCq+YdXHzWR0TyQzgmozC3
-	eknAVfB+FQpWfQDgzW8sUh9C5eL6yKaDKHlJb4q8ekRiUZCtle+nxXvan+CaQtzAKQbu
-	rxvQ==
-X-Received: by 10.66.164.36 with SMTP id yn4mr42578253pab.25.1395269972714;
-	Wed, 19 Mar 2014 15:59:32 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id eb5sm7609pad.22.2014.03.19.15.59.30
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Mar 2014 15:59:32 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	Thu, 20 Mar 2014 00:31:32 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id BC786F811F7; Wed, 19 Mar 2014 18:31:32 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 76D76F811E4;
+	Wed, 19 Mar 2014 18:31:31 -0600 (MDT)
+Message-ID: <532A36F3.2090800@mlbassoc.com>
+Date: Wed, 19 Mar 2014 18:31:47 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2014 10:05:04 +1100
-Message-Id: <1395270304-24331-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH v2] base-files: use /dev/root in /etc/fstab for systemd support
+References: <1395143773-26375-1-git-send-email-Chase.Maupin@ti.com>	<23BFBADE-120F-4DBC-AABF-A9F802B8222C@dominion.thruhere.net>	<1395147366.3808.70.camel@ted>
+	<CAP9ODKqhnScZ+__098Q7OS53WrkkASfrfSxdkGt3OeozZ=2yJA@mail.gmail.com>
+In-Reply-To: <CAP9ODKqhnScZ+__098Q7OS53WrkkASfrfSxdkGt3OeozZ=2yJA@mail.gmail.com>
+X-Enigmail-Version: 1.5.2
+Subject: Re: [PATCH 1/2] linaro-pm-qa-utils: Add power management test utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 22:59:33 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 00:31:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-systemd does not recognize "rootfs" in /etc/fstab so the root
-filesystem is not checked. As a result, the following message
-is logged by journalctl:
-systemd-fstab-generator[68]: Checking was requested for "rootfs", but it
-is not a device
+On 2014-03-19 16:38, Otavio Salvador wrote:
+> On Tue, Mar 18, 2014 at 9:56 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Tue, 2014-03-18 at 13:29 +0100, Koen Kooi wrote:
+>>> Op 18 mrt. 2014, om 12:56 heeft Chase Maupin <Chase.Maupin@ti.com> het volgende geschreven:
+>>>
+>>>> * The power management test utilities from Linaro can be used
+>>>>  to test multiple PM features such as cpufreq, cpuidle, thermal
+>>>>  control and suspend operations.
+>>>> * These utilities are not platform specific and can be used by
+>>>>  a broader base of users.
+>>>
+>>> PN should me 'pm-qa' or 'pm-qa-utils'.
+>>
+>> Agreed.
+>>
+>>>  And it would fit better in meta-oe since it's not 'core' enough for oe-core.
+>>
+>> I'm open to discussion on that. Certainly if there is just one user,
+>> meta-oe would be appropriate. If these are generically useful and the
+>> plan is we integrate these into the larger automated test picture,
+>> oe-core may make sense.
+>>
+>> So if there a bigger picture plan here? Would these make sense in the
+>> broader picture?
+> 
+> I prefer if this is done in meta-oe first and we move to oe-core when
+> needed. For now it is at very beginning so we still does not know what
+> will be the real final picture of t.
+> 
 
-Changing "rootfs" to "/dev/root" in /etc/fstab allows systemd to
-check the root filesystem when the kernel is booted with the root
-filesystem mounted read-only.
+What are you afraid of?  Putting this in OE-core _may_ make sense
+if it serves a larger community, but having it there will not be
+destabilizing, so why not?
 
-[YOCTO #5950]
-
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-core/base-files/base-files/fstab | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
-index e625ebc..739b844 100644
---- a/meta/recipes-core/base-files/base-files/fstab
-+++ b/meta/recipes-core/base-files/base-files/fstab
-@@ -1,6 +1,6 @@
- # stock fstab - you probably want to override this with a machine specific one
- 
--rootfs               /                    auto       defaults              1  1
-+/dev/root            /                    auto       defaults              1  1
- proc                 /proc                proc       defaults              0  0
- devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
- usbdevfs             /proc/bus/usb        usbdevfs   noauto                0  0
 -- 
-1.9.0
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
