@@ -1,30 +1,28 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
-	[209.85.160.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E6F166F8F6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
+	[209.85.160.171])
+	by mail.openembedded.org (Postfix) with ESMTP id EB5AE6F8EE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 18:49:05 +0000 (UTC)
-Received: by mail-pb0-f51.google.com with SMTP id uo5so1358520pbc.10
+	Thu, 20 Mar 2014 18:53:32 +0000 (UTC)
+Received: by mail-yk0-f171.google.com with SMTP id q9so3381105ykb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 11:49:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=JRKJZa5vMEuNjs+0IdnmEtFIBwtAU9Scp8YwFFZfn0c=;
-	b=IdMMBNxRvFL0mQ4X7qx0U3XrnCIPxBW2aKW0B2XEjCVStHjJpvIcY3OuZDuLppLmpf
-	NICRa+DYVL/6B6eZ+Eev9HCtyqP6aFwEnYmzc3iHComThPV+h+oh0wbkodpHEKnFzvR2
-	hBzxPYd03pkNc0Wd4afF7ULplUN+/CByc9ZBJ/8iOak1/wu1LRcJakdyJQ8RLPqfF2ra
-	opL5/Fkxh+asZ4wkcRflB5zjb2GfwaDXapGqRN9qO+/7fif0A+C7ihGfqJuNcBLkTsgO
-	nPWHbYsjkTuPOqIRe2Za5NrLxrw4oX2kQXKSGP79I805cgO7DGYJPZcbcjFwb9Douk+U
-	EOUg==
-X-Gm-Message-State: ALoCoQkVtaGt1WtPrbmJNWIjtVSCs6eAFk2jzlsMyCDwYEJglSy9tWhskR6cfdwFwUFpbu/veL9q
+	Thu, 20 Mar 2014 11:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=9qhsIi+zF1Ge17zkEzvmr4sLLCKaQGF2oXaiAIoN+jI=;
+	b=IC8pCWzeGaxGkNt8DS9TFGOVD5/XnqMwX9KUC5dhhMZEdfwQJsM0AfhPAlTiTSpZzN
+	zvmdG2KZVjS9tCJERqUo8hCSDRJJ0A3qHCKp1bai/0a3hBu4qdWs2NsDMjUerQljaXZl
+	T9fIb+8+r/4SbVadw2B5JxFi2QM06bhrd62Ge5FvjGDhEVnR/DQbiVKhsLEMaOdzNsNG
+	8i3qOv3rUrlel0fIzIYTbDw2cwKbNl0/mYZ6fIJwqLMMryJi4r76+04n8PiJUINhPfmd
+	DP/s/LVksulEL5SomhzxhQQX95tgdJSrb8Hnx95Wrdi1HRLKdJtDKKI+UO0aTUPFLQ6+
+	4fvQ==
 MIME-Version: 1.0
-X-Received: by 10.66.163.138 with SMTP id yi10mr48902121pab.95.1395341346668; 
-	Thu, 20 Mar 2014 11:49:06 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.11.164 with HTTP; Thu, 20 Mar 2014 11:49:06 -0700 (PDT)
-In-Reply-To: <CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
+X-Received: by 10.236.60.68 with SMTP id t44mr36482137yhc.47.1395341613514;
+	Thu, 20 Mar 2014 11:53:33 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 11:53:33 -0700 (PDT)
+In-Reply-To: <CAOMwXhNx8XFYQhKytm88YtCfqPxAgOcB4VnNgwDfqkng2aN1uA@mail.gmail.com>
 References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
 	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
 	<0EAF1183-40EE-4110-9F86-1CABDA6273A6@dominion.thruhere.net>
@@ -34,13 +32,13 @@ References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
 	<CAP9ODKqTi=PGUHOsRSkHJrS0nsxEzoYyFbQffm4UU5iedLJNWA@mail.gmail.com>
 	<CAOMwXhNqbCGVZiJ3GCbjboiHrMVbC1aQ9Pd65xPzbmBjFSHVUg@mail.gmail.com>
 	<CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
-Date: Thu, 20 Mar 2014 18:49:06 +0000
-X-Google-Sender-Auth: QQ0zimmU3mgZBY5FAv-y73vIEyQ
-Message-ID: <CAOMwXhNx8XFYQhKytm88YtCfqPxAgOcB4VnNgwDfqkng2aN1uA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAOMwXhNx8XFYQhKytm88YtCfqPxAgOcB4VnNgwDfqkng2aN1uA@mail.gmail.com>
+Date: Thu, 20 Mar 2014 15:53:33 -0300
+X-Google-Sender-Auth: mS3TTnZSPOjsnsGcVQyO09PW3j0
+Message-ID: <CAP9ODKoLyxzih9z=D-+vjJwaJ+UKHm1sOYAdv=XPirx5fd2ENg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Laszlo Papp <lpapp@kde.org>
 Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,16 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 18:49:08 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 18:53:35 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Mar 20, 2014 at 1:28 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 20 March 2014 12:44, Laszlo Papp <lpapp@kde.org> wrote:
->> You are free to NACK without an explanation why it is important, but
->> do not expect it to weigh much that way, at least in my eyes, based on
->> that you are not even a maintainer as far as I know.
+On Thu, Mar 20, 2014 at 3:49 PM, Laszlo Papp <lpapp@kde.org> wrote:
+> On Thu, Mar 20, 2014 at 1:28 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 20 March 2014 12:44, Laszlo Papp <lpapp@kde.org> wrote:
+>>> You are free to NACK without an explanation why it is important, but
+>>> do not expect it to weigh much that way, at least in my eyes, based on
+>>> that you are not even a maintainer as far as I know.
+>>
+>> One good reason: systemd reads the LSB headers.
 >
-> One good reason: systemd reads the LSB headers.
+> This init script is for SysV, not systemd.
 
-This init script is for SysV, not systemd.
+Laszlo, we made several valid points. The outcome is we don't want to
+have more init scripts lacking LSB headers. The desire to have this
+patch is yours so if you want to have our ack, address those remarks.
+
+As I said, it is your call to handle it or not.
+
+I am not the maintainer of OE-Core, so I don't have a final word on
+this (Richard does) but I made clear my point and my NACK for current
+status of the patch.
+
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
