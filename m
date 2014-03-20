@@ -1,37 +1,38 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 254226E6FC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f42.google.com (mail-yh0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AB8736E6FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 21:06:58 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id j17so1571665oag.26
+	Thu, 20 Mar 2014 21:08:49 +0000 (UTC)
+Received: by mail-yh0-f42.google.com with SMTP id t59so1542248yho.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 14:06:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0ba4YV6xIDepU7ll6XiLls3x1IMMXLc8F5HLqCk8C3Q=;
-	b=AumfgHFUVRYGzTotwC3mNpfv9oDpvnnEls/+AutLnGCTrvl+YLZtEklpcZD0LmUmbh
-	m9y9VusjeTzQLjanNJoraCgVBwLvOQo0/7vB6lZ2MXqAJY9JFWb5dfPYfT71HgMLweEs
-	dRy9qxurUJMCT+h7tl+027miql+zfh3RARk8vfz6Ifj2atUDK6I9xTp3k7BNX4wU2fTI
-	vMiZXi/03T1LjwfLjmCE5DXIzfR2BjCNJsB6R3ReB8nAQiIxfy2Tf8B43UCxnWiybSjU
-	M915oY1fC6JIM9pS8+UYw07b7f9jYG82+k22yuDD/DHgVKqB6/vSRyNOwTkbOq6Mu0rR
-	Uk/g==
-X-Gm-Message-State: ALoCoQkwRekGMpiYt5AGQkVV39hZk7IvYyssJ6BsrI0s1PQpxQk0oMmDt8Y+pSvJgc3MhkZnJPPx
-X-Received: by 10.60.142.166 with SMTP id rx6mr8297816oeb.57.1395349618365;
-	Thu, 20 Mar 2014 14:06:58 -0700 (PDT)
-Received: from openSUSE-i7.site (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158]) by mx.google.com with ESMTPSA id
-	fn10sm4722779obb.12.2014.03.20.14.06.57 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Mar 2014 14:06:57 -0700 (PDT)
-From: Trevor Woerner <trevor.woerner@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2014 17:06:38 -0400
-Message-Id: <1395349598-951-1-git-send-email-trevor.woerner@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: patches@linaro.org
-Subject: [PATCH 1/1] core-image-minimal: allow user to set size
+	Thu, 20 Mar 2014 14:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=KmWcCD1pHGUeuRbUpJbSPuH/8ER1B3EbeEvM9iDIV6o=;
+	b=aYTr18eEo4F7cEO5g61brrhumbUWGbjMObI4gsfNypV8uz4ntrDuq5em8dy/7fXjLf
+	rOgeCfZhmz1X+vF2A4ua7jssw7J1sJdOuOSvGhfAV2E2kUtYgD8H9fjuD3RE1uOamkOf
+	wwvCRrrbHZJlJwxetIcIx3eFN3uPoUC8LL41JmDhDOGgzMrWfGktPf/6+A5CZyxMfy18
+	tZZF8348bkS9MNzDgTOK7M74vK75nbbiBi10wwueJyImwhDGfwWBfzHs/aXOhmMXvHju
+	Ai+4ni9arXWtDI37adL2pZporMc+aeysMrcrU//OLaJiHV/i9u4TqAtjcMonz6bdQLb/
+	qHqQ==
+MIME-Version: 1.0
+X-Received: by 10.236.102.39 with SMTP id c27mr61873916yhg.26.1395349729952;
+	Thu, 20 Mar 2014 14:08:49 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 14:08:49 -0700 (PDT)
+In-Reply-To: <726442aad46caaed6a069b6428692ed2e4903026.1395332218.git.stefanx.stanacar@intel.com>
+References: <cover.1395332218.git.stefanx.stanacar@intel.com>
+	<726442aad46caaed6a069b6428692ed2e4903026.1395332218.git.stefanx.stanacar@intel.com>
+Date: Thu, 20 Mar 2014 18:08:49 -0300
+X-Google-Sender-Auth: VlL7ECF-1PVbBN7_FHGJpMTCx4c
+Message-ID: <CAP9ODKrG_3ieAdpiAOyX0bJBbQQySAEWRvT_y+VJDqjusgjzyw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 4/4] lib/oeqa: add a test target controller for EFI targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +45,232 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 21:07:00 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 21:08:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Allow the user, in their local configuration, to override the size of the
-final image. This is useful when creating an image for (for example) an SD
-card and the user wants the image to fill up the card as much as possible.
+On Thu, Mar 20, 2014 at 1:29 PM, Stefan Stanacar
+<stefanx.stanacar@intel.com> wrote:
+> The purpose of this module is to deploy a test image on a EFI-enabled hardware
+> and run our runtime tests.
+> A bit of background:
+>  - testimage.bbclass uses the concept of TEST_TARGET which is a class name
+> that is responsible for target deploying. A layer can provide
+> it's own TEST_TARGET. Right now has OE-core has a QemuTarget and a SimpleRemoteTarget
+> (ssh into an already up and running machine and run tests), the default one being qemu.
+>  - basically testimage does something like:
+>       - target.deploy()
+>       - target.start()
+>       - runTests()
+>       - target.stop()
+>
+> This module assumes a running EFI (and gummiboot as bootloader) machine with
+> core-image-testmaster installed (or similar).
+> In order to use this Master Image mechanism there are some hard requirements:
+>  - it only works for EFI-enabled hardware with EFI_PROVIDER = "gummiboot"
+>  - your hardware under test has to be in DHCP-enabled network that gives it the same IP for each reboot
+>
+> One time setup (master image):
+>  - build core-image-testmaster with EFI_PROVIDER = "gummiboot"
+>  - TEMP: for now you'll need SRCREV_meta_pn-linux-yocto = "${AUTOREV}"
+>     in local.conf so that some kernel configs required by gummiboot get enabled
+>  - install the image on the target
+>
+> Test image setup:
+>  - build your test image, e.g core-image-sato as you usually do, but with these in local.conf:
+>     IMAGE_FSTYPES += "tar.gz"
+>    (similar to above you need SRCREV_meta_pn-linux-yocto = "${AUTOREV}")
+>  - Now run the tests:
+>     INHERIT += "testimage"
+>     TEST_TARGET = "GenericEfi"
+>     TEST_TARGET_IP = "192.168.2.3"
+>     bitbake core-image-sato -c testimage
+>
+> Other notes:
+>  - TEST_POWERCONTROL_CMD (togheter with TEST_POWERCONTROL_EXTRA_ARGS) can be a command that runs on the host and does power cycling.
+>    The test code passes one argument to that command: off, on or cycle (off then on). In my case I use something like
+>    TEST_POWERCONTROL_CMD="/home/stefans/powercontrol.exp test 192.168.2.1 nuc1" in local.conf.
+>    Basically my expect script does: 'ssh test@192.168.2.1 and runs a python script there that controls power for a label called nuc1'.
+>  - if no command is defined it would use classic reboot. This is fine as long as the machine
+>    actually reboots (as in the ssh test hasn't failed), but it's useful for "simple-setup-with-one-board-on-the-desk" scenario, where
+>    some manual interaction is okay from time to time.
+>
+> [YOCTO #5614]
+>
+> Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 
-Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
----
- meta/recipes-core/images/core-image-minimal.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Nice.
 
-diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
-index b82ca46..9716274 100644
---- a/meta/recipes-core/images/core-image-minimal.bb
-+++ b/meta/recipes-core/images/core-image-minimal.bb
-@@ -8,5 +8,5 @@ LICENSE = "MIT"
- 
- inherit core-image
- 
--IMAGE_ROOTFS_SIZE = "8192"
-+IMAGE_ROOTFS_SIZE ?= "8192"
- 
+> ---
+>  meta/lib/oeqa/controllers/masterimage.py | 124 +++++++++++++++++++++++++++++++
+>  meta/lib/oeqa/runtime/ssh.py             |   2 +
+>  2 files changed, 126 insertions(+)
+>  create mode 100644 meta/lib/oeqa/controllers/masterimage.py
+>
+> diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+> new file mode 100644
+> index 0000000..028208b
+> --- /dev/null
+> +++ b/meta/lib/oeqa/controllers/masterimage.py
+> @@ -0,0 +1,124 @@
+> +import os
+> +import bb
+> +import traceback
+> +import time
+> +
+> +import oeqa.targetcontrol
+> +import oeqa.utils.sshcontrol as sshcontrol
+> +import oeqa.utils.commands as commands
+> +
+> +class GenericEfi(oeqa.targetcontrol.SimpleRemoteTarget):
+> +
+> +    def __init__(self, d):
+> +        # let our base class do the ip thing
+> +        super(GenericEfi, self).__init__(d)
+> +
+> +        # test rootfs + kernel
+> +        self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("IMAGE_LINK_NAME", True) + '.tar.gz')
+> +        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE"))
+> +        if not os.path.isfile(self.rootfs):
+> +            # we could've checked that IMAGE_FSTYPES contains tar.gz but the config for running testimage might not be
+> +            # the same as the config with which the image was build, ie
+> +            # you bitbake core-image-sato with IMAGE_FSTYPES += "tar.gz"
+> +            # and your autobuilder overwrites the config, adds the test bits and runs bitbake core-image-sato -c testimage
+> +            bb.fatal("No rootfs found. Did you build the image ?\nIf yes, did you build it with IMAGE_FSTYPES += \"tar.gz\" ? \
+> +                      \nExpected path: %s" % self.rootfs)
+
+Couldn't testimage class add it?
+
+> +        if not os.path.isfile(self.kernel):
+> +            bb.fatal("No kernel found. Expected path: %s" % self.kernel)
+> +
+> +        # if the user knows what he's doing, then by all means...
+> +        # test-rootfs.tar.gz and test-kernel are hardcoded names in other places
+> +        # they really have to be used like that in commands though
+> +        cmds = d.getVar("TEST_DEPLOY_CMDS", True)
+> +        if cmds:
+> +            self.deploy_cmds = cmds.split("\n")
+
+Good.
+
+> +        else:
+> +            self.deploy_cmds = [
+> +                'mount -L boot /boot',
+> +                'mkdir -p /mnt/testrootfs',
+> +                'mount -L testrootfs /mnt/testrootfs',
+> +                'modprobe efivarfs',
+> +                'mount -t efivarfs efivarfs /sys/firmware/efi/efivars',
+> +                'cp ~/test-kernel /boot',
+> +                'rm -rf /mnt/testrootfs/*',
+> +                'tar xzvf ~/test-rootfs.tar.gz -C /mnt/testrootfs',
+
+How target see those files? NFS?
+
+> +                r'printf "\x07\x00\x00\x00\x74\x00\x65\x00\x73\x00\x74\x00\x00\x00" > /sys/firmware/efi/efivars/LoaderEntryOneShot-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f'
+
+Can you elaborate this? Seems too 'black magic' for me.
+
+> +                ]
+> +
+> +        # master ssh connection
+> +        self.master = None
+> +
+> +        # this is the name of the command that controls the power for a board
+> +        # e.g: TEST_POWERCONTROL_CMD = "/home/user/myscripts/powercontrol.py ${MACHINE} what-ever-other-args-the-script-wants"
+> +        # the command should take as the last argument "off" and "on" and "cycle" (off, on)
+> +        self.powercontrol_cmd = d.getVar("TEST_POWERCONTROL_CMD", True) or None
+> +        self.powercontrol_args = d.getVar("TEST_POWERCONTROL_EXTRA_ARGS") or ""
+> +        self.origenv = os.environ
+> +        if self.powercontrol_cmd:
+> +            if self.powercontrol_args:
+> +                self.powercontrol_cmd = "%s %s" % (self.powercontrol_cmd, self.powercontrol_args)
+> +            # the external script for controlling power might use ssh
+> +            # ssh + keys means we need the original user env
+> +            bborigenv = d.getVar("BB_ORIGENV", False) or {}
+> +            for key in bborigenv:
+> +                val = bborigenv.getVar(key, True)
+> +                if val is not None:
+> +                    self.origenv[key] = str(val)
+> +            self.power_ctl("on")
+> +
+> +    def power_ctl(self, msg):
+> +        if self.powercontrol_cmd:
+> +            cmd = "%s %s" % (self.powercontrol_cmd, msg)
+> +            commands.runCmd(cmd, preexec_fn=os.setsid, env=self.origenv)
+> +
+> +    def power_cycle(self, conn):
+> +        if self.powercontrol_cmd:
+> +            # be nice, don't just cut power
+> +            conn.run("shutdown -h now")
+> +            time.sleep(10)
+> +            self.power_ctl("cycle")
+> +        else:
+> +            status, output = conn.run("reboot")
+> +            if status != 0:
+> +                bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
+> +
+> +    def deploy(self):
+> +        bb.plain("%s - deploying image on target" % self.pn)
+> +        # base class just sets the ssh log file for us
+> +        super(GenericEfi, self).deploy()
+> +        self.master = sshcontrol.SSHControl(ip=self.ip, logfile=self.sshlog, timeout=600, port=self.port)
+> +        try:
+> +            self._deploy()
+> +        except Exception as e:
+> +            bb.fatal("Failed deploying test image: %s" % e)
+> +
+> +    def _deploy(self):
+> +        # make sure we are in the right image
+> +        status, output = self.master.run("cat /etc/masterimage")
+> +        if status != 0:
+> +            raise Exception("No ssh connectivity or target isn't running a master image.\n%s" % output)
+> +
+> +        # make sure these aren't mounted
+> +        self.master.run("umount /boot; umount /mnt/testrootfs; umount /sys/firmware/efi/efivars;")
+> +
+> +        # from now on, every deploy cmd should return 0
+> +        self.master.ignore_status = False
+> +        self.master.copy_to(self.rootfs, "~/test-rootfs.tar.gz")
+> +        self.master.copy_to(self.kernel, "~/test-kernel")
+> +        for cmd in self.deploy_cmds:
+> +            self.master.run(cmd)
+> +
+> +
+> +    def start(self, params=None):
+> +        bb.plain("%s - boot test image on target" % self.pn)
+> +        self.power_cycle(self.master)
+> +        # assuming the reboot worked, we need to wait a bit
+> +        # there are better ways than a timeout but this should work for my purpose for now
+> +        time.sleep(120)
+> +        # we are live, set the ssh object for the target/test image
+> +        self.connection = sshcontrol.SSHControl(self.ip, logfile=self.sshlog, port=self.port)
+> +        bb.plain("%s - start running tests" % self.pn)
+> +
+> +    def stop(self):
+> +        bb.plain("%s - reboot/powercycle target" % self.pn)
+> +        self.power_cycle(self.connection)
+> diff --git a/meta/lib/oeqa/runtime/ssh.py b/meta/lib/oeqa/runtime/ssh.py
+> index 8c96020..e648660 100644
+> --- a/meta/lib/oeqa/runtime/ssh.py
+> +++ b/meta/lib/oeqa/runtime/ssh.py
+> @@ -14,3 +14,5 @@ class SshTest(oeRuntimeTest):
+>      def test_ssh(self):
+>          (status, output) = self.target.run('uname -a')
+>          self.assertEqual(status, 0, msg="SSH Test failed: %s" % output)
+> +        (status, output) = self.target.run('cat /etc/masterimage')
+> +        self.assertEqual(status, 1, msg="This isn't the right image  - /etc/masterimage shouldn't be here %s" % output)
+> --
+> 1.8.5.3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.9.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
