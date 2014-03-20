@@ -1,32 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DCA196EF8A
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A2DA86EE45
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 11:28:13 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2KBS1qN025431; Thu, 20 Mar 2014 11:28:01 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dQyy7K2ZpTW6; Thu, 20 Mar 2014 11:28:00 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2KBRsOB025413
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 20 Mar 2014 11:27:56 GMT
-Message-ID: <1395314868.3808.169.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kang Kai <Kai.Kang@windriver.com>
-Date: Thu, 20 Mar 2014 11:27:48 +0000
-In-Reply-To: <532A8BB7.3010306@windriver.com>
-References: <cover.1394610315.git.kai.kang@windriver.com>
-	<eaf248b590ed38e4ad4135ff58e99e23336c9f75.1394610315.git.kai.kang@windriver.com>
-	<532A8BB7.3010306@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/5] libnewt: update to 0.52.17
+	Thu, 20 Mar 2014 11:34:36 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id w10so796914pde.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Mar 2014 04:34:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=IXQvADjy+vXXaLieARlBI3gbbCA0hQJwv6uPKkwt9HU=;
+	b=D9cgZ/593LgCj/XXjP3wwoJettsM/026GC++0/vdCXEw3GUwQ+vMFcUScBSVyU6HTe
+	cF9sF/ltQJ2gQcT+mAbeUFFt7wQDGVpYrLfct8Okra8P02V67jlfbD0U2tuOsuFve/a9
+	PP4FZ5T/QxvRZM//3pNiMrRJAZGXbWZ0rchTLOvqbjF/w6iIQSDwDEzqZ29GifVRyZ2t
+	r5D1iWtfQyURL3OW4iiMnVUWVvYZIt8MBYF4xksuYljCFTwUiERJWKHpgqw5L22EBXLv
+	XAG1O0lgC0g6XsaakYmRuLoptQu5TgnEoeIvzkMLVQtDXCyF2dAya3WOr3eCq1Hz9Xu4
+	4Mjg==
+X-Gm-Message-State: ALoCoQkDZ2YPF8DO0OH2WVF3PmvD2OodNBoVxVYP3FMq2DmSRCTEN0lwbwfDH4HkPagYBxOxrsHj
+MIME-Version: 1.0
+X-Received: by 10.68.239.70 with SMTP id vq6mr23112203pbc.152.1395315277754;
+	Thu, 20 Mar 2014 04:34:37 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.11.164 with HTTP; Thu, 20 Mar 2014 04:34:37 -0700 (PDT)
+In-Reply-To: <CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
+References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
+	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
+Date: Thu, 20 Mar 2014 11:34:37 +0000
+X-Google-Sender-Auth: I1rGs6SYGz4l6FssDQA2fd_V2Gg
+Message-ID: <CAOMwXhN2Tu2cWwopsRs0EGJCDVHJRe0rsiPQ_3Ty+w3ezTN5bw@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,147 +46,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 11:28:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Mar 2014 11:34:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2014-03-20 at 14:33 +0800, Kang Kai wrote:
-> On 2014年03月12日 15:47, Kai Kang wrote:
-> > Update libnewt and libnewt-python to 0.52.17.
-> >
-> > * remove PR
-> > * update cross_ar.patch and fix_SHAREDDIR.patch that context changed
-> > * remove fix_python_fpic.patch which is merged
-> > * update so file name in libnewt-python recipe
-> >
-> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > ---
-> >   meta/recipes-extended/newt/files/cross_ar.patch      | 16 ++++------------
-> >   meta/recipes-extended/newt/files/fix_SHAREDDIR.patch |  4 ++--
-> >   meta/recipes-extended/newt/libnewt-python_0.52.14.bb |  5 ++---
-> >   meta/recipes-extended/newt/libnewt_0.52.14.bb        | 10 ++++------
-> >   4 files changed, 12 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
-> > index f67239a..2035cc4 100644
-> > --- a/meta/recipes-extended/newt/files/cross_ar.patch
-> > +++ b/meta/recipes-extended/newt/files/cross_ar.patch
-> > @@ -19,16 +19,8 @@ Upstream-Status: Pending
-> >   
-> >   --- a/Makefile.in
-> >   +++ b/Makefile.in
-> > -@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
-> > - LDFLAGS = @LDFLAGS@
-> > - CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@
-> > - GNU_LD = @GNU_LD@
-> > -+AR = @AR@
-> > -
-> > - VERSION = @VERSION@
-> > - TAG = r$(subst .,-,$(VERSION))
-> > -@@ -95,7 +96,7 @@ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
-> > - 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
-> > +@@ -109,7 +109,7 @@
-> > + 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.$(SOEXT) $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
-> >    
-> >    $(LIBNEWT): $(LIBOBJS)
-> >   -	ar rv $@ $^
-> > @@ -38,10 +30,10 @@ Upstream-Status: Pending
-> >    
-> >   --- a/configure.ac
-> >   +++ b/configure.ac
-> > -@@ -14,6 +14,10 @@ AC_PROG_CC
-> > - AC_PROG_INSTALL
-> > +@@ -15,6 +15,10 @@
-> >    AC_PROG_LN_S
-> >    AC_PROG_GREP
-> > + AC_SYS_LARGEFILE
-> >   +AN_MAKEVAR([AR], [AC_PROG_AR])
-> >   +AN_PROGRAM([ar], [AC_PROG_AR])
-> >   +AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
-> > diff --git a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
-> > index 7795260..1907aef 100644
-> > --- a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
-> > +++ b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
-> > @@ -12,14 +12,14 @@ Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> >   
-> >   --- a/Makefile.in
-> >   +++ b/Makefile.in
-> > -@@ -114,12 +114,12 @@
-> > +@@ -128,12 +128,12 @@
-> >    
-> >    sharedlib: $(LIBNEWTSH)
-> >    
-> >   -$(LIBNEWTSH): $(SHAREDDIR) $(SHAREDOBJS)
-> >   +$(LIBNEWTSH): $(SHAREDOBJS)
-> >    	$(CC) -shared -o $(LIBNEWTSH) $(SHLIBFLAGS) $(SHAREDOBJS) $(LDFLAGS) $(LIBS)
-> > - 	ln -fs $(LIBNEWTSONAME) libnewt.so
-> > + 	ln -fs $(LIBNEWTSONAME) libnewt.$(SOEXT)
-> >    	ln -fs $(LIBNEWTSH) $(LIBNEWTSONAME)
-> >    
-> >   -$(SHAREDDIR)/%.o : %.c
-> > diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-> > index 871b195..70ab202 100644
-> > --- a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-> > +++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-> > @@ -9,15 +9,14 @@ inherit pythonnative python-dir
-> >   EXTRA_OECONF += "--with-python"
-> >   EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
-> >   
-> > -
-> >   do_compile () {
-> >   	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
-> > -	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
-> > +	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snack.so
-> >   }
-> >   
-> >   do_install () {
-> >   	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-> > -	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
-> > +	install -m 0755 ${PYTHON_DIR}/_snack.so ${D}${PYTHON_SITEPACKAGES_DIR}/
-> >   	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
-> >   }
-> >   
-> > diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-> > index 65bcf40..46598e6 100644
-> > --- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
-> > +++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-> > @@ -12,21 +12,19 @@ HOMEPAGE = "https://fedorahosted.org/newt/"
-> >   SECTION = "libs"
-> >   
-> >   LICENSE = "LGPLv2"
-> > -LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
-> >   
-> >   # slang needs to be >= 2.2
-> >   DEPENDS = "slang popt"
-> >   
-> > -PR = "r2"
-> > -
-> >   SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-> >              file://remove_slang_include.patch \
-> >              file://fix_SHAREDDIR.patch \
-> >              file://cross_ar.patch \
-> > -           file://fix_python_fpic.patch"
-> > +          "
-> >   
-> > -SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
-> > -SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
-> > +SRC_URI[md5sum] = "f36d4d908965a0c89fd6fd8b61a6118b"
-> > +SRC_URI[sha256sum] = "69837973ef2ee2fa644426f1c3e48d2b18785ebcd382ef7fd01eb2e67d2d632b"
-> >   
-> >   S = "${WORKDIR}/newt-${PV}"
+On Thu, Mar 20, 2014 at 10:45 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 20 March 2014 03:26, Laszlo Papp <lpapp@kde.org> wrote:
+>> +PEER=127.0.0.1
 >
-> Any comment on libnewt commit? I notice other patches in this serial are 
-> merged except libnewt.
+> That doesn't seem like a very useful default.  We also can't use the
+> NTP pool by default, so this should copy the behaviour of the ntpd
+> package in meta-networking and default to no peers, and not start if
+> none are specified.
 
-It broke builds:
-
-http://autobuilder.yoctoproject.org/main/builders/minnow-lsb/builds/89/steps/BuildImages/logs/stdio
-
-Your patch header talks about .17 but the patch only modifies .14...
-
-Cheers,
-
-Richard
-
+Yeah, some real timeserver could be put behind comments.
 
