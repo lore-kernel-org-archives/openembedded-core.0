@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A0E566F8EE
+	by mail.openembedded.org (Postfix) with ESMTP id AFF856F8FF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 20 Mar 2014 19:05:07 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2014 12:05:07 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2014 12:05:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,696,1389772800"; d="scan'208";a="476613462"
+X-IronPort-AV: E=Sophos;i="4.97,696,1389772800"; d="scan'208";a="476613496"
 Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
 	([10.252.120.182])
-	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2014 12:05:05 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2014 12:05:06 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2014 19:04:54 +0000
-Message-Id: <cover.1395342113.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Mar 2014 19:04:55 +0000
+Message-Id: <d94f606f8a3b6bb4d7150c5bd9efe19131f5883e.1395342113.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.5.3
-Subject: [dylan][PATCH 0/1] Fix Hob not starting in the build appliance
+In-Reply-To: <cover.1395342113.git.paul.eggleton@linux.intel.com>
+References: <cover.1395342113.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1395342113.git.paul.eggleton@linux.intel.com>
+References: <cover.1395342113.git.paul.eggleton@linux.intel.com>
+Subject: [dylan][PATCH 1/1] packagegroup-self-hosted: Add missing python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +34,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Mar 2014 19:05:07 -0000
 
-Fixes the bug found by QA in the 1.4.3 build appliance (bug 5941 - tested
-this time).
+From: Saul Wold <sgw@linux.intel.com>
 
+These are in the Toolchain list, so they should also be installed on the build appliance
 
-The following changes since commit 30d3f06fddea2d8f3537d3415c95d75a6487078c:
+[YOCTO #5061]
 
-  sstate: Drop 'SafeDep' code from setscene validation function (2014-03-17 23:17:03 +0000)
+Fixes [YOCTO #5941].
 
-are available in the git repository at:
+(Partial backport of OE-Core master rev: 82374feece5c576f9950bad6861b1e00c6b30d84)
 
-  git://git.openembedded.org/openembedded-core-contrib paule/dylan-python
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-sstate
-
-Saul Wold (1):
-  packagegroup-self-hosted: Add missing python code
-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
  meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 5 +++++
  1 file changed, 5 insertions(+)
 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index ed73617..6a1d698 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -130,6 +130,7 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
+     minicom \
+     mtools \
+     ncurses \
++    ncurses-terminfo-base \
+     neon \
+     nfs-utils \
+     nfs-utils-client \
+@@ -150,17 +151,21 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
+     python-core \
+     python-curses \
+     python-datetime \
++    python-difflib \
+     python-distutils \
+     python-elementtree \
+     python-email \
+     python-fcntl \
++    python-json \
+     python-logging \
+     python-misc \
++    python-mmap \
+     python-multiprocessing \
+     python-netclient \
+     python-netserver \
+     python-pickle \
+     python-pkgutil \
++    python-pprint \
+     python-re \
+     python-rpm \
+     python-shell \
 -- 
 1.8.5.3
 
