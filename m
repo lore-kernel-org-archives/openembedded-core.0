@@ -1,39 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id DB67D6B1FF
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 005BB6E87A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 00:45:59 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id uq10so13331978igb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Mar 2014 17:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Bd+cRmFjUxUAPCzZNAqWQkKk1L/53LPxPwLVSAYMKqI=;
-	b=urtCYhP9PdW4z8Er8oU7+ZGBYutlvriumnuOjGfcFlr6TsX5B4a9QceAfkabW/uboH
-	QpTHF+g0aH8Kb5TlVyLQIqoiSGTdbgSY/755vsVsYzBPlA6Qt2XslOtaDycZ1D7B/A6x
-	UzrW4a/pz8biao3vM2uZ1j9aqbVuOfNO/CMI97EmU1X4YqG8LgOhCGMFLRHUwLY0dys0
-	NLxxdZc83buAxLhhZkFpa5t8KBIthfnjPZXpcv5MwdxMxWiAImz51W/PGsWevD1cYNB/
-	HV5qapjPPDWSHSWcg1lc9TNHq2dP69fRWPzH/gcfP2UcYf8YWzbHrRFg6Xeks3b91emt
-	Vr2Q==
-X-Received: by 10.50.49.76 with SMTP id s12mr18169973ign.2.1395276360198; Wed,
-	19 Mar 2014 17:46:00 -0700 (PDT)
+	Thu, 20 Mar 2014 01:18:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2K1IDp3001113
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Mar 2014 18:18:13 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Wed, 19 Mar 2014 18:18:13 -0700
+Message-ID: <532A41D3.3040605@windriver.com>
+Date: Thu, 20 Mar 2014 09:18:11 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Wed, 19 Mar 2014 17:45:30 -0700 (PDT)
-In-Reply-To: <532A36F3.2090800@mlbassoc.com>
-References: <1395143773-26375-1-git-send-email-Chase.Maupin@ti.com>
-	<23BFBADE-120F-4DBC-AABF-A9F802B8222C@dominion.thruhere.net>
-	<1395147366.3808.70.camel@ted>
-	<CAP9ODKqhnScZ+__098Q7OS53WrkkASfrfSxdkGt3OeozZ=2yJA@mail.gmail.com>
-	<532A36F3.2090800@mlbassoc.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Mar 2014 17:45:30 -0700
-Message-ID: <CAMKF1spcWtVah6-F6AQaSs72Cmyrke-5+JrdmR5s7AA6QCuDJA@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] linaro-pm-qa-utils: Add power management test utils
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1394555880.git.liezhi.yang@windriver.com>
+	<82dfd76f1ebe7801ed08efc1d93f91d73df5a035.1394555880.git.liezhi.yang@windriver.com>
+	<1728094.yUuhkgzBIz@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1728094.yUuhkgzBIz@peggleto-mobl5.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/6] archiver.bbclass: move a few code to copyleft_compliance.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,16 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 00:46:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Mar 2014 01:18:17 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 19, 2014 at 5:31 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+
+
+On 03/19/2014 08:09 PM, Paul Eggleton wrote:
+> On Wednesday 12 March 2014 01:08:22 Robert Yang wrote:
+>> Move the code which is only used by copyleft_compliance.bbclass from
+>> archiver.bbclassc, and remove the "inherit archiver" from
+>> copyleft_compliance.bbclass.
+>>
+>> The archiver.bbclass is used for archiving various types of sources, but
+>> the copyleft_compliance.bbclass is used for analysing the license, they
+>> don't have much relationships.
+>>
+>> [YOCTO #4986]
+>> [YOCTO #5113]
 >
-> What are you afraid of?  Putting this in OE-core _may_ make sense
-> if it serves a larger community, but having it there will not be
-> destabilizing, so why not?
+> I can see the benefit of tidying this up, however I think it's still desirable
+> for archiver.bbclass to have the ability to filter the recipes that it archives
+> by LICENSE value, so that you can easily exclude archiving proprietary sources
+> if you wish. At the moment it doesn't seem like there's an easy way even to
+> disable archiving on an individual recipe basis.
+>
 
-We should always strive towards making OE-Core leaner, therefore we
-should evaluate the real common usecase. which means there must be a
-good justification to add it there
+Thanks, sounds reasonable, we can treat this as an enhancement, I notice
+that it is already on master-next, how about we let them get merged atm?
+And I will send another patch to fix it.
+
+// Robert
+
+> Cheers,
+> Paul
+>
 
