@@ -1,41 +1,32 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC046EF8A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id DCA196EF8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 11:22:06 +0000 (UTC)
-Received: by mail-ee0-f43.google.com with SMTP id e53so527679eek.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 04:22:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=oZMAbP3grPj+ngzDsWAgSq53NXzGnO6bNRvt+2Q3LPc=;
-	b=VGeLVJOij7U/1vwn+rv0zguj4mkc/YTKfP63dnTVF7Q5QqO+r3S+Xzhd9xejS1TqJd
-	z6noR8HAbdgx/mXbnMDn8FjImwZhO7ZgMBYgH81ppeb52FuCDQX/RJ+6oXpaDv/JV7xw
-	t2Sq6e7afNd1FJnLayicB3gx2XhUIqfKm+CbbVGmzVn3dZCv44zYMt+K2nM3OavLqC3m
-	9xeltHuAEzulIBX7Sg8gtC8USaYyTB0WE61ed6EJDYUnHfp/9MUbgRfGHx9j8OCfGxTC
-	bYzl8AiE/xi/+QFbj2guc5D1QwO43huLyw1QE5vNfeA/JKOBwNLAFKYplt+CH+V6NbbM
-	mEvw==
-X-Gm-Message-State: ALoCoQnXAOhVFTA6e+fqh42vWJTeGsu6YTPliF9q9vl/LVdSRrYMqtVEOBk+syACpWR0PabK8z/8
-X-Received: by 10.14.209.193 with SMTP id s41mr896381eeo.108.1395314527731;
-	Thu, 20 Mar 2014 04:22:07 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id o7sm3540247eew.25.2014.03.20.04.22.06
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 20 Mar 2014 04:22:06 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
-Date: Thu, 20 Mar 2014 12:22:49 +0100
-Message-Id: <0EAF1183-40EE-4110-9F86-1CABDA6273A6@dominion.thruhere.net>
-References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
-	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1874)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
+	Thu, 20 Mar 2014 11:28:13 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2KBS1qN025431; Thu, 20 Mar 2014 11:28:01 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dQyy7K2ZpTW6; Thu, 20 Mar 2014 11:28:00 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2KBRsOB025413
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 20 Mar 2014 11:27:56 GMT
+Message-ID: <1395314868.3808.169.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kang Kai <Kai.Kang@windriver.com>
+Date: Thu, 20 Mar 2014 11:27:48 +0000
+In-Reply-To: <532A8BB7.3010306@windriver.com>
+References: <cover.1394610315.git.kai.kang@windriver.com>
+	<eaf248b590ed38e4ad4135ff58e99e23336c9f75.1394610315.git.kai.kang@windriver.com>
+	<532A8BB7.3010306@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] libnewt: update to 0.52.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,21 +39,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 11:22:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Mar 2014 11:28:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+On Thu, 2014-03-20 at 14:33 +0800, Kang Kai wrote:
+> On 2014年03月12日 15:47, Kai Kang wrote:
+> > Update libnewt and libnewt-python to 0.52.17.
+> >
+> > * remove PR
+> > * update cross_ar.patch and fix_SHAREDDIR.patch that context changed
+> > * remove fix_python_fpic.patch which is merged
+> > * update so file name in libnewt-python recipe
+> >
+> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > ---
+> >   meta/recipes-extended/newt/files/cross_ar.patch      | 16 ++++------------
+> >   meta/recipes-extended/newt/files/fix_SHAREDDIR.patch |  4 ++--
+> >   meta/recipes-extended/newt/libnewt-python_0.52.14.bb |  5 ++---
+> >   meta/recipes-extended/newt/libnewt_0.52.14.bb        | 10 ++++------
+> >   4 files changed, 12 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
+> > index f67239a..2035cc4 100644
+> > --- a/meta/recipes-extended/newt/files/cross_ar.patch
+> > +++ b/meta/recipes-extended/newt/files/cross_ar.patch
+> > @@ -19,16 +19,8 @@ Upstream-Status: Pending
+> >   
+> >   --- a/Makefile.in
+> >   +++ b/Makefile.in
+> > -@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
+> > - LDFLAGS = @LDFLAGS@
+> > - CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@
+> > - GNU_LD = @GNU_LD@
+> > -+AR = @AR@
+> > -
+> > - VERSION = @VERSION@
+> > - TAG = r$(subst .,-,$(VERSION))
+> > -@@ -95,7 +96,7 @@ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
+> > - 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
+> > +@@ -109,7 +109,7 @@
+> > + 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.$(SOEXT) $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
+> >    
+> >    $(LIBNEWT): $(LIBOBJS)
+> >   -	ar rv $@ $^
+> > @@ -38,10 +30,10 @@ Upstream-Status: Pending
+> >    
+> >   --- a/configure.ac
+> >   +++ b/configure.ac
+> > -@@ -14,6 +14,10 @@ AC_PROG_CC
+> > - AC_PROG_INSTALL
+> > +@@ -15,6 +15,10 @@
+> >    AC_PROG_LN_S
+> >    AC_PROG_GREP
+> > + AC_SYS_LARGEFILE
+> >   +AN_MAKEVAR([AR], [AC_PROG_AR])
+> >   +AN_PROGRAM([ar], [AC_PROG_AR])
+> >   +AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
+> > diff --git a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
+> > index 7795260..1907aef 100644
+> > --- a/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
+> > +++ b/meta/recipes-extended/newt/files/fix_SHAREDDIR.patch
+> > @@ -12,14 +12,14 @@ Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> >   
+> >   --- a/Makefile.in
+> >   +++ b/Makefile.in
+> > -@@ -114,12 +114,12 @@
+> > +@@ -128,12 +128,12 @@
+> >    
+> >    sharedlib: $(LIBNEWTSH)
+> >    
+> >   -$(LIBNEWTSH): $(SHAREDDIR) $(SHAREDOBJS)
+> >   +$(LIBNEWTSH): $(SHAREDOBJS)
+> >    	$(CC) -shared -o $(LIBNEWTSH) $(SHLIBFLAGS) $(SHAREDOBJS) $(LDFLAGS) $(LIBS)
+> > - 	ln -fs $(LIBNEWTSONAME) libnewt.so
+> > + 	ln -fs $(LIBNEWTSONAME) libnewt.$(SOEXT)
+> >    	ln -fs $(LIBNEWTSH) $(LIBNEWTSONAME)
+> >    
+> >   -$(SHAREDDIR)/%.o : %.c
+> > diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+> > index 871b195..70ab202 100644
+> > --- a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+> > +++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+> > @@ -9,15 +9,14 @@ inherit pythonnative python-dir
+> >   EXTRA_OECONF += "--with-python"
+> >   EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+> >   
+> > -
+> >   do_compile () {
+> >   	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
+> > -	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
+> > +	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snack.so
+> >   }
+> >   
+> >   do_install () {
+> >   	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+> > -	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
+> > +	install -m 0755 ${PYTHON_DIR}/_snack.so ${D}${PYTHON_SITEPACKAGES_DIR}/
+> >   	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
+> >   }
+> >   
+> > diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+> > index 65bcf40..46598e6 100644
+> > --- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
+> > +++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+> > @@ -12,21 +12,19 @@ HOMEPAGE = "https://fedorahosted.org/newt/"
+> >   SECTION = "libs"
+> >   
+> >   LICENSE = "LGPLv2"
+> > -LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+> > +LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+> >   
+> >   # slang needs to be >= 2.2
+> >   DEPENDS = "slang popt"
+> >   
+> > -PR = "r2"
+> > -
+> >   SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
+> >              file://remove_slang_include.patch \
+> >              file://fix_SHAREDDIR.patch \
+> >              file://cross_ar.patch \
+> > -           file://fix_python_fpic.patch"
+> > +          "
+> >   
+> > -SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
+> > -SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
+> > +SRC_URI[md5sum] = "f36d4d908965a0c89fd6fd8b61a6118b"
+> > +SRC_URI[sha256sum] = "69837973ef2ee2fa644426f1c3e48d2b18785ebcd382ef7fd01eb2e67d2d632b"
+> >   
+> >   S = "${WORKDIR}/newt-${PV}"
+>
+> Any comment on libnewt commit? I notice other patches in this serial are 
+> merged except libnewt.
 
-Op 20 mrt. 2014, om 11:45 heeft Burton, Ross <ross.burton@intel.com> het =
-volgende geschreven:
+It broke builds:
 
-> On 20 March 2014 03:26, Laszlo Papp <lpapp@kde.org> wrote:
->> +PEER=3D127.0.0.1
->=20
-> That doesn't seem like a very useful default.  We also can't use the
-> NTP pool by default, so this should copy the behaviour of the ntpd
-> package in meta-networking and default to no peers, and not start if
-> none are specified.
+http://autobuilder.yoctoproject.org/main/builders/minnow-lsb/builds/89/steps/BuildImages/logs/stdio
 
-And the initscript is missing LSB headers.=
+Your patch header talks about .17 but the patch only modifies .14...
+
+Cheers,
+
+Richard
+
 
