@@ -1,27 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
-	[209.85.160.171])
-	by mail.openembedded.org (Postfix) with ESMTP id EB5AE6F8EE
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id CAE5F6F8FD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 18:53:32 +0000 (UTC)
-Received: by mail-yk0-f171.google.com with SMTP id q9so3381105ykb.2
+	Thu, 20 Mar 2014 18:53:47 +0000 (UTC)
+Received: by mail-pb0-f48.google.com with SMTP id md12so1343553pbc.21
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 11:53:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=9qhsIi+zF1Ge17zkEzvmr4sLLCKaQGF2oXaiAIoN+jI=;
-	b=IC8pCWzeGaxGkNt8DS9TFGOVD5/XnqMwX9KUC5dhhMZEdfwQJsM0AfhPAlTiTSpZzN
-	zvmdG2KZVjS9tCJERqUo8hCSDRJJ0A3qHCKp1bai/0a3hBu4qdWs2NsDMjUerQljaXZl
-	T9fIb+8+r/4SbVadw2B5JxFi2QM06bhrd62Ge5FvjGDhEVnR/DQbiVKhsLEMaOdzNsNG
-	8i3qOv3rUrlel0fIzIYTbDw2cwKbNl0/mYZ6fIJwqLMMryJi4r76+04n8PiJUINhPfmd
-	DP/s/LVksulEL5SomhzxhQQX95tgdJSrb8Hnx95Wrdi1HRLKdJtDKKI+UO0aTUPFLQ6+
-	4fvQ==
+	Thu, 20 Mar 2014 11:53:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=IBdliW6SbEeHJyMlnXllLqtkU+q6XDak1Bv8xCiyA6E=;
+	b=e1nRbwVPIdAueJ3nn7uFctRsQylBPAMHmvrJOMWPf4FI3bBEs0MsZB+OGl5j9JTMOP
+	6KhQUINcOjQL8j44pvZMTotb7wX4j8cWmEPz8jnf7GLipx2axrhWjkTs+ptFrY7egH2R
+	xt0X2zqpJrJH3emqRzw7CMDq78bqIZr0C2FUUQ4+dW7nf/XBdeVntED5TDrCOT/Ps+Df
+	0kJO/kAYBR5q2nwiiVFq+fxNjE0WqitycDCmQuacbYSnCvk/i1PzTThE0ZGdTcoPxthi
+	rSiMZyI04sd8xwx5l1sajDK80aFYeQwtXvOQjPbguAKgBPyidvRcn9+0XAuKyMtGb1qf
+	oW2w==
+X-Gm-Message-State: ALoCoQn3SZp4KuyWnhbU9BCdYlw5aj0Vv4+Kmhr/xZwX6jAWjQqw7BbBOaAJIz2/yqiEwIIzGxwL
 MIME-Version: 1.0
-X-Received: by 10.236.60.68 with SMTP id t44mr36482137yhc.47.1395341613514;
-	Thu, 20 Mar 2014 11:53:33 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 11:53:33 -0700 (PDT)
+X-Received: by 10.68.189.5 with SMTP id ge5mr48455888pbc.42.1395341628497;
+	Thu, 20 Mar 2014 11:53:48 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.11.164 with HTTP; Thu, 20 Mar 2014 11:53:48 -0700 (PDT)
 In-Reply-To: <CAOMwXhNx8XFYQhKytm88YtCfqPxAgOcB4VnNgwDfqkng2aN1uA@mail.gmail.com>
 References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
 	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
@@ -33,12 +35,13 @@ References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
 	<CAOMwXhNqbCGVZiJ3GCbjboiHrMVbC1aQ9Pd65xPzbmBjFSHVUg@mail.gmail.com>
 	<CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
 	<CAOMwXhNx8XFYQhKytm88YtCfqPxAgOcB4VnNgwDfqkng2aN1uA@mail.gmail.com>
-Date: Thu, 20 Mar 2014 15:53:33 -0300
-X-Google-Sender-Auth: mS3TTnZSPOjsnsGcVQyO09PW3j0
-Message-ID: <CAP9ODKoLyxzih9z=D-+vjJwaJ+UKHm1sOYAdv=XPirx5fd2ENg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Laszlo Papp <lpapp@kde.org>
+Date: Thu, 20 Mar 2014 18:53:48 +0000
+X-Google-Sender-Auth: i9Dppx4EWUIO3_1RiELGZ3Ymepk
+Message-ID: <CAOMwXhMpandYbNxMJqx254J-365Hmn1h=sHi43q75-J1DRC4eQ@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,33 +56,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 18:53:35 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 18:53:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Mar 20, 2014 at 3:49 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> On Thu, Mar 20, 2014 at 1:28 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> On 20 March 2014 12:44, Laszlo Papp <lpapp@kde.org> wrote:
->>> You are free to NACK without an explanation why it is important, but
->>> do not expect it to weigh much that way, at least in my eyes, based on
->>> that you are not even a maintainer as far as I know.
->>
->> One good reason: systemd reads the LSB headers.
->
-> This init script is for SysV, not systemd.
+What is actually probably a bigger issue than the LSB, is that the
+conf is currently sourced. That means if it contains an "rm -rf /"
+statement, it will execute it.
 
-Laszlo, we made several valid points. The outcome is we don't want to
-have more init scripts lacking LSB headers. The desire to have this
-patch is yours so if you want to have our ack, address those remarks.
-
-As I said, it is your call to handle it or not.
-
-I am not the maintainer of OE-Core, so I don't have a final word on
-this (Richard does) but I made clear my point and my NACK for current
-status of the patch.
-
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Perhaps, this should be solved more gently...
 
