@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2945B6F8EE
+	by mail.openembedded.org (Postfix) with ESMTP id 552AC6F8EE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 19:20:03 +0000 (UTC)
+	Thu, 20 Mar 2014 19:20:04 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2014 12:20:04 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2014 12:20:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,697,1389772800"; d="scan'208";a="504026380"
+X-IronPort-AV: E=Sophos;i="4.97,697,1389772800"; d="scan'208";a="504026386"
 Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
 	([10.252.120.182])
-	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2014 12:19:49 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2014 12:19:50 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2014 19:19:38 +0000
-Message-Id: <ab237fe9780e3dd19b5583258f5996fa26de5b61.1395343129.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Mar 2014 19:19:39 +0000
+Message-Id: <694f3d38d824ddd89121bc3b5b3333db01a0928b.1395343129.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <cover.1395343129.git.paul.eggleton@linux.intel.com>
 References: <cover.1395343129.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1395343129.git.paul.eggleton@linux.intel.com>
 References: <cover.1395343129.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 1/2] classes/kernel: move module postinst commands to kernel-base
+Subject: [PATCH v2 2/2] x264: add perlnative to inherit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Mar 2014 19:20:04 -0000
 
-Since kernel-base is the package that contains the files that depmod
-needs to run, we should be running depmod from the kernel-base
-postinstall rather than kernel-image.
+perl is run as part of the configure process, so we should ensure that
+it's available.
 
-Fixes [YOCTO #5392].
+Should fix [YOCTO #5768].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/kernel.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/x264/x264_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6953109..19b159b 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -362,8 +362,7 @@ ALLOW_EMPTY_kernel-image = "1"
- ALLOW_EMPTY_kernel-modules = "1"
- DESCRIPTION_kernel-modules = "Kernel modules meta package"
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index 0e305ea..d192c30 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -18,7 +18,7 @@ PV = "r2265+git${SRCPV}"
  
--pkg_postinst_kernel-image () {
--	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+pkg_postinst_kernel-base () {
- 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
- 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
- 	fi
-@@ -374,6 +373,10 @@ pkg_postinst_kernel-image () {
- 	fi
- }
+ S = "${WORKDIR}/git"
  
-+pkg_postinst_kernel-image () {
-+	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+}
-+
- pkg_postrm_kernel-image () {
- 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
- }
+-inherit lib_package pkgconfig
++inherit lib_package pkgconfig perlnative
+ 
+ X264_DISABLE_ASM = ""
+ X264_DISABLE_ASM_armv4 = "--disable-asm"
 -- 
 1.8.5.3
 
