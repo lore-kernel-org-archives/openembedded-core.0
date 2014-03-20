@@ -1,38 +1,50 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C4C46F8C7
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A3F26F8C7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 16:24:40 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Mar 2014 09:23:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,695,1389772800"; d="scan'208";a="495936611"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Mar 2014 09:22:54 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 20 Mar 2014 16:22:53 +0000
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.87]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.144]) with mapi id
-	14.03.0123.003; Thu, 20 Mar 2014 16:22:52 +0000
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>
-Thread-Topic: [poky] [RFC PATCH v2 0/3] Master image generation and testing
-Thread-Index: AQHPQfvOYq2tocOB60eGO+928Sq9OJroyIkAgAFk1IA=
-Date: Thu, 20 Mar 2014 16:22:52 +0000
-Message-ID: <1395332583.15042.2.camel@firebird.rb.intel.com>
-References: <cover.1395069742.git.stefanx.stanacar@intel.com>
-	<10573578.XnzgTfVZqB@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <10573578.XnzgTfVZqB@peggleto-mobl5.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.160]
-MIME-Version: 1.0
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [RFC PATCH v2 0/3] Master image generation and testing
+	Thu, 20 Mar 2014 16:28:32 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id d49so870162eek.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Mar 2014 09:28:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=tjlZijvexKK70r35xMlRvi8nUsX0oMRiCC74Wop2gGY=;
+	b=c3qiOxEu5cNNVz3gAHTsII3IisELsrShIgGTngIA90po25hVgP2AaYtuenfkntr0bL
+	O0yfqSfdeFzvb9xfNJdHe+RB+zI6aDXCMxEqq5Qra1lJobstmQfaLHceEb5s56n+jgDT
+	OkXFBTxL3S4ZLP08kGS5mV5h4BScwp26JCOUqQsPAE3ejWD3k7Js8+XKQrZJy4d1YYis
+	CCFOnqBs3sqYUFUCYsU7nPrqpMsFL4viyfNEmOpKYLcuAAIGcSMvTeMgIu7HoZu0SVe0
+	PThKLwDAYuT18izg1uprrL7pqb/53jPmC/U6FOHc17XoaRswpUAaKMzkYwxI20D+tX2w
+	JQmA==
+X-Gm-Message-State: ALoCoQk1dv1053lQHnejQ0bxSW8phwv9Bdr5AKcTksv4jGKvJ1eCiZ1txS+P61H1xn8RUwtOUky1
+X-Received: by 10.14.104.135 with SMTP id i7mr43136850eeg.34.1395332912626;
+	Thu, 20 Mar 2014 09:28:32 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::a9db:b3da:284e:1ede?
+	([2001:610:612:0:a9db:b3da:284e:1ede])
+	by mx.google.com with ESMTPSA id p8sm5157935eef.26.2014.03.20.09.28.31
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 20 Mar 2014 09:28:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
+Date: Thu, 20 Mar 2014 17:28:29 +0100
+Message-Id: <B0C68756-9FE4-459F-9DFE-753106847A87@dominion.thruhere.net>
+References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
+	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
+	<0EAF1183-40EE-4110-9F86-1CABDA6273A6@dominion.thruhere.net>
+	<CAOMwXhP6=vJA6TjWbuTfcWw1DVvVgWZ-Js35+w-sVFLw605Bfw@mail.gmail.com>
+	<CAP9ODKpY2cxK343ahPQFSYEKbTMo4L9mCLQnC4KqYdhsdwB3mQ@mail.gmail.com>
+	<CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
+	<CAP9ODKqTi=PGUHOsRSkHJrS0nsxEzoYyFbQffm4UU5iedLJNWA@mail.gmail.com>
+	<CAOMwXhNqbCGVZiJ3GCbjboiHrMVbC1aQ9Pd65xPzbmBjFSHVUg@mail.gmail.com>
+	<CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,70 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 16:24:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2694ABC9D2D5DB47B1B8CD431757D7A4@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 20 Mar 2014 16:28:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-SGkgUGF1bCwNCg0KDQpPbiBXZWQsIDIwMTQtMDMtMTkgYXQgMTk6MDUgKzAwMDAsIFBhdWwgRWdn
-bGV0b24gd3JvdGU6DQo+IEhpIFN0ZWZhbiwNCj4gDQo+IE9uIE1vbmRheSAxNyBNYXJjaCAyMDE0
-IDE3OjQyOjEzIFN0ZWZhbiBTdGFuYWNhciB3cm90ZToNCj4gPiBUaGlzIGlzIHdoYXQgSSBjdXJy
-ZW50bHkgdXNlIGZvciBkb2luZyBhdXRvbWF0ZWQgZGVwbG95bWVudA0KPiA+IGZvciBhIGdlbmVy
-aWN4ODYtNjQgaW1hZ2UuIE1vcmUgZGV0YWlscyBvbiB0aGUgY29tbWl0DQo+ID4gbWVzc2FnZXMu
-IFRoZXJlIGlzIG5vdGhpbmcgcGFydGljdWxhciB0byBnZW5lcmljeDg2LTY0LA0KPiA+IGl0IHNo
-b3VsZCB3b3JrIG9uIGFueSBFRkktZW5hYmxlZCBkZXZpY2Ugd2l0aCBndW1taWJvb3QgYXMgYm9v
-dGxvYWRlci4NCj4gPiANCj4gPiBDaGFuZ2VzIHNpbmNlIHYyOg0KPiA+ICAgLSBkcm9wZWQgdGhl
-IGtlcm5lbCBvcHRpb25zIHBhdGNoLCB0aGUgcmVxdWlyZWQgb3B0aW9ucyBhcmUgbm93IGluIHRo
-ZQ0KPiA+IGRlZmF1bHQgY29uZmlnIGZyYWdtZW50cy4gWW91IHN0aWxsIG5lZWVkIHRvIGJ1aWxk
-IHdpdGggYW4gdXBkYXRlZCBTUkNSRVYNCj4gPiB0aG91Z2gsIGFzIHRoZSBrZXJuZWwgcmVjaXBl
-cyBoYXZlbid0IHBpY2tlZCB1cCB0aGUgY2hhbmdlcyB5ZXQuDQo+ID4gKFNSQ1JFVl9tZXRhX3Bu
-LWxpbnV4LXlvY3RvID0gIiR7QVVUT1JFVn0iIGluIGxvY2FsLmNvbmYpDQo+ID4gICAtIGltcG92
-ZSBhIGJpdCB0aGUgbWFzdGVyIGltYWdlIHJlY2lwZSAoaW5oZXJpdCBjb3JlLWltYWdlIGFuZCBh
-ZGQgdG8NCj4gPiBJTUFHRV9JTlNUQUxMIGluc3RlYWQgb2Ygb3ZlcndyaXRpbmcgSU1BR0VfSU5T
-VEFMTCwgdGhhdCBlbnN1cmVzIHdlIHBpY2sgdXANCj4gPiB0aGUgY29ycmVjdCBtb2R1bGVzLCBh
-cyBjb3JlLWltYWdlIGJyaW5ncyBpbiBwYWNrYWdlZ3JvdXAtYmFzZS1leHRlbmRlZCkNCj4gPiAg
-IC0gdHdlYWtzIGFuZCBmaXhlcyBmb3IgR2VuZXJpY0VmaSAtIEkgZGlkIGEgY29tcGxldGUgdGVz
-dCBydW4gZm9yIGEgTlVDDQo+ID4gZGV2aWNlIGNvbm5lY3RlZCB0byBhIHdlYiBwb3dlciBzdHJp
-cC4gVGhlIHBvd2VyY29udHJvbCBjb21tYW5kIGlzIGFuDQo+ID4gZXhwZWN0IHNjcmlwdCB0aGF0
-IGRvZXMgc3NoIG9uIGEgZGV2aWNlIHdoaWNoIGNvbnRyb2xzIHRoZSBwb3dlciBzdHJpcA0KPiA+
-ICh0aGlzIGlzIHBhcnRpY3VsYXIgdG8gYSBuZXR3b3JrIHNldHVwIHRoYXQgSSBjYW4ndCBjb250
-cm9sKS4gSXQgc3RpbGwNCj4gPiB3b3JrcyBmb3IgdGhlIG5vIHBvd2VyIGNvbW1hbmQgYXZhaWxh
-YmxlIGNhc2UuDQo+ID4gDQo+ID4gQWxzbyBzZWUgWUIjMTU5NiBhbmQgaXQncyBzdWItYnVnICM1
-NjE0IGZvciBhIGJpdCBvZiBiYWNrZ3JvdW5kLg0KPiA+IEFueSBjb21tZW50cywgcXVlc3Rpb25z
-LCBtb3N0IHdlbGNvbWUuDQo+ID4gDQo+ID4gQ2hlZXJzLA0KPiA+IFN0ZWZhbg0KPiA+IA0KPiA+
-IA0KPiA+IFBsZWFzZSByZXZpZXcgdGhlIGZvbGxvd2luZyBjaGFuZ2VzIGZvciBzdWl0YWJpbGl0
-eSBmb3IgaW5jbHVzaW9uLiBJZiB5b3UNCj4gPiBoYXZlIGFueSBvYmplY3Rpb25zIG9yIHN1Z2dl
-c3Rpb25zIGZvciBpbXByb3ZlbWVudCwgcGxlYXNlIHJlc3BvbmQgdG8gdGhlDQo+ID4gcGF0Y2hl
-cy4gSWYgeW91IGFncmVlIHdpdGggdGhlIGNoYW5nZXMsIHBsZWFzZSBwcm92aWRlIHlvdXIgQWNr
-ZWQtYnkuDQo+ID4gDQo+ID4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA5MjE1
-NWZkZTIwNzkyNTE3MzlmNDU1YmNhNTk5YTUyY2QyMWVmMTJiOg0KPiA+IA0KPiA+ICAgYml0YmFr
-ZTogcnVucXVldWU6IERvbid0IGVycm9yIGlmIHdlIG5ldmVyIHNldHVwIHdvcmtlcnMgKDIwMTQt
-MDMtMTcNCj4gPiAxNTowNDo0NiArMDAwMCkNCj4gPiANCj4gPiBhcmUgYXZhaWxhYmxlIGluIHRo
-ZSBnaXQgcmVwb3NpdG9yeSBhdDoNCj4gPiANCj4gPiAgIGdpdDovL2dpdC55b2N0b3Byb2plY3Qu
-b3JnL3Bva3ktY29udHJpYiBzdGVmYW5zL21hc3RlcmltYWdlDQo+ID4gIA0KPiA+IGh0dHA6Ly9n
-aXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5LWNvbnRyaWIvbG9nLz9oPXN0ZWZhbnMv
-bWFzdGVyaW1hZw0KPiA+IGUNCj4gDQo+IExvb2tzIGdvb2QuIFNvbWUgcmV2aWV3IGNvbW1lbnRz
-Og0KPiANCj4gKiBJcyBhbGwgb2YgcGFja2FnZWdyb3VwLWNvcmUtZnVsbC1jbWRsaW5lIHJlYWxs
-eSBuZWVkZWQgZm9yIHRoZSBtYXN0ZXIgaW1hZ2UgDQo+IG9yIGp1c3Qgc29tZSBzcGVjaWZpYyB1
-dGlsaXRpZXMgdGhhdCBpdCBwdWxscyBpbj8NCj4gDQoNCk5vLCBqdXN0IHNvbWUgc3BlY2lmaWMg
-dXRpbGl0aWVzLiBJJ20gZ29ubmEgY2hhbmdlIHRoYXQgdG8gb25seSB0aG9zZS4NCg0KPiAqIENv
-dWxkIHdlIGhhdmUgVEVTVF9QT1dFUkNPTlRST0xfRVhUUkFfQVJHUyBzbyB0aGF0IFRFU1RfUE9X
-RVJDT05UUk9MX0NNRCBjYW4gDQo+IGJlIHNldCBnZW5lcmljYWxseSBmb3IgdGhlIHVzZXIncyBz
-ZXR1cCBhbmQgZXh0cmEgbWFjaGluZS1zcGVjaWZpYyBhcmd1bWVudHMgDQo+IChzdWNoIGFzIHNl
-cmlhbCBwb3J0IG51bWJlcnMgb3Igb3RoZXIgaWRlbnRpZmllcnMpIGNhbiBiZSBzZXQgZWFzaWx5
-IG9uIGEgcGVyLQ0KPiBtYWNoaW5lIGJhc2lzIGlmIG5lZWRlZD8NCg0KT2theSwgd2lsbCBjaGFu
-Z2UgdGhhdC4NCg0KPiANCj4gKiBJIHdvbmRlciBpZiBURVNUX0RFUExPWV9DTURTIHNob3VsZCBi
-ZSBsb3dlci1jYXNlIHNpbmNlIGl0IHdvdWxkIGJlIG1vc3QgDQo+IGVhc2lseSBkZWZpbmVkIGFz
-IGEgZnVuY3Rpb24gaS5lLiB0ZXN0aW1hZ2VfZGVwbG95X2NtZHMoKSB7IC4uLiB9IHRoYW4gYSAN
-Cj4gdHJhZGl0aW9uYWwgdmFyaWFibGUuIChSZWFkaW5nIGl0IGlzIGV4YWN0bHkgdGhlIHNhbWUg
-aS5lLiBkLmdldFZhcigpLikNCj4gDQoNCkknZCBsaWtlIHRvIGtlZXAgdGhhdCBjb25maWd1cmFi
-bGUgZnJvbSAuY29uZiBmaWxlcy4gSSBkaWQgY2hhbmdlZCBpdCBiZQ0Kc3BsaXR0ZWQgYnkgXG4u
-DQoNCj4gQWxsIG9mIHRoaXMgc2VlbXMgZ2VuZXJpYyBlbm91Z2ggdGhhdCBJIHRoaW5rIHRoZSBi
-ZXR0ZXIgcGxhY2UgZm9yIGl0IHdvdWxkIGJlIA0KPiBPRS1Db3JlIHJhdGhlciB0aGFuIG1ldGEt
-eW9jdG8tYnNwLiBJZiB5b3UgY291bGQgYXBwbHkgdGhlc2UgY2hhbmdlcyBvbiB0b3Agb2YgDQo+
-IE9FLUNvcmUgYW5kIHNlbmQgdjMgdG8gdGhlIE9FLUNvcmUgbWFpbGluZyBsaXN0IHRoYXQgd291
-bGQgYmUgZ3JlYXQuDQo+IA0KDQpPa2F5LCBncmVhdC4gSSdsbCBtb3ZlIGV2ZXJ5dGhpbmcgZnJv
-bSBtZXRhLXlvY3RvLWJzcCB0byBtZXRhIGFuZA0KcmUtc2VuZC4NCg0KQ2hlZXJzLA0KU3RlZmFu
-DQoNCj4gVGhhbmtzLA0KPiBQYXVsDQo+IA0KDQo=
+
+Op 20 mrt. 2014, om 14:28 heeft Burton, Ross <ross.burton@intel.com> het =
+volgende geschreven:
+
+> On 20 March 2014 12:44, Laszlo Papp <lpapp@kde.org> wrote:
+>> You are free to NACK without an explanation why it is important, but
+>> do not expect it to weigh much that way, at least in my eyes, based =
+on
+>> that you are not even a maintainer as far as I know.
+>=20
+> One good reason: systemd reads the LSB headers.
+
+As well as other inits that support sysv mode.
+
+regards,
+
+Koen=
 
