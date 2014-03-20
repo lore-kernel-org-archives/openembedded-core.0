@@ -1,37 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C5EE6E87A
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 254226E6FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 21:01:19 +0000 (UTC)
-Received: by mail-yk0-f177.google.com with SMTP id q200so3813389ykb.8
+	Thu, 20 Mar 2014 21:06:58 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id j17so1571665oag.26
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 14:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=fl8+WGYhJ/egrnAjfrAEXjNaEoxRxKEPiyyDrR7H1RU=;
-	b=JMJci6rMB/gdQBJ8P095HGSxViFOQl95ToiGYFUERZ/mtVE2ocMYaTGTgFRElC7Ubg
-	piH+n5RwBuJC3E7fuHpZ8rmaDITl/WuNRkT38vrNzSVP/m75W0yIUanCCx1GBPjCpADz
-	rgrfwdH2q5764/MnyA1yoGVfl+zMdO3qD4qSfH9lIWEZcBEVIZmmcC3r2JuSoITjcQG4
-	ATzc0l0HiHIYJJBS63nz6xHw3hcJ1heeRRVO5/aZwgXR+k7H8B/bF/HQohBegNPdRO/6
-	Ehxe7kbWVEuQlF5WORP97UUummHWovpY/sPwI4eiFbZCim0xgda37T3jGTMIBFDyEYIX
-	Opog==
-MIME-Version: 1.0
-X-Received: by 10.236.18.227 with SMTP id l63mr21995523yhl.101.1395349280866; 
-	Thu, 20 Mar 2014 14:01:20 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 14:01:20 -0700 (PDT)
-In-Reply-To: <1395337775-26756-1-git-send-email-fathi.boudra@linaro.org>
-References: <1395337775-26756-1-git-send-email-fathi.boudra@linaro.org>
-Date: Thu, 20 Mar 2014 18:01:20 -0300
-X-Google-Sender-Auth: sdu4QGmf49vbUOvuQXkQ98lA8Ys
-Message-ID: <CAP9ODKoaNMqOG331KgJShjTmcmXYkF_rRbqor+ctt+_8VGq1qg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-arch.bbclass: add arm64 support to U-Bootarchitecture map
+	Thu, 20 Mar 2014 14:06:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0ba4YV6xIDepU7ll6XiLls3x1IMMXLc8F5HLqCk8C3Q=;
+	b=AumfgHFUVRYGzTotwC3mNpfv9oDpvnnEls/+AutLnGCTrvl+YLZtEklpcZD0LmUmbh
+	m9y9VusjeTzQLjanNJoraCgVBwLvOQo0/7vB6lZ2MXqAJY9JFWb5dfPYfT71HgMLweEs
+	dRy9qxurUJMCT+h7tl+027miql+zfh3RARk8vfz6Ifj2atUDK6I9xTp3k7BNX4wU2fTI
+	vMiZXi/03T1LjwfLjmCE5DXIzfR2BjCNJsB6R3ReB8nAQiIxfy2Tf8B43UCxnWiybSjU
+	M915oY1fC6JIM9pS8+UYw07b7f9jYG82+k22yuDD/DHgVKqB6/vSRyNOwTkbOq6Mu0rR
+	Uk/g==
+X-Gm-Message-State: ALoCoQkwRekGMpiYt5AGQkVV39hZk7IvYyssJ6BsrI0s1PQpxQk0oMmDt8Y+pSvJgc3MhkZnJPPx
+X-Received: by 10.60.142.166 with SMTP id rx6mr8297816oeb.57.1395349618365;
+	Thu, 20 Mar 2014 14:06:58 -0700 (PDT)
+Received: from openSUSE-i7.site (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158]) by mx.google.com with ESMTPSA id
+	fn10sm4722779obb.12.2014.03.20.14.06.57 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Mar 2014 14:06:57 -0700 (PDT)
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Mar 2014 17:06:38 -0400
+Message-Id: <1395349598-951-1-git-send-email-trevor.woerner@linaro.org>
+X-Mailer: git-send-email 1.9.0
+Cc: patches@linaro.org
+Subject: [PATCH 1/1] core-image-minimal: allow user to set size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 21:01:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Mar 2014 21:07:00 -0000
 
-On Thu, Mar 20, 2014 at 2:49 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-> to define UBOOT_ARCH, we map kernel architectures to U-Boot architectures.
-> In the case of arm64 kernel, we should map to arm U-boot architecture.
->
-> This patch add the exception rule to the map_uboot_arch function.
->
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+Allow the user, in their local configuration, to override the size of the
+final image. This is useful when creating an image for (for example) an SD
+card and the user wants the image to fill up the card as much as possible.
 
-Short log typo.
+Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
+---
+ meta/recipes-core/images/core-image-minimal.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
+index b82ca46..9716274 100644
+--- a/meta/recipes-core/images/core-image-minimal.bb
++++ b/meta/recipes-core/images/core-image-minimal.bb
+@@ -8,5 +8,5 @@ LICENSE = "MIT"
+ 
+ inherit core-image
+ 
+-IMAGE_ROOTFS_SIZE = "8192"
++IMAGE_ROOTFS_SIZE ?= "8192"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.0
+
 
