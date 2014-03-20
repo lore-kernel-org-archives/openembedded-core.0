@@ -1,41 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id CC19C6F8CF
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 84E976F8CF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 16:42:44 +0000 (UTC)
-Received: by mail-ie0-f174.google.com with SMTP id rp18so1124481iec.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 09:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=bt0OUtH6f8PC/njnyWuBFqwFNKzBEQjS/APkCNLfhCc=;
-	b=U6zCNXkj7KDA2Iq9ze+ccTXZfKrLwg4LWLExHIQhr3NPqdjQNPeQAjYCIZzIX+kjT3
-	unJyHHFsGF4HUmnUNCYdYQ9fQy4ONVM1ZHcMW/hBkvKlXpT74z/jBp/OZ+0RJXqtl5oS
-	h9uF/PQjV6FF+aW4TR/jpi6corASXViuJRkIL79UBp69zqlaZQrpIpZIvJDol+Nrj40f
-	pMD+jiusn6qefgIkX3mF/nN0zoPkF/AIVY99yIuhwKEz6gqLug6VYVFEvlZrWhRQ05o3
-	1tFhWQomhO7CUN3QYdZ+H0NNR4fkO9pK+sldjjPIzT7xxK+TP7v41pwVRaN5phFgfbM/
-	pqZw==
-X-Received: by 10.42.20.193 with SMTP id h1mr2500010icb.70.1395333765152; Thu,
-	20 Mar 2014 09:42:45 -0700 (PDT)
+	Thu, 20 Mar 2014 17:10:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Mar 2014 10:01:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,695,1389772800"; d="scan'208";a="476530935"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.120.182])
+	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2014 10:05:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Mar 2014 17:05:58 +0000
+Message-ID: <5817510.6T5iDFxA4I@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <63b77e4834120f6943a61e814e1159b06debfeb7.1395328478.git.paul.eggleton@linux.intel.com>
+References: <cover.1395328478.git.paul.eggleton@linux.intel.com>
+	<63b77e4834120f6943a61e814e1159b06debfeb7.1395328478.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Thu, 20 Mar 2014 09:42:14 -0700 (PDT)
-In-Reply-To: <CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
-References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
-	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
-	<0EAF1183-40EE-4110-9F86-1CABDA6273A6@dominion.thruhere.net>
-	<CAOMwXhP6=vJA6TjWbuTfcWw1DVvVgWZ-Js35+w-sVFLw605Bfw@mail.gmail.com>
-	<CAP9ODKpY2cxK343ahPQFSYEKbTMo4L9mCLQnC4KqYdhsdwB3mQ@mail.gmail.com>
-	<CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Mar 2014 09:42:14 -0700
-Message-ID: <CAMKF1sqsn9A4et3yGJ5Q7FpAf1TUOvjoc2bBp4evMVXiwN6_qA@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
+Subject: Re: [PATCH 2/3] python: add python-mmap to python-multiprocessing RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,39 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 16:42:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Mar 2014 17:11:06 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Mar 20, 2014 at 5:16 AM, Laszlo Papp <lpapp@kde.org> wrote:
->>>> And the initscript is missing LSB headers.
->>>
->>> Just like the other similar scripts.
->>
->> This does not mean we ought to make the problem worse so add it for
->> new ones. If you are in good mood, send a fix for the others too ;)
->
-> I do not think this is a problem. Could you please point out what
-> functionality it breaks?
+On Thursday 20 March 2014 15:15:10 Paul Eggleton wrote:
+> The multiprocessing module needs the mmap module. We got away with not
+> having this for the build appliance because python-mmap was added to
+> packagegroup-self-hosted, but this is the proper place to have it.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc
+> b/meta/recipes-devtools/python/python-2.7-manifest.inc index
+> 49dbc0b..a557cdc 100644
+> --- a/meta/recipes-devtools/python/python-2.7-manifest.inc
+> +++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+> @@ -151,7 +151,7 @@ RDEPENDS_${PN}-mmap="${PN}-core ${PN}-io"
+>  FILES_${PN}-mmap="${libdir}/python2.7/lib-dynload/mmap.so "
+> 
+>  SUMMARY_${PN}-multiprocessing="Python multiprocessing support"
+> -RDEPENDS_${PN}-multiprocessing="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle
+> ${PN}-threading ${PN}-ctypes" +RDEPENDS_${PN}-multiprocessing="${PN}-core
+> ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-threading ${PN}-ctypes ${PN}-mmap"
+> FILES_${PN}-multiprocessing="${libdir}/python2.7/lib-dynload/_multiprocessi
+> ng.so ${libdir}/python2.7/multiprocessing "
+> 
+>  SUMMARY_${PN}-netclient="Python Internet Protocol clients"
 
-it would be not groked by systemd e.g. folks use sysvinit, systemd,
-upstart with OE
-moreover we do have aspirations to come closer to lsb
-there are lsb images that some distros produce. There might be
-existing scripts which
-dont have lsb headers however those are wrong examples to adhere to
-when generating brand
-new scripts.
+So I missed completely that this file is automatically generated. I'm going to 
+update the script and send a v2, with some additional patches to sync other 
+changes between the script and the inc file.
 
- Send patches for the others, and I will make
-> this cosmetic change for this one, too.
+Cheers,
+Paul
 
-having said above why is that a condition for you to make your patch better ?
+-- 
 
-Consistency is more important
-> than a mess of different styles, especially when it comes to cosmetic
-> changes like this.
-
-lets say we are moving towards consistency one after another its not
-going to happen overnight
-but each contribution in right direction helps.
+Paul Eggleton
+Intel Open Source Technology Centre
 
