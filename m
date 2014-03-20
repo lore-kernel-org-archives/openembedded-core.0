@@ -1,35 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E6D6F800
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 30F5E6F92F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 22:54:33 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id uy17so3520384igb.3
+	Thu, 20 Mar 2014 22:57:59 +0000 (UTC)
+Received: by mail-qg0-f42.google.com with SMTP id q107so4704959qgd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 15:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=H4mACXSw9nyIZF+niADnWaEqaKidzRz9jXp0Wu0P9Hw=;
-	b=EXWzOxZOV3+e40yjOrEuLWPWHp54klPYgBpNFe+h7oTTaONY2cKQKq0xCIaug/Jvkj
-	vh6lYjWfqJCHBAw7IAwGsmBFkcPjEGjkiYp1znsSLiaI5H9JmOmXmZ5INZRbbQ63h8KI
-	ge7GflO7062XcAsMMMLC/LIL/Fb7OVAiMhh3cf8UuAAGIV7ekWRL3wCdoyAfLqQNBjsp
-	gGqFq9rQK6tIW0PMo9hnVRtS7tpioCAsSLzSfigC+hsUjy40UVuo9alU19ZOsdI0gwEV
-	zcNszcg0C+b+WXMHY/U5gsv6i59Qs6+v4uLhLT+asttak/zlLmPj4WLITGYxL7IBjB1u
-	AmrA==
-X-Received: by 10.50.49.76 with SMTP id s12mr23796919ign.2.1395356075025; Thu,
-	20 Mar 2014 15:54:35 -0700 (PDT)
+	Thu, 20 Mar 2014 15:58:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=d6VCUifCdDjoGSDziq4VjqU/KScZU8AwGco92EJWi2M=;
+	b=MkD8OW6Wyav7swQjspmMNUfc93axnrwYh+Sk8GWUcqalz3+l4sTIkj21/FvqxZoDpY
+	iRVmhOKUP/uH+PK2g8VJfwMrBZKieYWFV8pOY3WGjjq7bqJQCFcLnX8OyHFIjcqFUjHI
+	f9uioTy1c5orb2aRZZNC2KCnVqu71cuOFIDYreJRkYOnbNItgGys9z31nKPFZMRdJRMz
+	iczs1MnK3n3xZQGiToff3zMm0PVewT+3gMlVLpuMQmwB/Gj8Z0MwYVeRhwjuLatye5Zf
+	czSNmj9PD0dbGEKFg+5nb2iudhIH72fh1d0CG/aRDgvI0J31mFBroxyDgSiie83WF6fi
+	7SEg==
+X-Gm-Message-State: ALoCoQks8vcfi2yfHyz+EdG/MgEEr+rW7vQAUukWeideMDhzl8uhlVOAoKNsI1x+lY45DLEseRws
+X-Received: by 10.140.26.194 with SMTP id 60mr26776853qgv.92.1395356280661;
+	Thu, 20 Mar 2014 15:58:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.224.136 with HTTP; Thu, 20 Mar 2014 15:54:01 -0700 (PDT)
-In-Reply-To: <cover.1395343268.git.paul.eggleton@linux.intel.com>
-References: <cover.1395343268.git.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Mar 2014 15:54:01 -0700
-Message-ID: <CAMKF1srcKgDQurZLWGNwx7_wf_Hzxq-U0s4vPx=1QTq01TMVZA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] Fixes for python module packaging
+Received: by 10.140.27.167 with HTTP; Thu, 20 Mar 2014 15:57:40 -0700 (PDT)
+In-Reply-To: <CAP9ODKpoaUqrGUVB9PeaK1RQDsSxsMsxVim=RYNirmbxRY7YiQ@mail.gmail.com>
+References: <1395246282-8546-1-git-send-email-otavio@ossystems.com.br>
+	<1395246282-8546-4-git-send-email-otavio@ossystems.com.br>
+	<CAP9ODKpoaUqrGUVB9PeaK1RQDsSxsMsxVim=RYNirmbxRY7YiQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Mar 2014 22:57:40 +0000
+Message-ID: <CAJTo0LZU4fcQhTs5PjcLjOrZ4ujKMBw2=iMtLzOe1SbCFqRGQw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Saul Wold <saul.wold@intel.com>,
+	Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] cogl-1.0 : Update to 1.16.2 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,47 +47,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 22:54:35 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 22:58:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-looks good to me overall.
+On 20 March 2014 20:00, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> This update fixes some build problems we had in meta-fsl-arm. Prabhu
+> did runtime test it and we'd like to have it considered for inclusion.
+>
+> Looking forward for your feedback on this.
 
-Thanks
+The delta between 1.16.0 and .2 is pretty small
+(https://git.gnome.org/browse/cogl/log/?h=cogl-1.16) and is entirely
+bug fixes, so I'd be fine with merging this point release now.  It
+certainly doesn't look like there's going to be a 1.16.4 release
+shortly.
 
-On Thu, Mar 20, 2014 at 12:24 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Some fixes for module package dependencies and SUMMARY values in
-> Python 2.7/3.3.
->
->
-> The following changes since commit ef196434620522affc11b5b1b867386b5d14a4c3:
->
->   alsa-tools: fix build when x11 and gtk+ not available (2014-03-19 14:41:55 +0000)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib paule/python-manifest
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/python-manifest
->
-> Paul Eggleton (5):
->   python: add python-mmap to python-multiprocessing RDEPENDS
->   generate-manifest-*.py: set SUMMARY instead of DESCRIPTION
->   generate-manifest-2.7.py: sync with python-2.7-manifest.inc
->   generate-manifest-3.3.py: sync descriptions with 2.7 version
->   python3: sync module dependencies from 2.7
->
->  .../python/python-2.7-manifest.inc                 |   2 +-
->  .../python/python-3.3-manifest.inc                 | 130 ++++++++++-----------
->  scripts/contrib/python/generate-manifest-2.7.py    | 122 +++++++++----------
->  scripts/contrib/python/generate-manifest-3.3.py    | 114 +++++++++---------
->  4 files changed, 184 insertions(+), 184 deletions(-)
->
-> --
-> 1.8.5.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
