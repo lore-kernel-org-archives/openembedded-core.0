@@ -1,25 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AFF856F8FF
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B18606F800
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 19:05:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2014 12:05:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,696,1389772800"; d="scan'208";a="476613496"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.120.182])
-	by orsmga001.jf.intel.com with ESMTP; 20 Mar 2014 12:05:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Mar 2014 19:04:55 +0000
-Message-Id: <d94f606f8a3b6bb4d7150c5bd9efe19131f5883e.1395342113.git.paul.eggleton@linux.intel.com>
+	Thu, 20 Mar 2014 19:19:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2KJJ5DZ022020
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Mar 2014 12:19:05 -0700 (PDT)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 20 Mar 2014 12:19:04 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Mar 2014 14:19:02 -0500
+Message-ID: <39eb2abc0ec49407fecf389609caf4f3fb4a7230.1395342974.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1395342113.git.paul.eggleton@linux.intel.com>
-References: <cover.1395342113.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1395342113.git.paul.eggleton@linux.intel.com>
-References: <cover.1395342113.git.paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 1/1] packagegroup-self-hosted: Add missing python code
+In-Reply-To: <cover.1395342974.git.mark.hatle@windriver.com>
+References: <cover.1395342974.git.mark.hatle@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] useradd{-static}: Ignore useradds on nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 19:05:07 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 19:19:06 -0000
+Content-Type: text/plain
 
-From: Saul Wold <sgw@linux.intel.com>
+The code was supposed to ignore both native and nativesdk operations when
+using the useradd and useradd-static code.  However, somewhere along the way
+the code was dropped.  This didn't cause any issues until someone enabled the
+enforcing mode in the new useradd-static and various nativesdk packages
+started to fail.
 
-These are in the Toolchain list, so they should also be installed on the build appliance
-
-[YOCTO #5061]
-
-Fixes [YOCTO #5941].
-
-(Partial backport of OE-Core master rev: 82374feece5c576f9950bad6861b1e00c6b30d84)
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/useradd-staticids.bbclass | 3 ++-
+ meta/classes/useradd.bbclass           | 6 ++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index ed73617..6a1d698 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -130,6 +130,7 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
-     minicom \
-     mtools \
-     ncurses \
-+    ncurses-terminfo-base \
-     neon \
-     nfs-utils \
-     nfs-utils-client \
-@@ -150,17 +151,21 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
-     python-core \
-     python-curses \
-     python-datetime \
-+    python-difflib \
-     python-distutils \
-     python-elementtree \
-     python-email \
-     python-fcntl \
-+    python-json \
-     python-logging \
-     python-misc \
-+    python-mmap \
-     python-multiprocessing \
-     python-netclient \
-     python-netserver \
-     python-pickle \
-     python-pkgutil \
-+    python-pprint \
-     python-re \
-     python-rpm \
-     python-shell \
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index 3efe2a8..a89cb10 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -262,7 +262,8 @@ def update_useradd_static_config(d):
+ 
+ 
+ python __anonymous() {
+-    if not bb.data.inherits_class('nativesdk', d):
++    if not bb.data.inherits_class('nativesdk', d) \
++        and not bb.data.inherits_class('native', d):
+         try:
+             update_useradd_static_config(d)
+         except bb.build.FuncFailed as f:
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index b5f3768..3dd7a61 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -145,7 +145,8 @@ def update_useradd_after_parse(d):
+             bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
+ 
+ python __anonymous() {
+-    if not bb.data.inherits_class('nativesdk', d):
++    if not bb.data.inherits_class('nativesdk', d) \
++        and not bb.data.inherits_class('native', d):
+         update_useradd_after_parse(d)
+ }
+ 
+@@ -197,7 +198,8 @@ fakeroot python populate_packages_prepend () {
+ 
+     # Add the user/group preinstall scripts and RDEPENDS requirements
+     # to packages specified by USERADD_PACKAGES
+-    if not bb.data.inherits_class('nativesdk', d):
++    if not bb.data.inherits_class('nativesdk', d) \
++        and not bb.data.inherits_class('native', d):
+         useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
+         for pkg in useradd_packages.split():
+             update_useradd_package(pkg)
 -- 
 1.8.5.3
 
