@@ -1,39 +1,42 @@
-Return-Path: <chase.maupin@ti.com>
-Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
-	by mail.openembedded.org (Postfix) with ESMTP id DA0646B5B3
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
+	[209.85.160.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4532D6B5B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 12:23:46 +0000 (UTC)
-Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id s2KCNkJs012884;
-	Thu, 20 Mar 2014 07:23:46 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id s2KCNkCv026573;
-	Thu, 20 Mar 2014 07:23:46 -0500
-Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
-	DFLE73.ent.ti.com ([fe80::c9be:a3a9:7cd8:c8b3%28]) with mapi id
-	14.03.0174.001; Thu, 20 Mar 2014 07:23:46 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: Khem Raj <raj.khem@gmail.com>, Gary Thomas <gary@mlbassoc.com>
-Thread-Topic: [OE-core] [PATCH 1/2] linaro-pm-qa-utils: Add power management
-	test utils
-Thread-Index: AQHPQ9WxYj1gx/Tt70SiikaU8EtTG5rp5Pjg
-Date: Thu, 20 Mar 2014 12:23:46 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED1015CF4380F@DLEE11.ent.ti.com>
-References: <1395143773-26375-1-git-send-email-Chase.Maupin@ti.com>
-	<23BFBADE-120F-4DBC-AABF-A9F802B8222C@dominion.thruhere.net>
-	<1395147366.3808.70.camel@ted>
-	<CAP9ODKqhnScZ+__098Q7OS53WrkkASfrfSxdkGt3OeozZ=2yJA@mail.gmail.com>
-	<532A36F3.2090800@mlbassoc.com>
-	<CAMKF1spcWtVah6-F6AQaSs72Cmyrke-5+JrdmR5s7AA6QCuDJA@mail.gmail.com>
-In-Reply-To: <CAMKF1spcWtVah6-F6AQaSs72Cmyrke-5+JrdmR5s7AA6QCuDJA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
+	Thu, 20 Mar 2014 12:26:36 +0000 (UTC)
+Received: by mail-yk0-f169.google.com with SMTP id 142so2028388ykq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Mar 2014 05:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=6F2nDdvo3d9G9nU1eXs8OCgZKhvPSnDraKR9fZx4L90=;
+	b=C8lDYBsvjJOq15t6UGF/qAW/IGFmPXR5Eqyq5/lMk8o0NbSI+2PR/TXTKDDg8K/jQJ
+	x+s7YfhCPMw8+AT+Y2uN2/MHfv2XNazgHJxwxCxpdgtzk880OoSwosHfx9INmn1ajCRC
+	ESR9P8HMcIlmJ7eqcObJ7zydbvoEzdUsZg9vyNFVYEn383HXEOR2BCFMhSSzHR20gxJR
+	dOwV2GaUtas+dGxVwftYiCV2XooUU0RhCERApBl7DvTup8ioaz9rAu4cAFHcJUFxTy8b
+	l0AShAXouHczWU2cU0ph9mdoqj179T4ZCTE6ARrV3l5g/RR5YUb7w/c9KJBXqlVjpaZu
+	VtQw==
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] linaro-pm-qa-utils: Add power management test utils
+X-Received: by 10.236.40.12 with SMTP id e12mr573531yhb.155.1395318397745;
+	Thu, 20 Mar 2014 05:26:37 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 05:26:37 -0700 (PDT)
+In-Reply-To: <CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
+References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
+	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
+	<0EAF1183-40EE-4110-9F86-1CABDA6273A6@dominion.thruhere.net>
+	<CAOMwXhP6=vJA6TjWbuTfcWw1DVvVgWZ-Js35+w-sVFLw605Bfw@mail.gmail.com>
+	<CAP9ODKpY2cxK343ahPQFSYEKbTMo4L9mCLQnC4KqYdhsdwB3mQ@mail.gmail.com>
+	<CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
+Date: Thu, 20 Mar 2014 09:26:37 -0300
+X-Google-Sender-Auth: bV0r7aCSpevPfJxeVRI6hqGKUrI
+Message-ID: <CAP9ODKqTi=PGUHOsRSkHJrS0nsxEzoYyFbQffm4UU5iedLJNWA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,48 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 12:23:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Mar 2014 12:26:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
->-----Original Message-----
->From: openembedded-core-bounces@lists.openembedded.org
->[mailto:openembedded-core-bounces@lists.openembedded.org] On
->Behalf Of Khem Raj
->Sent: Wednesday, March 19, 2014 7:46 PM
->To: Gary Thomas
->Cc: Patches and discussions about the oe-core layer
->Subject: Re: [OE-core] [PATCH 1/2] linaro-pm-qa-utils: Add power
->management test utils
->
->On Wed, Mar 19, 2014 at 5:31 PM, Gary Thomas <gary@mlbassoc.com>
->wrote:
+On Thu, Mar 20, 2014 at 9:16 AM, Laszlo Papp <lpapp@kde.org> wrote:
+> On Thu, Mar 20, 2014 at 11:59 AM, Otavio Salvador
+> <otavio@ossystems.com.br> wrote:
+>> On Thu, Mar 20, 2014 at 8:34 AM, Laszlo Papp <lpapp@kde.org> wrote:
+>>> On Thu, Mar 20, 2014 at 11:22 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>>
+>>>> Op 20 mrt. 2014, om 11:45 heeft Burton, Ross <ross.burton@intel.com> het volgende geschreven:
+>>>>
+>>>>> On 20 March 2014 03:26, Laszlo Papp <lpapp@kde.org> wrote:
+>>>>>> +PEER=127.0.0.1
+>>>>>
+>>>>> That doesn't seem like a very useful default.  We also can't use the
+>>>>> NTP pool by default, so this should copy the behaviour of the ntpd
+>>>>> package in meta-networking and default to no peers, and not start if
+>>>>> none are specified.
+>>>>
+>>>> And the initscript is missing LSB headers.
+>>>
+>>> Just like the other similar scripts.
 >>
->> What are you afraid of?  Putting this in OE-core _may_ make
->sense
->> if it serves a larger community, but having it there will not be
->> destabilizing, so why not?
+>> This does not mean we ought to make the problem worse so add it for
+>> new ones. If you are in good mood, send a fix for the others too ;)
 >
->We should always strive towards making OE-Core leaner, therefore
->we
->should evaluate the real common usecase. which means there must be
->a
->good justification to add it there
+> I do not think this is a problem. Could you please point out what
+> functionality it breaks? Send patches for the others, and I will make
+> this cosmetic change for this one, too. Consistency is more important
+> than a mess of different styles, especially when it comes to cosmetic
+> changes like this.
 
-So are there other people that have an interest in these utilities for test=
-ing power management features of the kernel?  It sounds like that is the qu=
-estion you have in order to help decide whether this is a common use case o=
-r not.
+Koen and I think it is important. So consider this my NACK for the patch as is.
 
-Koen,=20
+You are free to do whatever you want.
 
-Do you know, or perhaps the Linaro QA team would know, how many people are =
-using these utilities?
+> That said, Ross had a good point - although that is not critical
+> either, and since everyone is overriding the default, it could work
+> without that - , so I will update that one.
 
->--
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Better.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
