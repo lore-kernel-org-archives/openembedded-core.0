@@ -1,26 +1,24 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id CEFF060C14
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 814576B819
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 09:25:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,693,1389740400"; d="scan'208";a="42999275"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 20 Mar 2014 10:25:53 +0100
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Thu, 20 Mar 2014 10:25:53 +0100
-Received: from u85.usr.ingenico.loc (10.23.7.85) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Thu, 20 Mar 2014 10:25:53 +0100
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+	Thu, 20 Mar 2014 09:32:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2K9WHaa019635
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Mar 2014 02:32:17 -0700 (PDT)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Thu, 20 Mar 2014 02:32:16 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Mar 2014 10:18:38 +0100
-Message-ID: <1395307118-5007-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.5.4
-In-Reply-To: <1395248880-1075-1-git-send-email-Matthieu.Crapet@ingenico.com>
-References: <1395248880-1075-1-git-send-email-Matthieu.Crapet@ingenico.com>
+Date: Thu, 20 Mar 2014 17:37:40 +0800
+Message-ID: <cover.1395308167.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [RFC][PATCH v2] fontcache.bbclass: add fontconfig-utils runtime dependency
+Subject: [PATCH 0/1] genext2fs: remove it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,101 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 09:25:55 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 09:32:18 -0000
 Content-Type: text/plain
 
-In an image recipe, you can get a warning, for example:
-WARNING: The postinstall intercept hook 'update_font_cache' failed (exit code: 1)! See log for details!
-WARNING: The postinstalls for the following packages will be postponed for first boot: ttf-dejavu-sans-mono
+The following changes since commit ef196434620522affc11b5b1b867386b5d14a4c3:
 
-(because /usr/bin/fc-cache is missing)
+  alsa-tools: fix build when x11 and gtk+ not available (2014-03-19 14:41:55 +0000)
 
-In OE-core, rdepend is correctly done in each recipe:
-- ttf-fonts/liberation-fonts
-- ttf-fonts/ttf-bitstream-vera
+are available in the git repository at:
 
-In meta-OE, rdepend is not done but packagegroup-fonts-truetype.bb includes fontconfig-utils:
-- ttf-fonts/ttf-arphic-uming
-- ttf-fonts/ttf-dejavu
-- ttf-fonts/ttf-droid
-- ttf-fonts/ttf-gentium
-- ttf-fonts/ttf-hunkyfonts
-- ttf-fonts/ttf-inconsolata
-- ttf-fonts/ttf-liberation
-- ttf-fonts/ttf-mplus
-- ttf-fonts/ttf-sazanami
-- ttf-fonts/ttf-ubuntu-font-family
-- ttf-fonts/ttf-wqy-zenhei
+  git://git.openembedded.org/openembedded-core-contrib rbt/genext2fs
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/genext2fs
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/classes/fontcache.bbclass                             | 4 ++++
- meta/conf/documentation.conf                               | 1 +
- meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb   | 1 -
- meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb | 1 -
- 4 files changed, 5 insertions(+), 2 deletions(-)
+Robert Yang (1):
+  genext2fs: remove it
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index 325bcae..afd3fd2 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -7,6 +7,7 @@ DEPENDS += "qemu-native"
- inherit qemu
- 
- FONT_PACKAGES ??= "${PN}"
-+FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
- 
- fontcache_common() {
- if [ "x$D" != "x" ] ; then
-@@ -19,8 +20,11 @@ fi
- 
- python populate_packages_append() {
-     font_pkgs = d.getVar('FONT_PACKAGES', True).split()
-+    deps = d.getVar("FONT_EXTRA_RDEPENDS", True)
- 
-     for pkg in font_pkgs:
-+        if deps: d.appendVar('RDEPENDS_' + pkg, ' '+deps)
-+
-         bb.note("adding fonts postinst and postrm scripts to %s" % pkg)
-         postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
-         if not postinst:
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 53c3da2..4d49a02 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -173,6 +173,7 @@ FILESEXTRAPATHS[doc] = "Extends the search path the OpenEmbedded build system us
- FILESOVERRIDES[doc] = "A subset of OVERRIDES used by the OpenEmbedded build system for creating FILESPATH."
- FILESPATH[doc] = "The default set of directories the OpenEmbedded build system uses when searching for patches and files. It is defined in the base.bbclass class found in meta/classes in the Source Directory. Do not hand-edit the FILESPATH variable."
- FILESYSTEM_PERMS_TABLES[doc] = "Allows you to define your own file permissions settings table as part of your configuration for the packaging process."
-+FONT_EXTRA_RDEPENDS[doc] = "When a recipe inherits the fontcache class, this variable specifies runtime dependencies for font packages. This variable defaults to 'fontconfig-utils'."
- FONT_PACKAGES[doc] = "When a recipe inherits the fontcache class, this variable identifies packages containing font files that need to be cached by Fontconfig."
- FULL_OPTIMIZATION[doc]= "The options to pass in TARGET_CFLAGS and CFLAGS when compiling an optimized system. This variable defaults to '-fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2'."
- 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index c99521f..89fa4b2 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -8,7 +8,6 @@ BUGTRACKER = "https://bugzilla.redhat.com/"
- SECTION = "x11/fonts"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--RDEPENDS_${PN} = "fontconfig-utils"
- PR = "r4"
- PE = "1"
- 
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index 75f78a2..b2e4cef 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -8,7 +8,6 @@ SECTION = "x11/fonts"
- LICENSE = "BitstreamVera"
- LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
- PR = "r7"
--RDEPENDS_${PN} = "fontconfig-utils"
- 
- inherit fontcache
- 
+ meta/conf/distro/include/seperatebuilddir.inc      |    3 -
+ .../packagegroups/packagegroup-self-hosted.bb      |    1 -
+ ...01-Fix-warnings-remove-some-unused-macros.patch |   72 --
+ .../0002-Add-put_blk-and-put_nod-routines.patch    | 1123 --------------------
+ .../0003-Add-get_blkmap-and-put_blkmap.patch       |  222 ----
+ ...lker-for-walking-through-directory-entrie.patch |  357 -------
+ ...05-Make-filesystem-struct-not-an-overloay.patch |  374 -------
+ ...0006-Improve-the-efficiency-of-extend_blk.patch |  272 -----
+ ...ove-hdlinks-into-the-filesystem-structure.patch |  175 ---
+ ...t-the-creation-of-the-filesystem-structur.patch |   95 --
+ ...e-byte-swapping-into-the-get-put-routines.patch |  421 --------
+ ...rt-over-to-keeping-the-filesystem-on-disk.patch |  839 ---------------
+ ...les-into-the-filesystem-a-piece-at-a-time.patch |  103 --
+ ...upport-large-file-support-and-rework-hole.patch |  211 ----
+ .../0013-Add-volume-id-support.patch               |   86 --
+ ...014-Remove-unneeded-setting-of-s_reserved.patch |   28 -
+ ...-Rework-creating-the-lost-found-directory.patch |   57 -
+ ...ix-the-documentation-for-the-new-L-option.patch |   29 -
+ .../0017-Fix-file-same-comparison.patch            |   30 -
+ ...andle-files-changing-while-we-are-working.patch |   89 --
+ ...ke-sure-superblock-is-clear-on-allocation.patch |   42 -
+ .../fix-memory-corruption-on-powerpc.patch         |   76 --
+ .../genext2fs-1.4.1/fix-nbblocks-cast.patch        |   37 -
+ .../genext2fs/genext2fs-1.4.1/update_to_1.95.patch |  119 ---
+ meta/recipes-devtools/genext2fs/genext2fs.inc      |   16 -
+ meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |   29 -
+ .../packagegroups/packagegroup-toolset-native.bb   |    1 -
+ 27 files changed, 4907 deletions(-)
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0001-Fix-warnings-remove-some-unused-macros.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0002-Add-put_blk-and-put_nod-routines.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0003-Add-get_blkmap-and-put_blkmap.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0004-Add-a-dirwalker-for-walking-through-directory-entrie.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0005-Make-filesystem-struct-not-an-overloay.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0006-Improve-the-efficiency-of-extend_blk.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0007-Move-hdlinks-into-the-filesystem-structure.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0008-Separate-out-the-creation-of-the-filesystem-structur.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0009-Move-byte-swapping-into-the-get-put-routines.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0010-Convert-over-to-keeping-the-filesystem-on-disk.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0011-Copy-files-into-the-filesystem-a-piece-at-a-time.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0012-Add-rev-1-support-large-file-support-and-rework-hole.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0013-Add-volume-id-support.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0014-Remove-unneeded-setting-of-s_reserved.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0015-Rework-creating-the-lost-found-directory.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0016-Fix-the-documentation-for-the-new-L-option.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0017-Fix-file-same-comparison.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0018-Handle-files-changing-while-we-are-working.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/0019-Make-sure-superblock-is-clear-on-allocation.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-nbblocks-cast.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/update_to_1.95.patch
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs.inc
+ delete mode 100644 meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
+
 -- 
-1.8.5.4
+1.8.3.1
 
 
