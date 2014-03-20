@@ -1,37 +1,37 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6C36E87A
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5EE6E87A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 20:59:42 +0000 (UTC)
-Received: by mail-yh0-f54.google.com with SMTP id f73so1505435yha.41
+	Thu, 20 Mar 2014 21:01:19 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id q200so3813389ykb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 13:59:43 -0700 (PDT)
+	Thu, 20 Mar 2014 14:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=3R3h5tYoWAIIJAynYiDVwIWvA7J7BEjEqcD5f7IgL4o=;
-	b=wYAGWLID1mFpvYFlmO5nP2BUE5sYC52NluoRcmtd0lRWVkGz0w0qia5pHZFVYX4c+D
-	GloRs6J2em8d6fCHefro/DrPm9R6LllUEPB1qdb3fvOAJurr1Mx8RWKdh7cXYvNVRLps
-	F3qebkaacYsCvcBm7uLHbGL2WSJboaRxDdyOt2Q7/86HKDYg6IZuE6U0nB0RqxHM7zwT
-	Vo4N/TeTCrSqkjd6mFsIoDCJejO50NF/lCCkOknO/32RI35U0izKqrgvxPOfWbICEt+/
-	Tiqb+elsAVb59sZ9pVoL5qbQe0tCAV4XzvlMYPBrMqEEMs065yGHI886JlRKUmxaMezh
-	sBag==
+	bh=fl8+WGYhJ/egrnAjfrAEXjNaEoxRxKEPiyyDrR7H1RU=;
+	b=JMJci6rMB/gdQBJ8P095HGSxViFOQl95ToiGYFUERZ/mtVE2ocMYaTGTgFRElC7Ubg
+	piH+n5RwBuJC3E7fuHpZ8rmaDITl/WuNRkT38vrNzSVP/m75W0yIUanCCx1GBPjCpADz
+	rgrfwdH2q5764/MnyA1yoGVfl+zMdO3qD4qSfH9lIWEZcBEVIZmmcC3r2JuSoITjcQG4
+	ATzc0l0HiHIYJJBS63nz6xHw3hcJ1heeRRVO5/aZwgXR+k7H8B/bF/HQohBegNPdRO/6
+	Ehxe7kbWVEuQlF5WORP97UUummHWovpY/sPwI4eiFbZCim0xgda37T3jGTMIBFDyEYIX
+	Opog==
 MIME-Version: 1.0
-X-Received: by 10.236.202.18 with SMTP id c18mr21094699yho.117.1395349183181; 
-	Thu, 20 Mar 2014 13:59:43 -0700 (PDT)
+X-Received: by 10.236.18.227 with SMTP id l63mr21995523yhl.101.1395349280866; 
+	Thu, 20 Mar 2014 14:01:20 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 13:59:43 -0700 (PDT)
-In-Reply-To: <1395156450-7172-1-git-send-email-simone.agresta@bticino.it>
-References: <1395156450-7172-1-git-send-email-simone.agresta@bticino.it>
-Date: Thu, 20 Mar 2014 17:59:43 -0300
-X-Google-Sender-Auth: 3mYmz2Aiu9pH7MpknJvdGAsKwW4
-Message-ID: <CAP9ODKpUD+nb34t_MdOWz8b9kBJHp+kdRBc2fPrNN-rF14DBfw@mail.gmail.com>
+Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 14:01:20 -0700 (PDT)
+In-Reply-To: <1395337775-26756-1-git-send-email-fathi.boudra@linaro.org>
+References: <1395337775-26756-1-git-send-email-fathi.boudra@linaro.org>
+Date: Thu, 20 Mar 2014 18:01:20 -0300
+X-Google-Sender-Auth: sdu4QGmf49vbUOvuQXkQ98lA8Ys
+Message-ID: <CAP9ODKoaNMqOG331KgJShjTmcmXYkF_rRbqor+ctt+_8VGq1qg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Simone Agresta <simone.agresta@bticino.it>
+To: Fathi Boudra <fathi.boudra@linaro.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] alsa-tools: fix build when x11 and gtk+ not available
+Subject: Re: [PATCH] kernel-arch.bbclass: add arm64 support to U-Bootarchitecture map
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,16 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 20:59:43 -0000
+X-List-Received-Date: Thu, 20 Mar 2014 21:01:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Mar 18, 2014 at 12:27 PM, Simone Agresta
-<simone.agresta@bticino.it> wrote:
->  Updated patch to work with alsa-tools version 1.0.27
+On Thu, Mar 20, 2014 at 2:49 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+> to define UBOOT_ARCH, we map kernel architectures to U-Boot architectures.
+> In the case of arm64 kernel, we should map to arm U-boot architecture.
 >
-> Signed-off-by: Simone Agresta <simone.agresta@bticino.it>
+> This patch add the exception rule to the map_uboot_arch function.
+>
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 
-This still keeps the option floating so please add an enable/disable for it.
+Short log typo.
+
 
 -- 
 Otavio Salvador                             O.S. Systems
