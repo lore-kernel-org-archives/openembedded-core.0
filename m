@@ -1,24 +1,25 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BDC1A6F8EE
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2945B6F8EE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 19:19:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2KJJ4k1025488
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 12:19:04 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 20 Mar 2014 12:19:03 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Mar 2014 14:19:01 -0500
-Message-ID: <cover.1395342974.git.mark.hatle@windriver.com>
+	Thu, 20 Mar 2014 19:20:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 20 Mar 2014 12:20:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,697,1389772800"; d="scan'208";a="504026380"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.120.182])
+	by orsmga002.jf.intel.com with ESMTP; 20 Mar 2014 12:19:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Mar 2014 19:19:38 +0000
+Message-Id: <ab237fe9780e3dd19b5583258f5996fa26de5b61.1395343129.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.5.3
-MIME-Version: 1.0
-Subject: [PATCH 0/1] Fix minor problem with useradd and useradd-static
+In-Reply-To: <cover.1395343129.git.paul.eggleton@linux.intel.com>
+References: <cover.1395343129.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1395343129.git.paul.eggleton@linux.intel.com>
+References: <cover.1395343129.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 1/2] classes/kernel: move module postinst commands to kernel-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 19:19:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Mar 2014 19:20:04 -0000
 
-Fix a minor performance issue with useradd.bbclass, where it evaluated user/
-group adds for nativesdk packages -- even though it didn't do them.
+Since kernel-base is the package that contains the files that depmod
+needs to run, we should be running depmod from the kernel-base
+postinstall rather than kernel-image.
 
-Fix a build problem w/ useradd-static, when in enforcing mode the system could
-fail to build a nativesdk recipe if the specified user/groups were not present.
+Fixes [YOCTO #5392].
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/kernel.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-The following changes since commit ef196434620522affc11b5b1b867386b5d14a4c3:
-
-  alsa-tools: fix build when x11 and gtk+ not available (2014-03-19 14:41:55 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mhatle/uidgid
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/uidgid
-
-Mark Hatle (1):
-  useradd{-static}: Ignore useradds on nativesdk
-
- meta/classes/useradd-staticids.bbclass | 3 ++-
- meta/classes/useradd.bbclass           | 6 ++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6953109..19b159b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -362,8 +362,7 @@ ALLOW_EMPTY_kernel-image = "1"
+ ALLOW_EMPTY_kernel-modules = "1"
+ DESCRIPTION_kernel-modules = "Kernel modules meta package"
+ 
+-pkg_postinst_kernel-image () {
+-	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
++pkg_postinst_kernel-base () {
+ 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+ 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
+ 	fi
+@@ -374,6 +373,10 @@ pkg_postinst_kernel-image () {
+ 	fi
+ }
+ 
++pkg_postinst_kernel-image () {
++	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
++}
++
+ pkg_postrm_kernel-image () {
+ 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+ }
 -- 
 1.8.5.3
 
