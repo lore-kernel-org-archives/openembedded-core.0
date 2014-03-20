@@ -1,48 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 461F16F90D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C6A46F917
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 19:59:33 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id f11so1430863qae.17
+	Thu, 20 Mar 2014 20:00:24 +0000 (UTC)
+Received: by mail-yh0-f45.google.com with SMTP id a41so1420563yho.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Mar 2014 12:59:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6w5GQfHuyrKgJAb18CjEqo7SnSrWUJSOqM/NMBLqGNc=;
-	b=klz7xE88IvZnVBsKDwU6J67eLj184/sqW/bg1uZ5Dr1Uc3oxOUksKy6mwdHsnGWN9Q
-	I+d0aI+spvOdSRcDKf2Km0uD7QGJmR9E00XaitcELMGh+uFPVy8QFTe1uKFZXxiq3Zg0
-	hWbOFvoKjG2i0yanhJnsaeR0lMErpaRSpDuJMBYNtS2/aJY7nVprJUjxXUPQF8fYsghi
-	fdyi4oMqcrPAzjwlBc4iY0eBEmjzM5fXuWlTvQLMevxQGNOq+qfeNVVTaNsko02xRhGx
-	KJ6AQsnKffZc1K2nn5ERozGgIUpEMWWLf5k8SxywaX6PAmVC4pA8zxF96tgQw5+daLWv
-	3UZQ==
-X-Gm-Message-State: ALoCoQnYYZQyr2oEaFpEHuLOtYFTfMraKA3WD9ew+YjqEa+goR99RX7r17qMkpdicZzwnx3TFwv9
-X-Received: by 10.224.147.77 with SMTP id k13mr52382371qav.64.1395345574765;
-	Thu, 20 Mar 2014 12:59:34 -0700 (PDT)
+	Thu, 20 Mar 2014 13:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=VedOxtmsQCdiNBMGB8fBtH2BZ7zHW8Wry6TUYwQyBio=;
+	b=SCFRqMNxYFH8PuvaxpH2qSZDxJwM4DmXkefhHyzV4pNw+k+9IAYqpea35/F8J4lBgS
+	T1SWAhwum13YodVk7aAMe7w145GaCWumryA2q331axdja7bjzsvTgaO6mBBZlBJ6LLKB
+	D5QtuFdYgaVQNN0y23vWP1l63Fi8vUjbImOsoK1PVvV/+MXFkMsBAMZfy/l/439+0WDz
+	zcEyvqZoQgGvcJ3gksJAI9qPcbo6UAloibkmXCPQDymmmejMLdoTCRVL82YANEf734/F
+	9gi8aRVFebZMF4fBoE3BMwHCDEMHMeHfX7WVof3sUgtvKC4JTPgf5i2nRGPfwjboeHnC
+	+z/w==
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Thu, 20 Mar 2014 12:59:14 -0700 (PDT)
-In-Reply-To: <CAOMwXhMDOma1N73M5n64G2T-FaH+Zevo2r8baenFsX9EZiFa5Q@mail.gmail.com>
-References: <1395285985-13867-1-git-send-email-lpapp@kde.org>
-	<CAJTo0LbT50pLEP+EOsjVkxgBtADiZTG7puubO+qE583X41EnfA@mail.gmail.com>
-	<0EAF1183-40EE-4110-9F86-1CABDA6273A6@dominion.thruhere.net>
-	<CAOMwXhP6=vJA6TjWbuTfcWw1DVvVgWZ-Js35+w-sVFLw605Bfw@mail.gmail.com>
-	<CAP9ODKpY2cxK343ahPQFSYEKbTMo4L9mCLQnC4KqYdhsdwB3mQ@mail.gmail.com>
-	<CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
-	<CAP9ODKqTi=PGUHOsRSkHJrS0nsxEzoYyFbQffm4UU5iedLJNWA@mail.gmail.com>
-	<CAOMwXhNqbCGVZiJ3GCbjboiHrMVbC1aQ9Pd65xPzbmBjFSHVUg@mail.gmail.com>
-	<CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
-	<B0C68756-9FE4-459F-9DFE-753106847A87@dominion.thruhere.net>
-	<CAOMwXhMDOma1N73M5n64G2T-FaH+Zevo2r8baenFsX9EZiFa5Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Mar 2014 19:59:14 +0000
-Message-ID: <CAJTo0LYuTsUkt8E0oTn0CGG+JFQhM67eCAHBRiX8W_1Fw67ErQ@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
+X-Received: by 10.236.60.68 with SMTP id t44mr36893506yhc.47.1395345625376;
+	Thu, 20 Mar 2014 13:00:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Thu, 20 Mar 2014 13:00:25 -0700 (PDT)
+In-Reply-To: <1395246282-8546-4-git-send-email-otavio@ossystems.com.br>
+References: <1395246282-8546-1-git-send-email-otavio@ossystems.com.br>
+	<1395246282-8546-4-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 20 Mar 2014 17:00:25 -0300
+X-Google-Sender-Auth: zWS29jUqOuPycNLC6fCfjCISYbc
+Message-ID: <CAP9ODKpoaUqrGUVB9PeaK1RQDsSxsMsxVim=RYNirmbxRY7YiQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, "Burton,
+	Ross" <ross.burton@intel.com>, Saul Wold <saul.wold@intel.com>
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: [PATCH 4/4] cogl-1.0 : Update to 1.16.2 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,16 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Mar 2014 19:59:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Mar 2014 20:00:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 20 March 2014 19:01, Laszlo Papp <lpapp@kde.org> wrote:
-> This init script is adding support for sysv and no more. This is also
-> indicated in the first line of the commit message. I am sorry, but I
-> will not test it systemd and with other systems
+On Wed, Mar 19, 2014 at 1:24 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>
+> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-You're not being asked to test with systemd.  You're being asked to
-add LSB-standard sysvinit-specific headers to a sysvinit script.
+This update fixes some build problems we had in meta-fsl-arm. Prabhu
+did runtime test it and we'd like to have it considered for inclusion.
 
-Ross
+Looking forward for your feedback on this.
+
+Regards,
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
