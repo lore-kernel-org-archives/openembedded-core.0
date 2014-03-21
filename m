@@ -1,38 +1,40 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 22F876FA71
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9566F6FA6D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 19:41:56 +0000 (UTC)
-Received: by mail-ve0-f171.google.com with SMTP id cz12so3097455veb.30
+	Fri, 21 Mar 2014 20:07:36 +0000 (UTC)
+Received: by mail-yh0-f53.google.com with SMTP id v1so2878425yhn.26
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 12:41:56 -0700 (PDT)
+	Fri, 21 Mar 2014 13:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=dYzrLEXk+9LO0+1E2a+e6CjVETbmBH4mnw8J3Oa0jzg=;
-	b=Ix8YgdPhiOLzOhEJi3cVjQi/CjTHJfjyBnyGn5jm+AtCDoDCKRusLniHMkNX8K1Dvu
-	KxePBibeFl59he6e88MU5UpVDjdd+R1Lmy2NVdlfK9+td6hEWxpd6tncw5/SDR5Oj8+q
-	FDCIFczlUTnwJ1FYY/2yfBpAKZtBQ7InO7sEmwLqUWo1bRcdMn2lcf/pdOdF6Kjr7dUF
-	XhGfUEaa+0CWftbFwvvnKZL1SUslMQAXJpPbBtKi/OUKfPrW1CMt8jcF+kH7qt7j7Mm3
-	Vsshy6eKGsf0qkyX7yGnHceibhSRSw5Xa/SZDmDf5qTH36u2SvvB0KpjSr6Dzu3OkNyk
-	b6ew==
-X-Received: by 10.52.253.75 with SMTP id zy11mr1956318vdc.10.1395430916837;
-	Fri, 21 Mar 2014 12:41:56 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=sq5F/gTQBtxBVD+9Q7HeWfoltd5nPT3D++fA4uB6u9U=;
+	b=awecfjiZzqza74HdWjOuH/9U/PKHG8mugG9QLh5oQvduQwF/VUGIJ89OaLN/8eWdCe
+	6JrT1U4OCTd0/MmGDEJKKvSOQyugFC7cbp7kCVAeeEw6X9hB2eRDgaus/S8eo6spS0YX
+	OO27W7lfjp2cXpDmHDuD754Rq1S3Qg+xFjIPAhODXOEaOvQPnfKWCLDmWJVg11Y9HlTt
+	GS2W0HEq0CBmJLrFaTSL3NqIu7gkKSfl6k6UP3n4ZKNbXUTaS+Dd+MLUxu9CqEbZI8+l
+	E2qftTGUUqbIxaXva/iBkL4mMjEBtGqHPrCHvNudWin3HjlwheSzePr5P1WuQDNKeJ61
+	1o4Q==
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Fri, 21 Mar 2014 12:41:16 -0700 (PDT)
-In-Reply-To: <CAMKF1sq7QUcKypgyn8auurnqRd5ZfztdymcxquRwsRxvN4seqw@mail.gmail.com>
-References: <CANyK_8e6dfzu64SRLzZdXFE3obT6Td-8UUDqfcoSAqWTjoOq3g@mail.gmail.com>
-	<CAMKF1sq7QUcKypgyn8auurnqRd5ZfztdymcxquRwsRxvN4seqw@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 21 Mar 2014 19:41:16 +0000
-X-Google-Sender-Auth: BuCYD6Ad7lrkC4VFvqVeY3r-ZK0
-Message-ID: <CANyK_8ecTyGxdha8E=cTX0KEYcVfezZZBGtGuQuYi3_GBEg8nw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded and musl-libc
+X-Received: by 10.236.7.225 with SMTP id 61mr44660934yhp.51.1395432457766;
+	Fri, 21 Mar 2014 13:07:37 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Fri, 21 Mar 2014 13:07:37 -0700 (PDT)
+In-Reply-To: <1395392266.24296.19.camel@firebird.rb.intel.com>
+References: <cover.1395332218.git.stefanx.stanacar@intel.com>
+	<726442aad46caaed6a069b6428692ed2e4903026.1395332218.git.stefanx.stanacar@intel.com>
+	<CAP9ODKrG_3ieAdpiAOyX0bJBbQQySAEWRvT_y+VJDqjusgjzyw@mail.gmail.com>
+	<1395392266.24296.19.camel@firebird.rb.intel.com>
+Date: Fri, 21 Mar 2014 17:07:37 -0300
+X-Google-Sender-Auth: ipMSQsUq23y0Fy4GoNsyaVkbut8
+Message-ID: <CAP9ODKoHJj0MzfHX1G0MZ9bKzq7JYCTiFUBXfJGK+ks9V6BSrw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 4/4] lib/oeqa: add a test target controller for EFI targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,54 +47,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Mar 2014 19:42:00 -0000
+X-List-Received-Date: Fri, 21 Mar 2014 20:07:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On 21 March 2014 18:22, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Mar 21, 2014 at 5:34 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
->> Hi all,
->>
->> musl-libc hit version 1.0.0 yesterday and is starting to look good to
->> me. It's basically a really small but very functional libc that would
->> suit embedded environments very well as an alternative to
->> eglibc/uclibc. I'm personally very interested in using it in my
->> projects and I also think it could fit in well with the aims of
->> poky-tiny.
->>
->> http://www.etalabs.net/compare_libcs.html gives some pretty useful info.
->>
->> I'm basically emailing to see if anyone else is interested in this or
->> if anyone has looked at using it before in OpenEmbedded as a google
->> for previous discussions didn't turn anything up.
->>
->> I'm currently very busy between various projects so I don't have time
->> to hack together a musl-libc recipe myself but I should have time to
->> help test it.
+On Fri, Mar 21, 2014 at 5:57 AM, Stanacar, StefanX
+<stefanx.stanacar@intel.com> wrote:
+> On Thu, 2014-03-20 at 18:08 -0300, Otavio Salvador wrote:
+>> On Thu, Mar 20, 2014 at 1:29 PM, Stefan Stanacar
+>> <stefanx.stanacar@intel.com> wrote:
 >
-> it has been under my radar for a while. I have actually locally made
-> toolchains with
-> clang+musl and it seems to be coming along. its licensed differently thats
-> the biggest attraction for folks who do static linking. Otherwise it still
-> doesnt yet support variety of architectures that other libcs support. given
-> now we have kconfig for eglibc too may be it fills in the nommu gap much
-> like uclibc does today. I have some plans for 1.7 for adding it to OE
-> may be in a layer
-> of its own first and then migrate it to OE-core
+>> > +        # test rootfs + kernel
+>> > +        self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("IMAGE_LINK_NAME", True) + '.tar.gz')
+>> > +        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE"))
+>> > +        if not os.path.isfile(self.rootfs):
+>> > +            # we could've checked that IMAGE_FSTYPES contains tar.gz but the config for running testimage might not be
+>> > +            # the same as the config with which the image was build, ie
+>> > +            # you bitbake core-image-sato with IMAGE_FSTYPES += "tar.gz"
+>> > +            # and your autobuilder overwrites the config, adds the test bits and runs bitbake core-image-sato -c testimage
+>> > +            bb.fatal("No rootfs found. Did you build the image ?\nIf yes, did you build it with IMAGE_FSTYPES += \"tar.gz\" ? \
+>> > +                      \nExpected path: %s" % self.rootfs)
+>>
+>> Couldn't testimage class add it?
+>>
 >
+> Nope... testimage task can be triggered in two ways: from
+> testimage.bbclass or testimage-auto.bbclass, that means:
+>   - manually: you have already built your image, then add INHERIT +=
+> "testimage" in local.conf and run bitbake <image> -c testimage (the AB
+> does it this way). The testimage task does not have a depends on
+> do_rootfs, so it won't create a tar.gz rootfs if IMAGE_FSTYPES wasn't
+> added to local.conf at build time.
+>   - automatically: you add TEST_IMAGE = "1" in local.conf before bitbake
+> <image>. That's a hidden inherit in image.bbclass that inherits
+> testimage-auto that does depend on rootfs.
+>
+> We want to support both cases... So checking that tar.gz is
+> IMAGE_FSTYPES doesn't mean that the image actually was built with that.
+> Also, tar.gz might not be there although the image was built with that
+> (The AB has two different build steps for build and running tests, and
+> in between the config can be overwritten).
 
-Yea, that's the sort of approach I was expecting. Getting musl to
-build is the easy bit, making it usable as the system libc for an
-entire image is the difficult bit. I think at least initially we'd
-need a few bbappends in a meta-musl layer to fix packages which don't
-compile out-of-the-box with musl.
+Ok.
 
-I don't think musl fills the nommu gap though - from the comparison
-page I linked to it says musl doesn't support mmu-less
-microcontrollers.
+>> > +        if not os.path.isfile(self.kernel):
+>> > +            bb.fatal("No kernel found. Expected path: %s" % self.kernel)
+>> > +
+>> > +        # if the user knows what he's doing, then by all means...
+>> > +        # test-rootfs.tar.gz and test-kernel are hardcoded names in other places
+>> > +        # they really have to be used like that in commands though
+>> > +        cmds = d.getVar("TEST_DEPLOY_CMDS", True)
+>> > +        if cmds:
+>> > +            self.deploy_cmds = cmds.split("\n")
+>>
+>> Good.
+>>
+>> > +        else:
+>> > +            self.deploy_cmds = [
+>> > +                'mount -L boot /boot',
+>> > +                'mkdir -p /mnt/testrootfs',
+>> > +                'mount -L testrootfs /mnt/testrootfs',
+>> > +                'modprobe efivarfs',
+>> > +                'mount -t efivarfs efivarfs /sys/firmware/efi/efivars',
+>> > +                'cp ~/test-kernel /boot',
+>> > +                'rm -rf /mnt/testrootfs/*',
+>> > +                'tar xzvf ~/test-rootfs.tar.gz -C /mnt/testrootfs',
+>>
+>> How target see those files? NFS?
+>
+> Nope, see below in _deploy.
+> Those files are scp'ed from the build machine to the target.
+>
+>       self.master.copy_to(self.rootfs, "~/test-rootfs.tar.gz")
+>       self.master.copy_to(self.kernel, "~/test-kernel")
+>       for cmd in self.deploy_cmds:
+>             self.master.run(cmd)
+
+What happens if the image is bigger than RAM size?
+
+>> > +                r'printf "\x07\x00\x00\x00\x74\x00\x65\x00\x73\x00\x74\x00\x00\x00" > /sys/firmware/efi/efivars/LoaderEntryOneShot-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f'
+>>
+>> Can you elaborate this? Seems too 'black magic' for me.
+>>
+>
+> Okay so one of the reasons this GenericEfi target requires that the
+> master image deployed uses gummiboot is because of that.
+> gummiboot actually reads and obeys system EFI variables. [1]
+> One of those variables is LoaderEntryOneShot which tells it to boot a
+> label (kernel  + rootfs) once and only once so this how we know that we
+> always get back to the master/good image.
+
+So it is misnamed. GummiBootEfi would be clearer.
+
+> [1] "Some EFI variables control the loader or exported the loaders state
+> to the started operating system. The vendor UUID
+> 4a67b082-0a4c-41cf-b6c7-440b29bb8c4f and the variable names are supposed
+> to be shared across all loaders implementations which follow this scheme
+> of configuration: "
+> http://freedesktop.org/wiki/Software/gummiboot/
+>
+>
+> Accessing the EFI vars subsystem is done in two ways:
+>   - old sysfs-efivars interface (CONFIG_EFI_VARS), populated
+> at /sys/firmware/efi/vars, which has some limitations (basically you
+> need another tool to read/write)
+> - new efivarfs interface (CONFIG_EFIVAR_FS), typically mounted like
+> this: mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+> It was added in 3.8 intended as a replacement for the sysfs-efivars
+> interface, has no maximum per-variable size limitation and supports UEFI
+> Secure Boot variables.
+> You can read more about that at:
+> http://uefidk.intel.com/blog/accessing-uefi-variables-linux#sthash.2wI28Mkn.dpuf
+>
+> The first four bytes are EFI_VARIABLE_NON_VOLATILE,
+> EFI_VARIABLE_BOOTSERVICE_ACCESS and EFI_VARIABLE_RUNTIME_ACCESS bits set
+> in the attribute bitmask, and the rest is just the output from:
+> [stefans@firebird ~]$ echo -en "test" | iconv -f ascii -t utf-16le |
+> hexdump -C
+> 00000000  74 00 65 00 73 00 74 00                           |t.e.s.t.|
+> 00000008
+> [stefans@firebird ~]$
+
+So please make those constants in the code and proper documented.
+
+> The gummiboot loader config that gets installed with the master image
+> has two labels: boot and test and this is how we tell it that for the
+> next boot only we want the test label.
+>
+> The simplest tool to read EFI vars I've found is efivar. I've used it
+> when debugging and playing with this stuff.
+> There is a recipe here:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=stefans/wip2&id=3df22b8ab36553052381458314b43b76cd1d3dff
+
+I think it would be nice for debugging so in worse case send t to meta-oe
+
+:-)
 
 -- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
