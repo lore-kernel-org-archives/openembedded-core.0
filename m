@@ -1,32 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 69D936B819
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D05F46FA38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 17:04:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2LH40UQ024542; Fri, 21 Mar 2014 17:04:00 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zURlRnGzk8m5; Fri, 21 Mar 2014 17:03:59 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2LH3rEc024489
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 21 Mar 2014 17:03:57 GMT
-Message-ID: <1395421427.24232.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 21 Mar 2014 17:03:47 +0000
-In-Reply-To: <53231A33.8000800@windriver.com>
-References: <cover.1394555880.git.liezhi.yang@windriver.com>
-	<CAJTo0LZPGDftsVZD0NQKSWYD9BnKkMOrdTGUOKnQ2bVY+b-jwg@mail.gmail.com>
-	<53231A33.8000800@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6 V3] refactor the archiver*.bbclass
+	Fri, 21 Mar 2014 17:06:41 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id rd18so2734689iec.21
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Mar 2014 10:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=BleuPOtxj0W/gfhggZgjkL4Ul0KeihWYN7zG5ma+2tA=;
+	b=KgjT1kcoLqfaevaMtz0ritzshYTCLKsdpWo0OkAOsM0PTjvCNN6tJaFD2AYv4f22WL
+	IKkt9gr5wHYUlAcypu3S1aywR+R3hcS1GasAelQv8lYlxxF4UJ+qZizuwE+ktxof2UGy
+	OMl1fZf+Y7CKK/Dzpnv5Fo8IhIV9idfJq4kvxFtVBHTVzPHz2sNo2CPv27Zq9nVzTMTL
+	bM7svep9KuEN1W3T5FLvrwy53GNUWR2N3bQ15GeRofrwHPsXHDTGM1QIYsQf5r9da+rT
+	ZFOEQKtKIVDyjFGPKkO04OE3bCSp8ic6jxDF4GWSIqJtgLtxpu+pbdx0vosyc03tu+FF
+	Bo8w==
+X-Received: by 10.50.49.76 with SMTP id s12mr3941260ign.2.1395421602158; Fri,
+	21 Mar 2014 10:06:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.224.136 with HTTP; Fri, 21 Mar 2014 10:06:12 -0700 (PDT)
+In-Reply-To: <532C6C96.7020901@windriver.com>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A4C94@post.tritech.se>
+	<532C6C96.7020901@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 21 Mar 2014 10:06:12 -0700
+Message-ID: <CAMKF1sopEU3L-ELyNw9FFMstLtayenJnq-f7W02j1LTX=1A_pA@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libm accuracy, eglibc compared to glibc -- solved
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,56 +43,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Mar 2014 17:04:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Mar 2014 17:06:45 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2014-03-14 at 23:03 +0800, Robert Yang wrote:
-> 
-> On 03/14/2014 01:45 AM, Burton, Ross wrote:
-> > On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
-> >> Robert Yang (6):
-> >>    classes/archive*.bbclass: remove archive-*-source.bbclass
-> >>    archiver.bbclass: refactor it
-> >>    package_rpm.bbclass: archive the source to srpm package
-> >>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
-> >>    local.conf.sample.extended: update for the archiver
-> >>    patch.bbclass: do_patch: unset TMPDIR from environment
-> >
-> > This series appears to work for me and doesn't cause rebuilds (after
-> > removing the patch change, as that obviously does).  Can anyone else
-> > who actively uses the archiver verify that it still works for them?
-> >
-> 
-> Thank you very much for the testing and suggestions, I've updated it
-> a little:
-> 
-> * Remove the [PATCH 6/6] which is used for unset the TMPDIR, we can fix
->    it in another thread as bug 5968 describes since it doesn't affect the
->    archiver.
-> 
-> * Modified the do_ar_configured a little and tested the "bitbake
->    core-image-sato world meta-toolchain", it worked well.
-> 
-> Here is the repo: (the same repo as before)
-> 
->    git://git.openembedded.org/openembedded-core-contrib rbt/archiver_v3
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/archiver_v3
-> 
-> Robert Yang (5):
->    classes/archive*.bbclass: remove archive-*-source.bbclass
->    archiver.bbclass: refactor it
->    package_rpm.bbclass: archive the source to srpm package
->    archiver.bbclass: move a few code to copyleft_compliance.bbclass
->    local.conf.sample.extended: update for the archiver
+On Fri, Mar 21, 2014 at 9:45 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 3/21/14, 7:10 AM, Mats K=C3=A4rrman wrote:
+>>
+>> Hi,
+>>
+>> On: Thursday, March 13, 2014 11:36 AM, Mats K=C3=A4rrman wrote:
+>>>
+>>> My "home made" hard float tune for PowerPC looks like this:
+>>>
+>>> ------------------------------------------------------------------
+>>> # Tune for the e300c3 core
+>>> require conf/machine/include/tune-ppce300c3.inc
+>>>
+>>> # Use hardware floating point
+>>> AVAILTUNES +=3D "ppce300c3hf"
+>>> TUNE_FEATURES_tune-ppce300c3hf =3D "m32 fpu-hard ppce300c3"
+>>> TUNE_PKGARCH_tune-ppce300c3hf =3D "ppce300c3hf"
+>>> PACKAGE_EXTRA_ARCHS_tune-ppce300c3hf =3D
+>>> "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppce300c3hf"
+>>> DEFAULTTUNE =3D "ppce300c3hf"
+>>> ------------------------------------------------------------------
+>>>
+>>
+>> I found the reason for the error (deviance) in the sqrt function. glibc
+>> has
+>> special code for PowerPC 603e core (e300 is an optimized variant of 603e=
+).
+>> By adding the following line to the tuning I now get the same result as
+>> for all other environments that I've tried:
+>>
+>> GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c=
+3",
+>> "-with-cpu=3D603e", "", d)}"
+>>
+>> Does anyone know about the reason for having soft-float as the default a=
+nd
+>> only available alternative for e300c2/3 tunings?
+>
+>
+> My guess is because e300 e300c2 were both soft-float designs.  And e300c3=
+ is
+> the first hard float design.
+>
+> The e300c3 should inherit and use the 603e directly.  This includes
+> definiting the TUNE_FEATURES that the 603e does.  If it doesn't do that, =
+I'd
+> suggest it's a mistake.
+>
+> The default 603e tune should include:
+>
+> GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppc603e",
+> "-with-cpu=3D603e", "", d)}"
+>
+> or similar already -- and should already be hard float enabled.  (ppc603e
+> soft-float should be the alternative -- as it is significantly rarer and =
+the
+> deviation.)
 
-I'm going to merge this into master (its queued in master-next for final
-testing) but this is on the condition that we work on follow up patches
-to the issues raised during review.
 
-Cheers,
+alternatively we should define fpu Iplies in glibc for e300c3,
 
-Richard
+>
+>
+>> Would it be worthwhile to send a patch to add the hf tuning to OE-core?
+>
+>
+> As the e300c3 should be hard float, we shouldn't have the 'hf' designatio=
+n.
+> Otherwise, we should ensure the e300c3 tune is correctly configured.
 
+may be for now controlling it in tune file is a quicker fix.
+
+>
+>
+>> In that case what tests should be performed before that and what (relate=
+d)
+>> tests are performed by the OE auto-builder?
+>>
+>> BR // Mats
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
