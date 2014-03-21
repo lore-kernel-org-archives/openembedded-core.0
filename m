@@ -1,28 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 40D856FA3A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 69D936B819
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 16:45:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2LGjB0X005515
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 09:45:11 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 21 Mar 2014 09:45:10 -0700
-Message-ID: <532C6C96.7020901@windriver.com>
-Date: Fri, 21 Mar 2014 11:45:10 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A4C94@post.tritech.se>
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B3A4C94@post.tritech.se>
-Subject: Re: libm accuracy, eglibc compared to glibc -- solved
+	Fri, 21 Mar 2014 17:04:12 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2LH40UQ024542; Fri, 21 Mar 2014 17:04:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zURlRnGzk8m5; Fri, 21 Mar 2014 17:03:59 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2LH3rEc024489
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 21 Mar 2014 17:03:57 GMT
+Message-ID: <1395421427.24232.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 21 Mar 2014 17:03:47 +0000
+In-Reply-To: <53231A33.8000800@windriver.com>
+References: <cover.1394555880.git.liezhi.yang@windriver.com>
+	<CAJTo0LZPGDftsVZD0NQKSWYD9BnKkMOrdTGUOKnQ2bVY+b-jwg@mail.gmail.com>
+	<53231A33.8000800@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6 V3] refactor the archiver*.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,64 +39,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Mar 2014 16:45:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Mar 2014 17:04:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 3/21/14, 7:10 AM, Mats Kärrman wrote:
-> Hi,
->
-> On: Thursday, March 13, 2014 11:36 AM, Mats Kärrman wrote:
->> My "home made" hard float tune for PowerPC looks like this:
->>
->> ------------------------------------------------------------------
->> # Tune for the e300c3 core
->> require conf/machine/include/tune-ppce300c3.inc
->>
->> # Use hardware floating point
->> AVAILTUNES += "ppce300c3hf"
->> TUNE_FEATURES_tune-ppce300c3hf = "m32 fpu-hard ppce300c3"
->> TUNE_PKGARCH_tune-ppce300c3hf = "ppce300c3hf"
->> PACKAGE_EXTRA_ARCHS_tune-ppce300c3hf = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppce300c3hf"
->> DEFAULTTUNE = "ppce300c3hf"
->> ------------------------------------------------------------------
->>
->
-> I found the reason for the error (deviance) in the sqrt function. glibc has
-> special code for PowerPC 603e core (e300 is an optimized variant of 603e).
-> By adding the following line to the tuning I now get the same result as
-> for all other environments that I've tried:
->
-> GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "-with-cpu=603e", "", d)}"
->
-> Does anyone know about the reason for having soft-float as the default and
-> only available alternative for e300c2/3 tunings?
+On Fri, 2014-03-14 at 23:03 +0800, Robert Yang wrote:
+> 
+> On 03/14/2014 01:45 AM, Burton, Ross wrote:
+> > On 11 March 2014 17:08, Robert Yang <liezhi.yang@windriver.com> wrote:
+> >> Robert Yang (6):
+> >>    classes/archive*.bbclass: remove archive-*-source.bbclass
+> >>    archiver.bbclass: refactor it
+> >>    package_rpm.bbclass: archive the source to srpm package
+> >>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
+> >>    local.conf.sample.extended: update for the archiver
+> >>    patch.bbclass: do_patch: unset TMPDIR from environment
+> >
+> > This series appears to work for me and doesn't cause rebuilds (after
+> > removing the patch change, as that obviously does).  Can anyone else
+> > who actively uses the archiver verify that it still works for them?
+> >
+> 
+> Thank you very much for the testing and suggestions, I've updated it
+> a little:
+> 
+> * Remove the [PATCH 6/6] which is used for unset the TMPDIR, we can fix
+>    it in another thread as bug 5968 describes since it doesn't affect the
+>    archiver.
+> 
+> * Modified the do_ar_configured a little and tested the "bitbake
+>    core-image-sato world meta-toolchain", it worked well.
+> 
+> Here is the repo: (the same repo as before)
+> 
+>    git://git.openembedded.org/openembedded-core-contrib rbt/archiver_v3
+>  
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/archiver_v3
+> 
+> Robert Yang (5):
+>    classes/archive*.bbclass: remove archive-*-source.bbclass
+>    archiver.bbclass: refactor it
+>    package_rpm.bbclass: archive the source to srpm package
+>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
+>    local.conf.sample.extended: update for the archiver
 
-My guess is because e300 e300c2 were both soft-float designs.  And e300c3 is the 
-first hard float design.
+I'm going to merge this into master (its queued in master-next for final
+testing) but this is on the condition that we work on follow up patches
+to the issues raised during review.
 
-The e300c3 should inherit and use the 603e directly.  This includes definiting 
-the TUNE_FEATURES that the 603e does.  If it doesn't do that, I'd suggest it's a 
-mistake.
+Cheers,
 
-The default 603e tune should include:
-
-GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", 
-"-with-cpu=603e", "", d)}"
-
-or similar already -- and should already be hard float enabled.  (ppc603e 
-soft-float should be the alternative -- as it is significantly rarer and the 
-deviation.)
-
-> Would it be worthwhile to send a patch to add the hf tuning to OE-core?
-
-As the e300c3 should be hard float, we shouldn't have the 'hf' designation. 
-Otherwise, we should ensure the e300c3 tune is correctly configured.
-
-> In that case what tests should be performed before that and what (related)
-> tests are performed by the OE auto-builder?
->
-> BR // Mats
->
+Richard
 
 
