@@ -1,49 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 42C8D6F9F2
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 187A36FA43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 14:39:37 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id e49so1907690eek.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 07:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=8UGINwtU23i2iCE7B65WpkcppuUN6Y/Thrj2hbZo8VI=;
-	b=sgpYjcYTrswTLOGrf/D9PMbM9vJ32C6ibF+LYNesdyvz2OyY9fNyaSWgcwkduemtZO
-	TFzqqvdCslP8tBdFNNIJ9U/3n2z1np2EuV96ItNe3ZNMHxRXu/N+VL9Sk39ZMdLkbTMW
-	y1OZY0war8rJtx95cQB8v1B0F8FJbMZqyYyalbq0Tz8OQYzr7zD/PbhosPLf6GzjO6ux
-	iMKVVcGLm3E4DxDMMsjhcYgjYopikahTdLBuLJZOHMT/Hhw9SpW6aucWLc49K8rbnKOL
-	Dm6WPHFZAmdy/N45bkzvmu1XAUDTNP/EEV+WqxsJAhG3aGSSd/P/G/nzlVOw5AeTkAsa
-	cBkw==
-X-Received: by 10.14.110.199 with SMTP id u47mr32165912eeg.74.1395412778007;
-	Fri, 21 Mar 2014 07:39:38 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	x45sm11979586eef.15.2014.03.21.07.39.36 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Mar 2014 07:39:36 -0700 (PDT)
-Date: Fri, 21 Mar 2014 15:39:40 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-Message-ID: <20140321143939.GI3726@jama>
-References: <CAOMwXhP6=vJA6TjWbuTfcWw1DVvVgWZ-Js35+w-sVFLw605Bfw@mail.gmail.com>
-	<CAP9ODKpY2cxK343ahPQFSYEKbTMo4L9mCLQnC4KqYdhsdwB3mQ@mail.gmail.com>
-	<CAOMwXhM7zxtsgJRHN0XS196vHxe71PmXiEUQR=oF0b-gMBbB0Q@mail.gmail.com>
-	<CAP9ODKqTi=PGUHOsRSkHJrS0nsxEzoYyFbQffm4UU5iedLJNWA@mail.gmail.com>
-	<CAOMwXhNqbCGVZiJ3GCbjboiHrMVbC1aQ9Pd65xPzbmBjFSHVUg@mail.gmail.com>
-	<CAJTo0LZgVSK-7tWuO0ByNZqwtwseY-fgLp2Dquu6Nj-4j9AVsw@mail.gmail.com>
-	<B0C68756-9FE4-459F-9DFE-753106847A87@dominion.thruhere.net>
-	<CAOMwXhMDOma1N73M5n64G2T-FaH+Zevo2r8baenFsX9EZiFa5Q@mail.gmail.com>
-	<CAJTo0LYuTsUkt8E0oTn0CGG+JFQhM67eCAHBRiX8W_1Fw67ErQ@mail.gmail.com>
-	<CAOMwXhNqH76QKt9hsqpeOeRTBjKUix4e0GCy8PZVkrjCdm+OAA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAOMwXhNqH76QKt9hsqpeOeRTBjKUix4e0GCy8PZVkrjCdm+OAA@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add init script (sysv) support for busybox's ntpd
+	Fri, 21 Mar 2014 15:54:28 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Mar 2014 08:54:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,704,1389772800"; d="scan'208";a="496870728"
+Received: from unknown (HELO [10.255.12.230]) ([10.255.12.230])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2014 08:54:28 -0700
+Message-ID: <1395417268.25867.74.camel@empanada>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
+Date: Fri, 21 Mar 2014 10:54:28 -0500
+In-Reply-To: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,71 +31,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Mar 2014 14:39:38 -0000
-X-Groupsio-MsgNum: 51469
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pe+tqlI1iYzVj1X/"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 21 Mar 2014 15:54:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---pe+tqlI1iYzVj1X/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 2014-03-15 at 18:17 -0300, João Henrique Ferreira de Freitas
+wrote:
+> Hi, 
+> 
+> These patchs allows the user create the following directdisk-multi-rootfs.wks file:
+> 
+>   part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos \
+>     --label boot --active --align 1024
+>   part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
+> 
+>   part /standby --source rootfs --rootfs=<special rootfs directory> \
+>     --ondisk sda --fstype=ext3 --label secondary --align 1024
+> 
+>   bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
+> 
+> The special thing is the /standby partition. Which using rootfs with
+> a extra '--rootfs' argument instruct the RootfsPlugin what should be
+> the rootfs directory to be used to create the partition.
+> 
+> It is a very simple features that let users to customize your partition
+> setup. I thought in the case where we have two rootfs (like active and
+> standby, e.g used to software update). Or the odd cases when a special
+> partition need to be create to hold whatever files.
+> 
+> The workflow of wic use remains the same. All the config needs to be done
+> in .wks file.
+> 
+> To test I used <special rootfs directory> as a rootfs created by 'bitbkae core-image-minimal-dev'
+> (e.g: /srv/build/yocto/master/tmp/work/genericx86-poky-linux/core-image-minimal-dev/1.0-r0/rootfs).
+> 
 
-On Fri, Mar 21, 2014 at 01:59:15PM +0000, Laszlo Papp wrote:
-> On Thu, Mar 20, 2014 at 7:59 PM, Burton, Ross <ross.burton@intel.com> wro=
-te:
-> > On 20 March 2014 19:01, Laszlo Papp <lpapp@kde.org> wrote:
-> >> This init script is adding support for sysv and no more. This is also
-> >> indicated in the first line of the commit message. I am sorry, but I
-> >> will not test it systemd and with other systems
-> >
-> > You're not being asked to test with systemd.  You're being asked to
-> > add LSB-standard sysvinit-specific headers to a sysvinit script.
->=20
-> In my understanding, people were referring to two issues:
->=20
-> 1) not working with systemd and what not compat modes. This is not
-> something I will test any soon.
+Hi João,
 
-Other people already know it's causing the issues without LSB headers,
-so if you just add them, you don't need to test it with systemd, other
-people who care about systemd will do that for you or at least be OK
-with adding this script, because it will have LSB headers (so it should
-work fine in systemd world).
+This is a nice generalization of the --source plugin for the rootfs and
+it does allow users to create .wks files that address a particular
+image's needs with hard-coded paths to rootfs dirs, which I think is
+something that the tool does need to be able to handle.
 
-> 2) It is not consistent, whereas if I take a look into busybox, the
-> consistency is what I do, apparently.
->=20
-> I would like to quote from the Fedora wiki for instance:
->=20
-> "LSB Headers are not required for Fedora SysV-style initscripts, but
-> they may be used. There is no requirement in the LSB certification for
-> any system scripts to be LSB compliant, and it can cause issues with
-> ordering."
->=20
-> So what is wrong about it without systemd and other compat modes? If
-> it is that big a deal (i.e. blocker), perhaps it is better to document
-> it in the contribution guideline as a generic trap.
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+However, I think we also need to be able to create more
+general-purpose .wks files that don't hard-code the directories but
+instead take the directory names from the command-line.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Currently what we have for that purpose is:
 
---pe+tqlI1iYzVj1X/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+wic create ... --rootfs-dir /some/rootfs/dir
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+And because we only support one rootfs partition at the moment, that
+--rootfs-dir automatically gets assigned to the single --source rootfs:
 
-iEYEARECAAYFAlMsTysACgkQN1Ujt2V2gBwjwwCbB6wO8dd9MdLsBhwVxFNRECg8
-FxYAn2EcqYhjtLDZ7SDsTxe5OvED9k94
-=cVY2
------END PGP SIGNATURE-----
+  part / --source rootfs --ondisk sda --fstype=ext3 --label primary   --align 1024
 
---pe+tqlI1iYzVj1X/--
+Generalizing that to multiple directories could look something like
+this:
+
+wic create ... --rootfs-dir /some/rootfs/dir --rootfs-dir /some/other/rootfs/dir
+
+That would assign the first to the / partition and the second to
+the /standby partition if using this in the .wks file:
+
+  part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
+
+  part /standby --source rootfs --rootfs=<special rootfs directory> \
+    --ondisk sda --fstype=ext3 --label secondary --align 1024
+
+The problem is that we're relying on ordering between the .wks file and
+the command-line, and what if we're also using the -e param? - that
+assumes the --rootfs-dir is coming from the image file.
+
+I'd rather just ignore -e altogether when thinking about this, since
+it's really just a usability hack and I don't think it should drive the
+overall interface.
+
+In any case, I think the connection between a command-line param and the
+line in the .wks file should be explicit, but I'm not sure about the
+best way do do that, maybe something like:
+
+wic create ... --rootfs-dir rootfs1=/some/rootfs/dir --rootfs-dir rootfs2=/some/other/rootfs/dir
+
+  part / --source rootfs --rootfs-dir="rootfs1" --ondisk sda --fstype=ext3 --label primary --align 1024
+
+  part /standby --source rootfs --rootfs-dir="rootfs2" \
+    --ondisk sda --fstype=ext3 --label secondary --align 1024
+
+In the above case, 'rootfs1' and 'rootfs2' provide the connection (and
+could be named anything, they're just strings).
+
+The default, as is currently the case, is if --source rootfs is used
+alone and no --rootfs-dir is specified for that line in the .wks file,
+in which case the rootfs dir is automatically supplied by the
+--rootfs-dir /some/rootfs/dir (or from the rootfs in the -e image).
+
+Your current hard-coded secondary use case would still work without any
+explicit named params - /standby would use --rootfs-dir=/some/rootfs/dir
+and / would use either the rootfs from either -e or -r:
+
+wic create ... hard-coded-path.wks -e core-image-minimal
+
+or
+
+wic create ... hard-coded-path.wks -r /some/rootfs/dir
+
+  part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
+
+  part /standby --source rootfs --rootfs-dir=/some/rootfs/dir \
+    --ondisk sda --fstype=ext3 --label secondary --align 1024
+
+
+And we can still use a default rootfs dir with a named dir for the other
+partition:
+
+wic create ... -e core-image-minimal rootfs2=/some/other/rootfs/dir
+
+or
+
+wic create ... --rootfs-dir /some/rootfs/dir --rootfs-dir rootfs2=/some/other/rootfs/dir
+
+  part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
+
+  part /standby --source rootfs --rootfs-dir="rootfs2" \
+    --ondisk sda --fstype=ext3 --label secondary --align 1024
+
+So I guess that's what make sense to me, but I'd be happy to hear other
+ideas.
+
+In any case, at minimum I think that you should change the syntax from
+--rootfs=<special rootfs directory> to --rootfs-dir=<special rootfs
+directory>, in keeping with current syntax.
+
+Another thing missing is displaying the extra partitions in the output
+e.g. I created an image with the added /standby, and it worked but I
+didn't see it mentioned in the output, which it should be:
+
+[trz@empanada build]$ wic create directdisk-multi -e core-image-minimal
+Checking basic build environment...
+Done.
+
+Creating image(s)...
+
+Info: The new image(s) can be found here:
+  /var/tmp/wic/build/directdisk-multi-201403211050-sda.direct
+
+The following build artifacts were used to create the image(s):
+  ROOTFS_DIR:      /home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs
+  BOOTIMG_DIR:     /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/share
+  KERNEL_DIR:      /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/src/kernel
+  NATIVE_SYSROOT:  /home/trz/yocto/master-cur/build/tmp/sysroots/x86_64-linux
+
+
+The image(s) were created using OE kickstart file:
+  /home/trz/yocto/master-cur/scripts/lib/image/canned-wks/directdisk-multi.wks
+
+Thanks,
+
+Tom
+
+> Thanks.
+> 
+> João Henrique Ferreira de Freitas (5):
+>   wic: Add RootfsPlugin
+>   wic: Hook up RootfsPlugin plugin
+>   wic: Add rootfs_dir argument to do_prepare_partition() method
+>   wic: Use partition label to be part of rootfs filename
+>   wic: Add option --rootfs to --source
+> 
+>  .../lib/mic/kickstart/custom_commands/partition.py | 38 +++++++-------
+>  scripts/lib/mic/pluginbase.py                      |  2 +-
+>  scripts/lib/mic/plugins/source/bootimg-efi.py      |  2 +-
+>  scripts/lib/mic/plugins/source/bootimg-pcbios.py   |  2 +-
+>  scripts/lib/mic/plugins/source/rootfs.py           | 58 ++++++++++++++++++++++
+>  5 files changed, 81 insertions(+), 21 deletions(-)
+>  create mode 100644 scripts/lib/mic/plugins/source/rootfs.py
+> 
+> -- 
+> 1.8.3.2
+> 
+
+
+
