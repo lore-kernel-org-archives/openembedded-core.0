@@ -1,39 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id BF2136FA59
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 199DB6FA5E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 18:22:09 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id w61so1865513wes.15
+	Fri, 21 Mar 2014 18:22:53 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id uq10so2130716igb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Mar 2014 11:22:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=UiaJRvVR3ForX21bf76hc7RX+pDULFdQu+48zZzwk74=;
-	b=AN+5Qwu+ahFjKvxuGVqW1MGiMrdtQJMCnd5NOZIg4lv8R1k6Im0Qs1EAO/NxqwlQiK
-	iYfXMw4TT3xvJxelfWOOEZPjNkdC3tAVpjFBn4S0ZFGhosRa/3LWEYVy/KIoDvT3lKKf
-	7banud1qiESuhw3TJ+6B17VjmSUN500jVjYQt2U/AaIJIuGb70AICejUgvIqOcvpxWc6
-	mpjmgFMAdnMMLCu5uJQRAWepu72YF+ZSoQXATpUn67D3ImkGhrVyhMhRCcX/40c8ibAq
-	DB1CYKutQcMThpRgfTAP5M4AMM9WZAIxG4ZxWVu6bGy834yqwjM0YxmLKplVbLl5ksjy
-	0S5g==
-X-Gm-Message-State: ALoCoQlL/IyqkxxXYHJ6pnBgA+z9Szul0LHpKrkxFTo1DPhk91qTSLzzw39YeUyJDFRGTyfciQZO
-X-Received: by 10.180.108.199 with SMTP id hm7mr4323466wib.1.1395426130289;
-	Fri, 21 Mar 2014 11:22:10 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id r1sm7652048wia.5.2014.03.21.11.22.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Mar 2014 11:22:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Mar 2014 18:21:59 +0000
-Message-Id: <1395426119-3011-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1395426119-3011-1-git-send-email-ross.burton@intel.com>
-References: <1395426119-3011-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] gtk-engines: move engine schemas to a dedicated package
+	Fri, 21 Mar 2014 11:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ZxShSuUe3RxYvK/+UtdQacP+MBBLh9F5xi2OprYxrMg=;
+	b=jHi/N0sLPLZ/9vYmWCMKXEmRSC6DWl0lpIYJmtVqcnDOKULqtyl+7jaOOfxQNo75zp
+	Rl87eWkMjpN2zkjwHXyAM6byUckMchMn3CUrOiqx95ZWcLPtLi29RFaLJLMk8Fx9EkE2
+	cy/ytzlBtdM15Fm2krSMSbVtBtSJOFkJFZTdlgDohP8jwujA0PFoj46kZTug3HDMs5tM
+	i2vThcksQfWYcuf0ciCqfFoWDPZyxtGm8faraZiUXV+uWsH0Ec9flvQAvVFefkVTRpA+
+	yrYr8AGL4nRzAFNaoZMrh/NTSnevYQ1eoduSaN6xjzUJgEz9EFaQyU0dpULBkYOyOIDN
+	pPBA==
+X-Received: by 10.50.60.103 with SMTP id g7mr4412331igr.20.1395426174423; Fri,
+	21 Mar 2014 11:22:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.224.136 with HTTP; Fri, 21 Mar 2014 11:22:24 -0700 (PDT)
+In-Reply-To: <CANyK_8e6dfzu64SRLzZdXFE3obT6Td-8UUDqfcoSAqWTjoOq3g@mail.gmail.com>
+References: <CANyK_8e6dfzu64SRLzZdXFE3obT6Td-8UUDqfcoSAqWTjoOq3g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 21 Mar 2014 11:22:24 -0700
+Message-ID: <CAMKF1sq7QUcKypgyn8auurnqRd5ZfztdymcxquRwsRxvN4seqw@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded and musl-libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Mar 2014 18:22:11 -0000
+X-List-Received-Date: Fri, 21 Mar 2014 18:22:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The GTK+ engine schemas are not insignicant in size but also mostly useless.
-Put them in a sub-package instead of PN so they only get installed when
-explicitly required.
+On Fri, Mar 21, 2014 at 5:34 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+> Hi all,
+>
+> musl-libc hit version 1.0.0 yesterday and is starting to look good to
+> me. It's basically a really small but very functional libc that would
+> suit embedded environments very well as an alternative to
+> eglibc/uclibc. I'm personally very interested in using it in my
+> projects and I also think it could fit in well with the aims of
+> poky-tiny.
+>
+> http://www.etalabs.net/compare_libcs.html gives some pretty useful info.
+>
+> I'm basically emailing to see if anyone else is interested in this or
+> if anyone has looked at using it before in OpenEmbedded as a google
+> for previous discussions didn't turn anything up.
+>
+> I'm currently very busy between various projects so I don't have time
+> to hack together a musl-libc recipe myself but I should have time to
+> help test it.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb |    3 +++
- 1 file changed, 3 insertions(+)
+it has been under my radar for a while. I have actually locally made
+toolchains with
+clang+musl and it seems to be coming along. its licensed differently thats
+the biggest attraction for folks who do static linking. Otherwise it still
+doesnt yet support variety of architectures that other libcs support. given
+now we have kconfig for eglibc too may be it fills in the nommu gap much
+like uclibc does today. I have some plans for 1.7 for adding it to OE
+may be in a layer
+of its own first and then migrate it to OE-core
 
-diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-index 5255f00..33b6afe 100644
---- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-+++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-@@ -10,6 +10,7 @@ DEPENDS = "intltool-native gtk+"
- 
- PR = "r3"
- 
-+PACKAGES += "${PN}-schemas"
- PACKAGES_DYNAMIC += "^gtk-engine-.* ^gtk-theme-.*"
- 
- RDEPENDS_gtk-theme-redmond = "gtk-engine-redmond95"
-@@ -21,8 +22,10 @@ RDEPENDS_gtk-theme-thinice = "gtk-engine-thinice"
- RDEPENDS_gtk-theme-industrial = "gtk-engine-industrial"
- RDEPENDS_gtk-theme-clearlooks = "gtk-engine-clearlooks"
- 
-+FILES_${PN} = ""
- FILES_${PN}-dev += "${libdir}/gtk-2.0/*/engines/*.la"
- FILES_${PN}-dbg += "${libdir}/gtk-2.0/*/engines/.debug"
-+FILES_${PN}-schemas = "${datadir}/gtk-engines/*.xml"
- 
- CFLAGS_prepend = "-DHAVE_ANIMATION "
- 
--- 
-1.7.10.4
-
+>
+> Thanks,
+>
+> --
+> Paul Barker
+>
+> Email: paul@paulbarker.me.uk
+> http://www.paulbarker.me.uk
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
