@@ -1,35 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
-	[209.85.160.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A98486FA82;
-	Sun, 23 Mar 2014 08:35:22 +0000 (UTC)
-Received: by mail-pb0-f46.google.com with SMTP id rq2so4152019pbb.19
-	for <multiple recipients>; Sun, 23 Mar 2014 01:35:23 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D0EF96FAF7;
+	Sun, 23 Mar 2014 20:43:18 +0000 (UTC)
+Received: by mail-ee0-f44.google.com with SMTP id e49so3753573eek.31
+	for <multiple recipients>; Sun, 23 Mar 2014 13:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:subject:message-id:date:to:mime-version;
-	bh=TrAtByhXX63jsVdpOGp3Wa5fpzrSkTOfkzYIjmTWJC4=;
-	b=ZpJyG88d7FQg96ni4Vg9MtMM9kjYiwcgWAO2YOn1ZvCeBlolz9IezHAh/2JijH+gwx
-	S1AHptfJ4M2c5T9SXeqwvEGgAizzepF9htU4r3jMUf48mFdDzDwTPxkV+ojWiNszr4Vg
-	zwrYPxezseLHFgIhsYk2B9oBzTv9KW3XBBI26RmhK/fc6QXttgvPjRPgODfTBk98+XDe
-	DWGOWj/lrb4S4LvkXgLwVdbrKa4BEc1IT5/q7yn4LUIkY/cwAgiqsHcQW3zq5fGsmY15
-	FhgwTZiVzBTUxIM32yWmoqiYLpeDfPKiv3FJiDyZOlwPlaO6czKfgm/jF0CLGGo63/Ns
-	FlLQ==
-X-Received: by 10.68.4.8 with SMTP id g8mr1359123pbg.133.1395563723175;
-	Sun, 23 Mar 2014 01:35:23 -0700 (PDT)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	ix2sm20560772pbc.45.2014.03.23.01.35.21 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 23 Mar 2014 01:35:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Message-Id: <E7466334-BD13-4847-948A-0885F4B4F987@gmail.com>
-Date: Sun, 23 Mar 2014 01:35:18 -0700
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-X-Mailer: Apple Mail (2.1874)
-Subject: [RFT] gcc 4.9
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=wTRoSDlXH9u8lkGZPLSsIB/fE1m8BJixIsGLmG5IpKs=;
+	b=ljGxdTOlLjMKYWmflEh/ml6Xf2nZZeNOJw4KUc1t572VeWrlPCVvq/OVmom7oOTrTH
+	0Mg6a4ojZbbdZ2EKqwRmoXWJYkwlEtuB3pTaAti2iPyUd4PgOsVRmTcmcz5BbtlZRx95
+	os34Qsq5L8tuFGqjqf24yKbd0QDXR3Au0LHVdePkSmLDqVEjNawSmAYUQ4fZE85OLEvM
+	eWtwTdDow9ebxkShWgEsyKjeNBTeTlEM70h/LvpVWfVFeAeA4xQpQQ8v7+KdW7LL8+J/
+	V/v2fd0INvwfw0wzjxgNmLjCUmbCxL98Ny0R6N5id0uSP0lyyAu587DwQpN6v3gvqeUe
+	EKvA==
+X-Received: by 10.15.54.70 with SMTP id s46mr303590eew.83.1395607399555;
+	Sun, 23 Mar 2014 13:43:19 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	x3sm28520651eep.17.2014.03.23.13.43.17 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 23 Mar 2014 13:43:17 -0700 (PDT)
+Date: Sun, 23 Mar 2014 21:43:24 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140323204324.GA3710@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: State of bitbake world, Failed tasks 2014-03-23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,64 +41,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Mar 2014 08:35:24 -0000
-X-Groupsio-MsgNum: 51489
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_9BF578BE-AA5B-4B03-B1B7-E02D90E99D70";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sun, 23 Mar 2014 20:43:20 -0000
+X-Groupsio-MsgNum: 51490
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
 
---Apple-Mail=_9BF578BE-AA5B-4B03-B1B7-E02D90E99D70
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-Hi
+On Tue, Mar 18, 2014 at 07:50:08PM +0100, Martin Jansa wrote:
+> On Sat, Mar 15, 2014 at 03:10:46PM +0100, Martin Jansa wrote:
+> > On Tue, Mar 11, 2014 at 02:50:14PM +0100, Martin Jansa wrote:
+> > > On Tue, Mar 11, 2014 at 02:45:04PM +0100, Martin Jansa wrote:
+> > > > Biggest difference from last e-mail is aclocal changes which can po=
+ssibly explain
+> > > > increased number of do_configure failures, I've asked Richard to de=
+lay merging B!=3DS
+> > > > change until we resolve or at least analyze these new failures, so =
+any help with
+> > > > would be highly appreciated.
 
-gcc 4.9 release is coming in summer therefore I have put together the =
-recipes here
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-=
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-4.=
-9
+=3D=3D Failed tasks 2014-03-23 =3D=3D
 
-So far my testing has been booting angstrom/systemd-image on all =
-supported
-qemu machines (except qemumips64 where there is a know kernel issue) =
-both eglibc/uclibc
-images
+=3D=3D=3D common (14) =3D=3D=3D
+    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
+b, do_compile
+    * meta-openembedded/meta-multimedia/recipes-multimedia/libdc1394/libdc1=
+394_git.bb, do_configure
+    * meta-openembedded/meta-networking/recipes-protocols/quagga/quagga_0.9=
+9.21.bb, do_compile
+    * meta-openembedded/meta-networking/recipes-support/traceroute/tracerou=
+te_2.0.18.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, do_i=
+nstall
+    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_c=
+ompile
+    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.bb, =
+do_compile
+    * meta-openembedded/meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb,=
+ do_compile
+    * meta-openembedded/meta-oe/recipes-multimedia/sound-themes/sound-theme=
+-freedesktop_0.8.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
+ompile
+    * meta-openembedded/meta-oe/recipes-support/asio/asio_1.4.1.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-support/inih/libinih_git.bb, do_ins=
+tall
+    * meta-openembedded/meta-oe/recipes-support/lvm2/lvm2_2.02.97.bb, do_co=
+mpile
 
-we would like to target them for 1.7 release so if you have cycles to =
-test out
-your image/machine combos please do so I would be interested in feedback =
-and would accumulate fixes in this branch
+=3D=3D=3D common-x86 (9) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-efl/recipes-efl/e17/eve_svn.bb, do_compile
+    * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.=
+bb, do_compile
+    * meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnomecanvas_2.=
+30.3.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-extended/mml-widget/gtkmathview_0.8=
+=2E0.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+    * meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, =
+do_configure
+    * meta-openembedded/meta-xfce/recipes-apps/xarchiver/xarchiver_git.bb, =
+do_configure
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 
-If you run into some issues with some packages then its recommended to =
-go through
+=3D=3D=3D qemuarm (4) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-graphics/gtkperf/gtkperf_0.40.bb, d=
+o_install
+    * meta-openembedded/meta-oe/recipes-support/mongodb/mongodb_git.bb, do_=
+compile
+    * openembedded-core/meta/recipes-bsp/grub/grub_git.bb, do_package
+    * openembedded-core/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb, do_compile
 
-http://gcc.gnu.org/gcc-4.9/changes.html
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tin=
+y-kexecboot_3.10.bb, do_compile
 
-and especially http://gcc.gnu.org/gcc-4.9/porting_to.html
+=3D=3D=3D qemux86_64 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
+obiledevice_1.1.4.bb, do_configure
 
-Which could help in cooking patches
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||18    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140321_202837.log/
+|-
+||qemux86       ||24    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140320_223155.log/
+|-
+||qemux86_64    ||24    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140322_111055.log/
+|}
 
-Thanks
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
--Khem
-
---Apple-Mail=_9BF578BE-AA5B-4B03-B1B7-E02D90E99D70
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlMunMYACgkQuwUzVZGdMxTeuACfbutTrBxLZzGI7wk3M5DW5jWh
-OXEAnj1goor8FwlOOyvrq4P+7UI8521J
-=PiO2
+iEYEARECAAYFAlMvR2wACgkQN1Ujt2V2gBwJ8wCgmUhKBg4uDSLYPtTFuAHaF/MH
+uZ4AoJMhWQf9L8DGHEZIZO1tWsIO3RDC
+=o38L
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_9BF578BE-AA5B-4B03-B1B7-E02D90E99D70--
+--dDRMvlgZJXvWKvBx--
