@@ -1,27 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 778126F911
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 96C5D6E9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 07:58:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2O7w8mZ028332
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 24 Mar 2014 08:09:58 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id j15so5015943qaq.30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 00:58:08 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 24 Mar 2014 00:58:05 -0700
-Message-ID: <532FE586.2050708@windriver.com>
-Date: Mon, 24 Mar 2014 15:57:58 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon, 24 Mar 2014 01:09:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=83oMzYAPc/7IgpzBHtvnwfZWL6J28wxskN37jQHraKQ=;
+	b=Rb36U8VTQLj1QAUiZP9ZBuhtZIxSpBkZziqPBTW/t6/94SboYXW4kHw9TgLFgtwvU3
+	I1YKQYejqZ5pdFbM6vM403iT1OZekRamU50TDE+FHEkinwXNPnrqwjBENmXFjGSCJ/Y5
+	zjDRT3zX7ch+9Hpfi8ljEMKEtq/grZoRcey9NAhFvyNSozK2wMJZcY0JHghKH5qexfD0
+	gA7N+HD/gG1MSKuwPF9O7F+GNfM+mtOAufKWQnFNsyyPJjNJapuKZen9m4509Fe1zO1c
+	FJrJl5fhUQZc7vx9LZb+gCgbjkDOJTOCNT8leRt1AImt5yRng0a+9UCVp2LonqLknU7L
+	Z8sA==
+X-Gm-Message-State: ALoCoQlv1ZpRChmuItvL0cx6FQoKEPyaCGCtLwgizeZrpLO64L6CDSsQm7BrFc8qA8BqPrVTQTkX
+X-Received: by 10.229.12.197 with SMTP id y5mr397700qcy.22.1395648599337; Mon,
+	24 Mar 2014 01:09:59 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: by 10.140.27.167 with HTTP; Mon, 24 Mar 2014 01:09:39 -0700 (PDT)
+In-Reply-To: <9c06686dc4ccc2576bd8a171ed685ab00eecf84c.1395646642.git.hongxu.jia@windriver.com>
 References: <cover.1395646642.git.hongxu.jia@windriver.com>
 	<9c06686dc4ccc2576bd8a171ed685ab00eecf84c.1395646642.git.hongxu.jia@windriver.com>
-In-Reply-To: <9c06686dc4ccc2576bd8a171ed685ab00eecf84c.1395646642.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Mar 2014 08:09:39 +0000
+Message-ID: <CAJTo0LZEQzZYt+G=3OyzKLdceXeKZ2dHD2gDOVEJBD+yhiAc6g@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] libsoup-2.4: upgrade to 2.45.92
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,65 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 07:58:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Mar 2014 08:10:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 03/24/2014 03:40 PM, Hongxu Jia wrote:
+On 24 March 2014 07:40, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 > There was a error about mips-gcc optimization while building
 > libsoup-2.4 2.45.3 with DEBUG_OPTIMIZATION enabled, the 2.45.92
 > have fixed this issue.
 
-Update the comments to make a clarity.
+.92 means "beta release" in GNOME versioning, so not only is this a
+new upstream release (when we've frozen) but it's also not a stable
+release.  Please backport the patch instead of upgrading.
 
-libsoup-2.4: upgrade to 2.45.92
-
-There was an error about mips-gcc optimization while compiling
-libsoup-2.4 2.45.3 with DEBUG_OPTIMIZATION enabled.
-
-The test code of libsoup-2.4 2.45.3 triggered gcc assert which located
-in gcc/dwarf2out.c:20810:
-...
-20806       gcc_assert (prev
-20807                   && (CALL_P (prev)
-20808                       || (NONJUMP_INSN_P (prev)
-20809                           && GET_CODE (PATTERN (prev)) == SEQUENCE
-20810                           && CALL_P (XVECEXP (PATTERN (prev), 0, 
-0)))));
-...
-
-The issue test code is the C function 'do_qvalue_tests' located in
-tests/header-parsing.c.
-
-The 2.45.92 have refactored the test code and this issue has been fixed.
-
-[YOCTO #5512]
-
-//Hongxu
-> [YOCTO #5512]
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   .../libsoup/{libsoup-2.4_2.45.3.bb => libsoup-2.4_2.45.92.bb}         | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-support/libsoup/{libsoup-2.4_2.45.3.bb => libsoup-2.4_2.45.92.bb} (85%)
->
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.45.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.45.92.bb
-> similarity index 85%
-> rename from meta/recipes-support/libsoup/libsoup-2.4_2.45.3.bb
-> rename to meta/recipes-support/libsoup/libsoup-2.4_2.45.92.bb
-> index b1199d8..f3a2617 100644
-> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.45.3.bb
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.45.92.bb
-> @@ -17,8 +17,8 @@ PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
->   SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
->   SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
->   
-> -SRC_URI[md5sum] = "fe7ec04784c6b97c5f8ea963c8542f59"
-> -SRC_URI[sha256sum] = "6ac317b931efd2cff9cdea7122987acb3ecb0c32564a9441ba72e5cce021aa12"
-> +SRC_URI[md5sum] = "d72623f2baac7f58d1295c0b6ae7cd35"
-> +SRC_URI[sha256sum] = "d34f4b41eec99ecf082783f842a29e712e7a78e83f4cd2a060b9de64377d21d8"
->   
->   S = "${WORKDIR}/libsoup-${PV}"
->   
-
+Ross
 
