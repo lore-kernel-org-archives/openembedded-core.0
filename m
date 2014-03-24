@@ -1,29 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1166B4F7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CAED6FA53
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 06:45:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2O6jWf3025707
+	Mon, 24 Mar 2014 07:40:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2O7e9XZ028184
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 23 Mar 2014 23:45:32 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Sun, 23 Mar 2014 23:45:31 -0700
-Message-ID: <532FD488.8030903@windriver.com>
-Date: Mon, 24 Mar 2014 14:45:28 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon, 24 Mar 2014 00:40:09 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 24 Mar 2014 00:40:08 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Mar 2014 15:40:00 +0800
+Message-ID: <cover.1395646642.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: Lu Chong <Chong.Lu@windriver.com>, Saul Wold <sgw@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1393048477-16896-1-git-send-email-Chong.Lu@windriver.com>	<530B54B0.8090304@linux.intel.com>
-	<530C04E2.8060400@windriver.com>
-In-Reply-To: <530C04E2.8060400@windriver.com>
-X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH] python-native: export some environment variables
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/1] libsoup-2.4: upgrade to 2.45.92
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,82 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 06:45:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Mar 2014 07:40:10 -0000
+Content-Type: text/plain
 
-ping
+The following changes since commit 49aad7da07e187f206e963001844605731b01247:
 
-On 02/25/2014 10:50 AM, Lu Chong wrote:
->
-> On 02/24/2014 10:18 PM, Saul Wold wrote:
->> On 02/22/2014 07:54 AM, Chong Lu wrote:
->>> Need to export these environment variables for python-config to work.
->>>
->> Can you clariy further as to what's broken?  Has this not been 
->> working in the past, or is this a new test of somekine that we are 
->> failing?
->>
->> Sau!
->>
->
->
-> checking for python script directory... Traceback (most recent call 
-> last):
->   File "<string>", line 22, in <module>
->   File 
-> "/yocto/build/qemux86-64/tmp/sysroots/x86_64-linux/usr/lib/python2.7/distutils/sysconfig.py", 
-> line 22, in <module>
->     PREFIX = os.path.normpath(sys.prefix).replace( 
-> os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
-> TypeError: expected a character buffer object
-> ${libdir}/python2.7/site-packages
-> checking for python extension module directory... Traceback (most 
-> recent call last):
->   File "<string>", line 22, in <module>
->   File 
-> "/yocto/build/qemux86-64/tmp/sysroots/x86_64-linux/usr/lib/python2.7/distutils/sysconfig.py", 
-> line 22, in <module>
->     PREFIX = os.path.normpath(sys.prefix).replace( 
-> os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
-> TypeError: expected a character buffer object
->
-> Above error comes from some packages' do_configure log.
-> This error doesn't block building.
-> Some packages export above env variables in bb file, but someone not.
-> So I think these env variables should be exported in bbclass file.
->
-> Best Regards
-> Chong
->
->
->>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->>> ---
->>>   meta/classes/pythonnative.bbclass |    4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/meta/classes/pythonnative.bbclass 
->>> b/meta/classes/pythonnative.bbclass
->>> index fdd22bb..58a5b5c 100644
->>> --- a/meta/classes/pythonnative.bbclass
->>> +++ b/meta/classes/pythonnative.bbclass
->>> @@ -4,3 +4,7 @@ inherit python-dir
->>> PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
->>>   EXTRANATIVEPATH += "${PYTHON_PN}-native"
->>>   DEPENDS += " ${PYTHON_PN}-native "
->>> +export STAGING_INCDIR
->>> +export STAGING_LIBDIR
->>> +export BUILD_SYS
->>> +export HOST_SYS
->>>
->>
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+  bitbake: runqueue: Remove use of waitpid on worker processes (2014-03-19 17:46:33 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-libsoup
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-libsoup
+
+Hongxu Jia (1):
+  libsoup-2.4: upgrade to 2.45.92
+
+ .../libsoup/{libsoup-2.4_2.45.3.bb => libsoup-2.4_2.45.92.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.45.3.bb => libsoup-2.4_2.45.92.bb} (85%)
+
+-- 
+1.8.1.2
 
 
