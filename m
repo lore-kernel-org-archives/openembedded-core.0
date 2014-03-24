@@ -1,39 +1,35 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 778B86F77C
+Return-Path: <scott.m.rifenbark@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B8B26F6F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 18:28:26 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id x48so3607829wes.21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 11:28:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tMo6kPZDwz6KpGamdvSukOF0bbRNw0TQksYwn3EKeq8=;
-	b=mtYeOch5YEwntaYeGwvgqe25h9VYGTBGs6cA5RmTy2fidiAf2qIshXPyhNbra1cnlp
-	9uyg+12/7RL6VIxWc37vLpoUT3h3wtGFVaWctAZgL7OrXEnh+UU9adVb8c9zRx/uvPsb
-	79g/0ERV7JPeZTQfdoyyqt20ao5oNIOAVYj/sLamvgskdQerC9pe43e6FWLZm31bWe8J
-	nqTGHU6sFVZG/rtsECkYQFvrO5OqjYtYzkEmM2sHPAiaho2BvPmA/T2v5gL3ec5exitr
-	/EvTEYwunxkqlekXClYPjiNCwst55FXlPL7BccshTPpe7InQ78S8EWYnydwTB6suoXdv
-	4izQ==
-X-Gm-Message-State: ALoCoQktykGrDMN08/gDK5RCArIJ33EMsbEveWKuvMMJcVq2AoK21uR4OfhisHirllyNjnWosFnP
-X-Received: by 10.180.24.134 with SMTP id u6mr17894407wif.41.1395685707121;
-	Mon, 24 Mar 2014 11:28:27 -0700 (PDT)
-Received: from adamian-desk.corp.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id jd2sm41462624wic.9.2014.03.24.11.28.24
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 24 Mar 2014 11:28:25 -0700 (PDT)
-Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
-	id 27CF0560D87; Mon, 24 Mar 2014 18:28:24 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Mar 2014 18:28:22 +0000
-Message-Id: <1395685702-30537-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 1/1] toaster.bbclass: update buildstats event data
+	Mon, 24 Mar 2014 19:40:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 24 Mar 2014 12:40:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,722,1389772800"; d="scan'208";a="479050215"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga001.jf.intel.com with ESMTP; 24 Mar 2014 12:40:10 -0700
+Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Mon, 24 Mar 2014 12:40:09 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.45]) by
+	ORSMSX160.amr.corp.intel.com ([169.254.13.164]) with mapi id
+	14.03.0123.003; Mon, 24 Mar 2014 12:40:09 -0700
+From: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, yocto <yocto@yoctoproject.org>
+Thread-Topic: [yocto] Features in Yocto Project 1.7
+Thread-Index: AQHPR3qptUmm4/pCLE6Vsn5TF7tV5prwonzA
+Date: Mon, 24 Mar 2014 19:40:09 +0000
+Message-ID: <41DEA4B02DBDEF40A0F3B6D0DDB1237983F859B5@ORSMSX101.amr.corp.intel.com>
+References: <1395676843.24890.7.camel@ted>
+In-Reply-To: <1395676843.24890.7.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
+MIME-Version: 1.0
+Subject: Re: [yocto] Features in Yocto Project 1.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +42,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 18:28:28 -0000
+X-List-Received-Date: Mon, 24 Mar 2014 19:40:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+I can see this effort as a  basis for re-writing the "Models" chapter of th=
+e development manual.
 
-We add the PN to the buildstats event data in order to
-proper select database task when multiple similar tasks
-are executed for the same recipe file.
+Scott
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 563b1f7..f55a4d7 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -179,7 +179,7 @@ python toaster_collect_task_stats() {
-             bn = get_bn(e)
-             bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
-             taskdir = os.path.join(bsdir, e.data.expand("${PF}"))
--            fout.write("%s:%s:%s\n" % (e.taskfile, e.taskname, os.path.join(taskdir, e.task)))
-+            fout.write("%s:%s:%s:%s\n" % (e.taskfile, e.taskname, os.path.join(taskdir, e.task), e.data.expand("${PN}")))
- 
-         bb.utils.unlockfile(lock)
- 
-@@ -222,8 +222,8 @@ python toaster_collect_task_stats() {
-         events = []
-         with open(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"), "r") as fin:
-             for line in fin:
--                (taskfile, taskname, filename) = line.strip().split(":")
--                events.append((taskfile, taskname, _read_stats(filename)))
-+                (taskfile, taskname, filename, recipename) = line.strip().split(":")
-+                events.append((taskfile, taskname, _read_stats(filename), recipename))
-         bb.event.fire(bb.event.MetadataEvent("BuildStatsList", events), e.data)
-         os.unlink(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"))
- }
--- 
-1.8.3.2
-
+>-----Original Message-----
+>From: yocto-bounces@yoctoproject.org [mailto:yocto-
+>bounces@yoctoproject.org] On Behalf Of Richard Purdie
+>Sent: Monday, March 24, 2014 9:01 AM
+>To: openembedded-core; yocto
+>Subject: [yocto] Features in Yocto Project 1.7
+>
+>As development on 1.6 finishes up, its time to think about what we should =
+be
+>doing in the 1.7 cycle.
+>
+>I think from my perspective, in 1.7 I'd like to see us looking at "Develop=
+er
+>Workflow". Its a generic topic which I think covered multiple areas (in no
+>particular order):
+>
+>* the ADT/SDK and how it intergrates into the rest of the system
+>* toaster
+>* python devshell
+>* exteralsrc.bbclass
+>* memory resident bitbake
+>* how a standalone app developer might build an image
+>* locked sstate
+>
+>and probably more I'm forgetting.
+>
+>If anyone does have things they plan to work on, or ideas for things that
+>should be worked on, please do file enhancement requests in the
+>bugzilla:
+>
+>https://bugzilla.yoctoproject.org/
+>
+>Cheers,
+>
+>Richard
+>
+>
+>
+>--
+>_______________________________________________
+>yocto mailing list
+>yocto@yoctoproject.org
+>https://lists.yoctoproject.org/listinfo/yocto
 
