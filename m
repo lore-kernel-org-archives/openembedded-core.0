@@ -1,35 +1,24 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id BF3AA6FB00
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 31CF56EFFF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 00:17:38 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id lf10so4664468pab.41
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Mar 2014 17:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=x2t5Obj+J1M5HWiUXia7bj8SrFP/xcyhmzNRAbW6w5Y=;
-	b=bSRUMch2m2TawNgwrvBMkCbxM65k/+TIPMRKRVvEecNuRn6Ke9oaU6WHyJqCpFPlEh
-	xWBd0s9OKfucLQXc2hpiqfmkVULSiBZanJWPtdVjtBYrOc1hWFTlp57ST7mWwRQXZM6o
-	6i41WOA6awE2cZYpArJZibeQRmbUYRC8Yeschtrt2WSM69UAfPyIEmGpaBsURCf/L72+
-	AlmEM8Vfu4Sh7QTsAKeBafORNXjxwf41XTZKD4zLZ+DeTNTLEFRKeV+nZrAN1BgjwDZl
-	dZ19g2FgNXfpQyAS2qU3EHIvS98oNQJgbufvADQe5wBxUNOFMIbcaOermhDhl2yrpNv3
-	/sjA==
-X-Received: by 10.66.66.202 with SMTP id h10mr67926211pat.70.1395620258749;
-	Sun, 23 Mar 2014 17:17:38 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	pe3sm28812668pbc.23.2014.03.23.17.17.37 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 23 Mar 2014 17:17:38 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Mar 2014 11:23:02 +1100
-Message-Id: <1395620582-11671-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] connman: upgrade to 1.22
+	Mon, 24 Mar 2014 05:33:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2O5XiaS027116
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 23 Mar 2014 22:33:44 -0700 (PDT)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Sun, 23 Mar 2014 22:33:43 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Mar 2014 13:39:25 +0800
+Message-ID: <cover.1395639298.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH 0/3] archiver.bbclass: make it can filter the license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,42 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 00:17:39 -0000
+X-List-Received-Date: Mon, 24 Mar 2014 05:33:50 -0000
+Content-Type: text/plain
 
-Highlights:
-- If VPN is split routed and not the default service, then allow
-  DNS queries also to be sent to VPN DNS server.
-- Session API fixes
-- Memory leak fixes
-- Crash fixes
-- NTP kiss-of-death packet support
-- Support for full USB gadget networking. Now USB gadget network can
-  be used without tethering.
+After talked with Chris, we use the copyleft_filter.bbclass which is
+from copyleft_compliance.bbclass to filter the license for both
+archiver.bbclass and copyleft_compliance.bbclass, and we may remove
+copyleft_compliance.bbclass in post 1.6, but we will keep it now.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- .../recipes-connectivity/connman/{connman_1.21.bb => connman_1.22.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.21.bb => connman_1.22.bb} (68%)
+// Robert
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.21.bb b/meta/recipes-connectivity/connman/connman_1.22.bb
-similarity index 68%
-rename from meta/recipes-connectivity/connman/connman_1.21.bb
-rename to meta/recipes-connectivity/connman/connman_1.22.bb
-index 48ed20e..4bd986f 100644
---- a/meta/recipes-connectivity/connman/connman_1.21.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.22.bb
-@@ -5,7 +5,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
-             "
--SRC_URI[md5sum] = "483633162b819c8b99fec970f92e311d"
--SRC_URI[sha256sum] = "e80f4e9c639ef016e9c497c122c349dbc9e6dc78a9976f986134739ee208c08a"
-+SRC_URI[md5sum] = "4f45ab2035d1028a287d14427ce61774"
-+SRC_URI[sha256sum] = "64d9a8ab83c99943514bb64984142fef409177a93c64e1aace84eaf13c7bddde"
- 
- RRECOMMENDS_${PN} = "connman-conf"
+The following changes since commit 4a47c943a76e79af82d47d8fa83c6687e0d915a0:
+
+  busybox: disable fsck.minix and mkfs.minix (2014-03-23 09:08:49 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/archiver_license
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/archiver_license
+
+Robert Yang (3):
+  archiver.bbclass: make it can filter the license
+  archiver.bbclass: emit patch series files for original src
+  local.conf.sample.extended: update it for the archiver
+
+ meta/classes/archiver.bbclass            | 40 +++++++++++++++++++--
+ meta/classes/copyleft_compliance.bbclass | 56 +----------------------------
+ meta/classes/copyleft_filter.bbclass     | 62 ++++++++++++++++++++++++++++++++
+ meta/conf/local.conf.sample.extended     | 10 +++++-
+ 4 files changed, 110 insertions(+), 58 deletions(-)
+ create mode 100644 meta/classes/copyleft_filter.bbclass
+
 -- 
-1.9.0
+1.8.3.1
 
 
