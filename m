@@ -1,26 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 629B06FB2B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id E02E36F8A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 09:24:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2O9OKjY017932
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 02:24:21 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 24 Mar 2014 02:24:19 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Mar 2014 05:24:17 -0400
-Message-ID: <193839e768c2b96ced5cac7b6b20f9ec1d4c409c.1395653020.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1395653020.git.liezhi.yang@windriver.com>
-References: <cover.1395653020.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] util-linux: build setpriv requires libcap-ng
+	Mon, 24 Mar 2014 11:53:58 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2OBrlbT024201; Mon, 24 Mar 2014 11:53:47 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id c1Ma-pVf9lQD; Mon, 24 Mar 2014 11:53:47 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2OBriKH024194
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 24 Mar 2014 11:53:46 GMT
+Message-ID: <1395662018.24232.47.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Mar 2014 11:53:38 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: Status Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 09:24:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Mar 2014 11:54:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There might a failure when build util-linux with the meta-selinux layer:
+Executive Summary
+=================
 
-[snip]
-sys-utils/setpriv.c:21:20: fatal error: cap-ng.h: No such file or directory
- #include <cap-ng.h>
-                    ^
-compilation terminated.
-[snip]
+A very rocky week but we now have consistent green builds on the
+autobuilder.
 
-Use PACKAGECONFIG to fix the problem.
+1.6 Release Status
+===============
 
-[YOCTO #6026]
+Over the last week things have stabilised a lot from my perspective.
+Most of the major changes are now in or have at least been tested. In
+particular the linux-yocto-dev kernel (3.14) is now cleanly building so
+whilst the change is coming in late, it comparatively well tested.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/util-linux/util-linux.inc |    3 +++
- 1 file changed, 3 insertions(+)
+The reference BSPs are also set to change and patches are being tested
+for those. It is late in the cycle for them however this was we get to
+close out a long standing set of bugs that are unlikely to get fixed and
+replace them with a new set of things which people are much more likely
+to work on.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 51c982a..ad7aac7 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -57,6 +57,9 @@ PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuse
- # Respect the systemd feature for uuidd
- PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
- 
-+# Build setpriv requires libcap-ng
-+PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
-+
- FILES_${PN}-bash-completion += "${datadir}/bash-completion"
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
--- 
-1.7.10.4
+The archiver changes are in, there is a second set of patches pending.
+I'd appreciate eyes on this from people who use the code.
+
+I'm not going to push the B != S change in this release. It will land
+immediately into master as soon as we branch for 1.6 though.
+
+systemd and pulseaudio merged in the end, not least since the systemd
+changes appear to address some of the sanity failures we've been seeing.
+
+Autobuilder
+===========
+
+We've had a rough ride over the last week. We kept managing to "break"
+slaves, one with disk corruption problems (RAID firmware?), another with
+power supply issues and a variety of other issues. This took us from
+seven to four slaves.
+
+We also had a build fail when fork() stopped working, probably due to
+resource issues. As such we've dropped from 3 to 2 concurrent builds on
+the builders. There were also various software issues with disks not
+being cleared properly and some autobuilder git fetcher code problems.
+
+Thanks to hard work from Beth and Michael, we're now back at autobuilder
+full slave count and we have updated autobuilder code which showed great
+promise over the weekend. We now have green builds for 1.6 with two
+exceptions, the uclibc world build and qa-targetbuilds targets, both
+only recently added to the system.
+
+Bitbake Changes
+===============
+
+The sig child handler was a disaster, I ended up reverting the code to
+use subprocess' poll() method. The handler would be more efficient but
+doesn't mix with subprocess well in python 2.7.3. We were seeing hanging
+bitbake processes, we should now have all those issues resolved for
+release.
+
+Cheers,
+
+Richard
+
+
 
 
