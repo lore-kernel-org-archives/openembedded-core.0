@@ -1,27 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id E02E36F8A8
+Return-Path: <sledz@dresearch-fe.de>
+Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D76D6F8B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 11:53:58 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2OBrlbT024201; Mon, 24 Mar 2014 11:53:47 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id c1Ma-pVf9lQD; Mon, 24 Mar 2014 11:53:47 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2OBriKH024194
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 24 Mar 2014 11:53:46 GMT
-Message-ID: <1395662018.24232.47.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 24 Mar 2014 12:16:17 +0000 (UTC)
+Received: from fensuse.internal.dresearch-fe.de
+	(fensuse.internal.dresearch-fe.de [172.29.23.6])
+	by zk223.dresearch-fe.de (Postfix) with ESMTP id 662D2E012B;
+	Mon, 24 Mar 2014 12:16:17 +0000 (UTC)
+Received: from [IPv6:::1] (localhost [IPv6:::1])
+	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id A3D4B7012BB;
+	Mon, 24 Mar 2014 13:16:16 +0100 (CET)
+Message-ID: <5330220F.8050504@dresearch-fe.de>
+Date: Mon, 24 Mar 2014 13:16:15 +0100
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Mar 2014 11:53:38 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: Status Update
+X-Enigmail-Version: 1.6
+Subject: complex versioning scenario
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 11:54:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Mar 2014 12:16:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Executive Summary
-=================
+We've a complex versioning scenario here which leads me to my limits. :(
 
-A very rocky week but we now have consistent green builds on the
-autobuilder.
+There are two recipes. One for a shared library and one for an application using this library.
 
-1.6 Release Status
-===============
+Both use GNU autotools (so they have internal version information). For continuous integration purposes both use AUTOREV.
 
-Over the last week things have stabilised a lot from my perspective.
-Most of the major changes are now in or have at least been tested. In
-particular the linux-yocto-dev kernel (3.14) is now cleanly building so
-whilst the change is coming in late, it comparatively well tested.
-
-The reference BSPs are also set to change and patches are being tested
-for those. It is late in the cycle for them however this was we get to
-close out a long standing set of bugs that are unlikely to get fixed and
-replace them with a new set of things which people are much more likely
-to work on.
-
-The archiver changes are in, there is a second set of patches pending.
-I'd appreciate eyes on this from people who use the code.
-
-I'm not going to push the B != S change in this release. It will land
-immediately into master as soon as we branch for 1.6 though.
-
-systemd and pulseaudio merged in the end, not least since the systemd
-changes appear to address some of the sanity failures we've been seeing.
-
-Autobuilder
-===========
-
-We've had a rough ride over the last week. We kept managing to "break"
-slaves, one with disk corruption problems (RAID firmware?), another with
-power supply issues and a variety of other issues. This took us from
-seven to four slaves.
-
-We also had a build fail when fork() stopped working, probably due to
-resource issues. As such we've dropped from 3 to 2 concurrent builds on
-the builders. There were also various software issues with disks not
-being cleared properly and some autobuilder git fetcher code problems.
-
-Thanks to hard work from Beth and Michael, we're now back at autobuilder
-full slave count and we have updated autobuilder code which showed great
-promise over the weekend. We now have green builds for 1.6 with two
-exceptions, the uclibc world build and qa-targetbuilds targets, both
-only recently added to the system.
-
-Bitbake Changes
-===============
-
-The sig child handler was a disaster, I ended up reverting the code to
-use subprocess' poll() method. The handler would be more efficient but
-doesn't mix with subprocess well in python 2.7.3. We were seeing hanging
-bitbake processes, we should now have all those issues resolved for
-release.
-
-Cheers,
-
-Richard
+At the moment the recipes look like this:
 
 
+------------ libfoo_git.bb -------------
+PR = "r7"
+PE = "2"
+SRCREV="${AUTOREV}"
+PV = "gitr${SRCPV}"
+...
 
+
+------------ app_git.bb ----------------
+DEPENDS = "... libfoo ..."
+PR = "r10"
+PE = "1"
+SRCREV="${AUTOREV}"
+PV = "gitr${SRCPV}"
+...
+
+
+Now we have the following problem. libfoo has some incompatible changes in its interface (a new internal major version).
+
+In my opinion this should find its represenation in the package versioning in a way that the dependency checker can guarantee that the library and the application package match each other.
+
+But how?
+
+Regards,
+Steffen
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
