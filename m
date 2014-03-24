@@ -1,31 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A5826FAEF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C1E9F6BA0D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 16:18:27 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2OGIGX7001831; Mon, 24 Mar 2014 16:18:16 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RkHbM09cLJrO; Mon, 24 Mar 2014 16:18:16 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2OGIC7U001816
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 24 Mar 2014 16:18:13 GMT
-Message-ID: <1395677886.24890.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Austin <jonathan.austin@arm.com>
-Date: Mon, 24 Mar 2014 16:18:06 +0000
-In-Reply-To: <533058C1.3000102@arm.com>
-References: <1395676843.24890.7.camel@ted> <533058C1.3000102@arm.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: yocto <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Features in Yocto Project 1.7
+	Mon, 24 Mar 2014 18:00:56 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id ur14so8510648igb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Mar 2014 11:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=G+eyC/g69ZRln4GHLEd7IaKoYsQM43ECnwvtzb+6274=;
+	b=vkpm9giHBUUvQnxhvzI9IGBa2MqSjDxX5mkm2OREqGoIfTGiLTdOs8lk/I5MS12KYB
+	hr31qazvVtJiP+jYkJNKpBZUQdX2KxjYGP56w0/58yi3ImMYQ4wcAMHJYRMPW84AC8JF
+	tdlWs5MH+A04hT1DR3AWXJgoSI3JlyTeyrNQNN5QH1A7h1+WHkOh55TgnmLVArDkbNL4
+	ew13+tru0ufRmLLicPsJDLt4ffaVOttVDPIK5s/zpHu4itJhWao1oRPBzJnbMDJPtnWy
+	vwNSfiUVWYCiY8CmqkmMNCtrrGYfpg8MEoPuU/9hddx4BlbFNI2oc6+FlJV+fiqi7n5e
+	iyZA==
+X-Received: by 10.50.60.103 with SMTP id g7mr13320260igr.20.1395684057210;
+	Mon, 24 Mar 2014 11:00:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.224.136 with HTTP; Mon, 24 Mar 2014 11:00:27 -0700 (PDT)
+In-Reply-To: <5330220F.8050504@dresearch-fe.de>
+References: <5330220F.8050504@dresearch-fe.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 24 Mar 2014 11:00:27 -0700
+Message-ID: <CAMKF1sp1VXkkTVWEb-KU=G1c2J=KbNQ=53+iGR4TPT7WLWmfFQ@mail.gmail.com>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: complex versioning scenario
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,50 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 16:18:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Mar 2014 18:00:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2014-03-24 at 16:09 +0000, Jonathan Austin wrote:
-> On 24/03/14 16:00, Richard Purdie wrote:
-> > As development on 1.6 finishes up, its time to think about what we
-> > should be doing in the 1.7 cycle.
-> >
-> > I think from my perspective, in 1.7 I'd like to see us looking at
-> > "Developer Workflow". Its a generic topic which I think covered multiple
-> > areas (in no particular order):
-> >
-> > * the ADT/SDK and how it intergrates into the rest of the system
-> > * toaster
-> > * python devshell
-> > * exteralsrc.bbclass
-> > * memory resident bitbake
-> > * how a standalone app developer might build an image
-> > * locked sstate
-> 
-> Is there a wiki page that collates the enhancement requests that have 
-> lead to this list? For example, if I want to discuss the issue of "how a 
-> standalone app developer might build an image" (I do!) then where should 
-> I go? On the list? Bugzilla for 'standalone image' doesn't appear to 
-> have an item for this (unless I'm pounding my keypad incorrectly for 
-> Bugzilla).
+On Mon, Mar 24, 2014 at 5:16 AM, Steffen Sledz <sledz@dresearch-fe.de> wrot=
+e:
+> We've a complex versioning scenario here which leads me to my limits. :(
+>
+> There are two recipes. One for a shared library and one for an applicatio=
+n using this library.
+>
+> Both use GNU autotools (so they have internal version information). For c=
+ontinuous integration purposes both use AUTOREV.
+>
+> At the moment the recipes look like this:
+>
+>
+> ------------ libfoo_git.bb -------------
+> PR =3D "r7"
+> PE =3D "2"
+> SRCREV=3D"${AUTOREV}"
+> PV =3D "gitr${SRCPV}"
+> ...
+>
+>
+> ------------ app_git.bb ----------------
+> DEPENDS =3D "... libfoo ..."
+> PR =3D "r10"
+> PE =3D "1"
+> SRCREV=3D"${AUTOREV}"
+> PV =3D "gitr${SRCPV}"
+> ...
+>
+>
+> Now we have the following problem. libfoo has some incompatible changes i=
+n its interface (a new internal major version).
+>
 
-Whilst this is a key area I'd like to see worked on in 1.7 and I do have
-ideas related to it, they're in various states of development. Some have
-bugzilla entries and good information, others are much less well
-formulated and don't have bugzilla entries yet.
-
-So no wiki page exists and the "standalone app developer might build an
-image" item isn't well defined as yet. There have been some developments
-which lead into it like wic and the locked sstate work though.
-
-Here on the mailing list is probably as good a place as any for the
-discussion, which can then be turned into something in the bugzilla.
-
-Cheers,
-
-Richard
+This is the key question here. what is this new interface doing, is it
+breaking any API ?
+if not then why bother if it does then use gnu versioning scheme and
+create versioned symbols
+for this interface and you can simplify the problem outside the build
+system and your library
+remains compatible with older app too.
 
 
 
+> In my opinion this should find its represenation in the package versionin=
+g in a way that the dependency checker can guarantee that the library and t=
+he application package match each other.
+>
+> But how?
+>
+> Regards,
+> Steffen
+>
+> --
+> DResearch Fahrzeugelektronik GmbH
+> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+> Fax: +49 30 515932-299
+> Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Weber, Werner M=C3=B6gle;
+> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+> Ust.-IDNr. DE273952058
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
