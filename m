@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A3EB06F8AF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 629B06FB2B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 09:24:18 +0000 (UTC)
+	Mon, 24 Mar 2014 09:24:20 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2O9OIHZ029198
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2O9OKjY017932
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 02:24:19 -0700 (PDT)
+	Mon, 24 Mar 2014 02:24:21 -0700 (PDT)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 24 Mar 2014 02:24:18 -0700
+	14.3.169.1; Mon, 24 Mar 2014 02:24:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Mar 2014 05:24:16 -0400
-Message-ID: <cover.1395653020.git.liezhi.yang@windriver.com>
+Date: Mon, 24 Mar 2014 05:24:17 -0400
+Message-ID: <193839e768c2b96ced5cac7b6b20f9ec1d4c409c.1395653020.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1395653020.git.liezhi.yang@windriver.com>
+References: <cover.1395653020.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] util-linux: build setpriv requires libcap-ng
+Subject: [PATCH 1/1] util-linux: build setpriv requires libcap-ng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 09:24:21 -0000
+X-List-Received-Date: Mon, 24 Mar 2014 09:24:23 -0000
 Content-Type: text/plain
 
-The following changes since commit 4a47c943a76e79af82d47d8fa83c6687e0d915a0:
+There might a failure when build util-linux with the meta-selinux layer:
 
-  busybox: disable fsck.minix and mkfs.minix (2014-03-23 09:08:49 +0000)
+[snip]
+sys-utils/setpriv.c:21:20: fatal error: cap-ng.h: No such file or directory
+ #include <cap-ng.h>
+                    ^
+compilation terminated.
+[snip]
 
-are available in the git repository at:
+Use PACKAGECONFIG to fix the problem.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/util-linux
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/util-linux
+[YOCTO #6026]
 
-Robert Yang (1):
-  util-linux: build setpriv requires libcap-ng
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-core/util-linux/util-linux.inc |    3 +++
  1 file changed, 3 insertions(+)
 
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 51c982a..ad7aac7 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -57,6 +57,9 @@ PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuse
+ # Respect the systemd feature for uuidd
+ PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
+ 
++# Build setpriv requires libcap-ng
++PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
++
+ FILES_${PN}-bash-completion += "${datadir}/bash-completion"
+ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+ 
 -- 
 1.7.10.4
 
