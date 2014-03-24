@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 20D6C6FA30
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A3EB06F8AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 09:06:47 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id f51so15839190qge.2
+	Mon, 24 Mar 2014 09:24:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2O9OIHZ029198
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 02:06:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=h9QRuPm3jgv68U72NMe+pKutWKPsYyr6GHjrMV87t3Y=;
-	b=RPD7yMEl1/tgCG4zPLByLqy7ZQp+GGeY/+4p9O9FOBRtY0f8ReubfKjmnJWZBz3X5P
-	PvUZkZPDOaXk4UjjkSvmGhIqG3vkCvDV8dBCbMwW+zNZpg11lCG03lAJOPvbbio05zqo
-	Yai/eu3HrRbOhAJF0pqxmyhShbyKlWst1UkS4lNU9TYtFd0RNiPalia0FytRCXHz9uUw
-	wtQb7iIj2OZHektiwlfFApNSStnuk/5qWhmJUVMO1ZrmUG09IuLJ9e+yYFiWvslugzPv
-	7YIKohHVyEK2p0SpzhnNqZj7D6xQct4yiJwY0bGGGjj9WCcgeW25qFvcsnFHwmV+ORyQ
-	z2pQ==
-X-Gm-Message-State: ALoCoQlbFUC/zMj+Oh0oya7/HM35CcyJTGGfOu9wuea+Drtk+LpE/Fyvp6N/kXsrILK9780t126N
-X-Received: by 10.140.109.9 with SMTP id k9mr49512844qgf.6.1395652008915; Mon,
-	24 Mar 2014 02:06:48 -0700 (PDT)
+	Mon, 24 Mar 2014 02:24:19 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 24 Mar 2014 02:24:18 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Mar 2014 05:24:16 -0400
+Message-ID: <cover.1395653020.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Mon, 24 Mar 2014 02:06:28 -0700 (PDT)
-In-Reply-To: <532FE586.2050708@windriver.com>
-References: <cover.1395646642.git.hongxu.jia@windriver.com>
-	<9c06686dc4ccc2576bd8a171ed685ab00eecf84c.1395646642.git.hongxu.jia@windriver.com>
-	<532FE586.2050708@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Mar 2014 09:06:28 +0000
-Message-ID: <CAJTo0LY2rkPew8354+pYJKjXSrsBa50kZeEwxDrXSnQWgi8gRw@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libsoup-2.4: upgrade to 2.45.92
+Subject: [PATCH 0/1] util-linux: build setpriv requires libcap-ng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 09:06:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 24 Mar 2014 09:24:21 -0000
+Content-Type: text/plain
 
-On 24 March 2014 07:57, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> There was an error about mips-gcc optimization while compiling
-> libsoup-2.4 2.45.3 with DEBUG_OPTIMIZATION enabled.
->
-> The test code of libsoup-2.4 2.45.3 triggered gcc assert which located
-> in gcc/dwarf2out.c:20810:
-> ...
-> 20806       gcc_assert (prev
-> 20807                   && (CALL_P (prev)
-> 20808                       || (NONJUMP_INSN_P (prev)
-> 20809                           && GET_CODE (PATTERN (prev)) == SEQUENCE
-> 20810                           && CALL_P (XVECEXP (PATTERN (prev), 0,
-> 0)))));
-> ...
+The following changes since commit 4a47c943a76e79af82d47d8fa83c6687e0d915a0:
 
-So you've a bug in gcc and a well defined way of replicating it,
-presumably you've reported this to gcc as that's the proper fix here?
+  busybox: disable fsck.minix and mkfs.minix (2014-03-23 09:08:49 +0000)
 
-Ross
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/util-linux
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/util-linux
+
+Robert Yang (1):
+  util-linux: build setpriv requires libcap-ng
+
+ meta/recipes-core/util-linux/util-linux.inc |    3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+1.7.10.4
+
 
