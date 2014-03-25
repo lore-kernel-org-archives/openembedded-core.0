@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id CF0576FAE8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C99D16E8E2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 12:22:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2PCM8pO032333; Tue, 25 Mar 2014 12:22:08 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gUejTLjyImcI; Tue, 25 Mar 2014 12:22:08 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2PCM5c4032323
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 25 Mar 2014 12:22:06 GMT
-Message-ID: <1395750118.24890.26.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 25 Mar 2014 12:21:58 +0000
-In-Reply-To: <CAP9ODKr4icx=rWteGJ_o9zA2Czkn8ZOjMOAqmT3LwxJY79VZKw@mail.gmail.com>
-References: <1395743793.24890.21.camel@ted>
-	<CAP9ODKr4icx=rWteGJ_o9zA2Czkn8ZOjMOAqmT3LwxJY79VZKw@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binutils: Add fixes for binutils issue 16428
+	Tue, 25 Mar 2014 12:27:24 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id q200so926406ykb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Mar 2014 05:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=DpPOYob9LKf+0q2J4q5NBFGAt/81fqyESfnQTYxSYsc=;
+	b=IqG4TmQGwXTUu9RxT49xNpteOBszypTw3BcGXw9auJnizXwLCbyZBIyydtRcYx26hj
+	D/JfqPBRkAhp5VqrQIgWEbqk18b4JD0qCrRo0qsUSaTCZ1bpdrR1oSVRCsMYB+rTLPnh
+	lupL4cbJ0zWADzUZa1Z0P5Yi+SPS5ISt1Ww82I0fIuWHddeCYv8FbqkmEuN4Cfq9/wGi
+	Wk063oRnOdgxdX64LfJWVmEdkarnpJ3V1sXXYGzGDgBAj+AN3stZ1V01HJ/EjfTjM+tL
+	GxsfXSRVdu4IboI3pNmPXKW+ozzCLYmpW+rjiXlMxsmwOxOBDhnnxFmjUzRCNa06yCHy
+	YwNA==
+MIME-Version: 1.0
+X-Received: by 10.236.129.227 with SMTP id h63mr520944yhi.148.1395750445193;
+	Tue, 25 Mar 2014 05:27:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Tue, 25 Mar 2014 05:27:25 -0700 (PDT)
+In-Reply-To: <1395426119-3011-2-git-send-email-ross.burton@intel.com>
+References: <1395426119-3011-1-git-send-email-ross.burton@intel.com>
+	<1395426119-3011-2-git-send-email-ross.burton@intel.com>
+Date: Tue, 25 Mar 2014 09:27:25 -0300
+X-Google-Sender-Auth: Rld3ufb3DRoreXQqWWvrHwWN6rE
+Message-ID: <CAP9ODKoarQQR572240q6E_57CVRaYPHOiShXSWHMxob91Y5MyA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gtk-engines: move engine schemas to a dedicated package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 12:22:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Mar 2014 12:27:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, 2014-03-25 at 09:13 -0300, Otavio Salvador wrote:
-> On Tue, Mar 25, 2014 at 7:36 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > "ld:i386 crashes with -static -fPIE -pie"
-> > https://bugs.launchpad.net/ubuntu/+source/binutils/+bug/1266492
-> >
-> > This adds in two upstream binutils fixes to avoid the internal error
-> > triggered by the combination of -static with -pie on x86 builds. This
-> > triggers a backtrace which then triggers a bug in glibc where the process
-> > ends up hanging on some systems with broken libcs.
-> >
-> > We can't fix the libc but we can stop the internal error and hence
-> > avoid the hanging builds.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > +     file://fix-pr16428a.patch \
-> > +     file://fix-pr16428b.patch \
-> 
-> Please add the Upstream-Status field in the two patch  files stating
-> this is a 'Backport'.
+On Fri, Mar 21, 2014 at 3:21 PM, Ross Burton <ross.burton@intel.com> wrote:
+> The GTK+ engine schemas are not insignicant in size but also mostly useless.
+> Put them in a sub-package instead of PN so they only get installed when
+> explicitly required.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Well spotted, I did realise this after I sent the patch and I've already
-updated the version in master-next which is testing more widely at the
-moment.
+Isn't it breaking runtime update? People with a running system which
+updates it using package feeds are going to get it removed. Am I
+missing something?
 
-Cheers,
-
-Richard
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
