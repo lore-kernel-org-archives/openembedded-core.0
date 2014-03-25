@@ -1,38 +1,18 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C99D16E8E2
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C8E6BB2F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 12:27:24 +0000 (UTC)
-Received: by mail-yk0-f177.google.com with SMTP id q200so926406ykb.8
+	Tue, 25 Mar 2014 12:43:11 +0000 (UTC)
+Received: from soylentgreen.sue.net (unknown [91.114.0.140])
+	by ptmx.org (Postfix) with ESMTPSA id 1375A266C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 05:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=DpPOYob9LKf+0q2J4q5NBFGAt/81fqyESfnQTYxSYsc=;
-	b=IqG4TmQGwXTUu9RxT49xNpteOBszypTw3BcGXw9auJnizXwLCbyZBIyydtRcYx26hj
-	D/JfqPBRkAhp5VqrQIgWEbqk18b4JD0qCrRo0qsUSaTCZ1bpdrR1oSVRCsMYB+rTLPnh
-	lupL4cbJ0zWADzUZa1Z0P5Yi+SPS5ISt1Ww82I0fIuWHddeCYv8FbqkmEuN4Cfq9/wGi
-	Wk063oRnOdgxdX64LfJWVmEdkarnpJ3V1sXXYGzGDgBAj+AN3stZ1V01HJ/EjfTjM+tL
-	GxsfXSRVdu4IboI3pNmPXKW+ozzCLYmpW+rjiXlMxsmwOxOBDhnnxFmjUzRCNa06yCHy
-	YwNA==
-MIME-Version: 1.0
-X-Received: by 10.236.129.227 with SMTP id h63mr520944yhi.148.1395750445193;
-	Tue, 25 Mar 2014 05:27:25 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Tue, 25 Mar 2014 05:27:25 -0700 (PDT)
-In-Reply-To: <1395426119-3011-2-git-send-email-ross.burton@intel.com>
-References: <1395426119-3011-1-git-send-email-ross.burton@intel.com>
-	<1395426119-3011-2-git-send-email-ross.burton@intel.com>
-Date: Tue, 25 Mar 2014 09:27:25 -0300
-X-Google-Sender-Auth: Rld3ufb3DRoreXQqWWvrHwWN6rE
-Message-ID: <CAP9ODKoarQQR572240q6E_57CVRaYPHOiShXSWHMxob91Y5MyA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gtk-engines: move engine schemas to a dedicated package
+	Tue, 25 Mar 2014 13:43:12 +0100 (CET)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Mar 2014 13:43:06 +0100
+Message-Id: <1395751386-23529-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] Enable yasm in gstreamer1.0-libav by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +25,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 12:27:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 25 Mar 2014 12:43:14 -0000
 
-On Fri, Mar 21, 2014 at 3:21 PM, Ross Burton <ross.burton@intel.com> wrote:
-> The GTK+ engine schemas are not insignicant in size but also mostly useless.
-> Put them in a sub-package instead of PN so they only get installed when
-> explicitly required.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+Since yasm has been moved to OE-core, there is no reason for not enabling
+yasm by default anymore. It improves performance of gstreamer1.0-libav
+considerably.
 
-Isn't it breaking runtime update? People with a running system which
-updates it using package feeds are going to get it removed. Am I
-missing something?
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+index 784ddc3..84e6e95 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+@@ -10,7 +10,7 @@ inherit autotools pkgconfig
+ # CAUTION: Using the system libav is not recommended. Since the libav API is changing all the time,
+ # compilation errors (and other, more subtle bugs) can happen. It is usually better to rely on the
+ # libav copy included in the gst-libav package.
+-PACKAGECONFIG ??= " orc "
++PACKAGECONFIG ??= " orc yasm "
+ PACKAGECONFIG[libav] = "--with-system-libav,,libav"
+ PACKAGECONFIG[lgpl]  = "--enable-lgpl,,"
+ PACKAGECONFIG[yasm]  = "--enable-yasm,--disable-yasm,yasm-native"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.2
+
 
