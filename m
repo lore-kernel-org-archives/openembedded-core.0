@@ -1,26 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 67BD56FAF2
+Return-Path: <sledz@dresearch-fe.de>
+Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 483486EBA4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 10:20:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2PAKltS017950
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Mar 2014 03:20:48 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 25 Mar 2014 03:20:47 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Mar 2014 18:20:36 +0800
-Message-ID: <fb6ef6a95146e42915ca1432b6ff1bccf89e53e1.1395739247.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1395739247.git.hongxu.jia@windriver.com>
-References: <cover.1395739247.git.hongxu.jia@windriver.com>
+	Tue, 25 Mar 2014 10:31:04 +0000 (UTC)
+Received: from fensuse.internal.dresearch-fe.de
+	(fensuse.internal.dresearch-fe.de [172.29.23.6])
+	by zk223.dresearch-fe.de (Postfix) with ESMTP id 230D5E0135;
+	Tue, 25 Mar 2014 10:31:05 +0000 (UTC)
+Received: from [IPv6:::1] (localhost [IPv6:::1])
+	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id AB2D7700135;
+	Tue, 25 Mar 2014 11:31:04 +0100 (CET)
+Message-ID: <53315AE7.1020304@dresearch-fe.de>
+Date: Tue, 25 Mar 2014 11:31:03 +0100
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [dora][PATCH 1/1] license.bbclass: fix copying license directories failed
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <5330220F.8050504@dresearch-fe.de> <1395664516.24232.56.camel@ted>
+	<533029C5.1000406@dresearch-fe.de> <1395665593.24232.58.camel@ted>
+	<53303FAB.5020907@dresearch-fe.de> <20140324151537.GD29998@jama>
+In-Reply-To: <20140324151537.GD29998@jama>
+X-Enigmail-Version: 1.6
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: complex versioning scenario
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +36,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 10:20:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Mar 2014 10:31:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-For each recipe, it populated license files to ${LICENSE_DIRECTORY}/${PN},
-such as kernel's license dir was ${LICENSE_DIRECTORY}/kernel-3.10.17-yocto-standard;
+On 24.03.2014 16:15, Martin Jansa wrote:
+> On Mon, Mar 24, 2014 at 03:22:35PM +0100, Steffen Sledz wrote:
+>> On 24.03.2014 13:53, Richard Purdie wrote:
+>>> On Mon, 2014-03-24 at 13:49 +0100, Steffen Sledz wrote:
+>>>> On 24.03.2014 13:35, Richard Purdie wrote:
+>>>>> On Mon, 2014-03-24 at 13:16 +0100, Steffen Sledz wrote:
+>>>>>> We've a complex versioning scenario here which leads me to my limits. :(
+>>>>>> 
+>>>>>> There are two recipes. One for a shared library and one for an application using this library.
+>>>>>> 
+>>>>>> Both use GNU autotools (so they have internal version information). For continuous integration purposes both use AUTOREV.
+>>>>>> 
+>>>>>> At the moment the recipes look like this:
+>>>>>> 
+>>>>>> 
+>>>>>> ------------ libfoo_git.bb ------------- PR = "r7" PE = "2" SRCREV="${AUTOREV}" PV = "gitr${SRCPV}" ...
+>>>>>> 
+>>>>>> 
+>>>>>> ------------ app_git.bb ---------------- DEPENDS = "... libfoo ..." PR = "r10" PE = "1" SRCREV="${AUTOREV}" PV = "gitr${SRCPV}" ...
+>>>>>> 
+>>>>>> 
+>>>>>> Now we have the following problem. libfoo has some incompatible changes in its interface (a new internal major version).
+>>>>>> 
+>>>>>> In my opinion this should find its represenation in the package versioning in a way that the dependency checker can guarantee that the library and the application package match each other.
+>>>>> 
+>>>>> It is generally impossible to directly compare two git hashes and decide whether one is "greater" than the other. This is why most git recipes have PV = "0.0+git${SRCPV}" so that you can change 0.0 when something major changes. That way you can put a constraint in the second recipe.
+>>>>> 
+>>>>> This is a fundamental problem with git versioning and not something we can fix generically.
+>>>> 
+>>>> To have an order in the git based versions we use the PRSERV method. This works well.
+>>>> 
+>>>> But this does not help here. The change in the library interface leads directly to a new version of the library package itself (e.g. from libfoo0_gitr100+somehash to libfoo0_gitr101+someotherhash). But i need something i can write into the DEPENDS list of the application. :(
+>>>> 
+>>>> Steffen
+>>>> 
+>>>> BTW: Where comes the 0 in libfoo0 from?
+>>> 
+>>> debian.bbclass (debian package naming) which I believe in turn is derived from the actual library version.
+>>> 
+>>> Its a class specific implementation so you can't depend on it in version information though.
+>> 
+>> But where does it come from? A bb variable?
+> 
+> SONAME header in library
+> 
+> so if you're using debian.bbclass and change ABI then you should just increase major version in SONAME (that way your foo will rdepend on libfoo0 until it's rebuilt against newer libfoo1).
 
-In do_rootfs task, it copied license directories from ${LICENSE_DIRECTORY}/
-${pkg}, and ${pkg} was listed in ${INSTALLED_PKGS};
+Thanx, this was the decisive hint.
 
-We got ${INSTALLED_PKGS} by rpm query, such as the kernel were 'kernel-*',
-but the kernel's PN was linux-yocto, so searching ${LICENSE_DIRECTORY}/
-kernel-* failed.
+I've increased the version in the SONAME header of the library and the result is a libfoo1 package. :)
 
-Copied license directories from ${LICENSE_DIRECTORY}/${PN} fixed this
-issue.
+But now i hit the next problem. The following rootfs stage results in this error:
 
-[YOCTO #5572]
+---------------> snip <-----------------
+| Collected errors:
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies for app:
+|  *    libfoo0 (>= gitr101+somehash) *
+---------------> snap <-----------------
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/license.bbclass | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Should the new build of libfoo1 trigger a new compile of all packages with DEPENDS containing libfoo?
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index b00ebb1..99cb195 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -68,15 +68,18 @@ license_create_manifest() {
- 		if [ -n "${COPY_LIC_DIRS}" ]; then
- 			for pkg in ${INSTALLED_PKGS}; do
- 				mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
--				for lic in `ls ${LICENSE_DIRECTORY}/${pkg}`; do
-+				pkged_pn="$(sed -n "/^PACKAGE NAME: ${pkg}$/,/^$/ \
-+                                           {s/^RECIPE NAME: //; /^PACKAGE NAME:/d; /^PACKAGE VERSION:/d; /^LICENSE:/d; p}" \
-+                                           ${LICENSE_MANIFEST})"
-+				for lic in `ls ${LICENSE_DIRECTORY}/${pkged_pn}`; do
- 					# Really don't need to copy the generics as they're 
- 					# represented in the manifest and in the actual pkg licenses
- 					# Doing so would make your image quite a bit larger
- 					if [ "${lic#generic_}" = "${lic}" ]; then
--						cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
-+						cp ${LICENSE_DIRECTORY}/${pkged_pn}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
- 					else
- 						if [ ! -f ${IMAGE_ROOTFS}/usr/share/common-licenses/${lic} ]; then
--							cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
-+							cp ${LICENSE_DIRECTORY}/${pkged_pn}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
- 						fi
- 						ln -s ../${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
- 					fi
 -- 
-1.8.1.2
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
