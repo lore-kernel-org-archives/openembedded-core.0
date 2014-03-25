@@ -1,23 +1,36 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 7E13A610D8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AC25610D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 14:32:12 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Tue, 25 Mar 2014 15:32:10 +0100
-Message-ID: <5331935A.6060009@enea.com>
-Date: Tue, 25 Mar 2014 15:31:54 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Tue, 25 Mar 2014 14:34:40 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id j7so564539qaq.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Mar 2014 07:34:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=txTu/drGjEV5lnAg/Ee0UnAUprteAFn2UlkSI0jGLD8=;
+	b=CheexYIxIrg8G7hS8oBk9COsC/JzIdL0Vu68xwHaipQ6YKFeBD0XgKMmPkS2fb0OMG
+	+Ip0fICBW1Eyd86URbW5SLgom/yFv/uymoJzkfbWB7Jmyqkncfem2BNR/NvetPpRr+OA
+	euty8XJLa4mtfapHNYENUD7DyKva7ADi+IN/BOAo5I5oPek1o+QSkv76O3aUHRqyieSI
+	fm8iY6godYf4kmD3emSJsU0cpp8qO0hRZmJBiMU821ANqKH1cuHheFXWCL7S1PD/5vIN
+	MiCgDJiek1aCvunka6LQ9bx5FpVbINjbNtLI1fRkFAUWrObHNVhS2miAT6nQmU/TfsLR
+	BfHA==
+X-Gm-Message-State: ALoCoQnP1c2kuX1pdvItlmEHLbCPPrRB2wBOAY8uCGdn8pFjXdxBaZtEtSvAzCKbTVG2VoH5wkXa
+X-Received: by 10.229.198.2 with SMTP id em2mr3513607qcb.21.1395758081439;
+	Tue, 25 Mar 2014 07:34:41 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, yocto <yocto@yoctoproject.org>
-References: <1395676843.24890.7.camel@ted>
-In-Reply-To: <1395676843.24890.7.camel@ted>
-X-Originating-IP: [172.16.141.133]
-Subject: Re: Features in Yocto Project 1.7
+Received: by 10.140.27.167 with HTTP; Tue, 25 Mar 2014 07:34:21 -0700 (PDT)
+In-Reply-To: <1395749168-16746-1-git-send-email-valentin.popa@intel.com>
+References: <1395749168-16746-1-git-send-email-valentin.popa@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 25 Mar 2014 14:34:21 +0000
+Message-ID: <CAJTo0LYEv7t6PPhp7mZ+UOKxEkY2+QmM9-ofYUDX=m1_=0oNtA@mail.gmail.com>
+To: Valentin Popa <valentin.popa@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] piglit: ship files with correct permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,52 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 14:32:16 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Mar 2014 14:34:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2014-03-24 17:00, Richard Purdie wrote:
-> As development on 1.6 finishes up, its time to think about what we
-> should be doing in the 1.7 cycle.
+On 25 March 2014 12:06, Valentin Popa <valentin.popa@intel.com> wrote:
+> Adress the warning
+> | warning: group pulse does not exist - using root
 >
-> I think from my perspective, in 1.7 I'd like to see us looking at
-> "Developer Workflow". Its a generic topic which I think covered multiple
-> areas (in no particular order):
->
-> * the ADT/SDK and how it intergrates into the rest of the system
+> Piglit files from framework/ generated_tests/ tests/
+> and templates/ belong to xuser/pulse.
+> Don't keep the permissions while shipping the files,
+> they should be root/root.
 
-> * toaster
-> * python devshell
-> * exteralsrc.bbclass
-> * memory resident bitbake
-> * how a standalone app developer might build an image
+Reviewed-by: Ross Burton <ross.burton@intel.com>
 
-+1
-My wishlist:
-
-1. Assembly of an image from a package repository using the SDK.
-2. Ability to easily package multiple kernel flavours(builds with 
-different kernel configs) with linux related bbclass:es.
-
-Br,
-David
-
-
-> * locked sstate
->
-> and probably more I'm forgetting.
->
-> If anyone does have things they plan to work on, or ideas for things
-> that should be worked on, please do file enhancement requests in the
-> bugzilla:
->
-> https://bugzilla.yoctoproject.org/
->
-> Cheers,
->
-> Richard
->
->
->
-
+Ross
 
