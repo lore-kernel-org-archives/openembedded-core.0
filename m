@@ -1,31 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DE8A6D8E9
+Return-Path: <B40290@freescale.com>
+Received: from tx2outboundpool.messaging.microsoft.com
+	(tx2ehsobe003.messaging.microsoft.com [65.55.88.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D0F36D8E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 10:36:47 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2PAaEaC028012 for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 10:36:42 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FY1qRyEoKgJL
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 10:36:42 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2PAaew2028029
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 10:36:41 GMT
-Message-ID: <1395743793.24890.21.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Mar 2014 10:36:33 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] binutils: Add fixes for binutils issue 16428
+	Tue, 25 Mar 2014 10:37:27 +0000 (UTC)
+Received: from mail210-tx2-R.bigfish.com (10.9.14.232) by
+	TX2EHSOBE014.bigfish.com (10.9.40.34) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 25 Mar 2014 10:37:28 +0000
+Received: from mail210-tx2 (localhost [127.0.0.1])	by
+	mail210-tx2-R.bigfish.com (Postfix) with ESMTP id 196598C0304	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 25 Mar 2014 10:37:28 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh1de097hz2dh2a8h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h268bh1155h)
+Received: from mail210-tx2 (localhost.localdomain [127.0.0.1]) by mail210-tx2
+	(MessageSwitch) id 1395743845980609_4779;
+	Tue, 25 Mar 2014 10:37:25 +0000 (UTC)
+Received: from TX2EHSMHS036.bigfish.com (unknown [10.9.14.236])	by
+	mail210-tx2.bigfish.com (Postfix) with ESMTP id EA6F68A0095;
+	Tue, 25 Mar 2014 10:37:25 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS036.bigfish.com
+	(10.9.99.136) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Tue, 25 Mar 2014 10:37:23 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Tue, 25 Mar 2014 10:37:22 +0000
+Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.136])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	s2PAbJZs020553; Tue, 25 Mar 2014 03:37:20 -0700
+From: Chunrong Guo <B40290@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Mar 2014 18:37:16 +0800
+Message-ID: <1395743836-17276-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.8.3.2
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] coreutils: fix search paths for libstdbuf.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,194 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 10:36:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Mar 2014 10:37:32 -0000
+Content-Type: text/plain
 
-"ld:i386 crashes with -static -fPIE -pie"
-https://bugs.launchpad.net/ubuntu/+source/binutils/+bug/1266492
+        *fix the following error:
+        |stdbuf: failed to find 'libstdbuf.so'
+        *PKGLIBEXECDIR is the search paths for libstdbuf.so
+        |PKGLIBEXECDIR='$(pkglibexecdir)'
+        |pkglibexecdir='${libexecdir}/${PACKAGE}'
 
-This adds in two upstream binutils fixes to avoid the internal error
-triggered by the combination of -static with -pie on x86 builds. This
-triggers a backtrace which then triggers a bug in glibc where the process
-ends up hanging on some systems with broken libcs.
-
-We can't fix the libc but we can stop the internal error and hence
-avoid the hanging builds.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
 ---
-diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc b/meta/recipes-devtools/binutils/binutils-2.24.inc
-index 42d4ede..6415a6f 100644
---- a/meta/recipes-devtools/binutils/binutils-2.24.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
-@@ -28,6 +28,8 @@ SRC_URI = "\
-      file://fix-pr15815.patch \
-      file://fix-pr2404.patch \
-      file://fix-pr16476.patch \
-+     file://fix-pr16428a.patch \
-+     file://fix-pr16428b.patch \
-      "
+ meta/recipes-core/coreutils/coreutils_8.22.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-core/coreutils/coreutils_8.22.bb
+index a26aa02..ed5fc84 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.22.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
+@@ -71,8 +71,6 @@ do_install_append() {
+ 	# in update-alternatives to fail, therefore use lbracket - the name used
+ 	# for the actual source file.
+ 	mv ${D}${bindir}/[ ${D}${bindir}/lbracket.${BPN}
+-	install -d ${D}${libdir}/coreutils
+-	mv ${D}${libexecdir}/coreutils/libstdbuf.so ${D}${libdir}/coreutils
+ }
  
- SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
-diff --git a/meta/recipes-devtools/binutils/binutils/fix-pr16428a.patch b/meta/recipes-devtools/binutils/binutils/fix-pr16428a.patch
-new file mode 100644
-index 0000000..9ab2b56
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/fix-pr16428a.patch
-@@ -0,0 +1,73 @@
-+From d1ec1e40b5b457c92aaa23f7af40e026e4596a99 Mon Sep 17 00:00:00 2001
-+From: H.J. Lu <hjl.tools@gmail.com>
-+Date: Tue, 14 Jan 2014 10:48:39 -0800
-+Subject: [PATCH 1/1] Don't update reloc count if there are any non pc-relative relocs
-+
-+	PR ld/16428
-+	* elf32-i386.c (elf_i386_allocate_dynrelocs): Don't update reloc
-+	count if there are any non pc-relative relocs.
-+	* elf64-x86-64.c (elf_x86_64_allocate_dynrelocs): Likewise.
-+---
-+ bfd/ChangeLog      |    7 +++++++
-+ bfd/elf32-i386.c   |    9 +++++++--
-+ bfd/elf64-x86-64.c |    9 +++++++--
-+ 3 files changed, 21 insertions(+), 4 deletions(-)
-+
-+#diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+#index a8f1f94..7a49fd1 100644
-+#--- a/bfd/ChangeLog
-+#+++ b/bfd/ChangeLog
-+#@@ -1,3 +1,10 @@
-+#+2014-01-14  H.J. Lu  <hongjiu.lu@intel.com>
-+#+
-+#+	PR ld/16428
-+#+	* elf32-i386.c (elf_i386_allocate_dynrelocs): Don't update reloc
-+#+	count if there are any non pc-relative relocs.
-+#+	* elf64-x86-64.c (elf_x86_64_allocate_dynrelocs): Likewise.
-+#+
-+# 2014-01-14  Michael Hudson-Doyle  <michael.hudson@linaro.org>
-+# 	    Kugan Vivekanandarajah  <kugan.vivekanandarajah@linaro.org>
-+# 
-+diff --git a/bfd/elf32-i386.c b/bfd/elf32-i386.c
-+index 4d391e1..d7f59e5 100644
-+--- a/bfd/elf32-i386.c
-++++ b/bfd/elf32-i386.c
-+@@ -2368,8 +2368,13 @@ elf_i386_allocate_dynrelocs (struct elf_link_hash_entry *h, void *inf)
-+ 
-+ 	  for (pp = &eh->dyn_relocs; (p = *pp) != NULL; )
-+ 	    {
-+-	      p->count -= p->pc_count;
-+-	      p->pc_count = 0;
-++	      /* Don't update reloc count if there are any non
-++		 pc-relative relocs.  */
-++	      if (!h->pointer_equality_needed)
-++		{
-++		  p->count -= p->pc_count;
-++		  p->pc_count = 0;
-++		}
-+ 	      if (p->count == 0)
-+ 		*pp = p->next;
-+ 	      else
-+diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
-+index edee8ec..999011b 100644
-+--- a/bfd/elf64-x86-64.c
-++++ b/bfd/elf64-x86-64.c
-+@@ -2463,8 +2463,13 @@ elf_x86_64_allocate_dynrelocs (struct elf_link_hash_entry *h, void * inf)
-+ 
-+ 	  for (pp = &eh->dyn_relocs; (p = *pp) != NULL; )
-+ 	    {
-+-	      p->count -= p->pc_count;
-+-	      p->pc_count = 0;
-++	      /* Don't update reloc count if there are any non
-++		 pc-relative relocs.  */
-++	      if (!h->pointer_equality_needed)
-++		{
-++		  p->count -= p->pc_count;
-++		  p->pc_count = 0;
-++		}
-+ 	      if (p->count == 0)
-+ 		*pp = p->next;
-+ 	      else
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/fix-pr16428b.patch b/meta/recipes-devtools/binutils/binutils/fix-pr16428b.patch
-new file mode 100644
-index 0000000..79bf9eb
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/fix-pr16428b.patch
-@@ -0,0 +1,73 @@
-+From 818d220a6fe3d0512a226188e9164245a02c9185 Mon Sep 17 00:00:00 2001
-+From: H.J. Lu <hjl.tools@gmail.com>
-+Date: Tue, 14 Jan 2014 16:42:35 -0800
-+Subject: [PATCH] Don't discard relocs against __ehdr_start
-+
-+__ehdr_start will be defined by assign_file_positions_for_non_load_sections
-+later.
-+
-+	PR ld/16428
-+	* elf32-i386.c (elf_i386_allocate_dynrelocs): Don't discard relocs
-+	against __ehdr_start.
-+	* elf64-x86-64.c (elf_x86_64_allocate_dynrelocs): Likewise.
-+---
-+ bfd/ChangeLog      |    7 +++++++
-+ bfd/elf32-i386.c   |    7 +++++--
-+ bfd/elf64-x86-64.c |    7 +++++--
-+ 3 files changed, 17 insertions(+), 4 deletions(-)
-+
-+#diff --git a/bfd/ChangeLog b/bfd/ChangeLog
-+#index 7d13a35..f4acda0 100644
-+#--- a/bfd/ChangeLog
-+#+++ b/bfd/ChangeLog
-+#@@ -1,5 +1,12 @@
-+# 2014-01-14  H.J. Lu  <hongjiu.lu@intel.com>
-+# 
-+#+	PR ld/16428
-+#+	* elf32-i386.c (elf_i386_allocate_dynrelocs): Don't discard relocs
-+#+	against __ehdr_start.
-+#+	* elf64-x86-64.c (elf_x86_64_allocate_dynrelocs): Likewise.
-+#+
-+#+2014-01-14  H.J. Lu  <hongjiu.lu@intel.com>
-+#+
-+# 	* elf32-i386.c (elf_i386_allocate_dynrelocs): Revert the last
-+# 	change.
-+# 	* elf64-x86-64.c (elf_x86_64_allocate_dynrelocs): Likewise.
-+Index: binutils-2.24/bfd/elf32-i386.c
-+===================================================================
-+--- binutils-2.24.orig/bfd/elf32-i386.c	2014-03-25 10:26:54.818385608 +0000
-++++ binutils-2.24/bfd/elf32-i386.c	2014-03-25 10:26:54.814385607 +0000
-+@@ -2395,9 +2395,12 @@
-+ 	}
-+ 
-+       /* Also discard relocs on undefined weak syms with non-default
-+-    	 visibility.  */
-++    	 visibility.   Don't discard relocs against __ehdr_start which
-++	 will be defined by assign_file_positions_for_non_load_sections
-++	 later.  */
-+       if (eh->dyn_relocs != NULL
-+-	  && h->root.type == bfd_link_hash_undefweak)
-++	  && h->root.type == bfd_link_hash_undefweak
-++	  && strcmp (h->root.root.string, "__ehdr_start") != 0)
-+ 	{
-+ 	  if (ELF_ST_VISIBILITY (h->other) != STV_DEFAULT)
-+ 	    eh->dyn_relocs = NULL;
-+Index: binutils-2.24/bfd/elf64-x86-64.c
-+===================================================================
-+--- binutils-2.24.orig/bfd/elf64-x86-64.c	2014-03-25 10:26:54.818385608 +0000
-++++ binutils-2.24/bfd/elf64-x86-64.c	2014-03-25 10:26:54.814385607 +0000
-+@@ -2478,9 +2478,12 @@
-+ 	}
-+ 
-+       /* Also discard relocs on undefined weak syms with non-default
-+-	 visibility.  */
-++    	 visibility.   Don't discard relocs against __ehdr_start which
-++	 will be defined by assign_file_positions_for_non_load_sections
-++	 later.  */
-+       if (eh->dyn_relocs != NULL
-+-	  && h->root.type == bfd_link_hash_undefweak)
-++	  && h->root.type == bfd_link_hash_undefweak
-++	  && strcmp (h->root.root.string, "__ehdr_start") != 0)
-+ 	{
-+ 	  if (ELF_ST_VISIBILITY (h->other) != STV_DEFAULT)
-+ 	    eh->dyn_relocs = NULL;
+ inherit update-alternatives
+@@ -101,3 +99,4 @@ python __anonymous() {
+ }
+ 
+ BBCLASSEXTEND = "native"
++FILES_${PN}-dbg += "${libexecdir}/coreutils/.debug/*"
+-- 
+1.8.3.2
 
 
 
