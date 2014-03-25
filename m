@@ -1,25 +1,44 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C0B06F908
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
+	[209.85.160.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DAF76F907
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 20:13:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 24 Mar 2014 13:13:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,722,1389772800"; d="scan'208";a="506610230"
-Received: from unknown (HELO [10.255.12.230]) ([10.255.12.230])
-	by orsmga002.jf.intel.com with ESMTP; 24 Mar 2014 13:13:55 -0700
-Message-ID: <1395692034.25867.103.camel@empanada>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
-Date: Mon, 24 Mar 2014 15:13:54 -0500
-In-Reply-To: <532E461E.3090206@gmail.com>
-References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
-	<1395417268.25867.74.camel@empanada> <532E461E.3090206@gmail.com>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
+	Tue, 25 Mar 2014 00:11:21 +0000 (UTC)
+Received: by mail-yk0-f169.google.com with SMTP id 142so16698656ykq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Mar 2014 17:11:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=alaEu1pOhlqd9a3XnyekC/NbdLo61xTjBlNWSklTgPo=;
+	b=Zmea5FrGDBjzyB4xxnSFHS0qILjYdWO9boiI0T8zDWGdgNVagxWG7g6+uRYb1FcDjE
+	JzvbaSUhreAE0nZp/1kEfXmTVh8KNQAiQ3hDNA/9RkLbhHlBBmI2CxvWN+jIPnWidtxd
+	DiHHdLwcbDemP+OqSZqIvC+Z7F1HA9+q74+dhhUBXysO08bOp5omTf+MS74LIrm/C0gn
+	yccBe4F8SatQXTY/AM/Sasr9vDsI/bRfDV9RHSyn9Bpzg9NqgODYjRcRbIWl6qToyyVT
+	hExSThfg7F09Cx3l4rK28uCW54uUpz303fcFocbG+J2lXMA5avd9rqaZ5gcTRGqiROlA
+	EIcw==
+X-Gm-Message-State: ALoCoQlwhbd4Y0Yd0KmzT6dpbJag5DprLe3nbfWdu1Kc1+2uqAo+yxGjnW8QjNspd6dpmXimK70D
+X-Received: by 10.236.61.45 with SMTP id v33mr69209632yhc.20.1395706282426;
+	Mon, 24 Mar 2014 17:11:22 -0700 (PDT)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158]) by mx.google.com with ESMTPSA id
+	u21sm25797984yhb.24.2014.03.24.17.11.21 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 24 Mar 2014 17:11:21 -0700 (PDT)
+Message-ID: <5330C9A8.904@linaro.org>
+Date: Mon, 24 Mar 2014 20:11:20 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	yocto <yocto@yoctoproject.org>
+References: <1395676843.24890.7.camel@ted>
+In-Reply-To: <1395676843.24890.7.camel@ted>
+Subject: --conf Was: Features in Yocto Project 1.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,134 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Mar 2014 20:13:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Mar 2014 00:11:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Sat, 2014-03-22 at 23:25 -0300, João Henrique Ferreira de Freitas
-wrote:
-> Hi Tom,
-> 
-> I am working to enhance the patches with your comments.
-> 
-> Em 21-03-2014 12:54, Tom Zanussi escreveu:
-> > In any case, I think the connection between a command-line param and the
-> > line in the .wks file should be explicit, but I'm not sure about the
-> > best way do do that, maybe something like:
-> >
-> > wic create ... --rootfs-dir rootfs1=/some/rootfs/dir --rootfs-dir rootfs2=/some/other/rootfs/dir
-> >
-> >    part / --source rootfs --rootfs-dir="rootfs1" --ondisk sda --fstype=ext3 --label primary --align 1024
-> >
-> >    part /standby --source rootfs --rootfs-dir="rootfs2" \
-> >      --ondisk sda --fstype=ext3 --label secondary --align 1024
-> >
-> > In the above case, 'rootfs1' and 'rootfs2' provide the connection (and
-> > could be named anything, they're just strings).
-> 
-> What about to use '--label' or mountpoint as connection?
-> 
+On 03/24/14 12:00, Richard Purdie wrote:
+> I think from my perspective, in 1.7 I'd like to see us looking at
+> "Developer Workflow".
 
-I suppose using --label would be ok, though I don't really like to
-overload things like this in general, and it forces the partitions to
-have labels.
+Maybe I'm using things incorrectly :-)
 
-> wic create ... --rootfs-dir primary=/some/rootfs/dir --rootfs-dir secondary=/some/other/rootfs/dir
-> 
-> 
-> 
-> > So I guess that's what make sense to me, but I'd be happy to hear other
-> > ideas.
-> >
-> > In any case, at minimum I think that you should change the syntax from
-> > --rootfs=<special rootfs directory> to --rootfs-dir=<special rootfs
-> > directory>, in keeping with current syntax.
-> 
-> Agree.
-> 
-> >
-> > Another thing missing is displaying the extra partitions in the output
-> > e.g.
-> 
-> Agree.
-> 
-> >   I created an image with the added /standby, and it worked but I
-> > didn't see it mentioned in the output, which it should be:
-> > [trz@empanada build]$ wic create directdisk-multi -e core-image-minimal
-> > Checking basic build environment...
-> > Done.
-> >
-> > Creating image(s)...
-> >
-> > Info: The new image(s) can be found here:
-> >    /var/tmp/wic/build/directdisk-multi-201403211050-sda.direct
-> >
-> > The following build artifacts were used to create the image(s):
-> >    ROOTFS_DIR:      /home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs
-> >    BOOTIMG_DIR:     /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/share
-> >    KERNEL_DIR:      /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/src/kernel
-> >    NATIVE_SYSROOT:  /home/trz/yocto/master-cur/build/tmp/sysroots/x86_64-linux
-> >
-> >
-> > The image(s) were created using OE kickstart file:
-> >    /home/trz/yocto/master-cur/scripts/lib/image/canned-wks/directdisk-multi.wks
-> >
-> > Thanks,
-> 
-> Why BOOTIMG_DIR is pointing to 
-> /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/share ? It 
-> could be /var/tmp/wic/build/hdd/boot?
-> 
+But I often find that I'm switching between building different images.
+For example, one moment I might be building core-image-minimal (CIM),
+then later I'll want to build a GUI image with Wayland.
 
-The listing is supposed to tell the user where it found the artifacts as
-a sanity check, e.g. what the variables or -e expanded to and thus where
-the artifacts came from.  /var/tmp/wic/build/hdd/boot doesn't tell you
-that.
+Switching between CIM and the GUI image requires changes to both
+conf/local.conf and conf/bblayers.conf. I will either have two separate
+sets of files and symlink between them, or I'll need to edit them by
+hand to comment/uncomment out various blocks. I often get this wrong and
+will need to restart a couple times before the build can hope to
+complete successfully.
 
-> And what do you thing about this output ?
-> 
-> Checking basic build environment...
-> Done.
-> 
-> Creating image(s)...
-> 
-> Info: The new image(s) can be found here:
->    /var/tmp/wic/build/directdisk-multi-rootfs-201403222319-sda.direct
-> 
-> The following build artifacts were used to create the image(s):
->    /boot                        /var/tmp/wic/build/hdd/boot
->    / 
-> /srv/build/yocto/master/tmp/work/genericx86-poky-linux/core-image-minimal/1.0-r0/rootfs
->    /standby 
-> /srv/build/yocto/master/tmp/work/genericx86-poky-linux/core-image-minimal-dev/1.0-r0/rootfs
->    /root_test 
-> /srv/build/yocto/master/tmp/work/genericx86-poky-linux/core-image-minimal-dev/1.0-r0/rootfs
->    KERNEL_DIR: 
-> /srv/build/yocto/master/tmp/sysroots/genericx86/usr/src/kernel
->    NATIVE_SYSROOT:  /srv/build/yocto/master/tmp/sysroots/x86_64-linux
-> 
-> 
+If I could wish for one workflow change, it would be the ability to
+switch between various build configurations with the minimum of fuss:
+- maybe the layer information could be contained within the
+configuration file, then on the bitbake cmdline I could just say
+"bitbake --conf wayland" or "bitbake --conf mycim" and it would know to
+find and use conf/wayland.conf or conf/mycim.conf?
+- maybe the local.conf could be renamed wayland.conf and the
+bblayers.conf could be renamed wayland.bblayers then I could type
+"bitbake --conf wayland" and it would know to look for wayland.conf and
+wayland.bblayers?
 
-That seems kind of unreadable to me.  Why not just add another
-ROOTFS_DIR line for anything beyond the default rootfs e.g. 
-
-    ROOTFS_DIR:                    /home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs
-    ROOTFS_DIR["secondary"]:       /home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal-dev/1.0-r0/rootfs
-    BOOTIMG_DIR:                   /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/share
-    KERNEL_DIR:                    /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/src/kernel
-    NATIVE_SYSROOT:                /home/trz/yocto/master-cur/build/tmp/sysroots/x86_64-linux
-
-Tom
-
-> The image(s) were created using OE kickstart file:
-> /home/joaohf/jhf/opensource/poky/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-> 
-> Thanks.
-> 
-> -- 
-> João Henrique Ferreira de Freitas - joaohf_at_gmail.com
-> Campinas-SP-Brasil
-> 
-
-
+Does this sort of workflow make sense to others? Or have people noticed
+this and solved it in some clever way?
 
