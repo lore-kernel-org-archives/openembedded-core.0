@@ -1,44 +1,31 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DAF76F907
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E66D46F877
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 00:11:21 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 142so16698656ykq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Mar 2014 17:11:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=alaEu1pOhlqd9a3XnyekC/NbdLo61xTjBlNWSklTgPo=;
-	b=Zmea5FrGDBjzyB4xxnSFHS0qILjYdWO9boiI0T8zDWGdgNVagxWG7g6+uRYb1FcDjE
-	JzvbaSUhreAE0nZp/1kEfXmTVh8KNQAiQ3hDNA/9RkLbhHlBBmI2CxvWN+jIPnWidtxd
-	DiHHdLwcbDemP+OqSZqIvC+Z7F1HA9+q74+dhhUBXysO08bOp5omTf+MS74LIrm/C0gn
-	yccBe4F8SatQXTY/AM/Sasr9vDsI/bRfDV9RHSyn9Bpzg9NqgODYjRcRbIWl6qToyyVT
-	hExSThfg7F09Cx3l4rK28uCW54uUpz303fcFocbG+J2lXMA5avd9rqaZ5gcTRGqiROlA
-	EIcw==
-X-Gm-Message-State: ALoCoQlwhbd4Y0Yd0KmzT6dpbJag5DprLe3nbfWdu1Kc1+2uqAo+yxGjnW8QjNspd6dpmXimK70D
-X-Received: by 10.236.61.45 with SMTP id v33mr69209632yhc.20.1395706282426;
-	Mon, 24 Mar 2014 17:11:22 -0700 (PDT)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158]) by mx.google.com with ESMTPSA id
-	u21sm25797984yhb.24.2014.03.24.17.11.21 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 24 Mar 2014 17:11:21 -0700 (PDT)
-Message-ID: <5330C9A8.904@linaro.org>
-Date: Mon, 24 Mar 2014 20:11:20 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Tue, 25 Mar 2014 01:43:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2P1h4ZW009452
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 24 Mar 2014 18:43:04 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 24 Mar 2014 18:43:03 -0700
+Message-ID: <5330DF25.6070607@windriver.com>
+Date: Tue, 25 Mar 2014 09:43:01 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	yocto <yocto@yoctoproject.org>
-References: <1395676843.24890.7.camel@ted>
-In-Reply-To: <1395676843.24890.7.camel@ted>
-Subject: --conf Was: Features in Yocto Project 1.7
+To: Chris Larson <kergoth@gmail.com>
+References: <cover.1395639298.git.liezhi.yang@windriver.com>
+	<c4b687132dcd976635a375f994f66b3a6b9242f9.1395639299.git.liezhi.yang@windriver.com>
+	<CABcZANma6KPgomjHwW=Lc2_VSiHrWiE624=cNWN3FaiNEbfPZQ@mail.gmail.com>
+In-Reply-To: <CABcZANma6KPgomjHwW=Lc2_VSiHrWiE624=cNWN3FaiNEbfPZQ@mail.gmail.com>
+Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] local.conf.sample.extended: update it for the archiver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,38 +38,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 00:11:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 25 Mar 2014 01:43:08 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/24/14 12:00, Richard Purdie wrote:
-> I think from my perspective, in 1.7 I'd like to see us looking at
-> "Developer Workflow".
 
-Maybe I'm using things incorrectly :-)
 
-But I often find that I'm switching between building different images.
-For example, one moment I might be building core-image-minimal (CIM),
-then later I'll want to build a GUI image with Wayland.
+On 03/24/2014 11:34 PM, Chris Larson wrote:
+> On Sun, Mar 23, 2014 at 10:39 PM, Robert Yang <liezhi.yang@windriver.com>wrote:
+>
+>> +# 9) The recipe type that will be archived:
+>> +#    COPYLEFT_RECIPE_TYPES = '<type1> <type2> ...'
+>> +#    The type can be: target native nativesdk cross crosssdk
+>> cross-canadian.
+>>
+>
+> Hmm, I wonder if we should note that the default is to archive all types,
+> here.
+>
 
-Switching between CIM and the GUI image requires changes to both
-conf/local.conf and conf/bblayers.conf. I will either have two separate
-sets of files and symlink between them, or I'll need to edit them by
-hand to comment/uncomment out various blocks. I often get this wrong and
-will need to restart a couple times before the build can hope to
-complete successfully.
+Good idea, I've updated it and pushed to:
 
-If I could wish for one workflow change, it would be the ability to
-switch between various build configurations with the minimum of fuss:
-- maybe the layer information could be contained within the
-configuration file, then on the bitbake cmdline I could just say
-"bitbake --conf wayland" or "bitbake --conf mycim" and it would know to
-find and use conf/wayland.conf or conf/mycim.conf?
-- maybe the local.conf could be renamed wayland.conf and the
-bblayers.conf could be renamed wayland.bblayers then I could type
-"bitbake --conf wayland" and it would know to look for wayland.conf and
-wayland.bblayers?
+git://git.openembedded.org/openembedded-core-contrib rbt/archiver_license
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/archiver_license
 
-Does this sort of workflow make sense to others? Or have people noticed
-this and solved it in some clever way?
+
+diff --git a/meta/conf/local.conf.sample.extended 
+b/meta/conf/local.conf.sample.extended
+index aa01917..a1f2464 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -214,9 +214,20 @@
+  # 6) the recipe (.bb and .inc):
+  #ARCHIVER_MODE[recipe] = "1"
+  #
+-# Whether output the .src.rpm package:
++# 7) Whether output the .src.rpm package:
+  #ARCHIVER_MODE[srpm] = "1"
+  #
++# 8) Filter the license, the recipe whose license in
++#    COPYLEFT_LICENSE_INCLUDE will be included, and in
++#    COPYLEFT_LICENSE_EXCLUDE will be excluded.
++#COPYLEFT_LICENSE_INCLUDE = 'GPL* LGPL*'
++#COPYLEFT_LICENSE_EXCLUDE = 'CLOSED Proprietary'
++#
++# 9) Config the recipe type that will be archived, the type can be
++#    target, native, nativesdk, cross, crosssdk and cross-canadian,
++#    you can set one or more types. Archive all types by default.
++#COPYLEFT_RECIPE_TYPES = 'target'
++#
+
+-R
 
