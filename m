@@ -1,20 +1,36 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F266C6EFB8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C8B8B6B8D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 12:06:26 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 25 Mar 2014 05:01:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,728,1389772800"; d="scan'208";a="479500690"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by orsmga001.jf.intel.com with ESMTP; 25 Mar 2014 05:06:24 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Mar 2014 14:06:08 +0200
-Message-Id: <1395749168-16746-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] piglit: ship files with correct permissions
+	Tue, 25 Mar 2014 12:13:16 +0000 (UTC)
+Received: by mail-yh0-f50.google.com with SMTP id c41so294190yho.23
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Mar 2014 05:13:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=jxVNEEjylN3ZrdVnxWZxCMzRuSw6WIfsa8og2KWf65I=;
+	b=YCPNgYM2PwBVMvzHcFlByJA3Gv2+3Bt+PevS0IjVvFAc54nE3vN5cxL/mYgl+Y3UTX
+	1PmzxjfbdHP6fRpl0hO4JudZZ8frRooV2E+d6F9BpNMGl+dSjfMbTEF6UIWuK+01+aad
+	N4IbRT+GqLO7AULivUdogA29sJ+TJP6zd7K8kOyyCgB46gkyWmrgwFtm+Nfitbrdmj5+
+	NGocPLfbQbyCP8rXx705FjAd1EPMFF2ymoNXFStXiNIY6HpXXsty82CFuV7s+Vftvje9
+	AJjjt/uIrVVh1usCRTUE4HYvagJ3rb9HQ8Wg67ti94HOuVIrLMIwyyOrX99kp7tWLuC3
+	cAlA==
+MIME-Version: 1.0
+X-Received: by 10.236.96.201 with SMTP id r49mr97442197yhf.33.1395749596927;
+	Tue, 25 Mar 2014 05:13:16 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Tue, 25 Mar 2014 05:13:16 -0700 (PDT)
+In-Reply-To: <1395743793.24890.21.camel@ted>
+References: <1395743793.24890.21.camel@ted>
+Date: Tue, 25 Mar 2014 09:13:16 -0300
+X-Google-Sender-Auth: 3rAg_P4cL-YnhbQ1690CfACkjvI
+Message-ID: <CAP9ODKr4icx=rWteGJ_o9zA2Czkn8ZOjMOAqmT3LwxJY79VZKw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] binutils: Add fixes for binutils issue 16428
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,45 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 12:06:30 -0000
+X-List-Received-Date: Tue, 25 Mar 2014 12:13:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Adress the warning
-| warning: group pulse does not exist - using root
+On Tue, Mar 25, 2014 at 7:36 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> "ld:i386 crashes with -static -fPIE -pie"
+> https://bugs.launchpad.net/ubuntu/+source/binutils/+bug/1266492
+>
+> This adds in two upstream binutils fixes to avoid the internal error
+> triggered by the combination of -static with -pie on x86 builds. This
+> triggers a backtrace which then triggers a bug in glibc where the process
+> ends up hanging on some systems with broken libcs.
+>
+> We can't fix the libc but we can stop the internal error and hence
+> avoid the hanging builds.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +     file://fix-pr16428a.patch \
+> +     file://fix-pr16428b.patch \
 
-Piglit files from framework/ generated_tests/ tests/
-and templates/ belong to xuser/pulse.
-Don't keep the permissions while shipping the files,
-they should be root/root.
+Please add the Upstream-Status field in the two patch  files stating
+this is a 'Backport'.
 
-[YOCTO #6028]
-
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- meta/recipes-graphics/piglit/piglit_git.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 8616764..7417cd5 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -33,11 +33,11 @@ do_install() {
- 	install -d ${D}${libdir}/piglit/bin
- 	install -m 755 ${S}/bin/* ${D}${libdir}/piglit/bin
- 
--	cp -a lib/ ${D}${libdir}/piglit/
--	cp -a framework/ ${D}${libdir}/piglit/
--	cp -a generated_tests/ ${D}${libdir}/piglit/
--	cp -a tests/ ${D}${libdir}/piglit/
--	cp -a templates/ ${D}${libdir}/piglit/
-+	cp -Pr lib/ ${D}${libdir}/piglit/
-+	cp -Pr framework/ ${D}${libdir}/piglit/
-+	cp -Pr generated_tests/ ${D}${libdir}/piglit/
-+	cp -Pr tests/ ${D}${libdir}/piglit/
-+	cp -Pr templates/ ${D}${libdir}/piglit/
- 
- 	sed -i -e 's|sys.path.append(.*)|sys.path.append("${libdir}/piglit")|' ${D}${bindir}/piglit-*.py
- 	sed -i -e 's|^templatedir = .*$|templatedir = "${libdir}/piglit/templates"|' ${D}${bindir}/piglit-summary-html.py
 -- 
-1.8.3.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
