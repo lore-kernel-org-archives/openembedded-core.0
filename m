@@ -1,37 +1,23 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 540AE60C02
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D0A16F9B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 14:42:38 +0000 (UTC)
-Received: by mail-yh0-f41.google.com with SMTP id v1so2155780yhn.14
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 07:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=4F80Rt0sWG8eCc6bD4UzQ1AsaV2O/wscemxUvWCiSa4=;
-	b=ZUFZK9ptRsnhDRA+RqfF0Dox3aFDqIQUwlgp8pTl58gaXf5yq/2byY0elcFseoEvrT
-	tfSqSODYfINQIqWZvT8hBB51w0uIovgqgaKjof3An4wgG+A/YBCzDIxQPJqEF0M2oBzg
-	bQHeRaPHSOaAW+HYpNofVegBB/P4DWsIzPiuYrK2LJyGiMjcRohjqFV8qy6LE/T7Bekt
-	obC+1wt6b+5Igm6Dms5KoQLQ7uL+y6IDLdRdlCW7UxGuyCXSEgy3VRwvuOk2gBK4WjUI
-	gdYkNOafIKw2AZOauGiVXXf9Fg36L/pan4mTjCOuKlxNga97ZY6+230Q8RtXHM+J709k
-	QPCQ==
-MIME-Version: 1.0
-X-Received: by 10.236.230.41 with SMTP id i39mr50664959yhq.14.1395844959871;
-	Wed, 26 Mar 2014 07:42:39 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Wed, 26 Mar 2014 07:42:39 -0700 (PDT)
-In-Reply-To: <cover.1395825881.git.kai.kang@windriver.com>
-References: <cover.1395825881.git.kai.kang@windriver.com>
-Date: Wed, 26 Mar 2014 11:42:39 -0300
-X-Google-Sender-Auth: BgrXAyqQ9SYldkNDhlqWAAeafys
-Message-ID: <CAP9ODKpRZXUxM=QGOBR4xmh=vBWBd6VOqYK0AZwvon_MG4pQGA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Replace ocf-linux with cryptodev-linux
+	Wed, 26 Mar 2014 14:44:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Mar 2014 07:44:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,735,1389772800"; d="scan'208";a="507985613"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2014 07:44:43 -0700
+Received: from localhost.localdomain (unknown [10.237.112.162])
+	by linux.intel.com (Postfix) with ESMTP id 6FECD6A4083;
+	Wed, 26 Mar 2014 07:44:29 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Mar 2014 18:48:11 +0200
+Message-Id: <1395852491-32086-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] selftest/bbtests.py: Fixed regex and added bitbake output to test_warnings_errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 14:42:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Mar 2014 14:44:43 -0000
 
-Hello Kai,
+The test failed when more than 1 error or 1 warning is present.
+Also pasting the bitbake output when the test fails.
 
-On Wed, Mar 26, 2014 at 7:15 AM, Kai Kang <kai.kang@windriver.com> wrote:
-> Replace ocf-linux with cryptodev-linux because linux-yocto use cryptodev-linux to implement /dev/crypto.
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+---
+ meta/lib/oeqa/selftest/bbtests.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thanks for handling it; I was going to address same issue this week so
-we could have it upstreamed and drop the Freescale bbappends for it.
-This indeed makes my life easier :-) So thank you :-)
-
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index ee1f82a..d7dc127 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -47,10 +47,10 @@ class BitbakeTests(oeSelfTest):
+ 
+     def test_warnings_errors(self):
+         result = bitbake('-b asdf', ignore_status=True)
+-        find_warnings = re.search("Summary: There was [1-9][0-9]* WARNING message shown.", result.output)
+-        find_errors = re.search("Summary: There was [1-9][0-9]* ERROR message shown.", result.output)
+-        self.assertTrue(find_warnings)
+-        self.assertTrue(find_errors)
++        find_warnings = re.search("Summary: There wa.{1,2}? [1-9][0-9]* WARNING messages* shown", result.output)
++        find_errors = re.search("Summary: There wa.{1,2}? [1-9][0-9]* ERROR messages* shown", result.output)
++        self.assertTrue(find_warnings, msg="Did not find the mumber of warnings at the end of the build:\n" + result.output)
++        self.assertTrue(find_errors, msg="Did not find the mumber of errors at the end of the build:\n" + result.output)
+ 
+     def test_invalid_patch(self):
+         self.write_recipeinc('man', 'SRC_URI += "file://man-1.5h1-make.patch"')
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.2
+
 
