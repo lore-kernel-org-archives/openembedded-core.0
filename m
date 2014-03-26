@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B7556F9D2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6031B6DF25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:09:20 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2QF9FO6023760 for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:09:15 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iePcMebRcGYb
+	Wed, 26 Mar 2014 15:30:26 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id w5so2349523qac.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:09:15 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2QF9CBJ023752
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:09:14 GMT
-Message-ID: <1395846546.24890.100.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Mar 2014 15:09:06 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sanity.bbclass: Update against bitbake sanity event changes
+	Wed, 26 Mar 2014 08:30:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=UOEWwEVfso2mWMf+wPMaanKhZtBOiZv4ySn2MKsSXKQ=;
+	b=PTNs+tC0EbfIeP3v5YIlUvVtfo7X0UM2GJNdvwfdUPUL/4axHbY6GMJjNgIcn+uyBc
+	Jipl2OAEt/BVzrGSHtXkQ+ja+Jv55zFkDGucL2ZeYVm2G9sILHaqyKHGR39oMDOMzpRM
+	InVMKvTxGWMUiam3fKBTunYcvGjFYzKF7pMY/A0jH/ikE+N9VMQqGz+1zhdsu+8ygKDS
+	O7n0/F2fz45TflUJo3+CvRG5seCpfT1rP916iSz41yJuG0axNlcS10IZKDTLVydBmVoq
+	UAS1JNnPMfVJbMvCzCJn+8FfHdWMr5/COxFWAlPlIgl+25bctHRAyTCISL6FxVc10Em7
+	onng==
+X-Gm-Message-State: ALoCoQmxgxaXF491NNk/Z4xAbNXOw661er+QLs5sDa+Pr9l6YI2lfKQEOFC0kGECtw+wMTQ2jyB8
+X-Received: by 10.140.81.112 with SMTP id e103mr3001165qgd.99.1395847827441;
+	Wed, 26 Mar 2014 08:30:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 08:30:07 -0700 (PDT)
+In-Reply-To: <1395844085-9929-7-git-send-email-lauren.post@freescale.com>
+References: <lauren.post@freescale.com>
+	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
+	<1395844085-9929-7-git-send-email-lauren.post@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 26 Mar 2014 15:30:07 +0000
+Message-ID: <CAJTo0LbeQbR_9+trpBA7E0VKdpdj4=x+WRGUi=8uy01SXHytWQ@mail.gmail.com>
+To: Lauren Post <lauren.post@freescale.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 06/11] pulseaudio: Change PACKAGECONFIG from bluez4 to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 15:09:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Mar 2014 15:30:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Bitbake will now trigger sanity events when it needs the checks to run in all cases
-so we can drop the ConfigParsed hook. We now control whether events are generated
-or errors are raised from the event itself.
+On 26 March 2014 14:28, Lauren Post <lauren.post@freescale.com> wrote:
+> -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
+> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'virtual/bluez', '', d)} \
+>                     ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+>                     ${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+>                     ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+> +
+> +PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,virtual/bluez sbc"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index d79db8f..cf514d0 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -779,20 +779,19 @@ def copy_data(e):
-     return sanity_data
- 
- addhandler check_sanity_eventhandler
--check_sanity_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.SanityCheck bb.event.NetworkTest"
-+check_sanity_eventhandler[eventmask] = "bb.event.SanityCheck bb.event.NetworkTest"
- python check_sanity_eventhandler() {
--    if bb.event.getName(e) == "ConfigParsed" and e.data.getVar("BB_WORKERCONTEXT", True) != "1" and e.data.getVar("DISABLE_SANITY_CHECKS", True) != "1":
-+    if bb.event.getName(e) == "SanityCheck":
-         sanity_data = copy_data(e)
--        reparse = check_sanity(sanity_data)
--        e.data.setVar("BB_INVALIDCONF", reparse)
--    elif bb.event.getName(e) == "SanityCheck":
--        sanity_data = copy_data(e)
--        sanity_data.setVar("SANITY_USE_EVENTS", "1")
-+        if e.generateevents:
-+            sanity_data.setVar("SANITY_USE_EVENTS", "1")
-         reparse = check_sanity(sanity_data)
-         e.data.setVar("BB_INVALIDCONF", reparse)
-         bb.event.fire(bb.event.SanityCheckPassed(), e.data)
-     elif bb.event.getName(e) == "NetworkTest":
-         sanity_data = copy_data(e)
-+        if e.generateevents:
-+            sanity_data.setVar("SANITY_USE_EVENTS", "1")
-         bb.event.fire(bb.event.NetworkTestFailed() if check_connectivity(sanity_data) else bb.event.NetworkTestPassed(), e.data)
- 
-     return
+I'm pretty sure you either didn't look at this patch, or didn't
+understand what it's doing.
 
+As it's clearly been untested, I'm NAKing the entire series.
 
+Ross
 
