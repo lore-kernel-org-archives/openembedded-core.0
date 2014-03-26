@@ -1,41 +1,39 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E74DC6B592
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 3909A6F7E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 02:43:17 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id lh14so1665250vcb.6
+	Wed, 26 Mar 2014 03:23:50 +0000 (UTC)
+Received: by mail-pd0-f173.google.com with SMTP id z10so1299902pdj.18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 19:43:18 -0700 (PDT)
+	Tue, 25 Mar 2014 20:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=cAFMU0k/c7arGQHuA0xpjWcu/2if6Qh1BuCrxey14Bg=;
-	b=fiPGrOr2K9lu8F6Ce5ihl8x2S05GxME2YNDpzakpt2Wyj9FaJEPz2Kf4tT2t2G2akE
-	RUAO1yOZ/wZNQNFXKZrTL1+ywLJuk9Ji5iq4s36jQJnGu/CzQk9k+aBFnYAAn8vk/iZH
-	xnebMqSerN95DrPYsAFzmzUtM9fOfLRvdqmKDq2HBEMz3kY2UYMLcEY1HjR2Bv5jh8SS
-	RlkrxO8EXkkaNvYkb0wULH9+grDYhjXXJ5OyU/MpKmvs8GhY+MYQfkOh1E9Vyt/l3+M+
-	hiqdrPmgjlQvuYRWNFAZDhRT7QqGzBlcTvas5rU/gixpvaEwIamWz3lyeHwCUN28bLL5
-	KKDQ==
-X-Received: by 10.52.51.197 with SMTP id m5mr18644825vdo.9.1395801798434;
-	Tue, 25 Mar 2014 19:43:18 -0700 (PDT)
-Received: from localhost.localdomain ([187.106.6.19])
-	by mx.google.com with ESMTPSA id ay4sm35813974vdc.6.2014.03.25.19.43.17
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 25 Mar 2014 19:43:18 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
-	<joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Mar 2014 23:42:49 -0300
-Message-Id: <1395801769-13042-8-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1395801769-13042-1-git-send-email-joaohf@gmail.com>
-References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
-	<1395801769-13042-1-git-send-email-joaohf@gmail.com>
-MIME-Version: 1.0
-Cc: tom.zanussi@linux.intel.com
-Subject: [PATCH v2 7/7] wic: Extend --rootfs-dir to connect rootfs-dirs
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=1bVCDIs1ExMfGPZ7QVtYLgaT86ESGZXht4Z8LDzqBro=;
+	b=bFGMHdDqryD42Ff9kgIpH6BXqkFar9047aCFMvRDKkc/iFs/c8TVtaKreAb3iNUcnJ
+	i4O/6WpLL5lPL4xyZheUuNayNiQk/M1bo/RQpIITBlLiGU8NEmJw+o1XNvOy99dKezgG
+	p9eL42BvQxMF6/M/CNKkd6amPlZZrRodDgyHIxBOSHQwJPau0vyo3Lun2XjmXxMiSPq/
+	U//wlaPPDe7n5FWlV/wxoG8n/+PTliMapv8Q7EIzX/BqGJYn49Vvg47cmtsPTIEJeMVV
+	twwo1Blg+AkegHW0fFj+NWLX4+jFdX3XET3MdquRoIwbfBXxQZyhfyr3/6GZ/oGjYeFG
+	5UQQ==
+X-Received: by 10.66.149.231 with SMTP id ud7mr83159616pab.8.1395804231483;
+	Tue, 25 Mar 2014 20:23:51 -0700 (PDT)
+Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.30]) by mx.google.com with ESMTPSA id
+	ac5sm51641406pbc.37.2014.03.25.20.23.49 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 25 Mar 2014 20:23:49 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B3A5F1C@post.tritech.se>
+Date: Tue, 25 Mar 2014 20:23:47 -0700
+Message-Id: <39D03392-2417-45CF-BD80-D160E8C466EE@gmail.com>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A5F1C@post.tritech.se>
+To: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: SDK build refers to existing installed SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,192 +46,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 02:43:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Mar 2014 03:23:53 -0000
+X-Groupsio-MsgNum: 51591
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5C268595-58AD-46FA-926D-5EA19DE05CD3";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-The wic command-line param --rootfs-dir gets generalized to support
-multiple directories. Each '--rootfs-dir' could be connected using a
-special string, that should be present in .wks. I.e:
-
-wic create ... --rootfs-dir rootfs1=/some/rootfs/dir \
-  --rootfs-dir rootfs2=/some/other/rootfs/dir
-
-  part / --source rootfs --rootfs-dir="rootfs1" --ondisk sda --fstype=ext3 \
-    --label primary --align 1024
-
-  part /standby --source rootfs --rootfs-dir="rootfs2" \
-    --ondisk sda --fstype=ext3 --label secondary --align 1024
-
-The user could use harded-code directory instead of connectors. Like this:
-
-  wic create ... hard-coded-path.wks -r /some/rootfs/dir
-
-  part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
-
-  part /standby --source rootfs --rootfs-dir=/some/rootfs/dir \
-    --ondisk sda --fstype=ext3 --label secondary --align 1024
-
-Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
----
- scripts/lib/mic/imager/direct.py                |  2 +-
- scripts/lib/mic/plugins/imager/direct_plugin.py | 17 ++++++++++++-
- scripts/lib/mic/plugins/source/rootfs.py        | 17 ++++++++++---
- scripts/wic                                     | 34 +++++++++++++++++++++++--
- 4 files changed, 62 insertions(+), 8 deletions(-)
-
-diff --git a/scripts/lib/mic/imager/direct.py b/scripts/lib/mic/imager/direct.py
-index 07a47ea..200a2f3 100644
---- a/scripts/lib/mic/imager/direct.py
-+++ b/scripts/lib/mic/imager/direct.py
-@@ -89,7 +89,7 @@ class DirectImageCreator(BaseImageCreator):
-         is called from mount_instroot, make sure it doesn't get called
-         from BaseImage.mount()"""
- 
--        image_rootfs = self.rootfs_dir
-+        image_rootfs = self.rootfs_dir['ROOTFS_DIR']
- 
-         parts = self._get_parts()
- 
-diff --git a/scripts/lib/mic/plugins/imager/direct_plugin.py b/scripts/lib/mic/plugins/imager/direct_plugin.py
-index e015256..fc7c10c 100644
---- a/scripts/lib/mic/plugins/imager/direct_plugin.py
-+++ b/scripts/lib/mic/plugins/imager/direct_plugin.py
-@@ -43,6 +43,19 @@ class DirectPlugin(ImagerPlugin):
-     name = 'direct'
- 
-     @classmethod
-+    def __rootfs_dir_to_dict(self, rootfs_dirs):
-+        """
-+        Gets a string that contain 'connection=dir' splitted by
-+        space and return a dict
-+        """
-+        krootfs_dir = {}
-+        for rootfs_dir in rootfs_dirs.split(' '):
-+            k, v = rootfs_dir.split('=')
-+            krootfs_dir[k] = v
-+
-+        return krootfs_dir
-+
-+    @classmethod
-     def do_create(self, subcmd, opts, *args):
-         """
-         Create direct image, called from creator as 'direct' cmd
-@@ -63,11 +76,13 @@ class DirectPlugin(ImagerPlugin):
-         image_output_dir = args[7]
-         oe_builddir = args[8]
- 
-+        krootfs_dir = self.__rootfs_dir_to_dict(rootfs_dir)
-+
-         configmgr._ksconf = ksconf
- 
-         creator = direct.DirectImageCreator(oe_builddir,
-                                             image_output_dir,
--                                            rootfs_dir,
-+                                            krootfs_dir,
-                                             bootimg_dir,
-                                             kernel_dir,
-                                             native_sysroot,
-diff --git a/scripts/lib/mic/plugins/source/rootfs.py b/scripts/lib/mic/plugins/source/rootfs.py
-index 83aec45..4eb12ee 100644
---- a/scripts/lib/mic/plugins/source/rootfs.py
-+++ b/scripts/lib/mic/plugins/source/rootfs.py
-@@ -45,15 +45,24 @@ class RootfsPlugin(SourcePlugin):
- 
-     @classmethod
-     def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
--                             kernel_dir, rootfs_dir, native_sysroot):
-+                             kernel_dir, krootfs_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
-         In this case, prepare content for legacy bios boot partition.
-         """
--        if part.rootfs:
--            rootfs_dir = part.rootfs 
--        
-+        if part.rootfs is None:
-+            rootfs_dir = krootfs_dir['ROOTFS_DIR']
-+        else:
-+            if part.rootfs in krootfs_dir:
-+                rootfs_dir = krootfs_dir[part.rootfs]
-+            elif os.path.isdir(part.rootfs):
-+                rootfs_dir = part.rootfs
-+            else:
-+                msg = "Couldn't find --rootfs-dir=%s connection"
-+                msg += " or it is not a valid path, exiting"
-+                msger.error(msg % part.rootfs)
-+
-         part.set_rootfs(rootfs_dir)
-         part.prepare_rootfs(cr_workdir, oe_builddir, rootfs_dir, native_sysroot)
- 
-diff --git a/scripts/wic b/scripts/wic
-index 824acae..2ec2147 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -45,6 +45,30 @@ sys.path = sys.path + [lib_path]
- from image.help import *
- from image.engine import *
- 
-+def rootfs_dir_to_args(krootfs_dir):
-+    """
-+    Get a rootfs_dir dict and serialize to string
-+    """
-+    rootfs_dir = ''
-+    for k, v in krootfs_dir.items():
-+        rootfs_dir += ' '
-+        rootfs_dir += '='.join([k, v])
-+    return rootfs_dir.strip()
-+
-+def callback_rootfs_dir(option, opt, value, parser):
-+    """
-+    Build a dict using --rootfs_dir connection=dir
-+    """
-+    if not type(parser.values.rootfs_dir) is dict:
-+        parser.values.rootfs_dir = dict()
-+
-+    if '=' in value:
-+        (key, rootfs_dir) = value.split('=')
-+    else:
-+       key = 'ROOTFS_DIR'
-+       rootfs_dir = value
-+
-+    parser.values.rootfs_dir[key] = rootfs_dir
- 
- def wic_create_subcommand(args, usage_str):
-     """
-@@ -60,7 +84,8 @@ def wic_create_subcommand(args, usage_str):
-     parser.add_option("-e", "--image-name", dest = "image_name",
-                       action = "store", help = "name of the image to use the artifacts from e.g. core-image-sato")
-     parser.add_option("-r", "--rootfs-dir", dest = "rootfs_dir",
--                      action = "store", help = "path to the /rootfs dir to use as the .wks rootfs source")
-+                      action = "callback", callback = callback_rootfs_dir, type = "string",
-+                      help = "path to the /rootfs dir to use as the .wks rootfs source")
-     parser.add_option("-b", "--bootimg-dir", dest = "bootimg_dir",
-                       action = "store", help = "path to the dir containing the boot artifacts (e.g. /EFI or /syslinux dirs) to use as the .wks bootimg source")
-     parser.add_option("-k", "--kernel-dir", dest = "kernel_dir",
-@@ -125,7 +150,7 @@ def wic_create_subcommand(args, usage_str):
-         image_output_dir = options.outdir
- 
-     if not options.image_name:
--        rootfs_dir = options.rootfs_dir
-+        rootfs_dir = options.rootfs_dir['ROOTFS_DIR']
-         bootimg_dir = options.bootimg_dir
-         kernel_dir = options.kernel_dir
-         native_sysroot = options.native_sysroot
-@@ -162,6 +187,11 @@ def wic_create_subcommand(args, usage_str):
-                 (not_found, not_found_dir)
-             sys.exit(1)
- 
-+    krootfs_dir = options.rootfs_dir
-+    krootfs_dir['ROOTFS_DIR'] = rootfs_dir
-+
-+    rootfs_dir = rootfs_dir_to_args(krootfs_dir)
-+
-     wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-                native_sysroot, hdddir, staging_data_dir, scripts_path,
-                image_output_dir, options.debug, options.properties_file)
--- 
-1.8.3.2
+--Apple-Mail=_5C268595-58AD-46FA-926D-5EA19DE05CD3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=iso-8859-1
 
 
+On Mar 25, 2014, at 2:41 AM, Mats K=E4rrman <Mats.Karrman@tritech.se> =
+wrote:
+
+> Hi,
+>=20
+> I just ran into an unexpected error while doing some multitasking.
+> Project is based on OE-core Dora "distroless".
+>=20
+> While my build machine was busy building a new SDK using "-c =
+populate_sdk" I simultaneously deleted an older SDK that was installed =
+under /usr/local and installed a different one. This resulted in the =
+build stopping with the following error:
+>=20
+> | x86_64-oesdk-linux-gcc  =
+--sysroot=3D/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/sysroots/x=
+86_64-nativesdk-oesdk-linux -DHAVE_CONFIG_H -I../ncurses =
+-I/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/work/x86_64-nativesd=
+k-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses =
+-isystem/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/sysroots/x86_6=
+4-nativesdk-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linu=
+x/usr/include -D_GNU_SOURCE -DNDEBUG -I. -I../include =
+-I/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/work/x86_64-nativesd=
+k-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses/../include =
+-I/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/include =
+-isystem/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/sysroots/x86_6=
+4-nativesdk-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linu=
+x/usr/include -O2 -pipe  --param max-inline-insns-single=3D1200 -fPIC -c =
+/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/work/x86_64-
+> =
+nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses/base=
+/lib_beep.c -o ../obj_s/lib_beep.o
+> | cc1: error: =
+/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/include: =
+Permission denied
+>=20
+> The offending directory is given with an include directive which seems =
+strange, building a new SDK should not poke around in an old one...
+>=20
+> Config & log files available on request.
+
+Was the installed SDK in your path that fed into the OE build env which =
+was generating new SDK ?
+
+
+>=20
+> BR // Mats
+>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_5C268595-58AD-46FA-926D-5EA19DE05CD3
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlMySEMACgkQuwUzVZGdMxTaOQCfeC2zbyvB3MqQmHQhyOBPNCsE
+lzAAnRGOB+tLFjrGK12HNRSYhFmxYHih
+=XfWV
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_5C268595-58AD-46FA-926D-5EA19DE05CD3--
