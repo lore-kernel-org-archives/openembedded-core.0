@@ -1,24 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B266FA8C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 548236F90E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 09:26:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2Q9Qj81001522
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 26 Mar 2014 09:30:49 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2Q9UimP005714 for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 09:30:44 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8xcgZtQDhjQo
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 02:26:45 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 26 Mar 2014 02:26:45 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Mar 2014 05:26:44 -0400
-Message-ID: <cover.1395802146.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [dora] [PATCH 0/1] image_types.bbclass: use 4096 instead of 8192 bytes-per-inode
+	Wed, 26 Mar 2014 09:30:44 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2Q9UeKl005708
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 09:30:41 GMT
+Message-ID: <1395826233.24890.81.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 09:30:33 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [RFC PATCH 1/3] base.bbclass: Run oe_import before other INHERITs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 09:26:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Mar 2014 09:30:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 4e00554dfc68b1aad07e161921c27807511420b1:
+Its possible for classes listed in INHERIT directives to use things like
+the oe.utils functions. If that happens the user sees a traceback since
+the modules don't become available until the ConfigParsed event.
 
-  license.bbclass: fix copying license directories failed (2014-03-25 11:17:06 +0000)
+Whilst rather ugly, this change means that the oe modules become available
+much sooner and can be used in the core classes, including within base.bbclass.
 
-are available in the git repository at:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 76a4ef6..f085173 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -31,8 +31,14 @@ def oe_import(d):
+         imported = __import__(toimport)
+         inject(toimport.split(".", 1)[0], imported)
+ 
++    return ""
++
++# We need the oe module name space early (before INHERITs get added)
++# and whilst ugly, abusing inherit like this is quite effective
++BASEIMPORTS = "${@oe_import(d)}"
++inherit ${BASEIMPORTS}
++
+ python oe_import_eh () {
+-    oe_import(e.data)
+     e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
+ }
+ 
 
-  git://git.openembedded.org/openembedded-core-contrib robert/dora-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=robert/dora-next
-
-Robert Yang (1):
-  image_types.bbclass: use 4096 instead of 8192 bytes-per-inode
-
- meta/classes/image_types.bbclass |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
--- 
-1.7.10.4
 
 
