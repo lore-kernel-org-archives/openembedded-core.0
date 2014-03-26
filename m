@@ -1,27 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 862726F933
+	by mail.openembedded.org (Postfix) with ESMTP id 173726FA88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 11:40:34 +0000 (UTC)
+	Wed, 26 Mar 2014 11:41:14 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2QBeNt7012530; Wed, 26 Mar 2014 11:40:23 GMT
+	s2QBf2lv012550; Wed, 26 Mar 2014 11:41:03 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lWztCoNizDAB; Wed, 26 Mar 2014 11:40:22 +0000 (GMT)
+	with LMTP id PACBsc9W_61d; Wed, 26 Mar 2014 11:41:02 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2QBeIVR012526
+	s2QBevJs012535
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 26 Mar 2014 11:40:19 GMT
-Message-ID: <1395834012.24890.86.camel@ted>
+	Wed, 26 Mar 2014 11:40:58 GMT
+Message-ID: <1395834050.24890.87.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Mar 2014 11:40:12 +0000
+Date: Wed, 26 Mar 2014 11:40:50 +0000
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] package_manager: Ensure we don't process directories twice
+Subject: [PATCH] package_manager: Fix apt-ftparchive index creation problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 11:40:36 -0000
+X-List-Received-Date: Wed, 26 Mar 2014 11:41:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Processing directories twice is both pointless and introduces a race condition.
-When building the list, ensure duplicates (like "all" and "noarch") are handled
-correctly.
+a) There were missing parameters to the release and package commands (".")
+
+b) The commands need to be executed as one block since they build upon each other
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 0cdf3b0..692528d 100644
+index 692528d..824af00 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -178,7 +178,9 @@ class DpkgIndexer(Indexer):
-             arch_list = pkg_archs.split()
-         sdk_pkg_archs = self.d.getVar('SDK_PACKAGE_ARCHS', True)
-         if sdk_pkg_archs is not None:
--            arch_list += sdk_pkg_archs.split()
-+            for a in sdk_pkg_archs.split():
-+                if a not in pkg_archs:
-+                    arch_list.append(a)
+@@ -192,17 +192,16 @@ class DpkgIndexer(Indexer):
+             if not os.path.isdir(arch_dir):
+                 continue
  
-         apt_ftparchive = bb.utils.which(os.getenv('PATH'), "apt-ftparchive")
-         gzip = bb.utils.which(os.getenv('PATH'), "gzip")
+-            index_cmds.append("cd %s; PSEUDO_UNLOAD=1 %s packages > Packages" %
+-                              (arch_dir, apt_ftparchive))
++            cmd = "cd %s; PSEUDO_UNLOAD=1 %s packages . > Packages;" % (arch_dir, apt_ftparchive)
+ 
+-            index_cmds.append("cd %s; %s Packages -c > Packages.gz" %
+-                              (arch_dir, gzip))
++            cmd += "%s -fc Packages > Packages.gz;" % gzip
+ 
+             with open(os.path.join(arch_dir, "Release"), "w+") as release:
+-                release.write("Label: %s" % arch)
++                release.write("Label: %s\n" % arch)
+ 
+-            index_cmds.append("cd %s; PSEUDO_UNLOAD=1 %s release >> Release" %
+-                              (arch_dir, apt_ftparchive))
++            cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
++            
++            index_cmds.append(cmd)
+ 
+             deb_dirs_found = True
+ 
 
 
 
