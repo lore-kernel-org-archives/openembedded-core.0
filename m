@@ -1,42 +1,37 @@
-Return-Path: <Lauren.Post@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1lp0144.outbound.protection.outlook.com [207.46.163.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 414A36EE45
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 17:26:05 +0000 (UTC)
-Received: from BLUPR03MB133.namprd03.prod.outlook.com (10.255.212.11) by
-	BLUPR03MB133.namprd03.prod.outlook.com (10.255.212.11) with Microsoft
-	SMTP Server (TLS) id 15.0.898.11; Wed, 26 Mar 2014 17:26:05 +0000
-Received: from BLUPR03MB133.namprd03.prod.outlook.com ([169.254.2.26]) by
-	BLUPR03MB133.namprd03.prod.outlook.com ([169.254.2.26]) with mapi id
-	15.00.0898.005; Wed, 26 Mar 2014 17:26:04 +0000
-From: Lauren Post <Lauren.Post@freescale.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 01/11] bluez4: Add virtual/bluez as provider
-Thread-Index: AQHPSRV1py4PTdqFFEav17mXYDAdM5rznkSw
-Date: Wed, 26 Mar 2014 17:26:04 +0000
-Message-ID: <b7253ce230a34490bc468d58fa3c3338@BLUPR03MB133.namprd03.prod.outlook.com>
-References: <lauren.post@freescale.com>
-	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
-	<1395844085-9929-2-git-send-email-lauren.post@freescale.com>
-	<CAJTo0LaY7y=nzEJ88PxFd0xB7E8N4BSAhTsNco370U1VDQQetQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LaY7y=nzEJ88PxFd0xB7E8N4BSAhTsNco370U1VDQQetQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.88.168.50]
-x-forefront-prvs: 0162ACCC24
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009001)(6009001)(428001)(199002)(189002)(377454003)(13464003)(95416001)(53806001)(2656002)(80022001)(19580395003)(98676001)(33646001)(93136001)(59766001)(77982001)(79102001)(97186001)(85306002)(63696002)(54356001)(54316002)(20776003)(94316002)(95666003)(19580405001)(76482001)(51856001)(81342001)(65816001)(66066001)(86362001)(81542001)(83322001)(31966008)(74316001)(74662001)(69226001)(46102001)(87936001)(94946001)(76786001)(74502001)(81816001)(81686001)(74706001)(76796001)(92566001)(56816005)(4396001)(77096001)(74366001)(50986001)(47736001)(49866001)(47976001)(90146001)(56776001)(93516002)(83072002)(47446002)(74876001)(97336001)(80976001)(76576001)(87266001)(85852003)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BLUPR03MB133;
-	H:BLUPR03MB133.namprd03.prod.outlook.com;
-	FPR:7C9EF79D.95E2BF63.11C179D2.DAEDC828.2014A; MLV:sfv;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (: freescale.com does not designate permitted sender hosts)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 67A206F6F0;
+	Wed, 26 Mar 2014 20:18:35 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id b15so2092992eek.34
+	for <multiple recipients>; Wed, 26 Mar 2014 13:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/GFX/7QSDkICsejiz6WiZF6gudm3KGJ0rZINg8BheE8=;
+	b=kBDn9GLPW6FV1Y9x8/KUSruN6oNKzxDT9z19js30qpvKvx6tke40PrdOJgtMO+Fifn
+	Sr6wGP6ZgGutwRMDp1xDC8l7zDZ8D6jprrSt8AHNkMCQuWrzgktpS/XFAjCIXShXqrAx
+	JhuhhfsdpZMFtTFK/H/KqJqz2hzyErCNKYbtGd7lAZ8tRscHznBshGCT++CMPENIGGmN
+	7sp8rWUM0c5NOcDQ/ifpirXxwaOZX4ScwRCVEyUJ2Ug/eET0/IgNze1oLZ7CAXcNP1OG
+	iCceOI+CKpj4z3w0mwW2cu8WeuKyx4iFL2uBiE/t3QyW2x/bmzkYa62QnjIipC24d772
+	4OwA==
+X-Received: by 10.14.115.195 with SMTP id e43mr10434866eeh.76.1395865115428;
+	Wed, 26 Mar 2014 13:18:35 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	o5sm49345318eeg.8.2014.03.26.13.18.33 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Mar 2014 13:18:34 -0700 (PDT)
+Date: Wed, 26 Mar 2014 21:18:33 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20140326201833.GI3709@jama>
+References: <20140311162355.554E95039B@opal>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/11] bluez4: Add virtual/bluez as provider
+In-Reply-To: <20140311162355.554E95039B@opal>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Stefan Stanacar : recipes-bsp: Add gummiboot recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,20 +44,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 17:26:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 26 Mar 2014 20:18:38 -0000
+X-Groupsio-MsgNum: 51673
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="4LwthZj+AV2mq5CX"
+Content-Disposition: inline
 
-WWVzLCBJIGFtIHdvcmtpbmcgb24gaXQgd2l0aCBhbGwgdGhlIGZlZWRiYWNrIGZvciBvdGhlciBw
-YXRjaGVzLiAgSSBtaXNzZWQgaXQgb24gbGFzdCBiYXRjaCBidXQgYmVmb3JlIEkgc2VuZCBpdCBn
-b2luZyB0byBhZGQgYWxsIHRoZSBvdGhlciBjaGFuZ2VzIGluIHYyIHZlcnNpb24uDQoNCkknbGwg
-cmV2aWV3IHdpdGggT3RhdmlvIGJlZm9yZSBJIHJlc3VibWl0IGFuZCB0ZXN0IHdpdGggYm90aCBi
-bHVlejQgYW5kIGJsdWV6NS4NCg0KTGF1cmVuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dIA0KU2Vu
-dDogV2VkbmVzZGF5LCBNYXJjaCAyNiwgMjAxNCAxMjowNCBQTQ0KVG86IFBvc3QgTGF1cmVuLVJB
-QTAxMw0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDAxLzExXSBi
-bHVlejQ6IEFkZCB2aXJ0dWFsL2JsdWV6IGFzIHByb3ZpZGVyDQoNClN1cmVseSB0aGVyZSBzaG91
-bGQgYWxzbyBiZSBhIHBhdGNoIHRvIGRvIHRoZSBzYW1lIGZvciBibHVlejUgc28gdGhlIHN3aXRj
-aCBjYW4gYmUgY29tcGlsZS10ZXN0ZWQ/DQoNClJvc3MNCg0K
+--4LwthZj+AV2mq5CX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Mar 11, 2014 at 04:23:55PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 8f95d0598c31fff76e2a58fecb6c96197121a044
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D8f95d0598c31fff76e2a58fecb6c96197121a044
+>=20
+> Author: Stefan Stanacar <stefanx.stanacar@intel.com>
+> Date:   Fri Feb 21 12:17:35 2014 +0200
+
+COMPATIBLE_HOST =3D "(x86_64.*|i.86.*)-linux"
+
+matching with gnu-efi on which it depends?
+
+Right now it causes ugly error in "bitbake world"
+
+NOTE: Resolving any missing task queue dependencies
+ERROR: Nothing PROVIDES 'gnu-efi' (but /home/jenkins/oe/shr-core-branches/s=
+hr-core/openembedded-core/meta/recipes-bsp/gummiboot/gummiboot_git.bb DEPEN=
+DS on or otherwise requires it)
+ERROR: gnu-efi was skipped: incompatible with host arm-oe-linux-gnueabi (no=
+t in COMPATIBLE_HOST)
+ERROR: Nothing RPROVIDES 'gummiboot-dev' (but /home/jenkins/oe/shr-core-bra=
+nches/shr-core/openembedded-core/meta/recipes-bsp/gummiboot/gummiboot_git.b=
+b RDEPENDS on or otherwise requires it)
+ERROR: No eligible RPROVIDERs exist for 'gummiboot-dev'
+NOTE: Runtime target 'gummiboot-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['gummiboot-dev']
+ERROR: Nothing RPROVIDES 'gummiboot' (but /home/jenkins/oe/shr-core-branche=
+s/shr-core/openembedded-core/meta/recipes-bsp/gummiboot/gummiboot_git.bb RD=
+EPENDS on or otherwise requires it)
+ERROR: No eligible RPROVIDERs exist for 'gummiboot'
+NOTE: Runtime target 'gummiboot' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['gummiboot']
+
+
+>=20
+> recipes-bsp: Add gummiboot recipe
+>=20
+> gummiboot is a simple UEFI boot manager.
+>=20
+> Recipe imported from meta-intel with these changes:
+>  - drop PR and update configure options
+>  - upgraded to latest version
+>=20
+> A couple of notes:
+>  - If you wish you can install the gummiboot package on the target and
+> use 'gummiboot install' to add the payload to the ESP (see gummiboot --he=
+lp,
+> just make sure the ESP partition has the boot flag on as gummiboot won't =
+accept it
+> otherwise). However the point of this recipe is to be used by bootimg.bbc=
+lass and
+> generate images with gummiboot instead of grub-efi.
+>  - You need a kernel which has CONFIG_EFI_STUB=3Dy at least
+>  - The default linux-yocto kernel config does not enable that, easiest way
+> to enable is to build with KERNEL_FEATURES_append =3D " cfg/efi-ext" in l=
+ocal.conf
+>=20
+> Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-bsp/gummiboot/gummiboot_git.bb | 25 +++++++++++++++++++++++=
+++
+>  1 file changed, 25 insertions(+)
+>=20
+> diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb b/meta/recipes-b=
+sp/gummiboot/gummiboot_git.bb
+> new file mode 100644
+> index 0000000..5868a23
+> --- /dev/null
+> +++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+> @@ -0,0 +1,25 @@
+> +SUMMARY =3D "Gummiboot is a simple UEFI boot manager which executes conf=
+igured EFI images."
+> +HOMEPAGE =3D "http://freedesktop.org/wiki/Software/gummiboot"
+> +
+> +LICENSE =3D "LGPLv2.1"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4fbd65380cdd255951079008b3645=
+16c"
+> +
+> +DEPENDS =3D "gnu-efi util-linux"
+> +
+> +inherit autotools
+> +inherit deploy
+> +
+> +PV =3D "43+git${SRCPV}"
+> +SRCREV =3D "4062c51075ba054d4949c714fe06123f9ad3097d"
+> +SRC_URI =3D "git://anongit.freedesktop.org/gummiboot"
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +EXTRA_OECONF =3D "--disable-manpages --with-efi-includedir=3D${STAGING_I=
+NCDIR} \
+> +                --with-efi-ldsdir=3D${STAGING_LIBDIR} \
+> +                --with-efi-libdir=3D${STAGING_LIBDIR}"
+> +
+> +do_deploy () {
+> +        install ${B}/gummiboot*.efi ${DEPLOYDIR}
+> +}
+> +addtask deploy before do_build after do_compile
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--4LwthZj+AV2mq5CX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlMzNhkACgkQN1Ujt2V2gBwDEQCgid0zcCCRLeujzGckW+RhzUu+
+AUcAn0k1YuTIuCr2nikdXwk2uBN5hS1z
+=juie
+-----END PGP SIGNATURE-----
+
+--4LwthZj+AV2mq5CX--
