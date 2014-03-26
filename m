@@ -1,38 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D615C6B1FC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id EAA2D60E07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 16:19:24 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id w5so2443093qac.20
+	Wed, 26 Mar 2014 16:34:54 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id q200so972566ykb.36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 09:19:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Fv2Ky73KjR32L0uK1CEwXAtYy538SUQGh7TX0Oj4IVQ=;
-	b=Q/zYe0ZDOVOD3UuUUfiT2+WltfnoK1HLHVsZoQ5aJyMlzUcwVLVv0n08SwjcgyHGs0
-	LM2NIOaw1v9OsUNquytINDmjnnZMpYJAb3xD5sbALqfCXCMqSLYZmdgp85wIMYTMJZfQ
-	1gqsg3vGyYGwGL2SisCShAefm27ZK4hKT9qKaTEi3RfXEjcnZ5s6tcP486OehQpNsGb4
-	wW+fSrKcj0WTB/2kLH6bKrnP26s53bau8O4+qHojr0tC+Rfr00QrpU0NZbo4o5dmBWlz
-	AvSUJPiZq/zHouiLhUdhKaoQHgZE/izkpaq+rmfQnVYASiQy7zJKA5YVp3hS1tmXtjpj
-	Jojg==
-X-Gm-Message-State: ALoCoQnF5gFGu9anJfwDrcEn2rp9baIKJEK0HujLw4RhBlgJiO0b9JrDt8KGxoZ6KYepcxOF2Ura
-X-Received: by 10.224.127.129 with SMTP id g1mr90367567qas.22.1395850765986;
-	Wed, 26 Mar 2014 09:19:25 -0700 (PDT)
+	Wed, 26 Mar 2014 09:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=MZExgq+iC/f0hnA1P88A2fM4s0DwTpKqvrUVrnbqrAQ=;
+	b=zaRvpVyja72tGs8br9ybz2bajGo/c+wyYXd3/ztapimcS8lCmAjtEcSHm6cOuNlBe6
+	WduPxBSRLFY+jQa2UNp7g4CmC0WQ4Ph9z/OvXTQml1otYS5wT2GljkDe6sMiXuzOO4lM
+	QBg9X99n/4VyT3z5OjOskmczq6iTV1JQ8ebtRszaXTmSqkj5vQVg1Z2OQSUdBXczBRBU
+	hAE91/aOcsekUwjA9Gs6/CO8jxbtcIUSa4QK3oN7p5kYzRprzPhPA8YjuCdx1BeQfDIE
+	ydJrCZWbxT6SD3q3jwlQKGqm1TOGFAOIWp9Vs6Ewk7JZf8frFdeTcFNKp+qS+/eE34nA
+	FExw==
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 09:19:05 -0700 (PDT)
-In-Reply-To: <1395844085-9929-10-git-send-email-lauren.post@freescale.com>
+X-Received: by 10.236.230.41 with SMTP id i39mr51491256yhq.14.1395851614669;
+	Wed, 26 Mar 2014 09:33:34 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Wed, 26 Mar 2014 09:33:34 -0700 (PDT)
+In-Reply-To: <CABcZAN=qBmEp4nzWwKc0=3_sb_oPk1mUWqP-M3Y8tQ6xRZJB0w@mail.gmail.com>
 References: <lauren.post@freescale.com>
 	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
-	<1395844085-9929-10-git-send-email-lauren.post@freescale.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Mar 2014 16:19:05 +0000
-Message-ID: <CAJTo0Lb8Gza45p0N4GzeGr1aT=wN8vKQVZg6=VSSxsUo-6feXw@mail.gmail.com>
-To: Lauren Post <lauren.post@freescale.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 09/11] bluez-hcidump: Change depends from bluez4 to virtual/bluez
+	<20140326145102.GB3709@jama>
+	<CABcZAN=qBmEp4nzWwKc0=3_sb_oPk1mUWqP-M3Y8tQ6xRZJB0w@mail.gmail.com>
+Date: Wed, 26 Mar 2014 13:33:34 -0300
+X-Google-Sender-Auth: GzhIb9agLrfGcaMEqseLvuhsv6g
+Message-ID: <CAP9ODKo+iWPY0Mb9ptxmhVBXCO5czW=dMC9839DaTU=fU3cDsA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Chris Larson <clarson@kergoth.com>, Lauren Post <lauren.post@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/11] Change all bluez4 references to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,15 +47,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 16:19:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Mar 2014 16:34:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 26 March 2014 14:28, Lauren Post <lauren.post@freescale.com> wrote:
-> -DEPENDS = "bluez4"
-> +DEPENDS = "virtual/bluez"
+Hello Chris,
 
-bluez-hcidump is integrated into bluez5, so this should remain as a
-DEPENDS on bluez4 and bluez5 should provide bluez-hcidump.
+On Wed, Mar 26, 2014 at 12:40 PM, Chris Larson <clarson@kergoth.com> wrote:
+>> Last time I've asked for bluez4->bluez5 upgrade path fix on target I was
+>> told that it's not supported and bluez5 isn't drop-in replacement for
+>> bluez4 (yet), did that change already?
+>
+> Afaik libbluetooth is API compatible, but the dbus api isn't. I haven't done
+> much runtime testing, though. So I don't think virtual/bluez is an
+> appropriate name given they aren't 100% compatible bluetooth implmentations
+> across the board. In meta-mentor, we moved to a combination of two
+> virtual-runtimes (for flexibility, to facilitate replacement not just with
+> bluez5, but also potentially with a third party implementation, two
+> virtual-runtimes, one for hardware support, one for the userland bluetooth
+> stack, (and potentially others in the future)) with a virtual/libbluetooth
+> build virtual, and then you need to ensure obexd/hcidump are left out of the
+> build, since they were merged into bluez5.
 
-Ross
+I did a look in meta-mentor and I think the interesting commit is:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?id=1444d8b0d3617bea503e498150e558abe5b20114
+
+and a blog post about the API changes:
+
+http://www.bluez.org/bluez-5-api-introduction-and-porting-guide/
+
+and an issue in Fedora, which might help in the migration:
+
+https://fedoraproject.org/wiki/Changes/Bluez5
+
+I don't know if someone is tracking the packages which uses the D-Bus
+API of BlueZ to be check if there are available patches for it.
+
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
