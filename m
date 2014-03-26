@@ -1,38 +1,29 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D3C316EEF3
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C8F06EEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 10:08:17 +0000 (UTC)
-Received: by mail-pd0-f170.google.com with SMTP id v10so1672175pde.29
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 03:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=B7R0wPB/PjD4weDjMUz7rALmqJdzr3o9w2DBwsCrxm8=;
-	b=PHo2vQSnxS7w8/37RrAVNc4IXzHt1kiaN2gkrJtZRwrIQ+QbuucQmES2izRT6rSjaM
-	xbGtFLWK22/OeEiHfoy56UPzMHwGLq32MCgzx4cgAZSLoQe4pRWAC1dUPkTRu4bj+2r2
-	VC319x9CCGy2yShgpAsFiMb7H7HepsOWOx560LLriiLPQLZztPN6CZXUV4Vz00HGJjid
-	ysavepS1aS3FY+Xdqih5DgDYsjWXzKxRtMggtIOz1BVHxJI7vdpr2wLfeZE2dg8V7WQD
-	+RvSLWewBSGVehOkoumyvQ5yRsG56W48AotjGsGjgtF9Puv3jRkkjhkkt++4K+WIjwHW
-	/KiA==
-X-Received: by 10.66.102.66 with SMTP id fm2mr3547155pab.51.1395828498384;
-	Wed, 26 Mar 2014 03:08:18 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([121.229.158.174])
-	by mx.google.com with ESMTPSA id
-	iu7sm56062754pbc.60.2014.03.26.03.07.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 26 Mar 2014 03:08:17 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Mar 2014 18:06:36 +0800
-Message-ID: <1601339.XSqVGrrJet@yiqingliang-pc>
-User-Agent: KMail/4.12.3 (Linux/3.13.6-1-ARCH; KDE/4.12.3; x86_64; ; )
+	Wed, 26 Mar 2014 10:09:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Mar 2014 03:04:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,734,1389772800"; d="scan'208";a="507839021"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2014 03:09:29 -0700
+Date: Wed, 26 Mar 2014 12:09:29 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: "Sarbu, Florin-Ionut (Florin)" <Florin.Sarbu@windriver.com>
+Message-ID: <20140326100929.GB32501@lpalcu-linux>
+References: <cover.1394023121.git.laurentiu.palcu@intel.com>
+	<9b59e3360cdf97a4bcde6bf979aa30dc56a84be4.1394023121.git.laurentiu.palcu@intel.com>
+	<1394142938.12327.18.camel@ted>
+	<20140307063553.GA21125@lpalcu-linux>
+	<50D17BD22A23EE4A887974F6B5882038B5484ADC@ALA-MBB.corp.ad.wrs.com>
 MIME-Version: 1.0
-Subject: serial console problem
+In-Reply-To: <50D17BD22A23EE4A887974F6B5882038B5484ADC@ALA-MBB.corp.ad.wrs.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] buildhistory.bbclass: Fix dependency files creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,85 +36,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 10:08:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 26 Mar 2014 10:09:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
-	after update to the latest git version of poky, my image can't start 
-the serial console,  i.e. I can't login, I'm using systemd as the init 
-manager. any idea?
+On Wed, Mar 26, 2014 at 09:15:43AM +0000, Sarbu, Florin-Ionut (Florin) wrote:
+> I get the same error on do_rootfs for a rpm based image:
+> 
+> Exception: UnboundLocalError: local variable 'new_arch' referenced before assignment
+Does this happen on latest master? Do you have the 4 patches, starting with this one
 
-log:
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d91e35640d19471213122d36288315f071c37432
 
-Freeing init memory: 132K
-systemd[1]: systemd 211 running in system mode. (-PAM +LIBWRAP -
-AUDIT -SELINUX +IMA +SYSVINIT -LIBCRYPTSETUP -GCRYPT +ACL +XZ -
-SECCOMP -APPARMOR)
-systemd[1]: Detected architecture 'arm'.
+in your tree? Did you activate buildhistory? Can you provide more info
+regarding the steps you followed to reproduce this?
 
-Welcome to Linux!
-
-systemd[1]: Failed to insert module 'autofs4'
-systemd[1]: Failed to insert module 'ipv6'
-systemd[1]: Set hostname to <kl360>.
-systemd[1]: Initializing machine ID from random generator.
-systemd[1]: Starting Forward Password Requests to Wall Directory 
-Watch.
-systemd[1]: Started Forward Password Requests to Wall Directory 
-Watch.
-systemd[1]: Expecting device dev-ttySAC0.device...
-         Expecting device dev-ttySAC0.device...
-systemd[1]: Starting Remote File Systems.
-[  OK  ] Reached target Remote File Systems.
-systemd[1]: Reached target Remote File Systems.
-systemd[1]: Starting Dispatch Password Requests to Console Directory 
-Watch.
-systemd[1]: Started Dispatch Password Requests to Console Directory 
-Watch.
-systemd[1]: Starting Paths.
-[  OK  ] Reached target Paths.
-systemd[1]: Reached target Paths.
-systemd[1]: Set up automount Arbitrary Executable File Formats File 
-System Automount Point.
-systemd[1]: Starting Swap.
-[  OK  ] Reached target Swap.
-systemd[1]: Reached target Swap.
-systemd[1]: Starting Root Slice.
-[  OK  ] Created slice Root Slice.
-systemd[1]: Created slice Root Slice.
-systemd[1]: Starting Journal Socket.
-[  OK  ] Listening on Journal Socket.
-systemd[1]: Listening on Journal Socket.
-systemd[1]: Starting udev Control Socket.
-[  OK  ] Listening on udev Control Socket.
-systemd[1]: Listening on udev Control Socket.
-systemd[1]: Starting Delayed Shutdown Socket.
-[  OK  ] Listening on Delayed Shutdown Socket.
-systemd[1]: Listening on Delayed Shutdown Socket.
-systemd[1]: Starting /dev/initctl Compatibility Named Pipe.
-[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
-systemd[1]: Listening on /dev/initctl Compatibility Named Pipe.
-systemd[1]: Starting udev Kernel Socket.
-[  OK  ] Listening on udev Kernel Socket.
-systemd[1]: Listening on udev Kernel Socket.
-systemd[1]: Starting User and Session Slice.
-[  OK  ] Created slice User and Session Slice.
-systemd[1]: Created slice User and Session Slice.
-systemd[1]: Starting System Slice.
-[  OK  ] Created slice System Slice.
-systemd[1]: Created slice System Slice.
-systemd[1]: Started Set Up Additional Binary Formats.
-systemd[1]: Starting Journal Service...
-         Starting Journal Service...
-[  OK  ] Started Journal Service.
-systemd[1]: Started Journal Service.
-         Starting Apply Kernel Variables...
-         Mounting POSIX Message Queue File System...
-         Starting Create list of required static device nodes...rrent 
-kernel...
-         Starting udev Coldplug all Devices...
-         Mounting Temporary Directory...
-         Starting Remount Root and Kernel File Systems...
-
+laurentiu
+> 
+> Florin
+> ________________________________________
+> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-bounces@lists.openembedded.org] on behalf of Laurentiu Palcu [laurentiu.palcu@intel.com]
+> Sent: Friday, March 07, 2014 8:35 AM
+> To: Richard Purdie
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 2/3] buildhistory.bbclass: Fix dependency files creation
+> 
+> On Thu, Mar 06, 2014 at 09:55:38PM +0000, Richard Purdie wrote:
+> > On Wed, 2014-03-05 at 14:39 +0200, Laurentiu Palcu wrote:
+> > > Call the new python routines.
+> > >
+> > > [YOCTO #5904]
+> > >
+> > > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> > > ---
+> > >  meta/classes/buildhistory.bbclass |    9 ++++++++-
+> > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> > > index ef4135b..01b0082 100644
+> > > --- a/meta/classes/buildhistory.bbclass
+> > > +++ b/meta/classes/buildhistory.bbclass
+> > > @@ -319,6 +319,12 @@ python buildhistory_list_installed() {
+> > >
+> > >      with open(pkgs_list_file, 'w') as pkgs_list:
+> > >          pkgs_list.write(list_installed_packages(d, 'file'))
+> > > +
+> > > +    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
+> > > +                                  "bh_installed_pkgs_deps.txt")
+> > > +
+> > > +    with open(pkgs_deps_file, 'w') as pkgs_deps:
+> > > +        pkgs_deps.write(list_installed_packages(d, 'deps'))
+> > >  }
+> > >
+> > >
+> > > @@ -338,7 +344,8 @@ buildhistory_get_installed() {
+> > >
+> > >     # Produce dependency graph
+> > >     # First, quote each name to handle characters that cause issues for dot
+> > > -   rootfs_list_installed_depends | sed 's:\([^| ]*\):"\1":g' > $1/depends.tmp
+> > > +   cat ${WORKDIR}/bh_installed_pkgs_deps.txt | sed 's:\([^| ]*\):"\1":g' > $1/depends.tmp && \
+> > > +           rm ${WORKDIR}/bh_installed_pkgs_deps.txt
+> > >     # Change delimiter from pipe to -> and set style for recommend lines
+> > >     sed -i -e 's:|: -> :' -e 's:"\[REC\]":[style=dotted]:' -e 's:$:;:' $1/depends.tmp
+> > >     # Add header, sorted and de-duped contents and footer and then delete the temp file
+> >
+> > With this patch, a bitbake core-image-minimal -c populate_sdk resulted
+> No, not quite. The bug appears to be in
+> RpmPM._pkg_translate_smart_to_oe(), which none of my patches touched.
+> 
+> CCing Hongxu.
+> 
+> laurentiu
+> 
+> > in:
+> >
+> > ERROR: Error executing a python function in /media/build1/poky/meta/recipes-core/images/core-image-minimal.bb:
+> >
+> > The stack trace of python calls that resulted in this exception/failure was:
+> > File: 'buildhistory_list_installed', lineno: 18, function: <module>
+> >      0014:    with open(pkgs_deps_file, 'w') as pkgs_deps:
+> >      0015:        pkgs_deps.write(list_installed_packages(d, 'deps'))
+> >      0016:
+> >      0017:
+> >  *** 0018:buildhistory_list_installed(d)
+> >      0019:
+> > File: 'buildhistory_list_installed', lineno: 9, function: buildhistory_list_installed
+> >      0005:    pkgs_list_file = os.path.join(d.getVar('WORKDIR', True),
+> >      0006:                                  "bh_installed_pkgs.txt")
+> >      0007:
+> >      0008:    with open(pkgs_list_file, 'w') as pkgs_list:
+> >  *** 0009:        pkgs_list.write(list_installed_packages(d, 'file'))
+> >      0010:
+> >      0011:    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
+> >      0012:                                  "bh_installed_pkgs_deps.txt")
+> >      0013:
+> > File: '/media/build1/poky/meta/lib/oe/rootfs.py', lineno: 721, function: list_installed_packages
+> >      0717:    if img_type == "rpm":
+> >      0718:        return RpmPM(d,
+> >      0719:                     rootfs_dir,
+> >      0720:                     d.getVar('TARGET_VENDOR', True)
+> >  *** 0721:                     ).list_installed(format)
+> >      0722:    elif img_type == "ipk":
+> >      0723:        return OpkgPM(d,
+> >      0724:                      rootfs_dir,
+> >      0725:                      d.getVar("IPKGCONF_TARGET", True),
+> > File: '/media/build1/poky/meta/lib/oe/package_manager.py', lineno: 854, function: list_installed
+> >      0850:            pkg = line.split()[0]
+> >      0851:            arch = line.split()[1]
+> >      0852:            ver = line.split()[2]
+> >      0853:            pkgorigin = line.split()[3]
+> >  *** 0854:            new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
+> >      0855:
+> >      0856:            if format == "arch":
+> >      0857:                output.append('%s %s' % (new_pkg, new_arch))
+> >      0858:            elif format == "file":
+> > File: '/media/build1/poky/meta/lib/oe/package_manager.py', lineno: 476, function: _pkg_translate_smart_to_oe
+> >      0472:
+> >      0473:            if found == 1 and fixed_arch == fixed_cmp_arch:
+> >      0474:                break
+> >      0475:        #bb.note('%s, %s -> %s, %s' % (pkg, arch, new_pkg, new_arch))
+> >  *** 0476:        return new_pkg, new_arch
+> >      0477:
+> >      0478:    def _search_pkg_name_in_feeds(self, pkg, feed_archs):
+> >      0479:        for arch in feed_archs:
+> >      0480:            arch = arch.replace('-', '_')
+> > Exception: UnboundLocalError: local variable 'new_arch' referenced before assignment
+> >
+> > ERROR: Function failed: buildhistory_list_installed
+> > ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.d
+> >
+> >
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
