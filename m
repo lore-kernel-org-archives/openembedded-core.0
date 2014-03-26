@@ -1,24 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A112B6FA9D
+Return-Path: <jori@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 2242B60DFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 07:01:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2Q71V4d000162
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 00:01:31 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 26 Mar 2014 00:01:31 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Mar 2014 03:01:28 -0400
-Message-ID: <cover.1395816581.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Wed, 26 Mar 2014 07:29:04 +0000 (UTC)
+Received: from sestows930 (172.16.140.39) by smtp.enea.com (172.21.1.208) with
+	Microsoft SMTP Server id 14.3.158.1; Wed, 26 Mar 2014 08:29:00 +0100
+Received: by sestows930 (Postfix, from userid 1000)	id 3224B1801E1; Wed, 26
+	Mar 2014 08:29:00 +0100 (CET)
+Date: Wed, 26 Mar 2014 08:29:00 +0100
+From: Jonas Eriksson <jonas.eriksson@enea.com>
+To: Andrea Adami <andrea.adami@gmail.com>
+Message-ID: <20140326072900.GF5752@enea.com>
+References: <1395676565-14427-1-git-send-email-jonas.eriksson@enea.com>
+	<1395676565-14427-2-git-send-email-jonas.eriksson@enea.com>
+	<CAAQYJAvbzVjJkKQ+xZkwMBXtvWQZR-XYnG1Fn56Euj-Dih8_Ow@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] util-linux-native: fix qsort_r for CentOS 5.10
+In-Reply-To: <CAAQYJAvbzVjJkKQ+xZkwMBXtvWQZR-XYnG1Fn56Euj-Dih8_Ow@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: jonas.eriksson@enea.com does not
+	designate permitted sender hosts)
+Cc: Josep Puigdemont <josep.puigdemont@enea.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cpio rootfs build: Avoid modifying rootfs dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 07:01:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Mar 2014 07:29:06 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-The following changes since commit 43d717df16312a8f0333aff6b8b037b4b9d51bf3:
+Hi Andrea,
 
-  toaster.bbclass: update buildstats event data (2014-03-25 14:19:57 +0000)
+On Wed, Mar 26, 2014 at 00:04:55 +0100 Andrea Adami wrote:
+> I admit I did not encounter this race, still I tested the patch
+> because it caught my attention.
+> 
+> There are some rare cases where init is a symlink pointing to a custom
+> executable so the previous test was specifically done in order to
+> avoid to touch a symlink.
 
-are available in the git repository at:
+Yes, that makes sense. It's however a bit problematic to alter
+the rootfs directory after the do_rootfs has finished executing.
+This is why the ./init append was moved to work with a separate
+directory.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/ul
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ul
+To clarify around the symlink situation: The patch moves from a
+-L to a -e to make sure that we don't append the ./init to the
+cpio if there is any kind of ./init in the rootfs directory, be
+it a file or a symlink.
 
-Robert Yang (1):
-  util-linux-native: fix qsort_r for CentOS 5.10
+> I was initially afraid of the change but actually the test is done
+> after the creation of the cpio so this patch doesn't seem to break our
+> special case.
+> 
+> Acked-by: Andrea Adami <andrea.adami@gmail.com>
 
- .../util-linux/util-linux-native-qsort.patch       |   34 ++++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.24.1.bb  |    4 ++-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+Thanks for the feedback and Ack!
 
--- 
-1.7.10.4
-
+/Jonas
 
