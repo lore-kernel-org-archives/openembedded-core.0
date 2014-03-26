@@ -1,39 +1,40 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
-	[209.85.219.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C01D6E9F2
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A4966B8BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 20:45:26 +0000 (UTC)
-Received: by mail-oa0-f46.google.com with SMTP id i7so3258157oag.33
+	Wed, 26 Mar 2014 21:07:37 +0000 (UTC)
+Received: by mail-yh0-f46.google.com with SMTP id b6so2714753yha.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 13:45:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=BZbgP55hXdeYmtjh7XTirS5M5pCjIAq2YjQV+CMzWoQ=;
-	b=a0MKBQ/jDAqYa3xLWyO73GH7U7FVMq8AscF/wzpJ9BtsDE0moYgwAVU1MeIOGN1OFY
-	h1c1wjoKgO6m35dnrIPXPzITjMuCsFdtVZrjiSG4gQlj7XUBwdtk2kcV8ye9eE2KWO99
-	/kNBr0JUU6zFrSOGqN3vWAK08fiKS4KFEE1gOc7fVgA+0IgnHl7lVeJPYVD+Mql7n6Cp
-	HTlmJbBR7vju940HtF63iUa/2Sm6962ywx9nUoEe8/3PgQh8bAefQj9P/pTb3oV5a6Vx
-	L4+TMskdDssuZQWiG//yBbZoci4OXIvx53BryRD4hsXxZbUVY0fMHbHRyKk4IgX7ZM09
-	Q3gg==
-X-Gm-Message-State: ALoCoQlHPekyblPLlAiNt1zuaf8ASu6ZJAQLl3j3d59y2KQuT/DaqBTHStRJ6QSkVc/GC4dFPnTy
-X-Received: by 10.182.2.42 with SMTP id 10mr3112674obr.73.1395866727984; Wed,
-	26 Mar 2014 13:45:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.76.110.9 with HTTP; Wed, 26 Mar 2014 13:45:07 -0700 (PDT)
-In-Reply-To: <CAP9ODKoSO6ewoim_4c6N15C5-uQz0XQ3kPam421mYRPhRcWoNg@mail.gmail.com>
-References: <1395676843.24890.7.camel@ted> <5330C9A8.904@linaro.org>
-	<20140325055028.GA3710@jama> <5332E520.5050005@linaro.org>
-	<CAP9ODKoSO6ewoim_4c6N15C5-uQz0XQ3kPam421mYRPhRcWoNg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 26 Mar 2014 21:45:07 +0100
-Message-ID: <CAP71Wjz2MD52m_ij09nCRZoDh6iJfojae7sJYK4ZwSqZ_qGVZQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: yocto <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: --conf Was: Features in Yocto Project 1.7
+	Wed, 26 Mar 2014 14:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=h+xRLwI6ER8LqX4/oE0cTGAWdQnJQdictI7TS0Tvue4=;
+	b=wombhamVrdLVSIr8ZBEfjoYeXuKHjUCZX/DuVyA4BA2PFLIePQC3Qn9jgv6XOK9L3t
+	3/uWReop5bE18bSFmv9ykJAxWUdGClRnESg+Q0u5r8OkBMbPpbdcSR6ETLKxxsuMBli/
+	0oq4iogfsyNvOFEn80z1cBMWaQ33NHeacoq8yS11oM40aqOHCkBj6MVnm7Rsb1xQJTcW
+	yUfPadEgtkgZxjG0a+g/hb/rNYR04Jx25McAmgb7djztz1qMCaqtJQbsjiUMzZhtRD5m
+	x6S7rKA89rBsGi5T19IgSE/QvHl17jdbyLyf+3hWEmQfb0z01VWDTkbqZHencFHmP5H7
+	kJuA==
+X-Received: by 10.236.110.77 with SMTP id t53mr70026476yhg.78.1395868058804;
+	Wed, 26 Mar 2014 14:07:38 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.194.208.225])
+	by mx.google.com with ESMTPSA id
+	k23sm21631553yhj.45.2014.03.26.14.07.37 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Mar 2014 14:07:38 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 8713D19C81F39; Wed, 26 Mar 2014 18:07:34 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 18:07:33 -0300
+Message-Id: <1395868053-27393-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.9.1
+Organization: O.S. Systems Software LTDA.
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] weston : refactor to identify EGL, cairoglesv2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 20:45:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Mar 2014 21:07:41 -0000
 
-On Wed, Mar 26, 2014 at 3:38 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
->> As a concrete example, currently I'm flipping between dora and master
->> builds. For some reason I can't seem to reuse the same TMPDIR between
->> them. So every time I "repo init -b <newbranch>" I then also have to
->> edit conf/local.conf before bitbaking.
->
-> Use separated build directories for this, so you don't need to mangle
-> conf/local.conf every time.
->
-> Personally I have different trees for Dora and Master and inside it I
-> have several build directories when working in this kind of test
-> (different distro features and like) and this is easy to maintain. For
-> auto builder, we cooked a script to abstract the configuration in
-> command line options so we can easily extend it and get it used in
-> several build jobs.
+From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
 
-I do that too. build folders are 'cheap' assuming good use of sstate
-and rm_work. my typical setup is:
-- one workspace for each OE release branch (trees checkout)
-- one <build> folder for each combination of <distro>-<machine>
-- one shared downloads folder for *all* builds across all workspace
-- one shared ssate for each workspace . i am not sharing sstate across
-OE releases, mostly because sstate-cache-management would always
-delete the wrong stuff otherwise.
+Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-graphics/wayland/weston_1.4.0.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+index e0c354d..a41b5cd 100644
+--- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+@@ -23,7 +23,6 @@ EXTRA_OECONF = "--enable-setuid-install \
+                 --enable-simple-clients \
+                 --enable-clients \
+                 --enable-demo-clients-install \
+-                --disable-simple-egl-clients \
+                 --disable-libunwind \
+                 --disable-rpi-compositor \
+                 --disable-rdp-compositor"
+@@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev way
+ # Weston on KMS
+ PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa mtdev"
+ # Weston on Wayland (nested Weston)
+-PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl --disable-wayland-compositor,virtual/mesa"
++PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
+ # Weston on X11
+ PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
+ # Headless Weston
+@@ -50,6 +49,10 @@ PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,ude
+ PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam drm"
+ # VA-API desktop recorder
+ PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
++# Weston with EGL support
++PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
++# Weston with cairo glesv2 support
++PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+-- 
+1.9.1
+
 
