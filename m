@@ -1,42 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A02E6EC83
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 609F36F7D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 16:52:04 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id w7so2865112qcr.8
+	Wed, 26 Mar 2014 17:00:52 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id w5so2544766qac.34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 09:52:05 -0700 (PDT)
+	Wed, 26 Mar 2014 10:00:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=H2SQX+VgFNyL5/UTFMWF8/3ZKVgckjOmgkthTe2VQ9g=;
-	b=doo7iohmpEa7Pfus4guiszhzN9+7bT+Jyng/C/5xA3yAtdywhPda6zJ2NadLKtStwi
-	pjbRIGDyF2dbErzWhS2YXa79X0krQBcQ5IsNKxtgO67tvHpW2FMfYBFK6oyAVgdJuyuu
-	oKclJ2FSgUTFbeCCosUfW8yV4si6EgbM0/UuEzOvgjo7jLfBJezxeVhX7h2nUFaaKoX6
-	nTPSpnbxPdZv3ILe1/uhTQ1vcBD95veH6KXM4k+hs2P95WeOOUs1aQ2T1kIsS65vU0Xw
-	9E4DkjMK7j9QdSurcKhO+dzY9jr3+qtZ7dAnXXAaVsoIXOUVqMCvzKPVhcfOp/FU614p
-	hhxw==
-X-Gm-Message-State: ALoCoQkE3yZf13Drwn7lw8db5+mdYd1CgWwW2FKUmG7irtELjhxI5ggozKorX2R3u5sYOdjEqJUD
-X-Received: by 10.224.160.142 with SMTP id n14mr92590662qax.17.1395852724934; 
-	Wed, 26 Mar 2014 09:52:04 -0700 (PDT)
+	bh=baNfYARp7OIkS3W7Exky9bxX7vf0PPG42cZ95ungiWY=;
+	b=Lgy5Wki0FrShD5oJLEPzB/eWNGvMjsoOiBsAgP+OCC6TrXuYPkw2EJ/a8Kyu61ukLk
+	3v4mAAo4wPPxIMuDWo4EX97JU1YY6HTAOB/+yrIP0M82CUklMyq4Rr3e7kNaSdpoxtGU
+	C2Qc5Ub0Nriq/OMwhla7E73fTcImJvk/VBw2YYWZZJkwnj15o4zjcK28qhQ6wIWzikDf
+	P+/ctEWKAOeqU4JxYV7HKo1YApONU/K41hnUZm7Go4DVfLc4e59+FV5jNMAMuE0gWkfB
+	fYh4KbNY0HRalEO0WN56UOrRpw1d5CcQjAdQAYZHgvoCTVDL6apY2MlhQoyOxsJH5Urf
+	f4BA==
+X-Gm-Message-State: ALoCoQl9B4pDuL23fcKr+/GH3WZ1kuSM9VSjSgoLGtpAuxEJfOVMMRXjDPeD53z1cJWmvU31Wdsn
+X-Received: by 10.140.42.9 with SMTP id b9mr17264319qga.87.1395853253973; Wed,
+	26 Mar 2014 10:00:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 09:51:44 -0700 (PDT)
-In-Reply-To: <CAP9ODKo+iWPY0Mb9ptxmhVBXCO5czW=dMC9839DaTU=fU3cDsA@mail.gmail.com>
+Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 10:00:33 -0700 (PDT)
+In-Reply-To: <1395844085-9929-11-git-send-email-lauren.post@freescale.com>
 References: <lauren.post@freescale.com>
 	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
-	<20140326145102.GB3709@jama>
-	<CABcZAN=qBmEp4nzWwKc0=3_sb_oPk1mUWqP-M3Y8tQ6xRZJB0w@mail.gmail.com>
-	<CAP9ODKo+iWPY0Mb9ptxmhVBXCO5czW=dMC9839DaTU=fU3cDsA@mail.gmail.com>
+	<1395844085-9929-11-git-send-email-lauren.post@freescale.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Mar 2014 16:51:44 +0000
-Message-ID: <CAJTo0Ladg4Un7KnOnApc5wS1r4P=R7oN=PNcksyOen2AqhbezA@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Chris Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/11] Change all bluez4 references to virtual/bluez
+Date: Wed, 26 Mar 2014 17:00:33 +0000
+Message-ID: <CAJTo0LaYpYNTwFGoqCh=PHJ=Zo2cqvFVNryLpyeShCG3MY6rZA@mail.gmail.com>
+To: Lauren Post <lauren.post@freescale.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/11] default-providers: Add virtual/bluez PROVIDER support to bluez4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,16 +45,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 16:52:08 -0000
+X-List-Received-Date: Wed, 26 Mar 2014 17:00:55 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 26 March 2014 16:33, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> I don't know if someone is tracking the packages which uses the D-Bus
-> API of BlueZ to be check if there are available patches for it.
+On 26 March 2014 14:28, Lauren Post <lauren.post@freescale.com> wrote:
+>  # There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
+>  # on this rather strange entry.
+> -PREFERRED_PROVIDER_bluez4 ?= "bluez4"
+> +PREFERRED_PROVIDER_virtual/bluez ?= "bluez4"
 
-So the big problem is PulseAudio.  It finally supports Bluez5 with the
-latest release but migrating to Bluez5 right now means a regression in
-bluetooth headset support, IIRC.
+Pretty sure you'll want to keep this as it is due to the bug referred to.
 
 Ross
 
