@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 609F36F7D3
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F5EF6EE45
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 17:00:52 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id w5so2544766qac.34
+	Wed, 26 Mar 2014 17:03:35 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id 63so1217244qgz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 10:00:54 -0700 (PDT)
+	Wed, 26 Mar 2014 10:03:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=baNfYARp7OIkS3W7Exky9bxX7vf0PPG42cZ95ungiWY=;
-	b=Lgy5Wki0FrShD5oJLEPzB/eWNGvMjsoOiBsAgP+OCC6TrXuYPkw2EJ/a8Kyu61ukLk
-	3v4mAAo4wPPxIMuDWo4EX97JU1YY6HTAOB/+yrIP0M82CUklMyq4Rr3e7kNaSdpoxtGU
-	C2Qc5Ub0Nriq/OMwhla7E73fTcImJvk/VBw2YYWZZJkwnj15o4zjcK28qhQ6wIWzikDf
-	P+/ctEWKAOeqU4JxYV7HKo1YApONU/K41hnUZm7Go4DVfLc4e59+FV5jNMAMuE0gWkfB
-	fYh4KbNY0HRalEO0WN56UOrRpw1d5CcQjAdQAYZHgvoCTVDL6apY2MlhQoyOxsJH5Urf
-	f4BA==
-X-Gm-Message-State: ALoCoQl9B4pDuL23fcKr+/GH3WZ1kuSM9VSjSgoLGtpAuxEJfOVMMRXjDPeD53z1cJWmvU31Wdsn
-X-Received: by 10.140.42.9 with SMTP id b9mr17264319qga.87.1395853253973; Wed,
-	26 Mar 2014 10:00:53 -0700 (PDT)
+	bh=u2LK+ON8tQpCxTGKoZgkhobMTJcrfhK/JTlpu94fHkg=;
+	b=PujXNCt7CQop90BU0wkYgEsQdYBWSsC31FoEj7/9zZ48VmJOYq7EKXzOHBqXH63RGx
+	xDFMYOJXACN6H0rKjMUcaqGNGaTPP3LnMJn2Sg3dtC7go/SZU9X5WNnxT+xyybOMW+P1
+	65miqQ0D3xXAaqtbt3syFg+hrmbPyDoJzttiRSN5XR1JYv+4QWk6lZKhN76EW64sDE2W
+	/s/Dk/vrWWHukvs1MuvDMRZ8qd0gcc4tq0mSSDziR9LP8nEtHHxLdxBNaHmSidLbqO59
+	xgYaF8LlgCqBnalMv1rg1RARoOwinvB8lXqE1v7mEqMf9JjKqVLMPnbokr+c3ZhdjDr2
+	rrFA==
+X-Gm-Message-State: ALoCoQnIfKDx8T07zPg4VzV+o56LqxxiHtZ3g93mkC9RrUJl5TgyCooHo3KNYk8Yf7H8GdMC3GgQ
+X-Received: by 10.140.81.112 with SMTP id e103mr3641406qgd.99.1395853416129;
+	Wed, 26 Mar 2014 10:03:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 10:00:33 -0700 (PDT)
-In-Reply-To: <1395844085-9929-11-git-send-email-lauren.post@freescale.com>
+Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 10:03:16 -0700 (PDT)
+In-Reply-To: <1395844085-9929-9-git-send-email-lauren.post@freescale.com>
 References: <lauren.post@freescale.com>
 	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
-	<1395844085-9929-11-git-send-email-lauren.post@freescale.com>
+	<1395844085-9929-9-git-send-email-lauren.post@freescale.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Mar 2014 17:00:33 +0000
-Message-ID: <CAJTo0LaYpYNTwFGoqCh=PHJ=Zo2cqvFVNryLpyeShCG3MY6rZA@mail.gmail.com>
+Date: Wed, 26 Mar 2014 17:03:16 +0000
+Message-ID: <CAJTo0LahPOOx1NrmkfNs++by93kX5uY24ga1ES79Gu7Mf8OsUQ@mail.gmail.com>
 To: Lauren Post <lauren.post@freescale.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/11] default-providers: Add virtual/bluez PROVIDER support to bluez4
+Subject: Re: [PATCH 08/11] gstreamer1.0-plugins-bad: Change PACKAGECONFIG from bluez4 to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,16 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 17:00:55 -0000
+X-List-Received-Date: Wed, 26 Mar 2014 17:03:36 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 26 March 2014 14:28, Lauren Post <lauren.post@freescale.com> wrote:
->  # There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
->  # on this rather strange entry.
-> -PREFERRED_PROVIDER_bluez4 ?= "bluez4"
-> +PREFERRED_PROVIDER_virtual/bluez ?= "bluez4"
+> This allows easy transition to bluez5 in future
 
-Pretty sure you'll want to keep this as it is due to the bug referred to.
+I'd say that whilst you're editing this file the duplication should be
+removed, but gst-plugins-bad has this in configure.ac:
+
+  PKG_CHECK_MODULES([BLUEZ], [bluez < 5.0],
+
+So no, I don't think this will work.
 
 Ross
 
