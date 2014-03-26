@@ -1,38 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id F12C06F9B5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 67D886BFF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 22:12:28 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id e89so1690459qgf.5
+	Wed, 26 Mar 2014 22:29:36 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2QMTV11007993 for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 22:29:31 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id u8aaJrHxvWyb
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:12:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=50nmTL5dLz6NmmXUFvDffEg7SXoyLOC1CWNUXKv2ff0=;
-	b=J9uRJ80GywITMNxGtETGU1s/e5tt24zvYTYsuzligBc8UAtQEHKDp3Eo+vTOKgZ7HY
-	RWZs8b5speqe/Av0z4ng3Ao2eC8xoK0ldjh1TWHop2mLzcKA5jnTlUeJUb6q2VfqiVD1
-	2hCaV5emBHRu3a51dy+I8oahwp6zlwxzT2YOUQYUzUTGYKpAU+ap+vl5HDppIfkcHpmf
-	qfAZKOFFvqJ915jVycLHyDJZ1/Uk+64uhJ+7oz2wcDagEicxL2ZQABRdNKIJ/zyxYViF
-	/s93LgsO1Ue093n2aaYN+vvky0/AvQLn+DY/6lh3JFlm0xK59rZmPcluBMkzUMuNyYOS
-	vdww==
-X-Gm-Message-State: ALoCoQm8P3wnhdryhpQL5tfTIhOkFwff8Bg7waP9Q31rfYE7mLccddW6wjLJsq+kr2w2xveqcdV9
-X-Received: by 10.140.106.195 with SMTP id e61mr87427838qgf.66.1395871948717; 
-	Wed, 26 Mar 2014 15:12:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Wed, 26 Mar 2014 15:12:08 -0700 (PDT)
-In-Reply-To: <CAMKF1soKZqqmQUVCQnUqS1GV1FO5KictTO+=up=d7Jw3+QhXMw@mail.gmail.com>
-References: <CAMKF1soKZqqmQUVCQnUqS1GV1FO5KictTO+=up=d7Jw3+QhXMw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Mar 2014 22:12:08 +0000
-Message-ID: <CAJTo0LYF0VNwy7=rhmr7U_=tXwJtPOax3AKttn66q3qD_QXd2w@mail.gmail.com>
-To: OE-devel <openembedded-devel@lists.openembedded.org>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] initial support for musl libc with OE/Yocto Project
+	Wed, 26 Mar 2014 22:29:31 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2QMTQ5S007984
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 22:29:28 GMT
+Message-ID: <1395872960.24890.113.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 22:29:20 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] git: Fix perl paths in scripts and population of the perltools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,15 +38,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 22:12:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Mar 2014 22:29:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 26 March 2014 22:04, Khem Raj <raj.khem@gmail.com> wrote:
-> There were interest in other threads in having musl as an alternative
-> to eglibc/uclibc that we already have in OE, in that direction I have
-> poured in my on and off work and put it into a contrib tree
+References to "perl-native" were slipping into the target packages. These
+changes ensure those references are cleaned up and that tools using perl
+are packaged in the correct perltools package. The same issues affected
+the nativesdk-git output so are also applied there.
 
-Blimey Khem that was quick. :)
+[YOCTO #5918]
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 5d02343..f5013f1 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -34,12 +34,24 @@ do_install () {
+ 	rmdir ${D}${exec_prefix}/lib || true
+ }
+ 
++PERLSEDFIXUP = " \
++	sed -i -e 's#${STAGING_BINDIR_NATIVE}/perl-native/#${bindir}/#' \
++	       -e 's#${libdir}/perl-native/#${libdir}/#' \
++	    ${@d.getVar("PERLTOOLS", True).replace(' /',d.getVar('D', True) + '/')} \
++"
++
++do_install_append_class-target () {
++	${PERLSEDFIXUP}
++}
++
++do_install_append_class-nativesdk () {
++	${PERLSEDFIXUP}
++}
++
+ FILES_${PN} += "${datadir}/git-core ${libxecdir}/git-core/"
+ FILES_${PN}-dbg += "${libexecdir}/git-core/.debug"
+ 
+-# Git tools requiring perl
+-PACKAGES =+ "${PN}-perltools"
+-FILES_${PN}-perltools += " \
++PERLTOOLS = " \
+     ${libexecdir}/git-core/git-add--interactive \
+     ${libexecdir}/git-core/git-archimport \
+     ${libexecdir}/git-core/git-cvsexportcommit \
+@@ -50,6 +62,19 @@ FILES_${PN}-perltools += " \
+     ${libexecdir}/git-core/git-relink \
+     ${libexecdir}/git-core/git-send-email \
+     ${libexecdir}/git-core/git-svn \
++    ${libexecdir}/git-core/git-instaweb \
++    ${libexecdir}/git-core/git-submodule \
++    ${libexecdir}/git-core/git-am \
++    ${libexecdir}/git-core/git-request-pull \
++    ${datadir}/gitweb/gitweb.cgi \
++    ${datadir}/git-core/templates/hooks/prepare-commit-msg.sample \
++    ${datadir}/git-core/templates/hooks/pre-rebase.sample \
++"
++
++# Git tools requiring perl
++PACKAGES =+ "${PN}-perltools"
++FILES_${PN}-perltools += " \
++    ${PERLTOOLS} \
+     ${datadir}/perl \
+ "
+ RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
+
+
 
