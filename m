@@ -1,30 +1,24 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 77534610D8
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A7A596FA80
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 07:40:31 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id s2Q7eQId016067;
-	Wed, 26 Mar 2014 08:40:31 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0387.000; Wed, 26 Mar 2014 08:40:26 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] SDK build refers to existing installed SDK
-Thread-Index: Ac9ICdNJSCWIhmk1SLiAWfXaEUWoLgAkJd2AAArlBrg=
-Date: Wed, 26 Mar 2014 07:40:26 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3A652E@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A5F1C@post.tritech.se>,
-	<39D03392-2417-45CF-BD80-D160E8C466EE@gmail.com>
-In-Reply-To: <39D03392-2417-45CF-BD80-D160E8C466EE@gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+	Wed, 26 Mar 2014 07:51:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2Q7pRjn000567
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 00:51:27 -0700 (PDT)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 26 Mar 2014 00:51:27 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 15:52:11 +0800
+Message-ID: <1395820331-20426-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: SDK build refers to existing installed SDK
+Subject: [PATCH] setserial: package depends on groff-native to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 07:40:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Mar 2014 07:51:28 -0000
+Content-Type: text/plain
 
-On Wednesday, March 26, 2014 4:23 AM, Khem Raj wrote:=0A=
-> > Hi,=0A=
-> >=0A=
-> > I just ran into an unexpected error while doing some multitasking.=0A=
-> > Project is based on OE-core Dora "distroless".=0A=
-> >=0A=
-> > While my build machine was busy building a new SDK using "-c populate_s=
-dk" I simultaneously deleted an older SDK that was installed under /usr/loc=
-al and installed a different one. This resulted in the build stopping with =
-the following error:=0A=
-> >=0A=
-> > | x86_64-oesdk-linux-gcc  --sysroot=3D/home/makr/projects/xxx/svn/main/=
-trunk/oe/build/tmp/sysroots/x86_64-nativesdk-oesdk-linux -DHAVE_CONFIG_H -I=
-../ncurses -I/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/work/x86_6=
-4-nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses -is=
-ystem/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/sysroots/x86_64-na=
-tivesdk-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr=
-/include -D_GNU_SOURCE -DNDEBUG -I. -I../include -I/home/makr/projects/xxx/=
-svn/main/trunk/oe/build/tmp/work/x86_64-nativesdk-oesdk-linux/nativesdk-ncu=
-rses/5.9-r15.1/ncurses-5.9/ncurses/../include -I/usr/local/oecore-x86_64/sy=
-sroots/x86_64-oesdk-linux/usr/include -isystem/home/makr/projects/xxx/svn/m=
-ain/trunk/oe/build/tmp/sysroots/x86_64-nativesdk-oesdk-linux/usr/local/oeco=
-re-x86_64/sysroots/x86_64-oesdk-linux/usr/include -O2 -pipe  --param max-in=
-line-insns-single=3D1200 -fPIC -c /home/makr/projects/xxx/svn/main/trunk/oe=
-/build/tmp/work/x86_64-=0A=
-> > nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses/b=
-ase/lib_beep.c -o ../obj_s/lib_beep.o=0A=
-> > | cc1: error: /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/=
-include: Permission denied=0A=
-> >=0A=
-> > The offending directory is given with an include directive which seems =
-strange, building a new SDK should not poke around in an old one...=0A=
-> >=0A=
-> > Config & log files available on request.=0A=
-> =0A=
-> Was the installed SDK in your path that fed into the OE build env which w=
-as generating new SDK ?=0A=
-=0A=
-No, it was not.=0A=
-I have saved the output of "bitbake nativesdk-ncurses -e" if you're interes=
-ted.=0A=
-=0A=
-BR // Mats=0A=
+From: Yue Tao <Yue.Tao@windriver.com>
+
+Signed-off-by: Jonas Zetterberg <jonas.zetterberg@windriver.com>
+Signed-off-by: Yue Tao <yue.tao@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/recipes-bsp/setserial/setserial_2.17.bb |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
+index 65d6068..f1e8cd3 100644
+--- a/meta/recipes-bsp/setserial/setserial_2.17.bb
++++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
+@@ -8,6 +8,8 @@ LICENSE = "GPLv2.0"
+ LIC_FILES_CHKSUM = "file://version.h;beginline=1;endline=6;md5=2e7c59cb9e57e356ae81f50f4e4dfd99"
+ PR = "r3"
+ 
++DEPENDS += "groff-native"
++
+ inherit autotools-brokensep
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/setserial/${BPN}-${PV}.tar.gz \
+-- 
+1.7.9.5
+
 
