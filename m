@@ -1,26 +1,39 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AB5696DEDA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 864586F718
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 03:33:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2Q3XtqO028781
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Mar 2014 20:33:55 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 25 Mar 2014 20:33:55 -0700
-Message-ID: <53324AA1.6050207@windriver.com>
-Date: Wed, 26 Mar 2014 11:33:53 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
+	Wed, 26 Mar 2014 03:47:17 +0000 (UTC)
+Received: by mail-pd0-f177.google.com with SMTP id y10so1317393pdj.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Mar 2014 20:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=vmDLO2v9/YceS6FBBz3/Tg7PLSWqnAsZxynw9sy5nGE=;
+	b=jYVAxwMCTIAJ2WDh4t6+PdXYAUB13SAX7tNJJ1D0fdevrqXn0uM9SwYyCwap9vZ5rQ
+	MWdfnjl9l3a+iUn6Reg7goW1z+Z2HNsdx5KsTLFzH01ygw+etvnHYY51EbIOm2LBojNc
+	o+TW8K7VqbxI5/dvgti1Vz3++Z72rwfHJFKDxOAZehRJGuPlYTKc6wirYLX4Y0v3cRKj
+	D1WIhnoIYmiFkdmgS5mInwhB59hg+SQSMqvFPykJ+5veQb9itDEna+a1HJv8T4aqfkGy
+	mwejZAf8+kQY9/GZsc57jAF/uE/y9kZ6SgWBr8JTdLlK2JkoH2+4tZAv+35A7bxmtDJg
+	mYuQ==
+X-Received: by 10.68.7.66 with SMTP id h2mr82724953pba.91.1395805637561;
+	Tue, 25 Mar 2014 20:47:17 -0700 (PDT)
+Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.30]) by mx.google.com with ESMTPSA id
+	vb7sm51849935pbc.13.2014.03.25.20.47.15 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 25 Mar 2014 20:47:16 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <53324AA1.6050207@windriver.com>
+Date: Tue, 25 Mar 2014 20:47:13 -0700
+Message-Id: <87B6FDC2-D8B6-42FF-973C-58350A818179@gmail.com>
 References: <cover.1394948105.git.raj.khem@gmail.com>	<a856ac4a0c03a5374e8e2f3567a213f09f33c10b.1394948105.git.raj.khem@gmail.com>	<53322B15.3000807@windriver.com>
 	<CAMKF1sqtuqieAvjD+OAePAeC5D-OP31sRvubvGxAnWj4QYx+jw@mail.gmail.com>
-In-Reply-To: <CAMKF1sqtuqieAvjD+OAePAeC5D-OP31sRvubvGxAnWj4QYx+jw@mail.gmail.com>
+	<53324AA1.6050207@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+X-Mailer: Apple Mail (2.1874)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 5/7] util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
@@ -36,119 +49,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 03:33:58 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 26 Mar 2014 03:47:18 -0000
+X-Groupsio-MsgNum: 51593
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_2009D1DC-1081-4C88-B233-8F19AD95EE67";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_2009D1DC-1081-4C88-B233-8F19AD95EE67
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=windows-1252
+
+
+On Mar 25, 2014, at 8:33 PM, Robert Yang <liezhi.yang@windriver.com> =
+wrote:
+
+> Thanks for the quick response, it is glibc-2.5-118.el5_10.2.
+
+That says it then %ms was added in 2.7 onwards. One thing you could try =
+is
+convert the configvars to be target applicable only e.g.
+
+CACHED_CONFIGUREVARS_append_class-target =3D " =
+scanf_cv_alloc_modifier=3Dms=94
+
+that should be an ok fix.=20
+-Khem
+
+--Apple-Mail=_2009D1DC-1081-4C88-B233-8F19AD95EE67
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
+iEYEARECAAYFAlMyTcIACgkQuwUzVZGdMxTzmwCfdGTh5XV+GMOxT3xU3AFfHJNT
+7dsAnRZFfgmi9rZPCg5fBj4u7loO3g8M
+=Z93P
+-----END PGP SIGNATURE-----
 
-On 03/26/2014 09:20 AM, Khem Raj wrote:
-> whats native glibc version on build host
->
-
-Thanks for the quick response, it is glibc-2.5-118.el5_10.2.
-
-// Robert
-
-> -Khem
-> On Mar 25, 2014 6:19 PM, "Robert Yang" <liezhi.yang@windriver.com> wrote:
->
->>
->> Hi Khem,
->>
->> I got an error on CentOS 5.10, seems caused by this patch:
->>
->> | /home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-
->> linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:
->> In function 'main':
->> | /home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-
->> linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151:
->> error: 'MS_PRIVATE' undeclared (first use in this function)
->> | /home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-
->> linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151:
->> error: (Each undeclared identifier is reported only once
->> | /home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-
->> linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151:
->> error: for each function it appears in.)
->> | /home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-
->> linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151:
->> error: 'MS_REC' undeclared (first use in this function)
->> | make[2]: *** [sys-utils/unshare.o] Error 1
->>
->> We can add the following lines to util-linux/sys-utils/unshare.c as a
->> workaround:
->>
->> #ifndef MS_PRIVATE
->> #define MS_PRIVATE      (1<<18) /* 262144 Private*/
->> #endif
->>
->> #ifndef MS_REC
->> #define MS_REC          0x4000  /* 16384: Recursive loopback */
->> #endif
->>
->> #ifndef MS_NOSUID
->> #define MS_NOSUID        2      /* Ignore suid and sgid bits */
->> #endif
->>
->> #ifndef MS_NOEXEC
->> #define MS_NOEXEC        8      /* Disallow program execution */
->> #endif
->>
->> #ifndef MS_NODEV
->> #define MS_NODEV         4      /* Disallow access to device special files
->> */
->> #endif
->>
->> Do you have any ideas, please ?
->>
->> // Robert
->>
->> On 03/16/2014 01:42 PM, Khem Raj wrote:
->>
->>> This patch actually makes sense for uclibc more than glibc
->>> since if we did not cache scanf_cv_alloc_modifier configure
->>> test will determine it correctly for glibc but the test does
->>> not do proper job when uclibc is involved the reason is it
->>> depends on define __GLIBC_ and uclibc unfortunately poses as
->>> glibc and defines this variable.
->>>
->>> %m is implemented in uclibc as well and we enable it so caching value of
->>> 'ms' specifier is going to work across all libcs
->>>
->>> This fixes mounting errors we see with util-linux/mount on
->>> uclibc/systemd
->>>
->>> Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount:
->>> /proc/self/mountinfo: parse error: ignore entry at line 21.
->>> Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount:
->>> /proc/self/mountinfo: parse error: ignore entry at line 22.
->>> Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: can't find /
->>> in /etc/fstab
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>    meta/recipes-core/util-linux/util-linux_2.24.1.bb | 3 ++-
->>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-core/util-linux/util-linux_2.24.1.bbb/meta/recipes-core/util-
->>> linux/util-linux_2.24.1.bb
->>> index b08d68d..aa98b65 100644
->>> --- a/meta/recipes-core/util-linux/util-linux_2.24.1.bb
->>> +++ b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
->>> @@ -17,7 +17,8 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch
->>> \
->>>    SRC_URI[md5sum] = "88d46ae23ca599ac5af9cf96b531590f"
->>>    SRC_URI[sha256sum] = "835eb6232cfab0118ef2e4fd649de0
->>> ba9f5bd1b8cbf9a7d4d84594541dec8410"
->>>
->>> -CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
->>> +CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
->>> +
->>>    EXTRA_OECONF_class-native = "${SHARED_EXTRA_OECONF} \
->>>                                 --disable-fallocate
->>> --disable-use-tty-group \
->>>    "
->>>
->>>
->
-
+--Apple-Mail=_2009D1DC-1081-4C88-B233-8F19AD95EE67--
