@@ -1,27 +1,30 @@
-Return-Path: <jori@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 2242B60DFA
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 77534610D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 07:29:04 +0000 (UTC)
-Received: from sestows930 (172.16.140.39) by smtp.enea.com (172.21.1.208) with
-	Microsoft SMTP Server id 14.3.158.1; Wed, 26 Mar 2014 08:29:00 +0100
-Received: by sestows930 (Postfix, from userid 1000)	id 3224B1801E1; Wed, 26
-	Mar 2014 08:29:00 +0100 (CET)
-Date: Wed, 26 Mar 2014 08:29:00 +0100
-From: Jonas Eriksson <jonas.eriksson@enea.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Message-ID: <20140326072900.GF5752@enea.com>
-References: <1395676565-14427-1-git-send-email-jonas.eriksson@enea.com>
-	<1395676565-14427-2-git-send-email-jonas.eriksson@enea.com>
-	<CAAQYJAvbzVjJkKQ+xZkwMBXtvWQZR-XYnG1Fn56Euj-Dih8_Ow@mail.gmail.com>
+	Wed, 26 Mar 2014 07:40:31 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s2Q7eQId016067;
+	Wed, 26 Mar 2014 08:40:31 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Wed, 26 Mar 2014 08:40:26 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] SDK build refers to existing installed SDK
+Thread-Index: Ac9ICdNJSCWIhmk1SLiAWfXaEUWoLgAkJd2AAArlBrg=
+Date: Wed, 26 Mar 2014 07:40:26 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3A652E@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A5F1C@post.tritech.se>,
+	<39D03392-2417-45CF-BD80-D160E8C466EE@gmail.com>
+In-Reply-To: <39D03392-2417-45CF-BD80-D160E8C466EE@gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
 MIME-Version: 1.0
-In-Reply-To: <CAAQYJAvbzVjJkKQ+xZkwMBXtvWQZR-XYnG1Fn56Euj-Dih8_Ow@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: jonas.eriksson@enea.com does not
-	designate permitted sender hosts)
-Cc: Josep Puigdemont <josep.puigdemont@enea.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cpio rootfs build: Avoid modifying rootfs dir
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: SDK build refers to existing installed SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 07:29:06 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Mar 2014 07:40:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrea,
-
-On Wed, Mar 26, 2014 at 00:04:55 +0100 Andrea Adami wrote:
-> I admit I did not encounter this race, still I tested the patch
-> because it caught my attention.
-> 
-> There are some rare cases where init is a symlink pointing to a custom
-> executable so the previous test was specifically done in order to
-> avoid to touch a symlink.
-
-Yes, that makes sense. It's however a bit problematic to alter
-the rootfs directory after the do_rootfs has finished executing.
-This is why the ./init append was moved to work with a separate
-directory.
-
-To clarify around the symlink situation: The patch moves from a
--L to a -e to make sure that we don't append the ./init to the
-cpio if there is any kind of ./init in the rootfs directory, be
-it a file or a symlink.
-
-> I was initially afraid of the change but actually the test is done
-> after the creation of the cpio so this patch doesn't seem to break our
-> special case.
-> 
-> Acked-by: Andrea Adami <andrea.adami@gmail.com>
-
-Thanks for the feedback and Ack!
-
-/Jonas
+On Wednesday, March 26, 2014 4:23 AM, Khem Raj wrote:=0A=
+> > Hi,=0A=
+> >=0A=
+> > I just ran into an unexpected error while doing some multitasking.=0A=
+> > Project is based on OE-core Dora "distroless".=0A=
+> >=0A=
+> > While my build machine was busy building a new SDK using "-c populate_s=
+dk" I simultaneously deleted an older SDK that was installed under /usr/loc=
+al and installed a different one. This resulted in the build stopping with =
+the following error:=0A=
+> >=0A=
+> > | x86_64-oesdk-linux-gcc  --sysroot=3D/home/makr/projects/xxx/svn/main/=
+trunk/oe/build/tmp/sysroots/x86_64-nativesdk-oesdk-linux -DHAVE_CONFIG_H -I=
+../ncurses -I/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/work/x86_6=
+4-nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses -is=
+ystem/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/sysroots/x86_64-na=
+tivesdk-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr=
+/include -D_GNU_SOURCE -DNDEBUG -I. -I../include -I/home/makr/projects/xxx/=
+svn/main/trunk/oe/build/tmp/work/x86_64-nativesdk-oesdk-linux/nativesdk-ncu=
+rses/5.9-r15.1/ncurses-5.9/ncurses/../include -I/usr/local/oecore-x86_64/sy=
+sroots/x86_64-oesdk-linux/usr/include -isystem/home/makr/projects/xxx/svn/m=
+ain/trunk/oe/build/tmp/sysroots/x86_64-nativesdk-oesdk-linux/usr/local/oeco=
+re-x86_64/sysroots/x86_64-oesdk-linux/usr/include -O2 -pipe  --param max-in=
+line-insns-single=3D1200 -fPIC -c /home/makr/projects/xxx/svn/main/trunk/oe=
+/build/tmp/work/x86_64-=0A=
+> > nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses/b=
+ase/lib_beep.c -o ../obj_s/lib_beep.o=0A=
+> > | cc1: error: /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/=
+include: Permission denied=0A=
+> >=0A=
+> > The offending directory is given with an include directive which seems =
+strange, building a new SDK should not poke around in an old one...=0A=
+> >=0A=
+> > Config & log files available on request.=0A=
+> =0A=
+> Was the installed SDK in your path that fed into the OE build env which w=
+as generating new SDK ?=0A=
+=0A=
+No, it was not.=0A=
+I have saved the output of "bitbake nativesdk-ncurses -e" if you're interes=
+ted.=0A=
+=0A=
+BR // Mats=0A=
 
