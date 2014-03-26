@@ -1,26 +1,38 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 182E06BC9C
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D3C316EEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 10:04:32 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Mar 2014 03:04:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,734,1389772800"; d="scan'208";a="507035567"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2014 03:03:55 -0700
-Date: Wed, 26 Mar 2014 12:03:54 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Mats =?iso-8859-1?Q?K=E4rrman?= <Mats.Karrman@tritech.se>
-Message-ID: <20140326100354.GA32501@lpalcu-linux>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A5F1C@post.tritech.se>
-	<39D03392-2417-45CF-BD80-D160E8C466EE@gmail.com>
-	<ED3E0BCACD909541BA94A34C4A164D4C5B3A652E@post.tritech.se>
+	Wed, 26 Mar 2014 10:08:17 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id v10so1672175pde.29
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 03:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=B7R0wPB/PjD4weDjMUz7rALmqJdzr3o9w2DBwsCrxm8=;
+	b=PHo2vQSnxS7w8/37RrAVNc4IXzHt1kiaN2gkrJtZRwrIQ+QbuucQmES2izRT6rSjaM
+	xbGtFLWK22/OeEiHfoy56UPzMHwGLq32MCgzx4cgAZSLoQe4pRWAC1dUPkTRu4bj+2r2
+	VC319x9CCGy2yShgpAsFiMb7H7HepsOWOx560LLriiLPQLZztPN6CZXUV4Vz00HGJjid
+	ysavepS1aS3FY+Xdqih5DgDYsjWXzKxRtMggtIOz1BVHxJI7vdpr2wLfeZE2dg8V7WQD
+	+RvSLWewBSGVehOkoumyvQ5yRsG56W48AotjGsGjgtF9Puv3jRkkjhkkt++4K+WIjwHW
+	/KiA==
+X-Received: by 10.66.102.66 with SMTP id fm2mr3547155pab.51.1395828498384;
+	Wed, 26 Mar 2014 03:08:18 -0700 (PDT)
+Received: from yiqingliang-pc.localnet ([121.229.158.174])
+	by mx.google.com with ESMTPSA id
+	iu7sm56062754pbc.60.2014.03.26.03.07.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 26 Mar 2014 03:08:17 -0700 (PDT)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 18:06:36 +0800
+Message-ID: <1601339.XSqVGrrJet@yiqingliang-pc>
+User-Agent: KMail/4.12.3 (Linux/3.13.6-1-ARCH; KDE/4.12.3; x86_64; ; )
 MIME-Version: 1.0
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B3A652E@post.tritech.se>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: SDK build refers to existing installed SDK
+Subject: serial console problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 10:04:35 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Mar 2014 10:08:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Mar 26, 2014 at 07:40:26AM +0000, Mats K=E4rrman wrote:
-> On Wednesday, March 26, 2014 4:23 AM, Khem Raj wrote:
-> > > Hi,
-> > >
-> > > I just ran into an unexpected error while doing some multitasking.
-> > > Project is based on OE-core Dora "distroless".
-> > >
-> > > While my build machine was busy building a new SDK using "-c populate=
-_sdk" I simultaneously deleted an older SDK that was installed under /usr/l=
-ocal and installed a different one. This resulted in the build stopping wit=
-h the following error:
-> > >
-> > > | x86_64-oesdk-linux-gcc  --sysroot=3D/home/makr/projects/xxx/svn/mai=
-n/trunk/oe/build/tmp/sysroots/x86_64-nativesdk-oesdk-linux -DHAVE_CONFIG_H =
--I../ncurses -I/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/work/x86=
-_64-nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses -=
-isystem/home/makr/projects/xxx/svn/main/trunk/oe/build/tmp/sysroots/x86_64-=
-nativesdk-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/u=
-sr/include -D_GNU_SOURCE -DNDEBUG -I. -I../include -I/home/makr/projects/xx=
-x/svn/main/trunk/oe/build/tmp/work/x86_64-nativesdk-oesdk-linux/nativesdk-n=
-curses/5.9-r15.1/ncurses-5.9/ncurses/../include -I/usr/local/oecore-x86_64/=
-sysroots/x86_64-oesdk-linux/usr/include -isystem/home/makr/projects/xxx/svn=
-/main/trunk/oe/build/tmp/sysroots/x86_64-nativesdk-oesdk-linux/usr/local/oe=
-core-x86_64/sysroots/x86_64-oesdk-linux/usr/include -O2 -pipe  --param max-=
-inline-insns-single=3D1200 -fPIC -c /home/makr/projects/xxx/svn/main/trunk/=
-oe/build/tmp/work/x86
->  _64-
-> > > nativesdk-oesdk-linux/nativesdk-ncurses/5.9-r15.1/ncurses-5.9/ncurses=
-/base/lib_beep.c -o ../obj_s/lib_beep.o
-> > > | cc1: error: /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/us=
-r/include: Permission denied
-> > >
-> > > The offending directory is given with an include directive which seem=
-s strange, building a new SDK should not poke around in an old one...
-> > >
-> > > Config & log files available on request.
-> >=20
-> > Was the installed SDK in your path that fed into the OE build env which=
- was generating new SDK ?
->=20
-> No, it was not.
-> I have saved the output of "bitbake nativesdk-ncurses -e" if you're inter=
-ested.
-I had a quick look at the generated Makefile for nativesdk-ncurses and,
-apparently, it seems to have -I${includedir} added to the compilation
-flags. This doesn't look like the right thing...
+Hi,
+	after update to the latest git version of poky, my image can't start 
+the serial console,  i.e. I can't login, I'm using systemd as the init 
+manager. any idea?
 
-laurentiu
+log:
 
->=20
-> BR // Mats
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Freeing init memory: 132K
+systemd[1]: systemd 211 running in system mode. (-PAM +LIBWRAP -
+AUDIT -SELINUX +IMA +SYSVINIT -LIBCRYPTSETUP -GCRYPT +ACL +XZ -
+SECCOMP -APPARMOR)
+systemd[1]: Detected architecture 'arm'.
+
+Welcome to Linux!
+
+systemd[1]: Failed to insert module 'autofs4'
+systemd[1]: Failed to insert module 'ipv6'
+systemd[1]: Set hostname to <kl360>.
+systemd[1]: Initializing machine ID from random generator.
+systemd[1]: Starting Forward Password Requests to Wall Directory 
+Watch.
+systemd[1]: Started Forward Password Requests to Wall Directory 
+Watch.
+systemd[1]: Expecting device dev-ttySAC0.device...
+         Expecting device dev-ttySAC0.device...
+systemd[1]: Starting Remote File Systems.
+[  OK  ] Reached target Remote File Systems.
+systemd[1]: Reached target Remote File Systems.
+systemd[1]: Starting Dispatch Password Requests to Console Directory 
+Watch.
+systemd[1]: Started Dispatch Password Requests to Console Directory 
+Watch.
+systemd[1]: Starting Paths.
+[  OK  ] Reached target Paths.
+systemd[1]: Reached target Paths.
+systemd[1]: Set up automount Arbitrary Executable File Formats File 
+System Automount Point.
+systemd[1]: Starting Swap.
+[  OK  ] Reached target Swap.
+systemd[1]: Reached target Swap.
+systemd[1]: Starting Root Slice.
+[  OK  ] Created slice Root Slice.
+systemd[1]: Created slice Root Slice.
+systemd[1]: Starting Journal Socket.
+[  OK  ] Listening on Journal Socket.
+systemd[1]: Listening on Journal Socket.
+systemd[1]: Starting udev Control Socket.
+[  OK  ] Listening on udev Control Socket.
+systemd[1]: Listening on udev Control Socket.
+systemd[1]: Starting Delayed Shutdown Socket.
+[  OK  ] Listening on Delayed Shutdown Socket.
+systemd[1]: Listening on Delayed Shutdown Socket.
+systemd[1]: Starting /dev/initctl Compatibility Named Pipe.
+[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
+systemd[1]: Listening on /dev/initctl Compatibility Named Pipe.
+systemd[1]: Starting udev Kernel Socket.
+[  OK  ] Listening on udev Kernel Socket.
+systemd[1]: Listening on udev Kernel Socket.
+systemd[1]: Starting User and Session Slice.
+[  OK  ] Created slice User and Session Slice.
+systemd[1]: Created slice User and Session Slice.
+systemd[1]: Starting System Slice.
+[  OK  ] Created slice System Slice.
+systemd[1]: Created slice System Slice.
+systemd[1]: Started Set Up Additional Binary Formats.
+systemd[1]: Starting Journal Service...
+         Starting Journal Service...
+[  OK  ] Started Journal Service.
+systemd[1]: Started Journal Service.
+         Starting Apply Kernel Variables...
+         Mounting POSIX Message Queue File System...
+         Starting Create list of required static device nodes...rrent 
+kernel...
+         Starting udev Coldplug all Devices...
+         Mounting Temporary Directory...
+         Starting Remount Root and Kernel File Systems...
+
 
