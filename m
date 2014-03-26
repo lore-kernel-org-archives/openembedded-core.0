@@ -1,31 +1,31 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C0A716F8B2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A77FC6EF94
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 13:33:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Mar 2014 06:31:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,735,1389772800"; d="scan'208";a="499904702"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Mar 2014 06:30:24 -0700
-Date: Wed, 26 Mar 2014 15:30:23 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Florin Sarbu <florin.sarbu@windriver.com>
-Message-ID: <20140326133022.GE32501@lpalcu-linux>
-References: <cover.1394023121.git.laurentiu.palcu@intel.com>
-	<9b59e3360cdf97a4bcde6bf979aa30dc56a84be4.1394023121.git.laurentiu.palcu@intel.com>
-	<1394142938.12327.18.camel@ted>
-	<20140307063553.GA21125@lpalcu-linux>
-	<50D17BD22A23EE4A887974F6B5882038B5484ADC@ALA-MBB.corp.ad.wrs.com>
-	<20140326100929.GB32501@lpalcu-linux>
-	<5332BDE4.9050300@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <5332BDE4.9050300@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] buildhistory.bbclass: Fix dependency files creation
+	Wed, 26 Mar 2014 13:48:23 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2QDmJsg019113 for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 13:48:19 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id A01Ptwo8kqcz
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 13:48:18 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2QDmCq7019103
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 13:48:14 GMT
+Message-ID: <1395841686.24890.94.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 13:48:06 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] scripts: Update after addtion of parameter to bitbake -S
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,153 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 13:33:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Mar 2014 13:48:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Please file a bug on this.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
+index 90ad2f8..e4497e0 100755
+--- a/scripts/bitbake-whatchanged
++++ b/scripts/bitbake-whatchanged
+@@ -272,7 +272,7 @@ Note:
+     try:
+         # Generate the new stamps dir
+         print("Generating the new stamps ... (need several minutes)")
+-        cmdline = "STAMPS_DIR=%s bitbake -S %s" % (new_stampsdir, recipe)
++        cmdline = "STAMPS_DIR=%s bitbake -S none %s" % (new_stampsdir, recipe)
+         # FIXME
+         # The "bitbake -S" may fail, not fatal error, the stamps will still
+         # be generated, this might be a bug of "bitbake -S".
+diff --git a/scripts/sstate-diff-machines.sh b/scripts/sstate-diff-machines.sh
+index 931f9d7..860be73 100755
+--- a/scripts/sstate-diff-machines.sh
++++ b/scripts/sstate-diff-machines.sh
+@@ -98,7 +98,7 @@ OUTPUT=${tmpdir}/sstate-diff/`date "+%s"`
+ for M in ${machines}; do
+   find ${tmpdir}/stamps/ -name \*sigdata\* | xargs rm -f
+   mkdir -p ${OUTPUT}/${M}
+-  export MACHINE=${M}; bitbake -S ${targets} | tee -a ${OUTPUT}/${M}/log;
++  export MACHINE=${M}; bitbake -S none ${targets} | tee -a ${OUTPUT}/${M}/log;
+   cp -ra ${tmpdir}/stamps/* ${OUTPUT}/${M}
+   find ${OUTPUT}/${M} -name \*sigdata\* | sed "s#${OUTPUT}/${M}/##g" | sort > ${OUTPUT}/${M}/list
+   M_UNDERSCORE=`echo ${M} | sed 's/-/_/g'`
 
-thanks,
-laurentiu
 
-On Wed, Mar 26, 2014 at 01:45:40PM +0200, Florin Sarbu wrote:
-> On 03/26/2014 12:09 PM, Laurentiu Palcu wrote:
-> >On Wed, Mar 26, 2014 at 09:15:43AM +0000, Sarbu, Florin-Ionut (Florin) wrote:
-> >>I get the same error on do_rootfs for a rpm based image:
-> >>
-> >>Exception: UnboundLocalError: local variable 'new_arch' referenced before assignment
-> >Does this happen on latest master?
-> Yes.
-> >Do you have the 4 patches, starting with this one
-> >
-> >http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d91e35640d19471213122d36288315f071c37432
-> >
-> >in your tree?
-> Yes, I have that commit in poky.
-> >  Did you activate buildhistory? Can you provide more info
-> >regarding the steps you followed to reproduce this?
-> I am trying to build the gemini-image from the meta-ivi layer
-> git@git.yoctoproject.org:meta-ivi.git The build steps are those from
-> the README.md file
-> 
-> Florin
-> >
-> >laurentiu
-> >>Florin
-> >>________________________________________
-> >>From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-bounces@lists.openembedded.org] on behalf of Laurentiu Palcu [laurentiu.palcu@intel.com]
-> >>Sent: Friday, March 07, 2014 8:35 AM
-> >>To: Richard Purdie
-> >>Cc: openembedded-core@lists.openembedded.org
-> >>Subject: Re: [OE-core] [PATCH 2/3] buildhistory.bbclass: Fix dependency files creation
-> >>
-> >>On Thu, Mar 06, 2014 at 09:55:38PM +0000, Richard Purdie wrote:
-> >>>On Wed, 2014-03-05 at 14:39 +0200, Laurentiu Palcu wrote:
-> >>>>Call the new python routines.
-> >>>>
-> >>>>[YOCTO #5904]
-> >>>>
-> >>>>Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> >>>>---
-> >>>>  meta/classes/buildhistory.bbclass |    9 ++++++++-
-> >>>>  1 file changed, 8 insertions(+), 1 deletion(-)
-> >>>>
-> >>>>diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> >>>>index ef4135b..01b0082 100644
-> >>>>--- a/meta/classes/buildhistory.bbclass
-> >>>>+++ b/meta/classes/buildhistory.bbclass
-> >>>>@@ -319,6 +319,12 @@ python buildhistory_list_installed() {
-> >>>>
-> >>>>      with open(pkgs_list_file, 'w') as pkgs_list:
-> >>>>          pkgs_list.write(list_installed_packages(d, 'file'))
-> >>>>+
-> >>>>+    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
-> >>>>+                                  "bh_installed_pkgs_deps.txt")
-> >>>>+
-> >>>>+    with open(pkgs_deps_file, 'w') as pkgs_deps:
-> >>>>+        pkgs_deps.write(list_installed_packages(d, 'deps'))
-> >>>>  }
-> >>>>
-> >>>>
-> >>>>@@ -338,7 +344,8 @@ buildhistory_get_installed() {
-> >>>>
-> >>>>     # Produce dependency graph
-> >>>>     # First, quote each name to handle characters that cause issues for dot
-> >>>>-   rootfs_list_installed_depends | sed 's:\([^| ]*\):"\1":g' > $1/depends.tmp
-> >>>>+   cat ${WORKDIR}/bh_installed_pkgs_deps.txt | sed 's:\([^| ]*\):"\1":g' > $1/depends.tmp && \
-> >>>>+           rm ${WORKDIR}/bh_installed_pkgs_deps.txt
-> >>>>     # Change delimiter from pipe to -> and set style for recommend lines
-> >>>>     sed -i -e 's:|: -> :' -e 's:"\[REC\]":[style=dotted]:' -e 's:$:;:' $1/depends.tmp
-> >>>>     # Add header, sorted and de-duped contents and footer and then delete the temp file
-> >>>With this patch, a bitbake core-image-minimal -c populate_sdk resulted
-> >>No, not quite. The bug appears to be in
-> >>RpmPM._pkg_translate_smart_to_oe(), which none of my patches touched.
-> >>
-> >>CCing Hongxu.
-> >>
-> >>laurentiu
-> >>
-> >>>in:
-> >>>
-> >>>ERROR: Error executing a python function in /media/build1/poky/meta/recipes-core/images/core-image-minimal.bb:
-> >>>
-> >>>The stack trace of python calls that resulted in this exception/failure was:
-> >>>File: 'buildhistory_list_installed', lineno: 18, function: <module>
-> >>>      0014:    with open(pkgs_deps_file, 'w') as pkgs_deps:
-> >>>      0015:        pkgs_deps.write(list_installed_packages(d, 'deps'))
-> >>>      0016:
-> >>>      0017:
-> >>>  *** 0018:buildhistory_list_installed(d)
-> >>>      0019:
-> >>>File: 'buildhistory_list_installed', lineno: 9, function: buildhistory_list_installed
-> >>>      0005:    pkgs_list_file = os.path.join(d.getVar('WORKDIR', True),
-> >>>      0006:                                  "bh_installed_pkgs.txt")
-> >>>      0007:
-> >>>      0008:    with open(pkgs_list_file, 'w') as pkgs_list:
-> >>>  *** 0009:        pkgs_list.write(list_installed_packages(d, 'file'))
-> >>>      0010:
-> >>>      0011:    pkgs_deps_file = os.path.join(d.getVar('WORKDIR', True),
-> >>>      0012:                                  "bh_installed_pkgs_deps.txt")
-> >>>      0013:
-> >>>File: '/media/build1/poky/meta/lib/oe/rootfs.py', lineno: 721, function: list_installed_packages
-> >>>      0717:    if img_type == "rpm":
-> >>>      0718:        return RpmPM(d,
-> >>>      0719:                     rootfs_dir,
-> >>>      0720:                     d.getVar('TARGET_VENDOR', True)
-> >>>  *** 0721:                     ).list_installed(format)
-> >>>      0722:    elif img_type == "ipk":
-> >>>      0723:        return OpkgPM(d,
-> >>>      0724:                      rootfs_dir,
-> >>>      0725:                      d.getVar("IPKGCONF_TARGET", True),
-> >>>File: '/media/build1/poky/meta/lib/oe/package_manager.py', lineno: 854, function: list_installed
-> >>>      0850:            pkg = line.split()[0]
-> >>>      0851:            arch = line.split()[1]
-> >>>      0852:            ver = line.split()[2]
-> >>>      0853:            pkgorigin = line.split()[3]
-> >>>  *** 0854:            new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
-> >>>      0855:
-> >>>      0856:            if format == "arch":
-> >>>      0857:                output.append('%s %s' % (new_pkg, new_arch))
-> >>>      0858:            elif format == "file":
-> >>>File: '/media/build1/poky/meta/lib/oe/package_manager.py', lineno: 476, function: _pkg_translate_smart_to_oe
-> >>>      0472:
-> >>>      0473:            if found == 1 and fixed_arch == fixed_cmp_arch:
-> >>>      0474:                break
-> >>>      0475:        #bb.note('%s, %s -> %s, %s' % (pkg, arch, new_pkg, new_arch))
-> >>>  *** 0476:        return new_pkg, new_arch
-> >>>      0477:
-> >>>      0478:    def _search_pkg_name_in_feeds(self, pkg, feed_archs):
-> >>>      0479:        for arch in feed_archs:
-> >>>      0480:            arch = arch.replace('-', '_')
-> >>>Exception: UnboundLocalError: local variable 'new_arch' referenced before assignment
-> >>>
-> >>>ERROR: Function failed: buildhistory_list_installed
-> >>>ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.d
-> >>>
-> >>>
-> >>_______________________________________________
-> >>Openembedded-core mailing list
-> >>Openembedded-core@lists.openembedded.org
-> >>http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
 
