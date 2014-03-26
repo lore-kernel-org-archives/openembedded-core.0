@@ -1,36 +1,27 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BBBC560B9B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C16CC6E78E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 23:04:55 +0000 (UTC)
-Received: by mail-la0-f43.google.com with SMTP id e16so926984lan.30
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Mar 2014 16:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=f8y8YTDwWWQ/B51thM2GIzgmA92NPCeedIqJIgCMdZs=;
-	b=eyPZ1OiDOV8EsdxImsXJWvAx3L94ELgShXFaGE+Mx2UxXu7V8tgqxjP57JSeF45/w0
-	+eWglZqKSCR2eUCwy6yDjj7Atk2Qda4ascKAhCYUAMUq3f3zNYoHj5c57S+BIOuRRq07
-	6eJ71MHJlW7DgONR8R4x3xqJtqERSmFmHN+UYtioYyniO2ZM7nXYnvrVTIQWnYay+mlv
-	7MkjMwG2cii+iVO6lCnJA6jHrpp+uL088IZtaDYyp7esssL52s39qLjbBeh5KgzcaO8l
-	5b/vspcqXCM0zkntSMZ/EbwQQzy9TCAuvHFOnCCA/UtrWPRLrmqg2fgu78z2pdkTvtQc
-	iMog==
+	Wed, 26 Mar 2014 01:19:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2Q1JJYK027911
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 25 Mar 2014 18:19:19 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 25 Mar 2014 18:19:19 -0700
+Message-ID: <53322B15.3000807@windriver.com>
+Date: Wed, 26 Mar 2014 09:19:17 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.112.200.130 with SMTP id js2mr11243145lbc.28.1395788695923; 
-	Tue, 25 Mar 2014 16:04:55 -0700 (PDT)
-Received: by 10.112.162.100 with HTTP; Tue, 25 Mar 2014 16:04:55 -0700 (PDT)
-In-Reply-To: <1395676565-14427-2-git-send-email-jonas.eriksson@enea.com>
-References: <1395676565-14427-1-git-send-email-jonas.eriksson@enea.com>
-	<1395676565-14427-2-git-send-email-jonas.eriksson@enea.com>
-Date: Wed, 26 Mar 2014 00:04:55 +0100
-Message-ID: <CAAQYJAvbzVjJkKQ+xZkwMBXtvWQZR-XYnG1Fn56Euj-Dih8_Ow@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Jonas Eriksson <jonas.eriksson@enea.com>
-Cc: Josep Puigdemont <josep.puigdemont@enea.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cpio rootfs build: Avoid modifying rootfs dir
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1394948105.git.raj.khem@gmail.com>
+	<a856ac4a0c03a5374e8e2f3567a213f09f33c10b.1394948105.git.raj.khem@gmail.com>
+In-Reply-To: <a856ac4a0c03a5374e8e2f3567a213f09f33c10b.1394948105.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 5/7] util-linux: scanf_cv_alloc_modifier changed from 'as' -> 'ms'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,65 +34,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Mar 2014 23:04:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Mar 2014 01:19:21 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 24, 2014 at 4:56 PM, Jonas Eriksson <jonas.eriksson@enea.com> wrote:
-> The Linux kernel requires that initrd images contain a /init file for
-> the image to be used as an initrd, even if it is empty. Adding it into
-> the rootfs directory creates a race, that can upset tar when building
-> both a .tar and .cpio image file ("tar: .: file changed as we read it").
-> Additionally, whether or not the tar file will contain the /init file is
-> also up to the race condition.
+
+Hi Khem,
+
+I got an error on CentOS 5.10, seems caused by this patch:
+
+| 
+/home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c: 
+In function 'main':
+| 
+/home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151: 
+error: 'MS_PRIVATE' undeclared (first use in this function)
+| 
+/home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151: 
+error: (Each undeclared identifier is reported only once
+| 
+/home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151: 
+error: for each function it appears in.)
+| 
+/home/build/lyang1/testre/bitbake_build/tmp/work/x86_64-linux/util-linux-native/2.24.1-r0/util-linux-2.24.1/sys-utils/unshare.c:151: 
+error: 'MS_REC' undeclared (first use in this function)
+| make[2]: *** [sys-utils/unshare.o] Error 1
+
+We can add the following lines to util-linux/sys-utils/unshare.c as a
+workaround:
+
+#ifndef MS_PRIVATE
+#define MS_PRIVATE      (1<<18) /* 262144 Private*/
+#endif
+
+#ifndef MS_REC
+#define MS_REC          0x4000  /* 16384: Recursive loopback */
+#endif
+
+#ifndef MS_NOSUID
+#define MS_NOSUID        2      /* Ignore suid and sgid bits */
+#endif
+
+#ifndef MS_NOEXEC
+#define MS_NOEXEC        8      /* Disallow program execution */
+#endif
+
+#ifndef MS_NODEV
+#define MS_NODEV         4      /* Disallow access to device special files */
+#endif
+
+Do you have any ideas, please ?
+
+// Robert
+
+On 03/16/2014 01:42 PM, Khem Raj wrote:
+> This patch actually makes sense for uclibc more than glibc
+> since if we did not cache scanf_cv_alloc_modifier configure
+> test will determine it correctly for glibc but the test does
+> not do proper job when uclibc is involved the reason is it
+> depends on define __GLIBC_ and uclibc unfortunately poses as
+> glibc and defines this variable.
 >
-> To avoid this problem, move the /init addition out from the rootfs
-> directory, and thus only include it in the .cpio image.
+> %m is implemented in uclibc as well and we enable it so caching value of
+> 'ms' specifier is going to work across all libcs
 >
-> Signed-off-by: Jonas Eriksson <jonas.eriksson@enea.com>
-> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
-> Cc: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> This fixes mounting errors we see with util-linux/mount on
+> uclibc/systemd
+>
+> Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: /proc/self/mountinfo: parse error: ignore entry at line 21.
+> Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: /proc/self/mountinfo: parse error: ignore entry at line 22.
+> Mar 16 01:46:40 qemux86 systemd-remount-fs[124]: /bin/mount: can't find / in /etc/fstab
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/classes/image_types.bbclass | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>   meta/recipes-core/util-linux/util-linux_2.24.1.bb | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 602c1f0..8001025 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -67,10 +67,12 @@ IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_
->  IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.24.1.bb b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+> index b08d68d..aa98b65 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+> @@ -17,7 +17,8 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+>   SRC_URI[md5sum] = "88d46ae23ca599ac5af9cf96b531590f"
+>   SRC_URI[sha256sum] = "835eb6232cfab0118ef2e4fd649de0ba9f5bd1b8cbf9a7d4d84594541dec8410"
 >
->  IMAGE_CMD_cpio () {
-> -       if [ ! -L ${IMAGE_ROOTFS}/init ]; then
-> -               touch ${IMAGE_ROOTFS}/init
-> -       fi
->         (cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-> +       if [ ! -e ${IMAGE_ROOTFS}/init ]; then
-> +               mkdir -p ${WORKDIR}/cpio_append
-> +               touch ${WORKDIR}/cpio_append/init
-> +               (cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-> +       fi
->  }
+> -CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
+> +CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
+> +
+>   EXTRA_OECONF_class-native = "${SHARED_EXTRA_OECONF} \
+>                                --disable-fallocate --disable-use-tty-group \
+>   "
 >
->  ELF_KERNEL ?= "${STAGING_DIR_HOST}/usr/src/kernel/${KERNEL_IMAGETYPE}"
-> --
-> 1.9.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-I admit I did not encounter this race, still I tested the patch
-because it caught my attention.
-
-There are some rare cases where init is a symlink pointing to a custom
-executable so the previous test was specifically done in order to
-avoid to touch a symlink.
-I was initially afraid of the change but actually the test is done
-after the creation of the cpio so this patch doesn't seem to break our
-special case.
-
-Acked-by: Andrea Adami <andrea.adami@gmail.com>
 
