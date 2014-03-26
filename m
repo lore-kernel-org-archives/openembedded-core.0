@@ -1,39 +1,31 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC426F9D2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B7556F9D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:07:13 +0000 (UTC)
-Received: by mail-yh0-f54.google.com with SMTP id f73so2201088yha.27
+	Wed, 26 Mar 2014 15:09:20 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2QF9FO6023760 for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 15:09:15 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iePcMebRcGYb
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 08:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Ptte4hOeL8XztoqPw+gwXbq7FuWLOMOlx+hAWaWnK3M=;
-	b=OnDjmP1jb2F4799X2AvjEQBtu4HAnOAFtf9JWploP/uTyjoVE8yQu57Bmv6Hoa3oAf
-	DjPBDQ0qSVYi0AvwuI/yrfOBFTWHYyygx9kmaahiLrl9ga1V2FuEESfG/vvsR2/SQbV+
-	jHeKJV5YjsL9zHP7uSJ9BxR8v5dqV4itNAaqNoMQXjSSSub9zvL4dTpZcYjkdnOFXQ7x
-	8SdTDXZLJ9zXw++Wqn8PzseuBbiFMZY10yYJkerUJIRG2oZpjiJJI+BO9mnfWOM/MdXQ
-	9xq6ct9a8829pn4Dhbyi+opam3grbet6OS1EIXcG7meSXihEp2bbxGXmCSXAg8tWaB9C
-	iPAA==
-MIME-Version: 1.0
-X-Received: by 10.236.230.41 with SMTP id i39mr50844986yhq.14.1395846434035;
-	Wed, 26 Mar 2014 08:07:14 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Wed, 26 Mar 2014 08:07:13 -0700 (PDT)
-In-Reply-To: <20140326145102.GB3709@jama>
-References: <lauren.post@freescale.com>
-	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
-	<20140326145102.GB3709@jama>
-Date: Wed, 26 Mar 2014 12:07:13 -0300
-X-Google-Sender-Auth: f4Bc6BXCbXFgDko7WaOu-if8pwo
-Message-ID: <CAP9ODKqkyfGzQROW=QZig2zvh-KrcyRFeKn9FtPndPUXWNDTUw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/11] Change all bluez4 references to virtual/bluez
+	Wed, 26 Mar 2014 15:09:15 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2QF9CBJ023752
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Mar 2014 15:09:14 GMT
+Message-ID: <1395846546.24890.100.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Mar 2014 15:09:06 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] sanity.bbclass: Update against bitbake sanity event changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 15:07:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Mar 2014 15:09:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello Martin,
+Bitbake will now trigger sanity events when it needs the checks to run in all cases
+so we can drop the ConfigParsed hook. We now control whether events are generated
+or errors are raised from the event itself.
 
-On Wed, Mar 26, 2014 at 11:51 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Wed, Mar 26, 2014 at 09:27:54AM -0500, Lauren Post wrote:
->> This group of patches support the change of hardcoded bluez4 to
->> virtual/bluez so that the upgrade to bluez5 is easier.
->>
->> This group of patches must be applied together.  Bluez4 is still
->> default provider but it will be easier to override and provide bluez5
->> support in future.
->>
->> Note there is one related patch for openobex in meta-oe.
->
-> virtual/* still doesn't work correctly in runtime variables, use
-> VIRTUAL-RUNTIME_bluez variable.
-...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index d79db8f..cf514d0 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -779,20 +779,19 @@ def copy_data(e):
+     return sanity_data
+ 
+ addhandler check_sanity_eventhandler
+-check_sanity_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.SanityCheck bb.event.NetworkTest"
++check_sanity_eventhandler[eventmask] = "bb.event.SanityCheck bb.event.NetworkTest"
+ python check_sanity_eventhandler() {
+-    if bb.event.getName(e) == "ConfigParsed" and e.data.getVar("BB_WORKERCONTEXT", True) != "1" and e.data.getVar("DISABLE_SANITY_CHECKS", True) != "1":
++    if bb.event.getName(e) == "SanityCheck":
+         sanity_data = copy_data(e)
+-        reparse = check_sanity(sanity_data)
+-        e.data.setVar("BB_INVALIDCONF", reparse)
+-    elif bb.event.getName(e) == "SanityCheck":
+-        sanity_data = copy_data(e)
+-        sanity_data.setVar("SANITY_USE_EVENTS", "1")
++        if e.generateevents:
++            sanity_data.setVar("SANITY_USE_EVENTS", "1")
+         reparse = check_sanity(sanity_data)
+         e.data.setVar("BB_INVALIDCONF", reparse)
+         bb.event.fire(bb.event.SanityCheckPassed(), e.data)
+     elif bb.event.getName(e) == "NetworkTest":
+         sanity_data = copy_data(e)
++        if e.generateevents:
++            sanity_data.setVar("SANITY_USE_EVENTS", "1")
+         bb.event.fire(bb.event.NetworkTestFailed() if check_connectivity(sanity_data) else bb.event.NetworkTestPassed(), e.data)
+ 
+     return
 
-Those patches are for /depends/. Did I miss any runtime dependency here?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
