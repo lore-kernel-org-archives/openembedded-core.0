@@ -1,40 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id EAA2D60E07
+Return-Path: <alexandrux.palalau@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CB4C60E07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 16:34:54 +0000 (UTC)
-Received: by mail-yk0-f177.google.com with SMTP id q200so972566ykb.36
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 09:34:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=MZExgq+iC/f0hnA1P88A2fM4s0DwTpKqvrUVrnbqrAQ=;
-	b=zaRvpVyja72tGs8br9ybz2bajGo/c+wyYXd3/ztapimcS8lCmAjtEcSHm6cOuNlBe6
-	WduPxBSRLFY+jQa2UNp7g4CmC0WQ4Ph9z/OvXTQml1otYS5wT2GljkDe6sMiXuzOO4lM
-	QBg9X99n/4VyT3z5OjOskmczq6iTV1JQ8ebtRszaXTmSqkj5vQVg1Z2OQSUdBXczBRBU
-	hAE91/aOcsekUwjA9Gs6/CO8jxbtcIUSa4QK3oN7p5kYzRprzPhPA8YjuCdx1BeQfDIE
-	ydJrCZWbxT6SD3q3jwlQKGqm1TOGFAOIWp9Vs6Ewk7JZf8frFdeTcFNKp+qS+/eE34nA
-	FExw==
+	Wed, 26 Mar 2014 16:38:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Mar 2014 09:33:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,736,1389772800"; d="scan'208";a="508072397"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 26 Mar 2014 09:33:54 -0700
+Received: from [10.237.108.98] (apalalax-mobl.ger.corp.intel.com
+	[10.237.108.98])
+	by linux.intel.com (Postfix) with ESMTP id AF5156A4083;
+	Wed, 26 Mar 2014 09:33:39 -0700 (PDT)
+Message-ID: <53330170.1070906@linux.intel.com>
+Date: Wed, 26 Mar 2014 18:33:52 +0200
+From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+Organization: Intel OTC
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-X-Received: by 10.236.230.41 with SMTP id i39mr51491256yhq.14.1395851614669;
-	Wed, 26 Mar 2014 09:33:34 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Wed, 26 Mar 2014 09:33:34 -0700 (PDT)
-In-Reply-To: <CABcZAN=qBmEp4nzWwKc0=3_sb_oPk1mUWqP-M3Y8tQ6xRZJB0w@mail.gmail.com>
-References: <lauren.post@freescale.com>
-	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
-	<20140326145102.GB3709@jama>
-	<CABcZAN=qBmEp4nzWwKc0=3_sb_oPk1mUWqP-M3Y8tQ6xRZJB0w@mail.gmail.com>
-Date: Wed, 26 Mar 2014 13:33:34 -0300
-X-Google-Sender-Auth: GzhIb9agLrfGcaMEqseLvuhsv6g
-Message-ID: <CAP9ODKo+iWPY0Mb9ptxmhVBXCO5czW=dMC9839DaTU=fU3cDsA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Chris Larson <clarson@kergoth.com>, Lauren Post <lauren.post@freescale.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/11] Change all bluez4 references to virtual/bluez
+To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1395852491-32086-1-git-send-email-corneliux.stoicescu@intel.com>
+In-Reply-To: <1395852491-32086-1-git-send-email-corneliux.stoicescu@intel.com>
+Subject: Re: [PATCH] selftest/bbtests.py: Fixed regex and added bitbake output to test_warnings_errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 16:34:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Mar 2014 16:38:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Chris,
-
-On Wed, Mar 26, 2014 at 12:40 PM, Chris Larson <clarson@kergoth.com> wrote:
->> Last time I've asked for bluez4->bluez5 upgrade path fix on target I was
->> told that it's not supported and bluez5 isn't drop-in replacement for
->> bluez4 (yet), did that change already?
+Hi,
+On 3/26/2014 6:48 PM, Corneliu Stoicescu wrote:
+> The test failed when more than 1 error or 1 warning is present.
+> Also pasting the bitbake output when the test fails.
 >
-> Afaik libbluetooth is API compatible, but the dbus api isn't. I haven't done
-> much runtime testing, though. So I don't think virtual/bluez is an
-> appropriate name given they aren't 100% compatible bluetooth implmentations
-> across the board. In meta-mentor, we moved to a combination of two
-> virtual-runtimes (for flexibility, to facilitate replacement not just with
-> bluez5, but also potentially with a third party implementation, two
-> virtual-runtimes, one for hardware support, one for the userland bluetooth
-> stack, (and potentially others in the future)) with a virtual/libbluetooth
-> build virtual, and then you need to ensure obexd/hcidump are left out of the
-> build, since they were merged into bluez5.
-
-I did a look in meta-mentor and I think the interesting commit is:
-
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?id=1444d8b0d3617bea503e498150e558abe5b20114
-
-and a blog post about the API changes:
-
-http://www.bluez.org/bluez-5-api-introduction-and-porting-guide/
-
-and an issue in Fedora, which might help in the migration:
-
-https://fedoraproject.org/wiki/Changes/Bluez5
-
-I don't know if someone is tracking the packages which uses the D-Bus
-API of BlueZ to be check if there are available patches for it.
-
+> Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+> ---
+>   meta/lib/oeqa/selftest/bbtests.py | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+> index ee1f82a..d7dc127 100644
+> --- a/meta/lib/oeqa/selftest/bbtests.py
+> +++ b/meta/lib/oeqa/selftest/bbtests.py
+> @@ -47,10 +47,10 @@ class BitbakeTests(oeSelfTest):
+>
+>       def test_warnings_errors(self):
+>           result = bitbake('-b asdf', ignore_status=True)
+> -        find_warnings = re.search("Summary: There was [1-9][0-9]* WARNING message shown.", result.output)
+> -        find_errors = re.search("Summary: There was [1-9][0-9]* ERROR message shown.", result.output)
+> -        self.assertTrue(find_warnings)
+> -        self.assertTrue(find_errors)
+> +        find_warnings = re.search("Summary: There wa.{1,2}? [1-9][0-9]* WARNING messages* shown", result.output)
+> +        find_errors = re.search("Summary: There wa.{1,2}? [1-9][0-9]* ERROR messages* shown", result.output)
+If more than one warning messages are encountered, the actual output is 
+"Summary: There were 2 WARNING messages shown." and the search above 
+doesn't match.
+> +        self.assertTrue(find_warnings, msg="Did not find the mumber of warnings at the end of the build:\n" + result.output)
+> +        self.assertTrue(find_errors, msg="Did not find the mumber of errors at the end of the build:\n" + result.output)
+>
+>       def test_invalid_patch(self):
+>           self.write_recipeinc('man', 'SRC_URI += "file://man-1.5h1-make.patch"')
+>
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Alexandru Palalau
 
