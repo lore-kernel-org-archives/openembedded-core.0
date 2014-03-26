@@ -1,46 +1,37 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B10E660C02
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
+	[209.85.160.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5258360C02
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 14:33:05 +0000 (UTC)
-Received: by mail-ve0-f181.google.com with SMTP id oy12so2383815veb.26
+	Wed, 26 Mar 2014 14:34:34 +0000 (UTC)
+Received: by mail-yk0-f178.google.com with SMTP id 79so786079ykr.23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 07:33:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=3U1KgJg6NFtH83IFB8EWiXMZtg3Y9a6Q2/XZ7y1zZkQ=;
-	b=HqKlJVeJUHUZ9qaxPeaUDQPUxCF0XEVNBS6ANz19jbxZHw9BF4C5WY1Cjh4ptjqYZy
-	jIjBZn3lCWTgY/3n+Ti5pQhnRyufVvN0cxQ8jqXWzGYoaJcb4OEHP/+ddqDZGeo1N3te
-	qr/ZMGSasBDZc4371by/jiBBiP9lKA7PILToBZFBAeh5z73k8nOyRDbqrm86dJOWXVx9
-	H5qjC90kqOuXHDmw9Q+WaJrCHwXiNKnEKArut1zUsbh7Ky4ytyMrUdV/7TR+15LVrFIl
-	AdvZoU/DpgRvpYf9gwLqF/Sgf5msaiCUMae/7TzdHyKitau1N/sxCnqqDVWtC/UR++lO
-	MRWw==
-X-Gm-Message-State: ALoCoQmSyKsmGIsKleNPEaTer0BP75T1vz/rEWQ7ZCgvVDRxZLBX+61MGGgMYaxy1W5glHiuD8Rt
-X-Received: by 10.52.119.197 with SMTP id kw5mr51671396vdb.5.1395844386056;
-	Wed, 26 Mar 2014 07:33:06 -0700 (PDT)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id v20sm38608283vdj.0.2014.03.26.07.33.04
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 26 Mar 2014 07:33:05 -0700 (PDT)
-Message-ID: <5332E520.5050005@linaro.org>
-Date: Wed, 26 Mar 2014 10:33:04 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Wed, 26 Mar 2014 07:34:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=fl7velKYiQJijqZRDZSykZKne6QqUIG/OMjBE+bpjpY=;
+	b=0KmHGC4HO0wgx4nmOEnXruIsAjuATGItagVa/29g/Yg38oqKgXh6DkTxOVDwKdvgFB
+	SLKhslmpS65Yi10BIR042kZ8hw0sk5ndfEdQnrtCTtToW8V/kAADcJeWnfeuwrSlMydw
+	mM6sBMsjpAJTSYmPMO9zr+Vc6UoTXNEnszUMf3gPkyiVKzgddyNcnOyEhyuBYMZgJocx
+	8uZoQYXiHjrPB2CEhJBP5htK7SZmhOEdnQ2eI+sGHXvPknwie9lcvSh4131n/wSM4gmA
+	qV5MYwAR+D/HKw/A25D2uTV/v0YSqAUsJHXjTR/OXI/vZC4JaAagBhBZZxIjAEpuoqNU
+	sEAg==
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1395676843.24890.7.camel@ted> <5330C9A8.904@linaro.org>
-	<20140325055028.GA3710@jama>
-In-Reply-To: <20140325055028.GA3710@jama>
-Cc: yocto <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: --conf Was: Features in Yocto Project 1.7
+X-Received: by 10.236.40.12 with SMTP id e12mr1193941yhb.155.1395844475504;
+	Wed, 26 Mar 2014 07:34:35 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Wed, 26 Mar 2014 07:34:35 -0700 (PDT)
+In-Reply-To: <CAPybu_1O8oCHy4KUm=UPD6qkL2hFs=kjCOQtdNYqGq=F5xz9Lg@mail.gmail.com>
+References: <1395834050.24890.87.camel@ted>
+	<CAPybu_1O8oCHy4KUm=UPD6qkL2hFs=kjCOQtdNYqGq=F5xz9Lg@mail.gmail.com>
+Date: Wed, 26 Mar 2014 11:34:35 -0300
+X-Google-Sender-Auth: RQkUa9jHSupd8UyeWwaqCNG0BkU
+Message-ID: <CAP9ODKoObs4uDAoD+xZdM8Nkrk-MVjD-cBqUp_5CJW_sTOA5FA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_manager: Fix apt-ftparchive index creation problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 14:33:07 -0000
+X-List-Received-Date: Wed, 26 Mar 2014 14:34:36 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-On 03/25/14 01:50, Martin Jansa wrote:
-> Can you show some example of config you need to have wor wayland and
-> cannot have for core-image-minimal? 
+Hello Ricardo,
 
-Okay, good point. I should have thought harder to come up with a better
-example :-) It's funny, actually, that you're the one pressing me on
-this, I first encountered this issue and started thinking about it while
-trying to reproduce your "State of bitbake world" tests :-)
+On Wed, Mar 26, 2014 at 10:19 AM, Ricardo Ribalda Delgado
+<ricardo.ribalda@gmail.com> wrote:
+> My fault sorry. I dont have a running system on master. I tried to
+> port the patch that I tested on dora.
 
-Let's say you're a board maintainer; some people want to run gstreamer,
-some people want to try out systemd, some want to run wayland. Each of
-these requires tweaks to a conf/local.conf, no? I'm constantly changing
-my set of IMAGE_INSTALL_append's, fiddling with preferred versions, and
-distro features.
+Please try the patches in master before sending them, specially when
+it changes a so core feature like this one.
 
-If I'm just doing a one-off build then sure, adjust conf/local.conf
-manually. But if I'm perpetually rotating between a bunch of tests as
-repositories are modified, it would be easier to just specify which
-configuration I want from the bitbake cmdline.
-
-As I mentioned, maybe I'm doing things wrong? Maybe others have separate
-build locations, or maybe others define their own images which
-incorporate these adjustments? But I'd be quite surprised to find I'm
-the only one having to edit conf/local.conf to comment/un-comment blocks
-before every build.
-
-As a concrete example, currently I'm flipping between dora and master
-builds. For some reason I can't seem to reuse the same TMPDIR between
-them. So every time I "repo init -b <newbranch>" I then also have to
-edit conf/local.conf before bitbaking.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
