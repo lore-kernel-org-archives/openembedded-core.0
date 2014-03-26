@@ -1,39 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 3099C6FA29
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id F1AEE6F464
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 15:35:25 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id e49so1809675eek.3
+	Wed, 26 Mar 2014 15:41:06 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id q8so1671746lbi.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 08:35:26 -0700 (PDT)
+	Wed, 26 Mar 2014 08:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=QoOB5dvDt2hlYOZ1xe+3pOr+z6KTnUxUUrxZssrJMhE=;
-	b=0Q1f1Xw1PkU/gTIronoEzPaH7iNxcHGwYA6nbQHfwaAP+uc3TCx45Kdv0RIK/NIj4t
-	rPa1VSfAV47pvw/wkLKez9MPZlAJULZqGRzVxTs5SdLZplde17rFWyJl4oejpD7yoPcW
-	HR4pCiqrYKU8RC8YQd0J2DaZLYsbudrd8nX3Ea9escJo/xGC4JcWRBYn2HuobJLtBlNY
-	xCgkhaULr9DTufAZd1YfZ9Z0m83ZBKxTz64hZB5VvKBseGLIkMJeojw4B4/Za9dPRMWD
-	pb8hRdBWMfPpaOLTvIzXplQ9IkXBnjyh5K+b+YnSHVNm4wWBtcRGZO+RPzDo+y0p5KtW
-	WQZA==
-X-Received: by 10.14.198.197 with SMTP id v45mr76376877een.9.1395848126071;
-	Wed, 26 Mar 2014 08:35:26 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	m8sm47829687eeg.11.2014.03.26.08.35.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Mar 2014 08:35:24 -0700 (PDT)
-Date: Wed, 26 Mar 2014 16:35:24 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20140326153524.GC3709@jama>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=WJg/hmdVMdqe4NalE6E1echwi0S8p1yLMJeALF4BFg8=;
+	b=vhbK0RdOwGRP8rw3OIwfCEWGFscorX+yPlbsERRJHaLKHVI9v/Y2UsWOqHXR09XN8d
+	4ld7fEHB2x7YDGPpDbceoa0AYptmU27hGI4jxtJCj4LkewS49JfKLTVDvmZLP3q9yB9p
+	X0PRnAj2EW/Y3mrelxTS+yYA9UdkSG0BSuW8NABE04zsZAnyfqB2BpqVB3UmyqcMPwES
+	m2CC7e/i72B00twIDCm1Y5LZJwOUFy9DjJQBSwgT/JXAN+eypJVt/dX3Thip7uL/VQDb
+	NDsMGUXbpL4vrgK+47UIoJV0XijAu+IB6KA3uSc5bRTErpCCC8CqOcFwODctsA6DKtw6
+	Eu1Q==
+X-Received: by 10.112.56.148 with SMTP id a20mr1914009lbq.44.1395848466321;
+	Wed, 26 Mar 2014 08:41:06 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.35.194 with HTTP; Wed, 26 Mar 2014 08:40:46 -0700 (PDT)
+In-Reply-To: <20140326145102.GB3709@jama>
 References: <lauren.post@freescale.com>
 	<1395844085-9929-1-git-send-email-lauren.post@freescale.com>
 	<20140326145102.GB3709@jama>
-	<CAP9ODKqkyfGzQROW=QZig2zvh-KrcyRFeKn9FtPndPUXWNDTUw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqkyfGzQROW=QZig2zvh-KrcyRFeKn9FtPndPUXWNDTUw@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 26 Mar 2014 08:40:46 -0700
+X-Google-Sender-Auth: vSJ97EfrfxNHFXh1s-uEkh81BpY
+Message-ID: <CABcZAN=qBmEp4nzWwKc0=3_sb_oPk1mUWqP-M3Y8tQ6xRZJB0w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/11] Change all bluez4 references to virtual/bluez
@@ -49,53 +46,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 15:35:26 -0000
-X-Groupsio-MsgNum: 51658
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Mar 2014 15:41:08 -0000
+Content-Type: multipart/alternative; boundary=001a113393c8fed4d604f5844bba
 
---5G06lTa6Jq83wMTw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113393c8fed4d604f5844bba
+Content-Type: text/plain; charset=UTF-8
+
+On Wed, Mar 26, 2014 at 7:51 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+
+> On Wed, Mar 26, 2014 at 09:27:54AM -0500, Lauren Post wrote:
+> > This group of patches support the change of hardcoded bluez4 to
+> > virtual/bluez so that the upgrade to bluez5 is easier.
+> >
+> > This group of patches must be applied together.  Bluez4 is still
+> > default provider but it will be easier to override and provide bluez5
+> > support in future.
+> >
+> > Note there is one related patch for openobex in meta-oe.
+>
+> virtual/* still doesn't work correctly in runtime variables, use
+> VIRTUAL-RUNTIME_bluez variable.
+>
+> Last time I've asked for bluez4->bluez5 upgrade path fix on target I was
+> told that it's not supported and bluez5 isn't drop-in replacement for
+> bluez4 (yet), did that change already?
+
+
+Afaik libbluetooth is API compatible, but the dbus api isn't. I haven't
+done much runtime testing, though. So I don't think virtual/bluez is an
+appropriate name given they aren't 100% compatible bluetooth implmentations
+across the board. In meta-mentor, we moved to a combination of two
+virtual-runtimes (for flexibility, to facilitate replacement not just with
+bluez5, but also potentially with a third party implementation, two
+virtual-runtimes, one for hardware support, one for the userland bluetooth
+stack, (and potentially others in the future)) with a virtual/libbluetooth
+build virtual, and then you need to ensure obexd/hcidump are left out of
+the build, since they were merged into bluez5.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a113393c8fed4d604f5844bba
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 26, 2014 at 12:07:13PM -0300, Otavio Salvador wrote:
-> Hello Martin,
->=20
-> On Wed, Mar 26, 2014 at 11:51 AM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
-> > On Wed, Mar 26, 2014 at 09:27:54AM -0500, Lauren Post wrote:
-> >> This group of patches support the change of hardcoded bluez4 to
-> >> virtual/bluez so that the upgrade to bluez5 is easier.
-> >>
-> >> This group of patches must be applied together.  Bluez4 is still
-> >> default provider but it will be easier to override and provide bluez5
-> >> support in future.
-> >>
-> >> Note there is one related patch for openobex in meta-oe.
-> >
-> > virtual/* still doesn't work correctly in runtime variables, use
-> > VIRTUAL-RUNTIME_bluez variable.
-> ...
->=20
-> Those patches are for /depends/. Did I miss any runtime dependency here?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Mar 26, 2014 at 7:51 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br>
 
-yes, in 11/11 4/11 2/11 and 1/11
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"">On Wed, Mar 26, 2014 at 09:2=
+7:54AM -0500, Lauren Post wrote:<br>
+&gt; This group of patches support the change of hardcoded bluez4 to<br>
+&gt; virtual/bluez so that the upgrade to bluez5 is easier.<br>
+&gt;<br>
+&gt; This group of patches must be applied together. =C2=A0Bluez4 is still<=
+br>
+&gt; default provider but it will be easier to override and provide bluez5<=
+br>
+&gt; support in future.<br>
+&gt;<br>
+&gt; Note there is one related patch for openobex in meta-oe.<br>
+<br>
+</div>virtual/* still doesn&#39;t work correctly in runtime variables, use<=
+br>
+VIRTUAL-RUNTIME_bluez variable.<br>
+<br>
+Last time I&#39;ve asked for bluez4-&gt;bluez5 upgrade path fix on target I=
+ was<br>
+told that it&#39;s not supported and bluez5 isn&#39;t drop-in replacement f=
+or<br>
+bluez4 (yet), did that change already?</blockquote></div><br>Afaik libbluet=
+ooth is API compatible, but the dbus api isn&#39;t. I haven&#39;t done much=
+ runtime testing, though. So I don&#39;t think virtual/bluez is an appropri=
+ate name given they aren&#39;t 100% compatible bluetooth implmentations acr=
+oss the board. In meta-mentor, we moved to a combination of two virtual-run=
+times (for flexibility, to facilitate replacement not just with bluez5, but=
+ also potentially with a third party implementation, two virtual-runtimes, =
+one for hardware support, one for the userland bluetooth stack, (and potent=
+ially others in the future)) with a virtual/libbluetooth build virtual, and=
+ then you need to ensure obexd/hcidump are left out of the build, since the=
+y were merged into bluez5.<br>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
 
---5G06lTa6Jq83wMTw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMy87wACgkQN1Ujt2V2gBxHdACgpU/iiHJfeOhCmwm3h4csO9Tv
-1mEAn2KzazXVVvSJW+rRa40fKF143cGt
-=bvpl
------END PGP SIGNATURE-----
-
---5G06lTa6Jq83wMTw--
+--001a113393c8fed4d604f5844bba--
