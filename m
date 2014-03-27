@@ -1,27 +1,26 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A97C6F877
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A8F296F877
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 18:18:37 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1WTEsv-000562-VA from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Mar 2014 11:18:37 -0700
-Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
-	svr-orw-fem-01.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 27 Mar 2014 11:18:37 -0700
-Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
-	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Thu, 27 Mar 2014 11:18:37 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Mar 2014 14:18:31 -0400
-Message-Id: <1395944311-12301-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-X-OriginalArrivalTime: 27 Mar 2014 18:18:37.0587 (UTC)
-	FILETIME=[F9010E30:01CF49E8]
-Subject: [PATCH] zisofs-tools-native: Add missing dependency on zlib-native
+	Thu, 27 Mar 2014 18:25:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2RIPDF1015803
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Mar 2014 11:25:13 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 27 Mar 2014 11:25:13 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 27 Mar 2014 14:24:56 -0400
+Message-ID: <b13574d6340fa48c2c1b8bc877aec2011883a55e.1395944068.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1395944068.git.bruce.ashfield@windriver.com>
+References: <cover.1395944068.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 01/13] linux-yocto/3.10: intel-core*/common configuration updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Mar 2014 18:18:37 -0000
+X-List-Received-Date: Thu, 27 Mar 2014 18:25:15 -0000
+Content-Type: text/plain
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+Importing the following configuration changes to support the latest intel
+common BSPs:
+
+  6e0e756d5137 intel-common: Remove GMA500 support
+  226c3b7a2b82 intel-core*: Add baytrail soc support
+  25df7acf2cc4 baytrail: Add feature/soc/baytrail
+  8715856ab617 meta: input: add CONFIG_INPUT dependency
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../zisofs-tools/zisofs-tools-native_1.0.8.bb      |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-index 1501307..5ea2bfb 100644
---- a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-+++ b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-@@ -12,6 +12,8 @@ SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-${P
- SRC_URI[md5sum] = "2d0ed8c9a1f60b45f949b136f9be1f6c"
- SRC_URI[sha256sum] = "ae4e53e4914934d41660248fb59d3c8761f1f1fd180d5ec993c17ddb3afd04f3"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+index f0c732b4e7c6..72af2d8d8adb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+@@ -5,7 +5,7 @@ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
-+DEPENDS = "zlib-native"
-+
- inherit native
+ SRCREV_machine ?= "5f466af88f885705efe0f018c027b2631f6724e4"
+ SRCREV_machine_qemuppc ?= "e497cba7496e4ae6fc4d018bce57695a61766d22"
+-SRCREV_meta ?= "7b3b87d4d5e4c41c235da13aaa9f45d5d338e2c6"
++SRCREV_meta ?= "6e0e756d51372c8b176c5d1e6f786545bceed351"
  
- do_install() {
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+index 2ceb946160b1..b2ddb10f3976 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+@@ -10,7 +10,7 @@ LINUX_VERSION ?= "3.10.32"
+ KMETA = "meta"
+ 
+ SRCREV_machine ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
+-SRCREV_meta ?= "7b3b87d4d5e4c41c235da13aaa9f45d5d338e2c6"
++SRCREV_meta ?= "6e0e756d51372c8b176c5d1e6f786545bceed351"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+index 9bc873570ca0..c950199559da 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+@@ -18,7 +18,7 @@ SRCREV_machine_qemux86 ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
+ SRCREV_machine_qemux86-64 ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
+ SRCREV_machine_qemumips64 ?= "3e1899546c014808fed8d336b777bf8d81f50d7b"
+ SRCREV_machine ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
+-SRCREV_meta ?= "7b3b87d4d5e4c41c235da13aaa9f45d5d338e2c6"
++SRCREV_meta ?= "6e0e756d51372c8b176c5d1e6f786545bceed351"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
 -- 
-1.7.9.5
+1.8.1.2
 
 
