@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 299EF6B8BF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 378E76E27B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 08:11:25 +0000 (UTC)
+	Thu, 27 Mar 2014 08:11:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2R8BQfL006710
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2R8BSt3016877
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 01:11:26 -0700 (PDT)
+	Thu, 27 Mar 2014 01:11:28 -0700 (PDT)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 27 Mar 2014 01:11:26 -0700
+	14.3.169.1; Thu, 27 Mar 2014 01:11:27 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Mar 2014 04:11:20 -0400
-Message-ID: <cover.1395906475.git.liezhi.yang@windriver.com>
+Date: Thu, 27 Mar 2014 04:11:21 -0400
+Message-ID: <3014f530e9325ab02716c011ac135da25fbd0846.1395906475.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1395906475.git.liezhi.yang@windriver.com>
+References: <cover.1395906475.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] fixes for gummiboot and gnu-efi
+Subject: [PATCH 1/4] gnu-efi: fix the LIBDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 27 Mar 2014 08:11:28 -0000
 Content-Type: text/plain
 
-The following changes since commit 109f6731210053ac6c490fc49956d0f65078f0ef:
+Its LIBDIR in Makefile is:
 
-  util-linux-native: fix qsort_r for CentOS 5.10 (2014-03-27 03:45:56 -0400)
+LIBDIR = $(PREFIX)/lib
 
-are available in the git repository at:
+This is incorrect for 64 bit bsp, thus will cause build failures on gummiboot:
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/gummiboot
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/gummiboot
+ld: cannot open linker script file /path/to/usr/lib64/elf_x86_64_efi.lds: No such file or directory
 
-Robert Yang (4):
-  gnu-efi: fix the LIBDIR
-  gummiboot: add COMPATIBLE_HOST
-  gummiboot: use objcopy from the env
-  gummiboot: fix the installed but not shipped warning
+[YOCTO #6053]
 
- meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb           |    2 +-
- .../gummiboot/gummiboot/fix-objcopy.patch          |   39 ++++++++++++++++++++
- meta/recipes-bsp/gummiboot/gummiboot_git.bb        |    8 +++-
- 3 files changed, 47 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-bsp/gummiboot/gummiboot/fix-objcopy.patch
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+index 0dbdba2..dbf2a07 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+@@ -23,7 +23,7 @@ def gnu_efi_arch(d):
+     return tarch
+ 
+ EXTRA_OEMAKE = "'ARCH=${@gnu_efi_arch(d)}' 'CC=${CC}' 'AS=${AS}' 'LD=${LD}' 'AR=${AR}' \
+-                'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}' 'PREFIX=${prefix}'\
++                'RANLIB=${RANLIB}' 'OBJCOPY=${OBJCOPY}' 'PREFIX=${prefix}' 'LIBDIR=${libdir}' \
+                 "
+ 
+ do_install() {
 -- 
 1.7.10.4
 
