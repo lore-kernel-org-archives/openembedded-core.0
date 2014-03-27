@@ -1,30 +1,35 @@
-Return-Path: <adam.yh.lee@gmail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 494896ED4C
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FAF96E849
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 23:27:16 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id lc6so3238091vcb.21
+	Thu, 27 Mar 2014 00:47:15 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id y10so2599469pdj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 16:27:17 -0700 (PDT)
+	Wed, 26 Mar 2014 17:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=jXn6HQncSQKw1AVE41y2OjAHz2DRUQhvEkoZ5cVjlIA=;
-	b=H9+GO+j8kV88ir1e9sOSH8U1A8wTOZfPtfUqZYYXnNu3ICtArSTyu2sJla7iptg/uS
-	RjXhlN/ss4y5VXI7zOoma4YUEmDmo5OfByJxuDqqpphjW9wv5skeFs+tR61SjHICrR7V
-	SFkjawa4viptFKfcNKASx4DB5ZlcThXnnyA8nxWZ0wtpKBqajZyGxullnfQ9qeK6TFiM
-	ZOkeHG/CQgQgEMf0E2ZBMUwHxXsO/nH5L2klmCYUsr3t5Yj+DD9zLAAJ7+1bUwFuUX3L
-	4hWvYvi8e+iSMxUMFOgnxqOPVLTGI9a7yJ3v5sA2u6MgWRguiFZ/pdaePOPTHkc1nu+I
-	MbOQ==
-MIME-Version: 1.0
-X-Received: by 10.52.130.225 with SMTP id oh1mr18616461vdb.8.1395876437459;
-	Wed, 26 Mar 2014 16:27:17 -0700 (PDT)
-Received: by 10.52.85.67 with HTTP; Wed, 26 Mar 2014 16:27:17 -0700 (PDT)
-Date: Wed, 26 Mar 2014 16:27:17 -0700
-Message-ID: <CAFeBWL6Fa7mPHQ9RSNU49hsMxSs5G-55Tb5LLnpUiOS4TyXuiQ@mail.gmail.com>
-From: Adam Lee <adam.yh.lee@gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=OgImDitKuzit/UNcpcB779mdp+Jh9kDii9uU/KbRSWw=;
+	b=nV16DltIvU06iLCloBYe8dMO4xWahCU3Sp0E6wRMPaQATFcSXZqR2JnNx1c164XZsS
+	L1YSKltUBAPuVllf7em8HOaJ1TE4+4s96o+EphrwwBKAw/kPDOjhZGfrL2l6+dV9eLc8
+	lzPkLjuEVh7I1SkDS+IIDUTRVN4gx+5tHOViwNK9BdtXNccI/XENyeiCuxlqeAHjjuhc
+	52qoAhUtiuY5/dBf2E4a3DVnpr8CMg8YuWKESuub6dJrcWB0vETetFNyn2ngtIET5l+I
+	IOBD0emM2k4C3QQzWS+khvtsJ+wTh5/GGpECc0SSD0SeGsz/vxPBwZP/b2OtWgZJMFCZ
+	jemg==
+X-Received: by 10.68.212.10 with SMTP id ng10mr91133643pbc.95.1395881236271;
+	Wed, 26 Mar 2014 17:47:16 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id my6sm894762pbc.36.2014.03.26.17.47.14
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Mar 2014 17:47:15 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Question on linux-yocto-custom
+Date: Thu, 27 Mar 2014 11:53:06 +1100
+Message-Id: <1395881586-18248-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] systemd-serialgetty: update to match systemd 211
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +42,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Mar 2014 23:27:19 -0000
-Content-Type: multipart/alternative; boundary=bcaec520ef3b34884b04f58acfca
+X-List-Received-Date: Thu, 27 Mar 2014 00:47:16 -0000
 
---bcaec520ef3b34884b04f58acfca
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Good afternoon everyone,
-I got a quick question here: the example recipe linux-yocto-custom.bb in
-meta-skeleton has these two lines:
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+index 46c15ed..865de34 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
++++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+@@ -31,3 +31,6 @@ TTYVHangup=yes
+ KillMode=process
+ IgnoreSIGPIPE=no
+ SendSIGHUP=yes
++
++[Install]
++WantedBy=getty.target
+-- 
+1.9.0
 
 
-inherit kernel
-require recipes-kernel/linux/linux-yocto.inc
-
-
-And I am trying to figure out if we must define 'inherit kernel' in this
-recipe. Looking at linux-yocto.inc, it already contains the same line.
-
-Is it important where we inherit a class?
-
-Thank you,
-
-Adam
-
---bcaec520ef3b34884b04f58acfca
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Good afternoon everyone,=A0<div>I got a quick question her=
-e: the example recipe <a href=3D"http://linux-yocto-custom.bb">linux-yocto-=
-custom.bb</a> in meta-skeleton has these two lines:=A0</div><div><div><br><=
-/div>
-<div><br></div><blockquote style=3D"margin:0 0 0 40px;border:none;padding:0=
-px"><div>inherit kernel</div><div>require recipes-kernel/linux/linux-yocto.=
-inc</div></blockquote><div><br></div><div>And I am trying to figure out if =
-we must define &#39;inherit kernel&#39; in this recipe. Looking at linux-yo=
-cto.inc, it already contains the same line.=A0</div>
-<div><br></div><div>Is it important where we inherit a class?</div><div><br=
-></div><div>Thank you,</div><div><br></div><div>Adam</div></div></div>
-
---bcaec520ef3b34884b04f58acfca--
