@@ -1,28 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 11AE56F6FD
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id A24276BE7E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 14:54:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2REsEwG023188
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 07:54:20 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Thu, 27 Mar 2014 07:54:19 -0700
-Message-ID: <53343B99.9040306@windriver.com>
-Date: Thu, 27 Mar 2014 22:54:17 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 27 Mar 2014 15:16:09 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s2RFG4UH027690;
+	Thu, 27 Mar 2014 16:16:09 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Thu, 27 Mar 2014 16:16:04 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] libm accuracy, eglibc compared to glibc -- solved
+Thread-Index: AQHPRPzljBrmwmdF90yNdigvY1/gr5rrrxoAgAAF4QCACVpkmA==
+Date: Thu, 27 Mar 2014 15:16:03 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7257@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A4C94@post.tritech.se>
+	<532C6C96.7020901@windriver.com>,
+	<CAMKF1sopEU3L-ELyNw9FFMstLtayenJnq-f7W02j1LTX=1A_pA@mail.gmail.com>
+In-Reply-To: <CAMKF1sopEU3L-ELyNw9FFMstLtayenJnq-f7W02j1LTX=1A_pA@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1395906475.git.liezhi.yang@windriver.com>	<9bd12f5fca3736b2975ce0249b3428b5b0af194e.1395906475.git.liezhi.yang@windriver.com>	<20140327113949.GQ3709@jama>
-	<53343A32.6070109@windriver.com>
-In-Reply-To: <53343A32.6070109@windriver.com>
-Subject: Re: [PATCH 2/4] gummiboot: add COMPATIBLE_HOST
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libm accuracy, eglibc compared to glibc -- solved
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,107 +39,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Mar 2014 14:54:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Mar 2014 15:16:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 03/27/2014 10:48 PM, Robert Yang wrote:
->
->
-> On 03/27/2014 07:39 PM, Martin Jansa wrote:
->> On Thu, Mar 27, 2014 at 04:11:22AM -0400, Robert Yang wrote:
->>> The gummiboot depends on gnu-efi which had set:
->>>
->>> COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
->>>
->>> We also need set this for gummiboot, otherwise there would be build
->>> failures for other non-x86 archs.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>   meta/recipes-bsp/gummiboot/gummiboot_git.bb |    2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
->>> b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
->>> index 5868a23..61de58c 100644
->>> --- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
->>> +++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
->>> @@ -13,6 +13,8 @@ PV = "43+git${SRCPV}"
->>>   SRCREV = "4062c51075ba054d4949c714fe06123f9ad3097d"
->>>   SRC_URI = "git://anongit.freedesktop.org/gummiboot"
->>>
->>
->> It would be good to add comment here saying it's only because of gnu-efi
->> dependency (if gummiboot itself can in theory work on other hosts).
->>
->
-> Sounds reasonable, updated:
->
->    git://git.openembedded.org/openembedded-core-contrib rbt/gummiboot
->
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/gummiboot
->
->
-> diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-> b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-> index 61de58c..035cec1 100644
-> --- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-> +++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-> @@ -13,6 +13,9 @@ PV = "43+git${SRCPV}"
->   SRCREV = "4062c51075ba054d4949c714fe06123f9ad3097d"
->   SRC_URI = "git://anongit.freedesktop.org/gummiboot"
->
-> +# Note: Add COMPATIBLE_HOST here is only because it depends on gnu-efi
-> +# which has set the COMPATIBLE_HOST, the gummiboot itself may work on
-> +# more hosts.
->   COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
-
-Lacked a "+" here, it should be:
-
-diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb 
-b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-index 5868a23..035cec1 100644
---- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-+++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-@@ -13,6 +13,11 @@ PV = "43+git${SRCPV}"
-  SRCREV = "4062c51075ba054d4949c714fe06123f9ad3097d"
-  SRC_URI = "git://anongit.freedesktop.org/gummiboot"
-
-+# Note: Add COMPATIBLE_HOST here is only because it depends on gnu-efi
-+# which has set the COMPATIBLE_HOST, the gummiboot itself may work on
-+# more hosts.
-+COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
-+
-  S = "${WORKDIR}/git"
-
-  EXTRA_OECONF = "--disable-manpages --with-efi-includedir=${STAGING_INCDIR} \
-
-// Robert
-
->
->   S = "${WORKDIR}/git"
->
-> // Robert
->
->
->> People won't notice it in commit message when they are looking at
->> recipe.
->>
->>> +COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
->>> +
->>>   S = "${WORKDIR}/git"
->>>
->>>   EXTRA_OECONF = "--disable-manpages --with-efi-includedir=${STAGING_INCDIR} \
->>> --
->>> 1.7.10.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+Hi Khem,=0A=
+=0A=
+On Friday, March 21, 2014 6:06 PM, Khem Raj wrote:=0A=
+> On Fri, Mar 21, 2014 at 9:45 AM, Mark Hatle <mark.hatle@windriver.com> wr=
+ote:=0A=
+>> On 3/21/14, 7:10 AM, Mats K=E4rrman wrote:=0A=
+>>>=0A=
+>>> Hi,=0A=
+>>>=0A=
+>>> On: Thursday, March 13, 2014 11:36 AM, Mats K=E4rrman wrote:=0A=
+>>>>=0A=
+>>>> My "home made" hard float tune for PowerPC looks like this:=0A=
+>>>>=0A=
+>>>> ------------------------------------------------------------------=0A=
+>>>> # Tune for the e300c3 core=0A=
+>>>> require conf/machine/include/tune-ppce300c3.inc=0A=
+>>>>=0A=
+>>>> # Use hardware floating point=0A=
+>>>> AVAILTUNES +=3D "ppce300c3hf"=0A=
+>>>> TUNE_FEATURES_tune-ppce300c3hf =3D "m32 fpu-hard ppce300c3"=0A=
+>>>> TUNE_PKGARCH_tune-ppce300c3hf =3D "ppce300c3hf"=0A=
+>>>> PACKAGE_EXTRA_ARCHS_tune-ppce300c3hf =3D=0A=
+>>>> "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppce300c3hf"=0A=
+>>>> DEFAULTTUNE =3D "ppce300c3hf"=0A=
+>>>> ------------------------------------------------------------------=0A=
+>>>>=0A=
+>>>=0A=
+>>> I found the reason for the error (deviance) in the sqrt function. glibc=
+=0A=
+>>> has=0A=
+>>> special code for PowerPC 603e core (e300 is an optimized variant of 603=
+e).=0A=
+>>> By adding the following line to the tuning I now get the same result as=
+=0A=
+>>> for all other environments that I've tried:=0A=
+>>>=0A=
+>>> GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300=
+c3",=0A=
+>>> "-with-cpu=3D603e", "", d)}"=0A=
+>>>=0A=
+>>> Does anyone know about the reason for having soft-float as the default =
+and=0A=
+>>> only available alternative for e300c2/3 tunings?=0A=
+>>=0A=
+>>=0A=
+>> My guess is because e300 e300c2 were both soft-float designs.  And e300c=
+3 is=0A=
+>> the first hard float design.=0A=
+>>=0A=
+>> The e300c3 should inherit and use the 603e directly.  This includes=0A=
+>> definiting the TUNE_FEATURES that the 603e does.  If it doesn't do that,=
+ I'd=0A=
+>> suggest it's a mistake.=0A=
+>>=0A=
+>> The default 603e tune should include:=0A=
+>>=0A=
+>> GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppc603e"=
+,=0A=
+>> "-with-cpu=3D603e", "", d)}"=0A=
+>>=0A=
+>> or similar already -- and should already be hard float enabled.  (ppc603=
+e=0A=
+>> soft-float should be the alternative -- as it is significantly rarer and=
+ the=0A=
+>> deviation.)=0A=
+>=0A=
+>=0A=
+> alternatively we should define fpu Iplies in glibc for e300c3,=0A=
+>=0A=
+>>=0A=
+>>=0A=
+>>> Would it be worthwhile to send a patch to add the hf tuning to OE-core?=
+=0A=
+>>=0A=
+>>=0A=
+>> As the e300c3 should be hard float, we shouldn't have the 'hf' designati=
+on.=0A=
+>> Otherwise, we should ensure the e300c3 tune is correctly configured.=0A=
+>=0A=
+> may be for now controlling it in tune file is a quicker fix.=0A=
+>=0A=
+=0A=
+Adding "-with-cpu=3D603e" to GLIBC_EXTRA_OECONF proved to be problematic=0A=
+as it leads to contradictive --mcpu=3D args to gcc, both "e300c3" and "603e=
+".=0A=
+=0A=
+I solved that by using "-with-cpu=3De300c3" and by adding a patch to eglibc=
+:=0A=
+---------------------------------------------------------------------------=
+---=0A=
+--- libc.orig/ports/sysdeps/powerpc/powerpc32/e300c3/fpu/Implies=0A=
++++ libc/ports/sysdeps/powerpc/powerpc32/e300c3/fpu/Implies=0A=
+@@ -0,0 +1,2 @@=0A=
++# e300c3 is a variant of 603e so use the same optimizations for sqrt=0A=
++powerpc/powerpc32/603e/fpu=0A=
+---------------------------------------------------------------------------=
+---=0A=
+Does this seem correct to you?=0A=
+=0A=
+Initial tests shows that at least the sqrt test now works. The reason=0A=
+I'm holding back on patches to the tune file is that I still have trouble=
+=0A=
+with time related syscalls, see [1].=0A=
+=0A=
+>>=0A=
+>>> In that case what tests should be performed before that and what (relat=
+ed)=0A=
+>>> tests are performed by the OE auto-builder?=0A=
+=0A=
+BR // Mats=0A=
+=0A=
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2014-March/09=
+1011.html=0A=
+=0A=
 
