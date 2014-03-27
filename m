@@ -1,23 +1,24 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F3B76E27B
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id D6CF26F86A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 08:28:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 Mar 2014 01:24:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,739,1389772800"; d="scan'208";a="508755590"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 27 Mar 2014 01:28:34 -0700
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 4AD576A4007;
-	Thu, 27 Mar 2014 01:28:20 -0700 (PDT)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Mar 2014 12:32:03 +0200
-Message-Id: <1395916323-4223-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH v2] selftest/bbtests.py: Fixed regex and added bitbake output to test_warnings_errors
+	Thu, 27 Mar 2014 10:47:10 +0000 (UTC)
+Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 27 Mar 2014 11:47:07 +0100
+Message-ID: <533401A8.60304@enea.com>
+Date: Thu, 27 Mar 2014 11:47:04 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, yocto <yocto@yoctoproject.org>
+References: <1395676843.24890.7.camel@ted> <5331935A.6060009@enea.com>
+In-Reply-To: <5331935A.6060009@enea.com>
+X-Originating-IP: [172.16.141.133]
+Subject: Re: Features in Yocto Project 1.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Mar 2014 08:28:56 -0000
+X-List-Received-Date: Thu, 27 Mar 2014 10:47:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The test failed when more than 1 error or 1 warning is present.
-Also pasting the bitbake output when the test fails.
+On 2014-03-25 15:31, David Nystr=F6m wrote:
+> On 2014-03-24 17:00, Richard Purdie wrote:
+>> As development on 1.6 finishes up, its time to think about what we
+>> should be doing in the 1.7 cycle.
+>>
+>> I think from my perspective, in 1.7 I'd like to see us looking at
+>> "Developer Workflow". Its a generic topic which I think covered multiple
+>> areas (in no particular order):
+>>
+>> * the ADT/SDK and how it intergrates into the rest of the system
+>
+>> * toaster
+>> * python devshell
+>> * exteralsrc.bbclass
+>> * memory resident bitbake
+>> * how a standalone app developer might build an image
+>
+> +1
+> My wishlist:
+>
+> 1. Assembly of an image from a package repository using the SDK.
+> 2. Ability to easily package multiple kernel flavours(builds with
+> different kernel configs) with linux related bbclass:es.
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/selftest/bbtests.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+3. layer based repository splitting.
+--
+When having multiple users of a base repository. Ease management of=20
+customized repos, by having he ability to mark layers as "split layers",=20
+this would yield a separate repo per "split layer", which would contain=20
+packages modified/created by this layer.
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index ee1f82a..6815ecf 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -47,10 +47,10 @@ class BitbakeTests(oeSelfTest):
- 
-     def test_warnings_errors(self):
-         result = bitbake('-b asdf', ignore_status=True)
--        find_warnings = re.search("Summary: There was [1-9][0-9]* WARNING message shown.", result.output)
--        find_errors = re.search("Summary: There was [1-9][0-9]* ERROR message shown.", result.output)
--        self.assertTrue(find_warnings)
--        self.assertTrue(find_errors)
-+        find_warnings = re.search("Summary: There w.{2,3}? [1-9][0-9]* WARNING messages* shown", result.output)
-+        find_errors = re.search("Summary: There w.{2,3}? [1-9][0-9]* ERROR messages* shown", result.output)
-+        self.assertTrue(find_warnings, msg="Did not find the mumber of warnings at the end of the build:\n" + result.output)
-+        self.assertTrue(find_errors, msg="Did not find the mumber of errors at the end of the build:\n" + result.output)
- 
-     def test_invalid_patch(self):
-         self.write_recipeinc('man', 'SRC_URI += "file://man-1.5h1-make.patch"')
--- 
-1.8.3.2
+Said packages would also be built for the base repo, but without=20
+split-layer modifications.
+
+A customized distro would use a compound of the base repo + split repo,=20
+where the split repo would have higher priority.
+
+I guess this could mean one deploy directory per split-layer.
+
+Br,
+David
+
+> Br,
+> David
+>
+>
+>> * locked sstate
+>>
+>> and probably more I'm forgetting.
+>>
+>> If anyone does have things they plan to work on, or ideas for things
+>> that should be worked on, please do file enhancement requests in the
+>> bugzilla:
+>>
+>> https://bugzilla.yoctoproject.org/
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
+>
 
 
