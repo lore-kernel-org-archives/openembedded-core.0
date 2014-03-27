@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D4946F8CD
+	by mail.openembedded.org (Postfix) with ESMTP id 7E8706F877
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 18:25:18 +0000 (UTC)
+	Thu, 27 Mar 2014 18:25:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2RIPFuU015808
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2RIPKaU015823
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Mar 2014 11:25:15 -0700 (PDT)
+	Thu, 27 Mar 2014 11:25:20 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 27 Mar 2014 11:25:15 -0700
+	14.3.169.1; Thu, 27 Mar 2014 11:25:19 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 27 Mar 2014 14:24:58 -0400
-Message-ID: <505c5312c1173ffd1f74db3fb5f218abcd26b1b5.1395944068.git.bruce.ashfield@windriver.com>
+Date: Thu, 27 Mar 2014 14:25:00 -0400
+Message-ID: <e8e67d3d1d400c4ba17e9c802daac90965046af6.1395944068.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1395944068.git.bruce.ashfield@windriver.com>
 References: <cover.1395944068.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 03/13] linux-yocto/3.10: update EFI configuration
+Subject: [PATCH 05/13] linux-yocto/3.10: add valleyisland io
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,13 +33,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Mar 2014 18:25:18 -0000
+X-List-Received-Date: Thu, 27 Mar 2014 18:25:22 -0000
 Content-Type: text/plain
 
-Importing the following two meta data changes for EFI configuration:
-
-  284e9589436a meta: efi.cfg/efi-ext.cfg: add EFIVAR_FS to default efi fragment
-  0a8c4971e2d9 meta: update efi config fragment to include EFI_STUB by default
+Updating the 3.10 meta SRCREV to include the valleyisland IO .scc and
+configuration files.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
@@ -49,41 +47,41 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index 72af2d8d8adb..b1eea52c4242 100644
+index 8c9e81e912fa..abacb8edf548 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
 @@ -5,7 +5,7 @@ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
- SRCREV_machine ?= "5f466af88f885705efe0f018c027b2631f6724e4"
- SRCREV_machine_qemuppc ?= "e497cba7496e4ae6fc4d018bce57695a61766d22"
--SRCREV_meta ?= "6e0e756d51372c8b176c5d1e6f786545bceed351"
-+SRCREV_meta ?= "284e9589436a5b199cf44b7261640c944558a35e"
+ SRCREV_machine ?= "adc7322e1696fd53f1915c40c87c98cf5c98ebf0"
+ SRCREV_machine_qemuppc ?= "1d6cce881e4fefb5d5e0691da62d8f71f51e342c"
+-SRCREV_meta ?= "284e9589436a5b199cf44b7261640c944558a35e"
++SRCREV_meta ?= "99c503a92885060bebf2bba6747735e8e9346a40"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index b2ddb10f3976..f7ce82e5bd74 100644
+index c969461c8ffb..abb53e81d42a 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -10,7 +10,7 @@ LINUX_VERSION ?= "3.10.32"
+@@ -10,7 +10,7 @@ LINUX_VERSION ?= "3.10.33"
  KMETA = "meta"
  
- SRCREV_machine ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
--SRCREV_meta ?= "6e0e756d51372c8b176c5d1e6f786545bceed351"
-+SRCREV_meta ?= "284e9589436a5b199cf44b7261640c944558a35e"
+ SRCREV_machine ?= "21df0c8486e129a4087970a07b423c533ae05de7"
+-SRCREV_meta ?= "284e9589436a5b199cf44b7261640c944558a35e"
++SRCREV_meta ?= "99c503a92885060bebf2bba6747735e8e9346a40"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index c950199559da..1f8d312ae2e0 100644
+index 4c7ddc95f76d..08b7087d6718 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -18,7 +18,7 @@ SRCREV_machine_qemux86 ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
- SRCREV_machine_qemux86-64 ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
- SRCREV_machine_qemumips64 ?= "3e1899546c014808fed8d336b777bf8d81f50d7b"
- SRCREV_machine ?= "78afd3095c9b37efbbfbfdc25eb3833ef3c6a718"
--SRCREV_meta ?= "6e0e756d51372c8b176c5d1e6f786545bceed351"
-+SRCREV_meta ?= "284e9589436a5b199cf44b7261640c944558a35e"
+@@ -18,7 +18,7 @@ SRCREV_machine_qemux86 ?= "21df0c8486e129a4087970a07b423c533ae05de7"
+ SRCREV_machine_qemux86-64 ?= "21df0c8486e129a4087970a07b423c533ae05de7"
+ SRCREV_machine_qemumips64 ?= "31139804e58e049e696fa49175544a43c40b3506"
+ SRCREV_machine ?= "21df0c8486e129a4087970a07b423c533ae05de7"
+-SRCREV_meta ?= "284e9589436a5b199cf44b7261640c944558a35e"
++SRCREV_meta ?= "99c503a92885060bebf2bba6747735e8e9346a40"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
  
