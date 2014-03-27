@@ -1,35 +1,24 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FAF96E849
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D76DC6E78E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 00:47:15 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id y10so2599469pdj.13
+	Thu, 27 Mar 2014 02:28:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2R2SgMU014462
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Mar 2014 17:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=OgImDitKuzit/UNcpcB779mdp+Jh9kDii9uU/KbRSWw=;
-	b=nV16DltIvU06iLCloBYe8dMO4xWahCU3Sp0E6wRMPaQATFcSXZqR2JnNx1c164XZsS
-	L1YSKltUBAPuVllf7em8HOaJ1TE4+4s96o+EphrwwBKAw/kPDOjhZGfrL2l6+dV9eLc8
-	lzPkLjuEVh7I1SkDS+IIDUTRVN4gx+5tHOViwNK9BdtXNccI/XENyeiCuxlqeAHjjuhc
-	52qoAhUtiuY5/dBf2E4a3DVnpr8CMg8YuWKESuub6dJrcWB0vETetFNyn2ngtIET5l+I
-	IOBD0emM2k4C3QQzWS+khvtsJ+wTh5/GGpECc0SSD0SeGsz/vxPBwZP/b2OtWgZJMFCZ
-	jemg==
-X-Received: by 10.68.212.10 with SMTP id ng10mr91133643pbc.95.1395881236271;
-	Wed, 26 Mar 2014 17:47:16 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id my6sm894762pbc.36.2014.03.26.17.47.14
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Mar 2014 17:47:15 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Mar 2014 11:53:06 +1100
-Message-Id: <1395881586-18248-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] systemd-serialgetty: update to match systemd 211
+	Wed, 26 Mar 2014 19:28:43 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 26 Mar 2014 19:28:42 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Mar 2014 10:29:06 +0800
+Message-ID: <cover.1395887206.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/1] image.bbclass: replace rootfs with /dev/root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Mar 2014 00:47:16 -0000
+X-List-Received-Date: Thu, 27 Mar 2014 02:28:45 -0000
+Content-Type: text/plain
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service | 3 +++
- 1 file changed, 3 insertions(+)
+The following changes since commit f0e1c22ee1cc581fbe8a56e707dcdb015d58fdb6:
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-index 46c15ed..865de34 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-+++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-@@ -31,3 +31,6 @@ TTYVHangup=yes
- KillMode=process
- IgnoreSIGPIPE=no
- SendSIGHUP=yes
-+
-+[Install]
-+WantedBy=getty.target
+  local.conf.sample.extended: update it for the archiver (2014-03-26 12:15:00 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/rootfs-dev-root
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/rootfs-dev-root
+
+Chen Qi (1):
+  image.bbclass: replace rootfs with /dev/root
+
+ meta/classes/image.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.9.0
+1.7.9.5
 
 
