@@ -1,24 +1,39 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id D6CF26F86A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B83C06F90B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Mar 2014 10:47:10 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 27 Mar 2014 11:47:07 +0100
-Message-ID: <533401A8.60304@enea.com>
-Date: Thu, 27 Mar 2014 11:47:04 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Thu, 27 Mar 2014 11:39:49 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id d49so2771801eek.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Mar 2014 04:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=FrghonFVsbQCvXpwnhfXwpFl387KXwFa4o9q9u6LnL8=;
+	b=CGE5TNBuX5sZJU2QYBzXElI/Mk0tGqlZ6HWqd2Z9BrWTc/grl3eyfG8W2mUB++0KOm
+	R6Oo07/Ne4xcWwoZb85tt7ENK/p5wWAaFMfxy0vgeG7jfrf1Wlp7yjXMnVge+C1YJhs8
+	XUKwPdkOaI0e9n779DCiO8fm6m2AP/CoizagZxYOUSw3bL+uXXlQ1sYtaEmA8ia2dfkH
+	w1jRx1Ok87QWkAnF5QQ7ubmJNOODCIEM9gZMV3r5K3YI5PgxIDs6SRBcrHVpDJzQ+jBw
+	DBc/QRKWIr8u8qzkt8QqKNWdOyoHXPcFSsqoxthIpQldJKwX/8mOZfSXvSxA3equIaHn
+	8xtQ==
+X-Received: by 10.15.31.70 with SMTP id x46mr1414252eeu.26.1395920389800;
+	Thu, 27 Mar 2014 04:39:49 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	44sm3789056eek.30.2014.03.27.04.39.48 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Mar 2014 04:39:48 -0700 (PDT)
+Date: Thu, 27 Mar 2014 12:39:49 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140327113949.GQ3709@jama>
+References: <cover.1395906475.git.liezhi.yang@windriver.com>
+	<9bd12f5fca3736b2975ce0249b3428b5b0af194e.1395906475.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, yocto <yocto@yoctoproject.org>
-References: <1395676843.24890.7.camel@ted> <5331935A.6060009@enea.com>
-In-Reply-To: <5331935A.6060009@enea.com>
-X-Originating-IP: [172.16.141.133]
-Subject: Re: Features in Yocto Project 1.7
+In-Reply-To: <9bd12f5fca3736b2975ce0249b3428b5b0af194e.1395906475.git.liezhi.yang@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] gummiboot: add COMPATIBLE_HOST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +46,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Mar 2014 10:47:14 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 27 Mar 2014 11:39:51 -0000
+X-Groupsio-MsgNum: 51697
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="XQ/JOjNzrAcf1KaA"
+Content-Disposition: inline
+
+--XQ/JOjNzrAcf1KaA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 2014-03-25 15:31, David Nystr=F6m wrote:
-> On 2014-03-24 17:00, Richard Purdie wrote:
->> As development on 1.6 finishes up, its time to think about what we
->> should be doing in the 1.7 cycle.
->>
->> I think from my perspective, in 1.7 I'd like to see us looking at
->> "Developer Workflow". Its a generic topic which I think covered multiple
->> areas (in no particular order):
->>
->> * the ADT/SDK and how it intergrates into the rest of the system
->
->> * toaster
->> * python devshell
->> * exteralsrc.bbclass
->> * memory resident bitbake
->> * how a standalone app developer might build an image
->
-> +1
-> My wishlist:
->
-> 1. Assembly of an image from a package repository using the SDK.
-> 2. Ability to easily package multiple kernel flavours(builds with
-> different kernel configs) with linux related bbclass:es.
+On Thu, Mar 27, 2014 at 04:11:22AM -0400, Robert Yang wrote:
+> The gummiboot depends on gnu-efi which had set:
+>=20
+> COMPATIBLE_HOST =3D "(x86_64.*|i.86.*)-linux"
+>=20
+> We also need set this for gummiboot, otherwise there would be build
+> failures for other non-x86 archs.
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-bsp/gummiboot/gummiboot_git.bb |    2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb b/meta/recipes-b=
+sp/gummiboot/gummiboot_git.bb
+> index 5868a23..61de58c 100644
+> --- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+> +++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
+> @@ -13,6 +13,8 @@ PV =3D "43+git${SRCPV}"
+>  SRCREV =3D "4062c51075ba054d4949c714fe06123f9ad3097d"
+>  SRC_URI =3D "git://anongit.freedesktop.org/gummiboot"
+> =20
 
-3. layer based repository splitting.
---
-When having multiple users of a base repository. Ease management of=20
-customized repos, by having he ability to mark layers as "split layers",=20
-this would yield a separate repo per "split layer", which would contain=20
-packages modified/created by this layer.
+It would be good to add comment here saying it's only because of gnu-efi
+dependency (if gummiboot itself can in theory work on other hosts).
 
-Said packages would also be built for the base repo, but without=20
-split-layer modifications.
+People won't notice it in commit message when they are looking at
+recipe.
 
-A customized distro would use a compound of the base repo + split repo,=20
-where the split repo would have higher priority.
+> +COMPATIBLE_HOST =3D "(x86_64.*|i.86.*)-linux"
+> +
+>  S =3D "${WORKDIR}/git"
+> =20
+>  EXTRA_OECONF =3D "--disable-manpages --with-efi-includedir=3D${STAGING_I=
+NCDIR} \
+> --=20
+> 1.7.10.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-I guess this could mean one deploy directory per split-layer.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Br,
-David
+--XQ/JOjNzrAcf1KaA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> Br,
-> David
->
->
->> * locked sstate
->>
->> and probably more I'm forgetting.
->>
->> If anyone does have things they plan to work on, or ideas for things
->> that should be worked on, please do file enhancement requests in the
->> bugzilla:
->>
->> https://bugzilla.yoctoproject.org/
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iEYEARECAAYFAlM0DgUACgkQN1Ujt2V2gByLBACdE3ZbGetdpjxoEcgoV+Aeh9np
+3/4Ani1tKHtQbNJC2kcMzbOXnqCmAF+S
+=5LiN
+-----END PGP SIGNATURE-----
 
+--XQ/JOjNzrAcf1KaA--
