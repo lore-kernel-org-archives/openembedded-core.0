@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 703036F465
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 536246F157
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:43:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hxHv004551
+	Fri, 28 Mar 2014 09:44:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9i7YR024672
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:44:00 -0700 (PDT)
+	Fri, 28 Mar 2014 02:44:07 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:43:59 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 28 Mar 2014 02:44:06 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:43:38 +0800
-Message-ID: <a83b601a6841cd1d4d0745f7d584a2f5d5612be2.1395997035.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:49 +0800
+Message-ID: <cover.1395996410.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1395997035.git.hongxu.jia@windriver.com>
-References: <cover.1395997035.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 4/4] nss-3.15.1: fix CVE-2013-5605
+Subject: [PATCH 0/5][Part IV] wr-misc patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:43:59 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 09:44:06 -0000
 Content-Type: text/plain
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+WindRiver patches was sent for YP compliance.
 
-Mozilla Network Security Services (NSS) 3.14 before 3.14.5 and
-3.15 before 3.15.3 allows remote attackers to cause a denial
-of service or possibly have unspecified other impact via
-invalid handshake packets.
+There are total 22 patches, and separate them into 4 parts,
+each part is individual which means there is no dependence
+between them.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-5605
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../nss/files/nss-3.15.1-fix-CVE-2013-5605.patch       | 18 ++++++++++++++++++
- meta/recipes-support/nss/nss.inc                       |  1 +
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-5605.patch
+//Hongxu
 
-diff --git a/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-5605.patch b/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-5605.patch
-new file mode 100644
-index 0000000..7203d02
---- /dev/null
-+++ b/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-5605.patch
-@@ -0,0 +1,18 @@
-+signed-off-by: Ryan Sleevi <ryan.sleevi@gmail.com>
-+Upstream-Status: Backport
-+reference:https://hg.mozilla.org/projects/nss/rev/e79a09364b5e
-+
-+--- a/nss/lib/ssl/ssl3con.c
-++++ b/nss/lib/ssl/ssl3con.c
-+@@ -781,6 +781,11 @@ static SECStatus
-+ Null_Cipher(void *ctx, unsigned char *output, int *outputLen, int maxOutputLen,
-+ 	    const unsigned char *input, int inputLen)
-+ {
-++    if (inputLen > maxOutputLen) {
-++        *outputLen = 0;  /* Match PK11_CipherOp in setting outputLen */
-++        PORT_SetError(SEC_ERROR_OUTPUT_LEN);
-++        return SECFailure;
-++    }
-+     *outputLen = inputLen;
-+     if (input != output)
-+ 	PORT_Memcpy(output, input, inputLen);
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index 6364562..404decc 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -17,6 +17,7 @@ SRC_URI = "\
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-     file://nss-3.15.1-fix-CVE-2013-1741.patch \
-+    file://nss-3.15.1-fix-CVE-2013-5605.patch \
- "
- SRC_URI_append_class-target = "\
-     file://nss.pc.in \
+The following changes since commit 8c3eb5ee4582b6f6d489549290937657f37fc19e:
+
+  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:30 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/wr-misc-patches-4
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/wr-misc-patches-4
+
+Konrad Scherer (1):
+  syslinux.bbclass: Enable additional kernel parameters for syslinux
+
+Mark Hatle (2):
+  packagegroups: Remove toolchain *-symlinks packages
+  packagegroup-self-hosted: Use packagegroup-core-buildessential
+
+Ming Liu (1):
+  kernel.bbclass: handles symbolic KERNEL_OUTPUT in bundle_initramfs
+    task
+
+Peter Seebach (1):
+  libc-common.bbclass: rename ALL the packages
+
+ meta/classes/kernel.bbclass                         | 21 ++++++++++++++++++---
+ meta/classes/libc-common.bbclass                    | 19 +++++++++++++------
+ meta/classes/syslinux.bbclass                       |  5 +++++
+ .../packagegroup-core-buildessential.bb             |  4 ----
+ .../packagegroups/packagegroup-self-hosted.bb       | 16 +---------------
+ 5 files changed, 37 insertions(+), 28 deletions(-)
+
 -- 
 1.8.1.2
 
