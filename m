@@ -1,23 +1,24 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E593E605F4
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 047086EAFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:05:56 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Mar 2014 02:05:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,749,1389772800"; d="scan'208";a="501557218"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Mar 2014 02:05:42 -0700
-Date: Fri, 28 Mar 2014 11:05:41 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140328090541.GB18728@lpalcu-linux>
-References: <cover.1395933640.git.laurentiu.palcu@intel.com>
+	Fri, 28 Mar 2014 09:42:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9gwNF004521
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 28 Mar 2014 02:42:58 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 28 Mar 2014 02:42:57 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Mar 2014 17:42:39 +0800
+Message-ID: <cover.1395996041.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-In-Reply-To: <cover.1395933640.git.laurentiu.palcu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 0/1] package_manager.py: delete RPM db locks after calling rpmresolve
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/6][Part I] wr-misc patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:05:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 28 Mar 2014 09:43:01 -0000
+Content-Type: text/plain
 
-Put this on hold. I'll do some more investigations. I want to see what's
-the deal with those rpm lock DBs and why we don't delete them only once,
-after the rootfs generation has completely finished (after postprocess
-commands are called, etc).
+WindRiver patches was sent for YP compliance.
 
-laurentiu
+There are total 22 patches, and separate them into 4 parts,
+each part is individual which means there is no dependence
+between them.
 
-On Thu, Mar 27, 2014 at 06:18:52PM +0200, Laurentiu Palcu wrote:
-> The following changes since commit c4eeaa8e35e926b6d1f633549f76d1ba9ed9278b:
-> 
->   bitbake: knotty: Show a link to the logfile for failed setscene tasks (2014-03-27 10:42:08 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib lpalcu/b6049_do_rootfs_crash
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b6049_do_rootfs_crash
-> 
-> Laurentiu Palcu (1):
->   package_manager.py: delete RPM db locks after calling rpmresolve
-> 
->  meta/lib/oe/package_manager.py |   12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> -- 
-> 1.7.9.5
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+//Hongxu
+
+The following changes since commit 8c3eb5ee4582b6f6d489549290937657f37fc19e:
+
+  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:30 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/wr-misc-patches
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/wr-misc-patches
+
+Baogen Shang (1):
+  openssl: Fix pod2man des.pod error on Ubuntu 12.04
+
+Jeff Polk (1):
+  qemu: Add addition environment space to boot loader qemu-system-mips
+
+Jiang Lu (1):
+  Qemu:Arm:versatilepb: Add memory size checking
+
+Robert Yang (1):
+  kmod: fix O_CLOEXEC not supported on old kernel
+
+Ting Liu (1):
+  wayland-native: disable unused macro checks to fix build issue on
+    Centos5.x
+
+Yue Tao (1):
+  initscripts: Avoid restarting rpcbind daemon
+
+ .../openssl-1.0.1e/openssl-fix-des.pod-error.patch | 19 ++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
+ .../initscripts/initscripts-1.0/mountnfs.sh        |  9 ++--
+ ...-Arm-versatilepb-Add-memory-size-checking.patch | 40 +++++++++++++++++
+ .../qemu/files/qemu-enlarge-env-entry-size.patch   | 31 ++++++++++++++
+ meta/recipes-devtools/qemu/qemu_1.7.0.bb           |  4 +-
+ ...disable-macro-checks-not-used-for-scanner.patch | 50 ++++++++++++++++++++++
+ meta/recipes-graphics/wayland/wayland_1.4.0.bb     |  4 +-
+ meta/recipes-kernel/kmod/kmod.inc                  |  1 +
+ meta/recipes-kernel/kmod/kmod/fix-O_CLOEXEC.patch  | 38 ++++++++++++++++
+ 10 files changed, 192 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
+ create mode 100644 meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+ create mode 100644 meta/recipes-devtools/qemu/files/qemu-enlarge-env-entry-size.patch
+ create mode 100644 meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
+ create mode 100644 meta/recipes-kernel/kmod/kmod/fix-O_CLOEXEC.patch
+
+-- 
+1.8.1.2
+
 
