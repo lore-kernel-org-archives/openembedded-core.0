@@ -1,39 +1,28 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 110166BFF6
+Return-Path: <denis@denix.org>
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB676CE74
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 16:53:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Mar 2014 09:53:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,751,1389772800"; d="scan'208";a="509112234"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2014 09:53:32 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 28 Mar 2014 16:52:17 +0000
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX151.ger.corp.intel.com ([163.33.192.59]) with mapi id
-	14.03.0123.003; Fri, 28 Mar 2014 16:52:17 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Jia, Hongxu (Wind River)" <hongxu.jia@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/6] initscripts: Avoid restarting rpcbind
-	daemon
-Thread-Index: AQHPSmo1n+bMo/wXoka+vFMjUDf/75r2tpiQ
-Date: Fri, 28 Mar 2014 16:52:16 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1CE744CF@IRSMSX105.ger.corp.intel.com>
-References: <cover.1395996041.git.hongxu.jia@windriver.com>
-	<a2ac209bcc377adfdf62d90d7f3b09cec817d1cc.1395996041.git.hongxu.jia@windriver.com>
-In-Reply-To: <a2ac209bcc377adfdf62d90d7f3b09cec817d1cc.1395996041.git.hongxu.jia@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
-MIME-Version: 1.0
-Cc: "Wold, Saul" <saul.wold@intel.com>
-Subject: Re: [PATCH 3/6] initscripts: Avoid restarting rpcbind daemon
+	Fri, 28 Mar 2014 17:11:21 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N35004IYP2NJG40@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 28 Mar 2014 12:11:12 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id A4D3A20357; Fri,
+	28 Mar 2014 13:11:11 -0400 (EDT)
+Date: Fri, 28 Mar 2014 13:11:11 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Kai Kang <kai.kang@windriver.com>
+Message-id: <20140328171111.GH3370@denix.org>
+References: <cover.1395825881.git.kai.kang@windriver.com>
+	<a1ff6a91da21f19e5365114dca7ae942803efcd6.1395825881.git.kai.kang@windriver.com>
+MIME-version: 1.0
+In-reply-to: <a1ff6a91da21f19e5365114dca7ae942803efcd6.1395825881.git.kai.kang@windriver.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] cryptodev-linux: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 16:53:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Mar 2014 17:11:21 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Hi Hongxu,
-Does this change fix a bug or an inappropriate system behavior?
+On Wed, Mar 26, 2014 at 06:15:57PM +0800, Kai Kang wrote:
+> Yocto kernel linux-yocto uses cryptodev-linux to use device /dev/crypto.
+> So add cryptodev-linux which is one alternative of ocf-linux and then
+> remove ocf-linux later.
 
-Thanks,
-Cristian Iorga
-YP
-Intel Corporation
+Quick question - is it native-only recipe? Does it expect cryptodev module to 
+be patched into kernel? Is this what the above description implies - 
+"linux-yocto uses cryptodev-linux"?
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Hongxu Jia
-Sent: Friday, March 28, 2014 11:43 AM
-To: openembedded-core@lists.openembedded.org
-Cc: Wold, Saul
-Subject: [OE-core] [PATCH 3/6] initscripts: Avoid restarting rpcbind daemon
+From the looks of it, the recipe only installs a header and doesn't even build 
+the out-of-tree module for cryptodev, that cryptodev-linux provides...
 
-From: Yue Tao <Yue.Tao@windriver.com>
 
-Check whether rpcbind daemon already run before starting it.
-
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/me=
-ta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-index fe6c196..be9f597 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-@@ -67,9 +67,12 @@ if test "$rpcbind" =3D yes  then
- 	if test -x /usr/sbin/rpcbind
- 	then
--		echo -n "Starting rpcbind... "
--		start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
--		sleep 2
-+		service rpcbind status > /dev/null
-+		if [ $? !=3D 0 ]; then
-+			echo -n "Starting rpcbind..."
-+			start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
-+			sleep 2
-+		fi
- 	fi
- fi
-=20
---
-1.8.1.2
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  .../openssl/cryptodev-linux_1.6.bb                 | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/openssl/cryptodev-linux_1.6.bb
+> 
+> diff --git a/meta/recipes-connectivity/openssl/cryptodev-linux_1.6.bb b/meta/recipes-connectivity/openssl/cryptodev-linux_1.6.bb
+> new file mode 100644
+> index 0000000..320716d
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/cryptodev-linux_1.6.bb
+> @@ -0,0 +1,22 @@
+> +SUMMARY = "A /dev/crypto device driver"
+> +HOMEPAGE = "http://cryptodev-linux.org/"
+> +
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> +
+> +SRC_URI = "http://download.gna.org/cryptodev-linux/${BPN}-${PV}.tar.gz"
+> +
+> +SRC_URI[md5sum] = "eade38998313c25fd7934719cdf8a2ea"
+> +SRC_URI[sha256sum] = "75f1425c8ea1f8cae523905a5a046a35092327a6152800b0b86efc4e56fb3e2f"
+> +
+> +do_compile() {
+> +	:
+> +}
+> +
+> +# Just install cryptodev.h which is the only header file needed to be exported
+> +do_install() {
+> +	install -D ${S}/crypto/cryptodev.h ${D}${includedir}/crypto/cryptodev.h
+> +}
+> +
+> +ALLOW_EMPTY_${PN} = "1"
+> +BBCLASSEXTEND = "native nativesdk"
+> -- 
+> 1.8.1.2
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
