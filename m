@@ -1,38 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 061B36E3BB
+Return-Path: <valentin.popa@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D829E60E07
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 15:23:25 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 142so3778880ykq.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 08:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=kvOEjVo1yvDQ5KwnpQBtqAEGcPZ+FZVaGn+rpZUSFks=;
-	b=NJKPyMZMXj1qNRuR7mjJtqPoL3UsLk6HI8JZxbtSLNLG59lFCqImtVzqATwVtUIsQX
-	MWjQyjC3xn2iR4tqcPRM0QnCiKEY72MhF/SGzlcaZos8BKiDATgGC33IO8pawg+TcqOa
-	s255zCkWoUcWZJAT5NvZFbGPpI/p4QfUMxwhGPklheCJY8KCXoMUpELiznmow5+9zKlB
-	w7xwgSu8B0Y0ixCReFXyxu48tkBrnfM+QWbk70LYsuef4MwuAcEiT4Yen9yx7br0j30U
-	n0FPXdlX1L+pOk7Szh48u4l46MKzHilv82lCmGOgQrTUPtYjlPdU0TlFDWhnDUODxpS9
-	B73Q==
+	Fri, 28 Mar 2014 15:34:11 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Mar 2014 08:33:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,751,1389772800"; d="scan'208";a="509062975"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2014 08:32:47 -0700
+Message-ID: <5335960D.7080600@intel.com>
+Date: Fri, 28 Mar 2014 17:32:29 +0200
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-X-Received: by 10.236.40.12 with SMTP id e12mr1857483yhb.155.1396020206210;
-	Fri, 28 Mar 2014 08:23:26 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Fri, 28 Mar 2014 08:23:26 -0700 (PDT)
-In-Reply-To: <533401A8.60304@enea.com>
-References: <1395676843.24890.7.camel@ted> <5331935A.6060009@enea.com>
-	<533401A8.60304@enea.com>
-Date: Fri, 28 Mar 2014 12:23:26 -0300
-X-Google-Sender-Auth: 7p7KiCYittTTTSdcFCBIeCaUFGI
-Message-ID: <CAP9ODKrT1c3UP30ntyi1c+CGJdBW49-6CnoTtXfwoJSC63XRTQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-Cc: yocto <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Features in Yocto Project 1.7
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+	<openembedded-core@lists.openembedded.org>
+References: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+Subject: Re: [PATCH v2] weston : refactor to identify EGL, cairoglesv2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +34,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 15:23:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Mar 2014 15:34:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello David,
-
-On Thu, Mar 27, 2014 at 7:47 AM, David Nystr=F6m <david.nystrom@enea.com> w=
-rote:
-> On 2014-03-25 15:31, David Nystr=F6m wrote:
->>
->> On 2014-03-24 17:00, Richard Purdie wrote:
->>>
->>> As development on 1.6 finishes up, its time to think about what we
->>> should be doing in the 1.7 cycle.
->>>
->>> I think from my perspective, in 1.7 I'd like to see us looking at
->>> "Developer Workflow". Its a generic topic which I think covered multipl=
-e
->>> areas (in no particular order):
->>>
->>> * the ADT/SDK and how it intergrates into the rest of the system
->>
->>
->>> * toaster
->>> * python devshell
->>> * exteralsrc.bbclass
->>> * memory resident bitbake
->>> * how a standalone app developer might build an image
->>
->>
->> +1
->> My wishlist:
->>
->> 1. Assembly of an image from a package repository using the SDK.
->> 2. Ability to easily package multiple kernel flavours(builds with
->> different kernel configs) with linux related bbclass:es.
+On 03/28/2014 04:02 PM, Otavio Salvador wrote:
+> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
 >
+> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>   meta/recipes-graphics/wayland/weston_1.4.0.bb | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> 3. layer based repository splitting.
-> --
-> When having multiple users of a base repository. Ease management of
-> customized repos, by having he ability to mark layers as "split layers",
-> this would yield a separate repo per "split layer", which would contain
-> packages modified/created by this layer.
+> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+> index e0c354d..5213166 100644
+> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+> @@ -23,13 +23,12 @@ EXTRA_OECONF = "--enable-setuid-install \
+>                   --enable-simple-clients \
+>                   --enable-clients \
+>                   --enable-demo-clients-install \
+> -                --disable-simple-egl-clients \
+>                   --disable-libunwind \
+>                   --disable-rpi-compositor \
+>                   --disable-rdp-compositor"
+>   
+>   
+> -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland', '', d)} \
+> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
+>                      ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+>                      ${@base_contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
+>                     "
+> @@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev way
+>   # Weston on KMS
+>   PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa mtdev"
+>   # Weston on Wayland (nested Weston)
+> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl --disable-wayland-compositor,virtual/mesa"
+> +PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
+>   # Weston on X11
+>   PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
+>   # Headless Weston
+> @@ -50,6 +49,10 @@ PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,ude
+>   PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam drm"
+>   # VA-API desktop recorder
+>   PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
+> +# Weston with EGL support
+> +PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
+> +# Weston with cairo glesv2 support
+> +PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
+>   
+>   do_install_append() {
+>   	# Weston doesn't need the .la files to load modules, so wipe them
 
-So you mean:
-
- * base package feed
- * meta-qt5 package feed
-
-and in case meta-qt5 adds a bbappend, in a existing recipe, what will
-be the behavior?
-
-> Said packages would also be built for the base repo, but without split-la=
-yer
-> modifications.
->
-> A customized distro would use a compound of the base repo + split repo,
-> where the split repo would have higher priority.
->
-> I guess this could mean one deploy directory per split-layer.
-
-This part is easy as all package managers we use has support for it (I
-think) so it is a matter of proper generating those and add a method
-to include it in the image, the first part is the most complicated one
-I think...
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Looks good to me.
+Sorry Otavio for the delay introduced by the discussions. Hope it will 
+be merged quickly and get your issue solved :)
+Thanks!
 
