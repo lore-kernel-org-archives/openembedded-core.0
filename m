@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F39006F7E0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 735706EC83
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:44:13 +0000 (UTC)
+	Fri, 28 Mar 2014 09:44:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9iERF004557
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9iGMs024702
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:44:14 -0700 (PDT)
+	Fri, 28 Mar 2014 02:44:18 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:44:14 -0700
+	14.3.169.1; Fri, 28 Mar 2014 02:44:16 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:43:52 +0800
-Message-ID: <3ac712e3b9c2e6138fd34865a98a051ae16a45bf.1395996410.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:53 +0800
+Message-ID: <f282ca8748c5972477200cc3cacdad38a0943a95.1395996410.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1395996410.git.hongxu.jia@windriver.com>
 References: <cover.1395996410.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 3/5] packagegroup-self-hosted: Use packagegroup-core-buildessential
+Subject: [PATCH 4/5] syslinux.bbclass: Enable additional kernel parameters for syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:44:14 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 09:44:17 -0000
 Content-Type: text/plain
 
-From: Mark Hatle <mark.hatle@windriver.com>
+From: Konrad Scherer <Konrad.Scherer@windriver.com>
 
-Instead of manually specifying build dependencies, use the
-packagegroup-core-buildessential.  This ensures there is only one place
-that needs to be modified when toolchain items and dependencies change.
+Add additional parameter 'SYSLINUX_KERNEL_ARGS' in order to allow
+for specific kernel parameters to be set when using syslinux.
 
+The extra kernel parameters are added to btype[1] and then written out
+as part of the APPEND field.
+
+Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ meta/classes/syslinux.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 5581d8e..fe49fb4 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -66,33 +66,23 @@ RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 62d4b7a..8964d3f 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -15,6 +15,7 @@
+ # ${SYSLINUX_DEFAULT_CONSOLE} - set to "console=ttyX" to change kernel boot default console
+ # ${SYSLINUX_SERIAL} - Set an alternate serial port or turn off serial with empty string
+ # ${SYSLINUX_SERIAL_TTY} - Set alternate console=tty... kernel boot argument
++# ${SYSLINUX_KERNEL_ARGS} - Add additional kernel arguments
  
- # eglibc-utils: for rpcgen
- RDEPENDS_packagegroup-self-hosted-sdk = "\
--    autoconf \
--    automake \
--    binutils \
-     ccache \
-     coreutils \
--    cpp \
-     distcc \
-     eglibc-utils \
-     eglibc-gconv-ibm850 \
-     file \
-     findutils \
--    g++ \
--    gcc \
-     intltool \
-     ldd \
-     less \
-     libssp \
-     libssp-dev \
-     libssp-staticdev \
--    libstdc++ \
--    libstdc++-dev \
--    libtool \
--    make \
-     mktemp \
-+    packagegroup-core-buildessential \
-     perl-module-re \
-     perl-module-text-wrap \
--    pkgconfig \
-     quilt \
-     sed \
-     "
+ do_bootimg[depends] += "syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot"
+@@ -162,6 +163,10 @@ python build_syslinux_cfg () {
+         for btype in btypes:
+             cfgfile.write('LABEL %s%s\nKERNEL /vmlinuz\n' % (btype[0], label))
+ 
++            exargs = d.getVar('SYSLINUX_KERNEL_ARGS', True)
++            if exargs:
++                btype[1] += " " + exargs
++
+             append = localdata.getVar('APPEND', True)
+             initrd = localdata.getVar('INITRD', True)
+ 
 -- 
 1.8.1.2
 
