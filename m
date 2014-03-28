@@ -1,40 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 28FC96D189
+Return-Path: <valentin.popa@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1101C6B5DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 14:02:41 +0000 (UTC)
-Received: by mail-yh0-f50.google.com with SMTP id c41so4991331yho.37
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 07:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=cUjEBPVnkDSqkkPE+QZBelgE0B31iwe+Hq4i8wMdMMI=;
-	b=YU2DMjntvQhFUWS2D9liQHf9kmPn5EdgPa0dbcBK3bpkw3KHwT5gV3UZp6XbDSR0NJ
-	3UShhjgnIQihvOBu6faSBpMraeic3a8gTy6VOuB9KT4Z4gpwlGeSkg1FRQX+b6H/En2c
-	sOdYBI5Q9OY0OMJw6XRCTXf1k+X6CrHCc1MXWnfUNYC6TDZNzw97zOd/O+SIQ+9C/ug4
-	MB/GUrtgVFbPY2DQslBzjdB3GA7OspgxzoMBiSK8Er9DSn30dLcS435xDsU8AY8V3WQu
-	aqevjw7O5wIoxzQTehrXGZd/0da94psNjyJpipQMEByXh32fbT7MDOHoWi+ozw1NCcR9
-	HPYg==
-X-Received: by 10.236.151.83 with SMTP id a59mr11528216yhk.48.1396015362547;
-	Fri, 28 Mar 2014 07:02:42 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id k23sm8921632yhj.45.2014.03.28.07.02.40
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Mar 2014 07:02:41 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id C1A3E19C913B2; Fri, 28 Mar 2014 11:02:37 -0300 (BRT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 11:02:37 -0300
-Message-Id: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.9.1
-Organization: O.S. Systems Software LTDA.
+	Fri, 28 Mar 2014 14:28:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Mar 2014 07:28:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,751,1389772800"; d="scan'208";a="509023272"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2014 07:28:18 -0700
+Message-ID: <533586F0.30608@intel.com>
+Date: Fri, 28 Mar 2014 16:28:00 +0200
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1395868053-27393-1-git-send-email-otavio@ossystems.com.br>	<533419E9.3080509@intel.com>	<CAP9ODKrUyfcP1vzEgYupPM-rg2jeE1VgPsP++Nh=fDeBuTjc7A@mail.gmail.com>	<533569B6.9090103@intel.com>	<CAP9ODKqwkv4yvcKPqMeHSuwKQ3UUzZCWLK6==o46G6wsqDkc_A@mail.gmail.com>	<53357916.3090108@intel.com>	<CAP9ODKo6LmdrbUoXKjpwbVb4jcL5M4a4_tUAv1GdbwDSR-Cs6Q@mail.gmail.com>	<53357AFD.9080902@intel.com>
+	<CAP9ODKoJKqKQhaTf93UPmDvqojY1UbiGuzPZuGjKj9QurgYzuw@mail.gmail.com>
+In-Reply-To: <CAP9ODKoJKqKQhaTf93UPmDvqojY1UbiGuzPZuGjKj9QurgYzuw@mail.gmail.com>
 Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] weston : refactor to identify EGL, cairoglesv2 support
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston : refactor to identify EGL, cairoglesv2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,56 +35,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 14:02:47 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 14:28:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+On 03/28/2014 03:55 PM, Otavio Salvador wrote:
+> On Fri, Mar 28, 2014 at 10:37 AM, Valentin Popa <valentin.popa@intel.com> wrote:
+>> On 03/28/2014 03:35 PM, Otavio Salvador wrote:
+>>> On Fri, Mar 28, 2014 at 10:28 AM, Valentin Popa <valentin.popa@intel.com>
+>>> wrote:
+>>>> On 03/28/2014 02:53 PM, Otavio Salvador wrote:
+>>>>> On Fri, Mar 28, 2014 at 9:23 AM, Valentin Popa <valentin.popa@intel.com>
+>>>>> wrote:
+>>>>>> On 03/27/2014 08:09 PM, Otavio Salvador wrote:
+>>>>>>> On Thu, Mar 27, 2014 at 9:30 AM, Valentin Popa
+>>>>>>> <valentin.popa@intel.com>
+>>>>>>> wrote:
+>>>>>>>> On 03/26/2014 11:07 PM, Otavio Salvador wrote:
+>>>>>>>>> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>>>>>>> ---
+>>>>>>>>>       meta/recipes-graphics/wayland/weston_1.4.0.bb | 7 +++++--
+>>>>>>>>>       1 file changed, 5 insertions(+), 2 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>>> b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>>> index e0c354d..a41b5cd 100644
+>>>>>>>>> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>>> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>>> @@ -23,7 +23,6 @@ EXTRA_OECONF = "--enable-setuid-install \
+>>>>>>>>>                       --enable-simple-clients \
+>>>>>>>>>                       --enable-clients \
+>>>>>>>>>                       --enable-demo-clients-install \
+>>>>>>>>> -                --disable-simple-egl-clients \
+>>>>>>>>>                       --disable-libunwind \
+>>>>>>>>>                       --disable-rpi-compositor \
+>>>>>>>>>                       --disable-rdp-compositor"
+>>>>>>>>> @@ -39,7 +38,7 @@ PACKAGECONFIG ??=
+>>>>>>>>> "${@base_contains('DISTRO_FEATURES',
+>>>>>>>>> 'wayland', 'kms fbdev way
+>>>>>>>>>       # Weston on KMS
+>>>>>>>>>       PACKAGECONFIG[kms] =
+>>>>>>>>> "--enable-drm-compositor,--disable-drm-compositor,drm udev
+>>>>>>>>> virtual/mesa
+>>>>>>>>> mtdev"
+>>>>>>>>>       # Weston on Wayland (nested Weston)
+>>>>>>>>> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl
+>>>>>>>>> --disable-wayland-compositor,virtual/mesa"
+>>>>>>>>
+>>>>>>>> We need --disable-egl if wayland is not in DISTRO_FEATURES. See bug:
+>>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5867
+>>>>>>> As egl is not part of PACKAGECONFIG it will do the right thing, no?
+>>>>>>>
+>>>>>> Yes, it will. My concerns are about --enable-drm-compositor (kms)
+>>>>>> without
+>>>>>> egl; I know that the user can pass at runtime the --use-pixman flag,
+>>>>>> but
+>>>>>> I
+>>>>>> think it's more important to keep egl enabled by default in weston
+>>>>>> (this
+>>>>>> is
+>>>>>> probably the main "usecase" of wayland/weston). So if you enable egl,
+>>>>>> the
+>>>>>> bug will reproduce.
+>>>>> The PACKAGECONFIG is for flexibility and so we are using it here as it
+>>>>> is designed. I understand we still don't have a way to map config
+>>>>> dependencies but this is no excuse to say the patch is wrong or
+>>>>> inappropriate.
+>>>>>
+>>>>> We are using this in the upcoming i.MX6 Wayland support we sent to
+>>>>> meta-fsl-arm and the only blocker is this patch be accepted.
+>>>>>
+>>>> The patch is not wrong, but disables egl. Looks good to me and if merged
+>>>> I'll submit a patch to add egl in PACKAGECONFIG.
+>>> If you want, I can add the egl there, and send v2. That's easy.
+>> That would be great. And don't forget to --disable-egl in case wayland is
+>> not in PACKAGECONFIG.
+> This is the point I don't agree. I think user needs to drop egl when
+> dropping wayland.
+>
+Makes sens. So you need:
+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'egl 
+kms fbdev wayland', '', d)} \
 
-Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-graphics/wayland/weston_1.4.0.bb | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.4.0.bb
-index e0c354d..5213166 100644
---- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
-@@ -23,13 +23,12 @@ EXTRA_OECONF = "--enable-setuid-install \
-                 --enable-simple-clients \
-                 --enable-clients \
-                 --enable-demo-clients-install \
--                --disable-simple-egl-clients \
-                 --disable-libunwind \
-                 --disable-rpi-compositor \
-                 --disable-rdp-compositor"
- 
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland', '', d)} \
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
-                   "
-@@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev way
- # Weston on KMS
- PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa mtdev"
- # Weston on Wayland (nested Weston)
--PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl --disable-wayland-compositor,virtual/mesa"
-+PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
- # Weston on X11
- PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
- # Headless Weston
-@@ -50,6 +49,10 @@ PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,ude
- PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam drm"
- # VA-API desktop recorder
- PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
-+# Weston with EGL support
-+PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
-+# Weston with cairo glesv2 support
-+PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
--- 
-1.9.1
 
 
