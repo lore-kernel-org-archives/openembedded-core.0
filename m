@@ -1,25 +1,25 @@
-Return-Path: <denis@denix.org>
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 203C76B58B
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D29336B269
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 21:29:49 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173017.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N3600CST11QUQ80@vms173017.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 28 Mar 2014 16:29:50 -0500 (CDT)
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id D02B820085; Fri,
-	28 Mar 2014 17:29:49 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Mar 2014 17:29:44 -0400
-Message-id: <1396042184-7372-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 1.9.1
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] [RFC] udev-extraconf: update mount.sh to use /run/media instead of /media
+	Fri, 28 Mar 2014 21:38:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Mar 2014 14:38:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,752,1389772800"; d="scan'208";a="509920207"
+Received: from unknown (HELO [10.255.12.30]) ([10.255.12.30])
+	by orsmga002.jf.intel.com with ESMTP; 28 Mar 2014 14:38:24 -0700
+Message-ID: <1396042703.10059.162.camel@empanada>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
+Date: Fri, 28 Mar 2014 16:38:23 -0500
+In-Reply-To: <1395958078-5191-1-git-send-email-joaohf@gmail.com>
+References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
+	<1395958078-5191-1-git-send-email-joaohf@gmail.com>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 0/7] wic: Add --rootfs option to --source param
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,93 +32,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 21:29:52 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 21:38:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Thu, 2014-03-27 at 19:07 -0300, João Henrique Ferreira de Freitas
+wrote:
+> Hi, 
+> 
+> These patchs allows the user create the following directdisk-multi-rootfs.wks file:
+> 
+>   part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos \
+>     --label boot --active --align 1024
+>   part / --source rootfs --ondisk sda --fstype=ext3 --label primary --align 1024
+> 
+>   part /standby --source rootfs --rootfs-dir=<special rootfs directory> \
+>     --ondisk sda --fstype=ext3 --label secondary --align 1024
+> 
+>   bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
+> 
+> The special thing is the /standby partition. Which using rootfs with
+> a extra '--rootfs' argument instruct the RootfsPlugin what should be
+> the rootfs directory to be used to create the partition.
+> 
+> Besides that, the user can specify a more generic connection
+> between wic command-line --rootfs-dir and what is describing in .wks file. Like this:
+> 
+> wic create ... --rootfs-dir rootfs1=/some/rootfs/dir --rootfs-dir rootfs2=/some/other/rootfs/dir
+> 
+>   part / --source rootfs --rootfs-dir="rootfs1" --ondisk sda --fstype=ext3 --label primary --align 1024
+> 
+>   part /standby --source rootfs --rootfs-dir="rootfs2" \
+>     --ondisk sda --fstype=ext3 --label secondary --align 1024
+> 
+> So no hard-coded path is used in .wks. The connection string could be any string that 
+> makes a link between the '--rootfs-dir'
+> 
+> It is a very simple features that let users to customize your partition
+> setup. I thought in the case where we have two rootfs (like active and
+> standby, e.g used to software update). Or the odd cases when a special
+> partition need to be create to hold whatever files.
+> 
+> The workflow of wic use remains the same. All the config needs to be done
+> in .wks file.
+> 
+> To test I used <special rootfs directory> as a rootfs created by 'bitbkae core-image-minimal-dev'
+> (e.g: /srv/build/yocto/master/tmp/work/genericx86-poky-linux/core-image-minimal-dev/1.0-r0/rootfs).
+> 
 
-This is done to work around the issue of auto-mounting block devices
-(i.e. SD cards) when root filesystem is still in read-only mode and
-creating /media/<device> mount-points by udev is not possible. That
-is due to udev (/etc/rcS.d/S03udev) getting started earlier than
-checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
-rootfs as read-write.
+Hi João,
 
-Although, canonical FHS specifies /media/<device> as a mount point
-for removable media devices, the latest 2.3 version was released in
-2004 and since then FreeDesktop/udisks and other tools adopted the
-new /run/media/<user>/<device> location. That was done to overcome
-read-only rootfs limitation, since /run is usually a tmpfs mounted
-partition, plus avoid name-clash between users.
+That helped a lot - I was able to get images generated using both the -e
+and explicitly specifying all the arguments using the directdisk-multi
+from before.  So these worked fine:
 
-For our embedded systems environment we assume single-user operation
-and hence simplify mount point to just /run/media/<device>.
+[trz@empanada build]$ wic create directdisk-multi -e core-image-minimal
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/recipes-core/udev/udev-extraconf/mount.sh | 14 +++++++-------
- meta/recipes-core/udev/udev-extraconf_1.0.bb   |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
+[trz@empanada build]$ wic create directdisk-multi
+-b /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/share
+-k /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/src/kernel
+-n /home/trz/yocto/master-cur/build/tmp/sysroots/x86_64-linux
+-r /home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs/
+Creating image(s)...
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index cb57e47..3e4f21f 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -20,7 +20,7 @@ done
- automount() {	
- 	name="`basename "$DEVNAME"`"
- 
--	! test -d "/media/$name" && mkdir -p "/media/$name"
-+	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
- 	# Silent util-linux's version of mounting auto
- 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
- 	then
-@@ -38,12 +38,12 @@ automount() {
- 		;;
- 	esac
- 
--	if ! $MOUNT -t auto $DEVNAME "/media/$name"
-+	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
- 	then
--		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
--		rm_dir "/media/$name"
-+		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-+		rm_dir "/run/media/$name"
- 	else
--		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
-+		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
- 		touch "/tmp/.automount-$name"
- 	fi
- }
-@@ -60,7 +60,7 @@ rm_dir() {
- 
- # No ID_FS_TYPE for cdrom device, yet it should be mounted
- name="`basename "$DEVNAME"`"
--[ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
-+[ -e /sys/block/$name/device/run/media ] && media_type=`cat /sys/block/$name/device/run/media`
- 
- if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
- 	if [ -x "$PMOUNT" ]; then
-@@ -87,5 +87,5 @@ if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
- 	
- 	# Remove empty directories from auto-mounter
- 	name="`basename "$DEVNAME"`"
--	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
-+	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
- fi
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.0.bb
-index 3810b28..bae997c 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--PR = "r16"
-+PR = "r17"
- 
- SRC_URI = " \
-        file://automount.rules \
--- 
-1.8.3.2
+
+When testing, I noticed a problem I introduced when adding the plugin
+support - I'll submit a patch for it, but the fix is here:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=tzanussi/wic-bitbake-env-fix&id=222d52976466464a3ff184e07c0c884c8f821dbc
+
+
+Moving on to the generic connection versions, however, I still ran into
+problems.  Here's the 'directdisk-multi-indirect-both.wks' file I used
+for that test:
+
+part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos --label boot --active --align 1024
+part / --source rootfs --rootfs-dir="rootfs1" --ondisk sda --fstype=ext3 --label platform --align 1024
+
+part /standby --source rootfs --rootfs-dir="rootfs2" --ondisk sda --fstype=ext3 --label secondary --align 1024
+
+bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
+
+
+Both the -e and manual failed in the same way:
+
+[trz@empanada build]$ wic create directdisk-multi-indirect-both --rootfs-dir rootfs1=/home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs/ --rootfs-dir rootfs2=/home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs/ -e core-image-minimal
+Checking basic build environment...
+Done.
+
+Creating image(s)...
+
+Traceback (most recent call last):
+  File "/home/trz/yocto/master-cur/scripts/wic", line 254, in <module>
+    ret = main()
+  File "/home/trz/yocto/master-cur/scripts/wic", line 249, in main
+    invoke_subcommand(args, parser, wic_help_usage, subcommands)
+  File "/home/trz/yocto/master-cur/scripts/lib/image/help.py", line 73, in invoke_subcommand
+    subcommands.get(args[0], subcommand_error)[0](args[1:], usage)
+  File "/home/trz/yocto/master-cur/scripts/wic", line 199, in wic_create_subcommand
+    image_output_dir, options.debug, options.properties_file)
+  File "/home/trz/yocto/master-cur/scripts/lib/image/engine.py", line 246, in wic_create
+    cr.main(direct_args)
+KeyError: 'ROOTFS_DIR'
+
+
+[trz@empanada build]$ wic create directdisk-multi-indirect-both -b /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/share -k /home/trz/yocto/master-cur/build/tmp/sysroots/crownbay/usr/src/kernel -n /home/trz/yocto/master-cur/build/tmp/sysroots/x86_64-linux --rootfs-dir rootfs1=/home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs/ --rootfs-dir rootfs2=/home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal/1.0-r0/rootfs/
+Creating image(s)...
+
+Traceback (most recent call last):
+  File "/home/trz/yocto/master-cur/scripts/wic", line 254, in <module>
+    ret = main()
+  File "/home/trz/yocto/master-cur/scripts/wic", line 249, in main
+    invoke_subcommand(args, parser, wic_help_usage, subcommands)
+  File "/home/trz/yocto/master-cur/scripts/lib/image/help.py", line 73, in invoke_subcommand
+    subcommands.get(args[0], subcommand_error)[0](args[1:], usage)
+  File "/home/trz/yocto/master-cur/scripts/wic", line 153, in wic_create_subcommand
+    rootfs_dir = options.rootfs_dir['ROOTFS_DIR']
+KeyError: 'ROOTFS_DIR'
+
+Thanks,
+
+Tom
+
+> changes since previous version:
+>  v2: 
+>   - in .wks syntax change --rootfs to --rootfs-dir
+>   - reporting all extra partitions in the output
+>   - use a connection string between --rootfs-dir from wic command-line and .wks
+>  v3:
+>   - fix when wic -e command-line param is used and no --rootfs-dir was passed
+> 
+> João Henrique Ferreira de Freitas (7):
+>   wic: Add RootfsPlugin
+>   wic: Hook up RootfsPlugin plugin
+>   wic: Add rootfs_dir argument to do_prepare_partition() method
+>   wic: Use partition label to be part of rootfs filename
+>   wic: Add option --rootfs-dir to --source
+>   wic: Report all ROOTFS_DIR artifacts
+>   wic: Extend --rootfs-dir to connect rootfs-dirs
+> 
+>  scripts/lib/mic/imager/direct.py                   | 20 +++++--
+>  .../lib/mic/kickstart/custom_commands/partition.py | 51 ++++++++++------
+>  scripts/lib/mic/pluginbase.py                      |  2 +-
+>  scripts/lib/mic/plugins/imager/direct_plugin.py    | 17 +++++-
+>  scripts/lib/mic/plugins/source/bootimg-efi.py      |  2 +-
+>  scripts/lib/mic/plugins/source/bootimg-pcbios.py   |  2 +-
+>  scripts/lib/mic/plugins/source/rootfs.py           | 68 ++++++++++++++++++++++
+>  scripts/wic                                        | 36 +++++++++++-
+>  8 files changed, 169 insertions(+), 29 deletions(-)
+>  create mode 100644 scripts/lib/mic/plugins/source/rootfs.py
+> 
+
 
 
