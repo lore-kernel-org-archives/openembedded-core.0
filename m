@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EB6F16EF7E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BA266F3AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:43:22 +0000 (UTC)
+	Fri, 28 Mar 2014 09:43:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hNYj004533
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hQQB024520
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:43:23 -0700 (PDT)
+	Fri, 28 Mar 2014 02:43:26 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:43:23 -0700
+	14.3.169.1; Fri, 28 Mar 2014 02:43:25 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:43:03 +0800
-Message-ID: <954399c9edaaaa576130a017a11de95d6de13cd9.1395996194.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:04 +0800
+Message-ID: <ca82a8471a301a98abd4b655d2f05597e06cc9ab.1395996194.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1395996194.git.hongxu.jia@windriver.com>
 References: <cover.1395996194.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 1/7] tzcode-native: Replace fixed version with PV
+Subject: [PATCH 2/7] libpcap: add PACKAGECONFIG for libnl1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:43:23 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 09:43:25 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Hu Yadi <Yadi.hu@windriver.com>
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+Add --with-libnl autoconfig parameter and dependency
+between libpcap and libnl1.
+
+Disable libnl1 by default to avoid libpcap build error
+when libnl1 is involved.
+
+Signed-off-by: Hu Yadi <Yadi.hu@windriver.com>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/tzcode/tzcode-native_2013i.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/libpcap/libpcap.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013i.bb b/meta/recipes-extended/tzcode/tzcode-native_2013i.bb
-index cfedc5b..ea64c97 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2013i.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2013i.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=0b7570113550eb5d30aa4bd220964b8
- # note that we allow for us to use data later than our code version
- #
- SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
--           ftp://ftp.iana.org/tz/releases/tzdata2013i.tar.gz;name=tzdata"
-+           ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata \
-+"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index 3a08afe..a984e05 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -13,6 +13,7 @@ DEPENDS = "flex-native bison-native libnl"
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+ PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+ PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
++PACKAGECONFIG[libnl1] = "--with-libnl,--without-libnl,libnl1,libnl1"
  
- SRC_URI[tzcode.md5sum] = "86154c8b0cfb47f4e2027ecaa2ec547a"
- SRC_URI[tzcode.sha256sum] = "63bba6790afc1cb2ea0af2b998a35fc237e247608140dbe4e08b4216a8c31358"
+ INC_PR = "r5"
+ 
 -- 
 1.8.1.2
 
