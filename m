@@ -1,28 +1,27 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id BA9CB6BC8C
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 47E956D315
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 16:15:15 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N3500H2FMGIIYA0@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 28 Mar 2014 11:14:57 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4857320357; Fri,
-	28 Mar 2014 12:14:42 -0400 (EDT)
-Date: Fri, 28 Mar 2014 12:14:41 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-id: <20140328161441.GE3370@denix.org>
-References: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>
-MIME-version: 1.0
-In-reply-to: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] weston : refactor to identify EGL, cairoglesv2 support
+	Fri, 28 Mar 2014 16:43:53 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s2SGhnUU000389
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Mar 2014 17:43:54 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Fri, 28 Mar 2014 17:43:49 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Thread-Topic: [RFC PATCH] Make ppce300c3 tune hard-float by default
+Thread-Index: Ac9KozMWp6mgzhUuTs+O79jHgwSqqQ==
+Date: Fri, 28 Mar 2014 16:43:47 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7EBE@post.tritech.se>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
+MIME-Version: 1.0
+Subject: [RFC PATCH] Make ppce300c3 tune hard-float by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,70 +34,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 16:15:19 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 28 Mar 2014 16:43:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 28, 2014 at 11:02:37AM -0300, Otavio Salvador wrote:
-> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
-> 
-> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-graphics/wayland/weston_1.4.0.bb | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.4.0.bb
-> index e0c354d..5213166 100644
-> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
-> @@ -23,13 +23,12 @@ EXTRA_OECONF = "--enable-setuid-install \
->                  --enable-simple-clients \
->                  --enable-clients \
->                  --enable-demo-clients-install \
-> -                --disable-simple-egl-clients \
->                  --disable-libunwind \
->                  --disable-rpi-compositor \
->                  --disable-rdp-compositor"
->  
->  
-> -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland', '', d)} \
-> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
->                     ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
->                     ${@base_contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
->                    "
-> @@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms fbdev way
->  # Weston on KMS
->  PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa mtdev"
->  # Weston on Wayland (nested Weston)
-> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl --disable-wayland-compositor,virtual/mesa"
-> +PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
->  # Weston on X11
->  PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
->  # Headless Weston
-> @@ -50,6 +49,10 @@ PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,ude
->  PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam drm"
->  # VA-API desktop recorder
->  PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
-> +# Weston with EGL support
-> +PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
-> +# Weston with cairo glesv2 support
-> +PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
-
-Thanks! This was something I was also looking at recently. I'll give it a shot 
-in my testing.
-
--- 
-Denys
-
->  do_install_append() {
->  	# Weston doesn't need the .la files to load modules, so wipe them
-> -- 
-> 1.9.1
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The tuning file for PowerPC e300c3 is soft-float. In OE-classic it was hard=
+-float=0A=
+and it should be as the c3 has an fpu. I have modified the tuning file to i=
+nclude=0A=
+both a hard-float version (using the existing ppce300c3 name) and an option=
+al=0A=
+soft-float version (called ppce300c3-nf).=0A=
+=0A=
+The following patch also passes a "--with-cpu=3De300c3" argument to GLIBC.=
+=0A=
+For this to have any effect an "Implies" file must be added to the glibc/eg=
+libc=0A=
+source (tested with eglibc 2.18).=0A=
+./ports/sysdeps/powerpc/powerpc32/e300c3/fpu/Implies:=0A=
+---------------------------------------------------------------------------=
+---=0A=
+# e300c3 is a variant of 603e so use the same optimizations for sqrt=0A=
+powerpc/powerpc32/603e/fpu=0A=
+---------------------------------------------------------------------------=
+---=0A=
+=0A=
+Thanks to Khem Raj and Mark Hatle for their previous comments.=0A=
+=0A=
+=0A=
+diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machi=
+ne/include/tune-ppce300c3.inc=0A=
+index 9431222..d11522b 100644=0A=
+--- a/meta/conf/machine/include/tune-ppce300c3.inc=0A=
++++ b/meta/conf/machine/include/tune-ppce300c3.inc=0A=
+@@ -2,10 +2,22 @@ DEFAULTTUNE ?=3D "ppce300c3"=0A=
+ =0A=
+ require conf/machine/include/powerpc/arch-powerpc.inc=0A=
+ =0A=
++AVAILTUNES +=3D "ppce300c3 ppce300c3-nf"=0A=
++=0A=
++# hard-float=0A=
+ TUNEVALID[ppce300c3] =3D "Enable ppce300c3 specific processor optimization=
+s"=0A=
++TUNE_FEATURES_tune-ppce300c3 =3D "${TUNE_FEATURES_tune-powerpc} ppce300c3"=
+=0A=
++TUNE_PKGARCH_tune-ppce300c3 =3D "ppce300c3"=0A=
++PACKAGE_EXTRA_ARCHS_tune-ppce300c3 =3D "${PACKAGE_EXTRA_ARCHS_tune-powerpc=
+} ppce300c3"=0A=
+ TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " -mc=
+pu=3De300c3", "", d)}"=0A=
+ =0A=
+-AVAILTUNES +=3D "ppce300c3"=0A=
+-TUNE_FEATURES_tune-ppce300c3 =3D "m32 fpu-soft ppce300c3"=0A=
+-TUNE_PKGARCH_tune-ppce300c3 =3D "ppce300c3"=0A=
+-PACKAGE_EXTRA_ARCHS_tune-ppce300c3 =3D "${PACKAGE_EXTRA_ARCHS_tune-powerpc=
+-nf} ppce300c3"=0A=
++# glibc configure options to make use of 603e specific sqrt/sqrtf routines=
+=0A=
++GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3"=
+, "--with-cpu=3De300c3", "", d)}"=0A=
++=0A=
++# soft-float=0A=
++TUNEVALID[ppce300c3-nf] =3D "Enable ppce300c3 specific processor optimizat=
+ions (no fpu)"=0A=
++TUNE_FEATURES_tune-ppce300c3-nf =3D "${TUNE_FEATURES_tune-powerpc-nf} ppce=
+300c3-nf"=0A=
++TUNE_PKGARCH_tune-ppce300c3-nf =3D "ppce300c3-nf"=0A=
++PACKAGE_EXTRA_ARCHS_tune-ppce300c3-nf =3D "${PACKAGE_EXTRA_ARCHS_tune-powe=
+rpc-nf} ppce300c3-nf"=0A=
++TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3-nf", " =
+-mcpu=3De300c3", "", d)}"=0A=
++=
 
