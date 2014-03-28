@@ -1,35 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
-	[209.85.160.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1385360E07
+Return-Path: <valentin.popa@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E2C9D60E07
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 15:37:52 +0000 (UTC)
-Received: by mail-yk0-f171.google.com with SMTP id q9so3748257ykb.16
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 08:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=I1BMiqpz95RQYDde9OhKxfKuT3wc1H7W4VYYZmDorlQ=;
-	b=OYR+xb8TR1hvOksjcsKAMfXzWMR9x1ez2+Bk76tsYEMkBPBXBL2WlFjC+CnDowWcLP
-	zt0+JepA0wc/9YP+5yvI5zKEnDXfXHm+oj08eqPVU2Rj5Ju9zsPBrUr/VhJgwG0xhZGG
-	lXFJpBK/wGIuv7mnEaBL4uyA8dM9ZSjCwqRCz2WLDgAb9O2gR/KYtPy+wSv4kYa70BP9
-	yc5R9/EALsmFuqY1JvdyXOXT6kEJZxA7DR7IZ6uUrs9w/ru6ZwLQL6e54bA3ajxBQmeH
-	iLE3/8eoNdBWGVhrGItcLze9mn0Z6ehFhC1DcZ6twz3z6fh9mcay59xXpj8GLcznzryd
-	znsQ==
+	Fri, 28 Mar 2014 15:45:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Mar 2014 08:45:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,751,1389772800"; d="scan'208";a="509069939"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2014 08:45:05 -0700
+Message-ID: <533598EF.2000701@intel.com>
+Date: Fri, 28 Mar 2014 17:44:47 +0200
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-X-Received: by 10.236.40.12 with SMTP id e12mr1971162yhb.155.1396021073166;
-	Fri, 28 Mar 2014 08:37:53 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Fri, 28 Mar 2014 08:37:53 -0700 (PDT)
-In-Reply-To: <5335960D.7080600@intel.com>
-References: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>
-	<5335960D.7080600@intel.com>
-Date: Fri, 28 Mar 2014 12:37:53 -0300
-X-Google-Sender-Auth: 9kS2giGVO0CEUcTnieqTTSBxYvY
-Message-ID: <CAP9ODKp3Lfya7a6vDjJb-3pxQ8U7dUX7U643uMGRQmEGTeQtpw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Valentin Popa <valentin.popa@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1396015357-27637-1-git-send-email-otavio@ossystems.com.br>	<5335960D.7080600@intel.com>
+	<CAP9ODKp3Lfya7a6vDjJb-3pxQ8U7dUX7U643uMGRQmEGTeQtpw@mail.gmail.com>
+In-Reply-To: <CAP9ODKp3Lfya7a6vDjJb-3pxQ8U7dUX7U643uMGRQmEGTeQtpw@mail.gmail.com>
 Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
 	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] weston : refactor to identify EGL, cairoglesv2 support
@@ -45,85 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 15:37:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 28 Mar 2014 15:45:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 28, 2014 at 12:32 PM, Valentin Popa <valentin.popa@intel.com> wrote:
-> On 03/28/2014 04:02 PM, Otavio Salvador wrote:
+On 03/28/2014 05:37 PM, Otavio Salvador wrote:
+> On Fri, Mar 28, 2014 at 12:32 PM, Valentin Popa <valentin.popa@intel.com> wrote:
+>> On 03/28/2014 04:02 PM, Otavio Salvador wrote:
+>>> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>
+>>> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>> ---
+>>>    meta/recipes-graphics/wayland/weston_1.4.0.bb | 9 ++++++---
+>>>    1 file changed, 6 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>> b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>> index e0c354d..5213166 100644
+>>> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>> @@ -23,13 +23,12 @@ EXTRA_OECONF = "--enable-setuid-install \
+>>>                    --enable-simple-clients \
+>>>                    --enable-clients \
+>>>                    --enable-demo-clients-install \
+>>> -                --disable-simple-egl-clients \
+>>>                    --disable-libunwind \
+>>>                    --disable-rpi-compositor \
+>>>                    --disable-rdp-compositor"
+>>>      -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland',
+>>> 'kms fbdev wayland', '', d)} \
+>>> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms
+>>> fbdev wayland egl', '', d)} \
+>>>                       ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '',
+>>> d)} \
+>>>                       ${@base_contains('DISTRO_FEATURES', 'pam', 'launch',
+>>> '', d)} \
+>>>                      "
+>>> @@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES',
+>>> 'wayland', 'kms fbdev way
+>>>    # Weston on KMS
+>>>    PACKAGECONFIG[kms] =
+>>> "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa
+>>> mtdev"
+>>>    # Weston on Wayland (nested Weston)
+>>> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl
+>>> --disable-wayland-compositor,virtual/mesa"
+>>> +PACKAGECONFIG[wayland] =
+>>> "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
+>>>    # Weston on X11
+>>>    PACKAGECONFIG[x11] =
+>>> "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb
+>>> libxcb libxcursor cairo"
+>>>    # Headless Weston
+>>> @@ -50,6 +49,10 @@ PACKAGECONFIG[fbdev] =
+>>> "--enable-fbdev-compositor,--disable-fbdev-compositor,ude
+>>>    PACKAGECONFIG[launch] =
+>>> "--enable-weston-launch,--disable-weston-launch,libpam drm"
+>>>    # VA-API desktop recorder
+>>>    PACKAGECONFIG[vaapi] =
+>>> "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
+>>> +# Weston with EGL support
+>>> +PACKAGECONFIG[egl] = "--enable-egl
+>>> --enable-simple-egl-clients,--disable-egl
+>>> --disable-simple-egl-clients,virtual/egl"
+>>> +# Weston with cairo glesv2 support
+>>> +PACKAGECONFIG[cairo-glesv2] =
+>>> "--with-cairo-glesv2,--with-cairo=image,cairo"
+>>>      do_install_append() {
+>>>          # Weston doesn't need the .la files to load modules, so wipe them
 >>
->> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
->>
->> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>   meta/recipes-graphics/wayland/weston_1.4.0.bb | 9 ++++++---
->>   1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb
->> b/meta/recipes-graphics/wayland/weston_1.4.0.bb
->> index e0c354d..5213166 100644
->> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
->> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
->> @@ -23,13 +23,12 @@ EXTRA_OECONF = "--enable-setuid-install \
->>                   --enable-simple-clients \
->>                   --enable-clients \
->>                   --enable-demo-clients-install \
->> -                --disable-simple-egl-clients \
->>                   --disable-libunwind \
->>                   --disable-rpi-compositor \
->>                   --disable-rdp-compositor"
->>     -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland',
->> 'kms fbdev wayland', '', d)} \
->> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms
->> fbdev wayland egl', '', d)} \
->>                      ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '',
->> d)} \
->>                      ${@base_contains('DISTRO_FEATURES', 'pam', 'launch',
->> '', d)} \
->>                     "
->> @@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES',
->> 'wayland', 'kms fbdev way
->>   # Weston on KMS
->>   PACKAGECONFIG[kms] =
->> "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa
->> mtdev"
->>   # Weston on Wayland (nested Weston)
->> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl
->> --disable-wayland-compositor,virtual/mesa"
->> +PACKAGECONFIG[wayland] =
->> "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
->>   # Weston on X11
->>   PACKAGECONFIG[x11] =
->> "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb
->> libxcb libxcursor cairo"
->>   # Headless Weston
->> @@ -50,6 +49,10 @@ PACKAGECONFIG[fbdev] =
->> "--enable-fbdev-compositor,--disable-fbdev-compositor,ude
->>   PACKAGECONFIG[launch] =
->> "--enable-weston-launch,--disable-weston-launch,libpam drm"
->>   # VA-API desktop recorder
->>   PACKAGECONFIG[vaapi] =
->> "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
->> +# Weston with EGL support
->> +PACKAGECONFIG[egl] = "--enable-egl
->> --enable-simple-egl-clients,--disable-egl
->> --disable-simple-egl-clients,virtual/egl"
->> +# Weston with cairo glesv2 support
->> +PACKAGECONFIG[cairo-glesv2] =
->> "--with-cairo-glesv2,--with-cairo=image,cairo"
->>     do_install_append() {
->>         # Weston doesn't need the .la files to load modules, so wipe them
+>> Looks good to me.
+>> Sorry Otavio for the delay introduced by the discussions. Hope it will be
+>> merged quickly and get your issue solved :)
+> No problem; it was for the better and ensures we have a full
+> understanding of it :-) Please 'ack' it if you can.
 >
->
-> Looks good to me.
-> Sorry Otavio for the delay introduced by the discussions. Hope it will be
-> merged quickly and get your issue solved :)
+Acked-by: valentin.popa@intel.com.
 
-No problem; it was for the better and ensures we have a full
-understanding of it :-) Please 'ack' it if you can.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
