@@ -1,29 +1,40 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 34E3A6DB40
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 5902B6E826
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 12:52:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2SCqGSC008495
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 05:52:16 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 28 Mar 2014 05:52:16 -0700
-Message-ID: <5335707F.7050105@windriver.com>
-Date: Fri, 28 Mar 2014 08:52:15 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Fri, 28 Mar 2014 12:53:03 +0000 (UTC)
+Received: by mail-yh0-f52.google.com with SMTP id c41so4896058yho.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Mar 2014 05:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=oSfbRzSG87AZVabhv/hVKjIiI/77UE1j3XZj4TzAMOY=;
+	b=SVak29kochl9tOd7VwhglynN3DQ/EAI70xYx/AX2e6NydUKUG3Wd+JGuRJUVOZ67za
+	CiLBotU4s4eSWjScY5YXjzQ8NeJsvdTZ6bbd6BVE0VieEYxnpWo5UOLEe0k/asR7RJpl
+	//0tHMQ8OeWkgxZ4wfOdA0Rh5oxIBtUwWO5UUodX6Zxram/f+Q6WQqyTD9geio2oywbi
+	Ypq861fFXRFA0teLIETfUxQcTLK+9jZXLmNoMYdXMQMSHsctx4lFQkVDXFn40rSvIJ3n
+	WQMKQSVMW5V4aQcEvzcbjmFjoqUe/rg9lBD0BlkZnijWqVmbpoIkJEIKFwCty2xhp5x7
+	NGwQ==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1395944068.git.bruce.ashfield@windriver.com>	
-	<a047b35664364fc8577f758f70cd781b9d675bb1.1395944068.git.bruce.ashfield@windriver.com>
-	<1395999939.24890.170.camel@ted>
-In-Reply-To: <1395999939.24890.170.camel@ted>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 10/13] linux-yocto/3.14: introduce versioned recipes
+X-Received: by 10.236.60.68 with SMTP id t44mr11305667yhc.47.1396011184778;
+	Fri, 28 Mar 2014 05:53:04 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Fri, 28 Mar 2014 05:53:04 -0700 (PDT)
+In-Reply-To: <533569B6.9090103@intel.com>
+References: <1395868053-27393-1-git-send-email-otavio@ossystems.com.br>
+	<533419E9.3080509@intel.com>
+	<CAP9ODKrUyfcP1vzEgYupPM-rg2jeE1VgPsP++Nh=fDeBuTjc7A@mail.gmail.com>
+	<533569B6.9090103@intel.com>
+Date: Fri, 28 Mar 2014 09:53:04 -0300
+X-Google-Sender-Auth: w6FKOiIBhGp_4CK1S9l5kr1uQ-w
+Message-ID: <CAP9ODKqwkv4yvcKPqMeHSuwKQ3UUzZCWLK6==o46G6wsqDkc_A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Valentin Popa <valentin.popa@intel.com>
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston : refactor to identify EGL, cairoglesv2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +47,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 12:52:19 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Mar 2014 12:53:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 14-03-28 05:45 AM, Richard Purdie wrote:
-> On Thu, 2014-03-27 at 14:25 -0400, Bruce Ashfield wrote:
->> The release kernel for Yocto 1.5 is the 3.14 kernel, so we introduce
->> the versioned recipes here.
+On Fri, Mar 28, 2014 at 9:23 AM, Valentin Popa <valentin.popa@intel.com> wrote:
+> On 03/27/2014 08:09 PM, Otavio Salvador wrote:
 >>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ---
->>   meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb | 21 ++++++++++++
->>   meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 37 ++++++++++++++++++++++
->>   2 files changed, 58 insertions(+)
->>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
->>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.14.bb
+>> On Thu, Mar 27, 2014 at 9:30 AM, Valentin Popa <valentin.popa@intel.com>
+>> wrote:
+>>>
+>>> On 03/26/2014 11:07 PM, Otavio Salvador wrote:
+>>>>
+>>>> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>>
+>>>> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>> ---
+>>>>    meta/recipes-graphics/wayland/weston_1.4.0.bb | 7 +++++--
+>>>>    1 file changed, 5 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>> b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>> index e0c354d..a41b5cd 100644
+>>>> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>> @@ -23,7 +23,6 @@ EXTRA_OECONF = "--enable-setuid-install \
+>>>>                    --enable-simple-clients \
+>>>>                    --enable-clients \
+>>>>                    --enable-demo-clients-install \
+>>>> -                --disable-simple-egl-clients \
+>>>>                    --disable-libunwind \
+>>>>                    --disable-rpi-compositor \
+>>>>                    --disable-rdp-compositor"
+>>>> @@ -39,7 +38,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES',
+>>>> 'wayland', 'kms fbdev way
+>>>>    # Weston on KMS
+>>>>    PACKAGECONFIG[kms] =
+>>>> "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa
+>>>> mtdev"
+>>>>    # Weston on Wayland (nested Weston)
+>>>> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl
+>>>> --disable-wayland-compositor,virtual/mesa"
+>>>
+>>>
+>>> We need --disable-egl if wayland is not in DISTRO_FEATURES. See bug:
+>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5867
 >>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
->> new file mode 100644
->> index 000000000000..8faa9584acf0
->> --- /dev/null
->> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
->> @@ -0,0 +1,21 @@
->> +require recipes-kernel/linux/linux-yocto.inc
->> +
->> +KBRANCH = "standard/tiny/base"
->> +LINUX_KERNEL_TYPE = "tiny"
->> +KCONFIG_MODE = "--allnoconfig"
->> +
->> +LINUX_VERSION ?= "3.14-rc8"
->> +
->> +KMETA = "meta"
->> +
->> +SRCREV_machine ?= "fecc3fd7d31bd93766ff4f0431fecdbbfa4c3a7c"
->> +SRCREV_meta ?= "3689f99f4d2a051e8d3ff72345a67d4d04a88020"
->> +
->> +PV = "${LINUX_VERSION}+git${SRCPV}"
+>> As egl is not part of PACKAGECONFIG it will do the right thing, no?
+>>
 >
-> I'm afraid we can't do this in such a simple way. The big issue is that
-> according to our version comparison functions (in bitbake and in the
-> package managers), "3.14-rc8" > "3.14". This will then break updates
-> from package feeds.
->
-> The traditional way we've worked around this in times gone by is the
-> rather ugly:
->
-> PV = "3.13+3.14-rc8+git${SRCPV}"
->
-> since in this case "3.14" > "3.13+3.14-rc8"
->
-> The better way to handle this would be "3.14~rc8" however not all of our
-> package backends have support for "~" at this point so we can't do that.
-> There is a long standing bug open about this.
->
-> The same issue also applies to the libc-headers recipe.
+> Yes, it will. My concerns are about --enable-drm-compositor (kms) without
+> egl; I know that the user can pass at runtime the --use-pixman flag,  but I
+> think it's more important to keep egl enabled by default in weston (this is
+> probably the main "usecase" of wayland/weston). So if you enable egl, the
+> bug will reproduce.
 
-eeee. Since I don't do package feeds, it's never been a problem for me.
+The PACKAGECONFIG is for flexibility and so we are using it here as it
+is designed. I understand we still don't have a way to map config
+dependencies but this is no excuse to say the patch is wrong or
+inappropriate.
 
-Wouldn't PE bump when I go to 3.14 work as well ? Or does that go away
-with the PR sever as well ?
+We are using this in the upcoming i.MX6 Wayland support we sent to
+meta-fsl-arm and the only blocker is this patch be accepted.
 
-I can muck with PV, or we can hold until Linus releases over the
-weekend, and I go with the released PVs.
-
-What's your preference ?
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
