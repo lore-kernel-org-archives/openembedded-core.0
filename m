@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 047086EAFA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 20F5C6EBA3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:42:58 +0000 (UTC)
+	Fri, 28 Mar 2014 09:43:00 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9gwNF004521
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9h0Wi024449
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:42:58 -0700 (PDT)
+	Fri, 28 Mar 2014 02:43:00 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:42:57 -0700
+	14.3.169.1; Fri, 28 Mar 2014 02:43:00 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:42:39 +0800
-Message-ID: <cover.1395996041.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:42:40 +0800
+Message-ID: <b67a3e41eb613d97170958cdbf5a2007c400e083.1395996041.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1395996041.git.hongxu.jia@windriver.com>
+References: <cover.1395996041.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 0/6][Part I] wr-misc patches
+Subject: [PATCH 1/6] wayland-native: disable unused macro checks to fix build issue on Centos5.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +36,97 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 28 Mar 2014 09:43:01 -0000
 Content-Type: text/plain
 
-WindRiver patches was sent for YP compliance.
+From: Ting Liu <b28495@freescale.com>
 
-There are total 22 patches, and separate them into 4 parts,
-each part is individual which means there is no dependence
-between them.
+We only build wayland-native for the scanner, so disable the bits we
+don't actually need. This avoid build issue on older distro such as
+Centos 5.x:
+| error: 'O_CLOEXEC' undeclared (first use in this function)
+| error: sys/timerfd.h: No such file or directory
+| error: 'CLOCK_MONOTONIC' undeclared (first use in this function)
+| error: 'TFD_CLOEXEC' undeclared (first use in this function)
+| error: 'SFD_CLOEXEC' undeclared (first use in this function)
 
-//Hongxu
-
-The following changes since commit 8c3eb5ee4582b6f6d489549290937657f37fc19e:
-
-  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:30 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/wr-misc-patches
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/wr-misc-patches
-
-Baogen Shang (1):
-  openssl: Fix pod2man des.pod error on Ubuntu 12.04
-
-Jeff Polk (1):
-  qemu: Add addition environment space to boot loader qemu-system-mips
-
-Jiang Lu (1):
-  Qemu:Arm:versatilepb: Add memory size checking
-
-Robert Yang (1):
-  kmod: fix O_CLOEXEC not supported on old kernel
-
-Ting Liu (1):
-  wayland-native: disable unused macro checks to fix build issue on
-    Centos5.x
-
-Yue Tao (1):
-  initscripts: Avoid restarting rpcbind daemon
-
- .../openssl-1.0.1e/openssl-fix-des.pod-error.patch | 19 ++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
- .../initscripts/initscripts-1.0/mountnfs.sh        |  9 ++--
- ...-Arm-versatilepb-Add-memory-size-checking.patch | 40 +++++++++++++++++
- .../qemu/files/qemu-enlarge-env-entry-size.patch   | 31 ++++++++++++++
- meta/recipes-devtools/qemu/qemu_1.7.0.bb           |  4 +-
+Signed-off-by: Ting Liu <b28495@freescale.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  ...disable-macro-checks-not-used-for-scanner.patch | 50 ++++++++++++++++++++++
  meta/recipes-graphics/wayland/wayland_1.4.0.bb     |  4 +-
- meta/recipes-kernel/kmod/kmod.inc                  |  1 +
- meta/recipes-kernel/kmod/kmod/fix-O_CLOEXEC.patch  | 38 ++++++++++++++++
- 10 files changed, 192 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
- create mode 100644 meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
- create mode 100644 meta/recipes-devtools/qemu/files/qemu-enlarge-env-entry-size.patch
+ 2 files changed, 53 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
- create mode 100644 meta/recipes-kernel/kmod/kmod/fix-O_CLOEXEC.patch
 
+diff --git a/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch b/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
+new file mode 100644
+index 0000000..bf499bb
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
+@@ -0,0 +1,50 @@
++disable macro checks not used for scanner
++
++We only build wayland-native for the scanner, so disable the bits we don't
++actually need. This avoid build issue on older distro such as Centos 5.x:
++| error: 'O_CLOEXEC' undeclared (first use in this function)
++| error: sys/timerfd.h: No such file or directory
++| error: 'CLOCK_MONOTONIC' undeclared (first use in this function)
++| error: 'TFD_CLOEXEC' undeclared (first use in this function)
++| error: 'SFD_CLOEXEC' undeclared (first use in this function)
++
++Upstream-Status: Pending
++
++Signed-off-by: Ting Liu <b28495@freescale.com>
++---
++ configure.ac | 20 ++++++++++----------
++ 1 file changed, 10 insertions(+), 10 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++--- a/configure.ac
+++++ b/configure.ac
++@@ -41,16 +41,16 @@ AC_SUBST(GCC_CFLAGS)
++ 
++ AC_CHECK_FUNCS([accept4 mkostemp])
++ 
++-AC_CHECK_DECL(SFD_CLOEXEC,[],
++-	      [AC_MSG_ERROR("SFD_CLOEXEC is needed to compile wayland")],
++-	      [[#include <sys/signalfd.h>]])
++-AC_CHECK_DECL(TFD_CLOEXEC,[],
++-	      [AC_MSG_ERROR("TFD_CLOEXEC is needed to compile wayland")],
++-	      [[#include <sys/timerfd.h>]])
++-AC_CHECK_DECL(CLOCK_MONOTONIC,[],
++-	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile wayland")],
++-	      [[#include <time.h>]])
++-AC_CHECK_HEADERS([execinfo.h])
+++##AC_CHECK_DECL(SFD_CLOEXEC,[],
+++#	      [AC_MSG_ERROR("SFD_CLOEXEC is needed to compile wayland")],
+++#	      [[#include <sys/signalfd.h>]])
+++#AC_CHECK_DECL(TFD_CLOEXEC,[],
+++#	      [AC_MSG_ERROR("TFD_CLOEXEC is needed to compile wayland")],
+++#	      [[#include <sys/timerfd.h>]])
+++#AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+++#	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile wayland")],
+++#	      [[#include <time.h>]])
+++#AC_CHECK_HEADERS([execinfo.h])
++ 
++ AC_ARG_ENABLE([scanner],
++               [AC_HELP_STRING([--disable-scanner],
++-- 
++1.8.3.2
++
+diff --git a/meta/recipes-graphics/wayland/wayland_1.4.0.bb b/meta/recipes-graphics/wayland/wayland_1.4.0.bb
+index 604b7f4..9f6419d 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.4.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.4.0.bb
+@@ -14,7 +14,9 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ SRC_URI[md5sum] = "332cf9191837be12638a29265ed7cf46"
+ SRC_URI[sha256sum] = "18f33b9f15b4c8b662fb1968e7636e7926b419dfc48de8a164b3a3d7095c5a58"
+ 
+-SRC_URI_append_class-native = " file://just-scanner.patch"
++SRC_URI_append_class-native = " file://just-scanner.patch \
++    file://disable-macro-checks-not-used-for-scanner.patch \
++    "
+ EXTRA_OECONF_class-native = "--disable-documentation --enable-scanner"
+ 
+ inherit autotools pkgconfig
 -- 
 1.8.1.2
 
