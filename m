@@ -1,30 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id EF2346B898
+Return-Path: <denis@denix.org>
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id E92226B898
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 17:26:06 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2SHQ1aD029006; Fri, 28 Mar 2014 17:26:01 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id LBzxaS3qzY8z; Fri, 28 Mar 2014 17:26:01 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2SHPufL028998
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 28 Mar 2014 17:25:57 GMT
-Message-ID: <1396027551.14790.13.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mats =?ISO-8859-1?Q?K=E4rrman?= <Mats.Karrman@tritech.se>
-Date: Fri, 28 Mar 2014 17:25:51 +0000
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7DC7@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7DC7@post.tritech.se>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] [Dora] eglibc 2.18: powerpc: Fix time related syscalls
+	Fri, 28 Mar 2014 17:28:52 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173021.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N3500LRYPVCUQI0@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 28 Mar 2014 12:28:34 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 5ED1620398; Fri,
+	28 Mar 2014 13:28:24 -0400 (EDT)
+Date: Fri, 28 Mar 2014 13:28:24 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Phil Blundell <pb@pbcl.net>
+Message-id: <20140328172824.GJ3370@denix.org>
+References: <1366735649.5732.21.camel@phil-desktop.brightsign>
+MIME-version: 1.0
+In-reply-to: <1366735649.5732.21.camel@phil-desktop.brightsign>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-arch: Always use ld.bfd to link the kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,284 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 17:26:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Mar 2014 17:28:53 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Fri, 2014-03-28 at 14:41 +0000, Mats Kärrman wrote:
-> Concatenated fix of PowerPC time related system calls in eglibc 2.18 taken
-> from upstream glibc. See credits in patch header.
+On Tue, Apr 23, 2013 at 05:47:29PM +0100, Phil Blundell wrote:
+> The kernel's penchant for custom linker scripts means that it doesn't
+> generally get on very well with gold.  Make sure we are using the BFD
+> linker here no matter what the distro default is set to.
 > 
-> The effect is that some time related system calls returns nothing or garbage.
-> Fix tested on PowerPC e300c3.
-> 
-> Eglibc 2.17 does not have this issue and the patches are already part of 2.19.
-> 
-> Upstream-Status: Backport
-
-This needs to be in the header of the patch, not the commit message (so
-that when reading the patch later, someone can understand its status
-quickly). When I see people removing patches during package upgrades, I
-can also be happier when I see its a backport.
-
-Cheers,
-
-Richard
-
-> Signed-off-by: Mats Karrman <mats.karrman@tritech.se>
+> Signed-off-by: Phil Blundell <philb@gnu.org>
 > ---
->  .../ppc-fix-time-related-syscalls.patch            |  225 ++++++++++++++++++++
->  meta/recipes-core/eglibc/eglibc_2.18.bb            |    1 +
->  2 files changed, 226 insertions(+)
->  create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/ppc-fix-time-related-syscalls.patch
+>  meta/classes/kernel-arch.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> V2: Added upstream status.
-> 
-> diff --git a/meta/recipes-core/eglibc/eglibc-2.18/ppc-fix-time-related-syscalls.patch b/meta/recipes-core/eglibc/eglibc-2.18/ppc-fix-time-related-syscalls.patch
-> new file mode 100644
-> index 0000000..fa1072b
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-2.18/ppc-fix-time-related-syscalls.patch
-> @@ -0,0 +1,225 @@
-> +Concatenated fix of PowerPC time related system calls in eglibc 2.18 taken
-> +from upstream glibc. Eglibc 2.17 does not have this issue and the patches are
-> +already part of 2.19.
-> +This compilation includes the following committs:
-> +
-> +
-> +PowerPC: Fix vDSO missing ODP entries
-> +
-> +author	Adhemerval Zanella <azanella@linux.vnet.ibm.com>	
-> +	Thu, 7 Nov 2013 11:34:22 +0000 (05:34 -0600)
-> +
-> +This patch fixes the vDSO symbol used directed in IFUNC resolver where
-> +they do not have an associated ODP entry leading to undefined behavior
-> +in some cases. It adds an artificial OPD static entry to such cases
-> +and set its TOC to non 0 to avoid triggering lazy resolutions.
-> +
-> +
-> +Update copyright notices with scripts/update-copyrights
-> +
-> +author	Allan McRae <allan@archlinux.org>	
-> +	Wed, 1 Jan 2014 11:03:15 +0000 (21:03 +1000)
-> +
-> +((Only for files otherwise touched by this patch))
-> +
-> +
-> +PowerPC: Fix ftime gettimeofday internal call returning bogus data
-> +
-> +author	Adhemerval Zanella <azanella@linux.vnet.ibm.com>	
-> +	Thu, 16 Jan 2014 12:53:18 +0000 (06:53 -0600)
-> +
-> +This patches fixes BZ#16430 by setting a different symbol for internal
-> +GLIBC calls that points to ifunc resolvers. For PPC32, if the symbol
-> +is defined as hidden (which is the case for gettimeofday and time) the
-> +compiler will create local branches (symbol@local) and linker will not
-> +create PLT calls (required for IFUNC). This will leads to internal symbol
-> +calling the IFUNC resolver instead of the resolved symbol.
-> +For PPC64 this behavior does not occur because a call to a function in
-> +another translation unit might use a different toc pointer thus requiring
-> +a PLT call.
-> +
-> +
-> +PowerPC: Fix gettimeofday ifunc selection
-> +
-> +author	Adhemerval Zanella <azanella@linux.vnet.ibm.com>	
-> +	Mon, 20 Jan 2014 18:29:51 +0000 (12:29 -0600)
-> +
-> +The IFUNC selector for gettimeofday runs before _libc_vdso_platform_setup where
-> +__vdso_gettimeofday is set. The selector then sets __gettimeofday (the internal
-> +version used within GLIBC) to use the system call version instead of the vDSO one.
-> +This patch changes the check if vDSO is available to get its value directly
-> +instead of rely on __vdso_gettimeofday.
-> +
-> +This patch changes it by getting the vDSO value directly.
-> +
-> +It fixes BZ#16431.
-> +
-> +
-> +---
-> +diff -pruN libc.orig/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h libc/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
-> +--- libc.orig/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/bits/libc-vdso.h
-> +@@ -1,5 +1,5 @@
-> + /* Resolve function pointers to VDSO functions.
-> +-   Copyright (C) 2005-2013 Free Software Foundation, Inc.
-> ++   Copyright (C) 2005-2014 Free Software Foundation, Inc.
-> +    This file is part of the GNU C Library.
-> + 
-> +    The GNU C Library is free software; you can redistribute it and/or
-> +@@ -34,12 +34,32 @@ extern void *__vdso_getcpu;
-> + 
-> + extern void *__vdso_time;
-> + 
-> +-/* This macro is needed for PPC64 to return a skeleton OPD entry of a vDSO
-> +-   symbol.  This works because _dl_vdso_vsym always return the function
-> +-   address, and no vDSO symbols use the TOC or chain pointers from the OPD
-> +-   so we can allow them to be garbage.  */
-> + #if defined(__PPC64__) || defined(__powerpc64__)
-> +-#define VDSO_IFUNC_RET(value)  ((void *) &(value))
-> ++/* The correct solution is for _dl_vdso_vsym to return the address of the OPD
-> ++   for the kernel VDSO function.  That address would then be stored in the
-> ++   __vdso_* variables and returned as the result of the IFUNC resolver function.
-> ++   Yet, the kernel does not contain any OPD entries for the VDSO functions
-> ++   (incomplete implementation).  However, PLT relocations for IFUNCs still expect
-> ++   the address of an OPD to be returned from the IFUNC resolver function (since
-> ++   PLT entries on PPC64 are just copies of OPDs).  The solution for now is to
-> ++   create an artificial static OPD for each VDSO function returned by a resolver
-> ++   function.  The TOC value is set to a non-zero value to avoid triggering lazy
-> ++   symbol resolution via .glink0/.plt0 for a zero TOC (requires thread-safe PLT
-> ++   sequences) when the dynamic linker isn't prepared for it e.g. RTLD_NOW.  None
-> ++   of the kernel VDSO routines use the TOC or AUX values so any non-zero value
-> ++   will work.  Note that function pointer comparisons will not use this artificial
-> ++   static OPD since those are resolved via ADDR64 relocations and will point at
-> ++   the non-IFUNC default OPD for the symbol.  Lastly, because the IFUNC relocations
-> ++   are processed immediately at startup the resolver functions and this code need
-> ++   not be thread-safe, but if the caller writes to a PLT slot it must do so in a
-> ++   thread-safe manner with all the required barriers.  */
-> ++#define VDSO_IFUNC_RET(value)                            \
-> ++  ({                                                     \
-> ++    static Elf64_FuncDesc vdso_opd = { .fd_toc = ~0x0 }; \
-> ++    vdso_opd.fd_func = (Elf64_Addr)value;                \
-> ++    &vdso_opd;                                           \
-> ++  })
-> ++
-> + #else
-> + #define VDSO_IFUNC_RET(value)  ((void *) (value))
-> + #endif
-> +diff -pruN libc.orig/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c libc/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
-> +--- libc.orig/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/gettimeofday.c
-> +@@ -1,4 +1,4 @@
-> +-/* Copyright (C) 2005-2013 Free Software Foundation, Inc.
-> ++/* Copyright (C) 2005-2014 Free Software Foundation, Inc.
-> +    This file is part of the GNU C Library.
-> + 
-> +    The GNU C Library is free software; you can redistribute it and/or
-> +@@ -22,6 +22,7 @@
-> + 
-> + # include <dl-vdso.h>
-> + # include <bits/libc-vdso.h>
-> ++# include <dl-machine.h>
-> + 
-> + void *gettimeofday_ifunc (void) __asm__ ("__gettimeofday");
-> + 
-> +@@ -34,17 +35,36 @@ __gettimeofday_syscall (struct timeval *
-> + void *
-> + gettimeofday_ifunc (void)
-> + {
-> ++  PREPARE_VERSION (linux2615, "LINUX_2.6.15", 123718565);
-> ++
-> +   /* If the vDSO is not available we fall back syscall.  */
-> +-  return (__vdso_gettimeofday ? VDSO_IFUNC_RET (__vdso_gettimeofday)
-> +-	  : __gettimeofday_syscall);
-> ++  void *vdso_gettimeofday = _dl_vdso_vsym ("__kernel_gettimeofday", &linux2615);
-> ++  return (vdso_gettimeofday ? VDSO_IFUNC_RET (vdso_gettimeofday)
-> ++         : (void*)__gettimeofday_syscall);
-> + }
-> + asm (".type __gettimeofday, %gnu_indirect_function");
-> + 
-> + /* This is doing "libc_hidden_def (__gettimeofday)" but the compiler won't
-> +    let us do it in C because it doesn't know we're defining __gettimeofday
-> +    here in this file.  */
-> +-asm (".globl __GI___gettimeofday\n"
-> +-     "__GI___gettimeofday = __gettimeofday");
-> ++asm (".globl __GI___gettimeofday");
-> ++
-> ++/* __GI___gettimeofday is defined as hidden and for ppc32 it enables the
-> ++   compiler make a local call (symbol@local) for internal GLIBC usage. It
-> ++   means the PLT won't be used and the ifunc resolver will be called directly.
-> ++   For ppc64 a call to a function in another translation unit might use a
-> ++   different toc pointer thus disallowing direct branchess and making internal
-> ++   ifuncs calls safe.  */
-> ++#ifdef __powerpc64__
-> ++asm ("__GI___gettimeofday = __gettimeofday");
-> ++#else
-> ++int
-> ++__gettimeofday_vsyscall (struct timeval *tv, struct timezone *tz)
-> ++{
-> ++  return INLINE_VSYSCALL (gettimeofday, 2, tv, tz);
-> ++}
-> ++asm ("__GI___gettimeofday = __gettimeofday_vsyscall");
-> ++#endif
-> + 
-> + #else
-> + 
-> +diff -pruN libc.orig/sysdeps/unix/sysv/linux/powerpc/time.c libc/sysdeps/unix/sysv/linux/powerpc/time.c
-> +--- libc.orig/sysdeps/unix/sysv/linux/powerpc/time.c
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/time.c
-> +@@ -1,5 +1,5 @@
-> + /* time system call for Linux/PowerPC.
-> +-   Copyright (C) 2013 Free Software Foundation, Inc.
-> ++   Copyright (C) 2013-2014 Free Software Foundation, Inc.
-> +    This file is part of the GNU C Library.
-> + 
-> +    The GNU C Library is free software; you can redistribute it and/or
-> +@@ -20,7 +20,9 @@
-> + 
-> + # include <time.h>
-> + # include <sysdep.h>
-> ++# include <dl-vdso.h>
-> + # include <bits/libc-vdso.h>
-> ++# include <dl-machine.h>
-> + 
-> + void *time_ifunc (void) asm ("time");
-> + 
-> +@@ -43,17 +45,36 @@ time_syscall (time_t *t)
-> + void *
-> + time_ifunc (void)
-> + {
-> ++  PREPARE_VERSION (linux2615, "LINUX_2.6.15", 123718565);
-> ++
-> +   /* If the vDSO is not available we fall back to the syscall.  */
-> +-  return (__vdso_time ? VDSO_IFUNC_RET (__vdso_time)
-> +-	  : time_syscall);
-> ++  void *vdso_time = _dl_vdso_vsym ("__kernel_time", &linux2615);
-> ++  return (vdso_time ? VDSO_IFUNC_RET (vdso_time)
-> ++         : (void*)time_syscall);
-> + }
-> + asm (".type time, %gnu_indirect_function");
-> + 
-> + /* This is doing "libc_hidden_def (time)" but the compiler won't
-> +  * let us do it in C because it doesn't know we're defining time
-> +  * here in this file.  */
-> +-asm (".globl __GI_time\n"
-> +-     "__GI_time = time");
-> ++asm (".globl __GI_time");
-> ++
-> ++/* __GI_time is defined as hidden and for ppc32 it enables the
-> ++   compiler make a local call (symbol@local) for internal GLIBC usage. It
-> ++   means the PLT won't be used and the ifunc resolver will be called directly.
-> ++   For ppc64 a call to a function in another translation unit might use a
-> ++   different toc pointer thus disallowing direct branchess and making internal
-> ++   ifuncs calls safe.  */
-> ++#ifdef __powerpc64__
-> ++asm ("__GI_time = time");
-> ++#else
-> ++time_t
-> ++__time_vsyscall (time_t *t)
-> ++{
-> ++  return INLINE_VSYSCALL (time, 1, t);
-> ++}
-> ++asm ("__GI_time = __time_vsyscall");
-> ++#endif
-> + 
-> + #else
-> + 
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
-> index 15e5eed..43f43ae 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.18.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
-> @@ -28,6 +28,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23
->             file://fix-tibetian-locales.patch \
->             file://0001-ARM-Pass-dl_hwcap-to-IFUNC-resolver.patch \
->             file://make-4.patch \
-> +           file://ppc-fix-time-related-syscalls.patch \
->            "
->  SRC_URI[md5sum] = "b395b021422a027d89884992e91734fc"
->  SRC_URI[sha256sum] = "15f564b45dc5dd65faf0875579e3447961ae61e876933384ae05d19328539ad4"
-> -- 
-> 1.7.10.4
+> diff --git a/meta/classes/kernel-arch.bbclass
+> b/meta/classes/kernel-arch.bbclass
+> index b3b71ba..4a140eb 100644
+> --- a/meta/classes/kernel-arch.bbclass
+> +++ b/meta/classes/kernel-arch.bbclass
+> @@ -53,6 +53,6 @@ TARGET_AR_KERNEL_ARCH ?= ""
+>  HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+>  
+>  KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}"
+> -KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld ${HOST_LD_KERNEL_ARCH}"
+> +KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+>  KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
 
+I know this is almost a year-old change.
 
+The question I have is - what should one do when using an external toolchain 
+that doesn't have ld.bfd provided? I know these days with gold vs. BFD linker, 
+it's common to have ld.bfd, but there could be exceptions...
+
+Should this assignment be conditional, so it's easier to override from 
+local.conf or distro?
+
+-- 
+Denys
 
