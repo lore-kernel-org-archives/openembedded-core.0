@@ -1,28 +1,31 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C6834610CD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id CB579610CD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 13:37:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Mar 2014 06:37:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,751,1389772800"; d="scan'208";a="508995537"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
-	([10.237.105.76])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2014 06:37:19 -0700
-Message-ID: <53357AFD.9080902@intel.com>
-Date: Fri, 28 Mar 2014 15:37:01 +0200
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1395868053-27393-1-git-send-email-otavio@ossystems.com.br>	<533419E9.3080509@intel.com>	<CAP9ODKrUyfcP1vzEgYupPM-rg2jeE1VgPsP++Nh=fDeBuTjc7A@mail.gmail.com>	<533569B6.9090103@intel.com>	<CAP9ODKqwkv4yvcKPqMeHSuwKQ3UUzZCWLK6==o46G6wsqDkc_A@mail.gmail.com>	<53357916.3090108@intel.com>
-	<CAP9ODKo6LmdrbUoXKjpwbVb4jcL5M4a4_tUAv1GdbwDSR-Cs6Q@mail.gmail.com>
-In-Reply-To: <CAP9ODKo6LmdrbUoXKjpwbVb4jcL5M4a4_tUAv1GdbwDSR-Cs6Q@mail.gmail.com>
-Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston : refactor to identify EGL, cairoglesv2 support
+	Fri, 28 Mar 2014 13:42:05 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2SDg0ve019505 for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Mar 2014 13:42:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Vs4xXRQbVhy6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Mar 2014 13:42:00 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2SDfwpW019502
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Mar 2014 13:41:59 GMT
+Message-ID: <1396014113.14790.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Mar 2014 13:41:53 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] populate_sdk_*: Drop now unneeded recrdeptask flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,77 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 13:37:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 28 Mar 2014 13:42:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/28/2014 03:35 PM, Otavio Salvador wrote:
-> On Fri, Mar 28, 2014 at 10:28 AM, Valentin Popa <valentin.popa@intel.com> wrote:
->> On 03/28/2014 02:53 PM, Otavio Salvador wrote:
->>> On Fri, Mar 28, 2014 at 9:23 AM, Valentin Popa <valentin.popa@intel.com>
->>> wrote:
->>>> On 03/27/2014 08:09 PM, Otavio Salvador wrote:
->>>>> On Thu, Mar 27, 2014 at 9:30 AM, Valentin Popa <valentin.popa@intel.com>
->>>>> wrote:
->>>>>> On 03/26/2014 11:07 PM, Otavio Salvador wrote:
->>>>>>> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
->>>>>>>
->>>>>>> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
->>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->>>>>>> ---
->>>>>>>      meta/recipes-graphics/wayland/weston_1.4.0.bb | 7 +++++--
->>>>>>>      1 file changed, 5 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb
->>>>>>> b/meta/recipes-graphics/wayland/weston_1.4.0.bb
->>>>>>> index e0c354d..a41b5cd 100644
->>>>>>> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
->>>>>>> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
->>>>>>> @@ -23,7 +23,6 @@ EXTRA_OECONF = "--enable-setuid-install \
->>>>>>>                      --enable-simple-clients \
->>>>>>>                      --enable-clients \
->>>>>>>                      --enable-demo-clients-install \
->>>>>>> -                --disable-simple-egl-clients \
->>>>>>>                      --disable-libunwind \
->>>>>>>                      --disable-rpi-compositor \
->>>>>>>                      --disable-rdp-compositor"
->>>>>>> @@ -39,7 +38,7 @@ PACKAGECONFIG ??=
->>>>>>> "${@base_contains('DISTRO_FEATURES',
->>>>>>> 'wayland', 'kms fbdev way
->>>>>>>      # Weston on KMS
->>>>>>>      PACKAGECONFIG[kms] =
->>>>>>> "--enable-drm-compositor,--disable-drm-compositor,drm udev
->>>>>>> virtual/mesa
->>>>>>> mtdev"
->>>>>>>      # Weston on Wayland (nested Weston)
->>>>>>> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl
->>>>>>> --disable-wayland-compositor,virtual/mesa"
->>>>>>
->>>>>> We need --disable-egl if wayland is not in DISTRO_FEATURES. See bug:
->>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5867
->>>>> As egl is not part of PACKAGECONFIG it will do the right thing, no?
->>>>>
->>>> Yes, it will. My concerns are about --enable-drm-compositor (kms) without
->>>> egl; I know that the user can pass at runtime the --use-pixman flag,  but
->>>> I
->>>> think it's more important to keep egl enabled by default in weston (this
->>>> is
->>>> probably the main "usecase" of wayland/weston). So if you enable egl, the
->>>> bug will reproduce.
->>> The PACKAGECONFIG is for flexibility and so we are using it here as it
->>> is designed. I understand we still don't have a way to map config
->>> dependencies but this is no excuse to say the patch is wrong or
->>> inappropriate.
->>>
->>> We are using this in the upcoming i.MX6 Wayland support we sent to
->>> meta-fsl-arm and the only blocker is this patch be accepted.
->>>
->> The patch is not wrong, but disables egl. Looks good to me and if merged
->> I'll submit a patch to add egl in PACKAGECONFIG.
-> If you want, I can add the egl there, and send v2. That's easy.
->
+Now populate_sdk_base has the appropriate flags, we can drop these from the individual
+classes.
 
-That would be great. And don't forget to --disable-egl in case wayland 
-is not in PACKAGECONFIG.
-Thanks!
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/populate_sdk_deb.bbclass b/meta/classes/populate_sdk_deb.bbclass
+index b96c5ef..acb1f73 100644
+--- a/meta/classes/populate_sdk_deb.bbclass
++++ b/meta/classes/populate_sdk_deb.bbclass
+@@ -1,6 +1,4 @@
+ do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
+-do_populate_sdk[recrdeptask] += "do_package_write_deb"
+-
+ 
+ DEB_SDK_ARCH = "${@[d.getVar('SDK_ARCH', True), "i386"]\
+                 [d.getVar('SDK_ARCH', True) in \
+diff --git a/meta/classes/populate_sdk_ipk.bbclass b/meta/classes/populate_sdk_ipk.bbclass
+index e2e3523..8b2cb6d 100644
+--- a/meta/classes/populate_sdk_ipk.bbclass
++++ b/meta/classes/populate_sdk_ipk.bbclass
+@@ -1,4 +1,3 @@
+ do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+-do_populate_sdk[recrdeptask] += "do_package_write_ipk"
+ 
+ do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
+diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
+index 0fdef3b..4954d00 100644
+--- a/meta/classes/populate_sdk_rpm.bbclass
++++ b/meta/classes/populate_sdk_rpm.bbclass
+@@ -11,8 +11,6 @@ do_populate_sdk[depends] += "opkg-native:do_populate_sysroot"
+ # Creating the repo info in do_rootfs
+ do_populate_sdk[depends] += "createrepo-native:do_populate_sysroot"
+ 
+-do_populate_sdk[recrdeptask] += "do_package_write_rpm"
+-
+ rpmlibdir = "/var/lib/rpm"
+ 
+ do_populate_sdk[lockfiles] += "${DEPLOY_DIR_RPM}/rpm.lock"
+
+
 
