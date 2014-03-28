@@ -1,31 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id CAA1C610CD
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DB6A6E750
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 13:42:40 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2SDga1J019564 for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 13:42:36 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lEZAzRaejJxI
+	Fri, 28 Mar 2014 13:55:30 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id q200so3667345ykb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 13:42:35 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2SDgXKv019541
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 13:42:35 GMT
-Message-ID: <1396014148.14790.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 13:42:28 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] package_*.bbclass: Simplify addtask
+	Fri, 28 Mar 2014 06:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=z9JIGb9dQbjSSRpucjWcxuh34dnvEUfZfGxq2OZH7kE=;
+	b=vRMmPK/2P7gnRpbSEX7xpBtD1y2ghOu8OctLfJNgCNAr7lbZsyUQO2OuDzunpV4F+W
+	gN+29Cd3Ce3xoqJwiGbdFrQjN8DTNYNcQli66MEtejShabbLC+Dphct6TOh13AFF4Icp
+	FPPcqmxWg4gng6yXuV+43w8YCyjXekqRa7U4AqEACjUlxFCJ+ru4J2Xa5TYqGCrMldcf
+	HtFQjJoRhQHvI+HadVjS8+fqHAdPJB59nNRXHZZgXBv07xes6RpIjj6J7bDIn4gdqRe2
+	R4XjaEpmFqAOr8ON3x5TG1yH8GBWSEhr3bMfXJogpscJTpTaqOWvbxlXYuoK5pbXMSaM
+	AT8g==
+MIME-Version: 1.0
+X-Received: by 10.236.110.77 with SMTP id t53mr11520366yhg.78.1396014930982;
+	Fri, 28 Mar 2014 06:55:30 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Fri, 28 Mar 2014 06:55:30 -0700 (PDT)
+In-Reply-To: <53357AFD.9080902@intel.com>
+References: <1395868053-27393-1-git-send-email-otavio@ossystems.com.br>
+	<533419E9.3080509@intel.com>
+	<CAP9ODKrUyfcP1vzEgYupPM-rg2jeE1VgPsP++Nh=fDeBuTjc7A@mail.gmail.com>
+	<533569B6.9090103@intel.com>
+	<CAP9ODKqwkv4yvcKPqMeHSuwKQ3UUzZCWLK6==o46G6wsqDkc_A@mail.gmail.com>
+	<53357916.3090108@intel.com>
+	<CAP9ODKo6LmdrbUoXKjpwbVb4jcL5M4a4_tUAv1GdbwDSR-Cs6Q@mail.gmail.com>
+	<53357AFD.9080902@intel.com>
+Date: Fri, 28 Mar 2014 10:55:30 -0300
+X-Google-Sender-Auth: KaOm3vqjUaOwlsTJFngTE3UeTEc
+Message-ID: <CAP9ODKoJKqKQhaTf93UPmDvqojY1UbiGuzPZuGjKj9QurgYzuw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Valentin Popa <valentin.popa@intel.com>
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston : refactor to identify EGL, cairoglesv2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +51,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 13:42:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Mar 2014 13:55:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-The package_write task was previously removed. Remove a remaining superfluous
-reference to it.
+On Fri, Mar 28, 2014 at 10:37 AM, Valentin Popa <valentin.popa@intel.com> wrote:
+> On 03/28/2014 03:35 PM, Otavio Salvador wrote:
+>>
+>> On Fri, Mar 28, 2014 at 10:28 AM, Valentin Popa <valentin.popa@intel.com>
+>> wrote:
+>>>
+>>> On 03/28/2014 02:53 PM, Otavio Salvador wrote:
+>>>>
+>>>> On Fri, Mar 28, 2014 at 9:23 AM, Valentin Popa <valentin.popa@intel.com>
+>>>> wrote:
+>>>>>
+>>>>> On 03/27/2014 08:09 PM, Otavio Salvador wrote:
+>>>>>>
+>>>>>> On Thu, Mar 27, 2014 at 9:30 AM, Valentin Popa
+>>>>>> <valentin.popa@intel.com>
+>>>>>> wrote:
+>>>>>>>
+>>>>>>> On 03/26/2014 11:07 PM, Otavio Salvador wrote:
+>>>>>>>>
+>>>>>>>> From: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>>>>>>
+>>>>>>>> Signed-off-by: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>
+>>>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>>>>>> ---
+>>>>>>>>      meta/recipes-graphics/wayland/weston_1.4.0.bb | 7 +++++--
+>>>>>>>>      1 file changed, 5 insertions(+), 2 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>> b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>> index e0c354d..a41b5cd 100644
+>>>>>>>> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>> +++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
+>>>>>>>> @@ -23,7 +23,6 @@ EXTRA_OECONF = "--enable-setuid-install \
+>>>>>>>>                      --enable-simple-clients \
+>>>>>>>>                      --enable-clients \
+>>>>>>>>                      --enable-demo-clients-install \
+>>>>>>>> -                --disable-simple-egl-clients \
+>>>>>>>>                      --disable-libunwind \
+>>>>>>>>                      --disable-rpi-compositor \
+>>>>>>>>                      --disable-rdp-compositor"
+>>>>>>>> @@ -39,7 +38,7 @@ PACKAGECONFIG ??=
+>>>>>>>> "${@base_contains('DISTRO_FEATURES',
+>>>>>>>> 'wayland', 'kms fbdev way
+>>>>>>>>      # Weston on KMS
+>>>>>>>>      PACKAGECONFIG[kms] =
+>>>>>>>> "--enable-drm-compositor,--disable-drm-compositor,drm udev
+>>>>>>>> virtual/mesa
+>>>>>>>> mtdev"
+>>>>>>>>      # Weston on Wayland (nested Weston)
+>>>>>>>> -PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-egl
+>>>>>>>> --disable-wayland-compositor,virtual/mesa"
+>>>>>>>
+>>>>>>>
+>>>>>>> We need --disable-egl if wayland is not in DISTRO_FEATURES. See bug:
+>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5867
+>>>>>>
+>>>>>> As egl is not part of PACKAGECONFIG it will do the right thing, no?
+>>>>>>
+>>>>> Yes, it will. My concerns are about --enable-drm-compositor (kms)
+>>>>> without
+>>>>> egl; I know that the user can pass at runtime the --use-pixman flag,
+>>>>> but
+>>>>> I
+>>>>> think it's more important to keep egl enabled by default in weston
+>>>>> (this
+>>>>> is
+>>>>> probably the main "usecase" of wayland/weston). So if you enable egl,
+>>>>> the
+>>>>> bug will reproduce.
+>>>>
+>>>> The PACKAGECONFIG is for flexibility and so we are using it here as it
+>>>> is designed. I understand we still don't have a way to map config
+>>>> dependencies but this is no excuse to say the patch is wrong or
+>>>> inappropriate.
+>>>>
+>>>> We are using this in the upcoming i.MX6 Wayland support we sent to
+>>>> meta-fsl-arm and the only blocker is this patch be accepted.
+>>>>
+>>> The patch is not wrong, but disables egl. Looks good to me and if merged
+>>> I'll submit a patch to add egl in PACKAGECONFIG.
+>>
+>> If you want, I can add the egl there, and send v2. That's easy.
+>
+> That would be great. And don't forget to --disable-egl in case wayland is
+> not in PACKAGECONFIG.
 
-(From OE-Core rev: 74c48d8ff3502a4d11df05dc70da6b4155e1800d)
+This is the point I don't agree. I think user needs to drop egl when
+dropping wayland.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 9ae0017..7bc29df 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -308,7 +308,7 @@ python do_package_write_deb () {
- do_package_write_deb[dirs] = "${PKGWRITEDIRDEB}"
- do_package_write_deb[cleandirs] = "${PKGWRITEDIRDEB}"
- do_package_write_deb[umask] = "022"
--addtask package_write_deb before do_package_write after do_packagedata do_package
-+addtask package_write_deb after do_packagedata do_package
- 
- 
- PACKAGEINDEXDEPS += "dpkg-native:do_populate_sysroot"
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index aab31e5..2949d1d 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -253,7 +253,7 @@ python do_package_write_ipk () {
- do_package_write_ipk[dirs] = "${PKGWRITEDIRIPK}"
- do_package_write_ipk[cleandirs] = "${PKGWRITEDIRIPK}"
- do_package_write_ipk[umask] = "022"
--addtask package_write_ipk before do_package_write after do_packagedata do_package
-+addtask package_write_ipk after do_packagedata do_package
- 
- PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 9e63878..1ff2b36 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -723,7 +723,7 @@ python do_package_write_rpm () {
- do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
- do_package_write_rpm[cleandirs] = "${PKGWRITEDIRRPM}"
- do_package_write_rpm[umask] = "022"
--addtask package_write_rpm before do_package_write after do_packagedata do_package
-+addtask package_write_rpm after do_packagedata do_package
- 
- PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "createrepo-native:do_populate_sysroot"
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
