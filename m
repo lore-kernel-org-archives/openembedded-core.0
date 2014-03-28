@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C4D416F01E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA3A6F3AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:43:54 +0000 (UTC)
+	Fri, 28 Mar 2014 09:43:57 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9htUD004548
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hvSl024627
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:43:55 -0700 (PDT)
+	Fri, 28 Mar 2014 02:43:57 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:43:55 -0700
+	14.3.169.1; Fri, 28 Mar 2014 02:43:57 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:43:36 +0800
-Message-ID: <ae8e5c51f40f80d6614eceee0501830af1fe9816.1395997035.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:37 +0800
+Message-ID: <b88cf67b0f7824d86770c313e91ee778a793ba10.1395997035.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1395997035.git.hongxu.jia@windriver.com>
 References: <cover.1395997035.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 2/4] libtiff: fix CVE-2013-4244
+Subject: [PATCH 3/4] nss-3.15.1: fix CVE-2013-1741
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +33,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:43:55 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 09:43:57 -0000
 Content-Type: text/plain
 
-From: Baogen Shang <baogen.shang@windriver.com>
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-cve description:
-The LZW decompressor in the gif2tiff tool in libtiff 4.0.3 and earlier
-allows context-dependent attackers to cause a denial of service
-(out-of-bounds write and crash) or possibly execute arbitrary code via
-a crafted GIF image.
+Integer overflow in Mozilla Network Security Services (NSS)
+3.15 before 3.15.3 allows remote attackers to cause a denial
+of service or possibly have unspecified other impact via a
+large size value.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4244
-Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-1741
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libtiff/files/libtiff-CVE-2013-4244.patch         | 19 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.3.bb         |  3 ++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+ .../nss/files/nss-3.15.1-fix-CVE-2013-1741.patch   | 92 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss.inc                   |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1741.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+diff --git a/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1741.patch b/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1741.patch
 new file mode 100644
-index 0000000..1a66830
+index 0000000..21da0c0
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
-@@ -0,0 +1,19 @@
-+This patch comes from: https://github.com/vadz/libtiff/commit/ce6841d9e41d621ba23cf18b190ee6a23b2cc833
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Baogen shang <baogen.shang@windriver.com>
-+--- a/tools/gif2tiff.c	2013-12-17 16:46:02.160814995 +0800
-++++ b/tools/gif2tiff.c	2013-12-17 16:52:25.140814949 +0800
-+@@ -406,6 +406,11 @@
-+         return 0;
-+     }
-+     if (oldcode == -1) {
-++    if (code >= clear) {
-++        fprintf(stderr, "bad input: code=%d is larger than clear=%d\n",code, clear);
-++        return 0;
-++	}
++++ b/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1741.patch
+@@ -0,0 +1,92 @@
++Upstream-Status: backport
++yanjun.zhu <yanjun.zhu@windriver.com>
++--- a/nss/lib/util/secport.c
+++++ b/nss/lib/util/secport.c
++@@ -69,13 +69,22 @@ PORTCharConversionFunc ucs4Utf8ConvertFu
++ PORTCharConversionFunc ucs2Utf8ConvertFunc;
++ PORTCharConversionWSwapFunc  ucs2AsciiConvertFunc;
++ 
+++/* NSPR memory allocation functions (PR_Malloc, PR_Calloc, and PR_Realloc)
+++ * use the PRUint32 type for the size parameter. Before we pass a size_t or
+++ * unsigned long size to these functions, we need to ensure it is <= half of
+++ * the maximum PRUint32 value to avoid truncation and catch a negative size.
+++ */
+++#define MAX_SIZE (PR_UINT32_MAX >> 1)
 ++
-+ 	*(*fill)++ = suffix[code];
-+ 	firstchar = oldcode = code;
-+ 	return 1;
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-index 9cb8edf..fb9e0bf 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-@@ -7,7 +7,8 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
-            file://libtool2.patch \
-            file://libtiff-CVE-2013-1960.patch \
-            file://libtiff-CVE-2013-4232.patch \
--           file://libtiff-CVE-2013-4243.patch"
-+           file://libtiff-CVE-2013-4243.patch \
-+           file://libtiff-CVE-2013-4244.patch"
- 
- SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
- SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
++ void *
++ PORT_Alloc(size_t bytes)
++ {
++-    void *rv;
+++    void *rv = NULL;
++ 
++-    /* Always allocate a non-zero amount of bytes */
++-    rv = (void *)PR_Malloc(bytes ? bytes : 1);
+++    if (bytes <= MAX_SIZE) {
+++	/* Always allocate a non-zero amount of bytes */
+++	rv = PR_Malloc(bytes ? bytes : 1);
+++    }
++     if (!rv) {
++ 	++port_allocFailures;
++ 	PORT_SetError(SEC_ERROR_NO_MEMORY);
++@@ -86,9 +95,11 @@ PORT_Alloc(size_t bytes)
++ void *
++ PORT_Realloc(void *oldptr, size_t bytes)
++ {
++-    void *rv;
+++    void *rv = NULL;
++ 
++-    rv = (void *)PR_Realloc(oldptr, bytes);
+++    if (bytes <= MAX_SIZE) {
+++	rv = PR_Realloc(oldptr, bytes);
+++    }
++     if (!rv) {
++ 	++port_allocFailures;
++ 	PORT_SetError(SEC_ERROR_NO_MEMORY);
++@@ -99,10 +110,12 @@ PORT_Realloc(void *oldptr, size_t bytes)
++ void *
++ PORT_ZAlloc(size_t bytes)
++ {
++-    void *rv;
+++    void *rv = NULL;
++ 
++-    /* Always allocate a non-zero amount of bytes */
++-    rv = (void *)PR_Calloc(1, bytes ? bytes : 1);
+++    if (bytes <= MAX_SIZE) {
+++	/* Always allocate a non-zero amount of bytes */
+++	rv = PR_Calloc(1, bytes ? bytes : 1);
+++    }
++     if (!rv) {
++ 	++port_allocFailures;
++ 	PORT_SetError(SEC_ERROR_NO_MEMORY);
++@@ -209,6 +222,10 @@ PORT_NewArena(unsigned long chunksize)
++ {
++     PORTArenaPool *pool;
++     
+++    if (chunksize > MAX_SIZE) {
+++	PORT_SetError(SEC_ERROR_NO_MEMORY);
+++	return NULL;
+++    }
++     pool = PORT_ZNew(PORTArenaPool);
++     if (!pool) {
++ 	return NULL;
++@@ -224,8 +241,6 @@ PORT_NewArena(unsigned long chunksize)
++     return(&pool->arena);
++ }
++ 
++-#define MAX_SIZE 0x7fffffffUL
++-
++ void *
++ PORT_ArenaAlloc(PLArenaPool *arena, size_t size)
++ {
++@@ -330,6 +345,11 @@ PORT_ArenaGrow(PLArenaPool *arena, void 
++     PORTArenaPool *pool = (PORTArenaPool *)arena;
++     PORT_Assert(newsize >= oldsize);
++     
+++    if (newsize > MAX_SIZE) {
+++	PORT_SetError(SEC_ERROR_NO_MEMORY);
+++	return NULL;
+++    }
+++
++     if (ARENAPOOL_MAGIC == pool->magic ) {
++ 	PZ_Lock(pool->lock);
++ 	/* Do we do a THREADMARK check here? */
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index a6aeed8..6364562 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -16,6 +16,7 @@ SRC_URI = "\
+     file://nss-fix-support-cross-compiling.patch \
+     file://nss-no-rpath-for-cross-compiling.patch \
+     file://nss-fix-incorrect-shebang-of-perl.patch \
++    file://nss-3.15.1-fix-CVE-2013-1741.patch \
+ "
+ SRC_URI_append_class-target = "\
+     file://nss.pc.in \
 -- 
 1.8.1.2
 
