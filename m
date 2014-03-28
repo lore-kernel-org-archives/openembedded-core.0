@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F39816EFCE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0510D6DF25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:43:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hBWT004530
+	Fri, 28 Mar 2014 09:43:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hLFD024489
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:43:11 -0700 (PDT)
+	Fri, 28 Mar 2014 02:43:21 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:43:11 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 28 Mar 2014 02:43:21 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:42:45 +0800
-Message-ID: <a9a8a96fbbf68a9f9be9f4a036ac135939eddb07.1395996041.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:02 +0800
+Message-ID: <cover.1395996194.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1395996041.git.hongxu.jia@windriver.com>
-References: <cover.1395996041.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 6/6] openssl: Fix pod2man des.pod error on Ubuntu 12.04
+Subject: [PATCH 0/7][Part II] wr-misc patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:43:17 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 09:43:21 -0000
 Content-Type: text/plain
 
-From: Baogen Shang <baogen.shang@windriver.com>
+WindRiver patches was sent for YP compliance.
 
-This is a formatting fix, '=back' is required before
-'=head1' on Ubuntu 12.04.
+There are total 22 patches, and separate them into 4 parts,
+each part is individual which means there is no dependence
+between them.
 
-Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../openssl-1.0.1e/openssl-fix-des.pod-error.patch    | 19 +++++++++++++++++++
- meta/recipes-connectivity/openssl/openssl_1.0.1e.bb   |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
+//Hongxu
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
-new file mode 100644
-index 0000000..de49729
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
-@@ -0,0 +1,19 @@
-+openssl: Fix pod2man des.pod error on Ubuntu 12.04
-+
-+This is a formatting fix, '=back' is required before
-+'=head1' on Ubuntu 12.04.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
-+diff -urpN a_origin/des.pod b_modify/des.pod
-+--- a_origin/crypto/des/des.pod	2013-08-15 15:02:56.211674589 +0800
-++++ b_modify/crypto/des/des.pod	2013-08-15 15:04:14.439674580 +0800
-+@@ -181,6 +181,8 @@ the uuencoded file to embed in the begin
-+ output.  If there is no name specified after the B<-u>, the name text.des
-+ will be embedded in the header.
-+ 
-++=back
-++
-+ =head1 SEE ALSO
-+ 
-+ ps(1),
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index 2c3885c..618ba68 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -35,6 +35,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
-             file://initial-aarch64-bits.patch \
-             file://find.pl \
-+            file://openssl-fix-des.pod-error.patch \
-             file://0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch \
-             file://0001-Fix-DTLS-retransmission-from-previous-session.patch \
-             file://0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch \
+The following changes since commit 8c3eb5ee4582b6f6d489549290937657f37fc19e:
+
+  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:30 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/wr-misc-patches-2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/wr-misc-patches-2
+
+Amy Fong (1):
+  native-python: bad interpreter error message
+
+Hongxu Jia (1):
+  lttng-ust: add python to lttng-ust's RDEPENDS
+
+Hu Yadi (1):
+  libpcap: add PACKAGECONFIG for libnl1
+
+Ming Liu (1):
+  libpam: fix multilib packaging issue for pam-plugins
+
+Yue Tao (3):
+  tzcode-native: Replace fixed version with PV
+  guile: add texinfo-native to DEPENDS
+  e2fsprogs: Add e2fsprogs-mke2fs and e2fsprogs-e2fsck as recommend
+    packages
+
+ meta/classes/distutils.bbclass                     | 14 ++++++++++-
+ meta/recipes-connectivity/libpcap/libpcap.inc      |  1 +
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
+ meta/recipes-devtools/guile/guile_2.0.9.bb         |  2 +-
+ meta/recipes-extended/pam/libpam_1.1.6.bb          | 29 +++++++++++++++++++---
+ .../recipes-extended/tzcode/tzcode-native_2013i.bb |  3 ++-
+ meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb       |  1 +
+ 7 files changed, 44 insertions(+), 7 deletions(-)
+
 -- 
 1.8.1.2
 
