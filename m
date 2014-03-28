@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E116C6EAFA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6406EAFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:43:28 +0000 (UTC)
+	Fri, 28 Mar 2014 09:43:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hSpE004536
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9hU94024537
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:43:28 -0700 (PDT)
+	Fri, 28 Mar 2014 02:43:30 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:43:27 -0700
+	14.3.169.1; Fri, 28 Mar 2014 02:43:29 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:43:05 +0800
-Message-ID: <dd4ee35b41c3112e609bd59441718105f80b54ec.1395996194.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:06 +0800
+Message-ID: <03f8bc4ad8c4bf496e831b883fbccd1309acdf46.1395996194.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1395996194.git.hongxu.jia@windriver.com>
 References: <cover.1395996194.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 3/7] guile: add texinfo-native to DEPENDS
+Subject: [PATCH 4/7] native-python: bad interpreter error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,60 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 28 Mar 2014 09:43:29 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Amy Fong <Amy.Fong@windriver.com>
 
-Use texinfo-native instead of host command
+On some builds with really long paths, we can end up exceeding the maximum
+length line for an interpreter (man execve: A maximum line length of
+127 characters is allowed for the first line in a #!  executable shell
+script.)
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+To avoid this limit, we use env to execute python, with this, we will
+be using python that's first found in our PATH.
+
+The former ${bindir}/env is not a good idea for apps requiring native-python
+since coreutil*-native may not have been built (${bindir}/env may not exist)
+and with long paths, we can end up running into the same issue, hence we
+use /usr/bin/env from the host.
+
+Signed-off-by: Amy Fong <Amy.Fong@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/guile/guile_2.0.9.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/distutils.bbclass | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
-index 60318e7..1e907ba 100644
---- a/meta/recipes-devtools/guile/guile_2.0.9.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
-@@ -32,7 +32,7 @@ SRC_URI[sha256sum] = "f70a38c8d9751f442679bfe61852bba8545af4d4355d037630997c2f37
- inherit autotools gettext
- BBCLASSEXTEND = "native"
- 
--DEPENDS = "libunistring bdwgc gmp libtool libffi"
-+DEPENDS = "libunistring bdwgc gmp libtool libffi texinfo-native"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS_append_class-target = " guile-native libatomics-ops"
- 
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index f3da023..1a53ebd 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -50,7 +50,13 @@ distutils_do_install() {
+             for i in ${D}${bindir}/* ; do \
+                 if [ ${PN} != "${BPN}-native" ]; then
+                 	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
+-		fi
++                else
++                	# The former ${bindir}/env is not a good idea for apps requiring native-python
++                	# since coreutil*-native may not have been built (${bindir}/env may not exist)
++                	# and with long paths, we can end up running into an issue where the
++                	# interpreter line is too long, hence we use /usr/bin/env from the host.
++                	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:/usr/bin/env\ python:g $i
++                fi
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
+@@ -59,6 +65,12 @@ distutils_do_install() {
+             for i in ${D}${sbindir}/* ; do \
+                 if [ ${PN} != "${BPN}-native" ]; then
+                 	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
++                else
++                	# The former ${bindir}/env is not a good idea for apps requiring native-python
++                	# since coreutil*-native may not have been built (${bindir}/env may not exist)
++                	# and with long paths, we can end up running into an issue where the
++                	# interpreter line is too long, hence we use /usr/bin/env from the host.
++                	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:/usr/bin/env\ python:g $i
+ 		fi
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
 -- 
 1.8.1.2
 
