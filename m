@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BEC076F157
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F39006F7E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 09:44:11 +0000 (UTC)
+	Fri, 28 Mar 2014 09:44:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9iCAa024693
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2S9iERF004557
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 02:44:12 -0700 (PDT)
+	Fri, 28 Mar 2014 02:44:14 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 02:44:11 -0700
+	14.3.169.1; Fri, 28 Mar 2014 02:44:14 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Mar 2014 17:43:51 +0800
-Message-ID: <4691bff032d8536069f808068e5b477c8f47d213.1395996410.git.hongxu.jia@windriver.com>
+Date: Fri, 28 Mar 2014 17:43:52 +0800
+Message-ID: <3ac712e3b9c2e6138fd34865a98a051ae16a45bf.1395996410.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1395996410.git.hongxu.jia@windriver.com>
 References: <cover.1395996410.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 2/5] packagegroups: Remove toolchain *-symlinks packages
+Subject: [PATCH 3/5] packagegroup-self-hosted: Use packagegroup-core-buildessential
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Mar 2014 09:44:12 -0000
+X-List-Received-Date: Fri, 28 Mar 2014 09:44:14 -0000
 Content-Type: text/plain
 
 From: Mark Hatle <mark.hatle@windriver.com>
 
-We are no longer producing the *-symlinks packages, so remove the dependencies
-to those items.
+Instead of manually specifying build dependencies, use the
+packagegroup-core-buildessential.  This ensures there is only one place
+that needs to be modified when toolchain items and dependencies change.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb | 4 ----
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb         | 4 ----
- 2 files changed, 8 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-index 74ed247..e21f8c1 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-@@ -12,13 +12,9 @@ RDEPENDS_packagegroup-core-buildessential = "\
-     autoconf \
-     automake \
-     binutils \
--    binutils-symlinks \
-     cpp \
--    cpp-symlinks \
-     gcc \
--    gcc-symlinks \
-     g++ \
--    g++-symlinks \
-     gettext \
-     make \
-     libstdc++ \
 diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 8e3b917..5581d8e 100644
+index 5581d8e..fe49fb4 100644
 --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
 +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -69,20 +69,16 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
-     autoconf \
-     automake \
-     binutils \
--    binutils-symlinks \
+@@ -66,33 +66,23 @@ RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
+ 
+ # eglibc-utils: for rpcgen
+ RDEPENDS_packagegroup-self-hosted-sdk = "\
+-    autoconf \
+-    automake \
+-    binutils \
      ccache \
      coreutils \
-     cpp \
--    cpp-symlinks \
+-    cpp \
      distcc \
      eglibc-utils \
      eglibc-gconv-ibm850 \
      file \
      findutils \
-     g++ \
--    g++-symlinks \
-     gcc \
--    gcc-symlinks \
+-    g++ \
+-    gcc \
      intltool \
      ldd \
      less \
+     libssp \
+     libssp-dev \
+     libssp-staticdev \
+-    libstdc++ \
+-    libstdc++-dev \
+-    libtool \
+-    make \
+     mktemp \
++    packagegroup-core-buildessential \
+     perl-module-re \
+     perl-module-text-wrap \
+-    pkgconfig \
+     quilt \
+     sed \
+     "
 -- 
 1.8.1.2
 
