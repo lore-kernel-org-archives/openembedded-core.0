@@ -1,38 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A361E610CD
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1250160DFA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 10:34:19 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id t10so4892475eei.19
+	Sat, 29 Mar 2014 10:58:30 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id ec20so4548616lab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 03:34:20 -0700 (PDT)
+	Sat, 29 Mar 2014 03:58:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=FN6NRD8JodW/iFjdYhNw3eT2/lEKZVI6/hxcrpZv60g=;
-	b=Y2TVnl/UM2xyuiM0rh6mlI/zTMQT3CJGtUPhNucPjfNuWfvK4OAoOEpRKO+XDbJx68
-	UtCsQkSAUsak74zmbmjkMdt1up2/+Akqc8NWV39r3Ij/INokGICRLeriANCwjh3cX0p1
-	YCEzda6gO9w+7uyH2jA+N5UvPJj6b/cBObyJZIAxRjRcP1PQjREMipYHXZk0O4YuNHie
-	hPyo0yuKCHbe58rQyoHGycSohoJPrlBt3s+qWuMh2xxfA6bS9uAQk+dygQ5YGPyXot3X
-	b+gJdVrLz+QpApra4bVTjXuuaPIokr2xhq2Ne+gS3LX3H+M+e65lBC2XJY45SKvAYPgJ
-	ZAAw==
-X-Received: by 10.15.64.75 with SMTP id n51mr16927171eex.33.1396089260112;
-	Sat, 29 Mar 2014 03:34:20 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	s46sm17852116ees.3.2014.03.29.03.34.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 29 Mar 2014 03:34:19 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Mar 2014 11:34:13 +0100
-Message-Id: <380c7d44597e301374f71b93ad12edb38f43088b.1396089115.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.9.1
+	h=date:from:to:cc:subject:in-reply-to:message-id:references
+	:user-agent:mime-version:content-type;
+	bh=P7pt8dq7Lc1+uqENwAESPyRxhSaTsTyHKh9LMJqlVhM=;
+	b=O3cX/BfKmTfEyXU8C5rXKZJGCNWPRD5u8PO/WYEIZlhk9qPHrcXC1Rtsce0U9FCMwD
+	Bsyo5kI54fTNxuNOURHWEn/DqzW5NUC7Fj4Ui333T/4xTU1XnCoXkh19mYffV4UwPdV8
+	Q1tOpnVLEHHJ/JjPd8aDJ5v2DxKsEsC9iPspXfCFCJ1VFwr10wngXfdWMzSRprTIvPy6
+	31HhL4hNSxxzuLqPWpF+mtaC324Jw8kUcIPYl2nSbbhDWRsD9IrK4uR+qBYf4BPgprUx
+	18ZHQpEm2arXIwjSghlbY31CjGUHXmw21f3Nx7IkTYybWtsd5ZK6wsaFGR16LnlJ1duO
+	JpLA==
+X-Received: by 10.152.120.195 with SMTP id le3mr9862513lab.6.1396090710270;
+	Sat, 29 Mar 2014 03:58:30 -0700 (PDT)
+Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
+	[89.253.118.72])
+	by mx.google.com with ESMTPSA id cr6sm5603101lbb.19.2014.03.29.03.58.29
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 29 Mar 2014 03:58:29 -0700 (PDT)
+Date: Sat, 29 Mar 2014 11:57:59 +0100 (CET)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+X-X-Sender: jkroon@localhost.localdomain
+To: Martin Jansa <martin.jansa@gmail.com>
 In-Reply-To: <cover.1396089115.git.Martin.Jansa@gmail.com>
+Message-ID: <alpine.LFD.2.11.1403291157470.14820@localhost.localdomain>
 References: <cover.1396089115.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1396089115.git.Martin.Jansa@gmail.com>
-References: <cover.1396089115.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 4/4] sstate-cache-management: rm_by_stamps - discover all suffixes like remove_duplicated does
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] sstate-cache-management fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,62 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 10:34:23 -0000
+X-List-Received-Date: Sat, 29 Mar 2014 10:58:32 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
 
-* instead of hard coding list of sstate enabled task use
-  the same function as remove_duplicated to find them in
-  sstate-cache directory
+On Sat, 29 Mar 2014, Martin Jansa wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/sstate-cache-management.sh | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+> Removing do_package was reported by Jacob Kroon and then I've found
+> few more issues, the most surprising is the one with populate_lic.
+>
+> The following changes since commit b16de9af5c7108396a347e7107c73608a2f8d74f:
+>
+>  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:07 +0000)
+>
+> are available in the git repository at:
+>
+>  git://git.openembedded.org/openembedded-core-contrib jansa/sstate-management
+>  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/sstate-management
+>
+> Martin Jansa (4):
+>  sstate-cache-management: rm_by_stamps - include signatures of
+>    .sigdata. files
+>  sstate-cache-management: rm_by_stamps - remove .siginfo and .done
+>    files
+>  sstate-cache-management: skip populate_lic archives when removing
+>    duplicates
+>  sstate-cache-management: rm_by_stamps - discover all suffixes like
+>    remove_duplicated does
+>
+> scripts/sstate-cache-management.sh | 34 ++++++++++++++++++++--------------
+> 1 file changed, 20 insertions(+), 14 deletions(-)
+>
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index 77afd68..e5c57d3 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -324,16 +324,23 @@ rm_by_stamps (){
-   local cache_list=`mktemp` || exit 1
-   local keep_list=`mktemp` || exit 1
-   local rm_list=`mktemp` || exit 1
--  local suffixes
-   local sums
-   local all_sums
- 
--  suffixes="populate_sysroot populate_lic package_write_ipk \
--            package_write_rpm package_write_deb package packagedata deploy"
-+  # Total number of files including sstate-, .siginfo and .done files
-+  total_files=`find $cache_dir -type f -name 'sstate*' | wc -l`
-+  # Save all the state file list to a file
-+  find $cache_dir -type f -name 'sstate*' | sort -u -o $cache_list
-+
-+  echo "Figuring out the suffixes in the sstate cache dir ... "
-+  local sstate_suffixes="`sed 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz.*%\1%g' $cache_list | sort -u`"
-+  echo "Done"
-+  echo "The following suffixes have been found in the cache dir:"
-+  echo $sstate_suffixes
- 
-   # Figure out all the md5sums in the stamps dir.
-   echo "Figuring out all the md5sums in stamps dir ... "
--  for i in $suffixes; do
-+  for i in $sstate_suffixes; do
-       # There is no "\.sigdata" but "_setcene" when it is mirrored
-       # from the SSTATE_MIRRORS, use them to figure out the sum.
-       sums=`find $stamps -maxdepth 3 -name "*.do_$i.*" \
-@@ -344,11 +351,6 @@ rm_by_stamps (){
-   done
-   echo "Done"
- 
--  # Total number of files including sstate-, .siginfo and .done files
--  total_files=`find $cache_dir -type f -name 'sstate*' | wc -l`
--  # Save all the state file list to a file
--  find $cache_dir -type f -name 'sstate*' | sort -u -o $cache_list
--
-   echo "Figuring out the files which will be removed ... "
-   for i in $all_sums; do
-       grep ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:${i}_.*" $cache_list >>$keep_list
--- 
-1.9.1
+For the whole patch series:
 
+Tested-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
 
