@@ -1,24 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A37636028A
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D3AF60CEB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 04:13:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2T4DN49009213
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Mar 2014 21:13:23 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 28 Mar 2014 21:13:23 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Mar 2014 00:13:20 -0400
-Message-ID: <cover.1396066374.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Sat, 29 Mar 2014 06:56:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2T6uaci018771
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 28 Mar 2014 23:56:36 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Fri, 28 Mar 2014 23:56:36 -0700
+Message-ID: <53366E97.2070807@windriver.com>
+Date: Sat, 29 Mar 2014 14:56:23 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] packagegroup-toolset-native: remove it
+To: "Iorga, Cristian" <cristian.iorga@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1395996041.git.hongxu.jia@windriver.com>
+	<a2ac209bcc377adfdf62d90d7f3b09cec817d1cc.1395996041.git.hongxu.jia@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB1CE744CF@IRSMSX105.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB1CE744CF@IRSMSX105.ger.corp.intel.com>
+Cc: "Wold, Saul" <saul.wold@intel.com>
+Subject: Re: [PATCH 3/6] initscripts: Avoid restarting rpcbind daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +38,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 04:13:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 29 Mar 2014 06:56:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit b16de9af5c7108396a347e7107c73608a2f8d74f:
+On 03/29/2014 12:52 AM, Iorga, Cristian wrote:
+> Hi Hongxu,
+> Does this change fix a bug or an inappropriate system behavior?
 
-  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:07 +0000)
+Yes, I got this fix from WindRiver Linux, here is the defect log:
 
-are available in the git repository at:
+1. From Boot logs:
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/ptn
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ptn
+Configuring network interfaces... ifup: interface lo already configured 
+done.
+Starting rpcbind daemon...done.
+Starting rpcbind...Mounting remote filesystems...
 
-Robert Yang (1):
-  packagegroup-toolset-native: remove it
+2. From target:
+  # ls -l /etc/rcS.d/S43rpcbind
+lrwxrwxrwx 3 root root 17 Aug 28 07:57 /etc/rcS.d/S43rpcbind -> 
+../init.d/rpcbind
 
- .../packagegroups/packagegroup-toolset-native.bb   |  230 --------------------
- 1 file changed, 230 deletions(-)
- delete mode 100644 meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+3. But mountnfs also start rpcbind:
+# ls -l  /etc/rcS.d/S45mountnfs.sh
+lrwxrwxrwx 3 root root 21 Aug 28 07:57 /etc/rcS.d/S45mountnfs.sh -> 
+../init.d/mountnfs.sh
 
--- 
-1.7.10.4
+from /etc/init.d/mountfs.sh
+
+if test "$rpcbind" = yes
+then
+         if test -x /usr/sbin/rpcbind
+         then
+                 echo -n "Starting rpcbind..."
+                 start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+                 sleep 2
+         fi
+fi
+
+//Hongxu
+
+
+> Thanks,
+> Cristian Iorga
+> YP
+> Intel Corporation
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Hongxu Jia
+> Sent: Friday, March 28, 2014 11:43 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Wold, Saul
+> Subject: [OE-core] [PATCH 3/6] initscripts: Avoid restarting rpcbind daemon
+>
+> From: Yue Tao <Yue.Tao@windriver.com>
+>
+> Check whether rpcbind daemon already run before starting it.
+>
+> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> index fe6c196..be9f597 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> @@ -67,9 +67,12 @@ if test "$rpcbind" = yes  then
+>   	if test -x /usr/sbin/rpcbind
+>   	then
+> -		echo -n "Starting rpcbind... "
+> -		start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+> -		sleep 2
+> +		service rpcbind status > /dev/null
+> +		if [ $? != 0 ]; then
+> +			echo -n "Starting rpcbind..."
+> +			start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+> +			sleep 2
+> +		fi
+>   	fi
+>   fi
+>   
+> --
+> 1.8.1.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
