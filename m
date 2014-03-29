@@ -1,29 +1,34 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4188060CEB
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B8660E68
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 06:58:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2T6wd0Y018824
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Mar 2014 23:58:39 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 28 Mar 2014 23:58:39 -0700
-Message-ID: <53366F12.9020104@windriver.com>
-Date: Sat, 29 Mar 2014 14:58:26 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1395996410.git.hongxu.jia@windriver.com>	
-	<4691bff032d8536069f808068e5b477c8f47d213.1395996410.git.hongxu.jia@windriver.com>
-	<1396027863.14790.14.camel@ted>
-In-Reply-To: <1396027863.14790.14.camel@ted>
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] packagegroups: Remove toolchain *-symlinks packages
+	Sat, 29 Mar 2014 10:34:12 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id c13so4824743eek.23
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Mar 2014 03:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=moU1YMWoosAG1Lm7hRAprYWumnFdzfHz9KVufTHDIWw=;
+	b=FrBs3/jSL4fXYWK/qLzqUoSW+rCeyEZJDs+oARsx75sMfmnWHZJc0FTnNVAzx/RpVz
+	IDPdCMw8LGUKicAmxZMMq8u87XO9TiI1u58NelSh9zvMDP/R4+HXUZWUHXjULgTY+3od
+	MkesX2mrnCgKTOmOLb9oGtjbLuatRal64HnFesA09V4m6xmFl05rjHVjZJ/uD/2M2jvX
+	9VaL/k/8Fu2LLCmJNzjiI+ZKlPl2cvfcHokia2TsM7YRLIGMb5Tf5jWpuX+lTwZSWGDK
+	shFBZbDLtgTeAmJerHqJFTXlmp1h9czGIOr/gLrS1S22yvMioMvJOOIoZ6VDXeHTAhiQ
+	S5bg==
+X-Received: by 10.14.220.130 with SMTP id o2mr16940667eep.42.1396089252757;
+	Sat, 29 Mar 2014 03:34:12 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	45sm17845059eeh.9.2014.03.29.03.34.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Mar 2014 03:34:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Mar 2014 11:34:09 +0100
+Message-Id: <cover.1396089115.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/4] sstate-cache-management fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,83 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 06:58:40 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 29 Mar 2014 10:34:14 -0000
 
-On 03/29/2014 01:31 AM, Richard Purdie wrote:
-> On Fri, 2014-03-28 at 17:43 +0800, Hongxu Jia wrote:
->> From: Mark Hatle <mark.hatle@windriver.com>
->>
->> We are no longer producing the *-symlinks packages, so remove the dependencies
->> to those items.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb | 4 ----
->>   meta/recipes-core/packagegroups/packagegroup-self-hosted.bb         | 4 ----
->>   2 files changed, 8 deletions(-)
-> The binutils-symlinks package was removed however the gcc related ones
-> have not been. This patch is therefore not appropriate until that has
-> happened.
+Removing do_package was reported by Jacob Kroon and then I've found
+few more issues, the most surprising is the one with populate_lic.
 
-Got it, I will drop this patch in V2.
+The following changes since commit b16de9af5c7108396a347e7107c73608a2f8d74f:
 
-//Hongxu
+  packagegroup-toolset-native: Update after ocf-linux -> cryptodev-linux change (2014-03-27 19:53:07 +0000)
 
+are available in the git repository at:
 
-> Cheers,
->
-> Richard
->
->> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
->> index 74ed247..e21f8c1 100644
->> --- a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
->> +++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
->> @@ -12,13 +12,9 @@ RDEPENDS_packagegroup-core-buildessential = "\
->>       autoconf \
->>       automake \
->>       binutils \
->> -    binutils-symlinks \
->>       cpp \
->> -    cpp-symlinks \
->>       gcc \
->> -    gcc-symlinks \
->>       g++ \
->> -    g++-symlinks \
->>       gettext \
->>       make \
->>       libstdc++ \
->> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
->> index 8e3b917..5581d8e 100644
->> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
->> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
->> @@ -69,20 +69,16 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
->>       autoconf \
->>       automake \
->>       binutils \
->> -    binutils-symlinks \
->>       ccache \
->>       coreutils \
->>       cpp \
->> -    cpp-symlinks \
->>       distcc \
->>       eglibc-utils \
->>       eglibc-gconv-ibm850 \
->>       file \
->>       findutils \
->>       g++ \
->> -    g++-symlinks \
->>       gcc \
->> -    gcc-symlinks \
->>       intltool \
->>       ldd \
->>       less \
->> -- 
->> 1.8.1.2
->>
->
+  git://git.openembedded.org/openembedded-core-contrib jansa/sstate-management
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/sstate-management
+
+Martin Jansa (4):
+  sstate-cache-management: rm_by_stamps - include signatures of
+    .sigdata. files
+  sstate-cache-management: rm_by_stamps - remove .siginfo and .done
+    files
+  sstate-cache-management: skip populate_lic archives when removing
+    duplicates
+  sstate-cache-management: rm_by_stamps - discover all suffixes like
+    remove_duplicated does
+
+ scripts/sstate-cache-management.sh | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
+
+-- 
+1.9.1
 
 
