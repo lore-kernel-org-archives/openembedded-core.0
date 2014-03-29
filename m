@@ -1,36 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f44.google.com (mail-yh0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B54D46B7AF
+Return-Path: <denis@denix.org>
+Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
+	[206.46.173.17])
+	by mail.openembedded.org (Postfix) with ESMTP id B05C8610CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 20:05:16 +0000 (UTC)
-Received: by mail-yh0-f44.google.com with SMTP id f10so6305786yha.31
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 13:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=CxYJdZ2IEyMnKMwGBVxG7LbvKdha7H7SK0zmIkl2aZA=;
-	b=SP5sn8YphW+9yM+Zg9X/7wimdnnpdrN1pBGmzZ5IBOAxEnyQ1oSQYA0OzXHJs8o9Xc
-	AqvSVj7JpkMy3AgPkGYJhhZqQaKmN5o9gpz8gDLnVkY8OnyB/59SMCRFT8mhAWGdhcT4
-	ItoOxzmcHNesTsra/pzs+vVgJc2ZDnb9TJTE8bSOO59RPyZMww/q35sx1Ljmbr+UZ5oa
-	5nk+Mrgh+7Sj5NyjxF1oZhXMs7vRgUYth1AAGN/HJ8zHMaPXPPRwHGCiDWAEE/0XQmV2
-	rqrAmZF6yt+Ci7uB6cAL11cTIY+3TTQ6YjqRsuP/qjT32gbGMyTd85oTGzJd3N0K/RQK
-	lXYw==
-MIME-Version: 1.0
-X-Received: by 10.236.137.8 with SMTP id x8mr22942050yhi.4.1396123517323; Sat,
-	29 Mar 2014 13:05:17 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Sat, 29 Mar 2014 13:05:17 -0700 (PDT)
-In-Reply-To: <1396122742-27434-1-git-send-email-otavio@ossystems.com.br>
-References: <1396122742-27434-1-git-send-email-otavio@ossystems.com.br>
-Date: Sat, 29 Mar 2014 17:05:17 -0300
-X-Google-Sender-Auth: QAOnYtiJ4zTcQsc4lYXwnf_t3Ns
-Message-ID: <CAP9ODKoYWhxy_GWwTUn00Qq=MEUA8d948vvRcnXWq_JV-HyVZA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH] packagegroup-core-tools-testapps: Move piglit to X11TOOLS
+	Sat, 29 Mar 2014 20:59:59 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173017.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N3700L6VUBK4C80@vms173017.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sat, 29 Mar 2014 16:00:00 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 50EAE2011D; Sat,
+	29 Mar 2014 16:59:44 -0400 (EDT)
+Date: Sat, 29 Mar 2014 16:59:44 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20140329205944.GQ3370@denix.org>
+References: <1396042184-7372-1-git-send-email-denis@denix.org>
+	<CAP9ODKrGXUwy8WkM-UyHHoqKAs2J4eabPOh00COsATSu5_A-Vw@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CAP9ODKrGXUwy8WkM-UyHHoqKAs2J4eabPOh00COsATSu5_A-Vw@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [RFC] udev-extraconf: update mount.sh to use /run/media instead of /media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +36,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 20:05:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 29 Mar 2014 21:00:06 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Sat, Mar 29, 2014 at 4:52 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> piglit currently depends on libx11 for build so is not buildable in
-> x11-less distros.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+On Sat, Mar 29, 2014 at 12:17:23PM -0300, Otavio Salvador wrote:
+> Hello Denys,
+> 
+> On Fri, Mar 28, 2014 at 6:29 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> > From: Denys Dmytriyenko <denys@ti.com>
+> >
+> > This is done to work around the issue of auto-mounting block devices
+> > (i.e. SD cards) when root filesystem is still in read-only mode and
+> > creating /media/<device> mount-points by udev is not possible. That
+> > is due to udev (/etc/rcS.d/S03udev) getting started earlier than
+> > checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
+> > rootfs as read-write.
+> >
+> > Although, canonical FHS specifies /media/<device> as a mount point
+> > for removable media devices, the latest 2.3 version was released in
+> > 2004 and since then FreeDesktop/udisks and other tools adopted the
+> > new /run/media/<user>/<device> location. That was done to overcome
+> > read-only rootfs limitation, since /run is usually a tmpfs mounted
+> > partition, plus avoid name-clash between users.
+> 
+> Agreed.
+> 
+> > For our embedded systems environment we assume single-user operation
+> > and hence simplify mount point to just /run/media/<device>.
+> 
+> Please don't. I have customers using multiple users in an embedded
+> device and so I think it is better to adopt udisks standard here
+> instead of diverging from it without a reasoning.
 
-Discard this one; I sent a v2.
+I guess I should have phrased it a bit better...
+
+This part is a system-wide automount. It gets to run even when no user is 
+logged in. In order to do per-user mounting, some sort of session management 
+is required. For example, udisks, we both mentioned, starts along with the 
+session, when a user logs in, hence allowing per-user mounts.
+
+Since this approach uses udev and gets triggered on addition or removal of 
+block devices, described in the corresponding rules, it happens on system 
+level and is not dependant on a session or logged in user. When a session 
+based approach is used with udisks, these rules should be disabled though.
+
+The two approaches are rather mutually exclusive, but both are valid. There 
+are cases when this system-level automount is desired (e.g. in industrial use 
+cases) since there are no users are ever expected to log in or interact with 
+the system.
+
+So, this is not meant to replace or provide session-based mounting...
+
+
+> ...
+> > diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> > index cb57e47..3e4f21f 100644
+> > --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+> > +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> > @@ -20,7 +20,7 @@ done
+> >  automount() {
+> >         name="`basename "$DEVNAME"`"
+> >
+> > -       ! test -d "/media/$name" && mkdir -p "/media/$name"
+> > +       ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+> 
+> Please see above...
+> 
+> ...
+> 
+> > --- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
+> > +++ b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+> > @@ -4,7 +4,7 @@ LICENSE = "MIT"
+> >  LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+> >                      file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> >
+> > -PR = "r16"
+> > +PR = "r17"
+> 
+> Don't change PR; in fact with this change I'd say to move it to 1.1 and drop PR.
+
+I thought about it - either PV or PR needs to change. But I wasn't sure about 
+bumping PV...
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Denys
 
