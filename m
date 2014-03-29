@@ -1,39 +1,39 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
-	[209.85.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 32E2060E68
+Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C5D1260DDF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 19:52:27 +0000 (UTC)
-Received: by mail-yk0-f182.google.com with SMTP id 142so1956460ykq.27
+	Sat, 29 Mar 2014 20:04:51 +0000 (UTC)
+Received: by mail-yh0-f48.google.com with SMTP id z6so6206737yhz.21
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 12:52:28 -0700 (PDT)
+	Sat, 29 Mar 2014 13:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=51fTx7rierdALdrqhig0H0ukA7QluMzqSzK9JX7+TYM=;
-	b=oYmjcs052Z5hvrMw3aSggGrH+MY/5oXWP47VD2OoQHXzIA9TQftYygpSsmveERL7MX
-	g2OGSVO2DC+g0ROSY4pl3IhY8CwIowZk8brtjlsGodUKqmhHlw8yl3WcRq8gTaDSu4nN
-	py3/978j40H8H+g5Y3hoPBXDrfOLztEHEubP8AYzi9IuNK1p67ve4oIgL0QK4fdN5E5i
-	xmCAAYnkirXjVGW4GM2EP+0ck51Fyx0iXbD6G9e97fWm9Bfjo1wY5jKjOMAZsN7rEyaf
-	lPSBLFzFgx54tYG8d0Xq4ty5zGzuW2fOToTpMJFJmGoZ0ViQBpwLJ8M146PfTC3/vW0l
-	feiw==
-X-Received: by 10.236.71.100 with SMTP id q64mr3834347yhd.133.1396122748106;
-	Sat, 29 Mar 2014 12:52:28 -0700 (PDT)
+	bh=pzN29YzxXvHIDCXLgfgZ6EKSV+wprt5UU68fVSFuEEM=;
+	b=fVG5F+S5iQI/8CXBLzNFK48D++EICHIBUqR+s1VsJj+u9YgnRnbYI7u+wh39mqIrxl
+	VkghjCn62a0Nxdzs4Shso3AthHWrPgXYVW9lSjRIDj3AzarMX5mqOYDDfzWdz0Jx0qc0
+	3Ohbm8aXCyMRwLtb/vTaPCVj/329eWnphu7mUsChBuh1EpvRQm8VqJ9Iy4tD7VyZ+UxZ
+	g/EfZvwkceIPvTzQgNKQGokYpsawNsxEXiHDfrXBHTIpHP7Qn4lgdr1d87vaLghWgJ8S
+	oZhCghnKnB1+Vn+mZx7dBQrY9CCZ57LOAl59mwG1Fh3X/KGTalzZbZ5Bxi1Pl6WwLvQW
+	11GA==
+X-Received: by 10.236.8.68 with SMTP id 44mr22807864yhq.39.1396123492411;
+	Sat, 29 Mar 2014 13:04:52 -0700 (PDT)
 Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id
-	h23sm15625383yhf.34.2014.03.29.12.52.26 for <multiple recipients>
+	by mx.google.com with ESMTPSA id r3sm15669128yhl.38.2014.03.29.13.04.51
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 29 Mar 2014 12:52:27 -0700 (PDT)
+	Sat, 29 Mar 2014 13:04:51 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id EBBD919E27CFC; Sat, 29 Mar 2014 16:52:23 -0300 (BRT)
+	id 44DE019E5CECE; Sat, 29 Mar 2014 17:04:42 -0300 (BRT)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Mar 2014 16:52:22 -0300
-Message-Id: <1396122742-27434-1-git-send-email-otavio@ossystems.com.br>
+Date: Sat, 29 Mar 2014 17:04:41 -0300
+Message-Id: <1396123481-6064-1-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.9.1
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] packagegroup-core-tools-testapps: Move piglit to X11TOOLS
+Subject: [PATCH v2] packagegroup-core-tools-testapps: Move GLTOOLS to X11GLTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 19:52:28 -0000
+X-List-Received-Date: Sat, 29 Mar 2014 20:04:53 -0000
 
-piglit currently depends on libx11 for build so is not buildable in
-x11-less distros.
+piglit and mesa-demos are not buildable in x11-less distros so we must
+to add those only when opengl and x11 DISTRO_FEATURES are available.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index d8a7306..08acf6d 100644
+index d8a7306..0ced119 100644
 --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
 +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -26,7 +26,6 @@ KEXECTOOLS_aarch64 ?= ""
+@@ -24,7 +24,7 @@ KEXECTOOLS_powerpc ?= ""
+ KEXECTOOLS_e5500-64b ?= ""
+ KEXECTOOLS_aarch64 ?= ""
  
- GLTOOLS = "\
+-GLTOOLS = "\
++X11GLTOOLS = "\
      mesa-demos \
--    piglit \
+     piglit \
      "
- 
- 3GTOOLS = "\
-@@ -34,6 +33,7 @@ GLTOOLS = "\
+@@ -58,6 +58,7 @@ RDEPENDS_${PN} = "\
+     connman-tests \
+     connman-client \
+     ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
+-    ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
++    ${@base_contains('DISTRO_FEATURES', 'opengl', \
++        base_contains('DISTRO_FEATURES', 'x11', "${X11GLTOOLS}", "", d), "", d)} \
+     ${@base_contains('DISTRO_FEATURES', '3g', "${3GTOOLS}", "", d)} \
      "
- 
- X11TOOLS = "\
-+    piglit \
-     fstests \
-     owl-video \
-     x11perf \
 -- 
 1.9.1
 
