@@ -1,38 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 794476B6BA
+Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A361E610CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 10:34:17 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id c13so4892494eek.37
+	Sat, 29 Mar 2014 10:34:19 +0000 (UTC)
+Received: by mail-ee0-f46.google.com with SMTP id t10so4892475eei.19
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 03:34:18 -0700 (PDT)
+	Sat, 29 Mar 2014 03:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=3MkT6UG+mVww38D9mNaye/XfgdKBdBmQNMxASqBWlBE=;
-	b=tFIBqhJGcETVa18KH+6XXMNm6TO0zyON/I9ZXYGIACf2rr07FPAugTtb4RiSLaSlvB
-	ZrecuiFHt3fVdlpP6oYI0pSnL720d887SwNrW63BPvp89sy8rkSJN/KuOz6jqmFNowYw
-	4kn6VN84sBatzPpd6kHiFQD7AUYeXWmjAg77N+gPGivVXifl7ZDeYY8GM8KRqQctBsHa
-	EVizg6eCNUsPayBnGZ4tXD0ui+nOaLtUKZajAZusKG0VbJtEQEUxYhGDxvQ6Ju9E0MHo
-	VglyddGvsOi9oN5FLIoiC2HKxjrZuM+S33XNZncEOlSpPz1rbhZAX+A86TJ/a8MyYeyU
-	heDA==
-X-Received: by 10.15.53.69 with SMTP id q45mr16970659eew.22.1396089258264;
-	Sat, 29 Mar 2014 03:34:18 -0700 (PDT)
+	:references; bh=FN6NRD8JodW/iFjdYhNw3eT2/lEKZVI6/hxcrpZv60g=;
+	b=Y2TVnl/UM2xyuiM0rh6mlI/zTMQT3CJGtUPhNucPjfNuWfvK4OAoOEpRKO+XDbJx68
+	UtCsQkSAUsak74zmbmjkMdt1up2/+Akqc8NWV39r3Ij/INokGICRLeriANCwjh3cX0p1
+	YCEzda6gO9w+7uyH2jA+N5UvPJj6b/cBObyJZIAxRjRcP1PQjREMipYHXZk0O4YuNHie
+	hPyo0yuKCHbe58rQyoHGycSohoJPrlBt3s+qWuMh2xxfA6bS9uAQk+dygQ5YGPyXot3X
+	b+gJdVrLz+QpApra4bVTjXuuaPIokr2xhq2Ne+gS3LX3H+M+e65lBC2XJY45SKvAYPgJ
+	ZAAw==
+X-Received: by 10.15.64.75 with SMTP id n51mr16927171eex.33.1396089260112;
+	Sat, 29 Mar 2014 03:34:20 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	t50sm17820597eev.28.2014.03.29.03.34.17
+	s46sm17852116ees.3.2014.03.29.03.34.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 29 Mar 2014 03:34:17 -0700 (PDT)
+	Sat, 29 Mar 2014 03:34:19 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Mar 2014 11:34:12 +0100
-Message-Id: <fec918d60851acc986bb9fe904a18482d8be6d88.1396089115.git.Martin.Jansa@gmail.com>
+Date: Sat, 29 Mar 2014 11:34:13 +0100
+Message-Id: <380c7d44597e301374f71b93ad12edb38f43088b.1396089115.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1396089115.git.Martin.Jansa@gmail.com>
 References: <cover.1396089115.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1396089115.git.Martin.Jansa@gmail.com>
 References: <cover.1396089115.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 3/4] sstate-cache-management: skip populate_lic archives when removing duplicates
+Subject: [PATCH 4/4] sstate-cache-management: rm_by_stamps - discover all suffixes like remove_duplicated does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,70 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 10:34:17 -0000
+X-List-Received-Date: Sat, 29 Mar 2014 10:34:23 -0000
 
-* there are 2 issues
-
-* all *gcc* recipes produce "duplicate" files and we cannot keep just the newest one:
-  OE qemux86@ ~/build/oe-core $ find sstate-cache/ | grep gcc.*populate_lic
-  sstate-cache/cd/sstate:gcc::4.8.2:r0::3:cd8d1a33b832662b624f5e4bd9f55154_populate_lic.tgz
-  sstate-cache/cd/sstate:gcc::4.8.2:r0::3:cd8d1a33b832662b624f5e4bd9f55154_populate_lic.tgz.siginfo
-  sstate-cache/d5/sstate:gcc::4.8.2:r0::3:d591af812395cc386e017fa2c8fa0722_populate_lic.tgz
-  sstate-cache/d5/sstate:gcc::4.8.2:r0::3:d591af812395cc386e017fa2c8fa0722_populate_lic.tgz.siginfo
-  sstate-cache/f7/sstate:gcc::4.8.2:r0::3:f74cfd4982fd7c349a5418f07297f955_populate_lic.tgz
-  sstate-cache/f7/sstate:gcc::4.8.2:r0::3:f74cfd4982fd7c349a5418f07297f955_populate_lic.tgz.siginfo
-  sstate-cache/74/sstate:gcc::4.8.2:r0::3:7489e4502cb446506b9829cda13c7630_populate_lic.tgz
-  sstate-cache/74/sstate:gcc::4.8.2:r0::3:7489e4502cb446506b9829cda13c7630_populate_lic.tgz.siginfo
-
-  OE qemux86@ ~/build/oe-core $ find tmp-eglibc/stamps/ | grep gcc.*populate_lic
-  tmp-eglibc/stamps/i586-oe-linux/gcc-cross-initial/4.8.2-r0.do_populate_lic_setscene.cd8d1a33b832662b624f5e4bd9f55154
-  tmp-eglibc/stamps/i586-oe-linux/libgcc/4.8.2-r0.do_populate_lic_setscene.f74cfd4982fd7c349a5418f07297f955
-  tmp-eglibc/stamps/i586-oe-linux/gcc-cross/4.8.2-r0.do_populate_lic_setscene.d591af812395cc386e017fa2c8fa0722
-  tmp-eglibc/stamps/i586-oe-linux/gcc-runtime/4.8.2-r0.do_populate_lic_setscene.7489e4502cb446506b9829cda13c7630
-
-* the same for target and native versions of the same recipe:
-  OE qemux86@ ~/build/oe-core $ find tmp-eglibc/stamps/ | grep opkg-utils.*populate_lic
-  tmp-eglibc/stamps/x86_64-linux/opkg-utils-native/0.1.8+gitAUTOINC+c33b217016-r0.do_populate_lic_setscene.dd21a3c5444482ce90be4c9a33d806f1
-  tmp-eglibc/stamps/i586-oe-linux/opkg-utils/0.1.8+gitAUTOINC+c33b217016-r0.do_populate_lic_setscene.8571422f9e311dc41bb6b21e71a09bc0
-
-  OE qemux86@ ~/build/oe-core $ find sstate-cache/ | grep opkg-utils.*populate_lic
-  sstate-cache/dd/sstate:opkg-utils::0.1.8+gitAUTOINC+c33b217016:r0::3:dd21a3c5444482ce90be4c9a33d806f1_populate_lic.tgz.siginfo
-  sstate-cache/dd/sstate:opkg-utils::0.1.8+gitAUTOINC+c33b217016:r0::3:dd21a3c5444482ce90be4c9a33d806f1_populate_lic.tgz
-  sstate-cache/85/sstate:opkg-utils::0.1.8+gitAUTOINC+c33b217016:r0::3:8571422f9e311dc41bb6b21e71a09bc0_populate_lic.tgz.siginfo
-  sstate-cache/85/sstate:opkg-utils::0.1.8+gitAUTOINC+c33b217016:r0::3:8571422f9e311dc41bb6b21e71a09bc0_populate_lic.tgz
-
-* similar problem for .siginfo file of do_patch:
-  OE qemux86@ ~/build/oe-core $ find sstate-cache/ | grep eglibc.*patch
-  sstate-cache/99/sstate:eglibc::2.19:r0::3:99b7e1d688e4c6c659b458c9c57611df_patch.tgz.siginfo
-  sstate-cache/11/sstate:eglibc::2.19:r0::3:11401ddd208a753fee17696b14dc1e52_patch.tgz.siginfo
-
-  OE qemux86@ ~/build/oe-core $ find tmp-eglibc/stamps/  | grep /eglibc.*patch
-  tmp-eglibc/stamps/i586-oe-linux/eglibc-initial/2.19-r0.do_patch.sigdata.99b7e1d688e4c6c659b458c9c57611df
-  tmp-eglibc/stamps/i586-oe-linux/eglibc/2.19-r0.do_patch.sigdata.11401ddd208a753fee17696b14dc1e52
-
-* maybe these should have ideally identical signatures, but before it's fixed lets
-  just skip removing them
+* instead of hard coding list of sstate enabled task use
+  the same function as remove_duplicated to find them in
+  sstate-cache directory
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- scripts/sstate-cache-management.sh | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/sstate-cache-management.sh | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index ffda05e..77afd68 100755
+index 77afd68..e5c57d3 100755
 --- a/scripts/sstate-cache-management.sh
 +++ b/scripts/sstate-cache-management.sh
-@@ -225,6 +225,10 @@ remove_duplicated () {
-   # Save the file list which needs to be removed
-   local remove_listdir=`mktemp -d` || exit 1
-   for suffix in $sstate_suffixes; do
-+      if [ "$suffix" = "populate_lic" ] ; then
-+          echo "Skipping populate_lic, because removing duplicates doesn't work correctly for them (use --stamps-dir instead)"
-+          continue
-+      fi
-       # Total number of files including .siginfo and .done files
-       total_files_suffix=`grep ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz.*" $sstate_files_list | wc -l 2>/dev/null`
-       total_tgz_suffix=`grep ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix\.tgz$" $sstate_files_list | wc -l 2>/dev/null`
+@@ -324,16 +324,23 @@ rm_by_stamps (){
+   local cache_list=`mktemp` || exit 1
+   local keep_list=`mktemp` || exit 1
+   local rm_list=`mktemp` || exit 1
+-  local suffixes
+   local sums
+   local all_sums
+ 
+-  suffixes="populate_sysroot populate_lic package_write_ipk \
+-            package_write_rpm package_write_deb package packagedata deploy"
++  # Total number of files including sstate-, .siginfo and .done files
++  total_files=`find $cache_dir -type f -name 'sstate*' | wc -l`
++  # Save all the state file list to a file
++  find $cache_dir -type f -name 'sstate*' | sort -u -o $cache_list
++
++  echo "Figuring out the suffixes in the sstate cache dir ... "
++  local sstate_suffixes="`sed 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz.*%\1%g' $cache_list | sort -u`"
++  echo "Done"
++  echo "The following suffixes have been found in the cache dir:"
++  echo $sstate_suffixes
+ 
+   # Figure out all the md5sums in the stamps dir.
+   echo "Figuring out all the md5sums in stamps dir ... "
+-  for i in $suffixes; do
++  for i in $sstate_suffixes; do
+       # There is no "\.sigdata" but "_setcene" when it is mirrored
+       # from the SSTATE_MIRRORS, use them to figure out the sum.
+       sums=`find $stamps -maxdepth 3 -name "*.do_$i.*" \
+@@ -344,11 +351,6 @@ rm_by_stamps (){
+   done
+   echo "Done"
+ 
+-  # Total number of files including sstate-, .siginfo and .done files
+-  total_files=`find $cache_dir -type f -name 'sstate*' | wc -l`
+-  # Save all the state file list to a file
+-  find $cache_dir -type f -name 'sstate*' | sort -u -o $cache_list
+-
+   echo "Figuring out the files which will be removed ... "
+   for i in $all_sums; do
+       grep ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:${i}_.*" $cache_list >>$keep_list
 -- 
 1.9.1
 
