@@ -1,39 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 51BB960B9B
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 21:05:36 +0000 (UTC)
-Received: by mail-yk0-f174.google.com with SMTP id 20so4887244yks.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 14:05:37 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 38F2F60C02;
+	Sat, 29 Mar 2014 22:54:30 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id c41so5233717eek.22
+	for <multiple recipients>; Sat, 29 Mar 2014 15:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Rcflkr9PtaHG7Thh8AMEOfwUt3jbhoCUradzRdFI2so=;
-	b=zP12ukCuNGj1S7rtW+QofUJEi7d7fP/oqTAWiuFY3juPMacCZgloDdpiFfBNLOEqOI
-	5XAeBzpjQqBzIfbIy992LH5rt52/adV68ZQ+urHzaTFciiPgw35FBvM12u2EWh11jRAz
-	aLFjebU8eo55wJZGmap3hi9Sjx830p0ysfm9D2LZ3vcfUOxtYdD5NxoduEKkoLfkRM/q
-	6eVCRPLnRMrxixwkiZNZIFgguaGzi/Oa41aXOibCer6nWlhfUHZXGkLYadkDgGALYx+3
-	MWL4OFOeLamPRFuDYik18d+UjofS/WIVrvBK/KQitSqZRXJ5NRikDl5qMxPfSuqU8Ud0
-	llRg==
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=aMShy379O/U1MddT1/3rr68iWFZUctuKdbH+GnYIBWk=;
+	b=pczfOeeKrbG5+a6N7ftrL+IaHAZg3QzDEYlfY/2M1JgeIrsIFrWPKyLBgPgfWNR7jD
+	zOGtSeitXjf5wVBFC0rqBomsG6Ah1Znez1t9XGAk9fpoBkBhWoPQ1lwc4ZtjOAnvac1Z
+	gW2YvCLaZbXwvZ9FqOauhtFqglyDgDoDbX9N6O2gv8pJVqpo8x1Y76Qbb+79twbD/U2q
+	CWytBKPrzs+qzEgVpBEEc0T2zgSauVaFO1blvrJ2AUPoDMbe3bs6MQNvhRo7GVQOCsL/
+	P5sI9qtn+11M99h0H1IVGfmeX/XI/pAqsvTBhxXzEl1rn+N4gsGOUpgF2uK3KT3psV7d
+	sUSA==
+X-Received: by 10.15.54.137 with SMTP id t9mr19864631eew.39.1396133669655;
+	Sat, 29 Mar 2014 15:54:29 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	x45sm21651323eef.15.2014.03.29.15.54.28 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Mar 2014 15:54:28 -0700 (PDT)
+Date: Sat, 29 Mar 2014 23:54:32 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140329225432.GA2428@jama>
 MIME-Version: 1.0
-X-Received: by 10.236.75.74 with SMTP id y50mr24023486yhd.27.1396127137448;
-	Sat, 29 Mar 2014 14:05:37 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Sat, 29 Mar 2014 14:05:37 -0700 (PDT)
-In-Reply-To: <20140329205944.GQ3370@denix.org>
-References: <1396042184-7372-1-git-send-email-denis@denix.org>
-	<CAP9ODKrGXUwy8WkM-UyHHoqKAs2J4eabPOh00COsATSu5_A-Vw@mail.gmail.com>
-	<20140329205944.GQ3370@denix.org>
-Date: Sat, 29 Mar 2014 18:05:37 -0300
-X-Google-Sender-Auth: 94HHsS79Cn_0ck1A13vmxbU642o
-Message-ID: <CAP9ODKp0J8on3k_Odtw6w-DJXYTO_Was+JQkB2XzXnBdE5O73Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [RFC] udev-extraconf: update mount.sh to use /run/media instead of /media
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: State of bitbake world, Failed tasks 2014-03-29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,94 +41,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Mar 2014 21:05:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 29 Mar 2014 22:54:34 -0000
+X-Groupsio-MsgNum: 51863
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
+Content-Disposition: inline
 
-On Sat, Mar 29, 2014 at 5:59 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Sat, Mar 29, 2014 at 12:17:23PM -0300, Otavio Salvador wrote:
->> Hello Denys,
->>
->> On Fri, Mar 28, 2014 at 6:29 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> > From: Denys Dmytriyenko <denys@ti.com>
->> >
->> > This is done to work around the issue of auto-mounting block devices
->> > (i.e. SD cards) when root filesystem is still in read-only mode and
->> > creating /media/<device> mount-points by udev is not possible. That
->> > is due to udev (/etc/rcS.d/S03udev) getting started earlier than
->> > checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
->> > rootfs as read-write.
->> >
->> > Although, canonical FHS specifies /media/<device> as a mount point
->> > for removable media devices, the latest 2.3 version was released in
->> > 2004 and since then FreeDesktop/udisks and other tools adopted the
->> > new /run/media/<user>/<device> location. That was done to overcome
->> > read-only rootfs limitation, since /run is usually a tmpfs mounted
->> > partition, plus avoid name-clash between users.
->>
->> Agreed.
->>
->> > For our embedded systems environment we assume single-user operation
->> > and hence simplify mount point to just /run/media/<device>.
->>
->> Please don't. I have customers using multiple users in an embedded
->> device and so I think it is better to adopt udisks standard here
->> instead of diverging from it without a reasoning.
->
-> I guess I should have phrased it a bit better...
->
-> This part is a system-wide automount. It gets to run even when no user is
-> logged in. In order to do per-user mounting, some sort of session management
-> is required. For example, udisks, we both mentioned, starts along with the
-> session, when a user logs in, hence allowing per-user mounts.
->
-> Since this approach uses udev and gets triggered on addition or removal of
-> block devices, described in the corresponding rules, it happens on system
-> level and is not dependant on a session or logged in user. When a session
-> based approach is used with udisks, these rules should be disabled though.
->
-> The two approaches are rather mutually exclusive, but both are valid. There
-> are cases when this system-level automount is desired (e.g. in industrial use
-> cases) since there are no users are ever expected to log in or interact with
-> the system.
->
-> So, this is not meant to replace or provide session-based mounting...
+--r5Pyd7+fXNt84Ff3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Agreed; I missed this but I fully agree now :)
+On Wed, Mar 26, 2014 at 06:11:36PM +0100, Martin Jansa wrote:
+> On Sun, Mar 23, 2014 at 09:43:24PM +0100, Martin Jansa wrote:
+> > On Tue, Mar 18, 2014 at 07:50:08PM +0100, Martin Jansa wrote:
+> > > On Sat, Mar 15, 2014 at 03:10:46PM +0100, Martin Jansa wrote:
+> > > > On Tue, Mar 11, 2014 at 02:50:14PM +0100, Martin Jansa wrote:
+> > > > > On Tue, Mar 11, 2014 at 02:45:04PM +0100, Martin Jansa wrote:
+> > > > > > Biggest difference from last e-mail is aclocal changes which ca=
+n possibly explain
+> > > > > > increased number of do_configure failures, I've asked Richard t=
+o delay merging B!=3DS
+> > > > > > change until we resolve or at least analyze these new failures,=
+ so any help with
+> > > > > > would be highly appreciated.
 
->> ...
->> > diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
->> > index cb57e47..3e4f21f 100644
->> > --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
->> > +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
->> > @@ -20,7 +20,7 @@ done
->> >  automount() {
->> >         name="`basename "$DEVNAME"`"
->> >
->> > -       ! test -d "/media/$name" && mkdir -p "/media/$name"
->> > +       ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
->>
->> Please see above...
->>
->> ...
->>
->> > --- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
->> > +++ b/meta/recipes-core/udev/udev-extraconf_1.0.bb
->> > @@ -4,7 +4,7 @@ LICENSE = "MIT"
->> >  LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
->> >                      file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->> >
->> > -PR = "r16"
->> > +PR = "r17"
->>
->> Don't change PR; in fact with this change I'd say to move it to 1.1 and drop PR.
->
-> I thought about it - either PV or PR needs to change. But I wasn't sure about
-> bumping PV...
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-I am all for the PV bumping...
+=3D=3D Failed tasks 2014-03-29 =3D=3D
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+=3D=3D=3D common (23) =3D=3D=3D
+    * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.=
+bb, do_compile
+    * meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnomecanvas_2.=
+30.3.bb, do_configure
+    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
+b, do_compile
+    * meta-openembedded/meta-multimedia/recipes-multimedia/libdc1394/libdc1=
+394_git.bb, do_configure
+    * meta-openembedded/meta-networking/recipes-protocols/quagga/quagga_0.9=
+9.21.bb, do_compile
+    * meta-openembedded/meta-networking/recipes-support/traceroute/tracerou=
+te_2.0.18.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, do_i=
+nstall
+    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_c=
+ompile
+    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.bb, =
+do_compile
+    * meta-openembedded/meta-oe/recipes-extended/mml-widget/gtkmathview_0.8=
+=2E0.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb,=
+ do_configure
+    * meta-openembedded/meta-oe/recipes-multimedia/sound-themes/sound-theme=
+-freedesktop_0.8.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
+ompile
+    * meta-openembedded/meta-oe/recipes-support/asio/asio_1.4.1.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-support/inih/libinih_git.bb, do_ins=
+tall
+    * meta-openembedded/meta-oe/recipes-support/open-vcdiff/open-vcdiff_0.8=
+=2E3.bb, do_configure
+    * meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, =
+do_configure
+    * meta-openembedded/meta-xfce/recipes-apps/xarchiver/xarchiver_git.bb, =
+do_configure
+    * meta-openembedded/meta-xfce/recipes-apps/xfce4-taskmanager/xfce4-task=
+manager_git.bb, do_configure
+    * meta-openembedded/meta-xfce/recipes-panel-plugins/closebutton/xfce4-c=
+losebutton-plugin_git.bb, do_configure
+    * meta-openembedded/meta-xfce/recipes-xfce/xfce4-settings/xfce4-setting=
+s_git.bb, do_configure
+    * meta-openembedded/meta-xfce/recipes-xfce/xfwm4/xfwm4_git.bb, do_confi=
+gure
 
+=3D=3D=3D common-x86 (3) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+
+=3D=3D=3D qemuarm (3) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-support/mongodb/mongodb_git.bb, do_=
+compile
+    * openembedded-core/meta/recipes-bsp/grub/grub_git.bb, do_package
+    * openembedded-core/meta/recipes-support/libunistring/libunistring_0.9.=
+3.bb, do_compile
+
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tin=
+y-kexecboot_3.10.bb, do_compile
+
+=3D=3D=3D qemux86_64 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
+obiledevice_1.1.4.bb, do_configure
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||26    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140327_005335.log/
+|-
+||qemux86       ||27    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140327_235230.log/
+|-
+||qemux86_64    ||27    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140329_001343.log/
+|}
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--r5Pyd7+fXNt84Ff3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlM3TygACgkQN1Ujt2V2gBwHsACfZyboX8tZWAq5jbI7rbbt10jE
+rHgAn2dNZKgTSvn3TeY0u0rM1/vDzwUz
+=OrTr
+-----END PGP SIGNATURE-----
+
+--r5Pyd7+fXNt84Ff3--
