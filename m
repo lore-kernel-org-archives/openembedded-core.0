@@ -1,35 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id B0554605F4
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 12:35:47 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 5DBE3605F4;
+	Sun, 30 Mar 2014 12:37:04 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2UCZRDl009246; Sun, 30 Mar 2014 13:35:27 +0100
+	s2UCapXW009292; Sun, 30 Mar 2014 13:36:51 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cyVAlAZgTGft; Sun, 30 Mar 2014 13:35:27 +0100 (BST)
+	with LMTP id mAeMmUKbQCwi; Sun, 30 Mar 2014 13:36:51 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2UCZN9t009228
+	s2UCak6e009282
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 30 Mar 2014 13:35:24 +0100
-Message-ID: <1396182918.14790.45.camel@ted>
+	Sun, 30 Mar 2014 13:36:47 +0100
+Message-ID: <1396183001.14790.46.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 30 Mar 2014 13:35:18 +0100
-In-Reply-To: <20140330112517.GE2428@jama>
-References: <1394820950-17162-1-git-send-email-Martin.Jansa@gmail.com>
-	<1395048338-25754-1-git-send-email-Martin.Jansa@gmail.com>
-	<1395052685.3808.27.camel@ted>
-	<4118819.bWkrsFYPBI@peggleto-mobl5.ger.corp.intel.com>
-	<20140330112517.GE2428@jama>
+Date: Sun, 30 Mar 2014 13:36:41 +0100
+In-Reply-To: <20140330113031.GF2428@jama>
+References: <20140330090302.B0FBA50478@opal> <20140330113031.GF2428@jama>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-commits@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [WIP][PATCHv2] report-error: Allow to upload reports automatically
+Subject: Re: [oe-commits] Bruce Ashfield : linux-yocto/3.10: fix drm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,85 +38,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Mar 2014 12:35:51 -0000
+X-List-Received-Date: Sun, 30 Mar 2014 12:37:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2014-03-30 at 13:25 +0200, Martin Jansa wrote:
-> On Mon, Mar 17, 2014 at 11:03:06AM +0000, Paul Eggleton wrote:
-> > On Monday 17 March 2014 10:38:05 Richard Purdie wrote:
-> > > On Mon, 2014-03-17 at 10:25 +0100, Martin Jansa wrote:
-> > > > * useful when distro wants to collect build statistics from
-> > > > 
-> > > >   all users/developers without any manual interaction from them
-> > > > 
-> > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > ---
-> > > > 
-> > > >  meta/classes/report-error.bbclass    | 103
-> > > >  ++++++++++++++++++++++++++++++++++- meta/conf/local.conf.sample.extended
-> > > >  |  20 +++++++
-> > > >  2 files changed, 121 insertions(+), 2 deletions(-)
-> > > 
-> > > I get worried about this as people could (rightly) be very nervous about
-> > > the system sharing information with a remote server without their
-> > > knowledge. Adding in this functionality makes it look as if that is the
-> > > intent of the system.
-> > > 
-> > > This is why there was a two step process, first to save out the data and
-> > > second to have the user upload it (once they'd looked at what it was
-> > > sharing).
-> > > 
-> > > Does anyone else have thoughts on this?
+On Sun, 2014-03-30 at 13:30 +0200, Martin Jansa wrote:
+> On Sun, Mar 30, 2014 at 09:03:02AM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
+> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
 > > 
-> > I have the same concerns. It's fine if people enable this in their own build 
-> > server's local.conf / auto.conf; but if someone were to put this into their 
-> > distro config which is downloaded and used by someone to do their own builds 
-> > with configuration or additional components that they do not wish to share, 
-> > there's the potential for that person to be unaware that their build failures 
-> > will be uploaded and shared automatically.
+> > Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > Date:   Thu Mar 27 13:22:32 2014 -0400
+> > 
+> > linux-yocto/3.10: fix drm build failure
+> > 
+> > Andrea Adami reported the following build failure:
+> > 
+> >     .../drm/drm_mm.h:105:2: error: implicit declaration of function
+> >     'BUG_ON' [-Werror=implicit-function-declaration]
+> >     |   BUG_ON(!hole_node->hole_follows);
+> >     |   ^
+> >     |   CC      drivers/pci/setup-res.o
+> >     |   CC      drivers/gpu/drm/i915/i915_drv.o
+> >     | cc1: some warnings being treated as errors
+> >     | make[6]: *** [drivers/gpu/drm/ttm/ttm_agp_backend.o] Error 1
+> >     | make[5]: *** [drivers/gpu/drm/ttm] Error 2
+> > 
+> > Cherry picking mainline commit 86e81f0e6 [drm/mm: include required headers in drm_mm.h]
+> > fixes the build problems.
+> > 
+> > cc: Andrea Adami <andrea.adami@gmail.com>
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > 
+> > ---
+> > 
+> >  meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
+> >  meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
+> >  meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
+> >  3 files changed, 10 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+> > index 9b0c5d3..fe6773a 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+> > @@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
+> >  KBRANCH = "standard/preempt-rt/base"
+> >  KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+> >  
+> > -SRCREV_machine ?= "f121a3aa028df37b8050779adaa239d29aaa2edd"
+> > -SRCREV_machine_qemuppc ?= "7172d3cbc73584e724b61ef5d13fc3519720f4c0"
+> > +SRCREV_machine ?= "f4351616572c6ad5a8b71b1becf02c3e779b85b8"
+> > +SRCREV_machine_qemuppc ?= "a6dfc85e99633d739068a03d2551e39847628551"
+> >  SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
+> >  
+> >  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+> > index baa82fd..123f307 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+> > @@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.34"
+> >  
+> >  KMETA = "meta"
+> >  
+> > -SRCREV_machine ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+> > +SRCREV_machine ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+> >  SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
+> >  
+> >  PV = "${LINUX_VERSION}+git${SRCPV}"
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+> > index 56fbd07..49dd13d 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+> > @@ -11,13 +11,13 @@ KBRANCH_qemux86  = "standard/common-pc/base"
+> >  KBRANCH_qemux86-64  = "standard/common-pc-64/base"
+> >  KBRANCH_qemumips64 = "standard/mti-malta64"
+> >  
+> > -SRCREV_machine_qemuarm ?= "e18e8c2c7cad913a25342f9f860eeeefce24b8aa"
+> > -SRCREV_machine_qemumips ?= "6f191aaecfdbebda450cec4a1f30fb0d1a2ed889"
+> > -SRCREV_machine_qemuppc ?= "ba2e16160c7f910de432511ca0008101a7b2263b"
+> > -SRCREV_machine_qemux86 ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+> > -SRCREV_machine_qemux86-64 ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+> > -SRCREV_machine_qemumips64 ?= "e05f0378e9c21d689eed8aacb306d2c1a044e0d0"
+> > -SRCREV_machine ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+> > +SRCREV_machine_qemuarm ?= "0e99eabbe5b3bec853ace496f94612bc37800260"
+> > +SRCREV_machine_qemumips ?= "b6b20f49e9a169a0672b7cc2d7b93d6652ca7873"
+> > +SRCREV_machine_qemuppc ?= "d71b782615b802c78e1586494b94dd40531775c8"
+> > +SRCREV_machine_qemux86 ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
 > 
-> My use-case was private distro, where it's imho valid to gather
-> build stats from every build which happens in the company (we're using
-> it to find builds which weren't configured correctly, e.g. referencing
-> non-existent premirror/sstate-mirror etc).
+> Is it correct revision?
 > 
-> Should I just change the description and commit message so that it
-> doesn't promote it for distro config to use it or should I keep it all
-> private?
+> ERROR: Fetcher failure: Unable to find revision c7739be126930006e3bfbdb2fb070a967abc5e09 in branch
+> standard/common-pc/base even from upstream 
+> ERROR: Logfile of failure stored in: work/qemux86-webos-linux/linux-yocto/1_3.10.34+gitAUTOINC+df3aa753c8_c7739be126-r0/temp/log.do_fetch.73290
 > 
-> I'm thinking about using this also in my bitbake world builds and it's
-> also easier to enable it in config there, than parsing the log and
-> calling send-error-report from jenkins job config when report was
-> created.
+> > +SRCREV_machine_qemux86-64 ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+> > +SRCREV_machine_qemumips64 ?= "88abb1eb327f4e3c711d19a228cb153fdd9b3506"
+> > +SRCREV_machine ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+> >  SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
+> >  
+> >  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
 
-I can see the usecase for this, equally, we do need to be mindful of the
-privacy concerns. FWIW, I do want to see the class in use on the
-yoctoproject autobuilders, however I had envisaged we'd just add a
-command after the "bitbake" one which would hoover up any errors and
-report them.
+We've also just seen:
 
-I think I'm ok with the idea, as long as it only gets triggered if the
-user adds a specific file into HOME. 
+http://autobuilder.yoctoproject.org/main/builders/nightly-oecore/builds/22/steps/BuildImages/logs/stdio
 
-I don't like the idea of using raw_input() in the bbclass file, I think
-this is fragile and likely to cause issues. How about we have an
-external script which handles setup of this file? I'd like to see a big
-warning the user has to acknowledge in setting up this such that they
-realise that all build errors may get reported.
-
-I'd also like to have two separate classes since I'd like to have the
-"saving errors" part enabled by default for everyone. The "sending
-errors" part would enough happen automatically if configured, otherwise
-the user could run it manually. 
-
-> Should I use error-report-web installed on yoctoproject.org or create my own
-> instance somewhere?
-
-I'm hoping we can try and share a server in the hope that we can then
-figure out statistics on errors. If 50 people see a given error we can
-then prioritise it compared to an error only 2 people see. I know
-Michael is working on setting something up.
+which may be related.
 
 Cheers,
 
