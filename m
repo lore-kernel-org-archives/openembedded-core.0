@@ -1,44 +1,30 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-oa0-f44.google.com (mail-oa0-f44.google.com
-	[209.85.219.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CF04621BB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D1B276E00C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 05:33:48 +0000 (UTC)
-Received: by mail-oa0-f44.google.com with SMTP id n16so7920887oag.17
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Mar 2014 22:33:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=enf4AM8rgiPph3vk/JLkAKkP2994eV1t6ZKA1BQ7tUQ=;
-	b=TmiQLflt8aGm0J1MEI4WneAB3uIra5ns9k3/0qnlRkIRP9Qd9nRQYb6PoG/PnSQ7C7
-	BIMj7YKKyv8ks7FTNl2H6AXxMS8890IqA5E38LxpCf/Nbynz2mz1/WBoCOgYxYEQ84dD
-	q4NaP42RcMboQcNPk802B9ylL6Us7+KpYoMhAIQJvBwjsx+9OxnsSwZ48Xc8FKLtsY/O
-	qIpCGgZMl6IcfIf95Dq9ZXuCLEYMFeRs5g32HT3sHUIwm1RH7fTIgQIxke54hgflOZej
-	1331eGCxaWq80wzO6xevA0ECG+wpBuc8v+Q0GtqwvJOVtDKPXoHPQs6LCmhqDYXk0Qwn
-	0/rw==
-X-Gm-Message-State: ALoCoQl+JLxQv/J4S1+wiIdD55cjJh4I+a3p3zU2DfP7062XO7un02V2z4Z2e/GHPUXt20PqeRNK
-X-Received: by 10.182.24.8 with SMTP id q8mr417066obf.38.1396157629148;
-	Sat, 29 Mar 2014 22:33:49 -0700 (PDT)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158]) by mx.google.com with ESMTPSA id
-	oz15sm43998858oeb.13.2014.03.29.22.33.48 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 29 Mar 2014 22:33:48 -0700 (PDT)
-Message-ID: <5337ACBB.4040804@linaro.org>
-Date: Sun, 30 Mar 2014 01:33:47 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-References: <20140330013103.GD2428@jama>
-In-Reply-To: <20140330013103.GD2428@jama>
-Subject: Re: Quality of meta-oe metadata
+	Sun, 30 Mar 2014 09:14:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2U9CYp8006436; Sun, 30 Mar 2014 10:14:35 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mzZliAFzWIBP; Sun, 30 Mar 2014 10:14:35 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2U9ESQe006571
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 30 Mar 2014 10:14:29 +0100
+Message-ID: <1396170862.14790.33.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Sun, 30 Mar 2014 10:14:22 +0100
+In-Reply-To: <1396123481-6064-1-git-send-email-otavio@ossystems.com.br>
+References: <1396123481-6064-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] packagegroup-core-tools-testapps: Move GLTOOLS to X11GLTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Mar 2014 05:33:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 30 Mar 2014 09:14:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello Martin,
+On Sat, 2014-03-29 at 17:04 -0300, Otavio Salvador wrote:
+> piglit and mesa-demos are not buildable in x11-less distros so we must
+> to add those only when opengl and x11 DISTRO_FEATURES are available.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+> index d8a7306..0ced119 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+> @@ -24,7 +24,7 @@ KEXECTOOLS_powerpc ?= ""
+>  KEXECTOOLS_e5500-64b ?= ""
+>  KEXECTOOLS_aarch64 ?= ""
+>  
+> -GLTOOLS = "\
+> +X11GLTOOLS = "\
+>      mesa-demos \
+>      piglit \
+>      "
+> @@ -58,6 +58,7 @@ RDEPENDS_${PN} = "\
+>      connman-tests \
+>      connman-client \
+>      ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
+> -    ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
+> +    ${@base_contains('DISTRO_FEATURES', 'opengl', \
+> +        base_contains('DISTRO_FEATURES', 'x11', "${X11GLTOOLS}", "", d), "", d)} \
 
-Excellent, excellent post!
+Please just do:
 
-On 03/29/14 21:31, Martin Jansa wrote:
-> 2) There are a lot of changes and component upgrades in oe-core which
->    sometimes aren't very straight-forward to adapt to and issues stay in
->    meta-oe for months.
+base_contains('DISTRO_FEATURES', 'x11 opengl', "${X11GLTOOLS}", "", d)} 
 
-Critical bugfixes aside, I think the current system of unrestrained,
-perpetual package bumps is an issue. If dylan uses version 1 of package
-XYZ and dora uses version 5, is there any need for the 3 intervening
-package bumps which occurred between the release of dylan and dora?
+Cheers,
 
-If nothing else, these "irrelevant updates" increase the chance of
-causing problems ;-)
+Richard
 
-> 3) OE releases work great and don't invalidate sstate signatures so often, so my
->    feeling is that most developers and projects are just using releases and
->    less and less people do CI.
-
-Would users prefer a better-tested more-likely-to-work release
-containing package versions which were several months old, or is staying
-on the bleeding edge more important? There is always exponentially more
-work/cost required to be an early adopter.
 
