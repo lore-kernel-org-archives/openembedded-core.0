@@ -1,27 +1,35 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 34FB46F4E8;
-	Sun, 30 Mar 2014 14:33:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2UEXLga001330
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 30 Mar 2014 07:33:21 -0700 (PDT)
-Received: from server.local (128.224.23.122) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Sun, 30 Mar 2014 07:33:20 -0700
-Message-ID: <53382C05.70506@windriver.com>
-Date: Sun, 30 Mar 2014 10:36:53 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f181.google.com (mail-vc0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 42ECF6AB50;
+	Sun, 30 Mar 2014 14:48:49 +0000 (UTC)
+Received: by mail-vc0-f181.google.com with SMTP id id10so7394373vcb.26
+	for <multiple recipients>; Sun, 30 Mar 2014 07:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=ZzHumcDZqlpnZKTHQ+jNmIMVOyp9U7mfo17ipu+LG6k=;
+	b=pRtRoTJ/uxQjT/A5VXJ5Xjk0Ip5g0UQ4oHjIvtfVPGbUbdoRNkliX5rlGHQQu955C1
+	5ODAUIIyWEJyhvQhYrqQpcNCjoFPfBwLm+T1XNPje++rE9unAYIDjXLDTvIf60HI1cRw
+	t46yHjqO8ch4xxCYO2TV8pKHp8MNJEm8WRk2sA2DU45Efwps2hwjHcDLGCd5R0cqPxTn
+	MFHwalY/SKssWmqXMaMb1Irkyy9d4LucyLV3YVEQL2OzNdW70viRkDbeunYA7yoEiG92
+	ob0Xkr3yNT0ABVWItC/+jNGZAaXZH7gf00YXF6l1yoEDdCSg1KKWyzErzGGQB9NTXm/z
+	/Ipg==
+X-Received: by 10.221.34.7 with SMTP id sq7mr18512304vcb.5.1396190930282; Sun,
+	30 Mar 2014 07:48:50 -0700 (PDT)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20140330090302.B0FBA50478@opal> <20140330113031.GF2428@jama>
-In-Reply-To: <20140330113031.GF2428@jama>
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : linux-yocto/3.10: fix drm build failure
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Sun, 30 Mar 2014 07:48:09 -0700 (PDT)
+In-Reply-To: <20140330013103.GD2428@jama>
+References: <20140330013103.GD2428@jama>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Sun, 30 Mar 2014 15:48:09 +0100
+X-Google-Sender-Auth: 7sVz4UsZo4t9FzGWc8ID2PFy0NY
+Message-ID: <CANyK_8ebvHy7peb9i7ttLhn4zSOXPOi=RSPGQztJHSUb_Dk3nw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Quality of meta-oe metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,163 +42,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Mar 2014 14:33:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 30 Mar 2014 14:48:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2014-03-30, 7:30 AM, Martin Jansa wrote:
-> On Sun, Mar 30, 2014 at 09:03:02AM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: 42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
->>
->> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Date:   Thu Mar 27 13:22:32 2014 -0400
->>
->> linux-yocto/3.10: fix drm build failure
->>
->> Andrea Adami reported the following build failure:
->>
->>      .../drm/drm_mm.h:105:2: error: implicit declaration of function
->>      'BUG_ON' [-Werror=implicit-function-declaration]
->>      |   BUG_ON(!hole_node->hole_follows);
->>      |   ^
->>      |   CC      drivers/pci/setup-res.o
->>      |   CC      drivers/gpu/drm/i915/i915_drv.o
->>      | cc1: some warnings being treated as errors
->>      | make[6]: *** [drivers/gpu/drm/ttm/ttm_agp_backend.o] Error 1
->>      | make[5]: *** [drivers/gpu/drm/ttm] Error 2
->>
->> Cherry picking mainline commit 86e81f0e6 [drm/mm: include required headers in drm_mm.h]
->> fixes the build problems.
->>
->> cc: Andrea Adami <andrea.adami@gmail.com>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>
->> ---
->>
->>   meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
->>   meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
->>   meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
->>   3 files changed, 10 insertions(+), 10 deletions(-)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
->> index 9b0c5d3..fe6773a 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
->> @@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
->>   KBRANCH = "standard/preempt-rt/base"
->>   KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
->>
->> -SRCREV_machine ?= "f121a3aa028df37b8050779adaa239d29aaa2edd"
->> -SRCREV_machine_qemuppc ?= "7172d3cbc73584e724b61ef5d13fc3519720f4c0"
->> +SRCREV_machine ?= "f4351616572c6ad5a8b71b1becf02c3e779b85b8"
->> +SRCREV_machine_qemuppc ?= "a6dfc85e99633d739068a03d2551e39847628551"
->>   SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
->>
->>   SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
->> index baa82fd..123f307 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
->> @@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.34"
->>
->>   KMETA = "meta"
->>
->> -SRCREV_machine ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
->> +SRCREV_machine ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
->>   SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
->>
->>   PV = "${LINUX_VERSION}+git${SRCPV}"
->> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
->> index 56fbd07..49dd13d 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
->> @@ -11,13 +11,13 @@ KBRANCH_qemux86  = "standard/common-pc/base"
->>   KBRANCH_qemux86-64  = "standard/common-pc-64/base"
->>   KBRANCH_qemumips64 = "standard/mti-malta64"
->>
->> -SRCREV_machine_qemuarm ?= "e18e8c2c7cad913a25342f9f860eeeefce24b8aa"
->> -SRCREV_machine_qemumips ?= "6f191aaecfdbebda450cec4a1f30fb0d1a2ed889"
->> -SRCREV_machine_qemuppc ?= "ba2e16160c7f910de432511ca0008101a7b2263b"
->> -SRCREV_machine_qemux86 ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
->> -SRCREV_machine_qemux86-64 ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
->> -SRCREV_machine_qemumips64 ?= "e05f0378e9c21d689eed8aacb306d2c1a044e0d0"
->> -SRCREV_machine ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
->> +SRCREV_machine_qemuarm ?= "0e99eabbe5b3bec853ace496f94612bc37800260"
->> +SRCREV_machine_qemumips ?= "b6b20f49e9a169a0672b7cc2d7b93d6652ca7873"
->> +SRCREV_machine_qemuppc ?= "d71b782615b802c78e1586494b94dd40531775c8"
->> +SRCREV_machine_qemux86 ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+On 30 March 2014 02:31, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Hi, sorry for longer e-mail, this is one of topic I would like to discuss
+> on OEDAM (http://openembedded.org/wiki/OEDAM), but having some feedback and
+> thoughts in advance will be very useful.
 >
-> Is it correct revision?
+> As people can notice from my "State of bitbake world" e-mails or
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+> we never had "green" builds. There are always 20+ failed tasks in those
+> big builds and just reading the numbers isn't good indicator of quality,
+> because sooner you break something in dependency tree, fewer recipes will
+> be actually tested, so fewer failed tasks often means that something
+> important is broken.
+>
+> There are IMHO at least 3 reasons for this depressing state:
+>
+> 1) Nobody is paid/dedicated to fix them, there is no company behind meta-oe
+>    layers, now SWAT team, not even dedicated maintainers to which I could send
+>    error from latest build and ask them to fix it before the end of
+>    week/month.
+>
+>    Kudos to people who are sometimes sending patches for such issues!
+>
+> 2) There are a lot of changes and component upgrades in oe-core which
+>    sometimes aren't very straight-forward to adapt to and issues stay in
+>    meta-oe for months.
+>
+>    I don't mean it's oe-core fault or that changes to oe-core should slow
+>    down just because meta-oe, especially when we cannot guarantee when it
+>    will be prepared for them (because of 1)).
+>
+>    oe-core is trying to track latest stable versions, but meta-oe often
+>    contains very old versions and people upgrade to latest stable only the
+>    recipes they really care about, so it's not so surprising that 2 year old
+>    version of something isn't compatible with latest greatest freetype or
+>    some library like that.
+>
+> 3) OE releases work great and don't invalidate sstate signatures so often, so my
+>    feeling is that most developers and projects are just using releases and
+>    less and less people do CI. People will start complaining that something
+>    is broken in meta-oe only when they are upgrading their project from 1.5 to
+>    1.6 when 1.6 is released and that could be too late for fixing meta-oe
+>    issues.
+>
+> What I'm trying to do with it:
+>
+> a) sending those e-mails and updating wiki, so that people can easily find
+>    if some build failure is common or something which happens only for them
+>    (something like oestats-client.bbclass page was providing in oe-classic)
+>    It also includes log of QA issues which are usually easy to fix and great
+>    way for new people to learn something about OE.
+> b) trying to refuse all patches which cause new world issue (or new QA
+>    warn/err) - sometimes missed in logs, because it's often "hidden" by some
+>    other issue and hard to compare 40 issues from previous build with 38
+>    from current.
+>    Also the issues are often triggered later by changes somewhere else...
+> c) fixing build/qa issues in recipes I've never used or don't even have
+>    hardware to test - just based on assumption that something which builds
+>    is better than broken build, even when it can have some issues in runtime.
+> d) contacting people who added the recipe which is now failing, often
+>    without reply for months even when I try it multiple times :/
+> e) moving to "nonworking" directory to mark it as "known-to-be-broken",
+>    last resort for recipes where the fix is complicated and it's not known
+>    if someone is actually using it (because it was broken for months and
+>    nobody replied).
+>    + easy to find them, because they are still in repository (instead of
+>      git rm + revert when someone fixes it)
+>    - layer index probably doesn't find them, because "nonworking" directory
+>      level isn't in BBFILES, so maybe meta-broken or meta-nonworking would be
+>      better
+>    ? some recipes are "broken" just because their dependency is broken, what
+>      to do with such recipe, I usually just say that in commit message when
+>      I'm moving them to "nonworking" with their broken dep.
+>
+> What can we do better? How to motivate more people to do CI and send fixes?
+> When we get to "green" state it will be easier to quickly spot new issues and
+> easier to fix them, because it will be clear what's causing them.
 >
 
-I can confirm that that is the right revision. I wonder what the fetcher
-is doing, or is something in the infrastructure caching and older
-revision ?
+Are you discussing meta-oe alone here or all layers in meta-openembedded?
 
-yow-bashfiel-d3 [/home/bruc...o-3.10.git]> git branch --contains 
-c7739be126930006e3bfbdb2fb070a967abc5e09
-   standard/arm-versatile-926ejs
-   standard/axxia/base
-* standard/base
-   standard/beagleboard
-   standard/ck
-   standard/common-pc-64/base
-   standard/common-pc-64/chiefriver
-   standard/common-pc-64/crystalforest
-   standard/common-pc-64/jasperforest
-   standard/common-pc-64/rangeley
-   standard/common-pc-64/romley
-   standard/common-pc-64/sugarbay
-   standard/common-pc/atom-pc
-   standard/common-pc/base
-   standard/crownbay
-   standard/edf
-   standard/emenlow
-   standard/fri2
-   standard/fsl-mpc8315e-rdb
-   standard/ltsi
-   standard/minnow
-   standard/mti-malta32
-   standard/mti-malta64
-   standard/ocf
-   standard/preempt-rt/base
-   standard/preempt-rt/fri2
-   standard/preempt-rt/minnow
-   standard/preempt-rt/qemuppc
-   standard/preempt-rt/routerstationpro
-   standard/qemuppc
-   standard/routerstationpro
-   standard/sys940x
-   standard/tiny/base
-   standard/tiny/common-pc
-   standard/tiny/fri2
-   standard/tiny/minnow
+I've got a few ideas thinking slightly outside the box, so these may
+or may not be workable:
 
+- It might help to try to split the layers down further and reduce the
+size of meta-oe (for example, create a meta-python layer for all the
+python libraries that aren't direct dependencies of something
+non-python in meta-oe) and then try get new maintainers for these
+sub-layers so that the workload is spread better.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.10/commit/?h=standard/common-pc/base&id=c7739be126930006e3bfbdb2fb070a967abc5e09
+- We could create a new layer for unstable recipes which are 'use at
+your own risk'. That may be a good place for recipes which don't work
+on the jenkins builds but do work for some people and are in use (and
+so probably don't belong in nonworking). This is similar to the
+meta-broken or meta-nonworking layer idea but would take slightly more
+recipes in.
 
+- It may be worth taking some aggressive action in sync with the
+upcoming oe-core release to get us to a green build, possibly by
+throwing things into meta-nonworking and meta-unstable layers. That
+may break a few people's builds, but the fix for them should just be
+to add the meta-unstable layer. If they're building against the master
+branch that should be tolerable and it won't affect anyone building
+from a released/stable branch until the next oe-core release in 6
+months time. Once we have a green build it'll be much easier to QA
+patches and reject those which break the build.
 
-Bruce
+I don't have much time to give to fixing this myself as I'm busy with
+other projects. I do have idle computer time though so could run an
+automated build regularly (probably just a script and a cron job
+rather than buildbot/jenkins/etc). I won't be able to do a world build
+for every layer for multiple machines, but I should be able to do some
+subset. I may also be able to commandeer a spare server over the next
+few weeks. Is there any particular config which would be beneficial to
+build regularly?
 
-> ERROR: Fetcher failure: Unable to find revision c7739be126930006e3bfbdb2fb070a967abc5e09 in branch
-> standard/common-pc/base even from upstream
-> ERROR: Logfile of failure stored in: work/qemux86-webos-linux/linux-yocto/1_3.10.34+gitAUTOINC+df3aa753c8_c7739be126-r0/temp/log.do_fetch.73290
->
->> +SRCREV_machine_qemux86-64 ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
->> +SRCREV_machine_qemumips64 ?= "88abb1eb327f4e3c711d19a228cb153fdd9b3506"
->> +SRCREV_machine ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
->>   SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
->>
->>   SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
->>
->> --
->> _______________________________________________
->> Openembedded-commits mailing list
->> Openembedded-commits@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->
+Thanks,
 
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
