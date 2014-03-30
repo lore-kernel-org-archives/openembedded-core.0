@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B276E00C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5473D6F737
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 09:14:39 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2U9CYp8006436; Sun, 30 Mar 2014 10:14:35 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mzZliAFzWIBP; Sun, 30 Mar 2014 10:14:35 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2U9ESQe006571
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 30 Mar 2014 10:14:29 +0100
-Message-ID: <1396170862.14790.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Sun, 30 Mar 2014 10:14:22 +0100
-In-Reply-To: <1396123481-6064-1-git-send-email-otavio@ossystems.com.br>
-References: <1396123481-6064-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] packagegroup-core-tools-testapps: Move GLTOOLS to X11GLTOOLS
+	Sun, 30 Mar 2014 10:30:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2UAUZML000405
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Mar 2014 03:30:36 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 30 Mar 2014 03:30:35 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 30 Mar 2014 06:30:32 -0400
+Message-ID: <cover.1396175372.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] gtk+3: set proper FLAGS for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Mar 2014 09:14:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 30 Mar 2014 10:30:37 -0000
+Content-Type: text/plain
 
-On Sat, 2014-03-29 at 17:04 -0300, Otavio Salvador wrote:
-> piglit and mesa-demos are not buildable in x11-less distros so we must
-> to add those only when opengl and x11 DISTRO_FEATURES are available.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> index d8a7306..0ced119 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-> @@ -24,7 +24,7 @@ KEXECTOOLS_powerpc ?= ""
->  KEXECTOOLS_e5500-64b ?= ""
->  KEXECTOOLS_aarch64 ?= ""
->  
-> -GLTOOLS = "\
-> +X11GLTOOLS = "\
->      mesa-demos \
->      piglit \
->      "
-> @@ -58,6 +58,7 @@ RDEPENDS_${PN} = "\
->      connman-tests \
->      connman-client \
->      ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
-> -    ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
-> +    ${@base_contains('DISTRO_FEATURES', 'opengl', \
-> +        base_contains('DISTRO_FEATURES', 'x11', "${X11GLTOOLS}", "", d), "", d)} \
+The following changes since commit 2a33669ee0bd8a5d79489cafbff7309320de8d36:
 
-Please just do:
+  packagegroup-toolset-native: remove it (2014-03-29 00:12:30 -0400)
 
-base_contains('DISTRO_FEATURES', 'x11 opengl', "${X11GLTOOLS}", "", d)} 
+are available in the git repository at:
 
-Cheers,
+  git://git.openembedded.org/openembedded-core-contrib rbt/gtk
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/gtk
 
-Richard
+Robert Yang (1):
+  gtk+3: set proper FLAGS for native
+
+ .../gtk+/gtk+3/fix-flags-for-native.patch          |   40 ++++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb            |    4 +-
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
+
+-- 
+1.7.10.4
 
 
