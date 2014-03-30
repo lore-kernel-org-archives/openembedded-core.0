@@ -1,31 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 41C2B6F89A
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A6D36F89A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 22:54:05 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s2UMs0J9018560 for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 23:54:00 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iDGvxkCoSyka
+	Sun, 30 Mar 2014 22:55:31 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id va2so8391705obc.38
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 23:54:00 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s2UMrt5Q018538
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Mar 2014 23:53:56 +0100
-Message-ID: <1396220030.14790.51.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 30 Mar 2014 23:53:50 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sstatesig: Anchor inherits class tests
+	Sun, 30 Mar 2014 15:55:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=fjb0G7JD8GzNOgEOoGs1lgB/x8CZBaqElUg2awPP5ug=;
+	b=fEU6xDEpt9rrRGWJ5KFblh7ZhdGyz/DsEwrZXaZUFkJyzzMse7XaHVlxQER7Yx5jSC
+	Av4S2TUskO6j3kmxOZcKoKGnCagEWSrrTwQvrnxv9njw0bMrYYkNj7ZW0BqceEe8zhEe
+	Efp+3sZV7dnUf+zeubvUddeC2zj/kVr1OwamrFdypGOrQ7PGG5LTzP3/wAHx1h//teuL
+	/Hyt18mVwB0O6qzcKpjqLrIlrgWFt4gM9mM6wCJ0gLN3+CsgO0dqf0uLZ93dLwQfA6/W
+	lL8zBhFpGvuWMdkBnktmsALIzxEPuEDwjaASWIOliBZG5n7zh7I1/xU2nb4tb+Vc/3iX
+	Apog==
+X-Gm-Message-State: ALoCoQl3ihNtuwEWVW0vl5KqQG3AOTc4rC6RuuTGTdKv9rQwTPO4IrZT1ezoKxnXmRiPVvam1OQ8
+X-Received: by 10.60.37.99 with SMTP id x3mr19157962oej.2.1396220132841;
+	Sun, 30 Mar 2014 15:55:32 -0700 (PDT)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id gm2sm21244536obb.3.2014.03.30.15.55.31
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 30 Mar 2014 15:55:32 -0700 (PDT)
+Message-ID: <5338A0E3.60002@linaro.org>
+Date: Sun, 30 Mar 2014 18:55:31 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
+To: Stefan Stanacar <stefanx.stanacar@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1394552409-7544-1-git-send-email-stefanx.stanacar@intel.com>
+In-Reply-To: <1394552409-7544-1-git-send-email-stefanx.stanacar@intel.com>
+Subject: Re: [PATCH] lsbtest: fix comparison bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +51,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Mar 2014 22:54:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 30 Mar 2014 22:55:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-There was a nasty sstate hash corruption issue occurring where the
-fact the testimage bbclass was inherited meant that the checksum
-changed due to testimage.bbclass being confused with image.bbclass.
+On 03/11/14 11:40, Stefan Stanacar wrote:
+> == is a bashism use = instead.
 
-This patch anchors the bbclass names to avoid this confusion.
+But the first line of this script is:
+#/bin/bash
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 8b0e344..aa25c3a 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -10,12 +10,12 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-         return x.startswith("nativesdk-")
-     def isKernel(fn):
-         inherits = " ".join(dataCache.inherits[fn])
--        return inherits.find("module-base.bbclass") != -1 or inherits.find("linux-kernel-base.bbclass") != -1
-+        return inherits.find("/module-base.bbclass") != -1 or inherits.find("/linux-kernel-base.bbclass") != -1
-     def isPackageGroup(fn):
-         inherits = " ".join(dataCache.inherits[fn])
--        return "packagegroup.bbclass" in inherits
-+        return "/packagegroup.bbclass" in inherits
-     def isImage(fn):
--        return "image.bbclass" in " ".join(dataCache.inherits[fn])
-+        return "/image.bbclass" in " ".join(dataCache.inherits[fn])
- 
-     # Always include our own inter-task dependencies
-     if recipename == depname:
-
-
+Shouldn't a bash script be allowed to have bash-isms??!
 
