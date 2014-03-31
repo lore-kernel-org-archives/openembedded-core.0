@@ -1,42 +1,24 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DE64C6F87D
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A3E76EDF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 16:39:19 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id x12so6092144wgg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 09:39:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=8AccfUxx62MTudkJbkgA+Tp4+OaMvzbPtBq57d04jXg=;
-	b=Y8WCHSwN8fFTy7b2yz94xh1Ce1L6wROALSfHoirqB+ZN/2GFt7Jy1pOHDQoZ9PMz0w
-	AE6h3tsPFCFvyCSmqTVwWghljNj5yM2JJisbFPMDib4zpFtIIXdW73B3sqfy8fXjJTbl
-	eQKw1Z1VtorD8bZlfotSlkjSzGkIvIm7q8xETjbdM2esrWR3LvibUjtIby8CrfrfgZ6N
-	TqhCXDHkxBB+5eArk7tUC87kvVoqgfxgS1TFiWR5zs8LaLUWYWf3SbSrk2L9/0/uGgnx
-	KIF/HGfnVp8GFncVVM/b+dFm/PyNdsBwvsC0ovHPu+q1ubi6vaHS1HEpO3G5icCummCh
-	W5XQ==
-X-Gm-Message-State: ALoCoQmyrmiNg7MqhExSIcpiNTITwCSrwEX4I4Vb9LwY+UKAMEMUW0gWLpsnRwQpoBqpjwNbEF3Z
-X-Received: by 10.194.189.80 with SMTP id gg16mr5007944wjc.84.1396283959514;
-	Mon, 31 Mar 2014 09:39:19 -0700 (PDT)
-Received: from adamian-desk.corp.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id
-	t10sm27576020wiw.19.2014.03.31.09.39.18 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 31 Mar 2014 09:39:18 -0700 (PDT)
-Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
-	id 2D8D4560247; Mon, 31 Mar 2014 17:39:20 +0100 (BST)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Mar 2014 17:39:19 +0100
-Message-Id: <1f7e36d6938c1376181470a3cdcf51749dda51a3.1396283886.git.alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <7445f7145ee425302da5b9d1ca77e3448899b78d.1396283886.git.alexandru.damian@intel.com>
-References: <7445f7145ee425302da5b9d1ca77e3448899b78d.1396283886.git.alexandru.damian@intel.com>
-In-Reply-To: <cover.1396283886.git.alexandru.damian@intel.com>
-References: <cover.1396283886.git.alexandru.damian@intel.com>
-Subject: [PATCH 2/2] toaster.bbclass: the license.manifest is located in DEPLOY_DIR
+	Mon, 31 Mar 2014 16:49:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Mar 2014 09:49:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,766,1389772800"; d="scan'208";a="503659229"
+Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.86]) ([10.3.52.86])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2014 09:49:47 -0700
+Message-ID: <1396284511.2792.120.camel@ranerica-desk01>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 31 Mar 2014 09:48:31 -0700
+In-Reply-To: <1395344133-7310-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+References: <1395344133-7310-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] runqemu: Add option for custom BIOS directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,36 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 16:39:22 -0000
+X-List-Received-Date: Mon, 31 Mar 2014 16:50:05 -0000
+Content-Type: text/plain; charset="TIS-620"
+Content-Transfer-Encoding: 7bit
 
-From: Cristiana Voicu <cristiana.voicu@intel.com>
+On Thu, 2014-03-20 at 12:35 -0700, Ricardo Neri wrote:
+> Add support to specify a directory for custom BIOS, VGA BIOS and
+> keymaps as supported by qemu (-L option). Even though this can be
+> done through qemuparams, having this option provides better user
+> experience by not having to specify a long and cluttered path along
+> with other qemuparams that the user might want to specify.
+> 
+> This new options assumes first that the path provided is relative to
+> OECORE_NATIVE_SYSROOT and will check whether it exists before proceeding.
+> If not, it will treat the provided path as absolute. This provides
+> the user flexibility to use BIOS binaries generated inside or outside
+> the OE build environment.
+> 
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> ---
+>  scripts/runqemu | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 619ffb6..b1d2d1a 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -149,6 +149,9 @@ while true; do
+>              SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
+>              SERIALSTDIO="1"
+>              ;;
+> +	"biosdir="*)
+> +            CUSTOMBIOSDIR="${arg##biosdir=}"
+> +	    ;;
+>          "qemuparams="*)
+>              SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+>  
+> @@ -489,5 +492,21 @@ if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
+>  INTERNAL_SCRIPT=`which runqemu-internal`
+>  fi
+>  
+> +# Specify directory for BIOS, VGA BIOS and keymaps
+> +if [ ! -z "$CUSTOMBIOSDIR" ]; then
+> +    if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
+> +        echo "Assuming biosdir is $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> +        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> +    else
+> +        if [ ! -d "$CUSTOMBIOSDIR" ]; then
+> +            echo "Custom BIOS directory not found. Tried: $CUSTOMBIOSDIR"
+> +            echo "and $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
+> +            exit 1;
+> +        fi
+> +        echo "Assuming biosdir is $CUSTOMBIOSDIR"
+> +        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $CUSTOMBIOSDIR"
+> +    fi
+> +fi
+> +
+>  . $INTERNAL_SCRIPT
+>  exit $?
 
-Replaced DEPLOY_DIR_IMAGE with DEPLOY_DIR
+Hi!
 
-[YOCTO #6051]
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- meta/classes/toaster.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I just wanted to check if there are comments about this patch.
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index f55a4d7..9fb2cec 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -299,10 +299,10 @@ python toaster_buildhistory_dump() {
- # dump information related to license manifest path
- 
- python toaster_licensemanifest_dump() {
--    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE', True);
-+    deploy_dir = d.getVar('DEPLOY_DIR', True);
-     image_name = d.getVar('IMAGE_NAME', True);
- 
--    data = { 'deploy_dir_image' : deploy_dir_image, 'image_name' : image_name }
-+    data = { 'deploy_dir' : deploy_dir, 'image_name' : image_name }
- 
-     bb.event.fire(bb.event.MetadataEvent("LicenseManifestPath", data), d)
- }
--- 
-1.9.1
+BR,
+Ricardo
+
 
 
