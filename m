@@ -1,33 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C1D976E716
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F64A6F242
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 19:29:56 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id hl10so329045igb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 12:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=8AE0VSQPkL3LgrxwE62dBAVFMZ7WdSjJ/7d0gLZz99I=;
-	b=Njj9kcRUSvvb0mYPa2rpgWvFPf6CPzC6KKk13aJG9oW5jZnb3COQUq22mA5xv25pL8
-	CBEKRS5d8AosA2jkpDCcK2iUcpHx6Eu08xg1f/4YYcjVQ/WJmFvYsgKcLmtCIsEvDz2T
-	Kv8WjTUyudTN4olN5P0NW3Pw8StJUYvc2KPFjm02xs8bbaB4VErLHdcBvqwt1Hs71yLb
-	hnA8pKuJUIh6fj9AM6BcdVY75gMbVqF+XPEaMp7lPJv07NFqHzxSuAkF9biHiFTM5p4b
-	9P2EWre+vBs/23zCw4v1MIpcbsUbgidN6TFM1+NCIjczabqBKUXtsQiC/oL5/OtbZziz
-	CTZA==
-X-Received: by 10.42.20.6 with SMTP id e6mr33292117icb.29.1396294196788; Mon,
-	31 Mar 2014 12:29:56 -0700 (PDT)
+	Mon, 31 Mar 2014 19:33:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2VJXXAE018054
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 31 Mar 2014 12:33:34 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 31 Mar 2014 12:33:33 -0700
+Message-ID: <5339C30B.1060005@windriver.com>
+Date: Mon, 31 Mar 2014 15:33:31 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Mon, 31 Mar 2014 12:29:26 -0700 (PDT)
-In-Reply-To: <e6015802086cbf8199d112a3e75a7391a417ede6.1396288310.git.bruce.ashfield@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1396288310.git.bruce.ashfield@windriver.com>
 	<e6015802086cbf8199d112a3e75a7391a417ede6.1396288310.git.bruce.ashfield@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 31 Mar 2014 12:29:26 -0700
-Message-ID: <CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+	<CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>
+In-Reply-To: <CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 4/5] libc-headers: set TC default to 3.14
@@ -43,16 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 19:29:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 31 Mar 2014 19:33:42 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 31, 2014 at 10:56 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
+On 14-03-31 03:29 PM, Khem Raj wrote:
+> On Mon, Mar 31, 2014 at 10:56 AM, Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+>>
+>> -LINUXLIBCVERSION ?= "3.10"
+>> +LINUXLIBCVERSION ?= "3.14"
 >
-> -LINUXLIBCVERSION ?= "3.10"
-> +LINUXLIBCVERSION ?= "3.14"
+> Does this  buy us much ? Infact its too late to change usespace APIs
 
-Does this  buy us much ? Infact its too late to change usespace APIs
-at this point. 3.10 being LTS
-I would assume its a better option to keep at 3.10
+This was always the plan. I've been building with all the 3.14 -rc
+headers for ages .. and as we've talked about in the past, we always
+will update them to the newest kernel in any release.
+
+They are compatible with 3.10, and I've tested the combinations of
+old kernels, new libc and new kernels with the new libc interfaces.
+
+> at this point. 3.10 being LTS
+> I would assume its a better option to keep at 3.10
+
+I disagree, this is consistent with other releases and the documented
+plan of action. I'd rather not have a massive version jump in the fall.
+
+Sure 3.14 slipping out by a few weeks upstream was a problem, but its
+not like we haven't been testing with it.
+
+Bruce
+
+>
+
 
