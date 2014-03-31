@@ -1,24 +1,25 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 832806EA2F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 46C2B6F8CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 14:41:16 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,765,1389740400"; d="scan'208";a="43589514"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 31 Mar 2014 16:41:16 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Mon, 31 Mar 2014 16:41:16 +0200
-Received: from u75.usr.ingenico.loc (10.23.7.75) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Mon, 31 Mar 2014 16:41:16 +0200
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Mar 2014 17:39:55 +0200
-Message-ID: <1396280395-24687-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	Mon, 31 Mar 2014 14:41:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2VEfJYk013761
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 31 Mar 2014 07:41:19 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.169.1; Mon, 31 Mar 2014 07:41:18 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <sgw@linux.intel.com>, <martin.jansa@gmail.com>
+Date: Mon, 31 Mar 2014 22:41:07 +0800
+Message-ID: <1396276868-1362-1-git-send-email-kai.kang@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH] libomxil-0.9.3: fix configure unrecognised option
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] V2: pseudo-1.5.1: keep install command directory mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +32,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 14:41:19 -0000
+X-List-Received-Date: Mon, 31 Mar 2014 14:41:20 -0000
 Content-Type: text/plain
 
-Drop --disable-ffmpegcomponents which is deprecated since libomxil-bellagio-0.9.1
-Components are external and are available separately here:
-http://sourceforge.net/projects/omxil/files/components/
----
- meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+V2:
+* keep PR
 
-diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-index 4a7633d..103d789 100644
---- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-+++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-@@ -1,11 +1,13 @@
--SUMMARY = "Bellagio OpenMAX Integration Layer"
-+SUMMARY = "Bellagio OpenMAX Integration Layer (IL)"
-+DESCRIPTION = "Bellagio is an opensource implementation of the Khronos OpenMAX \
-+               Integration Layer API to access multimedia components."
- HOMEPAGE = "http://omxil.sourceforge.net/"
-+
- LICENSE = "LGPLv2.1+"
- LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
-                     file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
- 
--
- SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
-            file://configure-fix.patch \
-            file://parallel-make.patch \
-@@ -19,7 +21,7 @@ S = "${WORKDIR}/${BPN}-bellagio-${PV}"
- 
- inherit autotools
- 
--EXTRA_OECONF += "--disable-ffmpegcomponents --disable-Werror"
-+EXTRA_OECONF += "--disable-doc --disable-Werror"
- 
- FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
-                 ${libdir}/omxloaders/*${SOLIBS}"
+yanjun.zhu (1):
+  pseudo-1.5.1: keep install command directory mode
+
+ .../files/pseudo-1.5.1-install-directory-mode.patch    | 18 ++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.5.1.bb           |  1 +
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+
 -- 
-1.8.5.4
+1.8.1.2
 
 
