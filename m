@@ -1,38 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A8DB26EA2F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CA4F6EA2F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 14:33:24 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 10so6167476ykt.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 07:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=W5+/0/M809QqpFCz+qCmska6euDjbeiUhE/jOIfnPt4=;
-	b=HY7Ywz17A6uDwoa+xjaF2IKU+Gw+yasaN+JwN1eDzIcttdY90VFYqqAvUw4nrPQj32
-	a7zbBEqq8IhUndZWHrTU1VyIe7AEpOJctfePxT71LTRXowfbQV4igII03drcpJriy92l
-	uWaWBep8EDh6CKvvbVxaTOqcLADyMmbGijndGK/3gCNBuDjQrr8yAV4JsvSzV/UTkr6s
-	Rs/RimdMNATRtSIFRDdBRjqK/B6WEZjwqXgMsW2rkeX8NgThl2f3r61jq29Yx29wYTBk
-	n+bL5shQQREqA5rEL4AlVIBG1BZWJ1QZBJ7gAa4Q5tYNHFIqUYTejagcZMIHQdfFv5hA
-	xHAQ==
+	Mon, 31 Mar 2014 14:37:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2VEbeao022499
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 31 Mar 2014 07:37:40 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Mon, 31 Mar 2014 07:37:40 -0700
+Message-ID: <53397DB0.4060900@windriver.com>
+Date: Mon, 31 Mar 2014 22:37:36 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-X-Received: by 10.236.110.77 with SMTP id t53mr36252257yhg.78.1396276405128;
-	Mon, 31 Mar 2014 07:33:25 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Mon, 31 Mar 2014 07:33:25 -0700 (PDT)
-In-Reply-To: <1396275649-32352-2-git-send-email-kai.kang@windriver.com>
-References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
-	<1396275649-32352-2-git-send-email-kai.kang@windriver.com>
-Date: Mon, 31 Mar 2014 11:33:25 -0300
-X-Google-Sender-Auth: PjdIrA0LtZ3rjuFYRr10Lz3ynao
-Message-ID: <CAP9ODKrDjcJLEyBJ8pFA3CDEh=mjnLzr+-pT3iXo9pcKdEAMRw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1396254930-11013-1-git-send-email-kai.kang@windriver.com>
+	<1396254930-11013-2-git-send-email-kai.kang@windriver.com>
+	<20140331102446.GB2425@jama>
+In-Reply-To: <20140331102446.GB2425@jama>
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo-1.5.1: keep install command directory mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +37,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 14:33:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 31 Mar 2014 14:37:41 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 31, 2014 at 11:20 AM, Kai Kang <kai.kang@windriver.com> wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> When native package is built, use the uname to return the kernel version.
->
-> When target is built, read kernel version from ${STAGING_KERNEL_DIR}/kernel-abiversion
-> to avoid to use the hardcode kernel version.
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+On 2014年03月31日 18:24, Martin Jansa wrote:
+> On Mon, Mar 31, 2014 at 04:35:30PM +0800, Kai Kang wrote:
+>> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+>>
+>> When install command sets the created directory mode, pseudo will change
+>> the mode of the directory to 0700 incorrectly. Backport patch to fix it.
+>>
+>> Drop PR as well.
+>>
+>> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   .../files/pseudo-1.5.1-install-directory-mode.patch    | 18 ++++++++++++++++++
+>>   meta/recipes-devtools/pseudo/pseudo_1.5.1.bb           |  3 +--
+>>   2 files changed, 19 insertions(+), 2 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+>>
+>> diff --git a/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+>> new file mode 100644
+>> index 0000000..e8eaf13
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+>> @@ -0,0 +1,18 @@
+>> +Upstream-Status: Backport
+>> +
+>> +when install command sets the created directory mode, pseudo will change
+>> +the mode of the directory to 0700 incorrectly.
+>> +
+>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+>> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> +
+>> +--- a/ports/unix/guts/mkdirat.c
+>> ++++ b/ports/unix/guts/mkdirat.c
+>> +@@ -25,6 +25,7 @@
+>> + 		stat_rc = base_fstatat(dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
+>> + #endif
+>> + 		if (stat_rc != -1) {
+>> ++			buf.st_mode = PSEUDO_DB_MODE(buf.st_mode, mode);
+>> + 			pseudo_client_op(OP_MKDIR, 0, -1, dirfd, path, &buf);
+>> + 		} else {
+>> + 			pseudo_debug(1, "mkdir of %s succeeded, but stat failed: %s\n",
+>> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+>> index bc92856..c265017 100644
+>> --- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+>> +++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+>> @@ -1,11 +1,10 @@
+>>   require pseudo.inc
+>>   
+>> -PR = "r4"
+> You cannot drop PR when PV/PE is the same, version goes backward (you
+> should notice QA Error about that).
 
-This makes it depends on virtual/kernel and it vary from one machine to another.
+Sorry, forget that. But I didn't meet the QA Error. When should it 
+appear, parse recipes or do_package_qa?
 
-Am I missing anything here?
+I'll send V2.
+
+Thanks,
+Kai
+
+>
+>> -
+>>   SRC_URI = " \
+>>       http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>       file://0001-pseudo_has_unload-add-function.patch \
+>>       file://shutdownping.patch \
+>> +    file://pseudo-1.5.1-install-directory-mode.patch \
+>>   "
+>>   
+>>   SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
+>> -- 
+>> 1.8.4
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Regards,
+Neil | Kai Kang
+
 
