@@ -1,36 +1,28 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BBB0860C22
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 22:30:24 +0000 (UTC)
-Received: by mail-la0-f53.google.com with SMTP id b8so6423449lan.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 15:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=gsu5zIQRfKykSZKVFlww4yD5eya0OPp+jV5p9sHlFUo=;
-	b=uKfonew69RKOoIIxXHe6UxshAxBUABtiosOGX+Go9n/05gItDXPj1W3ORk9vSKl+zD
-	GbdVq6ELujV0MtRKcwctpZwAnd0y5dE5DO+Xh3TEZFmCvaR+7iY23Agr1u+nDOEECzO3
-	+hIi2zuzaNY9qW/RkXIHX2DcU/mAdNLA0F1SuZw6KxiR1gQ0N7iXmBmx2Mu2ox7JICHA
-	uvBsRnPq1HjDYRjIzTpzyOl1p09/YlzzVunYaFhRczwDGp4+j+I0Iltbt8/uQiZ/xjo8
-	GbBkyDvzwtkQ4aJ0Titc/UyZGxYIw1A1TXSOdSYO+zg7Ew0EIi/2yHDXeLERUhA10ut3
-	cjtA==
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F2DD360C22;
+	Mon, 31 Mar 2014 22:31:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s2VMVIpC020221
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 31 Mar 2014 15:31:18 -0700 (PDT)
+Received: from server.local (128.224.23.102) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 31 Mar 2014 15:31:18 -0700
+Message-ID: <5339ECE5.40501@windriver.com>
+Date: Mon, 31 Mar 2014 18:32:05 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-X-Received: by 10.152.18.229 with SMTP id z5mr7622721lad.27.1396305024496;
-	Mon, 31 Mar 2014 15:30:24 -0700 (PDT)
-Received: by 10.112.58.132 with HTTP; Mon, 31 Mar 2014 15:30:24 -0700 (PDT)
-In-Reply-To: <CADkTA4OYz=MoE-aKGp2m--A0Rt-CKubGfNYmxvoqCRZ4KbU=fQ@mail.gmail.com>
-References: <cover.1396288310.git.bruce.ashfield@windriver.com>
-	<CADkTA4OYz=MoE-aKGp2m--A0Rt-CKubGfNYmxvoqCRZ4KbU=fQ@mail.gmail.com>
-Date: Mon, 31 Mar 2014 18:30:24 -0400
-Message-ID: <CADkTA4OpdAfXh5JWYU0Wiejpii8gKdTUB0Pp2=9jvG8LHQ=UxA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] lnux-yocto: 3.14 updates
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20140330090302.B0FBA50478@opal> <20140330113031.GF2428@jama>
+	<53382C05.70506@windriver.com> <20140331215105.GI2425@jama>
+In-Reply-To: <20140331215105.GI2425@jama>
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Bruce Ashfield : linux-yocto/3.10: fix drm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,116 +35,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 22:30:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 31 Mar 2014 22:31:20 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 31, 2014 at 5:09 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Mon, Mar 31, 2014 at 1:56 PM, Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->> Richard/Saul,
+On 2014-03-31, 5:51 PM, Martin Jansa wrote:
+> On Sun, Mar 30, 2014 at 10:36:53AM -0400, Bruce Ashfield wrote:
+>> On 2014-03-30, 7:30 AM, Martin Jansa wrote:
+>>> On Sun, Mar 30, 2014 at 09:03:02AM +0000, git@git.openembedded.org wrote:
+>>>> Module: openembedded-core.git
+>>>> Branch: master
+>>>> Commit: 42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
+>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
+>>>>
+>>>> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>>> Date:   Thu Mar 27 13:22:32 2014 -0400
+>>>>
+>>>> linux-yocto/3.10: fix drm build failure
+>>>>
+>>>> Andrea Adami reported the following build failure:
+>>>>
+>>>>       .../drm/drm_mm.h:105:2: error: implicit declaration of function
+>>>>       'BUG_ON' [-Werror=implicit-function-declaration]
+>>>>       |   BUG_ON(!hole_node->hole_follows);
+>>>>       |   ^
+>>>>       |   CC      drivers/pci/setup-res.o
+>>>>       |   CC      drivers/gpu/drm/i915/i915_drv.o
+>>>>       | cc1: some warnings being treated as errors
+>>>>       | make[6]: *** [drivers/gpu/drm/ttm/ttm_agp_backend.o] Error 1
+>>>>       | make[5]: *** [drivers/gpu/drm/ttm] Error 2
+>>>>
+>>>> Cherry picking mainline commit 86e81f0e6 [drm/mm: include required headers in drm_mm.h]
+>>>> fixes the build problems.
+>>>>
+>>>> cc: Andrea Adami <andrea.adami@gmail.com>
+>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>>>
+>>>> ---
+>>>>
+>>>>    meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
+>>>>    meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
+>>>>    meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
+>>>>    3 files changed, 10 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>>>> index 9b0c5d3..fe6773a 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>>>> @@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
+>>>>    KBRANCH = "standard/preempt-rt/base"
+>>>>    KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+>>>>
+>>>> -SRCREV_machine ?= "f121a3aa028df37b8050779adaa239d29aaa2edd"
+>>>> -SRCREV_machine_qemuppc ?= "7172d3cbc73584e724b61ef5d13fc3519720f4c0"
+>>>> +SRCREV_machine ?= "f4351616572c6ad5a8b71b1becf02c3e779b85b8"
+>>>> +SRCREV_machine_qemuppc ?= "a6dfc85e99633d739068a03d2551e39847628551"
+>>>>    SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
+>>>>
+>>>>    SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>>>> index baa82fd..123f307 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>>>> @@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.34"
+>>>>
+>>>>    KMETA = "meta"
+>>>>
+>>>> -SRCREV_machine ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+>>>> +SRCREV_machine ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+>>>>    SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
+>>>>
+>>>>    PV = "${LINUX_VERSION}+git${SRCPV}"
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>>>> index 56fbd07..49dd13d 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>>>> @@ -11,13 +11,13 @@ KBRANCH_qemux86  = "standard/common-pc/base"
+>>>>    KBRANCH_qemux86-64  = "standard/common-pc-64/base"
+>>>>    KBRANCH_qemumips64 = "standard/mti-malta64"
+>>>>
+>>>> -SRCREV_machine_qemuarm ?= "e18e8c2c7cad913a25342f9f860eeeefce24b8aa"
+>>>> -SRCREV_machine_qemumips ?= "6f191aaecfdbebda450cec4a1f30fb0d1a2ed889"
+>>>> -SRCREV_machine_qemuppc ?= "ba2e16160c7f910de432511ca0008101a7b2263b"
+>>>> -SRCREV_machine_qemux86 ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+>>>> -SRCREV_machine_qemux86-64 ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+>>>> -SRCREV_machine_qemumips64 ?= "e05f0378e9c21d689eed8aacb306d2c1a044e0d0"
+>>>> -SRCREV_machine ?= "2ee37bfe732c73f7d39af55875ce8d30b282471c"
+>>>> +SRCREV_machine_qemuarm ?= "0e99eabbe5b3bec853ace496f94612bc37800260"
+>>>> +SRCREV_machine_qemumips ?= "b6b20f49e9a169a0672b7cc2d7b93d6652ca7873"
+>>>> +SRCREV_machine_qemuppc ?= "d71b782615b802c78e1586494b94dd40531775c8"
+>>>> +SRCREV_machine_qemux86 ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+>>>
+>>> Is it correct revision?
+>>>
 >>
->> Here are the remaining changes from my previous pull request for linux-yocto
->> updates.
->>
->> Now that 3.14 has been released, we have the full 3.14 kernel and associated
->> libc-headers .. with no PV games.
+>> I can confirm that that is the right revision. I wonder what the fetcher
+>> is doing, or is something in the infrastructure caching and older
+>> revision ?
 >
-> As a follow up to this, make sure that you have a clean sysroot when
-> building, we've
-> heard of a couple of perf build failures (again), that sound like the
-> header file issues
-> you'll see if an older kernel for a given machine is in the sysroot.
+> Sorry for noise, it was after all our mirror not getting updates
+> anymore, fetching it manually works.
 
-replying to myself before I head out for food! The build of perf that
-broke here, was
-indeed a sysroot with 3.10 and 3.14 conflicting header files. My clean of the
-sysroot and a rebuild has worked. So I don't know of any reproducible perf build
-errors at the moment.
+No worries. Better to report and have me poke at it, then letting it sit.
+It's not like I don't cross up SRCREVs periodically :(
 
 Bruce
 
 >
-> I'm trying another build of qemux86 to see if I can duplicate any
-> issues, but won't
-> be around for a few hours to confirm or deny anything.
->
-> Bruce
->
+>> yow-bashfiel-d3 [/home/bruc...o-3.10.git]> git branch --contains
+>> c7739be126930006e3bfbdb2fb070a967abc5e09
+>>     standard/arm-versatile-926ejs
+>>     standard/axxia/base
+>> * standard/base
+>>     standard/beagleboard
+>>     standard/ck
+>>     standard/common-pc-64/base
+>>     standard/common-pc-64/chiefriver
+>>     standard/common-pc-64/crystalforest
+>>     standard/common-pc-64/jasperforest
+>>     standard/common-pc-64/rangeley
+>>     standard/common-pc-64/romley
+>>     standard/common-pc-64/sugarbay
+>>     standard/common-pc/atom-pc
+>>     standard/common-pc/base
+>>     standard/crownbay
+>>     standard/edf
+>>     standard/emenlow
+>>     standard/fri2
+>>     standard/fsl-mpc8315e-rdb
+>>     standard/ltsi
+>>     standard/minnow
+>>     standard/mti-malta32
+>>     standard/mti-malta64
+>>     standard/ocf
+>>     standard/preempt-rt/base
+>>     standard/preempt-rt/fri2
+>>     standard/preempt-rt/minnow
+>>     standard/preempt-rt/qemuppc
+>>     standard/preempt-rt/routerstationpro
+>>     standard/qemuppc
+>>     standard/routerstationpro
+>>     standard/sys940x
+>>     standard/tiny/base
+>>     standard/tiny/common-pc
+>>     standard/tiny/fri2
+>>     standard/tiny/minnow
 >>
->> There is one new change in the libc-headers series, to adapt to the xz compression
->> of new headers, but otherwise, it is the same as before.
 >>
->> [
->>    Subject: [PATCH 2/5] linux-libc-headers: make compression format configurable
+>> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.10/commit/?h=standard/common-pc/base&id=c7739be126930006e3bfbdb2fb070a967abc5e09
 >>
->>    As of the 3.13 kernel bz2 compressed tarballs are not available. To support
->>    older header tarballs, and newer ones that require the 'xz' compressed
->>    bundles, we can break out a variable that allows versioned libc headers to
->>    select the archive format that works.
->>
->>    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ]
->>
->> I've built and booted qemu* for this, so everything appears to be sane.
->>
->> Cheers,
 >>
 >> Bruce
 >>
+>>> ERROR: Fetcher failure: Unable to find revision c7739be126930006e3bfbdb2fb070a967abc5e09 in branch
+>>> standard/common-pc/base even from upstream
+>>> ERROR: Logfile of failure stored in: work/qemux86-webos-linux/linux-yocto/1_3.10.34+gitAUTOINC+df3aa753c8_c7739be126-r0/temp/log.do_fetch.73290
+>>>
+>>>> +SRCREV_machine_qemux86-64 ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+>>>> +SRCREV_machine_qemumips64 ?= "88abb1eb327f4e3c711d19a228cb153fdd9b3506"
+>>>> +SRCREV_machine ?= "c7739be126930006e3bfbdb2fb070a967abc5e09"
+>>>>    SRCREV_meta ?= "df3aa753c8826127fb5ad811d56d57168551d6e4"
+>>>>
+>>>>    SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-commits mailing list
+>>>> Openembedded-commits@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>>>
 >>
->> The following changes since commit 4f80de9a568bcf0280c7e8b8f89ee6c2adfa477d:
->>
->>   linux-yocto/3.10: fix qemuarm build failure (2014-03-30 23:53:00 +0100)
->>
->> are available in the git repository at:
->>
->>   git://git.pokylinux.org/poky-contrib zedd/kernel
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>
->> Bruce Ashfield (5):
->>   linux-yocto/3.14: introduce versioned recipes
->>   linux-libc-headers: make compression format configurable
->>   linux-libc-headers: add 3.14 libc headers
->>   libc-headers: set TC default to 3.14
->>   linux-libc-headers: remove 3.10 recipe
->>
->>  meta/conf/distro/include/tcmode-default.inc        |  2 +-
->>  .../linux-libc-headers/linux-libc-headers.inc      |  4 +-
->>  ...1-ptrace.h-remove-ptrace_peeksiginfo_args.patch | 50 ------------------
->>  ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch | 34 -------------
->>  ...efile.headersinst-install-headers-from-sc.patch | 59 ----------------------
->>  .../linux-libc-headers/linux-libc-headers_3.10.bb  | 11 ----
->>  .../linux-libc-headers/linux-libc-headers_3.14.bb  |  7 +++
->>  meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb | 21 ++++++++
->>  meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 37 ++++++++++++++
->>  9 files changed, 69 insertions(+), 156 deletions(-)
->>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
->>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
->>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
->>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
->>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb
->>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
->>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.14.bb
->>
->> --
->> 1.8.1.2
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
