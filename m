@@ -1,38 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 370286A8F0;
-	Mon, 31 Mar 2014 21:51:06 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id x13so6699624wgg.9
-	for <multiple recipients>; Mon, 31 Mar 2014 14:51:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=HJmT9UhSQEW2TushfPG/WArf8CitiN0IF0kEF4q2Dt4=;
-	b=CFpm6C7JVeWTFnrySlTcMb74LQV2xU3IPCEpGWt8i8Xb6oXYLnK1uINHJPkExMa+Y7
-	Qar+rB+qA5e+MWAkyjoTWePfiolWDNnZNqkW0JmY15qZBOgYAj3dfrPyJUc9CO4ZSkc+
-	on6kiPStMI6jMi5wzC3O0ZwlHKLve6WyPhcX0WClKGBRW2dXcs+8w5w85k7kmSlFZSFb
-	yAYb21Py62Y4EARKtyQ9FittcuagQkTZrm9fj57wEyKOEiUGj8krfBOM9PBJMrAPdMht
-	uyAq9LtPcKbg8p6lwXDG4w95DY/kb0G/+xaCo47wrTFYRX42kQGTkroz7J+6pnF60WZG
-	I5Kg==
-X-Received: by 10.180.105.65 with SMTP id gk1mr15411204wib.12.1396302666748;
-	Mon, 31 Mar 2014 14:51:06 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	x45sm35906862eef.15.2014.03.31.14.51.04 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 31 Mar 2014 14:51:05 -0700 (PDT)
-Date: Mon, 31 Mar 2014 23:51:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20140331215105.GI2425@jama>
-References: <20140330090302.B0FBA50478@opal> <20140330113031.GF2428@jama>
-	<53382C05.70506@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <53382C05.70506@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : linux-yocto/3.10: fix drm build failure
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D56CF6A8F0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Mar 2014 22:09:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2VM952p030374; Mon, 31 Mar 2014 23:09:05 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xBFa1CoCXnht; Mon, 31 Mar 2014 23:09:05 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2VM90hr030339
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 31 Mar 2014 23:09:01 +0100
+Message-ID: <1396303734.14790.87.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 31 Mar 2014 23:08:54 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] pixbufcache.bbclass: Fix setscene silent failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,208 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 21:51:11 -0000
-X-Groupsio-MsgNum: 51959
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zOcTNEe3AzgCmdo9"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 31 Mar 2014 22:09:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---zOcTNEe3AzgCmdo9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Unfortunately gdk-pixbuf-query-loaders can issue errors but still return
+success. We therefore check for output and error in the case any output
+is issued (normal success does not issue any).
 
-On Sun, Mar 30, 2014 at 10:36:53AM -0400, Bruce Ashfield wrote:
-> On 2014-03-30, 7:30 AM, Martin Jansa wrote:
-> > On Sun, Mar 30, 2014 at 09:03:02AM +0000, git@git.openembedded.org wrot=
-e:
-> >> Module: openembedded-core.git
-> >> Branch: master
-> >> Commit: 42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
-> >> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcom=
-mit;h=3D42c0eba4fac6b8bd28b58ec04574d04b0ab0c457
-> >>
-> >> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >> Date:   Thu Mar 27 13:22:32 2014 -0400
-> >>
-> >> linux-yocto/3.10: fix drm build failure
-> >>
-> >> Andrea Adami reported the following build failure:
-> >>
-> >>      .../drm/drm_mm.h:105:2: error: implicit declaration of function
-> >>      'BUG_ON' [-Werror=3Dimplicit-function-declaration]
-> >>      |   BUG_ON(!hole_node->hole_follows);
-> >>      |   ^
-> >>      |   CC      drivers/pci/setup-res.o
-> >>      |   CC      drivers/gpu/drm/i915/i915_drv.o
-> >>      | cc1: some warnings being treated as errors
-> >>      | make[6]: *** [drivers/gpu/drm/ttm/ttm_agp_backend.o] Error 1
-> >>      | make[5]: *** [drivers/gpu/drm/ttm] Error 2
-> >>
-> >> Cherry picking mainline commit 86e81f0e6 [drm/mm: include required hea=
-ders in drm_mm.h]
-> >> fixes the build problems.
-> >>
-> >> cc: Andrea Adami <andrea.adami@gmail.com>
-> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >>
-> >> ---
-> >>
-> >>   meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
-> >>   meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
-> >>   meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-----=
---
-> >>   3 files changed, 10 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/r=
-ecipes-kernel/linux/linux-yocto-rt_3.10.bb
-> >> index 9b0c5d3..fe6773a 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-> >> @@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
-> >>   KBRANCH =3D "standard/preempt-rt/base"
-> >>   KBRANCH_qemuppc =3D "standard/preempt-rt/qemuppc"
-> >>
-> >> -SRCREV_machine ?=3D "f121a3aa028df37b8050779adaa239d29aaa2edd"
-> >> -SRCREV_machine_qemuppc ?=3D "7172d3cbc73584e724b61ef5d13fc3519720f4c0"
-> >> +SRCREV_machine ?=3D "f4351616572c6ad5a8b71b1becf02c3e779b85b8"
-> >> +SRCREV_machine_qemuppc ?=3D "a6dfc85e99633d739068a03d2551e39847628551"
-> >>   SRCREV_meta ?=3D "df3aa753c8826127fb5ad811d56d57168551d6e4"
-> >>
-> >>   SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclo=
-ne=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta=
-/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-> >> index baa82fd..123f307 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-> >> @@ -9,7 +9,7 @@ LINUX_VERSION ?=3D "3.10.34"
-> >>
-> >>   KMETA =3D "meta"
-> >>
-> >> -SRCREV_machine ?=3D "2ee37bfe732c73f7d39af55875ce8d30b282471c"
-> >> +SRCREV_machine ?=3D "c7739be126930006e3bfbdb2fb070a967abc5e09"
-> >>   SRCREV_meta ?=3D "df3aa753c8826127fb5ad811d56d57168551d6e4"
-> >>
-> >>   PV =3D "${LINUX_VERSION}+git${SRCPV}"
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/reci=
-pes-kernel/linux/linux-yocto_3.10.bb
-> >> index 56fbd07..49dd13d 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-> >> @@ -11,13 +11,13 @@ KBRANCH_qemux86  =3D "standard/common-pc/base"
-> >>   KBRANCH_qemux86-64  =3D "standard/common-pc-64/base"
-> >>   KBRANCH_qemumips64 =3D "standard/mti-malta64"
-> >>
-> >> -SRCREV_machine_qemuarm ?=3D "e18e8c2c7cad913a25342f9f860eeeefce24b8aa"
-> >> -SRCREV_machine_qemumips ?=3D "6f191aaecfdbebda450cec4a1f30fb0d1a2ed88=
-9"
-> >> -SRCREV_machine_qemuppc ?=3D "ba2e16160c7f910de432511ca0008101a7b2263b"
-> >> -SRCREV_machine_qemux86 ?=3D "2ee37bfe732c73f7d39af55875ce8d30b282471c"
-> >> -SRCREV_machine_qemux86-64 ?=3D "2ee37bfe732c73f7d39af55875ce8d30b2824=
-71c"
-> >> -SRCREV_machine_qemumips64 ?=3D "e05f0378e9c21d689eed8aacb306d2c1a044e=
-0d0"
-> >> -SRCREV_machine ?=3D "2ee37bfe732c73f7d39af55875ce8d30b282471c"
-> >> +SRCREV_machine_qemuarm ?=3D "0e99eabbe5b3bec853ace496f94612bc37800260"
-> >> +SRCREV_machine_qemumips ?=3D "b6b20f49e9a169a0672b7cc2d7b93d6652ca787=
-3"
-> >> +SRCREV_machine_qemuppc ?=3D "d71b782615b802c78e1586494b94dd40531775c8"
-> >> +SRCREV_machine_qemux86 ?=3D "c7739be126930006e3bfbdb2fb070a967abc5e09"
-> >
-> > Is it correct revision?
-> >
->=20
-> I can confirm that that is the right revision. I wonder what the fetcher
-> is doing, or is something in the infrastructure caching and older
-> revision ?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+Ross: I'm open to better patches ;-)
+[I wrote this to debug other problems]
 
-Sorry for noise, it was after all our mirror not getting updates
-anymore, fetching it manually works.
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index 414fd30..88da734 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -53,7 +53,11 @@ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ pixbufcache_sstate_postinst() {
+ 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+ 	then
+-		gdk-pixbuf-query-loaders --update-cache
++		T=`gdk-pixbuf-query-loaders --update-cache 2>&1`
++		if [ -n "$T" ]; then 
++			echo $T
++			exit 1
++		fi
+ 	fi
+ }
+ 
 
-> yow-bashfiel-d3 [/home/bruc...o-3.10.git]> git branch --contains=20
-> c7739be126930006e3bfbdb2fb070a967abc5e09
->    standard/arm-versatile-926ejs
->    standard/axxia/base
-> * standard/base
->    standard/beagleboard
->    standard/ck
->    standard/common-pc-64/base
->    standard/common-pc-64/chiefriver
->    standard/common-pc-64/crystalforest
->    standard/common-pc-64/jasperforest
->    standard/common-pc-64/rangeley
->    standard/common-pc-64/romley
->    standard/common-pc-64/sugarbay
->    standard/common-pc/atom-pc
->    standard/common-pc/base
->    standard/crownbay
->    standard/edf
->    standard/emenlow
->    standard/fri2
->    standard/fsl-mpc8315e-rdb
->    standard/ltsi
->    standard/minnow
->    standard/mti-malta32
->    standard/mti-malta64
->    standard/ocf
->    standard/preempt-rt/base
->    standard/preempt-rt/fri2
->    standard/preempt-rt/minnow
->    standard/preempt-rt/qemuppc
->    standard/preempt-rt/routerstationpro
->    standard/qemuppc
->    standard/routerstationpro
->    standard/sys940x
->    standard/tiny/base
->    standard/tiny/common-pc
->    standard/tiny/fri2
->    standard/tiny/minnow
->=20
->=20
-> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.10/commit/?h=3Dst=
-andard/common-pc/base&id=3Dc7739be126930006e3bfbdb2fb070a967abc5e09
->=20
->=20
-> Bruce
->=20
-> > ERROR: Fetcher failure: Unable to find revision c7739be126930006e3bfbdb=
-2fb070a967abc5e09 in branch
-> > standard/common-pc/base even from upstream
-> > ERROR: Logfile of failure stored in: work/qemux86-webos-linux/linux-yoc=
-to/1_3.10.34+gitAUTOINC+df3aa753c8_c7739be126-r0/temp/log.do_fetch.73290
-> >
-> >> +SRCREV_machine_qemux86-64 ?=3D "c7739be126930006e3bfbdb2fb070a967abc5=
-e09"
-> >> +SRCREV_machine_qemumips64 ?=3D "88abb1eb327f4e3c711d19a228cb153fdd9b3=
-506"
-> >> +SRCREV_machine ?=3D "c7739be126930006e3bfbdb2fb070a967abc5e09"
-> >>   SRCREV_meta ?=3D "df3aa753c8826127fb5ad811d56d57168551d6e4"
-> >>
-> >>   SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclo=
-ne=3D1;branch=3D${KBRANCH},${KMETA};name=3Dmachine,meta"
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-commits mailing list
-> >> Openembedded-commits@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-> >
->=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---zOcTNEe3AzgCmdo9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlM540kACgkQN1Ujt2V2gBygjwCgkU6S0kn8Qnpacd7trQ+AgTus
-YPkAoJPumsZLB4WN3avN5bGDCAK+4DLt
-=3+Fl
------END PGP SIGNATURE-----
-
---zOcTNEe3AzgCmdo9--
