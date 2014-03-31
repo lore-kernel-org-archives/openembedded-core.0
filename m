@@ -1,23 +1,40 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6175160C14
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 14E046F73E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 15:09:53 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 31 Mar 2014 08:07:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,766,1389772800"; d="scan'208";a="511595104"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 31 Mar 2014 08:05:57 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.160])
-	by linux.intel.com (Postfix) with ESMTP id 4B6B66A4007;
-	Mon, 31 Mar 2014 08:05:42 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Mar 2014 18:06:15 +0300
-Message-Id: <1396278375-6315-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] image.bbclass: add postprocess func to disable DNS lookups for openssh
+	Mon, 31 Mar 2014 15:10:19 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id p61so4797428wes.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Mar 2014 08:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ObYgRWQWD/igMc/6ZBwYTH9Gzd2VfM/FOcv0rdnn8Z4=;
+	b=Ar2nzkRkAdJiSPBhpTNfpUMpQc3VrGJiF02HHSqwv/EkQZxRFh0ufwdaONuG0UhkSW
+	n0gdJRDe3te2n0VIivni64UcQWYmep6gE7GtNt6DZDnOQwEMkQGIQxhbmqD96q6XmmnV
+	cptLQdJuSDU/QoJuznmw6vx8JViLpO6Rm+mdvA1+4ROWs7SyDm5gd8+5J1DeWy2rTX2I
+	iJ3uSaQAby6fAlZPQPEGSR4nvXFXNRz2O1PbOxFBVlwB3U9Q1Yv0y3ZT7RBtKJ0bviuc
+	gPELIpoyC2wL3DsaSjw+hD7rL0QoIV1WU9jUffKTClXgyd57lN+DsKAd82r1cUTiYSJZ
+	TV5g==
+X-Received: by 10.180.188.130 with SMTP id ga2mr5194603wic.18.1396278619756;
+	Mon, 31 Mar 2014 08:10:19 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	l42sm33652225eew.19.2014.03.31.08.10.18 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 31 Mar 2014 08:10:18 -0700 (PDT)
+Date: Mon, 31 Mar 2014 17:10:18 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+Message-ID: <20140331151018.GG2425@jama>
+References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
+	<1396275649-32352-2-git-send-email-kai.kang@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1396275649-32352-2-git-send-email-kai.kang@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,63 +47,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 15:09:54 -0000
+X-List-Received-Date: Mon, 31 Mar 2014 15:10:23 -0000
+X-Groupsio-MsgNum: 51925
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="uAgJxtfIS94j9H4T"
+Content-Disposition: inline
 
-In the default config openssh does reverse DNS resolution, but
-if there is no DNS configured on the target (or even worse the
-DNS server is unreachable) there is a long timeout when connecting
-over ssh. This is most visible on core-image-sato-sdk builds on AB, where the
-tests take a long time because each ssh command spends 15 seconds
-just connecting to the target, disabling the reverse DNS resolution halves
-the total test time.
-This isn't a qemu specific problem however and instead of changing the default
-config I think it's worth disabling this when debug-tweaks is enabled.
+--uAgJxtfIS94j9H4T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch based on a previous version sent by Saul Wold <sgw@linux.intel.com>
+On Mon, Mar 31, 2014 at 10:20:49PM +0800, Kai Kang wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>=20
+> When native package is built, use the uname to return the kernel version.
+>=20
+> When target is built, read kernel version from ${STAGING_KERNEL_DIR}/kern=
+el-abiversion
+> to avoid to use the hardcode kernel version.
 
-[YOCTO #5954]
+Doesn't it make nss MACHINE_ARCH like most virtual/kernel providers are?
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/classes/image.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-support/nss/nss.inc | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/=
+nss.inc
+> index 404decc..f24da68 100644
+> --- a/meta/recipes-support/nss/nss.inc
+> +++ b/meta/recipes-support/nss/nss.inc
+> @@ -26,6 +26,7 @@ SRC_URI_append_class-target =3D "\
+>  inherit siteinfo
+>  PR =3D "r0"
+>  DEPENDS =3D "sqlite3 nspr zlib nss-native"
+> +DEPENDS_append_class-target +=3D "virtual/kernel"
+>  DEPENDS_class-native =3D "sqlite3-native nspr-native zlib-native"
+>  RDEPENDS_${PN} =3D "perl"
+> =20
+> @@ -37,12 +38,24 @@ TARGET_CC_ARCH +=3D "${LDFLAGS}"
+>  do_compile_prepend_class-native() {
+>      export NSPR_INCLUDE_DIR=3D${STAGING_INCDIR_NATIVE}
+>      export NSPR_LIB_DIR=3D${STAGING_LIBDIR_NATIVE}
+> +    export OS_RELEASE=3D`uname -r`
+>  }
+> =20
+>  do_compile_prepend_class-nativesdk() {
+>      export LDFLAGS=3D""
+>  }
+> =20
+> +do_compile_prepend_class-target() {
+> +    export OS_RELEASE=3D`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed=
+ 's/-.*//'`
+> +}
+> +
+> +do_install_prepend_class-native() {
+> +    export OS_RELEASE=3D`uname -r`
+> +}
+> +
+> +do_install_prepend_class-target() {
+> +    export OS_RELEASE=3D`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed=
+ 's/-.*//'`
+> +}
+>  do_compile() {
+>      export CROSS_COMPILE=3D1
+>      export NATIVE_CC=3D"gcc"
+> @@ -57,7 +70,6 @@ do_compile() {
+>      export NSS_USE_SYSTEM_SQLITE=3D1
+>      export NSS_ENABLE_ECC=3D1
+> =20
+> -    export OS_RELEASE=3D3.4
+>      export OS_TARGET=3DLinux
+>      export OS_ARCH=3DLinux
+> =20
+> @@ -97,7 +109,6 @@ do_install() {
+>      export NSS_USE_SYSTEM_SQLITE=3D1
+>      export NSS_ENABLE_ECC=3D1
+> =20
+> -    export OS_RELEASE=3D3.4
+>      export OS_TARGET=3DLinux
+>      export OS_ARCH=3DLinux
+> =20
+> --=20
+> 1.8.1.2
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 29309f5..846c768 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -146,6 +146,8 @@ MACHINE_POSTPROCESS_COMMAND ?= ""
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "ssh_allow_empty_password; ", "",d)}'
- # Enable postinst logging if debug-tweaks is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "postinst_enable_logging; ", "",d)}'
-+# Disable DNS lookups if debug-tweaks is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "ssh_disable_dns_lookup; ", "",d)}'
- # Write manifest
- IMAGE_MANIFEST = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.manifest"
- ROOTFS_POSTPROCESS_COMMAND =+ "write_image_manifest ; "
-@@ -304,6 +306,12 @@ ssh_allow_empty_password () {
- 	fi
- }
- 
-+ssh_disable_dns_lookup () {
-+        if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-+            sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+        fi
-+}
-+
- # Enable postinst logging if debug-tweaks is enabled
- postinst_enable_logging () {
- 	mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/default
-@@ -374,7 +382,7 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
- }
- 
--EXPORT_FUNCTIONS zap_empty_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
-+EXPORT_FUNCTIONS zap_empty_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup ssh_disable_dns_lookup
- 
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
--- 
-1.9.0
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--uAgJxtfIS94j9H4T
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlM5hVoACgkQN1Ujt2V2gBwG2wCfZRrMT9ETdURZ8bNpmXMEYgyh
+QWgAn1B1jiP5Om/tPY98u+eGL+xE3lv4
+=RO90
+-----END PGP SIGNATURE-----
+
+--uAgJxtfIS94j9H4T--
