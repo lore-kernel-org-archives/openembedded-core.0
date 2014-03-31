@@ -1,39 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
-	[209.85.213.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E62016F61F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DC2556F61F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 14:03:18 +0000 (UTC)
-Received: by mail-yh0-f48.google.com with SMTP id z6so7581526yhz.35
+	Mon, 31 Mar 2014 14:07:29 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id m20so8941335qcx.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 07:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=AC82Blv0panGIFEt9bWSob7apU7aI+X30N4ST5wuglk=;
-	b=EneMB9xdAp3aC0j+rjZ97rilWib49tdSEDsOBh7KAp+UDPwnr2LIGMK+zhTys6yz5r
-	O/Rhq0W2aOS/Pxs/zRvLVBhOU6CfmbU7BeR9ItJWXA3X4OD5aHM7vLF6VoHTHZ1KDZlR
-	z8+O5IjRm3B2mmCicu/AFPrnidEzxa56hzV88J9LkzTulwGRChfWWHizCh2B562nUjrp
-	tzBBhO59LMfpFI0utbBVcV3L2so5WwUo7z6WjxrL245d+oCkqCvHCt7FlXBahKS+2ZgZ
-	piOgXbdgyFle8maG/J9lvd65oF3xr3gBGkUDcl0yDvzcECmXPaY+B6gA00hS48nuHx+i
-	ZvaQ==
-X-Received: by 10.236.150.205 with SMTP id z53mr36648202yhj.75.1396274599015; 
-	Mon, 31 Mar 2014 07:03:19 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id
-	u63sm24726220yhf.31.2014.03.31.07.03.15 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 31 Mar 2014 07:03:16 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 3A83B19EC5379; Mon, 31 Mar 2014 11:03:12 -0300 (BRT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Mar 2014 11:03:09 -0300
-Message-Id: <1396274589-1858-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.9.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3] packagegroup-core-tools-testapps: Move GLTOOLS to X11GLTOOLS
+	Mon, 31 Mar 2014 07:07:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nzqN0dVmfetmVRida0BXdcZ9RybRwMdMoRF4O6VnlOo=;
+	b=WpKwTgDOBHv8diM/Ydwedmt+mw8fYVUdb12SdQ4UqhtwYC3tDpFL1UhGhLy5FufaR2
+	rCb/ro2ZPqJpeqCc37/7Mk8udGcMJVTMeXxnT8WhJ8iEbR1CrPumy2Fh1tOPYQb3vvQx
+	IAawqrtuuciZGSDPpB+ZYPds9rKz2tk/BbywXtmjNxdfNW9+7cpsqHAB4OX4+euDCLDc
+	MwhvTOkW3aKpbbWFt54YV8Mj/dtCE8libaPrZnNbfjCUUoVViVLt4EwvqRRuMj/jJN/q
+	1yFkBj3ltI0BZHBOXy4FSgleAknH5dvl+irXlGO22pabDaHXWT3ikavf3wuE02G8NGgp
+	TAiQ==
+X-Gm-Message-State: ALoCoQkhMg2BvaQac4Hmxh6QBINb6xkB/byRsN8W4NCYjUgRLsTqXp1/oEgFHsF/DTRnMefYlGkx
+X-Received: by 10.140.42.9 with SMTP id b9mr3013586qga.87.1396274849977; Mon,
+	31 Mar 2014 07:07:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.27.167 with HTTP; Mon, 31 Mar 2014 07:07:09 -0700 (PDT)
+In-Reply-To: <f54eb96dbc54cf4fce2cfee8e865a1e6cc41c905.1396175372.git.liezhi.yang@windriver.com>
+References: <cover.1396175372.git.liezhi.yang@windriver.com>
+	<f54eb96dbc54cf4fce2cfee8e865a1e6cc41c905.1396175372.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 31 Mar 2014 15:07:09 +0100
+Message-ID: <CAJTo0LYNZB5MGTFctAHD6nA_m+yQeuTiYyztmeFLLF6NPBuQAw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gtk+3: set proper FLAGS for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 14:03:21 -0000
+X-List-Received-Date: Mon, 31 Mar 2014 14:07:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-piglit and mesa-demos are not buildable in x11-less distros so we must
-to add those only when opengl and x11 DISTRO_FEATURES are available.
+On 30 March 2014 11:30, Robert Yang <liezhi.yang@windriver.com> wrote:
+>++CFLAGS = @CFLAGS_FOR_BUILD@
+>++CPPFLAGS = @CPPFLAGS_FOR_BUILD@
+>++LDFLAGS = @LDFLAGS_FOR_BUILD@
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So the problem is that the environment is providing a CFLAGS variable
+that automake is then using for native builds alongside
+CFLAGS_FOR_BUILD.  Instead of replicating the variables, which this
+will do, would it be better to unset CFLAGS/CPPFLAGS/LDFLAGS in this
+makefile so the environment variables are not used? (as makefile
+assignments override environment assignments).
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index d8a7306..952fbd0 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -24,7 +24,7 @@ KEXECTOOLS_powerpc ?= ""
- KEXECTOOLS_e5500-64b ?= ""
- KEXECTOOLS_aarch64 ?= ""
- 
--GLTOOLS = "\
-+X11GLTOOLS = "\
-     mesa-demos \
-     piglit \
-     "
-@@ -58,6 +58,6 @@ RDEPENDS_${PN} = "\
-     connman-tests \
-     connman-client \
-     ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
--    ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
-+    ${@base_contains('DISTRO_FEATURES', 'x11 opengl', "${X11GLTOOLS}", "", d)} \
-     ${@base_contains('DISTRO_FEATURES', '3g', "${3GTOOLS}", "", d)} \
-     "
--- 
-1.9.1
-
+Ross
 
