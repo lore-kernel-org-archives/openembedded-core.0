@@ -1,30 +1,24 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 884A06EA2F
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 832806EA2F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 14:40:24 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 31 Mar 2014 07:35:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,765,1389772800"; d="scan'208";a="503572684"
-Received: from unknown (HELO [10.255.12.30]) ([10.255.12.30])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2014 07:39:53 -0700
-Message-ID: <1396276792.11878.24.camel@empanada>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
-Date: Mon, 31 Mar 2014 09:39:52 -0500
-In-Reply-To: <5338CA5F.2080104@gmail.com>
-References: <1394918271-14153-1-git-send-email-joaohf@gmail.com>
-	<CAP9ODKoAeOS46F4LqnaMGfJ_5QJKo=vnnRLOgHU0sRC4imRz3Q@mail.gmail.com>
-	<CANFVK7_uz3pr=WTdjqg8eXnfQzCSPnvaQq+kymud=YTj-8AV9g@mail.gmail.com>
-	<CAP9ODKqVPgoyH_XveWsJugSyHfBd0q0cccKWD2wkTMg7dKJd-Q@mail.gmail.com>
-	<5338CA5F.2080104@gmail.com>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] wic: Add --rootfs option to --source param
+	Mon, 31 Mar 2014 14:41:16 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,765,1389740400"; d="scan'208";a="43589514"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 31 Mar 2014 16:41:16 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
+	(TLS) id 14.2.318.1; Mon, 31 Mar 2014 16:41:16 +0200
+Received: from u75.usr.ingenico.loc (10.23.7.75) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.2.328.9; Mon, 31 Mar 2014 16:41:16 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 31 Mar 2014 17:39:55 +0200
+Message-ID: <1396280395-24687-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH] libomxil-0.9.3: fix configure unrecognised option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,101 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 14:40:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 31 Mar 2014 14:41:19 -0000
+Content-Type: text/plain
 
-On Sun, 2014-03-30 at 22:52 -0300, João Henrique Ferreira de Freitas
-wrote:
-> Hi Tom,
-> 
-> Let's back in this context. This is really important and I was waiting 
-> to complete the previous stage.
-> 
-> Em 17-03-2014 13:11, Otavio Salvador escreveu:
-> >>>
-> >>> If my understand is right, I like the feature. My only concern is
-> >>> people overusing it and adding contents which are not 'tracked' in the
-> >>> build system in a product release which seems attractive when we first
-> >>> think about it but cause some management, tracking and authenticity
-> >>> check problems in long term.
-> >>>
-> >>>
-> >>> I don't know how to better address this from wic perspective. Usually
-> >>> we end doing multiple images as part of the build process for those
-> >>> special cases and I don't know how wic could be 'told' about those
-> >>> secondary rootfs existence.
-> >>>
-> 
-> I have been working on it since Otavio's concerns about 'contents which 
-> are not tracked'.
-> 
-> So extending my previous patches (80% done) to handle this situation is 
-> quite easy. Like this:
-> 
-> bitbake directdisk-multi-image-e img1=core-image-minimal -e 
-> img2=core-image-minimal -e img3=core-image-minimal
-> 
-> directdisk-multi-image.wks:
-> 
-> part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos --label 
-> boot --active --align 1024
-> 
-> part / --source rootfs --image-name=img1 --ondisk sda --fstype=ext3 
-> --label primary --align 1024
-> 
-> part /standby --source rootfs --image-name=img2 --ondisk sda 
-> --fstype=ext3 --label secondary --align 1024
-> 
-> part /root --source rootfs --image-name=img3 --ondisk sda --fstype=ext3 
-> --label root_sec --align 1024
-> 
-> 
-> If the user put '--image-name' and '--rootfs-dir' the '--image-name' 
-> takes precedence.
-> 
-> As wic is a generic tool, the user could prefer to use images from OE or 
-> any other rootfs-dir.
-> 
-> Tom, what do you think? Could I go ahead?
-> 
+Drop --disable-ffmpegcomponents which is deprecated since libomxil-bellagio-0.9.1
+Components are external and are available separately here:
+http://sourceforge.net/projects/omxil/files/components/
+---
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-So is the idea that you want to allow the user the convenience of being
-able to use the equivalent of '-e imagename' for any partition, rather
-than having to explicitly specify the full path?
-
-'-e imagename' was always meant as just a convenience to the user, since
-currently the easiest way to generate the artifacts is to first create
-an oe image.  If you think about it, having to create an oe image or
-images in order to create another (wic-generated) image doesn't really
-make a lot of sense - it's basically just a temporary situation pending
-better integration, etc.  So for that reason, I wouldn't want to see the
-idea of an --image-name incorporated into the image-creation .wks files.
-
-But I think you could accomplish the same thing by just allowing the
-indirect string e.g. rootfs2 to resolve to either a full path, or as an
-image name, which would be treated as an instance of '-e image-name' for
-that partition.
-
-For example, we have the unmodified parttion in the .wks file as usual:
-
-  part /standby --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext3 --label secondary --align 1024
-
-Which could be resolved as either a full path to the rootfs dir:
-
-  wic create directdisk-multi-indirect-both --rootfs-dir rootfs2=/home/trz/yocto/master-cur/build/tmp/work/crownbay-poky-linux/core-image-minimal
-
-Or extracted from the '-e' ROOTFS_DIR output from the 'core-image-minimal' image:
-
-  wic create directdisk-multi-indirect-both --rootfs-dir rootfs2=core-image-minimal
-
-Does that make sense for this?
-
-Tom
-
-
-> Thanks
-> 
-
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index 4a7633d..103d789 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -1,11 +1,13 @@
+-SUMMARY = "Bellagio OpenMAX Integration Layer"
++SUMMARY = "Bellagio OpenMAX Integration Layer (IL)"
++DESCRIPTION = "Bellagio is an opensource implementation of the Khronos OpenMAX \
++               Integration Layer API to access multimedia components."
+ HOMEPAGE = "http://omxil.sourceforge.net/"
++
+ LICENSE = "LGPLv2.1+"
+ LICENSE_FLAGS = "commercial"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+                     file://src/omxcore.h;beginline=1;endline=27;md5=806b1e5566c06486fe8e42b461e03a90"
+ 
+-
+ SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
+            file://configure-fix.patch \
+            file://parallel-make.patch \
+@@ -19,7 +21,7 @@ S = "${WORKDIR}/${BPN}-bellagio-${PV}"
+ 
+ inherit autotools
+ 
+-EXTRA_OECONF += "--disable-ffmpegcomponents --disable-Werror"
++EXTRA_OECONF += "--disable-doc --disable-Werror"
+ 
+ FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
+                 ${libdir}/omxloaders/*${SOLIBS}"
+-- 
+1.8.5.4
 
 
