@@ -1,21 +1,28 @@
-Return-Path: <ricardo.neri-calderon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A3E76EDF9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 074F26EDF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 16:49:57 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Mar 2014 09:49:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,766,1389772800"; d="scan'208";a="503659229"
-Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.86]) ([10.3.52.86])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2014 09:49:47 -0700
-Message-ID: <1396284511.2792.120.camel@ranerica-desk01>
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 31 Mar 2014 09:48:31 -0700
-In-Reply-To: <1395344133-7310-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+	Mon, 31 Mar 2014 16:59:37 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s2VGxPUx019639; Mon, 31 Mar 2014 17:59:25 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rkc2Fdql7Azu; Mon, 31 Mar 2014 17:59:25 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s2VGxNgO019636
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 31 Mar 2014 17:59:24 +0100
+Message-ID: <1396285157.14790.80.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Date: Mon, 31 Mar 2014 17:59:17 +0100
+In-Reply-To: <1396284511.2792.120.camel@ranerica-desk01>
 References: <1395344133-7310-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+	<1396284511.2792.120.camel@ranerica-desk01>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2] runqemu: Add option for custom BIOS directory
@@ -31,71 +38,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 16:50:05 -0000
-Content-Type: text/plain; charset="TIS-620"
+X-List-Received-Date: Mon, 31 Mar 2014 16:59:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-03-20 at 12:35 -0700, Ricardo Neri wrote:
-> Add support to specify a directory for custom BIOS, VGA BIOS and
-> keymaps as supported by qemu (-L option). Even though this can be
-> done through qemuparams, having this option provides better user
-> experience by not having to specify a long and cluttered path along
-> with other qemuparams that the user might want to specify.
-> 
-> This new options assumes first that the path provided is relative to
-> OECORE_NATIVE_SYSROOT and will check whether it exists before proceeding.
-> If not, it will treat the provided path as absolute. This provides
-> the user flexibility to use BIOS binaries generated inside or outside
-> the OE build environment.
-> 
-> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-> ---
->  scripts/runqemu | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 619ffb6..b1d2d1a 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -149,6 +149,9 @@ while true; do
->              SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
->              SERIALSTDIO="1"
->              ;;
-> +	"biosdir="*)
-> +            CUSTOMBIOSDIR="${arg##biosdir=}"
-> +	    ;;
->          "qemuparams="*)
->              SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
->  
-> @@ -489,5 +492,21 @@ if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
->  INTERNAL_SCRIPT=`which runqemu-internal`
->  fi
->  
-> +# Specify directory for BIOS, VGA BIOS and keymaps
-> +if [ ! -z "$CUSTOMBIOSDIR" ]; then
-> +    if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
-> +        echo "Assuming biosdir is $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-> +        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-> +    else
-> +        if [ ! -d "$CUSTOMBIOSDIR" ]; then
-> +            echo "Custom BIOS directory not found. Tried: $CUSTOMBIOSDIR"
-> +            echo "and $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-> +            exit 1;
-> +        fi
-> +        echo "Assuming biosdir is $CUSTOMBIOSDIR"
-> +        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $CUSTOMBIOSDIR"
-> +    fi
-> +fi
-> +
->  . $INTERNAL_SCRIPT
->  exit $?
+On Mon, 2014-03-31 at 09:48 -0700, Ricardo Neri wrote:
+> I just wanted to check if there are comments about this patch.
 
-Hi!
+It merged 10 days ago:
 
-I just wanted to check if there are comments about this patch.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=68acafd7dc18f23707c95c90e871395ded81f84b
 
-BR,
-Ricardo
+Cheers,
 
+Richard
 
 
