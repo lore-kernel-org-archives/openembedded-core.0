@@ -1,39 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f44.google.com (mail-yh0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E79B56F8B6
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 992B46E9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 20:49:52 +0000 (UTC)
-Received: by mail-yh0-f44.google.com with SMTP id f10so8177494yha.17
+	Mon, 31 Mar 2014 21:09:26 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id p9so6358779lbv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 13:49:53 -0700 (PDT)
+	Mon, 31 Mar 2014 14:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=NPlc6beF/hbOLS8dvXnmH/E1rcxp1nB2HfzifzRcnF8=;
-	b=meVrwvpR6JDnV5D56fJ2PhdmfAhXiTKpk1CKRlscFwWridnb5PO9GvQaZHG2h24qz+
-	JAa5N1+/7p9LbVWFwUXeiUrhImt3mFrjnq83xqZdogtxuraWBMdyqPiT/oHiBWNtb1kX
-	HgKPlvGShurR3vznDPWdL0vnKm79UiKP6aXMLy/73zUpMzcD06kYLYuboxKqyBaf9Dk7
-	6ofh3NkSIzNk+U1x6dMV9n3SfwoeI1O7ZqLI9g/PUSopFOuOPsbvLUzHDJaXe0ak1QJE
-	3QPtC0h5jIT5waopswEja/SSOiAOtvFtWRlaQ1EGXEoOOtetS6w1hz0lUe3at4CuOt+M
-	IKDQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=6N0OC2KeGTBXc7dwBmAOJgqC7x9PcpA/Z6lZD0LPHxg=;
+	b=ZdmVXTC8+d3J1tI764NTd+Z2loYtRwjvOV2SIRYdvAhR9xi1r3IyOqjOwCtDm2XWed
+	t8AaKx4oQr9RrAXYDTUcbN0sSK2AxMZKs93b1KD4q0dwz/jXrIa8I/GQ5BmFB8SZZ8xM
+	ukYtIvC56vLHFwOjtcqZvcAaZ5EwAMHjB4PvMfAoprcOPmjBpV0AdbopjoilXInY3QsP
+	kfNQanxq0IIAgcmyNeEkTno+nwSOoFnQbN6s75N4JFOZQ2osZiJZh2S7vBm5U6uGDc9Q
+	1QHvGcdAZPGNHdvFwaOgPtfzYY3OmDnl5WG+Auf6f1DVc8mqcqYBJBhhKgrSgTwJzKOm
+	RG0w==
 MIME-Version: 1.0
-X-Received: by 10.236.40.12 with SMTP id e12mr4272604yhb.155.1396298993477;
-	Mon, 31 Mar 2014 13:49:53 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Mon, 31 Mar 2014 13:49:53 -0700 (PDT)
-In-Reply-To: <20140331151018.GG2425@jama>
-References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
-	<1396275649-32352-2-git-send-email-kai.kang@windriver.com>
-	<20140331151018.GG2425@jama>
-Date: Mon, 31 Mar 2014 17:49:53 -0300
-X-Google-Sender-Auth: jPh502yh-a2-6I7vi3CI80YQ2to
-Message-ID: <CAP9ODKriT1eZNb7g_sReHh8HuCuTN+ovCyV1hyYYoJRpL6OULg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
+X-Received: by 10.112.139.166 with SMTP id qz6mr19044952lbb.13.1396300167101; 
+	Mon, 31 Mar 2014 14:09:27 -0700 (PDT)
+Received: by 10.112.58.132 with HTTP; Mon, 31 Mar 2014 14:09:27 -0700 (PDT)
+In-Reply-To: <cover.1396288310.git.bruce.ashfield@windriver.com>
+References: <cover.1396288310.git.bruce.ashfield@windriver.com>
+Date: Mon, 31 Mar 2014 17:09:27 -0400
+Message-ID: <CADkTA4OYz=MoE-aKGp2m--A0Rt-CKubGfNYmxvoqCRZ4KbU=fQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
+Subject: Re: [PATCH 0/5] lnux-yocto: 3.14 updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,24 +42,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 20:49:56 -0000
+X-List-Received-Date: Mon, 31 Mar 2014 21:09:28 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Mar 31, 2014 at 12:10 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Mon, Mar 31, 2014 at 10:20:49PM +0800, Kai Kang wrote:
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> When native package is built, use the uname to return the kernel version.
->>
->> When target is built, read kernel version from ${STAGING_KERNEL_DIR}/kernel-abiversion
->> to avoid to use the hardcode kernel version.
+On Mon, Mar 31, 2014 at 1:56 PM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> Richard/Saul,
 >
-> Doesn't it make nss MACHINE_ARCH like most virtual/kernel providers are?
+> Here are the remaining changes from my previous pull request for linux-yocto
+> updates.
+>
+> Now that 3.14 has been released, we have the full 3.14 kernel and associated
+> libc-headers .. with no PV games.
 
-Yes.
+As a follow up to this, make sure that you have a clean sysroot when
+building, we've
+heard of a couple of perf build failures (again), that sound like the
+header file issues
+you'll see if an older kernel for a given machine is in the sysroot.
+
+I'm trying another build of qemux86 to see if I can duplicate any
+issues, but won't
+be around for a few hours to confirm or deny anything.
+
+Bruce
+
+>
+> There is one new change in the libc-headers series, to adapt to the xz compression
+> of new headers, but otherwise, it is the same as before.
+>
+> [
+>    Subject: [PATCH 2/5] linux-libc-headers: make compression format configurable
+>
+>    As of the 3.13 kernel bz2 compressed tarballs are not available. To support
+>    older header tarballs, and newer ones that require the 'xz' compressed
+>    bundles, we can break out a variable that allows versioned libc headers to
+>    select the archive format that works.
+>
+>    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ]
+>
+> I've built and booted qemu* for this, so everything appears to be sane.
+>
+> Cheers,
+>
+> Bruce
+>
+>
+> The following changes since commit 4f80de9a568bcf0280c7e8b8f89ee6c2adfa477d:
+>
+>   linux-yocto/3.10: fix qemuarm build failure (2014-03-30 23:53:00 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib zedd/kernel
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (5):
+>   linux-yocto/3.14: introduce versioned recipes
+>   linux-libc-headers: make compression format configurable
+>   linux-libc-headers: add 3.14 libc headers
+>   libc-headers: set TC default to 3.14
+>   linux-libc-headers: remove 3.10 recipe
+>
+>  meta/conf/distro/include/tcmode-default.inc        |  2 +-
+>  .../linux-libc-headers/linux-libc-headers.inc      |  4 +-
+>  ...1-ptrace.h-remove-ptrace_peeksiginfo_args.patch | 50 ------------------
+>  ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch | 34 -------------
+>  ...efile.headersinst-install-headers-from-sc.patch | 59 ----------------------
+>  .../linux-libc-headers/linux-libc-headers_3.10.bb  | 11 ----
+>  .../linux-libc-headers/linux-libc-headers_3.14.bb  |  7 +++
+>  meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb | 21 ++++++++
+>  meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 37 ++++++++++++++
+>  9 files changed, 69 insertions(+), 156 deletions(-)
+>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
+>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
+>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.14.bb
+>
+> --
+> 1.8.1.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
