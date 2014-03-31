@@ -1,40 +1,20 @@
 Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F0A46B8D0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B89816E79A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 08:52:45 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Mar 2014 01:52:46 -0700
+	Mon, 31 Mar 2014 09:48:34 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 31 Mar 2014 02:43:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,763,1389772800"; d="scan'208";a="510835342"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Mar 2014 01:52:45 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 31 Mar 2014 09:52:43 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX151.ger.corp.intel.com ([163.33.192.59]) with mapi id
-	14.03.0123.003; Mon, 31 Mar 2014 09:52:43 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Jia, Hongxu (Wind River)" <hongxu.jia@windriver.com>
-Thread-Topic: [OE-core] [PATCH 3/5] packagegroup-self-hosted: Use
-	packagegroup-core-buildessential
-Thread-Index: AQHPTLvBZNagI2JTjkSRkP6Afo0sJJr64V3w
-Date: Mon, 31 Mar 2014 08:52:43 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1CE75D4E@IRSMSX105.ger.corp.intel.com>
-References: <cover.1395996410.git.hongxu.jia@windriver.com>
-	<3ac712e3b9c2e6138fd34865a98a051ae16a45bf.1395996410.git.hongxu.jia@windriver.com>
-	<969F26A8BAB325438E7EB80D3C3134FB1CE744B2@IRSMSX105.ger.corp.intel.com>
-	<533927FA.3080600@windriver.com>
-In-Reply-To: <533927FA.3080600@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] packagegroup-self-hosted: Use packagegroup-core-buildessential
+X-IronPort-AV: E=Sophos;i="4.97,764,1389772800"; d="scan'208";a="503412347"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Mar 2014 02:48:02 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Mar 2014 12:51:20 +0300
+Message-Id: <cover.1396259433.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/1] Fix for YB6073
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,128 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 08:52:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 31 Mar 2014 09:48:34 -0000
 
-Hello,
+The following changes since commit 8210928e847fda7dbc145a94372b0beaf653a4f9:
 
-BA is short for Build Appliance, and corresponds to build-appliance-image t=
-arget.
-Like I previously said, only building BA is not a proper test.
-After the change that you proposed (a fine change, I might say), building i=
-mages in BA is another test that needs to be performed in order to validate=
- your change.
-See details here: https://www.yoctoproject.org/documentation/build-applianc=
-e-manual
+  yocto-bsps: remove linux-yocto 3.8 bbappend (2014-03-30 23:53:00 +0100)
 
-Regards,
-Cristian Iorga
-YP
-Intel Corporation
+are available in the git repository at:
 
------Original Message-----
-From: Hongxu Jia [mailto:hongxu.jia@windriver.com]=20
-Sent: Monday, March 31, 2014 11:32 AM
-To: Iorga, Cristian
-Cc: openembedded-core@lists.openembedded.org; Georgescu, Alexandru C
-Subject: Re: [OE-core] [PATCH 3/5] packagegroup-self-hosted: Use packagegro=
-up-core-buildessential
+  git://git.yoctoproject.org/poky-contrib ciorga/lsb-pam-enforcing
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/lsb-pam-enforcing
 
-On 03/29/2014 12:48 AM, Iorga, Cristian wrote:
-> Hello all,
->
-> This is an important patch, please make sure that BA still works correctl=
-y after this one gets merged (including properly building an image in BA).
+Cristian Iorga (1):
+  core-image-lsb: enforce pam as a needed distro feature
 
-Hi Cristian,
+ meta/recipes-extended/images/core-image-lsb.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I have built the build-appliance-image with this one merged, and everything=
- is ok, but I could not understand what the 'BA'
-means, would you please explain that?
-
-Thanks,
-//Hongxu
-
-> Thanks,
-> Cristian Iorga
-> YP
-> Intel Corporation
->
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org=20
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of=20
-> Hongxu Jia
-> Sent: Friday, March 28, 2014 11:44 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Wold, Saul
-> Subject: [OE-core] [PATCH 3/5] packagegroup-self-hosted: Use=20
-> packagegroup-core-buildessential
->
-> From: Mark Hatle <mark.hatle@windriver.com>
->
-> Instead of manually specifying build dependencies, use the packagegroup-c=
-ore-buildessential.  This ensures there is only one place that needs to be =
-modified when toolchain items and dependencies change.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 12 +-----=
-------
->   1 file changed, 1 insertion(+), 11 deletions(-)
->
-> diff --git=20
-> a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb=20
-> b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> index 5581d8e..fe49fb4 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> @@ -66,33 +66,23 @@ RRECOMMENDS_packagegroup-self-hosted-host-tools =3D=20
-> "\
->  =20
->   # eglibc-utils: for rpcgen
->   RDEPENDS_packagegroup-self-hosted-sdk =3D "\
-> -    autoconf \
-> -    automake \
-> -    binutils \
->       ccache \
->       coreutils \
-> -    cpp \
->       distcc \
->       eglibc-utils \
->       eglibc-gconv-ibm850 \
->       file \
->       findutils \
-> -    g++ \
-> -    gcc \
->       intltool \
->       ldd \
->       less \
->       libssp \
->       libssp-dev \
->       libssp-staticdev \
-> -    libstdc++ \
-> -    libstdc++-dev \
-> -    libtool \
-> -    make \
->       mktemp \
-> +    packagegroup-core-buildessential \
->       perl-module-re \
->       perl-module-text-wrap \
-> -    pkgconfig \
->       quilt \
->       sed \
->       "
-> --
-> 1.8.1.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+1.8.3.2
 
 
