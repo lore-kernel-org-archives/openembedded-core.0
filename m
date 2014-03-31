@@ -1,35 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 992B46E9D8
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D1EB6B8D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 21:09:26 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id p9so6358779lbv.10
+	Mon, 31 Mar 2014 21:23:21 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id hu19so8907493vcb.15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 14:09:27 -0700 (PDT)
+	Mon, 31 Mar 2014 14:23:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=6N0OC2KeGTBXc7dwBmAOJgqC7x9PcpA/Z6lZD0LPHxg=;
-	b=ZdmVXTC8+d3J1tI764NTd+Z2loYtRwjvOV2SIRYdvAhR9xi1r3IyOqjOwCtDm2XWed
-	t8AaKx4oQr9RrAXYDTUcbN0sSK2AxMZKs93b1KD4q0dwz/jXrIa8I/GQ5BmFB8SZZ8xM
-	ukYtIvC56vLHFwOjtcqZvcAaZ5EwAMHjB4PvMfAoprcOPmjBpV0AdbopjoilXInY3QsP
-	kfNQanxq0IIAgcmyNeEkTno+nwSOoFnQbN6s75N4JFOZQ2osZiJZh2S7vBm5U6uGDc9Q
-	1QHvGcdAZPGNHdvFwaOgPtfzYY3OmDnl5WG+Auf6f1DVc8mqcqYBJBhhKgrSgTwJzKOm
-	RG0w==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=vhL8llHmiUNQ3Zp2FJmXyTXezdBPPnehdVNxScWxihc=;
+	b=ch9HdMHXC9kVahNYWtBerYQL4SDGsQZ/Si9lLQNOe4H6SNzYmm/aQgrn++uvDGRdQO
+	jJSJQ3V7b4wTrRPXjttzDt58rvczafkHAFZghaK/JOLGW3FqpKji6AROaeJhJM2heTiW
+	hsDM55J9PmEjfWwOu63PAb3bPQMuXxtq+u9uYHEN7EKqquX/n3IfXdA3dWcnr5fZ+Neg
+	VlDlTdVO9DjY3F5Rlgr2A5urGT2ZICm615k6i7AYtlF2GrfC9m/GNUErPdOub7b+H0Au
+	NHLNaD339yJiJw5fA8KCISbGsH1KOCNQd9mNQ/DgX6L9OFbZ2KCkZ68+xly9WH8KD1EM
+	PyuA==
+X-Received: by 10.59.7.228 with SMTP id df4mr25428307ved.11.1396301001624;
+	Mon, 31 Mar 2014 14:23:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.112.139.166 with SMTP id qz6mr19044952lbb.13.1396300167101; 
-	Mon, 31 Mar 2014 14:09:27 -0700 (PDT)
-Received: by 10.112.58.132 with HTTP; Mon, 31 Mar 2014 14:09:27 -0700 (PDT)
-In-Reply-To: <cover.1396288310.git.bruce.ashfield@windriver.com>
-References: <cover.1396288310.git.bruce.ashfield@windriver.com>
-Date: Mon, 31 Mar 2014 17:09:27 -0400
-Message-ID: <CADkTA4OYz=MoE-aKGp2m--A0Rt-CKubGfNYmxvoqCRZ4KbU=fQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] lnux-yocto: 3.14 updates
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Mon, 31 Mar 2014 14:22:41 -0700 (PDT)
+In-Reply-To: <7bb935ada71d07f3496a2ff8d2d73fe003e09a4f.1395816581.git.liezhi.yang@windriver.com>
+References: <cover.1395816581.git.liezhi.yang@windriver.com>
+	<7bb935ada71d07f3496a2ff8d2d73fe003e09a4f.1395816581.git.liezhi.yang@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 31 Mar 2014 22:22:41 +0100
+X-Google-Sender-Auth: ub1TqTbvNxhJ--VwQhl-ArrAyk8
+Message-ID: <CANyK_8dNLRkz68AzGTQhOCx_rX=rzJhAjiRfKbyzHjkA28=UQA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] util-linux-native: fix qsort_r for CentOS 5.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,89 +44,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 21:09:28 -0000
+X-List-Received-Date: Mon, 31 Mar 2014 21:23:27 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Mar 31, 2014 at 1:56 PM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Richard/Saul,
+On 26 March 2014 07:01, Robert Yang <liezhi.yang@windriver.com> wrote:
+> The qsort_r() was added to glibc in version 2.8, so there is no qsort_r() on
+> the host like CentOS 5.x, use qsort() to fix it since they are nearly
+> identical.
 >
-> Here are the remaining changes from my previous pull request for linux-yocto
-> updates.
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../util-linux/util-linux-native-qsort.patch       |   34 ++++++++++++++++++++
+>  meta/recipes-core/util-linux/util-linux_2.24.1.bb  |    4 ++-
+>  2 files changed, 37 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
 >
-> Now that 3.14 has been released, we have the full 3.14 kernel and associated
-> libc-headers .. with no PV games.
+> diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch b/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+> new file mode 100644
+> index 0000000..1707683
+> --- /dev/null
+> +++ b/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+> @@ -0,0 +1,34 @@
+> +From f220d809be1baa654503bf6ff52f3630b0d7015c Mon Sep 17 00:00:00 2001
+> +From: Robert Yang <liezhi.yang@windriver.com>
+> +Date: Wed, 26 Mar 2014 01:30:29 +0000
+> +Subject: [PATCH] sun.c: use qsort() to instead of qsort_r()
+> +
+> +qsort_r() was added to glibc in version 2.8, so there is no qsort_r() on
+> +the host like CentOS 5.x.
+> +
+> +Upstream-Status: Inappropriate [Other]
+> +
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +---
+> + libfdisk/src/sun.c | 5 ++---
+> + 1 file changed, 2 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/libfdisk/src/sun.c b/libfdisk/src/sun.c
+> +index e73c701..f7899ec 100644
+> +--- a/libfdisk/src/sun.c
+> ++++ b/libfdisk/src/sun.c
+> +@@ -427,9 +427,8 @@ static int sun_verify_disklabel(struct fdisk_context *cxt)
+> +         else
+> +             array[i] = -1;
+> +     }
+> +-    qsort_r(array,ARRAY_SIZE(array),sizeof(array[0]),
+> +-        (int (*)(const void *,const void *,void *)) verify_sun_cmp,
+> +-        verify_sun_starts);
+> ++    qsort(array,ARRAY_SIZE(array),sizeof(array[0]),
+> ++        (int (*)(const void *,const void *)) verify_sun_cmp);
 
-As a follow up to this, make sure that you have a clean sysroot when
-building, we've
-heard of a couple of perf build failures (again), that sound like the
-header file issues
-you'll see if an older kernel for a given machine is in the sysroot.
+I've just been looking at this for building util-linux on top of musl
+(as musl-libc doesn't implement qsort_r)
+and my solution was to import a qsort_r implementation from ccl
+(https://ccl.googlecode.com/svn/trunk/qsort_r.c).
 
-I'm trying another build of qemux86 to see if I can duplicate any
-issues, but won't
-be around for a few hours to confirm or deny anything.
+Are you sure this solution works? verify_sun_cmp takes 3 parameters
+not 2 and it uses the 3rd parameter (data). From reading this I'd
+imagine a segfault is likely to occur in verify_sun_cmp if qsort is
+used instead of qsort_r.
 
-Bruce
-
+> +
+> +     if (array[0] == -1) {
+> +       fdisk_info(cxt, _("No partitions defined."));
+> +--
+> +1.8.2.1
+> +
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.24.1.bb b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+> index aa98b65..ab80ab6 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
+> @@ -4,7 +4,9 @@ require util-linux.inc
+>  # To support older hosts, we need to patch and/or revert
+>  # some upstream changes.  Only do this for native packages.
+>  OLDHOST = ""
+> -OLDHOST_class-native = "file://util-linux-native.patch"
+> +OLDHOST_class-native = "file://util-linux-native.patch \
+> +                        file://util-linux-native-qsort.patch \
+> +                       "
 >
-> There is one new change in the libc-headers series, to adapt to the xz compression
-> of new headers, but otherwise, it is the same as before.
->
-> [
->    Subject: [PATCH 2/5] linux-libc-headers: make compression format configurable
->
->    As of the 3.13 kernel bz2 compressed tarballs are not available. To support
->    older header tarballs, and newer ones that require the 'xz' compressed
->    bundles, we can break out a variable that allows versioned libc headers to
->    select the archive format that works.
->
->    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ]
->
-> I've built and booted qemu* for this, so everything appears to be sane.
->
-> Cheers,
->
-> Bruce
->
->
-> The following changes since commit 4f80de9a568bcf0280c7e8b8f89ee6c2adfa477d:
->
->   linux-yocto/3.10: fix qemuarm build failure (2014-03-30 23:53:00 +0100)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->
-> Bruce Ashfield (5):
->   linux-yocto/3.14: introduce versioned recipes
->   linux-libc-headers: make compression format configurable
->   linux-libc-headers: add 3.14 libc headers
->   libc-headers: set TC default to 3.14
->   linux-libc-headers: remove 3.10 recipe
->
->  meta/conf/distro/include/tcmode-default.inc        |  2 +-
->  .../linux-libc-headers/linux-libc-headers.inc      |  4 +-
->  ...1-ptrace.h-remove-ptrace_peeksiginfo_args.patch | 50 ------------------
->  ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch | 34 -------------
->  ...efile.headersinst-install-headers-from-sc.patch | 59 ----------------------
->  .../linux-libc-headers/linux-libc-headers_3.10.bb  | 11 ----
->  .../linux-libc-headers/linux-libc-headers_3.14.bb  |  7 +++
->  meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb | 21 ++++++++
->  meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 37 ++++++++++++++
->  9 files changed, 69 insertions(+), 156 deletions(-)
->  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
->  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
->  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
->  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
->  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.14.bb
->
+>  SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+>              file://util-linux-ng-2.16-mount_lock_path.patch \
 > --
-> 1.8.1.2
+> 1.7.10.4
 >
 > --
 > _______________________________________________
@@ -132,9 +134,11 @@ Bruce
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-
+Thanks,
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
