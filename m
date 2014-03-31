@@ -1,41 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AECFD6F7C6
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D2A060E07
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 17:31:39 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id i13so8208620qae.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 10:31:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4Vz4j+IN8nitp/D6Bz4FRxM+FUCLRTo/5V7byj4+W1s=;
-	b=FHHGUD2tsiVOst9eOuMpbloo0KB8dMxcDb542fHEPlqhU7tFmnO2SOrDtGOQmO0j9L
-	+yZRpfFZpjopZ7BjsAyKOCLvUNylZRLi5VPTdXqqfzFbVyhZfgen4wErdKLWkZLL6kkM
-	t6I0ndedoQylctx8hdiTV9OPfIdjo5P1jYGDLLdyguKsiAG1WSp+XnIQWw1uptu7y28k
-	MGu0o9Bt13HbnqydZitjDj3ZflSPD9IIRB7kM3BTnlo5nlRP7k8dElPmS/Z2rFxEcT2/
-	XZa3KBa+LhjcGhIRrgyGTGnW0UsTzer++6LK+l88OJ6s2h+B5ZVicjpeazFqtXT7jHDx
-	gEMg==
-X-Gm-Message-State: ALoCoQlmc/R31j+kSpsgNPN0kFk8thYt3DYA3ry7goyCNItPS0S0gmwbPgV9wwdXsoEC2C1TaCtT
-X-Received: by 10.224.75.5 with SMTP id w5mr10219860qaj.52.1396287100034; Mon,
-	31 Mar 2014 10:31:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Mon, 31 Mar 2014 10:31:18 -0700 (PDT)
-In-Reply-To: <1396285412.14790.83.camel@ted>
-References: <cover.1396259433.git.cristian.iorga@intel.com>
-	<1396259888.14790.58.camel@ted>
-	<1396267153.6418.5.camel@firebird.rb.intel.com>
-	<2505811.xE1RLRgDA1@peggleto-mobl5.ger.corp.intel.com>
-	<1396285412.14790.83.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 31 Mar 2014 18:31:18 +0100
-Message-ID: <CAJTo0LbWk+JrhRJwGVtbUJYBYR4qtmCj+tYy8gTnNAqfByGk_w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] core-image-lsb: enforce pam as a needed distro feature
+	Mon, 31 Mar 2014 17:38:08 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 31 Mar 2014 10:37:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,766,1389772800"; d="scan'208";a="484174471"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.43])
+	by orsmga001.jf.intel.com with ESMTP; 31 Mar 2014 10:37:38 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Mar 2014 10:37:38 -0700
+Message-Id: <1396287458-12576-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] image.bbclass: add function to disable SSH DNS Lookup for Qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,19 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 17:31:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 31 Mar 2014 17:38:13 -0000
 
-On 31 March 2014 18:03, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I kind of disagree with that, the LSB image can take into account
-> configuration in other parts of the system. If pam isn't configured, I'm
-> not sure that should automatically make it completely unbuildable...
+This function disables the reverse DNS lookup on QEMU targets to reduce the
+delay when using static IP address. By disabling DNS lookup we can save a great
+deal of time during automated testing on the autobuilder (on the order of ~400
+seconds per ssh tranaction). This is seen when using the testimage, there is a
+delay getting logged-in from the server to target.
 
-An image that claims to be LSB compliant but due to
-not-immediately-obvious DISTRO_FEATURES isn't actually doesn't seem
-like a good idea to me, fwiw.  If the LSB image requires PAM, X11 and
-so on then it should require the features.
+It's enabled for all qemu imgaes by default and can be overridden by setting
+the SSH_DISABLE_DNS_LOOKUP variable.
 
-Ross
+[YOCTO #5954]
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/image.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 29309f5..ea035fe 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -304,6 +304,16 @@ ssh_allow_empty_password () {
+ 	fi
+ }
+ 
++# Disable DNS lookups, the SSH_DISABLE_DNS_LOOKUP can be overridden to allow
++# distros to choose not to take this change
++SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
++ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
++ssh_disable_dns_lookup () {
++	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++	fi
++}
++
+ # Enable postinst logging if debug-tweaks is enabled
+ postinst_enable_logging () {
+ 	mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/default
+-- 
+1.8.3.1
+
 
