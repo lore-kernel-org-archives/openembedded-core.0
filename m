@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id DC2556F61F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A78AB6EC7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 14:07:29 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id m20so8941335qcx.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 07:07:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=nzqN0dVmfetmVRida0BXdcZ9RybRwMdMoRF4O6VnlOo=;
-	b=WpKwTgDOBHv8diM/Ydwedmt+mw8fYVUdb12SdQ4UqhtwYC3tDpFL1UhGhLy5FufaR2
-	rCb/ro2ZPqJpeqCc37/7Mk8udGcMJVTMeXxnT8WhJ8iEbR1CrPumy2Fh1tOPYQb3vvQx
-	IAawqrtuuciZGSDPpB+ZYPds9rKz2tk/BbywXtmjNxdfNW9+7cpsqHAB4OX4+euDCLDc
-	MwhvTOkW3aKpbbWFt54YV8Mj/dtCE8libaPrZnNbfjCUUoVViVLt4EwvqRRuMj/jJN/q
-	1yFkBj3ltI0BZHBOXy4FSgleAknH5dvl+irXlGO22pabDaHXWT3ikavf3wuE02G8NGgp
-	TAiQ==
-X-Gm-Message-State: ALoCoQkhMg2BvaQac4Hmxh6QBINb6xkB/byRsN8W4NCYjUgRLsTqXp1/oEgFHsF/DTRnMefYlGkx
-X-Received: by 10.140.42.9 with SMTP id b9mr3013586qga.87.1396274849977; Mon,
-	31 Mar 2014 07:07:29 -0700 (PDT)
+	Mon, 31 Mar 2014 14:21:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s2VELDQS019898
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 31 Mar 2014 07:21:13 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.169.1; Mon, 31 Mar 2014 07:21:12 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 31 Mar 2014 22:20:48 +0800
+Message-ID: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Mon, 31 Mar 2014 07:07:09 -0700 (PDT)
-In-Reply-To: <f54eb96dbc54cf4fce2cfee8e865a1e6cc41c905.1396175372.git.liezhi.yang@windriver.com>
-References: <cover.1396175372.git.liezhi.yang@windriver.com>
-	<f54eb96dbc54cf4fce2cfee8e865a1e6cc41c905.1396175372.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 31 Mar 2014 15:07:09 +0100
-Message-ID: <CAJTo0LYNZB5MGTFctAHD6nA_m+yQeuTiYyztmeFLLF6NPBuQAw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gtk+3: set proper FLAGS for native
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] nss: avoid to use the hardcode kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Mar 2014 14:07:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 31 Mar 2014 14:21:16 -0000
+Content-Type: text/plain
 
-On 30 March 2014 11:30, Robert Yang <liezhi.yang@windriver.com> wrote:
->++CFLAGS = @CFLAGS_FOR_BUILD@
->++CPPFLAGS = @CPPFLAGS_FOR_BUILD@
->++LDFLAGS = @LDFLAGS_FOR_BUILD@
+Hi Richard,
 
-So the problem is that the environment is providing a CFLAGS variable
-that automake is then using for native builds alongside
-CFLAGS_FOR_BUILD.  Instead of replicating the variables, which this
-will do, would it be better to unset CFLAGS/CPPFLAGS/LDFLAGS in this
-makefile so the environment variables are not used? (as makefile
-assignments override environment assignments).
+I don't quite understand what you mean "this makes nss machine specific". After update way for nss-native, I send this new version for review.
 
-Ross
+Thanks.
+
+Roy Li (1):
+  nss: avoid to use the hardcode kernel version
+
+ meta/recipes-support/nss/nss.inc | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+-- 
+1.8.1.2
+
 
