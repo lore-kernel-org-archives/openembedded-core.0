@@ -1,25 +1,28 @@
-Return-Path: <mac@mcrowe.com>
-Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
-	by mail.openembedded.org (Postfix) with ESMTP id D01DA6F8B7
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 80D896F8A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:11:57 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,771,1389744000"; d="scan'208";a="72411673"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 01 Apr 2014 11:11:55 +0100
-Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
-	(envelope-from <mac@mcrowe.com>)
-	id 1WUvfd-0001jz-RI; Tue, 01 Apr 2014 11:11:53 +0100
-Date: Tue, 1 Apr 2014 11:11:53 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140401101153.GA6306@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-	<1396344719.14790.94.camel@ted>
+	Tue,  1 Apr 2014 10:14:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s31AEDiU029007
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Apr 2014 03:14:13 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Tue, 1 Apr 2014 03:14:13 -0700
+Message-ID: <533A9171.40705@windriver.com>
+Date: Tue, 1 Apr 2014 18:14:09 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-In-Reply-To: <1396344719.14790.94.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
+To: <openembedded-core@lists.openembedded.org>
+References: <1396317576-25426-1-git-send-email-kai.kang@windriver.com>
+In-Reply-To: <1396317576-25426-1-git-send-email-kai.kang@windriver.com>
+X-Originating-IP: [128.224.162.231]
+Subject: Re: [PATCH] Fix some bash errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:12:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 01 Apr 2014 10:14:15 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040205070207090404020508"
 
-On Tuesday 01 April 2014 at 10:31:59 +0100, Richard Purdie wrote:
-> On Tue, 2014-04-01 at 10:16 +0100, Mike Crowe wrote:
-> > cmake detects the presence of curses automatically during configure so
-> > cmake-native must also depend on ncurses-native to stop it being removed
-> > from the sysroot during the build.
-> > 
-> > Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > ---
-> >  meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> > index 08b2c02..8d93b9a 100644
-> > --- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> > +++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> > @@ -2,7 +2,7 @@ require cmake.inc
-> >  inherit native
-> >  
-> >  # Using cmake's internal libarchive, so some dependencies are needed
-> > -DEPENDS += "bzip2-native zlib-native"
-> > +DEPENDS += "bzip2-native zlib-native ncurses-native"
-> >  
-> >  SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
-> >  
-> 
-> What does an ncurses enabled cmake give us that is desirable?
+--------------040205070207090404020508
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I'm not really sure.
+On 2014?04?01? 09:59, Kai Kang wrote:
+> Fix some errors for bash 3.2.48 by take patches from bash 4.3.
+>
+> Yong Zhang (1):
+>    bash-3.2.48: fix error path of getc_with_restart
+>
+>   .../bash-fix-error-path-of-getc_with_restart.patch | 41 ++++++++++++++++++++++
+>   .../bash-3.2.48/bash-fix-getc_with_restart.patch   | 28 +++++++++++++++
+>   meta/recipes-extended/bash/bash_3.2.48.bb          |  2 ++
+>   3 files changed, 71 insertions(+)
+>   create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch
+>   create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch
+>
 
-CMake's bootstrap configure script detects curses and tries to use it which
-causes build failures if curses has gone missing in the meantime.
+Please ignore it. Thanks.
 
-In the failure I saw bitbake was building cmake-native and ncurses-native
-in parallel in a tree that had previously been used to build for a
-different machine. This caused curses.h to be present during
-cmake-native.do_configure but go missing before or during
-cmake-native.do_compile.
+-- 
+Regards,
+Neil | Kai Kang
 
-It seems to be possible to disable building the "CursesDialog" component to
-remove the need for ncurses but I couldn't immediately see how to do that
-for a bootstrap build.
 
-The non-native cmake recipe depends on ncurses even though it passes
--DBUILD_CursesDialog=0.
+--------------040205070207090404020508
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Thanks.
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2014&#24180;04&#26376;01&#26085; 09:59, Kai Kang wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:1396317576-25426-1-git-send-email-kai.kang@windriver.com"
+      type="cite">
+      <pre wrap="">Fix some errors for bash 3.2.48 by take patches from bash 4.3.
 
-Mike.
+Yong Zhang (1):
+  bash-3.2.48: fix error path of getc_with_restart
 
+ .../bash-fix-error-path-of-getc_with_restart.patch | 41 ++++++++++++++++++++++
+ .../bash-3.2.48/bash-fix-getc_with_restart.patch   | 28 +++++++++++++++
+ meta/recipes-extended/bash/bash_3.2.48.bb          |  2 ++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch
+
+</pre>
+    </blockquote>
+    <font size="+1"><br>
+      <font size="+1">Please ignore it. Thanks.</font><br>
+    </font><br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------040205070207090404020508--
