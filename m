@@ -1,18 +1,29 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B67B6FA28
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 988A56F9F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 17:56:55 +0000 (UTC)
-Message-ID: <533AFDE4.1080809@communistcode.co.uk>
-Date: Tue, 01 Apr 2014 18:56:52 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	Tue,  1 Apr 2014 18:01:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s31I1EKu028024
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Apr 2014 11:01:14 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 1 Apr 2014 11:01:13 -0700
+Message-ID: <533AFEE9.6050001@windriver.com>
+Date: Tue, 1 Apr 2014 13:01:13 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <533AF862.5000201@linaro.org>
-In-Reply-To: <533AF862.5000201@linaro.org>
-Subject: Re: OE/TSC monthly IRC meeting notes - Apr 1 2014
+To: <openembedded-core@lists.openembedded.org>
+References: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>	<1396374241.5879.50.camel@phil-desktop.brightsign>	<1396374515.5879.54.camel@phil-desktop.brightsign>
+	<1396374702.2910.27.camel@ted>
+In-Reply-To: <1396374702.2910.27.camel@ted>
+Subject: Re: image.bbclass: USE_DEVFS is now useless
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,61 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 17:56:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 01 Apr 2014 18:01:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 4/1/14, 12:51 PM, Richard Purdie wrote:
+> On Tue, 2014-04-01 at 18:48 +0100, Phil Blundell wrote:
+>> Also note that the default for USE_DEVFS was (and is) 1, so the lack
+>> of this check is actually causing a difference in the default
+>> behaviour.  If there's no appetite for reinstating the USE_DEVFS
+>> mechanism per se then it seems like it would be a good idea to make
+>> the default IMAGE_DEVICE_TABLE be blank in order to restore the
+>> previous default of no /dev in the rootfs.
+>>
+>> At present you get a somewhat arbitrary-seeming smattering of devices
+>> from meta/files/device_table-minimal.txt, including such anachronisms
+>> as /dev/ttySA0 and /dev/apm_bios.  It's hard to imagine that anybody
+>> actually wants this stuff in their rootfs in this day and age.
+>
+> Can we kill apmd at the same time? Please? :)
 
+Isn't this still used on some ARM and MIPS targets?  (they emulate apm for basic 
+power management.)
 
-On 01/04/2014 18:33, Trevor Woerner wrote:
-> Here are my notes from today's monthly OE/TSC meeting which takes place
-> the first Tuesday of every month on freenode's #oe channel.
->
-> attendees: bluelightning, Jefro, RP, denix, tlwoerner, fray, nerdboy,
-> kergoth
->
-> topic #1: upcoming release
-> - schedule: https://wiki.yoctoproject.org/wiki/Yocto_1.6_Schedule
-> - check RP's email
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091378.html
-> - test report for rc1 is available:
-> https://wiki.yoctoproject.org/wiki/WW13_-_2014-03-26_-_Full_Pass_Release_1.6_M5.rc1
-> - optimism for a good 1.6 release
-> - enhancements such as READMEs still being accepted
-> - bug fixes (such as work on SOBBW issues) still being accepted
-> - bug metrics showing downward trend:
-> https://wiki.yoctoproject.org/charts/combo.html
->
-> topic #2: SOBBW (state of bitbake world) or world build status
-> - http://www.openembedded.org/wiki/Bitbake_World_Status
-> - fixing items on the list still needs lots of help, helpers needs a way
-> to organize themselves to avoid duplication (email, wiki, irc, ...)
-> - one cause/issue is people sending patches then disappearing, lots of
-> unmaintained recipes
-> - possible solutions: meta-nonworking, blacklist.bbclass, smaller "core"
-> layer
->
-> topic #3: website infrastructure and updates
-> - at ELCE2013 plans were made for a new
-> http://www.openembedded.org/wiki/Main_Page
-> - no plans yet for OE wiki cleanup
-> - unfortunately the people working on this weren't available to provide
-> an update
+If that's finally gone away -- I'd love to finally kill apmd and related.
 
-Almost there, ka6sox thinks he has the solution for fixing the PHP 
-issues we're having, spoke to him regarding it last week and he is on 
-track to fix it when he gets back from working away from home.
+--Mark
 
+> Cheers,
 >
-> open topics
-> - please make sure any requests for 1.7 are in bugzilla
-> - recipe style unification between OE and Yocto Project
+> Richard
 >
-> action items:
-> - RP to look for remnants of BROKEN = "1" (?)
-> - fray to move blacklist issue forward with JaMa
-> - tlwoerner to sync style guides
->
-> next meeting: May 6th 2014, same time, same place
->
+
 
