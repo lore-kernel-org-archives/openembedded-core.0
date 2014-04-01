@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 970116BA1D
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C7D286E7CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 09:32:17 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s319WC70012630; Tue, 1 Apr 2014 10:32:13 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TgPKOBxIEC7k; Tue,  1 Apr 2014 10:32:12 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s319W5Cn012617
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 10:32:06 +0100
-Message-ID: <1396344719.14790.94.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Tue, 01 Apr 2014 10:31:59 +0100
-In-Reply-To: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
+	Tue,  1 Apr 2014 10:00:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2014 03:00:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,771,1389772800"; d="scan'208";a="511734165"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2014 03:00:09 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.160])
+	by linux.intel.com (Postfix) with ESMTP id B7F3D6A4083;
+	Tue,  1 Apr 2014 02:59:53 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Apr 2014 13:00:30 +0300
+Message-Id: <1396346430-12927-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] qemux86-64: re-enable paravirt guest, bring it in sync with qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 09:32:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 10:00:36 -0000
 
-On Tue, 2014-04-01 at 10:16 +0100, Mike Crowe wrote:
-> cmake detects the presence of curses automatically during configure so
-> cmake-native must also depend on ncurses-native to stop it being removed
-> from the sysroot during the build.
-> 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> ---
->  meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> index 08b2c02..8d93b9a 100644
-> --- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> +++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> @@ -2,7 +2,7 @@ require cmake.inc
->  inherit native
->  
->  # Using cmake's internal libarchive, so some dependencies are needed
-> -DEPENDS += "bzip2-native zlib-native"
-> +DEPENDS += "bzip2-native zlib-native ncurses-native"
->  
->  SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
->  
+Seems wrong that qemux86 has this enabled and qemux86-64 doesn't.
+Also this will allow people to use kvm with -cpu=host.
+Right now, runqemu qemux86-64 kvm uses -cpu=kvm64 because without this
+feature you can't use cpu=host on newer host kernels (>= 3.8).
 
-What does an ncurses enabled cmake give us that is desirable?
+This basically reverts poky e6149ec6c4c14d3a939022cdc29ac94dced836dd /
+oe-core 64749308fadabb4aa7c39f360c6395827bc5eb3a
+The reason of that commit (which is more than a year old) was that on
+the AB running old kernels (2.6.37) we would see occasional shutdown failures.
+(but if memory serves me right the fix might have been just a coincidence).
 
-Cheers,
+I've tested this change with by:
+  - run tests on runqemu qemux86-64 (without kvm) (300 seconds)
+  - run tests on runqemu qemux86-64 kvm (which uses by default cpu=kvm64) - (tests
+took 20 seconds)
+  - run tests on runqemu qemux86-64 kvm with cpu=host - (tests took 18 seconds)
 
-Richard
+[ YOCTO #5956 ]
 
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index d5202cd..46c4260 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -33,5 +33,5 @@ COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+-KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+-- 
+1.9.0
 
 
