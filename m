@@ -1,25 +1,28 @@
-Return-Path: <Florin.Sarbu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3365E6E849
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A34F66B5D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:16:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s31AGlAc027559
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 03:16:47 -0700 (PDT)
-Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.170.220) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Tue, 1 Apr 2014 03:16:46 -0700
-From: Florin Sarbu <florin.sarbu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Apr 2014 13:16:40 +0300
-Message-ID: <1396347400-9699-1-git-send-email-florin.sarbu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue,  1 Apr 2014 10:34:33 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2014 03:29:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,771,1389772800"; d="scan'208";a="512255965"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.155])
+	by orsmga002.jf.intel.com with ESMTP; 01 Apr 2014 03:34:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Denys Dmytriyenko <denis@denix.org>,
+	Trevor Woerner <trevor.woerner@linaro.org>
+Date: Tue, 01 Apr 2014 11:34:30 +0100
+Message-ID: <1408875.vOoHbV3s3t@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <20140401051847.GZ3370@denix.org>
+References: <533A3AC0.7010809@linaro.org> <533A4624.3000200@linaro.org>
+	<20140401051847.GZ3370@denix.org>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.170.220]
-Subject: [PATCH] libpcap.inc: Add PACKAGECONFIG support for bluez
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: OE monthy today (?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:16:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 01 Apr 2014 10:34:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This patch adds support for having bluez5 in PACKAGECONFIG
-and get libpcap DEPEND on bluez5.
+On Tuesday 01 April 2014 01:18:47 Denys Dmytriyenko wrote:
+> On Tue, Apr 01, 2014 at 12:52:52AM -0400, Trevor Woerner wrote:
+> > On 04/01/14 00:34, Denys Dmytriyenko wrote:
+> > > On Tue, Apr 01, 2014 at 12:04:16AM -0400, Trevor Woerner wrote:
+> > >> ...in roughly 12 hours from now?
+> > > 
+> > > ?
+> > 
+> > I'm referring to the monthly OE meeting that's held on IRC. I'm trying
+> > to confirm it takes place today and is scheduled for noon EST.
+> 
+> Did you mean TSC/workgroup meeting? Nothing from Paul yet...
 
-Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
----
- meta/recipes-connectivity/libpcap/libpcap.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+It's that time again, yes. I'll send something out.
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
-index a984e05..1613567 100644
---- a/meta/recipes-connectivity/libpcap/libpcap.inc
-+++ b/meta/recipes-connectivity/libpcap/libpcap.inc
-@@ -10,8 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
-                     file://pcap.h;beginline=1;endline=34;md5=8d6cf7e17d5745010d633e30bc529ea9"
- DEPENDS = "flex-native bison-native libnl"
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
--PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)}"
-+PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-+PACKAGECONFIG[bluez5] = "--enable-bluetooth,--disable-bluetooth,bluez5"
- PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
- PACKAGECONFIG[libnl1] = "--with-libnl,--without-libnl,libnl1,libnl1"
- 
+(I really need to get better at sending these in advance - sorry!)
+
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
