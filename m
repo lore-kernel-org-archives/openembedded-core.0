@@ -1,38 +1,39 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 89B156F89F
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DB5F6B7D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 11:24:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2014 04:24:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,771,1389772800"; d="scan'208";a="504258741"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2014 04:24:07 -0700
-Received: from irsmsx101.ger.corp.intel.com (163.33.3.153) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 1 Apr 2014 12:23:11 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.248]) with mapi id
-	14.03.0123.003; Tue, 1 Apr 2014 12:23:11 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Sarbu, Florin-Ionut (Wind River)" <florin.sarbu@windriver.com>
-Thread-Topic: [OE-core] [PATCH] connman.inc: Add PACKAGECONFIG support for
-	bluez5
-Thread-Index: AQHPTZKJhiyv5K9pxUm65LZ9kMsX3pr8hKmAgAAX3FA=
-Date: Tue, 1 Apr 2014 11:23:10 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1CE76D4F@IRSMSX105.ger.corp.intel.com>
-References: <1396346945-3782-1-git-send-email-florin.sarbu@windriver.com>
-	<1396349467.1432.4.camel@ted>
-In-Reply-To: <1396349467.1432.4.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Tue,  1 Apr 2014 11:41:39 +0000 (UTC)
+Received: by mail-vc0-f174.google.com with SMTP id ld13so9561741vcb.33
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Apr 2014 04:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=/X2YOo2uibHzgDBZXQrcbVB1LOIrlfQBCDU0MBwAtxc=;
+	b=KW0EPA49Lq6qDmp2qx6gn7AjEWwiyUm/I+xIvzsdB/MgwsMCWYeF6iwQBPEtaOcW23
+	q5Pod9a7CVBLXGC2HTfQG6NXL+FakAwWapADo365KeFZg9rM1CFEM07W3g3av96MLLnp
+	nr0LPoO24ghvam2nMRZpjUirGS4LWo93FJr2wWknwpYAJ89T6z1QlVdfhUtaxNypWUbt
+	yoZAbK0ad9MAbD9Ea5/k4WdHdOc8tW0Kd4SIwlmZHs+Uf2jSW9qLvchzat8gdjuFDm2g
+	0iLpltC2YG0/t6o54mP4Ccffaz+1HNjO93xN3FmMIqH+hnJZqGEKqeS5R10jdEB7bbzh
+	BEBA==
+X-Received: by 10.221.4.66 with SMTP id ob2mr885522vcb.28.1396352500158; Tue,
+	01 Apr 2014 04:41:40 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman.inc: Add PACKAGECONFIG support for bluez5
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Tue, 1 Apr 2014 04:41:00 -0700 (PDT)
+In-Reply-To: <533A17B0.5080108@windriver.com>
+References: <cover.1395816581.git.liezhi.yang@windriver.com>
+	<7bb935ada71d07f3496a2ff8d2d73fe003e09a4f.1395816581.git.liezhi.yang@windriver.com>
+	<CANyK_8dNLRkz68AzGTQhOCx_rX=rzJhAjiRfKbyzHjkA28=UQA@mail.gmail.com>
+	<533A17B0.5080108@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 1 Apr 2014 12:41:00 +0100
+X-Google-Sender-Auth: TI5YYL_MShClmXy1WJkSl1CN8Vk
+Message-ID: <CANyK_8cr88xbYcQTjf4hppA+nh-+3LNkwpPm7ynF+USLKo64ng@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] util-linux-native: fix qsort_r for CentOS 5.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,100 +46,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 11:24:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 01 Apr 2014 11:41:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi all,
+On 1 April 2014 02:34, Robert Yang <liezhi.yang@windriver.com> wrote:
+>
+>
+> On 04/01/2014 05:22 AM, Paul Barker wrote:
+>>
+>> On 26 March 2014 07:01, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>
+>>> The qsort_r() was added to glibc in version 2.8, so there is no qsort_r()
+>>> on
+>>> the host like CentOS 5.x, use qsort() to fix it since they are nearly
+>>> identical.
+>>>
+>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>> ---
+>>>   .../util-linux/util-linux-native-qsort.patch       |   34
+>>> ++++++++++++++++++++
+>>>   meta/recipes-core/util-linux/util-linux_2.24.1.bb  |    4 ++-
+>>>   2 files changed, 37 insertions(+), 1 deletion(-)
+>>>   create mode 100644
+>>> meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+>>> b/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+>>> new file mode 100644
+>>> index 0000000..1707683
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
+>>> @@ -0,0 +1,34 @@
+>>> +From f220d809be1baa654503bf6ff52f3630b0d7015c Mon Sep 17 00:00:00 2001
+>>> +From: Robert Yang <liezhi.yang@windriver.com>
+>>> +Date: Wed, 26 Mar 2014 01:30:29 +0000
+>>> +Subject: [PATCH] sun.c: use qsort() to instead of qsort_r()
+>>> +
+>>> +qsort_r() was added to glibc in version 2.8, so there is no qsort_r() on
+>>> +the host like CentOS 5.x.
+>>> +
+>>> +Upstream-Status: Inappropriate [Other]
+>>> +
+>>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>> +---
+>>> + libfdisk/src/sun.c | 5 ++---
+>>> + 1 file changed, 2 insertions(+), 3 deletions(-)
+>>> +
+>>> +diff --git a/libfdisk/src/sun.c b/libfdisk/src/sun.c
+>>> +index e73c701..f7899ec 100644
+>>> +--- a/libfdisk/src/sun.c
+>>> ++++ b/libfdisk/src/sun.c
+>>> +@@ -427,9 +427,8 @@ static int sun_verify_disklabel(struct fdisk_context
+>>> *cxt)
+>>> +         else
+>>> +             array[i] = -1;
+>>> +     }
+>>> +-    qsort_r(array,ARRAY_SIZE(array),sizeof(array[0]),
+>>> +-        (int (*)(const void *,const void *,void *)) verify_sun_cmp,
+>>> +-        verify_sun_starts);
+>>> ++    qsort(array,ARRAY_SIZE(array),sizeof(array[0]),
+>>> ++        (int (*)(const void *,const void *)) verify_sun_cmp);
+>>
+>>
+>> I've just been looking at this for building util-linux on top of musl
+>> (as musl-libc doesn't implement qsort_r)
+>> and my solution was to import a qsort_r implementation from ccl
+>> (https://ccl.googlecode.com/svn/trunk/qsort_r.c).
+>>
+>
+> Maybe we can do it in YP 1.7.
+>
+>
+>> Are you sure this solution works? verify_sun_cmp takes 3 parameters
+>> not 2 and it uses the 3rd parameter (data). From reading this I'd
+>> imagine a segfault is likely to occur in verify_sun_cmp if qsort is
+>> used instead of qsort_r.
+>>
+>
+> I think it works well since there is a similar patch before we upgrade
+> the util-linux-native, I will verify later.
+>
 
-I would also say that is an important change, with some possible unforeseen=
- consequences.
-The YP is in the stabilization phase for 1.6 release.
-In my opinion, the support for and change to BlueZ (overall) should be post=
-poned to 1.7.
-Also, this not the proper solution, because, in the end, if BlueZ4 will sti=
-ll be around in 1.7 (which is not my intention, to be honest), this will be=
- worked out with a Bluetooth stack provider (which can be BZ4 or, preferabl=
-y, BZ5).
+The more I look at it the more I don't like this patch. It's probably
+a very rarely used code path but it could blow up if it's called. C
+provides no guarantees that calling a 3-argument function with only 2
+arguments will work. Depending on calling convention it could easily
+result in stack corruption on some platforms.
 
-I vote against this patch.
+I'd suggest we try reverting the relevant bits of the upstream change
+from qsort to
+qsort_r: http://git.kernel.org/cgit/utils/util-linux/util-linux.git/commit/?id=c69bbca9c1f6645097bd20fe3a21f5a99a2a0698
 
-Regards,
-Cristian Iorga
-YP
-Intel Corporation
+I think it should just be the first 3 patch hunks in that commit.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-Sent: Tuesday, April 1, 2014 1:51 PM
-To: Sarbu, Florin-Ionut (Wind River)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] connman.inc: Add PACKAGECONFIG support for b=
-luez5
+-- 
+Paul Barker
 
-On Tue, 2014-04-01 at 13:09 +0300, Florin Sarbu wrote:
-> Currently connman can only RDEPEND on bluez4.
-> This patch adds support for having bluez5 in PACKAGECONFIG and get=20
-> connman RDEPEND on bluez5 if desired.
->=20
-> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
-> ---
->  meta/recipes-connectivity/connman/connman.inc | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-connectivity/connman/connman.inc=20
-> b/meta/recipes-connectivity/connman/connman.inc
-> index b3147c9..53a6a4f 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -32,7 +32,7 @@ EXTRA_OECONF +=3D "\
-> =20
->  PACKAGECONFIG ??=3D "wispr \
->                     ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', ''=
-, d)} \
-> -                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','blue=
-tooth', '', d)} \
-> +                   ${@base_contains('DISTRO_FEATURES',=20
-> + 'bluetooth','bluez4', '', d)} \
->                     ${@base_contains('DISTRO_FEATURES', '3g','3g', '',=20
-> d)} \  "
-> =20
-> @@ -42,6 +42,7 @@ PACKAGECONFIG ??=3D "wispr \
-> =20
->  PACKAGECONFIG[wifi] =3D "--enable-wifi, --disable-wifi, wpa-supplicant"
->  PACKAGECONFIG[bluetooth] =3D "--enable-bluetooth, --disable-bluetooth, b=
-luez4"
-
-You renamed the option above but didn't here and hence broke bluez4.
-This is not the quality of patch expected at -rc time for a release :(.
-
-Cheers,
-
-Richard
-
-> +PACKAGECONFIG[bluez5] =3D "--enable-bluetooth, --disable-bluetooth, blue=
-z5"
->  PACKAGECONFIG[3g] =3D "--enable-ofono, --disable-ofono, ofono"
->  PACKAGECONFIG[tist] =3D "--enable-tist,--disable-tist,"
->  PACKAGECONFIG[openvpn] =3D "--enable-openvpn --with-openvpn=3D${sbindir}=
-/openvpn,--disable-openvpn,,openvpn"
-> @@ -114,6 +115,7 @@ RPROVIDES_${PN} =3D "\  RDEPENDS_${PN} =3D "\
->  	dbus \
->  	${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
-> +	${@base_contains('PACKAGECONFIG', 'bluez5', 'bluez5', '', d)} \
->  	${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
->  	${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
->  	xuser-account \
-> --
-> 1.9.1
->=20
-
-
---=20
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
