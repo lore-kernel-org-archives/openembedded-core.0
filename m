@@ -1,25 +1,40 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id A948B6AFB5
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 619C96F5BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 03:54:12 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N3C00BF42UDYY00@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 31 Mar 2014 22:54:13 -0500 (CDT)
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 245CC2009B; Mon,
-	31 Mar 2014 23:54:13 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Mar 2014 23:54:11 -0400
-Message-id: <1396324451-26983-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 1.9.1
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
+	Tue,  1 Apr 2014 04:04:16 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id hn18so4363615igb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Mar 2014 21:04:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=p1XqiRiM93x765jQkS+5awAZuNguRLiRtaY58tDJKEc=;
+	b=Wt8qK3SEl3qXjyWrZ5SeRSnvHc0Mblk12E2Wf5lTvFiOFDZ1iPkBmFKz/Ljhp9qjde
+	ONOjZYYipUTiZooe9Y8wixS/mvKRYZ9sflFnvHwz/BhJGLDYmNGLqJ4FDSxJGUF7QMZ4
+	aFItwJwEPN15S7QnpIrQT2SUNvCQomYiayZ2H8cSLgTee8glhQx6MUNfU7/JxkEoeZim
+	46XOOiMsdSAKJGZ4W4LpLdQU7jYb1kqG/z2jSXYfWk/c64ZVzVaaDQGnieKcTsIoh5Sd
+	Y/qPTvn2Z6Dm+e4ac2qJW2y5b2Psc9RDzCrE8o0LMz+eRhTBxIcMSawR3MkGH85RUMGG
+	BMOw==
+X-Gm-Message-State: ALoCoQkC47Z+cpVDD8MBDr+eksnPEuZ3OC59sQ/gRIbtQdQzhrG0fwv0vze+aM58yeD2/wcMC8G0
+X-Received: by 10.43.64.10 with SMTP id xg10mr25207875icb.43.1396325057694;
+	Mon, 31 Mar 2014 21:04:17 -0700 (PDT)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id dz8sm29645233igb.5.2014.03.31.21.04.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 31 Mar 2014 21:04:17 -0700 (PDT)
+Message-ID: <533A3AC0.7010809@linaro.org>
+Date: Tue, 01 Apr 2014 00:04:16 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OE monthy today (?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,102 +47,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 03:54:16 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 04:04:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Denys Dmytriyenko <denys@ti.com>
-
-This is done to work around the issue of auto-mounting block devices
-(i.e. SD cards) when root filesystem is still in read-only mode and
-creating /media/<device> mount-points by udev is not possible. That
-is due to udev (/etc/rcS.d/S03udev) getting started earlier than
-checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
-rootfs as read-write.
-
-Although, canonical FHS specifies /media/<device> as a mount point
-for removable media devices, the latest 2.3 version was released in
-2004 and since then FreeDesktop/udisks and other tools adopted the
-new /run/media/<user>/<device> location. That was done to overcome
-read-only rootfs limitation, since /run is usually a tmpfs mounted
-partition, plus avoid name-clash between users.
-
-For our embedded systems environment we assume single-user operation
-and hence simplify mount point to just /run/media/<device>. But for
-proper per-user mounting to /run/media/<user>/<device>, some sort of
-session management is required along with the tool like udisks, that
-is out of scope of this simple udev-based auto-mounting.
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
-v2 - drop PR, bump PV, elaborate on session/user mounting option
-
- meta/recipes-core/udev/udev-extraconf/mount.sh             | 14 +++++++-------
- .../udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb}  |  2 --
- 2 files changed, 7 insertions(+), 9 deletions(-)
- rename meta/recipes-core/udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb} (99%)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index cb57e47..3e4f21f 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -20,7 +20,7 @@ done
- automount() {	
- 	name="`basename "$DEVNAME"`"
- 
--	! test -d "/media/$name" && mkdir -p "/media/$name"
-+	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
- 	# Silent util-linux's version of mounting auto
- 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
- 	then
-@@ -38,12 +38,12 @@ automount() {
- 		;;
- 	esac
- 
--	if ! $MOUNT -t auto $DEVNAME "/media/$name"
-+	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
- 	then
--		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
--		rm_dir "/media/$name"
-+		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-+		rm_dir "/run/media/$name"
- 	else
--		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
-+		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
- 		touch "/tmp/.automount-$name"
- 	fi
- }
-@@ -60,7 +60,7 @@ rm_dir() {
- 
- # No ID_FS_TYPE for cdrom device, yet it should be mounted
- name="`basename "$DEVNAME"`"
--[ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
-+[ -e /sys/block/$name/device/run/media ] && media_type=`cat /sys/block/$name/device/run/media`
- 
- if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
- 	if [ -x "$PMOUNT" ]; then
-@@ -87,5 +87,5 @@ if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
- 	
- 	# Remove empty directories from auto-mounter
- 	name="`basename "$DEVNAME"`"
--	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
-+	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
- fi
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-similarity index 99%
-rename from meta/recipes-core/udev/udev-extraconf_1.0.bb
-rename to meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 3810b28..d69056d 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -4,8 +4,6 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--PR = "r16"
--
- SRC_URI = " \
-        file://automount.rules \
-        file://mount.sh \
--- 
-1.9.1
-
+...in roughly 12 hours from now?
 
