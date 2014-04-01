@@ -1,25 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F4D86F8DE
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id A948B6AFB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 02:57:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s312vMAb005107
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 19:57:22 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Mon, 31 Mar 2014 19:57:21 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Apr 2014 10:57:15 +0800
-Message-ID: <1396321035-29904-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH] kernel: don't populate source symbolic link
+	Tue,  1 Apr 2014 03:54:12 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173025.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N3C00BF42UDYY00@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 31 Mar 2014 22:54:13 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 245CC2009B; Mon,
+	31 Mar 2014 23:54:13 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Mar 2014 23:54:11 -0400
+Message-id: <1396324451-26983-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 1.9.1
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +32,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 02:57:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 01 Apr 2014 03:54:16 -0000
 
-From: Ming Liu <ming.liu@windriver.com>
+From: Denys Dmytriyenko <denys@ti.com>
 
-/usr/src/kernel/source deployed by kernel-dev package is symbolically
-linking to a build-time kernel source folder, which make no sense when
-cross-compiling.
+This is done to work around the issue of auto-mounting block devices
+(i.e. SD cards) when root filesystem is still in read-only mode and
+creating /media/<device> mount-points by udev is not possible. That
+is due to udev (/etc/rcS.d/S03udev) getting started earlier than
+checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
+rootfs as read-write.
 
-Fixed by not populating it at install stage.
+Although, canonical FHS specifies /media/<device> as a mount point
+for removable media devices, the latest 2.3 version was released in
+2004 and since then FreeDesktop/udisks and other tools adopted the
+new /run/media/<user>/<device> location. That was done to overcome
+read-only rootfs limitation, since /run is usually a tmpfs mounted
+partition, plus avoid name-clash between users.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+For our embedded systems environment we assume single-user operation
+and hence simplify mount point to just /run/media/<device>. But for
+proper per-user mounting to /run/media/<user>/<device>, some sort of
+session management is required along with the tool like udisks, that
+is out of scope of this simple udev-based auto-mounting.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2 - drop PR, bump PV, elaborate on session/user mounting option
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 19b159b..6ed1cb7 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -232,7 +232,7 @@ kernel_do_install() {
- 	# dir. This ensures the original Makefiles are used and not the
- 	# redirecting Makefiles in the build directory.
- 	#
--	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
-+	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
- 	cp .config $kerneldir
- 	if [ "${S}" != "${B}" ]; then
- 		pwd="$PWD"
+ meta/recipes-core/udev/udev-extraconf/mount.sh             | 14 +++++++-------
+ .../udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb}  |  2 --
+ 2 files changed, 7 insertions(+), 9 deletions(-)
+ rename meta/recipes-core/udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb} (99%)
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index cb57e47..3e4f21f 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -20,7 +20,7 @@ done
+ automount() {	
+ 	name="`basename "$DEVNAME"`"
+ 
+-	! test -d "/media/$name" && mkdir -p "/media/$name"
++	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+ 	# Silent util-linux's version of mounting auto
+ 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
+ 	then
+@@ -38,12 +38,12 @@ automount() {
+ 		;;
+ 	esac
+ 
+-	if ! $MOUNT -t auto $DEVNAME "/media/$name"
++	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
+ 	then
+-		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
+-		rm_dir "/media/$name"
++		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
++		rm_dir "/run/media/$name"
+ 	else
+-		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
++		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
+ 		touch "/tmp/.automount-$name"
+ 	fi
+ }
+@@ -60,7 +60,7 @@ rm_dir() {
+ 
+ # No ID_FS_TYPE for cdrom device, yet it should be mounted
+ name="`basename "$DEVNAME"`"
+-[ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
++[ -e /sys/block/$name/device/run/media ] && media_type=`cat /sys/block/$name/device/run/media`
+ 
+ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
+ 	if [ -x "$PMOUNT" ]; then
+@@ -87,5 +87,5 @@ if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+ 	
+ 	# Remove empty directories from auto-mounter
+ 	name="`basename "$DEVNAME"`"
+-	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
++	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+ fi
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+similarity index 99%
+rename from meta/recipes-core/udev/udev-extraconf_1.0.bb
+rename to meta/recipes-core/udev/udev-extraconf_1.1.bb
+index 3810b28..d69056d 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -4,8 +4,6 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-PR = "r16"
+-
+ SRC_URI = " \
+        file://automount.rules \
+        file://mount.sh \
 -- 
-1.8.1.2
+1.9.1
 
 
