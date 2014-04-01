@@ -1,32 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F22E6E304
+	by mail.openembedded.org (Postfix) with ESMTP id AD7C66E9A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 19:07:27 +0000 (UTC)
+	Tue,  1 Apr 2014 19:34:32 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31J7McL012278; Tue, 1 Apr 2014 20:07:22 +0100
+	s31JYRQw012859; Tue, 1 Apr 2014 20:34:28 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id suajkK2BLZZ9; Tue,  1 Apr 2014 20:07:22 +0100 (BST)
+	with LMTP id GQQZV2aAeARH; Tue,  1 Apr 2014 20:34:27 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31J7I3R012274
+	s31JYK9T012854
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 20:07:20 +0100
-Message-ID: <1396379233.2910.31.camel@ted>
+	Tue, 1 Apr 2014 20:34:23 +0100
+Message-ID: <1396380855.2910.34.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 01 Apr 2014 20:07:13 +0100
-In-Reply-To: <CAP9ODKr29A6LKdALn6c_QVBG7v5jHcc020kva+nU9i+tC=+5ew@mail.gmail.com>
-References: <1396372080-27607-1-git-send-email-otavio@ossystems.com.br>
-	<1396374798.2910.29.camel@ted>
-	<CAP9ODKr29A6LKdALn6c_QVBG7v5jHcc020kva+nU9i+tC=+5ew@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 01 Apr 2014 20:34:15 +0100
+In-Reply-To: <533AFEE9.6050001@windriver.com>
+References: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
+	<1396374241.5879.50.camel@phil-desktop.brightsign>
+	<1396374515.5879.54.camel@phil-desktop.brightsign>
+	<1396374702.2910.27.camel@ted> <533AFEE9.6050001@windriver.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] oe.utils, utils.bbclass: Add any_contains and base_any_contains
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: image.bbclass: USE_DEVFS is now useless
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,90 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 19:07:28 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 19:34:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-04-01 at 15:38 -0300, Otavio Salvador wrote:
-> On Tue, Apr 1, 2014 at 2:53 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Tue, 2014-04-01 at 14:07 -0300, Otavio Salvador wrote:
-> >> This is similar to the contains but matches any of values. This is
-> >> useful to match for example several DISTRO_FEATURES which ought to
-> >> include a PACKAGECONFIG option.
+On Tue, 2014-04-01 at 13:01 -0500, Mark Hatle wrote:
+> On 4/1/14, 12:51 PM, Richard Purdie wrote:
+> > On Tue, 2014-04-01 at 18:48 +0100, Phil Blundell wrote:
+> >> Also note that the default for USE_DEVFS was (and is) 1, so the lack
+> >> of this check is actually causing a difference in the default
+> >> behaviour.  If there's no appetite for reinstating the USE_DEVFS
+> >> mechanism per se then it seems like it would be a good idea to make
+> >> the default IMAGE_DEVICE_TABLE be blank in order to restore the
+> >> previous default of no /dev in the rootfs.
 > >>
-> >> For example:
-> >>
-> >> PACKAGECONFIG ??= "${@base_any_contains('DISTRO_FEATURES', 'x11 wayland', 'gtk+', '', d)}"
-> >>
-> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> >> ---
-> >>  meta/classes/utils.bbclass |  3 +++
-> >>  meta/lib/oe/utils.py       | 13 +++++++++++++
-> >>  2 files changed, 16 insertions(+)
-> >>
-> >> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> >> index 0a533af..966eda1 100644
-> >> --- a/meta/classes/utils.bbclass
-> >> +++ b/meta/classes/utils.bbclass
-> >> @@ -26,6 +26,9 @@ def base_version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
-> >>  def base_contains(variable, checkvalues, truevalue, falsevalue, d):
-> >>      return oe.utils.contains(variable, checkvalues, truevalue, falsevalue, d)
-> >>
-> >> +def base_any_contains(variable, checkvalues, truevalue, falsevalue, d):
-> >> +    return oe.utils.any_contains(variable, checkvalues, truevalue, falsevalue, d)
-> >> +
-> >>  def base_both_contain(variable1, variable2, checkvalue, d):
-> >>      return oe.utils.both_contain(variable1, variable2, checkvalue, d)
-> >>
-> >> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> >> index defa536..029d713 100644
-> >> --- a/meta/lib/oe/utils.py
-> >> +++ b/meta/lib/oe/utils.py
-> >> @@ -54,6 +54,19 @@ def contains(variable, checkvalues, truevalue, falsevalue, d):
-> >>          return truevalue
-> >>      return falsevalue
-> >>
-> >> +def any_contains(variable, checkvalues, truevalue, falsevalue, d):
-> >> +    val = d.getVar(variable, True)
-> >> +    if not val:
-> >> +        return falsevalue
-> >> +    val = set(val.split())
-> >> +    if isinstance(checkvalues, basestring):
-> >> +        checkvalues = set(checkvalues.split())
-> >> +    else:
-> >> +        checkvalues = set(checkvalues)
-> >> +    if checkvalues in val:
-> >> +        return truevalue
-> >> +    return falsevalue
-> >> +
-> >>  def both_contain(variable1, variable2, checkvalue, d):
-> >>      if d.getVar(variable1,1).find(checkvalue) != -1 and d.getVar(variable2,1).find(checkvalue) != -1:
-> >>          return checkvalue
+> >> At present you get a somewhat arbitrary-seeming smattering of devices
+> >> from meta/files/device_table-minimal.txt, including such anachronisms
+> >> as /dev/ttySA0 and /dev/apm_bios.  It's hard to imagine that anybody
+> >> actually wants this stuff in their rootfs in this day and age.
 > >
-> > A more logical name is perhaps containsany().
-> >
-> > I'd also add that bitbake has special support for contains() and
-> > optimises sstate hashes for its use. We don't have such optimisation for
-> > containsany(). I think this is perhaps 1.7 material at this point.
+> > Can we kill apmd at the same time? Please? :)
 > 
-> I'd use contains_any. Any problem with this?
-> 
-> I didn't find the place bitbake handles it. Can you point the
-> reference for me to look at it and complete this?
+> Isn't this still used on some ARM and MIPS targets?  (they emulate apm for basic 
+> power management.)
 
-It starts at lib/bb/codeparser.py:
-
-   containsfuncs = ("bb.utils.contains", "base_contains", "oe.utils.contains")
-
-and then that data gets passed around in various caches and so one and
-is eventually used in the checksum dependencies.
+Its not gone as far as I know but whether we need the userspace portion,
+I'm not so sure, it just does suspend/resume event notifuication afaik
+these days and I doubt much uses that now. The battery interfaces were
+long since replaced with proper sysfs ones.
 
 Cheers,
 
 Richard
-
-
-
 
 
