@@ -1,32 +1,31 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 15D666F61F
+	by mail.openembedded.org (Postfix) with ESMTP id 2C2146B25F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 13:23:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Apr 2014 06:23:27 -0700
+	Tue,  1 Apr 2014 13:28:16 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Apr 2014 06:28:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,772,1389772800"; d="scan'208";a="511847257"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2014 06:23:26 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 1 Apr 2014 14:22:58 +0100
+X-IronPort-AV: E=Sophos;i="4.97,772,1389772800"; d="scan'208";a="504326226"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2014 06:27:33 -0700
 Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.180]) with mapi id
-	14.03.0123.003; Tue, 1 Apr 2014 14:22:59 +0100
+	IRSMSX102.ger.corp.intel.com ([169.254.2.45]) with mapi id
+	14.03.0123.003; Tue, 1 Apr 2014 14:27:29 +0100
 From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Sarbu, Florin-Ionut (Wind River)" <florin.sarbu@windriver.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>, "Sarbu, Florin-Ionut (Wind
+	River)" <florin.sarbu@windriver.com>
 Thread-Topic: [OE-core] [PATCH] connman.inc: Add PACKAGECONFIG support for
 	bluez5
-Thread-Index: AQHPTZKJhiyv5K9pxUm65LZ9kMsX3pr8hKmAgAAX3FCAAAL+AIAAH7GA
-Date: Tue, 1 Apr 2014 13:22:58 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1CE76E2B@IRSMSX105.ger.corp.intel.com>
+Thread-Index: AQHPTZKJhiyv5K9pxUm65LZ9kMsX3pr8hKmAgAAX3FCAAAL+AIAAH7GAgAABtlA=
+Date: Tue, 1 Apr 2014 13:27:29 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1CE76E47@IRSMSX105.ger.corp.intel.com>
 References: <1396346945-3782-1-git-send-email-florin.sarbu@windriver.com>
 	<1396349467.1432.4.camel@ted>
 	<969F26A8BAB325438E7EB80D3C3134FB1CE76D4F@IRSMSX105.ger.corp.intel.com>
 	<533AB0A2.1000608@windriver.com>
-In-Reply-To: <533AB0A2.1000608@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB1CE76E2B@IRSMSX105.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB1CE76E2B@IRSMSX105.ger.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -47,10 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 13:23:29 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 13:28:18 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Hello,
+I meant, of course, BlueZ5, connman is ready for BlueZ5.
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Iorga, Cristian
+Sent: Tuesday, April 1, 2014 4:23 PM
+To: Sarbu, Florin-Ionut (Wind River)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] connman.inc: Add PACKAGECONFIG support for b=
+luez5
 
 Hmm,
 
@@ -61,7 +72,7 @@ Regards,
 Cristian
 
 -----Original Message-----
-From: Florin Sarbu [mailto:florin.sarbu@windriver.com]=20
+From: Florin Sarbu [mailto:florin.sarbu@windriver.com]
 Sent: Tuesday, April 1, 2014 3:27 PM
 To: Iorga, Cristian
 Cc: openembedded-core@lists.openembedded.org; Richard Purdie
@@ -97,7 +108,7 @@ nd on bluez4.
 > Intel Corporation
 >
 > -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org=20
+> From: openembedded-core-bounces@lists.openembedded.org
 > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of=20
 > Richard Purdie
 > Sent: Tuesday, April 1, 2014 1:51 PM
@@ -184,4 +195,9 @@ r}/openvpn,--disable-openvpn,,openvpn"
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
