@@ -1,27 +1,40 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 197CF617B8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 49298617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 16:20:39 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id s31GKZHY013079
+	Tue,  1 Apr 2014 16:23:53 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id bs8so5098893wib.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 18:20:40 +0200
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0387.000; Tue, 1 Apr 2014 18:20:35 +0200
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 2/2] Make ppce300c3 tune hard-float by default
-Thread-Index: Ac9Nxk9603kst8C4SSiDcobm74ly0w==
-Date: Tue, 1 Apr 2014 16:20:34 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3AAA35@post.tritech.se>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
-MIME-Version: 1.0
-Subject: [PATCH 2/2] Make ppce300c3 tune hard-float by default
+	Tue, 01 Apr 2014 09:23:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=qAeY35AUMClDd9JAL1drG4Qk3NFXsR6BRWlUdmFPV4U=;
+	b=lq8jVWKGo7G14AAArzlCUmAsnhWMpCWUr8Cm6fMMhln8c4aucfotjRwjLp+EFFe3Ei
+	XoP8ziydXSLNXUxH9BbHC/UVfIi0OtSob37yBpebl8gXqrgJjhKGaGcRqwZyDsFzlSPt
+	GRu74Ft5Nx0uRQGyWewBtCOhrALaJ60btDZP3rM93Gp0bgZ3Z/2zMhQV0cvbjW+ykq3Q
+	lnS5SD/+CEyRPTdNyHQwx1Afgxus598hoULVtNM8xudRiG7swYkG3cwzZZHmxyi7+FnE
+	NCHu79KIIHNWj+s7GmO1C0CqFHNc4TcPNqi01R9J5pBY7KK7G7AGgiVvj25FrvLq2Mqe
+	MsZw==
+X-Gm-Message-State: ALoCoQlZ10hsPDG3k4yjK1cshh9cJ6d8YSEYsT+9/jtZbIb0iuKUcdzDvuzrxOLppcAQEcHf2g2o
+X-Received: by 10.180.12.233 with SMTP id b9mr20983897wic.8.1396369434312;
+	Tue, 01 Apr 2014 09:23:54 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	fs16sm34072579wic.18.2014.04.01.09.23.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Apr 2014 09:23:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Apr 2014 17:23:37 +0100
+Message-Id: <1396369417-22019-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1396369417-22019-1-git-send-email-ross.burton@intel.com>
+References: <1396369417-22019-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] gdk-pixbuf: pass GDK_PIXBUF_FATAL_LOADER where relevant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,77 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 16:20:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 01 Apr 2014 16:23:55 -0000
 
-The tuning file for PowerPC e300c3 is soft-float. In OE-classic it was hard=
--=0A=
-float and it should be as the c3 has an fpu. I have modified the tuning fil=
-e=0A=
-to include both a hard-float version (using the existing ppce300c3 name) an=
-d=0A=
-an optional soft-float version (called ppce300c3-nf).=0A=
-=0A=
-The following patch also passes a "--with-cpu=3De300c3" argument to GLIBC.=
-=0A=
-For this to have any effect the sqrt/sqrtf implementations added by the=0A=
-"glibc.fix_sqrt2.patch" are required and also an additional "Implies" file=
-=0A=
-(added to the mentioned patch as a separate patch for eglibc_2.19).=0A=
-=0A=
-Tested with eglibc 2.19 on PowerPC MPC5125.=0A=
-=0A=
-Signed-off-by: Mats Karrman <mats.karrman@tritech.se>=0A=
----=0A=
- meta/conf/machine/include/tune-ppce300c3.inc |   20 ++++++++++++++++----=
-=0A=
- 1 file changed, 16 insertions(+), 4 deletions(-)=0A=
-=0A=
-diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machi=
-ne/include/tune-ppce300c3.inc=0A=
-index 9431222..b19cf22 100644=0A=
---- a/meta/conf/machine/include/tune-ppce300c3.inc=0A=
-+++ b/meta/conf/machine/include/tune-ppce300c3.inc=0A=
-@@ -2,10 +2,22 @@ DEFAULTTUNE ?=3D "ppce300c3"=0A=
- =0A=
- require conf/machine/include/powerpc/arch-powerpc.inc=0A=
- =0A=
-+AVAILTUNES +=3D "ppce300c3 ppce300c3-nf"=0A=
-+=0A=
-+# hard-float=0A=
- TUNEVALID[ppce300c3] =3D "Enable ppce300c3 specific processor optimization=
-s"=0A=
-+TUNE_FEATURES_tune-ppce300c3 =3D "${TUNE_FEATURES_tune-powerpc} ppce300c3"=
-=0A=
-+TUNE_PKGARCH_tune-ppce300c3 =3D "ppce300c3"=0A=
-+PACKAGE_EXTRA_ARCHS_tune-ppce300c3 =3D "${PACKAGE_EXTRA_ARCHS_tune-powerpc=
-} ppce300c3"=0A=
- TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " -mc=
-pu=3De300c3", "", d)}"=0A=
- =0A=
--AVAILTUNES +=3D "ppce300c3"=0A=
--TUNE_FEATURES_tune-ppce300c3 =3D "m32 fpu-soft ppce300c3"=0A=
--TUNE_PKGARCH_tune-ppce300c3 =3D "ppce300c3"=0A=
--PACKAGE_EXTRA_ARCHS_tune-ppce300c3 =3D "${PACKAGE_EXTRA_ARCHS_tune-powerpc=
--nf} ppce300c3"=0A=
-+# glibc config options to make use of e300c3 (603e) specific sqrt/sqrtf ro=
-utines=0A=
-+GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3"=
-, "--with-cpu=3De300c3", "", d)}"=0A=
-+=0A=
-+# soft-float=0A=
-+TUNEVALID[ppce300c3-nf] =3D "Enable ppce300c3 specific processor optimizat=
-ions (no fpu)"=0A=
-+TUNE_FEATURES_tune-ppce300c3-nf =3D "${TUNE_FEATURES_tune-powerpc-nf} ppce=
-300c3-nf"=0A=
-+TUNE_PKGARCH_tune-ppce300c3-nf =3D "ppce300c3-nf"=0A=
-+PACKAGE_EXTRA_ARCHS_tune-ppce300c3-nf =3D "${PACKAGE_EXTRA_ARCHS_tune-powe=
-rpc-nf} ppce300c3-nf"=0A=
-+TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3-nf", " =
--mcpu=3De300c3", "", d)}"=0A=
-+=0A=
--- =0A=
-1.7.10.4=0A=
+Pass GDK_PIXBUF_FATAL_LOADER to the sstate postinst and intercept so that any
+problems are flagged as errors instead of being silently ignored.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/pixbufcache.bbclass                |    2 +-
+ scripts/postinst-intercepts/update_pixbuf_cache |    1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index 414fd30..922174d 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -53,7 +53,7 @@ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ pixbufcache_sstate_postinst() {
+ 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+ 	then
+-		gdk-pixbuf-query-loaders --update-cache
++		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache
+ 	fi
+ }
+ 
+diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
+index 3f93773..95bf4f9 100644
+--- a/scripts/postinst-intercepts/update_pixbuf_cache
++++ b/scripts/postinst-intercepts/update_pixbuf_cache
+@@ -1,6 +1,7 @@
+ #!/bin/sh
+ 
+ export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
++export GDK_PIXBUF_FATAL_LOADER=1
+ 
+ PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
+     $D${bindir}/gdk-pixbuf-query-loaders \
+-- 
+1.7.10.4
+
 
