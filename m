@@ -1,35 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B21F86CA54
+Return-Path: <Zongchun.Yu@freescale.com>
+Received: from ch1outboundpool.messaging.microsoft.com
+	(ch1ehsobe005.messaging.microsoft.com [216.32.181.185])
+	by mail.openembedded.org (Postfix) with ESMTP id C90FE605F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 05:41:54 +0000 (UTC)
-Received: by mail-ie0-f181.google.com with SMTP id tp5so8348203ieb.26
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 22:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=5Bb+P8YCstTMfbhnq3Kd+FykFfNwZ+NDhKKvfHBp25U=;
-	b=aCogPwbdr5NBaASPC1jR5J7ZBHvK1wckqFAatijyKmMRzDyRNJEnUAwOGn/LhwysS/
-	GNOln4/spaEUz3o072/cSM6pDvhmnrc4JGGP3AYt8oFvFZ3lGdZBpSlXcSm4ji8VxRi8
-	KOoFcdLLj1y4qnxYD5jp0U4m5juSYaUHaw5LaF4ZmG+IXh17E4VXIxp8ELy8Z89QZLOG
-	QTLusi2D2X9ZS3x5M3neVv08htHQCckNiQpE/qUj1+G7K87SrLiIckH/88e1KcSauo8D
-	falxyiwagQgD7xuIuhTwnpDAwfrJyMaOPgMtWL9oDkd7DyTFhukYvdGmoJOLRP7hjKZJ
-	pn9Q==
-X-Received: by 10.42.203.202 with SMTP id fj10mr27939561icb.51.1396330915266; 
-	Mon, 31 Mar 2014 22:41:55 -0700 (PDT)
+	Tue,  1 Apr 2014 06:06:49 +0000 (UTC)
+Received: from mail86-ch1-R.bigfish.com (10.43.68.230) by
+	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 1 Apr 2014 06:06:47 +0000
+Received: from mail86-ch1 (localhost [127.0.0.1])	by mail86-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 31599320560	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue,  1 Apr 2014 06:06:47 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21a7h1fc6hzz1de098h8275bh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h268bh1155h)
+Received: from mail86-ch1 (localhost.localdomain [127.0.0.1]) by mail86-ch1
+	(MessageSwitch) id 1396332405592998_18459;
+	Tue,  1 Apr 2014 06:06:45 +0000 (UTC)
+Received: from CH1EHSMHS014.bigfish.com (snatpool3.int.messaging.microsoft.com
+	[10.43.68.227])	by mail86-ch1.bigfish.com (Postfix) with ESMTP id
+	8B40B420095;	Tue,  1 Apr 2014 06:06:45 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS014.bigfish.com
+	(10.43.70.14) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Tue, 1 Apr 2014 06:06:45 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Tue, 1 Apr 2014 06:06:42 +0000
+Received: from localhost.localdomain (b40527-01.ap.freescale.net
+	[10.193.20.90])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
+	ESMTP id s3166Z3S004074;	Mon, 31 Mar 2014 23:06:40 -0700
+From: <b40527@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Apr 2014 14:12:54 +0800
+Message-ID: <1396332774-31033-1-git-send-email-b40527@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Mon, 31 Mar 2014 22:41:24 -0700 (PDT)
-In-Reply-To: <20140328172824.GJ3370@denix.org>
-References: <1366735649.5732.21.camel@phil-desktop.brightsign>
-	<20140328172824.GJ3370@denix.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 31 Mar 2014 22:41:24 -0700
-Message-ID: <CAMKF1srgiA4vLo0Ji78LOV9_rXegqJzaMyaBdkm+gpqhYeuGFw@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-arch: Always use ld.bfd to link the kernel
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Cc: Zongchun Yu <Zongchun.Yu@freescale.com>
+Subject: [PATCH] libtool: Add depends on binutils-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,22 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 05:41:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Apr 2014 06:06:51 -0000
+Content-Type: text/plain
 
-On Fri, Mar 28, 2014 at 10:28 AM, Denys Dmytriyenko <denis@denix.org> wrote:
->> -KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld ${HOST_LD_KERNEL_ARCH}"
->> +KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
->>  KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
->
-> I know this is almost a year-old change.
->
-> The question I have is - what should one do when using an external toolchain
-> that doesn't have ld.bfd provided? I know these days with gold vs. BFD linker,
-> it's common to have ld.bfd, but there could be exceptions...
->
-> Should this assignment be conditional, so it's easier to override from
-> local.conf or distro?
+From: Zongchun Yu <Zongchun.Yu@freescale.com>
 
-Can external toolchain create ld.bfd symlink ?
+When use command bitbake -c populate_sdk <target-rootfs> to
+generate toolchain. a race issue may occur. in this case need
+to add binutils-cross to depends.
+
+Signed-off-by: Zongchun Yu <Zongchun.Yu@freescale.com>
+---
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index d26982d..0868dd7 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -36,7 +36,7 @@ do_compile_prepend () {
+ inherit autotools
+ EXTRA_AUTORECONF = "--exclude=libtoolize"
+ 
+-DEPENDS = "libtool-native"
++DEPENDS = "libtool-native binutils-cross"
+ 
+ PACKAGES =+ "libltdl libltdl-dev libltdl-dbg libltdl-staticdev"
+ FILES_${PN} += "${datadir}/aclocal"
+-- 
+1.7.0.4
+
+
 
