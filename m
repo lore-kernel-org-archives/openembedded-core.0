@@ -1,25 +1,31 @@
-Return-Path: <Florin.Sarbu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1110A6F8A0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id DC8C86E849
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  1 Apr 2014 10:09:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s31A9Drx024163
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s31A97jb014098 for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Apr 2014 11:09:07 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id wDc9mI4aUFVY
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 03:09:13 -0700 (PDT)
-Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.170.220) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Tue, 1 Apr 2014 03:09:12 -0700
-From: Florin Sarbu <florin.sarbu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Apr 2014 13:09:05 +0300
-Message-ID: <1396346945-3782-1-git-send-email-florin.sarbu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [128.224.170.220]
-Subject: [PATCH] connman.inc: Add PACKAGECONFIG support for bluez5
+	Tue,  1 Apr 2014 11:09:07 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s31A93wk014076
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Apr 2014 11:09:04 +0100
+Message-ID: <1396346938.14790.99.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 01 Apr 2014 11:08:58 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] image/image-prelink/image-mklibs/sanity: Drop pointless EXPORT_FUNCTIONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +39,65 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 01 Apr 2014 10:09:13 -0000
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently connman can only RDEPEND on bluez4.
-This patch adds support for having bluez5 in PACKAGECONFIG
-and get connman RDEPEND on bluez5 if desired.
+I'm sick of seeing people adding to EXPORT_FUNCTIONS in these classes
+when they clearly have no idea what it does.
 
-Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
+Worse, these uses of it are all broken, the naming is incorrect and
+they do nothing. Lets remove them and try and preserve any remaining
+part of my sanity.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/connman/connman.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
+index 23456cc..11f082b 100644
+--- a/meta/classes/image-mklibs.bbclass
++++ b/meta/classes/image-mklibs.bbclass
+@@ -69,6 +69,3 @@ mklibs_optimize_image() {
+ 		fi
+ 	done
+ }
+-
+-
+-EXPORT_FUNCTIONS mklibs_optimize_image
+diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
+index 53ef47e..d4bb3ae 100644
+--- a/meta/classes/image-prelink.bbclass
++++ b/meta/classes/image-prelink.bbclass
+@@ -31,5 +31,3 @@ prelink_image () {
+ 	pre_prelink_size=`du -ks ${IMAGE_ROOTFS} | awk '{size = $1 ; print size }'`
+ 	echo "Size after prelinking $pre_prelink_size."
+ }
+-
+-EXPORT_FUNCTIONS prelink_image
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 29309f5..94abbc9 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -374,8 +374,6 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
+ 
+-EXPORT_FUNCTIONS zap_empty_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
+-
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 69d6a24..dd7fe4c 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -25,8 +25,6 @@ def sanity_conf_update(fn, lines, version_var_name, new_version):
+     with open(fn, "w") as f:
+         f.write(''.join(lines))
+ 
+-EXPORT_FUNCTIONS bblayers_conf_file sanity_conf_read sanity_conf_find_line sanity_conf_update
+-
+ # Functions added to this variable MUST throw an exception (or sys.exit()) unless they
+ # successfully changed LCONF_VERSION in bblayers.conf
+ BBLAYERS_CONF_UPDATE_FUNCS += "oecore_update_bblayers"
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index b3147c9..53a6a4f 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -32,7 +32,7 @@ EXTRA_OECONF += "\
- 
- PACKAGECONFIG ??= "wispr \
-                    ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
--                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', '3g','3g', '', d)} \
- "
- 
-@@ -42,6 +42,7 @@ PACKAGECONFIG ??= "wispr \
- 
- PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
- PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
-+PACKAGECONFIG[bluez5] = "--enable-bluetooth, --disable-bluetooth, bluez5"
- PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
- PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
- PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
-@@ -114,6 +115,7 @@ RPROVIDES_${PN} = "\
- RDEPENDS_${PN} = "\
- 	dbus \
- 	${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
-+	${@base_contains('PACKAGECONFIG', 'bluez5', 'bluez5', '', d)} \
- 	${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
- 	${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
- 	xuser-account \
--- 
-1.9.1
 
 
