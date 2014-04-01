@@ -1,39 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D7CE8617B8
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F1A4617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 16:18:46 +0000 (UTC)
-Received: by mail-yh0-f50.google.com with SMTP id c41so9231389yho.37
+	Tue,  1 Apr 2014 16:20:24 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s31GKJYA013075
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 09:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=+sbH8qudNDEi3antjpXBV6zkyBNPWmIaDsMBnFTRo84=;
-	b=mV79DjEL3ypFs3cV2qGCpBQCid8olPByJiW1Mxn3qqs3YNK7x6hGg8Dn5ZohbsfQbn
-	n7bEoDakodun30MPPhgGyzJzrgbURgC4VgvsbvAeIbmK0MVl+VO0N0te8ts5gGFQuYvh
-	gpA7vMgN6dIHpBoBhSD99YXO+cJKbSGcJzmtzKwbJmwhb9rjmOIGp92weZcpOnk9xd2l
-	BgvomHQWCqFK0yUF7jZmaKH2HWmcHZ/ch76Z0Gxv0jDw8r1sPjTxhH/Qkl1js7ibni8b
-	bPZt1PA3+uMgSgXHG6AiwgUqyeeDo+FuH+xPKX7izGkGAUKyRR866Q0k5ZlAoPx5hGas
-	xXWQ==
-X-Received: by 10.236.151.83 with SMTP id a59mr45962137yhk.48.1396369127346;
-	Tue, 01 Apr 2014 09:18:47 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id s6sm21044050yho.45.2014.04.01.09.18.45
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Apr 2014 09:18:46 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 0796519F7E5E9; Tue,  1 Apr 2014 13:18:43 -0300 (BRT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  1 Apr 2014 13:18:42 -0300
-Message-Id: <1396369122-26878-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.9.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] alsa-tools: Fix build without x11
+	Tue, 1 Apr 2014 18:20:24 +0200
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Tue, 1 Apr 2014 18:20:19 +0200
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 1/2] eglibc_2.19: Make ppc e300c3 benefit from 603e
+	sqrt optimizations
+Thread-Index: Ac9NxkXK38dpqOuOTzSNR/kbJcdOyQ==
+Date: Tue, 1 Apr 2014 16:20:18 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3AAA2B@post.tritech.se>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
+MIME-Version: 1.0
+Subject: [PATCH 1/2] eglibc_2.19: Make ppc e300c3 benefit from 603e sqrt optimizations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,109 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 16:18:49 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 16:20:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-There is no way to disable the x11 without mangling the source code so
-instead using a patch we now used a 'sed' in do_configure so it is
-easier to maintain and extend. The patch had some new tools missing
-which were triggering build failures in O.S. Systems' builder as:
-
-,----[ Build error in a clean tmp, without x11 ]
-| checking for GTK3... no
-| configure: error: Package requirements (gtk+-3.0) were not met:
-|
-| No package 'gtk+-3.0' found
-|
-| Consider adjusting the PKG_CONFIG_PATH environment variable if you
-| installed software in a non-standard prefix.
-|
-| Alternatively, you may set the environment variables GTK3_CFLAGS
-| and GTK3_LIBS to avoid the need to call pkg-config.
-| See the pkg-config man page for more details.
-| make: *** [all] Error 1
-`----
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../alsa/alsa-tools/makefile_no_gtk.patch           | 21 ---------------------
- meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb   | 18 ++++++++++++++----
- 2 files changed, 14 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-deleted file mode 100644
-index c6cb5b1..0000000
---- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Remove some sub-components which need gtk+.
--
--Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
--
--Upstream-Status: Inappropriate [configuration]
--
--diff --git a/Makefile b/Makefile
----- a/Makefile
--+++ b/Makefile
--@@ -1,8 +1,8 @@
-- VERSION = 1.0.27
-- TOP = .
---SUBDIRS = as10k1 envy24control \
---	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
---	  us428control usx2yloader vxloader echomixer \
--+SUBDIRS = as10k1 \
--+	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
--+	  us428control usx2yloader vxloader \
-- 	  hwmixvolume hdajackretask hda-verb
-- 
-- all:
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-index 492f8a4..23f9360 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-@@ -3,15 +3,14 @@ HOMEPAGE = "http://www.alsa-project.org"
- BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
- SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2+"
--DEPENDS = "alsa-lib ncurses ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+3', '', d)}"
-+DEPENDS = "alsa-lib ncurses"
- 
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://mips_has_no_io_h.patch \
--           file://autotools.patch \
--           ${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
-+           file://autotools.patch"
- 
- SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
- SRC_URI[sha256sum] = "6562611b5a6560712f109e09740a9d4fa47296b07ed9590cb44139c5f154ada2"
-@@ -21,11 +20,22 @@ inherit autotools-brokensep
- EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
- 
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
--PACKAGECONFIG[gtk+] = ",,gtk+,"
-+PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
- 
- # configure.ac/.in doesn't exist so force copy
- AUTOTOOLS_COPYACLOCAL = "1"
- 
-+do_configure_prepend () {
-+    # Disable tools which require gtk+-2.0 and gtk+-3.0
-+    if [ "${@base_contains('DISTRO_FEATURES', 'x11', 'yes', 'no', d)}" = "no" ]; then
-+        sed -e 's/echomixer//g' \
-+            -e 's/envy24control//g' \
-+            -e 's/hdajackretask//g' \
-+            -e 's/rmedigicontrol//g' \
-+            -i ${S}/Makefile
-+    fi
-+}
-+
- do_compile_prepend () {
-     #Automake dir is not correctly detected in cross compilation case
-     export AUTOMAKE_DIR="$(automake --print-libdir)"
--- 
-1.9.1
-
+Tested on PowerPC MPC5125.=0A=
+=0A=
+Signed-off-by: Mats Karrman <mats.karrman@tritech.se>=0A=
+---=0A=
+ meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch |    7 +++++++=
+=0A=
+ 1 file changed, 7 insertions(+)=0A=
+=0A=
+diff --git a/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch b/m=
+eta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch=0A=
+index 037feeb..689b79c 100644=0A=
+--- a/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch=0A=
++++ b/meta/recipes-core/eglibc/eglibc-2.19/glibc.fix_sqrt2.patch=0A=
+@@ -1477,6 +1477,13 @@ Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc3=
+2/603e/fpu/Implies=0A=
+ +++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies=0A=
+ @@ -0,0 +1 @@=0A=
+ +powerpc/powerpc32/603e/fpu=0A=
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies=
+=0A=
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
++--- /dev/null=0A=
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e300c3/fpu/Implies=0A=
++@@ -0,0 +1,2 @@=0A=
+++# e300c3 is a variant of 603e so use the same optimizations for sqrt=0A=
+++powerpc/powerpc32/603e/fpu=0A=
+ Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies=
+=0A=
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
+ --- /dev/null=0A=
+-- =0A=
+1.7.10.4=0A=
 
