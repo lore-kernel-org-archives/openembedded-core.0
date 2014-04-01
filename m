@@ -1,37 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A69146F9FC
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 05B4F6EA2F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 18:38:28 +0000 (UTC)
-Received: by mail-yk0-f177.google.com with SMTP id q200so7814969ykb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 11:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=m7/mdlNS+LM4K/cJmDROXzCWMk3tMOsZT2W9Q4TFbmg=;
-	b=d+M4pw9WQfMPP3o86oFArQVORL0BI5zQAjFdsF7mSRusmLEcM/YC+RPJZ/5t+Y7UX+
-	lNxXzpc14r60avy8BXNNYt+Mi5oxwLeqcj/eg/rDZGxB3WS69P8sPni57gU68B/kHTeM
-	1LO/lkxu93/+FYf+ou2bfluluMKADMqEWNVoYyI4h7wbSlTqPk0VhamM0JkreePIymLm
-	E6E6E97euUGftpB52puvmPZj9o2Ca8DGIb01R2oQD94p9faW3DkqNDWEZqE9siTJRzLU
-	OY/J+T3+FCZGWMtn6Df0OtEoBpdjn+HbsE4OMRhz5JS/lzvxFWdHudjnabifCxaMQcc0
-	1oVg==
-MIME-Version: 1.0
-X-Received: by 10.236.40.12 with SMTP id e12mr3755366yhb.155.1396377509125;
-	Tue, 01 Apr 2014 11:38:29 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Tue, 1 Apr 2014 11:38:29 -0700 (PDT)
-In-Reply-To: <1396374798.2910.29.camel@ted>
+	Tue,  1 Apr 2014 18:50:16 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173023.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N3D00LBQ8BCRX50@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 01 Apr 2014 13:50:00 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 32756201B7; Tue,
+	01 Apr 2014 14:50:00 -0400 (EDT)
+Date: Tue, 01 Apr 2014 14:50:00 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20140401185000.GA3370@denix.org>
 References: <1396372080-27607-1-git-send-email-otavio@ossystems.com.br>
-	<1396374798.2910.29.camel@ted>
-Date: Tue, 1 Apr 2014 15:38:29 -0300
-X-Google-Sender-Auth: xXyYrJHHx5pZ7zmZGebp-SLN0rY
-Message-ID: <CAP9ODKr29A6LKdALn6c_QVBG7v5jHcc020kva+nU9i+tC=+5ew@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<1396372080-27607-2-git-send-email-otavio@ossystems.com.br>
+MIME-version: 1.0
+In-reply-to: <1396372080-27607-2-git-send-email-otavio@ossystems.com.br>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] oe.utils, utils.bbclass: Add any_contains and base_any_contains
+Subject: Re: [PATCH 2/2] alsa-tools: Enable GTK support for X11 and Wayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,78 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 18:38:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 01 Apr 2014 18:50:20 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Tue, Apr 1, 2014 at 2:53 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2014-04-01 at 14:07 -0300, Otavio Salvador wrote:
->> This is similar to the contains but matches any of values. This is
->> useful to match for example several DISTRO_FEATURES which ought to
->> include a PACKAGECONFIG option.
->>
->> For example:
->>
->> PACKAGECONFIG ??= "${@base_any_contains('DISTRO_FEATURES', 'x11 wayland', 'gtk+', '', d)}"
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>  meta/classes/utils.bbclass |  3 +++
->>  meta/lib/oe/utils.py       | 13 +++++++++++++
->>  2 files changed, 16 insertions(+)
->>
->> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
->> index 0a533af..966eda1 100644
->> --- a/meta/classes/utils.bbclass
->> +++ b/meta/classes/utils.bbclass
->> @@ -26,6 +26,9 @@ def base_version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
->>  def base_contains(variable, checkvalues, truevalue, falsevalue, d):
->>      return oe.utils.contains(variable, checkvalues, truevalue, falsevalue, d)
->>
->> +def base_any_contains(variable, checkvalues, truevalue, falsevalue, d):
->> +    return oe.utils.any_contains(variable, checkvalues, truevalue, falsevalue, d)
->> +
->>  def base_both_contain(variable1, variable2, checkvalue, d):
->>      return oe.utils.both_contain(variable1, variable2, checkvalue, d)
->>
->> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
->> index defa536..029d713 100644
->> --- a/meta/lib/oe/utils.py
->> +++ b/meta/lib/oe/utils.py
->> @@ -54,6 +54,19 @@ def contains(variable, checkvalues, truevalue, falsevalue, d):
->>          return truevalue
->>      return falsevalue
->>
->> +def any_contains(variable, checkvalues, truevalue, falsevalue, d):
->> +    val = d.getVar(variable, True)
->> +    if not val:
->> +        return falsevalue
->> +    val = set(val.split())
->> +    if isinstance(checkvalues, basestring):
->> +        checkvalues = set(checkvalues.split())
->> +    else:
->> +        checkvalues = set(checkvalues)
->> +    if checkvalues in val:
->> +        return truevalue
->> +    return falsevalue
->> +
->>  def both_contain(variable1, variable2, checkvalue, d):
->>      if d.getVar(variable1,1).find(checkvalue) != -1 and d.getVar(variable2,1).find(checkvalue) != -1:
->>          return checkvalue
->
-> A more logical name is perhaps containsany().
->
-> I'd also add that bitbake has special support for contains() and
-> optimises sstate hashes for its use. We don't have such optimisation for
-> containsany(). I think this is perhaps 1.7 material at this point.
+On Tue, Apr 01, 2014 at 02:08:00PM -0300, Otavio Salvador wrote:
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> This patch depends on the alsa-tools one I sent some minutes ago
+> 
+>  meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+> index 4f64a38..fdbe82a 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
+>  SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
+>             file://mips_has_no_io_h.patch \
+>             file://autotools.patch \
+> -           ${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
+> +           ${@base_any_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
 
-I'd use contains_any. Any problem with this?
+What's the reason to use any_contains here?
 
-I didn't find the place bitbake handles it. Can you point the
-reference for me to look at it and complete this?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>  SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
+>  SRC_URI[sha256sum] = "6562611b5a6560712f109e09740a9d4fa47296b07ed9590cb44139c5f154ada2"
+> @@ -20,7 +20,7 @@ inherit autotools-brokensep
+>  
+>  EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
+>  
+> -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+> +PACKAGECONFIG ??= "${@base_any_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+
+Same here - what's the reason for the change?
+
+
+>  PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
+>  
+>  # configure.ac/.in doesn't exist so force copy
+> -- 
+> 1.9.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
