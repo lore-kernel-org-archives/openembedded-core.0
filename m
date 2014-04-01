@@ -1,31 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BEAC06B5D9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id D54B36F956
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:46:39 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31AkZTd015658; Tue, 1 Apr 2014 11:46:35 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id llMqz6rN51Mi; Tue,  1 Apr 2014 11:46:34 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31AkWF8015655
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 11:46:33 +0100
-Message-ID: <1396349187.1432.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Tue, 01 Apr 2014 11:46:27 +0100
-In-Reply-To: <20140401101153.GA6306@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	Tue,  1 Apr 2014 10:47:21 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id z2so3108386wiv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Apr 2014 03:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=blR/HXwCkgA9vuO/9AVji2Z2FyVg7y0OuwEDVwLOEJ4=;
+	b=tx8HgK50r8umn7kVWnfH7yi3upJ7g2lyLOONEvoZT3z8Ry7K+lsAR9FkRYrJo0ObyY
+	6NllbmD0Uqkxge56gtccSRRi/fKc7lAr+KflD5+CgR0WGsCNmXfGD3tlNvNSEKZltSdU
+	83VW9yBtCw8LKzsAPIiFTU2bifm+7K7x3jST/k+JT1pASasx80yqmtSo9ZacsORZZbRy
+	Uw9N0i3Yko+mCDeGvo9CbWHma0donpGV/NNDrxrbmXAsspgRbuObEH5YNSpjibXfJ2My
+	ClCkm6FB6m5W84OIP5adG/JsjosmTPW53aI2VpttJvaaxI1ZmSNntw9YTbUnw25HtxA8
+	S5oA==
+X-Received: by 10.180.39.173 with SMTP id q13mr1580155wik.26.1396349242585;
+	Tue, 01 Apr 2014 03:47:22 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	o7sm39681129eew.25.2014.04.01.03.47.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Apr 2014 03:47:20 -0700 (PDT)
+Date: Tue, 1 Apr 2014 12:47:20 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Florin Sarbu <florin.sarbu@windriver.com>
+Message-ID: <20140401104720.GK2425@jama>
+References: <1396347400-9699-1-git-send-email-florin.sarbu@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1396347400-9699-1-git-send-email-florin.sarbu@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
+Subject: Re: [PATCH] libpcap.inc: Add PACKAGECONFIG support for bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:46:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 10:47:23 -0000
+X-Groupsio-MsgNum: 52005
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vJI8q/aziP9idhqk"
+Content-Disposition: inline
 
-On Tue, 2014-04-01 at 11:11 +0100, Mike Crowe wrote:
-> On Tuesday 01 April 2014 at 10:31:59 +0100, Richard Purdie wrote:
-> > On Tue, 2014-04-01 at 10:16 +0100, Mike Crowe wrote:
-> > > cmake detects the presence of curses automatically during configure so
-> > > cmake-native must also depend on ncurses-native to stop it being removed
-> > > from the sysroot during the build.
-> > > 
-> > > Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> > > ---
-> > >  meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> > > index 08b2c02..8d93b9a 100644
-> > > --- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> > > +++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> > > @@ -2,7 +2,7 @@ require cmake.inc
-> > >  inherit native
-> > >  
-> > >  # Using cmake's internal libarchive, so some dependencies are needed
-> > > -DEPENDS += "bzip2-native zlib-native"
-> > > +DEPENDS += "bzip2-native zlib-native ncurses-native"
-> > >  
-> > >  SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
-> > >  
-> > 
-> > What does an ncurses enabled cmake give us that is desirable?
-> 
-> I'm not really sure.
-> 
-> CMake's bootstrap configure script detects curses and tries to use it which
-> causes build failures if curses has gone missing in the meantime.
-> 
-> In the failure I saw bitbake was building cmake-native and ncurses-native
-> in parallel in a tree that had previously been used to build for a
-> different machine. This caused curses.h to be present during
-> cmake-native.do_configure but go missing before or during
-> cmake-native.do_compile.
-> 
-> It seems to be possible to disable building the "CursesDialog" component to
-> remove the need for ncurses but I couldn't immediately see how to do that
-> for a bootstrap build.
-> 
-> The non-native cmake recipe depends on ncurses even though it passes
-> -DBUILD_CursesDialog=0.
+--vJI8q/aziP9idhqk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'd much prefer to disable the need for curses if we can since the more
-convoluted the dependency chain, the longer our build times. If we don't
-need this, it would be much nicer to disable it, even if we have to
-patch it out.
+On Tue, Apr 01, 2014 at 01:16:40PM +0300, Florin Sarbu wrote:
+> This patch adds support for having bluez5 in PACKAGECONFIG
+> and get libpcap DEPEND on bluez5.
+>=20
+> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
+> ---
+>  meta/recipes-connectivity/libpcap/libpcap.inc | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes=
+-connectivity/libpcap/libpcap.inc
+> index a984e05..1613567 100644
+> --- a/meta/recipes-connectivity/libpcap/libpcap.inc
+> +++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+> @@ -10,8 +10,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1d4b03665579=
+51c84a94fabe3529f867 \
+>                      file://pcap.h;beginline=3D1;endline=3D34;md5=3D8d6cf=
+7e17d5745010d633e30bc529ea9"
+>  DEPENDS =3D "flex-native bison-native libnl"
+> =20
+> -PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'b=
+luetooth', '', d)}"
+> -PACKAGECONFIG[bluetooth] =3D "--enable-bluetooth,--disable-bluetooth,blu=
+ez4"
+> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'b=
+luez4', '', d)}"
+> +PACKAGECONFIG[bluez4] =3D "--enable-bluetooth,--disable-bluetooth,bluez4"
+> +PACKAGECONFIG[bluez5] =3D "--enable-bluetooth,--disable-bluetooth,bluez5"
 
-Cheers,
+Does it work correctly?
 
-Richard
+If you don't enable both you will always get at least one
+--disable-bluetooth and depending on order how packageconfigs were
+processed it will be disabled or not.
 
+>  PACKAGECONFIG[canusb] =3D "--enable-canusb,--enable-canusb=3Dno,libusb"
+>  PACKAGECONFIG[libnl1] =3D "--with-libnl,--without-libnl,libnl1,libnl1"
+> =20
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--vJI8q/aziP9idhqk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlM6mTgACgkQN1Ujt2V2gByIbQCeNDbs2TOUHJzGg+xQJU47A9cx
+ZFcAmwbKSXhJWIjTkW/viujeeQY2ip6l
+=ftJw
+-----END PGP SIGNATURE-----
+
+--vJI8q/aziP9idhqk--
