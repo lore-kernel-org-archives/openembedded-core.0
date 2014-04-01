@@ -1,39 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 35BFD605F4
+Return-Path: <Zongchun.Yu@freescale.com>
+Received: from ch1outboundpool.messaging.microsoft.com
+	(ch1ehsobe005.messaging.microsoft.com [216.32.181.185])
+	by mail.openembedded.org (Postfix) with ESMTP id B0EB96B8D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 06:15:32 +0000 (UTC)
-Received: by mail-pd0-f178.google.com with SMTP id x10so9091372pdj.37
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Mar 2014 23:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=8Cxs1PPYt7qYX6QmmANPQXOBrYPEld8oxuVIoIr8voA=;
-	b=hzi53COpg61RYKtakG3CZmwrkjHATurKdKM0fD3Y8nsJfHKKOaQxO8Z1E9+PhpTyI/
-	GrRgnN6ypiy4G4X9rLzbE+F6YGaE4/S6QbIb6BJUVRntWGgyLrcatjgb3RmijqnbpLrg
-	NrucB+A2wBcJ4jhHpxofKtyZfcOmZrPrnctoDKhKcHLlmb4AbUYKYR+eWwPu57uQgKOn
-	Vk1CYt9BSMmvlHvX1HFvOs1L9G5embfiIeWZu0umaNfY4xbcbz3rrAfureyR4CnOi2d6
-	QYfsWPIMoFvxW3t/BCQj4INRi+7i6H3gyJVQ01+Fus7R3viv4V81B6QIcLOO1owiz1rU
-	PFlA==
-X-Received: by 10.66.220.198 with SMTP id py6mr29253511pac.21.1396332933065;
-	Mon, 31 Mar 2014 23:15:33 -0700 (PDT)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	i10sm50986775pat.36.2014.03.31.23.15.31 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 31 Mar 2014 23:15:32 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1396332774-31033-1-git-send-email-b40527@freescale.com>
-Date: Mon, 31 Mar 2014 23:15:29 -0700
-Message-Id: <64C886B8-D3BF-40FD-9D96-F46F37DB608F@gmail.com>
+	Tue,  1 Apr 2014 06:30:47 +0000 (UTC)
+Received: from mail144-ch1-R.bigfish.com (10.43.68.228) by
+	CH1EHSOBE020.bigfish.com (10.43.70.77) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 1 Apr 2014 06:30:48 +0000
+Received: from mail144-ch1 (localhost [127.0.0.1])	by
+	mail144-ch1-R.bigfish.com (Postfix) with ESMTP id 9B2CA42048F;
+	Tue,  1 Apr 2014 06:30:48 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 7
+X-BigFish: VS7(zzda00hdc73hzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzzz2dh109h2a8h5c0h839h944hd24hd2bhf0ah1220h1288h12a5h12a9h12bdh137ah139eh13b6h1441h1504h1537h162dh1631h1751h1758h17f1h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h20dbh2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h262fh268bh25d3o1155h)
+Received: from mail144-ch1 (localhost.localdomain [127.0.0.1]) by mail144-ch1
+	(MessageSwitch) id 1396333846793036_11412;
+	Tue,  1 Apr 2014 06:30:46 +0000 (UTC)
+Received: from CH1EHSMHS001.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.246])	by mail144-ch1.bigfish.com (Postfix) with ESMTP id
+	AD7D8460065;	Tue,  1 Apr 2014 06:30:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS001.bigfish.com
+	(10.43.70.1) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Tue, 1 Apr 2014 06:30:46 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Tue, 1 Apr 2014 06:30:45 +0000
+Received: from b40527c60e6e6f (b40527-c60e6e6f.ap.freescale.net
+	[10.193.20.88])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
+	id s316UddK031810;	Mon, 31 Mar 2014 23:30:43 -0700
+From: Zongchun YU <b40527@freescale.com>
+To: 'Khem Raj' <raj.khem@gmail.com>
 References: <1396332774-31033-1-git-send-email-b40527@freescale.com>
-To: b40527@freescale.com
-X-Mailer: Apple Mail (2.1874)
-Cc: Zongchun Yu <Zongchun.Yu@freescale.com>,
-	openembedded-core@lists.openembedded.org
+	<64C886B8-D3BF-40FD-9D96-F46F37DB608F@gmail.com>
+In-Reply-To: <64C886B8-D3BF-40FD-9D96-F46F37DB608F@gmail.com>
+Date: Tue, 1 Apr 2014 14:37:01 +0800
+Message-ID: <001a01cf4d74$cced90e0$66c8b2a0$@com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: Ac9NcdD+jmUOI4TYR/a8z6T0BdH8NQAAZbwA
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] libtool: Add depends on binutils-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,45 +55,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 06:15:37 -0000
-X-Groupsio-MsgNum: 51981
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_4C600985-0C28-4194-936F-0F7C4DAD9FB5";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_4C600985-0C28-4194-936F-0F7C4DAD9FB5
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-On Mar 31, 2014, at 11:12 PM, <b40527@freescale.com> =
-<b40527@freescale.com> wrote:
-
-> From: Zongchun Yu <Zongchun.Yu@freescale.com>
->=20
-> When use command bitbake -c populate_sdk <target-rootfs> to
-> generate toolchain. a race issue may occur. in this case need
-> to add binutils-cross to depends.
->=20
-
-can you explain the race a bit here.=20
-
-
-
---Apple-Mail=_4C600985-0C28-4194-936F-0F7C4DAD9FB5
+X-List-Received-Date: Tue, 01 Apr 2014 06:30:53 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Content-Language: zh-cn
 
------BEGIN PGP SIGNATURE-----
+>can you explain the race a bit here. 
 
-iEYEARECAAYFAlM6WYIACgkQuwUzVZGdMxQFTgCfUeDmBLvGWpxg65xRpTcEQOWE
-UIYAn3r+Tcn/yI5atbO9hN06p97AcExz
-=p+R7
------END PGP SIGNATURE-----
+Sorry to confuse you. Sometimes libtool have been built but the
+binutils-cross have't been built yet.
+It is required by libtool.
 
---Apple-Mail=_4C600985-0C28-4194-936F-0F7C4DAD9FB5--
+
+
