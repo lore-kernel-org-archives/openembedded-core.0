@@ -1,23 +1,32 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 67C8D6E6FA;
-	Tue,  1 Apr 2014 10:48:08 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2014 03:48:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,771,1389772800"; d="scan'208";a="511757529"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.155])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2014 03:45:39 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Date: Tue, 01 Apr 2014 11:45:38 +0100
-Message-ID: <1870874.WO3KGWfQsR@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-MIME-Version: 1.0
-Subject: Public TSC / OE Workgroup meeting today
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 31CA86F956
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  1 Apr 2014 10:48:19 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s31AmDI7015760; Tue, 1 Apr 2014 11:48:13 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id YdwGLqXWc31I; Tue,  1 Apr 2014 11:48:13 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s31Am8bi015745
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 1 Apr 2014 11:48:10 +0100
+Message-ID: <1396349283.1432.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mats =?ISO-8859-1?Q?K=E4rrman?= <Mats.Karrman@tritech.se>
+Date: Tue, 01 Apr 2014 11:48:03 +0100
+In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B3AA247@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7EBE@post.tritech.se>
+	, <CAMKF1spy5NzfaLVfnUL_tMS_iqT7EE6NE++SUnb4BvVatgpL+Q@mail.gmail.com>
+	<ED3E0BCACD909541BA94A34C4A164D4C5B3AA247@post.tritech.se>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] Make ppce300c3 tune hard-float by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,30 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:48:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 01 Apr 2014 10:48:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+On Tue, 2014-04-01 at 07:54 +0000, Mats Kärrman wrote:
+> Hi Khem,
+> 
+> Thanks for your feedback!
+> 
+> On Tuesday, April 01, 2014 7:37 AM, Khem Raj wrote:
+> > On Fri, Mar 28, 2014 at 9:43 AM, Mats Kärrman <Mats.Karrman@tritech.se> wrote:
+> >> +# glibc configure options to make use of 603e specific sqrt/sqrtf routines
+> >> +GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "--with-cpu=e300c3", "", d)}"
+> >
+> > looks good, may be the comment above can be more explanatory saying that
+> > glibc aliases e300c3 sqrt/sqrtf to 600e versions
+> 
+> The above statement depends on an added "Implies" file in eglibc and,
+> more important on a previous patch adding support for 603e/fpu sqrt.
+> 
+> How is the new Implies file best added, as a patch to the previous patch
+> or as a new patch?
 
-There will be a public OpenEmbedded TSC/workgroup IRC meeting today. If you're 
-interested in discussing long-term technical efforts around the OpenEmbedded 
-project please join us on irc.freenode.net in channel #oe at 16:00 GMT (9am 
-PDT, 11am CDT, 12 EDT, 18:00 CEST, 17:00 BST).
-
-Possible topics for discussion (based on the last meeting and recent mailing 
-list topics):
-- Upcoming release
-- World build status
-- Website and other infrastructure issues
-
-New topics for discussion are welcome.
+Since this hasn't merge yet please send another patch. If it had merged,
+an incremental one would be needed.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
