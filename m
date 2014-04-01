@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DC8C86E849
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id D01DA6F8B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:09:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31A97jb014098 for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 11:09:07 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wDc9mI4aUFVY
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 11:09:07 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31A93wk014076
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 11:09:04 +0100
-Message-ID: <1396346938.14790.99.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 01 Apr 2014 11:08:58 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] image/image-prelink/image-mklibs/sanity: Drop pointless EXPORT_FUNCTIONS
+	Tue,  1 Apr 2014 10:11:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,771,1389744000"; d="scan'208";a="72411673"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 01 Apr 2014 11:11:55 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>)
+	id 1WUvfd-0001jz-RI; Tue, 01 Apr 2014 11:11:53 +0100
+Date: Tue, 1 Apr 2014 11:11:53 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140401101153.GA6306@mcrowe.com>
+References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
+	<1396344719.14790.94.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1396344719.14790.94.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,66 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:09:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 10:12:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'm sick of seeing people adding to EXPORT_FUNCTIONS in these classes
-when they clearly have no idea what it does.
+On Tuesday 01 April 2014 at 10:31:59 +0100, Richard Purdie wrote:
+> On Tue, 2014-04-01 at 10:16 +0100, Mike Crowe wrote:
+> > cmake detects the presence of curses automatically during configure so
+> > cmake-native must also depend on ncurses-native to stop it being removed
+> > from the sysroot during the build.
+> > 
+> > Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> > ---
+> >  meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+> > index 08b2c02..8d93b9a 100644
+> > --- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+> > +++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+> > @@ -2,7 +2,7 @@ require cmake.inc
+> >  inherit native
+> >  
+> >  # Using cmake's internal libarchive, so some dependencies are needed
+> > -DEPENDS += "bzip2-native zlib-native"
+> > +DEPENDS += "bzip2-native zlib-native ncurses-native"
+> >  
+> >  SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
+> >  
+> 
+> What does an ncurses enabled cmake give us that is desirable?
 
-Worse, these uses of it are all broken, the naming is incorrect and
-they do nothing. Lets remove them and try and preserve any remaining
-part of my sanity.
+I'm not really sure.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-index 23456cc..11f082b 100644
---- a/meta/classes/image-mklibs.bbclass
-+++ b/meta/classes/image-mklibs.bbclass
-@@ -69,6 +69,3 @@ mklibs_optimize_image() {
- 		fi
- 	done
- }
--
--
--EXPORT_FUNCTIONS mklibs_optimize_image
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index 53ef47e..d4bb3ae 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -31,5 +31,3 @@ prelink_image () {
- 	pre_prelink_size=`du -ks ${IMAGE_ROOTFS} | awk '{size = $1 ; print size }'`
- 	echo "Size after prelinking $pre_prelink_size."
- }
--
--EXPORT_FUNCTIONS prelink_image
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 29309f5..94abbc9 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -374,8 +374,6 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
- }
- 
--EXPORT_FUNCTIONS zap_empty_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
--
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 69d6a24..dd7fe4c 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -25,8 +25,6 @@ def sanity_conf_update(fn, lines, version_var_name, new_version):
-     with open(fn, "w") as f:
-         f.write(''.join(lines))
- 
--EXPORT_FUNCTIONS bblayers_conf_file sanity_conf_read sanity_conf_find_line sanity_conf_update
--
- # Functions added to this variable MUST throw an exception (or sys.exit()) unless they
- # successfully changed LCONF_VERSION in bblayers.conf
- BBLAYERS_CONF_UPDATE_FUNCS += "oecore_update_bblayers"
+CMake's bootstrap configure script detects curses and tries to use it which
+causes build failures if curses has gone missing in the meantime.
 
+In the failure I saw bitbake was building cmake-native and ncurses-native
+in parallel in a tree that had previously been used to build for a
+different machine. This caused curses.h to be present during
+cmake-native.do_configure but go missing before or during
+cmake-native.do_compile.
 
+It seems to be possible to disable building the "CursesDialog" component to
+remove the need for ncurses but I couldn't immediately see how to do that
+for a bootstrap build.
+
+The non-native cmake recipe depends on ncurses even though it passes
+-DBUILD_CursesDialog=0.
+
+Thanks.
+
+Mike.
 
