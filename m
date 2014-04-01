@@ -1,27 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 737FC6F572
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
+	[209.85.216.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B18F6EE45
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 13:51:56 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31Dpiig024630; Tue, 1 Apr 2014 14:51:44 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oLbEwzs5NRW7; Tue,  1 Apr 2014 14:51:44 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31DpfM9024621
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 14:51:43 +0100
-Message-ID: <1396360296.2910.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 01 Apr 2014 14:51:36 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: Status Update
+	Tue,  1 Apr 2014 14:17:01 +0000 (UTC)
+Received: by mail-qa0-f46.google.com with SMTP id i13so9392764qae.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Apr 2014 07:17:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=lOM+b/Be1J37EnvhCBFqmCxMQz/ZQPczf3SlTxll1N4=;
+	b=ANYOq5W27GWMxqZT5xnoNgujM4nkAi9dGQVmB1oDIUjuAC/hYI8HBSI5lG8rG+vuer
+	Q4oV6PHLiWvI9c+M0SqGN4XQes+8LM8fctleKHPpoBv0lyPn4zEvvPvkSlpG/JtY9QPC
+	JispXsJsexOvm0P30sxEauNgpuzCiDFW5de4elMRjMOhsfW5rNu2/woES81/dBx/c47o
+	1Awq1kIz3MXfoMJ96opAdiFWG9uj6SpFrJlJDXzJWPAAqS+BMLIKK6yb+aZYNU4PhK+P
+	FsHGOvtIp/dGtBSoRu7fRBQ2JUj9MppmGbYrlurKW9JMO+NDWrK+T8DusemD7N4xPCRs
+	CjXg==
+X-Gm-Message-State: ALoCoQnJleP+wFm6RMt5SNjWUJ7ENjnKogFOuab9/4U/XefG5y5h4SUxvbm2K35TUChtUvk7SYRV
+X-Received: by 10.224.75.5 with SMTP id w5mr16491791qaj.52.1396361822392; Tue,
+	01 Apr 2014 07:17:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.27.167 with HTTP; Tue, 1 Apr 2014 07:16:42 -0700 (PDT)
+In-Reply-To: <533AC1EF.7090600@windriver.com>
+References: <1396346945-3782-1-git-send-email-florin.sarbu@windriver.com>
+	<1396349467.1432.4.camel@ted>
+	<969F26A8BAB325438E7EB80D3C3134FB1CE76D4F@IRSMSX105.ger.corp.intel.com>
+	<533AB0A2.1000608@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB1CE76E2B@IRSMSX105.ger.corp.intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB1CE76E47@IRSMSX105.ger.corp.intel.com>
+	<533AC1EF.7090600@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 1 Apr 2014 15:16:42 +0100
+Message-ID: <CAJTo0La=GF4A5vzO86pqJj2HLjAeKdLYEUN=Q-0+5qpCn4LH4A@mail.gmail.com>
+To: Florin Sarbu <florin.sarbu@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman.inc: Add PACKAGECONFIG support for bluez5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +50,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 13:51:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 14:17:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Executive Summary
-=================
+On 1 April 2014 14:41, Florin Sarbu <florin.sarbu@windriver.com> wrote:
+> Well, as far as I see it, these 2 packages (connman and libpcap) are aware
+> only of bluez4 at the moment.
 
-3.14 kernel is in and we have green builds. Managed to make a dent in
-the defect tracking metrics but work remains. Trending well for the
-release, need to keep up the bug fixing.
+ConnMan supports both, and libpcap uses the libbluetooth API so that
+should link fine against either as that API didn't change much.
 
-1.6 Release Status
-===============
-
-The 3.14 kernel was released, we were able to updated the patches we had
-queued ready and it merged fairly smoothly. The builds last night after
-3.14 was integrated were all green which is nice to see. This included
-the switch to the two new reference BSPs. This was a big risk factor for
-the release so its nice to see it happen smoothly, finally.
-
-I've started aggressively trying to sort out my bug backlog, I've
-managed to close about 10 of them over the past week, some were found
-not to be bugs when they were delved into, some were resolved. There are
-some interesting bugs to do with sstate reuse too. My remaining 6 bugs
-(ignoring enhancements) are probably 1.7 material at this point. I know
-others have been making an effort too, including in other areas like
-documentation. We still have some runway before release so lets use that
-time to best advantage and see if we can lower the bug tracking metrics
-further.
-
-I have been trying to merge bug fixes quickly. I have to say that there
-has been a sharp drop in quality of patches on the list over the last
-week though. As people rush to try and get things in, its clear less
-testing is happening and this puts the build at risk. I'm therefore
-starting to be quite strict on review and if something is rushed and
-buggy, it (and any subsequent versions) will move to the bottom of the
-priority list.
-
-Autobuilder
-===========
-
-This seems to be stabilising. There has been the odd setup issue,
-another AB had RAID issues and the odd regression crept into the
-autobuilder code but things are being dealt with and feel under control.
-
-Bitbake Changes
-===============
-
-There is still some churn on the toaster codebase but given its new
-code, that is probably only to be expected. There have been some useful
-sstate signature fixes merged. I'm particularly interested in reports
-from people where sstate should have been reused and it wasn't. I'd
-really like to get to the bottom of these issues once and for all.
-
-Cheers,
-
-Richard
-
+Ross
 
