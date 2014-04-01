@@ -1,39 +1,32 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DB5F6B7D2
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ECD56B7D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 11:41:39 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id ld13so9561741vcb.33
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 04:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=/X2YOo2uibHzgDBZXQrcbVB1LOIrlfQBCDU0MBwAtxc=;
-	b=KW0EPA49Lq6qDmp2qx6gn7AjEWwiyUm/I+xIvzsdB/MgwsMCWYeF6iwQBPEtaOcW23
-	q5Pod9a7CVBLXGC2HTfQG6NXL+FakAwWapADo365KeFZg9rM1CFEM07W3g3av96MLLnp
-	nr0LPoO24ghvam2nMRZpjUirGS4LWo93FJr2wWknwpYAJ89T6z1QlVdfhUtaxNypWUbt
-	yoZAbK0ad9MAbD9Ea5/k4WdHdOc8tW0Kd4SIwlmZHs+Uf2jSW9qLvchzat8gdjuFDm2g
-	0iLpltC2YG0/t6o54mP4Ccffaz+1HNjO93xN3FmMIqH+hnJZqGEKqeS5R10jdEB7bbzh
-	BEBA==
-X-Received: by 10.221.4.66 with SMTP id ob2mr885522vcb.28.1396352500158; Tue,
-	01 Apr 2014 04:41:40 -0700 (PDT)
+	Tue,  1 Apr 2014 11:44:30 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s31BiPlE011745;
+	Tue, 1 Apr 2014 13:44:30 +0200
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Tue, 1 Apr 2014 13:44:25 +0200
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [RFC PATCH] Make ppce300c3 tune hard-float by default
+Thread-Index: Ac9KozMWp6mgzhUuTs+O79jHgwSqqQCuHmCAAAjSH6YAAgimgAAF7AiS
+Date: Tue, 1 Apr 2014 11:44:23 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3AA737@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7EBE@post.tritech.se>	,
+	<CAMKF1spy5NzfaLVfnUL_tMS_iqT7EE6NE++SUnb4BvVatgpL+Q@mail.gmail.com>
+	<ED3E0BCACD909541BA94A34C4A164D4C5B3AA247@post.tritech.se>,
+	<1396349283.1432.1.camel@ted>
+In-Reply-To: <1396349283.1432.1.camel@ted>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Tue, 1 Apr 2014 04:41:00 -0700 (PDT)
-In-Reply-To: <533A17B0.5080108@windriver.com>
-References: <cover.1395816581.git.liezhi.yang@windriver.com>
-	<7bb935ada71d07f3496a2ff8d2d73fe003e09a4f.1395816581.git.liezhi.yang@windriver.com>
-	<CANyK_8dNLRkz68AzGTQhOCx_rX=rzJhAjiRfKbyzHjkA28=UQA@mail.gmail.com>
-	<533A17B0.5080108@windriver.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 1 Apr 2014 12:41:00 +0100
-X-Google-Sender-Auth: TI5YYL_MShClmXy1WJkSl1CN8Vk
-Message-ID: <CANyK_8cr88xbYcQTjf4hppA+nh-+3LNkwpPm7ynF+USLKo64ng@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] util-linux-native: fix qsort_r for CentOS 5.10
+Subject: Re: [RFC PATCH] Make ppce300c3 tune hard-float by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,104 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 11:41:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 01 Apr 2014 11:44:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 1 April 2014 02:34, Robert Yang <liezhi.yang@windriver.com> wrote:
->
->
-> On 04/01/2014 05:22 AM, Paul Barker wrote:
->>
->> On 26 March 2014 07:01, Robert Yang <liezhi.yang@windriver.com> wrote:
->>>
->>> The qsort_r() was added to glibc in version 2.8, so there is no qsort_r()
->>> on
->>> the host like CentOS 5.x, use qsort() to fix it since they are nearly
->>> identical.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>   .../util-linux/util-linux-native-qsort.patch       |   34
->>> ++++++++++++++++++++
->>>   meta/recipes-core/util-linux/util-linux_2.24.1.bb  |    4 ++-
->>>   2 files changed, 37 insertions(+), 1 deletion(-)
->>>   create mode 100644
->>> meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
->>>
->>> diff --git
->>> a/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
->>> b/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
->>> new file mode 100644
->>> index 0000000..1707683
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-core/util-linux/util-linux/util-linux-native-qsort.patch
->>> @@ -0,0 +1,34 @@
->>> +From f220d809be1baa654503bf6ff52f3630b0d7015c Mon Sep 17 00:00:00 2001
->>> +From: Robert Yang <liezhi.yang@windriver.com>
->>> +Date: Wed, 26 Mar 2014 01:30:29 +0000
->>> +Subject: [PATCH] sun.c: use qsort() to instead of qsort_r()
->>> +
->>> +qsort_r() was added to glibc in version 2.8, so there is no qsort_r() on
->>> +the host like CentOS 5.x.
->>> +
->>> +Upstream-Status: Inappropriate [Other]
->>> +
->>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> +---
->>> + libfdisk/src/sun.c | 5 ++---
->>> + 1 file changed, 2 insertions(+), 3 deletions(-)
->>> +
->>> +diff --git a/libfdisk/src/sun.c b/libfdisk/src/sun.c
->>> +index e73c701..f7899ec 100644
->>> +--- a/libfdisk/src/sun.c
->>> ++++ b/libfdisk/src/sun.c
->>> +@@ -427,9 +427,8 @@ static int sun_verify_disklabel(struct fdisk_context
->>> *cxt)
->>> +         else
->>> +             array[i] = -1;
->>> +     }
->>> +-    qsort_r(array,ARRAY_SIZE(array),sizeof(array[0]),
->>> +-        (int (*)(const void *,const void *,void *)) verify_sun_cmp,
->>> +-        verify_sun_starts);
->>> ++    qsort(array,ARRAY_SIZE(array),sizeof(array[0]),
->>> ++        (int (*)(const void *,const void *)) verify_sun_cmp);
->>
->>
->> I've just been looking at this for building util-linux on top of musl
->> (as musl-libc doesn't implement qsort_r)
->> and my solution was to import a qsort_r implementation from ccl
->> (https://ccl.googlecode.com/svn/trunk/qsort_r.c).
->>
->
-> Maybe we can do it in YP 1.7.
->
->
->> Are you sure this solution works? verify_sun_cmp takes 3 parameters
->> not 2 and it uses the 3rd parameter (data). From reading this I'd
->> imagine a segfault is likely to occur in verify_sun_cmp if qsort is
->> used instead of qsort_r.
->>
->
-> I think it works well since there is a similar patch before we upgrade
-> the util-linux-native, I will verify later.
->
-
-The more I look at it the more I don't like this patch. It's probably
-a very rarely used code path but it could blow up if it's called. C
-provides no guarantees that calling a 3-argument function with only 2
-arguments will work. Depending on calling convention it could easily
-result in stack corruption on some platforms.
-
-I'd suggest we try reverting the relevant bits of the upstream change
-from qsort to
-qsort_r: http://git.kernel.org/cgit/utils/util-linux/util-linux.git/commit/?id=c69bbca9c1f6645097bd20fe3a21f5a99a2a0698
-
-I think it should just be the first 3 patch hunks in that commit.
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Hi Richard,=0A=
+=0A=
+On Tuesday, April 01, 2014 12:48 PM, Richard Purdie wrote:=0A=
+> On Tue, 2014-04-01 at 07:54 +0000, Mats K=E4rrman wrote:=0A=
+>> Hi Khem,=0A=
+>>=0A=
+>> Thanks for your feedback!=0A=
+>>=0A=
+>> On Tuesday, April 01, 2014 7:37 AM, Khem Raj wrote:=0A=
+>> > On Fri, Mar 28, 2014 at 9:43 AM, Mats K=E4rrman <Mats.Karrman@tritech.=
+se> wrote:=0A=
+>> >> +# glibc configure options to make use of 603e specific sqrt/sqrtf ro=
+utines=0A=
+>> >> +GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce=
+300c3", "--with-cpu=3De300c3", "", d)}"=0A=
+>> >=0A=
+>> > looks good, may be the comment above can be more explanatory saying th=
+at=0A=
+>> > glibc aliases e300c3 sqrt/sqrtf to 600e versions=0A=
+>>=0A=
+>> The above statement depends on an added "Implies" file in eglibc and,=0A=
+>> more important on a previous patch adding support for 603e/fpu sqrt.=0A=
+>>=0A=
+>> How is the new Implies file best added, as a patch to the previous patch=
+=0A=
+>> or as a new patch?=0A=
+>=0A=
+>Since this hasn't merge yet please send another patch. If it had merged,=
+=0A=
+>an incremental one would be needed.=0A=
+>=0A=
+=0A=
+Sorry if I was unclear. The patch I meant is "glibc.fix_sqrt2.patch" which=
+=0A=
+is part of both Dora and master OE-core. This patch adds the sqrt routines=
+=0A=
+I'm after and also adds Implies for relevant CPU's. What I need is one more=
+=0A=
+Implies that makes sure this code is used for e300c3 also.=0A=
+=0A=
+Or did you mean merged upstream?=0A=
+=0A=
+BR // Mats=0A=
+=0A=
 
