@@ -1,41 +1,31 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA4C60C22
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 601AD60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 12:35:31 +0000 (UTC)
-Received: by mail-vc0-f179.google.com with SMTP id ij19so9856518vcb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 05:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=kPzQSgiMw9wl6qb++PDU5zWaxRlpybQUdCvqFHjfcsM=;
-	b=OO4CWGAQySPsbdCgILQo08m3KznBy23xW4OIkEpRA6QCf7DpbnGMsaj1fvHA4KuFhZ
-	Kr7cmRDO+7PMyxmTwH7zUJNGzuH0/fQMWwcRCXP1vsl2TS8WmqjnZKDD9aml4ujnFKZW
-	V29YiKMYKVgmZaUjzHBVfpubazy6+SK3DbIeK3xHoEvHYvkXdtfs5G1jy9XKAf7z5pyv
-	ORE8nxZfMamS9/4tcVi/WHiJ28/Br11yAmaApVtvSbwLaXQ1QYUkvAQbJGUYbInaDYxl
-	1lQFFZGjPBfqL7bEp7VFQlseMasigLZ7sdzBrgjV2abuu2XicESBmiwBW3kN6ku8Ce+9
-	OVfA==
-X-Received: by 10.220.249.6 with SMTP id mi6mr726982vcb.33.1396355731911; Tue,
-	01 Apr 2014 05:35:31 -0700 (PDT)
+	Tue,  1 Apr 2014 12:54:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s31Csj00000298
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Apr 2014 05:54:45 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 1 Apr 2014 05:54:45 -0700
+Message-ID: <533AB712.2000809@windriver.com>
+Date: Tue, 1 Apr 2014 08:54:42 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Tue, 1 Apr 2014 05:34:51 -0700 (PDT)
-In-Reply-To: <1396355498.5879.31.camel@phil-desktop.brightsign>
-References: <cover.1395816581.git.liezhi.yang@windriver.com>
-	<7bb935ada71d07f3496a2ff8d2d73fe003e09a4f.1395816581.git.liezhi.yang@windriver.com>
-	<CANyK_8dNLRkz68AzGTQhOCx_rX=rzJhAjiRfKbyzHjkA28=UQA@mail.gmail.com>
-	<533A17B0.5080108@windriver.com>
-	<CANyK_8cr88xbYcQTjf4hppA+nh-+3LNkwpPm7ynF+USLKo64ng@mail.gmail.com>
-	<1396355498.5879.31.camel@phil-desktop.brightsign>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 1 Apr 2014 13:34:51 +0100
-X-Google-Sender-Auth: 1m1F6OGj3dn5AD5NnhgbhdsGwCk
-Message-ID: <CANyK_8dUrG9BQMCSwhB3v5dzF9PWmOWndyrsrMs+-zkiWo2sug@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] util-linux-native: fix qsort_r for CentOS 5.10
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1396288310.git.bruce.ashfield@windriver.com>	<e6015802086cbf8199d112a3e75a7391a417ede6.1396288310.git.bruce.ashfield@windriver.com>	<CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>	<5339C30B.1060005@windriver.com>
+	<CAMKF1srfDpeGkQMnHkK_AFPy6N7pujtLwMRsgbsDeHem82_5nA@mail.gmail.com>
+	<5339C6FD.1070506@windriver.com>
+	<A5D0F3B0-A739-4D0D-A9C5-926BBEB9CD35@gmail.com>
+In-Reply-To: <A5D0F3B0-A739-4D0D-A9C5-926BBEB9CD35@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] libc-headers: set TC default to 3.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,40 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 12:35:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 01 Apr 2014 12:54:49 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 1 April 2014 13:31, Phil Blundell <pb@pbcl.net> wrote:
-> On Tue, 2014-04-01 at 12:41 +0100, Paul Barker wrote:
->> The more I look at it the more I don't like this patch. It's probably
->> a very rarely used code path but it could blow up if it's called. C
->> provides no guarantees that calling a 3-argument function with only 2
->> arguments will work. Depending on calling convention it could easily
->> result in stack corruption on some platforms.
->>
->> I'd suggest we try reverting the relevant bits of the upstream change
->> from qsort to
->> qsort_r: http://git.kernel.org/cgit/utils/util-linux/util-linux.git/commit/?id=c69bbca9c1f6645097bd20fe3a21f5a99a2a0698
->>
->> I think it should just be the first 3 patch hunks in that commit.
+On 14-04-01 02:42 AM, Khem Raj wrote:
 >
-> It seems vanishingly unlikely that anybody is seriously going to try to
-> use fdisk from util-linux-native to manipulate Sun partition tables and,
-> that being the case, it's presumably going to be quite hard to test any
-> such change.  Maybe we should just turn off support for these fringe
-> partition table types altogether.
+> On Mar 31, 2014, at 12:50 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>
+>>> i dont believe you tested all layer combinations
+>>
+>> I've tested everything I can, as has the autobuilder. I can't offer
+>> any more than this.
+>>
+>>>>
+>>>>
+>>>>> at this point. 3.10 being LTS
+>>>>> I would assume its a better option to keep at 3.10
+>>>>
+>>>>
+>>>> I disagree, this is consistent with other releases and the documented
+>>>> plan of action. I'd rather not have a massive version jump in the fall.
+>>>
+>>> its probably not a bad option to stick to LTS version for kernel headers
+>>> after all
+>>
+>> Again, I disagree.
+>>
+>> We can maybe keep the 3.10 recipe around,
+>
+> Thats ugly too. We decided to stick to one version of headers last time.
+>
+>> but the default should
+>> be 3.14, we need a matched kernel and libc-headers to get the best integration
+>> and leveraging of the latest features.
+>>
+>> If we pull the headers, pull the kernel.
+>
+> this all is understood, however we have to get better with timings especially
+> changing something like kernel headers whose impact is far reaching then
+>   just updating kernel proper.
+
+We do the best we can and I can only play the timing that is dealt
+by the upstream projects ... but we all know that!
+
+We arranged for as much soak testing and building as we could behind
+the scenes.
+
+That being said, we are going to introduce the versioned kernel and
+libc-headers recipes in the -rc1 timeframe next time around and we
+captured that intention on the kernel planning wiki for 1.7 .. so that
+should help in the next cycle.
+
+Cheers,
+
+Bruce
+
 >
 
-That may be a much, much easier fix.
-
-I've reported this to the upstream mailing list anyway as there really
-should be an autoconf check for qsort_r.
-
-Thanks,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
