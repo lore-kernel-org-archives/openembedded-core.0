@@ -1,34 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E4D16028A
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 497EE62252
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 12:02:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31C2ZWl019618; Tue, 1 Apr 2014 13:02:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BJS95Ynvy_qG; Tue,  1 Apr 2014 13:02:35 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31C2VSE019608
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 13:02:32 +0100
-Message-ID: <1396353746.2910.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mats =?ISO-8859-1?Q?K=E4rrman?= <Mats.Karrman@tritech.se>
-Date: Tue, 01 Apr 2014 13:02:26 +0100
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B3AA737@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7EBE@post.tritech.se>
-	, <CAMKF1spy5NzfaLVfnUL_tMS_iqT7EE6NE++SUnb4BvVatgpL+Q@mail.gmail.com>
-	<ED3E0BCACD909541BA94A34C4A164D4C5B3AA247@post.tritech.se>
-	,<1396349283.1432.1.camel@ted>
-	<ED3E0BCACD909541BA94A34C4A164D4C5B3AA737@post.tritech.se>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
+	Tue,  1 Apr 2014 12:19:18 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WUxew-0004RM-19; Tue, 01 Apr 2014 14:19:18 +0200
+Message-ID: <1396354757.5879.26.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Tue, 01 Apr 2014 13:19:17 +0100
+In-Reply-To: <20140328172824.GJ3370@denix.org>
+References: <1366735649.5732.21.camel@phil-desktop.brightsign>
+	<20140328172824.GJ3370@denix.org>
+X-Mailer: Evolution 3.8.5-2+b1 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] Make ppce300c3 tune hard-float by default
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Fri, 2014-03-28 at 13:28 -0400,
+	Denys Dmytriyenko wrote:
+	> > KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}" > >
+	-KERNEL_LD
+	= "${CCACHE}${HOST_PREFIX}ld ${HOST_LD_KERNEL_ARCH}" > > +KERNEL_LD =
+	"${CCACHE}${HOST_PREFIX}ld.bfd
+	${HOST_LD_KERNEL_ARCH}" > > KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar
+	${HOST_AR_KERNEL_ARCH}"
+	> > I know this is almost a year-old change. > > The question I have is
+	-
+	what should one do when using an external toolchain > that doesn't have
+	ld.bfd provided? I know these days with gold vs. BFD linker,
+	> it's common to have ld.bfd,
+	but there could be exceptions... > > Should this assignment be
+	conditional, 
+	so it's easier to override from > local.conf or distro? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-arch: Always use ld.bfd to link the kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,49 +61,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 12:02:48 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 12:19:21 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-04-01 at 11:44 +0000, Mats Kärrman wrote:
-> Hi Richard,
+On Fri, 2014-03-28 at 13:28 -0400, Denys Dmytriyenko wrote:
+> >  KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}"
+> > -KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld ${HOST_LD_KERNEL_ARCH}"
+> > +KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+> >  KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
 > 
-> On Tuesday, April 01, 2014 12:48 PM, Richard Purdie wrote:
-> > On Tue, 2014-04-01 at 07:54 +0000, Mats Kärrman wrote:
-> >> Hi Khem,
-> >>
-> >> Thanks for your feedback!
-> >>
-> >> On Tuesday, April 01, 2014 7:37 AM, Khem Raj wrote:
-> >> > On Fri, Mar 28, 2014 at 9:43 AM, Mats Kärrman <Mats.Karrman@tritech.se> wrote:
-> >> >> +# glibc configure options to make use of 603e specific sqrt/sqrtf routines
-> >> >> +GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "--with-cpu=e300c3", "", d)}"
-> >> >
-> >> > looks good, may be the comment above can be more explanatory saying that
-> >> > glibc aliases e300c3 sqrt/sqrtf to 600e versions
-> >>
-> >> The above statement depends on an added "Implies" file in eglibc and,
-> >> more important on a previous patch adding support for 603e/fpu sqrt.
-> >>
-> >> How is the new Implies file best added, as a patch to the previous patch
-> >> or as a new patch?
-> >
-> >Since this hasn't merge yet please send another patch. If it had merged,
-> >an incremental one would be needed.
-> >
+> I know this is almost a year-old change.
 > 
-> Sorry if I was unclear. The patch I meant is "glibc.fix_sqrt2.patch" which
-> is part of both Dora and master OE-core. This patch adds the sqrt routines
-> I'm after and also adds Implies for relevant CPU's. What I need is one more
-> Implies that makes sure this code is used for e300c3 also.
+> The question I have is - what should one do when using an external toolchain 
+> that doesn't have ld.bfd provided? I know these days with gold vs. BFD linker, 
+> it's common to have ld.bfd, but there could be exceptions...
 > 
-> Or did you mean merged upstream?
+> Should this assignment be conditional, so it's easier to override from 
+> local.conf or distro?
 
-Sorry, its me who misunderstood. Please send a patch which updates that
-patch file with the extra information.
+Making those assignments all be conditional doesn't sound like a totally
+unreasonable plan to me.  (I think it would be a bad idea to make
+KERNEL_LD alone be conditional; if we change one then we should change
+all four.)
 
-Cheers,
+Alternatively I guess you could take the view that the external
+toolchain packaging ought to be providing an ld.bfd symlink if there
+isn't already one.  There are other places in oe-core which mention
+ld.bfd (one of them is gcc-cross-initial, which probably wouldn't be an
+issue for external toolchains, but another is u-boot which might be) and
+fixing the problem in the external toolchain would avoid the need to
+find and fix every place that refers to ld.bfd.  So I think this would
+be my preference.
 
-Richard
+p.
+
 
 
