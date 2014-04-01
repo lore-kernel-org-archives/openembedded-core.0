@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9E86F8CE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3611F6F8CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 09:10:01 +0000 (UTC)
+	Tue,  1 Apr 2014 09:10:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s319A26C025849
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s319A47v015684
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 02:10:03 -0700 (PDT)
+	Tue, 1 Apr 2014 02:10:04 -0700 (PDT)
 Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Tue, 1 Apr 2014 02:10:02 -0700
+	(TLS) id 14.3.169.1; Tue, 1 Apr 2014 02:10:03 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Apr 2014 17:09:50 +0800
-Message-ID: <812f24b1debb5dcfb8e6b2bdd9ef877d256cd3f8.1396343261.git.kai.kang@windriver.com>
+Date: Tue, 1 Apr 2014 17:09:51 +0800
+Message-ID: <26f22e4e2b8b1fa1eff604feac7088986d561eab.1396343261.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1396343261.git.kai.kang@windriver.com>
 References: <cover.1396343261.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.231]
-Subject: [PATCH 1/3] xorg: Fix for CVE-2013-6424
+Subject: [PATCH 2/3] cmake: follow ptest output format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +34,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 09:10:02 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 09:10:03 -0000
 Content-Type: text/plain
 
-Integer underflow in the xTrapezoidValid macro in render/picture.h in X.Org
-allows context-dependent attackers to cause a denial of service (crash) via
-a negative bottom value.
+From: Li Wang <li.wang@windriver.com>
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6424
+ptest output format is incorrect, according to yocto Development Manual
+(http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest)
 
-Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
+The test generates output in the format used by Automake:
+<result>: <testname>
+where the result can be PASS, FAIL, or SKIP, and the testname can be any identifying string.
+
+So we should change the test result format to match yocto ptest rules.
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../xserver-xorg/xorg-CVE-2013-6424.patch          | 31 ++++++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.15.0.bb            |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xorg-CVE-2013-6424.patch
+ meta/recipes-devtools/cmake/cmake.inc              |   1 +
+ .../cmake/cmake/follow_ptest_output_format.patch   | 118 +++++++++++++++++++++
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/xorg-CVE-2013-6424.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/xorg-CVE-2013-6424.patch
-new file mode 100644
-index 0000000..7c61530
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/xorg-CVE-2013-6424.patch
-@@ -0,0 +1,31 @@
-+This patch comes from:
-+http://lists.x.org/archives/xorg-devel/2013-October/037996.html
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Baogen shang <baogen.shang@windriver.com>
-+diff -Naur xorg-server-1.14.0-orig/exa/exa_render.c xorg-server-1.14.0/exa/exa_render.c
-+--- xorg-server-1.14.0-orig/exa/exa_render.c	2014-02-27 14:32:38.000000000 +0800
-++++ xorg-server-1.14.0/exa/exa_render.c	2014-02-27 15:46:59.000000000 +0800
-+@@ -1141,7 +1141,8 @@
-+ 
-+         exaPrepareAccess(pPicture->pDrawable, EXA_PREPARE_DEST);
-+         for (; ntrap; ntrap--, traps++)
-+-            (*ps->RasterizeTrapezoid) (pPicture, traps, -bounds.x1, -bounds.y1);
-++            if (xTrapezoidValid(traps))
-++                (*ps->RasterizeTrapezoid) (pPicture, traps, -bounds.x1, -bounds.y1);
-+         exaFinishAccess(pPicture->pDrawable, EXA_PREPARE_DEST);
-+ 
-+         xRel = bounds.x1 + xSrc - xDst;
-+diff -Naur xorg-server-1.14.0-orig/render/picture.h xorg-server-1.14.0/render/picture.h
-+--- xorg-server-1.14.0-orig/render/picture.h	2014-02-27 14:32:26.000000000 +0800
-++++ xorg-server-1.14.0/render/picture.h	2014-02-27 15:48:13.000000000 +0800
-+@@ -211,7 +211,7 @@
-+ /* whether 't' is a well defined not obviously empty trapezoid */
-+ #define xTrapezoidValid(t)  ((t)->left.p1.y != (t)->left.p2.y && \
-+ 			     (t)->right.p1.y != (t)->right.p2.y && \
-+-			     (int) ((t)->bottom - (t)->top) > 0)
-++			     ((t)->bottom > (t)->top))
-+ 
-+ /*
-+  * Standard NTSC luminance conversions:
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
-index a4dda4e..1f9fa04 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
-@@ -5,6 +5,7 @@ SRC_URI += "file://crosscompile.patch \
-             file://fix_open_max_preprocessor_error.patch \
-             file://mips64-compiler.patch \
-             file://aarch64.patch \
-+            file://xorg-CVE-2013-6424.patch \
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 1d5303f..254af45 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -17,6 +17,7 @@ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz
+            file://aarch64-kwsys.patch \
+            file://qt4-fail-silent.patch \
+            file://cmake-2.8.11.2-FindFreetype.patch \
++           file://follow_ptest_output_format.patch \
             "
  
- SRC_URI[md5sum] = "c2ace3697b32414094cf8c597c39d7d9"
+ inherit autotools-brokensep
+diff --git a/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch b/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
+new file mode 100644
+index 0000000..5428df2
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
+@@ -0,0 +1,118 @@
++cmake: follow ptest output format
++
++ptest output format is incorrect, according to yocto Development Manual
++(http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest)
++5.10.6. Testing Packages With ptest
++The test generates output in the format used by Automake:
++<result>: <testname>
++where the result can be PASS, FAIL, or SKIP, and the testname can be any identifying string.
++So we should change the test result format to match yocto ptest rules.
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++--- a/Source/CTest/cmCTestRunTest.cxx
+++++ b/Source/CTest/cmCTestRunTest.cxx
++@@ -145,8 +145,8 @@
++     this->CompressOutput();
++     }
++ 
++-  this->WriteLogOutputTop(completed, total);
++   std::string reason;
+++  std::string result;
++   bool passed = true;
++   int res = started ? this->TestProcess->GetProcessStatus()
++                     : cmsysProcess_State_Error;
++@@ -208,57 +208,58 @@
++       || (!success && this->TestProperties->WillFail))
++       {
++       this->TestResult.Status = cmCTestTestHandler::COMPLETED;
++-      cmCTestLog(this->CTest, HANDLER_OUTPUT, "   Passed  " );
+++      result = "           ";
++       }
++     else
++       {
++       this->TestResult.Status = cmCTestTestHandler::FAILED;
++-      cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Failed  " << reason );
+++      result = "           " + reason;
++       outputTestErrorsToConsole = this->CTest->OutputTestOutputOnTestFailure;
++       }
++     }
++   else if ( res == cmsysProcess_State_Expired )
++     {
++-    cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Timeout ");
+++    result = "***Timeout ";
++     this->TestResult.Status = cmCTestTestHandler::TIMEOUT;
++     outputTestErrorsToConsole = this->CTest->OutputTestOutputOnTestFailure;
++     }
++   else if ( res == cmsysProcess_State_Exception )
++     {
++     outputTestErrorsToConsole = this->CTest->OutputTestOutputOnTestFailure;
++-    cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Exception: ");
+++    result = "***Exception: ";
++     switch(this->TestProcess->GetExitException())
++       {
++       case cmsysProcess_Exception_Fault:
++-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "SegFault");
+++        result += "SegFault";
++         this->TestResult.Status = cmCTestTestHandler::SEGFAULT;
++         break;
++       case cmsysProcess_Exception_Illegal:
++-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Illegal");
+++        result += "Illegal";
++         this->TestResult.Status = cmCTestTestHandler::ILLEGAL;
++         break;
++       case cmsysProcess_Exception_Interrupt:
++-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Interrupt");
+++        result += "Interrupt";
++         this->TestResult.Status = cmCTestTestHandler::INTERRUPT;
++         break;
++       case cmsysProcess_Exception_Numerical:
++-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Numerical");
+++        result += "Numerical";
++         this->TestResult.Status = cmCTestTestHandler::NUMERICAL;
++         break;
++       default:
++-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Other");
+++        result += "Other";
++         this->TestResult.Status = cmCTestTestHandler::OTHER_FAULT;
++       }
++     }
++   else //cmsysProcess_State_Error
++     {
++-    cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Not Run ");
+++    result = "***Not Run ";
++     }
++ 
++   passed = this->TestResult.Status == cmCTestTestHandler::COMPLETED;
++   char buf[1024];
++   sprintf(buf, "%6.2f sec", this->TestProcess->GetTotalTime());
++-  cmCTestLog(this->CTest, HANDLER_OUTPUT, buf << "\n" );
+++  this->WriteLogOutputTop(completed, total);
+++  cmCTestLog(this->CTest, HANDLER_OUTPUT, result << buf << "\n" );
++ 
++   if ( outputTestErrorsToConsole )
++     {
++@@ -398,6 +399,7 @@
++ // Starts the execution of a test.  Returns once it has started
++ bool cmCTestRunTest::StartTest(size_t total)
++ {
+++  cmCTestLog(this->CTest, HANDLER_OUTPUT, "      ");
++   cmCTestLog(this->CTest, HANDLER_OUTPUT, std::setw(2*getNumWidth(total) + 8)
++     << "Start "
++     << std::setw(getNumWidth(this->TestHandler->GetMaxIndex()))
++@@ -679,6 +681,15 @@
++ 
++ void cmCTestRunTest::WriteLogOutputTop(size_t completed, size_t total)
++ {
+++  if ( this->TestResult.Status == cmCTestTestHandler::COMPLETED )
+++    {
+++    cmCTestLog(this->CTest, HANDLER_OUTPUT, "PASS: " );
+++    }
+++  else
+++    {
+++    cmCTestLog(this->CTest, HANDLER_OUTPUT, "FAIL: " );
+++    }
+++
++   cmCTestLog(this->CTest, HANDLER_OUTPUT, std::setw(getNumWidth(total))
++              << completed << "/");
++   cmCTestLog(this->CTest, HANDLER_OUTPUT, std::setw(getNumWidth(total))
 -- 
 1.8.1.2
 
