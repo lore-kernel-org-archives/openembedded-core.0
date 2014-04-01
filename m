@@ -1,33 +1,62 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C77226E786
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id ACCF76E786
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 21:19:11 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id if17so10320009vcb.22
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 14:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=/q0LEYEeL//misvghKOZjP4cCUVUUVlSkMXWymX+qJA=;
-	b=JsYNmAx7u9QzHBJR5OYXVtxmobhiKm/3yEaaN2TZe1YkyD3R1uhgZNSDYMEimTL86W
-	MdIsu86X4BZ+cuuW5iPGuc2EnbxGKRHfrlNxZk5Xn8S3aS20BgDeRMOczye5hAWBjkEn
-	zvj3ZIQw6PDKjOC31gabdY/OUvdhPSgvj39DptzSrdsMikAV6yv5WXZJxa9HV7uxJrOg
-	bIlyv1/MefGSjxh3PZDfjrJZdL1s+pxXMwJWLQM8Rv7NCFXpQAuqtttC8Elm2KMMaJNe
-	PAXRDb8pE0akYsusXV65qMVVZ3Ypl+rRRuupM48+a7MYsrMlUrFCeDk734me+/24rhC2
-	wQ8w==
-X-Received: by 10.52.108.164 with SMTP id hl4mr2914480vdb.25.1396387151510;
-	Tue, 01 Apr 2014 14:19:11 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Tue, 1 Apr 2014 14:18:30 -0700 (PDT)
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 1 Apr 2014 22:18:30 +0100
-X-Google-Sender-Auth: 2vgcCI7WxHP0_HpFIvjoWIm-UW4
-Message-ID: <CANyK_8dPFDShPAvhYt+89j0Mr4fjzpeMt28HrwNAZrN8qfnS4w@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: opkg-0.2.2 release
+	Tue,  1 Apr 2014 21:29:10 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WV6F4-00059X-9G; Tue, 01 Apr 2014 23:29:10 +0200
+Message-ID: <1396387742.3038.34.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 01 Apr 2014 22:29:02 +0100
+In-Reply-To: <1396374702.2910.27.camel@ted>
+References: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
+	<1396374241.5879.50.camel@phil-desktop.brightsign>
+	<1396374515.5879.54.camel@phil-desktop.brightsign>
+	<1396374702.2910.27.camel@ted>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Tue, 2014-04-01 at 18:51 +0100,
+	Richard Purdie wrote: > On Tue, 2014-04-01 at 18:48 +0100,
+	Phil Blundell wrote: > > Also note that
+	the default for USE_DEVFS was (and is) 1,
+	so the lack > > of this check is
+	actually causing a difference in the default > > behaviour. If there's
+	no
+	appetite for reinstating the USE_DEVFS > > mechanism per se then it
+	seems
+	like it would be a good idea to make > > the default IMAGE_DEVICE_TABLE
+	be
+	blank in order to restore the > > previous default of no /dev in the
+	rootfs.
+	> > > > At present you get a somewhat arbitrary-seeming smattering of
+	devices > > from meta/files/device_table-minimal.txt,
+	including such anachronisms
+	> > as /dev/ttySA0 and /dev/apm_bios. It's hard to imagine that anybody
+	>
+	> actually wants this stuff in their rootfs in this day and age. > >
+	Can we kill apmd at the same time? Please? :) [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: image.bbclass: USE_DEVFS is now useless
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,43 +69,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 21:19:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 01 Apr 2014 21:29:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On Tue, 2014-04-01 at 18:51 +0100, Richard Purdie wrote:
+> On Tue, 2014-04-01 at 18:48 +0100, Phil Blundell wrote:
+> > Also note that the default for USE_DEVFS was (and is) 1, so the lack
+> > of this check is actually causing a difference in the default
+> > behaviour.  If there's no appetite for reinstating the USE_DEVFS
+> > mechanism per se then it seems like it would be a good idea to make
+> > the default IMAGE_DEVICE_TABLE be blank in order to restore the
+> > previous default of no /dev in the rootfs.  
+> >
+> > At present you get a somewhat arbitrary-seeming smattering of devices
+> > from meta/files/device_table-minimal.txt, including such anachronisms
+> > as /dev/ttySA0 and /dev/apm_bios.  It's hard to imagine that anybody
+> > actually wants this stuff in their rootfs in this day and age.
+> 
+> Can we kill apmd at the same time? Please? :)
 
-I've just released opkg-0.2.2 with the following bugfixes (issue
-numbers refer to the opkg issue list):
+I can't see why not.  I'd be surprised if there were many/any real users
+left, beyond possibly some legacy stuff in meta-handheld, and it
+definitely doesn't seem "core" by any reasonable interpretation of the
+term.  
 
-- Fix '--force-reinstall' flag so that it acts as an upgrade rather than
-  removing possibly critical packages before reinstall (issue 71)
+Apart from packagegrounds, the only recipe in oe-core that mentions a
+dependency on apmd is matchbox-panel (for the battery applet
+presumably); that dependency is conditional on having apm in
+MACHINE_FEATURES (which it isn't by default), and it seems a bit fishy
+anyway since I can't immediately think of a reason why matchbox-panel
+would need the actual daemon.
 
-- Symlinks are now correctly removed during package uninstall (issue 91)
+So, I think it should probably be safe to just rescind support for both
+apmd and the MACHINE_FEATURE apm in oe-core.  If meta-handheld, meta-oe
+or anybody else wants to keep apmd then they can do so in their own
+layers although I rather hope that nobody does.
 
-- Fixed help and manual pages to reflect that shell globs not true regexps are
-  accepted by opkg (issue 107)
+p.
 
-- The error message "no valid architecture" is no longer given when the
-  architecture of a package is valid but incompatible with the current system.
 
-This is a bugfix only release with no other significant changes.
-
-I have also rebased the patches against opkg in oe-core against the
-new release and checked that they still apply and that the result
-builds with recent oe-core master. The result was tested on qemuarm by
-running 'opkg update' against a package feed and installing a few new
-packages.
-
-Do we want to try to get this in to the upcoming Yocto release or
-shall I delay the recipe upgrade until after the release? If you want
-it for the upcoming release I'll re-run my tests locally just to be
-sure it's looking good and then send a patch.
-
-Cheers,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
