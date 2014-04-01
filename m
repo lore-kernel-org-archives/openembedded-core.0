@@ -1,39 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D54B36F956
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:47:21 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id z2so3108386wiv.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 03:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=blR/HXwCkgA9vuO/9AVji2Z2FyVg7y0OuwEDVwLOEJ4=;
-	b=tx8HgK50r8umn7kVWnfH7yi3upJ7g2lyLOONEvoZT3z8Ry7K+lsAR9FkRYrJo0ObyY
-	6NllbmD0Uqkxge56gtccSRRi/fKc7lAr+KflD5+CgR0WGsCNmXfGD3tlNvNSEKZltSdU
-	83VW9yBtCw8LKzsAPIiFTU2bifm+7K7x3jST/k+JT1pASasx80yqmtSo9ZacsORZZbRy
-	Uw9N0i3Yko+mCDeGvo9CbWHma0donpGV/NNDrxrbmXAsspgRbuObEH5YNSpjibXfJ2My
-	ClCkm6FB6m5W84OIP5adG/JsjosmTPW53aI2VpttJvaaxI1ZmSNntw9YTbUnw25HtxA8
-	S5oA==
-X-Received: by 10.180.39.173 with SMTP id q13mr1580155wik.26.1396349242585;
-	Tue, 01 Apr 2014 03:47:22 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	o7sm39681129eew.25.2014.04.01.03.47.20 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Apr 2014 03:47:20 -0700 (PDT)
-Date: Tue, 1 Apr 2014 12:47:20 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Florin Sarbu <florin.sarbu@windriver.com>
-Message-ID: <20140401104720.GK2425@jama>
-References: <1396347400-9699-1-git-send-email-florin.sarbu@windriver.com>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 67C8D6E6FA;
+	Tue,  1 Apr 2014 10:48:08 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2014 03:48:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,771,1389772800"; d="scan'208";a="511757529"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.155])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2014 03:45:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Date: Tue, 01 Apr 2014 11:45:38 +0100
+Message-ID: <1870874.WO3KGWfQsR@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.6-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
 MIME-Version: 1.0
-In-Reply-To: <1396347400-9699-1-git-send-email-florin.sarbu@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpcap.inc: Add PACKAGECONFIG support for bluez
+Subject: Public TSC / OE Workgroup meeting today
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,77 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:47:23 -0000
-X-Groupsio-MsgNum: 52005
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vJI8q/aziP9idhqk"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 01 Apr 2014 10:48:09 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---vJI8q/aziP9idhqk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi all,
 
-On Tue, Apr 01, 2014 at 01:16:40PM +0300, Florin Sarbu wrote:
-> This patch adds support for having bluez5 in PACKAGECONFIG
-> and get libpcap DEPEND on bluez5.
->=20
-> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
-> ---
->  meta/recipes-connectivity/libpcap/libpcap.inc | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes=
--connectivity/libpcap/libpcap.inc
-> index a984e05..1613567 100644
-> --- a/meta/recipes-connectivity/libpcap/libpcap.inc
-> +++ b/meta/recipes-connectivity/libpcap/libpcap.inc
-> @@ -10,8 +10,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1d4b03665579=
-51c84a94fabe3529f867 \
->                      file://pcap.h;beginline=3D1;endline=3D34;md5=3D8d6cf=
-7e17d5745010d633e30bc529ea9"
->  DEPENDS =3D "flex-native bison-native libnl"
-> =20
-> -PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'b=
-luetooth', '', d)}"
-> -PACKAGECONFIG[bluetooth] =3D "--enable-bluetooth,--disable-bluetooth,blu=
-ez4"
-> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'b=
-luez4', '', d)}"
-> +PACKAGECONFIG[bluez4] =3D "--enable-bluetooth,--disable-bluetooth,bluez4"
-> +PACKAGECONFIG[bluez5] =3D "--enable-bluetooth,--disable-bluetooth,bluez5"
+There will be a public OpenEmbedded TSC/workgroup IRC meeting today. If you're 
+interested in discussing long-term technical efforts around the OpenEmbedded 
+project please join us on irc.freenode.net in channel #oe at 16:00 GMT (9am 
+PDT, 11am CDT, 12 EDT, 18:00 CEST, 17:00 BST).
 
-Does it work correctly?
+Possible topics for discussion (based on the last meeting and recent mailing 
+list topics):
+- Upcoming release
+- World build status
+- Website and other infrastructure issues
 
-If you don't enable both you will always get at least one
---disable-bluetooth and depending on order how packageconfigs were
-processed it will be disabled or not.
+New topics for discussion are welcome.
 
->  PACKAGECONFIG[canusb] =3D "--enable-canusb,--enable-canusb=3Dno,libusb"
->  PACKAGECONFIG[libnl1] =3D "--with-libnl,--without-libnl,libnl1,libnl1"
-> =20
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+Paul
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
 
---vJI8q/aziP9idhqk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlM6mTgACgkQN1Ujt2V2gByIbQCeNDbs2TOUHJzGg+xQJU47A9cx
-ZFcAmwbKSXhJWIjTkW/viujeeQY2ip6l
-=ftJw
------END PGP SIGNATURE-----
-
---vJI8q/aziP9idhqk--
