@@ -1,36 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B4036E89C
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D7CE8617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 15:41:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s31FfAqF002282
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 1 Apr 2014 08:41:12 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 1 Apr 2014 08:41:10 -0700
-Message-ID: <533ADE13.3070701@windriver.com>
-Date: Tue, 1 Apr 2014 11:41:07 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1396288310.git.bruce.ashfield@windriver.com>	
-	<e6015802086cbf8199d112a3e75a7391a417ede6.1396288310.git.bruce.ashfield@windriver.com>	
-	<CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>	
-	<5339C30B.1060005@windriver.com>	
-	<CAMKF1srfDpeGkQMnHkK_AFPy6N7pujtLwMRsgbsDeHem82_5nA@mail.gmail.com>	
-	<5339C6FD.1070506@windriver.com>	
-	<A5D0F3B0-A739-4D0D-A9C5-926BBEB9CD35@gmail.com>	
-	<533AB712.2000809@windriver.com> <20140401145014.GQ2425@jama>	
-	<533AD2C2.7000104@windriver.com> <1396364058.2910.24.camel@ted>
-In-Reply-To: <1396364058.2910.24.camel@ted>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] libc-headers: set TC default to 3.14
+	Tue,  1 Apr 2014 16:18:46 +0000 (UTC)
+Received: by mail-yh0-f50.google.com with SMTP id c41so9231389yho.37
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Apr 2014 09:18:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=+sbH8qudNDEi3antjpXBV6zkyBNPWmIaDsMBnFTRo84=;
+	b=mV79DjEL3ypFs3cV2qGCpBQCid8olPByJiW1Mxn3qqs3YNK7x6hGg8Dn5ZohbsfQbn
+	n7bEoDakodun30MPPhgGyzJzrgbURgC4VgvsbvAeIbmK0MVl+VO0N0te8ts5gGFQuYvh
+	gpA7vMgN6dIHpBoBhSD99YXO+cJKbSGcJzmtzKwbJmwhb9rjmOIGp92weZcpOnk9xd2l
+	BgvomHQWCqFK0yUF7jZmaKH2HWmcHZ/ch76Z0Gxv0jDw8r1sPjTxhH/Qkl1js7ibni8b
+	bPZt1PA3+uMgSgXHG6AiwgUqyeeDo+FuH+xPKX7izGkGAUKyRR866Q0k5ZlAoPx5hGas
+	xXWQ==
+X-Received: by 10.236.151.83 with SMTP id a59mr45962137yhk.48.1396369127346;
+	Tue, 01 Apr 2014 09:18:47 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.194.208.225])
+	by mx.google.com with ESMTPSA id s6sm21044050yho.45.2014.04.01.09.18.45
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Apr 2014 09:18:46 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 0796519F7E5E9; Tue,  1 Apr 2014 13:18:43 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  1 Apr 2014 13:18:42 -0300
+Message-Id: <1396369122-26878-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.9.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] alsa-tools: Fix build without x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,134 +46,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 15:41:16 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 16:18:49 -0000
 
-On 14-04-01 10:54 AM, Richard Purdie wrote:
-> On Tue, 2014-04-01 at 10:52 -0400, Bruce Ashfield wrote:
->> On 14-04-01 10:50 AM, Martin Jansa wrote:
->>> On Tue, Apr 01, 2014 at 08:54:42AM -0400, Bruce Ashfield wrote:
->>>> On 14-04-01 02:42 AM, Khem Raj wrote:
->>>>>
->>>>> On Mar 31, 2014, at 12:50 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->>>>>
->>>>>>> i dont believe you tested all layer combinations
->>>>>>
->>>>>> I've tested everything I can, as has the autobuilder. I can't offer
->>>>>> any more than this.
->>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>>> at this point. 3.10 being LTS
->>>>>>>>> I would assume its a better option to keep at 3.10
->>>>>>>>
->>>>>>>>
->>>>>>>> I disagree, this is consistent with other releases and the documented
->>>>>>>> plan of action. I'd rather not have a massive version jump in the fall.
->>>>>>>
->>>>>>> its probably not a bad option to stick to LTS version for kernel headers
->>>>>>> after all
->>>>>>
->>>>>> Again, I disagree.
->>>>>>
->>>>>> We can maybe keep the 3.10 recipe around,
->>>>>
->>>>> Thats ugly too. We decided to stick to one version of headers last time.
->>>>>
->>>>>> but the default should
->>>>>> be 3.14, we need a matched kernel and libc-headers to get the best integration
->>>>>> and leveraging of the latest features.
->>>>>>
->>>>>> If we pull the headers, pull the kernel.
->>>>>
->>>>> this all is understood, however we have to get better with timings especially
->>>>> changing something like kernel headers whose impact is far reaching then
->>>>>     just updating kernel proper.
->>>>
->>>> We do the best we can and I can only play the timing that is dealt
->>>> by the upstream projects ... but we all know that!
->>>>
->>>> We arranged for as much soak testing and building as we could behind
->>>> the scenes.
->>>>
->>>> That being said, we are going to introduce the versioned kernel and
->>>> libc-headers recipes in the -rc1 timeframe next time around and we
->>>> captured that intention on the kernel planning wiki for 1.7 .. so that
->>>> should help in the next cycle.
->>>
->>> This failure also seems new:
->>>
->>> |
->>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:344:24:
->>> error: 'struct bio' has no member named 'bi_sector'
->>> |    tp_assign(sector, bio->bi_sector)
->>
->> For qemuarm. Hmm. I did build lttng modules for it here, as I presume
->> the autobuilder did as well.
->>
->> But I'll launch another build to see what happens here.
->
-> I can confirm we didn't see that on the autobuilder...
+There is no way to disable the x11 without mangling the source code so
+instead using a patch we now used a 'sed' in do_configure so it is
+easier to maintain and extend. The patch had some new tools missing
+which were triggering build failures in O.S. Systems' builder as:
 
-I was checking my core-image-kernel-dev builds for qemuarm, and managed
-to confuse myself momentarily (when I didn't see a build trigger), and
-then remembered.
+,----[ Build error in a clean tmp, without x11 ]
+| checking for GTK3... no
+| configure: error: Package requirements (gtk+-3.0) were not met:
+|
+| No package 'gtk+-3.0' found
+|
+| Consider adjusting the PKG_CONFIG_PATH environment variable if you
+| installed software in a non-standard prefix.
+|
+| Alternatively, you may set the environment variables GTK3_CFLAGS
+| and GTK3_LIBS to avoid the need to call pkg-config.
+| See the pkg-config man page for more details.
+| make: *** [all] Error 1
+`----
 
-------------
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../alsa/alsa-tools/makefile_no_gtk.patch           | 21 ---------------------
+ meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb   | 18 ++++++++++++++----
+ 2 files changed, 14 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
 
-commit 7a974407379b43e40664cad4696b427ee8c18df0
-Author: Tom Zanussi <tom.zanussi@intel.com>
-Date:   Thu Mar 6 22:26:19 2014 -0600
-
-     lttng-modules: Exclude arm
-
-     lttng-modules and gcc-4.8 don't mix, according to the lttng ML
-     'current_thread_info() not respecting program order with gcc 4.8.x',
-     so remove it from arm builds.
-
-     (From OE-Core rev: ccf687de7b856dbe6f347956743f07ff05c2533a)
-
-     Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-------------
-
-Tom also has the fix for bio*:
-
-commit b465c0cb32696eed3ecc42fe4b5b478e4ba07914
-Author: Tom Zanussi <tom.zanussi@intel.com>
-Date:   Thu Mar 6 22:26:20 2014 -0600
-
-     lttng-modules: Fix 3.14 bio tracepoints
-
-     The mainline 3.14 commit 'block: Astract out bvec iterator' broke the
-     lttng-modules tracepoints.  Fix them here.
-
-     (From OE-Core rev: c11b29ff4f24af0445c3c6a694b8dc2037dcd7e4)
-
-     Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-----------
-
-So this one is expected, and avoided .. but of course if you build it
-directly it will break.
-
-If there's a fix that anyone knows of for ARM, I'm available to test
-it here.
-
-Summary: not introduced by the uprev directly, and it was known before
-hand .. my foggy memory just managed to forget it..
-
-Cheers,
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+deleted file mode 100644
+index c6cb5b1..0000000
+--- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Remove some sub-components which need gtk+.
+-
+-Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-diff --git a/Makefile b/Makefile
+---- a/Makefile
+-+++ b/Makefile
+-@@ -1,8 +1,8 @@
+- VERSION = 1.0.27
+- TOP = .
+--SUBDIRS = as10k1 envy24control \
+--	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
+--	  us428control usx2yloader vxloader echomixer \
+-+SUBDIRS = as10k1 \
+-+	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
+-+	  us428control usx2yloader vxloader \
+- 	  hwmixvolume hdajackretask hda-verb
+- 
+- all:
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+index 492f8a4..23f9360 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+@@ -3,15 +3,14 @@ HOMEPAGE = "http://www.alsa-project.org"
+ BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2 & LGPLv2+"
+-DEPENDS = "alsa-lib ncurses ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+3', '', d)}"
++DEPENDS = "alsa-lib ncurses"
+ 
+ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
+            file://mips_has_no_io_h.patch \
+-           file://autotools.patch \
+-           ${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
++           file://autotools.patch"
+ 
+ SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
+ SRC_URI[sha256sum] = "6562611b5a6560712f109e09740a9d4fa47296b07ed9590cb44139c5f154ada2"
+@@ -21,11 +20,22 @@ inherit autotools-brokensep
+ EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
+ 
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+-PACKAGECONFIG[gtk+] = ",,gtk+,"
++PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
+ 
+ # configure.ac/.in doesn't exist so force copy
+ AUTOTOOLS_COPYACLOCAL = "1"
+ 
++do_configure_prepend () {
++    # Disable tools which require gtk+-2.0 and gtk+-3.0
++    if [ "${@base_contains('DISTRO_FEATURES', 'x11', 'yes', 'no', d)}" = "no" ]; then
++        sed -e 's/echomixer//g' \
++            -e 's/envy24control//g' \
++            -e 's/hdajackretask//g' \
++            -e 's/rmedigicontrol//g' \
++            -i ${S}/Makefile
++    fi
++}
++
+ do_compile_prepend () {
+     #Automake dir is not correctly detected in cross compilation case
+     export AUTOMAKE_DIR="$(automake --print-libdir)"
+-- 
+1.9.1
 
 
