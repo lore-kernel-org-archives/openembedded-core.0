@@ -1,28 +1,40 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B97816084B
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 532066F778
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 17:12:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s31HCxVX014294
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  1 Apr 2014 17:33:22 +0000 (UTC)
+Received: by mail-ie0-f179.google.com with SMTP id lx4so9558814iec.38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Apr 2014 10:12:59 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 1 Apr 2014 10:12:58 -0700
-Message-ID: <533AF39A.6020400@windriver.com>
-Date: Tue, 1 Apr 2014 12:12:58 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Tue, 01 Apr 2014 10:33:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=H2OQV2wfoaRkWDdny7h8iwdZNO8QgQmF2mmHwu86tVQ=;
+	b=CHH0W71wCxcx/KYSu9QLoXTOXYcnb3k4OeXn8iyW5d4JyiNdyqhQohccM/G9fFeGWs
+	/rOAt8HvE1t8fpFA26U0kDxfrPMTTlJNW5GbzWrUCewUve1jjyUUYOtX2Ev05skicGuc
+	8Kb+tt440HYIK2nVx8tlJu1r0Zvl+ducOGLkTNrcksoJ1s/uxadOK0X0ZYfd1+kXRqcS
+	H+ZB7mE1KXMMbnJTeyW4bVVA6yVsjOZwVEjoSYH/1GQIZn2OD24tLVDsWwKNCRywoczR
+	HHJBULHlU2Zt7hOWmYSfGJZz7yiyAuTsaeDKhyHZoIK3v2tOj2FrGM25j6pKRSKYs5aG
+	B/Nw==
+X-Gm-Message-State: ALoCoQmWFvDV08xIx9+F9g1BBO8sr3hv0uL3PXEnmZjdfq8zzYTgyqrZY34NXqNDK1Lp6VLN1763
+X-Received: by 10.43.141.12 with SMTP id jc12mr44381040icc.21.1396373603355;
+	Tue, 01 Apr 2014 10:33:23 -0700 (PDT)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id y9sm33395549igl.7.2014.04.01.10.33.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Apr 2014 10:33:22 -0700 (PDT)
+Message-ID: <533AF862.5000201@linaro.org>
+Date: Tue, 01 Apr 2014 13:33:22 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20140330013103.GD2428@jama>
-In-Reply-To: <20140330013103.GD2428@jama>
-Subject: Re: Quality of meta-oe metadata
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OE/TSC monthly IRC meeting notes - Apr 1 2014
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,112 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 17:13:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 01 Apr 2014 17:33:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 3/29/14, 8:31 PM, Martin Jansa wrote:
-> Hi, sorry for longer e-mail, this is one of topic I would like to discuss
-> on OEDAM (http://openembedded.org/wiki/OEDAM), but having some feedback and
-> thoughts in advance will be very useful.
->
-> As people can notice from my "State of bitbake world" e-mails or
-> http://www.openembedded.org/wiki/Bitbake_World_Status
-> we never had "green" builds. There are always 20+ failed tasks in those
-> big builds and just reading the numbers isn't good indicator of quality,
-> because sooner you break something in dependency tree, fewer recipes will
-> be actually tested, so fewer failed tasks often means that something
-> important is broken.
+Here are my notes from today's monthly OE/TSC meeting which takes place
+the first Tuesday of every month on freenode's #oe channel.
 
-...
+attendees: bluelightning, Jefro, RP, denix, tlwoerner, fray, nerdboy,
+kergoth
 
-> 3) OE releases work great and don't invalidate sstate signatures so often, so my
->     feeling is that most developers and projects are just using releases and
->     less and less people do CI. People will start complaining that something
->     is broken in meta-oe only when they are upgrading their project from 1.5 to
->     1.6 when 1.6 is released and that could be too late for fixing meta-oe
->     issues.
+topic #1: upcoming release
+- schedule: https://wiki.yoctoproject.org/wiki/Yocto_1.6_Schedule
+- check RP's email
+http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091378.html
+- test report for rc1 is available:
+https://wiki.yoctoproject.org/wiki/WW13_-_2014-03-26_-_Full_Pass_Release_1.6_M5.rc1
+- optimism for a good 1.6 release
+- enhancements such as READMEs still being accepted
+- bug fixes (such as work on SOBBW issues) still being accepted
+- bug metrics showing downward trend:
+https://wiki.yoctoproject.org/charts/combo.html
 
-I agree, the success of what we're doing is certainly causing us 'different' 
-problems.  :)
+topic #2: SOBBW (state of bitbake world) or world build status
+- http://www.openembedded.org/wiki/Bitbake_World_Status
+- fixing items on the list still needs lots of help, helpers needs a way
+to organize themselves to avoid duplication (email, wiki, irc, ...)
+- one cause/issue is people sending patches then disappearing, lots of
+unmaintained recipes
+- possible solutions: meta-nonworking, blacklist.bbclass, smaller "core"
+layer
 
-> What I'm trying to do with it:
->
-> a) sending those e-mails and updating wiki, so that people can easily find
->     if some build failure is common or something which happens only for them
->     (something like oestats-client.bbclass page was providing in oe-classic)
->     It also includes log of QA issues which are usually easy to fix and great
->     way for new people to learn something about OE.
-> b) trying to refuse all patches which cause new world issue (or new QA
->     warn/err) - sometimes missed in logs, because it's often "hidden" by some
->     other issue and hard to compare 40 issues from previous build with 38
->     from current.
->     Also the issues are often triggered later by changes somewhere else...
-> c) fixing build/qa issues in recipes I've never used or don't even have
->     hardware to test - just based on assumption that something which builds
->     is better than broken build, even when it can have some issues in runtime.
-> d) contacting people who added the recipe which is now failing, often
->     without reply for months even when I try it multiple times :/
+topic #3: website infrastructure and updates
+- at ELCE2013 plans were made for a new
+http://www.openembedded.org/wiki/Main_Page
+- no plans yet for OE wiki cleanup
+- unfortunately the people working on this weren't available to provide
+an update
 
-I agree with all of the above.  In fact I suspect you are going above and beyond 
-what you really need to.  Kudos for that BTW.
+open topics
+- please make sure any requests for 1.7 are in bugzilla
+- recipe style unification between OE and Yocto Project
 
-> e) moving to "nonworking" directory to mark it as "known-to-be-broken",
->     last resort for recipes where the fix is complicated and it's not known
->     if someone is actually using it (because it was broken for months and
->     nobody replied).
->     + easy to find them, because they are still in repository (instead of
->       git rm + revert when someone fixes it)
->     - layer index probably doesn't find them, because "nonworking" directory
->       level isn't in BBFILES, so maybe meta-broken or meta-nonworking would be
->       better
->     ? some recipes are "broken" just because their dependency is broken, what
->       to do with such recipe, I usually just say that in commit message when
->       I'm moving them to "nonworking" with their broken dep.
+action items:
+- RP to look for remnants of BROKEN = "1" (?)
+- fray to move blacklist issue forward with JaMa
+- tlwoerner to sync style guides
 
-Have you considered using the blacklist system for this?
-
-You could do something like:
-
-conf/layer.conf:
-include ${LAYERDIR}/conf/broken.inc
-
-conf/broken.inc:
-
-<can we ensure the blacklist system is in the system>
-
-BROKENMSG_layername = "The recipe is disabled due to a build failure.  If you 
-need this recipe, or have gotten it to work.  Please submit patches to <path>. 
-Otherwise this recipe will be removed in the future."
-
-# Recipe FOO is broken as of 2014-03-14, see ...
-PNBLACKLIST[FOO] = "${BROKENMSG_layername}"
-
-# Recipe BAR is broken as of 2013-06-13, see ...
-PNBLACKLIST[BAR] = "${BROKENMSG_layername}"
-
-
-Then after a given amount of time, say one year? on the broken list -- we can 
-then remove the items.
-
-If the format of the comments is such that it can be easily parsed, then we can 
-even automate tracking of these things.
-
-(In cases where dependencies are causing the breakage, the message cause be 
-augmented with that information as well...)
-
-The advantage of the blacklist system is that if a user tries to use the recipe 
-they will hopefully see the blacklist message, it prevents having to git mv 
-recipes, and should be easier for people to find/fix the bad code via a simple 
-patch.  (And hopefully easier to remove old cruft!)
-
---Mark
-
-> What can we do better? How to motivate more people to do CI and send fixes?
-> When we get to "green" state it will be easier to quickly spot new issues and
-> easier to fix them, because it will be clear what's causing them.
->
->
->
-
+next meeting: May 6th 2014, same time, same place
 
