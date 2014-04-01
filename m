@@ -1,62 +1,39 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id ACCF76E786
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id EB3826EF89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 21:29:10 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.5])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1WV6F4-00059X-9G; Tue, 01 Apr 2014 23:29:10 +0200
-Message-ID: <1396387742.3038.34.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
+	Tue,  1 Apr 2014 22:33:24 +0000 (UTC)
+Received: by mail-yh0-f51.google.com with SMTP id f10so9791200yha.38
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Apr 2014 15:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=fG+IyVw6fgnIGMS8+pDa2TEmpWlaH6ZzvVxonoJUI44=;
+	b=HI+PyY94Bf26MSqkQtQACoOLau9qqda0aBj+fLCG4fDjsRp0yypY9qVnPmKFVs5zev
+	l5Otnz+qr3F5CgDavziKxZlaOR0fepFytARWT5i8uRxi69LrusLjMYhMA9ulwdxHm822
+	q84LjM4hZNxQvj8ZrXnijz7M7mjzM/5yYESLaQVPyG3UTctdfkz01WiiAFGmgMS3hXML
+	WWvqMRFit1o91aKtuLct09u88xFhxT63aAl/aip8YRMGMCL1JucOy+qbbPmEyqvEhIDd
+	nqKovjbCyGXwMERYf39e7Qvt+f4HrgrtzHw3h5ZjUliO0J2ZL9udofCF9+OmpqvaA1KB
+	La4g==
+MIME-Version: 1.0
+X-Received: by 10.236.110.131 with SMTP id u3mr15397739yhg.99.1396391605127;
+	Tue, 01 Apr 2014 15:33:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Tue, 1 Apr 2014 15:33:25 -0700 (PDT)
+In-Reply-To: <1396349360.1432.2.camel@ted>
+References: <cover.1396343261.git.kai.kang@windriver.com>
+	<26f22e4e2b8b1fa1eff604feac7088986d561eab.1396343261.git.kai.kang@windriver.com>
+	<1396349360.1432.2.camel@ted>
+Date: Tue, 1 Apr 2014 19:33:25 -0300
+X-Google-Sender-Auth: kmIoVZuUeVJb--qLQ5eJusR5icw
+Message-ID: <CAP9ODKpm7Kw5MJvrPVvUga_nhUhtNTPsD1ciEk5Rp0zOES3CUg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 01 Apr 2014 22:29:02 +0100
-In-Reply-To: <1396374702.2910.27.camel@ted>
-References: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
-	<1396374241.5879.50.camel@phil-desktop.brightsign>
-	<1396374515.5879.54.camel@phil-desktop.brightsign>
-	<1396374702.2910.27.camel@ted>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Tue, 2014-04-01 at 18:51 +0100,
-	Richard Purdie wrote: > On Tue, 2014-04-01 at 18:48 +0100,
-	Phil Blundell wrote: > > Also note that
-	the default for USE_DEVFS was (and is) 1,
-	so the lack > > of this check is
-	actually causing a difference in the default > > behaviour. If there's
-	no
-	appetite for reinstating the USE_DEVFS > > mechanism per se then it
-	seems
-	like it would be a good idea to make > > the default IMAGE_DEVICE_TABLE
-	be
-	blank in order to restore the > > previous default of no /dev in the
-	rootfs.
-	> > > > At present you get a somewhat arbitrary-seeming smattering of
-	devices > > from meta/files/device_table-minimal.txt,
-	including such anachronisms
-	> > as /dev/ttySA0 and /dev/apm_bios. It's hard to imagine that anybody
-	>
-	> actually wants this stuff in their rootfs in this day and age. > >
-	Can we kill apmd at the same time? Please? :) [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: "openembedded-core@lists.openembedded.org"
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: image.bbclass: USE_DEVFS is now useless
+Subject: Re: [PATCH 2/3] cmake: follow ptest output format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,44 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 21:29:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 22:33:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, 2014-04-01 at 18:51 +0100, Richard Purdie wrote:
-> On Tue, 2014-04-01 at 18:48 +0100, Phil Blundell wrote:
-> > Also note that the default for USE_DEVFS was (and is) 1, so the lack
-> > of this check is actually causing a difference in the default
-> > behaviour.  If there's no appetite for reinstating the USE_DEVFS
-> > mechanism per se then it seems like it would be a good idea to make
-> > the default IMAGE_DEVICE_TABLE be blank in order to restore the
-> > previous default of no /dev in the rootfs.  
-> >
-> > At present you get a somewhat arbitrary-seeming smattering of devices
-> > from meta/files/device_table-minimal.txt, including such anachronisms
-> > as /dev/ttySA0 and /dev/apm_bios.  It's hard to imagine that anybody
-> > actually wants this stuff in their rootfs in this day and age.
-> 
-> Can we kill apmd at the same time? Please? :)
+Hello,
 
-I can't see why not.  I'd be surprised if there were many/any real users
-left, beyond possibly some legacy stuff in meta-handheld, and it
-definitely doesn't seem "core" by any reasonable interpretation of the
-term.  
+On Tue, Apr 1, 2014 at 7:49 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-04-01 at 17:09 +0800, Kai Kang wrote:
+>> From: Li Wang <li.wang@windriver.com>
+>>
+>> ptest output format is incorrect, according to yocto Development Manual
+>> (http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest)
+>>
+>> The test generates output in the format used by Automake:
+>> <result>: <testname>
+>> where the result can be PASS, FAIL, or SKIP, and the testname can be any identifying string.
+>>
+>> So we should change the test result format to match yocto ptest rules.
+>>
+>> Signed-off-by: Li Wang <li.wang@windriver.com>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>  meta/recipes-devtools/cmake/cmake.inc              |   1 +
+>>  .../cmake/cmake/follow_ptest_output_format.patch   | 118 +++++++++++++++++++++
+>>  2 files changed, 119 insertions(+)
+>>  create mode 100644 meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
+>>
+>> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+>> index 1d5303f..254af45 100644
+>> --- a/meta/recipes-devtools/cmake/cmake.inc
+>> +++ b/meta/recipes-devtools/cmake/cmake.inc
+>> @@ -17,6 +17,7 @@ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz
+>>             file://aarch64-kwsys.patch \
+>>             file://qt4-fail-silent.patch \
+>>             file://cmake-2.8.11.2-FindFreetype.patch \
+>> +           file://follow_ptest_output_format.patch \
+>>             "
+>>
+>>  inherit autotools-brokensep
+>> diff --git a/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch b/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
+>> new file mode 100644
+>> index 0000000..5428df2
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
+>> @@ -0,0 +1,118 @@
+>> +cmake: follow ptest output format
+>> +
+>> +ptest output format is incorrect, according to yocto Development Manual
+>> +(http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest)
+>> +5.10.6. Testing Packages With ptest
+>> +The test generates output in the format used by Automake:
+>> +<result>: <testname>
+>> +where the result can be PASS, FAIL, or SKIP, and the testname can be any identifying string.
+>> +So we should change the test result format to match yocto ptest rules.
+>> +
+>> +Signed-off-by: Li Wang <li.wang@windriver.com>
+>
+> No upstream status. Is there any chance of this going upstream? Might we
+> be better off postprocessing the output with a script to put it into the
+> right format?
 
-Apart from packagegrounds, the only recipe in oe-core that mentions a
-dependency on apmd is matchbox-panel (for the battery applet
-presumably); that dependency is conditional on having apm in
-MACHINE_FEATURES (which it isn't by default), and it seems a bit fishy
-anyway since I can't immediately think of a reason why matchbox-panel
-would need the actual daemon.
+I agree with both remarks. It'd be good to try to get it somehow
+integrated upstream and for OE-Core interim solution would be better
+to 'convert' using an external script. This may break external tests
+tools people may be using as it changes the format without allowing to
+'revert' for normal format.
 
-So, I think it should probably be safe to just rescind support for both
-apmd and the MACHINE_FEATURE apm in oe-core.  If meta-handheld, meta-oe
-or anybody else wants to keep apmd then they can do so in their own
-layers although I rather hope that nobody does.
-
-p.
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
