@@ -1,34 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B5D946E747
+Return-Path: <Zongchun.Yu@freescale.com>
+Received: from am1outboundpool.messaging.microsoft.com
+	(am1ehsobe004.messaging.microsoft.com [213.199.154.207])
+	by mail.openembedded.org (Postfix) with ESMTP id 717786E747
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 07:11:20 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id jt11so9443552pbb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 00:11:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pJI2FSmOF12FPeOXqxhZiJmGd5DAl2OENtviokmukKo=;
-	b=h2mTqTfwm4uu15Dzg1hGAvh7yw4uBJH/js7NMhW5hfE9XCw04POIGA+2cLEstyC97r
-	I1NEaReFqc1n1pUPEC2foffYcHdx1VqdJ61y4aqnPinVf+Ip5X8tzcnpmbxds0eGCTlw
-	5tDT22jFjzdU/0LrcflANkP2lR0yWnTpIkJwS9Dx4gbFYUVf8v80vbJuNASkFpU3Z1wT
-	/GrYr3u7CS2jg3hZM3E8C1aJ5sLGOgWbD7Z8xOx/EFka20IznMmc2OS5CkWjEteGwEeR
-	QcUQtDnfFwgEfLPXm77Wl8Lhj37FckaBMfg/Rl/uOAUuMPOEv4SqnVqyKr+pPl0GUFe/
-	mgRQ==
-X-Received: by 10.66.122.36 with SMTP id lp4mr29611604pab.82.1396336280905;
-	Tue, 01 Apr 2014 00:11:20 -0700 (PDT)
-Received: from t420s.entropic-communications.com ([12.199.200.26])
-	by mx.google.com with ESMTPSA id
-	el14sm51684801pac.31.2014.04.01.00.11.19 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 01 Apr 2014 00:11:20 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Apr 2014 00:10:40 -0700
-Message-Id: <1396336240-9708-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] libsdl: PACKAGECONFIG conversion
+	Tue,  1 Apr 2014 07:15:55 +0000 (UTC)
+Received: from mail3-am1-R.bigfish.com (10.3.201.232) by
+	AM1EHSOBE008.bigfish.com (10.3.204.28) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 1 Apr 2014 07:15:55 +0000
+Received: from mail3-am1 (localhost [127.0.0.1])	by mail3-am1-R.bigfish.com
+	(Postfix) with ESMTP id EDC33480114;
+	Tue,  1 Apr 2014 07:15:54 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 7
+X-BigFish: VS7(zzda00hdc73hzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzzz2dh109h2a8h5c0h839h944hd24hd2bhf0ah1220h1288h12a5h12a9h12bdh137ah139eh13b6h1441h1504h1537h162dh1631h1751h1758h17f1h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h20dbh2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24ach24d7h2516h2545h255eh25cch25f6h2605h262fh268bh25d3o1155h)
+Received: from mail3-am1 (localhost.localdomain [127.0.0.1]) by mail3-am1
+	(MessageSwitch) id 1396336553712289_24353;
+	Tue,  1 Apr 2014 07:15:53 +0000 (UTC)
+Received: from AM1EHSMHS008.bigfish.com (unknown [10.3.201.240])	by
+	mail3-am1.bigfish.com (Postfix) with ESMTP id A022C8021E;
+	Tue,  1 Apr 2014 07:15:53 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS008.bigfish.com
+	(10.3.207.108) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Tue, 1 Apr 2014 07:15:53 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Tue, 1 Apr 2014 07:15:51 +0000
+Received: from b40527c60e6e6f (b40527-c60e6e6f.ap.freescale.net
+	[10.193.20.88])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
+	ESMTP id s317FmqI004300;	Tue, 1 Apr 2014 00:15:50 -0700
+From: Zongchun YU <b40527@freescale.com>
+To: 'Khem Raj' <raj.khem@gmail.com>
+References: <1396332774-31033-1-git-send-email-b40527@freescale.com>
+	<64C886B8-D3BF-40FD-9D96-F46F37DB608F@gmail.com>
+	<001a01cf4d74$cced90e0$66c8b2a0$@com>
+	<BA9C0705-4983-4FB4-8B83-F0A9A8686DAF@gmail.com>
+In-Reply-To: <BA9C0705-4983-4FB4-8B83-F0A9A8686DAF@gmail.com>
+Date: Tue, 1 Apr 2014 15:22:10 +0800
+Message-ID: <002e01cf4d7b$1a203bf0$4e60b3d0$@com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: Ac9Ndh8VeAeqDc3TSuWgY2cPgl0DvgAAx3MA
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libtool: Add depends on binutils-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,70 +57,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 07:11:20 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 07:15:58 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Language: zh-cn
 
-General cleanup + make it easier for distros / machines which
-support OpenGL ES only to prevent attempts to build against libgl.
+>OK is it cross, native or target recipe which has the problem ?
+>wouldnt it need to also depend on gcc-cross ?
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 30 ++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+Only cross recipe has the problem. There is no need to gcc-cross.
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-index e19c388..f72f74f 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-@@ -12,10 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
- 
- PROVIDES = "virtual/libsdl"
- 
--DEPENDS = "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--           ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
--           ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
--           tslib"
- DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
- 
- PR = "r3"
-@@ -38,17 +34,31 @@ EXTRA_OECONF = "--disable-static --enable-cdrom --enable-threads --enable-timers
-                 --disable-mintaudio --disable-nasm --disable-video-dga \
-                 --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
-                 --disable-xbios --disable-gem --disable-video-dummy \
--                --enable-input-events --enable-input-tslib --enable-pthreads \
--                ${@base_contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
--                ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
--                ${@base_contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
--                --disable-video-svga \
-+                --enable-input-events --enable-pthreads --disable-video-svga \
-                 --disable-video-picogui --disable-video-qtopia --enable-sdl-dlopen \
-                 --disable-rpath \
-                 --disable-pulseaudio"
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG_ALSA ?= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG_DIRECTFB ?= "${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-+# Warning: "opengl" in DISTRO_FEATURES implies GL and/or GLES but libsdl supports GL only.
-+PACKAGECONFIG_OPENGL ?= "${@base_contains('DISTRO_FEATURES', 'opengl', 'opengl', '', d)}"
-+PACKAGECONFIG_TSLIB ?= "tslib"
-+PACKAGECONFIG_X11 ?= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+
-+PACKAGECONFIG ?= " \
-+    ${PACKAGECONFIG_ALSA} \
-+    ${PACKAGECONFIG_DIRECTFB} \
-+    ${PACKAGECONFIG_OPENGL} \
-+    ${PACKAGECONFIG_TSLIB} \
-+    ${PACKAGECONFIG_X11} \
-+    "
-+
- PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
-+PACKAGECONFIG[directfb] = "--enable-video-directfb,--disable-video-directfb,directfb"
-+PACKAGECONFIG[opengl] = "--enable-video-opengl,--disable-video-opengl,virtual/libgl libglu"
-+PACKAGECONFIG[tslib] = "--enable-input-tslib,--disable-input-tslib,tslib"
-+PACKAGECONFIG[x11] = "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender"
- 
- PARALLEL_MAKE = ""
- 
--- 
-1.8.1.2
 
 
