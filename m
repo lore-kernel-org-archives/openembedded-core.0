@@ -1,39 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6162C6F242
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C5D26F242
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 14:54:36 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31EsTnQ027482; Tue, 1 Apr 2014 15:54:30 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1a3jnQ1vn_pA; Tue,  1 Apr 2014 15:54:29 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31EsNHE027479
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 15:54:25 +0100
-Message-ID: <1396364058.2910.24.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 01 Apr 2014 15:54:18 +0100
-In-Reply-To: <533AD2C2.7000104@windriver.com>
-References: <cover.1396288310.git.bruce.ashfield@windriver.com>
-	<e6015802086cbf8199d112a3e75a7391a417ede6.1396288310.git.bruce.ashfield@windriver.com>
-	<CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>
-	<5339C30B.1060005@windriver.com>
-	<CAMKF1srfDpeGkQMnHkK_AFPy6N7pujtLwMRsgbsDeHem82_5nA@mail.gmail.com>
-	<5339C6FD.1070506@windriver.com>
-	<A5D0F3B0-A739-4D0D-A9C5-926BBEB9CD35@gmail.com>
-	<533AB712.2000809@windriver.com> <20140401145014.GQ2425@jama>
-	<533AD2C2.7000104@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Tue,  1 Apr 2014 14:57:51 +0000 (UTC)
+Received: by mail-ie0-f177.google.com with SMTP id rl12so8915916iec.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Apr 2014 07:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=kh6qLxU1jEcip1NVWsUOMHTAzbWzdOWnN0H9GzrVqys=;
+	b=TuEYaRhCyhaIA5IXDKqeAq8QZLHmkaPtroaaiVi9hsLnNUg7NEfCntpO+9Fj3YsGhS
+	rLznrpiaGT2sqbqNNrrZjtSwj6H1A9CET5BSwrQy6Mxn8/fOpHvyiBV4MXBPp5cBnrKP
+	KOnZSAI0JjtVHmmIr9NvIHN/R+Wlt+usFKWvxLpuu9Dlqyqhcl7Zdh4fFCFnvXDotm0H
+	JjQWhmT0lonVtEy0VQi6gvbcKf/ZH3D4ul0yyjEpn5/5A9DmsMQz+22DpaDsJQKyYDPK
+	fKJkMcomU/8MSyHQfC4IOGhH/WWmB6qFfD/6krPuKaLLUSeyRn9XEXwC/spiBSoGhZQv
+	cGXg==
+X-Received: by 10.42.203.202 with SMTP id fj10mr30955119icb.51.1396364272731; 
+	Tue, 01 Apr 2014 07:57:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.229.14 with HTTP; Tue, 1 Apr 2014 07:57:20 -0700 (PDT)
+In-Reply-To: <533A6D67.9060608@windriver.com>
+References: <cover.1395997035.git.hongxu.jia@windriver.com>
+	<eedfe13af69c82c667fb78152bb070b0cc448bc2.1395997035.git.hongxu.jia@windriver.com>
+	<CAMKF1sozZEVsJ=oaBW-mqex27LvOTfOGW90+g_9gkPg27OJEhA@mail.gmail.com>
+	<533A6D67.9060608@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 1 Apr 2014 07:57:20 -0700
+Message-ID: <CAMKF1sps5Bu26iN7ak76t-QZQnhrm1wTvhAcHWs94xnz035BvQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] libc-headers: set TC default to 3.14
+Subject: Re: [PATCH 1/4] libarchive: fix CVE-2013-0211
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,77 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 14:54:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 14:57:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2014-04-01 at 10:52 -0400, Bruce Ashfield wrote:
-> On 14-04-01 10:50 AM, Martin Jansa wrote:
-> > On Tue, Apr 01, 2014 at 08:54:42AM -0400, Bruce Ashfield wrote:
-> >> On 14-04-01 02:42 AM, Khem Raj wrote:
-> >>>
-> >>> On Mar 31, 2014, at 12:50 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
-> >>>
-> >>>>> i dont believe you tested all layer combinations
-> >>>>
-> >>>> I've tested everything I can, as has the autobuilder. I can't offer
-> >>>> any more than this.
-> >>>>
-> >>>>>>
-> >>>>>>
-> >>>>>>> at this point. 3.10 being LTS
-> >>>>>>> I would assume its a better option to keep at 3.10
-> >>>>>>
-> >>>>>>
-> >>>>>> I disagree, this is consistent with other releases and the documented
-> >>>>>> plan of action. I'd rather not have a massive version jump in the fall.
-> >>>>>
-> >>>>> its probably not a bad option to stick to LTS version for kernel headers
-> >>>>> after all
-> >>>>
-> >>>> Again, I disagree.
-> >>>>
-> >>>> We can maybe keep the 3.10 recipe around,
-> >>>
-> >>> Thats ugly too. We decided to stick to one version of headers last time.
-> >>>
-> >>>> but the default should
-> >>>> be 3.14, we need a matched kernel and libc-headers to get the best integration
-> >>>> and leveraging of the latest features.
-> >>>>
-> >>>> If we pull the headers, pull the kernel.
-> >>>
-> >>> this all is understood, however we have to get better with timings especially
-> >>> changing something like kernel headers whose impact is far reaching then
-> >>>    just updating kernel proper.
-> >>
-> >> We do the best we can and I can only play the timing that is dealt
-> >> by the upstream projects ... but we all know that!
-> >>
-> >> We arranged for as much soak testing and building as we could behind
-> >> the scenes.
-> >>
-> >> That being said, we are going to introduce the versioned kernel and
-> >> libc-headers recipes in the -rc1 timeframe next time around and we
-> >> captured that intention on the kernel planning wiki for 1.7 .. so that
-> >> should help in the next cycle.
-> >
-> > This failure also seems new:
-> >
-> > |
-> > /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:344:24:
-> > error: 'struct bio' has no member named 'bi_sector'
-> > |    tp_assign(sector, bio->bi_sector)
-> 
-> For qemuarm. Hmm. I did build lttng modules for it here, as I presume
-> the autobuilder did as well.
-> 
-> But I'll launch another build to see what happens here.
+On Tue, Apr 1, 2014 at 12:40 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> On 04/01/2014 01:30 PM, Khem Raj wrote:
+>>
+>> On Fri, Mar 28, 2014 at 2:43 AM, Hongxu Jia <hongxu.jia@windriver.com>
+>> wrote:
+>>>
+>>> ++      const size_t max_write = INT_MAX;
+>>
+>> I think INT_MAX is a mismatch here size_t may not be defined 'unsigned
+>> int' on all kind of architectures.
+>
+>
+> How about test the size of size_t and assigned the related MAX value:
+>
+> const size_t max_write = (sizeof(size_t) >=
+> sizeof(int))?INT_MAX:(sizeof(size_t) == sizeof(short))?SHRT_MAX:CHAR_MAX;
+>
 
-I can confirm we didn't see that on the autobuilder...
+you could use something like (size_t)-1 to denote SIZE_MAX
 
-Cheers,
-
-Richard
-
+> //Hongxu
+>
 
