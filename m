@@ -1,38 +1,32 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f44.google.com (mail-yh0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C07766F89F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F22E6E304
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 18:58:44 +0000 (UTC)
-Received: by mail-yh0-f44.google.com with SMTP id f10so9521940yha.31
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 11:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=8TWwESvG+jDyH3HFV7t3OYxs9n+zpDTMa0o2SvC3Ul0=;
-	b=fMyTw+10cHcqAv+Nr3ZHBwMaI9Ya5/slMqPWqs0tqy7H75Se/NwyI4cLJYxMxeyQw5
-	dCbavlcWVnvdQQ1XcH9SjsE0F8WausEK4xJ41D/NxR59f84t6yFLsHJv/ajmoKShrLIi
-	5CySpU+00zBXm8J0QgmQFvXj3KK0BQDoJnObPoXcoFxxuyUSak8sPzRkvfi2is8v7oN+
-	U70f82tUiuq9wO+cvGaR/1UAe1e+GhG+Goh8lfcjp32cCv3roFck05BD+8i/Y5HZarhO
-	Ymxjv02q6pkbqvvu39fhon8nSthl40/meHIETahHKBytjRMF7hTSblehqPXg+ikgAQih
-	2krQ==
-MIME-Version: 1.0
-X-Received: by 10.236.110.77 with SMTP id t53mr46596264yhg.78.1396378725832;
-	Tue, 01 Apr 2014 11:58:45 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Tue, 1 Apr 2014 11:58:45 -0700 (PDT)
-In-Reply-To: <20140401185000.GA3370@denix.org>
+	Tue,  1 Apr 2014 19:07:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s31J7McL012278; Tue, 1 Apr 2014 20:07:22 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id suajkK2BLZZ9; Tue,  1 Apr 2014 20:07:22 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s31J7I3R012274
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 1 Apr 2014 20:07:20 +0100
+Message-ID: <1396379233.2910.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 01 Apr 2014 20:07:13 +0100
+In-Reply-To: <CAP9ODKr29A6LKdALn6c_QVBG7v5jHcc020kva+nU9i+tC=+5ew@mail.gmail.com>
 References: <1396372080-27607-1-git-send-email-otavio@ossystems.com.br>
-	<1396372080-27607-2-git-send-email-otavio@ossystems.com.br>
-	<20140401185000.GA3370@denix.org>
-Date: Tue, 1 Apr 2014 15:58:45 -0300
-X-Google-Sender-Auth: _3L3meisF66rK5Pxm3fviN_70i4
-Message-ID: <CAP9ODKpgDQ-ADUUfPyY1+73LZrxqeKHA4qc=2FxVWVPEk0uCGg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Denys Dmytriyenko <denis@denix.org>
+	<1396374798.2910.29.camel@ted>
+	<CAP9ODKr29A6LKdALn6c_QVBG7v5jHcc020kva+nU9i+tC=+5ew@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] alsa-tools: Enable GTK support for X11 and Wayland
+Subject: Re: [PATCH 1/2] oe.utils, utils.bbclass: Add any_contains and base_any_contains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,54 +39,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 18:58:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 01 Apr 2014 19:07:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 1, 2014 at 3:50 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Tue, Apr 01, 2014 at 02:08:00PM -0300, Otavio Salvador wrote:
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->> This patch depends on the alsa-tools one I sent some minutes ago
->>
->>  meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
->> index 4f64a38..fdbe82a 100644
->> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
->> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
->>  SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
->>             file://mips_has_no_io_h.patch \
->>             file://autotools.patch \
->> -           ${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
->> +           ${@base_any_contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)}"
->
-> What's the reason to use any_contains here?
+On Tue, 2014-04-01 at 15:38 -0300, Otavio Salvador wrote:
+> On Tue, Apr 1, 2014 at 2:53 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2014-04-01 at 14:07 -0300, Otavio Salvador wrote:
+> >> This is similar to the contains but matches any of values. This is
+> >> useful to match for example several DISTRO_FEATURES which ought to
+> >> include a PACKAGECONFIG option.
+> >>
+> >> For example:
+> >>
+> >> PACKAGECONFIG ??= "${@base_any_contains('DISTRO_FEATURES', 'x11 wayland', 'gtk+', '', d)}"
+> >>
+> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> >> ---
+> >>  meta/classes/utils.bbclass |  3 +++
+> >>  meta/lib/oe/utils.py       | 13 +++++++++++++
+> >>  2 files changed, 16 insertions(+)
+> >>
+> >> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+> >> index 0a533af..966eda1 100644
+> >> --- a/meta/classes/utils.bbclass
+> >> +++ b/meta/classes/utils.bbclass
+> >> @@ -26,6 +26,9 @@ def base_version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
+> >>  def base_contains(variable, checkvalues, truevalue, falsevalue, d):
+> >>      return oe.utils.contains(variable, checkvalues, truevalue, falsevalue, d)
+> >>
+> >> +def base_any_contains(variable, checkvalues, truevalue, falsevalue, d):
+> >> +    return oe.utils.any_contains(variable, checkvalues, truevalue, falsevalue, d)
+> >> +
+> >>  def base_both_contain(variable1, variable2, checkvalue, d):
+> >>      return oe.utils.both_contain(variable1, variable2, checkvalue, d)
+> >>
+> >> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+> >> index defa536..029d713 100644
+> >> --- a/meta/lib/oe/utils.py
+> >> +++ b/meta/lib/oe/utils.py
+> >> @@ -54,6 +54,19 @@ def contains(variable, checkvalues, truevalue, falsevalue, d):
+> >>          return truevalue
+> >>      return falsevalue
+> >>
+> >> +def any_contains(variable, checkvalues, truevalue, falsevalue, d):
+> >> +    val = d.getVar(variable, True)
+> >> +    if not val:
+> >> +        return falsevalue
+> >> +    val = set(val.split())
+> >> +    if isinstance(checkvalues, basestring):
+> >> +        checkvalues = set(checkvalues.split())
+> >> +    else:
+> >> +        checkvalues = set(checkvalues)
+> >> +    if checkvalues in val:
+> >> +        return truevalue
+> >> +    return falsevalue
+> >> +
+> >>  def both_contain(variable1, variable2, checkvalue, d):
+> >>      if d.getVar(variable1,1).find(checkvalue) != -1 and d.getVar(variable2,1).find(checkvalue) != -1:
+> >>          return checkvalue
+> >
+> > A more logical name is perhaps containsany().
+> >
+> > I'd also add that bitbake has special support for contains() and
+> > optimises sstate hashes for its use. We don't have such optimisation for
+> > containsany(). I think this is perhaps 1.7 material at this point.
+> 
+> I'd use contains_any. Any problem with this?
+> 
+> I didn't find the place bitbake handles it. Can you point the
+> reference for me to look at it and complete this?
 
-Forgot to add the wayland to the list. Good catch.
+It starts at lib/bb/codeparser.py:
 
->>  SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
->>  SRC_URI[sha256sum] = "6562611b5a6560712f109e09740a9d4fa47296b07ed9590cb44139c5f154ada2"
->> @@ -20,7 +20,7 @@ inherit autotools-brokensep
->>
->>  EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
->>
->> -PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
->> +PACKAGECONFIG ??= "${@base_any_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
->
-> Same here - what's the reason for the change?
+   containsfuncs = ("bb.utils.contains", "base_contains", "oe.utils.contains")
 
-Same here.
+and then that data gets passed around in various caches and so one and
+is eventually used in the checksum dependencies.
 
->>  PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
->>
->>  # configure.ac/.in doesn't exist so force copy
+Cheers,
 
-I am looking at the other changes Richard has commented and will send a v2.
+Richard
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+
+
 
