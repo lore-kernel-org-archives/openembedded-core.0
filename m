@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 71B936F89F
+	by mail.openembedded.org (Postfix) with ESMTP id 694F46E6FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:49:36 +0000 (UTC)
+	Tue,  1 Apr 2014 10:51:21 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31AnW3a015883; Tue, 1 Apr 2014 11:49:32 +0100
+	s31ApGlp015916; Tue, 1 Apr 2014 11:51:16 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ppFJe0OyCi8o; Tue,  1 Apr 2014 11:49:31 +0100 (BST)
+	with LMTP id M8Rn9DC8Q0cl; Tue,  1 Apr 2014 11:51:16 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31AnPcG015870
+	s31ApCNB015911
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 11:49:26 +0100
-Message-ID: <1396349360.1432.2.camel@ted>
+	Tue, 1 Apr 2014 11:51:14 +0100
+Message-ID: <1396349467.1432.4.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kai Kang <kai.kang@windriver.com>
-Date: Tue, 01 Apr 2014 11:49:20 +0100
-In-Reply-To: <26f22e4e2b8b1fa1eff604feac7088986d561eab.1396343261.git.kai.kang@windriver.com>
-References: <cover.1396343261.git.kai.kang@windriver.com>
-	<26f22e4e2b8b1fa1eff604feac7088986d561eab.1396343261.git.kai.kang@windriver.com>
+To: Florin Sarbu <florin.sarbu@windriver.com>
+Date: Tue, 01 Apr 2014 11:51:07 +0100
+In-Reply-To: <1396346945-3782-1-git-send-email-florin.sarbu@windriver.com>
+References: <1396346945-3782-1-git-send-email-florin.sarbu@windriver.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] cmake: follow ptest output format
+Subject: Re: [PATCH] connman.inc: Add PACKAGECONFIG support for bluez5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,179 +37,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:49:37 -0000
+X-List-Received-Date: Tue, 01 Apr 2014 10:51:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-04-01 at 17:09 +0800, Kai Kang wrote:
-> From: Li Wang <li.wang@windriver.com>
+On Tue, 2014-04-01 at 13:09 +0300, Florin Sarbu wrote:
+> Currently connman can only RDEPEND on bluez4.
+> This patch adds support for having bluez5 in PACKAGECONFIG
+> and get connman RDEPEND on bluez5 if desired.
 > 
-> ptest output format is incorrect, according to yocto Development Manual
-> (http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest)
-> 
-> The test generates output in the format used by Automake:
-> <result>: <testname>
-> where the result can be PASS, FAIL, or SKIP, and the testname can be any identifying string.
-> 
-> So we should change the test result format to match yocto ptest rules.
-> 
-> Signed-off-by: Li Wang <li.wang@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
 > ---
->  meta/recipes-devtools/cmake/cmake.inc              |   1 +
->  .../cmake/cmake/follow_ptest_output_format.patch   | 118 +++++++++++++++++++++
->  2 files changed, 119 insertions(+)
->  create mode 100644 meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
+>  meta/recipes-connectivity/connman/connman.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-> index 1d5303f..254af45 100644
-> --- a/meta/recipes-devtools/cmake/cmake.inc
-> +++ b/meta/recipes-devtools/cmake/cmake.inc
-> @@ -17,6 +17,7 @@ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz
->             file://aarch64-kwsys.patch \
->             file://qt4-fail-silent.patch \
->             file://cmake-2.8.11.2-FindFreetype.patch \
-> +           file://follow_ptest_output_format.patch \
->             "
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index b3147c9..53a6a4f 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -32,7 +32,7 @@ EXTRA_OECONF += "\
 >  
->  inherit autotools-brokensep
-> diff --git a/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch b/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
-> new file mode 100644
-> index 0000000..5428df2
-> --- /dev/null
-> +++ b/meta/recipes-devtools/cmake/cmake/follow_ptest_output_format.patch
-> @@ -0,0 +1,118 @@
-> +cmake: follow ptest output format
-> +
-> +ptest output format is incorrect, according to yocto Development Manual
-> +(http://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest)
-> +5.10.6. Testing Packages With ptest
-> +The test generates output in the format used by Automake:
-> +<result>: <testname>
-> +where the result can be PASS, FAIL, or SKIP, and the testname can be any identifying string.
-> +So we should change the test result format to match yocto ptest rules.
-> +
-> +Signed-off-by: Li Wang <li.wang@windriver.com>
+>  PACKAGECONFIG ??= "wispr \
+>                     ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
+> -                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
+> +                   ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
+>                     ${@base_contains('DISTRO_FEATURES', '3g','3g', '', d)} \
+>  "
+>  
+> @@ -42,6 +42,7 @@ PACKAGECONFIG ??= "wispr \
+>  
+>  PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
+>  PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
 
-No upstream status. Is there any chance of this going upstream? Might we
-be better off postprocessing the output with a script to put it into the
-right format?
+You renamed the option above but didn't here and hence broke bluez4.
+This is not the quality of patch expected at -rc time for a release :(.
 
 Cheers,
 
 Richard
 
-
-> +---
-> +--- a/Source/CTest/cmCTestRunTest.cxx
-> ++++ b/Source/CTest/cmCTestRunTest.cxx
-> +@@ -145,8 +145,8 @@
-> +     this->CompressOutput();
-> +     }
-> + 
-> +-  this->WriteLogOutputTop(completed, total);
-> +   std::string reason;
-> ++  std::string result;
-> +   bool passed = true;
-> +   int res = started ? this->TestProcess->GetProcessStatus()
-> +                     : cmsysProcess_State_Error;
-> +@@ -208,57 +208,58 @@
-> +       || (!success && this->TestProperties->WillFail))
-> +       {
-> +       this->TestResult.Status = cmCTestTestHandler::COMPLETED;
-> +-      cmCTestLog(this->CTest, HANDLER_OUTPUT, "   Passed  " );
-> ++      result = "           ";
-> +       }
-> +     else
-> +       {
-> +       this->TestResult.Status = cmCTestTestHandler::FAILED;
-> +-      cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Failed  " << reason );
-> ++      result = "           " + reason;
-> +       outputTestErrorsToConsole = this->CTest->OutputTestOutputOnTestFailure;
-> +       }
-> +     }
-> +   else if ( res == cmsysProcess_State_Expired )
-> +     {
-> +-    cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Timeout ");
-> ++    result = "***Timeout ";
-> +     this->TestResult.Status = cmCTestTestHandler::TIMEOUT;
-> +     outputTestErrorsToConsole = this->CTest->OutputTestOutputOnTestFailure;
-> +     }
-> +   else if ( res == cmsysProcess_State_Exception )
-> +     {
-> +     outputTestErrorsToConsole = this->CTest->OutputTestOutputOnTestFailure;
-> +-    cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Exception: ");
-> ++    result = "***Exception: ";
-> +     switch(this->TestProcess->GetExitException())
-> +       {
-> +       case cmsysProcess_Exception_Fault:
-> +-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "SegFault");
-> ++        result += "SegFault";
-> +         this->TestResult.Status = cmCTestTestHandler::SEGFAULT;
-> +         break;
-> +       case cmsysProcess_Exception_Illegal:
-> +-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Illegal");
-> ++        result += "Illegal";
-> +         this->TestResult.Status = cmCTestTestHandler::ILLEGAL;
-> +         break;
-> +       case cmsysProcess_Exception_Interrupt:
-> +-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Interrupt");
-> ++        result += "Interrupt";
-> +         this->TestResult.Status = cmCTestTestHandler::INTERRUPT;
-> +         break;
-> +       case cmsysProcess_Exception_Numerical:
-> +-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Numerical");
-> ++        result += "Numerical";
-> +         this->TestResult.Status = cmCTestTestHandler::NUMERICAL;
-> +         break;
-> +       default:
-> +-        cmCTestLog(this->CTest, HANDLER_OUTPUT, "Other");
-> ++        result += "Other";
-> +         this->TestResult.Status = cmCTestTestHandler::OTHER_FAULT;
-> +       }
-> +     }
-> +   else //cmsysProcess_State_Error
-> +     {
-> +-    cmCTestLog(this->CTest, HANDLER_OUTPUT, "***Not Run ");
-> ++    result = "***Not Run ";
-> +     }
-> + 
-> +   passed = this->TestResult.Status == cmCTestTestHandler::COMPLETED;
-> +   char buf[1024];
-> +   sprintf(buf, "%6.2f sec", this->TestProcess->GetTotalTime());
-> +-  cmCTestLog(this->CTest, HANDLER_OUTPUT, buf << "\n" );
-> ++  this->WriteLogOutputTop(completed, total);
-> ++  cmCTestLog(this->CTest, HANDLER_OUTPUT, result << buf << "\n" );
-> + 
-> +   if ( outputTestErrorsToConsole )
-> +     {
-> +@@ -398,6 +399,7 @@
-> + // Starts the execution of a test.  Returns once it has started
-> + bool cmCTestRunTest::StartTest(size_t total)
-> + {
-> ++  cmCTestLog(this->CTest, HANDLER_OUTPUT, "      ");
-> +   cmCTestLog(this->CTest, HANDLER_OUTPUT, std::setw(2*getNumWidth(total) + 8)
-> +     << "Start "
-> +     << std::setw(getNumWidth(this->TestHandler->GetMaxIndex()))
-> +@@ -679,6 +681,15 @@
-> + 
-> + void cmCTestRunTest::WriteLogOutputTop(size_t completed, size_t total)
-> + {
-> ++  if ( this->TestResult.Status == cmCTestTestHandler::COMPLETED )
-> ++    {
-> ++    cmCTestLog(this->CTest, HANDLER_OUTPUT, "PASS: " );
-> ++    }
-> ++  else
-> ++    {
-> ++    cmCTestLog(this->CTest, HANDLER_OUTPUT, "FAIL: " );
-> ++    }
-> ++
-> +   cmCTestLog(this->CTest, HANDLER_OUTPUT, std::setw(getNumWidth(total))
-> +              << completed << "/");
-> +   cmCTestLog(this->CTest, HANDLER_OUTPUT, std::setw(getNumWidth(total))
+> +PACKAGECONFIG[bluez5] = "--enable-bluetooth, --disable-bluetooth, bluez5"
+>  PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
+>  PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+>  PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+> @@ -114,6 +115,7 @@ RPROVIDES_${PN} = "\
+>  RDEPENDS_${PN} = "\
+>  	dbus \
+>  	${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
+> +	${@base_contains('PACKAGECONFIG', 'bluez5', 'bluez5', '', d)} \
+>  	${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
+>  	${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
+>  	xuser-account \
 > -- 
-> 1.8.1.2
+> 1.9.1
 > 
 
 
