@@ -1,39 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C5D26F242
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B4036E89C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 14:57:51 +0000 (UTC)
-Received: by mail-ie0-f177.google.com with SMTP id rl12so8915916iec.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 07:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=kh6qLxU1jEcip1NVWsUOMHTAzbWzdOWnN0H9GzrVqys=;
-	b=TuEYaRhCyhaIA5IXDKqeAq8QZLHmkaPtroaaiVi9hsLnNUg7NEfCntpO+9Fj3YsGhS
-	rLznrpiaGT2sqbqNNrrZjtSwj6H1A9CET5BSwrQy6Mxn8/fOpHvyiBV4MXBPp5cBnrKP
-	KOnZSAI0JjtVHmmIr9NvIHN/R+Wlt+usFKWvxLpuu9Dlqyqhcl7Zdh4fFCFnvXDotm0H
-	JjQWhmT0lonVtEy0VQi6gvbcKf/ZH3D4ul0yyjEpn5/5A9DmsMQz+22DpaDsJQKyYDPK
-	fKJkMcomU/8MSyHQfC4IOGhH/WWmB6qFfD/6krPuKaLLUSeyRn9XEXwC/spiBSoGhZQv
-	cGXg==
-X-Received: by 10.42.203.202 with SMTP id fj10mr30955119icb.51.1396364272731; 
-	Tue, 01 Apr 2014 07:57:52 -0700 (PDT)
+	Tue,  1 Apr 2014 15:41:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s31FfAqF002282
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Apr 2014 08:41:12 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 1 Apr 2014 08:41:10 -0700
+Message-ID: <533ADE13.3070701@windriver.com>
+Date: Tue, 1 Apr 2014 11:41:07 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Tue, 1 Apr 2014 07:57:20 -0700 (PDT)
-In-Reply-To: <533A6D67.9060608@windriver.com>
-References: <cover.1395997035.git.hongxu.jia@windriver.com>
-	<eedfe13af69c82c667fb78152bb070b0cc448bc2.1395997035.git.hongxu.jia@windriver.com>
-	<CAMKF1sozZEVsJ=oaBW-mqex27LvOTfOGW90+g_9gkPg27OJEhA@mail.gmail.com>
-	<533A6D67.9060608@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 1 Apr 2014 07:57:20 -0700
-Message-ID: <CAMKF1sps5Bu26iN7ak76t-QZQnhrm1wTvhAcHWs94xnz035BvQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1396288310.git.bruce.ashfield@windriver.com>	
+	<e6015802086cbf8199d112a3e75a7391a417ede6.1396288310.git.bruce.ashfield@windriver.com>	
+	<CAMKF1srOv27-6SwSfYxFLL0-BvHk7hxWBmn6twtY+hpQ9rTYww@mail.gmail.com>	
+	<5339C30B.1060005@windriver.com>	
+	<CAMKF1srfDpeGkQMnHkK_AFPy6N7pujtLwMRsgbsDeHem82_5nA@mail.gmail.com>	
+	<5339C6FD.1070506@windriver.com>	
+	<A5D0F3B0-A739-4D0D-A9C5-926BBEB9CD35@gmail.com>	
+	<533AB712.2000809@windriver.com> <20140401145014.GQ2425@jama>	
+	<533AD2C2.7000104@windriver.com> <1396364058.2910.24.camel@ted>
+In-Reply-To: <1396364058.2910.24.camel@ted>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] libarchive: fix CVE-2013-0211
+Subject: Re: [PATCH 4/5] libc-headers: set TC default to 3.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +43,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 14:57:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Apr 2014 15:41:16 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 1, 2014 at 12:40 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> On 04/01/2014 01:30 PM, Khem Raj wrote:
->>
->> On Fri, Mar 28, 2014 at 2:43 AM, Hongxu Jia <hongxu.jia@windriver.com>
->> wrote:
+On 14-04-01 10:54 AM, Richard Purdie wrote:
+> On Tue, 2014-04-01 at 10:52 -0400, Bruce Ashfield wrote:
+>> On 14-04-01 10:50 AM, Martin Jansa wrote:
+>>> On Tue, Apr 01, 2014 at 08:54:42AM -0400, Bruce Ashfield wrote:
+>>>> On 14-04-01 02:42 AM, Khem Raj wrote:
+>>>>>
+>>>>> On Mar 31, 2014, at 12:50 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>>>>>
+>>>>>>> i dont believe you tested all layer combinations
+>>>>>>
+>>>>>> I've tested everything I can, as has the autobuilder. I can't offer
+>>>>>> any more than this.
+>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>> at this point. 3.10 being LTS
+>>>>>>>>> I would assume its a better option to keep at 3.10
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> I disagree, this is consistent with other releases and the documented
+>>>>>>>> plan of action. I'd rather not have a massive version jump in the fall.
+>>>>>>>
+>>>>>>> its probably not a bad option to stick to LTS version for kernel headers
+>>>>>>> after all
+>>>>>>
+>>>>>> Again, I disagree.
+>>>>>>
+>>>>>> We can maybe keep the 3.10 recipe around,
+>>>>>
+>>>>> Thats ugly too. We decided to stick to one version of headers last time.
+>>>>>
+>>>>>> but the default should
+>>>>>> be 3.14, we need a matched kernel and libc-headers to get the best integration
+>>>>>> and leveraging of the latest features.
+>>>>>>
+>>>>>> If we pull the headers, pull the kernel.
+>>>>>
+>>>>> this all is understood, however we have to get better with timings especially
+>>>>> changing something like kernel headers whose impact is far reaching then
+>>>>>     just updating kernel proper.
+>>>>
+>>>> We do the best we can and I can only play the timing that is dealt
+>>>> by the upstream projects ... but we all know that!
+>>>>
+>>>> We arranged for as much soak testing and building as we could behind
+>>>> the scenes.
+>>>>
+>>>> That being said, we are going to introduce the versioned kernel and
+>>>> libc-headers recipes in the -rc1 timeframe next time around and we
+>>>> captured that intention on the kernel planning wiki for 1.7 .. so that
+>>>> should help in the next cycle.
 >>>
->>> ++      const size_t max_write = INT_MAX;
+>>> This failure also seems new:
+>>>
+>>> |
+>>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:344:24:
+>>> error: 'struct bio' has no member named 'bi_sector'
+>>> |    tp_assign(sector, bio->bi_sector)
 >>
->> I think INT_MAX is a mismatch here size_t may not be defined 'unsigned
->> int' on all kind of architectures.
+>> For qemuarm. Hmm. I did build lttng modules for it here, as I presume
+>> the autobuilder did as well.
+>>
+>> But I'll launch another build to see what happens here.
 >
+> I can confirm we didn't see that on the autobuilder...
+
+I was checking my core-image-kernel-dev builds for qemuarm, and managed
+to confuse myself momentarily (when I didn't see a build trigger), and
+then remembered.
+
+------------
+
+commit 7a974407379b43e40664cad4696b427ee8c18df0
+Author: Tom Zanussi <tom.zanussi@intel.com>
+Date:   Thu Mar 6 22:26:19 2014 -0600
+
+     lttng-modules: Exclude arm
+
+     lttng-modules and gcc-4.8 don't mix, according to the lttng ML
+     'current_thread_info() not respecting program order with gcc 4.8.x',
+     so remove it from arm builds.
+
+     (From OE-Core rev: ccf687de7b856dbe6f347956743f07ff05c2533a)
+
+     Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+------------
+
+Tom also has the fix for bio*:
+
+commit b465c0cb32696eed3ecc42fe4b5b478e4ba07914
+Author: Tom Zanussi <tom.zanussi@intel.com>
+Date:   Thu Mar 6 22:26:20 2014 -0600
+
+     lttng-modules: Fix 3.14 bio tracepoints
+
+     The mainline 3.14 commit 'block: Astract out bvec iterator' broke the
+     lttng-modules tracepoints.  Fix them here.
+
+     (From OE-Core rev: c11b29ff4f24af0445c3c6a694b8dc2037dcd7e4)
+
+     Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+----------
+
+So this one is expected, and avoided .. but of course if you build it
+directly it will break.
+
+If there's a fix that anyone knows of for ARM, I'm available to test
+it here.
+
+Summary: not introduced by the uprev directly, and it was known before
+hand .. my foggy memory just managed to forget it..
+
+Cheers,
+
+Bruce
+
 >
-> How about test the size of size_t and assigned the related MAX value:
+> Cheers,
 >
-> const size_t max_write = (sizeof(size_t) >=
-> sizeof(int))?INT_MAX:(sizeof(size_t) == sizeof(short))?SHRT_MAX:CHAR_MAX;
+> Richard
 >
 
-you could use something like (size_t)-1 to denote SIZE_MAX
-
-> //Hongxu
->
 
