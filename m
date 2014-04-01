@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B36D6F8A0
+Return-Path: <Florin.Sarbu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3365E6E849
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 10:15:17 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s31AFCgO014419; Tue, 1 Apr 2014 11:15:12 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WYrzjuvcfNHO; Tue,  1 Apr 2014 11:15:12 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s31AF7oj014414
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 1 Apr 2014 11:15:09 +0100
-Message-ID: <1396347302.14790.103.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kai Kang <kai.kang@windriver.com>
-Date: Tue, 01 Apr 2014 11:15:02 +0100
-In-Reply-To: <af0d72274577463847f43551a9caf743314be414.1396343261.git.kai.kang@windriver.com>
-References: <cover.1396343261.git.kai.kang@windriver.com>
-	<af0d72274577463847f43551a9caf743314be414.1396343261.git.kai.kang@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] util-linux-native: Remove SYS_setns system call in linux kernel 2.6.x
+	Tue,  1 Apr 2014 10:16:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s31AGlAc027559
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Apr 2014 03:16:47 -0700 (PDT)
+Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.170.220) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.169.1; Tue, 1 Apr 2014 03:16:46 -0700
+From: Florin Sarbu <florin.sarbu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Apr 2014 13:16:40 +0300
+Message-ID: <1396347400-9699-1-git-send-email-florin.sarbu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.170.220]
+Subject: [PATCH] libpcap.inc: Add PACKAGECONFIG support for bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 10:15:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Apr 2014 10:16:47 -0000
+Content-Type: text/plain
 
-On Tue, 2014-04-01 at 17:09 +0800, Kai Kang wrote:
-> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
-> 
-> __NR_setns is not defined in linux kernel 2.6.x. To linux kernel 3.0,
-> this variable is defined. It has been shown that no native tools use
-> this syscall, so it is safe to make this substitution
-> 
-> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc | 6 ++++++
->  1 file changed, 6 insertions(+)
+This patch adds support for having bluez5 in PACKAGECONFIG
+and get libpcap DEPEND on bluez5.
 
-This is horrible. Firstly "no native tools use this syscall" - how did
-you check that? I suspect you perhaps mean "no native tools in OE-Core
-at this time"? How would we know when one is added?
+Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
+---
+ meta/recipes-connectivity/libpcap/libpcap.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Secondly, this should not be done as a sed, it should be a patch with a
-description. This means when we upgrade util-linux, it doesn't silently
-stop working or do something unintended.
-
-Cheers,
-
-Richard
-
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index ad7aac7..0f065b4 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -112,6 +112,12 @@ RPROVIDES_${PN}-dev = "util-linux-libblkid-dev util-linux-libmount-dev util-linu
->  SYSTEMD_PACKAGES = "${PN}-uuidd"
->  SYSTEMD_SERVICE_${PN}-uuidd = "uuidd.service"
->  
-> +do_compile_prepend_class-native() {
-> +	if [ `uname -r | grep "2.6."` ]; then
-> +		sed -i 's:return syscall(SYS_setns:fprintf(stderr,"Kernel does not support setns");\n\treturn 1;\n//return syscall(:g' ${S}/include/namespace.h
-> +	fi
-> +}
-> +
->  do_compile () {
->  	set -e
->  	install ${WORKDIR}/MCONFIG ${S}/MCONFIG
-> -- 
-> 1.8.1.2
-> 
-
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index a984e05..1613567 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -10,8 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+                     file://pcap.h;beginline=1;endline=34;md5=8d6cf7e17d5745010d633e30bc529ea9"
+ DEPENDS = "flex-native bison-native libnl"
+ 
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)}"
++PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++PACKAGECONFIG[bluez5] = "--enable-bluetooth,--disable-bluetooth,bluez5"
+ PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
+ PACKAGECONFIG[libnl1] = "--with-libnl,--without-libnl,libnl1,libnl1"
+ 
+-- 
+1.9.1
 
 
