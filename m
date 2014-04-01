@@ -1,30 +1,36 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C97F6EA3F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Apr 2014 07:54:23 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id s317sH7F010528;
-	Tue, 1 Apr 2014 09:54:22 +0200
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0387.000; Tue, 1 Apr 2014 09:54:17 +0200
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [RFC PATCH] Make ppce300c3 tune hard-float by default
-Thread-Index: Ac9KozMWp6mgzhUuTs+O79jHgwSqqQCuHmCAAAjSH6Y=
-Date: Tue, 1 Apr 2014 07:54:16 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B3AA247@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B3A7EBE@post.tritech.se>,
-	<CAMKF1spy5NzfaLVfnUL_tMS_iqT7EE6NE++SUnb4BvVatgpL+Q@mail.gmail.com>
-In-Reply-To: <CAMKF1spy5NzfaLVfnUL_tMS_iqT7EE6NE++SUnb4BvVatgpL+Q@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 958616E3DE;
+	Tue,  1 Apr 2014 08:53:33 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id hu19so9582967vcb.1
+	for <multiple recipients>; Tue, 01 Apr 2014 01:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Z4wO7NYEYV1q4k5pZTlKeeJKUCBw7J85jRMLGBPmUH0=;
+	b=lbE4IAHPZH8R5yCk4UHDa4zMhRXcMnjod3PvgACnN9LGFcBcNSubH7KABUYp1mVdrS
+	sp62LZoD7jmH+D7340W96ntfbdnqIYp6PtldK47AUFkJrgYE3RfvS/GPJmqy9y7ocowe
+	weJvPaEiRt2hrmQp9Tf0HSFddV/NVqe1iG6GDygPtXJehRVd1wwSlMCf77a1XJL4ycWf
+	YznRr7fOGXKwVQJPfdloIYzyqDfsbWnoIvITxw/tg9pkY4ZZ8/kFJVilEZIbOYCAb5Q8
+	Cmhu0elG+EwxqamIWw11ly62fegRPXFSAZAxGk2K+bVcSJl7N/x4SQvPIfD57PA//2Go
+	uB6A==
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] Make ppce300c3 tune hard-float by default
+X-Received: by 10.220.92.135 with SMTP id r7mr27583478vcm.11.1396342414962;
+	Tue, 01 Apr 2014 01:53:34 -0700 (PDT)
+Received: by 10.52.120.4 with HTTP; Tue, 1 Apr 2014 01:53:34 -0700 (PDT)
+In-Reply-To: <20140329225432.GA2428@jama>
+References: <20140329225432.GA2428@jama>
+Date: Tue, 1 Apr 2014 10:53:34 +0200
+Message-ID: <CALbNGRRRiOo1Ysm9mP2fRmQ+_AWMHiug1FuQ1z9L4741sj-8fg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2014-03-29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Apr 2014 07:54:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 01 Apr 2014 08:53:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Khem,=0A=
-=0A=
-Thanks for your feedback!=0A=
-=0A=
-On Tuesday, April 01, 2014 7:37 AM, Khem Raj wrote:=0A=
-> On Fri, Mar 28, 2014 at 9:43 AM, Mats K=E4rrman <Mats.Karrman@tritech.se>=
- wrote:=0A=
->> +# glibc configure options to make use of 603e specific sqrt/sqrtf routi=
-nes=0A=
->> +GLIBC_EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce300=
-c3", "--with-cpu=3De300c3", "", d)}"=0A=
->=0A=
-> looks good, may be the comment above can be more explanatory saying that=
-=0A=
-> glibc aliases e300c3 sqrt/sqrtf to 600e versions=0A=
-=0A=
-The above statement depends on an added "Implies" file in eglibc and,=0A=
-more important on a previous patch adding support for 603e/fpu sqrt.=0A=
-=0A=
-How is the new Implies file best added, as a patch to the previous patch=0A=
-or as a new patch?=0A=
-=0A=
-BR // Mats=0A=
+On Sat, Mar 29, 2014 at 11:54 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+>
+> == Failed tasks 2014-03-29 ==
+>
+> === common (23) ===
+>     * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.bb, do_compile
+>     * meta-openembedded/meta-gnome/recipes-gnome/libgnome/libgnomecanvas_2.30.3.bb, do_configure
+>     * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, do_compile
+>     * meta-openembedded/meta-multimedia/recipes-multimedia/libdc1394/libdc1394_git.bb, do_configure
+>     * meta-openembedded/meta-networking/recipes-protocols/quagga/quagga_0.99.21.bb, do_compile
+>     * meta-openembedded/meta-networking/recipes-support/traceroute/traceroute_2.0.18.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, do_install
+>     * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-extended/mml-widget/gtkmathview_0.8.0.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb, do_configure
+>     * meta-openembedded/meta-oe/recipes-multimedia/sound-themes/sound-theme-freedesktop_0.8.bb, do_configure
+>     * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-support/asio/asio_1.4.1.bb, do_compile
+>     * meta-openembedded/meta-oe/recipes-support/inih/libinih_git.bb, do_install
+>     * meta-openembedded/meta-oe/recipes-support/open-vcdiff/open-vcdiff_0.8.3.bb, do_configure
+>     * meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, do_configure
+>     * meta-openembedded/meta-xfce/recipes-apps/xarchiver/xarchiver_git.bb, do_configure
+>     * meta-openembedded/meta-xfce/recipes-apps/xfce4-taskmanager/xfce4-taskmanager_git.bb, do_configure
+>     * meta-openembedded/meta-xfce/recipes-panel-plugins/closebutton/xfce4-closebutton-plugin_git.bb, do_configure
+>     * meta-openembedded/meta-xfce/recipes-xfce/xfce4-settings/xfce4-settings_git.bb, do_configure
+>     * meta-openembedded/meta-xfce/recipes-xfce/xfwm4/xfwm4_git.bb, do_configure
+>
+Patches for xfce-receipes should go out today...
+
+Andreas
 
