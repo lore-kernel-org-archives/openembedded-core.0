@@ -1,24 +1,45 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C9A16F9F8
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D7D06F896
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 15:17:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,780,1389740400"; d="scan'208";a="43749786"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 02 Apr 2014 17:17:33 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Wed, 2 Apr 2014 17:17:32 +0200
-Received: from u75.usr.ingenico.loc (10.23.7.75) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Wed, 2 Apr 2014 17:17:32 +0200
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Apr 2014 17:15:50 +0200
-Message-ID: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-Subject: [PATCH] rootfs.py: introduce USE_DEVFS check
+	Wed,  2 Apr 2014 15:52:55 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WVNTD-0007Ie-9H; Wed, 02 Apr 2014 17:52:55 +0200
+Message-ID: <1396453974.5879.121.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+Date: Wed, 02 Apr 2014 16:52:54 +0100
+In-Reply-To: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
+References: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Wed, 2014-04-02 at 17:15 +0200,
+	Matthieu Crapet wrote:
+	> +USE_DEVFS[doc] = "When building images,
+	specifies to populate or not ${sysconfdir}.
+	This variable defaults to '0' (leave directory empty,
+	surely because devtmpfs
+	do the job). Set it to '1' to use makedevs (or consider using a custom
+	file with IMAGE_DEVICE_TABLES)." [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rootfs.py: introduce USE_DEVFS check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +52,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 15:17:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Apr 2014 15:52:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Since commit a83144bac8d67704ff66f5dc0fc56f5b63979694 (2014-02-11), USE_DEVFS is not considered anymore.
-For compatibility, let's restore USE_DEVFS semantic.
-Also add USE_DEVFS to documentation.conf.
+On Wed, 2014-04-02 at 17:15 +0200, Matthieu Crapet wrote:
+> +USE_DEVFS[doc] = "When building images, specifies to populate or not ${sysconfdir}. This variable defaults to '0' (leave directory empty, surely because devtmpfs do the job). Set it to '1' to use makedevs (or consider using a custom file with IMAGE_DEVICE_TABLES)."
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/conf/documentation.conf | 1 +
- meta/lib/oe/rootfs.py        | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+That's backwards, isn't it?
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 4d49a02..ced646b 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -436,6 +436,7 @@ UBOOT_MACHINE[doc] = "Specifies the value passed on the make command line when b
- UBOOT_MAKE_TARGET[doc] = "Specifies the target called in the Makefile."
- UBOOT_SUFFIX[doc] = "Points to the generated U-Boot extension."
- UBOOT_TARGET[doc] = "Specifies the target used for building U-Boot."
-+USE_DEVFS[doc] = "When building images, specifies to populate or not ${sysconfdir}. This variable defaults to '0' (leave directory empty, surely because devtmpfs do the job). Set it to '1' to use makedevs (or consider using a custom file with IMAGE_DEVICE_TABLES)."
- USER_CLASSES[doc] = "List of additional classes to use when building images that enable extra features."
- USERADD_PACKAGES[doc] = "When a recipe inherits the useradd class, this variable specifies the individual packages within the recipe that require users and/or groups to be added."
- USERADD_PARAM[doc] = "When a recipe inherits the useradd class, this variable specifies for a package what parameters should be passed to the useradd command if you wish to add a user to the system when the package is installed."
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 3eac3c9..dddbef4 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -116,7 +116,8 @@ class Rootfs(object):
-                          "offline and rootfs is read-only: %s" %
-                          delayed_postinsts)
- 
--        self._create_devfs()
-+        if self.d.getVar('USE_DEVFS', True) != "1":
-+            self._create_devfs()
- 
-         self._uninstall_uneeded()
- 
--- 
-1.8.5.4
+p.
+
 
 
