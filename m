@@ -1,28 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A2E4C6F573
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A1AA6E79A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 08:47:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Apr 2014 01:47:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,778,1389772800"; d="scan'208";a="512662525"
-Received: from ryanpete-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.86])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Apr 2014 01:47:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Wed, 02 Apr 2014 09:47:39 +0100
-Message-ID: <2152356.Zkf82YNJds@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.7-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <1396387742.3038.34.camel@e130.pbcl.net>
-References: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
-	<1396374702.2910.27.camel@ted>
-	<1396387742.3038.34.camel@e130.pbcl.net>
+	Wed,  2 Apr 2014 09:14:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,779,1389744000"; d="scan'208";a="72632510"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 02 Apr 2014 10:14:06 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>)
+	id 1WVHFE-0007mX-48; Wed, 02 Apr 2014 10:14:04 +0100
+Date: Wed, 2 Apr 2014 10:14:04 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140402091404.GA29076@mcrowe.com>
+References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
+	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
+	<CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: image.bbclass: USE_DEVFS is now useless
+In-Reply-To: <CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 08:47:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 02 Apr 2014 09:14:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tuesday 01 April 2014 22:29:02 Phil Blundell wrote:
-> On Tue, 2014-04-01 at 18:51 +0100, Richard Purdie wrote:
-> > On Tue, 2014-04-01 at 18:48 +0100, Phil Blundell wrote:
-> > > Also note that the default for USE_DEVFS was (and is) 1, so the lack
-> > > of this check is actually causing a difference in the default
-> > > behaviour.  If there's no appetite for reinstating the USE_DEVFS
-> > > mechanism per se then it seems like it would be a good idea to make
-> > > the default IMAGE_DEVICE_TABLE be blank in order to restore the
-> > > previous default of no /dev in the rootfs.
-> > > 
-> > > At present you get a somewhat arbitrary-seeming smattering of devices
-> > > from meta/files/device_table-minimal.txt, including such anachronisms
-> > > as /dev/ttySA0 and /dev/apm_bios.  It's hard to imagine that anybody
-> > > actually wants this stuff in their rootfs in this day and age.
-> > 
-> > Can we kill apmd at the same time? Please? :)
+On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:
+> On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > It seems to be possible to disable building the "CursesDialog" component to
+> > remove the need for ncurses but I couldn't immediately see how to do that
+> > for a bootstrap build.
+> >
+> > The non-native cmake recipe depends on ncurses even though it passes
+> > -DBUILD_CursesDialog=0.
 > 
-> I can't see why not.  I'd be surprised if there were many/any real users
-> left, beyond possibly some legacy stuff in meta-handheld, and it
-> definitely doesn't seem "core" by any reasonable interpretation of the
-> term.
-> 
-> Apart from packagegrounds, the only recipe in oe-core that mentions a
-> dependency on apmd is matchbox-panel (for the battery applet
-> presumably); that dependency is conditional on having apm in
-> MACHINE_FEATURES (which it isn't by default), and it seems a bit fishy
-> anyway since I can't immediately think of a reason why matchbox-panel
-> would need the actual daemon.
-> 
-> So, I think it should probably be safe to just rescind support for both
-> apmd and the MACHINE_FEATURE apm in oe-core.  If meta-handheld, meta-oe
-> or anybody else wants to keep apmd then they can do so in their own
-> layers although I rather hope that nobody does.
+> you need to disable it completely in CMakefile.txt, just that define
+> does not suffice you might try something like
+> http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
 
-I'm generally in favour of this too, however, one of the things that apmd 
-provided was the ability to have scripts run on suspend/resume - is there a 
-more modern mechanism that should replace this? zaurusd and opie currently 
-rely on this (yeah, I know...)
+As far as I can tell (by poisoning curses.h in the sysroot) the non-native
+cmake build does successfully avoid using curses by specifying
+-DBUILD_CursesDialog=0. I have successfully tested removing the
+ncurses dependency from the recipe too.
 
-Cheers,
-Paul
+The cmake-native bootstrap procedure means that it is not possible to get
+that parameter through to the ultimate cmake native build. So I came up
+with this patch:
 
+--- cmake-2.8.12.2/bootstrap~	2014-01-16 17:15:09.000000000 +0000
++++ cmake-2.8.12.2/bootstrap	2014-04-01 21:27:23.841996822 +0100
+@@ -1578,6 +1578,7 @@ export MAKE
+ 
+ # Run bootstrap CMake to configure real CMake
+ cmake_options="-DCMAKE_BOOTSTRAP=1"
++cmake_options="${cmake_options} -DBUILD_CursesDialog=0"
+ if [ -n "${cmake_verbose}" ]; then
+   cmake_options="${cmake_options} -DCMAKE_VERBOSE_MAKEFILE=1"
+ fi
 
--- 
+If I apply this for cmake-native then it also doesn't require curses
+(tested with the same poisoning.)
 
-Paul Eggleton
-Intel Open Source Technology Centre
+The Gentoo patch may be somewhat safer in the long term because it does a
+better job of ensuring that the curses dependency can't come back with
+newer cmake versions; it is more likely that the patch would not apply or
+the link would fail.
+
+Do you prefer the one line patch above or the Gentoo one?
+
+Thanks.
+
+Mike.
 
