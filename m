@@ -1,36 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 69EF96FA6C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D6BA96EE4D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 05:00:03 +0000 (UTC)
-Received: by mail-ie0-f181.google.com with SMTP id tp5so10206268ieb.40
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Apr 2014 22:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=DWFOCcpcKjb4kOWklIbbOE27LUe0dA0FomspuH4DU9w=;
-	b=YYZ4tPnzPaPghHzQlYt/o/CTPomI4djYnCOUiteNmTlltjQk1dcq1nBoOl3QMLQr5v
-	gkJNz8uDqDY5L50013hn4UHzIpIBKJx0pTX4jOqetgQFLHbVOxSE08scwpsDsVkp6EFX
-	cy+zuxwpRKpWG+AEU/CxwgqK1k/8eyUkUhIBcLX0/+i5Lh10WCo9lnxCvEIOwLYzVC99
-	tZf0+z8tWlIDg55FM62dPP862UJtw0sdQd3zAwWpxud0uy8WshlFf355V7Hh95iUDIXC
-	lO4AbFSeA3DS0OEp96tff7b8ELAyoCqgQCFYrqGfBSgiHlgMBJwCay5ZsMDj9BktzBD9
-	Y1bw==
-X-Received: by 10.50.43.170 with SMTP id x10mr6765037igl.20.1396414804292;
-	Tue, 01 Apr 2014 22:00:04 -0700 (PDT)
+	Wed,  2 Apr 2014 07:06:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3276giQ013494
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 2 Apr 2014 00:06:42 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.169.1; Wed, 2 Apr 2014 00:06:42 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 2 Apr 2014 15:06:29 +0800
+Message-ID: <1396422390-28115-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Tue, 1 Apr 2014 21:59:34 -0700 (PDT)
-In-Reply-To: <20140401101153.GA6306@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 1 Apr 2014 21:59:34 -0700
-Message-ID: <CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Fix bash 3.2.48 getc_with_restart() error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 05:00:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 02 Apr 2014 07:06:44 -0000
+Content-Type: text/plain
 
-On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> It seems to be possible to disable building the "CursesDialog" component to
-> remove the need for ncurses but I couldn't immediately see how to do that
-> for a bootstrap build.
->
-> The non-native cmake recipe depends on ncurses even though it passes
-> -DBUILD_CursesDialog=0.
+Hi Richard,
 
-you need to disable it completely in CMakefile.txt, just that define
-does not suffice you might try something like
-http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
+I checked that Yong Zhang from Wind River is the author of these 2 patches, and he sent to upstream and merged by bash 4.3.
+
+I think this will NOT be a license violation with Yong Zhang's Signed-off-by. So resend it.
+
+Yong Zhang (1):
+  bash-3.2.48: fix error path of getc_with_restart
+
+ .../bash-fix-error-path-of-getc_with_restart.patch | 41 ++++++++++++++++++++++
+ .../bash-3.2.48/bash-fix-getc_with_restart.patch   | 28 +++++++++++++++
+ meta/recipes-extended/bash/bash_3.2.48.bb          |  2 ++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch
+
+-- 
+1.8.1.2
+
 
