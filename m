@@ -1,35 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 550446F9FC
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 3275E6FA87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 12:26:11 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id k14so132213wgh.11
+	Wed,  2 Apr 2014 12:55:38 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id w62so188118wes.14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Apr 2014 05:26:12 -0700 (PDT)
+	Wed, 02 Apr 2014 05:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=yY8yFNuXZs9v1+m4OZePxgxs5WQKnt50i15h3RIMRvs=;
-	b=yCvo76lWX08VtiNVMC4fW9Zpk8tmOhddzDQr2GomHttdD7UOODl189JynwYP/Ns3Ln
-	I9ahIOiftmaPlJqdQQbKUSWfGExPtsbsxWKHk3CZfG+qkIFMRlzdLa2sj9JLTPQKQiT3
-	z4OPpkeq4v/ivERv/dVRGRNHj9a7fKN/KfdrESJpz3LmDl+C7B7uCbI4TnwcxVL9udJV
-	XJ8qVPszMW/NXtrZ1n3efmhviezYwiZQZfRvsv54VLyLHfl1Z21nbbRojTWbeM+sYPNq
-	fm8km+AiHNmu/gd1W9emHqeC9PleLSqwALUtaUkwZ8WBp/zp87gpgsJcc8JniCTD22iv
-	CD1g==
-X-Received: by 10.194.109.6 with SMTP id ho6mr300344wjb.21.1396441566856;
-	Wed, 02 Apr 2014 05:26:06 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	cb5sm4204175eeb.18.2014.04.02.05.26.05 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Apr 2014 05:26:05 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=QFk78MMy7rDiqBER1PNfVMRmXkB5+JDQaRg+dMNXlSY=;
+	b=DxOLMvqOroy++3F23wKizgJ9yMhAMyoUME0FAbAvP58quZOwFSsDfLI9xOGLn/aWyv
+	hsJKzuID6VA3a1ANzOp5ZeAGK3WNFy/siS7IBS6dgFsOqFCjztsk7kSET2nSz2DEmdVo
+	iAUHIDDw629DisLm6ByNT/woF5u1loRGP7HSCo8aRjiDJe0bDzqrXEKJfmHultwA3b+k
+	4G4d0OFy9DAiH5S/xRpKLAjtq06CCDAP2QLmAmDLNg56RCmp/3WI2W3bOvIToJc/gWek
+	BFOc+pnptgNN7xF8Xwk2yqNIpyAzCz2+EEg9ui19bgyNzqrt6tJmTNXKNoU9TGPY9jbE
+	FUTQ==
+X-Received: by 10.194.85.75 with SMTP id f11mr459001wjz.47.1396443338813;
+	Wed, 02 Apr 2014 05:55:38 -0700 (PDT)
+Received: from desktop.betafive.co.uk
+	(cpc66027-shep11-2-0-cust140.8-3.cable.virginmedia.com.
+	[81.110.75.141]) by mx.google.com with ESMTPSA id
+	ga10sm2817051wjb.23.2014.04.02.05.55.37 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 02 Apr 2014 05:55:38 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Apr 2014 14:25:37 +0200
-Message-Id: <1396441537-2911-5-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed,  2 Apr 2014 13:54:49 +0100
+Message-Id: <1396443289-17504-1-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 5/5] send-error-report: show response
+Subject: [PATCH] libarchive: Add PACKAGECONFIG for lzo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 12:26:12 -0000
+X-List-Received-Date: Wed, 02 Apr 2014 12:55:40 -0000
 
-* useful when debuging why it was refused by server
+This ensures that the dependency on lzo is deterministic rather than floating.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+The configure option to libarchive refers to this library as 'lzo2' but it is
+just called 'lzo' in OpenEmbedded.
+
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- scripts/send-error-report | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-extended/libarchive/libarchive_3.1.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/send-error-report b/scripts/send-error-report
-index 0d85776..8eea3cf 100755
---- a/scripts/send-error-report
-+++ b/scripts/send-error-report
-@@ -53,9 +53,11 @@ def sendData(json_file, server):
-             print response.status, response.reason
-             res = response.read()
-             if response.status == 200:
--                print res
-+                print(res)
-             else:
--                print("There was a problem submiting your data")
-+                print("There was a problem submiting your data, response written in %s.response.html" % json_file)
-+                with open("%s.response.html" % json_file, "w") as f:
-+                    f.write(res)
-             conn.close()
-         except:
-                 print("Server connection failed")
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+index d5599e0..f90dc02 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+@@ -24,6 +24,7 @@ PACKAGECONFIG[xz] = "--with-lzmadec --with-lzma,--without-lzmadec --without-lzma
+ PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl,"
+ PACKAGECONFIG[libxml2] = "--with-xml2,--without-xml2,libxml2,"
+ PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat,"
++PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://libarchive-CVE-2013-0211.patch \
 -- 
 1.9.1
 
