@@ -1,34 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 37BA86F9F8
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A73E6FABA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 15:15:58 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id ur14so6416168igb.14
+	Wed,  2 Apr 2014 15:17:15 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id uy17so453415igb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Apr 2014 08:15:59 -0700 (PDT)
+	Wed, 02 Apr 2014 08:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=L7a/6IVhoj0OkZBWsanNTUadH9OQL3xMzZ5OkfphcCE=;
-	b=Gn5UrkywWerSrukEI1NYatTvxJmB9Kg4TvEw+5z9ACgbyk47iqhBXlvBzmZtwQe4PN
-	s2Vuya7pq9HKJoFdsBB2nH13zfpIDrkpturbg7mge6EOJXVwZYBtJYDdPmOQcaQKYrj1
-	knwODO/Or1ur4nbhtdJucjCGj6Xx0aXgvkwd4cKT5VEYd47dpSdD/EYgTpn5+vUZrU+b
-	WV2IMdwgJGCZAxruhw2vstjJmYRNBwJmHkKkqv3TCNiqTStWUUPn11loZ07NrC0NXp46
-	OSxNmnxNJokDaBQ+BZZqMzWNSKt//N8zT/qRLfYgEoRURnv3A1esKst+00eycAKRL1Nc
-	jLWQ==
+	bh=4jJNu+phavRlKe30iMUiJnal4LTkoio7W5DlXYKvzxw=;
+	b=u3PRSjwSxEMFjbWQaY6Zyyx8Jwj0+y3x/ELDxQWMfAqDrACOq3kuT6oSiWRlWSHVJb
+	AL4HSWnEyOYuQJT+RJmP98UNFI1Esaz7FOvrEO4XVRWgs4LYk6hQxpTT+ENsxctxBk7u
+	V1xLC+JNHu9vI4OUTpcXchs82YKmmb25gx4u8V2ns9OzmfgYrSd8L02oQ3xQGBs8A9yZ
+	+a6LdQrKNzwaWshyP+TRGvFitJQCjelliZWx7IJxd3pl233NHgoyDI8MYgWF/Z3B6H7r
+	5F01viZ/EpJGWcAgNtexlds/GuAnPc9YJXeNVGeZ+e9r5/ZNb4prhysDWvFEJBsRbB0u
+	LpHA==
 MIME-Version: 1.0
-X-Received: by 10.42.203.202 with SMTP id fj10mr998380icb.51.1396451759617;
-	Wed, 02 Apr 2014 08:15:59 -0700 (PDT)
-Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 08:15:59 -0700 (PDT)
-Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 08:15:59 -0700 (PDT)
+X-Received: by 10.50.124.193 with SMTP id mk1mr9505469igb.17.1396451836025;
+	Wed, 02 Apr 2014 08:17:16 -0700 (PDT)
+Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 08:17:15 -0700 (PDT)
+Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 08:17:15 -0700 (PDT)
 In-Reply-To: <20140402091404.GA29076@mcrowe.com>
 References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
 	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
 	<CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
 	<20140402091404.GA29076@mcrowe.com>
-Date: Wed, 2 Apr 2014 08:15:59 -0700
-Message-ID: <CAMKF1spr2cstv0avoUsE5iT=vFw0nv=jJ9=-C+rp17LUFEm3DA@mail.gmail.com>
+Date: Wed, 2 Apr 2014 08:17:15 -0700
+Message-ID: <CAMKF1spGE3gUM3gtkJOOeWJfc_6ekOa4XP7d=1tJEaMdQr+yvQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 To: Mike Crowe <mac@mcrowe.com>
 Cc: Patches and discussions about the oe-core layer
@@ -46,21 +46,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 15:16:03 -0000
-Content-Type: multipart/alternative; boundary=20cf303bf56813fe3104f610c3be
+X-List-Received-Date: Wed, 02 Apr 2014 15:17:17 -0000
+Content-Type: multipart/alternative; boundary=001a1135e800a1e10004f610c74e
 
---20cf303bf56813fe3104f610c3be
+--001a1135e800a1e10004f610c74e
 Content-Type: text/plain; charset=UTF-8
 
 -Khem
 On Apr 2, 2014 2:14 AM, "Mike Crowe" <mac@mcrowe.com> wrote:
-
+>
 > On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:
 > > On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe <mac@mcrowe.com> wrote:
 > > > It seems to be possible to disable building the "CursesDialog"
-> component to
+component to
 > > > remove the need for ncurses but I couldn't immediately see how to do
-> that
+that
 > > > for a bootstrap build.
 > > >
 > > > The non-native cmake recipe depends on ncurses even though it passes
@@ -69,7 +69,7 @@ On Apr 2, 2014 2:14 AM, "Mike Crowe" <mac@mcrowe.com> wrote:
 > > you need to disable it completely in CMakefile.txt, just that define
 > > does not suffice you might try something like
 > >
-> http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
+http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
 >
 > As far as I can tell (by poisoning curses.h in the sysroot) the non-native
 > cmake build does successfully avoid using curses by specifying
@@ -94,6 +94,9 @@ On Apr 2, 2014 2:14 AM, "Mike Crowe" <mac@mcrowe.com> wrote:
 > If I apply this for cmake-native then it also doesn't require curses
 > (tested with the same poisoning.)
 >
+
+this seems to be ok too
+
 > The Gentoo patch may be somewhat safer in the long term because it does a
 > better job of ensuring that the curses dependency can't come back with
 > newer cmake versions; it is more likely that the patch would not apply or
@@ -104,83 +107,84 @@ On Apr 2, 2014 2:14 AM, "Mike Crowe" <mac@mcrowe.com> wrote:
 > Thanks.
 >
 > Mike.
->
 
---20cf303bf56813fe3104f610c3be
+--001a1135e800a1e10004f610c74e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <p dir=3D"ltr"></p>
-<p dir=3D"ltr">-Khem</p>
-<div class=3D"gmail_quote">On Apr 2, 2014 2:14 AM, &quot;Mike Crowe&quot; &=
-lt;<a href=3D"mailto:mac@mcrowe.com">mac@mcrowe.com</a>&gt; wrote:<br type=
-=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:<br>
-&gt; On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe &lt;<a href=3D"mailto:mac@m=
-crowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
-&gt; &gt; It seems to be possible to disable building the &quot;CursesDialo=
-g&quot; component to<br>
-&gt; &gt; remove the need for ncurses but I couldn&#39;t immediately see ho=
-w to do that<br>
-&gt; &gt; for a bootstrap build.<br>
-&gt; &gt;<br>
-&gt; &gt; The non-native cmake recipe depends on ncurses even though it pas=
-ses<br>
-&gt; &gt; -DBUILD_CursesDialog=3D0.<br>
+<p dir=3D"ltr">-Khem<br>
+On Apr 2, 2014 2:14 AM, &quot;Mike Crowe&quot; &lt;<a href=3D"mailto:mac@mc=
+rowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
 &gt;<br>
-&gt; you need to disable it completely in CMakefile.txt, just that define<b=
-r>
-&gt; does not suffice you might try something like<br>
-&gt; <a href=3D"http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev=
--util/cmake/files/cmake-2.8.10-libform.patch?diff_format=3Df&amp;view=3Dmar=
-kup" target=3D"_blank">http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-=
-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=3Df&amp;vie=
-w=3Dmarkup</a><br>
+&gt; On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:<br>
+&gt; &gt; On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe &lt;<a href=3D"mailto:=
+mac@mcrowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
+&gt; &gt; &gt; It seems to be possible to disable building the &quot;Curses=
+Dialog&quot; component to<br>
+&gt; &gt; &gt; remove the need for ncurses but I couldn&#39;t immediately s=
+ee how to do that<br>
+&gt; &gt; &gt; for a bootstrap build.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; The non-native cmake recipe depends on ncurses even though i=
+t passes<br>
+&gt; &gt; &gt; -DBUILD_CursesDialog=3D0.<br>
+&gt; &gt;<br>
+&gt; &gt; you need to disable it completely in CMakefile.txt, just that def=
+ine<br>
+&gt; &gt; does not suffice you might try something like<br>
+&gt; &gt; <a href=3D"http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x8=
+6/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=3Df&amp;view=
+=3Dmarkup">http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util=
+/cmake/files/cmake-2.8.10-libform.patch?diff_format=3Df&amp;view=3Dmarkup</=
+a><br>
 
-<br>
-As far as I can tell (by poisoning curses.h in the sysroot) the non-native<=
-br>
-cmake build does successfully avoid using curses by specifying<br>
--DBUILD_CursesDialog=3D0. I have successfully tested removing the<br>
-ncurses dependency from the recipe too.<br>
-<br>
-The cmake-native bootstrap procedure means that it is not possible to get<b=
-r>
-that parameter through to the ultimate cmake native build. So I came up<br>
-with this patch:<br>
-<br>
---- cmake-2.8.12.2/bootstrap~ =C2=A0 2014-01-16 17:15:09.000000000 +0000<br=
->
-+++ cmake-2.8.12.2/bootstrap =C2=A0 =C2=A02014-04-01 21:27:23.841996822 +01=
+&gt;<br>
+&gt; As far as I can tell (by poisoning curses.h in the sysroot) the non-na=
+tive<br>
+&gt; cmake build does successfully avoid using curses by specifying<br>
+&gt; -DBUILD_CursesDialog=3D0. I have successfully tested removing the<br>
+&gt; ncurses dependency from the recipe too.<br>
+&gt;<br>
+&gt; The cmake-native bootstrap procedure means that it is not possible to =
+get<br>
+&gt; that parameter through to the ultimate cmake native build. So I came u=
+p<br>
+&gt; with this patch:<br>
+&gt;<br>
+&gt; --- cmake-2.8.12.2/bootstrap~ =C2=A0 2014-01-16 17:15:09.000000000 +00=
 00<br>
-@@ -1578,6 +1578,7 @@ export MAKE<br>
+&gt; +++ cmake-2.8.12.2/bootstrap =C2=A0 =C2=A02014-04-01 21:27:23.84199682=
+2 +0100<br>
+&gt; @@ -1578,6 +1578,7 @@ export MAKE<br>
+&gt;<br>
+&gt; =C2=A0# Run bootstrap CMake to configure real CMake<br>
+&gt; =C2=A0cmake_options=3D&quot;-DCMAKE_BOOTSTRAP=3D1&quot;<br>
+&gt; +cmake_options=3D&quot;${cmake_options} -DBUILD_CursesDialog=3D0&quot;=
 <br>
-=C2=A0# Run bootstrap CMake to configure real CMake<br>
-=C2=A0cmake_options=3D&quot;-DCMAKE_BOOTSTRAP=3D1&quot;<br>
-+cmake_options=3D&quot;${cmake_options} -DBUILD_CursesDialog=3D0&quot;<br>
-=C2=A0if [ -n &quot;${cmake_verbose}&quot; ]; then<br>
-=C2=A0 =C2=A0cmake_options=3D&quot;${cmake_options} -DCMAKE_VERBOSE_MAKEFIL=
-E=3D1&quot;<br>
-=C2=A0fi<br>
-<br>
-If I apply this for cmake-native then it also doesn&#39;t require curses<br=
->
-(tested with the same poisoning.)<br>
-<br>
-The Gentoo patch may be somewhat safer in the long term because it does a<b=
-r>
-better job of ensuring that the curses dependency can&#39;t come back with<=
-br>
-newer cmake versions; it is more likely that the patch would not apply or<b=
-r>
-the link would fail.<br>
-<br>
-Do you prefer the one line patch above or the Gentoo one?<br>
-<br>
-Thanks.<br>
-<br>
-Mike.<br>
-</blockquote></div>
+&gt; =C2=A0if [ -n &quot;${cmake_verbose}&quot; ]; then<br>
+&gt; =C2=A0 =C2=A0cmake_options=3D&quot;${cmake_options} -DCMAKE_VERBOSE_MA=
+KEFILE=3D1&quot;<br>
+&gt; =C2=A0fi<br>
+&gt;<br>
+&gt; If I apply this for cmake-native then it also doesn&#39;t require curs=
+es<br>
+&gt; (tested with the same poisoning.)<br>
+&gt;</p>
+<p dir=3D"ltr">this seems to be ok too </p>
+<p dir=3D"ltr">&gt; The Gentoo patch may be somewhat safer in the long term=
+ because it does a<br>
+&gt; better job of ensuring that the curses dependency can&#39;t come back =
+with<br>
+&gt; newer cmake versions; it is more likely that the patch would not apply=
+ or<br>
+&gt; the link would fail.<br>
+&gt;<br>
+&gt; Do you prefer the one line patch above or the Gentoo one?<br>
+&gt;<br>
+&gt; Thanks.<br>
+&gt;<br>
+&gt; Mike.<br>
+</p>
 
---20cf303bf56813fe3104f610c3be--
+--001a1135e800a1e10004f610c74e--
