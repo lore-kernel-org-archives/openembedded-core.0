@@ -1,27 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BACB86FA6C
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E11BC6F8A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 07:06:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3276iev005658
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 2 Apr 2014 00:06:44 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Wed, 2 Apr 2014 00:06:44 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 2 Apr 2014 15:06:30 +0800
-Message-ID: <1396422390-28115-2-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1396422390-28115-1-git-send-email-kai.kang@windriver.com>
-References: <1396422390-28115-1-git-send-email-kai.kang@windriver.com>
+	Wed,  2 Apr 2014 08:09:28 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 02 Apr 2014 01:04:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,778,1389772800"; d="scan'208";a="513081634"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2014 01:08:03 -0700
+Date: Wed, 2 Apr 2014 11:08:02 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+Message-ID: <20140402080802.GF29926@lpalcu-linux>
+References: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bash-3.2.48: fix error path of getc_with_restart
+In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: image.bbclass: USE_DEVFS is now useless
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,127 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 07:06:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Apr 2014 08:09:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Yong Zhang <yong.zhang@windriver.com>
+Hi Matthieu,
 
-1. let getc_with_restart() handle EAGAIN|EWOULDBLOCK
-   correctly.
-2. When read() returns with ERROR, local_bufused will be set
-   to -1; and if we return with local_bufused == -1 left,
-   the next time we call getc_with_restart(), the condition
-   (local_index == local_bufused || local_bufused == 0)
-   will not match, thus we get random data from localbuf[]
-   with local_index increased each time, eventually we may
-   access data beyond array localbuf[]. Fix it by resetting
-   local_index and local_bufused in case of read failure.
+On Wed, Feb 26, 2014 at 11:11:28AM +0000, Matthieu CRAPET wrote:
+> Hi,
+> 
+>  
+> 
+> Since :
+> 
+> http://cgit.openembedded.org/openembedded-core/commit/meta/classes/
+> image.bbclass?id=a83144bac8d67704ff66f5dc0fc56f5b63979694
+> 
+>  
+> 
+> USE_DEVFS is not considered anymore.
+> 
+>  
+> 
+> Setting IMAGE_DEVICE_TABLE or IMAGE_DEVICE_TABLES to empty string in an image
+> recipe works (makedevs is not called)
+> 
+>  
+> 
+> Should be we drop USE_DEVFS variable (meta/classes/image.bbclass) or (re)add
+> check in meta/lib/oe/rootfs.py?
+> 
+> I can propose a patch.
+Please do. It looks like I totally missed the USE_DEVFS check...
 
-Signed-off-by: Yong Zhang <yong.zhang@windriver.com>
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../bash-fix-error-path-of-getc_with_restart.patch | 41 ++++++++++++++++++++++
- .../bash-3.2.48/bash-fix-getc_with_restart.patch   | 28 +++++++++++++++
- meta/recipes-extended/bash/bash_3.2.48.bb          |  2 ++
- 3 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch
- create mode 100644 meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch
+laurentiu
+> 
+>  
+> 
+> Regards,
+> 
+> Matthieu
+> 
 
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch b/meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch
-new file mode 100644
-index 0000000..045124f
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/bash-fix-error-path-of-getc_with_restart.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Accepted
-+
-+When read() returns with ERROR, local_bufused will be set
-+to -1; and if we return with local_bufused == -1 left,
-+the next time we call getc_with_restart(), the condition
-+(local_index == local_bufused || local_bufused == 0)
-+will not match, thus we get random data from localbuf[]
-+with local_index increased each time, eventually we may
-+access data beyond array localbuf[]. Fix it by resetting
-+local_index and local_bufused in case of read failure.
-+
-+Merged by:
-+http://git.savannah.gnu.org/cgit/bash.git/commit/input.c?id=ac50fbac377e32b98d2de396f016ea81e8ee9961
-+
-+Signed-off-by: Yong Zhang <yong.zhang@windriver.com>
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ input.c |    7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+--- a/input.c
-++++ b/input.c
-+@@ -78,12 +78,17 @@ getc_with_restart (stream)
-+ 	  else if (errno == EAGAIN || errno == EWOULDBLOCK)
-+ 	    {
-+ 	      if (sh_unset_nodelay_mode (fileno (stream)) < 0)
-+-	        return EOF;
-++	        {
-++	          local_index = 0;
-++	          local_bufused = 0;
-++		  return EOF;
-++		}
-+ 	      continue;
-+ 	    }
-+ 	  else if (local_bufused == 0 || errno != EINTR)
-+ 	    {
-+ 	      local_index = 0;
-++	      local_bufused = 0;
-+ 	      return EOF;
-+ 	    }
-+ 	}
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch b/meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch
-new file mode 100644
-index 0000000..45d93b1
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/bash-fix-getc_with_restart.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Accepted
-+
-+Let getc_with_restart() handle EAGAIN|EWOULDBLOCK correctly.
-+
-+Merged by:
-+http://git.savannah.gnu.org/cgit/bash.git/commit/input.c?id=3185942a5234e26ab13fa02f9c51d340cec514f8
-+
-+Signed-off-by: Yong Zhang <yong.zhang@windriver.com>
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ input.c |    6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+--- a/input.c
-++++ b/input.c
-+@@ -75,6 +75,12 @@ getc_with_restart (stream)
-+ 	  local_bufused = read (fileno (stream), localbuf, sizeof(localbuf));
-+ 	  if (local_bufused > 0)
-+ 	    break;
-++	  else if (errno == EAGAIN || errno == EWOULDBLOCK)
-++	    {
-++	      if (sh_unset_nodelay_mode (fileno (stream)) < 0)
-++	        return EOF;
-++	      continue;
-++	    }
-+ 	  else if (local_bufused == 0 || errno != EINTR)
-+ 	    {
-+ 	      local_index = 0;
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index fe04b28..619c3ad 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -13,6 +13,8 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-            file://build-tests.patch \
-            file://test-output.patch \
-            file://run-ptest \
-+           file://bash-fix-getc_with_restart.patch;striplevel=1 \
-+           file://bash-fix-error-path-of-getc_with_restart.patch;striplevel=1 \
-           "
- 
- SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
--- 
-1.8.1.2
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
