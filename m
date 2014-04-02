@@ -1,36 +1,26 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C27176F6F4
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 336FA6EBA2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 20:04:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 5008E314B067
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 22:04:41 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id hYJUyOA7dnkM
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 22:04:36 +0200 (CEST)
-Received: from [172.22.22.61] (unknown [212.255.239.58])
-	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id B8FDC314A281
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 22:04:36 +0200 (CEST)
-Message-ID: <533C6D54.2040501@opendreambox.org>
-Date: Wed, 02 Apr 2014 22:04:36 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<1396454510-5744-1-git-send-email-Matthieu.Crapet@ingenico.com>
-In-Reply-To: <1396454510-5744-1-git-send-email-Matthieu.Crapet@ingenico.com>
-Subject: Re: [PATCH v2] rootfs.py: introduce USE_DEVFS check
+	Wed,  2 Apr 2014 23:14:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Apr 2014 16:14:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,783,1389772800"; d="scan'208";a="513275135"
+Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.86]) ([10.3.52.86])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Apr 2014 16:14:31 -0700
+Message-ID: <1396480395.2792.129.camel@ranerica-desk01>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 02 Apr 2014 16:13:15 -0700
+In-Reply-To: <1396285157.14790.80.camel@ted>
+References: <1395344133-7310-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+	<1396284511.2792.120.camel@ranerica-desk01>
+	<1396285157.14790.80.camel@ted>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] runqemu: Add option for custom BIOS directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 20:04:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 02 Apr 2014 23:14:35 -0000
+Content-Type: text/plain; charset="TIS-620"
 Content-Transfer-Encoding: 7bit
 
-Hello Matthieu,
 
-On 02.04.2014 18:01, Matthieu Crapet wrote:
-> Since commit a83144bac8d67704ff66f5dc0fc56f5b63979694 (2014-02-11), USE_DEVFS is not considered anymore.
-> For compatibility, let's restore USE_DEVFS semantic.
-> Also add USE_DEVFS to documentation.conf.
+On Mon, 2014-03-31 at 17:59 +0100, Richard Purdie wrote:
+> On Mon, 2014-03-31 at 09:48 -0700, Ricardo Neri wrote:
+> > I just wanted to check if there are comments about this patch.
 > 
-> Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-> ---
->  meta/conf/documentation.conf | 1 +
->  meta/lib/oe/rootfs.py        | 3 ++-
->  2 files changed, 3 insertions(+), 1 deletion(-)
+> It merged 10 days ago:
 > 
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index 4d49a02..315e1b5 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -436,6 +436,7 @@ UBOOT_MACHINE[doc] = "Specifies the value passed on the make command line when b
->  UBOOT_MAKE_TARGET[doc] = "Specifies the target called in the Makefile."
->  UBOOT_SUFFIX[doc] = "Points to the generated U-Boot extension."
->  UBOOT_TARGET[doc] = "Specifies the target used for building U-Boot."
-> +USE_DEVFS[doc] = "When building images, specifies to populate or not ${sysconfdir}. This variable defaults to '1' (leave directory empty, surely because devtmpfs do the job). Set it to '0' to use makedevs (or consider using a custom file with IMAGE_DEVICE_TABLES)."
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=68acafd7dc18f23707c95c90e871395ded81f84b
 
-${sysconfdir} usually contains /etc, not /dev.
+Oh great! Thanks Richard!
+> 
+> Cheers,
+> 
+> Richard
+> 
 
-Regards,
-Andreas
+
 
