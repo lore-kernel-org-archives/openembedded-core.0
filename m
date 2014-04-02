@@ -1,26 +1,27 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 808E26B25F
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 66D8E6F242
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 16:03:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,780,1389740400"; d="scan'208";a="43757458"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 02 Apr 2014 18:03:33 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Wed, 2 Apr 2014 18:03:33 +0200
-Received: from u75.usr.ingenico.loc (10.23.7.75) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Wed, 2 Apr 2014 18:03:33 +0200
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Apr 2014 18:01:50 +0200
-Message-ID: <1396454510-5744-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
-References: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
-MIME-Version: 1.0
-Subject: [PATCH v2] rootfs.py: introduce USE_DEVFS check
+	Wed,  2 Apr 2014 16:04:32 +0000 (UTC)
+Received: from [86.30.57.232] (HELO elite.brightsigndigital.co.uk)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.0.8)
+	with ESMTPS id 375352167; Wed, 02 Apr 2014 12:04:32 -0400
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WVNeL-0008Ab-Qh; Wed, 02 Apr 2014 17:04:25 +0100
+Received: from mac by chuckie.brightsign with local (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WVNeL-0003uq-Pc; Wed, 02 Apr 2014 17:04:25 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Apr 2014 17:04:11 +0100
+Message-Id: <1396454652-15016-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.8.5.3
+In-Reply-To: <CAMKF1spGE3gUM3gtkJOOeWJfc_6ekOa4XP7d=1tJEaMdQr+yvQ@mail.gmail.com>
+References: <CAMKF1spGE3gUM3gtkJOOeWJfc_6ekOa4XP7d=1tJEaMdQr+yvQ@mail.gmail.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 1/2] cmake-native: Stop building ccmake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 16:03:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Apr 2014 16:04:35 -0000
 
-Since commit a83144bac8d67704ff66f5dc0fc56f5b63979694 (2014-02-11), USE_DEVFS is not considered anymore.
-For compatibility, let's restore USE_DEVFS semantic.
-Also add USE_DEVFS to documentation.conf.
+The bootstrapped cmake is called in such a way that it will automatically
+enable building ccmake if curses is found. This tool isn't particularly
+useful to us and it will cause build problems if ncurses-native is built in
+parallel with cmake-native so let's just pass -DBUILD_CursesDialog=0 to
+disable the feature altogether as the non-native cmake does.
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+Unfortunately this requires patching the bootstrap script since there
+appears to be no way to get this option through.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/conf/documentation.conf | 1 +
- meta/lib/oe/rootfs.py        | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb    |  5 ++++-
+ .../cmake/cmake/disable-bootstrap-cursesdialog.patch    | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/disable-bootstrap-cursesdialog.patch
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 4d49a02..315e1b5 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -436,6 +436,7 @@ UBOOT_MACHINE[doc] = "Specifies the value passed on the make command line when b
- UBOOT_MAKE_TARGET[doc] = "Specifies the target called in the Makefile."
- UBOOT_SUFFIX[doc] = "Points to the generated U-Boot extension."
- UBOOT_TARGET[doc] = "Specifies the target used for building U-Boot."
-+USE_DEVFS[doc] = "When building images, specifies to populate or not ${sysconfdir}. This variable defaults to '1' (leave directory empty, surely because devtmpfs do the job). Set it to '0' to use makedevs (or consider using a custom file with IMAGE_DEVICE_TABLES)."
- USER_CLASSES[doc] = "List of additional classes to use when building images that enable extra features."
- USERADD_PACKAGES[doc] = "When a recipe inherits the useradd class, this variable specifies the individual packages within the recipe that require users and/or groups to be added."
- USERADD_PARAM[doc] = "When a recipe inherits the useradd class, this variable specifies for a package what parameters should be passed to the useradd command if you wish to add a user to the system when the package is installed."
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 3eac3c9..dddbef4 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -116,7 +116,8 @@ class Rootfs(object):
-                          "offline and rootfs is read-only: %s" %
-                          delayed_postinsts)
+diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+index 08b2c02..d032cb9 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+@@ -4,7 +4,10 @@ inherit native
+ # Using cmake's internal libarchive, so some dependencies are needed
+ DEPENDS += "bzip2-native zlib-native"
  
--        self._create_devfs()
-+        if self.d.getVar('USE_DEVFS', True) != "1":
-+            self._create_devfs()
+-SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
++SRC_URI += "\
++    file://cmlibarchive-disable-ext2fs.patch \
++    file://disable-bootstrap-cursesdialog.patch \
++"
  
-         self._uninstall_uneeded()
- 
+ SRC_URI[md5sum] = "17c6513483d23590cbce6957ec6d1e66"
+ SRC_URI[sha256sum] = "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37fccf067eb1a44a120e5e"
+diff --git a/meta/recipes-devtools/cmake/cmake/disable-bootstrap-cursesdialog.patch b/meta/recipes-devtools/cmake/cmake/disable-bootstrap-cursesdialog.patch
+new file mode 100644
+index 0000000..9d378fb
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake/disable-bootstrap-cursesdialog.patch
+@@ -0,0 +1,17 @@
++Disable building CursesDialog so that cmake-native doesn't have to
++depend on ncurses-native.
++
++Upstream-status: Inappropriate [disable feature]
++
++Signed-off-by: Mike Crowe <mac@mcrowe.com>
++
++--- cmake-2.8.12.2/bootstrap~	2014-01-16 17:15:09.000000000 +0000
+++++ cmake-2.8.12.2/bootstrap	2014-04-01 21:27:23.841996822 +0100
++@@ -1578,6 +1578,7 @@ export MAKE
++ 
++ # Run bootstrap CMake to configure real CMake
++ cmake_options="-DCMAKE_BOOTSTRAP=1"
+++cmake_options="${cmake_options} -DBUILD_CursesDialog=0"
++ if [ -n "${cmake_verbose}" ]; then
++   cmake_options="${cmake_options} -DCMAKE_VERBOSE_MAKEFILE=1"
++ fi
 -- 
-1.8.5.4
+1.8.5.3
 
 
