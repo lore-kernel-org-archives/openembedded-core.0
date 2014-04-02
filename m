@@ -1,45 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B9CD16FADF;
-	Wed,  2 Apr 2014 17:13:48 +0000 (UTC)
-Received: by mail-ie0-f177.google.com with SMTP id rl12so550853iec.36
-	for <multiple recipients>; Wed, 02 Apr 2014 10:13:50 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id EECDE6F23F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Apr 2014 17:20:15 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id x13so598091wgg.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Apr 2014 10:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=f58g0FaIwl1tQtQ2hGc8TfhPJNICDg/XUfgsiHDsr9g=;
-	b=ku0xwbvgRjHury2PGTAe61RRBH2ZJ0Q2O6M1KCd1x9JxqmrXRLdKl+noiC330OhA1R
-	GC2sG0lPzCsWKCYndrHV4zySp2B+85a8ZdWrWnE/0T4k7Kka4SsofHH/7NwwG6ffbOmn
-	QVPNglg5FzpYbdyQHUa5ukWMB7ni7TXqTR6sYL8rgHZNNXE1d26Z9vTYgNSKj2lWon+Z
-	g91rmh5Pnz6bexK7BGJcZN1RYrbkzN/febJgmUPLOUaqmENxXkzL43WVokhOL7pBDLWm
-	ZbqshruC7TzAyJkIacLgGBChiYXxBSq9WOlKctlUkFXzQJumFwGZ9+H9D2ygCPShnKDY
-	4pSA==
-X-Received: by 10.50.49.109 with SMTP id t13mr2994703ign.2.1396458829868; Wed,
-	02 Apr 2014 10:13:49 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=LzaQR257kzOxPM2laITTq3XckqWSLg42KThj4gdNX5M=;
+	b=CJjnI756JMw3wRUgLGlkQsuu30FusoSyEX8NpS6YWjPCwdeebRCmf/u/B+ifWL11ed
+	E2Hcpj/arkGKUFelTZY87z/00m7uEOGM1N1kjCtMTsByIFcC330PuOcFwhYpaETBTFgA
+	FsKpUqg9hlZ3+t56b+1HVHZTrUqcDIUCqcMMXdGsoOeJfwhfLTvzJ6tb8yKF93wddQid
+	Scf8l9brQnOqRfJgbxiFvDQXS4Z2Zz/wF0tqPOvL8cSZzrhaG/3nRs6fP7HvwqwX0Zs2
+	xrv5J8+pZHoFLZvgQVCDY9jDLnZQwN+LY3a57dC8stvFSIootb5eODDvHfUwOlu9Qtde
+	b3zQ==
+X-Received: by 10.194.157.41 with SMTP id wj9mr2742516wjb.34.1396459216059;
+	Wed, 02 Apr 2014 10:20:16 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	o4sm5867289eef.20.2014.04.02.10.20.13 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Apr 2014 10:20:14 -0700 (PDT)
+Date: Wed, 2 Apr 2014 19:20:15 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20140402172015.GD2132@jama>
+References: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
+	<1396441537-2911-3-git-send-email-Martin.Jansa@gmail.com>
+	<CAMKF1srunWtK-tBOxD2P=-4+28ejgN+xwoitqs+ukMNiS77BZQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 10:13:18 -0700 (PDT)
-In-Reply-To: <CANyK_8fC4kkDgqovwuTx5kN0Y2hcyDT7HStii4hxz_CN3D=atA@mail.gmail.com>
-References: <CAMKF1soKZqqmQUVCQnUqS1GV1FO5KictTO+=up=d7Jw3+QhXMw@mail.gmail.com>
-	<CAJTo0LYF0VNwy7=rhmr7U_=tXwJtPOax3AKttn66q3qD_QXd2w@mail.gmail.com>
-	<CANyK_8deVKbC6xOUQHubvphfwQCQefHGWCt7Mp1QM4DUVXja5g@mail.gmail.com>
-	<CAMKF1sqPB+QCvPHHcxsU+ExBmNWg9jPXajkAR_FdKpJ76-x9dg@mail.gmail.com>
-	<CANyK_8er+2sjvU1csLOEpZ06qCL4h+bP2ecUYYGzyiEw0kXzQw@mail.gmail.com>
-	<CAMKF1spno7Np8FXr3JXw3_W72+vRkchzZ8J5X+3e4RCFY+6nLg@mail.gmail.com>
-	<CANyK_8f_V247P1UWaeG-7YwBq4MrHQ=+69NOgW8LUZ4_Xgx2qA@mail.gmail.com>
-	<CAP9ODKp-+31rJmK6uY1QA6nvG4hDuNT79JVeeivY5XeOCu2etw@mail.gmail.com>
-	<CAMKF1sqOCs_OYkZU2ng9FmViPyJx1AjdViSquZWzbgFT=XZdoA@mail.gmail.com>
-	<CANyK_8fC4kkDgqovwuTx5kN0Y2hcyDT7HStii4hxz_CN3D=atA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Apr 2014 10:13:18 -0700
-Message-ID: <CAMKF1sorF5M0oxq9gaZEDeV5Td2pydEE0zZjqJdM8n0hyGbuyQ@mail.gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OE-devel <openembedded-devel@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <CAMKF1srunWtK-tBOxD2P=-4+28ejgN+xwoitqs+ukMNiS77BZQ@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] initial support for musl libc with OE/Yocto Project
+Subject: Re: [PATCH 3/5] gcc-target: remove infodir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 17:13:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 02 Apr 2014 17:20:17 -0000
+X-Groupsio-MsgNum: 52104
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="iVCmgExH7+hIHJ1A"
+Content-Disposition: inline
 
-On Wed, Apr 2, 2014 at 10:03 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
-> You've fixed util-linux in a different way to me, I added qsort_r to
-> musl
+--iVCmgExH7+hIHJ1A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-this won't fly in musl community.
+On Wed, Apr 02, 2014 at 10:06:16AM -0700, Khem Raj wrote:
+> On Wed, Apr 2, 2014 at 5:25 AM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> > +       # Info dir listing isn't interesting at this point so remove it=
+ if it exists.
+> > +       if [ -e "${D}${infodir}/dir" ]; then
+> > +               rm -f ${D}${infodir}/dir
+> > +       fi
+>=20
+> why check if it exists when you are already using rm -f ?
 
-whereas you've removed it's use from util-linux. I'm not bothered
-> which one we use if both work. We do now have 4 people looking at
-> util-linux fixes: Me, you and Robert Yang (as util-linux-native
-> doesn't build on Centos 5.10 due to the same qsort_r usage) here in
-> oe-core and Karel Zak from upstream (as they want to fix it for their
-> next release). I think we need to pick one fix (probably yours if it's
-> tested and working in another distro) and get it applied to oe-core
-> master.
+Just because I was copying snippet from autotools.bbclass
 
-yes, I think not using qsort_r is common solution for all these issues.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
->
-> Your latest commit "glibc-2.0: Fix build issues that arise on musl"
-> should say glib not glibc. Other than that, your glib fix is better
-> than mine (I did add <string.h> but didn't add the
-> '--with-libiconv=gnu' option, instead I set musl as the provider of
-> virtual/libiconv).
+--iVCmgExH7+hIHJ1A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-in order to build a lot of software we would need some sort of iconv
-implementation
-letting musl to provide it is probably ok too but I wanted  to take
-the tested path to get
-to an image to build and then we have a known baseline and we could
-experiment more.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iEYEARECAAYFAlM8Rs8ACgkQN1Ujt2V2gBzDjgCfSiIVnF3k3Mkni/cnN+FK48Au
+bJMAn3BUskvcSXmm8HXL7synlaUAR5ey
+=lM9a
+-----END PGP SIGNATURE-----
+
+--iVCmgExH7+hIHJ1A--
