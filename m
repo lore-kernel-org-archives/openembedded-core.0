@@ -1,39 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A73E6FABA
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C9A16F9F8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 15:17:15 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id uy17so453415igb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Apr 2014 08:17:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=4jJNu+phavRlKe30iMUiJnal4LTkoio7W5DlXYKvzxw=;
-	b=u3PRSjwSxEMFjbWQaY6Zyyx8Jwj0+y3x/ELDxQWMfAqDrACOq3kuT6oSiWRlWSHVJb
-	AL4HSWnEyOYuQJT+RJmP98UNFI1Esaz7FOvrEO4XVRWgs4LYk6hQxpTT+ENsxctxBk7u
-	V1xLC+JNHu9vI4OUTpcXchs82YKmmb25gx4u8V2ns9OzmfgYrSd8L02oQ3xQGBs8A9yZ
-	+a6LdQrKNzwaWshyP+TRGvFitJQCjelliZWx7IJxd3pl233NHgoyDI8MYgWF/Z3B6H7r
-	5F01viZ/EpJGWcAgNtexlds/GuAnPc9YJXeNVGeZ+e9r5/ZNb4prhysDWvFEJBsRbB0u
-	LpHA==
+	Wed,  2 Apr 2014 15:17:32 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,780,1389740400"; d="scan'208";a="43749786"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 02 Apr 2014 17:17:33 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Wed, 2 Apr 2014 17:17:32 +0200
+Received: from u75.usr.ingenico.loc (10.23.7.75) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.2.328.9; Wed, 2 Apr 2014 17:17:32 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Apr 2014 17:15:50 +0200
+Message-ID: <1396451750-10888-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-X-Received: by 10.50.124.193 with SMTP id mk1mr9505469igb.17.1396451836025;
-	Wed, 02 Apr 2014 08:17:16 -0700 (PDT)
-Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 08:17:15 -0700 (PDT)
-Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 08:17:15 -0700 (PDT)
-In-Reply-To: <20140402091404.GA29076@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
-	<CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
-	<20140402091404.GA29076@mcrowe.com>
-Date: Wed, 2 Apr 2014 08:17:15 -0700
-Message-ID: <CAMKF1spGE3gUM3gtkJOOeWJfc_6ekOa4XP7d=1tJEaMdQr+yvQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake-native: Depend on ncurses-native too
+Subject: [PATCH] rootfs.py: introduce USE_DEVFS check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,145 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 15:17:17 -0000
-Content-Type: multipart/alternative; boundary=001a1135e800a1e10004f610c74e
+X-List-Received-Date: Wed, 02 Apr 2014 15:17:35 -0000
+Content-Type: text/plain
 
---001a1135e800a1e10004f610c74e
-Content-Type: text/plain; charset=UTF-8
+Since commit a83144bac8d67704ff66f5dc0fc56f5b63979694 (2014-02-11), USE_DEVFS is not considered anymore.
+For compatibility, let's restore USE_DEVFS semantic.
+Also add USE_DEVFS to documentation.conf.
 
--Khem
-On Apr 2, 2014 2:14 AM, "Mike Crowe" <mac@mcrowe.com> wrote:
->
-> On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:
-> > On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> > > It seems to be possible to disable building the "CursesDialog"
-component to
-> > > remove the need for ncurses but I couldn't immediately see how to do
-that
-> > > for a bootstrap build.
-> > >
-> > > The non-native cmake recipe depends on ncurses even though it passes
-> > > -DBUILD_CursesDialog=0.
-> >
-> > you need to disable it completely in CMakefile.txt, just that define
-> > does not suffice you might try something like
-> >
-http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
->
-> As far as I can tell (by poisoning curses.h in the sysroot) the non-native
-> cmake build does successfully avoid using curses by specifying
-> -DBUILD_CursesDialog=0. I have successfully tested removing the
-> ncurses dependency from the recipe too.
->
-> The cmake-native bootstrap procedure means that it is not possible to get
-> that parameter through to the ultimate cmake native build. So I came up
-> with this patch:
->
-> --- cmake-2.8.12.2/bootstrap~   2014-01-16 17:15:09.000000000 +0000
-> +++ cmake-2.8.12.2/bootstrap    2014-04-01 21:27:23.841996822 +0100
-> @@ -1578,6 +1578,7 @@ export MAKE
->
->  # Run bootstrap CMake to configure real CMake
->  cmake_options="-DCMAKE_BOOTSTRAP=1"
-> +cmake_options="${cmake_options} -DBUILD_CursesDialog=0"
->  if [ -n "${cmake_verbose}" ]; then
->    cmake_options="${cmake_options} -DCMAKE_VERBOSE_MAKEFILE=1"
->  fi
->
-> If I apply this for cmake-native then it also doesn't require curses
-> (tested with the same poisoning.)
->
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/conf/documentation.conf | 1 +
+ meta/lib/oe/rootfs.py        | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-this seems to be ok too
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 4d49a02..ced646b 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -436,6 +436,7 @@ UBOOT_MACHINE[doc] = "Specifies the value passed on the make command line when b
+ UBOOT_MAKE_TARGET[doc] = "Specifies the target called in the Makefile."
+ UBOOT_SUFFIX[doc] = "Points to the generated U-Boot extension."
+ UBOOT_TARGET[doc] = "Specifies the target used for building U-Boot."
++USE_DEVFS[doc] = "When building images, specifies to populate or not ${sysconfdir}. This variable defaults to '0' (leave directory empty, surely because devtmpfs do the job). Set it to '1' to use makedevs (or consider using a custom file with IMAGE_DEVICE_TABLES)."
+ USER_CLASSES[doc] = "List of additional classes to use when building images that enable extra features."
+ USERADD_PACKAGES[doc] = "When a recipe inherits the useradd class, this variable specifies the individual packages within the recipe that require users and/or groups to be added."
+ USERADD_PARAM[doc] = "When a recipe inherits the useradd class, this variable specifies for a package what parameters should be passed to the useradd command if you wish to add a user to the system when the package is installed."
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 3eac3c9..dddbef4 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -116,7 +116,8 @@ class Rootfs(object):
+                          "offline and rootfs is read-only: %s" %
+                          delayed_postinsts)
+ 
+-        self._create_devfs()
++        if self.d.getVar('USE_DEVFS', True) != "1":
++            self._create_devfs()
+ 
+         self._uninstall_uneeded()
+ 
+-- 
+1.8.5.4
 
-> The Gentoo patch may be somewhat safer in the long term because it does a
-> better job of ensuring that the curses dependency can't come back with
-> newer cmake versions; it is more likely that the patch would not apply or
-> the link would fail.
->
-> Do you prefer the one line patch above or the Gentoo one?
->
-> Thanks.
->
-> Mike.
 
---001a1135e800a1e10004f610c74e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">-Khem<br>
-On Apr 2, 2014 2:14 AM, &quot;Mike Crowe&quot; &lt;<a href=3D"mailto:mac@mc=
-rowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:<br>
-&gt; &gt; On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe &lt;<a href=3D"mailto:=
-mac@mcrowe.com">mac@mcrowe.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; It seems to be possible to disable building the &quot;Curses=
-Dialog&quot; component to<br>
-&gt; &gt; &gt; remove the need for ncurses but I couldn&#39;t immediately s=
-ee how to do that<br>
-&gt; &gt; &gt; for a bootstrap build.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; The non-native cmake recipe depends on ncurses even though i=
-t passes<br>
-&gt; &gt; &gt; -DBUILD_CursesDialog=3D0.<br>
-&gt; &gt;<br>
-&gt; &gt; you need to disable it completely in CMakefile.txt, just that def=
-ine<br>
-&gt; &gt; does not suffice you might try something like<br>
-&gt; &gt; <a href=3D"http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x8=
-6/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=3Df&amp;view=
-=3Dmarkup">http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util=
-/cmake/files/cmake-2.8.10-libform.patch?diff_format=3Df&amp;view=3Dmarkup</=
-a><br>
-
-&gt;<br>
-&gt; As far as I can tell (by poisoning curses.h in the sysroot) the non-na=
-tive<br>
-&gt; cmake build does successfully avoid using curses by specifying<br>
-&gt; -DBUILD_CursesDialog=3D0. I have successfully tested removing the<br>
-&gt; ncurses dependency from the recipe too.<br>
-&gt;<br>
-&gt; The cmake-native bootstrap procedure means that it is not possible to =
-get<br>
-&gt; that parameter through to the ultimate cmake native build. So I came u=
-p<br>
-&gt; with this patch:<br>
-&gt;<br>
-&gt; --- cmake-2.8.12.2/bootstrap~ =C2=A0 2014-01-16 17:15:09.000000000 +00=
-00<br>
-&gt; +++ cmake-2.8.12.2/bootstrap =C2=A0 =C2=A02014-04-01 21:27:23.84199682=
-2 +0100<br>
-&gt; @@ -1578,6 +1578,7 @@ export MAKE<br>
-&gt;<br>
-&gt; =C2=A0# Run bootstrap CMake to configure real CMake<br>
-&gt; =C2=A0cmake_options=3D&quot;-DCMAKE_BOOTSTRAP=3D1&quot;<br>
-&gt; +cmake_options=3D&quot;${cmake_options} -DBUILD_CursesDialog=3D0&quot;=
-<br>
-&gt; =C2=A0if [ -n &quot;${cmake_verbose}&quot; ]; then<br>
-&gt; =C2=A0 =C2=A0cmake_options=3D&quot;${cmake_options} -DCMAKE_VERBOSE_MA=
-KEFILE=3D1&quot;<br>
-&gt; =C2=A0fi<br>
-&gt;<br>
-&gt; If I apply this for cmake-native then it also doesn&#39;t require curs=
-es<br>
-&gt; (tested with the same poisoning.)<br>
-&gt;</p>
-<p dir=3D"ltr">this seems to be ok too </p>
-<p dir=3D"ltr">&gt; The Gentoo patch may be somewhat safer in the long term=
- because it does a<br>
-&gt; better job of ensuring that the curses dependency can&#39;t come back =
-with<br>
-&gt; newer cmake versions; it is more likely that the patch would not apply=
- or<br>
-&gt; the link would fail.<br>
-&gt;<br>
-&gt; Do you prefer the one line patch above or the Gentoo one?<br>
-&gt;<br>
-&gt; Thanks.<br>
-&gt;<br>
-&gt; Mike.<br>
-</p>
-
---001a1135e800a1e10004f610c74e--
