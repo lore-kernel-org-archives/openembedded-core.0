@@ -1,46 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F68A6F23F;
-	Wed,  2 Apr 2014 17:03:40 +0000 (UTC)
-Received: by mail-vc0-f178.google.com with SMTP id im17so714990vcb.23
-	for <multiple recipients>; Wed, 02 Apr 2014 10:03:41 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BB736FADD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Apr 2014 17:06:45 +0000 (UTC)
+Received: by mail-ie0-f179.google.com with SMTP id lx4so537033iec.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Apr 2014 10:06:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=LFK9SzDEXz5H+VpsaLf+9CNhTokv5la6iN7wq37Eh74=;
-	b=WfOxR3Q5vN3ANpRFu/tXF8cSD0n5WfIv55PmT9q3hYfiBa8H1u/+tteTjQS6pfZ6DX
-	nPmHmMvtguQaidq47BQU/E+xYGdt7ZpGm4CQ4z72hLF+XZFYNQmsJsv8CivzvGz1+iH+
-	HS2KEJ2xqJTnICuN2CC/VrTyAcLrW0xZrHp3N5z8vcE8QLd2m1eUp+mtsdVzmMVBgvGH
-	H+HzLJIi3T8jrZ8hatLlKSFxzH8quoi7PdKpcMhZ+PQ25cn2Pep1gPincC2ylWAiPfj8
-	3P3bW1wAS41Rbta6wb5yR5f2cDte3xR9iaZ4fxEteTv8rs8gfMTXomnX0LNMzzUnimqI
-	YYQA==
-X-Received: by 10.52.120.6 with SMTP id ky6mr1781391vdb.38.1396458221166; Wed,
-	02 Apr 2014 10:03:41 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=p9X12StW2zPdKw7ePzWSzcT81qRU5zRi6Alh4OiWX7M=;
+	b=y6LEviA31U5o1ePQNwWImr02EmXttKKGaoB3YuicFRazQnHL5JyjJipMy8KiIF4Thc
+	uPEBnzfQEVDMc+9cZ0XNKJofL57+2Izp7Z3F2RoJyaITxWN2tf0kDZAm9X4gWkbC2U0B
+	f6CTpMpKDkdhZAjCqjsyr8Z5AzXqCUWV+kpM/8NzmXs90eUY0kqllHWI+W3/skAzpVJD
+	Q7pGvaGFscgfEpDjlYvjAZwpQhSpEa8JFD9sZkCc4WUQriXvy11KDaBMSXDk2nu1qT9f
+	Vj0Ovv7Rrh3MDRVfGSTIe8v+7jClx9Qqr0ZaxM8b3MA7N8t/JOtOQYfgxO2KDxap57rx
+	aliA==
+X-Received: by 10.50.35.129 with SMTP id h1mr2790682igj.17.1396458406769; Wed,
+	02 Apr 2014 10:06:46 -0700 (PDT)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Wed, 2 Apr 2014 10:03:01 -0700 (PDT)
-In-Reply-To: <CAMKF1sqOCs_OYkZU2ng9FmViPyJx1AjdViSquZWzbgFT=XZdoA@mail.gmail.com>
-References: <CAMKF1soKZqqmQUVCQnUqS1GV1FO5KictTO+=up=d7Jw3+QhXMw@mail.gmail.com>
-	<CAJTo0LYF0VNwy7=rhmr7U_=tXwJtPOax3AKttn66q3qD_QXd2w@mail.gmail.com>
-	<CANyK_8deVKbC6xOUQHubvphfwQCQefHGWCt7Mp1QM4DUVXja5g@mail.gmail.com>
-	<CAMKF1sqPB+QCvPHHcxsU+ExBmNWg9jPXajkAR_FdKpJ76-x9dg@mail.gmail.com>
-	<CANyK_8er+2sjvU1csLOEpZ06qCL4h+bP2ecUYYGzyiEw0kXzQw@mail.gmail.com>
-	<CAMKF1spno7Np8FXr3JXw3_W72+vRkchzZ8J5X+3e4RCFY+6nLg@mail.gmail.com>
-	<CANyK_8f_V247P1UWaeG-7YwBq4MrHQ=+69NOgW8LUZ4_Xgx2qA@mail.gmail.com>
-	<CAP9ODKp-+31rJmK6uY1QA6nvG4hDuNT79JVeeivY5XeOCu2etw@mail.gmail.com>
-	<CAMKF1sqOCs_OYkZU2ng9FmViPyJx1AjdViSquZWzbgFT=XZdoA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 2 Apr 2014 18:03:01 +0100
-X-Google-Sender-Auth: jYngYwt8EFyoIxm8uLwFV3VCDug
-Message-ID: <CANyK_8fC4kkDgqovwuTx5kN0Y2hcyDT7HStii4hxz_CN3D=atA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OE-devel <openembedded-devel@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+Received: by 10.50.229.14 with HTTP; Wed, 2 Apr 2014 10:06:16 -0700 (PDT)
+In-Reply-To: <1396441537-2911-3-git-send-email-Martin.Jansa@gmail.com>
+References: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
+	<1396441537-2911-3-git-send-email-Martin.Jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 2 Apr 2014 10:06:16 -0700
+Message-ID: <CAMKF1srunWtK-tBOxD2P=-4+28ejgN+xwoitqs+ukMNiS77BZQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] initial support for musl libc with OE/Yocto Project
+Subject: Re: [PATCH 3/5] gcc-target: remove infodir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,67 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 17:03:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 02 Apr 2014 17:06:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2 April 2014 17:35, Khem Raj <raj.khem@gmail.com> wrote:
->
-> I have got core-image-minimal building for arm now. All changes are
-> pushed to contrib tree this includes util-linux fixes too.
->
+On Wed, Apr 2, 2014 at 5:25 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> +       # Info dir listing isn't interesting at this point so remove it if it exists.
+> +       if [ -e "${D}${infodir}/dir" ]; then
+> +               rm -f ${D}${infodir}/dir
+> +       fi
 
-You've fixed util-linux in a different way to me, I added qsort_r to
-musl whereas you've removed it's use from util-linux. I'm not bothered
-which one we use if both work. We do now have 4 people looking at
-util-linux fixes: Me, you and Robert Yang (as util-linux-native
-doesn't build on Centos 5.10 due to the same qsort_r usage) here in
-oe-core and Karel Zak from upstream (as they want to fix it for their
-next release). I think we need to pick one fix (probably yours if it's
-tested and working in another distro) and get it applied to oe-core
-master.
-
-Your latest commit "glibc-2.0: Fix build issues that arise on musl"
-should say glib not glibc. Other than that, your glib fix is better
-than mine (I did add <string.h> but didn't add the
-'--with-libiconv=gnu' option, instead I set musl as the provider of
-virtual/libiconv).
-
->>>
->>> I think we should ask for a new repo to be setup on
->>> git.yoctoproject.org for meta-musl. I'm happy to be one of the
->>> maintainers for that, I hope that you are as well and maybe a couple
->>> of the others who were interested could also help. I think having a
->>> few people as maintainers is important as we're all already fairly
->>> busy on other projects.
->>>
->>> Once the layer is setup we can move the recipes off your branch of
->>> oe-core and into the layer as time permits. That would just leave the
->>> changes which need to go into oe-core on your branch.
->
-> The changes are not very intrusive, I think it is of value to include recipe
-> fixes in the layers they belong too and most of changes to packages are worthy
-> of upstreaming. The patches for compilers aren't final yet and they
-> will be rebased
-> as I add other architectures one after another. I am not convinced yet
-> if we would need a layer of its own.
-> A layer is premature at this point of
-> time. if you fix something thats not on there you can share by pushing
-> into another contrib tree and inform me
-> I can include the fixes into this tree.
-
-I don't currently have access to -contrib as I haven't previously needed it.
-
-I also think it's pretty low visibility and difficult to comment on
-particular patches compared to having a layer with patches being sent
-to the yocto@yoctoproject.org list for review.
-
-Do you think all of this will eventually be accepted into oe-core? I
-didn't think musl would be while our support for it is fairly
-experimental.
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+why check if it exists when you are already using rm -f ?
 
