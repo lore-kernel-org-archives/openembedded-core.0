@@ -1,41 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id EECDE6F23F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Apr 2014 17:20:15 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id x13so598091wgg.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Apr 2014 10:20:16 -0700 (PDT)
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C70B6FAC8;
+	Wed,  2 Apr 2014 17:28:20 +0000 (UTC)
+Received: by mail-vc0-f175.google.com with SMTP id lh14so775487vcb.34
+	for <multiple recipients>; Wed, 02 Apr 2014 10:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=LzaQR257kzOxPM2laITTq3XckqWSLg42KThj4gdNX5M=;
-	b=CJjnI756JMw3wRUgLGlkQsuu30FusoSyEX8NpS6YWjPCwdeebRCmf/u/B+ifWL11ed
-	E2Hcpj/arkGKUFelTZY87z/00m7uEOGM1N1kjCtMTsByIFcC330PuOcFwhYpaETBTFgA
-	FsKpUqg9hlZ3+t56b+1HVHZTrUqcDIUCqcMMXdGsoOeJfwhfLTvzJ6tb8yKF93wddQid
-	Scf8l9brQnOqRfJgbxiFvDQXS4Z2Zz/wF0tqPOvL8cSZzrhaG/3nRs6fP7HvwqwX0Zs2
-	xrv5J8+pZHoFLZvgQVCDY9jDLnZQwN+LY3a57dC8stvFSIootb5eODDvHfUwOlu9Qtde
-	b3zQ==
-X-Received: by 10.194.157.41 with SMTP id wj9mr2742516wjb.34.1396459216059;
-	Wed, 02 Apr 2014 10:20:16 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	o4sm5867289eef.20.2014.04.02.10.20.13 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Apr 2014 10:20:14 -0700 (PDT)
-Date: Wed, 2 Apr 2014 19:20:15 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140402172015.GD2132@jama>
-References: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
-	<1396441537-2911-3-git-send-email-Martin.Jansa@gmail.com>
-	<CAMKF1srunWtK-tBOxD2P=-4+28ejgN+xwoitqs+ukMNiS77BZQ@mail.gmail.com>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=lJTE4a6zxGAuiHeNHSkpqw7CQm+tUrXL+AdhQk2Uvxs=;
+	b=Hok1JGE//qEplPS9qWd+FHEacZmNPJ+sIPcrYhykQOvt1q76VG4twGarKFiTX6NxjD
+	GSWfrpGHaZe7vE/PDYLGvBZUGcHSYEVtTUnWRbvQYwq+2HgdNgfg8wegO5RryYZkkh6v
+	vKSBfqFD/esXN6f0CZ1WaNNCpZVXNiUJ2yUXVz9bLg7v7zA5JA61jjZXGZLNHfhdTG/p
+	aZmLW2yr0HBK4GLSuUS9pud3IlwDvbwTa5pLgfNGTtdFcLuF6pYJB49vdbTBEKwVZqXn
+	XuGqY2dLs/eV8UkDqV4OlOEyFqJeewdEN0k6KnO7cjhXL656vJ8AiKZAvEb+EyWfrZ9W
+	4oDA==
+X-Received: by 10.52.171.115 with SMTP id at19mr1895453vdc.48.1396459701518;
+	Wed, 02 Apr 2014 10:28:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srunWtK-tBOxD2P=-4+28ejgN+xwoitqs+ukMNiS77BZQ@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Patches and discussions about the oe-core layer
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Wed, 2 Apr 2014 10:27:40 -0700 (PDT)
+In-Reply-To: <CAMKF1sorF5M0oxq9gaZEDeV5Td2pydEE0zZjqJdM8n0hyGbuyQ@mail.gmail.com>
+References: <CAMKF1soKZqqmQUVCQnUqS1GV1FO5KictTO+=up=d7Jw3+QhXMw@mail.gmail.com>
+	<CAJTo0LYF0VNwy7=rhmr7U_=tXwJtPOax3AKttn66q3qD_QXd2w@mail.gmail.com>
+	<CANyK_8deVKbC6xOUQHubvphfwQCQefHGWCt7Mp1QM4DUVXja5g@mail.gmail.com>
+	<CAMKF1sqPB+QCvPHHcxsU+ExBmNWg9jPXajkAR_FdKpJ76-x9dg@mail.gmail.com>
+	<CANyK_8er+2sjvU1csLOEpZ06qCL4h+bP2ecUYYGzyiEw0kXzQw@mail.gmail.com>
+	<CAMKF1spno7Np8FXr3JXw3_W72+vRkchzZ8J5X+3e4RCFY+6nLg@mail.gmail.com>
+	<CANyK_8f_V247P1UWaeG-7YwBq4MrHQ=+69NOgW8LUZ4_Xgx2qA@mail.gmail.com>
+	<CAP9ODKp-+31rJmK6uY1QA6nvG4hDuNT79JVeeivY5XeOCu2etw@mail.gmail.com>
+	<CAMKF1sqOCs_OYkZU2ng9FmViPyJx1AjdViSquZWzbgFT=XZdoA@mail.gmail.com>
+	<CANyK_8fC4kkDgqovwuTx5kN0Y2hcyDT7HStii4hxz_CN3D=atA@mail.gmail.com>
+	<CAMKF1sorF5M0oxq9gaZEDeV5Td2pydEE0zZjqJdM8n0hyGbuyQ@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 2 Apr 2014 18:27:40 +0100
+X-Google-Sender-Auth: iGHKUVnyANwBlVQQPlQ5WRPR_IU
+Message-ID: <CANyK_8caB3XLyY5QvDdDGF5i8kQbN7GV+zBz1x7OzxkzV7P6mg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-devel <openembedded-devel@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] gcc-target: remove infodir
+Subject: Re: [oe] initial support for musl libc with OE/Yocto Project
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 17:20:17 -0000
-X-Groupsio-MsgNum: 52104
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="iVCmgExH7+hIHJ1A"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Apr 2014 17:28:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---iVCmgExH7+hIHJ1A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2 April 2014 18:13, Khem Raj <raj.khem@gmail.com> wrote:
+> On Wed, Apr 2, 2014 at 10:03 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+>> You've fixed util-linux in a different way to me, I added qsort_r to
+>> musl
+>
+> this won't fly in musl community.
+>
+> whereas you've removed it's use from util-linux. I'm not bothered
+>> which one we use if both work. We do now have 4 people looking at
+>> util-linux fixes: Me, you and Robert Yang (as util-linux-native
+>> doesn't build on Centos 5.10 due to the same qsort_r usage) here in
+>> oe-core and Karel Zak from upstream (as they want to fix it for their
+>> next release). I think we need to pick one fix (probably yours if it's
+>> tested and working in another distro) and get it applied to oe-core
+>> master.
+>
+> yes, I think not using qsort_r is common solution for all these issues.
 
-On Wed, Apr 02, 2014 at 10:06:16AM -0700, Khem Raj wrote:
-> On Wed, Apr 2, 2014 at 5:25 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> > +       # Info dir listing isn't interesting at this point so remove it=
- if it exists.
-> > +       if [ -e "${D}${infodir}/dir" ]; then
-> > +               rm -f ${D}${infodir}/dir
-> > +       fi
->=20
-> why check if it exists when you are already using rm -f ?
+Ok, sounds good. Could we split this out and send it to the mailing
+list on its own for now? It's much better than the patch that's
+currently in oe-core.
 
-Just because I was copying snippet from autotools.bbclass
+>
+>>
+>> Your latest commit "glibc-2.0: Fix build issues that arise on musl"
+>> should say glib not glibc. Other than that, your glib fix is better
+>> than mine (I did add <string.h> but didn't add the
+>> '--with-libiconv=gnu' option, instead I set musl as the provider of
+>> virtual/libiconv).
+>
+> in order to build a lot of software we would need some sort of iconv
+> implementation
+> letting musl to provide it is probably ok too but I wanted  to take
+> the tested path to get
+> to an image to build and then we have a known baseline and we could
+> experiment more.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I'd like to see both as options but I agree we should get an image
+working in the simplest way possible first.
 
---iVCmgExH7+hIHJ1A
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+I'm really impressed with how fast this is moving forward so don't
+take my comments as in any way negative!
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+-- 
+Paul Barker
 
-iEYEARECAAYFAlM8Rs8ACgkQN1Ujt2V2gBzDjgCfSiIVnF3k3Mkni/cnN+FK48Au
-bJMAn3BUskvcSXmm8HXL7synlaUAR5ey
-=lM9a
------END PGP SIGNATURE-----
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
---iVCmgExH7+hIHJ1A--
