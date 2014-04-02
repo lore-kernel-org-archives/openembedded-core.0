@@ -1,36 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E6C26F9FC
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9446E6F9FC
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  2 Apr 2014 12:26:04 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id t60so134471wes.5
+Received: by mail-wi0-f181.google.com with SMTP id hm4so387949wib.8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 02 Apr 2014 05:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=K5VoojVCDwhqSaxyYy9MghH4bmuJJaacWM24imvMsDA=;
-	b=w1d+oHksHsAX/dDZ3MJfBIDKsLu5/2NaOmg/9H+UhcFwJ3nk+qlcBaqcZvl78KOipY
-	8qQ8HWkyQtSxW3uaQlrcDbJgYM24KmXIMadCmQiheDQlErgy6KhiiKIFCwyG75jaF8rG
-	f03xrg/f5O4lUbL6gCD36vlS84lBjrrpj/IAiAk0vfJQdvjPH2j0KEGwo7M9Fna5hohZ
-	V7/JeEIfGUj8UmQpMkqTUDcJYkuXBx0Nr12dOdvbT/5yqXN8S7PwbfKiK/bnTmzLL4cU
-	5S8V80Krio6lf5n4F6YSqUniyfWF5QzVADphsS/eWogZyQkXkhB5bPHoBEBhSm+bHk4n
-	mu5Q==
-X-Received: by 10.194.2.145 with SMTP id 17mr430807wju.60.1396441562653;
-	Wed, 02 Apr 2014 05:26:02 -0700 (PDT)
+	bh=gMcbs3LKyfBoM4//mM+RTReppPiaRV1VRfU/YJCo/RQ=;
+	b=0oWRpCcSXF+GrN2UgzlD2LT92qoH4ngnM92yqbZ7ffXrqphPFx8ml4vYY+faffJFnS
+	FajtSh/D6wxmApbKHLWdJBt8jG34gWgJf5/B746YqYAJ4Ne2Fr3eGMIzjV/m6zKMFLl/
+	9vV5sj1VubENaomxVGPGc1HrtrrZzjGdFwJBAbNpzNdqPI7wGfeHPLRlhApMVPWAe7j6
+	U83hsZoC1Qj9127moabLmJiEil5Z32izjPY7hxe7F9ClrmIt8OUNyNCswuUWh/ICGEWc
+	NisfMZUeyjHDlgglPzYp+HWO9Oyf/rev2BRjYvuz8ljG98poMaVwUtIn3ma0RCmPDZF6
+	Y78A==
+X-Received: by 10.180.91.164 with SMTP id cf4mr28434736wib.37.1396441564482;
+	Wed, 02 Apr 2014 05:26:04 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	z48sm4191619eel.27.2014.04.02.05.26.01 for <multiple recipients>
+	bc51sm4200854eeb.22.2014.04.02.05.26.03 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Apr 2014 05:26:01 -0700 (PDT)
+	Wed, 02 Apr 2014 05:26:03 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Apr 2014 14:25:35 +0200
-Message-Id: <1396441537-2911-3-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed,  2 Apr 2014 14:25:36 +0200
+Message-Id: <1396441537-2911-4-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
 References: <1396441537-2911-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 3/5] gcc-target: remove infodir
+Subject: [PATCH 4/5] Revert "qt-mobility: remove /usr/lib from ld rpath-link option"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +45,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 02 Apr 2014 12:26:05 -0000
 
-* it uses autotools but doesn't call autotools_do_install
-* fixes QA warning:
-  gcc-4.8.2: The /usr/share/info/dir file is not meant to be shipped in a particular package.
+* Basically part of the headers/libs are installed in
+  ${D}(${libdir}/${includedir}) instead of
+  ${D}(${libdir}/${includedir})/qt4
+
+* http://lists.openembedded.org/pipermail/openembedded-core/2013-October/085815.html
+  is related, but doesn't fix the issue completely, so better
+  revert the commit which introduced this issue
+
+[YOCTO #5414]
+
+This reverts commit f7409a9fe83ba2535a43f39ed57cd78242a88557.
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-target.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index e1179ac..3412aa8 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -104,6 +104,10 @@ FILES_${PN}-doc = "\
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+index 72d361e..ff63d2b 100644
+--- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -91,12 +91,6 @@ EOF
+ 	echo CONFIG += ${qtm_embedded} >>./config.pri
+ }
  
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install-host
-+	# Info dir listing isn't interesting at this point so remove it if it exists.
-+	if [ -e "${D}${infodir}/dir" ]; then
-+		rm -f ${D}${infodir}/dir
-+	fi
- 
- 	# Cleanup some of the ${libdir}{,exec}/gcc stuff ...
- 	rm -r ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
+-do_compile_prepend() {
+-	for NAME in `find ./ -name Makefile` ; do
+-	    sed -e 's:-Wl,-rpath-link,${libdir}::g' -i $NAME 
+-	done
+-}
+-
+ do_install() {
+ 	for NAME in */*.prf
+ 	do
 -- 
 1.9.1
 
