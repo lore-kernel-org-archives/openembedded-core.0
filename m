@@ -1,26 +1,30 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 701096F898
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 954C66F898
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Apr 2014 07:52:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s337qRYo003071
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Apr 2014 00:52:27 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 3 Apr 2014 00:52:26 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Apr 2014 15:52:22 +0800
-Message-ID: <15a4e980f4a7b47e36800c3cedbe44071d63bf20.1396511450.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1396511450.git.Chong.Lu@windriver.com>
-References: <cover.1396511450.git.Chong.Lu@windriver.com>
+	Thu,  3 Apr 2014 07:54:42 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,785,1389740400"; d="scan'208";a="43887388"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 03 Apr 2014 09:54:42 +0200
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.243]) by
+	COSNADEXC22.usr.ingenico.loc ([10.31.4.222]) with mapi id
+	14.02.0318.001; Thu, 3 Apr 2014 09:54:42 +0200
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [RFC][PATCH] files/device_table-minimal.txt: cleanup
+Thread-Index: AQHPTw4i4mxlUN/iv060LuTr4t5V2Zr/hAdQ
+Date: Thu, 3 Apr 2014 07:54:41 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B57551ADA@COSNADEXC13.usr.ingenico.loc>
+References: <1396457186-5961-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<1396510015.2910.59.camel@ted>
+In-Reply-To: <1396510015.2910.59.camel@ted>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] python: fix build error with Readline 6.3
+Subject: Re: [RFC][PATCH] files/device_table-minimal.txt: cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,213 +37,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Apr 2014 07:52:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 03 Apr 2014 07:54:46 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Backport two patches from upstream:
-
-use new readline function types (closes #20374)
-Issue #20374: Avoid compiler warnings when compiling readline with libedit.
-
-[YOCTO #6107]
-
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- .../recipes-devtools/python/python-native_2.7.3.bb |  1 +
- .../python-fix-build-error-with-Readline-6.3.patch | 62 ++++++++++++++++++++++
- .../python/python3-native_3.3.3.bb                 |  1 +
- ...python3-fix-build-error-with-Readline-6.3.patch | 62 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.3.3.bb      |  1 +
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- 6 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python-fix-build-error-with-Readline-6.3.patch
- create mode 100644 meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch
-
-diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
-index 6b87a16..0c66d27 100644
---- a/meta/recipes-devtools/python/python-native_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
-@@ -17,6 +17,7 @@ SRC_URI += "\
-            file://add-md5module-support.patch \
-            file://builddir.patch \
-            file://parallel-makeinst-create-bindir.patch \
-+           file://python-fix-build-error-with-Readline-6.3.patch \
-            "
- S = "${WORKDIR}/Python-${PV}"
- 
-diff --git a/meta/recipes-devtools/python/python/python-fix-build-error-with-Readline-6.3.patch b/meta/recipes-devtools/python/python/python-fix-build-error-with-Readline-6.3.patch
-new file mode 100644
-index 0000000..b84f8c3
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-fix-build-error-with-Readline-6.3.patch
-@@ -0,0 +1,62 @@
-+python: fix build error with Readline 6.3
-+
-+Backport two patches from upstream:
-+
-+use new readline function types (closes #20374)
-+Issue #20374: Avoid compiler warnings when compiling readline with libedit.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Modules/readline.c |   15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/Modules/readline.c b/Modules/readline.c
-+index b5e258d..d3f52aa 100644
-+--- a/Modules/readline.c
-++++ b/Modules/readline.c
-+@@ -735,15 +735,24 @@ on_hook(PyObject *func)
-+     return result;
-+ }
-+ 
-++
-+ static int
-++#if defined(_RL_FUNCTION_TYPEDEF)
-+ on_startup_hook(void)
-++#else
-++on_startup_hook()
-++#endif
-+ {
-+     return on_hook(startup_hook);
-+ }
-+ 
-+ #ifdef HAVE_RL_PRE_INPUT_HOOK
-+ static int
-++#if defined(_RL_FUNCTION_TYPEDEF)
-+ on_pre_input_hook(void)
-++#else
-++on_pre_input_hook()
-++#endif
-+ {
-+     return on_hook(pre_input_hook);
-+ }
-+@@ -886,12 +895,12 @@ setup_readline(void)
-+     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
-+     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
-+     /* Set our hook functions */
-+-    rl_startup_hook = (Function *)on_startup_hook;
-++    rl_startup_hook = (rl_hook_func_t *)on_startup_hook;
-+ #ifdef HAVE_RL_PRE_INPUT_HOOK
-+-    rl_pre_input_hook = (Function *)on_pre_input_hook;
-++    rl_pre_input_hook = (rl_hook_func_t *)on_pre_input_hook;
-+ #endif
-+     /* Set our completion function */
-+-    rl_attempted_completion_function = (CPPFunction *)flex_complete;
-++    rl_attempted_completion_function = (rl_completion_func_t *)flex_complete;
-+     /* Set Python word break characters */
-+     rl_completer_word_break_characters =
-+         strdup(" \t\n`~!@#$%^&*()-=+[{]}\\|;:'\",<>/?");
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/python/python3-native_3.3.3.bb b/meta/recipes-devtools/python/python3-native_3.3.3.bb
-index df8f28b..7238eaf 100644
---- a/meta/recipes-devtools/python/python3-native_3.3.3.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.3.3.bb
-@@ -25,6 +25,7 @@ file://unixccompiler.patch \
- file://fix-ast.h-dependency.patch \
- file://makerace.patch \
- ${DISTRO_SRC_URI} \
-+file://python3-fix-build-error-with-Readline-6.3.patch \
- "
- SRC_URI[md5sum] = "f3ebe34d4d8695bf889279b54673e10c"
- SRC_URI[sha256sum] = "e526e9b612f623888364d30cc9f3dfc34dcef39065c713bdbcddf47df84d8dcb"
-diff --git a/meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch b/meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch
-new file mode 100644
-index 0000000..44e2b7e
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch
-@@ -0,0 +1,62 @@
-+python3: fix build error with Readline 6.3
-+
-+Backport two patches from upstream:
-+
-+use new readline function types (closes #20374)
-+Issue #20374: Avoid compiler warnings when compiling readline with libedit.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Modules/readline.c |   15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/Modules/readline.c b/Modules/readline.c
-+index 096c6d1..1646ef8 100644
-+--- a/Modules/readline.c
-++++ b/Modules/readline.c
-+@@ -773,15 +773,24 @@ on_hook(PyObject *func)
-+     return result;
-+ }
-+ 
-++
-+ static int
-++#if defined(_RL_FUNCTION_TYPEDEF)
-+ on_startup_hook(void)
-++#else
-++on_startup_hook()
-++#endif
-+ {
-+     return on_hook(startup_hook);
-+ }
-+ 
-+ #ifdef HAVE_RL_PRE_INPUT_HOOK
-+ static int
-++#if defined(_RL_FUNCTION_TYPEDEF)
-+ on_pre_input_hook(void)
-++#else
-++on_pre_input_hook()
-++#endif
-+ {
-+     return on_hook(pre_input_hook);
-+ }
-+@@ -936,12 +945,12 @@ setup_readline(void)
-+     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
-+     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
-+     /* Set our hook functions */
-+-    rl_startup_hook = (Function *)on_startup_hook;
-++    rl_startup_hook = (rl_hook_func_t *)on_startup_hook;
-+ #ifdef HAVE_RL_PRE_INPUT_HOOK
-+-    rl_pre_input_hook = (Function *)on_pre_input_hook;
-++    rl_pre_input_hook = (rl_hook_func_t *)on_pre_input_hook;
-+ #endif
-+     /* Set our completion function */
-+-    rl_attempted_completion_function = (CPPFunction *)flex_complete;
-++    rl_attempted_completion_function = (rl_completion_func_t *)flex_complete;
-+     /* Set Python word break characters */
-+     completer_word_break_characters =
-+         rl_completer_word_break_characters =
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb b/meta/recipes-devtools/python/python3_3.3.3.bb
-index b6f6def..c357bbb 100644
---- a/meta/recipes-devtools/python/python3_3.3.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.3.3.bb
-@@ -20,6 +20,7 @@ file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
- file://fix-ast.h-dependency.patch \
- file://makerace.patch \
- ${DISTRO_SRC_URI} \
-+file://python3-fix-build-error-with-Readline-6.3.patch \
- "
- 
- SRC_URI += "\
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index aaa72e5..c7bb9b4 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -34,6 +34,7 @@ SRC_URI += "\
-   file://pypirc-secure.patch \
-   file://parallel-makeinst-create-bindir.patch \
-   file://python-2.7.3-CVE-2013-1752-smtplib-fix.patch \
-+  file://python-fix-build-error-with-Readline-6.3.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.8.1.2
-
+SGkgUmljaGFyZCwNCg0KPiBJZiBJIHJlbWVtYmVyIGNvcnJlY3RseSwgbW1jIGRldmljZXMgYXJl
+IGR5bmFtaWNhbGx5IGFsbG9jYXRlZCBudW1iZXJzLg0KDQpXZWxsLCBpbiBteSB3b3JrIGV4cGVy
+aWVuY2UsIEkgYWx3YXlzIHVzZWQgdGhpcy4NCkhvd2V2ZXIsIGFjY29yZGluZyB0byBpbmNsdWRl
+L3VhcGkvbGludXgvbWFqb3IuaDoNCg0KI2RlZmluZSBNTUNfQkxPQ0tfTUFKT1IgICAxNzkNCg0K
+PiBJIG9ubHkgc2VlIHR0eVMsIG5vdCBTMCBvciBTMT8NCg0KQWNjb3JkaW5nIHRvIGZpbGU6DQov
+ZGV2L3R0eVMJYwk2NDAJcm9vdAl0dHkJNAk2NAkwCTEJMg0KDQpUaGlzIHdpbGwgY3JlYXRlIHR0
+eVMwIGFuZCB0dHlTMS4NCg0KTWF0dA0KDQoNCi0tLS0tTWVzc2FnZSBkJ29yaWdpbmUtLS0tLQ0K
+RGXCoDogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnXSANCkVudm95w6nCoDogamV1ZGkgMyBhdnJpbCAyMDE0IDA5OjI3DQrDgMKgOiBNYXR0
+aGlldSBDUkFQRVQNCkNjwqA6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcNCk9iamV0wqA6IFJlOiBbT0UtY29yZV0gW1JGQ11bUEFUQ0hdIGZpbGVzL2RldmljZV90YWJs
+ZS1taW5pbWFsLnR4dDogY2xlYW51cA0KDQpPbiBXZWQsIDIwMTQtMDQtMDIgYXQgMTg6NDYgKzAy
+MDAsIE1hdHRoaWV1IENyYXBldCB3cm90ZToNCj4gVGhpcyBkZXZpY2UgbGlzdCBpcyBvbmx5IHVz
+ZWQgaWYgVVNFX0RFVkZTIGlzIHNldCB0byAnMCcgKHdoaWNoIGlzIE5PVCANCj4gdGhlIGRlZmF1
+bHQgc2luY2UgMjAxMy0xMi0xNCwgc2VlIGNvbW1pdCBmNTRmZGQ2NjczYTEzNmVlMWNlZTFmMzI2
+M2E4YTc4MjBkZTQzY2EzKSBhbmQgaWYgSU1BR0VfREVWSUNFX1RBQkxFIGFuZCBJTUFHRV9ERVZJ
+Q0VfVEFCTEVTIGFyZSBub3Qgc2V0Lg0KPiANCj4gVGhpcyBpcywgb2YgY291cnNlIGEgdmVyeSBz
+dWJqZWN0aXZlIGxpc3QgYnV0IG1pbmltYWwgd2l0aCA2MiAoc3BlY2lhbCkgZmlsZXMuDQo+IEhv
+d2V2ZXIsIHlvdSBzaG91bGQgYmUgYWJsZSB0byBib290IGNvcnJlY3RseSBhIGxvdCBvZiBlbWJl
+ZGRlZCBsaW51eCBhcm91bmQuDQo+IA0KPiBDaGFuZ2VzOg0KPiAtIGFkZCBzZGEsIHNkYiwgc2Rh
+WzEyMzRdLCBzZGJbMTIzNF0NCj4gLSBhZGQgbW1jYmxrMCwgbW1jYmxrMHBbMTIzNF0NCg0KSWYg
+SSByZW1lbWJlciBjb3JyZWN0bHksIG1tYyBkZXZpY2VzIGFyZSBkeW5hbWljYWxseSBhbGxvY2F0
+ZWQgbnVtYmVycy4NCkNhbiB3ZSBndWFyYW50ZWUgdGhlc2UgYXJlIGdvaW5nIHRvIGJlIGNvcnJl
+Y3Q/DQoNCj4gLSBhZGQgcnRjMCwgcnRjMQ0KPiAtIHJlc3RyaWN0IG1heGltdW0gaGRhWCBmcm9t
+IDE5IHRvIDQgKHBhdGEgaXMgb2xkKQ0KPiAtIGFkZCB0dHlTMQ0KDQpJIG9ubHkgc2VlIHR0eVMs
+IG5vdCBTMCBvciBTMT8NCg0KPiAtIHJlbW92ZSBpbml0Y3RsLCBhcG1fYmlvcywgdHR5OCwgdHR5
+U0ENCj4gLSBzb3J0ZWQgZW50cmllcw0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KPiBTaWduZWQt
+b2ZmLWJ5OiBNYXR0aGlldSBDcmFwZXQgPE1hdHRoaWV1LkNyYXBldEBpbmdlbmljby5jb20+DQo+
+IC0tLQ0KPiAgbWV0YS9maWxlcy9kZXZpY2VfdGFibGUtbWluaW1hbC50eHQgfCAyNiArKysrKysr
+KysrKysrKystLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyks
+IDExIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvZmlsZXMvZGV2aWNlX3Rh
+YmxlLW1pbmltYWwudHh0IA0KPiBiL21ldGEvZmlsZXMvZGV2aWNlX3RhYmxlLW1pbmltYWwudHh0
+DQo+IGluZGV4IDU2Yzc0YmIuLmU0ODkxY2MgMTAwNjQ0DQo+IC0tLSBhL21ldGEvZmlsZXMvZGV2
+aWNlX3RhYmxlLW1pbmltYWwudHh0DQo+ICsrKyBiL21ldGEvZmlsZXMvZGV2aWNlX3RhYmxlLW1p
+bmltYWwudHh0DQo+IEBAIC05LDIzICs5LDI3IEBADQo+ICAjICAgIHAJRmlmbyAobmFtZWQgcGlw
+ZSkNCj4gIA0KPiAgL2RldgkJZAk3NTUJcm9vdAlyb290CS0JLQktCS0JLQ0KPiAtL2Rldi9pbml0
+Y3RsCXAJNjAwCXJvb3QJcm9vdAktCS0JLQktCS0NCj4gLS9kZXYvYXBtX2Jpb3MJYwk2NjAJcm9v
+dAlwbHVnZGV2CTEwCTEzNAktCS0JLQ0KPiArL2Rldi9jb25zb2xlCWMJNjYyCXJvb3QJdHR5CTUJ
+MQktCS0JLQ0KPiAgL2Rldi9mYjAJYwk2MDAJcm9vdAlyb290CTI5CTAJLQktCS0NCj4gIC9kZXYv
+aGRhCWIJNjYwCXJvb3QJZGlzawkzCTAJLQktCS0NCj4gLS9kZXYvaGRhCWIJNjYwCXJvb3QJZGlz
+awkzCTEJMQkxCTE5DQo+ICsvZGV2L2hkYQliCTY2MAlyb290CWRpc2sJMwkxCTEJMQk0DQo+ICAv
+ZGV2L2ttZW0JYwk2NDAJcm9vdAlrbWVtCTEJMgktCS0JLQ0KPiAgL2Rldi9rbXNnCWMJNjAwCXJv
+b3QJcm9vdAkxCTExCS0JLQktDQo+ICAvZGV2L21lbQljCTY0MAlyb290CWttZW0JMQkxCS0JLQkt
+DQo+IC0vZGV2L251bGwJYwk2NjYJcm9vdAlyb290CTEJMwktCS0JLQ0KPiAtL2Rldi9yYW0JYgk2
+NDAJcm9vdAlyb290CTEJMAkwCTEJNA0KPiAtL2Rldi90dHkJYwk2NjIJcm9vdAl0dHkJNQkwCS0J
+LQktDQo+IC0vZGV2L3R0eQljCTY2Nglyb290CXR0eQk0CTAJMAkxCTkNCj4gLS9kZXYvdHR5Uwlj
+CTY0MAlyb290CXR0eQk0CTY0CTAJMQkxDQo+IC0vZGV2L3R0eVNBCWMJNjQwCXJvb3QJdHR5CTIw
+NAk1CTAJMQkxDQo+IC0vZGV2L3plcm8JYwk2NDQJcm9vdAlyb290CTEJNQktCS0JLQ0KPiArL2Rl
+di9tbWNibGswCWIJNjYwCXJvb3QJZGlzawkxNzkJMAktCS0JLQ0KPiArL2Rldi9tbWNibGswcAli
+CTY2MAlyb290CWRpc2sJMTc5CTEJMQkxCTQNCj4gIC9kZXYvbXRkCWMJNjYwCXJvb3QJZGlzawk5
+MAkwCTAJMgk4DQo+ICAvZGV2L210ZGJsb2NrCWIJNjQwCXJvb3QJcm9vdAkzMQkwCTAJMQk4DQo+
+IC0vZGV2L2NvbnNvbGUJYwk2NjIJcm9vdAl0dHkJNQkxCS0JLQktDQo+ICsvZGV2L251bGwJYwk2
+NjYJcm9vdAlyb290CTEJMwktCS0JLQ0KPiArL2Rldi9yYW0JYgk2NDAJcm9vdAlyb290CTEJMAkw
+CTEJNA0KPiAgL2Rldi9yYW5kb20JYwk2NDQJcm9vdAlyb290CTEJOAktCS0JLQ0KPiArL2Rldi9y
+dGMJYwk2NDQJcm9vdAlyb290CTI1NAkwCTAJMQkyDQo+ICsvZGV2L3NkYQliCTY2MAlyb290CWRp
+c2sJOAkwCS0JLQktDQo+ICsvZGV2L3NkYQliCTY2MAlyb290CWRpc2sJOAkxCTEJMQk0DQo+ICsv
+ZGV2L3NkYgliCTY2MAlyb290CWRpc2sJOAkxNgktCS0JLQ0KPiArL2Rldi9zZGIJYgk2NjAJcm9v
+dAlkaXNrCTgJMTcJMQkxCTQNCj4gKy9kZXYvdHR5CWMJNjYyCXJvb3QJdHR5CTUJMAktCS0JLQ0K
+PiArL2Rldi90dHkJYwk2NjYJcm9vdAl0dHkJNAkwCTAJMQk4DQo+ICsvZGV2L3R0eVMJYwk2NDAJ
+cm9vdAl0dHkJNAk2NAkwCTEJMg0KPiAgL2Rldi91cmFuZG9tCWMJNjQ0CXJvb3QJcm9vdAkxCTkJ
+LQktCS0NCj4gKy9kZXYvemVybwljCTY0NAlyb290CXJvb3QJMQk1CS0JLQktDQo+IC0tDQo+IDEu
+OC41LjQNCj4gDQoNCg==
 
