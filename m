@@ -1,28 +1,32 @@
-Return-Path: <mac@mcrowe.com>
-Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C27B6F6C0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C4B496F6CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Apr 2014 10:44:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,786,1389744000"; d="scan'208";a="72852737"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 03 Apr 2014 11:44:19 +0100
-Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
-	(envelope-from <mac@mcrowe.com>)
-	id 1WVf7z-0005RF-PV; Thu, 03 Apr 2014 11:44:11 +0100
-Date: Thu, 3 Apr 2014 11:44:11 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140403104411.GA20640@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
-	<CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: cmake-native also depends on acl-native (was Re: cmake-native: Depend on ncurses-native too)
+	Thu,  3 Apr 2014 12:00:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s33C0LMt024481; Thu, 3 Apr 2014 13:00:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id WrYdwNaoWFDH; Thu,  3 Apr 2014 13:00:21 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s33C0EGS024475
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 3 Apr 2014 13:00:16 +0100
+Message-ID: <1396526409.2910.86.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kang Kai <Kai.Kang@windriver.com>
+Date: Thu, 03 Apr 2014 13:00:09 +0100
+In-Reply-To: <533B7788.7000301@windriver.com>
+References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
+	<1396275649-32352-2-git-send-email-kai.kang@windriver.com>
+	<533B7788.7000301@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Apr 2014 10:44:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Apr 2014 12:00:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:
-> On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> > It seems to be possible to disable building the "CursesDialog" component to
-> > remove the need for ncurses but I couldn't immediately see how to do that
-> > for a bootstrap build.
+On Wed, 2014-04-02 at 10:35 +0800, Kang Kai wrote:
+> On 2014年03月31日 22:20, Kai Kang wrote:
+> > From: Roy Li <rongqing.li@windriver.com>
 > >
-> > The non-native cmake recipe depends on ncurses even though it passes
-> > -DBUILD_CursesDialog=0.
+> > When native package is built, use the uname to return the kernel version.
+> >
+> > When target is built, read kernel version from ${STAGING_KERNEL_DIR}/kernel-abiversion
+> > to avoid to use the hardcode kernel version.
+> >
+> > Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > ---
+> >   meta/recipes-support/nss/nss.inc | 15 +++++++++++++--
+> >   1 file changed, 13 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+> > index 404decc..f24da68 100644
+> > --- a/meta/recipes-support/nss/nss.inc
+> > +++ b/meta/recipes-support/nss/nss.inc
+> > @@ -26,6 +26,7 @@ SRC_URI_append_class-target = "\
+> >   inherit siteinfo
+> >   PR = "r0"
+> >   DEPENDS = "sqlite3 nspr zlib nss-native"
+> > +DEPENDS_append_class-target += "virtual/kernel"
+> >   DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
+> >   RDEPENDS_${PN} = "perl"
+> >   
+> > @@ -37,12 +38,24 @@ TARGET_CC_ARCH += "${LDFLAGS}"
+> >   do_compile_prepend_class-native() {
+> >       export NSPR_INCLUDE_DIR=${STAGING_INCDIR_NATIVE}
+> >       export NSPR_LIB_DIR=${STAGING_LIBDIR_NATIVE}
+> > +    export OS_RELEASE=`uname -r`
+> >   }
+> >   
+> >   do_compile_prepend_class-nativesdk() {
+> >       export LDFLAGS=""
+> >   }
+> >   
+> > +do_compile_prepend_class-target() {
+> > +    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
+> > +}
+> > +
+> > +do_install_prepend_class-native() {
+> > +    export OS_RELEASE=`uname -r`
+> > +}
+> > +
+> > +do_install_prepend_class-target() {
+> > +    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
+> > +}
+> >   do_compile() {
+> >       export CROSS_COMPILE=1
+> >       export NATIVE_CC="gcc"
+> > @@ -57,7 +70,6 @@ do_compile() {
+> >       export NSS_USE_SYSTEM_SQLITE=1
+> >       export NSS_ENABLE_ECC=1
+> >   
+> > -    export OS_RELEASE=3.4
 > 
-> you need to disable it completely in CMakefile.txt, just that define
-> does not suffice you might try something like
-> http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
+> How about use var LINUXLIBCVERSION:
 > 
+> export OS_RELEASE="${@d.getVar('LINUXLIBCVERSION', True)}"
+> 
+> it should be the same value with kernel version, right?
 
-It appears that a similar problem occurs if cmake-native is built at the
-same time as acl-native:
+As others have replied, that is usually much more recent than the oldest
+kernel we support. What does nss do with this value? Is it about the
+header versions? Would something run on an older kernel with a newer
+value for OS_RELEASE?
 
- Building C object Utilities/cmcurl/CMakeFiles/cmcurl.dir/http_chunks.c.o
- [ 30%] /home/jenkins/workspace/nightly-brightsign-master/MACHINE/source/label/nightly/build-bcm7425/source-release-test-build/brightsign-oe/build-bcm7425/tmp-eglibc/work/x86_64-linux/cmake-native/2.8.12.2-r0/cmake-2.8.12.2/Utilities/cmlibarchive/libarchive/archive_read_disk_entry_from_file.c:38:21:fatal error: sys/acl.h: No such file or directory
- compilation terminated.
+We also have the OLDEST_KERNEL variable (currently at 2.6.16) FWIW.
 
-cmake detects sys/acl.h but by the time the compiler tries to include it
-the file has been unstaged from the sysroot.
+Cheers,
 
-This one is harder to patch out. Do you object to me adding acl{,-native}
-to DEPENDS?
+Richard
 
-Thanks.
-
-Mike.
 
