@@ -1,30 +1,38 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 954C66F898
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.102])
+	by mail.openembedded.org (Postfix) with ESMTP id DB08B6E3DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Apr 2014 07:54:42 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,785,1389740400"; d="scan'208";a="43887388"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 03 Apr 2014 09:54:42 +0200
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.243]) by
-	COSNADEXC22.usr.ingenico.loc ([10.31.4.222]) with mapi id
-	14.02.0318.001; Thu, 3 Apr 2014 09:54:42 +0200
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC][PATCH] files/device_table-minimal.txt: cleanup
-Thread-Index: AQHPTw4i4mxlUN/iv060LuTr4t5V2Zr/hAdQ
-Date: Thu, 3 Apr 2014 07:54:41 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B57551ADA@COSNADEXC13.usr.ingenico.loc>
-References: <1396457186-5961-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<1396510015.2910.59.camel@ted>
-In-Reply-To: <1396510015.2910.59.camel@ted>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+	Thu,  3 Apr 2014 08:01:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kmu-office.ch (Postfix) with ESMTP id 7385741E80
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Apr 2014 09:58:14 +0200 (CEST)
+X-Virus-Scanned: by amavisd-new at kmu-office.ch
+Received: from mail.kmu-office.ch ([127.0.0.1])
+	by localhost (mail.kmu-office.ch [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JxLRY9SR+rdW
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Apr 2014 09:58:12 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kmu-office.ch (Postfix) with ESMTP id CD1D441E7F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Apr 2014 09:58:12 +0200 (CEST)
+Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
+	(Authenticated sender: stefan@agner.ch)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id C0F6D41E7D;
+	Thu,  3 Apr 2014 09:58:12 +0200 (CEST)
 MIME-Version: 1.0
-Subject: Re: [RFC][PATCH] files/device_table-minimal.txt: cleanup
+Date: Thu, 03 Apr 2014 09:59:34 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+In-Reply-To: <20140303083846.GA3698@lpalcu-linux>
+References: <9362603aca1b9e36631265991dc556a5@agner.ch>
+	<20140303083846.GA3698@lpalcu-linux>
+Message-ID: <f598c2e47683dab5395d7b1276b4d2b5@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.0-rc
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: relocate_sdk.py: Possible bug, /lib64/ld-linux-x86-64.so.2 not relocated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,71 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Apr 2014 07:54:46 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 03 Apr 2014 08:01:50 -0000
+Content-Type: text/plain; charset=
+Content-Transfer-Encoding: 7bit
 
-SGkgUmljaGFyZCwNCg0KPiBJZiBJIHJlbWVtYmVyIGNvcnJlY3RseSwgbW1jIGRldmljZXMgYXJl
-IGR5bmFtaWNhbGx5IGFsbG9jYXRlZCBudW1iZXJzLg0KDQpXZWxsLCBpbiBteSB3b3JrIGV4cGVy
-aWVuY2UsIEkgYWx3YXlzIHVzZWQgdGhpcy4NCkhvd2V2ZXIsIGFjY29yZGluZyB0byBpbmNsdWRl
-L3VhcGkvbGludXgvbWFqb3IuaDoNCg0KI2RlZmluZSBNTUNfQkxPQ0tfTUFKT1IgICAxNzkNCg0K
-PiBJIG9ubHkgc2VlIHR0eVMsIG5vdCBTMCBvciBTMT8NCg0KQWNjb3JkaW5nIHRvIGZpbGU6DQov
-ZGV2L3R0eVMJYwk2NDAJcm9vdAl0dHkJNAk2NAkwCTEJMg0KDQpUaGlzIHdpbGwgY3JlYXRlIHR0
-eVMwIGFuZCB0dHlTMS4NCg0KTWF0dA0KDQoNCi0tLS0tTWVzc2FnZSBkJ29yaWdpbmUtLS0tLQ0K
-RGXCoDogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnXSANCkVudm95w6nCoDogamV1ZGkgMyBhdnJpbCAyMDE0IDA5OjI3DQrDgMKgOiBNYXR0
-aGlldSBDUkFQRVQNCkNjwqA6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcNCk9iamV0wqA6IFJlOiBbT0UtY29yZV0gW1JGQ11bUEFUQ0hdIGZpbGVzL2RldmljZV90YWJs
-ZS1taW5pbWFsLnR4dDogY2xlYW51cA0KDQpPbiBXZWQsIDIwMTQtMDQtMDIgYXQgMTg6NDYgKzAy
-MDAsIE1hdHRoaWV1IENyYXBldCB3cm90ZToNCj4gVGhpcyBkZXZpY2UgbGlzdCBpcyBvbmx5IHVz
-ZWQgaWYgVVNFX0RFVkZTIGlzIHNldCB0byAnMCcgKHdoaWNoIGlzIE5PVCANCj4gdGhlIGRlZmF1
-bHQgc2luY2UgMjAxMy0xMi0xNCwgc2VlIGNvbW1pdCBmNTRmZGQ2NjczYTEzNmVlMWNlZTFmMzI2
-M2E4YTc4MjBkZTQzY2EzKSBhbmQgaWYgSU1BR0VfREVWSUNFX1RBQkxFIGFuZCBJTUFHRV9ERVZJ
-Q0VfVEFCTEVTIGFyZSBub3Qgc2V0Lg0KPiANCj4gVGhpcyBpcywgb2YgY291cnNlIGEgdmVyeSBz
-dWJqZWN0aXZlIGxpc3QgYnV0IG1pbmltYWwgd2l0aCA2MiAoc3BlY2lhbCkgZmlsZXMuDQo+IEhv
-d2V2ZXIsIHlvdSBzaG91bGQgYmUgYWJsZSB0byBib290IGNvcnJlY3RseSBhIGxvdCBvZiBlbWJl
-ZGRlZCBsaW51eCBhcm91bmQuDQo+IA0KPiBDaGFuZ2VzOg0KPiAtIGFkZCBzZGEsIHNkYiwgc2Rh
-WzEyMzRdLCBzZGJbMTIzNF0NCj4gLSBhZGQgbW1jYmxrMCwgbW1jYmxrMHBbMTIzNF0NCg0KSWYg
-SSByZW1lbWJlciBjb3JyZWN0bHksIG1tYyBkZXZpY2VzIGFyZSBkeW5hbWljYWxseSBhbGxvY2F0
-ZWQgbnVtYmVycy4NCkNhbiB3ZSBndWFyYW50ZWUgdGhlc2UgYXJlIGdvaW5nIHRvIGJlIGNvcnJl
-Y3Q/DQoNCj4gLSBhZGQgcnRjMCwgcnRjMQ0KPiAtIHJlc3RyaWN0IG1heGltdW0gaGRhWCBmcm9t
-IDE5IHRvIDQgKHBhdGEgaXMgb2xkKQ0KPiAtIGFkZCB0dHlTMQ0KDQpJIG9ubHkgc2VlIHR0eVMs
-IG5vdCBTMCBvciBTMT8NCg0KPiAtIHJlbW92ZSBpbml0Y3RsLCBhcG1fYmlvcywgdHR5OCwgdHR5
-U0ENCj4gLSBzb3J0ZWQgZW50cmllcw0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KPiBTaWduZWQt
-b2ZmLWJ5OiBNYXR0aGlldSBDcmFwZXQgPE1hdHRoaWV1LkNyYXBldEBpbmdlbmljby5jb20+DQo+
-IC0tLQ0KPiAgbWV0YS9maWxlcy9kZXZpY2VfdGFibGUtbWluaW1hbC50eHQgfCAyNiArKysrKysr
-KysrKysrKystLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyks
-IDExIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvZmlsZXMvZGV2aWNlX3Rh
-YmxlLW1pbmltYWwudHh0IA0KPiBiL21ldGEvZmlsZXMvZGV2aWNlX3RhYmxlLW1pbmltYWwudHh0
-DQo+IGluZGV4IDU2Yzc0YmIuLmU0ODkxY2MgMTAwNjQ0DQo+IC0tLSBhL21ldGEvZmlsZXMvZGV2
-aWNlX3RhYmxlLW1pbmltYWwudHh0DQo+ICsrKyBiL21ldGEvZmlsZXMvZGV2aWNlX3RhYmxlLW1p
-bmltYWwudHh0DQo+IEBAIC05LDIzICs5LDI3IEBADQo+ICAjICAgIHAJRmlmbyAobmFtZWQgcGlw
-ZSkNCj4gIA0KPiAgL2RldgkJZAk3NTUJcm9vdAlyb290CS0JLQktCS0JLQ0KPiAtL2Rldi9pbml0
-Y3RsCXAJNjAwCXJvb3QJcm9vdAktCS0JLQktCS0NCj4gLS9kZXYvYXBtX2Jpb3MJYwk2NjAJcm9v
-dAlwbHVnZGV2CTEwCTEzNAktCS0JLQ0KPiArL2Rldi9jb25zb2xlCWMJNjYyCXJvb3QJdHR5CTUJ
-MQktCS0JLQ0KPiAgL2Rldi9mYjAJYwk2MDAJcm9vdAlyb290CTI5CTAJLQktCS0NCj4gIC9kZXYv
-aGRhCWIJNjYwCXJvb3QJZGlzawkzCTAJLQktCS0NCj4gLS9kZXYvaGRhCWIJNjYwCXJvb3QJZGlz
-awkzCTEJMQkxCTE5DQo+ICsvZGV2L2hkYQliCTY2MAlyb290CWRpc2sJMwkxCTEJMQk0DQo+ICAv
-ZGV2L2ttZW0JYwk2NDAJcm9vdAlrbWVtCTEJMgktCS0JLQ0KPiAgL2Rldi9rbXNnCWMJNjAwCXJv
-b3QJcm9vdAkxCTExCS0JLQktDQo+ICAvZGV2L21lbQljCTY0MAlyb290CWttZW0JMQkxCS0JLQkt
-DQo+IC0vZGV2L251bGwJYwk2NjYJcm9vdAlyb290CTEJMwktCS0JLQ0KPiAtL2Rldi9yYW0JYgk2
-NDAJcm9vdAlyb290CTEJMAkwCTEJNA0KPiAtL2Rldi90dHkJYwk2NjIJcm9vdAl0dHkJNQkwCS0J
-LQktDQo+IC0vZGV2L3R0eQljCTY2Nglyb290CXR0eQk0CTAJMAkxCTkNCj4gLS9kZXYvdHR5Uwlj
-CTY0MAlyb290CXR0eQk0CTY0CTAJMQkxDQo+IC0vZGV2L3R0eVNBCWMJNjQwCXJvb3QJdHR5CTIw
-NAk1CTAJMQkxDQo+IC0vZGV2L3plcm8JYwk2NDQJcm9vdAlyb290CTEJNQktCS0JLQ0KPiArL2Rl
-di9tbWNibGswCWIJNjYwCXJvb3QJZGlzawkxNzkJMAktCS0JLQ0KPiArL2Rldi9tbWNibGswcAli
-CTY2MAlyb290CWRpc2sJMTc5CTEJMQkxCTQNCj4gIC9kZXYvbXRkCWMJNjYwCXJvb3QJZGlzawk5
-MAkwCTAJMgk4DQo+ICAvZGV2L210ZGJsb2NrCWIJNjQwCXJvb3QJcm9vdAkzMQkwCTAJMQk4DQo+
-IC0vZGV2L2NvbnNvbGUJYwk2NjIJcm9vdAl0dHkJNQkxCS0JLQktDQo+ICsvZGV2L251bGwJYwk2
-NjYJcm9vdAlyb290CTEJMwktCS0JLQ0KPiArL2Rldi9yYW0JYgk2NDAJcm9vdAlyb290CTEJMAkw
-CTEJNA0KPiAgL2Rldi9yYW5kb20JYwk2NDQJcm9vdAlyb290CTEJOAktCS0JLQ0KPiArL2Rldi9y
-dGMJYwk2NDQJcm9vdAlyb290CTI1NAkwCTAJMQkyDQo+ICsvZGV2L3NkYQliCTY2MAlyb290CWRp
-c2sJOAkwCS0JLQktDQo+ICsvZGV2L3NkYQliCTY2MAlyb290CWRpc2sJOAkxCTEJMQk0DQo+ICsv
-ZGV2L3NkYgliCTY2MAlyb290CWRpc2sJOAkxNgktCS0JLQ0KPiArL2Rldi9zZGIJYgk2NjAJcm9v
-dAlkaXNrCTgJMTcJMQkxCTQNCj4gKy9kZXYvdHR5CWMJNjYyCXJvb3QJdHR5CTUJMAktCS0JLQ0K
-PiArL2Rldi90dHkJYwk2NjYJcm9vdAl0dHkJNAkwCTAJMQk4DQo+ICsvZGV2L3R0eVMJYwk2NDAJ
-cm9vdAl0dHkJNAk2NAkwCTEJMg0KPiAgL2Rldi91cmFuZG9tCWMJNjQ0CXJvb3QJcm9vdAkxCTkJ
-LQktCS0NCj4gKy9kZXYvemVybwljCTY0NAlyb290CXJvb3QJMQk1CS0JLQktDQo+IC0tDQo+IDEu
-OC41LjQNCj4gDQoNCg==
+Hi Laurentiu,
+
+Am 2014-03-03 09:38, schrieb Laurentiu Palcu:
+> This is the correct behavior. We shouldn't relocate binaries that use
+> host's dynamic loader.
+> 
+>> When I install the SDK with -S (copy the relocate scripts), and
+>> remove the condition around line 95, the binaries work as expected.
+> Can you please run the installer script with "-R" so it doesn't perform
+> any relocation on binaries, and then:
+> 
+> readelf -p ".interp"
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+> 
+> It looks like the default dynamic loader path of the toolchain binaries
+> start with /lib* or /usr/lib* which is not quite right... It should be:
+> ${SDKPATH}/sysroots/${SDK_SYS}.
+
+$ readelf -p ".interp"
+/usr/local/oecore-x86_64-non-reloc/sysroots/x86_64-angstromsdk-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-gcc
+
+String dump of section '.interp':
+  [     0]  /lib64/ld-linux-x86-64.so.2
+
+
+So this looks wrong then, right? 
+
+I also get the same for python and qmake:
+$ readelf -p ".interp" 
+/usr/local/oecore-x86_64-new/sysroots/x86_64-angstromsdk-linux/usr/bin/python2
+
+String dump of section '.interp':
+  [     0]  /lib64/ld-linux-x86-64.so.2
+
+$ readelf -p ".interp" 
+/usr/local/oecore-x86_64-new/sysroots/x86_64-angstromsdk-linux/usr/bin/qmake2
+
+
+String dump of section '.interp':
+  [     0]  /lib64/ld-linux-x86-64.so.2
+
+How can I make sure all those binaries get linked against the SDK link
+loader?
+
+--
+Stefan
 
