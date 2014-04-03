@@ -1,35 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A66686E4CC;
-	Thu,  3 Apr 2014 13:06:20 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id w62so1834316wes.0
-	for <multiple recipients>; Thu, 03 Apr 2014 06:06:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=1UXJ2eSdeF/SEVqy2wOZTlvVZm8Rv1a0yc2VVRypb8M=;
-	b=qnnzwZ54ZSgqmArPwD78ob8FXyyjC6lA60hsaTFz1XQsVTAub3xO0hpxdCMZSkdGap
-	eE1jUgNAJof07hwR2L1sxXnKdNeFrsYVDuj+8swe3l0NYhMsa9PPrVLx8WwGx2pvs/BZ
-	0IKJko6gcosOt4hgHIdtVO8+ovPAsS0BhOJVlOvTwJU/HymZ9lvVieLwIZ2j3yrsiGkD
-	udA89KZwFVODW0ByOHnAaG0W188Eu+/3/qKlflg2Q/rm9YudHt1ynQZhttpVjKuS84wo
-	UE5pJMqzZKTURcVakNzfGxlThI1n0eMuN4XpCOkOLFzmbQELrSCERUmZ6Ezj0UQa6HhB
-	RfMw==
-X-Received: by 10.180.211.208 with SMTP id ne16mr37479147wic.21.1396530368705; 
-	Thu, 03 Apr 2014 06:06:08 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	u1sm11925427eex.31.2014.04.03.06.06.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Apr 2014 06:06:07 -0700 (PDT)
-Date: Thu, 3 Apr 2014 15:06:09 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140403130609.GF2132@jama>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C4606E4CC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Apr 2014 13:13:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Apr 2014 06:13:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,787,1389772800"; d="scan'208";a="513682338"
+Received: from pmcgurk-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.138])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2014 06:13:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 03 Apr 2014 14:13:05 +0100
+Message-ID: <1696721.rgbfGmBHri@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.7-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <1396526409.2910.86.camel@ted>
+References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
+	<533B7788.7000301@windriver.com> <1396526409.2910.86.camel@ted>
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: State of bitbake world, Failed tasks 2014-04-03
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,185 +34,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Apr 2014 13:06:25 -0000
-X-Groupsio-MsgNum: 52125
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="V4b9U9vrdWczvw78"
-Content-Disposition: inline
-
---V4b9U9vrdWczvw78
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Apr 2014 13:13:25 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Sun, Mar 30, 2014 at 01:28:00AM +0100, Martin Jansa wrote:
-> Be aware that I plan to run test-dependencies script for next few days,
-> so changes to meta-oe will be delayed until it's finished and I can use
-> jenkins again to test incoming changes.
+On Thursday 03 April 2014 13:00:09 Richard Purdie wrote:
+> On Wed, 2014-04-02 at 10:35 +0800, Kang Kai wrote:
+> > On 2014=E5=B9=B403=E6=9C=8831=E6=97=A5 22:20, Kai Kang wrote:
+> > > From: Roy Li <rongqing.li@windriver.com>
+> > >=20
+> > > When native package is built, use the uname to return the kernel
+> > > version.
+> > >=20
+> > > When target is built, read kernel version from
+> > > ${STAGING_KERNEL_DIR}/kernel-abiversion to avoid to use the hardc=
+ode
+> > > kernel version.
+> > >=20
+> > > Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> > > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > > ---
+> > >=20
+> > >   meta/recipes-support/nss/nss.inc | 15 +++++++++++++--
+> > >   1 file changed, 13 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/meta/recipes-support/nss/nss.inc
+> > > b/meta/recipes-support/nss/nss.inc index 404decc..f24da68 100644
+> > > --- a/meta/recipes-support/nss/nss.inc
+> > > +++ b/meta/recipes-support/nss/nss.inc
+> > > @@ -26,6 +26,7 @@ SRC_URI_append_class-target =3D "\
+> > >=20
+> > >   inherit siteinfo
+> > >   PR =3D "r0"
+> > >   DEPENDS =3D "sqlite3 nspr zlib nss-native"
+> > >=20
+> > > +DEPENDS_append_class-target +=3D "virtual/kernel"
+> > >=20
+> > >   DEPENDS_class-native =3D "sqlite3-native nspr-native zlib-nativ=
+e"
+> > >   RDEPENDS_${PN} =3D "perl"
+> > >=20
+> > > @@ -37,12 +38,24 @@ TARGET_CC_ARCH +=3D "${LDFLAGS}"
+> > >=20
+> > >   do_compile_prepend_class-native() {
+> > >  =20
+> > >       export NSPR_INCLUDE_DIR=3D${STAGING_INCDIR_NATIVE}
+> > >       export NSPR_LIB_DIR=3D${STAGING_LIBDIR_NATIVE}
+> > >=20
+> > > +    export OS_RELEASE=3D`uname -r`
+> > >=20
+> > >   }
+> > >  =20
+> > >   do_compile_prepend_class-nativesdk() {
+> > >  =20
+> > >       export LDFLAGS=3D""
+> > >  =20
+> > >   }
+> > >=20
+> > > +do_compile_prepend_class-target() {
+> > > +    export OS_RELEASE=3D`cat ${STAGING_KERNEL_DIR}/kernel-abiver=
+sion|sed
+> > > 's/-.*//'` +}
+> > > +
+> > > +do_install_prepend_class-native() {
+> > > +    export OS_RELEASE=3D`uname -r`
+> > > +}
+> > > +
+> > > +do_install_prepend_class-target() {
+> > > +    export OS_RELEASE=3D`cat ${STAGING_KERNEL_DIR}/kernel-abiver=
+sion|sed
+> > > 's/-.*//'` +}
+> > >=20
+> > >   do_compile() {
+> > >  =20
+> > >       export CROSS_COMPILE=3D1
+> > >       export NATIVE_CC=3D"gcc"
+> > >=20
+> > > @@ -57,7 +70,6 @@ do_compile() {
+> > >=20
+> > >       export NSS_USE_SYSTEM_SQLITE=3D1
+> > >       export NSS_ENABLE_ECC=3D1
+> > >=20
+> > > -    export OS_RELEASE=3D3.4
+> >=20
+> > How about use var LINUXLIBCVERSION:
+> >=20
+> > export OS_RELEASE=3D"${@d.getVar('LINUXLIBCVERSION', True)}"
+> >=20
+> > it should be the same value with kernel version, right?
+>=20
+> As others have replied, that is usually much more recent than the old=
+est
+> kernel we support. What does nss do with this value? Is it about the
+> header versions? Would something run on an older kernel with a newer
+> value for OS_RELEASE?
+>=20
+> We also have the OLDEST_KERNEL variable (currently at 2.6.16) FWIW.
 
-I've just started this long test-dependencies build so jenkins will be busy
-for next 14 days or so, but I'll send complete qa.log in advance as soon as
-it finishes building world from scratch.
+Incidentally, I think maybe for 1.7 it's time we bumped OLDEST_KERNEL. =
+What a=20
+sensible minimum would be though I'm not sure. The minimum version for =
+udev=20
+182 would be one choice, but I believe there are people still using old=
+er=20
+kernels even than that.
 
-The report looks a lot better, thanks to everybody who sent patches! Be awa=
-re
-that qemuarm still shows a lot more failures, that's because only last qemu=
-x86-64
-build contained all fixes from ML.
-
-Here is just qemux86-64 build:
-  meta-qt5/recipes-qt/qt5/qtbase_5.2.1.bb, do_configure
-  meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-  openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
-  meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, do_insta=
-ll
-  meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobil=
-edevice_1.1.4.bb, do_configure
-  meta-openembedded/meta-gnome/recipes-gnome/abiword/abiword_3.0.0.bb, do_c=
-ompile
-  meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_compile
-  meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-soft_1=
-=2E15.1.bb, do_compile
-  meta-openembedded/meta-gnome/recipes-gnome/gnome-backgrounds/gnome-backgr=
-ounds_2.32.0.bb, do_configure
-  meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_compile
-  meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.bb, =
-do_compile
-  openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb=
-, do_configure
-  meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, d=
-o_configure
-  meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_compi=
-le
-  meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, do_c=
-onfigure
-
-qtbase was broken by one patch from oe-devel ML, I've removed it for now.
-
-abiword was upgraded to fix failure, but will need some more changes.
-
-openal-soft, gst-ffmpeg and xbmc are failing because now world builds set P=
-_V for libav
-to use version 9 needed by newer mplayer (which was failing before because =
-of live555),
-xbmc was always failing, now it only fails a bit sooner in do_configure whe=
-n checking ffmpeg.
-
-emacs is failing because of segfault in qemu, the same symptoms as before:
-http://git.openembedded.org/meta-openembedded/commit/?id=3D72e02b4625dceb0c=
-c72e1edfc28215786c7de63a
-maybe some something was lost in transition to oe-core, or there is new iss=
-ue in pixman or somewhere else:
-http://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics/xo=
-rg-lib/pixman/0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.pat=
-ch
-
-I'll look into gnome-backgrounds and mousepad, because I have pending patch=
-es for them
-which probably don't fix it completely.
-
-Other recipes are still "free" for fixing, please fix them and send reply t=
-o this thread
-when you start looking into it, so that nobody duplicates work.
-
-http://www.openembedded.org/wiki/Bitbake_World_Status
-
-=3D=3D Failed tasks 2014-04-03 =3D=3D
-
-=3D=3D=3D common (7) =3D=3D=3D
-    * meta-openembedded/meta-gnome/recipes-gnome/gnome-backgrounds/gnome-ba=
-ckgrounds_2.32.0.bb, do_configure
-    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
-b, do_configure
-    * meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-so=
-ft_1.15.1.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_c=
-ompile
-    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
-ile
-    * meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, =
-do_configure
-    * openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.1=
-3.bb, do_configure
-
-=3D=3D=3D common-x86 (5) =3D=3D=3D
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.=
-bb, do_compile
-    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
-pile
-    * meta-qt5/recipes-qt/qt5/qtbase_5.2.1.bb, do_configure
-    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
-
-=3D=3D=3D qemuarm (15) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.bb, =
-do_compile
-    * meta-openembedded/meta-oe/recipes-extended/mml-widget/gtkmathview_0.8=
-=2E0.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
-ompile
-    * meta-openembedded/meta-oe/recipes-support/asio/asio_1.4.1.bb, do_comp=
-ile
-    * meta-openembedded/meta-oe/recipes-support/inih/libinih_git.bb, do_ins=
-tall
-    * meta-openembedded/meta-oe/recipes-support/mongodb/mongodb_git.bb, do_=
-compile
-    * meta-openembedded/meta-oe/recipes-support/open-vcdiff/open-vcdiff_0.8=
-=2E3.bb, do_configure
-    * meta-openembedded/meta-xfce/recipes-apps/xarchiver/xarchiver_git.bb, =
-do_configure
-    * meta-openembedded/meta-xfce/recipes-apps/xfce4-taskmanager/xfce4-task=
-manager_git.bb, do_configure
-    * meta-openembedded/meta-xfce/recipes-panel-plugins/closebutton/xfce4-c=
-losebutton-plugin_git.bb, do_configure
-    * meta-openembedded/meta-xfce/recipes-xfce/xfce4-settings/xfce4-setting=
-s_git.bb, do_configure
-    * meta-openembedded/meta-xfce/recipes-xfce/xfwm4/xfwm4_git.bb, do_confi=
-gure
-    * meta-qt5/recipes-qt/qt5/qtwebkit-examples_5.2.1.bb, do_compile
-    * openembedded-core/meta/recipes-bsp/grub/grub_git.bb, do_package
-    * openembedded-core/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb, d=
-o_compile
-
-
-=3D=3D=3D qemux86 (1) =3D=3D=3D
-    * meta-openembedded/meta-gnome/recipes-gnome/abiword/abiword_2.8.6.bb, =
-do_compile
-
-=3D=3D=3D qemux86_64 (3) =3D=3D=3D
-    * meta-openembedded/meta-gnome/recipes-gnome/abiword/abiword_3.0.0.bb, =
-do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, do_i=
-nstall
-    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
-obiledevice_1.1.4.bb, do_configure
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||22    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140401_012017.log/
-|-
-||qemux86       ||20    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140401_122021.log//
-|-
-||qemux86_64    ||15    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140402_111852.log/
-|}
+Cheers,
+Paul
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---V4b9U9vrdWczvw78
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlM9XMEACgkQN1Ujt2V2gBxKrACfSiMMZ0se2djsRzcEZs3Mz7/g
-caAAn2O+A/LJDBJq7XG5p/OPBTYsJ/KQ
-=gATw
------END PGP SIGNATURE-----
-
---V4b9U9vrdWczvw78--
