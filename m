@@ -1,30 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B486760DD7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Apr 2014 14:17:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s33EHWMK006065
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 3 Apr 2014 07:17:32 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Thu, 3 Apr 2014 07:17:31 -0700
-Message-ID: <533D6D79.5010703@windriver.com>
-Date: Thu, 3 Apr 2014 22:17:29 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CFEB617AA;
+	Thu,  3 Apr 2014 14:24:31 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id db12so310694veb.38
+	for <multiple recipients>; Thu, 03 Apr 2014 07:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=+B8xDxHWgYg8BvGvYEJzWciYrJffrPVgxg3DGyxALl8=;
+	b=wP40+rUyXLv8zJh2SZnFFyuXMRLL5h8kwtZwld+4b+MFwaKSRLkmRHIeCa85uEbspG
+	36B4IP1vxlAQ7P+oKSdrXxGUU1qtbXEQbxXDBMGgM/7m8advHkPFJgP/QhEdk6tzbVJ4
+	3u0g10jLeOtxgNs72Tps5KjsV8mR8TS+PcPMJIYAfFBiEmd2queGWHC5Bbps4h4z8cHO
+	LO9B4m4L13lzTHq/nsgPDd5y2Z3wnYpRxNuOkgTJdirT480TCevYktTnlAJgNPmGXSuB
+	KhaLeeFAuKhoXJcYFD5vlA0X1Jarj3H71XMUSfD63hWZJgqjTf7y/zVFgzkILNFCNd1r
+	3+8w==
 MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>, Denys Dmytriyenko <denis@denix.org>
-References: <1396313895-21200-1-git-send-email-denis@denix.org>
-	<CANyK_8cu-czs-qmB1PJHosLt-TYnmu=u8F9J9ip1MmVZuE7zVA@mail.gmail.com>
-	<CANyK_8f0=bEjKFZGMW7cTEL-_BiXPo9a93zrvz_gwYkH4Nn5vg@mail.gmail.com>
-In-Reply-To: <CANyK_8f0=bEjKFZGMW7cTEL-_BiXPo9a93zrvz_gwYkH4Nn5vg@mail.gmail.com>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][PATCH] opkg-utils: Update to latest git master
+X-Received: by 10.52.104.33 with SMTP id gb1mr6540762vdb.45.1396535072792;
+	Thu, 03 Apr 2014 07:24:32 -0700 (PDT)
+Received: by 10.52.120.4 with HTTP; Thu, 3 Apr 2014 07:24:32 -0700 (PDT)
+In-Reply-To: <20140403130609.GF2132@jama>
+References: <20140403130609.GF2132@jama>
+Date: Thu, 3 Apr 2014 16:24:32 +0200
+Message-ID: <CALbNGRQY409cj2TUy9EoS6d1LQ0O_r+2c9Dowk-h9A7Mcy3QTQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2014-04-03
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,75 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Apr 2014 14:17:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Apr 2014 14:24:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 04/01/2014 09:04 PM, Paul Barker wrote:
-> On 1 April 2014 13:29, Paul Barker <paul@paulbarker.me.uk> wrote:
->> On 1 April 2014 01:58, Denys Dmytriyenko <denis@denix.org> wrote:
->>> From: Denys Dmytriyenko <denys@ti.com>
->>>
->>> The latest commit in opkg-utils allows packages created by opkg-build to be read
->>> by dpkg-deb again.
->>>
->>> (Based on OE-Core master rev: 219944af2700ce9dbc425fac384cd32b0a802123,
->>> but all of the update-alternative fixes from master are skipped)
->>>
->>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->>> Cc: Paul Barker <paul@paulbarker.me.uk>
->>> ---
->>>   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
->>> index 279cb74..fef0d13 100644
->>> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
->>> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
->>> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->>>                       file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
->>>   RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
->>>   RDEPENDS_${PN}_class-native = ""
->>> -SRCREV = "757a1664a440c60e8126443bf984e4bdf374c327"
->>> +SRCREV = "c33b217016ee911718b10c9d57f9912935baf5a9"
->>>   PV = "0.1.8+git${SRCPV}"
->>>
->>>   SRC_URI = "git://git.yoctoproject.org/opkg-utils \
->>> --
->>> 1.9.1
->>>
->>
->> Personally I would prefer rebasing the existing patch and fixing the
->> merge conflict, maintaining the patch author and existing sign offs
->> and adding your sign off to the end. I don't know if there's a policy
->> on this for Yocto Project.
->>
-
-I think that keep the patch in the git repo is preferred if it has been
-merged by the upstream.
-
-But usually, we don't update the recipe (package) for the stable branch,
-so I'm sorry to say that I'm afraid we can't take this patch unless there
-are strong reasons.
-
-Thanks for taking care of this.
-
-// Robert
-
->> I've Cc'd Robert Yang as he's the stable branch maintainer for Dora as
->> per https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
->>
+On Thu, Apr 3, 2014 at 3:06 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Sun, Mar 30, 2014 at 01:28:00AM +0100, Martin Jansa wrote:
+>> Be aware that I plan to run test-dependencies script for next few days,
+>> so changes to meta-oe will be delayed until it's finished and I can use
+>> jenkins again to test incoming changes.
 >
-> Infact, NACK on this. opkg-utils/Makefile @
-> c33b217016ee911718b10c9d57f9912935baf5a9 lists update-alternatives to
-> be installed on 'make install'.
+> I've just started this long test-dependencies build so jenkins will be busy
+> for next 14 days or so, but I'll send complete qa.log in advance as soon as
+> it finishes building world from scratch.
 >
-> If you want just this fix, you need to keep SRCREV as is and add the
-> change from c33b217016ee911718b10c9d57f9912935baf5a9 as a new patch
-> within oe-core.
+> The report looks a lot better, thanks to everybody who sent patches! Be aware
+> that qemuarm still shows a lot more failures, that's because only last qemux86-64
+> build contained all fixes from ML.
 >
-> Thanks,
+> Here is just qemux86-64 build:
+>   meta-qt5/recipes-qt/qt5/qtbase_5.2.1.bb, do_configure
+>   meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+>   openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+>   meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, do_install
+>   meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobiledevice_1.1.4.bb, do_configure
+>   meta-openembedded/meta-gnome/recipes-gnome/abiword/abiword_3.0.0.bb, do_compile
+>   meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_compile
+>   meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-soft_1.15.1.bb, do_compile
+>   meta-openembedded/meta-gnome/recipes-gnome/gnome-backgrounds/gnome-backgrounds_2.32.0.bb, do_configure
+>   meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_compile
+>   meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.bb, do_compile
+>   openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb, do_configure
+>   meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, do_configure
+>   meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_compile
+>   meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, do_configure
 >
+> qtbase was broken by one patch from oe-devel ML, I've removed it for now.
+>
+> abiword was upgraded to fix failure, but will need some more changes.
+After a short look into build log make me guessing that
+
+-PARALLEL_MAKE = ""
+
+was not a good idea...
+
+Will send a follow up patch this evening
+
+Andreas
 
