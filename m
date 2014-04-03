@@ -1,28 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 442E46F595
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B486760DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Apr 2014 13:54:45 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Apr 2014 06:54:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,787,1389772800"; d="scan'208";a="513704238"
-Received: from pmcgurk-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.138])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2014 06:53:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Thu, 03 Apr 2014 14:53:13 +0100
-Message-ID: <5354658.FrfE13FD5F@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.3 (Linux/3.13.7-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
-In-Reply-To: <1396532945.5879.189.camel@phil-desktop.brightsign>
-References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
-	<1696721.rgbfGmBHri@peggleto-mobl5.ger.corp.intel.com>
-	<1396532945.5879.189.camel@phil-desktop.brightsign>
+	Thu,  3 Apr 2014 14:17:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s33EHWMK006065
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 3 Apr 2014 07:17:32 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Thu, 3 Apr 2014 07:17:31 -0700
+Message-ID: <533D6D79.5010703@windriver.com>
+Date: Thu, 3 Apr 2014 22:17:29 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
+To: Paul Barker <paul@paulbarker.me.uk>, Denys Dmytriyenko <denis@denix.org>
+References: <1396313895-21200-1-git-send-email-denis@denix.org>
+	<CANyK_8cu-czs-qmB1PJHosLt-TYnmu=u8F9J9ip1MmVZuE7zVA@mail.gmail.com>
+	<CANyK_8f0=bEjKFZGMW7cTEL-_BiXPo9a93zrvz_gwYkH4Nn5vg@mail.gmail.com>
+In-Reply-To: <CANyK_8f0=bEjKFZGMW7cTEL-_BiXPo9a93zrvz_gwYkH4Nn5vg@mail.gmail.com>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][PATCH] opkg-utils: Update to latest git master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +37,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Apr 2014 13:54:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 03 Apr 2014 14:17:36 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thursday 03 April 2014 14:49:05 Phil Blundell wrote:
-> On Thu, 2014-04-03 at 14:13 +0100, Paul Eggleton wrote:
-> > Incidentally, I think maybe for 1.7 it's time we bumped OLDEST_KERNEL.
-> > What a sensible minimum would be though I'm not sure. The minimum version
-> > for udev 182 would be one choice, but I believe there are people still
-> > using older kernels even than that.
-> 
-> What would be the advantages of bumping it up?
 
-I could be wrong, but my understanding was that EGLIBC functionality specific 
-to a particular kernel version or later is enabled / disabled based upon this 
-value.
 
-Cheers,
-Paul
+On 04/01/2014 09:04 PM, Paul Barker wrote:
+> On 1 April 2014 13:29, Paul Barker <paul@paulbarker.me.uk> wrote:
+>> On 1 April 2014 01:58, Denys Dmytriyenko <denis@denix.org> wrote:
+>>> From: Denys Dmytriyenko <denys@ti.com>
+>>>
+>>> The latest commit in opkg-utils allows packages created by opkg-build to be read
+>>> by dpkg-deb again.
+>>>
+>>> (Based on OE-Core master rev: 219944af2700ce9dbc425fac384cd32b0a802123,
+>>> but all of the update-alternative fixes from master are skipped)
+>>>
+>>> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>>> Cc: Paul Barker <paul@paulbarker.me.uk>
+>>> ---
+>>>   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+>>> index 279cb74..fef0d13 100644
+>>> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+>>> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+>>> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>>>                       file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
+>>>   RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
+>>>   RDEPENDS_${PN}_class-native = ""
+>>> -SRCREV = "757a1664a440c60e8126443bf984e4bdf374c327"
+>>> +SRCREV = "c33b217016ee911718b10c9d57f9912935baf5a9"
+>>>   PV = "0.1.8+git${SRCPV}"
+>>>
+>>>   SRC_URI = "git://git.yoctoproject.org/opkg-utils \
+>>> --
+>>> 1.9.1
+>>>
+>>
+>> Personally I would prefer rebasing the existing patch and fixing the
+>> merge conflict, maintaining the patch author and existing sign offs
+>> and adding your sign off to the end. I don't know if there's a policy
+>> on this for Yocto Project.
+>>
 
--- 
+I think that keep the patch in the git repo is preferred if it has been
+merged by the upstream.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+But usually, we don't update the recipe (package) for the stable branch,
+so I'm sorry to say that I'm afraid we can't take this patch unless there
+are strong reasons.
+
+Thanks for taking care of this.
+
+// Robert
+
+>> I've Cc'd Robert Yang as he's the stable branch maintainer for Dora as
+>> per https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
+>>
+>
+> Infact, NACK on this. opkg-utils/Makefile @
+> c33b217016ee911718b10c9d57f9912935baf5a9 lists update-alternatives to
+> be installed on 'make install'.
+>
+> If you want just this fix, you need to keep SRCREV as is and add the
+> change from c33b217016ee911718b10c9d57f9912935baf5a9 as a new patch
+> within oe-core.
+>
+> Thanks,
+>
 
