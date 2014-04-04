@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AF9DC6B200
+Return-Path: <jatedev@gmail.com>
+Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
+	[209.85.192.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 459896B89F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 20:02:07 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id q108so3844034qgd.38
+	Fri,  4 Apr 2014 20:37:47 +0000 (UTC)
+Received: by mail-qg0-f65.google.com with SMTP id z60so747277qgd.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Apr 2014 13:02:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mZbuMVtJnaCcPzdxEgJQVc3PzYRIq+1wcYOvSBm65W8=;
-	b=LONddchi+q9X48qhErwmZribt9BwhEMwcqeZdjU8ExshuOjAGgltpys4yQE4bmYT/g
-	Wj4oMyg7CpwOieKSMgzDPRQ18ZLcN0P3ztOp0UX4pPKhw2XbIl89f6pEuGQYxI3FpOz4
-	hDpm5skxn8Z9nOv4pcibGCPL9PmfZ5iIrp0NY3qgcDJqQLm7TLrLoYeKKcKGWBoOF09U
-	enEjr2fsJNn3JXoIZ4fFeKlYn/QX9nEi3VnrqaUJtN/HlqoF+NQKk/MvNhd9wDCa1s3P
-	6A3iL5MfNniCaq+Tf8fIYIDqkmZj2BlcUR+Q7UsseG2KT6P9mdPcYLvsGpO0Yq2J4TUa
-	9yHw==
-X-Gm-Message-State: ALoCoQkVEfwllcrq872rdnZmf/93fRETFXYE5Vcgfbz15V7smzGgdEGFOkZJshWsX8qtqTzSprjT
-X-Received: by 10.224.147.77 with SMTP id k13mr17046850qav.64.1396641728711;
-	Fri, 04 Apr 2014 13:02:08 -0700 (PDT)
+	Fri, 04 Apr 2014 13:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=0KsWuBDcyNSnbcFCdyU55F3ZA6SaCusPhWUDIg66aLY=;
+	b=axLypj2XuMRjzDs1mDOYdCY5yqwCmBKhJ5ocUfQbBuzx+EWv6JDP1bd+vWtDG5nnpi
+	/DxIyiNPu03FPZHDvKGqZJZYrejouiZZA3iU1P7Sr4njhu57X2EDtW9o93tnjWy3zxS8
+	GgFHt8n83CqNjEt91u1WXCymFMGKRfWjYlXiY/xTkfwwNus80033k8z4qMora5CLQkjl
+	vPu8bI/YYl+R9yk/rcn/Ui5PuMhXhoM6VCtYyxTTsd/rmPvEk7d0Dh1aZ4v0NWrbpSOq
+	vd2C5qIg9/aULH1uB+cTnQ4pqsdStjvj9Apo1dg8e2J579CbCY8yt40EXaOQHAcaZFet
+	XkYw==
 MIME-Version: 1.0
-Received: by 10.140.27.167 with HTTP; Fri, 4 Apr 2014 13:01:48 -0700 (PDT)
-In-Reply-To: <533EE97D.90207@windriver.com>
-References: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
-	<CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
-	<533EE97D.90207@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Apr 2014 21:01:48 +0100
-Message-ID: <CAJTo0LYdmV9bTdttrO_kkjXRGuH3xC9c_h_EnGEo6=dcbxuBdg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: util-macros.do_package failed Re: Build failure
+X-Received: by 10.224.67.131 with SMTP id r3mr17048322qai.75.1396643867941;
+	Fri, 04 Apr 2014 13:37:47 -0700 (PDT)
+Received: by 10.140.23.234 with HTTP; Fri, 4 Apr 2014 13:37:47 -0700 (PDT)
+Date: Fri, 4 Apr 2014 16:37:47 -0400
+Message-ID: <CAPphmgb9DTJ+K010b0CaqZM-_DCiOtWj7mhVPzMvArHczbyKLg@mail.gmail.com>
+From: Jate S <jatedev@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC][PATCH] samba: remove talloc from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,21 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 20:02:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Apr 2014 20:37:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 4 April 2014 18:18, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Maybe we can let the do_package depend on base-passwd:do_populate_sysroot
-> to fix the problem.
+I've only tried this out on dora. There are no other changes, so I
+think it should work for newer branches.
+----
+samba: remove talloc from DEPENDS
 
-I keep on thinking that we need to effectively have a readers/writer
-lock on the sysroot, so that e.g. do_compile() takes a read lock and
-do_populate_sysroot() takes a write lock.  This way very slim races
-such as this (and aclocal disappearing, and binaries being re-written
-whilst being executed, etc) just can't happen.  By having a
-readers/writer lock the stalls for the actual populate of the sysroot
-shouldn't have too great an impact, and would let us remove other
-workarounds we've added (such as the baroque aclocal-copy).
+Samba has a DEPENDS on talloc, but the recipe runs configure
+"--without-libtalloc".
 
-Ross
+The dependency tree causes a rebuild when using a PREMIRROR sstate
+cache. Removing talloc from DEPENDS fixes the problem.
+
+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+
+diff --git a/meta-oe/recipes-connectivity/samba/samba.inc b/meta-oe/recipes-conn
+index 7391bbf..42979c8 100644
+--- a/meta-oe/recipes-connectivity/samba/samba.inc
++++ b/meta-oe/recipes-connectivity/samba/samba.inc
+@@ -1,6 +1,6 @@
+ SECTION = "console/network"
+ LICENSE = "GPL-3.0"
+-DEPENDS = "readline virtual/libiconv talloc zlib popt"
++DEPENDS = "readline virtual/libiconv zlib popt"
+
+ SRC_URI = "http://samba.org/samba/ftp/stable/samba-${PV}.tar.gz \
+            file://volatiles.03_samba \
 
