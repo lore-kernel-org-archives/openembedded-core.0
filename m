@@ -1,33 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A3D5D60C02
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 476586A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 22:44:48 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s34MiXm0002626; Fri, 4 Apr 2014 23:44:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3PGn9LVXfb_J; Fri,  4 Apr 2014 23:44:33 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s34MiRUZ002618
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 4 Apr 2014 23:44:29 +0100
-Message-ID: <1396651461.13862.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 04 Apr 2014 23:44:21 +0100
-In-Reply-To: <CAJTo0LYdmV9bTdttrO_kkjXRGuH3xC9c_h_EnGEo6=dcbxuBdg@mail.gmail.com>
-References: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
-	<CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
-	<533EE97D.90207@windriver.com>
-	<CAJTo0LYdmV9bTdttrO_kkjXRGuH3xC9c_h_EnGEo6=dcbxuBdg@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: util-macros.do_package failed Re: Build failure
+	Fri,  4 Apr 2014 23:22:17 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id y10so4082573wgg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Apr 2014 16:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=FxVuUCisXEZpMbZPs8akHOtcZGPkm7DfetfE0yIv5MY=;
+	b=WqaWXdVY7rDj5Y293KCaMn5K45hk+VtXrHhop2e8ORn/kIKka73VuSO/wNY82HIT1J
+	Y4Op0Z9UMvZ6Jq+nTwQ4EHzmdpuMiV1SDoyjmfwSfLMrSlyt9g1wBz1TTEXKOseSKIH3
+	R7fsfen9OPIRULv70cW31uWl6IKC5kvRi0pAbQJja5PZ8IhcCnK/5ncDpSJsdN5noy6C
+	LgHLR+6902KL/4FrGIuZjUi7vwKXNquUoJoALTooRw5d/stZtijOEgDNEEPs2KuJXm0s
+	0hAsYZPPELz8WgxcSPf2MCddDcQM2IDSC3kja0zXWqCC/laYclmDQVlJz4TMfU5DVx6F
+	VQDw==
+X-Received: by 10.194.80.7 with SMTP id n7mr23842027wjx.8.1396653738560;
+	Fri, 04 Apr 2014 16:22:18 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	4sm22710003eeq.33.2014.04.04.16.22.17 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Apr 2014 16:22:17 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  5 Apr 2014 01:22:19 +0200
+Message-Id: <1396653739-32752-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] test-dependencies.sh: Redirect stderr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,51 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 22:44:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Apr 2014 23:22:21 -0000
 
-On Fri, 2014-04-04 at 21:01 +0100, Burton, Ross wrote:
-> On 4 April 2014 18:18, Robert Yang <liezhi.yang@windriver.com> wrote:
-> > Maybe we can let the do_package depend on base-passwd:do_populate_sysroot
-> > to fix the problem.
-> 
-> I keep on thinking that we need to effectively have a readers/writer
-> lock on the sysroot, so that e.g. do_compile() takes a read lock and
-> do_populate_sysroot() takes a write lock.  This way very slim races
-> such as this (and aclocal disappearing, and binaries being re-written
-> whilst being executed, etc) just can't happen.  By having a
-> readers/writer lock the stalls for the actual populate of the sysroot
-> shouldn't have too great an impact, and would let us remove other
-> workarounds we've added (such as the baroque aclocal-copy).
+* newer bitbake is printing some messages to stderr, we want to log
+  them as well
 
-We've tried this before and "shouldn't" doesn't work out too well in
-practice.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ scripts/test-dependencies.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The aclocal-copy business is actually now an improvement since it only
-accesses things it depends upon which is a good thing as far as I'm
-concerned. Other ways we could possibly improve:
-
-a) Atomically moves files into the sysroot (and I guess move and delete
-for atomic removal). This means they can't "half" be there.
-
-b) Move libs in before binaries. This way a binary can't get run before
-its dependencies are there.
-
-This all continues to hack around the fact its a shared area though and
-I'd imagine regardless of what tricks you play and even if you add in
-locks, there will still be determinism issues.
-
-The conclusion you then reach is that the only way you can ultimately
-solve things is a sysroot per build item. You could do something that
-would perform moderately well with a directory per sysroot item, then
-hardlink these into individual sysroots per workdir.
-
-In many ways, the aclocal-copy change is an experiment for that, we
-should now have the pieces where we could implement such a thing...
-
-Cheers,
-
-Richard
+diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
+index ca7e687..d3212c4 100755
+--- a/scripts/test-dependencies.sh
++++ b/scripts/test-dependencies.sh
+@@ -137,7 +137,7 @@ build_all() {
+   OUTPUT1=${OUTPUT_BASE}/${TYPE}_all
+   mkdir -p ${OUTPUT1}
+   echo "Logs will be stored in ${OUTPUT1} directory"
+-  bitbake -k $targets | tee -a ${OUTPUT1}/complete.log
++  bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
+ }
+ 
+ build_every_recipe() {
+-- 
+1.9.1
 
 
