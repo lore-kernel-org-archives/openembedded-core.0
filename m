@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E210C6B181
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 92A9F6B6BA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 17:47:18 +0000 (UTC)
+	Fri,  4 Apr 2014 17:47:41 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 04 Apr 2014 10:47:19 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 04 Apr 2014 10:47:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,796,1389772800"; d="scan'208";a="507126366"
+X-IronPort-AV: E=Sophos;i="4.97,796,1389772800"; d="scan'208";a="507126321"
 Received: from davidllo-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.87])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2014 10:46:58 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2014 10:46:50 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Apr 2014 18:46:38 +0100
-Message-Id: <0f06fb084f6b7175ae2cc90a76aa941fe1d28283.1396633542.git.paul.eggleton@linux.intel.com>
+Date: Fri,  4 Apr 2014 18:46:35 +0100
+Message-Id: <cover.1396633542.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
-In-Reply-To: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-References: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-References: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-Subject: [dora][PATCH 3/4] classes/image: ignore modules.* changing during multilib image construction
+Subject: [dora][PATCH 0/4] Fixes backported from master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 17:47:22 -0000
+X-List-Received-Date: Fri, 04 Apr 2014 17:47:41 -0000
 
-Since we now run depmod when building images (as the postinst that does
-this is now on kernel-base instead of kernel-image) it is possible to
-have module file differences between the two halves of the multilib image,
-and the code that checks for such differences detects this and fails.
-Whitelist this file to avoid the failure.
+The following changes since commit 590c2135858bb5d0cfc375c0d82ca610550ccd4a:
 
-Specifically, modules.alias, modules.dep and modules.symbol can differ
-along with their .bin counterparts.
+  Revert "buildhistory_analysis: fix error when comparing image contents" (2014-04-04 16:16:39 +0100)
 
-Related to fix for [YOCTO #5392].
+are available in the git repository at:
 
-(From OE-Core master rev: 0a315804bf991664c0948e3024b8e8b9e9085808)
+  git://git.openembedded.org/openembedded-core-contrib paule/dora-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dora-next
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Paul Eggleton (2):
+  classes/kernel: move module postinst commands to kernel-base
+  classes/image: ignore modules.* changing during multilib image
+    construction
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 0986858..aaaa224 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -410,7 +410,7 @@ log_check() {
- 	done
- }
- 
--MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|"
-+MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|/lib/modules/[^/]*/modules.*|"
- MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
- MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
- 
+Richard Purdie (2):
+  sstatesig.py: Fix image regeneration issue
+  sstatesig: Anchor inherits class tests
+
+ meta/classes/image.bbclass  | 2 +-
+ meta/classes/kernel.bbclass | 7 +++++--
+ meta/lib/oe/sstatesig.py    | 6 ++++--
+ 3 files changed, 10 insertions(+), 5 deletions(-)
+
 -- 
 1.9.0
 
