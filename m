@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A1FB6E4CC
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2913E6E4CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 10:41:21 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s34AeeIj004518; Fri, 4 Apr 2014 11:41:16 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cYgurPTyC7-0; Fri,  4 Apr 2014 11:41:16 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s34AfDjq004601
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 4 Apr 2014 11:41:14 +0100
-Message-ID: <1396608067.2910.110.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Fri, 04 Apr 2014 11:41:07 +0100
-In-Reply-To: <946d60db486d1ac1c5b3aecf64b029e8a15d42de.1396600342.git.Chong.Lu@windriver.com>
-References: <cover.1396600342.git.Chong.Lu@windriver.com>
-	<946d60db486d1ac1c5b3aecf64b029e8a15d42de.1396600342.git.Chong.Lu@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernelshark/trace-cmd: fix syntax error of shell
+	Fri,  4 Apr 2014 10:42:48 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id r20so973990wiv.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Apr 2014 03:42:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SxkRUUKImgTpLKhk1B9Y/AS1T5eiB/8sJYH3iS9YPo0=;
+	b=j2nfZofQ2N4G3n8JNco3uXhEkrlSB0bF4ZcL6iM9yHWgnfk0Rz7Mr0iBcJVJaCZAoF
+	be/Xru9+UsVuarzw9iWakOSA78yYlOp1q1LsvIpUHZ8Q8tCJ+GSWomPxyYGsRyu08nnC
+	fUfI+cEJFqzPSgC4g4t8OEMUf6GgZ7t/e9wgElwBhv7B0KMtemIpZGQLivPeUnq01fis
+	qQT2RIdHmxUMfAygfOqAo0NFqa086iCKPfF6M0VBmejZBOlXLQ278Cx59MdkFUU9MKJa
+	sf9F26+tG88vY5TM/74BT8QEJudNc5Xs5hf4WV8R43Z/j+z/ZdGoQmPYH8tAiI898rRB
+	5V5g==
+X-Gm-Message-State: ALoCoQlnjac/iDf+w5eDZ9aWSAiKDOeM28RyJJMQPXYttXP0GhWFl6Uv8lD6dF4v0MsRoF5t+Nl1
+X-Received: by 10.194.161.168 with SMTP id xt8mr18802742wjb.35.1396608168877; 
+	Fri, 04 Apr 2014 03:42:48 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id x3sm18682136eep.17.2014.04.04.03.42.47
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Apr 2014 03:42:47 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Apr 2014 12:42:46 +0200
+Message-Id: <1396608166-4965-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [RFC][PATCHv2] dbus: split dbus-launch out into its own package (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,134 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 10:41:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Apr 2014 10:42:52 -0000
 
-On Fri, 2014-04-04 at 16:33 +0800, Chong Lu wrote:
-> Delete "<<<" syntax of bash in Makefile, else we would get following error:
-> 
->         Syntax error: redirection unexpected
-> 
-> [YOCTO #6112]
-> 
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->  meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
->  .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ++++++++++++++++++++++
->  .../trace-cmd-fix-syntax-error-of-shell.patch      | 30 ++++++++++++++++++++++
->  meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
->  4 files changed, 63 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->  create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-> 
-> diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-> index 9268a50..d61097d 100644
-> --- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-> +++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-> @@ -15,7 +15,8 @@ inherit pkgconfig pythonnative
->  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
->             file://addldflags.patch \
->             file://make-docs-optional.patch \
-> -           file://blktrace-api-compatibility.patch"
-> +           file://blktrace-api-compatibility.patch \
-> +           file://kernelshark-fix-syntax-error-of-shell.patch"
->  S = "${WORKDIR}/git"
->  
->  EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
-> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-> new file mode 100644
-> index 0000000..994a9fa
-> --- /dev/null
-> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-> @@ -0,0 +1,30 @@
-> +kernelshark: fix syntax error of shell
-> +
-> +Delete "<<<" syntax of bash in Makefile, else we would get following error:
-> +
-> +	Syntax error: redirection unexpected
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
+When installing 'dbus-1' it will drag in X11 libs due to ${bindir}/dbus-launch being in ${PN}. Move it to a seperate package to be able to generate a small filesystem (e.g. initrd) without X11 libs without needed a seperate DISTRO.conf.
 
-How is this embedded specific?
+There will be no functional changes for existing image and packagegroup recipes since ${PN} has 'dbus-launch' in RRECOMMENDS. So to filter out dbus-launch you need to add it to BAD_RECOMMENDATIONS in the image recipe.
 
-Cheers,
+This is in essence a revert of:
 
-Richard
+	commit c02364f36e228835ea5d7fd4e1d347fd451f8544
+	Author: Radu Moisan <radu.moisan@intel.com>
+	Date:   Tue Jul 31 09:23:23 2012 +0300
 
-> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> +---
-> + Makefile |    3 +--
-> + 1 file changed, 1 insertion(+), 2 deletions(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index c1fa906..be84415 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -89,8 +89,7 @@ endif
-> + 
-> + # $(call test-build, snippet, ret) -> ret if snippet compiles
-> + #                                  -> empty otherwise
-> +-test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
-> +-	                  <<<'$1' && echo y), $2)
-> ++test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
-> + 
-> + # have udis86 disassembler library?
-> + udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
-> +-- 
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-> new file mode 100644
-> index 0000000..79abad5
-> --- /dev/null
-> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-> @@ -0,0 +1,30 @@
-> +trace-cmd: fix syntax error of shell
-> +
-> +Delete "<<<" syntax of bash in Makefile, else we would get following error:
-> +
-> +       Syntax error: redirection unexpected
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> +---
-> + Makefile |    3 +--
-> + 1 file changed, 1 insertion(+), 2 deletions(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index c1fa906..7973c53 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -89,8 +89,7 @@ endif
-> + 
-> + # $(call test-build, snippet, ret) -> ret if snippet compiles
-> + #                                  -> empty otherwise
-> +-test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
-> +-	                  <<<'$1' && echo y), $2)
-> ++test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
-> + 
-> + # have udis86 disassembler library?
-> + udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
-> +-- 
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-> index 74eafbb..a0c823b 100644
-> --- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-> @@ -18,6 +18,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
->             file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
->             file://trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch \
->             file://trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch \
-> +           file://trace-cmd-fix-syntax-error-of-shell.patch \
->  "
->  S = "${WORKDIR}/git"
->  
-> -- 
-> 1.8.1.2
-> 
+	    dbus: include dbus-launch in the main dbus package
 
+But as pointed out above, ${bindir}/dbus-launch will end up in the rootfs as before, so the issue behind c02364f36e228835ea5d7fd4e1d347fd451f8544 of a missing ${bindir}/dbus-launch won't suddenly pop up.
+
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+
+I've boot tested this both with BAD_RECOMMENDATIONS and without and it seems to work as intended. The big question is how to address the dbus-x11 (R)PROVIDE entries. I feel 'dbus-launch' is a much better name than 'dbus-x11', but I don't mind respinning this patch with 'dbus-x11'.
+
+Changes since v1:
+	* extra underscore in RDEPENDS removed
+	* Change to ${PN}-launch
+
+
+ meta/recipes-core/dbus/dbus.inc | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 677ff78..28074be 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -37,7 +37,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-launch"
+ 
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+@@ -51,15 +51,20 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-cleanup-sockets \
+                ${bindir}/dbus-send \
+                ${bindir}/dbus-monitor \
+-               ${bindir}/dbus-launch \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+                ${datadir}/dbus-1/services \
+                ${datadir}/dbus-1/system-services \
+                ${systemd_unitdir}/system/"
++
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
++
++FILES_${PN}-launch = "${bindir}/dbus-launch"
++RDEPENDS_${PN}-launch = "${PN}"
++RRECOMMENDS_${PN} += "${PN}-launch"
++
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+ 
+ pkg_postinst_dbus() {
+-- 
+1.9.0
 
 
