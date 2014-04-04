@@ -1,24 +1,37 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 15D7F6E85F
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 40D546A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 08:33:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s348XSmu016087
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  4 Apr 2014 08:53:40 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id p61so3097287wes.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Apr 2014 01:33:28 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 4 Apr 2014 01:33:27 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Apr 2014 16:33:25 +0800
-Message-ID: <cover.1396600342.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-Subject: [PATCH 0/1] kernelshark/trace-cmd: fix syntax error of shell
+	Fri, 04 Apr 2014 01:53:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dI1jZ+fmHF2KiWL8RGUYbNvyYtMdUbrRkIPZts394UY=;
+	b=Za1sqNAgm0USJViJLN+7vkGVAR5MSb3pvo69FZG1OefGiXMrNZrhtUogHFCbSFHzZw
+	yT3CQgWxFCeC9G10K9/UiU5rOkXWJkHvtDDYu8ZzdrbO7PbV59Q/tWJKRN7e4O6Ht4mo
+	BEH6IcxVxe6/4g7xi2vKj+oFpYgSIY1IXbMMnCFWvXEIZcnMl9P0jimSc+UTXX43rjE+
+	4kYiiyKk9gb5mJgJdXmg04AEzkF5UhB03gqmx8h9xLU1GjpBbNeGeSoy7v8tltW20er2
+	EMzuK7sFAzV7GgBMa3teOXmPia5JQ8AFPzJ35cQsgGDMTzXGmBLK38WrR86pkpecwBDK
+	/8zQ==
+X-Gm-Message-State: ALoCoQm6QKL3nrtFpvCkZKgc2ARE3506HMqNnrGldc3Er6TyNB/HdGZjRSfVt5a4d7Kbb7VlojJ9
+X-Received: by 10.180.87.233 with SMTP id bb9mr2784277wib.10.1396601620443;
+	Fri, 04 Apr 2014 01:53:40 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id
+	w12sm18056563eez.36.2014.04.04.01.53.39 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Apr 2014 01:53:39 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Apr 2014 10:53:37 +0200
+Message-Id: <1396601617-29638-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [RFC][PATCH] dbus: split dbus-launch out into its own package (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +44,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 08:33:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 04 Apr 2014 08:53:43 -0000
 
-The following changes since commit a5775abb1951ec6cdc7afacd1ae87189e398cff8:
+When installing 'dbus-1' it will drag in X11 libs due to ${bindir}/dbus-launch being in ${PN}. Move it to a seperate package to be able to generate a small filesystem (e.g. initrd) without X11 libs without needed a seperate DISTRO.conf.
 
-  bitbake: user-manual-metadata.xml: Added new section on mapping functions. (2014-04-02 14:15:35 +0100)
+There will be no functional changes for existing image and packagegroup recipes since ${PN} has 'dbus-launch' in RRECOMMENDS. So to filter out dbus-launch you need to add it to BAD_RECOMMENDATIONS in the image recipe.
 
-are available in the git repository at:
+This is in essence a revert of:
 
-  git://git.pokylinux.org/poky-contrib chonglu/kernelshark
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/kernelshark
+	commit c02364f36e228835ea5d7fd4e1d347fd451f8544
+	Author: Radu Moisan <radu.moisan@intel.com>
+	Date:   Tue Jul 31 09:23:23 2012 +0300
 
-Chong Lu (1):
-  kernelshark/trace-cmd: fix syntax error of shell
+	    dbus: include dbus-launch in the main dbus package
 
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
- .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ++++++++++++++++++++++
- .../trace-cmd-fix-syntax-error-of-shell.patch      | 30 ++++++++++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
- 4 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
+But as pointed out above, ${bindir}/dbus-launch will end up in the rootfs as before, so the issue behind c02364f36e228835ea5d7fd4e1d347fd451f8544 of a missing ${bindir}/dbus-launch won't suddenly pop up.
 
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+
+I've boot tested this both with BAD_RECOMMENDATIONS and without and it seems to work as intended. The big question is how to address the dbus-x11 (R)PROVIDE entries. I feel 'dbus-launch' is a much better name than 'dbus-x11', but I don't mind respinning this patch with 'dbus-x11'.
+
+
+ meta/recipes-core/dbus/dbus.inc | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 677ff78..28074be 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -37,7 +37,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib dbus-launch"
+ 
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+@@ -51,15 +51,20 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-cleanup-sockets \
+                ${bindir}/dbus-send \
+                ${bindir}/dbus-monitor \
+-               ${bindir}/dbus-launch \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+                ${datadir}/dbus-1/services \
+                ${datadir}/dbus-1/system-services \
+                ${systemd_unitdir}/system/"
++
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
++
++FILES_dbus-launch = "${bindir}/dbus-launch"
++RDEPENDS__dbus-launch = "${PN}"
++RRECOMMENDS_${PN} += "dbus-launch"
++
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+ 
+ pkg_postinst_dbus() {
 -- 
-1.8.1.2
+1.9.0
 
 
