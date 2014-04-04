@@ -1,30 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 294926B728
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B38256121F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 14:14:58 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s34EElO3014911; Fri, 4 Apr 2014 15:14:47 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OFUVQM7CU7al; Fri,  4 Apr 2014 15:14:47 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s34EEi9i014907
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 4 Apr 2014 15:14:45 +0100
-Message-ID: <1396620878.13862.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex DAMIAN <alexandru.damian@intel.com>
-Date: Fri, 04 Apr 2014 15:14:38 +0100
-In-Reply-To: <1396620314-32484-1-git-send-email-alexandru.damian@intel.com>
-References: <1396620314-32484-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 08/15] toaster.bbclass: image file is missing a "/"
+	Fri,  4 Apr 2014 15:13:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s34FDU7G020569
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 4 Apr 2014 08:13:30 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Fri, 4 Apr 2014 08:13:30 -0700
+Message-ID: <533ECC17.8090502@windriver.com>
+Date: Fri, 4 Apr 2014 23:13:27 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Koen Kooi <koen.kooi@linaro.org>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>,
+	"Purdie, Richard" <richard.purdie@intel.com>
+References: <1396602904-14596-1-git-send-email-koen.kooi@linaro.org>
+	<465539862.Xb3zOTJjse@peggleto-mobl5.ger.corp.intel.com>
+	<533E91BD.8000107@linaro.org>
+In-Reply-To: <533E91BD.8000107@linaro.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [Dora][PATCH] buildhistory-diff: add ability to report version changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 14:15:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 04 Apr 2014 15:13:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2014-04-04 at 15:05 +0100, Alex DAMIAN wrote:
-> From: Cristiana Voicu <cristiana.voicu@intel.com>
-> 
-> Relaced the key with the join between path and file name.
-> 
-> [YOCTO #6090]
-> 
-> Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
-> ---
->  meta/classes/toaster.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-> index 9fb2cec..d2fa82d 100644
-> --- a/meta/classes/toaster.bbclass
-> +++ b/meta/classes/toaster.bbclass
-> -- 
-> 1.9.1
 
-This patch does not look right...
 
-Cheers,
+On 04/04/2014 07:04 PM, Koen Kooi wrote:
+> On 04/04/2014 01:00 PM, Paul Eggleton wrote:
+>> On Friday 04 April 2014 11:15:04 Koen Kooi wrote:
+>>> From: Paul Eggleton <paul.eggleton@linux.intel.com>
+>>>
+>>> Add a -v/--report-ver option to report changes in PKGE/PKGV/PKGR even
+>>> if the value is the same as the default from PE/PV/PR.
+>>>
+>>> Also add a -a/--report-all option to report all changes instead of just
+>>> the default significant ones.
+>>
+>> Hmm, looking at this I'm not sure that this is the right fix for a stable
+>> branch - ideally we should just fix the error rather than backporting the
+>> feature IMO.
+>
+> I'm fine with either, this was the easiest for me, a single cherrypick.
+>
 
-Richard
+I'm very sorry to say that we need to revert the following commit from
+dora, we don't need it on dora, it's my fault, I need to be more careful
+when backport the patches:
 
+commit 5b616aa7b618f6ed221d6fa9738220a2c2349f7d
+Author: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date:   Sun Nov 17 12:28:19 2013 +0000
+
+     buildhistory_analysis: fix error when comparing image contents
+
+RP, would you please help to revert it from dora ?
+
+// Robert
 
