@@ -1,30 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ED1B6E89C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C4346A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 02:53:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s342r9TN013617
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 3 Apr 2014 19:53:09 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 3 Apr 2014 19:53:09 -0700
-Message-ID: <533E1E91.1020405@windriver.com>
-Date: Fri, 4 Apr 2014 10:53:05 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Fri,  4 Apr 2014 03:21:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s343Lmxi012663
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 Apr 2014 20:21:48 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 3 Apr 2014 20:21:47 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Apr 2014 23:21:44 -0400
+Message-ID: <cover.1396581547.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1396275649-32352-1-git-send-email-kai.kang@windriver.com>
-	<1396275649-32352-2-git-send-email-kai.kang@windriver.com>
-	<533B7788.7000301@windriver.com> <1396526409.2910.86.camel@ted>
-In-Reply-To: <1396526409.2910.86.camel@ted>
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
+Subject: [dora] [PATCH 0/2] two fixes for dora
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,102 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 02:53:15 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Fri, 04 Apr 2014 03:21:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On 2014年04月03日 20:00, Richard Purdie wrote:
-> On Wed, 2014-04-02 at 10:35 +0800, Kang Kai wrote:
->> On 2014年03月31日 22:20, Kai Kang wrote:
->>> From: Roy Li <rongqing.li@windriver.com>
->>>
->>> When native package is built, use the uname to return the kernel version.
->>>
->>> When target is built, read kernel version from ${STAGING_KERNEL_DIR}/kernel-abiversion
->>> to avoid to use the hardcode kernel version.
->>>
->>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>> ---
->>>    meta/recipes-support/nss/nss.inc | 15 +++++++++++++--
->>>    1 file changed, 13 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
->>> index 404decc..f24da68 100644
->>> --- a/meta/recipes-support/nss/nss.inc
->>> +++ b/meta/recipes-support/nss/nss.inc
->>> @@ -26,6 +26,7 @@ SRC_URI_append_class-target = "\
->>>    inherit siteinfo
->>>    PR = "r0"
->>>    DEPENDS = "sqlite3 nspr zlib nss-native"
->>> +DEPENDS_append_class-target += "virtual/kernel"
->>>    DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
->>>    RDEPENDS_${PN} = "perl"
->>>    
->>> @@ -37,12 +38,24 @@ TARGET_CC_ARCH += "${LDFLAGS}"
->>>    do_compile_prepend_class-native() {
->>>        export NSPR_INCLUDE_DIR=${STAGING_INCDIR_NATIVE}
->>>        export NSPR_LIB_DIR=${STAGING_LIBDIR_NATIVE}
->>> +    export OS_RELEASE=`uname -r`
->>>    }
->>>    
->>>    do_compile_prepend_class-nativesdk() {
->>>        export LDFLAGS=""
->>>    }
->>>    
->>> +do_compile_prepend_class-target() {
->>> +    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
->>> +}
->>> +
->>> +do_install_prepend_class-native() {
->>> +    export OS_RELEASE=`uname -r`
->>> +}
->>> +
->>> +do_install_prepend_class-target() {
->>> +    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
->>> +}
->>>    do_compile() {
->>>        export CROSS_COMPILE=1
->>>        export NATIVE_CC="gcc"
->>> @@ -57,7 +70,6 @@ do_compile() {
->>>        export NSS_USE_SYSTEM_SQLITE=1
->>>        export NSS_ENABLE_ECC=1
->>>    
->>> -    export OS_RELEASE=3.4
->> How about use var LINUXLIBCVERSION:
->>
->> export OS_RELEASE="${@d.getVar('LINUXLIBCVERSION', True)}"
->>
->> it should be the same value with kernel version, right?
-> As others have replied, that is usually much more recent than the oldest
-> kernel we support. What does nss do with this value? Is it about the
-> header versions? Would something run on an older kernel with a newer
-> value for OS_RELEASE?
+Hi RP,
 
-I misunderstanding the usage of LINUXLIBCVERSION. What nss needs is just 
-current kernel version to export for build:
+Here are two fixes which are sent by Mats Karrman and Valentin Popa for dora.
 
--    export OS_RELEASE=3.4
+// Robert
 
-Currently it is a fix string, and I think it is a problem.
+The following changes since commit ec8ae16e35fd7db6a5bb12412d50ab6f355b0f6e:
 
-Regards,
-Kai
+  image_types.bbclass: use 4096 instead of 8192 bytes-per-inode (2014-03-26 09:43:52 +0000)
 
+are available in the git repository at:
 
->
-> We also have the OLDEST_KERNEL variable (currently at 2.6.16) FWIW.
->
-> Cheers,
->
-> Richard
->
->
->
+  git://git.openembedded.org/openembedded-core-contrib robert/dora-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=robert/dora-next
 
+Mats Kärrman (1):
+  eglibc 2.18: powerpc: Fix time related syscalls
+
+Valentin Popa (1):
+  mesa: build fix for gallium-egl
+
+ .../ppc-fix-time-related-syscalls.patch            |  227 +++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.18.bb            |    1 +
+ ...01-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch |   41 +++
+ ...ate-NativeDisplayType-depending-on-config.patch |  359 --------------------
+ meta/recipes-graphics/mesa/mesa_9.1.6.bb           |   10 +-
+ meta/recipes-graphics/mesa/mesa_git.bb             |   10 +-
+ 6 files changed, 287 insertions(+), 361 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/ppc-fix-time-related-syscalls.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
 
 -- 
-Regards,
-Neil | Kai Kang
+1.7.10.4
 
 
