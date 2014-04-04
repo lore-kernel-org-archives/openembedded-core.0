@@ -1,46 +1,45 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E344160DFA
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from tx2outboundpool.messaging.microsoft.com
+	(tx2ehsobe002.messaging.microsoft.com [65.55.88.12])
+	by mail.openembedded.org (Postfix) with ESMTP id F16546B8D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 11:04:31 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id x48so3261745wes.35
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Apr 2014 04:04:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=5PZ0uTK2+w3S3s/9YDrX2i5MtaifdQWR+B4Uu8iT0s8=;
-	b=gobNAbmQsHn5yXW46KgaDbtYdMmlpeY0dNFcLaUYDrI+tkBQIovxW9kAntHbU0wYL3
-	ejMnl+rKYNPdYWu9qzQhDCGEWnFeEvhAMKE4F8Ex5qz7CsKuiGHtIP4cZumkZ5speLTg
-	SRCwcUWYw6tRBXtxkpUt0nGij/PpVjOae0btIt1IvnxLbA0oxOrjYaHd+JGrwH6tQcae
-	Kk5gGswEwx8urNrUdv4sWJ10EfFGp7KGwhAEyBNBtG1FskFfAWD5dSaE+J4LEs705S/4
-	1XjzCCX5XqzAcpSXAPyWpqy5pgyhpu/hhSWIpIT9zYgpZTHTY46E09faGURTPxzTV6+y
-	/hJw==
-X-Gm-Message-State: ALoCoQkscLHAR/z4O/ZoIKHyLNGt5RtFGEdEHHyez6nBN6TYwLbL68l3XHTAlznCpyqWfLutPFIJ
-X-Received: by 10.194.48.80 with SMTP id j16mr18939114wjn.44.1396609472186;
-	Fri, 04 Apr 2014 04:04:32 -0700 (PDT)
-Received: from ?IPv6:2001:610:612:0:2ad2:44ff:fe4b:bc17?
-	([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id n41sm18818169eeg.4.2014.04.04.04.04.31
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 04 Apr 2014 04:04:31 -0700 (PDT)
-Message-ID: <533E91BD.8000107@linaro.org>
-Date: Fri, 04 Apr 2014 13:04:29 +0200
-From: Koen Kooi <koen.kooi@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Fri,  4 Apr 2014 11:07:32 +0000 (UTC)
+Received: from mail101-tx2-R.bigfish.com (10.9.14.227) by
+	TX2EHSOBE003.bigfish.com (10.9.40.23) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 4 Apr 2014 11:07:29 +0000
+Received: from mail101-tx2 (localhost [127.0.0.1])	by
+	mail101-tx2-R.bigfish.com (Postfix) with ESMTP id D322E4A0291;
+	Fri,  4 Apr 2014 11:07:28 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h2148h1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6h208chzz1de098h8275bh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h268bh26d3h1155h)
+Received: from mail101-tx2 (localhost.localdomain [127.0.0.1]) by mail101-tx2
+	(MessageSwitch) id 1396609647545438_6981;
+	Fri,  4 Apr 2014 11:07:27 +0000 (UTC)
+Received: from TX2EHSMHS044.bigfish.com (unknown [10.9.14.225])	by
+	mail101-tx2.bigfish.com (Postfix) with ESMTP id 80CEF8012E;
+	Fri,  4 Apr 2014 11:07:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS044.bigfish.com
+	(10.9.99.144) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Fri, 4 Apr 2014 11:07:27 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Fri, 4 Apr 2014 11:07:29 +0000
+Received: from fsr-ub1264-102.ea.freescale.net
+	(fsr-ub1264-102.ea.freescale.net [10.171.74.5])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s34B7O2E031352;
+	Fri, 4 Apr 2014 04:07:24 -0700
+From: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 4 Apr 2014 14:06:54 +0300
+Message-ID: <1396609614-25653-1-git-send-email-alexandru.sardan@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1396602904-14596-1-git-send-email-koen.kooi@linaro.org>
-	<465539862.Xb3zOTJjse@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <465539862.Xb3zOTJjse@peggleto-mobl5.ger.corp.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [Dora][PATCH] buildhistory-diff: add ability to report version changes
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] gcc: enable multilib setup for powerpc64 arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,28 +52,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 11:04:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Apr 2014 11:07:33 -0000
+Content-Type: text/plain
 
-On 04/04/2014 01:00 PM, Paul Eggleton wrote:
-> On Friday 04 April 2014 11:15:04 Koen Kooi wrote:
->> From: Paul Eggleton <paul.eggleton@linux.intel.com>
->>
->> Add a -v/--report-ver option to report changes in PKGE/PKGV/PKGR even
->> if the value is the same as the default from PE/PV/PR.
->>
->> Also add a -a/--report-all option to report all changes instead of just
->> the default significant ones.
->
-> Hmm, looking at this I'm not sure that this is the right fix for a stable
-> branch - ideally we should just fix the error rather than backporting the
-> feature IMO.
+Signed-off-by: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc |    2 ++
+ 1 file changed, 2 insertions(+)
 
-I'm fine with either, this was the easiest for me, a single cherrypick.
-
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 30745a6..1eafeb4 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -109,6 +109,7 @@ python gcc_multilib_setup() {
+         'i586'      : ['gcc/config/i386/t-linux64'],
+         'mips'      : ['gcc/config/mips/t-linux64'],
+         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
++        'powerpc64' : ['gcc/config/rs6000/t-linux64'],
+     }
+ 
+     gcc_header_config_files = {
+@@ -116,6 +117,7 @@ python gcc_multilib_setup() {
+         'i586'      : ['gcc/config/i386/linux64.h'],
+         'mips'      : ['gcc/config/mips/linux64.h'],
+         'powerpc'   : ['gcc/config/rs6000/linux64.h'],
++        'powerpc64' : ['gcc/config/rs6000/linux64.h'],
+     }
+ 
+     target_arch = (d.getVar('TARGET_ARCH_MULTILIB_ORIGINAL', True) if mlprefix
 -- 
-Koen Kooi
-Builds and Baselines | Release Manager
-Linaro.org | Open source software for ARM SoCs
+1.7.9.5
+
+
 
