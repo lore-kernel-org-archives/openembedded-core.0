@@ -1,31 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE816121F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E84E6121F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 17:13:11 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s34HD6Qf025319 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Apr 2014 18:13:06 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KsL56ZzShs-K
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 18:13:06 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s34HD37G025313
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Apr 2014 18:13:04 +0100
-Message-ID: <1396631578.13862.23.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Apr 2014 18:12:58 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] siteconfig: Unbreak after sstate changes some time ago
+	Fri,  4 Apr 2014 17:18:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s34HItQb023398
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 4 Apr 2014 10:18:55 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Fri, 4 Apr 2014 10:18:55 -0700
+Message-ID: <533EE97D.90207@windriver.com>
+Date: Sat, 5 Apr 2014 01:18:53 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
+	<CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
+In-Reply-To: <CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
+Subject: util-macros.do_package failed Re: Build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +35,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 17:13:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Some time ago, the sstate name field was dropped. This code wouldn't have
-worked since then. Makes me wonder if we really need it.
-
-Anyhow, my last patch properly breaks it. This fixes the naming so
-it works as designed again.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/siteconfig.bbclass b/meta/classes/siteconfig.bbclass
-index 3701b7c..9a4d03b 100644
---- a/meta/classes/siteconfig.bbclass
-+++ b/meta/classes/siteconfig.bbclass
-@@ -1,6 +1,6 @@
- python siteconfig_do_siteconfig () {
- 	shared_state = sstate_state_fromvars(d)
--	if shared_state['name'] != 'populate-sysroot':
-+	if shared_state['task'] != 'populate_sysroot':
- 		return
- 	if not os.path.isdir(os.path.join(d.getVar('FILE_DIRNAME', True), 'site_config')):
- 		bb.debug(1, "No site_config directory, skipping do_siteconfig")
+X-List-Received-Date: Fri, 04 Apr 2014 17:19:01 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+Hi Andreas,
+
+I met the error on the master, we seldom met this error, but we did meet
+it once in a while, I did several rough investigations, I think that the
+problem is happened when etc/passwd is being created but is null before
+write anything into it, and the util-macros.do_package runs right at the
+same time, here is a hack way to reproduce it: (Use qemux86 as an example):
+
+$ bitbake base-passwd
+
+# Move the passwd file
+$ mv tmp/sysroots/qemux86/etc/passwd tmp/sysroots/qemux86/etc/passwd.bak
+
+# Create a passwd file which is null
+$ touch tmp/sysroots/qemux86/etc/passwd
+
+$ bitbake util-macros
+
+Then we will see the errors.
+
+The build is be OK if there is no tmp/sysroots/qemux86/etc/passwd, maybe
+the pwd.getpwnam() reads the host's /etc/passwd when there is no
+tmp/sysroots/qemux86/etc/passwd (not sure about this). but it would fail
+if it exists and is null.
+
+Maybe we can let the do_package depend on base-passwd:do_populate_sysroot
+to fix the problem.
+
+Will do more investigations tomorrow.
+
+Night.
+
+// Robert
+
+On 11/14/2012 05:30 PM, Andreas Müller wrote:
+> On Wed, Nov 14, 2012 at 10:15 AM, Andreas Müller
+> <schnitzeltony@googlemail.com> wrote:
+>> Ciao,
+>>
+>> with latest layer HEADS and build from scratch I get:
+>>
+>> KeyError: 'getpwnam(): name not found: root'
+>>
+>> ERROR: The stack trace of python calls that resulted in this
+>> exception/failure was:
+>> ERROR:   File "fixup_perms", line 227, in <module>
+>> ERROR:
+>> ERROR:   File "fixup_perms", line 155, in fixup_perms
+>> ERROR:
+>> ERROR:   File "fixup_perms", line 32, in __init__
+>> ERROR:
+>> ERROR:   File "fixup_perms", line 42, in _setdir
+>> ERROR:
+>> ERROR:   File "fixup_perms", line 66, in _procuid
+>> ERROR:
+>> ERROR: The code that was being executed was:
+>> ERROR:      0223:                    each_file = os.path.join(root, f)
+>> ERROR:      0224:                    fix_perms(each_file,
+>> fs_perms_table[dir].fmode, fs_perms_table[dir].fuid,
+>> fs_perms_table[dir].fgid, dir)
+>> ERROR:      0225:
+>> ERROR:      0226:
+>> ERROR:  *** 0227:fixup_perms(d)
+>> ERROR:      0228:
+>> ERROR: [From file: 'fixup_perms', lineno: 227, function: <module>]
+>> ERROR:      0151:    for path in target_path_vars:
+>> ERROR:      0152:        dir = d.getVar(path, True) or ""
+>> ERROR:      0153:        if dir == "":
+>> ERROR:      0154:            continue
+>> ERROR:  *** 0155:        fs_perms_table[dir] =
+>> fs_perms_entry(bb.data.expand("%s 0755 root root false - - -" % (dir),
+>> d))
+>> ERROR:      0156:
+>> ERROR:      0157:    # Now we actually load from the configuration files
+>> ERROR:      0158:    for conf in get_fs_perms_list(d).split():
+>> ERROR:      0159:        if os.path.exists(conf):
+>> ERROR: [From file: 'fixup_perms', lineno: 155, function: fixup_perms]
+>> ERROR: Function failed: fixup_perms
+>> ERROR: Logfile of failure stored in:
+>> /home/andreas/tmp/oe-core-eglibc/work/armv7a-vfp-neon-angstrom-linux-gnueabi/util-macros-1_1.17-r0/temp/log.do_package.28653
+>> ERROR: Task 4450
+>> (/home/andreas/data/oe-core/sources/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.17.bb,
+>> do_package) failed with exit code '1'
+>> NOTE: Tasks Summary: Attempted 3985 tasks of which 397 didn't need to
+>> be rerun and 1 failed.
+>>
+>> The only additional information I found up to now:
+>>
+>> * the code mentioned in error message is found in package.bbclass.
+>> * in sysroot/etc/passwd there is a line 'root::0:0:root:/home/root:/bin/sh'
+>>
+>> Any ideas?
+>>
+> Additional info: After running
+>
+> bitbake -ccleansstate util-macros util-macros-native
+>
+> the build continues as without issues. Some missing dependency race?
+>
+> Andreas
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
