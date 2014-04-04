@@ -1,37 +1,27 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 2913E6E4CC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 28FCD6E4CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 10:42:48 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id r20so973990wiv.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Apr 2014 03:42:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SxkRUUKImgTpLKhk1B9Y/AS1T5eiB/8sJYH3iS9YPo0=;
-	b=j2nfZofQ2N4G3n8JNco3uXhEkrlSB0bF4ZcL6iM9yHWgnfk0Rz7Mr0iBcJVJaCZAoF
-	be/Xru9+UsVuarzw9iWakOSA78yYlOp1q1LsvIpUHZ8Q8tCJ+GSWomPxyYGsRyu08nnC
-	fUfI+cEJFqzPSgC4g4t8OEMUf6GgZ7t/e9wgElwBhv7B0KMtemIpZGQLivPeUnq01fis
-	qQT2RIdHmxUMfAygfOqAo0NFqa086iCKPfF6M0VBmejZBOlXLQ278Cx59MdkFUU9MKJa
-	sf9F26+tG88vY5TM/74BT8QEJudNc5Xs5hf4WV8R43Z/j+z/ZdGoQmPYH8tAiI898rRB
-	5V5g==
-X-Gm-Message-State: ALoCoQlnjac/iDf+w5eDZ9aWSAiKDOeM28RyJJMQPXYttXP0GhWFl6Uv8lD6dF4v0MsRoF5t+Nl1
-X-Received: by 10.194.161.168 with SMTP id xt8mr18802742wjb.35.1396608168877; 
-	Fri, 04 Apr 2014 03:42:48 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id x3sm18682136eep.17.2014.04.04.03.42.47
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Apr 2014 03:42:47 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Apr 2014 12:42:46 +0200
-Message-Id: <1396608166-4965-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [RFC][PATCHv2] dbus: split dbus-launch out into its own package (again)
+	Fri,  4 Apr 2014 10:43:42 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Apr 2014 03:43:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,794,1389772800"; d="scan'208";a="514391498"
+Received: from davidllo-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.87])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2014 03:43:41 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Fri, 04 Apr 2014 11:43:40 +0100
+Message-ID: <2125965.84qy4KnggG@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.3 (Linux/3.13.7-200.fc20.x86_64; KDE/4.12.3; x86_64; ; )
+In-Reply-To: <533E4C85.2030509@windriver.com>
+References: <cover.1395194072.git.Chong.Lu@windriver.com>
+	<533DC530.1030400@linux.intel.com> <533E4C85.2030509@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 1/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,71 +34,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 10:42:52 -0000
+X-List-Received-Date: Fri, 04 Apr 2014 10:43:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-When installing 'dbus-1' it will drag in X11 libs due to ${bindir}/dbus-launch being in ${PN}. Move it to a seperate package to be able to generate a small filesystem (e.g. initrd) without X11 libs without needed a seperate DISTRO.conf.
+On Friday 04 April 2014 14:09:09 Chong Lu wrote:
+> On 04/04/2014 04:31 AM, Saul Wold wrote:
+> > On 03/18/2014 07:00 PM, Chong Lu wrote:
+> >> If image contains dbus and ptest is in DISTRO_FEATURES, dbus-ptest
+> >> package
+> >> is installed, regardless of whether ptest-pkgs is in IMAGE_FEATURES.
+> >> This
+> >> issue will increase size for most small images.
+> >> This patch fixes this problem.
+> >> 
+> >> [YOCTO #5702]
+> >> 
+> >> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> >> ---
+> >> 
+> >>   meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb =>
+> >> 
+> >> dbus-test_1.6.18.bb} | 0
+> >> meta/recipes-core/dbus/dbus.inc | 4 +++-
+> >> 
+> >>   2 files changed, 3 insertions(+), 1 deletion(-)
+> >>   rename meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb =>
+> >> 
+> >> dbus-test_1.6.18.bb} (100%)
+> >> 
+> >> diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+> >> b/meta/recipes-core/dbus/dbus-test_1.6.18.bb
+> >> similarity index 100%
+> >> rename from meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+> >> rename to meta/recipes-core/dbus/dbus-test_1.6.18.bb
+> >> diff --git a/meta/recipes-core/dbus/dbus.inc
+> >> b/meta/recipes-core/dbus/dbus.inc
+> >> index 677ff78..6059e7c 100644
+> >> --- a/meta/recipes-core/dbus/dbus.inc
+> >> +++ b/meta/recipes-core/dbus/dbus.inc
+> >> @@ -6,9 +6,11 @@ LICENSE = "AFL-2 | GPLv2+"
+> >> 
+> >>   LIC_FILES_CHKSUM =
+> >> 
+> >> "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+> >> file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a97453
+> >> 8bb3c">> 
+> >>   DEPENDS = "expat virtual/libintl"
+> >> 
+> >> -RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest',
+> >> 'dbus-ptest-ptest', '', d)}"
+> >> 
+> >>   RDEPENDS_dbus_class-native = ""
+> >>   RDEPENDS_dbus_class-nativesdk = ""
+> >> 
+> >> +PACKAGES += "${@base_contains('DISTRO_FEATURES', 'ptest',
+> >> 'dbus-ptest', '', d)}"
+> >> +ALLOW_EMPTY_dbus-ptest = "1"
+> >> +RDEPENDS_dbus-ptest = "dbus-test-ptest"
+> > 
+> > Seems like this is still causing some issues
+> > 
+> >> ERROR: Nothing RPROVIDES 'nativesdk-dbus-test-ptest' (but
+> >> virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-i
+> >> ntel-gpl/build/meta/recipes-core/dbus/dbus_1.6.18.bb RDEPENDS on or
+> >> otherwise requires it)
+> >> NOTE: Runtime target 'nativesdk-dbus-test-ptest' is unbuildable,
+> >> removing...
+> >> Missing or unbuildable dependency chain was:
+> >> ['nativesdk-dbus-test-ptest']
+> >> ERROR: Required build target 'nativesdk-qt4-tools' has no buildable
+> >> providers.
+> >> Missing or unbuildable dependency chain was: ['nativesdk-qt4-tools',
+> >> 'nativesdk-dbus', 'nativesdk-dbus-test-ptest']
+> > 
+> > As seen in this AB Failure:
+> > http://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds
+> > /30/steps/BuildImages/logs/stdio
+> 
+> I built core-image-sato-sdk after applied my patch. I didn't see error.
+> Can you tell me how to reproduce your building errors?
 
-There will be no functional changes for existing image and packagegroup recipes since ${PN} has 'dbus-launch' in RRECOMMENDS. So to filter out dbus-launch you need to add it to BAD_RECOMMENDATIONS in the image recipe.
+You'd need to try to build nativesdk-dbus - "bitbake nativesdk-dbus" should be 
+able to reproduce this.
 
-This is in essence a revert of:
+Cheers,
+Paul
 
-	commit c02364f36e228835ea5d7fd4e1d347fd451f8544
-	Author: Radu Moisan <radu.moisan@intel.com>
-	Date:   Tue Jul 31 09:23:23 2012 +0300
-
-	    dbus: include dbus-launch in the main dbus package
-
-But as pointed out above, ${bindir}/dbus-launch will end up in the rootfs as before, so the issue behind c02364f36e228835ea5d7fd4e1d347fd451f8544 of a missing ${bindir}/dbus-launch won't suddenly pop up.
-
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
-
-I've boot tested this both with BAD_RECOMMENDATIONS and without and it seems to work as intended. The big question is how to address the dbus-x11 (R)PROVIDE entries. I feel 'dbus-launch' is a much better name than 'dbus-x11', but I don't mind respinning this patch with 'dbus-x11'.
-
-Changes since v1:
-	* extra underscore in RDEPENDS removed
-	* Change to ${PN}-launch
-
-
- meta/recipes-core/dbus/dbus.inc | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 677ff78..28074be 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -37,7 +37,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
- 
- DEBIANNAME_${PN} = "dbus-1"
- 
--PACKAGES =+ "${PN}-lib"
-+PACKAGES =+ "${PN}-lib ${PN}-launch"
- 
- OLDPKGNAME = "dbus-x11"
- OLDPKGNAME_class-nativesdk = ""
-@@ -51,15 +51,20 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${bindir}/dbus-cleanup-sockets \
-                ${bindir}/dbus-send \
-                ${bindir}/dbus-monitor \
--               ${bindir}/dbus-launch \
-                ${libexecdir}/dbus* \
-                ${sysconfdir} \
-                ${localstatedir} \
-                ${datadir}/dbus-1/services \
-                ${datadir}/dbus-1/system-services \
-                ${systemd_unitdir}/system/"
-+
- FILES_${PN}-lib = "${libdir}/lib*.so.*"
- RRECOMMENDS_${PN}-lib = "${PN}"
-+
-+FILES_${PN}-launch = "${bindir}/dbus-launch"
-+RDEPENDS_${PN}-launch = "${PN}"
-+RRECOMMENDS_${PN} += "${PN}-launch"
-+
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
- 
- pkg_postinst_dbus() {
 -- 
-1.9.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
