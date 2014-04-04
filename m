@@ -1,38 +1,36 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A60C60144
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id AF71C6E75A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 09:15:12 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id hi2so821263wib.17
+	Fri,  4 Apr 2014 09:21:36 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id e89so585236qgf.20
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Apr 2014 02:15:13 -0700 (PDT)
+	Fri, 04 Apr 2014 02:21:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PZ0MrngepH2F2K89Ydah8fu2XCSY/9YB6iOjk5Xh680=;
-	b=OVJEcLVzcliNWIVcZEtQBPslHilYZDEQZ8Vu2nEJqcdgJgNGlITkZLgxcNLAcN6Gk5
-	1GfagvVYDtSTIPyxuIZGTeMacrolHVFV3WMDoC2U6UlEzq6CEDE1QA4HFfMrJtYsAP2S
-	MEAi2Ojovfbr9sNCCv/fvJxNKPM8fHJaFqY7WiMAEwSGWdHJm5iLCnU27fpDN1uWyMfK
-	ly0TGKCkRJtbCoRdQXdAOb/0PNWZe8EgUasoEHK6xTlMev1U0u+BKisTRjV9CT+7+LUW
-	iZmwZJGc2S512bDOXrM62836Gs0qC8VGH64cxnmj9PCSJNX2P4pTEOvaG5QAFPimSjB5
-	meOw==
-X-Gm-Message-State: ALoCoQlzpxtKdmGIuEWoxwa4tfMiq5lNh1VMMy+vyRaUwTqVPB2u7ZxKS6fXiF5nv1xAfl1To0pB
-X-Received: by 10.181.13.112 with SMTP id ex16mr2762135wid.23.1396602913062;
-	Fri, 04 Apr 2014 02:15:13 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id u46sm18216714eel.1.2014.04.04.02.15.12
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Apr 2014 02:15:12 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Apr 2014 11:15:04 +0200
-Message-Id: <1396602904-14596-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
-Subject: [Dora][PATCH] buildhistory-diff: add ability to report version changes
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=pLLbzDoz9LZnnAhun9NS0S0xOlcUPAmiwcOZRbofAHM=;
+	b=awEj2mZaet6y3T6fy7uyNdjX19UQdYk5etQA/eZJWZoBkzxKMVb7kj59KgUFdJwudg
+	dwAVI4e92RP6YYOdNpxTnE/sv6jPzItZ6pO5IfZfHW4DMbd3vNAyB7sRXGaNv1lfSaub
+	imQNZPVMYAQjbmu81v7rL+i1jM26VKaBXbfHQBP+5F0PB+XdaZDUU752IRA2nSTJBGal
+	3WWaDr+8ZLDWi9uDZw95pYo1Gm4wkwpTisdACtQ8fM6WBj1Yx+F4A3H65XaxH+JkuX++
+	xiNms/mSK9ddPChQo1R0mZNoynEy0eyQtITQzx24NStxt/nl/hsi2q1huzIRviqBDvyh
+	+BWQ==
+X-Gm-Message-State: ALoCoQmW8Uhv1mRwqS8h7Gvx7BzRpcxdms42HHsLX6P9AlRxcGrSk951vmNBVGyZ83FKi/WC4ClQ
+X-Received: by 10.140.42.9 with SMTP id b9mr12097994qga.87.1396603297416; Fri,
+	04 Apr 2014 02:21:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.27.167 with HTTP; Fri, 4 Apr 2014 02:21:17 -0700 (PDT)
+In-Reply-To: <1396601617-29638-1-git-send-email-koen.kooi@linaro.org>
+References: <1396601617-29638-1-git-send-email-koen.kooi@linaro.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Apr 2014 10:21:17 +0100
+Message-ID: <CAJTo0LYKL4iyDjQS6hTA=mc9mphnr543dJagP8mM94feRWS1hw@mail.gmail.com>
+To: Koen Kooi <koen.kooi@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] dbus: split dbus-launch out into its own package (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,168 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Apr 2014 09:15:17 -0000
+X-List-Received-Date: Fri, 04 Apr 2014 09:21:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+On 4 April 2014 09:53, Koen Kooi <koen.kooi@linaro.org> wrote:
+> When installing 'dbus-1' it will drag in X11 libs due to ${bindir}/dbus-launch being in ${PN}. Move it to a seperate package to be able to generate a small filesystem (e.g. initrd) without X11 libs without needed a seperate DISTRO.conf.
 
-Add a -v/--report-ver option to report changes in PKGE/PKGV/PKGR even
-if the value is the same as the default from PE/PV/PR.
+What's the concrete requirement for this?  Presumably an initrd that
+is starting a system bus but that doesn't also need dbus-launch?
 
-Also add a -a/--report-all option to report all changes instead of just
-the default significant ones.
-
-Addresses [YOCTO #5263].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-
-
-(From OE-Core master rev: b7de1eaac9eed559b2d68058f5de67de74a6cb58)
-
-Dora backport a51d96c44e6feac8322284c54bfc01ef598f8821 broke buildhistory-diff:
-
-koen@beast:/build/v2013.12$ buildhistory-diff
-Traceback (most recent call last):
-  File "/build/v2013.12/sources/openembedded-core/scripts/buildhistory-diff", line 98, in <module>
-    main()
-  File "/build/v2013.12/sources/openembedded-core/scripts/buildhistory-diff", line 82, in main
-    changes = oe.buildhistory_analysis.process_changes(options.buildhistory_dir, fromrev, torev)
-  File "/build/v2013.12/sources/openembedded-core/meta/lib/oe/buildhistory_analysis.py", line 403, in process_changes
-    changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all, report_ver))
-
-Cherry-pick the commit that the backport needs. And since it's a cherry-pick:
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-
----
- meta/lib/oe/buildhistory_analysis.py | 41 +++++++++++++++++++-----------------
- scripts/buildhistory-diff            |  8 ++++++-
- 2 files changed, 29 insertions(+), 20 deletions(-)
-
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index ffe12d0..ed3a1ec 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -19,10 +19,11 @@ import bb.utils
- # How to display fields
- list_fields = ['DEPENDS', 'RPROVIDES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RREPLACES', 'RCONFLICTS', 'FILES', 'FILELIST', 'USER_CLASSES', 'IMAGE_CLASSES', 'IMAGE_FEATURES', 'IMAGE_LINGUAS', 'IMAGE_INSTALL', 'BAD_RECOMMENDATIONS']
- list_order_fields = ['PACKAGES']
--defaultval_fields = ['PKG', 'PKGE', 'PKGV', 'PKGR']
-+defaultval_map = {'PKG': 'PKG', 'PKGE': 'PE', 'PKGV': 'PV', 'PKGR': 'PR'}
- numeric_fields = ['PKGSIZE', 'IMAGESIZE']
- # Fields to monitor
--monitor_fields = ['RPROVIDES', 'RDEPENDS', 'RRECOMMENDS', 'RREPLACES', 'RCONFLICTS', 'PACKAGES', 'FILELIST', 'PKGSIZE', 'IMAGESIZE', 'PKG', 'PKGE', 'PKGV', 'PKGR']
-+monitor_fields = ['RPROVIDES', 'RDEPENDS', 'RRECOMMENDS', 'RREPLACES', 'RCONFLICTS', 'PACKAGES', 'FILELIST', 'PKGSIZE', 'IMAGESIZE', 'PKG']
-+ver_monitor_fields = ['PKGE', 'PKGV', 'PKGR']
- # Percentage change to alert for numeric fields
- monitor_numeric_threshold = 10
- # Image files to monitor (note that image-info.txt is handled separately)
-@@ -94,7 +95,7 @@ class ChangeRecord:
-             else:
-                 percentchg = 100
-             out = '%s changed from %s to %s (%s%d%%)' % (self.fieldname, self.oldvalue or "''", self.newvalue or "''", '+' if percentchg > 0 else '', percentchg)
--        elif self.fieldname in defaultval_fields:
-+        elif self.fieldname in defaultval_map:
-             out = '%s changed from %s to %s' % (self.fieldname, self.oldvalue, self.newvalue)
-             if self.fieldname == 'PKG' and '[default]' in self.newvalue:
-                 out += ' - may indicate debian renaming failure'
-@@ -305,24 +306,32 @@ def compare_pkg_lists(astr, bstr):
-     return (depvera, depverb)
- 
- 
--def compare_dict_blobs(path, ablob, bblob, report_all):
-+def compare_dict_blobs(path, ablob, bblob, report_all, report_ver):
-     adict = blob_to_dict(ablob)
-     bdict = blob_to_dict(bblob)
- 
-     pkgname = os.path.basename(path)
-+
-     defaultvals = {}
-     defaultvals['PKG'] = pkgname
--    defaultvals['PKGE'] = adict.get('PE', '0')
--    defaultvals['PKGV'] = adict.get('PV', '')
--    defaultvals['PKGR'] = adict.get('PR', '')
--    for key in defaultvals:
--        defaultvals[key] = '%s [default]' % defaultvals[key]
-+    defaultvals['PKGE'] = '0'
- 
-     changes = []
--    keys = list(set(adict.keys()) | set(bdict.keys()))
-+    keys = list(set(adict.keys()) | set(bdict.keys()) | set(defaultval_map.keys()))
-     for key in keys:
-         astr = adict.get(key, '')
-         bstr = bdict.get(key, '')
-+        if key in ver_monitor_fields:
-+            monitored = report_ver or astr or bstr
-+        else:
-+            monitored = key in monitor_fields
-+        mapped_key = defaultval_map.get(key, '')
-+        if mapped_key:
-+            if not astr:
-+                astr = '%s [default]' % adict.get(mapped_key, defaultvals.get(key, ''))
-+            if not bstr:
-+                bstr = '%s [default]' % bdict.get(mapped_key, defaultvals.get(key, ''))
-+
-         if astr != bstr:
-             if (not report_all) and key in numeric_fields:
-                 aval = int(astr or 0)
-@@ -350,18 +359,12 @@ def compare_dict_blobs(path, ablob, bblob, report_all):
-                 if ' '.join(alist) == ' '.join(blist):
-                     continue
- 
--            if key in defaultval_fields:
--                if not astr:
--                    astr = defaultvals[key]
--                elif not bstr:
--                    bstr = defaultvals[key]
--
--            chg = ChangeRecord(path, key, astr, bstr, key in monitor_fields)
-+            chg = ChangeRecord(path, key, astr, bstr, monitored)
-             changes.append(chg)
-     return changes
- 
- 
--def process_changes(repopath, revision1, revision2 = 'HEAD', report_all = False):
-+def process_changes(repopath, revision1, revision2='HEAD', report_all=False, report_ver=False):
-     repo = git.Repo(repopath)
-     assert repo.bare == False
-     commit = repo.commit(revision1)
-@@ -373,7 +376,7 @@ def process_changes(repopath, revision1, revision2 = 'HEAD', report_all = False)
-         if path.startswith('packages/'):
-             filename = os.path.basename(d.a_blob.path)
-             if filename == 'latest':
--                changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all))
-+                changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all, report_ver))
-             elif filename.startswith('latest.'):
-                 chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
-                 changes.append(chg)
-diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
-index b82240d..ad50414 100755
---- a/scripts/buildhistory-diff
-+++ b/scripts/buildhistory-diff
-@@ -27,6 +27,12 @@ def main():
-     parser.add_option("-p", "--buildhistory-dir",
-             help = "Specify path to buildhistory directory (defaults to buildhistory/ under cwd)",
-             action="store", dest="buildhistory_dir", default='buildhistory/')
-+    parser.add_option("-v", "--report-version",
-+            help = "Report changes in PKGE/PKGV/PKGR even when the values are still the default (PE/PV/PR)",
-+            action="store_true", dest="report_ver", default=False)
-+    parser.add_option("-a", "--report-all",
-+            help = "Report all changes, not just the default significant ones",
-+            action="store_true", dest="report_all", default=False)
- 
-     options, args = parser.parse_args(sys.argv)
- 
-@@ -79,7 +85,7 @@ def main():
- 
-     import gitdb
-     try:
--        changes = oe.buildhistory_analysis.process_changes(options.buildhistory_dir, fromrev, torev)
-+        changes = oe.buildhistory_analysis.process_changes(options.buildhistory_dir, fromrev, torev, options.report_all, options.report_ver)
-     except gitdb.exc.BadObject as e:
-         if len(args) == 1:
-             sys.stderr.write("Unable to find previous build revision in buildhistory repository\n\n")
--- 
-1.9.0
-
+Ross
 
