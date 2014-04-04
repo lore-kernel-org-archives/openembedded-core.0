@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E237B6B269
+	by mail.openembedded.org (Postfix) with ESMTP id E210C6B181
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Apr 2014 17:47:19 +0000 (UTC)
+	Fri,  4 Apr 2014 17:47:18 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 04 Apr 2014 10:47:21 -0700
+	by orsmga101.jf.intel.com with ESMTP; 04 Apr 2014 10:47:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,796,1389772800"; d="scan'208";a="507126386"
+X-IronPort-AV: E=Sophos;i="4.97,796,1389772800"; d="scan'208";a="507126366"
 Received: from davidllo-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.87])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2014 10:47:02 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2014 10:46:58 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Apr 2014 18:46:39 +0100
-Message-Id: <e62799a9a1dcc8284920e795096947f85a9f2af4.1396633542.git.paul.eggleton@linux.intel.com>
+Date: Fri,  4 Apr 2014 18:46:38 +0100
+Message-Id: <0f06fb084f6b7175ae2cc90a76aa941fe1d28283.1396633542.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <cover.1396633542.git.paul.eggleton@linux.intel.com>
 References: <cover.1396633542.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1396633542.git.paul.eggleton@linux.intel.com>
 References: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-Subject: [dora][PATCH 4/4] sstatesig: Anchor inherits class tests
+Subject: [dora][PATCH 3/4] classes/image: ignore modules.* changing during multilib image construction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +34,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 04 Apr 2014 17:47:22 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Since we now run depmod when building images (as the postinst that does
+this is now on kernel-base instead of kernel-image) it is possible to
+have module file differences between the two halves of the multilib image,
+and the code that checks for such differences detects this and fails.
+Whitelist this file to avoid the failure.
 
-This avoids a nasty sstate hash corruption issue where the
-fact the testimage bbclass was inherited meant that the checksum
-changed due to testimage.bbclass being confused with image.bbclass.
+Specifically, modules.alias, modules.dep and modules.symbol can differ
+along with their .bin counterparts.
 
-This patch anchors the bbclass names to avoid this confusion.
+Related to fix for [YOCTO #5392].
 
-(From OE-Core master rev: 943a75a4f3b6877e4092dae14b59b7afef8cad3d)
+(From OE-Core master rev: 0a315804bf991664c0948e3024b8e8b9e9085808)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/sstatesig.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 1bcaacf..a1efc7b 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -10,9 +10,9 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-         return x.startswith("nativesdk-")
-     def isKernel(fn):
-         inherits = " ".join(dataCache.inherits[fn])
--        return inherits.find("module-base.bbclass") != -1 or inherits.find("linux-kernel-base.bbclass") != -1
-+        return inherits.find("/module-base.bbclass") != -1 or inherits.find("/linux-kernel-base.bbclass") != -1
-     def isImage(fn):
--        return "image.bbclass" in " ".join(dataCache.inherits[fn])
-+        return "/image.bbclass" in " ".join(dataCache.inherits[fn])
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 0986858..aaaa224 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -410,7 +410,7 @@ log_check() {
+ 	done
+ }
  
-     # Always include our own inter-task dependencies
-     if recipename == depname:
+-MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|"
++MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|/lib/modules/[^/]*/modules.*|"
+ MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
+ MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
+ 
 -- 
 1.9.0
 
