@@ -1,45 +1,32 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-oa0-f49.google.com (mail-oa0-f49.google.com
-	[209.85.219.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EB98B6B5DD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 958EF617AA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Apr 2014 08:47:02 +0000 (UTC)
-Received: by mail-oa0-f49.google.com with SMTP id o6so4548182oag.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Apr 2014 01:47:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=dORGx03dFZC1z2RelNb79oJQ4kGg9P1iZhzzkRv0eoQ=;
-	b=ewhygJ1JnMsoykMpGcpUQiHAv+G9WK8ti/ktxy+FIIOiUVwwp2cNWeGMNorJBgwXS4
-	tqYGYNLocdb5LKOHDA1JgwGrY7Medq9WS07vnrOptXdthj+/W3w3d3buGghM5Scird1n
-	j414SAJcWbOy38Wuedi/PVCE0VZtkFjA1I9/DBaN0XC2ksIEbrPK+Gtzn2YXFsPG6ex4
-	AO3sO7bmXQhk78pwoMpCsM3f/mfpjmsPbmtF16kpix1Hj0zoCle2zd6Ab/kcXiRWJwmh
-	JoS3QJgdfrIEBO+7MRVayKMEHOQMCGQjBqu9PAm1t0yBGzY7JXq7OMaqKfSbejKgqYp6
-	oBXA==
-X-Gm-Message-State: ALoCoQn5tuOZQmdg5jvyWq+U6Hdyvg+sQYeBQrfVK1W1bLVYoZ63ribuELhQoTXrVTAIrFQ0jEhK
-X-Received: by 10.182.196.3 with SMTP id ii3mr6184382obc.11.1396687622493;
-	Sat, 05 Apr 2014 01:47:02 -0700 (PDT)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id h3sm1354621obh.8.2014.04.05.01.47.01
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 05 Apr 2014 01:47:01 -0700 (PDT)
-Message-ID: <533FC305.7050101@linaro.org>
-Date: Sat, 05 Apr 2014 04:47:01 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-References: <20140403130609.GF2132@jama>
-In-Reply-To: <20140403130609.GF2132@jama>
-Subject: Re: State of bitbake world, Failed tasks 2014-04-03
+	Sat,  5 Apr 2014 09:33:47 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s359XeXb010744; Sat, 5 Apr 2014 10:33:40 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2ph6uQtwtv-p; Sat,  5 Apr 2014 10:33:40 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s359XYa0010740
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sat, 5 Apr 2014 10:33:35 +0100
+Message-ID: <1396690408.13862.51.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Sat, 05 Apr 2014 10:33:28 +0100
+In-Reply-To: <533FBEDD.3030902@windriver.com>
+References: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
+	<CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
+	<533EE97D.90207@windriver.com> <533FBEDD.3030902@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: util-macros.do_package failed Re: Build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,13 +39,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Apr 2014 08:47:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 05 Apr 2014 09:33:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/03/14 09:06, Martin Jansa wrote:
-> Other recipes are still "free" for fixing, please fix them and send reply to this thread
-> when you start looking into it, so that nobody duplicates work.
+On Sat, 2014-04-05 at 16:29 +0800, Robert Yang wrote:
+> 
+> On 04/05/2014 01:18 AM, Robert Yang wrote:
+> >
+> > Hi Andreas,
+> >
+> > I met the error on the master, we seldom met this error, but we did meet
+> > it once in a while, I did several rough investigations, I think that the
+> > problem is happened when etc/passwd is being created but is null before
+> > write anything into it, and the util-macros.do_package runs right at the
+> > same time, here is a hack way to reproduce it: (Use qemux86 as an example):
+> >
+> > $ bitbake base-passwd
+> >
+> > # Move the passwd file
+> > $ mv tmp/sysroots/qemux86/etc/passwd tmp/sysroots/qemux86/etc/passwd.bak
+> >
+> > # Create a passwd file which is null
+> > $ touch tmp/sysroots/qemux86/etc/passwd
+> >
+> > $ bitbake util-macros
+> >
+> > Then we will see the errors.
+> >
+> > The build is be OK if there is no tmp/sysroots/qemux86/etc/passwd, maybe
+> > the pwd.getpwnam() reads the host's /etc/passwd when there is no
+> > tmp/sysroots/qemux86/etc/passwd (not sure about this). but it would fail
+> > if it exists and is null.
+> >
+> > Maybe we can let the do_package depend on base-passwd:do_populate_sysroot
+> > to fix the problem.
+> >
+> 
+> It seems that this is not a good idea since once we add the following line,
+> it would cause all the target recipe's do_package depends on
+> base-passwd:do_populate_sysroot, this would cause the arch "all" depends on
+> eglibc since base-passwd depends on eglibc, we may need fix in another way.
+> 
+> do_package[depends] += "base-passwd:do_populate_sysroot"
 
-I'm going to be looking at some of the qa.log warnings over the weekend.
+This is very similar to the issue:
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5612
+
+I think I'm leaning in favour of putting in a basic passwd/group file
+into the sysroot, even if we have to maintain such a copy ourselves.
+
+Cheers,
+
+Richard
+
 
