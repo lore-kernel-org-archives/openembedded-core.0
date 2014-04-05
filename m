@@ -1,28 +1,45 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A21D760CEB
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-oa0-f49.google.com (mail-oa0-f49.google.com
+	[209.85.219.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EB98B6B5DD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Apr 2014 08:29:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s358TMrx028940
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 5 Apr 2014 01:29:22 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Sat, 5 Apr 2014 01:29:19 -0700
-Message-ID: <533FBEDD.3030902@windriver.com>
-Date: Sat, 5 Apr 2014 16:29:17 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Sat,  5 Apr 2014 08:47:02 +0000 (UTC)
+Received: by mail-oa0-f49.google.com with SMTP id o6so4548182oag.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 05 Apr 2014 01:47:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=dORGx03dFZC1z2RelNb79oJQ4kGg9P1iZhzzkRv0eoQ=;
+	b=ewhygJ1JnMsoykMpGcpUQiHAv+G9WK8ti/ktxy+FIIOiUVwwp2cNWeGMNorJBgwXS4
+	tqYGYNLocdb5LKOHDA1JgwGrY7Medq9WS07vnrOptXdthj+/W3w3d3buGghM5Scird1n
+	j414SAJcWbOy38Wuedi/PVCE0VZtkFjA1I9/DBaN0XC2ksIEbrPK+Gtzn2YXFsPG6ex4
+	AO3sO7bmXQhk78pwoMpCsM3f/mfpjmsPbmtF16kpix1Hj0zoCle2zd6Ab/kcXiRWJwmh
+	JoS3QJgdfrIEBO+7MRVayKMEHOQMCGQjBqu9PAm1t0yBGzY7JXq7OMaqKfSbejKgqYp6
+	oBXA==
+X-Gm-Message-State: ALoCoQn5tuOZQmdg5jvyWq+U6Hdyvg+sQYeBQrfVK1W1bLVYoZ63ribuELhQoTXrVTAIrFQ0jEhK
+X-Received: by 10.182.196.3 with SMTP id ii3mr6184382obc.11.1396687622493;
+	Sat, 05 Apr 2014 01:47:02 -0700 (PDT)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id h3sm1354621obh.8.2014.04.05.01.47.01
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 05 Apr 2014 01:47:01 -0700 (PDT)
+Message-ID: <533FC305.7050101@linaro.org>
+Date: Sat, 05 Apr 2014 04:47:01 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>	<CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
-	<533EE97D.90207@windriver.com>
-In-Reply-To: <533EE97D.90207@windriver.com>
-Subject: Re: util-macros.do_package failed Re: Build failure
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+References: <20140403130609.GF2132@jama>
+In-Reply-To: <20140403130609.GF2132@jama>
+Subject: Re: State of bitbake world, Failed tasks 2014-04-03
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,130 +52,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Apr 2014 08:29:24 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 05 Apr 2014 08:47:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+On 04/03/14 09:06, Martin Jansa wrote:
+> Other recipes are still "free" for fixing, please fix them and send reply to this thread
+> when you start looking into it, so that nobody duplicates work.
 
-
-On 04/05/2014 01:18 AM, Robert Yang wrote:
->
-> Hi Andreas,
->
-> I met the error on the master, we seldom met this error, but we did meet
-> it once in a while, I did several rough investigations, I think that the
-> problem is happened when etc/passwd is being created but is null before
-> write anything into it, and the util-macros.do_package runs right at the
-> same time, here is a hack way to reproduce it: (Use qemux86 as an example):
->
-> $ bitbake base-passwd
->
-> # Move the passwd file
-> $ mv tmp/sysroots/qemux86/etc/passwd tmp/sysroots/qemux86/etc/passwd.bak
->
-> # Create a passwd file which is null
-> $ touch tmp/sysroots/qemux86/etc/passwd
->
-> $ bitbake util-macros
->
-> Then we will see the errors.
->
-> The build is be OK if there is no tmp/sysroots/qemux86/etc/passwd, maybe
-> the pwd.getpwnam() reads the host's /etc/passwd when there is no
-> tmp/sysroots/qemux86/etc/passwd (not sure about this). but it would fail
-> if it exists and is null.
->
-> Maybe we can let the do_package depend on base-passwd:do_populate_sysroot
-> to fix the problem.
->
-
-It seems that this is not a good idea since once we add the following line,
-it would cause all the target recipe's do_package depends on
-base-passwd:do_populate_sysroot, this would cause the arch "all" depends on
-eglibc since base-passwd depends on eglibc, we may need fix in another way.
-
-do_package[depends] += "base-passwd:do_populate_sysroot"
-
-// Robert
-
-> Will do more investigations tomorrow.
->
-> Night.
->
-> // Robert
->
-> On 11/14/2012 05:30 PM, Andreas Müller wrote:
->> On Wed, Nov 14, 2012 at 10:15 AM, Andreas Müller
->> <schnitzeltony@googlemail.com> wrote:
->>> Ciao,
->>>
->>> with latest layer HEADS and build from scratch I get:
->>>
->>> KeyError: 'getpwnam(): name not found: root'
->>>
->>> ERROR: The stack trace of python calls that resulted in this
->>> exception/failure was:
->>> ERROR:   File "fixup_perms", line 227, in <module>
->>> ERROR:
->>> ERROR:   File "fixup_perms", line 155, in fixup_perms
->>> ERROR:
->>> ERROR:   File "fixup_perms", line 32, in __init__
->>> ERROR:
->>> ERROR:   File "fixup_perms", line 42, in _setdir
->>> ERROR:
->>> ERROR:   File "fixup_perms", line 66, in _procuid
->>> ERROR:
->>> ERROR: The code that was being executed was:
->>> ERROR:      0223:                    each_file = os.path.join(root, f)
->>> ERROR:      0224:                    fix_perms(each_file,
->>> fs_perms_table[dir].fmode, fs_perms_table[dir].fuid,
->>> fs_perms_table[dir].fgid, dir)
->>> ERROR:      0225:
->>> ERROR:      0226:
->>> ERROR:  *** 0227:fixup_perms(d)
->>> ERROR:      0228:
->>> ERROR: [From file: 'fixup_perms', lineno: 227, function: <module>]
->>> ERROR:      0151:    for path in target_path_vars:
->>> ERROR:      0152:        dir = d.getVar(path, True) or ""
->>> ERROR:      0153:        if dir == "":
->>> ERROR:      0154:            continue
->>> ERROR:  *** 0155:        fs_perms_table[dir] =
->>> fs_perms_entry(bb.data.expand("%s 0755 root root false - - -" % (dir),
->>> d))
->>> ERROR:      0156:
->>> ERROR:      0157:    # Now we actually load from the configuration files
->>> ERROR:      0158:    for conf in get_fs_perms_list(d).split():
->>> ERROR:      0159:        if os.path.exists(conf):
->>> ERROR: [From file: 'fixup_perms', lineno: 155, function: fixup_perms]
->>> ERROR: Function failed: fixup_perms
->>> ERROR: Logfile of failure stored in:
->>> /home/andreas/tmp/oe-core-eglibc/work/armv7a-vfp-neon-angstrom-linux-gnueabi/util-macros-1_1.17-r0/temp/log.do_package.28653
->>>
->>> ERROR: Task 4450
->>> (/home/andreas/data/oe-core/sources/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.17.bb,
->>>
->>> do_package) failed with exit code '1'
->>> NOTE: Tasks Summary: Attempted 3985 tasks of which 397 didn't need to
->>> be rerun and 1 failed.
->>>
->>> The only additional information I found up to now:
->>>
->>> * the code mentioned in error message is found in package.bbclass.
->>> * in sysroot/etc/passwd there is a line 'root::0:0:root:/home/root:/bin/sh'
->>>
->>> Any ideas?
->>>
->> Additional info: After running
->>
->> bitbake -ccleansstate util-macros util-macros-native
->>
->> the build continues as without issues. Some missing dependency race?
->>
->> Andreas
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
+I'm going to be looking at some of the qa.log warnings over the weekend.
 
