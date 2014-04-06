@@ -1,39 +1,34 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A3B3D6E79A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 0272A60D67
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Apr 2014 15:42:57 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id oz11so2865911veb.33
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Apr 2014 08:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=8Kq7+HB9oU9NMACnOEYW6ulDbCYUlJZAlh2AhPmY1mQ=;
-	b=gGtW3Yi1byFabco93O45rv+umm8Ymhu4oO88DCxA/QGiLxi9FCM6F56NSQpQ+tpJqr
-	vqdzAr+Riz1G+OCQaSgIwxwxvhjcpLjzfUHkx53bLFgIum8ILZ8P2ycyXK9yMKe4DDFF
-	6rC3WERI2Ql04V6vUvTbrAgl/EYvovlfaQV4qJ0soyyuLc6jg2Ic+/oHX4dw2TTLDWFj
-	Hluz14o4I3O0laOz8k2eAHlBXP9mU/hw86cf1aFjjIDbyjEzR82ceVMBhzGDMgU+TELd
-	2nY5yGTnn8tOPtkXKIYcGlnpIghDDfQTnf/TW6WkCodMvYmxRKtvT4N16hc8blOmz/n9
-	dsJA==
-X-Received: by 10.58.96.36 with SMTP id dp4mr1711880veb.21.1396798977702; Sun,
-	06 Apr 2014 08:42:57 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.221.5.133 with HTTP; Sun, 6 Apr 2014 08:42:17 -0700 (PDT)
-In-Reply-To: <20140403223234.GH2132@jama>
+	Sun,  6 Apr 2014 15:50:34 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s36FoRUT017029; Sun, 6 Apr 2014 16:50:28 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Ij44VYa9ZdQQ; Sun,  6 Apr 2014 16:50:27 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s36FoNw0017025
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 6 Apr 2014 16:50:24 +0100
+Message-ID: <1396799417.24597.19.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Sun, 06 Apr 2014 16:50:17 +0100
+In-Reply-To: <CANyK_8d+pAHXhtdPUYVaZNJe+eOnyATd9cCWXHxgG3mVxrbeeA@mail.gmail.com>
 References: <1396313895-21200-1-git-send-email-denis@denix.org>
 	<CANyK_8cu-czs-qmB1PJHosLt-TYnmu=u8F9J9ip1MmVZuE7zVA@mail.gmail.com>
 	<CANyK_8f0=bEjKFZGMW7cTEL-_BiXPo9a93zrvz_gwYkH4Nn5vg@mail.gmail.com>
 	<20140403162312.GB3370@denix.org> <20140403223234.GH2132@jama>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Sun, 6 Apr 2014 16:42:17 +0100
-X-Google-Sender-Auth: NCarEu_s0j6vryVCbOLOGZUip7c
-Message-ID: <CANyK_8d+pAHXhtdPUYVaZNJe+eOnyATd9cCWXHxgG3mVxrbeeA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
+	<CANyK_8d+pAHXhtdPUYVaZNJe+eOnyATd9cCWXHxgG3mVxrbeeA@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [dora][PATCH] opkg-utils: Update to latest git master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,34 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Apr 2014 15:42:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 06 Apr 2014 15:50:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 3 April 2014 23:32, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> I haven't read whole discussion, but the idea of adding just one needed
-> patch from the repo into oe-core metadata seems reasonable to me (unless
-> someone wants to create dora branch in opkg-utils repo and cherry-pick
-> just that one required commit there + update SRC_URI + SRCREV
-> accordingly).
+On Sun, 2014-04-06 at 16:42 +0100, Paul Barker wrote:
+> On 3 April 2014 23:32, Martin Jansa <martin.jansa@gmail.com> wrote:
+> >
+> > I haven't read whole discussion, but the idea of adding just one needed
+> > patch from the repo into oe-core metadata seems reasonable to me (unless
+> > someone wants to create dora branch in opkg-utils repo and cherry-pick
+> > just that one required commit there + update SRC_URI + SRCREV
+> > accordingly).
+> 
+> I'd rather not keep a 'dora' branch in opkg-utils as I'd like it to
+> align with opkg and be independent of which build system is being
+> used. I think putting the patch into the dora branch of oe-core is the
+> best way forward as the change in question is tiny.
 
-I'd rather not keep a 'dora' branch in opkg-utils as I'd like it to
-align with opkg and be independent of which build system is being
-used. I think putting the patch into the dora branch of oe-core is the
-best way forward as the change in question is tiny.
+In this specific case I'd tend to agree FWIW...
 
->
-> It's imho better than creating new "less-tested" combination of all
-> changes from opkg-utils with only some changes for opkg-utils recipes.
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Cheers,
 
-Thanks,
+Richard
 
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
