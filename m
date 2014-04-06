@@ -1,35 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0272A60D67
+Return-Path: <denis@denix.org>
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id AB02C610CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Apr 2014 15:50:34 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s36FoRUT017029; Sun, 6 Apr 2014 16:50:28 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Ij44VYa9ZdQQ; Sun,  6 Apr 2014 16:50:27 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s36FoNw0017025
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 6 Apr 2014 16:50:24 +0100
-Message-ID: <1396799417.24597.19.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Sun, 06 Apr 2014 16:50:17 +0100
-In-Reply-To: <CANyK_8d+pAHXhtdPUYVaZNJe+eOnyATd9cCWXHxgG3mVxrbeeA@mail.gmail.com>
-References: <1396313895-21200-1-git-send-email-denis@denix.org>
-	<CANyK_8cu-czs-qmB1PJHosLt-TYnmu=u8F9J9ip1MmVZuE7zVA@mail.gmail.com>
-	<CANyK_8f0=bEjKFZGMW7cTEL-_BiXPo9a93zrvz_gwYkH4Nn5vg@mail.gmail.com>
-	<20140403162312.GB3370@denix.org> <20140403223234.GH2132@jama>
-	<CANyK_8d+pAHXhtdPUYVaZNJe+eOnyATd9cCWXHxgG3mVxrbeeA@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][PATCH] opkg-utils: Update to latest git master
+	Sun,  6 Apr 2014 22:47:12 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N3M00K7KSLR8780@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sun, 06 Apr 2014 17:46:54 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4476220357; Sun,
+	06 Apr 2014 18:46:39 -0400 (EDT)
+Date: Sun, 06 Apr 2014 18:46:39 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-id: <20140406224639.GD3370@denix.org>
+References: <1396324451-26983-1-git-send-email-denis@denix.org>
+MIME-version: 1.0
+In-reply-to: <1396324451-26983-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,28 +33,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Apr 2014 15:50:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 06 Apr 2014 22:47:14 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Sun, 2014-04-06 at 16:42 +0100, Paul Barker wrote:
-> On 3 April 2014 23:32, Martin Jansa <martin.jansa@gmail.com> wrote:
-> >
-> > I haven't read whole discussion, but the idea of adding just one needed
-> > patch from the repo into oe-core metadata seems reasonable to me (unless
-> > someone wants to create dora branch in opkg-utils repo and cherry-pick
-> > just that one required commit there + update SRC_URI + SRCREV
-> > accordingly).
+ping
+
+On Mon, Mar 31, 2014 at 11:54:11PM -0400, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
 > 
-> I'd rather not keep a 'dora' branch in opkg-utils as I'd like it to
-> align with opkg and be independent of which build system is being
-> used. I think putting the patch into the dora branch of oe-core is the
-> best way forward as the change in question is tiny.
-
-In this specific case I'd tend to agree FWIW...
-
-Cheers,
-
-Richard
-
+> This is done to work around the issue of auto-mounting block devices
+> (i.e. SD cards) when root filesystem is still in read-only mode and
+> creating /media/<device> mount-points by udev is not possible. That
+> is due to udev (/etc/rcS.d/S03udev) getting started earlier than
+> checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
+> rootfs as read-write.
+> 
+> Although, canonical FHS specifies /media/<device> as a mount point
+> for removable media devices, the latest 2.3 version was released in
+> 2004 and since then FreeDesktop/udisks and other tools adopted the
+> new /run/media/<user>/<device> location. That was done to overcome
+> read-only rootfs limitation, since /run is usually a tmpfs mounted
+> partition, plus avoid name-clash between users.
+> 
+> For our embedded systems environment we assume single-user operation
+> and hence simplify mount point to just /run/media/<device>. But for
+> proper per-user mounting to /run/media/<user>/<device>, some sort of
+> session management is required along with the tool like udisks, that
+> is out of scope of this simple udev-based auto-mounting.
+> 
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+> v2 - drop PR, bump PV, elaborate on session/user mounting option
+> 
+>  meta/recipes-core/udev/udev-extraconf/mount.sh             | 14 +++++++-------
+>  .../udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb}  |  2 --
+>  2 files changed, 7 insertions(+), 9 deletions(-)
+>  rename meta/recipes-core/udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb} (99%)
+> 
+> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> index cb57e47..3e4f21f 100644
+> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> @@ -20,7 +20,7 @@ done
+>  automount() {	
+>  	name="`basename "$DEVNAME"`"
+>  
+> -	! test -d "/media/$name" && mkdir -p "/media/$name"
+> +	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+>  	# Silent util-linux's version of mounting auto
+>  	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
+>  	then
+> @@ -38,12 +38,12 @@ automount() {
+>  		;;
+>  	esac
+>  
+> -	if ! $MOUNT -t auto $DEVNAME "/media/$name"
+> +	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
+>  	then
+> -		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
+> -		rm_dir "/media/$name"
+> +		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
+> +		rm_dir "/run/media/$name"
+>  	else
+> -		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
+> +		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
+>  		touch "/tmp/.automount-$name"
+>  	fi
+>  }
+> @@ -60,7 +60,7 @@ rm_dir() {
+>  
+>  # No ID_FS_TYPE for cdrom device, yet it should be mounted
+>  name="`basename "$DEVNAME"`"
+> -[ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
+> +[ -e /sys/block/$name/device/run/media ] && media_type=`cat /sys/block/$name/device/run/media`
+>  
+>  if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
+>  	if [ -x "$PMOUNT" ]; then
+> @@ -87,5 +87,5 @@ if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+>  	
+>  	# Remove empty directories from auto-mounter
+>  	name="`basename "$DEVNAME"`"
+> -	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
+> +	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+>  fi
+> diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> similarity index 99%
+> rename from meta/recipes-core/udev/udev-extraconf_1.0.bb
+> rename to meta/recipes-core/udev/udev-extraconf_1.1.bb
+> index 3810b28..d69056d 100644
+> --- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
+> +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> @@ -4,8 +4,6 @@ LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>  
+> -PR = "r16"
+> -
+>  SRC_URI = " \
+>         file://automount.rules \
+>         file://mount.sh \
+> -- 
+> 1.9.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
