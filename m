@@ -1,34 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CAA260E79
+	by mail.openembedded.org (Postfix) with ESMTP id 6751560E79
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Apr 2014 11:57:18 +0000 (UTC)
+	Sun,  6 Apr 2014 12:08:43 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s36BvCOp008930; Sun, 6 Apr 2014 12:57:12 +0100
+	s36C8bj2009780; Sun, 6 Apr 2014 13:08:38 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eo-ZNYlaROyo; Sun,  6 Apr 2014 12:57:12 +0100 (BST)
+	with LMTP id NMDvmd8hsRYV; Sun,  6 Apr 2014 13:08:37 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s36Bv7FX008922
+	s36C8WVO009762
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 6 Apr 2014 12:57:09 +0100
-Message-ID: <1396785422.24597.7.camel@ted>
+	Sun, 6 Apr 2014 13:08:34 +0100
+Message-ID: <1396786107.24597.17.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Sun, 06 Apr 2014 12:57:02 +0100
-In-Reply-To: <20140403104411.GA20640@mcrowe.com>
-References: <1396343775-18753-1-git-send-email-mac@mcrowe.com>
-	<1396344719.14790.94.camel@ted> <20140401101153.GA6306@mcrowe.com>
-	<CAMKF1soedDRPPiJTLnqi9SjGHhLwTrZ3cMx3EJV+TXSDqabOiQ@mail.gmail.com>
-	<20140403104411.GA20640@mcrowe.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Sun, 06 Apr 2014 13:08:27 +0100
+In-Reply-To: <CANyK_8dPFDShPAvhYt+89j0Mr4fjzpeMt28HrwNAZrN8qfnS4w@mail.gmail.com>
+References: <CANyK_8dPFDShPAvhYt+89j0Mr4fjzpeMt28HrwNAZrN8qfnS4w@mail.gmail.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: cmake-native also depends on acl-native (was Re: cmake-native: Depend on ncurses-native too)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg-0.2.2 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,44 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Apr 2014 11:57:21 -0000
+X-List-Received-Date: Sun, 06 Apr 2014 12:08:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-04-03 at 11:44 +0100, Mike Crowe wrote:
-> On Tuesday 01 April 2014 at 21:59:34 -0700, Khem Raj wrote:
-> > On Tue, Apr 1, 2014 at 3:11 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> > > It seems to be possible to disable building the "CursesDialog" component to
-> > > remove the need for ncurses but I couldn't immediately see how to do that
-> > > for a bootstrap build.
-> > >
-> > > The non-native cmake recipe depends on ncurses even though it passes
-> > > -DBUILD_CursesDialog=0.
-> > 
-> > you need to disable it completely in CMakefile.txt, just that define
-> > does not suffice you might try something like
-> > http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-util/cmake/files/cmake-2.8.10-libform.patch?diff_format=f&view=markup
-> > 
+On Tue, 2014-04-01 at 22:18 +0100, Paul Barker wrote:
+> Hi all,
 > 
-> It appears that a similar problem occurs if cmake-native is built at the
-> same time as acl-native:
+> I've just released opkg-0.2.2 with the following bugfixes (issue
+> numbers refer to the opkg issue list):
 > 
->  Building C object Utilities/cmcurl/CMakeFiles/cmcurl.dir/http_chunks.c.o
->  [ 30%] /home/jenkins/workspace/nightly-brightsign-master/MACHINE/source/label/nightly/build-bcm7425/source-release-test-build/brightsign-oe/build-bcm7425/tmp-eglibc/work/x86_64-linux/cmake-native/2.8.12.2-r0/cmake-2.8.12.2/Utilities/cmlibarchive/libarchive/archive_read_disk_entry_from_file.c:38:21:fatal error: sys/acl.h: No such file or directory
->  compilation terminated.
+> - Fix '--force-reinstall' flag so that it acts as an upgrade rather than
+>   removing possibly critical packages before reinstall (issue 71)
 > 
-> cmake detects sys/acl.h but by the time the compiler tries to include it
-> the file has been unstaged from the sysroot.
+> - Symlinks are now correctly removed during package uninstall (issue 91)
 > 
-> This one is harder to patch out. Do you object to me adding acl{,-native}
-> to DEPENDS?
+> - Fixed help and manual pages to reflect that shell globs not true regexps are
+>   accepted by opkg (issue 107)
+> 
+> - The error message "no valid architecture" is no longer given when the
+>   architecture of a package is valid but incompatible with the current system.
+> 
+> This is a bugfix only release with no other significant changes.
+> 
+> I have also rebased the patches against opkg in oe-core against the
+> new release and checked that they still apply and that the result
+> builds with recent oe-core master. The result was tested on qemuarm by
+> running 'opkg update' against a package feed and installing a few new
+> packages.
 
-Each dependency we add like this tends to cause slightly longer builds.
-Each small piece mounts up. So I do feel quite strongly we disable
-things we can...
+Thanks for checking this, it certainly helps and is appreciated!
+
+> Do we want to try to get this in to the upcoming Yocto release or
+> shall I delay the recipe upgrade until after the release? If you want
+> it for the upcoming release I'll re-run my tests locally just to be
+> sure it's looking good and then send a patch.
+
+We're about to roll -rc3 so this is getting late in the cycle to change
+the package manager. Having said that this sounds like bug fixes which
+would be nice to have.
+
+I think I'm leaning to not taking it right now as it is really too late
+but I'm open to other views on this...
 
 Cheers,
 
 Richard
+
 
 
