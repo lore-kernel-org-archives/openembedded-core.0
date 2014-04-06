@@ -1,28 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6751560E79
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id BA32F60D67
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Apr 2014 12:08:43 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s36C8bj2009780; Sun, 6 Apr 2014 13:08:38 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NMDvmd8hsRYV; Sun,  6 Apr 2014 13:08:37 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s36C8WVO009762
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 6 Apr 2014 13:08:34 +0100
-Message-ID: <1396786107.24597.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Sun, 06 Apr 2014 13:08:27 +0100
-In-Reply-To: <CANyK_8dPFDShPAvhYt+89j0Mr4fjzpeMt28HrwNAZrN8qfnS4w@mail.gmail.com>
+	Sun,  6 Apr 2014 15:37:26 +0000 (UTC)
+Received: by mail-vc0-f179.google.com with SMTP id ij19so4568779vcb.38
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 06 Apr 2014 08:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=Vwp0cKJXUUFD9rdszVhiPwVkSgS1QLaQ3vlZrE65DOk=;
+	b=LneSDB8u0hLrS5mlJC0Nnsyare3iHhbLMatVbCkvjeb38NfGx16asz7ydhn3JKx/Gx
+	OK87FXcGY1owRdMap3ziSDsuV+Zo4mPVuYc17NtLDRYL8YLEt6KQyp0ifEzXwAhiMmEU
+	O0xN0n1d3Y3chkfpFgC6hPRQ3jiXxfFvZXcS1p5hplG3wPDUwhAcoG1rBXWoB7+V/8ez
+	H0BaBmjcZksFBDmCCqj5NzC+ryYCzEoJEaY/qkOn1TPGuUAkgEDDipvBynFoawCH7OZo
+	tZ9ww+nWhSS2WBKGfJzGgKpTVINwxXcTJyMbLLhlNO3zJ7EgMCCfm7gi2wz+ND7bcXY6
+	iHpw==
+X-Received: by 10.52.173.165 with SMTP id bl5mr20372563vdc.13.1396798647737;
+	Sun, 06 Apr 2014 08:37:27 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.221.5.133 with HTTP; Sun, 6 Apr 2014 08:36:47 -0700 (PDT)
+In-Reply-To: <1396786107.24597.17.camel@ted>
 References: <CANyK_8dPFDShPAvhYt+89j0Mr4fjzpeMt28HrwNAZrN8qfnS4w@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	<1396786107.24597.17.camel@ted>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Sun, 6 Apr 2014 16:36:47 +0100
+X-Google-Sender-Auth: bV-2mKz8M-OKsyavtFRPuYu0yoc
+Message-ID: <CANyK_8eSA8fOD2dZTJ=LPm84JGGmn=zrvNsbtANJmMV2FJ2DcA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: opkg-0.2.2 release
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,52 +44,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Apr 2014 12:08:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 06 Apr 2014 15:37:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, 2014-04-01 at 22:18 +0100, Paul Barker wrote:
-> Hi all,
-> 
-> I've just released opkg-0.2.2 with the following bugfixes (issue
-> numbers refer to the opkg issue list):
-> 
-> - Fix '--force-reinstall' flag so that it acts as an upgrade rather than
->   removing possibly critical packages before reinstall (issue 71)
-> 
-> - Symlinks are now correctly removed during package uninstall (issue 91)
-> 
-> - Fixed help and manual pages to reflect that shell globs not true regexps are
->   accepted by opkg (issue 107)
-> 
-> - The error message "no valid architecture" is no longer given when the
->   architecture of a package is valid but incompatible with the current system.
-> 
-> This is a bugfix only release with no other significant changes.
-> 
-> I have also rebased the patches against opkg in oe-core against the
-> new release and checked that they still apply and that the result
-> builds with recent oe-core master. The result was tested on qemuarm by
-> running 'opkg update' against a package feed and installing a few new
-> packages.
+On 6 April 2014 13:08, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-04-01 at 22:18 +0100, Paul Barker wrote:
+>> Hi all,
+>>
+>> I've just released opkg-0.2.2 with the following bugfixes (issue
+>> numbers refer to the opkg issue list):
+>>
+>> - Fix '--force-reinstall' flag so that it acts as an upgrade rather than
+>>   removing possibly critical packages before reinstall (issue 71)
+>>
+>> - Symlinks are now correctly removed during package uninstall (issue 91)
+>>
+>> - Fixed help and manual pages to reflect that shell globs not true regexps are
+>>   accepted by opkg (issue 107)
+>>
+>> - The error message "no valid architecture" is no longer given when the
+>>   architecture of a package is valid but incompatible with the current system.
+>>
+>> This is a bugfix only release with no other significant changes.
+>>
+>> I have also rebased the patches against opkg in oe-core against the
+>> new release and checked that they still apply and that the result
+>> builds with recent oe-core master. The result was tested on qemuarm by
+>> running 'opkg update' against a package feed and installing a few new
+>> packages.
+>
+> Thanks for checking this, it certainly helps and is appreciated!
+>
+>> Do we want to try to get this in to the upcoming Yocto release or
+>> shall I delay the recipe upgrade until after the release? If you want
+>> it for the upcoming release I'll re-run my tests locally just to be
+>> sure it's looking good and then send a patch.
+>
+> We're about to roll -rc3 so this is getting late in the cycle to change
+> the package manager. Having said that this sounds like bug fixes which
+> would be nice to have.
+>
+> I think I'm leaning to not taking it right now as it is really too late
+> but I'm open to other views on this...
+>
 
-Thanks for checking this, it certainly helps and is appreciated!
+I'll hold off for now then and send patches for oe-core after daisy
+has been released.
 
-> Do we want to try to get this in to the upcoming Yocto release or
-> shall I delay the recipe upgrade until after the release? If you want
-> it for the upcoming release I'll re-run my tests locally just to be
-> sure it's looking good and then send a patch.
+> Cheers,
+>
+> Richard
+>
+>
 
-We're about to roll -rc3 so this is getting late in the cycle to change
-the package manager. Having said that this sounds like bug fixes which
-would be nice to have.
+Thanks,
 
-I think I'm leaning to not taking it right now as it is really too late
-but I'm open to other views on this...
+-- 
+Paul Barker
 
-Cheers,
-
-Richard
-
-
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
