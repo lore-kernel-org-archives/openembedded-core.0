@@ -1,27 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id AA3396EBA4
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6D960E07
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 02:29:43 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N3N00F1I2X4WEB0@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Sun, 06 Apr 2014 21:29:43 -0500 (CDT)
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 3457E20357; Sun,
-	06 Apr 2014 22:29:28 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 06 Apr 2014 22:29:15 -0400
-Message-id: <1396837755-4659-4-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 1.9.1
-In-reply-to: <1396837755-4659-1-git-send-email-denis@denix.org>
-References: <1396837755-4659-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 4/4] cryptodev-tests: recipe for cryptodev test suite based on OpenSSL
+	Mon,  7 Apr 2014 08:23:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,808,1389740400"; d="scan'208";a="44847150"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 07 Apr 2014 10:23:22 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Mon, 7 Apr 2014 10:23:22 +0200
+Received: from u75.usr.ingenico.loc (10.23.7.75) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.2.328.9; Mon, 7 Apr 2014 10:23:21 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Apr 2014 10:21:22 +0200
+Message-ID: <1396858882-22678-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH] documentation.conf (LICENSE): tiny addition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,160 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 02:29:43 -0000
+X-List-Received-Date: Mon, 07 Apr 2014 08:23:27 -0000
+Content-Type: text/plain
 
-From: Denys Dmytriyenko <denys@ti.com>
+Examples:
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+LICENSE = "MIT"
+LICENSE = "GPLv2 & LGPLv2.1"
+LICENSE = "AFL-2 | GPLv2+"
+LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
+LICENSE = "GPLv2 & (LGPLv2.1 | MPL-1.1 | BSD)"
+LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
+
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 ---
- .../cryptodev/cryptodev-tests_1.6.bb               | 23 ++++++++
- ...pile-and-install-rules-for-cryptodev-test.patch | 69 ++++++++++++++++++++++
- ...ests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch | 29 +++++++++
- 3 files changed, 121 insertions(+)
- create mode 100644 meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
- create mode 100644 meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
+ meta/conf/documentation.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
-new file mode 100644
-index 0000000..efc41ae
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
-@@ -0,0 +1,23 @@
-+require cryptodev_${PV}.inc
-+
-+SUMMARY = "A test suite for /dev/crypto device driver"
-+
-+DEPENDS += "openssl"
-+
-+SRC_URI += " \
-+file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
-+file://0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch \
-+"
-+
-+EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
-+
-+do_compile() {
-+	oe_runmake testprogs
-+}
-+
-+do_install() {
-+	oe_runmake install_tests
-+}
-+
-+FILES_${PN}-dbg += "${bindir}/tests_cryptodev/.debug"
-+FILES_${PN} = "${bindir}/tests_cryptodev/*"
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch b/meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
-new file mode 100644
-index 0000000..cb871f6
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
-@@ -0,0 +1,69 @@
-+From 1980a8f4779a955e73285e7a0d86549b69bea5c8 Mon Sep 17 00:00:00 2001
-+From: Yu Zongchun <b40527@freescale.com>
-+Date: Sun, 28 Apr 2013 14:39:22 +0800
-+Subject: [PATCH] Add the compile and install rules for cryptodev tests folder
-+
-+This is required to install the cryptodev tests folder to rootfs
-+
-+Signed-off-by: Yu Zongchun <b40527@freescale.com>
-+
-+Upstream-Status: Pending
-+
-+---
-+ Makefile       |    6 ++++++
-+ tests/Makefile |    8 ++++++++
-+ 2 files changed, 14 insertions(+), 0 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 2be8825..4cbb865 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -17,6 +17,9 @@ install:
-+ 	@echo "Installing cryptodev.h in /usr/include/crypto ..."
-+ 	@install -D crypto/cryptodev.h /usr/include/crypto/cryptodev.h
-+ 
-++install_tests:
-++	make -C tests install DESTDIR=$(PREFIX)
-++
-+ clean:
-+ 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` clean
-+ 	rm -f $(hostprogs) *~
-+@@ -25,6 +28,9 @@ clean:
-+ check:
-+ 	KERNEL_DIR=$(KERNEL_DIR) make -C tests check
-+ 
-++testprogs:
-++	KERNEL_DIR=$(KERNEL_DIR) make -C tests testprogs
-++
-+ FILEBASE = cryptodev-linux-$(VERSION)
-+ TMPDIR ?= /tmp
-+ OUTPUT = $(FILEBASE).tar.gz
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 87ca3c7..0488cf6 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -19,6 +19,12 @@ example-async-hmac-objs := async_hmac.o
-+ example-async-speed-objs := async_speed.o
-+ example-hashcrypt-speed-objs := hashcrypt_speed.c
-+ 
-++install:
-++	install -d  $(DESTDIR)/usr/bin/tests_cryptodev
-++	for bin in $(hostprogs); do \
-++		install -m 755 $${bin} $(DESTDIR)/usr/bin/tests_cryptodev/; \
-++	done
-++
-+ check: $(hostprogs)
-+ 	./cipher
-+ 	./hmac
-+@@ -28,6 +34,8 @@ check: $(hostprogs)
-+ 	./cipher-gcm
-+ 	./cipher-aead
-+ 
-++testprogs: $(hostprogs)
-++
-+ clean:
-+ 	rm -f *.o *~ $(hostprogs)
-+ 
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch b/meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
-new file mode 100644
-index 0000000..f5ab8b4
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
-@@ -0,0 +1,29 @@
-+From 47ff1eb9bb4f872c1d731b93d334ee5865bf3439 Mon Sep 17 00:00:00 2001
-+From: Denys Dmytriyenko <denys@ti.com>
-+Date: Sun, 6 Apr 2014 22:16:30 -0400
-+Subject: [PATCH] Fix tests Makefile usage of LDLIBS vs. LDFLAGS
-+
-+Libraries must come after objects, as link order matters, especially
-+when using linker flags like -Wl,--as-needed.
-+
-+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-+
-+Upstream-Status: Pending
-+---
-+ tests/Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/Makefile b/tests/Makefile
-+index cd202af..67c3c83 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -39,5 +39,5 @@ testprogs: $(hostprogs)
-+ clean:
-+ 	rm -f *.o *~ $(hostprogs)
-+ 
-+-${comp_progs}: LDFLAGS += -lssl -lcrypto
-++${comp_progs}: LDLIBS += -lssl -lcrypto
-+ ${comp_progs}: %: %.o openssl_wrapper.o
-+-- 
-+1.9.1
-+
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 9d6e78f..7fa3f31 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -253,7 +253,7 @@ LAYERDIR[doc] = "When used inside the layer.conf configuration file, this variab
+ LAYERVERSION[doc] = "Optionally specifies the version of a layer as a single number. This variable is used in the conf/layer.conf file and must be suffixed with the name of the specific layer."
+ LEAD_SONAME[doc] = "Specifies the lead (or primary) compiled library file (.so) that the debian class applies its naming policy to given a recipe that packages multiple libraries."
+ LIC_FILES_CHKSUM[doc] = "Checksums of the license text in the recipe source code."
+-LICENSE[doc] = "The list of source licenses for the recipe."
++LICENSE[doc] = "The list of source licenses for the recipe. Logical operators '&' or '|' and parentheses can be used."
+ LICENSE_PATH[doc] = "Path to additional licenses used during the build."
+ LINUX_KERNEL_TYPE[doc] = "Defines the kernel type to be used in assembling the configuration."
+ LINUX_VERSION[doc] = "The Linux version from kernel.org on which the Linux kernel image being built using the OpenEmbedded build system is based. You define this variable in the kernel recipe."
 -- 
-1.9.1
+1.8.5.4
 
 
