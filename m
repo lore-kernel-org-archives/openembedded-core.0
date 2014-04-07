@@ -1,39 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id BE9A86F8DE
+Return-Path: <openembedded-core@emagii.com>
+Received: from smtprelay-b21.telenor.se (smtprelay-b21.telenor.se
+	[195.54.99.212])
+	by mail.openembedded.org (Postfix) with ESMTP id C47CE6A8F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 19:50:37 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id hn18so4143399igb.11
+	Mon,  7 Apr 2014 20:02:41 +0000 (UTC)
+Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
+	by smtprelay-b21.telenor.se (Postfix) with ESMTP id 9EC82C0F1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Apr 2014 12:50:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=b920rtraJVZv02NQCR+s6xYCPXSs3SGZHEZClWVkkfE=;
-	b=L8VGkYJ+bCZAxIEDOjREwU0isJWJ7ezTlqlVFxVm5/O9J4VxWuRCcGclf4hnW2gwCI
-	+UnEWl4TB0nw5R+nO/9J+PYnzHhR17tarPzbToo9vLKIco1EBQZJS8HWMm3P5FpgcCnG
-	MKM+S3mw3w/F0JBWy2Jnvue+2jgUTJIyMuf5kjF7IsMV3eRdeAGYUHalZL7wKU674Snc
-	MjIhoweh9AUtFA7jpX8f0OmW9pI0cEY22HTpwhzZNuMSAk6Kq4xRm2G4I9wpn+V7iLHH
-	i+LZPBVPZoHyyKLLavlPH7J5hFYGgkNbcrshrL24ZwmbxYANcI9npgnUG/W7IBJKy21n
-	qZwg==
+	Mon,  7 Apr 2014 22:02:41 +0200 (CEST)
+X-SENDER-IP: [83.227.57.102]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AjwbAFQDQ1NT4zlmPGdsb2JhbAANTINBiBq1JIh8AwEBAQE4gxMBBUA9FhgDAgECATEnCAEBh3qoToZPnGGTMASYW5Vx
+X-IPAS-Result: AjwbAFQDQ1NT4zlmPGdsb2JhbAANTINBiBq1JIh8AwEBAQE4gxMBBUA9FhgDAgECATEnCAEBh3qoToZPnGGTMASYW5Vx
+X-IronPort-AV: E=Sophos;i="4.97,812,1389740400"; d="scan'208";a="857096425"
+Received: from c-6639e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.199]) ([83.227.57.102])
+	by ipb1.telenor.se with ESMTP; 07 Apr 2014 22:02:41 +0200
+Message-ID: <53430460.4080608@emagii.com>
+Date: Mon, 07 Apr 2014 22:02:40 +0200
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-X-Received: by 10.50.43.170 with SMTP id x10mr299279igl.20.1396900238029; Mon,
-	07 Apr 2014 12:50:38 -0700 (PDT)
-Received: by 10.50.229.14 with HTTP; Mon, 7 Apr 2014 12:50:37 -0700 (PDT)
-Received: by 10.50.229.14 with HTTP; Mon, 7 Apr 2014 12:50:37 -0700 (PDT)
-In-Reply-To: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
-References: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
-Date: Mon, 7 Apr 2014 12:50:37 -0700
-Message-ID: <CAMKF1soQs+xKTK3gQemohdN0Mgu05PWYAvbjXDopFM2H1qwGuw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] e2fsprogs: fix multilib header conflict - ext2_types.h
+To: openembedded-core@lists.openembedded.org
+Subject: meta-toolchain-sdk LDFLAGS fails for ARMv7 (beagleboard)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -43,125 +39,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 19:50:38 -0000
-Content-Type: multipart/alternative; boundary=089e01176cad797b7404f6792e49
+X-List-Received-Date: Mon, 07 Apr 2014 20:02:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
---089e01176cad797b7404f6792e49
-Content-Type: text/plain; charset=UTF-8
+Trying to build an SDK for the Beaglebone
 
-On Apr 7, 2014 1:28 AM, "Ming Liu" <ming.liu@windriver.com> wrote:
->
-> ext2_types.h conflicts between 32-bit and 64-bit versions.
->
+$ git clone git://git.yoctoproject.org/poky
+$ cd poky
+$ git checkout -b dora origin/dora
 
-can you explain the conflicts
-may be they can be addressed
+$ . oe-init-build-env
 
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs.inc       | 3 +--
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> index a34df37..99447c1 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-> @@ -22,5 +22,4 @@ DEPENDS = "util-linux"
->  SRC_URI = "${SOURCEFORGE_MIRROR}/e2fsprogs/e2fsprogs-${PV}.tar.gz \
->             file://mkdir.patch"
->
-> -inherit autotools gettext pkgconfig
-> -
-> +inherit autotools gettext pkgconfig multilib_header
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bbb/meta/recipes-devtools/e2fsprogs/
-e2fsprogs_1.42.9.bb
-> index 3a5d6ee..2bdd724 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> @@ -52,6 +52,8 @@ do_install () {
->                 mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
->                 mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
->         fi
-> +
-> +       oe_multilib_header ext2fs/ext2_types.h
->  }
->
->  RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
-> --
-> 1.8.4.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+MACHINE is set to "beagleboard" in local.conf
 
---089e01176cad797b7404f6792e49
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+$ ./environment-angstrom-v2013.06
 
-<p dir=3D"ltr"><br></p>
-<p dir=3D"ltr">On Apr 7, 2014 1:28 AM, &quot;Ming Liu&quot; &lt;<a href=3D"=
-mailto:ming.liu@windriver.com">ming.liu@windriver.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; ext2_types.h conflicts between 32-bit and 64-bit versions.<br>
-&gt;</p>
-<p dir=3D"ltr">can you explain the conflicts<br>
-may be they can be addressed</p>
-<p dir=3D"ltr">&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:ming.liu@=
-windriver.com">ming.liu@windriver.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/recipes-devtools/e2fsprogs/e2fsprogs.inc =C2=A0 =C2=A0 =C2=
-=A0 | 3 +--<br>
-&gt; =C2=A0meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.42=
-.9.bb">e2fsprogs_1.42.9.bb</a> | 2 ++<br>
-&gt; =C2=A02 files changed, 3 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/reci=
-pes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; index a34df37..99447c1 100644<br>
-&gt; --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc<br>
-&gt; @@ -22,5 +22,4 @@ DEPENDS =3D &quot;util-linux&quot;<br>
-&gt; =C2=A0SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/e2fsprogs/e2fsprogs-${PV=
-}.tar.gz \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://mkdir.patch&quot;<br>
-&gt;<br>
-&gt; -inherit autotools gettext pkgconfig<br>
-&gt; -<br>
-&gt; +inherit autotools gettext pkgconfig multilib_header<br>
-&gt; diff --git a/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fspro=
-gs_1.42.9.bb">e2fsprogs_1.42.9.bb</a> b/meta/recipes-devtools/e2fsprogs/<a =
-href=3D"http://e2fsprogs_1.42.9.bb">e2fsprogs_1.42.9.bb</a><br>
-&gt; index 3a5d6ee..2bdd724 100644<br>
-&gt; --- a/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.42=
-.9.bb">e2fsprogs_1.42.9.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/e2fsprogs/<a href=3D"http://e2fsprogs_1.42=
-.9.bb">e2fsprogs_1.42.9.bb</a><br>
-&gt; @@ -52,6 +52,8 @@ do_install () {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${D}${base_=
-libdir}/e2initrd_helper ${D}${libdir}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${D}${base_=
-libdir}/pkgconfig ${D}${libdir}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt; +<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0 oe_multilib_header ext2fs/ext2_types.h<br>
-&gt; =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0RDEPENDS_e2fsprogs =3D &quot;e2fsprogs-badblocks&quot;<br>
-&gt; --<br>
-&gt; 1.8.4.1<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
+$ bitbake meta-toolchain-sdk
 
---089e01176cad797b7404f6792e49--
+SDK is generated, and installed in /opt/poky/1.5.1 (default)
+
+The toolchain environment file is "sourced"
+
+Then I try to build U-Boot-13.10 (with a minor patch)
+
+
+$ make am335x_boneblack_config
+
+$ make
+
+After compiling a number of file, the linking of a library fails:
+
+arm-poky-linux-gnueabi-ld.bfd -Wl,-O1 -Wl,--hash-style=gnu 
+-Wl,--as-needed   -r -o libcommon.o  cmd_bdinfo.o cmd_boot.o cmd_bootm.o 
+cmd_console.o cmd_dfu.o cmd_disk.o cmd_echo.o cmd_eeprom.o cmd_exit.o 
+cmd_ext2.o cmd_ext4.o cmd_fat.o cmd_fdt.o cmd_fs.o cmd_gpio.o cmd_help.o 
+cmd_i2c.o cmd_itest.o cmd_load.o cmd_mem.o cmd_misc.o cmd_mmc.o 
+cmd_net.o cmd_nvedit.o cmd_pcmcia.o cmd_sf.o cmd_source.o cmd_spi.o 
+cmd_spl.o cmd_test.o cmd_usb.o cmd_version.o cmd_ximg.o command.o 
+console.o dlmalloc.o env_attr.o env_callback.o env_common.o env_flags.o 
+env_mmc.o exports.o fdt_support.o flash.o hash.o hush.o image-fdt.o 
+image.o main.o memsize.o miiphyutil.o s_record.o splash.o stdio.o usb.o 
+usb_hub.o usb_storage.o xyzModem.o
+arm-poky-linux-gnueabi-ld.bfd: unrecognized option '-Wl,-O1'
+arm-poky-linux-gnueabi-ld.bfd: use the --help option for usage information
+make[1]: *** [libcommon.o] Fel 1
+make[1]: Lämnar katalogen 
+"/home/ulf/felabs/sysdev/bootloader/u-boot-2013.10/common"
+make: *** [common/libcommon.o] Fel 2
+
+-------------------
+The environment looks like:
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export 
+PATH=/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin:/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi:$PATH
+export 
+PKG_CONFIG_SYSROOT_DIR=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi
+export 
+PKG_CONFIG_PATH=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/lib/pkgconfig
+export 
+CONFIG_SITE=/opt/poky/1.5.1/site-config-armv7a-vfp-neon-poky-linux-gnueabi
+export CC="arm-poky-linux-gnueabi-gcc  -march=armv7-a -mthumb-interwork 
+-mfloat-abi=softfp -mfpu=neon 
+--sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export CXX="arm-poky-linux-gnueabi-g++  -march=armv7-a -mthumb-interwork 
+-mfloat-abi=softfp -mfpu=neon 
+--sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export CPP="arm-poky-linux-gnueabi-gcc -E  -march=armv7-a 
+-mthumb-interwork -mfloat-abi=softfp -mfpu=neon 
+--sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export AS="arm-poky-linux-gnueabi-as "
+export LD="arm-poky-linux-gnueabi-ld 
+--sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export GDB=arm-poky-linux-gnueabi-gdb
+export STRIP=arm-poky-linux-gnueabi-strip
+export RANLIB=arm-poky-linux-gnueabi-ranlib
+export OBJCOPY=arm-poky-linux-gnueabi-objcopy
+export OBJDUMP=arm-poky-linux-gnueabi-objdump
+export AR=arm-poky-linux-gnueabi-ar
+export NM=arm-poky-linux-gnueabi-nm
+export M4=m4
+export TARGET_PREFIX=arm-poky-linux-gnueabi-
+export CONFIGURE_FLAGS="--target=arm-poky-linux-gnueabi 
+--host=arm-poky-linux-gnueabi --build=x86_64-linux 
+--with-libtool-sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types"
+export CXXFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fpermissive"
+export LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed"
+export CPPFLAGS=""
+export OECORE_NATIVE_SYSROOT="/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux"
+export 
+OECORE_TARGET_SYSROOT="/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export OECORE_ACLOCAL_OPTS="-I 
+/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/share/aclocal"
+export OECORE_DISTRO_VERSION="1.5.1"
+export OECORE_SDK_VERSION="1.5.1"
+export PYTHONHOME=/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
+export ARCH=arm
+export CROSS_COMPILE=arm-poky-linux-gnueabi-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Notable is:
+export LD="arm-poky-linux-gnueabi-ld 
+--sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+export LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed"
+
+ From the error message I see:
+"arm-poky-linux-gnueabi-ld.bfd -Wl,-O1 ..."
+
+Note that $(CROSS_COMPILE)-ld.bfd is used, not $(CROSS_COMPILE)-ld
+
+so the linker is linking with $(LDFLAGS) which contains switches to be 
+passed to the compiler, and bombs
+
+Changing LD to:
+export LD="arm-poky-linux-gnueabi-gcc 
+--sysroot=/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
+
+Does not help, still you get the same error message with
+$(CROSS_COMPILE)-ld.bfd called with "-Wl,..." arguments.
+
+Only when I am setting LDFLAGS="", E.E: not passing arguments to I can 
+compile U-Boot.
+
+It looks like the toolchain does not handle compiler linker flags 
+correctly and passes the arguments without parsing to the linker.
+
+
+If you use the SDK, Is it wrong to do=
+
+${LD} ${LDFLAGS} ??
+
+U-Boot does this in several places?
+
+Using the poky installation to
+
+  bitbake core-image-minimal
+
+will complete the build of U-Boot-2013.07, but does not pass these options.
+
+arm-poky-linux-gnueabi-ld.bfd  -r -o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/libcommon.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/cmd_nvedit.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/console.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/dlmalloc.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/env_common.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/env_nand.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/image-fdt.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/image.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/memsize.o 
+/home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/stdio.o
+
+
+-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+
+
