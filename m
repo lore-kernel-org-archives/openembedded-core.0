@@ -1,30 +1,27 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D32AF6F769
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D86F6F911
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 23:25:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s37NPtnf025334
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Apr 2014 16:25:56 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.109]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0169.001;
-	Mon, 7 Apr 2014 16:25:55 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: libxslt populate_sysroot dependencies
-Thread-Index: Ac9St9lECD/KPBdYT26R1f74B7GePg==
-Date: Mon, 7 Apr 2014 23:25:55 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF8455D24E2D@ALA-MBA.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.76]
+	Tue,  8 Apr 2014 00:22:45 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Apr 2014 15:08:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,813,1389772800"; d="scan'208";a="488861164"
+Received: from unknown (HELO [10.255.12.20]) ([10.255.12.20])
+	by orsmga001.jf.intel.com with ESMTP; 07 Apr 2014 15:13:14 -0700
+Message-ID: <534322FA.6090404@linux.intel.com>
+Date: Mon, 07 Apr 2014 15:13:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Subject: libxslt populate_sysroot dependencies
+To: Denys Dmytriyenko <denis@denix.org>, 
+	openembedded-core@lists.openembedded.org
+References: <1396837755-4659-1-git-send-email-denis@denix.org>
+	<1396837755-4659-3-git-send-email-denis@denix.org>
+In-Reply-To: <1396837755-4659-3-git-send-email-denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 3/4] cryptodev-module: recipe for out-of-tree cryptodev device driver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,137 +34,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 23:26:00 -0000
-X-Groupsio-MsgNum: 52240
-Content-Language: en-US
-Content-Type: multipart/mixed;
-	boundary="_004_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_"
+X-List-Received-Date: Tue, 08 Apr 2014 00:22:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---_004_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_"
-
---_000_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-I have attached a patch that makes sure libxml2-native is available when bo=
-th it and libxslt-native
-are taken from sstate.
-
-The patch parallels one from a few weeks ago for pixbufcache, but the under=
-lying problem might
-have been fixed since then.  I looked for likely commits, and didn't see an=
-ything, so this patch
-might still be needed.
-
-Joe
-
-
---_000_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On 04/06/2014 07:29 PM, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">I have attached a patch that makes sure libxml2-nati=
-ve is available when both it and libxslt-native<o:p></o:p></p>
-<p class=3D"MsoNormal">are taken from sstate.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">The patch parallels one from a few weeks ago for pix=
-bufcache, but the underlying problem might<o:p></o:p></p>
-<p class=3D"MsoNormal">have been fixed since then.&nbsp; I looked for likel=
-y commits, and didn't see anything, so this patch<o:p></o:p></p>
-<p class=3D"MsoNormal">might still be needed.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Joe<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> Depends on cryptodev-linux for providing a header file
+>
 
---_000_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_--
+I am seeing failure on the Autobuilder with multilib enabled (lib32), I 
+am not sure if this is a multilib issue, but it shows up here
 
---_004_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_
-Content-Type: application/octet-stream;
-	name="0001-libxslt-native-add-populate_sysroot-dependencies.patch"
-Content-Description: 0001-libxslt-native-add-populate_sysroot-dependencies.patch
-Content-Disposition: attachment;
-	filename="0001-libxslt-native-add-populate_sysroot-dependencies.patch";
-	size=1400; creation-date="Mon, 07 Apr 2014 23:23:12 GMT";
-	modification-date="Mon, 07 Apr 2014 21:42:45 GMT"
-Content-Transfer-Encoding: base64
 
-RnJvbSA5MjE4NDZiOGMwNGMzYWNmOTllYWM2YzIwY2QyZmJmOTU1ZjA0MmQxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb20+CkRh
-dGU6IE1vbiwgNyBBcHIgMjAxNCAxNDozNzoyNSAtMDcwMApTdWJqZWN0OiBbUEFUQ0ggMS8xXSBs
-aWJ4c2x0LW5hdGl2ZTogYWRkIHBvcHVsYXRlX3N5c3Jvb3QgZGVwZW5kZW5jaWVzCgpXaGVuIGxp
-YnhzbHQtbmF0aXZlIHBvcHVsYXRlcyBzeXNyb290IGZyb20gc3N0YXRlIHdlCm5lZWQgdG8gZGVw
-ZW5kIG9uIGxpYnhtbDIuICBJZiB3ZSBkbyBub3QsIHhzbHRwcm9jIG1pZ2h0CnRyeSB0byB1c2Ug
-dGhlIGhvc3QgbGlieG1sMiwgd2hpY2ggaXQgd2FzIG5vdCBsaW5rZWQgYWdhaW5zdC4KClNpZ25l
-ZC1vZmYtYnk6IEpvZSBTbGF0ZXIgPGpzbGF0ZXJAd2luZHJpdmVyLmNvbT4KLS0tCiBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xpYnhzbHRfMS4xLjI4LmJiIHwgICAgOSArKysrKysrKysK
-IDEgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGlieHNsdF8xLjEuMjguYmIgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ4c2x0L2xpYnhzbHRfMS4xLjI4LmJiCmluZGV4IGFlMmU2
-YjEuLmFiNTZmZGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnhzbHQvbGli
-eHNsdF8xLjEuMjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlieHNsdC9saWJ4c2x0
-XzEuMS4yOC5iYgpAQCAtMzcsMyArMzcsMTIgQEAgRklMRVNfJHtQTn0gKz0gIiR7bGliZGlyfS9s
-aWJ4c2x0LXBsdWdpbnMiCiBGSUxFU18ke1BOfS1kZXYgKz0gIiR7bGliZGlyfS94c2x0Q29uZi5z
-aCIKIAogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUiCisKKyMgSW4gb3JkZXIgdG8gYmUgc3VyZSB4
-c2x0cHJvYyBjYW4gcnVuIGFmdGVyIG91ciBwb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lLCB3ZSBu
-ZWVkCisjIHRvIGhhdmUgcnVudGltZSBkZXBlbmRlbmNpZXMgaGVyZS4gIEJvdGggc2V0cyBvZiBk
-ZXBlbmRlbmNpZXMgYXJlIG5lY2Vzc2FyeSEKKyMKK0xPQ0FMX1NZU1JPT1RfREVQUyA9ICIiCitM
-T0NBTF9TWVNST09UX0RFUFNfY2xhc3MtbmF0aXZlID0gImxpYnhtbDItbmF0aXZlOmRvX3BvcHVs
-YXRlX3N5c3Jvb3Rfc2V0c2NlbmUiCitkb19wb3B1bGF0ZV9zeXNyb290X3NldHNjZW5lW2RlcGVu
-ZHNdICs9ICIke0xPQ0FMX1NZU1JPT1RfREVQU30iCitkb19wb3B1bGF0ZV9zeXNyb290W2RlcGVu
-ZHNdICs9ICIke0BkLmdldFZhcignTE9DQUxfU1lTUk9PVF9ERVBTJywgVHJ1ZSkucmVwbGFjZSgn
-X3NldHNjZW5lJywnJyl9IgorCi0tIAoxLjcuMy40Cgo=
+> NOTE: Running task 14174 of 19826 (ID: 13044, virtual:multilib:lib32:/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-core/libcgroup/libcgroup_0.41.bb, do_configure)
+> ERROR: Function failed: do_compile (log file is located at /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/temp/log.do_compile.19322)
+> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/temp/log.do_compile.19322
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | NOTE: make -j 16 KERNEL_DIR=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/src/kernel PREFIX=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/image KERNEL_PATH=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/src/kernel KERNEL_SRC=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/src/kernel KERNEL_VERSION=3.14.0-yocto-standard CC=i586-poky-linux-gcc  LD=i586-poky-linux-ld.bfd  AR=i586-poky-linux-ar
+> | make -C /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/src/kernel SUBDIRS=`pwd` modules
+> | make[1]: Entering directory `/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/src/kernel'
+> | make[1]: warning: jobserver unavailable: using -j1.  Add `+' to parent make rule.
+> |   CC [M]  /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/ioctl.o
+> | /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/ioctl.c:710:21: warning: 'is_known_accelerated' defined but not used [-Wunused-function]
+> |  static unsigned int is_known_accelerated(struct crypto_tfm *tfm)
+> |                      ^
+> |   CC [M]  /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/main.o
+> |   CC [M]  /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/cryptlib.o
+> | /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/cryptlib.c: In function 'cryptodev_cipher_encrypt':
+> | /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/cryptlib.c:223:2: error: implicit declaration of function 'INIT_COMPLETION' [-Werror=implicit-function-declaration]
+> |   INIT_COMPLETION(cdata->async.result->completion);
+> |   ^
+> | cc1: some warnings being treated as errors
+> | make[2]: *** [/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6/cryptlib.o] Error 1
+> | make[1]: *** [_module_/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/cryptodev-linux-1.6] Error 2
+> | make[1]: Leaving directory `/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/src/kernel'
+> | make: *** [build] Error 2
+> | ERROR: oe_runmake failed
+> | WARNING: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/temp/run.do_compile.19322:1 exit 1 from
+> |   exit 1
+> | ERROR: Function failed: do_compile (log file is located at /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/qemux86-poky-linux/cryptodev-module/1.6-r0/temp/log.do_compile.19322)
+> NOTE: recipe cryptodev-module-1.6-r0: task do_compile: Failed
+> ERROR: Task 13808 (/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb, do_compile) failed with exit code '1'
+> NOTE: Running task 14175 of 19826 (ID: 13002, virtual:multilib:lib32:/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-devtools/python/python-mako_0.9.1.bb, do_configure)
+> NOTE: recipe liburcu-0.8.1-r0: task do_package_write_deb: Succeeded
 
---_004_007BD92917A2324FA403BCF9A464CF8455D24E2DALAMBAcorpadwrs_--
+
+
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>   .../cryptodev/cryptodev-module_1.6.bb              | 15 ++++++++++++
+>   ...talling-header-file-provided-by-another-p.patch | 28 ++++++++++++++++++++++
+>   2 files changed, 43 insertions(+)
+>   create mode 100644 meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+>   create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+>
+> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+> new file mode 100644
+> index 0000000..fdf07b2
+> --- /dev/null
+> +++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+> @@ -0,0 +1,15 @@
+> +require cryptodev_${PV}.inc
+> +
+> +SUMMARY = "A /dev/crypto device driver kernel module"
+> +
+> +inherit module
+> +
+> +# Header file provided by a separate package
+> +DEPENDS += "cryptodev-linux"
+> +
+> +SRC_URI += "file://0001-Disable-installing-header-file-provided-by-another-p.patch"
+> +
+> +EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+> +
+> +RCONFLICTS_${PN} = "ocf-linux"
+> +RREPLACES_${PN} = "ocf-linux"
+> diff --git a/meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch b/meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+> new file mode 100644
+> index 0000000..a580fc6
+> --- /dev/null
+> +++ b/meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+> @@ -0,0 +1,28 @@
+> +From 8a884f55bd1527baa82fab68c186ba546273860c Mon Sep 17 00:00:00 2001
+> +From: Denys Dmytriyenko <denys@ti.com>
+> +Date: Sun, 6 Apr 2014 19:51:39 -0400
+> +Subject: [PATCH] Disable installing header file provided by another package
+> +
+> +Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> +
+> +Upstream-Status: Inappropriate [ OE specific ]
+> +---
+> + Makefile | 2 --
+> + 1 file changed, 2 deletions(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index d66ef26..8e97c6a 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -23,8 +23,6 @@ install: modules_install
+> +
+> + modules_install:
+> + 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` modules_install
+> +-	@echo "Installing cryptodev.h in $(PREFIX)/usr/include/crypto ..."
+> +-	@install -D crypto/cryptodev.h $(PREFIX)/usr/include/crypto/cryptodev.h
+> +
+> + clean:
+> + 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` clean
+> +--
+> +1.9.1
+> +
+>
+
