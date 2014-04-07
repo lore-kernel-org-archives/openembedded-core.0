@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D00C620B7
+	by mail.openembedded.org (Postfix) with ESMTP id A3E73620B7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 12:32:44 +0000 (UTC)
+	Mon,  7 Apr 2014 12:35:37 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s37CWdv1012332 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Apr 2014 13:32:40 +0100
+	s37CZVeK012436; Mon, 7 Apr 2014 13:35:32 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KTFyl5N7rN6D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 13:32:39 +0100 (BST)
+	with LMTP id LBTgxRwg6vEg; Mon,  7 Apr 2014 13:35:31 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s37CWY9O012314
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Apr 2014 13:32:35 +0100
-Message-ID: <1396873948.24597.48.camel@ted>
+	s37CZS0X012431
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 7 Apr 2014 13:35:30 +0100
+Message-ID: <1396874123.24597.51.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 07 Apr 2014 13:32:28 +0100
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Date: Mon, 07 Apr 2014 13:35:23 +0100
+In-Reply-To: <1396872629-5748-1-git-send-email-fathi.boudra@linaro.org>
+References: <1396872629-5748-1-git-send-email-fathi.boudra@linaro.org>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] package.bbclass: Add CONFFILES to list of package specific variables
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] trace-cmd/kernelshark: update to 2.3.2 release (latest stable branch)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +37,492 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 12:32:45 -0000
+X-List-Received-Date: Mon, 07 Apr 2014 12:35:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Changes to CONFFILES should change the sstate checksum. To make that happen,
-it needs to be listed in the list of package specific variables, therefore
-add it.
+On Mon, 2014-04-07 at 15:10 +0300, Fathi Boudra wrote:
+>  * drop all the patches - not needed anymore
+>  * update SRCREV and PV to 2.3.2 tag
+>  * drop PR
+>  * update SRC_URI to use trace-cmd-stable-v2.3 branch
+>  * drop EXTRA_OEMAKE - not needed
+>  * update do_install and pass NO_PYTHON/prefix/plugin_dir
+>  * update trace-input.c md5 sum - FSF address has been updated
+>  * oe stylize the recipes
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0018a62..ea75918 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1847,7 +1847,7 @@ python package_depchains() {
- 
- # Since bitbake can't determine which variables are accessed during package
- # iteration, we need to list them here:
--PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM"
-+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES"
- 
- def gen_packagevar(d):
-     ret = []
+There is too much going on in this patch to make it easy to review. In
+particular, style changes should be put into a separate patch. I'd like
+to better understand why the patches aren't needed too. Were patches
+merged upstream which accounted for these issues? including the docs?
+
+Cheers,
+
+Richard
+
+> 
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+> ---
+>  .../{kernelshark_1.2.bb => kernelshark_2.3.2.bb}   | 32 ++++----
+>  .../trace-cmd/trace-cmd/addldflags.patch           | 51 ------------
+>  .../trace-cmd/blktrace-api-compatibility.patch     | 29 -------
+>  .../trace-cmd/trace-cmd/make-docs-optional.patch   | 36 --------
+>  ...dd-checks-for-invalid-pointers-to-fix-seg.patch | 61 --------------
+>  ...o-not-call-stop_threads-if-doing-latency-.patch | 38 ---------
+>  ...etting-plugin-to-nop-clears-data-before-i.patch | 96 ----------------------
+>  .../{trace-cmd_1.2.bb => trace-cmd_2.3.2.bb}       | 27 ++----
+>  8 files changed, 23 insertions(+), 347 deletions(-)
+>  rename meta/recipes-kernel/trace-cmd/{kernelshark_1.2.bb => kernelshark_2.3.2.bb} (51%)
+>  delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+>  delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/blktrace-api-compatibility.patch
+>  delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
+>  delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch
+>  delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch
+>  delete mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch
+>  rename meta/recipes-kernel/trace-cmd/{trace-cmd_1.2.bb => trace-cmd_2.3.2.bb} (41%)
+> 
+> diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_2.3.2.bb
+> similarity index 51%
+> rename from meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> rename to meta/recipes-kernel/trace-cmd/kernelshark_2.3.2.bb
+> index 9268a50..545244e 100644
+> --- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> +++ b/meta/recipes-kernel/trace-cmd/kernelshark_2.3.2.bb
+> @@ -2,28 +2,26 @@ SUMMARY = "Graphical trace viewer for Ftrace"
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>                      file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
+> -
+> -SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
+> -PR = "r3"
+> -PV = "1.2+git${SRCPV}"
+> -
+>  DEPENDS = "gtk+"
+> -RDEPENDS_${PN} = "trace-cmd"
+> +SRCREV = "79e08f8edb38c4c5098486caaa87ca90ba00f547"
+> +PV = "2.3.2"
+>  
+> -inherit pkgconfig pythonnative
+> +SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;branch=trace-cmd-stable-v2.3 \
+> +"
+>  
+> -SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
+> -           file://addldflags.patch \
+> -           file://make-docs-optional.patch \
+> -           file://blktrace-api-compatibility.patch"
+>  S = "${WORKDIR}/git"
+>  
+> -EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
+> -
+> -FILESPATH = "${FILE_DIRNAME}/trace-cmd"
+> +inherit pkgconfig pythonnative
+>  
+>  do_install() {
+> -	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
+> -	rm -rf ${D}${datadir}/trace-cmd
+> -	rmdir ${D}${datadir}
+> +    ${MAKE} NO_PYTHON=1 prefix=${prefix} plugin_dir=${libdir}/trace-cmd/plugins DESTDIR=${D} install_gui
+> +
+> +    # remove files already shipped in trace-cmd package
+> +    rm -f ${D}${bindir}/trace-cmd
+> +    rm -rf ${D}${libdir}/trace-cmd
+> +    rmdir ${D}${libdir}
+>  }
+> +
+> +RDEPENDS_${PN} = "trace-cmd"
+> +
+> +FILESPATH = "${FILE_DIRNAME}/trace-cmd"
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+> deleted file mode 100644
+> index 14730db..0000000
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+> +++ /dev/null
+> @@ -1,51 +0,0 @@
+> -trace-cmd: Cross-compile fixes for LDFLAGS and include path
+> -
+> -Add ability for the Makefile to respect LDFLAGS.
+> -Also remove hardcoded /usr/local/include include path.
+> -
+> -Upstream-Status: Accepted [Post 1.2: 5f576e9af7ad706774d9764a9ae3989376797c0e]
+> -
+> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> -Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> -
+> ----
+> - Makefile |    7 ++++---
+> - 1 file changed, 4 insertions(+), 3 deletions(-)
+> -
+> -Index: git/Makefile
+> -===================================================================
+> ---- git.orig/Makefile
+> -+++ git/Makefile
+> -@@ -202,12 +202,13 @@ export Q VERBOSE
+> - TRACECMD_VERSION = $(TC_VERSION).$(TC_PATCHLEVEL).$(TC_EXTRAVERSION)
+> - KERNELSHARK_VERSION = $(KS_VERSION).$(KS_PATCHLEVEL).$(KS_EXTRAVERSION)
+> - 
+> --INCLUDES = -I. -I/usr/local/include $(CONFIG_INCLUDES)
+> -+INCLUDES = -I. $(CONFIG_INCLUDES)
+> - 
+> - include features.mk
+> - 
+> - # Set compile option CFLAGS if not set elsewhere
+> - CFLAGS ?= -g -Wall
+> -+LDFLAGS ?=
+> - 
+> - ifndef NO_PTRACE
+> - ifneq ($(call try-cc,$(SOURCE_PTRACE),),y)
+> -@@ -251,7 +252,7 @@ do_fpic_compile =					\
+> - 
+> - do_app_build =						\
+> - 	($(print_app_build)				\
+> --	$(CC) $^ -rdynamic -o $@ $(CONFIG_LIBS) $(LIBS))
+> -+	$(CC) $^ -rdynamic -o $@ $(LDFLAGS) $(CONFIG_LIBS) $(LIBS))
+> - 
+> - do_compile_shared_library =			\
+> - 	($(print_shared_lib_compile)		\
+> -@@ -263,7 +264,7 @@ do_compile_plugin_obj =				\
+> - 
+> - do_plugin_build =				\
+> - 	($(print_plugin_build)			\
+> --	$(CC) $(CFLAGS) -shared -nostartfiles -o $@ $<)
+> -+	$(CC) $(CFLAGS) $(LDFLAGS) -shared -nostartfiles -o $@ $<)
+> - 
+> - do_build_static_lib =				\
+> - 	($(print_static_lib_build)		\
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/blktrace-api-compatibility.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/blktrace-api-compatibility.patch
+> deleted file mode 100644
+> index 0789e9f..0000000
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd/blktrace-api-compatibility.patch
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -trace-cmd: Add blktrace_api compatibility for TC_BARRIER
+> -
+> -Newer kernels replace TC_BARRIER with TC_FLUSH. Ensure trace-cmd
+> -can build regardless of the linux-kernel-headers version.
+> -
+> -Upstream-Status: Innapropriate [Stop gap]
+> -
+> -Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> -
+> -diff --git a/plugin_blk.c b/plugin_blk.c
+> -index 9327b17..c8e5e1c 100644
+> ---- a/plugin_blk.c
+> -+++ b/plugin_blk.c
+> -@@ -44,6 +44,15 @@ struct blk_data {
+> - 	unsigned short		pdu_len;
+> - };
+> - 
+> -+/*
+> -+ * Newer kernels don't define BLK_TC_BARRIER and have replaced it with
+> -+ * BLK_TC_FLUSH. In this case, define it here and report FLUSHES as BARRIERS as
+> -+ * a workaround, as described in:
+> -+ * http://git.kernel.org/?p=linux/kernel/git/torvalds/linux.git;a=commit;h=c09c47caedc9854d59378d6e34c989e51cfdd2b4
+> -+ */
+> -+#ifndef BLK_TC_BARRIER
+> -+#define BLK_TC_BARRIER 1<<2
+> -+#endif
+> - static void fill_rwbs(char *rwbs, int action, unsigned int bytes)
+> - {
+> - 	int i = 0;
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
+> deleted file mode 100644
+> index 8402426..0000000
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -Disable building docs until we have asciidocs available as a recipe.
+> -
+> -Upstream-Status: Inappropriate [Account for missing dependency, the lazy way]
+> -
+> -Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> -
+> ----
+> - Makefile |    8 ++++++--
+> - 1 file changed, 6 insertions(+), 2 deletions(-)
+> -
+> -Index: git/Makefile
+> -===================================================================
+> ---- git.orig/Makefile
+> -+++ git/Makefile
+> -@@ -327,7 +327,9 @@ TARGETS = $(CMD_TARGETS) $(GUI_TARGETS)
+> - #    If you want kernelshark, then do:  make gui
+> - ###
+> - 
+> --all: all_cmd doc show_gui_make
+> -+# Make doc optional
+> -+#all: all_cmd doc show_gui_make
+> -+all: all_cmd show_gui_make
+> - 
+> - all_cmd: $(CMD_TARGETS)
+> - 
+> -@@ -503,7 +505,9 @@ install_python: $(PYTHON_SO_INSTALL) $(P
+> - install_cmd: all_cmd install_plugins install_python
+> - 	$(Q)$(call do_install,trace-cmd,$(bindir_SQ))
+> - 
+> --install: install_cmd install_doc
+> -+# Make doc optional
+> -+#install: install_cmd install_doc
+> -+install: install_cmd
+> - 	@echo "Note: to install the gui, type \"make install_gui\""
+> - 
+> - install_gui: install_cmd gui
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch
+> deleted file mode 100644
+> index 8fdeedb..0000000
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -From a6e259b2cd43db3c0f69441f627a8cf214f88506 Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Thu, 5 Apr 2012 15:19:44 -0400
+> -Subject: [PATCH] trace-cmd: Add checks for invalid pointers to fix segfaults
+> -
+> -Upstream-Status: Backport
+> -
+> -Running 'trace-cmd report' after running latency tracers will cause a
+> -segfault due to invalid pointers. Adding checks to ensure
+> -pointers/lists are initialized before attempting to use them prevents
+> -these segfaults.
+> -
+> -Link: http://lkml.kernel.org/r/1333653586-3379-2-git-send-email-mark.asselstine@windriver.com
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> -Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+> ----
+> - trace-input.c |   12 +++++++++---
+> - 1 file changed, 9 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/trace-input.c b/trace-input.c
+> -index b6af1e6..5151c1e 100644
+> ---- a/trace-input.c
+> -+++ b/trace-input.c
+> -@@ -695,7 +695,8 @@ static void __free_page(struct tracecmd_input *handle, struct page *page)
+> - 
+> - static void free_page(struct tracecmd_input *handle, int cpu)
+> - {
+> --	if (!handle->cpu_data[cpu].page)
+> -+	if (!handle->cpu_data || cpu >= handle->cpus ||
+> -+	    !handle->cpu_data[cpu].page)
+> - 		return;
+> - 
+> - 	__free_page(handle, handle->cpu_data[cpu].page);
+> -@@ -746,8 +747,12 @@ void tracecmd_record_ref(struct record *record)
+> - 
+> - static void free_next(struct tracecmd_input *handle, int cpu)
+> - {
+> --	struct record *record = handle->cpu_data[cpu].next;
+> -+	struct record *record;
+> -+
+> -+	if (!handle->cpu_data || cpu >= handle->cpus)
+> -+		return;
+> - 
+> -+	record = handle->cpu_data[cpu].next;
+> - 	if (!record)
+> - 		return;
+> - 
+> -@@ -2337,7 +2342,8 @@ void tracecmd_close(struct tracecmd_input *handle)
+> - 		/* The tracecmd_peek_data may have cached a record */
+> - 		free_next(handle, cpu);
+> - 		free_page(handle, cpu);
+> --		if (!list_empty(&handle->cpu_data[cpu].pages))
+> -+		if (handle->cpu_data &&
+> -+		    !list_empty(&handle->cpu_data[cpu].pages))
+> - 			warning("pages still allocated on cpu %d%s",
+> - 				cpu, show_records(&handle->cpu_data[cpu].pages));
+> - 	}
+> --- 
+> -1.7.10.4
+> -
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch
+> deleted file mode 100644
+> index 4c00c51..0000000
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -From 356dee73d9ced3e019dea2883a7f357fd4664b3e Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Thu, 5 Apr 2012 15:19:45 -0400
+> -Subject: [PATCH] trace-cmd: Do not call stop_threads() if doing latency
+> - tracing
+> -
+> -Upstream-Status: Backport
+> -
+> -If we are using a latency tracer we do not call start_threads() we
+> -should therefore not call stop_threads() if 'latency'. Attempting
+> -to call stop_threads() without first calling start_threads() will
+> -cause a segfault since pids will be uninitialized.
+> -
+> -Link: http://lkml.kernel.org/r/1333653586-3379-3-git-send-email-mark.asselstine@windriver.com
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> -Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+> ----
+> - trace-record.c |    3 ++-
+> - 1 file changed, 2 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/trace-record.c b/trace-record.c
+> -index fcec28b..1c56fa9 100644
+> ---- a/trace-record.c
+> -+++ b/trace-record.c
+> -@@ -2216,7 +2216,8 @@ void trace_record (int argc, char **argv)
+> - 		}
+> - 
+> - 		disable_tracing();
+> --		stop_threads();
+> -+		if (!latency)
+> -+			stop_threads();
+> - 	}
+> - 
+> - 	for (cpu = 0; cpu < cpu_count; cpu++) {
+> --- 
+> -1.7.10.4
+> -
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch
+> deleted file mode 100644
+> index 724e1e8..0000000
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch
+> +++ /dev/null
+> @@ -1,96 +0,0 @@
+> -From d65740d61e7a4ea6d8d77237954b33dd18e3276c Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Sun, 8 Apr 2012 11:38:45 -0400
+> -Subject: [PATCH] trace-cmd: Setting plugin to 'nop' clears data before it's
+> - recorded
+> -
+> -Upstream-Status: Backport
+> -
+> -commit e09a5db1a929ab668c273b87c4f0a32b81e1c21a
+> -[trace-cmd: Add trace-cmd record --date option]
+> -
+> -moved the call to disable_all() in trace_record() from after record_data()
+> -to before it. Unfortunately disable_all() sets 'nop' in 'current_tracer'
+> -which has the side affect of clearing 'trace', thus all the latency tracer
+> -reports are empty/useless. Here we make disable_all() optionally call
+> -set_plugin() thus, where we need to, we can delay the disabling of the tracer
+> -until we have had a chance to capture 'trace'. We have added this delayed
+> -behavior to trace_record() to fix the latency reports, for all other calls to
+> -disable_all() we continue to have set_plugin() called.
+> -
+> -Link: http://lkml.kernel.org/r/1333899525-6436-1-git-send-email-mark.asselstine@windriver.com
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> -Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+> ----
+> - trace-record.c |   16 ++++++++++------
+> - 1 file changed, 10 insertions(+), 6 deletions(-)
+> -
+> -diff --git a/trace-record.c b/trace-record.c
+> -index 1c56fa9..95d4a2a 100644
+> ---- a/trace-record.c
+> -+++ b/trace-record.c
+> -@@ -897,11 +897,13 @@ static void disable_tracing(void)
+> - 	write_tracing_on(0);
+> - }
+> - 
+> --static void disable_all(void)
+> -+static void disable_all(int disable_tracer)
+> - {
+> - 	disable_tracing();
+> - 
+> --	set_plugin("nop");
+> -+	if (disable_tracer)
+> -+		set_plugin("nop");
+> -+
+> - 	reset_events();
+> - 
+> - 	/* Force close and reset of ftrace pid file */
+> -@@ -1573,7 +1575,7 @@ static void set_funcs(void)
+> - 	/* make sure we are filtering functions */
+> - 	if (func_stack) {
+> - 		if (!functions_filtered()) {
+> --			disable_all();
+> -+			disable_all(1);
+> - 			die("Function stack trace set, but functions not filtered");
+> - 		}
+> - 		save_option(FUNC_STACK_TRACE);
+> -@@ -1938,7 +1940,7 @@ void trace_record (int argc, char **argv)
+> - 				break;
+> - 			}
+> - 		}
+> --		disable_all();
+> -+		disable_all(1);
+> - 		set_buffer_size();
+> - 		exit(0);
+> - 	} else
+> -@@ -2147,7 +2149,7 @@ void trace_record (int argc, char **argv)
+> - 
+> - 	if (!extract) {
+> - 		fset = set_ftrace(!disable);
+> --		disable_all();
+> -+		disable_all(1);
+> - 
+> - 		/* Record records the date first */
+> - 		if (record && date)
+> -@@ -2227,7 +2229,7 @@ void trace_record (int argc, char **argv)
+> - 	}
+> - 
+> - 	if (!keep)
+> --		disable_all();
+> -+		disable_all(0);
+> - 
+> - 	printf("Kernel buffer statistics:\n"
+> - 	       "  Note: \"entries\" are the entries left in the kernel ring buffer and are not\n"
+> -@@ -2249,6 +2251,8 @@ void trace_record (int argc, char **argv)
+> - 	if (keep)
+> - 		exit(0);
+> - 
+> -+	set_plugin("nop");
+> -+
+> - 	/* If tracing_on was enabled before we started, set it on now */
+> - 	if (tracing_on_init_val)
+> - 		write_tracing_on(tracing_on_init_val);
+> --- 
+> -1.7.10.4
+> -
+> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_2.3.2.bb
+> similarity index 41%
+> rename from meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
+> rename to meta/recipes-kernel/trace-cmd/trace-cmd_2.3.2.bb
+> index 74eafbb..05ce218 100644
+> --- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
+> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd_2.3.2.bb
+> @@ -3,28 +3,17 @@ LICENSE = "GPLv2 & LGPLv2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>                      file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
+>                      file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
+> -                    file://trace-input.c;beginline=5;endine=8;md5=6ad47cc2b03385d8456771eec5eeea0b"
+> +                    file://trace-input.c;beginline=5;endine=8;md5=dafd8a1cade30b847a8686dd3628cea4"
+> +SRCREV = "79e08f8edb38c4c5098486caaa87ca90ba00f547"
+> +PV = "2.3.2"
+>  
+> -SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
+> -PR = "r3"
+> -PV = "1.2+git${SRCPV}"
+> -
+> -inherit pkgconfig pythonnative
+> -
+> -SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
+> -           file://addldflags.patch \
+> -           file://make-docs-optional.patch \
+> -           file://blktrace-api-compatibility.patch \
+> -           file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
+> -           file://trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch \
+> -           file://trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch \
+> +SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;branch=trace-cmd-stable-v2.3 \
+>  "
+> -S = "${WORKDIR}/git"
+>  
+> -EXTRA_OEMAKE = "'prefix=${prefix}'"
+> -
+> -FILES_${PN}-dbg += "${datadir}/trace-cmd/plugins/.debug/"
+> +S = "${WORKDIR}/git"
+>  
+>  do_install() {
+> -	oe_runmake prefix="${prefix}" DESTDIR="${D}" install
+> +    ${MAKE} NO_PYTHON=1 prefix=${prefix} plugin_dir=${libdir}/trace-cmd/plugins DESTDIR=${D} install
+>  }
+> +
+> +FILES_${PN}-dbg += "${libdir}/trace-cmd/plugins/.debug/"
 
 
 
