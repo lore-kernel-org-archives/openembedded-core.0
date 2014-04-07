@@ -1,20 +1,24 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B25B6F737
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C936E786
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 08:49:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Apr 2014 01:49:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,808,1389772800"; d="scan'208";a="488493111"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
-	by orsmga001.jf.intel.com with ESMTP; 07 Apr 2014 01:49:39 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Apr 2014 11:50:24 +0300
-Message-Id: <1396860624-22648-1-git-send-email-cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH][review-request] toaster.bbclass: image file is missing a "/"
+	Mon,  7 Apr 2014 11:27:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s37BRMVt029646
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Apr 2014 04:27:22 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 7 Apr 2014 04:27:22 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Apr 2014 19:27:17 +0800
+Message-ID: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
+MIME-Version: 1.0
+Subject: [PATCH 1/3] e2fsprogs: fix multilib header conflict - ext2_types.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 08:49:40 -0000
+X-List-Received-Date: Mon, 07 Apr 2014 11:27:27 -0000
+Content-Type: text/plain
 
-Relaced the key with the join between path and file name.
+ext2_types.h conflicts between 32-bit and 64-bit versions.
 
-[YOCTO #6090]
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- meta/classes/toaster.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc       | 3 +--
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 9fb2cec..d2fa82d 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -153,7 +153,8 @@ python toaster_image_dumpdata() {
-     for dirpath, dirnames, filenames in os.walk(deploy_dir_image):
-         for fn in filenames:
-             if fn.startswith(image_name):
--                image_info_data[dirpath + fn] = os.stat(os.path.join(dirpath, fn)).st_size
-+                image_output = os.path.join(dirpath, fn)
-+                image_info_data[image_output] = os.stat(image_output).st_size
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+index a34df37..99447c1 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+@@ -22,5 +22,4 @@ DEPENDS = "util-linux"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/e2fsprogs/e2fsprogs-${PV}.tar.gz \
+            file://mkdir.patch"
  
-     bb.event.fire(bb.event.MetadataEvent("ImageFileSize",image_info_data), d)
+-inherit autotools gettext pkgconfig
+-
++inherit autotools gettext pkgconfig multilib_header
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index 3a5d6ee..2bdd724 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -52,6 +52,8 @@ do_install () {
+ 		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+ 		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+ 	fi
++
++	oe_multilib_header ext2fs/ext2_types.h
  }
+ 
+ RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
 -- 
-1.7.9.5
+1.8.4.1
 
 
