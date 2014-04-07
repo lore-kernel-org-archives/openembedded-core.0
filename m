@@ -1,20 +1,32 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7829D6F92A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id AA9A26F83E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 22:05:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Apr 2014 15:05:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,813,1389772800"; d="scan'208";a="516168194"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.20])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Apr 2014 15:05:02 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Apr 2014 15:05:01 -0700
-Message-Id: <1396908301-27124-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] openssl: Address CVE-2014-0160
+	Mon,  7 Apr 2014 22:22:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s37MMPES000796; Mon, 7 Apr 2014 23:22:25 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xI6nKtnG6ojl; Mon,  7 Apr 2014 23:22:24 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s37MMHsm000791
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 7 Apr 2014 23:22:18 +0100
+Message-ID: <1396909331.24597.84.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Mon, 07 Apr 2014 23:22:11 +0100
+In-Reply-To: <20140407210549.GI3370@denix.org>
+References: <1396324451-26983-1-git-send-email-denis@denix.org>
+	<20140406224639.GD3370@denix.org> <5342C918.5030307@linux.intel.com>
+	<20140407210549.GI3370@denix.org>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 22:05:41 -0000
+X-List-Received-Date: Mon, 07 Apr 2014 22:22:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This was the suggested fix for those unable to update to the new 1.0.1g version.
-Since we are so close to our release, we should hold of on the update until 1.7
+On Mon, 2014-04-07 at 17:05 -0400, Denys Dmytriyenko wrote:
+> I understand the timing concern and am fine waiting another week for when 1.7 
+> window opens.
+> 
+> But I'm slightly confused as to since when OE-Core is concerned about breaking 
+> bbappends in other layers? I guess some layers are not created equal, eh? :)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-connectivity/openssl/openssl_1.0.1e.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The question is more one of timing. I don't think its reasonable that we
+break things like that between -rc2 and -rc3 of 1.6 without a better
+reason...
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index 618ba68..874aa21 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -4,7 +4,7 @@ require openssl.inc
- # if they are available.
- DEPENDS += "cryptodev-linux"
- 
--CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
-+CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -DOPENSSL_NO_HEARTBEATS"
- 
- PR = "${INC_PR}.0"
- 
--- 
-1.8.3.1
+I'm even nervous changing the sstate checksums but I think the CONFFILES
+change does warrant that for example.
+
+Cheers,
+
+Richard
+
+
 
 
