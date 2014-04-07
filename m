@@ -1,27 +1,28 @@
 Return-Path: <denis@denix.org>
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F38F605F4
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id D316B6E79A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 20:17:45 +0000 (UTC)
+	Mon,  7 Apr 2014 21:05:51 +0000 (UTC)
 Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173017.mailsrvcs.net
+	by vms173019.mailsrvcs.net
 	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N3O00CZZGD78Y50@vms173017.mailsrvcs.net> for
+	2009)) with ESMTPA id <0N3O00CJ3ILSTJ70@vms173019.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Mon, 07 Apr 2014 15:17:46 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id C237B201AC; Mon,
-	07 Apr 2014 16:17:30 -0400 (EDT)
-Date: Mon, 07 Apr 2014 16:17:30 -0400
+	Mon, 07 Apr 2014 16:05:52 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 3AD10201AC; Mon,
+	07 Apr 2014 17:05:50 -0400 (EDT)
+Date: Mon, 07 Apr 2014 17:05:50 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: ulf@emagii.com
-Message-id: <20140407201730.GF3370@denix.org>
-References: <53430460.4080608@emagii.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-id: <20140407210549.GI3370@denix.org>
+References: <1396324451-26983-1-git-send-email-denis@denix.org>
+	<20140406224639.GD3370@denix.org> <5342C918.5030307@linux.intel.com>
 MIME-version: 1.0
-In-reply-to: <53430460.4080608@emagii.com>
+In-reply-to: <5342C918.5030307@linux.intel.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: meta-toolchain-sdk LDFLAGS fails for ARMv7 (beagleboard)
+Subject: Re: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,194 +35,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 20:17:47 -0000
-Content-type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Mon, 07 Apr 2014 21:05:53 -0000
+Content-type: text/plain; charset=us-ascii
 Content-disposition: inline
-Content-transfer-encoding: quoted-printable
 
-On Mon, Apr 07, 2014 at 10:02:40PM +0200, Ulf Samuelsson wrote:
-> Trying to build an SDK for the Beaglebone
->=20
-> $ git clone git://git.yoctoproject.org/poky
-> $ cd poky
-> $ git checkout -b dora origin/dora
->=20
-> $ . oe-init-build-env
->=20
-> MACHINE is set to "beagleboard" in local.conf
+On Mon, Apr 07, 2014 at 08:49:44AM -0700, Saul Wold wrote:
+> On 04/06/2014 03:46 PM, Denys Dmytriyenko wrote:
+> >ping
+> >
+> 
+> This change is a little late for 1.6 as we are prepping for the
+> final RC this week.  It's kind of an API change since it moves the
+> mount location /media, should we be linking /media to /run/media?
+> 
+> There is also an issue with the Freescale PPC BSP, which has a
+> bbappend for 1.0, so some coordination with them will be needed.
+> 
+> I can revisit this for 1.7 in a week or so.
+> 
+> Sau!
 
-It's not critical to your case, but in general beagleboard !=3D beaglebone.=
-=2E.
+I understand the timing concern and am fine waiting another week for when 1.7 
+window opens.
 
-And cutting to the chase - U-boot recipe in OE clears CFLAGS, LDFLAGS and=
-=20
-CPPFLAGS before building it...
+But I'm slightly confused as to since when OE-Core is concerned about breaking 
+bbappends in other layers? I guess some layers are not created equal, eh? :)
+
+-- 
+Denys
 
 
-> $ ./environment-angstrom-v2013.06
->=20
-> $ bitbake meta-toolchain-sdk
->=20
-> SDK is generated, and installed in /opt/poky/1.5.1 (default)
->=20
-> The toolchain environment file is "sourced"
->=20
-> Then I try to build U-Boot-13.10 (with a minor patch)
->=20
->=20
-> $ make am335x_boneblack_config
->=20
-> $ make
->=20
-> After compiling a number of file, the linking of a library fails:
->=20
-> arm-poky-linux-gnueabi-ld.bfd -Wl,-O1 -Wl,--hash-style=3Dgnu
-> -Wl,--as-needed   -r -o libcommon.o  cmd_bdinfo.o cmd_boot.o
-> cmd_bootm.o cmd_console.o cmd_dfu.o cmd_disk.o cmd_echo.o
-> cmd_eeprom.o cmd_exit.o cmd_ext2.o cmd_ext4.o cmd_fat.o cmd_fdt.o
-> cmd_fs.o cmd_gpio.o cmd_help.o cmd_i2c.o cmd_itest.o cmd_load.o
-> cmd_mem.o cmd_misc.o cmd_mmc.o cmd_net.o cmd_nvedit.o cmd_pcmcia.o
-> cmd_sf.o cmd_source.o cmd_spi.o cmd_spl.o cmd_test.o cmd_usb.o
-> cmd_version.o cmd_ximg.o command.o console.o dlmalloc.o env_attr.o
-> env_callback.o env_common.o env_flags.o env_mmc.o exports.o
-> fdt_support.o flash.o hash.o hush.o image-fdt.o image.o main.o
-> memsize.o miiphyutil.o s_record.o splash.o stdio.o usb.o usb_hub.o
-> usb_storage.o xyzModem.o
-> arm-poky-linux-gnueabi-ld.bfd: unrecognized option '-Wl,-O1'
-> arm-poky-linux-gnueabi-ld.bfd: use the --help option for usage information
-> make[1]: *** [libcommon.o] Fel 1
-> make[1]: L=E4mnar katalogen
-> "/home/ulf/felabs/sysdev/bootloader/u-boot-2013.10/common"
-> make: *** [common/libcommon.o] Fel 2
->=20
-> -------------------
-> The environment looks like:
-> -------------------------------------------------------------------------=
----------------------------------------------------------------------------=
------------------------
-> export PATH=3D/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin:/opt/=
-poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi:$PA=
-TH
-> export PKG_CONFIG_SYSROOT_DIR=3D/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-=
-poky-linux-gnueabi
-> export PKG_CONFIG_PATH=3D/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-li=
-nux-gnueabi/usr/lib/pkgconfig
-> export CONFIG_SITE=3D/opt/poky/1.5.1/site-config-armv7a-vfp-neon-poky-lin=
-ux-gnueabi
-> export CC=3D"arm-poky-linux-gnueabi-gcc  -march=3Darmv7-a
-> -mthumb-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon --sysroot=3D/opt/poky=
-/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
-> export CXX=3D"arm-poky-linux-gnueabi-g++  -march=3Darmv7-a
-> -mthumb-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon --sysroot=3D/opt/poky=
-/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
-> export CPP=3D"arm-poky-linux-gnueabi-gcc -E  -march=3Darmv7-a
-> -mthumb-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon --sysroot=3D/opt/poky=
-/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
-> export AS=3D"arm-poky-linux-gnueabi-as "
-> export LD=3D"arm-poky-linux-gnueabi-ld --sysroot=3D/opt/poky/1.5.1/sysroo=
-ts/armv7a-vfp-neon-poky-linux-gnueabi"
-> export GDB=3Darm-poky-linux-gnueabi-gdb
-> export STRIP=3Darm-poky-linux-gnueabi-strip
-> export RANLIB=3Darm-poky-linux-gnueabi-ranlib
-> export OBJCOPY=3Darm-poky-linux-gnueabi-objcopy
-> export OBJDUMP=3Darm-poky-linux-gnueabi-objdump
-> export AR=3Darm-poky-linux-gnueabi-ar
-> export NM=3Darm-poky-linux-gnueabi-nm
-> export M4=3Dm4
-> export TARGET_PREFIX=3Darm-poky-linux-gnueabi-
-> export CONFIGURE_FLAGS=3D"--target=3Darm-poky-linux-gnueabi
-> --host=3Darm-poky-linux-gnueabi --build=3Dx86_64-linux --with-libtool-sys=
-root=3D/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-poky-linux-gnueabi"
-> export CFLAGS=3D" -O2 -pipe -g -feliminate-unused-debug-types"
-> export CXXFLAGS=3D" -O2 -pipe -g -feliminate-unused-debug-types -fpermiss=
-ive"
-> export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed"
-> export CPPFLAGS=3D""
-> export OECORE_NATIVE_SYSROOT=3D"/opt/poky/1.5.1/sysroots/x86_64-pokysdk-l=
-inux"
-> export OECORE_TARGET_SYSROOT=3D"/opt/poky/1.5.1/sysroots/armv7a-vfp-neon-=
-poky-linux-gnueabi"
-> export OECORE_ACLOCAL_OPTS=3D"-I
-> /opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/share/aclocal"
-> export OECORE_DISTRO_VERSION=3D"1.5.1"
-> export OECORE_SDK_VERSION=3D"1.5.1"
-> export PYTHONHOME=3D/opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
-> export ARCH=3Darm
-> export CROSS_COMPILE=3Darm-poky-linux-gnueabi-
-> -------------------------------------------------------------------------=
----------------------------------------------------------------------------=
------------------------------
->=20
-> Notable is:
-> export LD=3D"arm-poky-linux-gnueabi-ld --sysroot=3D/opt/poky/1.5.1/sysroo=
-ts/armv7a-vfp-neon-poky-linux-gnueabi"
-> export LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed"
->=20
-> From the error message I see:
-> "arm-poky-linux-gnueabi-ld.bfd -Wl,-O1 ..."
->=20
-> Note that $(CROSS_COMPILE)-ld.bfd is used, not $(CROSS_COMPILE)-ld
->=20
-> so the linker is linking with $(LDFLAGS) which contains switches to
-> be passed to the compiler, and bombs
->=20
-> Changing LD to:
-> export LD=3D"arm-poky-linux-gnueabi-gcc --sysroot=3D/opt/poky/1.5.1/sysro=
-ots/armv7a-vfp-neon-poky-linux-gnueabi"
->=20
-> Does not help, still you get the same error message with
-> $(CROSS_COMPILE)-ld.bfd called with "-Wl,..." arguments.
->=20
-> Only when I am setting LDFLAGS=3D"", E.E: not passing arguments to I
-> can compile U-Boot.
->=20
-> It looks like the toolchain does not handle compiler linker flags
-> correctly and passes the arguments without parsing to the linker.
->=20
->=20
-> If you use the SDK, Is it wrong to do=3D
->=20
-> ${LD} ${LDFLAGS} ??
->=20
-> U-Boot does this in several places?
->=20
-> Using the poky installation to
->=20
->  bitbake core-image-minimal
->=20
-> will complete the build of U-Boot-2013.07, but does not pass these option=
-s.
->=20
-> arm-poky-linux-gnueabi-ld.bfd  -r -o /home/ulf/felabs/sysdev/poky/build/t=
-mp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb=
-8-r0/git/spl/common/libcommon.o /home/ulf/felabs/sysdev/poky/build/tmp/work=
-/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/gi=
-t/spl/common/cmd_nvedit.o /home/ulf/felabs/sysdev/poky/build/tmp/work/beagl=
-eboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/=
-common/console.o /home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-po=
-ky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/dl=
-malloc.o /home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux=
--gnueabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/env_common=
-=2Eo /home/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnu=
-eabi/u-boot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/env_nand.o /ho=
-me/ulf/felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-b=
-oot/v2013.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/image-fdt.o /home/ulf/=
-felabs/sysdev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v20=
-13.07+gitAUTOINC+62c175fbb8-r0/git/spl/common/image.o /home/ulf/felabs/sysd=
-ev/poky/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAU=
-TOINC+62c175fbb8-r0/git/spl/common/memsize.o /home/ulf/felabs/sysdev/poky/b=
-uild/tmp/work/beagleboard-poky-linux-gnueabi/u-boot/v2013.07+gitAUTOINC+62c=
-175fbb8-r0/git/spl/common/stdio.o
->=20
->=20
-> --=20
-> Best Regards
-> Ulf Samuelsson
-> eMagii
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >On Mon, Mar 31, 2014 at 11:54:11PM -0400, Denys Dmytriyenko wrote:
+> >>From: Denys Dmytriyenko <denys@ti.com>
+> >>
+> >>This is done to work around the issue of auto-mounting block devices
+> >>(i.e. SD cards) when root filesystem is still in read-only mode and
+> >>creating /media/<device> mount-points by udev is not possible. That
+> >>is due to udev (/etc/rcS.d/S03udev) getting started earlier than
+> >>checkroot (/etc/rcS.d/S10checkroot.sh) gets a chance to re-mount the
+> >>rootfs as read-write.
+> >>
+> >>Although, canonical FHS specifies /media/<device> as a mount point
+> >>for removable media devices, the latest 2.3 version was released in
+> >>2004 and since then FreeDesktop/udisks and other tools adopted the
+> >>new /run/media/<user>/<device> location. That was done to overcome
+> >>read-only rootfs limitation, since /run is usually a tmpfs mounted
+> >>partition, plus avoid name-clash between users.
+> >>
+> >>For our embedded systems environment we assume single-user operation
+> >>and hence simplify mount point to just /run/media/<device>. But for
+> >>proper per-user mounting to /run/media/<user>/<device>, some sort of
+> >>session management is required along with the tool like udisks, that
+> >>is out of scope of this simple udev-based auto-mounting.
+> >>
+> >>Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> >>---
+> >>v2 - drop PR, bump PV, elaborate on session/user mounting option
+> >>
+> >>  meta/recipes-core/udev/udev-extraconf/mount.sh             | 14 +++++++-------
+> >>  .../udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb}  |  2 --
+> >>  2 files changed, 7 insertions(+), 9 deletions(-)
+> >>  rename meta/recipes-core/udev/{udev-extraconf_1.0.bb => udev-extraconf_1.1.bb} (99%)
+> >>
+> >>diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> >>index cb57e47..3e4f21f 100644
+> >>--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+> >>+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> >>@@ -20,7 +20,7 @@ done
+> >>  automount() {	
+> >>  	name="`basename "$DEVNAME"`"
+> >>
+> >>-	! test -d "/media/$name" && mkdir -p "/media/$name"
+> >>+	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+> >>  	# Silent util-linux's version of mounting auto
+> >>  	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
+> >>  	then
+> >>@@ -38,12 +38,12 @@ automount() {
+> >>  		;;
+> >>  	esac
+> >>
+> >>-	if ! $MOUNT -t auto $DEVNAME "/media/$name"
+> >>+	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
+> >>  	then
+> >>-		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
+> >>-		rm_dir "/media/$name"
+> >>+		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
+> >>+		rm_dir "/run/media/$name"
+> >>  	else
+> >>-		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
+> >>+		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
+> >>  		touch "/tmp/.automount-$name"
+> >>  	fi
+> >>  }
+> >>@@ -60,7 +60,7 @@ rm_dir() {
+> >>
+> >>  # No ID_FS_TYPE for cdrom device, yet it should be mounted
+> >>  name="`basename "$DEVNAME"`"
+> >>-[ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
+> >>+[ -e /sys/block/$name/device/run/media ] && media_type=`cat /sys/block/$name/device/run/media`
+> >>
+> >>  if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
+> >>  	if [ -x "$PMOUNT" ]; then
+> >>@@ -87,5 +87,5 @@ if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+> >>  	
+> >>  	# Remove empty directories from auto-mounter
+> >>  	name="`basename "$DEVNAME"`"
+> >>-	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
+> >>+	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+> >>  fi
+> >>diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> >>similarity index 99%
+> >>rename from meta/recipes-core/udev/udev-extraconf_1.0.bb
+> >>rename to meta/recipes-core/udev/udev-extraconf_1.1.bb
+> >>index 3810b28..d69056d 100644
+> >>--- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
+> >>+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> >>@@ -4,8 +4,6 @@ LICENSE = "MIT"
+> >>  LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+> >>                      file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> >>
+> >>-PR = "r16"
+> >>-
+> >>  SRC_URI = " \
+> >>         file://automount.rules \
+> >>         file://mount.sh \
+> >>--
+> >>1.9.1
+> >>
+> >>--
+> >>_______________________________________________
+> >>Openembedded-core mailing list
+> >>Openembedded-core@lists.openembedded.org
+> >>http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
