@@ -1,24 +1,20 @@
-Return-Path: <sgh@sgh.dk>
-Received: from mx-aarh-3.stofanet.dk (mx-aarh-3.stofanet.dk [212.10.10.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A8EB06F8E4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7829D6F92A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 21:21:16 +0000 (UTC)
-Received: from 5634f347.rev.stofanet.dk ([86.52.243.71] helo=asrock)
-	by mx-aarh-3.stofanet.dk (envelope-from <sgh@sgh.dk>)
-	with esmtp id 1WXGyh-0001Kz-22
-	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Apr 2014 23:21:15 +0200
-Received: from koontz.sgh.dk (localhost [127.0.0.1])
-	by asrock (Postfix) with ESMTP id 1C95D7EC32;
-	Mon,  7 Apr 2014 23:21:15 +0200 (CEST)
-From: =?UTF-8?q?S=C3=B8ren=20Holm?= <sgh@sgh.dk>
+	Mon,  7 Apr 2014 22:05:39 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Apr 2014 15:05:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,813,1389772800"; d="scan'208";a="516168194"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.20])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Apr 2014 15:05:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Apr 2014 23:20:55 +0200
-Message-Id: <1396905655-4084-1-git-send-email-sgh@sgh.dk>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Cc: =?UTF-8?q?S=C3=B8ren=20Holm?= <sgh@sgh.dk>
-Subject: [PATCH] mesa: Avoid picking up the "local" wayland-scanner.
+Date: Mon,  7 Apr 2014 15:05:01 -0700
+Message-Id: <1396908301-27124-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] openssl: Address CVE-2014-0160
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 21:21:19 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Apr 2014 22:05:41 -0000
 
-The generated headers turn out wrong and breaks compilation if
-the local version is different from the target version.
+This was the suggested fix for those unable to update to the new 1.0.1g version.
+Since we are so close to our release, we should hold of on the update until 1.7
 
-Signed-off-by: S=C3=B8ren Holm <sgh@sgh.dk>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/openssl/openssl_1.0.1e.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index afc795c..822b236 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -65,6 +65,7 @@ MESA_LLVM_RELEASE ?=3D "3.3"
- PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --with-llvm-share=
-d-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
-                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_=
-ENABLED} else ''}"
- export WANT_LLVM_RELEASE =3D "${MESA_LLVM_RELEASE}"
-+export WAYLAND_SCANNER =3D "${STAGING_DIR_NATIVE}/usr/bin/wayland-scanne=
-r"
-=20
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
- FULL_OPTIMIZATION_append =3D " -fno-omit-frame-pointer"
---=20
-1.9.1
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index 618ba68..874aa21 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -4,7 +4,7 @@ require openssl.inc
+ # if they are available.
+ DEPENDS += "cryptodev-linux"
+ 
+-CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
++CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -DOPENSSL_NO_HEARTBEATS"
+ 
+ PR = "${INC_PR}.0"
+ 
+-- 
+1.8.3.1
 
 
