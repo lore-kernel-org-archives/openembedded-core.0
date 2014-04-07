@@ -1,27 +1,24 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 9BA6761F16
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E0266E760
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 23:01:58 +0000 (UTC)
-Received: (qmail 26674 invoked by uid 1003); 7 Apr 2014 23:01:58 -0000
-Received: from unknown (HELO ?10.16.32.157?)
-	(philip@opensdr.com@64.186.172.226)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	7 Apr 2014 23:01:58 -0000
-Message-ID: <53432E65.6040107@balister.org>
-Date: Mon, 07 Apr 2014 16:01:57 -0700
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Mon,  7 Apr 2014 23:12:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s37NCPJU013460
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Apr 2014 16:12:25 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 7 Apr 2014 16:12:25 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Apr 2014 16:12:25 -0700
+Message-ID: <1396912345-7880-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, 
-	Yocto Project <yocto@yoctoproject.org>
-X-Enigmail-Version: 1.6
-Subject: OEDAM updates
+Subject: [PATCH 1/1] vala: add dependencies on native packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,19 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 23:02:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Apr 2014 23:12:25 -0000
+Content-Type: text/plain
 
-Once again, please add yourself (or email Jefro or myself) if you plan
-to attend OEDAM. We have room for about 5-10 more people.
+We do not want to run the host xsltproc one time, and ours
+another, so we add a dependency on libxslt-native.  We also
+need to add a dependency on pkgconfig-native because the host
+pkg-config will not see native packages we have built.
 
-http://www.openembedded.org/wiki/OEDAM
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-devtools/vala/vala.inc |   11 +++++++++--
+ 1 files changed, 9 insertions(+), 2 deletions(-)
 
-We should also get serious about creating an agenda. Even if you are not
-able to attend please take a look at the agenda and add topics you think
-should be discussed. We'll likely have to review the agenda when we
-start, but now is a good time to air your grievances.
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index a8927d7..9d273aa 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -3,7 +3,13 @@ Vala compiles to plain C and has no runtime environment nor penalities whatsoeve
+ SECTION = "devel"
+ DEPENDS = "glib-2.0 dbus gtk+"
+ BBCLASSEXTEND = "native"
+-DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native"
++
++# libxslt provides xsltproc, which is probably on the host, but we want to use ours.
++# We need our pkg-config, too.  (Inheriting pkgconfig supplies that dependency, but
++# we clobber it here).
++#
++DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native libxslt-native pkgconfig-native"
++
+ HOMEPAGE = "http://vala-project.org"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+@@ -12,7 +18,8 @@ INC_PR = "r1"
+ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz"
+-inherit autotools
++
++inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "--disable-vapigen"
+ 
+-- 
+1.7.3.4
 
-Philip
 
