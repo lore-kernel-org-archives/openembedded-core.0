@@ -1,32 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id AA9A26F83E
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 21A8A6AE14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 22:22:39 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s37MMPES000796; Mon, 7 Apr 2014 23:22:25 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xI6nKtnG6ojl; Mon,  7 Apr 2014 23:22:24 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s37MMHsm000791
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 7 Apr 2014 23:22:18 +0100
-Message-ID: <1396909331.24597.84.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Mon, 07 Apr 2014 23:22:11 +0100
-In-Reply-To: <20140407210549.GI3370@denix.org>
-References: <1396324451-26983-1-git-send-email-denis@denix.org>
-	<20140406224639.GD3370@denix.org> <5342C918.5030307@linux.intel.com>
-	<20140407210549.GI3370@denix.org>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
+	Mon,  7 Apr 2014 22:48:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s37MmcCl024954
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Apr 2014 15:48:39 -0700 (PDT)
+Received: from [147.11.119.84] (147.11.119.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 7 Apr 2014 15:48:38 -0700
+Message-ID: <53432B43.1010709@windriver.com>
+Date: Mon, 7 Apr 2014 17:48:35 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1396908301-27124-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1396908301-27124-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH] openssl: Address CVE-2014-0160
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 22:22:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 07 Apr 2014 22:48:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-04-07 at 17:05 -0400, Denys Dmytriyenko wrote:
-> I understand the timing concern and am fine waiting another week for when 1.7 
-> window opens.
-> 
-> But I'm slightly confused as to since when OE-Core is concerned about breaking 
-> bbappends in other layers? I guess some layers are not created equal, eh? :)
+On 4/7/14, 5:05 PM, Saul Wold wrote:
+> This was the suggested fix for those unable to update to the new 1.0.1g version.
+> Since we are so close to our release, we should hold of on the update until 1.7
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/recipes-connectivity/openssl/openssl_1.0.1e.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> index 618ba68..874aa21 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> @@ -4,7 +4,7 @@ require openssl.inc
+>   # if they are available.
+>   DEPENDS += "cryptodev-linux"
+>
+> -CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+> +CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -DOPENSSL_NO_HEARTBEATS"
+>
+>   PR = "${INC_PR}.0"
+>
+>
 
-The question is more one of timing. I don't think its reasonable that we
-break things like that between -rc2 and -rc3 of 1.6 without a better
-reason...
+Between 1.0.1e and f there are 3 CVEs.  'g' adds two more.
 
-I'm even nervous changing the sstate checksums but I think the CONFFILES
-change does warrant that for example.
+This is a very low risk change, as the API and other components are stable.
 
-Cheers,
-
-Richard
-
-
-
+--Mark
 
