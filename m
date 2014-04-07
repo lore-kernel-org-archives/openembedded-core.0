@@ -1,39 +1,20 @@
 Return-Path: <cristiana.voicu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE296B523
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B25B6F737
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Apr 2014 08:49:20 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Apr 2014 01:49:00 -0700
+	Mon,  7 Apr 2014 08:49:40 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 Apr 2014 01:49:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,808,1389772800"; d="scan'208";a="515683987"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Apr 2014 01:48:59 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 7 Apr 2014 09:48:57 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.180]) with mapi id
-	14.03.0123.003; Mon, 7 Apr 2014 09:48:57 +0100
-From: "Voicu, Cristiana" <cristiana.voicu@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Damian, Alexandru"
-	<alexandru.damian@intel.com>
-Thread-Topic: [OE-core] [PATCH 08/15] toaster.bbclass: image file is missing
-	a "/"
-Thread-Index: AQHPUA8E+r5lJWiuWEOlUKpfM/GHhZsBb4sAgARsXbA=
-Date: Mon, 7 Apr 2014 08:48:56 +0000
-Message-ID: <BE68E9C8E0850C43B0F0B0B7D57FA5AE34A55119@IRSMSX105.ger.corp.intel.com>
-References: <1396620314-32484-1-git-send-email-alexandru.damian@intel.com>
-	<1396620878.13862.6.camel@ted>
-In-Reply-To: <1396620878.13862.6.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/15] toaster.bbclass: image file is missing a "/"
+X-IronPort-AV: E=Sophos;i="4.97,808,1389772800"; d="scan'208";a="488493111"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
+	by orsmga001.jf.intel.com with ESMTP; 07 Apr 2014 01:49:39 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Apr 2014 11:50:24 +0300
+Message-Id: <1396860624-22648-1-git-send-email-cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH][review-request] toaster.bbclass: image file is missing a "/"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,52 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Apr 2014 08:49:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Apr 2014 08:49:40 -0000
 
-I will resend the patch directly to this mailing list, since it has been re=
-viewed on toaster ml.
-Cristiana
+Relaced the key with the join between path and file name.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-Sent: Friday, April 4, 2014 5:15 PM
-To: Damian, Alexandru
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 08/15] toaster.bbclass: image file is missing=
- a "/"
+[YOCTO #6090]
+Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+---
+ meta/classes/toaster.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Fri, 2014-04-04 at 15:05 +0100, Alex DAMIAN wrote:
-> From: Cristiana Voicu <cristiana.voicu@intel.com>
->=20
-> Relaced the key with the join between path and file name.
->=20
-> [YOCTO #6090]
->=20
-> Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
-> ---
->  meta/classes/toaster.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/toaster.bbclass=20
-> b/meta/classes/toaster.bbclass index 9fb2cec..d2fa82d 100644
-> --- a/meta/classes/toaster.bbclass
-> +++ b/meta/classes/toaster.bbclass
-> --
-> 1.9.1
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 9fb2cec..d2fa82d 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -153,7 +153,8 @@ python toaster_image_dumpdata() {
+     for dirpath, dirnames, filenames in os.walk(deploy_dir_image):
+         for fn in filenames:
+             if fn.startswith(image_name):
+-                image_info_data[dirpath + fn] = os.stat(os.path.join(dirpath, fn)).st_size
++                image_output = os.path.join(dirpath, fn)
++                image_info_data[image_output] = os.stat(image_output).st_size
+ 
+     bb.event.fire(bb.event.MetadataEvent("ImageFileSize",image_info_data), d)
+ }
+-- 
+1.7.9.5
 
-This patch does not look right...
-
-Cheers,
-
-Richard
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
