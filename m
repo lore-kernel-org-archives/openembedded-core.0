@@ -1,40 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 499C465DCC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E0C765D36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 17:21:15 +0000 (UTC)
-Received: by mail-ie0-f172.google.com with SMTP id as1so1263011iec.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Apr 2014 10:21:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=UiAp0EVgB/HEcQwgHL2WodzKVzeerXZZQHg0bX22awA=;
-	b=Px6GzNMrhIy3akDQQYqJ7NYXN0Cq1z8Mu6v0AKuhl9xBl2oU9tjN+cbIptCXul5Ijy
-	lc9sU/RzNMDN0rTCe6mWAJCCVyWyVq9gg/NssmcmZwD8wY+VZboleyklT/0A/izjGiFb
-	+MXc/dq3UMKVSo4IRaxdk7fOFe1wCfcpraTyF8p1tIXZHI0s8MkXYCEVWA8Idgdutib7
-	tGmPrcFPNYDuBWmLZFZqnS/gOv7oJjx6m/t6TcGlquOq04eRcB0zaR3oRhhT3UE9IZ7O
-	yc132QRX85iAYho/aCBODEKMpGTwe5YSJ9KBEGe/W8/20e4AnJUFZ52mSQDiWBjIYevd
-	9l0g==
-X-Received: by 10.42.20.193 with SMTP id h1mr1892004icb.70.1396977676672; Tue,
-	08 Apr 2014 10:21:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Tue, 8 Apr 2014 10:20:46 -0700 (PDT)
-In-Reply-To: <5343EC99.800@dresearch-fe.de>
-References: <5330220F.8050504@dresearch-fe.de> <1395664516.24232.56.camel@ted>
-	<533029C5.1000406@dresearch-fe.de> <1395665593.24232.58.camel@ted>
-	<53303FAB.5020907@dresearch-fe.de> <20140324151537.GD29998@jama>
-	<53315AE7.1020304@dresearch-fe.de> <53319AAD.5070506@windriver.com>
-	<53429BF2.2050804@dresearch-fe.de> <5342A69C.9020901@dresearch-fe.de>
-	<1396882151.24597.72.camel@ted> <5343EC99.800@dresearch-fe.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 8 Apr 2014 10:20:46 -0700
-Message-ID: <CAMKF1soqOcYKVkgCy_wOU=yyeKJ+JO54e6pAy+dZxhmm1DEXBA@mail.gmail.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: complex versioning scenario
+	Tue,  8 Apr 2014 18:16:03 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Apr 2014 11:15:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,819,1389772800"; d="scan'208";a="516878252"
+Received: from paulonei-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.244])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2014 11:15:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Apr 2014 19:15:05 +0100
+Message-Id: <8a4172619653ae8d992fb3eaccbf78a7e3903dd1.1396980809.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.0
+In-Reply-To: <cover.1396980809.git.paul.eggleton@linux.intel.com>
+References: <cover.1396980809.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1396980809.git.paul.eggleton@linux.intel.com>
+References: <cover.1396980809.git.paul.eggleton@linux.intel.com>
+Subject: [dora][PATCH 1/4] Security Advisory - openssl - CVE-2013-4353
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,17 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 17:21:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Apr 2014 18:16:06 -0000
 
-On Tue, Apr 8, 2014 at 5:33 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
-> If a package contains a shared library *and* a binary (e.g. a related command line tool) then the soname major version *is not appended* to the package name (see debian_package_name_hook in debian.bbclass). All other problems are aftereffects.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-shared objects which are to be used by other independent packages (
-public .so) should be packaged separately into runtime shared object
-package which is separate from packages with binaries so that multiple
-versions of same librararies
-can be packaged on single system, your usecase seems to indicate that
-the .so is just used by this given binary you bundle together is that
-the case ?
+The ssl3_take_mac function in ssl/s3_both.c in OpenSSL 1.0.1 before
+1.0.1f allows remote TLS servers to cause a denial of service (NULL
+pointer dereference and application crash) via a crafted Next Protocol
+Negotiation record in a TLS handshake.
+
+(From OE-Core master rev: 35ccce7002188c8270d2fead35f9763b22776877)
+
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...or-TLS-record-tampering-bug-CVE-2013-4353.patch | 31 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch
+
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch
+new file mode 100644
+index 0000000..d03dc06
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch
+@@ -0,0 +1,31 @@
++From 197e0ea817ad64820789d86711d55ff50d71f631 Mon Sep 17 00:00:00 2001
++From: "Dr. Stephen Henson" <steve@openssl.org>
++Date: Mon, 6 Jan 2014 14:35:04 +0000
++Subject: [PATCH] Fix for TLS record tampering bug CVE-2013-4353
++
++Upstream-Status: Backport
++commit 197e0ea817ad64820789d86711d55ff50d71f631 upstream
++
++ ssl/s3_both.c |    6 +++++-
++ 3 files changed, 11 insertions(+), 1 deletions(-)
++
++diff --git a/ssl/s3_both.c b/ssl/s3_both.c
++index 1e5dcab..53b9390 100644
++--- a/ssl/s3_both.c
+++++ b/ssl/s3_both.c
++@@ -210,7 +210,11 @@ static void ssl3_take_mac(SSL *s)
++ 	{
++ 	const char *sender;
++ 	int slen;
++-
+++	/* If no new cipher setup return immediately: other functions will
+++	 * set the appropriate error.
+++	 */
+++	if (s->s3->tmp.new_cipher == NULL)
+++		return;
++ 	if (s->state & SSL_ST_CONNECT)
++ 		{
++ 		sender=s->method->ssl3_enc->server_finished_label;
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index ac27dba..3476d84 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -34,6 +34,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+             file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
+             file://find.pl \
++            file://0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch \
+            "
+ 
+ SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+-- 
+1.9.0
+
 
