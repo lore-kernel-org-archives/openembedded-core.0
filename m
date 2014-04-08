@@ -1,38 +1,30 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6419060C14
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CBC965D84
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 16:37:52 +0000 (UTC)
-Received: by mail-bk0-f52.google.com with SMTP id my13so742294bkb.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Apr 2014 09:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=Oq3q7jpEcmd6uV2i3uKslpTXFw71ffKDBjPfnT//cE0=;
-	b=kw5lB6hOb+tnY421FhTWbC48FKi4YalmNdDiSYhN31z33wcbRFunxvx0NOT875u6K9
-	Y4Wn1W4tAkrOb8wXwNeqnZwVpfopE2MA8tpAmolevG8+49H5CY3tZvEk03tHm0Tu6jZP
-	pR+6TEi3qjYeKx3K5s2/fK6Kd19dWfdux2KxpHzmBLEkQ1Uy76HFvYSQZCFR7IIzUXMb
-	PgpQK8tgxQZ4PhxL9aLi1ka4sIzdbRme+yD2VO3AkoPrpeIU8kN8Acto4dCuAqmTimSH
-	mlJw4IpH3bPmRhZHXDOx+qNK547rFD8ts+vZQyw+pH6+0zSDdJaOPdforq/+q37CIdnt
-	KL6w==
-X-Received: by 10.153.7.69 with SMTP id da5mr2582552lad.38.1396975072591; Tue,
-	08 Apr 2014 09:37:52 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.35.194 with HTTP; Tue, 8 Apr 2014 09:37:32 -0700 (PDT)
-In-Reply-To: <1396965083-15863-2-git-send-email-mac@mcrowe.com>
-References: <1396965083-15863-1-git-send-email-mac@mcrowe.com>
-	<1396965083-15863-2-git-send-email-mac@mcrowe.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 8 Apr 2014 09:37:32 -0700
-X-Google-Sender-Auth: sPdyHK_SHZgeQRUXggtrOxkLPVI
-Message-ID: <CABcZANnp_AN2Tjnsc=UGougBJ511cy+K52d++h6Y12nts0vBCw@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cmake: Avoid accidentally including libacl.h
+	Tue,  8 Apr 2014 16:54:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s38GsAxl025688; Tue, 8 Apr 2014 17:54:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7wV-UoXgInDT; Tue,  8 Apr 2014 17:54:09 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s38Gs76V025675
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 8 Apr 2014 17:54:08 +0100
+Message-ID: <1396976041.24597.107.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joe Slater <jslater@windriver.com>
+Date: Tue, 08 Apr 2014 17:54:01 +0100
+In-Reply-To: <1396912345-7880-1-git-send-email-jslater@windriver.com>
+References: <1396912345-7880-1-git-send-email-jslater@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] vala: add dependencies on native packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,52 +37,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 16:37:56 -0000
-Content-Type: multipart/alternative; boundary=001a11345630f6464404f68a9ad7
+X-List-Received-Date: Tue, 08 Apr 2014 16:54:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11345630f6464404f68a9ad7
-Content-Type: text/plain; charset=UTF-8
+On Mon, 2014-04-07 at 16:12 -0700, Joe Slater wrote:
+> We do not want to run the host xsltproc one time, and ours
+> another, so we add a dependency on libxslt-native.  We also
+> need to add a dependency on pkgconfig-native because the host
+> pkg-config will not see native packages we have built.
+> 
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/recipes-devtools/vala/vala.inc |   11 +++++++++--
+>  1 files changed, 9 insertions(+), 2 deletions(-)
 
-On Tue, Apr 8, 2014 at 6:51 AM, Mike Crowe <mac@mcrowe.com> wrote:
+Could you send something against master please?
 
-> The cmake recipe doesn't depend on libacl yet cmake will detect libacl.h
-> and use it by default. This risks build failures if libacl.h is unstaged
-> during the build and it also means that the build cmake will sometimes
-> support ACLs and sometimes not.
->
+Specifically, master has:
 
-Is this not also a concern for the non-native recipe? And wouldn't it be
-better yet to use PACKAGECONFIG, rather than hardcoding the disable of acl
-support?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+DEPENDS = "bison-native flex-native libxslt-native"
 
---001a11345630f6464404f68a9ad7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+so this is half fixed there...
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Apr 8, 2014 at 6:51 AM, Mike Crowe <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:mac@mcrowe.com" target=3D"_blank">mac@mcrowe.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">
+Cheers,
 
-<div id=3D":m5" class=3D"a3s" style=3D"overflow:hidden">The cmake recipe do=
-esn&#39;t depend on libacl yet cmake will detect libacl.h<br>
-and use it by default. This risks build failures if libacl.h is unstaged<br=
->
-during the build and it also means that the build cmake will sometimes<br>
-support ACLs and sometimes not.</div></blockquote></div><br>Is this not als=
-o a concern for the non-native recipe? And wouldn&#39;t it be better yet to=
- use PACKAGECONFIG, rather than hardcoding the disable of acl support?<br>
+Richard
 
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
+> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+> index a8927d7..9d273aa 100644
+> --- a/meta/recipes-devtools/vala/vala.inc
+> +++ b/meta/recipes-devtools/vala/vala.inc
+> @@ -3,7 +3,13 @@ Vala compiles to plain C and has no runtime environment nor penalities whatsoeve
+>  SECTION = "devel"
+>  DEPENDS = "glib-2.0 dbus gtk+"
+>  BBCLASSEXTEND = "native"
+> -DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native"
+> +
+> +# libxslt provides xsltproc, which is probably on the host, but we want to use ours.
+> +# We need our pkg-config, too.  (Inheriting pkgconfig supplies that dependency, but
+> +# we clobber it here).
+> +#
+> +DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native libxslt-native pkgconfig-native"
+> +
+>  HOMEPAGE = "http://vala-project.org"
+>  LICENSE = "LGPLv2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+> @@ -12,7 +18,8 @@ INC_PR = "r1"
+>  SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
+>  
+>  SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz"
+> -inherit autotools
+> +
+> +inherit autotools pkgconfig
+>  
+>  EXTRA_OECONF = "--disable-vapigen"
+>  
+> -- 
+> 1.7.3.4
+> 
 
---001a11345630f6464404f68a9ad7--
+
+
