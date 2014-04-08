@@ -1,45 +1,20 @@
-Return-Path: <B40290@freescale.com>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe010.messaging.microsoft.com [216.32.180.30])
-	by mail.openembedded.org (Postfix) with ESMTP id D0B6D65D70
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 08B7865D89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 10:17:51 +0000 (UTC)
-Received: from mail113-va3-R.bigfish.com (10.7.14.241) by
-	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 8 Apr 2014 10:17:33 +0000
-Received: from mail113-va3 (localhost [127.0.0.1])	by
-	mail113-va3-R.bigfish.com (Postfix) with ESMTP id 934E6203E9	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 10:17:33 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz936eIzz1f42h2148h1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6h208chzz1de098h17326ah8275bh8275dh1de097h186068hz2dh2a8h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h268bh26d3h1155h)
-Received: from mail113-va3 (localhost.localdomain [127.0.0.1]) by mail113-va3
-	(MessageSwitch) id 1396952251737247_25870;
-	Tue,  8 Apr 2014 10:17:31 +0000 (UTC)
-Received: from VA3EHSMHS016.bigfish.com (unknown [10.7.14.227])	by
-	mail113-va3.bigfish.com (Postfix) with ESMTP id 9E4EB300047;
-	Tue,  8 Apr 2014 10:17:31 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS016.bigfish.com
-	(10.7.99.26) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Tue, 8 Apr 2014 10:17:30 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.3.174.2; Tue, 8 Apr 2014 10:17:46 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.136])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	s38AHhKP021848; Tue, 8 Apr 2014 03:17:44 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Apr 2014 18:17:29 +0800
-Message-ID: <1396952249-32452-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] eglibc: __slow_ieee754_sqrt{, f} functions for ppc e6500-32b
+	Tue,  8 Apr 2014 11:54:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Apr 2014 04:49:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,817,1389772800"; d="scan'208";a="516833258"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
+	by orsmga002.jf.intel.com with ESMTP; 08 Apr 2014 04:49:01 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Apr 2014 14:49:47 +0300
+Message-Id: <cover.1396957462.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] openssl upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,88 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 10:17:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Apr 2014 11:54:35 -0000
 
-    *fix the following error:
-    |/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c:138:1:
-    | error: redefinition of '__ieee754_sqrt'
-    | __ieee754_sqrt (double x)
+The trigger for the upgrade was the serious "heartbleed" vulnerability (CVE-2014-0160). 
+More information: http://www.itnews.com.au/News/382068,serious-openssl-bug-renders-websites-wide-open.aspx
+Tested locally on a core-image-sato. Tested with  openssl speed benchmark and
+commands like version and help.
+I am currently building on localautobuilder on major archs, but this will take some time.
+I will announce in case of failure.
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- .../ppce6500-32b_slow_ieee754_sqrt.patch           | 47 ++++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.19.bb            |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/ppce6500-32b_slow_ieee754_sqrt.patch
+The following changes since commit bb66113bde5361b869dce2bdaece5b938f077ea8:
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.19/ppce6500-32b_slow_ieee754_sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.19/ppce6500-32b_slow_ieee754_sqrt.patch
-new file mode 100644
-index 0000000..4c6c107
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.19/ppce6500-32b_slow_ieee754_sqrt.patch
-@@ -0,0 +1,47 @@
-+ __ieee754_sqrt{,f} are now inline functions and call out __slow versions
-+
-+
-+Signed-off-by: chunrong guo <B40290@freescale.com>
-+Upstream-Status: Pending
-+
-+diff -rNu libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c
-+--- libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c	2014-04-08 04:39:58.487229887 -0500
-++++ libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrt.c	2014-04-08 04:40:52.643069198 -0500
-+@@ -41,10 +41,10 @@
-+ 
-+ #ifdef __STDC__
-+ double
-+-__ieee754_sqrt (double b)
-++__slow_ieee754_sqrt (double b)
-+ #else
-+ double
-+-__ieee754_sqrt (b)
-++__slow_ieee754_sqrt (b)
-+      double b;
-+ #endif
-+ {
-+@@ -83,7 +83,7 @@
-+ 
-+           /* Handle small numbers by scaling.  */
-+           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
-+-            return __ieee754_sqrt (b * two108) * twom54;
-++            return __slow_ieee754_sqrt (b * two108) * twom54;
-+ 
-+ #define FMADD(a_, c_, b_)                                               \
-+           ({ double __r;                                                \
-+diff -rNu libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c
-+--- libc-orig/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c	2014-04-08 04:39:58.487229887 -0500
-++++ libc/sysdeps/powerpc/powerpc32/e6500/fpu/e_sqrtf.c	2014-04-08 04:41:26.017067682 -0500
-+@@ -39,10 +39,10 @@
-+ 
-+ #ifdef __STDC__
-+ float
-+-__ieee754_sqrtf (float b)
-++__slow_ieee754_sqrtf (float b)
-+ #else
-+ float
-+-__ieee754_sqrtf (b)
-++__slow_ieee754_sqrtf (b)
-+      float b;
-+ #endif
-+ {
-diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
-index 2bedf26..8f09676 100644
---- a/meta/recipes-core/eglibc/eglibc_2.19.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
-            file://0001-R_ARM_TLS_DTPOFF32.patch \
-            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
-            file://fix-tibetian-locales.patch \
-+	   file://ppce6500-32b_slow_ieee754_sqrt.patch \
-           "
- SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
- SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
+  bitbake: fetch2: Fix bug in file checksum generation (2014-04-06 11:31:26 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib cvoicu/openssl-upgrade
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/openssl-upgrade
+
+Cristiana Voicu (1):
+  openssl: Upgrade to v1.0.1g
+
+ ...DTLS-retransmission-from-previous-session.patch |   81 ------
+ ...or-TLS-record-tampering-bug-CVE-2013-4353.patch |   31 ---
+ ...e-version-in-SSL_METHOD-not-SSL-structure.patch |   33 ---
+ meta/recipes-connectivity/openssl/openssl.inc      |    3 -
+ .../configure-targets.patch                        |    0
+ .../debian/c_rehash-compat.patch                   |    0
+ .../{openssl-1.0.1e => openssl}/debian/ca.patch    |    0
+ .../debian/debian-targets.patch                    |    0
+ .../debian/make-targets.patch                      |    0
+ .../debian/man-dir.patch                           |    0
+ .../debian/man-section.patch                       |    0
+ .../debian/no-rpath.patch                          |    0
+ .../debian/no-symbolic.patch                       |    0
+ .../{openssl-1.0.1e => openssl}/debian/pic.patch   |    0
+ .../debian/version-script.patch                    |    0
+ .../engines-install-in-libdir-ssl.patch            |    0
+ .../openssl/{openssl-1.0.1e => openssl}/find.pl    |    0
+ .../fix-cipher-des-ede3-cfb1.patch                 |    0
+ .../initial-aarch64-bits.patch                     |  108 ++++----
+ .../{openssl-1.0.1e => openssl}/oe-ldflags.patch   |    0
+ ...-pointer-dereference-in-EVP_DigestInit_ex.patch |    0
+ ...NULL-pointer-dereference-in-dh_pub_encode.patch |    0
+ .../openssl-fix-des.pod-error.patch                |    0
+ .../openssl-fix-doc.patch                          |  280 +++++++++-----------
+ .../openssl-fix-link.patch                         |    0
+ .../openssl_fix_for_x32.patch                      |    0
+ .../{openssl-1.0.1e => openssl}/shared-libs.patch  |    0
+ .../{openssl_1.0.1e.bb => openssl_1.0.1g.bb}       |    9 +-
+ 28 files changed, 183 insertions(+), 362 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/configure-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/c_rehash-compat.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/ca.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/debian-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/make-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/man-dir.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/man-section.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/no-rpath.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/no-symbolic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/pic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/debian/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/find.pl (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/fix-cipher-des-ede3-cfb1.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/initial-aarch64-bits.patch (43%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl-fix-des.pod-error.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl-fix-doc.patch (47%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl-fix-link.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl_fix_for_x32.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/shared-libs.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.1e.bb => openssl_1.0.1g.bb} (81%)
+
 -- 
-1.8.3.2
-
+1.7.9.5
 
 
