@@ -1,30 +1,24 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 839406A9C4
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A7C66F929
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 02:27:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s382RIOU026765
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 7 Apr 2014 19:27:18 -0700 (PDT)
-Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Mon, 7 Apr 2014 19:27:17 -0700
-Message-ID: <53435E81.9060308@windriver.com>
-Date: Tue, 8 Apr 2014 10:27:13 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	Tue,  8 Apr 2014 03:30:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s383Uvme003110
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Apr 2014 20:30:58 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 7 Apr 2014 20:30:57 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 8 Apr 2014 11:30:55 +0800
+Message-ID: <cover.1396927648.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
-	<1396870039-26834-3-git-send-email-ming.liu@windriver.com>
-	<1396870587.24597.35.camel@ted>
-In-Reply-To: <1396870587.24597.35.camel@ted>
-X-Originating-IP: [128.224.163.186]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] binconfig.bbclass: fix multilib file conflicts
+Subject: [PATCH V4 0/1] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 02:27:19 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Apr 2014 03:30:59 -0000
+Content-Type: text/plain
 
-On 04/07/2014 07:36 PM, Richard Purdie wrote:
-> On Mon, 2014-04-07 at 19:27 +0800, Ming Liu wrote:
->> In most cases binconfig files conflict among multilib packages, to avoid
->> that, use update-alternatives link *-config from real path with a
->> PACKAGE_ARCH suffix.
->>
->> Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> ---
->>   meta/classes/binconfig.bbclass | 65 ++++++++++++++++++++++++++++++++++++------
->>   1 file changed, 56 insertions(+), 9 deletions(-)
-> This isn't going in, its complex and supports a minority use case.
-> binconfig should be dying out, not being extended and shored up like
-> this.
->
-> I'd also add this patch is buggy, its pure luck that update-alternatives
-> is available at rootfs generation time since its not in a visible
-> dependency.
->
-> So going forward I'd like to see patches which simply delete binconfig
-> scripts. Where there isn't a .pc alternative we should be adding them
-> and pushing them upstream.
-Did you mean we'd better remove all *-config scripts, insteaded by 
-providing .pc files, and send the changes to all upstreams providing and 
-using *-config? That seems a huge work and we need co-operate with a lot 
-of projects.
+Changes since V3:
 
-//Ming Liu
->
-> Cheers,
->
-> Richard
->
->
->
->
->
+Add class-target suffix to RDEPENDS_dbus-ptest.
+
+The following changes since commit bb66113bde5361b869dce2bdaece5b938f077ea8:
+
+  bitbake: fetch2: Fix bug in file checksum generation (2014-04-06 11:31:26 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/dbus
+
+Chong Lu (1):
+  dbus: fix a hard dependency about dbus-ptest
+
+ meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb => dbus-test_1.6.18.bb} | 0
+ meta/recipes-core/dbus/dbus.inc                                      | 4 +++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-core/dbus/{dbus-ptest_1.6.18.bb => dbus-test_1.6.18.bb} (100%)
+
+-- 
+1.8.1.2
 
 
