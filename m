@@ -1,30 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3493865DC4
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D0FF65D1E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 21:33:47 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s38LXgNq006919; Tue, 8 Apr 2014 22:33:43 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bhE-HF4GQT5P; Tue,  8 Apr 2014 22:33:42 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s38LXbDt006910
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 8 Apr 2014 22:33:39 +0100
-Message-ID: <1396992811.24597.116.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-Date: Tue, 08 Apr 2014 22:33:31 +0100
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF8455D2735A@ALA-MBA.corp.ad.wrs.com>
+	Tue,  8 Apr 2014 22:56:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s38MuAlx009923
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Apr 2014 15:56:10 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.109]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0169.001;
+	Tue, 8 Apr 2014 15:56:10 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] libxslt populate_sysroot dependencies
+Thread-Index: Ac9St9lECD/KPBdYT26R1f74B7GePgAznfuAAAXaghAAA8g7gAAMWeeg
+Date: Tue, 8 Apr 2014 22:56:09 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8455D273D4@ALA-MBA.corp.ad.wrs.com>
 References: <007BD92917A2324FA403BCF9A464CF8455D24E2D@ALA-MBA.corp.ad.wrs.com>
 	<1396976257.24597.109.camel@ted>
 	<007BD92917A2324FA403BCF9A464CF8455D2735A@ALA-MBA.corp.ad.wrs.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	<1396992811.24597.116.camel@ted>
+In-Reply-To: <1396992811.24597.116.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.76]
+MIME-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: libxslt populate_sysroot dependencies
@@ -40,81 +42,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 21:33:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Apr 2014 22:56:14 -0000
+X-Groupsio-MsgNum: 52296
+Content-Language: en-US
+Content-Type: multipart/mixed;
+	boundary="_002_007BD92917A2324FA403BCF9A464CF8455D273D4ALAMBAcorpadwrs_"
 
-On Tue, 2014-04-08 at 21:21 +0000, Slater, Joseph wrote:
-> 
-> > -----Original Message-----
-> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
-> > Sent: Tuesday, April 08, 2014 9:58 AM
-> > To: Slater, Joseph
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] libxslt populate_sysroot dependencies
-> > 
-> > On Mon, 2014-04-07 at 23:25 +0000, Slater, Joseph wrote:
-> > > I have attached a patch that makes sure libxml2-native is available
-> > > when both it and libxslt-native
-> > > are taken from sstate.
-> > >
-> > > The patch parallels one from a few weeks ago for pixbufcache, but the
-> > > underlying problem might
-> > > have been fixed since then.  I looked for likely commits, and didn't
-> > > see anything, so this patch might still be needed.
-> > 
-> > This is an shlibs depends, right? sstate should handle those correctly.
-> > If not, I'd like to see logs from a build where this doesn't happen on
-> > master please?
-> 
-> The bitbake I was using is a bit out of date, so I cloned a poky repo today
-> and did several builds of vala-native pulling libxml2-native and libxslt-native
-> from sstate.
-> 
-> I've attached the logs (truncated and annotated).  I think out_of_order.log shows that libxslt-native is
-> put in sysroot before libraries from libxml2 that it needs.
-> 
-> The in_order.log shows what happens after applying the populate sysroot [depends] patch.
-> 
-> I've attached the patch, too.
+--_002_007BD92917A2324FA403BCF9A464CF8455D273D4ALAMBAcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Thanks, I think I've been staring at too many builds for too long and
-have too many things cross threaded so I may have things confused,
-however I'm going to have a go at explaining this.
+SSd2ZSBhdHRhY2hlZCBleHRyYWN0cyBmcm9tIGEgdmVyeSBsb25nIGxvZyBvZiBhIGZhaWx1cmUu
+ICBUdXJucyBvdXQsIGl0J3Mgbm90IHF1aXRlIHdoYXQgSSB3YXMgZXhwZWN0aW5nLCBidXQgaXQg
+ZG9lcyBzaG93IHRoZSBsaWJ4bWwyLW5hdGl2ZSBkaWQgbm90IGdldCB0byBpbnRvIHN5c3Jvb3Qg
+YmVmb3JlIHdlIHRyaWVkIHRvIHJ1biB4c2x0cHJvYyBkdXJpbmcgdGhlIGJ1aWxkIG9mIHZhbGEu
+DQoNClRoZXNlIGZhaWx1cmVzIGFyZSBleHRyZW1lbHkgcmFyZSwgc28gSSdsbCBoYXZlIHRvIHdh
+aXQgZm9yIGFub3RoZXIgb25lIHRvIHNlZSBpZiBpdCdzIHRoZSBzYW1lLiAgSSByZWFsaXplIHRo
+YXQgdGhlIGJ1aWxkIGZvciBsaWJ4bWwyIHNlZW1zIHRvIGhhdmUgImh1bmciLCBidXQgSSBhbHNv
+IHRoaW5rIHRoYXQgbGV0dGluZyBsaWJ4c2x0IHB1dCBpdHNlbGYgaW50byBzeXNyb290IGJlZm9y
+ZSB3aGF0IGl0IG5lZWRzIHRvIHJ1biBpcyBpbiB0aGVyZSBpcyBkYW5nZXJvdXMuDQoNCkFueXdh
+eSwgdGhlcmUncyBubyB3YXkgaW4gdGhlIHdvcmxkIEkgY291bGQgZG8gdGhlIG51bWJlciBvZiBi
+dWlsZHMgbmVjZXNzYXJ5IHRvIHNlZSBpZiBpdCdzIHN0aWxsIGFuIGlzc3VlIHdpdGggdGhlIGN1
+cnJlbnQgYml0YmFrZSwgc28gSSdsbCBqdXN0IHdhdGNoIGZvciBtb3JlIGZhaWx1cmVzIGhlcmUu
+DQoNClRoaXMgaGFzIGJlZW4ga2luZCBvZiBhIHdhc3RlIG9mIHlvdXIgdGltZS4gIFRoYW5rcyBm
+b3IgbG9va2luZyBhdCBpdC4NCg0KSm9lDQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
+LQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmddDQo+IFNlbnQ6IFR1ZXNkYXksIEFwcmlsIDA4LCAyMDE0IDI6MzQgUE0NCj4g
+VG86IFNsYXRlciwgSm9zZXBoDQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gbGlieHNsdCBwb3B1bGF0ZV9zeXNy
+b290IGRlcGVuZGVuY2llcw0KPiANCj4gT24gVHVlLCAyMDE0LTA0LTA4IGF0IDIxOjIxICswMDAw
+LCBTbGF0ZXIsIEpvc2VwaCB3cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+LS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWlsdG86cmljaGFyZC5wdXJkaWVA
+bGludXhmb3VuZGF0aW9uLm9yZ10NCj4gPiA+IFNlbnQ6IFR1ZXNkYXksIEFwcmlsIDA4LCAyMDE0
+IDk6NTggQU0NCj4gPiA+IFRvOiBTbGF0ZXIsIEpvc2VwaA0KPiA+ID4gQ2M6IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gbGlieHNsdCBwb3B1bGF0ZV9zeXNyb290IGRlcGVuZGVuY2llcw0KPiA+ID4NCj4gPiA+IE9u
+IE1vbiwgMjAxNC0wNC0wNyBhdCAyMzoyNSArMDAwMCwgU2xhdGVyLCBKb3NlcGggd3JvdGU6DQo+
+ID4gPiA+IEkgaGF2ZSBhdHRhY2hlZCBhIHBhdGNoIHRoYXQgbWFrZXMgc3VyZSBsaWJ4bWwyLW5h
+dGl2ZSBpcyBhdmFpbGFibGUNCj4gPiA+ID4gd2hlbiBib3RoIGl0IGFuZCBsaWJ4c2x0LW5hdGl2
+ZQ0KPiA+ID4gPiBhcmUgdGFrZW4gZnJvbSBzc3RhdGUuDQo+ID4gPiA+DQo+ID4gPiA+IFRoZSBw
+YXRjaCBwYXJhbGxlbHMgb25lIGZyb20gYSBmZXcgd2Vla3MgYWdvIGZvciBwaXhidWZjYWNoZSwg
+YnV0IHRoZQ0KPiA+ID4gPiB1bmRlcmx5aW5nIHByb2JsZW0gbWlnaHQNCj4gPiA+ID4gaGF2ZSBi
+ZWVuIGZpeGVkIHNpbmNlIHRoZW4uICBJIGxvb2tlZCBmb3IgbGlrZWx5IGNvbW1pdHMsIGFuZCBk
+aWRuJ3QNCj4gPiA+ID4gc2VlIGFueXRoaW5nLCBzbyB0aGlzIHBhdGNoIG1pZ2h0IHN0aWxsIGJl
+IG5lZWRlZC4NCj4gPiA+DQo+ID4gPiBUaGlzIGlzIGFuIHNobGlicyBkZXBlbmRzLCByaWdodD8g
+c3N0YXRlIHNob3VsZCBoYW5kbGUgdGhvc2UgY29ycmVjdGx5Lg0KPiA+ID4gSWYgbm90LCBJJ2Qg
+bGlrZSB0byBzZWUgbG9ncyBmcm9tIGEgYnVpbGQgd2hlcmUgdGhpcyBkb2Vzbid0IGhhcHBlbiBv
+bg0KPiA+ID4gbWFzdGVyIHBsZWFzZT8NCj4gPg0KPiA+IFRoZSBiaXRiYWtlIEkgd2FzIHVzaW5n
+IGlzIGEgYml0IG91dCBvZiBkYXRlLCBzbyBJIGNsb25lZCBhIHBva3kgcmVwbyB0b2RheQ0KPiA+
+IGFuZCBkaWQgc2V2ZXJhbCBidWlsZHMgb2YgdmFsYS1uYXRpdmUgcHVsbGluZyBsaWJ4bWwyLW5h
+dGl2ZSBhbmQgbGlieHNsdC1uYXRpdmUNCj4gPiBmcm9tIHNzdGF0ZS4NCj4gPg0KPiA+IEkndmUg
+YXR0YWNoZWQgdGhlIGxvZ3MgKHRydW5jYXRlZCBhbmQgYW5ub3RhdGVkKS4gIEkgdGhpbmsgb3V0
+X29mX29yZGVyLmxvZyBzaG93cyB0aGF0DQo+IGxpYnhzbHQtbmF0aXZlIGlzDQo+ID4gcHV0IGlu
+IHN5c3Jvb3QgYmVmb3JlIGxpYnJhcmllcyBmcm9tIGxpYnhtbDIgdGhhdCBpdCBuZWVkcy4NCj4g
+Pg0KPiA+IFRoZSBpbl9vcmRlci5sb2cgc2hvd3Mgd2hhdCBoYXBwZW5zIGFmdGVyIGFwcGx5aW5n
+IHRoZSBwb3B1bGF0ZSBzeXNyb290IFtkZXBlbmRzXSBwYXRjaC4NCj4gPg0KPiA+IEkndmUgYXR0
+YWNoZWQgdGhlIHBhdGNoLCB0b28uDQo+IA0KPiBUaGFua3MsIEkgdGhpbmsgSSd2ZSBiZWVuIHN0
+YXJpbmcgYXQgdG9vIG1hbnkgYnVpbGRzIGZvciB0b28gbG9uZyBhbmQNCj4gaGF2ZSB0b28gbWFu
+eSB0aGluZ3MgY3Jvc3MgdGhyZWFkZWQgc28gSSBtYXkgaGF2ZSB0aGluZ3MgY29uZnVzZWQsDQo+
+IGhvd2V2ZXIgSSdtIGdvaW5nIHRvIGhhdmUgYSBnbyBhdCBleHBsYWluaW5nIHRoaXMuDQo+IA0K
+PiBUaGUgc2V0c2NlbmUgZGVwZW5kZW5jaWVzIHR5cGljYWxseSB3b3JrIGJhY2t3YXJkcy4gVGhl
+IHN5c3RlbSBkb2VzIHRoaXMNCj4gZGVsaWJlcmF0ZWx5IHNpbmNlIGluIGdlbmVyYWwgaWYgeW91
+IGNhbiBpbnN0YWxsIHNheSBiYXNoDQo+IGRvX3BhY2thZ2Vfd3JpdGVfaXBrLCB3ZSBjYW4gc2tp
+cCB0aGUgdG9vbGNoYWluIGFuZCBvdGhlciB0b29scyBzaW5jZSB3ZQ0KPiBoYXZlIHRoZSBpcGsg
+d2Ugd2FudC4gImJpdGJha2UgPHNvbWVpbWFnZT4gLWMgcm9vdGZzIiBpcyBhIGdvb2QgZXhhbXBs
+ZQ0KPiBvZiB0aGF0IGluIGFjdGlvbiwgdGhlIC1jIGJ1aWxkIGRlZmF1bHQgdGVuZHMgdG8gYmUg
+YSBiaXQgZ3JlZWR5Lg0KPiANCj4gVGhlIG9ubHkgdGltZSB0aGlzIHJldmVyc2FsIHdvdWxkIGNh
+dXNlIGEgcHJvYmxlbSBpcyBmb3IgbmF0aXZlL2Nyb3NzDQo+IGJpbmFyaWVzICppZiogd2UgZXhl
+Y3V0ZSB0aGVtIGF0IHNldHNjZW5lIHRpbWUuIEkga25vdyBvZiB0d28gcHJvYmxlbQ0KPiBjYXNl
+czoNCj4gDQo+IGEpIGdkay1waXhidWYgZG9lcyB0aGlzIHRvIGNyZWF0ZSBhIGNvcnJlY3QgaW5k
+ZXggZmlsZSB3aXRoaW4gdGhlDQo+ICAgIHN5c3Jvb3QuDQo+IGIpIHRoZSBhZGR1c2VyIHBhcnRz
+IGFyZSB1c2VkIHRvIHNldHVwIHVzZXIgYWNjb3VudHMgYmVmb3JlIHNzdGF0ZQ0KPiAgICBwYWNr
+YWdlcyBhcmUgZXh0cmFjdGVkLg0KPiANCj4gVGhvc2UgdHdvIGNhc2VzIGhhdmUgZXhwbGljaXQg
+c2V0c2NlbmUgZGVwZW5kZW5jaWVzIGZvciB0aG9zZSByZWFzb25zLiBJDQo+IGFtIG5vdCBhd2Fy
+ZSBvZiB4bHN0cHJvYyBiZWluZyBydW4gYXQgc2V0c2NlbmUgdGltZSBieSBhbnl0aGluZyBzbyBp
+dA0KPiBkb2Vzbid0IG5lZWQgdGhlc2UgZGVwZW5kZW5jaWVzLg0KPiANCj4gT2sgeW91IHNheSwg
+d2hhdCBpZiBpdCBleHRyYWN0cyBsaWJ4c2x0LW5hdGl2ZSBidXQgdGhlbiBmYWlscyB0byBleHRy
+YWN0DQo+IGxpYnhtbDItbmF0aXZlPw0KPiANCj4gV2VsbCwgd2hlbiB0aGUgbWFpbiBidWlsZCBo
+YXBwZW5zLCBub3RoaW5nIHdpdGggYSBkZXBlbmRlbmN5IG9uDQo+IGxpYnhzbHRwcm9jIHdpbGwg
+cnVuIHVudGlsIGxpYnhtbDItbmF0aXZlIGhhcyBiZWVuIGJ1aWx0Lg0KPiANCj4gU28sIHlvdXIg
+bG9ncyBhY3R1YWxseSBzaG93IHdoYXQgSSB3b3VsZCBleHBlY3QgdG8gaGFwcGVuLCB0aGUgcXVl
+c3Rpb24NCj4gaXMgd2hhdCBiZWhhdmlvdXIgZG8geW91IHNlZSB3aGljaCBpc24ndCBjb3JyZWN0
+Pw0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KPiANCj4gDQo+IA0KDQo=
 
-The setscene dependencies typically work backwards. The system does this
-deliberately since in general if you can install say bash
-do_package_write_ipk, we can skip the toolchain and other tools since we
-have the ipk we want. "bitbake <someimage> -c rootfs" is a good example
-of that in action, the -c build default tends to be a bit greedy.
+--_002_007BD92917A2324FA403BCF9A464CF8455D273D4ALAMBAcorpadwrs_
+Content-Type: text/plain; name="log.txt"
+Content-Description: log.txt
+Content-Disposition: attachment; filename="log.txt"; size=2617;
+	creation-date="Tue, 08 Apr 2014 22:54:42 GMT";
+	modification-date="Tue, 08 Apr 2014 22:31:54 GMT"
+Content-Transfer-Encoding: base64
 
-The only time this reversal would cause a problem is for native/cross
-binaries *if* we execute them at setscene time. I know of two problem
-cases:
+CitbMjAxNC0wMy0yMyAxMjozMToxMS44NzkzMzIzMjctMDc6MDBdIE5PVEU6IHJlY2lwZSBsaWJ4
+c2x0LW5hdGl2ZS0xLjEuMjgtcjA6IHRhc2sgZG9fcG9wdWxhdGVfbGljX3NldHNjZW5lOiBTdGFy
+dGVkCgorWzIwMTQtMDMtMjMgMTI6MzE6MTEuOTA4MTEwMzQ3LTA3OjAwXSBOT1RFOiByZWNpcGUg
+bGlieHNsdC1uYXRpdmUtMS4xLjI4LXIwOiB0YXNrIGRvX3BvcHVsYXRlX2xpY19zZXRzY2VuZTog
+U3VjY2VlZGVkCgorWzIwMTQtMDMtMjMgMTI6MzE6MzguNTQwMDU2Njg2LTA3OjAwXSBOT1RFOiBy
+ZWNpcGUgdmFsYS1uYXRpdmUtMC4xNi4wLXIxLjE6IHRhc2sgZG9fcG9wdWxhdGVfbGljX3NldHNj
+ZW5lOiBTdGFydGVkCgorWzIwMTQtMDMtMjMgMTI6MzE6MzguODE3NzQzOTc2LTA3OjAwXSBOT1RF
+OiByZWNpcGUgdmFsYS1uYXRpdmUtMC4xNi4wLXIxLjE6IHRhc2sgZG9fcG9wdWxhdGVfbGljX3Nl
+dHNjZW5lOiBTdWNjZWVkZWQKCitbMjAxNC0wMy0yMyAxMjozMTo0OS4yNTIwMTA2OTItMDc6MDBd
+IE5PVEU6IHJlY2lwZSBsaWJ4c2x0LW5hdGl2ZS0xLjEuMjgtcjA6IHRhc2sgZG9fcG9wdWxhdGVf
+c3lzcm9vdF9zZXRzY2VuZTogU3RhcnRlZAoKK1syMDE0LTAzLTIzIDEyOjMxOjUwLjAxMjQzNjUy
+OC0wNzowMF0gTk9URTogcmVjaXBlIGxpYnhzbHQtbmF0aXZlLTEuMS4yOC1yMDogdGFzayBkb19w
+b3B1bGF0ZV9zeXNyb290X3NldHNjZW5lOiBTdWNjZWVkZWQKCitbMjAxNC0wMy0yMyAxMjozMTo1
+Mi41MzY4NjAxMTktMDc6MDBdIE5PVEU6IHJlY2lwZSBsaWJ4bWwyLW5hdGl2ZS0yLjkuMS1yMC4x
+OiB0YXNrIGRvX3BvcHVsYXRlX2xpY19zZXRzY2VuZTogU3RhcnRlZAoKK1syMDE0LTAzLTIzIDEy
+OjMxOjUzLjE5MjUwMjI4OS0wNzowMF0gTk9URTogcmVjaXBlIGxpYnhtbDItbmF0aXZlLTIuOS4x
+LXIwLjE6IHRhc2sgZG9fcG9wdWxhdGVfbGljX3NldHNjZW5lOiBTdWNjZWVkZWQKCitbMjAxNC0w
+My0yMyAxMjozMjo0Ny44ODgyOTQxMDctMDc6MDBdIE5PVEU6IHJlY2lwZSBsaWJ4bWwyLW5hdGl2
+ZS0yLjkuMS1yMC4xOiB0YXNrIGRvX2ZldGNoOiBTdGFydGVkCgorWzIwMTQtMDMtMjMgMTI6MzI6
+NDkuOTgyNTU1MTQ1LTA3OjAwXSBOT1RFOiByZWNpcGUgbGlieG1sMi1uYXRpdmUtMi45LjEtcjAu
+MTogdGFzayBkb19mZXRjaDogU3VjY2VlZGVkCgorWzIwMTQtMDMtMjMgMTI6MzI6NTEuNjY3MDAz
+Nzk2LTA3OjAwXSBOT1RFOiByZWNpcGUgbGlieG1sMi1uYXRpdmUtMi45LjEtcjAuMTogdGFzayBk
+b191bnBhY2s6IFN0YXJ0ZWQKCitbMjAxNC0wMy0yMyAxMjozMjo1NC45NTM1ODUwMDQtMDc6MDBd
+IE5PVEU6IHJlY2lwZSBsaWJ4bWwyLW5hdGl2ZS0yLjkuMS1yMC4xOiB0YXNrIGRvX3VucGFjazog
+U3VjY2VlZGVkCgorWzIwMTQtMDMtMjMgMTI6MzM6MDMuNjA4ODMzNTA2LTA3OjAwXSBOT1RFOiBy
+ZWNpcGUgbGlieG1sMi1uYXRpdmUtMi45LjEtcjAuMTogdGFzayBkb19wYXRjaDogU3RhcnRlZAoK
+K1syMDE0LTAzLTIzIDEyOjMzOjA0LjU5ODMzMjQxMy0wNzowMF0gTk9URTogcmVjaXBlIGxpYnht
+bDItbmF0aXZlLTIuOS4xLXIwLjE6IHRhc2sgZG9fcGF0Y2g6IFN1Y2NlZWRlZAoKK1syMDE0LTAz
+LTIzIDEyOjM1OjQ1LjgyNDY2OTA1My0wNzowMF0gTk9URTogcmVjaXBlIHZhbGEtbmF0aXZlLTAu
+MTYuMC1yMS4xOiB0YXNrIGRvX2ZldGNoOiBTdGFydGVkCitbMjAxNC0wMy0yMyAxMjozNTo0NS44
+Mjk4NTA0MzktMDc6MDBdIE5PVEU6IHJlY2lwZSB2YWxhLW5hdGl2ZS0wLjE2LjAtcjEuMTogdGFz
+ayBkb19mZXRjaDogU3VjY2VlZGVkCgorWzIwMTQtMDMtMjMgMTI6NDA6MjUuMDk5NzI4Njk2LTA3
+OjAwXSBOT1RFOiByZWNpcGUgdmFsYS1uYXRpdmUtMC4xNi4wLXIxLjE6IHRhc2sgZG9fdW5wYWNr
+OiBTdGFydGVkCgorWzIwMTQtMDMtMjMgMTI6NDA6MjYuODcyMDQ0Mjk2LTA3OjAwXSBOT1RFOiBy
+ZWNpcGUgdmFsYS1uYXRpdmUtMC4xNi4wLXIxLjE6IHRhc2sgZG9fdW5wYWNrOiBTdWNjZWVkZWQK
+CitbMjAxNC0wMy0yMyAxMjo0MDoyOC4zMDk1Mzc4MDctMDc6MDBdIE5PVEU6IHJlY2lwZSB2YWxh
+LW5hdGl2ZS0wLjE2LjAtcjEuMTogdGFzayBkb19wYXRjaDogU3RhcnRlZAoKK1syMDE0LTAzLTIz
+IDEyOjQwOjI4LjM4OTQyOTc0Ni0wNzowMF0gTk9URTogcmVjaXBlIHZhbGEtbmF0aXZlLTAuMTYu
+MC1yMS4xOiB0YXNrIGRvX3BhdGNoOiBTdWNjZWVkZWQKCitbMjAxNC0wMy0yMyAxMjo0Njo1Mi42
+MTUwNDc1NDctMDc6MDBdIE5PVEU6IHJlY2lwZSB2YWxhLW5hdGl2ZS0wLjE2LjAtcjEuMTogdGFz
+ayBkb19jb25maWd1cmU6IFN0YXJ0ZWQKCitbMjAxNC0wMy0yMyAxMjo0NzozMS43ODEyNzg0NTQt
+MDc6MDBdIE5PVEU6IHJlY2lwZSB2YWxhLW5hdGl2ZS0wLjE2LjAtcjEuMTogdGFzayBkb19jb25m
+aWd1cmU6IFN1Y2NlZWRlZAoKK1syMDE0LTAzLTIzIDEyOjQ3OjM1LjMwNDc2MjIzOS0wNzowMF0g
+Tk9URTogcmVjaXBlIHZhbGEtbmF0aXZlLTAuMTYuMC1yMS4xOiB0YXNrIGRvX2NvbXBpbGU6IFN0
+YXJ0ZWQKCitbMjAxNC0wMy0yMyAxMjo0ODowMS45NzAyNTQwMDMtMDc6MDBdIE5PVEU6IHJlY2lw
+ZSB2YWxhLW5hdGl2ZS0wLjE2LjAtcjEuMTogdGFzayBkb19jb21waWxlOiBGYWlsZWQKCg==
 
-a) gdk-pixbuf does this to create a correct index file within the 
-   sysroot.
-b) the adduser parts are used to setup user accounts before sstate 
-   packages are extracted.
-
-Those two cases have explicit setscene dependencies for those reasons. I
-am not aware of xlstproc being run at setscene time by anything so it
-doesn't need these dependencies.
-
-Ok you say, what if it extracts libxslt-native but then fails to extract
-libxml2-native?
-
-Well, when the main build happens, nothing with a dependency on
-libxsltproc will run until libxml2-native has been built.
-
-So, your logs actually show what I would expect to happen, the question
-is what behaviour do you see which isn't correct?
-
-Cheers,
-
-Richard
-
-
-
-
-
+--_002_007BD92917A2324FA403BCF9A464CF8455D273D4ALAMBAcorpadwrs_--
