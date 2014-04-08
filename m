@@ -1,30 +1,43 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
-	by mail.openembedded.org (Postfix) with ESMTP id C169A65D8E
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 099E565DA2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 12:33:28 +0000 (UTC)
-Received: from fensuse.internal.dresearch-fe.de
-	(fensuse.internal.dresearch-fe.de [172.29.23.6])
-	by zk223.dresearch-fe.de (Postfix) with ESMTP id 679EEE0115;
-	Tue,  8 Apr 2014 12:33:29 +0000 (UTC)
-Received: from [IPv6:::1] (localhost [IPv6:::1])
-	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id 369C3701204;
-	Tue,  8 Apr 2014 14:33:29 +0200 (CEST)
-Message-ID: <5343EC99.800@dresearch-fe.de>
-Date: Tue, 08 Apr 2014 14:33:29 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
+	Tue,  8 Apr 2014 12:46:17 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id l18so886001wgh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Apr 2014 05:46:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=snvYte91DazsMCKtS9bTeW7qSTK9XPeXuNrDNkLncUo=;
+	b=VD0Dws9JZ2C8n1a+zJHnFXcyKQpdojm5csD8W+VXJXMwG8B28qRXYKh11xKD2uz94C
+	y+e0MMrDcXZo1iO9S1N17FgBpKGrXMQ5/q8H+h5m4Ji++a/W8orZiAis/bMYi9rJ8kOO
+	AcEAaPN7eKBbiiP+Whk86JJpvthwydBmh9VAbP9fmJL5xejL1kfiFfVHpKp8g+i4JE1r
+	EP42wQJb8BDxvXs4ZxdMgvCq1KOIY8HwJhEfC2QisndoSq9TDuYA1rs50cok0xIY8WxS
+	OuvF+qZ8eFmbKaaPRFf/KCEbeKAP2TXmg1ZmgJRbyKAyZ7Y4UMEcl57/N3Tuwa6EXb5p
+	rjVg==
+X-Gm-Message-State: ALoCoQmfuFsYdjRB/4OzZrZBcLjpc4cfsttCIEfXDCLK+a2z8Q8lRKenZkZmQslmX7yuXlKlAUhV
+X-Received: by 10.180.75.45 with SMTP id z13mr4321536wiv.41.1396961178379;
+	Tue, 08 Apr 2014 05:46:18 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id jd2sm2813370wic.9.2014.04.08.05.46.16
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 08 Apr 2014 05:46:17 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <BA1EAF4A-F798-48CC-A7D1-6E582BB8A001@dominion.thruhere.net>
+Date: Tue, 8 Apr 2014 14:46:16 +0200
+Message-Id: <70B26E21-6281-44C1-9126-13DDA4E4495C@dominion.thruhere.net>
+References: <1389780926-20901-1-git-send-email-koen.kooi@linaro.org>
+	<52FB2ADF.70209@linaro.org> <1392193887.7120.191.camel@ted>
+	<8F835027-D28B-42A9-B8A7-49E85688B376@dominion.thruhere.net>
+	<BA1EAF4A-F798-48CC-A7D1-6E582BB8A001@dominion.thruhere.net>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <5330220F.8050504@dresearch-fe.de>		<1395664516.24232.56.camel@ted>	<533029C5.1000406@dresearch-fe.de>		<1395665593.24232.58.camel@ted>	<53303FAB.5020907@dresearch-fe.de>		<20140324151537.GD29998@jama>	<53315AE7.1020304@dresearch-fe.de>	
-	<53319AAD.5070506@windriver.com>
-	<53429BF2.2050804@dresearch-fe.de>	
-	<5342A69C.9020901@dresearch-fe.de> <1396882151.24597.72.camel@ted>
-In-Reply-To: <1396882151.24597.72.camel@ted>
-X-Enigmail-Version: 1.6
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: complex versioning scenario
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] grub git: workaround debugedit problems for 64 bit targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,99 +50,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 12:33:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 08 Apr 2014 12:46:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 07.04.2014 16:49, Richard Purdie wrote:
-> On Mon, 2014-04-07 at 15:22 +0200, Steffen Sledz wrote:
->> On 07.04.2014 14:37, Steffen Sledz wrote:
->>> On 25.03.2014 16:03, Mark Hatle wrote:
->>>> ...
->>>> If the package 'requiring libfoo' has a DEPENDS += ... in it.. then yes, it should have been rebuilt when the libfoo was rebuilt.
->>>
->>> Unfortunately i can't confirm that.  :(
->>>
->>> part of the real app recipe:
->>> ------------> snip <-------------
->>> DEPENDS = "vala-native libdrtrace libdrhip libdrbcc jansson"
->>> RDEPENDS_${PN} = "dropmodes"
->>> ------------> snap <-------------
->>>
->>> part of the real resulting opkg control file for this app:
->>> ------------> snip <-------------
->>> Depends: dropmodes, libglib-2.0-0 (>= 2.36.4), libdrhip1 (>= gitr27+42af787eb2), libjansson4 (>= 2.4), libc6 (>= 2.18)
->>> ------------> snap <-------------
->>>
->>> I miss the runtime dependencies for libdrtrace and libdrbcc. Where are they gone?
->>
->> Some additional info:
->> ------------> snip <-------------
->> # objdump -p ./package/usr/lib/libdrhip.so.1.0.0
->>
->> ./package/usr/lib/libdrhip.so.1.0.0:     file format elf32-littlearm
->> ...
->> Dynamic Section:
->>   NEEDED               libc.so.6
->>   SONAME               libdrhip.so.1
->> ...
->>
->> # objdump -p ./package/usr/lib/libdrbcc.so.1.0.0
->>
->> ./package/usr/lib/libdrbcc.so.1.0.0:     file format elf32-littlearm
->> ...
->> Dynamic Section:
->>   NEEDED               libdrtrace.so.0
->>   NEEDED               libm.so.6
->>   NEEDED               libreadline.so.6
->>   NEEDED               libpthread.so.0
->>   NEEDED               libc.so.6
->>   SONAME               libdrbcc.so.1
->> ...
->>
->> # objdump -p ./package/usr/bin/drbccproxy
->>
->> ./package/usr/bin/drbccproxy:     file format elf32-littlearm
->> ...
->> Dynamic Section:
->>   NEEDED               libdrhip.so.1
->>   NEEDED               libdrbcc.so.0
->>   NEEDED               libdrtrace.so.0
->>   NEEDED               libgio-2.0.so.0
->>   NEEDED               libgobject-2.0.so.0
->>   NEEDED               libglib-2.0.so.0
->>   NEEDED               libjansson.so.4
->>   NEEDED               librt.so.1
->>   NEEDED               libpthread.so.0
->>   NEEDED               libc.so.6
->> ...
->> ------------> snap <-------------
->>
->> So it seems the data objdump shows are OK.
->>
->> E.g. the app drbccproxy really has a dependency to a libdrbcc. But this is not refelected in the control file.
-> 
-> At this point you'll probably have to look at the shlibs code in
-> package.bbclass and see why its not picking up the shlib dependencies
-> correctly for the packages...
-> 
-> It does appear there is some problem there but its hard to saw what
-> without a test case to reproduce.
 
-I could isolate the problem. :)
+Op 13 mrt. 2014, om 10:08 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
 
-If a package contains a shared library *and* a binary (e.g. a related command line tool) then the soname major version *is not appended* to the package name (see debian_package_name_hook in debian.bbclass). All other problems are aftereffects.
+>=20
+> Op 15 feb. 2014, om 11:27 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
+>=20
+>>=20
+>> Op 12 feb. 2014, om 09:31 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
+>>=20
+>>> On Wed, 2014-02-12 at 09:03 +0100, Koen Kooi wrote:
+>>>> On 01/15/2014 11:15 AM, Koen Kooi wrote:
+>>>>> I've limited it to 64bit targets, but to be honest debug splitting =
+doesn't make sense for grub since it won't run in your rootfs and =
+attaching gdb is pretty much impossible.
+>>>>>=20
+>>>>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>>>>> ---
+>>>>> meta/recipes-bsp/grub/grub_git.bb | 5 +++++
+>>>>> 1 file changed, 5 insertions(+)
+>>>>>=20
+>>>>> diff --git a/meta/recipes-bsp/grub/grub_git.bb =
+b/meta/recipes-bsp/grub/grub_git.bb
+>>>>> index 1796e7f..bc79cfa 100644
+>>>>> --- a/meta/recipes-bsp/grub/grub_git.bb
+>>>>> +++ b/meta/recipes-bsp/grub/grub_git.bb
+>>>>> @@ -51,8 +51,13 @@ do_configure_prepend() {
+>>>>> do_install_append () {
+>>>>>    install -d ${D}${sysconfdir}/grub.d
+>>>>>    install -m 0755 ${WORKDIR}/40_custom =
+${D}${sysconfdir}/grub.d/40_custom
+>>>>> +
+>>>>> }
+>>>>>=20
+>>>>> +# debugedit chokes on 64 bit platforms
+>>>>> +INHIBIT_PACKAGE_DEBUG_SPLIT_aarch64 =3D "1"
+>>>>> +INHIBIT_PACKAGE_DEBUG_SPLIT_x86-64 =3D "1"
+>>>>> +
+>>>>> RDEPENDS_${PN} =3D "diffutils freetype"
+>>>>> FILES_${PN}-dbg +=3D "${libdir}/${BPN}/*/.debug"
+>>>>>=20
+>>>>>=20
+>>>>=20
+>>>> Since the package.bbclass change went in yesterday: ping
+>>>=20
+>>> Should we just do this for 64 bit targets or should we be doing it
+>>> unconventionally?
+>>=20
+>> It is needed for every 'bare metal' binary we run through debugedit. =
+But for some reason debugedit doesn't choke on 32bit binaries. I'm not =
+sure what the right answer is here, I only fixed it for the archs I ran =
+into problems myself.=20
+>>=20
+>> I'd be happy to respin this patch if you let me know what the =
+preferred solution is.
+>=20
+> Ping
 
-Is this an intended behaviour? There should be a big fat warning if this is the case.
+Ping again
 
-Or is it a bug?
-
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
 
