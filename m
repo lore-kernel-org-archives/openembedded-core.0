@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E443965DAB
+	by mail.openembedded.org (Postfix) with ESMTP id 2B1EE65DB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 21:33:36 +0000 (UTC)
+	Tue,  8 Apr 2014 21:33:39 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Apr 2014 11:33:07 -0700
+	by orsmga102.jf.intel.com with ESMTP; 08 Apr 2014 11:33:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,819,1389772800"; d="scan'208";a="489410051"
+X-IronPort-AV: E=Sophos;i="4.97,819,1389772800"; d="scan'208";a="489410074"
 Received: from paulonei-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.244])
-	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2014 11:37:48 -0700
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2014 11:37:51 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Apr 2014 19:37:36 +0100
-Message-Id: <cover.1396982039.git.paul.eggleton@linux.intel.com>
+Date: Tue,  8 Apr 2014 19:37:39 +0100
+Message-Id: <9019f53e37a7228fc459770fe5d9854da70e0fed.1396982039.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
-Subject: [dylan][PATCH 0/4] OpenSSL CVE fixes for the dylan branch
+In-Reply-To: <cover.1396982039.git.paul.eggleton@linux.intel.com>
+References: <cover.1396982039.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1396982039.git.paul.eggleton@linux.intel.com>
+References: <cover.1396982039.git.paul.eggleton@linux.intel.com>
+Subject: [dylan][PATCH 3/4] Security Advisory - openssl - CVE-2013-6449
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +34,75 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Apr 2014 21:33:39 -0000
 
-Three backports for CVE fixes from master, plus one new fix for the 
-latest CVE (CVE-2014-0160). The latter is not needed for master with
-Cristiana's upgrade to version 1.0.1g sent out today, and see my other
-series for dora.
+From: Yue Tao <Yue.Tao@windriver.com>
 
+The ssl_get_algorithm2 function in ssl/s3_lib.c in OpenSSL before 1.0.2
+obtains a certain version number from an incorrect data structure, which
+allows remote attackers to cause a denial of service (daemon crash) via
+crafted traffic from a TLS 1.2 client.
 
-The following changes since commit 58b479f4d4d283e590a55a71151fca481fbe3c24:
+(From OE-Core master rev: 3e0ac7357a962e3ef6595d21ec4843b078a764dd)
 
-  packagegroup-self-hosted: Add missing python code (2014-03-20 22:43:57 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/openssl-cves-dylan
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/openssl-cves-dylan
-
-Paul Eggleton (1):
-  openssl: backport fix for CVE-2014-0160
-
-Yue Tao (3):
-  Security Advisory - openssl - CVE-2013-4353
-  Security Advisory - openssl - CVE-2013-6450
-  Security Advisory - openssl - CVE-2013-6449
-
- ...DTLS-retransmission-from-previous-session.patch |  81 ++++++++++++++
- ...or-TLS-record-tampering-bug-CVE-2013-4353.patch |  31 ++++++
- ...e-version-in-SSL_METHOD-not-SSL-structure.patch |  33 ++++++
- .../openssl/openssl-1.0.1e/CVE-2014-0160.patch     | 118 +++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |   4 +
- 5 files changed, 267 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...e-version-in-SSL_METHOD-not-SSL-structure.patch | 33 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/CVE-2014-0160.patch
 
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch
+new file mode 100644
+index 0000000..e5a8ade
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch
+@@ -0,0 +1,33 @@
++From ca989269a2876bae79393bd54c3e72d49975fc75 Mon Sep 17 00:00:00 2001
++From: "Dr. Stephen Henson" <steve@openssl.org>
++Date: Thu, 19 Dec 2013 14:37:39 +0000
++Subject: [PATCH] Use version in SSL_METHOD not SSL structure.
++
++Upstream-Status: Backport
++commit ca989269a2876bae79393bd54c3e72d49975fc75 upstream
++
++When deciding whether to use TLS 1.2 PRF and record hash algorithms
++use the version number in the corresponding SSL_METHOD structure
++instead of the SSL structure. The SSL structure version is sometimes
++inaccurate. Note: OpenSSL 1.0.2 and later effectively do this already.
++(CVE-2013-6449)
++---
++ ssl/s3_lib.c |    2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/ssl/s3_lib.c b/ssl/s3_lib.c
++index bf832bb..c4ef273 100644
++--- a/ssl/s3_lib.c
+++++ b/ssl/s3_lib.c
++@@ -4286,7 +4286,7 @@ need to go to SSL_ST_ACCEPT.
++ long ssl_get_algorithm2(SSL *s)
++ 	{
++ 	long alg2 = s->s3->tmp.new_cipher->algorithm2;
++-	if (TLS1_get_version(s) >= TLS1_2_VERSION &&
+++	if (s->method->version == TLS1_2_VERSION &&
++ 	    alg2 == (SSL_HANDSHAKE_MAC_DEFAULT|TLS1_PRF))
++ 		return SSL_HANDSHAKE_MAC_SHA256 | TLS1_PRF_SHA256;
++ 	return alg2;
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index ec3846d..fa0a648 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -34,6 +34,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://find.pl \
+             file://0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch \
+             file://0001-Fix-DTLS-retransmission-from-previous-session.patch \
++            file://0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch \
+            "
+ 
+ SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
 -- 
 1.9.0
 
