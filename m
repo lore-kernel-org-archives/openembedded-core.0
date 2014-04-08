@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D6665DC4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 98FE265DC4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 16:57:52 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s38Gvl98025978; Tue, 8 Apr 2014 17:57:48 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id C3Q-LFkYwBF7; Tue,  8 Apr 2014 17:57:47 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s38Gvhqw025968
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 8 Apr 2014 17:57:44 +0100
-Message-ID: <1396976257.24597.109.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-Date: Tue, 08 Apr 2014 17:57:37 +0100
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF8455D24E2D@ALA-MBA.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF8455D24E2D@ALA-MBA.corp.ad.wrs.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+	Tue,  8 Apr 2014 17:05:42 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id uy17so1314296igb.15
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Apr 2014 10:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=tdwo8hpsWAtWBZxBYlnTcXUd+YpDfqgN0Lmffhf/r/M=;
+	b=tH5mwgD76FXlr1BKjI7Zl6IXEEfA7Z3P0Ia4snzsvFzsstls8GAYG/qGjW60TcY6XB
+	1KcdWSb8yEjuxvjKDLGmzG7B/q3LT/yDvxMFHWfw8gTWP8NB998pcxXz3cU72OvX42dE
+	NYT7RibPnY/KmqHNS/WJjAlP1kKcP6qGV+uCi6h5Y01chpwGUl/s1MU/5jINobzYHnSG
+	m7BcmkdPlKs6s4V2NmG2ijaF/YRx4r0GOrEq+ib1Nnr+/ZXMEwu22RSYKF7mEA/xSAIZ
+	NWV1ymgVWPQ+sba4izbTca96Zfsvphl7jwNGXx9YDswkup1aZlrb9YrZtLKbLg7lf1lQ
+	i5rA==
+X-Received: by 10.50.60.103 with SMTP id g7mr27324953igr.20.1396976743615;
+	Tue, 08 Apr 2014 10:05:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.229.14 with HTTP; Tue, 8 Apr 2014 10:05:13 -0700 (PDT)
+In-Reply-To: <1396965637-4802-2-git-send-email-fathi.boudra@linaro.org>
+References: <1396965637-4802-1-git-send-email-fathi.boudra@linaro.org>
+	<1396965637-4802-2-git-send-email-fathi.boudra@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Apr 2014 10:05:13 -0700
+Message-ID: <CAMKF1so-wo3wsD73dfbUEXYpCEMTxXgPBzqiKucCMVDYnFu+Sw@mail.gmail.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: libxslt populate_sysroot dependencies
+Subject: Re: [PATCHv2 1/2] trace-cmd/kernelshark: update to 2.3.2 release (latest stable branch)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,34 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 16:57:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Apr 2014 17:05:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2014-04-07 at 23:25 +0000, Slater, Joseph wrote:
-> I have attached a patch that makes sure libxml2-native is available
-> when both it and libxslt-native
-> are taken from sstate.
->  
-> The patch parallels one from a few weeks ago for pixbufcache, but the
-> underlying problem might
-> have been fixed since then.  I looked for likely commits, and didn't
-> see anything, so this patch might still be needed.
+On Tue, Apr 8, 2014 at 7:00 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+>  do_install() {
+> -       oe_runmake prefix="${prefix}" DESTDIR="${D}" install
+> +       ${MAKE} NO_PYTHON=1 prefix=${prefix} plugin_dir=${libdir}/trace-cmd/plugins DESTDIR=${D} install
+>  }
 
-This is an shlibs depends, right? sstate should handle those correctly.
-If not, I'd like to see logs from a build where this doesn't happen on
-master please?
-
-There are fixes in master such as:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/bitbake?id=d67f25da2d1acb8f5c833dad7a2c1fc710261d6c
-
-which may help although there are others. What version of bitbake were
-you seeing issues with?
-
-Cheers,
-
-Richard
-
-
+can you explain/document this change
 
