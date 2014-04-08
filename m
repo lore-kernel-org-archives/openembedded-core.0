@@ -1,25 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ACFB65DAF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 3493865DC4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 21:33:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Apr 2014 11:33:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,819,1389772800"; d="scan'208";a="489410071"
-Received: from paulonei-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.244])
-	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2014 11:37:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Apr 2014 19:37:38 +0100
-Message-Id: <1f4b7d53257a184fbb0cab5f1c3dec314afb3045.1396982039.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <cover.1396982039.git.paul.eggleton@linux.intel.com>
-References: <cover.1396982039.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1396982039.git.paul.eggleton@linux.intel.com>
-References: <cover.1396982039.git.paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 2/4] Security Advisory - openssl - CVE-2013-6450
+	Tue,  8 Apr 2014 21:33:47 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s38LXgNq006919; Tue, 8 Apr 2014 22:33:43 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bhE-HF4GQT5P; Tue,  8 Apr 2014 22:33:42 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s38LXbDt006910
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 8 Apr 2014 22:33:39 +0100
+Message-ID: <1396992811.24597.116.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Date: Tue, 08 Apr 2014 22:33:31 +0100
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF8455D2735A@ALA-MBA.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF8455D24E2D@ALA-MBA.corp.ad.wrs.com>
+	<1396976257.24597.109.camel@ted>
+	<007BD92917A2324FA403BCF9A464CF8455D2735A@ALA-MBA.corp.ad.wrs.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libxslt populate_sysroot dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,127 +40,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 21:33:39 -0000
+X-List-Received-Date: Tue, 08 Apr 2014 21:33:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Yue Tao <Yue.Tao@windriver.com>
+On Tue, 2014-04-08 at 21:21 +0000, Slater, Joseph wrote:
+> 
+> > -----Original Message-----
+> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > Sent: Tuesday, April 08, 2014 9:58 AM
+> > To: Slater, Joseph
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] libxslt populate_sysroot dependencies
+> > 
+> > On Mon, 2014-04-07 at 23:25 +0000, Slater, Joseph wrote:
+> > > I have attached a patch that makes sure libxml2-native is available
+> > > when both it and libxslt-native
+> > > are taken from sstate.
+> > >
+> > > The patch parallels one from a few weeks ago for pixbufcache, but the
+> > > underlying problem might
+> > > have been fixed since then.  I looked for likely commits, and didn't
+> > > see anything, so this patch might still be needed.
+> > 
+> > This is an shlibs depends, right? sstate should handle those correctly.
+> > If not, I'd like to see logs from a build where this doesn't happen on
+> > master please?
+> 
+> The bitbake I was using is a bit out of date, so I cloned a poky repo today
+> and did several builds of vala-native pulling libxml2-native and libxslt-native
+> from sstate.
+> 
+> I've attached the logs (truncated and annotated).  I think out_of_order.log shows that libxslt-native is
+> put in sysroot before libraries from libxml2 that it needs.
+> 
+> The in_order.log shows what happens after applying the populate sysroot [depends] patch.
+> 
+> I've attached the patch, too.
 
-The DTLS retransmission implementation in OpenSSL through 0.9.8y and 1.x
-through 1.0.1e does not properly maintain data structures for digest and
-encryption contexts, which might allow man-in-the-middle attackers to
-trigger the use of a different context by interfering with packet delivery,
-related to ssl/d1_both.c and ssl/t1_enc.c.
+Thanks, I think I've been staring at too many builds for too long and
+have too many things cross threaded so I may have things confused,
+however I'm going to have a go at explaining this.
 
-(From OE-Core master rev: 94352e694cd828aa84abd846149712535f48ab0f)
+The setscene dependencies typically work backwards. The system does this
+deliberately since in general if you can install say bash
+do_package_write_ipk, we can skip the toolchain and other tools since we
+have the ipk we want. "bitbake <someimage> -c rootfs" is a good example
+of that in action, the -c build default tends to be a bit greedy.
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...DTLS-retransmission-from-previous-session.patch | 81 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch
+The only time this reversal would cause a problem is for native/cross
+binaries *if* we execute them at setscene time. I know of two problem
+cases:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch
-new file mode 100644
-index 0000000..39592e2
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch
-@@ -0,0 +1,81 @@
-+From 34628967f1e65dc8f34e000f0f5518e21afbfc7b Mon Sep 17 00:00:00 2001
-+From: "Dr. Stephen Henson" <steve@openssl.org>
-+Date: Fri, 20 Dec 2013 15:26:50 +0000
-+Subject: [PATCH] Fix DTLS retransmission from previous session.
-+
-+Upstream-Status: Backport
-+commit 34628967f1e65dc8f34e000f0f5518e21afbfc7b upstream
-+
-+For DTLS we might need to retransmit messages from the previous session
-+so keep a copy of write context in DTLS retransmission buffers instead
-+of replacing it after sending CCS. CVE-2013-6450.
-+---
-+ ssl/d1_both.c  |    6 ++++++
-+ ssl/ssl_locl.h |    2 ++
-+ ssl/t1_enc.c   |   17 +++++++++++------
-+ 4 files changed, 24 insertions(+), 6 deletions(-)
-+
-+diff --git a/ssl/d1_both.c b/ssl/d1_both.c
-+index 65ec001..7a5596a 100644
-+--- a/ssl/d1_both.c
-++++ b/ssl/d1_both.c
-+@@ -214,6 +214,12 @@ dtls1_hm_fragment_new(unsigned long frag_len, int reassembly)
-+ static void
-+ dtls1_hm_fragment_free(hm_fragment *frag)
-+ 	{
-++
-++	if (frag->msg_header.is_ccs)
-++		{
-++		EVP_CIPHER_CTX_free(frag->msg_header.saved_retransmit_state.enc_write_ctx);
-++		EVP_MD_CTX_destroy(frag->msg_header.saved_retransmit_state.write_hash);
-++		}
-+ 	if (frag->fragment) OPENSSL_free(frag->fragment);
-+ 	if (frag->reassembly) OPENSSL_free(frag->reassembly);
-+ 	OPENSSL_free(frag);
-+diff --git a/ssl/ssl_locl.h b/ssl/ssl_locl.h
-+index 96ce9a7..e485907 100644
-+--- a/ssl/ssl_locl.h
-++++ b/ssl/ssl_locl.h
-+@@ -621,6 +621,8 @@ extern SSL3_ENC_METHOD TLSv1_enc_data;
-+ extern SSL3_ENC_METHOD SSLv3_enc_data;
-+ extern SSL3_ENC_METHOD DTLSv1_enc_data;
-+ 
-++#define SSL_IS_DTLS(s) (s->method->version == DTLS1_VERSION)
-++
-+ #define IMPLEMENT_tls_meth_func(version, func_name, s_accept, s_connect, \
-+ 				s_get_meth) \
-+ const SSL_METHOD *func_name(void)  \
-+diff --git a/ssl/t1_enc.c b/ssl/t1_enc.c
-+index 72015f5..56db834 100644
-+--- a/ssl/t1_enc.c
-++++ b/ssl/t1_enc.c
-+@@ -414,15 +414,20 @@ int tls1_change_cipher_state(SSL *s, int which)
-+ 			s->mac_flags |= SSL_MAC_FLAG_WRITE_MAC_STREAM;
-+ 			else
-+ 			s->mac_flags &= ~SSL_MAC_FLAG_WRITE_MAC_STREAM;
-+-		if (s->enc_write_ctx != NULL)
-++		if (s->enc_write_ctx != NULL && !SSL_IS_DTLS(s))
-+ 			reuse_dd = 1;
-+-		else if ((s->enc_write_ctx=OPENSSL_malloc(sizeof(EVP_CIPHER_CTX))) == NULL)
-++		else if ((s->enc_write_ctx=EVP_CIPHER_CTX_new()) == NULL)
-+ 			goto err;
-+-		else
-+-			/* make sure it's intialized in case we exit later with an error */
-+-			EVP_CIPHER_CTX_init(s->enc_write_ctx);
-+ 		dd= s->enc_write_ctx;
-+-		mac_ctx = ssl_replace_hash(&s->write_hash,NULL);
-++		if (SSL_IS_DTLS(s))
-++			{
-++			mac_ctx = EVP_MD_CTX_create();
-++			if (!mac_ctx)
-++				goto err;
-++			s->write_hash = mac_ctx;
-++			}
-++		else
-++			mac_ctx = ssl_replace_hash(&s->write_hash,NULL);
-+ #ifndef OPENSSL_NO_COMP
-+ 		if (s->compress != NULL)
-+ 			{
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index 46fa2cf..ec3846d 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -33,6 +33,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://fix-cipher-des-ede3-cfb1.patch \
-             file://find.pl \
-             file://0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch \
-+            file://0001-Fix-DTLS-retransmission-from-previous-session.patch \
-            "
- 
- SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
--- 
-1.9.0
+a) gdk-pixbuf does this to create a correct index file within the 
+   sysroot.
+b) the adduser parts are used to setup user accounts before sstate 
+   packages are extracted.
+
+Those two cases have explicit setscene dependencies for those reasons. I
+am not aware of xlstproc being run at setscene time by anything so it
+doesn't need these dependencies.
+
+Ok you say, what if it extracts libxslt-native but then fails to extract
+libxml2-native?
+
+Well, when the main build happens, nothing with a dependency on
+libxsltproc will run until libxml2-native has been built.
+
+So, your logs actually show what I would expect to happen, the question
+is what behaviour do you see which isn't correct?
+
+Cheers,
+
+Richard
+
+
+
 
 
