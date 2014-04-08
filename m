@@ -1,35 +1,30 @@
-Return-Path: <alex.r.damian@gmail.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E3A4E65D8E
+Return-Path: <sledz@dresearch-fe.de>
+Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
+	by mail.openembedded.org (Postfix) with ESMTP id C169A65D8E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Apr 2014 12:30:36 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id i50so799850qgf.21
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Apr 2014 05:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=XsDBHURKiQQzaT2KHJB7DjiF9gwr/01sUrKOCmm0p5I=;
-	b=NQYWanUqELEmcv4qdbiORUW1GDNTMVCFceu6I6Nrfjdg1p60/Ta0oFtKS6dzixmnd6
-	iuyBxotp+n8D10ztVtTCBhAydX+rnzMzFhQ6hbAZ2g+oFUquORp7c0U2CqtBod7I48pn
-	Ok/P+2N5NUI+XbT0oBXd5EkqrtaEa+CsZmqVNpSnbCSJFfnyL6ptHSG/+TNlFvSItDG9
-	Seh4PHOtlr0U9wMER0aMqAQyz9bB44psOTaWFXtHM6q6vZkai+GOESrNBf7mXKMuwDpL
-	SKZZAF9xfrxvtJ3JKoTFPT/fyFnka1nZmH623AJaEgt9x/A1fTmIIuRgXJkfzLn9OCfg
-	ixyQ==
+	Tue,  8 Apr 2014 12:33:28 +0000 (UTC)
+Received: from fensuse.internal.dresearch-fe.de
+	(fensuse.internal.dresearch-fe.de [172.29.23.6])
+	by zk223.dresearch-fe.de (Postfix) with ESMTP id 679EEE0115;
+	Tue,  8 Apr 2014 12:33:29 +0000 (UTC)
+Received: from [IPv6:::1] (localhost [IPv6:::1])
+	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id 369C3701204;
+	Tue,  8 Apr 2014 14:33:29 +0200 (CEST)
+Message-ID: <5343EC99.800@dresearch-fe.de>
+Date: Tue, 08 Apr 2014 14:33:29 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-X-Received: by 10.140.89.36 with SMTP id u33mr3627350qgd.93.1396960230917;
-	Tue, 08 Apr 2014 05:30:30 -0700 (PDT)
-Received: by 10.224.207.135 with HTTP; Tue, 8 Apr 2014 05:30:30 -0700 (PDT)
-In-Reply-To: <1396860624-22648-1-git-send-email-cristiana.voicu@intel.com>
-References: <1396860624-22648-1-git-send-email-cristiana.voicu@intel.com>
-Date: Tue, 8 Apr 2014 13:30:30 +0100
-Message-ID: <CAL7ttbcoftdfjmuR616wuG5hLPwpNkQGxxq++zghjGoSbgHDiw@mail.gmail.com>
-From: Alex Damian <alex.r.damian@gmail.com>
-To: Cristiana Voicu <cristiana.voicu@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][review-request] toaster.bbclass: image file is missing a "/"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <5330220F.8050504@dresearch-fe.de>		<1395664516.24232.56.camel@ted>	<533029C5.1000406@dresearch-fe.de>		<1395665593.24232.58.camel@ted>	<53303FAB.5020907@dresearch-fe.de>		<20140324151537.GD29998@jama>	<53315AE7.1020304@dresearch-fe.de>	
+	<53319AAD.5070506@windriver.com>
+	<53429BF2.2050804@dresearch-fe.de>	
+	<5342A69C.9020901@dresearch-fe.de> <1396882151.24597.72.camel@ted>
+In-Reply-To: <1396882151.24597.72.camel@ted>
+X-Enigmail-Version: 1.6
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: complex versioning scenario
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,110 +37,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Apr 2014 12:30:39 -0000
-Content-Type: multipart/alternative; boundary=001a11c12744544c1304f6872619
+X-List-Received-Date: Tue, 08 Apr 2014 12:33:31 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---001a11c12744544c1304f6872619
-Content-Type: text/plain; charset=ISO-8859-1
+On 07.04.2014 16:49, Richard Purdie wrote:
+> On Mon, 2014-04-07 at 15:22 +0200, Steffen Sledz wrote:
+>> On 07.04.2014 14:37, Steffen Sledz wrote:
+>>> On 25.03.2014 16:03, Mark Hatle wrote:
+>>>> ...
+>>>> If the package 'requiring libfoo' has a DEPENDS += ... in it.. then yes, it should have been rebuilt when the libfoo was rebuilt.
+>>>
+>>> Unfortunately i can't confirm that.  :(
+>>>
+>>> part of the real app recipe:
+>>> ------------> snip <-------------
+>>> DEPENDS = "vala-native libdrtrace libdrhip libdrbcc jansson"
+>>> RDEPENDS_${PN} = "dropmodes"
+>>> ------------> snap <-------------
+>>>
+>>> part of the real resulting opkg control file for this app:
+>>> ------------> snip <-------------
+>>> Depends: dropmodes, libglib-2.0-0 (>= 2.36.4), libdrhip1 (>= gitr27+42af787eb2), libjansson4 (>= 2.4), libc6 (>= 2.18)
+>>> ------------> snap <-------------
+>>>
+>>> I miss the runtime dependencies for libdrtrace and libdrbcc. Where are they gone?
+>>
+>> Some additional info:
+>> ------------> snip <-------------
+>> # objdump -p ./package/usr/lib/libdrhip.so.1.0.0
+>>
+>> ./package/usr/lib/libdrhip.so.1.0.0:     file format elf32-littlearm
+>> ...
+>> Dynamic Section:
+>>   NEEDED               libc.so.6
+>>   SONAME               libdrhip.so.1
+>> ...
+>>
+>> # objdump -p ./package/usr/lib/libdrbcc.so.1.0.0
+>>
+>> ./package/usr/lib/libdrbcc.so.1.0.0:     file format elf32-littlearm
+>> ...
+>> Dynamic Section:
+>>   NEEDED               libdrtrace.so.0
+>>   NEEDED               libm.so.6
+>>   NEEDED               libreadline.so.6
+>>   NEEDED               libpthread.so.0
+>>   NEEDED               libc.so.6
+>>   SONAME               libdrbcc.so.1
+>> ...
+>>
+>> # objdump -p ./package/usr/bin/drbccproxy
+>>
+>> ./package/usr/bin/drbccproxy:     file format elf32-littlearm
+>> ...
+>> Dynamic Section:
+>>   NEEDED               libdrhip.so.1
+>>   NEEDED               libdrbcc.so.0
+>>   NEEDED               libdrtrace.so.0
+>>   NEEDED               libgio-2.0.so.0
+>>   NEEDED               libgobject-2.0.so.0
+>>   NEEDED               libglib-2.0.so.0
+>>   NEEDED               libjansson.so.4
+>>   NEEDED               librt.so.1
+>>   NEEDED               libpthread.so.0
+>>   NEEDED               libc.so.6
+>> ...
+>> ------------> snap <-------------
+>>
+>> So it seems the data objdump shows are OK.
+>>
+>> E.g. the app drbccproxy really has a dependency to a libdrbcc. But this is not refelected in the control file.
+> 
+> At this point you'll probably have to look at the shlibs code in
+> package.bbclass and see why its not picking up the shlib dependencies
+> correctly for the packages...
+> 
+> It does appear there is some problem there but its hard to saw what
+> without a test case to reproduce.
 
-This is indeed the patch reviewed on the list.
+I could isolate the problem. :)
 
-Sorry about the mixup, can you please merge ?
+If a package contains a shared library *and* a binary (e.g. a related command line tool) then the soname major version *is not appended* to the package name (see debian_package_name_hook in debian.bbclass). All other problems are aftereffects.
 
-Thanks,
-Alex
+Is this an intended behaviour? There should be a big fat warning if this is the case.
 
+Or is it a bug?
 
-On Mon, Apr 7, 2014 at 9:50 AM, Cristiana Voicu
-<cristiana.voicu@intel.com>wrote:
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
-> Relaced the key with the join between path and file name.
->
-> [YOCTO #6090]
-> Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
-> ---
->  meta/classes/toaster.bbclass |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-> index 9fb2cec..d2fa82d 100644
-> --- a/meta/classes/toaster.bbclass
-> +++ b/meta/classes/toaster.bbclass
-> @@ -153,7 +153,8 @@ python toaster_image_dumpdata() {
->      for dirpath, dirnames, filenames in os.walk(deploy_dir_image):
->          for fn in filenames:
->              if fn.startswith(image_name):
-> -                image_info_data[dirpath + fn] =
-> os.stat(os.path.join(dirpath, fn)).st_size
-> +                image_output = os.path.join(dirpath, fn)
-> +                image_info_data[image_output] =
-> os.stat(image_output).st_size
->
->
->  bb.event.fire(bb.event.MetadataEvent("ImageFileSize",image_info_data), d)
->  }
-> --
-> 1.7.9.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a11c12744544c1304f6872619
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This is indeed the patch reviewed on the list.<br><br>Sorr=
-y about the mixup, can you please merge ?<br><br>Thanks,<br>Alex<br></div><=
-div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, Apr 7,=
- 2014 at 9:50 AM, Cristiana Voicu <span dir=3D"ltr">&lt;<a href=3D"mailto:c=
-ristiana.voicu@intel.com" target=3D"_blank">cristiana.voicu@intel.com</a>&g=
-t;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"">Relaced the key with the joi=
-n between path and file name.<br>
-<br>
-[YOCTO #6090]<br>
-Signed-off-by: Cristiana Voicu &lt;<a href=3D"mailto:cristiana.voicu@intel.=
-com">cristiana.voicu@intel.com</a>&gt;<br>
----<br>
-=A0meta/classes/toaster.bbclass | =A0 =A03 ++-<br>
-=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass<br=
->
-index 9fb2cec..d2fa82d 100644<br>
---- a/meta/classes/toaster.bbclass<br>
-+++ b/meta/classes/toaster.bbclass<br>
-</div>@@ -153,7 +153,8 @@ python toaster_image_dumpdata() {<br>
-=A0 =A0 =A0for dirpath, dirnames, filenames in os.walk(deploy_dir_image):<b=
-r>
-=A0 =A0 =A0 =A0 =A0for fn in filenames:<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0if fn.startswith(image_name):<br>
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0image_info_data[dirpath + fn] =3D os.stat(=
-os.path.join(dirpath, fn)).st_size<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0image_output =3D os.path.join(dirpath, fn)=
-<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0image_info_data[image_output] =3D os.stat(=
-image_output).st_size<br>
-<br>
-=A0 =A0 =A0bb.event.fire(bb.event.MetadataEvent(&quot;ImageFileSize&quot;,i=
-mage_info_data), d)<br>
-=A0}<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.7.9.5<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</div></div></blockquote></div><br></div>
-
---001a11c12744544c1304f6872619--
