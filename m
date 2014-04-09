@@ -1,31 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Ming.Liu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 50DB365DE8
+	by mail.openembedded.org (Postfix) with ESMTP id 4D86765DF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 03:13:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s393DZLD011459
+	Wed,  9 Apr 2014 06:41:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s396fSAG028624
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Apr 2014 20:13:36 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 8 Apr 2014 20:13:35 -0700
-Message-ID: <5344BADD.5090106@windriver.com>
-Date: Wed, 9 Apr 2014 11:13:33 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Tue, 8 Apr 2014 23:41:28 -0700 (PDT)
+Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Tue, 8 Apr 2014 23:41:27 -0700
+Message-ID: <5344EB93.1070209@windriver.com>
+Date: Wed, 9 Apr 2014 14:41:23 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Valentin Popa <valentin.popa@intel.com>, Otavio Salvador
-	<otavio@ossystems.com.br>
-References: <CAP9ODKoLt=HMhiGQZmQhDUUFm-efPavZRftR7A8Wf7gECw+Amw@mail.gmail.com>
-	<533F8B7C.8010409@windriver.com> <5342BC44.2000708@intel.com>
-In-Reply-To: <5342BC44.2000708@intel.com>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][regression] mesa failed to build
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
+	<1396870039-26834-3-git-send-email-ming.liu@windriver.com>
+	<1396870587.24597.35.camel@ted> <53435E81.9060308@windriver.com>
+	<1396951390.24597.88.camel@ted>
+In-Reply-To: <1396951390.24597.88.camel@ted>
+X-Originating-IP: [128.224.163.186]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] binconfig.bbclass: fix multilib file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,85 +38,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 03:13:38 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 09 Apr 2014 06:41:30 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 04/08/2014 06:03 PM, Richard Purdie wrote:
+> On Tue, 2014-04-08 at 10:27 +0800, Ming Liu wrote:
+>> On 04/07/2014 07:36 PM, Richard Purdie wrote:
+>>> On Mon, 2014-04-07 at 19:27 +0800, Ming Liu wrote:
+>>>> In most cases binconfig files conflict among multilib packages, to avoid
+>>>> that, use update-alternatives link *-config from real path with a
+>>>> PACKAGE_ARCH suffix.
+>>>>
+>>>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>>>> ---
+>>>>    meta/classes/binconfig.bbclass | 65 ++++++++++++++++++++++++++++++++++++------
+>>>>    1 file changed, 56 insertions(+), 9 deletions(-)
+>>> This isn't going in, its complex and supports a minority use case.
+>>> binconfig should be dying out, not being extended and shored up like
+>>> this.
+>>>
+>>> I'd also add this patch is buggy, its pure luck that update-alternatives
+>>> is available at rootfs generation time since its not in a visible
+>>> dependency.
+>>>
+>>> So going forward I'd like to see patches which simply delete binconfig
+>>> scripts. Where there isn't a .pc alternative we should be adding them
+>>> and pushing them upstream.
+>> Did you mean we'd better remove all *-config scripts, insteaded by
+>> providing .pc files, and send the changes to all upstreams providing and
+>> using *-config? That seems a huge work and we need co-operate with a lot
+>> of projects.
+> Basically, yes, that is what I mean. I might be wrong but I don't think
+> there are that many projects which don't ship .pc files now and just
+> have a binconfig as a backup.
+Yes, I also noticed that many of them are providing .pc files as well as 
+binconfig as a backup, so I think there must be reasons binconfig 
+remained in their projects, that might be for compliable considering,  
+so I am not sure they would like to remove them from their projects, but 
+I can try to ping them. Nevertheless, the conflicts still exist, we just 
+leave them here so far?
 
-
-On 04/07/2014 10:55 PM, Valentin Popa wrote:
+//Ming Liu
 >
-> Indeed the build failure was introduced by that patch, which enters a logical
-> conflict with the bbappend file for mesa.
-> To remain compatible with the future releases I suggest to  not remove/add flags
-> from/to EXTRA_OECONF explicitly, and make  use of what PACKAGECONFIG contains.
-> The first part of the __anonymous function from the bbappend file can be simply
-> replaced with:
+> Cheers,
 >
-> PACKAGECONFIG_remove = "egl"
+> Richard
 >
-> and the second part with:
->
-> PROVIDES_remove = "virtual/libgles1 virtual/libgles2 virtual/egl"
-> and
-> PROVIDES_remove = "virtual/libgl" if mx6 is in SOC_FAMILY.
->
-
-Hi Otavio,
-
-Does Valentin's suggestions work for you, please?
-
-// Robert
-
->
->
-> On 04/05/2014 07:50 AM, Robert Yang wrote:
->>
->> Yes, seems related to the following one, add Valentin Popa in the loop:
->>
->> commit bcfbddd8fa9760f681d7366c8d507fd0bef3a854
->> Author: Valentin Popa <valentin.popa@intel.com>
->> Date:   Thu Feb 27 11:51:17 2014 +0200
->>
->>     mesa: build fix for gallium-egl
->>
->> // Robert
->>
->> On 04/05/2014 12:38 PM, Otavio Salvador wrote:
->>> Hello,
->>>
->>> In one of our custom BSPs we saw a build failure in mesa:
->>>
->>> | make[1]: Leaving directory
->>> `.../build/tmp/work/cortexa9hf-vfp-neon-mx6-oel-linux-gnueabi/mesa/2_9.1.6-r0/build'
->>>
->>> | sed: can't read
->>> .../build/tmp/work/cortexa9hf-vfp-neon-mx6-oel-linux-gnueabi/mesa/2_9.1.6-r0/image/usr/include/EGL/eglplatform.h:
->>>
->>> No such file or directory
->>> | WARNING: exit code 2 from a shell command.
->>> | ERROR: Function failed: do_install (log file is located at
->>> .../build/tmp/work/cortexa9hf-vfp-neon-mx6-oel-linux-gnueabi/mesa/2_9.1.6-r0/temp/log.do_install.17155)
->>>
->>> recipe mesa-2_9.1.6-r0: task do_install: Failed
->>> ERROR: Task 2643
->>> (.../sources/poky/meta/recipes-graphics/mesa/mesa_9.1.6.bb,
->>> do_install) failed with exit code '1'
->>> recipe gnutls-2.12.23-r8.4: task do_configure: Succeeded
->>>
->>> This seems not related to the bbappend we have in meta-fsl-arm[1], in
->>> Dora. I think this came in today's changes in the branch.
->>>
->>> 1.
->>> http://git.yoctoproject.org/cgit/cgit.cgi/meta-fsl-arm/tree/recipes-graphics/mesa/mesa_9.1.6.bbappend?h=dora
->>>
->>>
->>> This builder has PRServer enabled.
->>>
->>> As I am going to be traveling so won't have time to debug this bug I
->>> preferred to report it so someone can debug.
->>>
 >
 >
 >
+
 
