@@ -1,31 +1,28 @@
-Return-Path: <belen.barros.pena@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FCF965E0E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 58DB065E12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 10:38:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Apr 2014 03:38:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,825,1389772800"; d="scan'208";a="517410411"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2014 03:38:32 -0700
-Received: from irsmsx106.ger.corp.intel.com ([169.254.8.58]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.224]) with mapi id
-	14.03.0123.003; Wed, 9 Apr 2014 11:38:19 +0100
-From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Dogfooding and usability testing Toaster
-Thread-Index: AQHPU9/SXh0+eWv9mkqpbFkoS8yq7Q==
-Date: Wed, 9 Apr 2014 10:38:19 +0000
-Message-ID: <CF6AE1AA.41DED%belen.barros.pena@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.3.9.131030
-x-originating-ip: [10.237.224.37]
-MIME-Version: 1.0
-Subject: Dogfooding and usability testing Toaster
+	Wed,  9 Apr 2014 11:46:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s39Bj0b1028394; Wed, 9 Apr 2014 12:46:15 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hDaafY5YSVL3; Wed,  9 Apr 2014 12:46:14 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s39Bk8VK028403
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 9 Apr 2014 12:46:10 +0100
+Message-ID: <1397043963.24597.160.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 09 Apr 2014 12:46:03 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: yocto <yocto@yoctoproject.org>
+Subject: The point of Release Candidates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 10:38:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9594CEC9F36EE6449B7FE1A5707FD4A7@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Apr 2014 11:46:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi all,=20
+It seems people don't understand what the point of a Release Candidate
+is, or the timelines we work to. The fact this is coming as a surprise
+to people is seriously upsetting to me as we've done this for long
+enough now that people should know the drill.
 
-I am looking into collecting feedback on the first version of Toaster
+A release candidate is what is says, a possible candidate to be
+released. We merge things, it goes to QA, it gets tested and then we
+decide go/no go.
 
-https://www.yoctoproject.org/blogs/belenbarrospena/2014/eye-candy
+I appreciate this time around, RC1 was a trial run due to the kernel
+issues. We did the best would could there having decided to go for 3.14.
 
-which will be out with Yocto Project 1.6. There are 2 things I'd like to
-do:
+RC3 was meant to happen last night. In theory, patches should have been
+submitted by Sunday for it giving me Monday/Tuesday to review, merge,
+test and sort things out.
 
-1) Dogfooding
+I delayed RC3 by 24 hours since:
 
-Once the release is out, it would be great to have people trying Toaster
-for real work stuff, and telling us how it went. I am of course
-particularly keen on hearing about what's wrong, so feel free to vent your
-frustrations with the thing.
+a) yocto-bsp tooling was broken. It fell off the radar and was a 
+   release blocker
+b) the RC2 QA report wasn't out
 
-2) (More formal) usability testing
+I'm now finding that:
 
-I am also looking into validating the Toaster interface in more
-conventional ways, which means usability testing. This is done in
-30-minute sessions run remotely using screen sharing software, although we
-can also do it in person if you are going to ELC or the OEDAM. During
-those 30 minutes you will be asked to do some stuff with Toaster and to
-speak your mind a lot. I will also ask for your permission to record the
-session, which you can of course refuse.
+a) The QA teams either don't have or can't boot beaglebone. 
+b) The beaglebone README still isn't available. I took patches on the 
+   understanding this would be available. The QA team who do have 
+   hardware are trying to test something which isn't documented so this 
+   is hindering a). Are they testing the right thing? Who knows.
+c) We have a number of edgerouter bugs. Why are these appearing now?
+d) There are cyptodev patches in various states of flux. The turnaround 
+   on patches there isn't what I'd expect at rc3 if people want them in.
+   Basically, they're not going in now due to that.
+e) The patch quality is to be blunt, dire. Patches coming in at this 
+   point need to be well thought out and tested. Instead, some people 
+   are panicking and appear to be throwing any old thing in and then 
+   worry about bug fixing it later.
 
-If you would like to volunteer for this (which is useful and important
-stuff), get in touch with me (I am belen in IRC, or email me). I would
-normally give out something in return for your time, but things are tight
-right now, so I'm afraid all you'll get on this occasion is a heartwarming
-thank you.
+At this point, its looking like we may have to go to rc4 as bugs with
+two of the reference BSPs is a serious issue. I don't think people
+realise how much of a mess we're heading into here as even to make rc4,
+I need the fixes near enough yesterday.
 
-Cheers
+I'm actually taking this pretty personally. I do what I can for the
+project to pull things together. I do try and cut people slack where
+possible to make things happen. In return, it appears people are just
+taking advantage of this. I may well start getting a lot stricter with
+deadlines, cutoffs and so on which I can guarantee that people are not
+going to enjoy.
 
-Bel=E9n
+Richard
 
 
 
