@@ -1,35 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CA3C65E11
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from va3outboundpool.messaging.microsoft.com
+	(va3ehsobe002.messaging.microsoft.com [216.32.180.12])
+	by mail.openembedded.org (Postfix) with ESMTP id EDE0E6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 12:50:21 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s39CoGgA029271; Wed, 9 Apr 2014 13:50:17 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id myC7rt8GSe6m; Wed,  9 Apr 2014 13:50:16 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s39CoBbk029268
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 9 Apr 2014 13:50:13 +0100
-Message-ID: <1397047805.24597.199.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ming Liu <ming.liu@windriver.com>
-Date: Wed, 09 Apr 2014 13:50:05 +0100
-In-Reply-To: <53451BFE.7010105@windriver.com>
-References: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
-	<1396870039-26834-3-git-send-email-ming.liu@windriver.com>
-	<1396870587.24597.35.camel@ted> <53435E81.9060308@windriver.com>
-	<1396951390.24597.88.camel@ted> <5344EB93.1070209@windriver.com>
-	<1397036562.24597.139.camel@ted> <53451A86.3020308@windriver.com>
-	<53451BFE.7010105@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] binconfig.bbclass: fix multilib file conflicts
+	Wed,  9 Apr 2014 15:01:25 +0000 (UTC)
+Received: from mail114-va3-R.bigfish.com (10.7.14.252) by
+	VA3EHSOBE006.bigfish.com (10.7.40.26) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 9 Apr 2014 15:01:04 +0000
+Received: from mail114-va3 (localhost [127.0.0.1])	by
+	mail114-va3-R.bigfish.com (Postfix) with ESMTP id 2C7261C00AE;
+	Wed,  9 Apr 2014 15:01:04 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h2148h1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6h208chzz1de098h8275bh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h268bh26d3h1155h)
+Received: from mail114-va3 (localhost.localdomain [127.0.0.1]) by mail114-va3
+	(MessageSwitch) id 1397055662338226_25014;
+	Wed,  9 Apr 2014 15:01:02 +0000 (UTC)
+Received: from VA3EHSMHS037.bigfish.com (unknown [10.7.14.233])	by
+	mail114-va3.bigfish.com (Postfix) with ESMTP id 413CB6005B;
+	Wed,  9 Apr 2014 15:01:02 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS037.bigfish.com
+	(10.7.99.47) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Wed, 9 Apr 2014 15:01:00 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.3.174.2; Wed, 9 Apr 2014 15:01:19 +0000
+Received: from fsr-ub1264-102.ea.freescale.net
+	(fsr-ub1264-102.ea.freescale.net [10.171.74.5])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s39F1Hc2016444;
+	Wed, 9 Apr 2014 08:01:17 -0700
+From: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 9 Apr 2014 18:01:03 +0300
+Message-ID: <1397055663-5541-1-git-send-email-alexandru.sardan@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] libgcc: Use TARGET_VENDOR_virtclass-multilib for symlink src calculation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,84 +52,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 12:50:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Apr 2014 15:01:26 -0000
+Content-Type: text/plain
 
-On Wed, 2014-04-09 at 18:07 +0800, Ming Liu wrote:
-> On 04/09/2014 06:01 PM, Ming Liu wrote:
-> > On 04/09/2014 05:42 PM, Richard Purdie wrote:
-> >> On Wed, 2014-04-09 at 14:41 +0800, Ming Liu wrote:
-> >>> On 04/08/2014 06:03 PM, Richard Purdie wrote:
-> >>>> On Tue, 2014-04-08 at 10:27 +0800, Ming Liu wrote:
-> >>>>> On 04/07/2014 07:36 PM, Richard Purdie wrote:
-> >>>>>> On Mon, 2014-04-07 at 19:27 +0800, Ming Liu wrote:
-> >>>>>>> In most cases binconfig files conflict among multilib packages, 
-> >>>>>>> to avoid
-> >>>>>>> that, use update-alternatives link *-config from real path with a
-> >>>>>>> PACKAGE_ARCH suffix.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> >>>>>>> ---
-> >>>>>>>     meta/classes/binconfig.bbclass | 65 
-> >>>>>>> ++++++++++++++++++++++++++++++++++++------
-> >>>>>>>     1 file changed, 56 insertions(+), 9 deletions(-)
-> >>>>>> This isn't going in, its complex and supports a minority use case.
-> >>>>>> binconfig should be dying out, not being extended and shored up like
-> >>>>>> this.
-> >>>>>>
-> >>>>>> I'd also add this patch is buggy, its pure luck that 
-> >>>>>> update-alternatives
-> >>>>>> is available at rootfs generation time since its not in a visible
-> >>>>>> dependency.
-> >>>>>>
-> >>>>>> So going forward I'd like to see patches which simply delete 
-> >>>>>> binconfig
-> >>>>>> scripts. Where there isn't a .pc alternative we should be adding 
-> >>>>>> them
-> >>>>>> and pushing them upstream.
-> >>>>> Did you mean we'd better remove all *-config scripts, insteaded by
-> >>>>> providing .pc files, and send the changes to all upstreams 
-> >>>>> providing and
-> >>>>> using *-config? That seems a huge work and we need co-operate with 
-> >>>>> a lot
-> >>>>> of projects.
-> >>>> Basically, yes, that is what I mean. I might be wrong but I don't 
-> >>>> think
-> >>>> there are that many projects which don't ship .pc files now and just
-> >>>> have a binconfig as a backup.
-> >>> Yes, I also noticed that many of them are providing .pc files as 
-> >>> well as
-> >>> binconfig as a backup, so I think there must be reasons binconfig
-> >>> remained in their projects, that might be for compliable considering,
-> >>> so I am not sure they would like to remove them from their projects, 
-> >>> but
-> >>> I can try to ping them. Nevertheless, the conflicts still exist, we 
-> >>> just
-> >>> leave them here so far?
-> >> I'm thinking we should start deleting the -config files at do_install
-> >> time where we know a good .pc file exists and remove the binconfig
-> >> inherit. If this causes any problem in software using the package, we
-> >> should fix those to use pkgconfig.
-> >>
-> >> Over time the conflicts will stop existing since the binconfig class
-> >> will not be used anywhere.
-> > Yes, that's a feasible solution, but it needs a lot of testing works, 
-> > unfortunately, I am a little busy with my daily work recently and cant 
-> > handle it parallelly, so I'd like to file a bug in Yocto, see if 
-> > anybody like to take it, or I will do it when I can tear myself away 
-> > from work later.
-> Seems we already have the defect record, and Qi Chen has been working on 
-> that for a while, see the following:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2453
+When defining a symlink for the multilib location based on MULTILIB_VARIANTS,
+use TARGET_VENDOR_virtclass-multilib to get the vendor, as hardcoding
+the value with TARGET_VENDOR + 'ml' + mlvariant may not corespond with
+the actual directory where the libs are installed.
 
-That bug suggests we have .pc files for all -config files. We would
-therefore next need to follow through and remove all the -config files
-entirely and just rely on the .pc files. We should open an enhancement
-request for that.
+Signed-off-by: Alexandru-Cezar Sardan <alexandru.sardan@freescale.com>
+---
+ meta/recipes-devtools/gcc/libgcc.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
+diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
+index 96f1969..eb7a6e8 100644
+--- a/meta/recipes-devtools/gcc/libgcc.inc
++++ b/meta/recipes-devtools/gcc/libgcc.inc
+@@ -131,8 +131,8 @@ python do_multilib_install() {
+         if not tune_bitness:
+             tune_bitness = '32' # /lib => 32bit lib
+ 
+-        src = '../../../' + tune_baselib + '/' + \
+-            tune_arch + d.getVar('TARGET_VENDOR', True) + 'ml' + ml + \
++        vendor = d.getVar('TARGET_VENDOR_virtclass-multilib' + '-' + ml, True)
++        src = '../../../' + tune_baselib + '/' + tune_arch + vendor + \
+             '-' + d.getVar('TARGET_OS', True) + '/' + binv + '/'
+ 
+         dest = d.getVar('D', True) + d.getVar('libdir', True) + '/' + \
+-- 
+1.7.9.5
 
-Richard
 
 
