@@ -1,31 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B67765DFE
+	by mail.openembedded.org (Postfix) with ESMTP id 3B9CD65E00
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 07:49:25 +0000 (UTC)
+	Wed,  9 Apr 2014 08:56:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s397nOCH008223
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s398utgf017503
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Apr 2014 00:49:24 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Wed, 9 Apr 2014 00:49:23 -0700
-Message-ID: <5344FB80.2010006@windriver.com>
-Date: Wed, 9 Apr 2014 15:49:20 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Wed, 9 Apr 2014 01:56:55 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 9 Apr 2014 01:56:55 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 9 Apr 2014 16:56:43 +0800
+Message-ID: <cover.1397025331.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1396600342.git.Chong.Lu@windriver.com>		
-	<946d60db486d1ac1c5b3aecf64b029e8a15d42de.1396600342.git.Chong.Lu@windriver.com>	
-	<1396608067.2910.110.camel@ted> <5343539B.3030808@windriver.com>
-	<1396951684.24597.90.camel@ted>
-In-Reply-To: <1396951684.24597.90.camel@ted>
-X-Originating-IP: [128.224.162.204]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernelshark/trace-cmd: fix syntax error of shell
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/1] libpam: fix 64-bit pam plugins not installed when add to 32-bit image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,86 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 07:49:28 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Apr 2014 08:56:58 -0000
+Content-Type: text/plain
 
+The following changes since commit 8f683bf782d065b81bb7cdb2074839790981d4b7:
 
-On 04/08/2014 06:08 PM, Richard Purdie wrote:
-> On Tue, 2014-04-08 at 09:40 +0800, Chong Lu wrote:
->> On 04/04/2014 06:41 PM, Richard Purdie wrote:
->>> On Fri, 2014-04-04 at 16:33 +0800, Chong Lu wrote:
->>>> Delete "<<<" syntax of bash in Makefile, else we would get following error:
->>>>
->>>>           Syntax error: redirection unexpected
->>>>
->>>> [YOCTO #6112]
->>>>
->>>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->>>> ---
->>>>    meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
->>>>    .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ++++++++++++++++++++++
->>>>    .../trace-cmd-fix-syntax-error-of-shell.patch      | 30 ++++++++++++++++++++++
->>>>    meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
->>>>    4 files changed, 63 insertions(+), 1 deletion(-)
->>>>    create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->>>>    create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
->>>>
->>>> diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
->>>> index 9268a50..d61097d 100644
->>>> --- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
->>>> +++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
->>>> @@ -15,7 +15,8 @@ inherit pkgconfig pythonnative
->>>>    SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
->>>>               file://addldflags.patch \
->>>>               file://make-docs-optional.patch \
->>>> -           file://blktrace-api-compatibility.patch"
->>>> +           file://blktrace-api-compatibility.patch \
->>>> +           file://kernelshark-fix-syntax-error-of-shell.patch"
->>>>    S = "${WORKDIR}/git"
->>>>    
->>>>    EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
->>>> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->>>> new file mode 100644
->>>> index 0000000..994a9fa
->>>> --- /dev/null
->>>> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->>>> @@ -0,0 +1,30 @@
->>>> +kernelshark: fix syntax error of shell
->>>> +
->>>> +Delete "<<<" syntax of bash in Makefile, else we would get following error:
->>>> +
->>>> +	Syntax error: redirection unexpected
->>>> +
->>>> +Upstream-Status: Inappropriate [embedded specific]
->>> How is this embedded specific?
->>>
->>> Cheers,
->>>
->>> Richard
->> This issue only produced in yocto.
->> It is not problem for kernelshark and trace-cmd itself.
->> So I think this is embedded specific.
-> I'm afraid I don't accept this explanation. Is Yocto's make different
-> somehow which causes this error?
->
-> I don't understand why yocto would see this error yet other systems
-> (which use the same make as far as I know) would not.
->
-> Cheers,
->
-> Richard
->
-Hi Richard,
+  bitbake: bitbake: knotty: Clear footer before outputting to stderr (2014-04-08 18:05:26 +0100)
 
-I built kernelshark and trace-cmd in Ubuntu 12.04.
-The dash is default shell in this distrobution.
-So, this issue would produce only on host that the default shell is not 
-bash.
+are available in the git repository at:
 
-Best Regards
-Chong
->
->
+  git://git.pokylinux.org/poky-contrib hongxu/fix-libpam
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-libpam
+
+Hongxu Jia (1):
+  libpam: fix 64-bit pam plugins not installed when added to 32-bit
+    image
+
+ meta/recipes-extended/pam/libpam_1.1.6.bb | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
+
+-- 
+1.8.1.2
 
 
