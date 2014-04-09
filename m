@@ -1,32 +1,33 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9249C65D4A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id EAC2565D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 09:36:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s399ajBt022400
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Apr 2014 02:36:45 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Wed, 9 Apr 2014 02:36:44 -0700
-Message-ID: <534514A8.7050009@windriver.com>
-Date: Wed, 9 Apr 2014 17:36:40 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1396600342.git.Chong.Lu@windriver.com>			
-	<946d60db486d1ac1c5b3aecf64b029e8a15d42de.1396600342.git.Chong.Lu@windriver.com>		
-	<1396608067.2910.110.camel@ted> <5343539B.3030808@windriver.com>	
-	<1396951684.24597.90.camel@ted> <5344FB80.2010006@windriver.com>
-	<1397035724.24597.136.camel@ted>
-In-Reply-To: <1397035724.24597.136.camel@ted>
-X-Originating-IP: [128.224.162.204]
+	Wed,  9 Apr 2014 09:42:59 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s399gs1C025523; Wed, 9 Apr 2014 10:42:54 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QsWJmeeFSfyE; Wed,  9 Apr 2014 10:42:54 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s399gmAZ025515
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 9 Apr 2014 10:42:50 +0100
+Message-ID: <1397036562.24597.139.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Wed, 09 Apr 2014 10:42:42 +0100
+In-Reply-To: <5344EB93.1070209@windriver.com>
+References: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
+	<1396870039-26834-3-git-send-email-ming.liu@windriver.com>
+	<1396870587.24597.35.camel@ted> <53435E81.9060308@windriver.com>
+	<1396951390.24597.88.camel@ted> <5344EB93.1070209@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernelshark/trace-cmd: fix syntax error of shell
+Subject: Re: [PATCH 3/3] binconfig.bbclass: fix multilib file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,95 +40,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 09:36:49 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 09 Apr 2014 09:43:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2014-04-09 at 14:41 +0800, Ming Liu wrote:
+> On 04/08/2014 06:03 PM, Richard Purdie wrote:
+> > On Tue, 2014-04-08 at 10:27 +0800, Ming Liu wrote:
+> >> On 04/07/2014 07:36 PM, Richard Purdie wrote:
+> >>> On Mon, 2014-04-07 at 19:27 +0800, Ming Liu wrote:
+> >>>> In most cases binconfig files conflict among multilib packages, to avoid
+> >>>> that, use update-alternatives link *-config from real path with a
+> >>>> PACKAGE_ARCH suffix.
+> >>>>
+> >>>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> >>>> ---
+> >>>>    meta/classes/binconfig.bbclass | 65 ++++++++++++++++++++++++++++++++++++------
+> >>>>    1 file changed, 56 insertions(+), 9 deletions(-)
+> >>> This isn't going in, its complex and supports a minority use case.
+> >>> binconfig should be dying out, not being extended and shored up like
+> >>> this.
+> >>>
+> >>> I'd also add this patch is buggy, its pure luck that update-alternatives
+> >>> is available at rootfs generation time since its not in a visible
+> >>> dependency.
+> >>>
+> >>> So going forward I'd like to see patches which simply delete binconfig
+> >>> scripts. Where there isn't a .pc alternative we should be adding them
+> >>> and pushing them upstream.
+> >> Did you mean we'd better remove all *-config scripts, insteaded by
+> >> providing .pc files, and send the changes to all upstreams providing and
+> >> using *-config? That seems a huge work and we need co-operate with a lot
+> >> of projects.
+> > Basically, yes, that is what I mean. I might be wrong but I don't think
+> > there are that many projects which don't ship .pc files now and just
+> > have a binconfig as a backup.
+> Yes, I also noticed that many of them are providing .pc files as well as 
+> binconfig as a backup, so I think there must be reasons binconfig 
+> remained in their projects, that might be for compliable considering,  
+> so I am not sure they would like to remove them from their projects, but 
+> I can try to ping them. Nevertheless, the conflicts still exist, we just 
+> leave them here so far?
 
-On 04/09/2014 05:28 PM, Richard Purdie wrote:
-> On Wed, 2014-04-09 at 15:49 +0800, Chong Lu wrote:
->> On 04/08/2014 06:08 PM, Richard Purdie wrote:
->>> On Tue, 2014-04-08 at 09:40 +0800, Chong Lu wrote:
->>>> On 04/04/2014 06:41 PM, Richard Purdie wrote:
->>>>> On Fri, 2014-04-04 at 16:33 +0800, Chong Lu wrote:
->>>>>> Delete "<<<" syntax of bash in Makefile, else we would get following error:
->>>>>>
->>>>>>            Syntax error: redirection unexpected
->>>>>>
->>>>>> [YOCTO #6112]
->>>>>>
->>>>>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->>>>>> ---
->>>>>>     meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
->>>>>>     .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ++++++++++++++++++++++
->>>>>>     .../trace-cmd-fix-syntax-error-of-shell.patch      | 30 ++++++++++++++++++++++
->>>>>>     meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
->>>>>>     4 files changed, 63 insertions(+), 1 deletion(-)
->>>>>>     create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->>>>>>     create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
->>>>>>
->>>>>> diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
->>>>>> index 9268a50..d61097d 100644
->>>>>> --- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
->>>>>> +++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
->>>>>> @@ -15,7 +15,8 @@ inherit pkgconfig pythonnative
->>>>>>     SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
->>>>>>                file://addldflags.patch \
->>>>>>                file://make-docs-optional.patch \
->>>>>> -           file://blktrace-api-compatibility.patch"
->>>>>> +           file://blktrace-api-compatibility.patch \
->>>>>> +           file://kernelshark-fix-syntax-error-of-shell.patch"
->>>>>>     S = "${WORKDIR}/git"
->>>>>>     
->>>>>>     EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
->>>>>> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->>>>>> new file mode 100644
->>>>>> index 0000000..994a9fa
->>>>>> --- /dev/null
->>>>>> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
->>>>>> @@ -0,0 +1,30 @@
->>>>>> +kernelshark: fix syntax error of shell
->>>>>> +
->>>>>> +Delete "<<<" syntax of bash in Makefile, else we would get following error:
->>>>>> +
->>>>>> +	Syntax error: redirection unexpected
->>>>>> +
->>>>>> +Upstream-Status: Inappropriate [embedded specific]
->>>>> How is this embedded specific?
->>>>>
->>>>> Cheers,
->>>>>
->>>>> Richard
->>>> This issue only produced in yocto.
->>>> It is not problem for kernelshark and trace-cmd itself.
->>>> So I think this is embedded specific.
->>> I'm afraid I don't accept this explanation. Is Yocto's make different
->>> somehow which causes this error?
->>>
->>> I don't understand why yocto would see this error yet other systems
->>> (which use the same make as far as I know) would not.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->> Hi Richard,
->>
->> I built kernelshark and trace-cmd in Ubuntu 12.04.
->> The dash is default shell in this distrobution.
->> So, this issue would produce only on host that the default shell is not
->> bash.
-> Right, so the Upstream-Status is not "embedded specific", its a general
-> problems for shells which are not bash?
->
-> Cheers,
->
-> Richard
->
-Ok, thanks. I got it. I will resend V2.
+I'm thinking we should start deleting the -config files at do_install
+time where we know a good .pc file exists and remove the binconfig
+inherit. If this causes any problem in software using the package, we
+should fix those to use pkgconfig.
 
-Best Regards
-Chong
->
+Over time the conflicts will stop existing since the binconfig class
+will not be used anywhere.
+
+Cheers,
+
+Richard
+
+
 
 
