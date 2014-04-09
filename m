@@ -1,35 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C4A7765E00
+	by mail.openembedded.org (Postfix) with ESMTP id E5F2765D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 08:58:08 +0000 (UTC)
+	Wed,  9 Apr 2014 09:28:58 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s398w4HV024121; Wed, 9 Apr 2014 09:58:04 +0100
+	s399Sr0x025110; Wed, 9 Apr 2014 10:28:53 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gs9LR7VPmdNf; Wed,  9 Apr 2014 09:58:03 +0100 (BST)
+	with LMTP id 1eIVKG21vLFL; Wed,  9 Apr 2014 10:28:52 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s398w1m8024116
+	s399SoUZ025104
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 9 Apr 2014 09:58:03 +0100
-Message-ID: <1397033875.24597.135.camel@ted>
+	Wed, 9 Apr 2014 10:28:51 +0100
+Message-ID: <1397035724.24597.136.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-Date: Wed, 09 Apr 2014 09:57:55 +0100
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF8455D273D4@ALA-MBA.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF8455D24E2D@ALA-MBA.corp.ad.wrs.com>
-	<1396976257.24597.109.camel@ted>
-	<007BD92917A2324FA403BCF9A464CF8455D2735A@ALA-MBA.corp.ad.wrs.com>
-	<1396992811.24597.116.camel@ted>
-	<007BD92917A2324FA403BCF9A464CF8455D273D4@ALA-MBA.corp.ad.wrs.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Wed, 09 Apr 2014 10:28:44 +0100
+In-Reply-To: <5344FB80.2010006@windriver.com>
+References: <cover.1396600342.git.Chong.Lu@windriver.com>
+	<946d60db486d1ac1c5b3aecf64b029e8a15d42de.1396600342.git.Chong.Lu@windriver.com>
+	<1396608067.2910.110.camel@ted> <5343539B.3030808@windriver.com>
+	<1396951684.24597.90.camel@ted> <5344FB80.2010006@windriver.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: libxslt populate_sysroot dependencies
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] kernelshark/trace-cmd: fix syntax error of shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +40,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 08:58:10 -0000
+X-List-Received-Date: Wed, 09 Apr 2014 09:29:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-04-08 at 22:56 +0000, Slater, Joseph wrote:
-> I've attached extracts from a very long log of a failure.  Turns out,
-> it's not quite what I was expecting, but it does show the
-> libxml2-native did not get to into sysroot before we tried to run
-> xsltproc during the build of vala.
+On Wed, 2014-04-09 at 15:49 +0800, Chong Lu wrote:
+> On 04/08/2014 06:08 PM, Richard Purdie wrote:
+> > On Tue, 2014-04-08 at 09:40 +0800, Chong Lu wrote:
+> >> On 04/04/2014 06:41 PM, Richard Purdie wrote:
+> >>> On Fri, 2014-04-04 at 16:33 +0800, Chong Lu wrote:
+> >>>> Delete "<<<" syntax of bash in Makefile, else we would get following error:
+> >>>>
+> >>>>           Syntax error: redirection unexpected
+> >>>>
+> >>>> [YOCTO #6112]
+> >>>>
+> >>>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> >>>> ---
+> >>>>    meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
+> >>>>    .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ++++++++++++++++++++++
+> >>>>    .../trace-cmd-fix-syntax-error-of-shell.patch      | 30 ++++++++++++++++++++++
+> >>>>    meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
+> >>>>    4 files changed, 63 insertions(+), 1 deletion(-)
+> >>>>    create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
+> >>>>    create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
+> >>>>
+> >>>> diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> >>>> index 9268a50..d61097d 100644
+> >>>> --- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> >>>> +++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
+> >>>> @@ -15,7 +15,8 @@ inherit pkgconfig pythonnative
+> >>>>    SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
+> >>>>               file://addldflags.patch \
+> >>>>               file://make-docs-optional.patch \
+> >>>> -           file://blktrace-api-compatibility.patch"
+> >>>> +           file://blktrace-api-compatibility.patch \
+> >>>> +           file://kernelshark-fix-syntax-error-of-shell.patch"
+> >>>>    S = "${WORKDIR}/git"
+> >>>>    
+> >>>>    EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
+> >>>> diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
+> >>>> new file mode 100644
+> >>>> index 0000000..994a9fa
+> >>>> --- /dev/null
+> >>>> +++ b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
+> >>>> @@ -0,0 +1,30 @@
+> >>>> +kernelshark: fix syntax error of shell
+> >>>> +
+> >>>> +Delete "<<<" syntax of bash in Makefile, else we would get following error:
+> >>>> +
+> >>>> +	Syntax error: redirection unexpected
+> >>>> +
+> >>>> +Upstream-Status: Inappropriate [embedded specific]
+> >>> How is this embedded specific?
+> >>>
+> >>> Cheers,
+> >>>
+> >>> Richard
+> >> This issue only produced in yocto.
+> >> It is not problem for kernelshark and trace-cmd itself.
+> >> So I think this is embedded specific.
+> > I'm afraid I don't accept this explanation. Is Yocto's make different
+> > somehow which causes this error?
+> >
+> > I don't understand why yocto would see this error yet other systems
+> > (which use the same make as far as I know) would not.
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> Hi Richard,
 > 
-> These failures are extremely rare, so I'll have to wait for another
-> one to see if it's the same.  I realize that the build for libxml2
-> seems to have "hung", but I also think that letting libxslt put itself
-> into sysroot before what it needs to run is in there is dangerous.
-> 
-> Anyway, there's no way in the world I could do the number of builds
-> necessary to see if it's still an issue with the current bitbake, so
-> I'll just watch for more failures here.
-> 
-> This has been kind of a waste of your time.  Thanks for looking at it.
+> I built kernelshark and trace-cmd in Ubuntu 12.04.
+> The dash is default shell in this distrobution.
+> So, this issue would produce only on host that the default shell is not 
+> bash.
 
-The question is whether in that build libxslt-native was in the DEPENDS
-for vala-native or not?
+Right, so the Upstream-Status is not "embedded specific", its a general
+problems for shells which are not bash?
 
 Cheers,
 
