@@ -1,33 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id EAC2565D4A
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 240A665D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 09:42:59 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s399gs1C025523; Wed, 9 Apr 2014 10:42:54 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QsWJmeeFSfyE; Wed,  9 Apr 2014 10:42:54 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s399gmAZ025515
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 9 Apr 2014 10:42:50 +0100
-Message-ID: <1397036562.24597.139.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ming Liu <ming.liu@windriver.com>
-Date: Wed, 09 Apr 2014 10:42:42 +0100
-In-Reply-To: <5344EB93.1070209@windriver.com>
-References: <1396870039-26834-1-git-send-email-ming.liu@windriver.com>
-	<1396870039-26834-3-git-send-email-ming.liu@windriver.com>
-	<1396870587.24597.35.camel@ted> <53435E81.9060308@windriver.com>
-	<1396951390.24597.88.camel@ted> <5344EB93.1070209@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] binconfig.bbclass: fix multilib file conflicts
+	Wed,  9 Apr 2014 09:44:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s399ia6n022987
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Apr 2014 02:44:36 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 9 Apr 2014 02:44:36 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 9 Apr 2014 17:44:32 +0800
+Message-ID: <2e5aded6bd991ada5810d99cb6bfdc9bfe79c39b.1397036620.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1397036620.git.Chong.Lu@windriver.com>
+References: <cover.1397036620.git.Chong.Lu@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] tar: set acpaths to avoid "Argument list too long" error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,60 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 09:43:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Apr 2014 09:44:36 -0000
+Content-Type: text/plain
 
-On Wed, 2014-04-09 at 14:41 +0800, Ming Liu wrote:
-> On 04/08/2014 06:03 PM, Richard Purdie wrote:
-> > On Tue, 2014-04-08 at 10:27 +0800, Ming Liu wrote:
-> >> On 04/07/2014 07:36 PM, Richard Purdie wrote:
-> >>> On Mon, 2014-04-07 at 19:27 +0800, Ming Liu wrote:
-> >>>> In most cases binconfig files conflict among multilib packages, to avoid
-> >>>> that, use update-alternatives link *-config from real path with a
-> >>>> PACKAGE_ARCH suffix.
-> >>>>
-> >>>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> >>>> ---
-> >>>>    meta/classes/binconfig.bbclass | 65 ++++++++++++++++++++++++++++++++++++------
-> >>>>    1 file changed, 56 insertions(+), 9 deletions(-)
-> >>> This isn't going in, its complex and supports a minority use case.
-> >>> binconfig should be dying out, not being extended and shored up like
-> >>> this.
-> >>>
-> >>> I'd also add this patch is buggy, its pure luck that update-alternatives
-> >>> is available at rootfs generation time since its not in a visible
-> >>> dependency.
-> >>>
-> >>> So going forward I'd like to see patches which simply delete binconfig
-> >>> scripts. Where there isn't a .pc alternative we should be adding them
-> >>> and pushing them upstream.
-> >> Did you mean we'd better remove all *-config scripts, insteaded by
-> >> providing .pc files, and send the changes to all upstreams providing and
-> >> using *-config? That seems a huge work and we need co-operate with a lot
-> >> of projects.
-> > Basically, yes, that is what I mean. I might be wrong but I don't think
-> > there are that many projects which don't ship .pc files now and just
-> > have a binconfig as a backup.
-> Yes, I also noticed that many of them are providing .pc files as well as 
-> binconfig as a backup, so I think there must be reasons binconfig 
-> remained in their projects, that might be for compliable considering,  
-> so I am not sure they would like to remove them from their projects, but 
-> I can try to ping them. Nevertheless, the conflicts still exist, we just 
-> leave them here so far?
+There would be an error when the TMPDIR is long/deep, for example when
+len(TMPDIR) = 410 while our supported longest value is 410:
 
-I'm thinking we should start deleting the -config files at do_install
-time where we know a good .pc file exists and remove the binconfig
-inherit. If this causes any problem in software using the package, we
-should fix those to use pkgconfig.
+    aclocal: error: cannot open xxx
+    autoreconf: aclocal failed with exit status: 1
+    ERROR: autoreconf execution failed.
 
-Over time the conflicts will stop existing since the binconfig class
-will not be used anywhere.
+Let aclocal use the relative path for the m4 file rather than the
+absolute would fix the problem.
 
-Cheers,
+[YOCTO #6138]
 
-Richard
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-extended/tar/tar.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
+diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
+index 30a1373..75c3518 100644
+--- a/meta/recipes-extended/tar/tar.inc
++++ b/meta/recipes-extended/tar/tar.inc
+@@ -10,6 +10,12 @@ inherit autotools gettext
+ 
+ EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
+ 
++# Let aclocal use the relative path for the m4 file rather than the
++# absolute since tar has a lot of m4 files, otherwise there might
++# be an "Argument list too long" error when it is built in a long/deep
++# directory.
++acpaths = "-I ./m4"
++
+ EXTRAINSTALL = "do_install_extra"
+ EXTRAINSTALL_class-nativesdk = ""
+ 
+-- 
+1.8.1.2
 
 
