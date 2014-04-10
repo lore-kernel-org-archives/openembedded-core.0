@@ -1,26 +1,28 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9181265DF1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 415D860809
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 08:25:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3A8P7C2027068
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 01:25:07 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 10 Apr 2014 01:25:06 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Apr 2014 16:25:03 +0800
-Message-ID: <5cea607d9624a3c3b4b3528c6ff8fe1b0dee9b65.1397118142.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1397118142.git.Chong.Lu@windriver.com>
-References: <cover.1397118142.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V3 1/1] kernelshark/trace-cmd: fix syntax error of shell
+	Thu, 10 Apr 2014 09:06:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3A963Db016164; Thu, 10 Apr 2014 10:06:03 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NXsbcOMGdCnT; Thu, 10 Apr 2014 10:06:02 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3A95uRF016144
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 10 Apr 2014 10:05:57 +0100
+Message-ID: <1397120750.24597.238.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Apr 2014 10:05:50 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: [PATCH] perf: Fix sysroot option to CC handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,124 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 08:25:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 Apr 2014 09:06:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Delete "<<<" syntax of bash in Makefile, else we would get following error:
+If you build perf in tree /xxx/treea, then cleansstate perf and build it
+in /xxx/treeb having deleted treea, the build will fail, unable to find libc.
 
-        Syntax error: redirection unexpected
+The problem is that the --sysroot option passed in through CC is missing.
+This works fine if the default sysroot is ok, if it isn't, things will fail.
+In 1.7 we'll start poisoning the default sysroot in gcc to catch this kind of
+issue however that doesn't fix the problem with perf.
 
-[YOCTO #6112]
+The problem is that various Makefiles set CC = $(CROSS_COMPILE)gcc. The
+easist fix for now is to sed out the problematic Makefile lines. Its worth
+noting the tools/lib/traceevent Makefile has a much more funky way of setting
+CC which works for us and may be the way we need to fix the other Makefiles 
+upstream.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+This fixes build failures we're occasionally seen on the autobuilders.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
- .../kernelshark-fix-syntax-error-of-shell.patch    | 30 ++++++++++++++++++++++
- .../trace-cmd-fix-syntax-error-of-shell.patch      | 30 ++++++++++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
- 4 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 9dfccdf..ef21b6c 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -133,6 +133,18 @@ do_configure_prepend () {
+     if [ -e "${S}/tools/perf/config/Makefile" ]; then
+         sed -i 's,libdir = $(prefix)/$(lib),libdir = $(prefix)/${baselib},' ${S}/tools/perf/config/Makefile
+     fi
++    # We need to ensure the --sysroot option in CC is preserved
++    if [ -e "${S}/tools/perf/Makefile.perf" ]; then
++        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
++        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/perf/Makefile.perf
++    fi
++    if [ -e "${S}/tools/lib/api/Makefile" ]; then
++        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
++        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/lib/api/Makefile
++    fi
++    if [ -e "${S}/tools/perf/config/feature-checks/Makefile" ]; then
++        sed -i 's,CC := $(CROSS_COMPILE)gcc -MD,CC += -MD,' ${S}/tools/perf/config/feature-checks/Makefile
++    fi
+ }
+ 
+ python do_package_prepend() {
 
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index 9268a50..d61097d 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -15,7 +15,8 @@ inherit pkgconfig pythonnative
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
-            file://addldflags.patch \
-            file://make-docs-optional.patch \
--           file://blktrace-api-compatibility.patch"
-+           file://blktrace-api-compatibility.patch \
-+           file://kernelshark-fix-syntax-error-of-shell.patch"
- S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-new file mode 100644
-index 0000000..351b24b
---- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-@@ -0,0 +1,30 @@
-+kernelshark: fix syntax error of shell
-+
-+Delete "<<<" syntax of bash in Makefile, else we would get following error:
-+
-+	Syntax error: redirection unexpected
-+
-+Upstream-status: Pending
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Makefile |    3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index c1fa906..be84415 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -89,8 +89,7 @@ endif
-+ 
-+ # $(call test-build, snippet, ret) -> ret if snippet compiles
-+ #                                  -> empty otherwise
-+-test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
-+-	                  <<<'$1' && echo y), $2)
-++test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
-+ 
-+ # have udis86 disassembler library?
-+ udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-new file mode 100644
-index 0000000..b1ebf49
---- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-@@ -0,0 +1,30 @@
-+trace-cmd: fix syntax error of shell
-+
-+Delete "<<<" syntax of bash in Makefile, else we would get following error:
-+
-+       Syntax error: redirection unexpected
-+
-+Upstream-status: Pending
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Makefile |    3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index c1fa906..7973c53 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -89,8 +89,7 @@ endif
-+ 
-+ # $(call test-build, snippet, ret) -> ret if snippet compiles
-+ #                                  -> empty otherwise
-+-test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
-+-	                  <<<'$1' && echo y), $2)
-++test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
-+ 
-+ # have udis86 disassembler library?
-+ udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-index 74eafbb..a0c823b 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
-            file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
-            file://trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch \
-            file://trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch \
-+           file://trace-cmd-fix-syntax-error-of-shell.patch \
- "
- S = "${WORKDIR}/git"
- 
--- 
-1.8.1.2
 
 
