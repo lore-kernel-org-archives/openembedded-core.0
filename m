@@ -1,26 +1,27 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F199665E4C
+	by mail.openembedded.org (Postfix) with ESMTP id 2562B65D19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 01:29:40 +0000 (UTC)
+	Thu, 10 Apr 2014 02:32:25 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3A1TfxQ024620
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Apr 2014 18:29:41 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 9 Apr 2014 18:29:41 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Apr 2014 09:29:37 +0800
-Message-ID: <0d447777f4ce0bac18e1c8e937d61aeffbed57d7.1397093236.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1397093236.git.Chong.Lu@windriver.com>
-References: <cover.1397093236.git.Chong.Lu@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3A2WMPi024998
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 Apr 2014 19:32:22 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Wed, 9 Apr 2014 19:32:22 -0700
+Message-ID: <534602B4.1050509@windriver.com>
+Date: Thu, 10 Apr 2014 10:32:20 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] kernelshark/trace-cmd: fix syntax error of shell
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1396980809.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1396980809.git.paul.eggleton@linux.intel.com>
+Subject: Re: [dora][PATCH 0/4] OpenSSL CVE fixes for the dora branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,120 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 01:29:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 Apr 2014 02:32:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Delete "<<<" syntax of bash in Makefile, else we would get following error:
 
-        Syntax error: redirection unexpected
+Reviewed and Tested by Robert Yang <liezhi.yang@windriver.com>
 
-[YOCTO #6112]
+// Robert
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
- .../kernelshark-fix-syntax-error-of-shell.patch    | 28 ++++++++++++++++++++++
- .../trace-cmd-fix-syntax-error-of-shell.patch      | 28 ++++++++++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
- 4 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index 9268a50..d61097d 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -15,7 +15,8 @@ inherit pkgconfig pythonnative
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
-            file://addldflags.patch \
-            file://make-docs-optional.patch \
--           file://blktrace-api-compatibility.patch"
-+           file://blktrace-api-compatibility.patch \
-+           file://kernelshark-fix-syntax-error-of-shell.patch"
- S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-new file mode 100644
-index 0000000..a3059f4
---- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-@@ -0,0 +1,28 @@
-+kernelshark: fix syntax error of shell
-+
-+Delete "<<<" syntax of bash in Makefile, else we would get following error:
-+
-+	Syntax error: redirection unexpected
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Makefile |    3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index c1fa906..be84415 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -89,8 +89,7 @@ endif
-+ 
-+ # $(call test-build, snippet, ret) -> ret if snippet compiles
-+ #                                  -> empty otherwise
-+-test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
-+-	                  <<<'$1' && echo y), $2)
-++test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
-+ 
-+ # have udis86 disassembler library?
-+ udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-new file mode 100644
-index 0000000..c071e82
---- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-@@ -0,0 +1,28 @@
-+trace-cmd: fix syntax error of shell
-+
-+Delete "<<<" syntax of bash in Makefile, else we would get following error:
-+
-+       Syntax error: redirection unexpected
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Makefile |    3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index c1fa906..7973c53 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -89,8 +89,7 @@ endif
-+ 
-+ # $(call test-build, snippet, ret) -> ret if snippet compiles
-+ #                                  -> empty otherwise
-+-test-build = $(if $(shell $(CC) -o /dev/null -c -x c - > /dev/null 2>&1 \
-+-	                  <<<'$1' && echo y), $2)
-++test-build = $(if $(shell echo '$1' |$(CC) -o /dev/null -c -x c - > /dev/null 2>&1 && echo y), $2)
-+ 
-+ # have udis86 disassembler library?
-+ udis86-flags := $(call test-build,\#include <udis86.h>,-DHAVE_UDIS86 -ludis86)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-index 74eafbb..a0c823b 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
-            file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
-            file://trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch \
-            file://trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch \
-+           file://trace-cmd-fix-syntax-error-of-shell.patch \
- "
- S = "${WORKDIR}/git"
- 
--- 
-1.8.1.2
-
+On 04/09/2014 02:15 AM, Paul Eggleton wrote:
+> Three backports for CVE fixes from master, plus one new fix for the
+> latest CVE (CVE-2014-0160). The latter is not needed for master with
+> Cristiana's upgrade to version 1.0.1g sent out today.
+>
+>
+> The following changes since commit 590c2135858bb5d0cfc375c0d82ca610550ccd4a:
+>
+>    Revert "buildhistory_analysis: fix error when comparing image contents" (2014-04-04 16:16:39 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib paule/openssl-cves
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/openssl-cves
+>
+> Paul Eggleton (1):
+>    openssl: backport fix for CVE-2014-0160
+>
+> Yue Tao (3):
+>    Security Advisory - openssl - CVE-2013-4353
+>    Security Advisory - openssl - CVE-2013-6450
+>    Security Advisory - openssl - CVE-2013-6449
+>
+>   ...DTLS-retransmission-from-previous-session.patch |  81 ++++++++++++++
+>   ...or-TLS-record-tampering-bug-CVE-2013-4353.patch |  31 ++++++
+>   ...e-version-in-SSL_METHOD-not-SSL-structure.patch |  33 ++++++
+>   .../openssl/openssl-1.0.1e/CVE-2014-0160.patch     | 118 +++++++++++++++++++++
+>   .../recipes-connectivity/openssl/openssl_1.0.1e.bb |   4 +
+>   5 files changed, 267 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-DTLS-retransmission-from-previous-session.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-for-TLS-record-tampering-bug-CVE-2013-4353.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/CVE-2014-0160.patch
+>
 
