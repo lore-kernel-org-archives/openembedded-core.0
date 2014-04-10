@@ -1,28 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 415D860809
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D4CFA65E66
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 09:06:15 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s3A963Db016164; Thu, 10 Apr 2014 10:06:03 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NXsbcOMGdCnT; Thu, 10 Apr 2014 10:06:02 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s3A95uRF016144
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 10 Apr 2014 10:05:57 +0100
-Message-ID: <1397120750.24597.238.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Apr 2014 10:05:50 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: [PATCH] perf: Fix sysroot option to CC handling
+	Thu, 10 Apr 2014 09:07:14 +0000 (UTC)
+Received: by mail-ee0-f43.google.com with SMTP id e53so2757428eek.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Apr 2014 02:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=eKhBPYWXg/Tvs1Qz4Jc/lemQfmptKd6b76/3PQnlcms=;
+	b=qLx2nhfoMqIlplzUWRaKIZdgJ57LqvcGttCG+GkG5q2luMemAEDOa9r8aSbHKAh0Pw
+	4l/7evIrhOBt6QdbfAaY/3A917uE5t1g9/SHIkLDskwRw0jDIXiZZ2dW+o7SQKk6XNdj
+	XZUjNRqPBMfKyjieuwMg/k9jX7ABSrw5wkxSw5Z/rWhxObPFsgwSLCbOzb4DDV0PQ8S+
+	obJ3UE50UoosENZOP/O7fmVFWzJcjIpPAUILG3oVjFtMmFW9BXGxotoZCqjKbKpctFwj
+	AICU7eMXuazoZeqDf+mompouZRh6kHHsIL7fEP+dQPLjYoJNCyOjNLJZjjXCaIN3ZYVz
+	28qw==
+X-Received: by 10.15.44.3 with SMTP id y3mr2018853eev.58.1397120835188;
+	Thu, 10 Apr 2014 02:07:15 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id y7sm8449922eev.5.2014.04.10.02.07.13
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Apr 2014 02:07:14 -0700 (PDT)
+Date: Thu, 10 Apr 2014 11:07:22 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: =?iso-8859-1?Q?S=F8ren?= Holm <sgh@sgh.dk>
+Message-ID: <20140410090722.GQ2132@jama>
+References: <1396946890-16295-1-git-send-email-sgh@sgh.dk>
+MIME-Version: 1.0
+In-Reply-To: <1396946890-16295-1-git-send-email-sgh@sgh.dk>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wvstreams: Set optimization to -O0 to avoid breaking stack protection.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 09:06:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Apr 2014 09:07:18 -0000
+X-Groupsio-MsgNum: 52335
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="foM9DbudB2CcldhH"
+Content-Disposition: inline
 
-If you build perf in tree /xxx/treea, then cleansstate perf and build it
-in /xxx/treeb having deleted treea, the build will fail, unable to find libc.
+--foM9DbudB2CcldhH
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The problem is that the --sysroot option passed in through CC is missing.
-This works fine if the default sysroot is ok, if it isn't, things will fail.
-In 1.7 we'll start poisoning the default sysroot in gcc to catch this kind of
-issue however that doesn't fix the problem with perf.
+On Tue, Apr 08, 2014 at 10:48:10AM +0200, S=F8ren Holm wrote:
+> A description of the bug is here :
+> See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D674006
 
-The problem is that various Makefiles set CC = $(CROSS_COMPILE)gcc. The
-easist fix for now is to sed out the problematic Makefile lines. Its worth
-noting the tools/lib/traceevent Makefile has a much more funky way of setting
-CC which works for us and may be the way we need to fix the other Makefiles 
-upstream.
+Wrong ML, this belongs to openembedded-devel@lists.openembedded.org
+> ---
+>  meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb b/met=
+a-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb
+> index ce2b337..869402b 100644
+> --- a/meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb
+> +++ b/meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb
+> @@ -19,6 +19,8 @@ SRC_URI[sha256sum] =3D "8403f5fbf83aa9ac0c6ce15d97fd856=
+07488152aa84e007b7d0621b8eb
+>  inherit autotools pkgconfig
+> =20
+>  PARALLEL_MAKE =3D ""
+> +TARGET_CFLAGS_append =3D " -O0"
+> +TARGET_CXXFLAGS_append =3D " -O0"
+> =20
+>  LDFLAGS_append =3D " -Wl,-rpath-link,${CROSS_DIR}/${TARGET_SYS}/lib"
+> =20
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-This fixes build failures we're occasionally seen on the autobuilders.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 9dfccdf..ef21b6c 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -133,6 +133,18 @@ do_configure_prepend () {
-     if [ -e "${S}/tools/perf/config/Makefile" ]; then
-         sed -i 's,libdir = $(prefix)/$(lib),libdir = $(prefix)/${baselib},' ${S}/tools/perf/config/Makefile
-     fi
-+    # We need to ensure the --sysroot option in CC is preserved
-+    if [ -e "${S}/tools/perf/Makefile.perf" ]; then
-+        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
-+        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/perf/Makefile.perf
-+    fi
-+    if [ -e "${S}/tools/lib/api/Makefile" ]; then
-+        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
-+        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/lib/api/Makefile
-+    fi
-+    if [ -e "${S}/tools/perf/config/feature-checks/Makefile" ]; then
-+        sed -i 's,CC := $(CROSS_COMPILE)gcc -MD,CC += -MD,' ${S}/tools/perf/config/feature-checks/Makefile
-+    fi
- }
- 
- python do_package_prepend() {
+--foM9DbudB2CcldhH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iEYEARECAAYFAlNGX0oACgkQN1Ujt2V2gBzerwCfadmBHYdb7nyRRC0Eo7/0f9/b
+GTcAniTCguPpjSB9JTdqG7M/DnYmoicD
+=KcXv
+-----END PGP SIGNATURE-----
 
+--foM9DbudB2CcldhH--
