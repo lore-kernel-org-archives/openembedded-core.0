@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ACD9265E87
+	by mail.openembedded.org (Postfix) with ESMTP id ABFAB65E85
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Apr 2014 15:12:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3AFCo4u002831
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3AFCnbj002828
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 10 Apr 2014 08:12:50 -0700 (PDT)
+	Thu, 10 Apr 2014 08:12:49 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 10 Apr 2014 08:12:50 -0700
+	14.3.169.1; Thu, 10 Apr 2014 08:12:48 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 10 Apr 2014 11:12:32 -0400
-Message-ID: <d1bc7f02ba4333023d3f72bf9784c45dc4001603.1397142033.git.bruce.ashfield@windriver.com>
+Date: Thu, 10 Apr 2014 11:12:30 -0400
+Message-ID: <cover.1397142033.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1397142033.git.bruce.ashfield@windriver.com>
-References: <cover.1397142033.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/6] linux-yocto/3.4: update to v3.4.85
+Subject: [PATCH 0/6] linux-yocto/3.4/3.10/3.14: updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,88 +34,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 10 Apr 2014 15:12:52 -0000
 Content-Type: text/plain
 
-Updating the SRCREVs to integrate the latest korg -stable update.
+Richard,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.4.bb      | 16 ++++++++--------
- 3 files changed, 15 insertions(+), 15 deletions(-)
+While we are working throught he -rc releases, I've been sitting
+on korg -stable updates and as many changes I can .. since I know we
+don't want any destabilization.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-index dfe11e4925c4..dc3813ca6d00 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--LINUX_VERSION ?= "3.4.82"
-+LINUX_VERSION ?= "3.4.85"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "74369c14c79dbb546ce1e387b1363e808ea4f5b1"
--SRCREV_machine_qemuppc ?= "71694a302cda24cc8a7c5f772e8306111ffcfb6c"
--SRCREV_meta ?= "ef4cd500d4b64680f7a319d399b8a12f9ecc9fe6"
-+SRCREV_machine ?= "fd1626cc2a1144a7760bcfc9c6e48a14de28624e"
-+SRCREV_machine_qemuppc ?= "605cdff89f2d36d44ebfc75d6427eea5f236a940"
-+SRCREV_meta ?= "7c9e1e0117e7ca1f7451870dad5db50adc21732e"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-index 7db9099fece4..f22a3f46a0b9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-@@ -8,12 +8,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
--LINUX_VERSION ?= "3.4.82"
-+LINUX_VERSION ?= "3.4.85"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "c29f5c8952c0f3ef27773d78e5cc64e437a357cb"
--SRCREV_meta ?= "ef4cd500d4b64680f7a319d399b8a12f9ecc9fe6"
-+SRCREV_machine ?= "95a3ff6e3c2eec2fafe9d1813048fcdb468a678e"
-+SRCREV_meta ?= "7c9e1e0117e7ca1f7451870dad5db50adc21732e"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index 878422985b12..3a2ff2f50417 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -11,17 +11,17 @@ KBRANCH_qemux86  = "standard/common-pc/base"
- KBRANCH_qemux86-64  = "standard/common-pc-64/base"
- KBRANCH_qemumips64 = "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "6c34763a9e4e05e1fcaa32d915bd05cccd0abc1d"
--SRCREV_machine_qemumips  ?= "fa9377eda8d2dceccb218f229551424c64ef0c28"
--SRCREV_machine_qemuppc ?= "85868d48f06911b7dddaf0180af96c8f2e874922"
--SRCREV_machine_qemux86 ?= "c29f5c8952c0f3ef27773d78e5cc64e437a357cb"
--SRCREV_machine_qemux86-64 ?= "c29f5c8952c0f3ef27773d78e5cc64e437a357cb"
--SRCREV_machine ?= "c29f5c8952c0f3ef27773d78e5cc64e437a357cb"
--SRCREV_meta ?= "ef4cd500d4b64680f7a319d399b8a12f9ecc9fe6"
-+SRCREV_machine_qemuarm ?= "64f9a290683b1ab08136ef5d54d1845a961a6940"
-+SRCREV_machine_qemumips  ?= "ad7aa3ecf8ab00055d31c3f7b059c8b8a8633e19"
-+SRCREV_machine_qemuppc ?= "7aaa5a4debe4b1987d2d11707313e682b185e876"
-+SRCREV_machine_qemux86 ?= "95a3ff6e3c2eec2fafe9d1813048fcdb468a678e"
-+SRCREV_machine_qemux86-64 ?= "95a3ff6e3c2eec2fafe9d1813048fcdb468a678e"
-+SRCREV_machine ?= "95a3ff6e3c2eec2fafe9d1813048fcdb468a678e"
-+SRCREV_meta ?= "7c9e1e0117e7ca1f7451870dad5db50adc21732e"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--LINUX_VERSION ?= "3.4.82"
-+LINUX_VERSION ?= "3.4.85"
- 
- PR = "${INC_PR}.5"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+What I've collected here is pretty much the minimum set of updates
+that I could gather. 
+
+They are config udpates that won't globally impact BSPs, or are 
+-stable updates that contain important fixes for booting a few boards.
+Everything else, I have queued for post 1.6.
+
+Cheers,
+
+Bruce
+
+The following changes since commit db80f796e78746014a0f9497638e5c6fd2953ef0:
+
+  README.hardware: update with Texas Instruments Beaglebone instructions (2014-04-10 10:13:55 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  linux-yocto/3.10: v3.10.35 and emenlow boot fixes
+  linux-yocto/3.4: update to v3.4.85
+  linux-yocto/3.10: intel-common: Add preempt-rt ktype targets
+  linux-yocto/3.14: intel configuration fixes
+  linux-yocto/3.14: beagleboard black: USB, DRM config tweaks
+  linux-yocto/3.10: intel BSP configuration updates
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       | 16 ++++++++--------
+ 8 files changed, 33 insertions(+), 33 deletions(-)
+
 -- 
 1.8.1.2
 
