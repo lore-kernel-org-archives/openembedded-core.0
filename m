@@ -1,31 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 03BCC65E7E
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43E3965E7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 12:50:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s3ACo7uS022515 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 13:50:07 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lZlxM3Qo55xS
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 13:50:07 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s3ACo1fW022504
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 13:50:03 +0100
-Message-ID: <1397134195.24597.256.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Apr 2014 13:49:55 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sstate: Silence warnings when switching machines
+	Thu, 10 Apr 2014 13:23:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3ADMwo0019594
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 10 Apr 2014 06:22:59 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Thu, 10 Apr 2014 06:22:58 -0700
+Message-ID: <53469B2C.5050407@windriver.com>
+Date: Thu, 10 Apr 2014 09:22:52 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <1397120750.24597.238.camel@ted>
+In-Reply-To: <1397120750.24597.238.camel@ted>
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: Re: [PATCH] perf: Fix sysroot option to CC handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 12:50:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 10 Apr 2014 13:23:03 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-We recently added multiple provider warnings. These could get issued 
-from -cross recipes due to the way these currently overlap in the 
-native sysroot. Filter out these warnings for now, until such times
-as we improve the cross recipes so they don't have an overlapping 
-namespace.
+On 14-04-10 05:05 AM, Richard Purdie wrote:
+> If you build perf in tree /xxx/treea, then cleansstate perf and build it
+> in /xxx/treeb having deleted treea, the build will fail, unable to find libc.
+>
+> The problem is that the --sysroot option passed in through CC is missing.
+> This works fine if the default sysroot is ok, if it isn't, things will fail.
+> In 1.7 we'll start poisoning the default sysroot in gcc to catch this kind of
+> issue however that doesn't fix the problem with perf.
+>
+> The problem is that various Makefiles set CC = $(CROSS_COMPILE)gcc. The
+> easist fix for now is to sed out the problematic Makefile lines. Its worth
+> noting the tools/lib/traceevent Makefile has a much more funky way of setting
+> CC which works for us and may be the way we need to fix the other Makefiles
+> upstream.
+>
+> This fixes build failures we're occasionally seen on the autobuilders.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 297e29f..5f560e5 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -25,6 +25,7 @@ SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/"
- # Also need to make cross recipes append to ${PN} and install once for any given PACAGE_ARCH so
- # can avoid multiple installs (e.g. routerstationpro+qemumips both using mips32)
- SSTATE_DUPWHITELIST += "${STAGING_LIBDIR_NATIVE}/${MULTIMACH_TARGET_SYS} ${STAGING_DIR_NATIVE}/usr/libexec/${MULTIMACH_TARGET_SYS} ${STAGING_BINDIR_NATIVE}/${MULTIMACH_TARGET_SYS} ${STAGING_DIR_NATIVE}${includedir_native}/gcc-build-internal-${MULTIMACH_TARGET_SYS}"
-+SSTATE_DUPWHITELIST += "${STAGING_DIR_NATIVE}/sysroot-providers/virtual_${MULTIMACH_TARGET_SYS}- ${STAGING_DIR_NATIVE}/sysroot-providers/binutils-cross ${STAGING_DIR_NATIVE}/sysroot-providers/gcc-cross"
- # Avoid docbook/sgml catalog warnings for now
- SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
- 
+I've bounced back and forth a few times with the way that CC is assigned
+in the perf Makefiles versus it being taken from our environment
+variables .. and of course the flags that are passed to gcc (as you well 
+know).
 
+This looks simple enough and it'll work. The alternatives wouldn't have
+been doable with replacements .. and hence we'd only be able to patch
+and fix linux-yocto out of the box. So not a good idea.
+
+We'll have to take the discussion to lkml to get this fixed in tree, but
+this wouldn't be the first time :)
+
+Tomz: did you want to try that ? Nothing immediate, but I wouldn't want
+it to fall completely off the radar.
+
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index 9dfccdf..ef21b6c 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -133,6 +133,18 @@ do_configure_prepend () {
+>       if [ -e "${S}/tools/perf/config/Makefile" ]; then
+>           sed -i 's,libdir = $(prefix)/$(lib),libdir = $(prefix)/${baselib},' ${S}/tools/perf/config/Makefile
+>       fi
+> +    # We need to ensure the --sysroot option in CC is preserved
+> +    if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+> +        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
+> +        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/perf/Makefile.perf
+> +    fi
+> +    if [ -e "${S}/tools/lib/api/Makefile" ]; then
+> +        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
+> +        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/lib/api/Makefile
+> +    fi
+> +    if [ -e "${S}/tools/perf/config/feature-checks/Makefile" ]; then
+> +        sed -i 's,CC := $(CROSS_COMPILE)gcc -MD,CC += -MD,' ${S}/tools/perf/config/feature-checks/Makefile
+> +    fi
+>   }
+>
+>   python do_package_prepend() {
+>
+>
 
 
