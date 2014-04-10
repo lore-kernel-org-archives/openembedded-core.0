@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ABFAB65E85
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 181F465E85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 15:12:50 +0000 (UTC)
+	Thu, 10 Apr 2014 15:12:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3AFCnbj002828
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3AFCptI013373
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 10 Apr 2014 08:12:49 -0700 (PDT)
+	Thu, 10 Apr 2014 08:12:51 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 10 Apr 2014 08:12:48 -0700
+	14.3.169.1; Thu, 10 Apr 2014 08:12:51 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 10 Apr 2014 11:12:30 -0400
-Message-ID: <cover.1397142033.git.bruce.ashfield@windriver.com>
+Date: Thu, 10 Apr 2014 11:12:33 -0400
+Message-ID: <2ec30e5dc322d0a4046ed8dae1578e380aa90ffa.1397142033.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1397142033.git.bruce.ashfield@windriver.com>
+References: <cover.1397142033.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/6] linux-yocto/3.4/3.10/3.14: updates
+Subject: [PATCH 3/6] linux-yocto/3.10: intel-common: Add preempt-rt ktype targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 15:12:52 -0000
+X-List-Received-Date: Thu, 10 Apr 2014 15:12:53 -0000
 Content-Type: text/plain
 
-Richard,
+Updating the meta SRCREV to incorporate the intel common preempt-rt kernel
+support.
 
-While we are working throught he -rc releases, I've been sitting
-on korg -stable updates and as many changes I can .. since I know we
-don't want any destabilization.
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-What I've collected here is pretty much the minimum set of updates
-that I could gather. 
-
-They are config udpates that won't globally impact BSPs, or are 
--stable updates that contain important fixes for booting a few boards.
-Everything else, I have queued for post 1.6.
-
-Cheers,
-
-Bruce
-
-The following changes since commit db80f796e78746014a0f9497638e5c6fd2953ef0:
-
-  README.hardware: update with Texas Instruments Beaglebone instructions (2014-04-10 10:13:55 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (6):
-  linux-yocto/3.10: v3.10.35 and emenlow boot fixes
-  linux-yocto/3.4: update to v3.4.85
-  linux-yocto/3.10: intel-common: Add preempt-rt ktype targets
-  linux-yocto/3.14: intel configuration fixes
-  linux-yocto/3.14: beagleboard black: USB, DRM config tweaks
-  linux-yocto/3.10: intel BSP configuration updates
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb  |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       | 16 ++++++++--------
- 8 files changed, 33 insertions(+), 33 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+index 98bf996a7092..5cabb5ad007e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+@@ -5,7 +5,7 @@ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+ 
+ SRCREV_machine ?= "d1e73a1e09f9641c44e7d713d1a6b5b088411459"
+ SRCREV_machine_qemuppc ?= "9a34d9c957e69f28e89e879d9dd6e8fe5c7270c5"
+-SRCREV_meta ?= "b6e58b33dd427fe471f8827c83e311acdf4558a4"
++SRCREV_meta ?= "5824403ba2b877eca33969425ac1ac5dbeb72720"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+index 9e5c070c106d..7eacfc0f258a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+@@ -10,7 +10,7 @@ LINUX_VERSION ?= "3.10.35"
+ KMETA = "meta"
+ 
+ SRCREV_machine ?= "cee957655fe67826b2e827e2db41f156fa8f0cc4"
+-SRCREV_meta ?= "b6e58b33dd427fe471f8827c83e311acdf4558a4"
++SRCREV_meta ?= "5824403ba2b877eca33969425ac1ac5dbeb72720"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+index f275693ae4ed..38bba6815b84 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+@@ -18,7 +18,7 @@ SRCREV_machine_qemux86 ?= "cee957655fe67826b2e827e2db41f156fa8f0cc4"
+ SRCREV_machine_qemux86-64 ?= "cee957655fe67826b2e827e2db41f156fa8f0cc4"
+ SRCREV_machine_qemumips64 ?= "a1491c3b367a75c7003b2fb58706e3631413b337"
+ SRCREV_machine ?= "cee957655fe67826b2e827e2db41f156fa8f0cc4"
+-SRCREV_meta ?= "b6e58b33dd427fe471f8827c83e311acdf4558a4"
++SRCREV_meta ?= "5824403ba2b877eca33969425ac1ac5dbeb72720"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
 -- 
 1.8.1.2
 
