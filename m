@@ -1,28 +1,27 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43E3965E7B
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 0337E65E78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 13:23:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3ADMwo0019594
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 10 Apr 2014 06:22:59 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Thu, 10 Apr 2014 06:22:58 -0700
-Message-ID: <53469B2C.5050407@windriver.com>
-Date: Thu, 10 Apr 2014 09:22:52 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Thu, 10 Apr 2014 14:45:41 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,834,1389744000"; d="scan'208";a="66904947"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 10 Apr 2014 15:45:41 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>)
+	id 1WYGEW-0008ED-Qz; Thu, 10 Apr 2014 15:45:40 +0100
+Date: Thu, 10 Apr 2014 15:45:40 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Chris Larson <clarson@kergoth.com>
+Message-ID: <20140410144540.GA30915@mcrowe.com>
+References: <1396965083-15863-1-git-send-email-mac@mcrowe.com>
+	<1396965083-15863-2-git-send-email-mac@mcrowe.com>
+	<CABcZANnp_AN2Tjnsc=UGougBJ511cy+K52d++h6Y12nts0vBCw@mail.gmail.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+In-Reply-To: <CABcZANnp_AN2Tjnsc=UGougBJ511cy+K52d++h6Y12nts0vBCw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1397120750.24597.238.camel@ted>
-In-Reply-To: <1397120750.24597.238.camel@ted>
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: Re: [PATCH] perf: Fix sysroot option to CC handling
+Subject: Re: [PATCH 2/2] cmake: Avoid accidentally including libacl.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 13:23:03 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Apr 2014 14:45:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 14-04-10 05:05 AM, Richard Purdie wrote:
-> If you build perf in tree /xxx/treea, then cleansstate perf and build it
-> in /xxx/treeb having deleted treea, the build will fail, unable to find libc.
->
-> The problem is that the --sysroot option passed in through CC is missing.
-> This works fine if the default sysroot is ok, if it isn't, things will fail.
-> In 1.7 we'll start poisoning the default sysroot in gcc to catch this kind of
-> issue however that doesn't fix the problem with perf.
->
-> The problem is that various Makefiles set CC = $(CROSS_COMPILE)gcc. The
-> easist fix for now is to sed out the problematic Makefile lines. Its worth
-> noting the tools/lib/traceevent Makefile has a much more funky way of setting
-> CC which works for us and may be the way we need to fix the other Makefiles
-> upstream.
->
-> This fixes build failures we're occasionally seen on the autobuilders.
+On Tuesday 08 April 2014 at 09:37:32 -0700, Chris Larson wrote:
+> On Tue, Apr 8, 2014 at 6:51 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> 
+> > The cmake recipe doesn't depend on libacl yet cmake will detect libacl.h
+> > and use it by default. This risks build failures if libacl.h is unstaged
+> > during the build and it also means that the build cmake will sometimes
+> > support ACLs and sometimes not.
+> >
+> 
+> Is this not also a concern for the non-native recipe? And wouldn't it be
+> better yet to use PACKAGECONFIG, rather than hardcoding the disable of acl
+> support?
 
-I've bounced back and forth a few times with the way that CC is assigned
-in the perf Makefiles versus it being taken from our environment
-variables .. and of course the flags that are passed to gcc (as you well 
-know).
+libacl is used by cmake's internal libarchive implementation. The
+cmake-native recipe makes use of that but the non-native cmake recipe
+depends on the real libarchive so cmake doesn't use libacl itself.
 
-This looks simple enough and it'll work. The alternatives wouldn't have
-been doable with replacements .. and hence we'd only be able to patch
-and fix linux-yocto out of the box. So not a good idea.
+If DISTRO_FEATURES makes sense for native packages then I can try and work
+out how to use PACKAGECONFIG for this.
 
-We'll have to take the discussion to lkml to get this fixed in tree, but
-this wouldn't be the first time :)
+It looks like the cmake-native not setting the CMAKE_USE_SYSTEM_LIBRARIES
+option stops cmake searching around for libarchive, curl, etc. and causing
+problems with those libraries too.
 
-Tomz: did you want to try that ? Nothing immediate, but I wouldn't want
-it to fall completely off the radar.
+I'm afraid that I know very little about cmake - I was just trying to fix
+some build problems we were seeing with it. Someone with more cmake
+knowledge may well know of a better way to solve this.
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Thanks.
 
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 9dfccdf..ef21b6c 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -133,6 +133,18 @@ do_configure_prepend () {
->       if [ -e "${S}/tools/perf/config/Makefile" ]; then
->           sed -i 's,libdir = $(prefix)/$(lib),libdir = $(prefix)/${baselib},' ${S}/tools/perf/config/Makefile
->       fi
-> +    # We need to ensure the --sysroot option in CC is preserved
-> +    if [ -e "${S}/tools/perf/Makefile.perf" ]; then
-> +        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
-> +        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/perf/Makefile.perf
-> +    fi
-> +    if [ -e "${S}/tools/lib/api/Makefile" ]; then
-> +        sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/lib/api/Makefile
-> +        sed -i 's,AR = $(CROSS_COMPILE)ar,#AR,' ${S}/tools/lib/api/Makefile
-> +    fi
-> +    if [ -e "${S}/tools/perf/config/feature-checks/Makefile" ]; then
-> +        sed -i 's,CC := $(CROSS_COMPILE)gcc -MD,CC += -MD,' ${S}/tools/perf/config/feature-checks/Makefile
-> +    fi
->   }
->
->   python do_package_prepend() {
->
->
-
+Mike.
 
