@@ -1,31 +1,24 @@
-Return-Path: <sanjay_dorairaj@cable.comcast.com>
-Received: from cable.comcast.com (copdcavout01.cable.comcast.com
-	[76.96.32.253])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BB8565E10
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A30865E2A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Apr 2014 19:35:34 +0000 (UTC)
-Received: from ([24.40.56.115])
-	by copdcavout01.cable.comcast.com with ESMTP  id C7WM3M1.125259929;
-	Wed, 09 Apr 2014 13:35:31 -0600
-Received: from PACDCEXMB12.cable.comcast.com ([169.254.6.71]) by
-	PACDCEXHUB02.cable.comcast.com ([fe80::2816:661:c294:c863%16]) with
-	mapi id 14.03.0158.001; Wed, 9 Apr 2014 15:35:31 -0400
-From: "Dorairaj, Sanjay" <Sanjay_Dorairaj@cable.comcast.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: qwebsockets implementation in OE
-Thread-Index: AQHPVCreJTRnNLSVLkOzy4qPaCO7Sw==
-Date: Wed, 9 Apr 2014 19:35:31 +0000
-Message-ID: <CF6AEECF.5CE78%Sanjay_Dorairaj@cable.comcast.com>
-In-Reply-To: <CAMKF1so-wo3wsD73dfbUEXYpCEMTxXgPBzqiKucCMVDYnFu+Sw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.3.4.130416
-x-originating-ip: [68.87.16.249]
+	Thu, 10 Apr 2014 01:29:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3A1TcpC027541
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Apr 2014 18:29:40 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 9 Apr 2014 18:29:38 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Apr 2014 09:29:36 +0800
+Message-ID: <cover.1397093236.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Cc: "Ra, Ridish" <RIDISH.RA@LNTTECHSERVICES.COM>
-Subject: qwebsockets implementation in OE
+Subject: [PATCH V2 0/1] kernelshark/trace-cmd: fix syntax error of shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Apr 2014 19:35:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <801C5B99D0E76846889D007EFBD66952@cable.comcast.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 10 Apr 2014 01:29:43 -0000
+Content-Type: text/plain
 
-Hi,
+Changes since V1:
+Remove Upstream-Status, it's a general problem.
 
-Does anyone know if OE supports qtwebsockets?
+The following changes since commit a5775abb1951ec6cdc7afacd1ae87189e398cff8:
 
-Thanks,
+  bitbake: user-manual-metadata.xml: Added new section on mapping functions. (2014-04-02 14:15:35 +0100)
 
-Sanjay Dorairaj
-Comcast Silicon Valley Innovation Center
-1050 Enterprise Way, Suite 100
-Sunnyvale, CA 94089
-Desk: (408)900-8737 Cell:(215)900-2349
-Skype: dorairajsanjay
+are available in the git repository at:
 
->
+  git://git.pokylinux.org/poky-contrib chonglu/kernelshark
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/kernelshark
+
+Chong Lu (1):
+  kernelshark/trace-cmd: fix syntax error of shell
+
+ meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |  3 ++-
+ .../kernelshark-fix-syntax-error-of-shell.patch    | 28 ++++++++++++++++++++++
+ .../trace-cmd-fix-syntax-error-of-shell.patch      | 28 ++++++++++++++++++++++
+ meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |  1 +
+ 4 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
+ create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
+
+-- 
+1.8.1.2
 
 
