@@ -1,27 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 574076059B
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f52.google.com (mail-pb0-f52.google.com
+	[209.85.160.52])
+	by mail.openembedded.org (Postfix) with ESMTP id DCEF860173
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Apr 2014 02:34:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3A2YdNv002666
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Apr 2014 19:34:39 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 9 Apr 2014 19:34:39 -0700
-Message-ID: <5346033D.7070107@windriver.com>
-Date: Thu, 10 Apr 2014 10:34:37 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1396633542.git.paul.eggleton@linux.intel.com>
-Subject: Re: [dora][PATCH 0/4] Fixes backported from master
+	Thu, 10 Apr 2014 08:17:38 +0000 (UTC)
+Received: by mail-pb0-f52.google.com with SMTP id rr13so3688268pbb.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Apr 2014 01:17:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=JwVEXRs2+Z5C4frAuVvuyRET2h7Uc3vQvrK2y/UTu8Y=;
+	b=ZPRFuMW3QZTaQBb+3mKocz9UL/jBM5BSj6a3h9iQg2xdIAljxmKrbfvB/FXBPVqifQ
+	4OMnJ3w2Vdt3nCYl63vEA7uGJv1gewStcvwL4re8O46Esm4iIOltDucV0VjO+5K7YzM1
+	jd/XMjX5amAYa67DiLe2epSh6jJsonSdeUM5hbPgGhoP7aifkCwOdI/DPxkmjtxiAH/P
+	x1amh3K1L9rtdjKVAAJR9Tex0yeVyy4GdaCnov3vcTliVSwZPhiH3RmC//uZyvfTTdY4
+	YG8kAkYSRwV/nsIZf6rEzQb+Mfr9Cm5Wno+JT3Pk/GCPUYry6vpb3Y0nLNokfGYDA6Vt
+	DrLg==
+X-Received: by 10.66.241.66 with SMTP id wg2mr18048752pac.132.1397117858950;
+	Thu, 10 Apr 2014 01:17:38 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id ja8sm7431798pbd.3.2014.04.10.01.17.37
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Apr 2014 01:17:38 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Apr 2014 18:24:19 +1000
+Message-Id: <1397118259-4086-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] image.bbclass: improve sed expressions for ssh_allow_empty_password()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Apr 2014 02:34:39 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Apr 2014 08:17:39 -0000
 
+The sed expression was also replacing documentation text containing
+PermitRootLogin in the line so "PermitRootLogin yes" was specified
+twice.
 
-Reviewed and Tested by Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/image.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-// Robert
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 32df01d..79de5a2 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -285,8 +285,8 @@ zap_empty_root_password () {
+ # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
+ ssh_allow_empty_password () {
+ 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i 's#.*PermitRootLogin.*#PermitRootLogin yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+-		sed -i 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+ 	fi
+ 
+ 	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+-- 
+1.9.1
 
-
-On 04/05/2014 01:46 AM, Paul Eggleton wrote:
-> The following changes since commit 590c2135858bb5d0cfc375c0d82ca610550ccd4a:
->
->    Revert "buildhistory_analysis: fix error when comparing image contents" (2014-04-04 16:16:39 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib paule/dora-next
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dora-next
->
-> Paul Eggleton (2):
->    classes/kernel: move module postinst commands to kernel-base
->    classes/image: ignore modules.* changing during multilib image
->      construction
->
-> Richard Purdie (2):
->    sstatesig.py: Fix image regeneration issue
->    sstatesig: Anchor inherits class tests
->
->   meta/classes/image.bbclass  | 2 +-
->   meta/classes/kernel.bbclass | 7 +++++--
->   meta/lib/oe/sstatesig.py    | 6 ++++--
->   3 files changed, 10 insertions(+), 5 deletions(-)
->
 
