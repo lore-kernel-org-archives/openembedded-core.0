@@ -1,33 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A81F865E2F
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CE5365EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 15:07:32 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id c13so4330413eek.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 08:07:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=g6x9dNwsqp0sp43HNS0Rrp1ahST27tcNL6uldZI1GLM=;
-	b=nAhR+MzZs9UBktmt3GnRdM6xrNoIOoZ5fFC1awc+o9wVbyhM0RaUnq4zuAJWjc05Jd
-	tF3NqSZvHNkp+MMfCKtBuIiYse7ZaiZPo4/3ItzfDbSiIlvTpp6shGCdretDjRrqJcAy
-	VPN8fz7aYC8YWgATnjz7qF8aBy0b5cAlAAmOqXWZa9ayRdSlSkEzMsLXL+z2GSrj4+l+
-	6xI0ZkwnqprikbWT9RLHqs7oe+MoTQaVpdsIfhGAwhFJZ+/MJ7YRNFFLQDfAUqdDdLJz
-	T14gZsgLhdKNxtU9RYtauRyCKyBb4TtmRTh09tKLf5YAtBNovsVeY/67zXPYZAkINXy2
-	Fl8g==
-X-Received: by 10.15.73.134 with SMTP id h6mr29514055eey.3.1397228852875;
-	Fri, 11 Apr 2014 08:07:32 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	48sm18248189eei.24.2014.04.11.08.07.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Apr 2014 08:07:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 11 Apr 2014 15:54:54 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Apr 2014 08:50:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="491418922"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 11 Apr 2014 08:54:48 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.160])
+	by linux.intel.com (Postfix) with ESMTP id 186AB6A4083;
+	Fri, 11 Apr 2014 08:54:30 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2014 17:07:39 +0200
-Message-Id: <1397228859-29176-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] icecc: don't create unnecessary 'ice' dirs in sysroots when disabled
+Date: Fri, 11 Apr 2014 18:54:55 +0300
+Message-Id: <1397231695-19060-2-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] scripts/send-error-report: simple hack to use proxy from the enviroment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,72 +30,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 15:07:35 -0000
+X-List-Received-Date: Fri, 11 Apr 2014 15:54:58 -0000
 
-* parsing ICE_PATH="${@icc_path(bb, d)}" causes "ice" directories
-  to be created in every sysroot, that could be a bit confusing for
-  people who inherit icecc.bbclass, but disabled it
-* shorten ICECC_VERSION="${@icc_version(bb, d)}" path a bit
-  by returning sooner when disabled
-* remove ICECC_PATH and ICECC_ENV_EXEC from signatures, we assume that
-  using icecc doesn't influence the output, so it shouldn't matter when
-  user supplies own version of icecc or env script
-* always compare ICECC_DISABLED with "1", boolean typed_value isn't used
-  because documentation already mentions using empty value to keep icecc
-  enabled and that's not valid boolean value when oe.data.typed_value is
-  used:
-  ERROR: ICECC_DISABLED: Invalid boolean value ''
+People behind a proxy couldn't send an error report to an upstream server,
+this should fix the issue if they use a proxy that doesn't require authentication,
+and it's correctly exported in the enviroment.
+There are probbaly better ways to fix this (urllib2, proxy connect,
+a command line option for proxy) but those require more changes than
+I feel confortable doing now.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/classes/icecc.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ scripts/send-error-report | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 5c9e66c..3ec8c06 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -28,7 +28,7 @@
- #Error checking is kept to minimum so double check any parameters you pass to the class
- ###########################################################################################
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index 3734b61..0bce8b6 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -8,6 +8,24 @@
  
--BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL ICECC_USER_CLASS_BL ICECC_USER_PACKAGE_WL"
-+BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL ICECC_USER_CLASS_BL ICECC_USER_PACKAGE_WL ICECC_PATH ICECC_ENV_EXEC"
  
- ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
- 
-@@ -148,6 +148,10 @@ def icc_is_native(bb, d):
- # Don't pollute allarch signatures with TARGET_FPU
- icc_version[vardepsexclude] += "TARGET_FPU"
- def icc_version(bb, d):
-+    if d.getVar('ICECC_DISABLED') == "1":
-+        # don't even try it, when explicitly disabled
-+        return ""
+ import httplib, urllib, os, sys, json
++from urllib2 import _parse_proxy as parseproxy
 +
-     if use_icc(bb, d) == "no":
-         return ""
- 
-@@ -175,6 +179,10 @@ def icc_version(bb, d):
-     return tar_file
- 
- def icc_path(bb,d):
-+    if d.getVar('ICECC_DISABLED') == "1":
-+        # don't create unnecessary directories when icecc is disabled
-+        return
 +
-     if icc_is_kernel(bb, d):
-         return create_path( [get_cross_kernel_cc(bb,d), ], bb, d)
++def handle_connection(server, data):
++        params = urllib.urlencode({'data': data})
++        headers = {"Content-type": "application/json"}
++
++        if os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY"):
++                proxy = parseproxy(os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY"))
++                if proxy[1] or proxy[2]:
++                        raise Exception("http proxies that require authentication are not supported for now.")
++                conn = httplib.HTTPConnection(proxy[3])
++                conn.request("POST", "http://%s/ClientPost/" % server, params, headers)
++        else:
++                conn = httplib.HTTPConnection(server)
++                conn.request("POST", "/ClientPost/", params, headers)
++
++        return conn
  
-@@ -238,7 +246,7 @@ def set_icecc_env():
-     return
  
- set_icecc_env() {
--    if [ "x${ICECC_DISABLED}" != "x" ]
-+    if [ "${ICECC_DISABLED}" = "1" ]
-     then
-         return
-     fi
+ def sendData(json_file, server):
+@@ -45,10 +63,7 @@ def sendData(json_file, server):
+             return
+ 
+         try:
+-            params = urllib.urlencode({'data': data})
+-            headers = {"Content-type": "application/json"}
+-            conn = httplib.HTTPConnection(server)
+-            conn.request("POST", "/ClientPost/", params, headers)
++            conn = handle_connection(server, data)
+             response = conn.getresponse()
+             print response.status, response.reason
+             res = response.read()
+@@ -59,8 +74,8 @@ def sendData(json_file, server):
+                 with open("%s.response.html" % json_file, "w") as f:
+                     f.write(res)
+             conn.close()
+-        except:
+-                print("Server connection failed")
++        except Exception as e:
++                print("Server connection failed: %s" % e)
+ 
+     else:
+         print("No data file found.")
 -- 
-1.9.1
+1.9.0
 
 
