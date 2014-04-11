@@ -1,21 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CFCE765EB3
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B04865E43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 12:31:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Apr 2014 05:31:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="518909038"
-Received: from pmeel-ivm.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.171])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2014 05:31:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2014 13:31:10 +0100
-Message-Id: <1397219470-24274-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [dora][PATCH] openssl: bump PR
+	Fri, 11 Apr 2014 13:18:57 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id k14so5345462wgh.23
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Apr 2014 06:18:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=/9lgM2ZVkDuBquJZCHXnTNhgfqNIq80Lwgt2qdXQoTM=;
+	b=Xzcq4j+zTpIqwW8OCi6z7im3GeDTueZ4LGVZ/gS287BJuJeoFhuDy8FKGju7hRNuEv
+	Q9MjXmJt1oqtpM8maAZXd4O1S3e6WULuuzE6/ykacSqWHFx4t88emZ1JqUvdwUbDKUq8
+	3QYgoh8mnzeziQ0SH3lPuhhyaTFRbVhKaRIjIENKe6Hjbueo6VDJUiWx+njtWYTBelTz
+	/o6BM90SE07cCdqUeEZPv9/OoBtm4fjchJS4L+sUaWM+BUQK96WOmywjIV6BHFVRZlGj
+	cdyi1ylennRAxsfk9hnVptevSur7pIMJXncEnqZwEkxIgIv2kEw+Co+nqDD+RTYUyV/t
+	eqNA==
+X-Gm-Message-State: ALoCoQmVc1a7zjYrGMqwOGoMQqdgQupWrXWMwvasNZkxOtLtjhqL7mRZ5rOXU1//CkJwmthjXNVe
+X-Received: by 10.180.11.36 with SMTP id n4mr3564785wib.4.1397222337936;
+	Fri, 11 Apr 2014 06:18:57 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id
+	cl9sm11279548wjc.25.2014.04.11.06.18.56 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 11 Apr 2014 06:18:56 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <dc876f2fd4fb312364f86f07fd1bd9267bca973b.1395887206.git.Qi.Chen@windriver.com>
+Date: Fri, 11 Apr 2014 15:18:55 +0200
+Message-Id: <5B1F98BC-E5AF-44D5-A6F7-760D05CC98C9@dominion.thruhere.net>
+References: <cover.1395887206.git.Qi.Chen@windriver.com>
+	<dc876f2fd4fb312364f86f07fd1bd9267bca973b.1395887206.git.Qi.Chen@windriver.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.bbclass: replace rootfs with /dev/root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,32 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 12:31:15 -0000
+X-List-Received-Date: Fri, 11 Apr 2014 13:18:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-We don't normally do this, but with the recent CVE fixes (most
-importantly the one for the serious CVE-2014-0160 vulnerability) I am
-bumping PR explicitly to make it a bit more obvious that the patch has
-been applied.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-connectivity/openssl/openssl_1.0.1e.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Op 27 mrt. 2014, om 03:29 heeft Chen Qi <Qi.Chen@windriver.com> het =
+volgende geschreven:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index 949f3a1..bfdb25e8 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
- 
- CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
- 
--- 
-1.9.0
+> Replace 'rootfs' with '/dev/root' in read_only_rootfs_hook function
+> to match the latest change in fstab file from the base-files recipe.
+>=20
+> The related commit is as follows.
+>=20
+> commit e8bc7a136a81a0d8df2d32dfba0920c1b2835141
+>    base-files: use /dev/root in /etc/fstab for systemd support
 
+That commit doesn't exist in OE-core, I think you mean =
+c509f948d9c575c45af8c5ed1cb1692c0ca5dade
+
+This change went in already, but with a broken commit message :(=
 
