@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 7009365DDE
+	by mail.openembedded.org (Postfix) with ESMTP id E392765DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 16:40:37 +0000 (UTC)
+	Fri, 11 Apr 2014 16:40:38 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Apr 2014 09:40:38 -0700
+	by azsmga101.ch.intel.com with ESMTP; 11 Apr 2014 09:40:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="417873037"
+X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="417873051"
 Received: from pmeel-ivm.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.171])
-	by azsmga001.ch.intel.com with ESMTP; 11 Apr 2014 09:40:37 -0700
+	by azsmga001.ch.intel.com with ESMTP; 11 Apr 2014 09:40:38 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2014 17:40:31 +0100
-Message-Id: <cover.1397234393.git.paul.eggleton@linux.intel.com>
+Date: Fri, 11 Apr 2014 17:40:32 +0100
+Message-Id: <b0b7b081006b8cbac0aebff5af7bb88d7a4088c9.1397234393.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
-Subject: [PATCH 0/1] Fix for failed builds when using Toaster
+In-Reply-To: <cover.1397234393.git.paul.eggleton@linux.intel.com>
+References: <cover.1397234393.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1397234393.git.paul.eggleton@linux.intel.com>
+References: <cover.1397234393.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] toaster.bbclass: do not fail on non-existent files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,23 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 16:40:38 -0000
+X-List-Received-Date: Fri, 11 Apr 2014 16:40:39 -0000
 
-The following changes since commit 20625df0f88b1948bfc05be0d2cbdaa201c3b2f0:
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-  linux-yocto/3.10: intel BSP configuration updates (2014-04-10 17:33:54 +0100)
+Toaster may look up inexistent file paths in the build history
+for packages that have been referenced but not built.
 
-are available in the git repository at:
+This triggers a failure, and this patch recovers by deleting
+the reference to the non-built packages.
 
-  git://git.openembedded.org/openembedded-core-contrib paule/toaster-pkgdata
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/toaster-pkgdata
+[YOCTO #6063]
 
-Alexandru DAMIAN (1):
-  toaster.bbclass: do not fail on non-existent files
-
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  meta/classes/toaster.bbclass | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index cab5966..15cfbd8 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -273,7 +273,15 @@ python toaster_buildhistory_dump() {
+ 
+             for pname in images[target]:
+                 if not pname in allpkgs:
+-                    allpkgs[pname] = _toaster_load_pkgdatafile("%s/runtime-reverse/" % pkgdata_dir, pname)
++                    try:
++                        pkgdata = _toaster_load_pkgdatafile("%s/runtime-reverse/" % pkgdata_dir, pname)
++                    except IOError as err:
++                        if err.errno == 2:
++                            # We expect this e.g. for RRECOMMENDS that are unsatisfied at runtime
++                            continue
++                        else:
++                            raise
++                    allpkgs[pname] = pkgdata
+ 
+ 
+     data = { 'pkgdata' : allpkgs, 'imgdata' : images }
 -- 
 1.9.0
 
