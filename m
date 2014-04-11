@@ -1,23 +1,21 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0204965E07
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 55FB965EBE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 11:04:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Apr 2014 03:59:47 -0700
+	Fri, 11 Apr 2014 12:30:02 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 11 Apr 2014 05:30:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,841,1389772800"; d="scan'208";a="519081327"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2014 04:04:32 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.160])
-	by linux.intel.com (Postfix) with ESMTP id DE1676A4087;
-	Fri, 11 Apr 2014 04:04:14 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,841,1389772800"; d="scan'208";a="417771373"
+Received: from pmeel-ivm.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.171])
+	by azsmga001.ch.intel.com with ESMTP; 11 Apr 2014 05:30:01 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2014 14:04:49 +0300
-Message-Id: <1397214289-16423-1-git-send-email-stefanx.stanacar@intel.com>
+Date: Fri, 11 Apr 2014 13:29:51 +0100
+Message-Id: <1397219391-23642-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] selftest: DiskMonTest: use a high value for free space
+Subject: [dylan][PATCH] openssl: bump PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 11:04:32 -0000
+X-List-Received-Date: Fri, 11 Apr 2014 12:30:03 -0000
 
-Using the free space of the host works when
-oe-selftest is the only build running, but if something else
-on the host remove things this will fail (as seen on AB).
-Using an absurdly high value should fix this.
+We don't normally do this, but with the recent CVE fixes (most
+importantly the one for the serious CVE-2014-0160 vulnerability) I am
+bumping PR explicitly to make it a bit more obvious that the patch has
+been applied.
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/buildoptions.py | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ meta/recipes-connectivity/openssl/openssl_1.0.1e.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index 8ff40ba..27fc452 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -51,17 +51,15 @@ class ImageOptionsTests(oeSelfTest):
- class DiskMonTest(oeSelfTest):
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index 485112c..103cb48 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
  
-     def test_stoptask_behavior(self):
--        result = runCmd("df -Pk %s" % os.getcwd())
--        size = result.output.split("\n")[1].split()[3]
--        self.write_config('BB_DISKMON_DIRS = "STOPTASKS,${TMPDIR},%sK,4510K"' % size)
-+        self.write_config('BB_DISKMON_DIRS = "STOPTASKS,${TMPDIR},100000G,100K"')
-         res = bitbake("m4", ignore_status = True)
-         self.assertTrue('ERROR: No new tasks can be executed since the disk space monitor action is "STOPTASKS"!' in res.output)
-         self.assertEqual(res.status, 1)
--        self.write_config('BB_DISKMON_DIRS = "ABORT,${TMPDIR},%sK,4510K"' % size)
-+        self.write_config('BB_DISKMON_DIRS = "ABORT,${TMPDIR},100000G,100K"')
-         res = bitbake("m4", ignore_status = True)
-         self.assertTrue('ERROR: Immediately abort since the disk space monitor action is "ABORT"!' in res.output)
-         self.assertEqual(res.status, 1)
--        self.write_config('BB_DISKMON_DIRS = "WARN,${TMPDIR},%sK,4510K"' % size)
-+        self.write_config('BB_DISKMON_DIRS = "WARN,${TMPDIR},100000G,100K"')
-         res = bitbake("m4")
-         self.assertTrue('WARNING: The free space' in res.output)
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
  
 -- 
 1.9.0
