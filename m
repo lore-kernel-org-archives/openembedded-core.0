@@ -1,23 +1,21 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 886BE65EF2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 7009365DDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 15:55:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 11 Apr 2014 08:55:10 -0700
+	Fri, 11 Apr 2014 16:40:37 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 11 Apr 2014 09:40:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="511542557"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Apr 2014 08:54:47 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.160])
-	by linux.intel.com (Postfix) with ESMTP id C32B26A4083;
-	Fri, 11 Apr 2014 08:54:29 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="417873037"
+Received: from pmeel-ivm.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.171])
+	by azsmga001.ch.intel.com with ESMTP; 11 Apr 2014 09:40:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2014 18:54:54 +0300
-Message-Id: <1397231695-19060-1-git-send-email-stefanx.stanacar@intel.com>
+Date: Fri, 11 Apr 2014 17:40:31 +0100
+Message-Id: <cover.1397234393.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] scripts/send-error-report: use the official server as the default
+Subject: [PATCH 0/1] Fix for failed builds when using Toaster
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,28 +28,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 15:55:10 -0000
+X-List-Received-Date: Fri, 11 Apr 2014 16:40:38 -0000
 
-Now that we have an YP instance of the error report web interface [1],
-that should be set as the default instead of localhost.
+The following changes since commit 20625df0f88b1948bfc05be0d2cbdaa201c3b2f0:
 
-[1] http://git.yoctoproject.org/cgit/cgit.cgi/error-report-web/
+  linux-yocto/3.10: intel BSP configuration updates (2014-04-10 17:33:54 +0100)
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- scripts/send-error-report | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/scripts/send-error-report b/scripts/send-error-report
-index 8eea3cf..3734b61 100755
---- a/scripts/send-error-report
-+++ b/scripts/send-error-report
-@@ -77,4 +77,4 @@ if __name__ == '__main__':
-     elif len(sys.argv) == 3:
-         sendData(sys.argv[1], sys.argv[2])
-     else:
--        sendData(sys.argv[1], "localhost:8000")
-+        sendData(sys.argv[1], "error-report-web.yoctoproject.org")
+  git://git.openembedded.org/openembedded-core-contrib paule/toaster-pkgdata
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/toaster-pkgdata
+
+Alexandru DAMIAN (1):
+  toaster.bbclass: do not fail on non-existent files
+
+ meta/classes/toaster.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
 -- 
 1.9.0
 
