@@ -1,36 +1,40 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EA6C565DD5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 17:16:03 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Apr 2014 10:16:04 -0700
+Return-Path: <darren.hart@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id F2FEF65DD5
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 11 Apr 2014 17:19:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Apr 2014 10:19:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="519038716"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2014 10:16:03 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 11 Apr 2014 18:16:02 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.26]) with mapi id
-	14.03.0123.003; Fri, 11 Apr 2014 18:16:02 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] scripts/send-error-report: simple hack to use proxy
-	from the enviroment
-Thread-Index: AQHPVZ5iZ9sOJpdz60eDwpG9ElA+jJsMl4OA
-Date: Fri, 11 Apr 2014 17:16:01 +0000
-Message-ID: <1397236581.17713.28.camel@firebird.rb.intel.com>
-References: <1397231695-19060-2-git-send-email-stefanx.stanacar@intel.com>
-In-Reply-To: <1397231695-19060-2-git-send-email-stefanx.stanacar@intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,842,1389772800"; d="scan'208";a="491460278"
+Received: from fmsmsx105.amr.corp.intel.com ([10.19.9.36])
+	by orsmga001.jf.intel.com with ESMTP; 11 Apr 2014 10:19:01 -0700
+Received: from fmsmsx152.amr.corp.intel.com (10.19.17.221) by
+	FMSMSX105.amr.corp.intel.com (10.19.9.36) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Fri, 11 Apr 2014 10:18:58 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.9]) by
+	fmsmsx152.amr.corp.intel.com ([169.254.6.229]) with mapi id
+	14.03.0123.003; Fri, 11 Apr 2014 10:18:58 -0700
+From: "Hart, Darren" <darren.hart@intel.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>, "Ashfield, Bruce (Wind River)"
+	<bruce.ashfield@windriver.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb: use machine
+	overrides
+Thread-Index: AQHPVad1D4gulqqWU0KLBbvIitT08JsMqZOA
+Date: Fri, 11 Apr 2014 17:18:57 +0000
+Message-ID: <CF6D724D.830D1%darren.hart@intel.com>
+References: <cover.1397235602.git.nitin.a.kamble@intel.com>
+	<f1c400fe717177e267c91a497143bc0267b5fe17.1397235602.git.nitin.a.kamble@intel.com>
+In-Reply-To: <f1c400fe717177e267c91a497143bc0267b5fe17.1397235602.git.nitin.a.kamble@intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.160]
+x-originating-ip: [10.7.196.58]
 MIME-Version: 1.0
-Subject: Re: [PATCH] scripts/send-error-report: simple hack to use proxy from the enviroment
+Subject: Re: [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +47,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 17:16:09 -0000
+X-List-Received-Date: Fri, 11 Apr 2014 17:19:22 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9B4804D1C7B9A443B9D051FCAFB8E716@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <48B864F367232A439537F1E314497C59@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-QWN0dWFsbHkgSSdsbCBzZW5kIHYyIHdoaWNoIHNob3VsZCB3b3JrIGZvciBIVFRQIEJhc2ljIEF1
-dGhlbnRpY2F0aW9uDQp0b28uDQoNCg0KT24gRnJpLCAyMDE0LTA0LTExIGF0IDE4OjU0ICswMzAw
-LCBTdGVmYW4gU3RhbmFjYXIgd3JvdGU6DQo+IFBlb3BsZSBiZWhpbmQgYSBwcm94eSBjb3VsZG4n
-dCBzZW5kIGFuIGVycm9yIHJlcG9ydCB0byBhbiB1cHN0cmVhbSBzZXJ2ZXIsDQo+IHRoaXMgc2hv
-dWxkIGZpeCB0aGUgaXNzdWUgaWYgdGhleSB1c2UgYSBwcm94eSB0aGF0IGRvZXNuJ3QgcmVxdWly
-ZSBhdXRoZW50aWNhdGlvbiwNCj4gYW5kIGl0J3MgY29ycmVjdGx5IGV4cG9ydGVkIGluIHRoZSBl
-bnZpcm9tZW50Lg0KPiBUaGVyZSBhcmUgcHJvYmJhbHkgYmV0dGVyIHdheXMgdG8gZml4IHRoaXMg
-KHVybGxpYjIsIHByb3h5IGNvbm5lY3QsDQo+IGEgY29tbWFuZCBsaW5lIG9wdGlvbiBmb3IgcHJv
-eHkpIGJ1dCB0aG9zZSByZXF1aXJlIG1vcmUgY2hhbmdlcyB0aGFuDQo+IEkgZmVlbCBjb25mb3J0
-YWJsZSBkb2luZyBub3cuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gU3RhbmFjYXIgPHN0
-ZWZhbnguc3RhbmFjYXJAaW50ZWwuY29tPg0KPiAtLS0NCj4gIHNjcmlwdHMvc2VuZC1lcnJvci1y
-ZXBvcnQgfCAyNyArKysrKysrKysrKysrKysrKysrKystLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2Vk
-LCAyMSBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL3Nj
-cmlwdHMvc2VuZC1lcnJvci1yZXBvcnQgYi9zY3JpcHRzL3NlbmQtZXJyb3ItcmVwb3J0DQo+IGlu
-ZGV4IDM3MzRiNjEuLjBiY2U4YjYgMTAwNzU1DQo+IC0tLSBhL3NjcmlwdHMvc2VuZC1lcnJvci1y
-ZXBvcnQNCj4gKysrIGIvc2NyaXB0cy9zZW5kLWVycm9yLXJlcG9ydA0KPiBAQCAtOCw2ICs4LDI0
-IEBADQo+ICANCj4gDQo+ICBpbXBvcnQgaHR0cGxpYiwgdXJsbGliLCBvcywgc3lzLCBqc29uDQo+
-ICtmcm9tIHVybGxpYjIgaW1wb3J0IF9wYXJzZV9wcm94eSBhcyBwYXJzZXByb3h5DQo+ICsNCj4g
-Kw0KPiArZGVmIGhhbmRsZV9jb25uZWN0aW9uKHNlcnZlciwgZGF0YSk6DQo+ICsgICAgICAgIHBh
-cmFtcyA9IHVybGxpYi51cmxlbmNvZGUoeydkYXRhJzogZGF0YX0pDQo+ICsgICAgICAgIGhlYWRl
-cnMgPSB7IkNvbnRlbnQtdHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIn0NCj4gKw0KPiArICAgICAg
-ICBpZiBvcy5lbnZpcm9uLmdldCgiaHR0cF9wcm94eSIpIG9yIG9zLmVudmlyb24uZ2V0KCJIVFRQ
-X1BST1hZIik6DQo+ICsgICAgICAgICAgICAgICAgcHJveHkgPSBwYXJzZXByb3h5KG9zLmVudmly
-b24uZ2V0KCJodHRwX3Byb3h5Iikgb3Igb3MuZW52aXJvbi5nZXQoIkhUVFBfUFJPWFkiKSkNCj4g
-KyAgICAgICAgICAgICAgICBpZiBwcm94eVsxXSBvciBwcm94eVsyXToNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgIHJhaXNlIEV4Y2VwdGlvbigiaHR0cCBwcm94aWVzIHRoYXQgcmVxdWlyZSBh
-dXRoZW50aWNhdGlvbiBhcmUgbm90IHN1cHBvcnRlZCBmb3Igbm93LiIpDQo+ICsgICAgICAgICAg
-ICAgICAgY29ubiA9IGh0dHBsaWIuSFRUUENvbm5lY3Rpb24ocHJveHlbM10pDQo+ICsgICAgICAg
-ICAgICAgICAgY29ubi5yZXF1ZXN0KCJQT1NUIiwgImh0dHA6Ly8lcy9DbGllbnRQb3N0LyIgJSBz
-ZXJ2ZXIsIHBhcmFtcywgaGVhZGVycykNCj4gKyAgICAgICAgZWxzZToNCj4gKyAgICAgICAgICAg
-ICAgICBjb25uID0gaHR0cGxpYi5IVFRQQ29ubmVjdGlvbihzZXJ2ZXIpDQo+ICsgICAgICAgICAg
-ICAgICAgY29ubi5yZXF1ZXN0KCJQT1NUIiwgIi9DbGllbnRQb3N0LyIsIHBhcmFtcywgaGVhZGVy
-cykNCj4gKw0KPiArICAgICAgICByZXR1cm4gY29ubg0KPiAgDQo+IA0KPiAgZGVmIHNlbmREYXRh
-KGpzb25fZmlsZSwgc2VydmVyKToNCj4gQEAgLTQ1LDEwICs2Myw3IEBAIGRlZiBzZW5kRGF0YShq
-c29uX2ZpbGUsIHNlcnZlcik6DQo+ICAgICAgICAgICAgICByZXR1cm4NCj4gIA0KPiAgICAgICAg
-ICB0cnk6DQo+IC0gICAgICAgICAgICBwYXJhbXMgPSB1cmxsaWIudXJsZW5jb2RlKHsnZGF0YSc6
-IGRhdGF9KQ0KPiAtICAgICAgICAgICAgaGVhZGVycyA9IHsiQ29udGVudC10eXBlIjogImFwcGxp
-Y2F0aW9uL2pzb24ifQ0KPiAtICAgICAgICAgICAgY29ubiA9IGh0dHBsaWIuSFRUUENvbm5lY3Rp
-b24oc2VydmVyKQ0KPiAtICAgICAgICAgICAgY29ubi5yZXF1ZXN0KCJQT1NUIiwgIi9DbGllbnRQ
-b3N0LyIsIHBhcmFtcywgaGVhZGVycykNCj4gKyAgICAgICAgICAgIGNvbm4gPSBoYW5kbGVfY29u
-bmVjdGlvbihzZXJ2ZXIsIGRhdGEpDQo+ICAgICAgICAgICAgICByZXNwb25zZSA9IGNvbm4uZ2V0
-cmVzcG9uc2UoKQ0KPiAgICAgICAgICAgICAgcHJpbnQgcmVzcG9uc2Uuc3RhdHVzLCByZXNwb25z
-ZS5yZWFzb24NCj4gICAgICAgICAgICAgIHJlcyA9IHJlc3BvbnNlLnJlYWQoKQ0KPiBAQCAtNTks
-OCArNzQsOCBAQCBkZWYgc2VuZERhdGEoanNvbl9maWxlLCBzZXJ2ZXIpOg0KPiAgICAgICAgICAg
-ICAgICAgIHdpdGggb3BlbigiJXMucmVzcG9uc2UuaHRtbCIgJSBqc29uX2ZpbGUsICJ3IikgYXMg
-ZjoNCj4gICAgICAgICAgICAgICAgICAgICAgZi53cml0ZShyZXMpDQo+ICAgICAgICAgICAgICBj
-b25uLmNsb3NlKCkNCj4gLSAgICAgICAgZXhjZXB0Og0KPiAtICAgICAgICAgICAgICAgIHByaW50
-KCJTZXJ2ZXIgY29ubmVjdGlvbiBmYWlsZWQiKQ0KPiArICAgICAgICBleGNlcHQgRXhjZXB0aW9u
-IGFzIGU6DQo+ICsgICAgICAgICAgICAgICAgcHJpbnQoIlNlcnZlciBjb25uZWN0aW9uIGZhaWxl
-ZDogJXMiICUgZSkNCj4gIA0KPiAgICAgIGVsc2U6DQo+ICAgICAgICAgIHByaW50KCJObyBkYXRh
-IGZpbGUgZm91bmQuIikNCg0K
+On 4/11/14, 10:05, "Kamble, Nitin A" <nitin.a.kamble@intel.com> wrote:
+
+>From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>
+>Use machine overrides for variables for this skeleton recipe so that
+>people following skeleton do it right at the beginning.
+>
+>The machine overrides for the variables reduces pollution of name space
+>and avoid unintentional influences on other layers.
+>
+>Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>---
+> meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 8 ++++----
+> 1 file changed, 4 insertions(+), 4 deletions(-)
+>
+>diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>index c329106..76457ca 100644
+>--- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>+++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>@@ -46,10 +46,10 @@ require recipes-kernel/linux/linux-yocto.inc
+>=20
+> # Override SRC_URI in a bbappend file to point at a different source
+> # tree if you do not want to build from Linus' tree.
+>-SRC_URI =3D=20
+>"git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol
+>=3Dgit;nocheckout=3D1;name=3Dmachine"
+>+SRC_URI_machine =3D
+>"git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol
+>=3Dgit;nocheckout=3D1;name=3Dmachine"
+>=20
+>-LINUX_VERSION ?=3D "3.4"
+>-LINUX_VERSION_EXTENSION ?=3D "-custom"
+>+LINUX_VERSION_machine ?=3D "3.4"
+>+LINUX_VERSION_EXTENSION_machine ?=3D "-custom"
+>=20
+> # Override SRCREV to point to a different commit in a bbappend file to
+> # build a different release of the Linux kernel.
+>@@ -61,4 +61,4 @@ PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>=20
+> # Override COMPATIBLE_MACHINE to include your machine in a bbappend
+> # file. Leaving it empty here ensures an early explicit build failure.
+>-COMPATIBLE_MACHINE =3D "(^$)"
+>+COMPATIBLE_MACHINE_machine =3D "(^$)"
+
+
+Might as well change this to:
+
+COMPATIBLE_MACHINE_machine =3D "machine"
+
+And then add a comment at the top to remind people to replace "machine"
+with their BSP name.
+
+--=20
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
+
+
 
