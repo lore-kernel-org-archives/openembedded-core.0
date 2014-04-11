@@ -1,40 +1,14 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 14D8E65EF0
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 18:16:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Apr 2014 11:16:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,843,1389772800"; d="scan'208";a="519284711"
-Received: from fmsmsx105.amr.corp.intel.com ([10.19.9.36])
-	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2014 11:16:24 -0700
-Received: from fmsmsx153.amr.corp.intel.com (10.19.17.7) by
-	FMSMSX105.amr.corp.intel.com (10.19.9.36) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 11 Apr 2014 11:16:23 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.9]) by
-	FMSMSX153.amr.corp.intel.com ([169.254.9.28]) with mapi id
-	14.03.0123.003; Fri, 11 Apr 2014 11:16:23 -0700
-From: "Hart, Darren" <darren.hart@intel.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>, "Ashfield, Bruce (Wind River)"
-	<bruce.ashfield@windriver.com>, "richard.purdie@linuxfoundation.org"
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [Patch v2 1/1] meta-skeleton: linux-yocto-custom.bb: use
-	machine overrides
-Thread-Index: AQHPVa8J0CT72A15cEO8OHKfWDYY/ZsMuZKA
-Date: Fri, 11 Apr 2014 18:16:22 +0000
-Message-ID: <CF6D8001.8317C%darren.hart@intel.com>
-References: <cover.1397238371.git.nitin.a.kamble@intel.com>
-	<12b191e0f58ed7954477dab64bb89d7e94b95039.1397238371.git.nitin.a.kamble@intel.com>
-In-Reply-To: <12b191e0f58ed7954477dab64bb89d7e94b95039.1397238371.git.nitin.a.kamble@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.196.58]
-MIME-Version: 1.0
-Subject: Re: [Patch v2 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
+Return-Path: <obi@opendreambox.org>
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CE1565D79
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Apr 2014 18:56:26 +0000 (UTC)
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Apr 2014 20:56:13 +0200
+Message-Id: <1397242573-12730-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] recipe_sanity.bbclass: avoid error when running 'bitbake -e'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +21,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 18:16:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D06ECC9A0926CD49BCD594E8D2909CF3@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 Apr 2014 18:56:27 -0000
 
-On 4/11/14, 10:59, "Kamble, Nitin A" <nitin.a.kamble@intel.com> wrote:
+Running 'bitbake -e' without further arguments causes a stack trace on stderr:
 
->From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
->Use machine overrides for variables for this skeleton kernel recipe
->so that people following skeleton do it right at the beginning.
->
->The machine overrides for the variables reduces  variable name-space
->pollution and avoids unintentional influences on other layers.
->
->Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+| ERROR: Command execution failed: Traceback (most recent call last):
+|   File "[...]/bitbake/lib/bb/command.py", line 99, in runAsyncCommand
+|     commandmethod(self.cmds_async, self, options)
+|   File "[...]/bitbake/lib/bb/command.py", line 405, in showEnvironment
+|     command.cooker.showEnvironment(bfile)
+|   File "[...]/bitbake/lib/bb/cooker.py", line 453, in showEnvironment
+|     logger.plain("\npython %s () {\n%s}\n", e, data.getVar(e, envdata, 1))
+|   File "[...]/bitbake/lib/bb/data.py", line 89, in getVar
+|     return d.getVar(var, exp)
+|   File "[...]/bitbake/lib/bb/data_smart.py", line 522, in getVar
+|     return self.getVarFlag(var, "_content", expand, noweakdefault)
+|   File "[...]/bitbake/lib/bb/data_smart.py", line 612, in getVarFlag
+|     value = self.expand(value, cachename)
+|   File "[...]/bitbake/lib/bb/data_smart.py", line 350, in expand
+|     return self.expandWithRefs(s, varname).value
+|   File "[...]/bitbake/lib/bb/data_smart.py", line 340, in expandWithRefs
+|     raise ExpansionError(varname, s, exc)
+| ExpansionError: Failure expanding variable can_delete_FILESPATH, expression was def can_delete_FILESPATH(cfgdata, d):
+|     expected = cfgdata.get("FILESPATH")
+|     #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', True).split(':') for p in d.getVar('FILESPATHPKG', True).split(':') for o in (d.getVar('OVERRIDES', True) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
+|     expectedpaths = d.expand(expected)
+|     unexpanded = d.getVar("FILESPATH", 0)
+|     filespath = d.getVar("FILESPATH", True).split(":")
+|     filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
+|     for fp in filespath:
+|         if not fp in expectedpaths:
+|             # __note("Path %s in FILESPATH not in the expected paths %s" %
+|             # (fp, expectedpaths), d)
+|             return False
+|     return expected != unexpanded
+|  which triggered exception AttributeError: 'NoneType' object has no attribute 'split'
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+Removing the commented second line in can_delete_FILESPATH() hides the error.
 
-Thanks Nitin,
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/classes/recipe_sanity.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
---=20
-Darren Hart					Open Source Technology Center
-darren.hart@intel.com				            Intel Corporation
-
+diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
+index 5dd4624..ee04e33 100644
+--- a/meta/classes/recipe_sanity.bbclass
++++ b/meta/classes/recipe_sanity.bbclass
+@@ -59,7 +59,6 @@ def can_use_autotools_base(cfgdata, d):
+ 
+ def can_delete_FILESPATH(cfgdata, d):
+     expected = cfgdata.get("FILESPATH")
+-    #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', True).split(':') for p in d.getVar('FILESPATHPKG', True).split(':') for o in (d.getVar('OVERRIDES', True) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
+     expectedpaths = d.expand(expected)
+     unexpanded = d.getVar("FILESPATH", 0)
+     filespath = d.getVar("FILESPATH", True).split(":")
+-- 
+1.8.3.2
 
 
