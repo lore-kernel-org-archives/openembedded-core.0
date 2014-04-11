@@ -1,41 +1,41 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B04865E43
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C9A465EAE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 13:18:57 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id k14so5345462wgh.23
+	Fri, 11 Apr 2014 13:56:02 +0000 (UTC)
+Received: by mail-yh0-f48.google.com with SMTP id z6so5306223yhz.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 06:18:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=/9lgM2ZVkDuBquJZCHXnTNhgfqNIq80Lwgt2qdXQoTM=;
-	b=Xzcq4j+zTpIqwW8OCi6z7im3GeDTueZ4LGVZ/gS287BJuJeoFhuDy8FKGju7hRNuEv
-	Q9MjXmJt1oqtpM8maAZXd4O1S3e6WULuuzE6/ykacSqWHFx4t88emZ1JqUvdwUbDKUq8
-	3QYgoh8mnzeziQ0SH3lPuhhyaTFRbVhKaRIjIENKe6Hjbueo6VDJUiWx+njtWYTBelTz
-	/o6BM90SE07cCdqUeEZPv9/OoBtm4fjchJS4L+sUaWM+BUQK96WOmywjIV6BHFVRZlGj
-	cdyi1ylennRAxsfk9hnVptevSur7pIMJXncEnqZwEkxIgIv2kEw+Co+nqDD+RTYUyV/t
-	eqNA==
-X-Gm-Message-State: ALoCoQmVc1a7zjYrGMqwOGoMQqdgQupWrXWMwvasNZkxOtLtjhqL7mRZ5rOXU1//CkJwmthjXNVe
-X-Received: by 10.180.11.36 with SMTP id n4mr3564785wib.4.1397222337936;
-	Fri, 11 Apr 2014 06:18:57 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id
-	cl9sm11279548wjc.25.2014.04.11.06.18.56 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 11 Apr 2014 06:18:56 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <dc876f2fd4fb312364f86f07fd1bd9267bca973b.1395887206.git.Qi.Chen@windriver.com>
-Date: Fri, 11 Apr 2014 15:18:55 +0200
-Message-Id: <5B1F98BC-E5AF-44D5-A6F7-760D05CC98C9@dominion.thruhere.net>
-References: <cover.1395887206.git.Qi.Chen@windriver.com>
-	<dc876f2fd4fb312364f86f07fd1bd9267bca973b.1395887206.git.Qi.Chen@windriver.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.1874)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: replace rootfs with /dev/root
+	Fri, 11 Apr 2014 06:56:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=D4hOeJEm7vm5SFN5JK1ig9TZ2qMtpSCYHWUOW9dL0CA=;
+	b=gOR24uT24dcpUycdVEvMeONVCbkg3DYOmlaXWE38TjfIOYf+M4YvJct4jn0qjs3hGJ
+	1BvR9pn4c6CKX7ceErguMtQgvPDRVEvQ5pIJ8GI2NIcj7Y+pTnrOkXnHR+TBLDvM/0nn
+	JybM2cse2Zcj7YR5+da6wrkNhGGprpb3CdMO/+LEd9URBL9tzPpI1pkmWBewsWIpzOs+
+	DP+e0Z/14UOPaiFMiTl4GJHkbBT+AHXh1+sZOd6scd1SSiJZC3K8NDENUKgUzeeTcQR2
+	Xt38WQt1lVswFYWASxBOEN2A7XukRMCkos67dC4uwATO1oxGtmJS8Wr4c2PLO9o0SKEI
+	cNDQ==
+MIME-Version: 1.0
+X-Received: by 10.236.63.103 with SMTP id z67mr32332029yhc.2.1397224562814;
+	Fri, 11 Apr 2014 06:56:02 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Fri, 11 Apr 2014 06:56:02 -0700 (PDT)
+In-Reply-To: <5344BADD.5090106@windriver.com>
+References: <CAP9ODKoLt=HMhiGQZmQhDUUFm-efPavZRftR7A8Wf7gECw+Amw@mail.gmail.com>
+	<533F8B7C.8010409@windriver.com> <5342BC44.2000708@intel.com>
+	<5344BADD.5090106@windriver.com>
+Date: Fri, 11 Apr 2014 10:56:02 -0300
+X-Google-Sender-Auth: IqWGSwEGhMYgsFvYlyFES198UOw
+Message-ID: <CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][regression] mesa failed to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,24 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 13:18:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 Apr 2014 13:56:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+Hello,
 
-Op 27 mrt. 2014, om 03:29 heeft Chen Qi <Qi.Chen@windriver.com> het =
-volgende geschreven:
+On Wed, Apr 9, 2014 at 12:13 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> On 04/07/2014 10:55 PM, Valentin Popa wrote:
+>> Indeed the build failure was introduced by that patch, which enters a
+>> logical
+>> conflict with the bbappend file for mesa.
+>> To remain compatible with the future releases I suggest to  not remove/add
+>> flags
+>> from/to EXTRA_OECONF explicitly, and make  use of what PACKAGECONFIG
+>> contains.
+>> The first part of the __anonymous function from the bbappend file can be
+>> simply
+>> replaced with:
+>>
+>> PACKAGECONFIG_remove = "egl"
+>>
+>> and the second part with:
+>>
+>> PROVIDES_remove = "virtual/libgles1 virtual/libgles2 virtual/egl"
+>> and
+>> PROVIDES_remove = "virtual/libgl" if mx6 is in SOC_FAMILY.
+>>
+>
+> Hi Otavio,
+>
+> Does Valentin's suggestions work for you, please?
 
-> Replace 'rootfs' with '/dev/root' in read_only_rootfs_hook function
-> to match the latest change in fstab file from the base-files recipe.
->=20
-> The related commit is as follows.
->=20
-> commit e8bc7a136a81a0d8df2d32dfba0920c1b2835141
->    base-files: use /dev/root in /etc/fstab for systemd support
+I am traveling and won't be able to test it.
 
-That commit doesn't exist in OE-core, I think you mean =
-c509f948d9c575c45af8c5ed1cb1692c0ca5dade
+However I am quite surprise this didn't come out /before/ when the
+dora updates were in test in AB since meta-fsl-arm is tested in AB
+too. We need to figure /why/ this broke and for now I think we ought
+to revert this dora patch.
 
-This change went in already, but with a broken commit message :(=
+This kind of change needs to be coordinated and raise a build break in
+an Yocto Project is unacceptable IMO.
+
+For me it is clear this didn't run in AB before merging. :(
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
