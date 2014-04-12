@@ -1,14 +1,31 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CE1565D79
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1447865EF0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Apr 2014 18:56:26 +0000 (UTC)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Apr 2014 20:56:13 +0200
-Message-Id: <1397242573-12730-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] recipe_sanity.bbclass: avoid error when running 'bitbake -e'
+	Sat, 12 Apr 2014 03:33:26 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3C3XOrj021903
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 11 Apr 2014 20:33:24 -0700 (PDT)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
+	Fri, 11 Apr 2014 20:33:24 -0700
+Message-ID: <5348B401.20908@windriver.com>
+Date: Sat, 12 Apr 2014 11:33:21 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <CAP9ODKoLt=HMhiGQZmQhDUUFm-efPavZRftR7A8Wf7gECw+Amw@mail.gmail.com>	<533F8B7C.8010409@windriver.com>	<5342BC44.2000708@intel.com>	<5344BADD.5090106@windriver.com>
+	<CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
+In-Reply-To: <CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][regression] mesa failed to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -21,62 +38,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Apr 2014 18:56:27 -0000
+X-List-Received-Date: Sat, 12 Apr 2014 03:33:28 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Running 'bitbake -e' without further arguments causes a stack trace on stderr:
 
-| ERROR: Command execution failed: Traceback (most recent call last):
-|   File "[...]/bitbake/lib/bb/command.py", line 99, in runAsyncCommand
-|     commandmethod(self.cmds_async, self, options)
-|   File "[...]/bitbake/lib/bb/command.py", line 405, in showEnvironment
-|     command.cooker.showEnvironment(bfile)
-|   File "[...]/bitbake/lib/bb/cooker.py", line 453, in showEnvironment
-|     logger.plain("\npython %s () {\n%s}\n", e, data.getVar(e, envdata, 1))
-|   File "[...]/bitbake/lib/bb/data.py", line 89, in getVar
-|     return d.getVar(var, exp)
-|   File "[...]/bitbake/lib/bb/data_smart.py", line 522, in getVar
-|     return self.getVarFlag(var, "_content", expand, noweakdefault)
-|   File "[...]/bitbake/lib/bb/data_smart.py", line 612, in getVarFlag
-|     value = self.expand(value, cachename)
-|   File "[...]/bitbake/lib/bb/data_smart.py", line 350, in expand
-|     return self.expandWithRefs(s, varname).value
-|   File "[...]/bitbake/lib/bb/data_smart.py", line 340, in expandWithRefs
-|     raise ExpansionError(varname, s, exc)
-| ExpansionError: Failure expanding variable can_delete_FILESPATH, expression was def can_delete_FILESPATH(cfgdata, d):
-|     expected = cfgdata.get("FILESPATH")
-|     #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', True).split(':') for p in d.getVar('FILESPATHPKG', True).split(':') for o in (d.getVar('OVERRIDES', True) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
-|     expectedpaths = d.expand(expected)
-|     unexpanded = d.getVar("FILESPATH", 0)
-|     filespath = d.getVar("FILESPATH", True).split(":")
-|     filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
-|     for fp in filespath:
-|         if not fp in expectedpaths:
-|             # __note("Path %s in FILESPATH not in the expected paths %s" %
-|             # (fp, expectedpaths), d)
-|             return False
-|     return expected != unexpanded
-|  which triggered exception AttributeError: 'NoneType' object has no attribute 'split'
 
-Removing the commented second line in can_delete_FILESPATH() hides the error.
+On 04/11/2014 09:56 PM, Otavio Salvador wrote:
+> Hello,
+>
+> On Wed, Apr 9, 2014 at 12:13 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> On 04/07/2014 10:55 PM, Valentin Popa wrote:
+>>> Indeed the build failure was introduced by that patch, which enters a
+>>> logical
+>>> conflict with the bbappend file for mesa.
+>>> To remain compatible with the future releases I suggest to  not remove/add
+>>> flags
+>>> from/to EXTRA_OECONF explicitly, and make  use of what PACKAGECONFIG
+>>> contains.
+>>> The first part of the __anonymous function from the bbappend file can be
+>>> simply
+>>> replaced with:
+>>>
+>>> PACKAGECONFIG_remove = "egl"
+>>>
+>>> and the second part with:
+>>>
+>>> PROVIDES_remove = "virtual/libgles1 virtual/libgles2 virtual/egl"
+>>> and
+>>> PROVIDES_remove = "virtual/libgl" if mx6 is in SOC_FAMILY.
+>>>
+>>
+>> Hi Otavio,
+>>
+>> Does Valentin's suggestions work for you, please?
+>
+> I am traveling and won't be able to test it.
+>
+> However I am quite surprise this didn't come out /before/ when the
+> dora updates were in test in AB since meta-fsl-arm is tested in AB
+> too. We need to figure /why/ this broke and for now I think we ought
+> to revert this dora patch.
+>
+> This kind of change needs to be coordinated and raise a build break in
+> an Yocto Project is unacceptable IMO.
+>
+> For me it is clear this didn't run in AB before merging. :(
+>
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/classes/recipe_sanity.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+I'm sorry about that, I had run it on my *local* AB before merging, but
+the local AB is less powerful and doesn't include the meta-fsl-arm layer,
+I'm fine to revert it, what's RP and valentin's opinion, please ?
 
-diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
-index 5dd4624..ee04e33 100644
---- a/meta/classes/recipe_sanity.bbclass
-+++ b/meta/classes/recipe_sanity.bbclass
-@@ -59,7 +59,6 @@ def can_use_autotools_base(cfgdata, d):
- 
- def can_delete_FILESPATH(cfgdata, d):
-     expected = cfgdata.get("FILESPATH")
--    #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', True).split(':') for p in d.getVar('FILESPATHPKG', True).split(':') for o in (d.getVar('OVERRIDES', True) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
-     expectedpaths = d.expand(expected)
-     unexpanded = d.getVar("FILESPATH", 0)
-     filespath = d.getVar("FILESPATH", True).split(":")
--- 
-1.8.3.2
+// Robert
+
+
+
+
+
 
 
