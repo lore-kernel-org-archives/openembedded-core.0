@@ -1,31 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1447865EF0
+	by mail.openembedded.org (Postfix) with ESMTP id BE39C65D9E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Apr 2014 03:33:26 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3C3XOrj021903
+	Sat, 12 Apr 2014 04:10:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3C4AQBW021980
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 11 Apr 2014 20:33:24 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 11 Apr 2014 20:33:24 -0700
-Message-ID: <5348B401.20908@windriver.com>
-Date: Sat, 12 Apr 2014 11:33:21 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Fri, 11 Apr 2014 21:10:26 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 11 Apr 2014 21:10:25 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sat, 12 Apr 2014 00:10:10 -0400
+Message-ID: <cover.1397275530.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <CAP9ODKoLt=HMhiGQZmQhDUUFm-efPavZRftR7A8Wf7gECw+Amw@mail.gmail.com>	<533F8B7C.8010409@windriver.com>	<5342BC44.2000708@intel.com>	<5344BADD.5090106@windriver.com>
-	<CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
-In-Reply-To: <CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][regression] mesa failed to build
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto/3.14: aufs, edgerouter and -rt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Apr 2014 03:33:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Apr 2014 04:10:27 -0000
+Content-Type: text/plain
 
+Richard,
 
+Stemming from a thread about defconfigs not being applied, I realized that
+in my final integration of aufs the patch which actually linked it into 
+the kernel build was dropped. As such, it hasn't been building for the
+past week or so.
 
-On 04/11/2014 09:56 PM, Otavio Salvador wrote:
-> Hello,
->
-> On Wed, Apr 9, 2014 at 12:13 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> On 04/07/2014 10:55 PM, Valentin Popa wrote:
->>> Indeed the build failure was introduced by that patch, which enters a
->>> logical
->>> conflict with the bbappend file for mesa.
->>> To remain compatible with the future releases I suggest to  not remove/add
->>> flags
->>> from/to EXTRA_OECONF explicitly, and make  use of what PACKAGECONFIG
->>> contains.
->>> The first part of the __anonymous function from the bbappend file can be
->>> simply
->>> replaced with:
->>>
->>> PACKAGECONFIG_remove = "egl"
->>>
->>> and the second part with:
->>>
->>> PROVIDES_remove = "virtual/libgles1 virtual/libgles2 virtual/egl"
->>> and
->>> PROVIDES_remove = "virtual/libgl" if mx6 is in SOC_FAMILY.
->>>
->>
->> Hi Otavio,
->>
->> Does Valentin's suggestions work for you, please?
->
-> I am traveling and won't be able to test it.
->
-> However I am quite surprise this didn't come out /before/ when the
-> dora updates were in test in AB since meta-fsl-arm is tested in AB
-> too. We need to figure /why/ this broke and for now I think we ought
-> to revert this dora patch.
->
-> This kind of change needs to be coordinated and raise a build break in
-> an Yocto Project is unacceptable IMO.
->
-> For me it is clear this didn't run in AB before merging. :(
->
+I've restored that patch, and built for all arches, so aufs is active again.
 
-I'm sorry about that, I had run it on my *local* AB before merging, but
-the local AB is less powerful and doesn't include the meta-fsl-arm layer,
-I'm fine to revert it, what's RP and valentin's opinion, please ?
+We also have a minor config update to get rid of a warning that was reported
+with the RTC in the edgerouter during boot.
 
-// Robert
+And finally, we got lucky and a 3.14 -rt was released today. The changes
+are completely isolated on the preempt-rt/* branches and cannot impact
+any existing BSPs. So there's no reason to not merge them, and introduce
+the 3.14 variant of the recipe. I've already built and booted -rt on 
+the qemu boards, so it is sane and ready to go.
 
+Cheers,
 
+Bruce
 
+The following changes since commit e63348fb8cc827d0472981e80e9884ceaafc9ffd:
 
+  ref-manual: Edits to DISK_SIGNATURE variable. (2014-04-11 18:22:51 +0100)
 
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto/3.14: aufs, edgerouter config and -rt
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   | 27 ++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++++++-------
+ 3 files changed, 37 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+
+-- 
+1.8.1.2
 
 
