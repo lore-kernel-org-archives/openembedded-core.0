@@ -1,46 +1,31 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F2E265EE7
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Apr 2014 08:59:43 +0000 (UTC)
-Received: by mail-we0-f180.google.com with SMTP id p61so6204354wes.25
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Apr 2014 01:59:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=CIpEwahm11QqfJRfz6R1drxTqaTH+tqa3rgoaFwGQ9g=;
-	b=TyUjV6mJw7mrqowT7lpAS/qhIoK2OT09u9U7ltu+hXMXMp747A0hjajxZngnP0pVZd
-	hsvOzNr2KaPWw5Y1OjwMgC5kRt0vF4hvZ7xNCZ3lv/440Bu1PWbGm1wobLIGeuxhu+aG
-	olglXFbejlUu1m9zt91DJbKV1AFDHMp9NsatU0GdAF1mVafqkNjrDYro16436Hy/jLKs
-	NI/lUUOJalQTqQ7L2MKnw1SgOe7/ObLJZdWFMCpSXPGDEqbXWy20fO+5CoFKvgSmnfc+
-	UPsoR2SBletlvheKxm4VeicLecZOPbhiI485qrBS/nQuqODiha83tCNCG1mAFLcsbFsa
-	8DTQ==
-X-Gm-Message-State: ALoCoQkIAqiT2fgQh8qrXHBuiNulA9ucn/ga7G+FebLHTKEDdWwA4J6zV2PMughHW/xOyVFJl6lU
-X-Received: by 10.180.188.130 with SMTP id ga2mr1821185wic.18.1397293183275;
-	Sat, 12 Apr 2014 01:59:43 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::a577:209d:8f4f:fd8d?
-	([2001:610:612:0:a577:209d:8f4f:fd8d])
-	by mx.google.com with ESMTPSA id h10sm9472649wix.2.2014.04.12.01.59.41
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 12 Apr 2014 01:59:42 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <70B26E21-6281-44C1-9126-13DDA4E4495C@dominion.thruhere.net>
-Date: Sat, 12 Apr 2014 10:59:38 +0200
-Message-Id: <A42FC8E8-E142-4AFE-AD89-1530587D99CC@dominion.thruhere.net>
-References: <1389780926-20901-1-git-send-email-koen.kooi@linaro.org>
-	<52FB2ADF.70209@linaro.org> <1392193887.7120.191.camel@ted>
-	<8F835027-D28B-42A9-B8A7-49E85688B376@dominion.thruhere.net>
-	<BA1EAF4A-F798-48CC-A7D1-6E582BB8A001@dominion.thruhere.net>
-	<70B26E21-6281-44C1-9126-13DDA4E4495C@dominion.thruhere.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1874)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] grub git: workaround debugedit problems for 64 bit targets
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B5D165EA9
+	for <Openembedded-core@lists.openembedded.org>;
+	Sun, 13 Apr 2014 15:38:57 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3DFcUEw012720; Sun, 13 Apr 2014 16:38:31 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id WofBkB8nqw_C; Sun, 13 Apr 2014 16:38:29 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3DFcIbQ012716
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 13 Apr 2014 16:38:23 +0100
+Message-ID: <1397403492.15843.52.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: nitin.a.kamble@intel.com
+Date: Sun, 13 Apr 2014 16:38:12 +0100
+In-Reply-To: <12b191e0f58ed7954477dab64bb89d7e94b95039.1397238371.git.nitin.a.kamble@intel.com>
+References: <cover.1397238371.git.nitin.a.kamble@intel.com>
+	<12b191e0f58ed7954477dab64bb89d7e94b95039.1397238371.git.nitin.a.kamble@intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: darren.hart@intel.com, Openembedded-core@lists.openembedded.org
+Subject: Re: [Patch v2 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,81 +38,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Apr 2014 08:59:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 13 Apr 2014 15:38:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2014-04-11 at 10:59 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> Use machine overrides for variables for this skeleton kernel recipe
+> so that people following skeleton do it right at the beginning.
+> 
+> The machine overrides for the variables reduces  variable name-space
+> pollution and avoids unintentional influences on other layers.
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> index c329106..16db4a3 100644
+> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> @@ -44,21 +44,23 @@
+>  inherit kernel
+>  require recipes-kernel/linux/linux-yocto.inc
+>  
+> +#Note: Replace the yourmachine string with your actual machine name here
+> +
+>  # Override SRC_URI in a bbappend file to point at a different source
+>  # tree if you do not want to build from Linus' tree.
+> -SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine"
+> +SRC_URI_yourmachine = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=yourmachine"
+>  
+> -LINUX_VERSION ?= "3.4"
+> -LINUX_VERSION_EXTENSION ?= "-custom"
+> +LINUX_VERSION_yourmachine ?= "3.4"
+> +LINUX_VERSION_EXTENSION_yourmachine ?= "-custom"
+>  
+>  # Override SRCREV to point to a different commit in a bbappend file to
+>  # build a different release of the Linux kernel.
+>  # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
+> -SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
+> +SRCREV_yourmachine="76e10d158efb6d4516018846f60c2ab5501900bc"
+>  
+>  PR = "r1"
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>  
+> -# Override COMPATIBLE_MACHINE to include your machine in a bbappend
+> -# file. Leaving it empty here ensures an early explicit build failure.
+> -COMPATIBLE_MACHINE = "(^$)"
+> +# Override COMPATIBLE_MACHINE to include your yourmachine in a bbappend
+> +# file.
+> +COMPATIBLE_MACHINE_yourmachine = "yourmachine"
 
-Op 8 apr. 2014, om 14:46 heeft Koen Kooi <koen@dominion.thruhere.net> =
-het volgende geschreven:
+This breaks the autobuilder:
 
->=20
-> Op 13 mrt. 2014, om 10:08 heeft Koen Kooi <koen@dominion.thruhere.net> =
-het volgende geschreven:
->=20
->>=20
->> Op 15 feb. 2014, om 11:27 heeft Koen Kooi =
-<koen@dominion.thruhere.net> het volgende geschreven:
->>=20
->>>=20
->>> Op 12 feb. 2014, om 09:31 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
->>>=20
->>>> On Wed, 2014-02-12 at 09:03 +0100, Koen Kooi wrote:
->>>>> On 01/15/2014 11:15 AM, Koen Kooi wrote:
->>>>>> I've limited it to 64bit targets, but to be honest debug =
-splitting doesn't make sense for grub since it won't run in your rootfs =
-and attaching gdb is pretty much impossible.
->>>>>>=20
->>>>>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->>>>>> ---
->>>>>> meta/recipes-bsp/grub/grub_git.bb | 5 +++++
->>>>>> 1 file changed, 5 insertions(+)
->>>>>>=20
->>>>>> diff --git a/meta/recipes-bsp/grub/grub_git.bb =
-b/meta/recipes-bsp/grub/grub_git.bb
->>>>>> index 1796e7f..bc79cfa 100644
->>>>>> --- a/meta/recipes-bsp/grub/grub_git.bb
->>>>>> +++ b/meta/recipes-bsp/grub/grub_git.bb
->>>>>> @@ -51,8 +51,13 @@ do_configure_prepend() {
->>>>>> do_install_append () {
->>>>>>   install -d ${D}${sysconfdir}/grub.d
->>>>>>   install -m 0755 ${WORKDIR}/40_custom =
-${D}${sysconfdir}/grub.d/40_custom
->>>>>> +
->>>>>> }
->>>>>>=20
->>>>>> +# debugedit chokes on 64 bit platforms
->>>>>> +INHIBIT_PACKAGE_DEBUG_SPLIT_aarch64 =3D "1"
->>>>>> +INHIBIT_PACKAGE_DEBUG_SPLIT_x86-64 =3D "1"
->>>>>> +
->>>>>> RDEPENDS_${PN} =3D "diffutils freetype"
->>>>>> FILES_${PN}-dbg +=3D "${libdir}/${BPN}/*/.debug"
->>>>>>=20
->>>>>>=20
->>>>>=20
->>>>> Since the package.bbclass change went in yesterday: ping
->>>>=20
->>>> Should we just do this for 64 bit targets or should we be doing it
->>>> unconventionally?
->>>=20
->>> It is needed for every 'bare metal' binary we run through debugedit. =
-But for some reason debugedit doesn't choke on 32bit binaries. I'm not =
-sure what the right answer is here, I only fixed it for the archs I ran =
-into problems myself.=20
->>>=20
->>> I'd be happy to respin this patch if you let me know what the =
-preferred solution is.
->>=20
->> Ping
->=20
-> Ping again
+http://autobuilder.yoctoproject.org/main/builders/nightly-qa-skeleton/builds/43/steps/BuildImages/logs/stdio
 
-With my non-work hat on: I can't build grub for 64-bit non-efi targets =
-(e.g. my core2quad machine at home) due to this, it would be nice to get =
-this into the 'daisy'  branch to fix those buildfailures.
+Cheers,
 
-regards,
+Richard
 
-Koen=
 
