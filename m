@@ -1,28 +1,20 @@
 Return-Path: <valentin.popa@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EC6E65E7B
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id ECBD265E80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Apr 2014 13:51:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2014 06:51:38 -0700
+	Mon, 14 Apr 2014 13:54:33 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Apr 2014 06:54:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,857,1389772800"; d="scan'208";a="520157292"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
-	([10.237.105.76])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2014 06:51:36 -0700
-Message-ID: <534BE7EE.7030205@intel.com>
-Date: Mon, 14 Apr 2014 16:51:42 +0300
+X-IronPort-AV: E=Sophos;i="4.97,857,1389772800"; d="scan'208";a="418732939"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
+	by azsmga001.ch.intel.com with ESMTP; 14 Apr 2014 06:54:13 -0700
 From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1397474305-5411-1-git-send-email-valentin.popa@intel.com>
-	<CAP9ODKrQtq54jVX4T0Eo1PM425HinNP45YCAsLVb9Q7NsgHCVA@mail.gmail.com>
-In-Reply-To: <CAP9ODKrQtq54jVX4T0Eo1PM425HinNP45YCAsLVb9Q7NsgHCVA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][PATCH] mesa: double check for eglplatform.h
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Apr 2014 16:54:17 +0300
+Message-Id: <1397483657-8081-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] mesa: double check for eglplatform.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,22 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Apr 2014 13:51:53 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Apr 2014 13:54:37 -0000
 
-On 04/14/2014 04:48 PM, Otavio Salvador wrote:
-> Hello Valentin,
->
-> On Mon, Apr 14, 2014 at 8:18 AM, Valentin Popa <valentin.popa@intel.com> wrote:
->> Even if 'egl' is in PACKAGECONFIG, mesa egl support
->> can be disabled explicitly (using a .bbappend, for example).
->> This patch adds another check for the existence
->> of eglplatform.h before 'sed' can alter it.
-> This is lacking the signed-off-by.
->
-> The patch seems fine but I cannot test it at this moment.
->
->
-I'll send a V2. Thanks!
+Even if 'egl' is in PACKAGECONFIG, mesa egl support
+can be disabled explicitly (using a .bbappend, for example).
+This patch adds another check for the existence
+of eglplatform.h before 'sed' can alter it.
+
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ meta/recipes-graphics/mesa/mesa_9.1.6.bb | 4 +++-
+ meta/recipes-graphics/mesa/mesa_git.bb   | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa_9.1.6.bb b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+index 6e9cd82..388cfd7 100644
+--- a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+@@ -19,6 +19,8 @@ S = "${WORKDIR}/Mesa-${PV}"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
++            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        fi
+     fi
+ }
+\ No newline at end of file
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index 1babcc0..714911f 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
++            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        fi
+     fi
+ }
+-- 
+1.8.3.2
+
 
