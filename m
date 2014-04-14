@@ -1,20 +1,24 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id ECBD265E80
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF1765E5F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Apr 2014 13:54:33 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 Apr 2014 06:54:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,857,1389772800"; d="scan'208";a="418732939"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by azsmga001.ch.intel.com with ESMTP; 14 Apr 2014 06:54:13 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Apr 2014 16:54:17 +0300
-Message-Id: <1397483657-8081-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] mesa: double check for eglplatform.h
+	Mon, 14 Apr 2014 13:56:03 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,857,1389740400"; d="scan'208";a="49144758"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 14 Apr 2014 15:56:02 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Mon, 14 Apr 2014 15:56:02 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.2.328.9; Mon, 14 Apr 2014 15:56:02 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Apr 2014 15:56:05 +0200
+Message-ID: <1397483765-28956-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
+MIME-Version: 1.0
+Subject: [PATCH] openssh-sshd: host contamination fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,49 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Apr 2014 13:54:37 -0000
+X-List-Received-Date: Mon, 14 Apr 2014 13:56:06 -0000
+Content-Type: text/plain
 
-Even if 'egl' is in PACKAGECONFIG, mesa egl support
-can be disabled explicitly (using a .bbappend, for example).
-This patch adds another check for the existence
-of eglplatform.h before 'sed' can alter it.
+If you do a readelf -x .rodata /path/.../to/openssh/6.5p1-r0/packages-split/openssh-sshd/usr/sbin/sshd
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+You'll see two references to OE's sysroots/${BUILD_SYS} login and passwd binaries.
+First one can be overridden with LOGIN_PROGRAM environment variable (see configure.ac),
+second needs a cached variable definition.
+
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 ---
- meta/recipes-graphics/mesa/mesa_9.1.6.bb | 4 +++-
- meta/recipes-graphics/mesa/mesa_git.bb   | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/openssh/openssh_6.5p1.bb | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa_9.1.6.bb b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-index 6e9cd82..388cfd7 100644
---- a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-@@ -19,6 +19,8 @@ S = "${WORKDIR}/Mesa-${PV}"
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
-     if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
-+            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        fi
-     fi
- }
-\ No newline at end of file
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index 1babcc0..714911f 100644
---- a/meta/recipes-graphics/mesa/mesa_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
-     if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
--        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
-+            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+        fi
-     fi
- }
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+index 2c4da70..d19cc5a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+@@ -7,7 +7,6 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+ 
+-
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+@@ -55,7 +54,9 @@ inherit autotools-brokensep
+ CFLAGS += "-D__FILE_OFFSET_BITS=64"
+ export LD = "${CC}"
+ 
+-EXTRA_OECONF = "${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
++# login path is hardcoded in sshd
++EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
++                ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
+                 --without-zlib-version-check \
+                 --with-privsep-path=/var/run/sshd \
+                 --sysconfdir=${sysconfdir}/ssh \
+@@ -64,9 +65,11 @@ EXTRA_OECONF = "${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--with
+ # Since we do not depend on libbsd, we do not want configure to use it
+ # just because it finds libutil.h.  But, specifying --disable-libutil
+ # causes compile errors, so...
+-#
+ CACHED_CONFIGUREVARS += "ac_cv_header_bsd_libutil_h=no ac_cv_header_libutil_h=no"
+ 
++# passwd path is hardcoded in sshd
++CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
++
+ # This is a workaround for uclibc because including stdio.h
+ # pulls in pthreads.h and causes conflicts in function prototypes.
+ # This results in compilation failure, so unless this is fixed,
+@@ -97,7 +100,7 @@ do_install_append () {
+ 	install -d ${D}/${sysconfdir}/default/volatiles
+ 	install -m 644 ${WORKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
+ 
+-        # Create config files for read-only rootfs
++	# Create config files for read-only rootfs
+ 	install -d ${D}${sysconfdir}/ssh
+ 	install -m 644 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
+@@ -130,7 +133,6 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+ RDEPENDS_${PN}-sshd += "${PN}-keygen ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
+ 
+-
+ CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
+ CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+ 
 -- 
-1.8.3.2
+1.8.5.4
 
 
