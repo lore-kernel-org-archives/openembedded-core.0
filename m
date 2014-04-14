@@ -1,34 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E45D065E9C
-	for <Openembedded-core@lists.openembedded.org>;
-	Sun, 13 Apr 2014 18:52:04 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s3DIppWV015953; Sun, 13 Apr 2014 19:51:51 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TGMQ-MbQmX4b; Sun, 13 Apr 2014 19:51:50 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s3DIpfsm015949
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 13 Apr 2014 19:51:45 +0100
-Message-ID: <1397415095.15843.53.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Hart, Darren" <darren.hart@intel.com>
-Date: Sun, 13 Apr 2014 19:51:35 +0100
-In-Reply-To: <79661426AB6B40478E52EE7F511CC90515676E5D@ORSMSX157.amr.corp.intel.com>
-References: <cover.1397238371.git.nitin.a.kamble@intel.com>
-	<12b191e0f58ed7954477dab64bb89d7e94b95039.1397238371.git.nitin.a.kamble@intel.com>
-	,<1397403492.15843.52.camel@ted>
-	<79661426AB6B40478E52EE7F511CC90515676E5D@ORSMSX157.amr.corp.intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch v2 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DA0E65D4F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Apr 2014 01:22:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3E1MCP8013743
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 Apr 2014 18:22:12 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 13 Apr 2014 18:22:12 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 13 Apr 2014 18:22:12 -0700
+Message-ID: <1397438532-16886-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] pixbuff.bbclass: check for gdk-pixbuf-query-loaders errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,84 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Apr 2014 18:52:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Apr 2014 01:22:15 -0000
+Content-Type: text/plain
 
-On Sun, 2014-04-13 at 15:43 +0000, Hart, Darren wrote:
-> Indeed, because the SRCURI was made machine specific. In the case of
-> Linux Yocto custom... Their is no namespace pollution to worry about,
-> as there is with Linux Yocto... Should we perhaps drop all the
-> overrides and provide comented examples instead?
+If we do not see all the bits we need during populate_sysroot_setscene,
+we do not want to keep quiet about it and let somebody get screwed
+later.  By error exiting, we let bitbake try to recover by
+rebuilding the package.  This will, hopefully, fix any dependency
+issues, etc, but if not, at least we tried.
 
-That, or we ask Beth to mask out this recipe in the nightly-qa-skeleton
-build...
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/classes/pixbufcache.bbclass |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-Cheers,
-
-Richard
-
-> 
-> On Apr 13, 2014 8:39 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2014-04-11 at 10:59 -0700, nitin.a.kamble@intel.com wrote:
-> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >
-> > Use machine overrides for variables for this skeleton kernel recipe
-> > so that people following skeleton do it right at the beginning.
-> >
-> > The machine overrides for the variables reduces  variable name-space
-> > pollution and avoids unintentional influences on other layers.
-> >
-> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > ---
-> >  meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 16 +++++++++-------
-> >  1 file changed, 9 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> > index c329106..16db4a3 100644
-> > --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> > +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> > @@ -44,21 +44,23 @@
-> >  inherit kernel
-> >  require recipes-kernel/linux/linux-yocto.inc
-> >
-> > +#Note: Replace the yourmachine string with your actual machine name here
-> > +
-> >  # Override SRC_URI in a bbappend file to point at a different source
-> >  # tree if you do not want to build from Linus' tree.
-> > -SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine"
-> > +SRC_URI_yourmachine = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=yourmachine"
-> >
-> > -LINUX_VERSION ?= "3.4"
-> > -LINUX_VERSION_EXTENSION ?= "-custom"
-> > +LINUX_VERSION_yourmachine ?= "3.4"
-> > +LINUX_VERSION_EXTENSION_yourmachine ?= "-custom"
-> >
-> >  # Override SRCREV to point to a different commit in a bbappend file to
-> >  # build a different release of the Linux kernel.
-> >  # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
-> > -SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
-> > +SRCREV_yourmachine="76e10d158efb6d4516018846f60c2ab5501900bc"
-> >
-> >  PR = "r1"
-> >  PV = "${LINUX_VERSION}+git${SRCPV}"
-> >
-> > -# Override COMPATIBLE_MACHINE to include your machine in a bbappend
-> > -# file. Leaving it empty here ensures an early explicit build failure.
-> > -COMPATIBLE_MACHINE = "(^$)"
-> > +# Override COMPATIBLE_MACHINE to include your yourmachine in a bbappend
-> > +# file.
-> > +COMPATIBLE_MACHINE_yourmachine = "yourmachine"
-> 
-> This breaks the autobuilder:
-> 
-> http://autobuilder.yoctoproject.org/main/builders/nightly-qa-skeleton/builds/43/steps/BuildImages/logs/stdio
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index 414fd30..edbb948 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -53,7 +53,10 @@ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ pixbufcache_sstate_postinst() {
+ 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+ 	then
+-		gdk-pixbuf-query-loaders --update-cache
++		if ! gdk-pixbuf-query-loaders --update-cache
++		then
++			exit 1
++		fi
+ 	fi
+ }
+ 
+-- 
+1.7.3.4
 
 
