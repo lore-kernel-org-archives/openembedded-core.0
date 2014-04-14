@@ -1,32 +1,20 @@
 Return-Path: <valentin.popa@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EADA65D94
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 35AE365E75
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Apr 2014 08:35:40 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2014 01:35:39 -0700
+	Mon, 14 Apr 2014 11:18:28 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Apr 2014 04:18:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,855,1389772800"; d="scan'208";a="520035231"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
-	([10.237.105.76])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2014 01:35:35 -0700
-Message-ID: <534B9DDD.4060403@intel.com>
-Date: Mon, 14 Apr 2014 11:35:41 +0300
+X-IronPort-AV: E=Sophos;i="4.97,856,1389772800"; d="scan'208";a="520393741"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
+	by orsmga002.jf.intel.com with ESMTP; 14 Apr 2014 04:18:23 -0700
 From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <CAP9ODKoLt=HMhiGQZmQhDUUFm-efPavZRftR7A8Wf7gECw+Amw@mail.gmail.com>	<533F8B7C.8010409@windriver.com>	<5342BC44.2000708@intel.com>	<5344BADD.5090106@windriver.com>
-	<CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
-	<5348B401.20908@windriver.com>
-In-Reply-To: <5348B401.20908@windriver.com>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][regression] mesa failed to build
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Apr 2014 14:18:25 +0300
+Message-Id: <1397474305-5411-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [dora][PATCH] mesa: double check for eglplatform.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,67 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Apr 2014 08:35:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Apr 2014 11:18:31 -0000
 
-On 04/12/2014 06:33 AM, Robert Yang wrote:
->
->
-> On 04/11/2014 09:56 PM, Otavio Salvador wrote:
->> Hello,
->>
->> On Wed, Apr 9, 2014 at 12:13 AM, Robert Yang 
->> <liezhi.yang@windriver.com> wrote:
->>> On 04/07/2014 10:55 PM, Valentin Popa wrote:
->>>> Indeed the build failure was introduced by that patch, which enters a
->>>> logical
->>>> conflict with the bbappend file for mesa.
->>>> To remain compatible with the future releases I suggest to not 
->>>> remove/add
->>>> flags
->>>> from/to EXTRA_OECONF explicitly, and make  use of what PACKAGECONFIG
->>>> contains.
->>>> The first part of the __anonymous function from the bbappend file 
->>>> can be
->>>> simply
->>>> replaced with:
->>>>
->>>> PACKAGECONFIG_remove = "egl"
->>>>
->>>> and the second part with:
->>>>
->>>> PROVIDES_remove = "virtual/libgles1 virtual/libgles2 virtual/egl"
->>>> and
->>>> PROVIDES_remove = "virtual/libgl" if mx6 is in SOC_FAMILY.
->>>>
->>>
->>> Hi Otavio,
->>>
->>> Does Valentin's suggestions work for you, please?
->>
->> I am traveling and won't be able to test it.
->>
->> However I am quite surprise this didn't come out /before/ when the
->> dora updates were in test in AB since meta-fsl-arm is tested in AB
->> too. We need to figure /why/ this broke and for now I think we ought
->> to revert this dora patch.
->>
->> This kind of change needs to be coordinated and raise a build break in
->> an Yocto Project is unacceptable IMO.
->>
->> For me it is clear this didn't run in AB before merging. :(
->>
->
-> I'm sorry about that, I had run it on my *local* AB before merging, but
-> the local AB is less powerful and doesn't include the meta-fsl-arm layer,
-> I'm fine to revert it, what's RP and valentin's opinion, please ?
->
-> // Robert
->
->
->
+Even if 'egl' is in PACKAGECONFIG, mesa egl support
+can be disabled explicitly (using a .bbappend, for example).
+This patch adds another check for the existence
+of eglplatform.h before 'sed' can alter it.
+---
+ meta/recipes-graphics/mesa/mesa_9.1.6.bb | 4 +++-
+ meta/recipes-graphics/mesa/mesa_git.bb   | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-I'll send a patch to handle this special case for meta-fsl-arm (mutate 
-eglplatform.h only if it exists)
+diff --git a/meta/recipes-graphics/mesa/mesa_9.1.6.bb b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+index 6e9cd82..388cfd7 100644
+--- a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+@@ -19,6 +19,8 @@ S = "${WORKDIR}/Mesa-${PV}"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
++            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        fi
+     fi
+ }
+\ No newline at end of file
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index 1babcc0..714911f 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
++            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        fi
+     fi
+ }
+-- 
+1.8.3.2
+
 
