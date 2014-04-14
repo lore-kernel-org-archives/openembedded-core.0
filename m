@@ -1,37 +1,32 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A9BA65E98
+Return-Path: <valentin.popa@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EADA65D94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Apr 2014 08:03:40 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id u56so7804174wes.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Apr 2014 01:03:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wvTC47DVq1ibaZCtBTwAlDqpzpJChxbieM5kHzJfysc=;
-	b=B/24Xzf7rJqe1Ayg6oDSZmJuYa6fv3yE647ZCTh+1d6zlXiLhlM+1jS7lWx0spYVuw
-	YGha2//lIqi/BPXqRYFAQvVdcMyhIueFDsYKrRmGMRuarBH9eWYHgfLX0j7qLCciB1Kc
-	6TvcN0GU/Diuss7OzkMeQg9MYBmU5H3EAFpXg+nfSQedXqcvemUtet795n3UUOiTKi3r
-	iJGsXlC/ya2FHkm5U98lzkhJl9rrVPyWO8431w9EUKzONOPIMMkl35P4/d9L7pPSPFxr
-	u7QNY4m6KMWFQK0I3blGzaVrj67ByXGQFFlb59mR5+oW6Dcym1izLKlCo/+tVapQ1SDq
-	oIwg==
-X-Gm-Message-State: ALoCoQmp2E2Ap7wCE1r++4C4dgtaTtkjWTUPil6/KOB0gAPxkovC1wDbny6y022dmtcsoWoZovUy
-X-Received: by 10.180.7.198 with SMTP id l6mr8607823wia.52.1397462620861;
-	Mon, 14 Apr 2014 01:03:40 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id
-	fs16sm21650688wic.18.2014.04.14.01.03.39 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Apr 2014 01:03:40 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Apr 2014 10:03:37 +0200
-Message-Id: <1397462617-29584-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] grub git: workaround debugedit problems
+	Mon, 14 Apr 2014 08:35:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2014 01:35:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,855,1389772800"; d="scan'208";a="520035231"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2014 01:35:35 -0700
+Message-ID: <534B9DDD.4060403@intel.com>
+Date: Mon, 14 Apr 2014 11:35:41 +0300
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <CAP9ODKoLt=HMhiGQZmQhDUUFm-efPavZRftR7A8Wf7gECw+Amw@mail.gmail.com>	<533F8B7C.8010409@windriver.com>	<5342BC44.2000708@intel.com>	<5344BADD.5090106@windriver.com>
+	<CAP9ODKo=89kd-3fejPrsqrtgiRxzTkoX6-gNOasiZE2cF5Oj2A@mail.gmail.com>
+	<5348B401.20908@windriver.com>
+In-Reply-To: <5348B401.20908@windriver.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][regression] mesa failed to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Apr 2014 08:03:41 -0000
+X-List-Received-Date: Mon, 14 Apr 2014 08:35:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Debugedit errors out on bare metal binaries. The first version of this patch limited it to 64 bit targets, but the problem now shows up on 32 bit targets (minnowboard) as well.
+On 04/12/2014 06:33 AM, Robert Yang wrote:
+>
+>
+> On 04/11/2014 09:56 PM, Otavio Salvador wrote:
+>> Hello,
+>>
+>> On Wed, Apr 9, 2014 at 12:13 AM, Robert Yang 
+>> <liezhi.yang@windriver.com> wrote:
+>>> On 04/07/2014 10:55 PM, Valentin Popa wrote:
+>>>> Indeed the build failure was introduced by that patch, which enters a
+>>>> logical
+>>>> conflict with the bbappend file for mesa.
+>>>> To remain compatible with the future releases I suggest to not 
+>>>> remove/add
+>>>> flags
+>>>> from/to EXTRA_OECONF explicitly, and make  use of what PACKAGECONFIG
+>>>> contains.
+>>>> The first part of the __anonymous function from the bbappend file 
+>>>> can be
+>>>> simply
+>>>> replaced with:
+>>>>
+>>>> PACKAGECONFIG_remove = "egl"
+>>>>
+>>>> and the second part with:
+>>>>
+>>>> PROVIDES_remove = "virtual/libgles1 virtual/libgles2 virtual/egl"
+>>>> and
+>>>> PROVIDES_remove = "virtual/libgl" if mx6 is in SOC_FAMILY.
+>>>>
+>>>
+>>> Hi Otavio,
+>>>
+>>> Does Valentin's suggestions work for you, please?
+>>
+>> I am traveling and won't be able to test it.
+>>
+>> However I am quite surprise this didn't come out /before/ when the
+>> dora updates were in test in AB since meta-fsl-arm is tested in AB
+>> too. We need to figure /why/ this broke and for now I think we ought
+>> to revert this dora patch.
+>>
+>> This kind of change needs to be coordinated and raise a build break in
+>> an Yocto Project is unacceptable IMO.
+>>
+>> For me it is clear this didn't run in AB before merging. :(
+>>
+>
+> I'm sorry about that, I had run it on my *local* AB before merging, but
+> the local AB is less powerful and doesn't include the meta-fsl-arm layer,
+> I'm fine to revert it, what's RP and valentin's opinion, please ?
+>
+> // Robert
+>
+>
+>
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-bsp/grub/grub_git.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 9b5d9bb..114cf77 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -53,8 +53,12 @@ do_configure_prepend() {
- do_install_append () {
-     install -d ${D}${sysconfdir}/grub.d
-     install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/40_custom
-+ 
- }
- 
-+# debugedit chokes on bare metal binaries
-+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-+
- RDEPENDS_${PN} = "diffutils freetype"
- FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
- 
--- 
-1.9.0
-
+I'll send a patch to handle this special case for meta-fsl-arm (mutate 
+eglplatform.h only if it exists)
 
