@@ -1,26 +1,29 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B14A265E75;
-	Tue, 15 Apr 2014 16:54:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Apr 2014 09:54:40 -0700
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 72B1F65E5D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Apr 2014 17:04:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2014 09:59:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,865,1389772800"; d="scan'208";a="521127911"
+X-IronPort-AV: E=Sophos;i="4.97,865,1389772800"; d="scan'208";a="521466831"
 Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
 	([10.252.121.134])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Apr 2014 09:54:30 -0700
+	by orsmga002.jf.intel.com with ESMTP; 15 Apr 2014 10:04:21 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Apr 2014 17:54:29 +0100
-Message-ID: <2000508.o5Wd2u71cb@peggleto-mobl5.ger.corp.intel.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Date: Tue, 15 Apr 2014 18:04:18 +0100
+Message-ID: <8474154.NWdoUUSmHp@peggleto-mobl5.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.12.4 (Linux/3.13.9-200.fc20.x86_64; KDE/4.12.4; x86_64; ; )
-In-Reply-To: <53482C0D.5000802@intel.com>
-References: <cover.1397235602.git.nitin.a.kamble@intel.com>
-	<53482AD6.3090205@windriver.com> <53482C0D.5000802@intel.com>
+In-Reply-To: <CAGNsrLDp9m9q4a9fSO5TZGRbqoPs6=p6EyboKX+8K5fBLJFF=Q@mail.gmail.com>
+References: <1396965637-4802-1-git-send-email-fathi.boudra@linaro.org>
+	<CABcZANmn9=b_onZz-mCSicPeDgxg=u4ebuDhE1KExvRDbN00Tg@mail.gmail.com>
+	<CAGNsrLDp9m9q4a9fSO5TZGRbqoPs6=p6EyboKX+8K5fBLJFF=Q@mail.gmail.com>
 MIME-Version: 1.0
-Cc: darren.hart@intel.com, Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
+Cc: Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 1/2] trace-cmd/kernelshark: update to 2.3.2 release (latest stable branch)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Apr 2014 16:54:45 -0000
+X-List-Received-Date: Tue, 15 Apr 2014 17:04:45 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Friday 11 April 2014 10:53:17 Kamble, Nitin A wrote:
-> On 4/11/2014 10:48 AM, Bruce Ashfield wrote:
-> > On 14-04-11 01:05 PM, nitin.a.kamble@intel.com wrote:
-> >> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >> 
-> >> Use machine overrides for variables for this skeleton recipe so that
-> >> people following skeleton do it right at the beginning.
-> >> 
-> >> The machine overrides for the variables reduces pollution of name space
-> >> and avoid unintentional influences on other layers.
-> >> 
-> >> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >> ---
-> >> 
-> >>   meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 8 ++++----
-> >>   1 file changed, 4 insertions(+), 4 deletions(-)
-> >> 
-> >> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> >> b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> >> index c329106..76457ca 100644
-> >> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> >> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-> >> @@ -46,10 +46,10 @@ require recipes-kernel/linux/linux-yocto.inc
-> >> 
-> >>   # Override SRC_URI in a bbappend file to point at a different source
-> >>   # tree if you do not want to build from Linus' tree.
-> >> 
-> >> -SRC_URI =
-> >> "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protoco
-> >> l=git;nocheckout=1;name=machine" +SRC_URI_machine =
-> >> "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protoco
-> >> l=git;nocheckout=1;name=machine"
-> >> 
-> >> -LINUX_VERSION ?= "3.4"
-> >> -LINUX_VERSION_EXTENSION ?= "-custom"
-> >> +LINUX_VERSION_machine ?= "3.4"
-> >> +LINUX_VERSION_EXTENSION_machine ?= "-custom"
+On Wednesday 09 April 2014 22:25:31 Fathi Boudra wrote:
+> On 9 April 2014 22:15, Chris Larson <clarson@kergoth.com> wrote:
+> > On Wed, Apr 9, 2014 at 9:18 AM, Fathi Boudra <fathi.boudra@linaro.org>
 > > 
-> > For some reason, I thought you meant ${MACHINE} instead of _machine ..
-> > which is what I use for machine specific overrides.
+> > wrote:
+> >> On 9 April 2014 18:02, Chris Larson <clarson@kergoth.com> wrote:
+> >> > On Tue, Apr 8, 2014 at 10:16 AM, Fathi Boudra <fathi.boudra@linaro.org>
+> >> > 
+> >> > wrote:
+> >> >> On 8 April 2014 20:05, Khem Raj <raj.khem@gmail.com> wrote:
+> >> >> > On Tue, Apr 8, 2014 at 7:00 AM, Fathi Boudra
+> >> >> > <fathi.boudra@linaro.org>
+> >> >> > 
+> >> >> > wrote:
+> >> >> >>  do_install() {
+> >> >> >> 
+> >> >> >> -       oe_runmake prefix="${prefix}" DESTDIR="${D}" install
+> >> >> >> +       ${MAKE} NO_PYTHON=1 prefix=${prefix}
+> >> >> >> plugin_dir=${libdir}/trace-cmd/plugins DESTDIR=${D} install
+> >> >> >> 
+> >> >> >>  }
+> >> >> > 
+> >> >> > can you explain/document this change
+> >> >> 
+> >> >> sure. trace-cmd doesn't have a build system generated Makefile. It's
+> >> >> hand written.
+> >> >> To do the install properly, one has to pass prefix/plugin_dir.
+> >> >> In addition, the previous command in the recipe doesn't do the right
+> >> >> thing anymore (you'll end with duplicated prefix /usr/usr/).
+> >> > 
+> >> > You don't need to avoid the use of oe_runmake to pass variables in,
+> >> > that's
+> >> > what EXTRA_OEMAKE is for :) See
+> >> > https://github.com/MentorEmbedded/meta-mentor/commit/4639877 for a
+> >> > version
+> >> > of this fix that uses it instead.
+> >> 
+> >> You don't need oe_runmake or EXTRA_OEMAKE to properly build and
+> >> install the files in the right path either :)
+> >> You can even drop inherit pkgconfig pythonnative since they aren't
+> >> used. My version is also slightly shorter to achieve the same goal.
+> > 
+> > oe_runmake is the convention used by nearly every recipe in oe-core.
+> > Breaking that convention for no good reason accomplishes nothing.
 > 
-> I think macros can not used as overrides.
+> you can argue as you prefer. reality is that  using oe_runmake on this
+> particular software accomplishes nothing.
 
-Variable references can be used in overrides, provided the expansion happens 
-at the right time. However, it would not be appropriate to use ${MACHINE} here 
-because if it were used verbatim in the recipe, it would not have the desired 
-effect - the value of ${MACHINE} would change with whatever MACHINE was set to, 
-and since ${MACHINE} is always in OVERRIDES it would always be applied.
+It accomplishes as much as it does anywhere else. I don't see that this recipe 
+needs to be special by not using it. In any case, you've run the recipe 
+through oe-stylize to make it conform to OE style guidelines that that script 
+handles, surely it's not a big thing to conform to this expected style as 
+well?
 
 Cheers,
 Paul
