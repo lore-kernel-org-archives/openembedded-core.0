@@ -1,39 +1,39 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C62765E75
+Return-Path: <darren.hart@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5637665D23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Apr 2014 17:13:04 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id hr17so7188953lab.33
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Apr 2014 10:13:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=Qt4rnOgveGwODfR09lGXz5wM9QSKpYZGFscORZdPKnI=;
-	b=SMt0cZJTkyC6FFG8t2hyPagquShmhBegL0ouKjSbZwa1UjdKhk7j5S3027KuqbkPcJ
-	I2Nqx3/D8I7A5dPSpCIQplFR53fqZ70nK7QYXnko0T1S2YqXrG/zj3IV9ypCWKWZKslJ
-	2mJhrlekf21kVTiZn5sHMVa1YlGgk4xCXclikQpTmk62zwe3x3YJ56zbrMIlb4+JJEyf
-	usETo4wNuuH7NQvWP3hwM4kmaC6mhIB+0mLqyg3uSDyrWthtzXrSb6m7LJu+qlGw0E6B
-	MOsYEEBEAeesU6y3t0xiKnV8CRLcnzzx+FAMVOfhyU8GU13MiEaIrdZ85+O+5X3SzHoV
-	za8g==
-X-Gm-Message-State: ALoCoQl90NfGXihKu8ugMoaIE1on0VF4Rz490qwpXECw0P8LzKnizrdA1NvJF3pfqpjAZD3EPW1a
+	Tue, 15 Apr 2014 18:06:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2014 10:58:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,865,1389772800"; d="scan'208";a="521498372"
+Received: from fmsmsx106.amr.corp.intel.com ([10.19.9.37])
+	by orsmga002.jf.intel.com with ESMTP; 15 Apr 2014 11:03:46 -0700
+Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
+	FMSMSX106.amr.corp.intel.com (10.19.9.37) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Tue, 15 Apr 2014 11:03:46 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.42]) by
+	fmsmsx117.amr.corp.intel.com ([169.254.13.248]) with mapi id
+	14.03.0123.003; Tue, 15 Apr 2014 11:03:45 -0700
+From: "Hart, Darren" <darren.hart@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb:
+	use machine overrides
+Thread-Index: AQHPVad1D4gulqqWU0KLBbvIitT08JsNJmwAgAABc4CABjjmgP//nrmA
+Date: Tue, 15 Apr 2014 18:03:45 +0000
+Message-ID: <CF72C2F0.8411E%darren.hart@intel.com>
+References: <cover.1397235602.git.nitin.a.kamble@intel.com>
+	<53482AD6.3090205@windriver.com> <53482C0D.5000802@intel.com>
+	<2000508.o5Wd2u71cb@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2000508.o5Wd2u71cb@peggleto-mobl5.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.225.133]
 MIME-Version: 1.0
-X-Received: by 10.112.128.131 with SMTP id no3mr1884942lbb.57.1397581984777;
-	Tue, 15 Apr 2014 10:13:04 -0700 (PDT)
-Received: by 10.112.145.229 with HTTP; Tue, 15 Apr 2014 10:13:04 -0700 (PDT)
-In-Reply-To: <8474154.NWdoUUSmHp@peggleto-mobl5.ger.corp.intel.com>
-References: <1396965637-4802-1-git-send-email-fathi.boudra@linaro.org>
-	<CABcZANmn9=b_onZz-mCSicPeDgxg=u4ebuDhE1KExvRDbN00Tg@mail.gmail.com>
-	<CAGNsrLDp9m9q4a9fSO5TZGRbqoPs6=p6EyboKX+8K5fBLJFF=Q@mail.gmail.com>
-	<8474154.NWdoUUSmHp@peggleto-mobl5.ger.corp.intel.com>
-Date: Tue, 15 Apr 2014 20:13:04 +0300
-Message-ID: <CAGNsrLAbBeUxD4GPEPTYn-88qLCK7waz_z5BvFc1-r3eQDFmqQ@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2] trace-cmd/kernelshark: update to 2.3.2 release (latest stable branch)
+Subject: Re: [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,72 +46,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Apr 2014 17:13:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Apr 2014 18:06:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4DB793FCEF93BB4485E9DE199A7BEFCE@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 15 April 2014 20:04, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 09 April 2014 22:25:31 Fathi Boudra wrote:
->> On 9 April 2014 22:15, Chris Larson <clarson@kergoth.com> wrote:
->> > On Wed, Apr 9, 2014 at 9:18 AM, Fathi Boudra <fathi.boudra@linaro.org>
->> >
->> > wrote:
->> >> On 9 April 2014 18:02, Chris Larson <clarson@kergoth.com> wrote:
->> >> > On Tue, Apr 8, 2014 at 10:16 AM, Fathi Boudra <fathi.boudra@linaro.org>
->> >> >
->> >> > wrote:
->> >> >> On 8 April 2014 20:05, Khem Raj <raj.khem@gmail.com> wrote:
->> >> >> > On Tue, Apr 8, 2014 at 7:00 AM, Fathi Boudra
->> >> >> > <fathi.boudra@linaro.org>
->> >> >> >
->> >> >> > wrote:
->> >> >> >>  do_install() {
->> >> >> >>
->> >> >> >> -       oe_runmake prefix="${prefix}" DESTDIR="${D}" install
->> >> >> >> +       ${MAKE} NO_PYTHON=1 prefix=${prefix}
->> >> >> >> plugin_dir=${libdir}/trace-cmd/plugins DESTDIR=${D} install
->> >> >> >>
->> >> >> >>  }
->> >> >> >
->> >> >> > can you explain/document this change
->> >> >>
->> >> >> sure. trace-cmd doesn't have a build system generated Makefile. It's
->> >> >> hand written.
->> >> >> To do the install properly, one has to pass prefix/plugin_dir.
->> >> >> In addition, the previous command in the recipe doesn't do the right
->> >> >> thing anymore (you'll end with duplicated prefix /usr/usr/).
->> >> >
->> >> > You don't need to avoid the use of oe_runmake to pass variables in,
->> >> > that's
->> >> > what EXTRA_OEMAKE is for :) See
->> >> > https://github.com/MentorEmbedded/meta-mentor/commit/4639877 for a
->> >> > version
->> >> > of this fix that uses it instead.
->> >>
->> >> You don't need oe_runmake or EXTRA_OEMAKE to properly build and
->> >> install the files in the right path either :)
->> >> You can even drop inherit pkgconfig pythonnative since they aren't
->> >> used. My version is also slightly shorter to achieve the same goal.
->> >
->> > oe_runmake is the convention used by nearly every recipe in oe-core.
->> > Breaking that convention for no good reason accomplishes nothing.
->>
->> you can argue as you prefer. reality is that  using oe_runmake on this
->> particular software accomplishes nothing.
->
-> It accomplishes as much as it does anywhere else. I don't see that this recipe
-> needs to be special by not using it. In any case, you've run the recipe
-> through oe-stylize to make it conform to OE style guidelines that that script
-> handles, surely it's not a big thing to conform to this expected style as
-> well?
+On 4/15/14, 9:54, "Paul Eggleton" <paul.eggleton@linux.intel.com> wrote:
 
-In that case, you might be able to replace ${MAKE} by oe_runmake in
-the patchset and everybody will be happy.
+>On Friday 11 April 2014 10:53:17 Kamble, Nitin A wrote:
+>> On 4/11/2014 10:48 AM, Bruce Ashfield wrote:
+>> > On 14-04-11 01:05 PM, nitin.a.kamble@intel.com wrote:
+>> >> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>> >>=20
+>> >> Use machine overrides for variables for this skeleton recipe so that
+>> >> people following skeleton do it right at the beginning.
+>> >>=20
+>> >> The machine overrides for the variables reduces pollution of name
+>>space
+>> >> and avoid unintentional influences on other layers.
+>> >>=20
+>> >> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>> >> ---
+>> >>=20
+>> >>   meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 8
+>>++++----
+>> >>   1 file changed, 4 insertions(+), 4 deletions(-)
+>> >>=20
+>> >> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> >> b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> >> index c329106..76457ca 100644
+>> >> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> >> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>> >> @@ -46,10 +46,10 @@ require recipes-kernel/linux/linux-yocto.inc
+>> >>=20
+>> >>   # Override SRC_URI in a bbappend file to point at a different
+>>source
+>> >>   # tree if you do not want to build from Linus' tree.
+>> >>=20
+>> >> -SRC_URI =3D
+>> >>=20
+>>"git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protoco
+>> >> l=3Dgit;nocheckout=3D1;name=3Dmachine" +SRC_URI_machine =3D
+>> >>=20
+>>"git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protoco
+>> >> l=3Dgit;nocheckout=3D1;name=3Dmachine"
+>> >>=20
+>> >> -LINUX_VERSION ?=3D "3.4"
+>> >> -LINUX_VERSION_EXTENSION ?=3D "-custom"
+>> >> +LINUX_VERSION_machine ?=3D "3.4"
+>> >> +LINUX_VERSION_EXTENSION_machine ?=3D "-custom"
+>> >=20
+>> > For some reason, I thought you meant ${MACHINE} instead of _machine ..
+>> > which is what I use for machine specific overrides.
+>>=20
+>> I think macros can not used as overrides.
+>
+>Variable references can be used in overrides, provided the expansion
+>happens=20
+>at the right time. However, it would not be appropriate to use ${MACHINE}
+>here=20
+>because if it were used verbatim in the recipe, it would not have the
+>desired=20
+>effect - the value of ${MACHINE} would change with whatever MACHINE was
+>set to,=20
+>and since ${MACHINE} is always in OVERRIDES it would always be applied.
+>
+>Cheers,
+>Paul
+>
+>--=20
+>
+>Paul Eggleton
+>Intel Open Source Technology Centre
+>
 
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+I think we should just drop the overrides. The overrides are needed with
+linux-yocto bbappends so we don't pollute the namespace, but here there is
+nothing to polute. This is the only recipe, you don't use bbappends with
+it. It needs some documentation, but we should just drop all the overrides
+in this recipe.
+
+--=20
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
+
+
 
