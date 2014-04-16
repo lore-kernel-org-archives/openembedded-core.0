@@ -1,27 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 68BFB65E6F
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 8657F65E51
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Apr 2014 03:00:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3G30dMk001994
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Apr 2014 20:00:40 -0700 (PDT)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Apr 2014 20:00:39 -0700
-Message-ID: <534DF255.9010506@windriver.com>
-Date: Wed, 16 Apr 2014 11:00:37 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Valentin Popa <valentin.popa@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1397487085-8924-1-git-send-email-valentin.popa@intel.com>
-In-Reply-To: <1397487085-8924-1-git-send-email-valentin.popa@intel.com>
-Subject: Re: [dora][PATCH_V3] mesa: double check for eglplatform.h
+	Wed, 16 Apr 2014 09:31:50 +0000 (UTC)
+Received: from [86.30.57.232] (HELO elite.brightsigndigital.co.uk)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.0.8)
+	with ESMTPS id 380633710; Wed, 16 Apr 2014 05:31:51 -0400
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WaMBz-00020s-AG; Wed, 16 Apr 2014 10:31:43 +0100
+Received: from mac by chuckie.brightsign with local (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WaMBz-0005Xu-8v; Wed, 16 Apr 2014 10:31:43 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Apr 2014 10:31:36 +0100
+Message-Id: <1397640696-21281-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] native.bbclass: Override TARGET_ flags too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Apr 2014 03:00:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Apr 2014 09:31:54 -0000
 
+TARGET_LDFLAGS is currently defined in bitbake.conf to contain
+${TARGET_LINK_HASH_STYLE} which differs between MIPS and other
+targets. Since TARGET_LDFLAGS is an exported variable it affects the hash
+of every shell task even if it is not used.
 
+We don't want native recipe tasks to have different hashes purely because
+they happen to have been built in order to satisfy dependencies for
+different MACHINEs since this causes lots of churn in the native sysroot
+when switching between MACHINEs.
 
-On 04/14/2014 10:51 PM, Valentin Popa wrote:
-> Even if 'egl' is in PACKAGECONFIG, mesa egl support
-> can be disabled explicitly (changing configure flags
-> using a .bbappend, for example).
-> On dora, meta-fsl-arm is an example of this kind.
-> On master there are no known cases, and we should
-> encourge package configuration through PACKAGECONFIG.
->
-> This patch adds another check for the existence
-> of eglplatform.h before 'sed' can alter it.
->
-> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+Making native.bbclass override TARGET_LDFLAGS to use BUILD_LDFLAGS ensures
+consistent hashes and is a sensible thing to be doing anyway.
 
-Reviewed and Tested by: Robert Yang <liezhi.yang@windriver.com>
+Although they don't appear to have the same detrimental affect on task
+hashes TARGET_CPPFLAGS, TARGET_CFLAGS and TARGET_CXXFLAGS should be
+overridden too.
 
-// Robert
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/classes/native.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> ---
->   meta/recipes-graphics/mesa/mesa_9.1.6.bb | 4 +++-
->   meta/recipes-graphics/mesa/mesa_git.bb   | 4 +++-
->   2 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa_9.1.6.bb b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-> index 6e9cd82..388cfd7 100644
-> --- a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-> +++ b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-> @@ -19,6 +19,8 @@ S = "${WORKDIR}/Mesa-${PV}"
->   #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
->   do_install_append() {
->       if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
-> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-> +        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
-> +            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-> +        fi
->       fi
->   }
-> \ No newline at end of file
-> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-> index 1babcc0..714911f 100644
-> --- a/meta/recipes-graphics/mesa/mesa_git.bb
-> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
-> @@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
->   #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
->   do_install_append() {
->       if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
-> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-> +        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
-> +            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-> +        fi
->       fi
->   }
->
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 5a318d2..2d182f0 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -26,6 +26,10 @@ TARGET_PREFIX = "${BUILD_PREFIX}"
+ TARGET_CC_ARCH = "${BUILD_CC_ARCH}"
+ TARGET_LD_ARCH = "${BUILD_LD_ARCH}"
+ TARGET_AS_ARCH = "${BUILD_AS_ARCH}"
++TARGET_CPPFLAGS = "${BUILD_CPPFLAGS}"
++TARGET_CFLAGS = "${BUILD_CFLAGS}"
++TARGET_CXXFLAGS = "${BUILD_CXXFLAGS}"
++TARGET_LDFLAGS = "${BUILD_LDFLAGS}"
+ TARGET_FPU = ""
+ 
+ HOST_ARCH = "${BUILD_ARCH}"
+-- 
+1.9.1
+
 
