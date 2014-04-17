@@ -1,40 +1,37 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 73C3965D11
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A8C8A60C14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Apr 2014 09:08:24 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id t61so168004wes.30
+	Thu, 17 Apr 2014 09:46:46 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id il7so220528vcb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Apr 2014 02:08:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KbSZGb5tEFg9Z+wbVUZSCAbAj+GmYVM07QwbtD5mw/I=;
-	b=DXt4M5kJI/LSdvYSVOHkbYUi6x6ECQRQKI0Ayo3snZAG4KB4b7nBPiyDZanWhRZFam
-	obcOz531KhSnyLl4pEaosLcRHFQXKNQIgCiPz8Nhn4nXA+7cpYweGjT/Vf4eq7hwuVyy
-	fUp0bLzbnWIAZ/S4269EYjnMAbroa9TLYUgB60uIJs7iEFBwJzs+9z1H//QYoDAE1FJf
-	eEvE5UU2iw0qCfkyx19kOYo1aMBAVF6cszYH+2NXzKzmwvTc7ljv5OPLsnox3K1cYdNQ
-	qFmLrNT4276IXg49ALSDUjPoDXEnMuQKYhfiX5eYClNOvtmJGKJoIjP1Ci7fMxJYHX2C
-	I4sQ==
-X-Gm-Message-State: ALoCoQmL+E+Q9Bmb7L7EuVcNfmnqZ8j2XRLnfmIqwjKmxV3KecaOLu/rjlAGsFDNlzyr1YNDcJ5y
-X-Received: by 10.180.14.199 with SMTP id r7mr11448988wic.0.1397725705171;
-	Thu, 17 Apr 2014 02:08:25 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id
-	g13sm38138420wjn.15.2014.04.17.02.08.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Apr 2014 02:08:24 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Apr 2014 11:07:38 +0200
-Message-Id: <1397725659-9004-2-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <1397725659-9004-1-git-send-email-koen.kooi@linaro.org>
-References: <1397725659-9004-1-git-send-email-koen.kooi@linaro.org>
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH 2/3] liberror-perl: add 0.17022
+	Thu, 17 Apr 2014 02:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:content-transfer-encoding;
+	bh=LhdM9SBFCjLW3tX57PVZZbYHBxI/pGVVPlOUyhKbtv4=;
+	b=nGtDjsJXTW0zdZCY7d6lIR3FJrqtoFaQLGnWJ1EJODwoe4/HQa/EjxrH2MwOZWkfWA
+	OIL6/BBXwbvPIJ3MV9afh3mD3b3LRSqs4Fg2AwEddNVVJGaIs6TheDCpbOhrg3LUfcGz
+	PGjxrV2BRj8cCP5mVTQFMnidVhLfk7Pz9CGKk4CNe3fGoyvOwGe8VB4no0cBETerHmoC
+	eqkO72gUYHWk4VCwZUOtGa9q45qw9rJGy+d3qynad7UEaiNCfY487GrgJH95/MNVz2XK
+	zzSpsFveLtL8RO5cW9cZKAlVSruLxXZfV/OuFjCWEgnPVWMTWP2njTTZlq9cME6Lrx6F
+	F9xQ==
+X-Received: by 10.58.187.78 with SMTP id fq14mr10780227vec.9.1397728007462;
+	Thu, 17 Apr 2014 02:46:47 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.221.5.133 with HTTP; Thu, 17 Apr 2014 02:46:07 -0700 (PDT)
+In-Reply-To: <CALbNGRSqnLj6Hr+6dL0rcyacz1pXSf+XySbYs_tx_gnq5+QfEg@mail.gmail.com>
+References: <CALbNGRSqnLj6Hr+6dL0rcyacz1pXSf+XySbYs_tx_gnq5+QfEg@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 17 Apr 2014 10:46:07 +0100
+X-Google-Sender-Auth: h8xKDJMd3ZceFrorS7qQbUsqa2Q
+Message-ID: <CANyK_8d907x2d2_9MemcBqtB3oS6fyhzZyiRWMGSOEoXTcoinA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: issue with file-ownership in images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,53 +44,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Apr 2014 09:08:28 -0000
+X-List-Received-Date: Thu, 17 Apr 2014 09:46:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This is needed for git-perltools to work:
+On 17 April 2014 10:07, Andreas M=C3=BCller <schnitzeltony@googlemail.com> =
+wrote:
+> Hi,
+>
+> I know it is release-panic but at least for me this is an issue
+> causing lots of headaches.
+>
+> Symptom:
+> In case a recipe changes ownership of files during install, file UIDs
+> & GIDs are found with incorrect values in image - at least for opkg
+> (this is what I have tested so far).
+>
+> To investigate, I created an image containing polkit with the patch
+> attached. Polkit was chosen because it is not working: no rules are
+> analyzed due to missing access rights caused by wrong ownership.
+>
+> log.do_rootfs shows:
+> | Installing polkit (0.112-r0) to root...
+> | Downloading file:/home/a.mueller/tmp/oe-core-eglibc/deploy/ipk/armv7at2=
+hf-vfp-neon/polkit_0.112-r0_armv7at2hf-vfp-neon.ipk.
+> ...
+> | update_unamecache returned false for polkitd UID: 995
+> ...
+> | update_unamecache returned false for polkitd UID: 995
+> ...
+> | Running useradd commands...
+> | NOTE: Performing useradd with [--root
+> /home/a.mueller/tmp/oe-core-eglibc/work/overo-angstrom-linux-gnueabi/xfce=
+4-tiny-image/1.0-r0/rootfs
+> --system --no-create-home --user-group --home-dir /etc/polkit-1
+> polkitd] and 10 times of retry
+> | update_unamecache returned true for  UID: 0
+> ...
+>
+> The code creating this log is:
+>     if (update_unamecache(tar.formated.uname))
+>     {
+>         tar_entry->uid =3D uid_cache;
+>         opkg_msg(NOTICE,"update_unamecache returned true for %s UID:
+> %i\n", tar.formated.uname, tar_entry->uid);
+>     }
+>     else
+>     {
+>         tar_entry->uid =3D strtol(tar.formated.uid, NULL, 8);
+>         opkg_msg(NOTICE,"update_unamecache returned false for %s UID:
+> %i\n", tar.formated.uname, tar_entry->uid);
+>     }
+>
 
-koen@beast:/build/v2014.06/sources/meta-openembedded$ git send-email -M -1 --to openembedded-devel@lists.openembedded.org --subject-prefix=meta-oe][PATCH
-Can't locate Error.pm in @INC (@INC contains: /usr/lib/perl/5.14.3 /etc/perl /usr/lib/perl/site_perl/5.14.3/ /usr/lib/perl/site_perl/5.14.3 /usr/lib/perl/vendor_perl/5.14.3/ /usr/lib/perl/vendor_perl/5.14.3 /usr/lib/perl/5.14.3/ /usr/local/lib/site_perl .) at /usr/lib/git/git-core/git-send-email line 30.
+As a slight aside to the immediate problem, the update_unamecache() in
+opkg v0.2.x is fairly ugly and is removed in the current development
+sources (which will become opkg v0.3.0). Instead, libarchive is used
+for package extraction and it has a more flexible interface for uid
+and gid lookup. It would certainly be possible to add options to the
+next version of opkg to lookup uids & gids from a given passwd & group
+file (which could be those from the sysroot). Is that something that
+would be useful in the future?
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- .../recipes-devtools/perl/liberror-perl_0.17022.bb | 27 ++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/liberror-perl_0.17022.bb
+> Conclusion:
+> opkg sets file ownership during unpacking ipk. At this time the
+> users/groups are not found in the image since preinst has not run yet.
+> So opkg decides to set the UID/GID which were found during install as
+> fallback. These IDs are coming from sysroot and are different form
+> those found in the image. I checked: polkit has 995 in sysroot but
+> image ends up with 997 for polkit.
+>
+> I did some attempts to change order of operations in opkg but these
+> did not lead to some improvement yet - and I have no idea if other
+> package-managers are affected too.
+>
+> So anybody around with more experience and willing to take care or give h=
+ints?
 
-diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17022.bb b/meta/recipes-devtools/perl/liberror-perl_0.17022.bb
-new file mode 100644
-index 0000000..071f4b7
---- /dev/null
-+++ b/meta/recipes-devtools/perl/liberror-perl_0.17022.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "Error - Error/exception handling in an OO-ish way"
-+DESCRIPTION = "The Error package provides two interfaces. Firstly \
-+Error provides a procedural interface to exception handling. \
-+Secondly Error is a base class for errors/exceptions that can \
-+either be thrown, for subsequent catch, or can simply be recorded."
-+
-+SECTION = "libs"
-+LICENSE = "Artistic-1.0 | GPL-1.0+"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8f3499d09ee74a050c0319391ff9d100"
-+
-+DEPENDS += "perl"
-+
-+SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
-+SRC_URI[md5sum] = "f4d825f4be915ae90bf2e0d66734956b"
-+SRC_URI[sha256sum] = "cab74f04fb3af7088cefc2f6f96800ee52d34b82928bbb35ca51a0e5b5f9f7ef"
-+
-+S = "${WORKDIR}/Error-${PV}"
-+
-+inherit cpan
-+
-+do_compile() {
-+	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
-+	cpan_do_compile
-+}
-+
-+BBCLASSEXTEND = "native"
--- 
-1.9.0
+For the problem at hand, do we know if this a new issue or was it
+present in the dora or dylan branches of OE?
 
+>
+> Andreas
+>
+
+Many thanks,
+
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
