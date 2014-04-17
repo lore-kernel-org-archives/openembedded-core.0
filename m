@@ -1,26 +1,38 @@
-Return-Path: <Gabriel.Barbu@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 65E4865D57
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C512565D13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Apr 2014 15:21:17 +0000 (UTC)
-Received: from [192.168.14.77] (192.168.14.77) by smtp.enea.com (172.21.1.208)
-	with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 17 Apr 2014 17:21:16 +0200
-Message-ID: <534FF16C.50207@enea.com>
-Date: Thu, 17 Apr 2014 18:21:16 +0300
-From: Gabriel Barbu <gabriel.barbu@enea.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+	Thu, 17 Apr 2014 17:08:08 +0000 (UTC)
+Received: by mail-ve0-f174.google.com with SMTP id oz11so817991veb.33
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Apr 2014 10:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=Pe528uswwJfLYLpdVabcMBOV4eX/5Xo6xv+HsRge3a8=;
+	b=Id/b4K0hoiUfh1M9FQMzy6dVRk5TCxQzBKpjeaI980e93DfWWailXpsNrJw4A2Ri0c
+	IaMk/12ORJaps2nFlMrQPSAWiOoRdAnLXjlPhFUNcwIi9mm5tWhqreRYQUoiZ5o+wAYP
+	q4ltPVbkpgQz3iQAqg90VBgX7Bttn4zvqAZwet1FDKaiy4QUISphxDnhsfJOR+q5A/Gb
+	RDjKggbNcKqtEKWcegRdKKD3q4WBb/xNvADCEyhcAXsUvuvPZH6ZESNDSJRNqc+VapaW
+	h0cJwbbpFKl2R1TnRLQ501+ZkbHj8cwDTybclkavqnXx6b0j32lppK50L7maEK/6x8tF
+	isvg==
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <69319FFFA2D4F748B9BB5083FA28E56F25B9AD1A@sestoex09.enea.se>
-	<2112042.009cqD1bE3@peggleto-mobl5.ger.corp.intel.com>
-	<534FE9D0.3090500@enea.com>
-	<1766435.4H2Ncp94dv@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <1766435.4H2Ncp94dv@peggleto-mobl5.ger.corp.intel.com>
-X-Originating-IP: [192.168.14.77]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to add a distro feature from an image recipe?
+X-Received: by 10.220.101.3 with SMTP id a3mr1859900vco.31.1397754489177; Thu,
+	17 Apr 2014 10:08:09 -0700 (PDT)
+Received: by 10.52.120.4 with HTTP; Thu, 17 Apr 2014 10:08:09 -0700 (PDT)
+In-Reply-To: <CALbNGRSXjpbvPa9N1yFYRqHn7X5rMSw-6F5vnbrFwMpq0pXHZQ@mail.gmail.com>
+References: <CALbNGRSqnLj6Hr+6dL0rcyacz1pXSf+XySbYs_tx_gnq5+QfEg@mail.gmail.com>
+	<CANyK_8d907x2d2_9MemcBqtB3oS6fyhzZyiRWMGSOEoXTcoinA@mail.gmail.com>
+	<CALbNGRSXjpbvPa9N1yFYRqHn7X5rMSw-6F5vnbrFwMpq0pXHZQ@mail.gmail.com>
+Date: Thu, 17 Apr 2014 19:08:09 +0200
+Message-ID: <CALbNGRTyORP9DfxidwAhNqjFb5N937vbjJYncqwLXmc4fnxjWA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: issue with file-ownership in images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Apr 2014 15:21:19 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 17 Apr 2014 17:08:09 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 4/17/2014 5:52 PM, Paul Eggleton wrote:
-> On Thursday 17 April 2014 17:48:48 Gabriel Barbu wrote:
->> On 4/17/2014 5:28 PM, Paul Eggleton wrote:
->>> On Thursday 17 April 2014 17:24:17 Gabriel Barbu wrote:
->>>> On 4/17/2014 4:42 PM, Paul Eggleton wrote:
->>>>> On Thursday 17 April 2014 11:27:16 Gabriel Barbu wrote:
->>>>>> Or, if not, what would be the best way to achieve this?
->>>>>> The need is that I have a number of images and only want to add a
->>>>>> certain
->>>>>> distro feature (ptest) to just one or two of them (some test images)=
+On Thu, Apr 17, 2014 at 1:53 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+OK I did a test with current git master.
+
+Good news:
+
+the sequence of running preinst-script and unpacking is correct now:
+
+| NOTE: Performing useradd with [--root
+/home/a.mueller/tmp/oe-core-eglibc/work/overo-angstrom-linux-gnueabi/xfce4-=
+tiny-image/1.0-r0/rootfs
+--system --no-create-home --user-group --home-dir /etc/polkit-1
+polkitd] and 10 times of retry
+...
+...
+| Installing polkit (0.112-r0) on root.
+| Downloading file:/home/a.mueller/tmp/oe-core-eglibc/deploy/ipk/armv7at2hf=
+-vfp-neon/polkit_0.112-r0_armv7at2hf-vfp-neon.ipk.
+...
+
+Bad news:
+
+gid/uid are still identical to those with opkg 2.01 (based on same ipks cre=
+ated)
+
+I think what happens is that opkg simply uses the ids which were found
+during installation.
+
+So now with the sequence looking solved, I understand better what you sugge=
+sted:
+> It would certainly be possible to add options to the
+> next version of opkg to lookup uids & gids from a given passwd & group
+> file (which could be those from the sysroot). Is that something that
+> would be useful in the future?
+Yes this would solve this issue (nit: replace 'sysroot' by rootfs or image)=
 .
->>>>>
->>>>> You can have ptest enabled in the distro but ptest packages installed
->>>>> only
->>>>> in certain images. That is the only way this kind of thing can work. =
-If
->>>>> enabling the ptest in DISTRO_FEATURES is causing changes in an image
->>>>> where ptest is not installed, that should be considered a bug.
->>>>
->>>> Yes, I was afraid it=E2=80=99s this way :)
->>>> Alright, I can settle for just not having them installed.
->>>>
->>>> But what I=E2=80=99m witnessing now is that having:
->>>> "ptest" in my DISTRO_FEATURES, and
->>>> no "ptest-pkgs" in IMAGE_FEATURES
->>>> results in the image having ptests installed.
->>>
->>> Is that bug 5702, or something else?
->>>
->>>     https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5702
->>>
->>> Cheers,
->>> Paul
->>
->> Possibly more. Right now I only see:
->> ./dbus-ptest/ptest
->> ./perl/ptest
->>
->> in a custom image I have, but I will also try with a bigger image to
->> check if I get more.
->
-> So the dbus-ptest one we're aware of (and the fix is on the mailing list)=
- but
-> it would be interesting to know how the perl-ptest one got there.
->
-> Cheers,
-> Paul
->
 
-Right, I will investigate.
+enjoy Easter
 
-Best regards,
-Gabriel
+Andreas
 
