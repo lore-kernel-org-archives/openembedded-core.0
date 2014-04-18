@@ -1,20 +1,24 @@
 Return-Path: <cristiana.voicu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E103606D5
+	by mail.openembedded.org (Postfix) with ESMTP id 9C2EB65DF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 06:39:33 +0000 (UTC)
+	Fri, 18 Apr 2014 06:39:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:34 -0700
+	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099598"
+X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099615"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:32 -0700
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:38 -0700
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Apr 2014 09:40:29 +0300
-Message-Id: <cover.1397803089.git.cristiana.voicu@intel.com>
+Date: Fri, 18 Apr 2014 09:40:30 +0300
+Message-Id: <009965b7570dbe60e79aa05d9b5efb072067f442.1397803089.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/7] PUs
+In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
+References: <cover.1397803089.git.cristiana.voicu@intel.com>
+In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
+References: <cover.1397803089.git.cristiana.voicu@intel.com>
+Subject: [PATCH 1/7] pango: upgrade to 1.36.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,44 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 06:39:35 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 06:39:37 -0000
 
-The packages has been succesfully compiled for all major architectures.
-Tested locally on a core-image-sato image.
-
-The following changes since commit 863cc7483f5ee43189537940de8ee5c0964d24cc:
-
-  poky.conf: Post release version bump (2014-04-10 18:03:07 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib cvoicu/work
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/work
-
-Cristiana Voicu (7):
-  pango: upgrade to 1.36.3
-  curl: upgrade to 7.36.0
-  atk: upgrade to 2.12.0
-  at-spi2-atk: upgrade to 2.12.0
-  at-spi2-core: upgrade to 2.12.0
-  mtd-utils: upgrade to 1.5.1+gitAUTOINC+12158de
-  kmod: upgrade to v17 via git
-
- meta/recipes-devtools/mtd/mtd-utils_git.bb         |    4 ++--
+Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+---
  .../pango/{pango_1.36.2.bb => pango_1.36.3.bb}     |    4 ++--
- meta/recipes-kernel/kmod/kmod.inc                  |    4 ++--
- ...alling-bswap_-instead-of-htobe-and-be-toh.patch |    4 ++--
- ...at-spi2-atk_2.10.0.bb => at-spi2-atk_2.12.0.bb} |    4 ++--
- ...-spi2-core_2.10.2.bb => at-spi2-core_2.12.0.bb} |    4 ++--
- .../atk/{atk_2.10.0.bb => atk_2.12.0.bb}           |    4 ++--
- .../curl/{curl_7.35.0.bb => curl_7.36.0.bb}        |    4 ++--
- 8 files changed, 16 insertions(+), 16 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-graphics/pango/{pango_1.36.2.bb => pango_1.36.3.bb} (56%)
- rename meta/recipes-support/atk/{at-spi2-atk_2.10.0.bb => at-spi2-atk_2.12.0.bb} (79%)
- rename meta/recipes-support/atk/{at-spi2-core_2.10.2.bb => at-spi2-core_2.12.0.bb} (77%)
- rename meta/recipes-support/atk/{atk_2.10.0.bb => atk_2.12.0.bb} (79%)
- rename meta/recipes-support/curl/{curl_7.35.0.bb => curl_7.36.0.bb} (93%)
 
+diff --git a/meta/recipes-graphics/pango/pango_1.36.2.bb b/meta/recipes-graphics/pango/pango_1.36.3.bb
+similarity index 56%
+rename from meta/recipes-graphics/pango/pango_1.36.2.bb
+rename to meta/recipes-graphics/pango/pango_1.36.3.bb
+index e682038..938af34 100644
+--- a/meta/recipes-graphics/pango/pango_1.36.2.bb
++++ b/meta/recipes-graphics/pango/pango_1.36.3.bb
+@@ -8,5 +8,5 @@ SRC_URI += "file://no-tests.patch \
+             file://multilib-fix-clean.patch \
+ "
+ 
+-SRC_URI[archive.md5sum] = "253026c7132c22e52cefd998ba89a742"
+-SRC_URI[archive.sha256sum] = "f07f9392c9cf20daf5c17a210b2c3f3823d517e1917b72f20bb19353b2bc2c63"
++SRC_URI[archive.md5sum] = "d9532826e95bdb374355deebc42441bb"
++SRC_URI[archive.sha256sum] = "ad48e32917f94aa9d507486d44366e59355fcfd46ef86d119ddcba566ada5d22"
 -- 
 1.7.9.5
 
