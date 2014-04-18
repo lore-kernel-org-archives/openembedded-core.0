@@ -1,24 +1,24 @@
 Return-Path: <cristiana.voicu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B3365DF2
+	by mail.openembedded.org (Postfix) with ESMTP id AF18F65DF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 06:39:38 +0000 (UTC)
+	Fri, 18 Apr 2014 06:39:39 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:40 -0700
+	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099619"
+X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099622"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:39 -0700
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:40 -0700
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Apr 2014 09:40:31 +0300
-Message-Id: <5518dfdfc81f53097f035f1655f1f167f57721ff.1397803089.git.cristiana.voicu@intel.com>
+Date: Fri, 18 Apr 2014 09:40:32 +0300
+Message-Id: <30b2872f90f8c1d8373abb1db3264464a761faff.1397803089.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
 References: <cover.1397803089.git.cristiana.voicu@intel.com>
 In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
 References: <cover.1397803089.git.cristiana.voicu@intel.com>
-Subject: [PATCH 2/7] curl: upgrade to 7.36.0
+Subject: [PATCH 3/7] atk: upgrade to 2.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 06:39:38 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 06:39:39 -0000
 
 Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
 ---
- .../curl/{curl_7.35.0.bb => curl_7.36.0.bb}        |    4 ++--
+ .../atk/{atk_2.10.0.bb => atk_2.12.0.bb}           |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.35.0.bb => curl_7.36.0.bb} (93%)
+ rename meta/recipes-support/atk/{atk_2.10.0.bb => atk_2.12.0.bb} (79%)
 
-diff --git a/meta/recipes-support/curl/curl_7.35.0.bb b/meta/recipes-support/curl/curl_7.36.0.bb
-similarity index 93%
-rename from meta/recipes-support/curl/curl_7.35.0.bb
-rename to meta/recipes-support/curl/curl_7.36.0.bb
-index 9cc60c8..6f55463 100644
---- a/meta/recipes-support/curl/curl_7.35.0.bb
-+++ b/meta/recipes-support/curl/curl_7.36.0.bb
-@@ -18,8 +18,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
+diff --git a/meta/recipes-support/atk/atk_2.10.0.bb b/meta/recipes-support/atk/atk_2.12.0.bb
+similarity index 79%
+rename from meta/recipes-support/atk/atk_2.10.0.bb
+rename to meta/recipes-support/atk/atk_2.12.0.bb
+index 538d614..9112bbb 100644
+--- a/meta/recipes-support/atk/atk_2.10.0.bb
++++ b/meta/recipes-support/atk/atk_2.12.0.bb
+@@ -14,8 +14,8 @@ inherit gnomebase gtk-doc
  
--SRC_URI[md5sum] = "c18fbdd031adb0529ae09fce399f2d10"
--SRC_URI[sha256sum] = "d774d1701454f1b7d331c2075fc4f6dd972bddc2d171f43645ef3647c7fc0d83"
-+SRC_URI[md5sum] = "e6d1f9d1b59da5062109ffe14e0569a4"
-+SRC_URI[sha256sum] = "1fbe82b89bcd6b7ccda8cb0ff076edc60e911595030e27689f4abd5ef7f3cfcd"
+ GNOME_COMPRESS_TYPE = "xz"
  
- inherit autotools pkgconfig binconfig multilib_header
+-SRC_URI[archive.md5sum] = "e77833d4445ebe6842e9f9a0667b0be7"
+-SRC_URI[archive.sha256sum] = "636917a5036bc851d8491194645d284798ec118919a828be5e713b6ecc5b50b0"
++SRC_URI[archive.md5sum] = "930238dec55fdbf8eda9975b44f07b76"
++SRC_URI[archive.sha256sum] = "48a8431974639c5a59c24fcd3ece1a19709872d5dfe78907524d9f5e9993f18f"
+ 
+ BBCLASSEXTEND = "native"
  
 -- 
 1.7.9.5
