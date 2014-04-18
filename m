@@ -1,24 +1,40 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CCE9C60808
+Return-Path: <zhenhua.luo@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1blp0184.outbound.protection.outlook.com [207.46.163.184])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C07765CFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 06:39:43 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099643"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:44 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Apr 2014 09:40:36 +0300
-Message-Id: <46e74ca3607e9681a7c7d684293836d829592f90.1397803089.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
-References: <cover.1397803089.git.cristiana.voicu@intel.com>
-In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
-References: <cover.1397803089.git.cristiana.voicu@intel.com>
-Subject: [PATCH 7/7] kmod: upgrade to v17 via git
+	Fri, 18 Apr 2014 07:42:11 +0000 (UTC)
+Received: from DM2PR03MB399.namprd03.prod.outlook.com (10.141.84.148) by
+	DM2PR03MB397.namprd03.prod.outlook.com (10.141.84.139) with Microsoft
+	SMTP Server (TLS) id 15.0.921.12; Fri, 18 Apr 2014 07:42:09 +0000
+Received: from DM2PR03MB399.namprd03.prod.outlook.com ([10.141.84.148]) by
+	DM2PR03MB399.namprd03.prod.outlook.com ([10.141.84.148]) with mapi id
+	15.00.0921.000; Fri, 18 Apr 2014 07:42:09 +0000
+From: "zhenhua.luo@freescale.com" <zhenhua.luo@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Vali Cobelea
+	<valentin.cobelea@enea.com>
+Thread-Topic: JAVA build problem with latest poky + meta-fsl-ppc + meta-java
+Thread-Index: Ac9a2a7cGbLvXtnORD+pwKuneHPiAA==
+Date: Fri, 18 Apr 2014 07:42:08 +0000
+Message-ID: <37e02f2913a24f80b793f961d9600f60@DM2PR03MB399.namprd03.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [123.151.195.50]
+x-forefront-prvs: 018577E36E
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009001)(6009001)(428001)(189002)(199002)(53754006)(79102001)(33646001)(92566001)(20776003)(83072002)(85852003)(77982001)(15202345003)(74502001)(74662001)(80022001)(66066001)(31966008)(15975445006)(81342001)(50986999)(86362001)(81542001)(87936001)(99286001)(2656002)(19580395003)(80976001)(46102001)(74316001)(77096999)(54356999)(99396002)(76482001)(4396001)(76576001)(83322001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR03MB397;
+	H:DM2PR03MB399.namprd03.prod.outlook.com;
+	FPR:FEDA70D5.2F379411.31D66944.D8CB52A0.20237; MLV:sfv;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+received-spf: None (: freescale.com does not designate permitted sender hosts)
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: "White.Weng@freescale.com" <White.Weng@freescale.com>,
+	Richard Schmitt <richard.schmitt@freescale.com>
+Subject: JAVA build problem with latest poky + meta-fsl-ppc + meta-java
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 06:39:43 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 07:42:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Just one patch has some small changes because the new code
-has another fix for unaligned access.
+Hi all,=20
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- meta/recipes-kernel/kmod/kmod.inc                  |    4 ++--
- ...alling-bswap_-instead-of-htobe-and-be-toh.patch |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+When I try to use latest poky + meta-fsl-ppc + meta-java to build java-test=
+-image for e6500 target, the compilesteptwo step of openjdk-6-jre failed as=
+ following:
+| GENERATING /home/jenkins/poky/build_b4860qds_release/tmp/work/ppce6500-fs=
+l-linux/openjdk-6-jre/6b27-1.12.5-r22.2/icedtea6-1.12.5/build/generated.bui=
+ld/sun/awt/X11/generator/sizes.32
+| Unable to find CPU definition
 
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-index 47445eb..504a32f 100644
---- a/meta/recipes-kernel/kmod/kmod.inc
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -16,9 +16,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                    "
- inherit autotools gtk-doc ptest
- 
--SRCREV = "36c4bb928a6a7962dd0ad3aa64c0b18120ca5b46"
-+SRCREV = "49d8e0b59052999de577ab732b719cfbeb89504d"
- # Lookout for PV bump too when SRCREV is changed
--PV = "16+git${SRCPV}"
-+PV = "17+git${SRCPV}"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
-            file://depmod-search.conf \
-diff --git a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-index 82b83b3..5b4c8fa 100644
---- a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-+++ b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
-@@ -29,8 +29,8 @@ index 6b80caa..3544a36 100644
-  			modsig->hash >= PKEY_HASH__LAST ||
-  			modsig->id_type >= PKEY_ID_TYPE__LAST)
-  		return false;
---	sig_len = be32toh(modsig->sig_len);
--+	sig_len = bswap_32(modsig->sig_len);
-+-	sig_len = be32toh(get_unaligned(&modsig->sig_len));
-++	sig_len = bswap_32(get_unaligned(&modsig->sig_len));
-  	if (size < (off_t)(modsig->signer_len + modsig->key_id_len + sig_len))
-  		return false;
-  
--- 
-1.7.9.5
+According to the investigation, the compilesteptwo step of openjdk-6-jre la=
+unches qemu for e6500 target, seems like the qemu source provided by poky d=
+oesn't support e6500 emulation, so above "Unable to find CPU definition" er=
+ror appears. Java can be built correctly before below two commits are merge=
+d.=20
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/conf/bitbake.con=
+f?h=3Ddaisy&id=3D18bbfc4cf32b3ed564f93efef16a391c5a3ae50f
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/conf/machine/inc=
+lude/tune-ppce6500.inc?h=3Ddaisy&id=3D888ceb12522e19e30759acc67336f010b63ad=
+864
 
+IMHO, following are three possible ways to solve the issue=20
+1. Reverse above two commits until qemu supports ppce6500 targets=20
+2. Use the cpu parameter to something that QEMU supports and is similar to =
+e6500 (e,g, e500mc) until ppce6500 is supported by qemu=20
+3. Use FSL qemu source for qemu-native build when machine is ppce6500 targe=
+ts, we are verifying this way.=20
+
+Any comment on the problem, and any better solution for this issue?
+
+
+Best Regards,
+
+Zhenhua
 
