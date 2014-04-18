@@ -1,40 +1,38 @@
-Return-Path: <zhenhua.luo@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1blp0184.outbound.protection.outlook.com [207.46.163.184])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C07765CFA
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id BD56C65D51
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 07:42:11 +0000 (UTC)
-Received: from DM2PR03MB399.namprd03.prod.outlook.com (10.141.84.148) by
-	DM2PR03MB397.namprd03.prod.outlook.com (10.141.84.139) with Microsoft
-	SMTP Server (TLS) id 15.0.921.12; Fri, 18 Apr 2014 07:42:09 +0000
-Received: from DM2PR03MB399.namprd03.prod.outlook.com ([10.141.84.148]) by
-	DM2PR03MB399.namprd03.prod.outlook.com ([10.141.84.148]) with mapi id
-	15.00.0921.000; Fri, 18 Apr 2014 07:42:09 +0000
-From: "zhenhua.luo@freescale.com" <zhenhua.luo@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Vali Cobelea
-	<valentin.cobelea@enea.com>
-Thread-Topic: JAVA build problem with latest poky + meta-fsl-ppc + meta-java
-Thread-Index: Ac9a2a7cGbLvXtnORD+pwKuneHPiAA==
-Date: Fri, 18 Apr 2014 07:42:08 +0000
-Message-ID: <37e02f2913a24f80b793f961d9600f60@DM2PR03MB399.namprd03.prod.outlook.com>
+	Fri, 18 Apr 2014 11:24:21 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 18 Apr 2014 04:24:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,884,1389772800"; d="scan'208";a="515293566"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2014 04:23:52 -0700
+Received: from irsmsx107.ger.corp.intel.com (163.33.3.99) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Fri, 18 Apr 2014 12:23:51 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
+	IRSMSX107.ger.corp.intel.com ([169.254.10.157]) with mapi id
+	14.03.0123.003; Fri, 18 Apr 2014 12:23:51 +0100
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: "denis@denix.org" <denis@denix.org>
+Thread-Topic: [OE-core] [PATCH] u-boot: fix beaglebone boot issue with large
+	kernel images
+Thread-Index: AQHPWvisbjf6yBCsLUyhF0yWoPQ1Tw==
+Date: Fri, 18 Apr 2014 11:23:51 +0000
+Message-ID: <1397820262.9082.17.camel@firebird.rb.intel.com>
+References: <1397761533-10634-1-git-send-email-denis@denix.org>
+In-Reply-To: <1397761533-10634-1-git-send-email-denis@denix.org>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [123.151.195.50]
-x-forefront-prvs: 018577E36E
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009001)(6009001)(428001)(189002)(199002)(53754006)(79102001)(33646001)(92566001)(20776003)(83072002)(85852003)(77982001)(15202345003)(74502001)(74662001)(80022001)(66066001)(31966008)(15975445006)(81342001)(50986999)(86362001)(81542001)(87936001)(99286001)(2656002)(19580395003)(80976001)(46102001)(74316001)(77096999)(54356999)(99396002)(76482001)(4396001)(76576001)(83322001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR03MB397;
-	H:DM2PR03MB399.namprd03.prod.outlook.com;
-	FPR:FEDA70D5.2F379411.31D66944.D8CB52A0.20237; MLV:sfv;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-received-spf: None (: freescale.com does not designate permitted sender hosts)
+x-originating-ip: [10.237.105.38]
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "White.Weng@freescale.com" <White.Weng@freescale.com>,
-	Richard Schmitt <richard.schmitt@freescale.com>
-Subject: JAVA build problem with latest poky + meta-fsl-ppc + meta-java
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"denys@ti.com" <denys@ti.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: fix beaglebone boot issue with large kernel images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,43 +45,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 07:42:14 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 11:24:23 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BA7EA582E4BB9A49B8EDD1197C591029@intel.com>
+Content-Transfer-Encoding: base64
 
-Hi all,=20
-
-When I try to use latest poky + meta-fsl-ppc + meta-java to build java-test=
--image for e6500 target, the compilesteptwo step of openjdk-6-jre failed as=
- following:
-| GENERATING /home/jenkins/poky/build_b4860qds_release/tmp/work/ppce6500-fs=
-l-linux/openjdk-6-jre/6b27-1.12.5-r22.2/icedtea6-1.12.5/build/generated.bui=
-ld/sun/awt/X11/generator/sizes.32
-| Unable to find CPU definition
-
-According to the investigation, the compilesteptwo step of openjdk-6-jre la=
-unches qemu for e6500 target, seems like the qemu source provided by poky d=
-oesn't support e6500 emulation, so above "Unable to find CPU definition" er=
-ror appears. Java can be built correctly before below two commits are merge=
-d.=20
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/conf/bitbake.con=
-f?h=3Ddaisy&id=3D18bbfc4cf32b3ed564f93efef16a391c5a3ae50f
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/conf/machine/inc=
-lude/tune-ppce6500.inc?h=3Ddaisy&id=3D888ceb12522e19e30759acc67336f010b63ad=
-864
-
-IMHO, following are three possible ways to solve the issue=20
-1. Reverse above two commits until qemu supports ppce6500 targets=20
-2. Use the cpu parameter to something that QEMU supports and is similar to =
-e6500 (e,g, e500mc) until ppce6500 is supported by qemu=20
-3. Use FSL qemu source for qemu-native build when machine is ppce6500 targe=
-ts, we are verifying this way.=20
-
-Any comment on the problem, and any better solution for this issue?
-
-
-Best Regards,
-
-Zhenhua
+DQoNCg0KT24gVGh1LCAyMDE0LTA0LTE3IGF0IDE1OjA1IC0wNDAwLCBEZW55cyBEbXl0cml5ZW5r
+byB3cm90ZToNCj4gRnJvbTogRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4NCj4gDQo+
+IEZpeCBiZWFnbGVib25lIGJvb3QgaXNzdWUgd2l0aCBsYXJnZSBrZXJuZWwgaW1hZ2VzIG92ZXJ3
+cml0aW5nIERldmljZSBUcmVlLg0KPiBTZWUgdmVyeSBkZXRhaWxlZCBjb21tZW50cyBpbnNpZGUg
+dGhlIHBhdGNoLg0KPiANCj4gVGhlIG9yaWdpbmFsIHBhdGNoIGlzIGJlaW5nIHJldmlld2VkIHVw
+c3RyZWFtIGFuZCBpcyB0YXJnZXRpbmcgbWFpbmxpbmUgVS1ib290DQo+IHZlcnNpb24gMjAxNC4w
+Ny4gVGhpcyBpcyB0aGUgYWRhcHRhdGlvbiBvZiB0aGUgcGF0Y2ggZm9yIDIwMTMuMDcgdmVyc2lv
+biB3ZSB1c2UNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0
+aS5jb20+DQoNCg0KVGhhbmsgeW91IERlbnlzLCB0aGlzIHdvcmtzIGdyZWF0LiBXaXRoIGEgbmV3
+IHUtYm9vdC5pbWcgSSBjb3VsZCBib290DQphbnkga2VybmVsIHRoYXQgYmVmb3JlIHdvdWxkbid0
+IGJvb3QuDQoNCkNoZWVycywNClN0ZWZhbg0KDQoNCj4gLS0tDQo+ICAuLi5oLUFkZC11c2UtREVG
+QVVMVF9MSU5VWF9CT09UX0VOVi1lbnZpcm9ubS5wYXRjaCB8IDc0ICsrKysrKysrKysrKysrKysr
+KysrKysNCj4gIG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDEzLjA3LmJiICAgICAg
+ICAgIHwgIDQgKy0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L2Zp
+bGVzLzAwMDEtYW0zMzV4X2V2bS5oLUFkZC11c2UtREVGQVVMVF9MSU5VWF9CT09UX0VOVi1lbnZp
+cm9ubS5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2Zp
+bGVzLzAwMDEtYW0zMzV4X2V2bS5oLUFkZC11c2UtREVGQVVMVF9MSU5VWF9CT09UX0VOVi1lbnZp
+cm9ubS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzLzAwMDEtYW0zMzV4X2V2
+bS5oLUFkZC11c2UtREVGQVVMVF9MSU5VWF9CT09UX0VOVi1lbnZpcm9ubS5wYXRjaA0KPiBuZXcg
+ZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi43N2UzNWJiDQo+IC0tLSAvZGV2L251
+bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvZmlsZXMvMDAwMS1hbTMzNXhfZXZt
+LmgtQWRkLXVzZS1ERUZBVUxUX0xJTlVYX0JPT1RfRU5WLWVudmlyb25tLnBhdGNoDQo+IEBAIC0w
+LDAgKzEsNzQgQEANCj4gK0Zyb20gNTcwMTM4NGNlYTRhODI5Yjc3MmJmN2E5NmE3NDgyNWI1OGMy
+MjM4NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206IERlbnlzIERteXRyaXllbmtv
+IDxkZW55c0B0aS5jb20+DQo+ICtEYXRlOiBUaHUsIDE3IEFwciAyMDE0IDEyOjI1OjQwIC0wNDAw
+DQo+ICtTdWJqZWN0OiBbUEFUQ0hdIGFtMzM1eF9ldm0uaDogQWRkLCB1c2UgREVGQVVMVF9MSU5V
+WF9CT09UX0VOViBlbnZpcm9ubWVudA0KPiArIHN0cmluZw0KPiArDQo+ICtNb2RpZmllZCB2ZXJz
+aW9uIG9mIHRoZSBwYXRjaCBjdXJyZW50bHkgYmVpbmcgcmV2aWV3ZWQgZm9yIG1haW5saW5lOg0K
+PiAraHR0cDovL3BhdGNod29yay5vemxhYnMub3JnL3BhdGNoLzMzNDg2MS8NCj4gKw0KPiArVG8g
+ZGVhbCB3aXRoIGEgcmVvY2N1cnJpbmcgcHJvYmxlbSBwcm9wZXJseSB3ZSBuZWVkIHRvIHNwZWNp
+ZnkgYWRkcmVzc2VzDQo+ICtmb3IgdGhlIExpbnV4IGtlcm5lbCwgRmxhdHRlZCBEZXZpY2UgVHJl
+ZSBhbmQgcmFtZGlzayB0aGF0IG9iZXkgdGhlDQo+ICtjb25zdHJhaW50cyB3aXRoaW4gdGhlIGtl
+cm5lbCdzIERvY3VtZW50YXRpb24vYXJtL0Jvb3RpbmcgZmlsZSBidXQgYWxzbw0KPiArbWFrZSBz
+dXJlIHRoYXQgd2UgcmVsb2NhdGUgdGhpbmdzIHdpdGhpbiBhIHZhbGlkIGFkZHJlc3MgcmFuZ2Uu
+DQo+ICsNCj4gK1NpZ25lZC1vZmYtYnk6IERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+
+DQo+ICtTaWduZWQtb2ZmLWJ5OiBUb20gUmluaSA8dHJpbmlAdGkuY29tPg0KPiArDQo+ICtVcHN0
+cmVhbS1TdGF0dXM6IFBlbmRpbmcNCj4gKy0tLQ0KPiArIGluY2x1ZGUvY29uZmlncy9hbTMzNXhf
+ZXZtLmggfCAzMSArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tDQo+ICsgMSBmaWxlIGNo
+YW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1n
+aXQgYS9pbmNsdWRlL2NvbmZpZ3MvYW0zMzV4X2V2bS5oIGIvaW5jbHVkZS9jb25maWdzL2FtMzM1
+eF9ldm0uaA0KPiAraW5kZXggYzVhNmQ0Yi4uMDFlMzJiMyAxMDA2NDQNCj4gKy0tLSBhL2luY2x1
+ZGUvY29uZmlncy9hbTMzNXhfZXZtLmgNCj4gKysrKyBiL2luY2x1ZGUvY29uZmlncy9hbTMzNXhf
+ZXZtLmgNCj4gK0BAIC01NCwxMCArNTQsNyBAQA0KPiArICNkZWZpbmUgQ09ORklHX0VOVl9WQVJT
+X1VCT09UX1JVTlRJTUVfQ09ORklHDQo+ICsgI2lmbmRlZiBDT05GSUdfU1BMX0JVSUxEDQo+ICsg
+I2RlZmluZSBDT05GSUdfRVhUUkFfRU5WX1NFVFRJTkdTIFwNCj4gKy0JImxvYWRhZGRyPTB4ODAy
+MDAwMDBcMCIgXA0KPiArLQkiZmR0YWRkcj0weDgwRjgwMDAwXDAiIFwNCj4gKy0JImZkdF9oaWdo
+PTB4ZmZmZmZmZmZcMCIgXA0KPiArLQkicmRhZGRyPTB4ODEwMDAwMDBcMCIgXA0KPiArKwlERUZB
+VUxUX0xJTlVYX0JPT1RfRU5WIFwNCj4gKyAJImJvb3RkaXI9L2Jvb3RcMCIgXA0KPiArIAkiYm9v
+dGZpbGU9dUltYWdlXDAiIFwNCj4gKyAJImZkdGZpbGU9dW5kZWZpbmVkXDAiIFwNCj4gK0BAIC0x
+OTcsNyArMTk0LDMxIEBADQo+ICsgI2RlZmluZSBDT05GSUdfU1lTX01FTVRFU1RfRU5ECQkoQ09O
+RklHX1NZU19NRU1URVNUX1NUQVJUIFwNCj4gKyAJCQkJCSsgKDggKiAxMDI0ICogMTAyNCkpDQo+
+ICsgDQo+ICstI2RlZmluZSBDT05GSUdfU1lTX0xPQURfQUREUgkJMHg4MTAwMDAwMCAvKiBEZWZh
+dWx0IGxvYWQgYWRkcmVzcyAqLw0KPiArKy8qDQo+ICsrICogT3VyIEREUiBtZW1vcnkgYWx3YXlz
+IHN0YXJ0cyBhdCAweDgwMDAwMDAwIGFuZCBVLUJvb3Qgc2hhbGwgaGF2ZQ0KPiArKyAqIHJlbG9j
+YXRlZCBpdHNlbGYgdG8gaGlnaGVyIGluIG1lbW9yeSBieSB0aGUgdGltZSB0aGlzIHZhbHVlIGlz
+IHVzZWQuDQo+ICsrICogSG93ZXZlciwgc2V0IHRoaXMgdG8gYSAzMk1CIG9mZnNldCB0byBhbGxv
+dyBmb3IgZWFzaWVyIExpbnV4IGtlcm5lbA0KPiArKyAqIGJvb3RpbmcgYXMgdGhlIGRlZmF1bHQg
+aXMgb2Z0ZW4gdXNlZCBhcyB0aGUga2VybmVsIGxvYWQgYWRkcmVzcy4NCj4gKysgKi8NCj4gKysj
+ZGVmaW5lIENPTkZJR19TWVNfTE9BRF9BRERSCQkweDgyMDAwMDAwIC8qIERlZmF1bHQgbG9hZCBh
+ZGRyZXNzICovDQo+ICsrDQo+ICsrLyoNCj4gKysgKiBXZSBzZXR1cCBkZWZhdWx0cyBiYXNlZCBv
+biBjb25zdHJhaW50cyBmcm9tIHRoZSBMaW51eCBrZXJuZWwsIHdoaWNoIHNob3VsZA0KPiArKyAq
+IGFsc28gYmUgc2FmZSBlbHNld2hlcmUuICBXZSBoYXZlIHRoZSBkZWZhdWx0IGxvYWQgYXQgMzJN
+QiBpbnRvIEREUiAoZm9yDQo+ICsrICogdGhlIGtlcm5lbCksIEZEVCBhYm92ZSAxMjhNQiAodGhl
+IG1heGltdW0gbG9jYXRpb24gZm9yIHRoZSBlbmQgb2YgdGhlDQo+ICsrICoga2VybmVsKSwgYW5k
+IHRoZSByYW1kaXNrIDUxMktCIGFib3ZlIHRoYXQgKGFsbG93aW5nIGZvciBob3BlZnVsbHkgbmV2
+ZXINCj4gKysgKiBzZWVuIGxhcmdlIHRyZWVzKS4gIFdlIHNheSBhbGwgb2YgdGhpcyBtdXN0IGJl
+IHdpdGhpbiB0aGUgZmlyc3QgMjU2TUINCj4gKysgKiBhcyB0aGF0IHdpbGwgbm9ybWFsbHkgYmUg
+d2l0aGluIHRoZSBrZXJuZWwgbG93bWVtIGFuZCB0aHVzIHZpc2libGUgdmlhDQo+ICsrICogYm9v
+dG1fc2l6ZSBhbmQgd2Ugb25seSBydW4gb24gcGxhdGZvcm1zIHdpdGggMjU2TUIgb3IgbW9yZSBv
+ZiBtZW1vcnkuDQo+ICsrICovDQo+ICsrI2RlZmluZSBERUZBVUxUX0xJTlVYX0JPT1RfRU5WIFwN
+Cj4gKysJImxvYWRhZGRyPTB4ODIwMDAwMDBcMCIgXA0KPiArKwkia2VybmVsX2FkZHJfcj0weDgy
+MDAwMDAwXDAiIFwNCj4gKysJImZkdGFkZHI9MHg4ODAwMDAwMFwwIiBcDQo+ICsrCSJmZHRfYWRk
+cl9yPTB4ODgwMDAwMDBcMCIgXA0KPiArKwkicmRhZGRyPTB4ODgwODAwMDBcMCIgXA0KPiArKwki
+cmFtZGlza19hZGRyX3I9MHg4ODA4MDAwMFwwIiBcDQo+ICsrCSJib290bV9zaXplPTB4MTAwMDAw
+MDBcMCINCj4gKyANCj4gKyAjZGVmaW5lIENPTkZJR19NTUMNCj4gKyAjZGVmaW5lIENPTkZJR19H
+RU5FUklDX01NQw0KPiArLS0gDQo+ICsxLjkuMg0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtYnNwL3UtYm9vdC91LWJvb3RfMjAxMy4wNy5iYiBiL21ldGEvcmVjaXBlcy1ic3AvdS1i
+b290L3UtYm9vdF8yMDEzLjA3LmJiDQo+IGluZGV4IDMxNDFhMmQuLmY4YTg4NTYgMTAwNjQ0DQo+
+IC0tLSBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDEzLjA3LmJiDQo+ICsrKyBi
+L21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDEzLjA3LmJiDQo+IEBAIC0xNiw3ICsx
+Niw5IEBAIFNSQ1JFViA9ICI2MmMxNzVmYmI4YTBmOWE5MjZjODgyOTRlYTlmN2U4OGViODk4ZjZj
+Ig0KPiAgDQo+ICBQViA9ICJ2MjAxMy4wNytnaXQke1NSQ1BWfSINCj4gIA0KPiAtU1JDX1VSSSA9
+ICJnaXQ6Ly9naXQuZGVueC5kZS91LWJvb3QuZ2l0O2JyYW5jaD1tYXN0ZXIiDQo+ICtTUkNfVVJJ
+ID0gImdpdDovL2dpdC5kZW54LmRlL3UtYm9vdC5naXQ7YnJhbmNoPW1hc3RlciBcDQo+ICsgICAg
+ICAgICAgIGZpbGU6Ly8wMDAxLWFtMzM1eF9ldm0uaC1BZGQtdXNlLURFRkFVTFRfTElOVVhfQk9P
+VF9FTlYtZW52aXJvbm0ucGF0Y2ggXA0KPiArIg0KPiAgDQo+ICBTID0gIiR7V09SS0RJUn0vZ2l0
+Ig0KPiAgDQo+IC0tIA0KPiAxLjkuMg0KPiANCg0K
 
