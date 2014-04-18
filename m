@@ -1,24 +1,39 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 955A765D26
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E7AC65D9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 22:38:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3IMcbFd019423
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 18 Apr 2014 23:38:45 +0000 (UTC)
+Received: by mail-yh0-f46.google.com with SMTP id b6so1883018yha.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 15:38:37 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 18 Apr 2014 15:38:35 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Apr 2014 15:38:35 -0700
-Message-ID: <1397860715-2417-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Fri, 18 Apr 2014 16:38:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=xK/K0d5vZopNaGAZf5fnniyGeSescmYOoHN2vbG/fQk=;
+	b=lS+mk4I05muXvWV1Zoth0Dg7YgN3KjLfe4N18RvvLTpoDdrSvGjV7/q16f1+4f+6i7
+	U/NSnfaVfZEmZ1caVhcddE4gDEVP4UnHe91tiATYlvckxOgUY1r6qNSCt5njJDqXDrUQ
+	axD+Id88YXzoFY59Sc//KNc3aP5L9WhbLykeRqnak+urDst3vXQyKwsBOLHDn+Lk7ng7
+	aIC2u/JRbscwkv6E1uEyjUsOykmn1ENDXUM544l6pM4duWuf2xydY4n2nlCj6QT5A1+5
+	yl/hBJQ027qQ3p3CAl4d3MYwsm8UoDsLVBtgUJdgJoYHGKYHnHkCaJn3ynKr7G28802K
+	3f5A==
 MIME-Version: 1.0
-Subject: [PATCH 1/1] apr: do not try to use sctp.h
+X-Received: by 10.236.61.45 with SMTP id v33mr33952547yhc.20.1397864326627;
+	Fri, 18 Apr 2014 16:38:46 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Fri, 18 Apr 2014 16:38:46 -0700 (PDT)
+In-Reply-To: <534DF255.9010506@windriver.com>
+References: <1397487085-8924-1-git-send-email-valentin.popa@intel.com>
+	<534DF255.9010506@windriver.com>
+Date: Fri, 18 Apr 2014 20:38:46 -0300
+X-Google-Sender-Auth: 6tOvcOol4myVjBklMg8-kAGare4
+Message-ID: <CAP9ODKrJaQTkDeDgcvTBu9=dRLwLJo=d9mVxvOgx+PAw5iSLyw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][PATCH_V3] mesa: double check for eglplatform.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +46,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 22:38:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Apr 2014 23:38:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If we let configure look for sctp.h it might find it
-on the host, so suppress the search with two cached
-config variables.
+On Wed, Apr 16, 2014 at 12:00 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>
+>
+> On 04/14/2014 10:51 PM, Valentin Popa wrote:
+>>
+>> Even if 'egl' is in PACKAGECONFIG, mesa egl support
+>> can be disabled explicitly (changing configure flags
+>> using a .bbappend, for example).
+>> On dora, meta-fsl-arm is an example of this kind.
+>> On master there are no known cases, and we should
+>> encourge package configuration through PACKAGECONFIG.
+>>
+>> This patch adds another check for the existence
+>> of eglplatform.h before 'sed' can alter it.
+>>
+>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>
+>
+> Reviewed and Tested by: Robert Yang <liezhi.yang@windriver.com>
+>
+> // Robert
+>
+>
+>> ---
+>>   meta/recipes-graphics/mesa/mesa_9.1.6.bb | 4 +++-
+>>   meta/recipes-graphics/mesa/mesa_git.bb   | 4 +++-
+>>   2 files changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+>> b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+>> index 6e9cd82..388cfd7 100644
+>> --- a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+>> +++ b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
+>> @@ -19,6 +19,8 @@ S = "${WORKDIR}/Mesa-${PV}"
+>>   #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>>   do_install_append() {
+>>       if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)};
+>> then
+>> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if
+>> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/'
+>> ${D}${includedir}/EGL/eglplatform.h
+>> +        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
+>> +            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if
+>> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/'
+>> ${D}${includedir}/EGL/eglplatform.h
+>> +        fi
+>>       fi
+>>   }
+>> \ No newline at end of file
+>> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb
+>> b/meta/recipes-graphics/mesa/mesa_git.bb
+>> index 1babcc0..714911f 100644
+>> --- a/meta/recipes-graphics/mesa/mesa_git.bb
+>> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
+>> @@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
+>>   #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>>   do_install_append() {
+>>       if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)};
+>> then
+>> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if
+>> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/'
+>> ${D}${includedir}/EGL/eglplatform.h
+>> +        if [ -e "${D}${includedir}/EGL/eglplatform.h" ]; then
+>> +            sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if
+>> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/'
+>> ${D}${includedir}/EGL/eglplatform.h
+>> +        fi
+>>       fi
+>>   }
+>>
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-support/apr/apr_1.4.8.bb |    4 ++++
- 1 file changed, 4 insertions(+)
+So WHAT is holding a bugfix for a regression to be merged? I am very
+disappointed with the maintenance in the Dora branch.
 
-diff --git a/meta/recipes-support/apr/apr_1.4.8.bb b/meta/recipes-support/apr/apr_1.4.8.bb
-index d834170..c14f64b 100644
---- a/meta/recipes-support/apr/apr_1.4.8.bb
-+++ b/meta/recipes-support/apr/apr_1.4.8.bb
-@@ -24,6 +24,10 @@ OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
- # Added to fix some issues with cmake. Refer to https://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928
- CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
- 
-+# Also suppress trying to use sctp.
-+#
-+CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sctp_uio_h=no"
-+
- do_configure_prepend() {
- 	cd ${S}
- 	./buildconf
+1. a change has been added without testing other layers hosted in YP.
+2. it has been merged without being ran in YP AB.
+3. I reported the issue in the same day it has been merged
+4. it has been 10 days and this has not yet been reverted/fixed.
+
+So CAN THIS BE MERGED PLEASE?
+
 -- 
-1.7.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
