@@ -1,38 +1,41 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id BD56C65D51
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D34960B9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 11:24:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 18 Apr 2014 04:24:21 -0700
+	Fri, 18 Apr 2014 16:12:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Apr 2014 09:12:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,884,1389772800"; d="scan'208";a="515293566"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2014 04:23:52 -0700
-Received: from irsmsx107.ger.corp.intel.com (163.33.3.99) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 18 Apr 2014 12:23:51 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.78]) by
-	IRSMSX107.ger.corp.intel.com ([169.254.10.157]) with mapi id
-	14.03.0123.003; Fri, 18 Apr 2014 12:23:51 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "denis@denix.org" <denis@denix.org>
-Thread-Topic: [OE-core] [PATCH] u-boot: fix beaglebone boot issue with large
-	kernel images
-Thread-Index: AQHPWvisbjf6yBCsLUyhF0yWoPQ1Tw==
-Date: Fri, 18 Apr 2014 11:23:51 +0000
-Message-ID: <1397820262.9082.17.camel@firebird.rb.intel.com>
-References: <1397761533-10634-1-git-send-email-denis@denix.org>
-In-Reply-To: <1397761533-10634-1-git-send-email-denis@denix.org>
+X-IronPort-AV: E=Sophos;i="4.97,884,1389772800"; d="scan'208";a="522934709"
+Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2014 09:12:28 -0700
+Received: from orsmsx112.amr.corp.intel.com (10.22.240.13) by
+	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Fri, 18 Apr 2014 09:12:27 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.198]) by
+	ORSMSX112.amr.corp.intel.com ([169.254.12.151]) with mapi id
+	14.03.0123.003; Fri, 18 Apr 2014 09:12:26 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, "Hart, Darren"
+	<darren.hart@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb:
+	use machine overrides
+Thread-Index: AQHPVad1f6jTSfOW5EydI4i7ZrK+j5sNJmwA//+MGoCABq4/gIAAE1qAgABeX4CAA8OdgA==
+Date: Fri, 18 Apr 2014 16:12:26 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C7CE03B88@ORSMSX103.amr.corp.intel.com>
+References: <cover.1397235602.git.nitin.a.kamble@intel.com>
+	<2000508.o5Wd2u71cb@peggleto-mobl5.ger.corp.intel.com>
+	<CF72C2F0.8411E%darren.hart@intel.com>
+	<34091410.ZhZR5aYx9V@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <34091410.ZhZR5aYx9V@peggleto-mobl5.ger.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.38]
+x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"denys@ti.com" <denys@ti.com>, "openembedded-core@lists.openembedded.org"
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: fix beaglebone boot issue with large kernel images
+Subject: Re: [PATCH 1/1] meta-skeleton: linux-yocto-custom.bb: use machine overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,98 +48,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 11:24:23 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 16:12:28 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BA7EA582E4BB9A49B8EDD1197C591029@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCg0KT24gVGh1LCAyMDE0LTA0LTE3IGF0IDE1OjA1IC0wNDAwLCBEZW55cyBEbXl0cml5ZW5r
-byB3cm90ZToNCj4gRnJvbTogRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4NCj4gDQo+
-IEZpeCBiZWFnbGVib25lIGJvb3QgaXNzdWUgd2l0aCBsYXJnZSBrZXJuZWwgaW1hZ2VzIG92ZXJ3
-cml0aW5nIERldmljZSBUcmVlLg0KPiBTZWUgdmVyeSBkZXRhaWxlZCBjb21tZW50cyBpbnNpZGUg
-dGhlIHBhdGNoLg0KPiANCj4gVGhlIG9yaWdpbmFsIHBhdGNoIGlzIGJlaW5nIHJldmlld2VkIHVw
-c3RyZWFtIGFuZCBpcyB0YXJnZXRpbmcgbWFpbmxpbmUgVS1ib290DQo+IHZlcnNpb24gMjAxNC4w
-Ny4gVGhpcyBpcyB0aGUgYWRhcHRhdGlvbiBvZiB0aGUgcGF0Y2ggZm9yIDIwMTMuMDcgdmVyc2lv
-biB3ZSB1c2UNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0
-aS5jb20+DQoNCg0KVGhhbmsgeW91IERlbnlzLCB0aGlzIHdvcmtzIGdyZWF0LiBXaXRoIGEgbmV3
-IHUtYm9vdC5pbWcgSSBjb3VsZCBib290DQphbnkga2VybmVsIHRoYXQgYmVmb3JlIHdvdWxkbid0
-IGJvb3QuDQoNCkNoZWVycywNClN0ZWZhbg0KDQoNCj4gLS0tDQo+ICAuLi5oLUFkZC11c2UtREVG
-QVVMVF9MSU5VWF9CT09UX0VOVi1lbnZpcm9ubS5wYXRjaCB8IDc0ICsrKysrKysrKysrKysrKysr
-KysrKysNCj4gIG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDEzLjA3LmJiICAgICAg
-ICAgIHwgIDQgKy0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ic3AvdS1ib290L2Zp
-bGVzLzAwMDEtYW0zMzV4X2V2bS5oLUFkZC11c2UtREVGQVVMVF9MSU5VWF9CT09UX0VOVi1lbnZp
-cm9ubS5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2Zp
-bGVzLzAwMDEtYW0zMzV4X2V2bS5oLUFkZC11c2UtREVGQVVMVF9MSU5VWF9CT09UX0VOVi1lbnZp
-cm9ubS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L2ZpbGVzLzAwMDEtYW0zMzV4X2V2
-bS5oLUFkZC11c2UtREVGQVVMVF9MSU5VWF9CT09UX0VOVi1lbnZpcm9ubS5wYXRjaA0KPiBuZXcg
-ZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi43N2UzNWJiDQo+IC0tLSAvZGV2L251
-bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvZmlsZXMvMDAwMS1hbTMzNXhfZXZt
-LmgtQWRkLXVzZS1ERUZBVUxUX0xJTlVYX0JPT1RfRU5WLWVudmlyb25tLnBhdGNoDQo+IEBAIC0w
-LDAgKzEsNzQgQEANCj4gK0Zyb20gNTcwMTM4NGNlYTRhODI5Yjc3MmJmN2E5NmE3NDgyNWI1OGMy
-MjM4NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206IERlbnlzIERteXRyaXllbmtv
-IDxkZW55c0B0aS5jb20+DQo+ICtEYXRlOiBUaHUsIDE3IEFwciAyMDE0IDEyOjI1OjQwIC0wNDAw
-DQo+ICtTdWJqZWN0OiBbUEFUQ0hdIGFtMzM1eF9ldm0uaDogQWRkLCB1c2UgREVGQVVMVF9MSU5V
-WF9CT09UX0VOViBlbnZpcm9ubWVudA0KPiArIHN0cmluZw0KPiArDQo+ICtNb2RpZmllZCB2ZXJz
-aW9uIG9mIHRoZSBwYXRjaCBjdXJyZW50bHkgYmVpbmcgcmV2aWV3ZWQgZm9yIG1haW5saW5lOg0K
-PiAraHR0cDovL3BhdGNod29yay5vemxhYnMub3JnL3BhdGNoLzMzNDg2MS8NCj4gKw0KPiArVG8g
-ZGVhbCB3aXRoIGEgcmVvY2N1cnJpbmcgcHJvYmxlbSBwcm9wZXJseSB3ZSBuZWVkIHRvIHNwZWNp
-ZnkgYWRkcmVzc2VzDQo+ICtmb3IgdGhlIExpbnV4IGtlcm5lbCwgRmxhdHRlZCBEZXZpY2UgVHJl
-ZSBhbmQgcmFtZGlzayB0aGF0IG9iZXkgdGhlDQo+ICtjb25zdHJhaW50cyB3aXRoaW4gdGhlIGtl
-cm5lbCdzIERvY3VtZW50YXRpb24vYXJtL0Jvb3RpbmcgZmlsZSBidXQgYWxzbw0KPiArbWFrZSBz
-dXJlIHRoYXQgd2UgcmVsb2NhdGUgdGhpbmdzIHdpdGhpbiBhIHZhbGlkIGFkZHJlc3MgcmFuZ2Uu
-DQo+ICsNCj4gK1NpZ25lZC1vZmYtYnk6IERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+
-DQo+ICtTaWduZWQtb2ZmLWJ5OiBUb20gUmluaSA8dHJpbmlAdGkuY29tPg0KPiArDQo+ICtVcHN0
-cmVhbS1TdGF0dXM6IFBlbmRpbmcNCj4gKy0tLQ0KPiArIGluY2x1ZGUvY29uZmlncy9hbTMzNXhf
-ZXZtLmggfCAzMSArKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tDQo+ICsgMSBmaWxlIGNo
-YW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1n
-aXQgYS9pbmNsdWRlL2NvbmZpZ3MvYW0zMzV4X2V2bS5oIGIvaW5jbHVkZS9jb25maWdzL2FtMzM1
-eF9ldm0uaA0KPiAraW5kZXggYzVhNmQ0Yi4uMDFlMzJiMyAxMDA2NDQNCj4gKy0tLSBhL2luY2x1
-ZGUvY29uZmlncy9hbTMzNXhfZXZtLmgNCj4gKysrKyBiL2luY2x1ZGUvY29uZmlncy9hbTMzNXhf
-ZXZtLmgNCj4gK0BAIC01NCwxMCArNTQsNyBAQA0KPiArICNkZWZpbmUgQ09ORklHX0VOVl9WQVJT
-X1VCT09UX1JVTlRJTUVfQ09ORklHDQo+ICsgI2lmbmRlZiBDT05GSUdfU1BMX0JVSUxEDQo+ICsg
-I2RlZmluZSBDT05GSUdfRVhUUkFfRU5WX1NFVFRJTkdTIFwNCj4gKy0JImxvYWRhZGRyPTB4ODAy
-MDAwMDBcMCIgXA0KPiArLQkiZmR0YWRkcj0weDgwRjgwMDAwXDAiIFwNCj4gKy0JImZkdF9oaWdo
-PTB4ZmZmZmZmZmZcMCIgXA0KPiArLQkicmRhZGRyPTB4ODEwMDAwMDBcMCIgXA0KPiArKwlERUZB
-VUxUX0xJTlVYX0JPT1RfRU5WIFwNCj4gKyAJImJvb3RkaXI9L2Jvb3RcMCIgXA0KPiArIAkiYm9v
-dGZpbGU9dUltYWdlXDAiIFwNCj4gKyAJImZkdGZpbGU9dW5kZWZpbmVkXDAiIFwNCj4gK0BAIC0x
-OTcsNyArMTk0LDMxIEBADQo+ICsgI2RlZmluZSBDT05GSUdfU1lTX01FTVRFU1RfRU5ECQkoQ09O
-RklHX1NZU19NRU1URVNUX1NUQVJUIFwNCj4gKyAJCQkJCSsgKDggKiAxMDI0ICogMTAyNCkpDQo+
-ICsgDQo+ICstI2RlZmluZSBDT05GSUdfU1lTX0xPQURfQUREUgkJMHg4MTAwMDAwMCAvKiBEZWZh
-dWx0IGxvYWQgYWRkcmVzcyAqLw0KPiArKy8qDQo+ICsrICogT3VyIEREUiBtZW1vcnkgYWx3YXlz
-IHN0YXJ0cyBhdCAweDgwMDAwMDAwIGFuZCBVLUJvb3Qgc2hhbGwgaGF2ZQ0KPiArKyAqIHJlbG9j
-YXRlZCBpdHNlbGYgdG8gaGlnaGVyIGluIG1lbW9yeSBieSB0aGUgdGltZSB0aGlzIHZhbHVlIGlz
-IHVzZWQuDQo+ICsrICogSG93ZXZlciwgc2V0IHRoaXMgdG8gYSAzMk1CIG9mZnNldCB0byBhbGxv
-dyBmb3IgZWFzaWVyIExpbnV4IGtlcm5lbA0KPiArKyAqIGJvb3RpbmcgYXMgdGhlIGRlZmF1bHQg
-aXMgb2Z0ZW4gdXNlZCBhcyB0aGUga2VybmVsIGxvYWQgYWRkcmVzcy4NCj4gKysgKi8NCj4gKysj
-ZGVmaW5lIENPTkZJR19TWVNfTE9BRF9BRERSCQkweDgyMDAwMDAwIC8qIERlZmF1bHQgbG9hZCBh
-ZGRyZXNzICovDQo+ICsrDQo+ICsrLyoNCj4gKysgKiBXZSBzZXR1cCBkZWZhdWx0cyBiYXNlZCBv
-biBjb25zdHJhaW50cyBmcm9tIHRoZSBMaW51eCBrZXJuZWwsIHdoaWNoIHNob3VsZA0KPiArKyAq
-IGFsc28gYmUgc2FmZSBlbHNld2hlcmUuICBXZSBoYXZlIHRoZSBkZWZhdWx0IGxvYWQgYXQgMzJN
-QiBpbnRvIEREUiAoZm9yDQo+ICsrICogdGhlIGtlcm5lbCksIEZEVCBhYm92ZSAxMjhNQiAodGhl
-IG1heGltdW0gbG9jYXRpb24gZm9yIHRoZSBlbmQgb2YgdGhlDQo+ICsrICoga2VybmVsKSwgYW5k
-IHRoZSByYW1kaXNrIDUxMktCIGFib3ZlIHRoYXQgKGFsbG93aW5nIGZvciBob3BlZnVsbHkgbmV2
-ZXINCj4gKysgKiBzZWVuIGxhcmdlIHRyZWVzKS4gIFdlIHNheSBhbGwgb2YgdGhpcyBtdXN0IGJl
-IHdpdGhpbiB0aGUgZmlyc3QgMjU2TUINCj4gKysgKiBhcyB0aGF0IHdpbGwgbm9ybWFsbHkgYmUg
-d2l0aGluIHRoZSBrZXJuZWwgbG93bWVtIGFuZCB0aHVzIHZpc2libGUgdmlhDQo+ICsrICogYm9v
-dG1fc2l6ZSBhbmQgd2Ugb25seSBydW4gb24gcGxhdGZvcm1zIHdpdGggMjU2TUIgb3IgbW9yZSBv
-ZiBtZW1vcnkuDQo+ICsrICovDQo+ICsrI2RlZmluZSBERUZBVUxUX0xJTlVYX0JPT1RfRU5WIFwN
-Cj4gKysJImxvYWRhZGRyPTB4ODIwMDAwMDBcMCIgXA0KPiArKwkia2VybmVsX2FkZHJfcj0weDgy
-MDAwMDAwXDAiIFwNCj4gKysJImZkdGFkZHI9MHg4ODAwMDAwMFwwIiBcDQo+ICsrCSJmZHRfYWRk
-cl9yPTB4ODgwMDAwMDBcMCIgXA0KPiArKwkicmRhZGRyPTB4ODgwODAwMDBcMCIgXA0KPiArKwki
-cmFtZGlza19hZGRyX3I9MHg4ODA4MDAwMFwwIiBcDQo+ICsrCSJib290bV9zaXplPTB4MTAwMDAw
-MDBcMCINCj4gKyANCj4gKyAjZGVmaW5lIENPTkZJR19NTUMNCj4gKyAjZGVmaW5lIENPTkZJR19H
-RU5FUklDX01NQw0KPiArLS0gDQo+ICsxLjkuMg0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtYnNwL3UtYm9vdC91LWJvb3RfMjAxMy4wNy5iYiBiL21ldGEvcmVjaXBlcy1ic3AvdS1i
-b290L3UtYm9vdF8yMDEzLjA3LmJiDQo+IGluZGV4IDMxNDFhMmQuLmY4YTg4NTYgMTAwNjQ0DQo+
-IC0tLSBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDEzLjA3LmJiDQo+ICsrKyBi
-L21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDEzLjA3LmJiDQo+IEBAIC0xNiw3ICsx
-Niw5IEBAIFNSQ1JFViA9ICI2MmMxNzVmYmI4YTBmOWE5MjZjODgyOTRlYTlmN2U4OGViODk4ZjZj
-Ig0KPiAgDQo+ICBQViA9ICJ2MjAxMy4wNytnaXQke1NSQ1BWfSINCj4gIA0KPiAtU1JDX1VSSSA9
-ICJnaXQ6Ly9naXQuZGVueC5kZS91LWJvb3QuZ2l0O2JyYW5jaD1tYXN0ZXIiDQo+ICtTUkNfVVJJ
-ID0gImdpdDovL2dpdC5kZW54LmRlL3UtYm9vdC5naXQ7YnJhbmNoPW1hc3RlciBcDQo+ICsgICAg
-ICAgICAgIGZpbGU6Ly8wMDAxLWFtMzM1eF9ldm0uaC1BZGQtdXNlLURFRkFVTFRfTElOVVhfQk9P
-VF9FTlYtZW52aXJvbm0ucGF0Y2ggXA0KPiArIg0KPiAgDQo+ICBTID0gIiR7V09SS0RJUn0vZ2l0
-Ig0KPiAgDQo+IC0tIA0KPiAxLjkuMg0KPiANCg0K
+> > >
+> > >Variable references can be used in overrides, provided the expansion
+> > >happens at the right time. However, it would not be appropriate to
+> > >use ${MACHINE} here because if it were used verbatim in the recipe,
+> > >it would not have the desired effect - the value of ${MACHINE} would
+> > >change with whatever MACHINE was set to, and since ${MACHINE} is
+> > >always in OVERRIDES it would always be applied.
+> >
+> > I think we should just drop the overrides. The overrides are needed
+> > with linux-yocto bbappends so we don't pollute the namespace, but here
+> > there is nothing to polute. This is the only recipe, you don't use
+> > bbappends with it. It needs some documentation, but we should just
+> > drop all the overrides in this recipe.
+>=20
+> I think you're probably right with the way this recipe is intended to be =
+used,
+> yes.
+>=20
+
+So shall we leave this recipe unchanged? As the commit was made to avoid th=
+e
+unwanted recipe variable pollution across layers, which is not the case.
+
+Nitin
+
+> Cheers,
+> Paul
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
