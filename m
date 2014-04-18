@@ -1,26 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 4184265D52
+	by mail.openembedded.org (Postfix) with ESMTP id D230865D3F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 20:17:31 +0000 (UTC)
+	Fri, 18 Apr 2014 20:25:37 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Apr 2014 13:17:32 -0700
+	by azsmga101.ch.intel.com with ESMTP; 18 Apr 2014 13:25:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,885,1389772800"; d="scan'208";a="420886447"
+X-IronPort-AV: E=Sophos;i="4.97,885,1389772800"; d="scan'208";a="420888085"
 Received: from rmcintyr-mobl.ger.corp.intel.com (HELO [10.255.12.108])
 	([10.255.12.108])
-	by azsmga001.ch.intel.com with ESMTP; 18 Apr 2014 13:17:31 -0700
-Message-ID: <5351885B.5090806@linux.intel.com>
-Date: Fri, 18 Apr 2014 13:17:31 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Apr 2014 13:25:13 -0700
+Message-ID: <53518A29.3090802@linux.intel.com>
+Date: Fri, 18 Apr 2014 13:25:13 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: gary.robertson@linaro.org, openembedded-core@lists.openembedded.org
-References: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>
-In-Reply-To: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>
-Cc: mike.holmes@linaro.org, clark.williams@gmail.com
-Subject: Re: [PATCH] rt-tests: bump version 0.87 => 0.89
+To: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+References: <1397725659-9004-1-git-send-email-koen.kooi@linaro.org>
+In-Reply-To: <1397725659-9004-1-git-send-email-koen.kooi@linaro.org>
+Subject: Re: [PATCH 1/3] git: fix perl binding installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 20:17:33 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 20:25:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/18/2014 01:12 PM, gary.robertson@linaro.org wrote:
-> From: "Gary S. Robertson" <gary.robertson@linaro.org>
+On 04/17/2014 02:07 AM, Koen Kooi wrote:
+> Git.pm wasn't ending up in the package because do_install removed it
+> with a misleading comment about multilib. Fix the problem at the source
+> so that Git.pm ends up in the correct dir *and* doesn't get deleted.
 >
-> cyclictest was updated to correct some problems with CPU affinity selection
-> and display of help and/or execution details.
-> These patches were accepted by the maintainer of the cyclictest utility.
-> The changes were reflected in an updated release of rt-tests - v0.89
-> The cyclictest changes were successfully tested on both an ARM v7 and x86_64
-> host environments.
-> The OE recipe was updated locally to incorporate the updated rt-tests release
-> and the resulting builds were verified for the same ARM v7 target
-> and for qemux86.
-> This patch set was then generated from the local commit for the recipe update
-> and is now submitted for your review and hopefully your approval.
+> The perl.mak file gets updated during the regular do_install, so add an
+> extra make install step to install the *.pm files to the correct
+> directory.
 >
+> This is the first step in making git-perltools actually work.
 >
-Can you move some of these comments into the actual commit message, 
-these would be good to have with the update commit.
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> ---
+>   meta/recipes-devtools/git/git.inc | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+> index f5013f1..888b2a5 100644
+> --- a/meta/recipes-devtools/git/git.inc
+> +++ b/meta/recipes-devtools/git/git.inc
+> @@ -28,10 +28,16 @@ do_install () {
+>   		template_dir=${datadir}/git-core/templates \
+>   		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
+>
+> +	sed -i -e 's#${STAGING_BINDIR_NATIVE}/perl-native/#${bindir}/#' \
+> +	       -e 's#${STAGING_LIBDIR_NATIVE}/#${libdir}/#' \
+> +	       -e 's#/lib/perl-native#/lib#g' \
+> +	       ${S}/perl/perl.mak
+> +
+> +	cd ${S}/perl && oe_runmake install DESTDIR="${D}" bindir=${bindir}
+> +
 
-Thanks
-	Sau!
+Koen,
 
-> Anders Roxell (1):
->    rt-tests: bump version 0.87 => 0.89
+This still seems to have a problem, and yes I have all 3 patches
+
+> | NOTE: make -j 16 NO_PYTHON=1 RUNTIME_PREFIX=1 NO_GETTEXT=1 install DESTDIR=/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/image bindir=/usr/bin
+> | make[1]: Entering directory `/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/git-1.9.0/perl'
+> | make[1]: *** No rule to make target `/usr/lib/perl/5.14.3/Config.pm', needed by `perl.mak'.  Stop.
+> | make[1]: Leaving directory `/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/git-1.9.0/perl'
+> | make: *** [install] Error 2
+> | ERROR: oe_runmake failed
+
+
+Sau!
+
+
+
+>   	# ${libdir} is not applicable here, perl-native files are always
+>   	# installed to /usr/lib on both 32/64 bits targets.
+>   	rm -rf ${D}${exec_prefix}/lib/perl-native
+> -	rmdir ${D}${exec_prefix}/lib || true
+>   }
 >
->   meta/recipes-rt/rt-tests/rt-tests.inc              |    7 ++-----
->   .../{rt-tests_0.87.bb => rt-tests_0.89.bb}         |    0
->   2 files changed, 2 insertions(+), 5 deletions(-)
->   rename meta/recipes-rt/rt-tests/{rt-tests_0.87.bb => rt-tests_0.89.bb} (100%)
+>   PERLSEDFIXUP = " \
+> @@ -75,6 +81,7 @@ PERLTOOLS = " \
+>   PACKAGES =+ "${PN}-perltools"
+>   FILES_${PN}-perltools += " \
+>       ${PERLTOOLS} \
+> +    ${prefix}/lib/perl \
+>       ${datadir}/perl \
+>   "
+>   RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
 >
 
