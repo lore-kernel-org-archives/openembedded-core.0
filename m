@@ -1,33 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E70465DAB
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 955A765D26
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 21:27:45 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id t10so1940995eei.19
+	Fri, 18 Apr 2014 22:38:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3IMcbFd019423
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 14:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=VVVUA/RhaA5XXUMTJS3RVhkGYbXxiXh2dtzAStIWMr8=;
-	b=0xaXlMAvS8X2UZ+XRdgkqW7km4p3v0IGgcBa+6MxBlgQCH/30vyI+zOiF3hi0Od6vV
-	HqiKaP6+is2AxFArpi4cLIL0gjWRkThlvVzNPjvlAOnH7Q8gVQJr1txJso7vQjXRBp0V
-	ErgFabeJwJbinpxxzR3Cuc0cT7RD7QHbTAlhrtWOsBpbFjMVOLfYdS39RVFT6lNGYEp5
-	6ByafW9I4p161FbcLVmJ5g2DvPyS3Y/Dhr9sHZ4rmQlG9TInNwQ0Ht3+pjlWk7ZD8AF6
-	om/tGRXhucFDzaXkLljTmMQUfvFWjU3vDXxHvnEca99O/0sWARu0F3dG/WT/95BYYpUV
-	8A2g==
-X-Received: by 10.15.50.136 with SMTP id l8mr6259703eew.73.1397856466187;
-	Fri, 18 Apr 2014 14:27:46 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	t50sm79927016eev.28.2014.04.18.14.27.44 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Apr 2014 14:27:45 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Apr 2014 23:27:47 +0200
-Message-Id: <1397856467-31007-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gsettings-desktop-schemas: add missing dependency on intltool-native
+	Fri, 18 Apr 2014 15:38:37 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 18 Apr 2014 15:38:35 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Apr 2014 15:38:35 -0700
+Message-ID: <1397860715-2417-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] apr: do not try to use sctp.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,44 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Apr 2014 21:27:47 -0000
+X-List-Received-Date: Fri, 18 Apr 2014 22:38:41 -0000
+Content-Type: text/plain
 
-* do_configure fails with:
-  | NOTE: Executing intltoolize --copy --force --automake
-  | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gsettings-desktop-schemas/3.10.1-r1/temp/run.do_configure.1111: 180:
-  /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gsettings-desktop-schemas/3.10.1-r1/temp/run.do_configure.1111:
-   intltoolize: not found
-  | WARNING: exit code 127 from a shell command.
-  | ERROR: Function failed: do_configure (log file is located at
-  /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gsettings-desktop-schemas/3.10.1-r1/temp/log.do_configure.1111)
-  NOTE: recipe gsettings-desktop-schemas-3.10.1-r1: task do_configure:
+If we let configure look for sctp.h it might find it
+on the host, so suppress the search with two cached
+config variables.
 
-* introduced in:
-  commit 1138976f7bdcd24ef57451a2c2ceffa43666610f
-  Author: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-  Date:   Tue Mar 11 13:27:46 2014 +0000
-
-    gsettings-desktop-schemas: removed unneeded class inheritance
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/apr/apr_1.4.8.bb |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb
-index 7217c66..eb09d2f 100644
---- a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb
-+++ b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- PR = "r1"
+diff --git a/meta/recipes-support/apr/apr_1.4.8.bb b/meta/recipes-support/apr/apr_1.4.8.bb
+index d834170..c14f64b 100644
+--- a/meta/recipes-support/apr/apr_1.4.8.bb
++++ b/meta/recipes-support/apr/apr_1.4.8.bb
+@@ -24,6 +24,10 @@ OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
+ # Added to fix some issues with cmake. Refer to https://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928
+ CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
  
--DEPENDS = "glib-2.0"
-+DEPENDS = "glib-2.0 intltool-native"
- 
- inherit gnomebase gsettings gettext
- 
++# Also suppress trying to use sctp.
++#
++CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sctp_uio_h=no"
++
+ do_configure_prepend() {
+ 	cd ${S}
+ 	./buildconf
 -- 
-1.9.1
+1.7.9.5
 
 
