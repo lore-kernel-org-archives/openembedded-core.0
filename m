@@ -1,24 +1,24 @@
 Return-Path: <cristiana.voicu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E689660808
+	by mail.openembedded.org (Postfix) with ESMTP id CCE9C60808
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 06:39:42 +0000 (UTC)
+	Fri, 18 Apr 2014 06:39:43 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:44 -0700
+	by orsmga101.jf.intel.com with ESMTP; 17 Apr 2014 23:39:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099639"
+X-IronPort-AV: E=Sophos;i="4.97,883,1389772800"; d="scan'208";a="523099643"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
-	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:43 -0700
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2014 23:39:44 -0700
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Apr 2014 09:40:35 +0300
-Message-Id: <69b1ca3eb7661fed299510e4157cf9aeed8251ff.1397803089.git.cristiana.voicu@intel.com>
+Date: Fri, 18 Apr 2014 09:40:36 +0300
+Message-Id: <46e74ca3607e9681a7c7d684293836d829592f90.1397803089.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
 References: <cover.1397803089.git.cristiana.voicu@intel.com>
 In-Reply-To: <cover.1397803089.git.cristiana.voicu@intel.com>
 References: <cover.1397803089.git.cristiana.voicu@intel.com>
-Subject: [PATCH 6/7] mtd-utils: upgrade to 1.5.1+gitAUTOINC+12158de
+Subject: [PATCH 7/7] kmod: upgrade to v17 via git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Apr 2014 06:39:43 -0000
 
+Just one patch has some small changes because the new code
+has another fix for unaligned access.
+
 Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
 ---
- meta/recipes-devtools/mtd/mtd-utils_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/kmod/kmod.inc                  |    4 ++--
+ ...alling-bswap_-instead-of-htobe-and-be-toh.patch |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index f1e2a8e..f78bc7e 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -7,12 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 47445eb..504a32f 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -16,9 +16,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                    "
+ inherit autotools gtk-doc ptest
  
- # Use the latest version at 26 Oct, 2013
--SRCREV = "dcea43eba91642939c82739387147da26d572758"
-+SRCREV = "9f107132a6a073cce37434ca9cda6917dd8d866b"
- SRC_URI = "git://git.infradead.org/mtd-utils.git \
- 		file://add-exclusion-to-mkfs-jffs2-git-2.patch \
- "
+-SRCREV = "36c4bb928a6a7962dd0ad3aa64c0b18120ca5b46"
++SRCREV = "49d8e0b59052999de577ab732b719cfbeb89504d"
+ # Lookout for PV bump too when SRCREV is changed
+-PV = "16+git${SRCPV}"
++PV = "17+git${SRCPV}"
  
--PV = "1.5.0+git${SRCPV}"
-+PV = "1.5.1+git${SRCPV}"
- 
- S = "${WORKDIR}/git/"
- 
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+            file://depmod-search.conf \
+diff --git a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
+index 82b83b3..5b4c8fa 100644
+--- a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
++++ b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
+@@ -29,8 +29,8 @@ index 6b80caa..3544a36 100644
+  			modsig->hash >= PKEY_HASH__LAST ||
+  			modsig->id_type >= PKEY_ID_TYPE__LAST)
+  		return false;
+--	sig_len = be32toh(modsig->sig_len);
+-+	sig_len = bswap_32(modsig->sig_len);
++-	sig_len = be32toh(get_unaligned(&modsig->sig_len));
+++	sig_len = bswap_32(get_unaligned(&modsig->sig_len));
+  	if (size < (off_t)(modsig->signer_len + modsig->key_id_len + sig_len))
+  		return false;
+  
 -- 
 1.7.9.5
 
