@@ -1,40 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f180.google.com (mail-yk0-f180.google.com
-	[209.85.160.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 45F8665D65
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D5CD65D77
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 14:24:08 +0000 (UTC)
-Received: by mail-yk0-f180.google.com with SMTP id 19so2158982ykq.39
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 07:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=zwoVuD614nwto+eUYr3Ej8QEOPLeY64OI2N1OBGcerI=;
-	b=JJtPMTm2hQod7/agThc4rrCoUElg7s2FKOq3+AXziHaTtMAdn6qrBYAaTmJcC7b8Cl
-	Dw32J3snihO/086qplIVbMRSfd5wuF/drqR9bjsX7UgjzzaeP8HTbWjmkH2bPKvblwCa
-	rYJYIs8nwvpVEkW5q53jOIifN1FkDiUKbuX8S7kjV9qncnaBi/bAsIOQTZoFzR2/iCNr
-	EeYZxzk1omPf4rXzPTN5m15LjHVyDqGwWfss60ZN3DwVHJl58K8zgz8na6gkypBQyoTL
-	/OnHrhdZu/77PBfcfq/XraLQYAezWeyioquyeJy5LIdOU/nFkymUoOkAWXIR5sKkohfF
-	P0MQ==
+	Sat, 19 Apr 2014 15:47:18 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 19 Apr 2014 08:47:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,888,1389772800"; d="scan'208";a="421087945"
+Received: from rmcintyr-mobl.ger.corp.intel.com (HELO [10.255.12.108])
+	([10.255.12.108])
+	by azsmga001.ch.intel.com with ESMTP; 19 Apr 2014 08:47:17 -0700
+Message-ID: <53529A85.5010409@linux.intel.com>
+Date: Sat, 19 Apr 2014 08:47:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-X-Received: by 10.236.168.42 with SMTP id j30mr2048261yhl.101.1397917449523;
-	Sat, 19 Apr 2014 07:24:09 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Sat, 19 Apr 2014 07:24:09 -0700 (PDT)
-In-Reply-To: <1397915046.15843.207.camel@ted>
-References: <1397487085-8924-1-git-send-email-valentin.popa@intel.com>
-	<534DF255.9010506@windriver.com>
-	<CAP9ODKrJaQTkDeDgcvTBu9=dRLwLJo=d9mVxvOgx+PAw5iSLyw@mail.gmail.com>
-	<1397915046.15843.207.camel@ted>
-Date: Sat, 19 Apr 2014 11:24:09 -0300
-X-Google-Sender-Auth: MsHh5RyaoH1GRDLer-FJ5h6Qk7M
-Message-ID: <CAP9ODKoR38dL1rDyJc6MnXhfXBZsK0W349skzXjTMq397aXNQg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][PATCH_V3] mesa: double check for eglplatform.h
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1397725659-9004-1-git-send-email-koen.kooi@linaro.org>
+	<53518A29.3090802@linux.intel.com>
+	<FE65A0A1-6103-4789-AB71-10F3F7510877@dominion.thruhere.net>
+In-Reply-To: <FE65A0A1-6103-4789-AB71-10F3F7510877@dominion.thruhere.net>
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] git: fix perl binding installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,84 +35,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Apr 2014 14:24:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 19 Apr 2014 15:47:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
-
-On Sat, Apr 19, 2014 at 10:44 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2014-04-18 at 20:38 -0300, Otavio Salvador wrote:
->> So WHAT is holding a bugfix for a regression to be merged? I am very
->> disappointed with the maintenance in the Dora branch.
+On 04/19/2014 12:24 AM, Koen Kooi wrote:
+>
+> Op 18 apr. 2014, om 22:25 heeft Saul Wold <sgw@linux.intel.com> het volgende geschreven:
+>
+>> On 04/17/2014 02:07 AM, Koen Kooi wrote:
+>>> Git.pm wasn't ending up in the package because do_install removed it
+>>> with a misleading comment about multilib. Fix the problem at the source
+>>> so that Git.pm ends up in the correct dir *and* doesn't get deleted.
+>>>
+>>> The perl.mak file gets updated during the regular do_install, so add an
+>>> extra make install step to install the *.pm files to the correct
+>>> directory.
+>>>
+>>> This is the first step in making git-perltools actually work.
+>>>
+>>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>>> ---
+>>>   meta/recipes-devtools/git/git.inc | 9 ++++++++-
+>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+>>> index f5013f1..888b2a5 100644
+>>> --- a/meta/recipes-devtools/git/git.inc
+>>> +++ b/meta/recipes-devtools/git/git.inc
+>>> @@ -28,10 +28,16 @@ do_install () {
+>>>   		template_dir=${datadir}/git-core/templates \
+>>>   		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
+>>>
+>>> +	sed -i -e 's#${STAGING_BINDIR_NATIVE}/perl-native/#${bindir}/#' \
+>>> +	       -e 's#${STAGING_LIBDIR_NATIVE}/#${libdir}/#' \
+>>> +	       -e 's#/lib/perl-native#/lib#g' \
+>>> +	       ${S}/perl/perl.mak
+>>> +
+>>> +	cd ${S}/perl && oe_runmake install DESTDIR="${D}" bindir=${bindir}
+>>> +
 >>
->> 1. a change has been added without testing other layers hosted in YP.
->> 2. it has been merged without being ran in YP AB.
->> 3. I reported the issue in the same day it has been merged
->> 4. it has been 10 days and this has not yet been reverted/fixed.
+>> Koen,
 >>
->> So CAN THIS BE MERGED PLEASE?
+>> This still seems to have a problem, and yes I have all 3 patches
+>>
+>>> | NOTE: make -j 16 NO_PYTHON=1 RUNTIME_PREFIX=1 NO_GETTEXT=1 install DESTDIR=/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/image bindir=/usr/bin
+>>> | make[1]: Entering directory `/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/git-1.9.0/perl'
+>>> | make[1]: *** No rule to make target `/usr/lib/perl/5.14.3/Config.pm', needed by `perl.mak'.  Stop.
+>>> | make[1]: Leaving directory `/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/git-1.9.0/perl'
+>>> | make: *** [install] Error 2
+>>> | ERROR: oe_runmake failed
 >
-> WHY HAVE YOU NOT REPLIED TO BUG 6098? I ASKED YOU SOMETHING THERE 9
-> WHOLE DAYS AGO? IT IS A HIGH!!!! ITS BEEN OPEN 17 DAYS!!!!
-
-Great! But the difference it is not a regression and happen in a
-/very/ specific host setup. I think this is quite different of a
-broken build for EVERY meta-fsl-arm user in the STABLE BRANCH!
-
-Sorry but this is not the same thing.
-
-> I happen to know you've been travelling/busy and likely haven't had
-> time. Fair enough, it happens.
-
-Yes, I arrived two days ago and been dealing with my backlog.
-
-> I have also been travelling, any spare cycles were directed to the 1.6
-> release and the beaglebone problem which was threatening to disrupt it.
-> Right now its a 4 day holiday weekend in the UK. I should be out trying
-> to relax, instead I'm horribly jetlagged and even better, reading all
-> caps emails from you.
-
-Sorry but Robert is the Dora maintainer so this is not an excuse. He
-ought, as maintainer, put priority in such a regression.
-
-> This is to say nothing of being a bit distracted after dropping an 80kg
-> stone hearth on the end of one of my fingers a couple of weeks ago,
-> fracturing it, then reacting badly to some antibiotics to add to the
-> fun.
-
-I knew it and I am happy you been better now. However as I said above
-Dora is a Robert's maintained branch so I was not expecting you to be
-the one fixing it...
-
-> As it happens I merged the fix this morning before I read this, it was
-> already in the queue. I'd planned to do so sooner but hadn't got around
-> to it. Several of those days were looking into the regression and
-> figuring out a way which fixed it, and fixed the other bug report the
-> problem was solving.
-
-Thanks.
-
-> In answer to your questions:
+> I've seen that pop up as well, but I couldn't reproduce that with 'bitbake -c clean git ; bitbake git'. I only tested with -j4, I'll retest with -j16. Are you seeing this on all builds or only some of them?
 >
-> Its not policy to test every layer with a change in OE-Core. We do our
-> best to make sure things don't break. Not every change gets run through
-> the autobuilder. We do run things through the AB before a release
-> though. 1.5.2 has not been released yet and this issue will get resolved
-> before that happens.
+
+I can reproduce this on my local build server at -j 16 everytime.
+
+Sau!
+
+> regards,
 >
-> I do wish we've been able to act sooner, equally most of the people
-> involved have various pressures on their time. We do our best.
-
-I'd expect all merges in a stable branch would be run in AB. If this
-is not the policy, it should be made as one. One of biggest strengths
-of Yocto Project is the maintenance and quality of its code so I think
-we need to improve our policy to avoid this to happen in future.
-
-Cheers,
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> Koen
+>
+>
+>
+>>
+>>
+>> Sau!
+>>
+>>
+>>
+>>>   	# ${libdir} is not applicable here, perl-native files are always
+>>>   	# installed to /usr/lib on both 32/64 bits targets.
+>>>   	rm -rf ${D}${exec_prefix}/lib/perl-native
+>>> -	rmdir ${D}${exec_prefix}/lib || true
+>>>   }
+>>>
+>>>   PERLSEDFIXUP = " \
+>>> @@ -75,6 +81,7 @@ PERLTOOLS = " \
+>>>   PACKAGES =+ "${PN}-perltools"
+>>>   FILES_${PN}-perltools += " \
+>>>       ${PERLTOOLS} \
+>>> +    ${prefix}/lib/perl \
+>>>       ${datadir}/perl \
+>>>   "
+>>>   RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
+>>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
