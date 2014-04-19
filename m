@@ -1,35 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A1EC76098B
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 09:57:23 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id y10so2153291pdj.36
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 02:57:25 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 86023609A7;
+	Sat, 19 Apr 2014 10:51:43 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id c13so2258631eek.23
+	for <multiple recipients>; Sat, 19 Apr 2014 03:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Lu8QUOrG6X0z/TbQcyXi8KNYpyg/NkKEx2MpwTFfqsg=;
-	b=m3rJBTt4GttmvcLJgOvqa8vuZ6r6V27L/NFGcRwT1J7jKQn+qy/BNI6lDmj0J9R9x3
-	egzYrnA0TWgW2SymOsj5J2ZbHLkLahV/CSWE82LfiRStIn6z4b+XGPUIVZwGJS2ZgW+3
-	uYleZjR2lYChF+P5U1NaI2nud6PRdU+gyGOg3c9v1Uid8wH7FYD77NFcIzCvmSNKFUfI
-	K+zaY4HLygIXebtWBdljYRbrKuhzxWeP3PWljVS6T3QFHRNNkeWlorOLSwijQBAPSVj4
-	xx+5X19WazMZzCfCAejFNv9ljmEq0ehM6Cphk8hN39SKJGJxycqRn2ElZvKWBXc+5A0g
-	0LUA==
-X-Received: by 10.68.178.162 with SMTP id cz2mr26572693pbc.51.1397901445084;
-	Sat, 19 Apr 2014 02:57:25 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id lr3sm2070242pab.4.2014.04.19.02.57.23
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 19 Apr 2014 02:57:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Apr 2014 02:59:28 -0700
-Message-Id: <1397901568-992-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.2
-Subject: [master/daisy][PATCH] libav: Add libsdl to DEPENDS only when x11 is enabled
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ocxS+n3ROFgxMOqzh0hdX1/0u5vCtLLgq8JRpR1X9bA=;
+	b=Li7SzbU+9vNgxFJKVoVnbb6n861gL06grOBWWXX6OD5xkBkFgng01gfFusUDuxf5i3
+	1dnZAr+mVAOP/f5nBXR/T7OybTIqch8RzaTNk0y5DPIwZ3v1LJQdbWqLTfjChP34XObq
+	4VNpkoMdLmFmM9ZM/rcYaRimmGSgaig91P0JSk/MMmILXOqs0j44Em74McSS30v+qNHd
+	n+K2bzpjWALbKEPgze7XDdqJ0LOw7Vv9eleezQfubQ7CKre/bCnvGNbNehUoP3tRBSbh
+	r2YsD8adVegdVfLEAOZj4RfbH6zB4YsJKqG/0qmzpUtFqTBtQT8c1/12oa7UqDm6vK9X
+	W1Qw==
+X-Received: by 10.14.218.193 with SMTP id k41mr29871769eep.16.1397904704242;
+	Sat, 19 Apr 2014 03:51:44 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	4sm84675427eeq.33.2014.04.19.03.51.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 19 Apr 2014 03:51:42 -0700 (PDT)
+Date: Sat, 19 Apr 2014 12:51:46 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Message-ID: <20140419105146.GH2486@jama>
+References: <20140418183632.GG2486@jama>
+ <5351D1E5.2020302@linaro.org>
+MIME-Version: 1.0
+In-Reply-To: <5351D1E5.2020302@linaro.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world, test-dependencies 2014-04-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,50 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Apr 2014 09:57:26 -0000
+X-List-Received-Date: Sat, 19 Apr 2014 10:51:47 -0000
+X-Groupsio-MsgNum: 52476
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="svZFHVx8/dhPCe52"
+Content-Disposition: inline
 
-When we have opengl in distro features but not x11 and try to
-build libav then it calls out to build libsdl which inturn has depependency on libglu
-and libglu fails to build
+--svZFHVx8/dhPCe52
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ld: error: cannot find -lGL
-| collect2: error: ld returned 1 exit status
-| make: *** [libGLU.la] Error 1
-| ERROR: oe_runmake failed
+On Fri, Apr 18, 2014 at 09:31:17PM -0400, Trevor Woerner wrote:
+> Hi Martin,
 
-since libglu wants glx enabled in mesa and glx in mesa is (righly) enabled only when x11
-is in distro features.
+Hi,
 
-This breaks the dependency chain leading to this problem
+> Just to confirm... when we work on this, we should be working against
+> master-next?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-multimedia/libav/libav.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In most cases it shouldn't matter, but otherwise yes it would be better,
+I plan to merge most of master-next in next few days (as soon as jenkins
+builds are finished).
 
-diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-index 5e675be..2152936 100644
---- a/meta/recipes-multimedia/libav/libav.inc
-+++ b/meta/recipes-multimedia/libav/libav.inc
-@@ -9,7 +9,7 @@ PROVIDES = "ffmpeg"
- 
- ARM_INSTRUCTION_SET = "arm"
- 
--DEPENDS = "virtual/libsdl zlib libogg libvorbis libtheora yasm-native"
-+DEPENDS = "zlib libogg libvorbis libtheora yasm-native"
- 
- INC_PR = "r8"
- 
-@@ -32,7 +32,7 @@ PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
- PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
- PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
- PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
--PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto"
-+PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
- 
- EXTRA_OECONF = " \
-     --enable-shared \
--- 
-1.7.9.5
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--svZFHVx8/dhPCe52
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEUEARECAAYFAlNSVUIACgkQN1Ujt2V2gBw0jwCXYU5HWatZcSD0w94zTIN1Oz5/
+8QCgjI2w53OgILbeZzrFgTJnvLU+lcw=
+=krGl
+-----END PGP SIGNATURE-----
+
+--svZFHVx8/dhPCe52--
