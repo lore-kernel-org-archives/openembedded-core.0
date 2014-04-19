@@ -1,35 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 98823601A3
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB0E609C1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 00:57:11 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id hl10so83511igb.0
+	Sat, 19 Apr 2014 01:31:18 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id wp18so2312356obc.36
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 17:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=WSA/ki/1+wwaBrK3RQLPfIeOHu0bxN8JPhU+qwlIxfY=;
-	b=Q5QN8UTrlhpGqupaTcw4Xna3ixvoWhNQKmCoZVCAuSWpCbQIlIzzS75oy3VYNlPZj+
-	oNTipP4nYl/c8En3a0FqaDHfm0Jrv0knpatwk9fpTT9ZWvNr6bo/F9OB0vCoXR8lKmLq
-	zShIK8+a6n1NdZFKEln09KGd9MJHojCIcBjYAgEfjxUX0DEX3CgKorfazfmuR+rqhCXN
-	m7dKWXT/P0wGOAp8fjq/MrGM0S6cfBN05XMn3S4mtdVdDdNt0VkLSfju/w4UpdSdpMJ1
-	I2dL90L4AFtjY8dlD5chHpmaXYUCzrlL6/FDFdtBvvxENKHuwV3/Mtp4ihrRglT5Gtvc
-	4HCg==
-X-Received: by 10.50.60.72 with SMTP id f8mr7489699igr.20.1397869032321; Fri,
-	18 Apr 2014 17:57:12 -0700 (PDT)
+	Fri, 18 Apr 2014 18:31:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=O4Hibt2+dryU4LZxTkqCu7mk3fuoiSYekNxvwPbi5cw=;
+	b=NYnOu4pAWEsnwo8W0oTUwIW6z1B9WvxRhI8WVmtWydIK5hhk9sUYwvBz2Bjp1hoKNj
+	xCQCw+ABb2SWxjMJZzIcrNkvzHwOC/hV5q1QSwnbSMycdzsT6SXD+iSia1bL6mcbs+A0
+	D0p4fWpyNScdn4S5kiF9OHc1Qr++2mQIhEYM5VMUdnJuM8vx4lmHy5b9WT7g1QfX1VJW
+	U2hjuYjmwcy/U3v6gGQMO0Lt5pvqS0VmOJU803I/4f8YnJR1/6CZJT2abiDgMq1hEU+M
+	Wmy5t5TBQMkJLiosy42+ibHU+vfdp2upI58OVNS8EqTywx5RhRUmTHz/vLnJAWhNjKyY
+	zSfA==
+X-Gm-Message-State: ALoCoQk194rhsxN88hrxEjvyyJSBs9N7FyAkC+RXlEwNMi23qAe4ftPG+ewZ9xZlbUPh502g8+P7
+X-Received: by 10.182.102.134 with SMTP id fo6mr19531843obb.10.1397871078934; 
+	Fri, 18 Apr 2014 18:31:18 -0700 (PDT)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id f1sm133397255oej.5.2014.04.18.18.31.17
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 18 Apr 2014 18:31:18 -0700 (PDT)
+Message-ID: <5351D1E5.2020302@linaro.org>
+Date: Fri, 18 Apr 2014 21:31:17 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Fri, 18 Apr 2014 17:56:42 -0700 (PDT)
-In-Reply-To: <1397860715-2417-1-git-send-email-jslater@windriver.com>
-References: <1397860715-2417-1-git-send-email-jslater@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 18 Apr 2014 17:56:42 -0700
-Message-ID: <CAMKF1sodzHjMx8UTj8JEAza7qWPQOk7iqGm=2g0TK8OfVBoR7A@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] apr: do not try to use sctp.h
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+References: <20140418183632.GG2486@jama>
+In-Reply-To: <20140418183632.GG2486@jama>
+Subject: Re: State of bitbake world, test-dependencies 2014-04-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,17 +52,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Apr 2014 00:57:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 19 Apr 2014 01:31:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 18, 2014 at 3:38 PM, Joe Slater <jslater@windriver.com> wrote:
->  CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
->
-> +# Also suppress trying to use sctp.
-> +#
-> +CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sctp_uio_h=no"
-> +
+Hi Martin,
 
-Put it in single var  above. Is there any way to make is cross compile
-safe too instead of disabling the tests
+Just to confirm... when we work on this, we should be working against
+master-next?
+
+Best regards,
+    Trevor
 
