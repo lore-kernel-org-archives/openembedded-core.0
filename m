@@ -1,45 +1,38 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BB0E609C1
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
+	[209.85.160.174])
+	by mail.openembedded.org (Postfix) with ESMTP id F0D7A60782
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 01:31:18 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id wp18so2312356obc.36
+	Sat, 19 Apr 2014 02:43:59 +0000 (UTC)
+Received: by mail-yk0-f174.google.com with SMTP id 20so1882565yks.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Apr 2014 18:31:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=O4Hibt2+dryU4LZxTkqCu7mk3fuoiSYekNxvwPbi5cw=;
-	b=NYnOu4pAWEsnwo8W0oTUwIW6z1B9WvxRhI8WVmtWydIK5hhk9sUYwvBz2Bjp1hoKNj
-	xCQCw+ABb2SWxjMJZzIcrNkvzHwOC/hV5q1QSwnbSMycdzsT6SXD+iSia1bL6mcbs+A0
-	D0p4fWpyNScdn4S5kiF9OHc1Qr++2mQIhEYM5VMUdnJuM8vx4lmHy5b9WT7g1QfX1VJW
-	U2hjuYjmwcy/U3v6gGQMO0Lt5pvqS0VmOJU803I/4f8YnJR1/6CZJT2abiDgMq1hEU+M
-	Wmy5t5TBQMkJLiosy42+ibHU+vfdp2upI58OVNS8EqTywx5RhRUmTHz/vLnJAWhNjKyY
-	zSfA==
-X-Gm-Message-State: ALoCoQk194rhsxN88hrxEjvyyJSBs9N7FyAkC+RXlEwNMi23qAe4ftPG+ewZ9xZlbUPh502g8+P7
-X-Received: by 10.182.102.134 with SMTP id fo6mr19531843obb.10.1397871078934; 
-	Fri, 18 Apr 2014 18:31:18 -0700 (PDT)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id f1sm133397255oej.5.2014.04.18.18.31.17
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 18 Apr 2014 18:31:18 -0700 (PDT)
-Message-ID: <5351D1E5.2020302@linaro.org>
-Date: Fri, 18 Apr 2014 21:31:17 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Fri, 18 Apr 2014 19:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=fZ8LZhnAvnn7qBYty2yUzpfD5FUDgD6B0p2cPFSuiko=;
+	b=vY7IXcrtV22BlIvCDNMboHh34Q3GSZWokeKxyGqUldjsPjG8k6e9N6BZUOvyKlTVtO
+	ClSBbk6BRDUjRUj0ko/a2eVqmmFrqVnsN+AWt7XbeD3rLtaUfS2HCHCj1VVRI0zKu6+9
+	BOiP80VRLG0dQP6vP2Ixk9H48DdYXNQHROLHE7Kf/7X7qVBwKQ4nq6zwMN5wF6aDwAD2
+	qBgI1TpAXQk3tGw/2Da6pjBAAPE4cIrXElV3flZf5b69xKo9K6I2gv4XgooGzkk5qMMl
+	Gdrf4q+aAQYcnUFPmrl4xoPhuCAZ+2FpweqKsourt5jMoNcmGtJPA/AZ+IkSEjSFN0FR
+	NbTg==
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-References: <20140418183632.GG2486@jama>
-In-Reply-To: <20140418183632.GG2486@jama>
-Subject: Re: State of bitbake world, test-dependencies 2014-04-18
+X-Received: by 10.236.14.5 with SMTP id c5mr17921yhc.73.1397875439866; Fri, 18
+	Apr 2014 19:43:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Fri, 18 Apr 2014 19:43:59 -0700 (PDT)
+In-Reply-To: <534BAC4F.9040405@pr.hu>
+References: <534BAC4F.9040405@pr.hu>
+Date: Fri, 18 Apr 2014 23:43:59 -0300
+X-Google-Sender-Auth: ys1HENwOmrynfXfBv31a8fa09s8
+Message-ID: <CAP9ODKo6QrHv7hoQVSOnJaK6xrwh_vdD8xsbZY3cnCMcbo_Azw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Boszormenyi Zoltan <zboszor@pr.hu>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
+Subject: Re: [meta-freescale] binutuils-native from master fails with GCC 4.9 on the buld host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,15 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Apr 2014 01:31:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 19 Apr 2014 02:44:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Martin,
+Hello,
 
-Just to confirm... when we work on this, we should be working against
-master-next?
+On Mon, Apr 14, 2014 at 6:37 AM, Boszormenyi Zoltan <zboszor@pr.hu> wrote:
+> one of my build machines has Fedora 21 Rawhide with GCC 4.9.
+> I tried to build an FSL image and now binutils-native fails to compile:
+...
+> | cc1: all warnings being treated as errors
+>
+> This happens with the master branch of the fsl repositories.
+> I know Fedora 21 and GCC 4.9 still has some months to be released.
+> This is just a heads up that at least this new "-Wunused-value" was
+> enabled for -Wall in GCC 4.9. FYI, the bugzilla report about binutils is:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1087374
 
-Best regards,
-    Trevor
+Thanks for reporting this.
+
+I have added OE-Core mailing list and Khem (who is working 4.9
+support)  in Cc :D
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
