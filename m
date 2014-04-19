@@ -1,27 +1,33 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp09.online.nl (smtp09.online.nl [194.134.42.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3481D65D68
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 789586017E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 13:35:34 +0000 (UTC)
-Received: from smtp09.online.nl (localhost [127.0.0.1])
-	by smtp09.online.nl (Postfix) with ESMTP id F32A71E30A;
-	Sat, 19 Apr 2014 15:35:32 +0200 (CEST)
-Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp09.online.nl (Postfix) with ESMTP;
-	Sat, 19 Apr 2014 15:35:32 +0200 (CEST)
-Message-ID: <53527BA4.5000908@topic.nl>
-Date: Sat, 19 Apr 2014 15:35:32 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <53523CF6.2040208@topic.nl> <20140419105904.GI2486@jama>
-In-Reply-To: <20140419105904.GI2486@jama>
-X-Online-Scanned: by Cloudmark authority (on smtp09.online.nl)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to migrate from PRINC to PR_SERVER?
+	Sat, 19 Apr 2014 13:44:31 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3JDiKQj024116; Sat, 19 Apr 2014 14:44:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id My7u-n2JoJmQ; Sat, 19 Apr 2014 14:44:19 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3JDiCxx024108
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sat, 19 Apr 2014 14:44:13 +0100
+Message-ID: <1397915046.15843.207.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Sat, 19 Apr 2014 14:44:06 +0100
+In-Reply-To: <CAP9ODKrJaQTkDeDgcvTBu9=dRLwLJo=d9mVxvOgx+PAw5iSLyw@mail.gmail.com>
+References: <1397487085-8924-1-git-send-email-valentin.popa@intel.com>
+	<534DF255.9010506@windriver.com>
+	<CAP9ODKrJaQTkDeDgcvTBu9=dRLwLJo=d9mVxvOgx+PAw5iSLyw@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][PATCH_V3] mesa: double check for eglplatform.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Apr 2014 13:35:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 19 Apr 2014 13:44:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/19/2014 12:59 PM, Martin Jansa wrote:
-> On Sat, Apr 19, 2014 at 11:08:06AM +0200, Mike Looijmans wrote:
->> Attempting to move to the current OE-head now yields about a hundred
->> messages like this:
->>
->> WARNING: Use of PRINC 7 was detected in the recipe ...
->>
->> The https://wiki.yoctoproject.org/wiki/PR_Service page tells what the PR
->> server is.
->
-> PR_Service doesn't help with PRINC removal, because PRINC is applied on
-> first number in PR and AUTOPR is appended as extra number after dot.
+On Fri, 2014-04-18 at 20:38 -0300, Otavio Salvador wrote:
+> So WHAT is holding a bugfix for a regression to be merged? I am very
+> disappointed with the maintenance in the Dora branch.
+> 
+> 1. a change has been added without testing other layers hosted in YP.
+> 2. it has been merged without being ran in YP AB.
+> 3. I reported the issue in the same day it has been merged
+> 4. it has been 10 days and this has not yet been reverted/fixed.
+> 
+> So CAN THIS BE MERGED PLEASE?
 
-So what is the relation then? Why is PRINC now suddenly declared 
-obsolete, without providing anything to replace it?
+WHY HAVE YOU NOT REPLIED TO BUG 6098? I ASKED YOU SOMETHING THERE 9
+WHOLE DAYS AGO? IT IS A HIGH!!!! ITS BEEN OPEN 17 DAYS!!!!
 
->> However, it does not tell what to do with the recipes. Just removing
->> PRINC from the recipes will break the upgrade path.
->
-> You were supposed to send corresponding PR bumps to upper layers when
-> removing PRINCs, like:
-> http://git.openembedded.org/openembedded-core/commit?id=c6825ec6e92e20bb64a051d1576f363c16e98d68
->
-> but it's probably too late for daisy.
->
->> What are we supposed to do now?
->
-> You can wait for PV/PE upgrades in upper layers or in worse case break
-> upgrade path and remove PRINCs without replacement (e.g. if it's in your
-> private layer and company doesn't care about upgrade path).
+I happen to know you've been travelling/busy and likely haven't had
+time. Fair enough, it happens.
 
-That would also mean hand-crafting several dozen of PR numbers. And for 
-a project like OpenPLi for which there are something like a million 
-embedded boxes running and upgrading it in the field, I'd definitely 
-want to keep the upgrade path clean...
+I have also been travelling, any spare cycles were directed to the 1.6
+release and the beaglebone problem which was threatening to disrupt it.
+Right now its a 4 day holiday weekend in the UK. I should be out trying
+to relax, instead I'm horribly jetlagged and even better, reading all
+caps emails from you.
 
-Would a patch that bumps PRs for so many packages be accepted?
+This is to say nothing of being a bit distracted after dropping an 80kg
+stone hearth on the end of one of my fingers a couple of weeks ago,
+fracturing it, then reacting badly to some antibiotics to add to the
+fun.
+
+As it happens I merged the fix this morning before I read this, it was
+already in the queue. I'd planned to do so sooner but hadn't got around
+to it. Several of those days were looking into the regression and
+figuring out a way which fixed it, and fixed the other bug report the
+problem was solving.
+
+In answer to your questions:
+
+Its not policy to test every layer with a change in OE-Core. We do our
+best to make sure things don't break. Not every change gets run through
+the autobuilder. We do run things through the AB before a release
+though. 1.5.2 has not been released yet and this issue will get resolved
+before that happens.
+
+I do wish we've been able to act sooner, equally most of the people
+involved have various pressures on their time. We do our best.
+
+Cheers,
+
+Richard
 
 
--- 
-Mike Looijmans
 
