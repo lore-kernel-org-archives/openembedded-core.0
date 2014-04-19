@@ -1,28 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D5CD65D77
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Apr 2014 15:47:18 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Apr 2014 08:47:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,888,1389772800"; d="scan'208";a="421087945"
-Received: from rmcintyr-mobl.ger.corp.intel.com (HELO [10.255.12.108])
-	([10.255.12.108])
-	by azsmga001.ch.intel.com with ESMTP; 19 Apr 2014 08:47:17 -0700
-Message-ID: <53529A85.5010409@linux.intel.com>
-Date: Sat, 19 Apr 2014 08:47:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 732F96116C;
+	Sat, 19 Apr 2014 16:03:52 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id b57so2438407eek.7
+	for <multiple recipients>; Sat, 19 Apr 2014 09:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=BVjhe23LwkxS96tqmcgFUoVlT/1tFHBX6r7mK3e4lws=;
+	b=oMrAyK1pict/dZM1MPcSmOk1VZfr35LmsiNOchVZkrV/oJSID3y8dj1j+Rwjt+F6Z3
+	LaPvggMHgFI91qBC/sVrP9TyQd+wGfgxtscczZaFoXSO+HGjCsVK8SiH2COiDiqz8ffb
+	DevzFDgjLs/JOpDlCYAuxFmTIr3f3aZ1VqQZDrFQah9AhKmTVTgtVMeOh+2GlRhDEbQI
+	El4Yaz93wBtReiulBC+OLukYfiVr1/nth8LiKsq4BlhkuGnEAnMD5R1rHjpbBcrM+1ew
+	seNQbNmhJRvukhtf7WzaSvfnIfxCfoy7U1JugHDX1XSD1ajmCiMsgxHtWIcVc7kbK2nn
+	FIAw==
+X-Received: by 10.14.126.73 with SMTP id a49mr31630871eei.46.1397923433060;
+	Sat, 19 Apr 2014 09:03:53 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	e42sm86744691eev.32.2014.04.19.09.03.51 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 19 Apr 2014 09:03:51 -0700 (PDT)
+Date: Sat, 19 Apr 2014 18:03:56 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20140419160356.GJ2486@jama>
+References: <20140419152936.AAFAF5028A@opal.openembedded.org>
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1397725659-9004-1-git-send-email-koen.kooi@linaro.org>
-	<53518A29.3090802@linux.intel.com>
-	<FE65A0A1-6103-4789-AB71-10F3F7510877@dominion.thruhere.net>
-In-Reply-To: <FE65A0A1-6103-4789-AB71-10F3F7510877@dominion.thruhere.net>
-Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] git: fix perl binding installation
+In-Reply-To: <20140419152936.AAFAF5028A@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : bitbake.conf/base.bbclass: Drop PRINC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,98 +43,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Apr 2014 15:47:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 19 Apr 2014 16:03:55 -0000
+X-Groupsio-MsgNum: 52483
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="x+WOirvrtTKur1pg"
+Content-Disposition: inline
 
-On 04/19/2014 12:24 AM, Koen Kooi wrote:
->
-> Op 18 apr. 2014, om 22:25 heeft Saul Wold <sgw@linux.intel.com> het volgende geschreven:
->
->> On 04/17/2014 02:07 AM, Koen Kooi wrote:
->>> Git.pm wasn't ending up in the package because do_install removed it
->>> with a misleading comment about multilib. Fix the problem at the source
->>> so that Git.pm ends up in the correct dir *and* doesn't get deleted.
->>>
->>> The perl.mak file gets updated during the regular do_install, so add an
->>> extra make install step to install the *.pm files to the correct
->>> directory.
->>>
->>> This is the first step in making git-perltools actually work.
->>>
->>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->>> ---
->>>   meta/recipes-devtools/git/git.inc | 9 ++++++++-
->>>   1 file changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
->>> index f5013f1..888b2a5 100644
->>> --- a/meta/recipes-devtools/git/git.inc
->>> +++ b/meta/recipes-devtools/git/git.inc
->>> @@ -28,10 +28,16 @@ do_install () {
->>>   		template_dir=${datadir}/git-core/templates \
->>>   		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
->>>
->>> +	sed -i -e 's#${STAGING_BINDIR_NATIVE}/perl-native/#${bindir}/#' \
->>> +	       -e 's#${STAGING_LIBDIR_NATIVE}/#${libdir}/#' \
->>> +	       -e 's#/lib/perl-native#/lib#g' \
->>> +	       ${S}/perl/perl.mak
->>> +
->>> +	cd ${S}/perl && oe_runmake install DESTDIR="${D}" bindir=${bindir}
->>> +
->>
->> Koen,
->>
->> This still seems to have a problem, and yes I have all 3 patches
->>
->>> | NOTE: make -j 16 NO_PYTHON=1 RUNTIME_PREFIX=1 NO_GETTEXT=1 install DESTDIR=/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/image bindir=/usr/bin
->>> | make[1]: Entering directory `/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/git-1.9.0/perl'
->>> | make[1]: *** No rule to make target `/usr/lib/perl/5.14.3/Config.pm', needed by `perl.mak'.  Stop.
->>> | make[1]: Leaving directory `/srv/hdd/builds/world/tmp/work/ppc7400-poky-linux/git/1.9.0-r0/git-1.9.0/perl'
->>> | make: *** [install] Error 2
->>> | ERROR: oe_runmake failed
->
-> I've seen that pop up as well, but I couldn't reproduce that with 'bitbake -c clean git ; bitbake git'. I only tested with -j4, I'll retest with -j16. Are you seeing this on all builds or only some of them?
->
+--x+WOirvrtTKur1pg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I can reproduce this on my local build server at -j 16 everytime.
+On Sat, Apr 19, 2014 at 03:29:36PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master-next
+> Commit: 2f157327963df245d61897df7a1dd214da4c98fd
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D2f157327963df245d61897df7a1dd214da4c98fd
+>=20
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Sun Mar  2 17:39:21 2014 +0000
+>=20
+> bitbake.conf/base.bbclass: Drop PRINC support
+>=20
+> PRINC is no longer needed since we have the PR service instead
+> which people should be using. Drop the PRINC code.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/classes/base.bbclass | 16 ----------------
+>  meta/conf/bitbake.conf    |  1 -
+>  2 files changed, 17 deletions(-)
+>=20
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index f4f5321..109bbad 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -453,22 +453,6 @@ python () {
+>          else:
+>              appendVar('EXTRA_OECONF', extraconf)
+> =20
+> -    # If PRINC is set, try and increase the PR value by the amount speci=
+fied
+> -    # The PR server is now the preferred way to handle PR changes based =
+on
+> -    # the checksum of the recipe (including bbappend).  The PRINC is now
+> -    # obsolete.  Return a warning to the user.
+> -    princ =3D d.getVar('PRINC', True)
+> -    if princ and princ !=3D "0":
+> -        bb.warn("Use of PRINC %s was detected in the recipe %s (or one o=
+f its .bbappends)\nUse of PRINC is deprecated.  The PR server should be use=
+d to automatically increment the PR.  See: https://wiki.yoctoproject.org/wi=
+ki/PR_Service." % (princ, d.getVar("FILE", True)))
 
-Sau!
+Shouldn't this warning stay for next release? People should knowingly
+remove PRINCs from their layers instead of PR going backwards silently
+(except qa check when buildhistory is enabled).
 
-> regards,
->
-> Koen
->
->
->
->>
->>
->> Sau!
->>
->>
->>
->>>   	# ${libdir} is not applicable here, perl-native files are always
->>>   	# installed to /usr/lib on both 32/64 bits targets.
->>>   	rm -rf ${D}${exec_prefix}/lib/perl-native
->>> -	rmdir ${D}${exec_prefix}/lib || true
->>>   }
->>>
->>>   PERLSEDFIXUP = " \
->>> @@ -75,6 +81,7 @@ PERLTOOLS = " \
->>>   PACKAGES =+ "${PN}-perltools"
->>>   FILES_${PN}-perltools += " \
->>>       ${PERLTOOLS} \
->>> +    ${prefix}/lib/perl \
->>>       ${datadir}/perl \
->>>   "
->>>   RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
+> -        pr =3D d.getVar('PR', True)
+> -        pr_prefix =3D re.search("\D+",pr)
+> -        prval =3D re.search("\d+",pr)
+> -        if pr_prefix is None or prval is None:
+> -            bb.error("Unable to analyse format of PR variable: %s" % pr)
+> -        nval =3D int(prval.group(0)) + int(princ)
+> -        pr =3D pr_prefix.group(0) + str(nval) + pr[prval.end():]
+> -        d.setVar('PR', pr)
+> -
+>      pn =3D d.getVar('PN', True)
+>      license =3D d.getVar('LICENSE', True)
+>      if license =3D=3D "INVALID":
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index b3786a7..bcc387c 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -190,7 +190,6 @@ ASSUME_PROVIDED =3D "\
+>  PN =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[0] or '=
+defaultpkgname'}"
+>  PV =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[1] or '=
+1.0'}"
+>  PR =3D "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE'),d)[2] or '=
+r0'}"
+> -PRINC ?=3D "0"
+>  PF =3D "${PN}-${EXTENDPE}${PV}-${PR}"
+>  EXTENDPE =3D "${@['','${PE\x7d_'][int(d.getVar('PE',1) or 0) > 0]}"
+>  P =3D "${PN}-${PV}"
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--x+WOirvrtTKur1pg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlNSnmwACgkQN1Ujt2V2gBz50ACgh7XAN4WROKYkA4E3zcvBAa+D
+MN8AnRDQ98tDzp4yCnq11uec1LwbyXDd
+=TT6Y
+-----END PGP SIGNATURE-----
+
+--x+WOirvrtTKur1pg--
