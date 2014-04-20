@@ -1,22 +1,34 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp10.online.nl (smtp10.online.nl [194.134.42.55])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A2D360199
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Apr 2014 12:39:43 +0000 (UTC)
-Received: from smtp10.online.nl (localhost [127.0.0.1])
-	by smtp10.online.nl (Postfix) with ESMTP id AFE6C40695;
-	Sun, 20 Apr 2014 14:39:42 +0200 (CEST)
-Received: from phenom.local (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp10.online.nl (Postfix) with ESMTP;
-	Sun, 20 Apr 2014 14:39:42 +0200 (CEST)
-From: mike.looijmans@topic.nl
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 Apr 2014 14:39:38 +0200
-Message-Id: <1397997578-3623-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.7.9.5
-X-Online-Scanned: by Cloudmark authority (on smtp10.online.nl)
-Cc: Mike Looijmans <milo-software@users.sourceforge.net>
-Subject: [PATCH] PR bumps to remove PRINC use in meta-openpli
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EDA3365D45;
+	Sun, 20 Apr 2014 17:15:41 +0000 (UTC)
+Received: by mail-lb0-f176.google.com with SMTP id 10so2590590lbg.21
+	for <multiple recipients>; Sun, 20 Apr 2014 10:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=pkqWH1k8wpvA/b4dMLJSJW7XXeavkKrGhTpticlWFuE=;
+	b=DzEUtc2MaxgwGP5HaSjSRUWCcydFJjj4jwjyo8vU4F4HPx56I7QiwkXxdK6LElJvJW
+	LI3sWnmC1Tllco+oS/xNG9WAHetke5mtOfsnVYsI1glTfpFy38M8oBFx4pjyqwhvF8bu
+	KMjUzUiYg4wAM0Io8MniuHJ+Dk5gN2/4NGoIJsF+E/bM+F/mgam+ciN6fwqm4XZgwqm5
+	JLAqUegYE7IIY6srxNXRBiMUgeC31Aj2GWUIYiHJB6SgnipxnBC+BF6/Hm0fFHqk4p2W
+	caiHskD0aGQXHoHWk19V/n8fnsM81zCRfM4r2UxCJC6s7181KkQWkjR1K5ixVcWjq9Sl
+	AJNw==
+MIME-Version: 1.0
+X-Received: by 10.152.235.3 with SMTP id ui3mr23414979lac.2.1398014141296;
+	Sun, 20 Apr 2014 10:15:41 -0700 (PDT)
+Received: by 10.112.53.73 with HTTP; Sun, 20 Apr 2014 10:15:41 -0700 (PDT)
+In-Reply-To: <CAPbeDCnP_Qr1fUS9MAFZ4mLCRcoNJ=M1n8Umx-8m6m0b8Sxm0w@mail.gmail.com>
+References: <20140418183632.GG2486@jama>
+	<CAPbeDCnP_Qr1fUS9MAFZ4mLCRcoNJ=M1n8Umx-8m6m0b8Sxm0w@mail.gmail.com>
+Date: Sun, 20 Apr 2014 19:15:41 +0200
+Message-ID: <CAPbeDCkwiD0ZKAYS=AAkUEQnZvVNvFjNAgqtmJ8mcW_HXSV_DA@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, test-dependencies 2014-04-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,149 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Apr 2014 12:39:45 -0000
+X-List-Received-Date: Sun, 20 Apr 2014 17:15:44 -0000
+Content-Type: multipart/alternative; boundary=001a1134630a4877ff04f77c889d
 
-From: Mike Looijmans <milo-software@users.sourceforge.net>
+--001a1134630a4877ff04f77c889d
+Content-Type: text/plain; charset=UTF-8
 
-Resolves warnings of this kind in the OpenPLi layer:
- WARNING: Use of PRINC * was detected in the recipe *
----
- meta/recipes-bsp/alsa-state/alsa-state.bb          |    2 +-
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
- .../nfs-utils/nfs-utils_1.2.9.bb                   |    1 +
- meta/recipes-connectivity/ofono/ofono_1.14.bb      |    2 ++
- meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +-
- meta/recipes-core/busybox/busybox_1.22.1.bb        |    2 ++
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
- meta/recipes-core/udev/udev_182.bb                 |    2 +-
- meta/recipes-core/util-linux/util-linux_2.24.1.bb  |    1 +
- 10 files changed, 12 insertions(+), 6 deletions(-)
+On Sat, Apr 19, 2014 at 1:03 PM, Jacob Kroon <jacob.kroon@gmail.com> wrote:
 
-diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
-index 5ab1b13..874d6bb 100644
---- a/meta/recipes-bsp/alsa-state/alsa-state.bb
-+++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
-@@ -10,7 +10,7 @@ sound state at system boot and save it at system shut down."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- PV = "0.2.0"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "\
-   file://asound.conf \
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index ccd230d..28a94ed 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
- 
--PR = "r10"
-+PR = "r11"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb
-index da37160..4f287f4 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb
-@@ -3,6 +3,7 @@ DESCRIPTION = "The nfs-utils package provides a daemon for the kernel \
- NFS server and related tools."
- HOMEPAGE = "http://nfs.sourceforge.net/"
- SECTION = "console/network"
-+PR = "r1"
- 
- LICENSE = "MIT & GPLv2+ & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.14.bb b/meta/recipes-connectivity/ofono/ofono_1.14.bb
-index f107fe6..dea5d88 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.14.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.14.bb
-@@ -1,5 +1,7 @@
- require ofono.inc
- 
-+PR = "r1"
-+
- SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-   file://ofono \
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 9699e31..6d76a2b 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Miscellaneous files for the base system"
- DESCRIPTION = "The base-files package creates the basic system directory structure and provides a small set of key configuration files for the system."
- SECTION = "base"
--PR = "r86"
-+PR = "r89"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://licenses/GPL-2;md5=94d55d512a9ba36caa9b7df079bae19f"
- # Removed all license related tasks in this recipe as license.bbclass 
-diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
-index 782752c..46641e1 100644
---- a/meta/recipes-core/busybox/busybox_1.22.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
-@@ -1,5 +1,7 @@
- require busybox.inc
- 
-+PR = "r32"
-+
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://get_header_tar.patch \
-            file://busybox-appletlib-dependency.patch \
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 62d0eae..e8a5b78 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r154"
-+PR = "r153"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index c06eac4..34e0a54 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r11"
-+PR = "r13"
- 
- RDEPENDS_${PN} = "${PN}-inittab"
- 
-diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
-index d66292e..a90c289 100644
---- a/meta/recipes-core/udev/udev_182.bb
-+++ b/meta/recipes-core/udev/udev_182.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r7"
-+PR = "r8"
- 
- # module-init-tools from kmod_git will provide libkmod runtime
- DEPENDS += "module-init-tools"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.24.1.bb b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
-index 8b6a1ce..3fc9875 100644
---- a/meta/recipes-core/util-linux/util-linux_2.24.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.24.1.bb
-@@ -1,5 +1,6 @@
- MAJOR_VERSION = "2.24"
- require util-linux.inc
-+PR = "r1"
- 
- # To support older hosts, we need to patch and/or revert
- # some upstream changes.  Only do this for native packages.
--- 
-1.7.9.5
+> On Fri, Apr 18, 2014 at 8:36 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
+>
+>> And more importantly floating dependencies, reply here
+>> when you start working on some of these.
+>>
+>> Found differences:
+>> ccid/ccid/latest lost dependency on  flex
+>> console-tools/console-tools/latest lost dependency on  flex
+>>
+>
+> I'll have a go at resolving the console-tools/flex floating dep.
+>
 
+If I understand things correctly: libfl.so from flex provides default
+implementations for yylex() and yywrap(). console-tools/loadkeys provides
+its own implementations for these, so linking with libfl.so is not
+necessary.
 
+In order to remove the floating dependency I can patch to either remove
+@LEXLIB@ from LDADD, or I can pass "-Wl,--as-needed" in LDFLAGS, both ways
+seems to get rid of the dependency on libfl.
+
+Any preferred way of handling this ?
+
+/Jacob
+
+--001a1134630a4877ff04f77c889d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On S=
+at, Apr 19, 2014 at 1:03 PM, Jacob Kroon <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:jacob.kroon@gmail.com" target=3D"_blank">jacob.kroon@gmail.com</a>&gt=
+;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">=
+<div class=3D"gmail_quote"><div class=3D"">On Fri, Apr 18, 2014 at 8:36 PM,=
+ Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.co=
+m" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">And more importantly floating dependencies, =
+reply here<br>
+when you start working on some of these.<br>
+<br>
+Found differences:<br>
+ccid/ccid/latest lost dependency on =C2=A0flex<br>
+console-tools/console-tools/latest lost dependency on =C2=A0flex<br></block=
+quote><div><br></div></div><div>I&#39;ll have a go at resolving the console=
+-tools/flex floating dep.<br></div></div></div></div></blockquote><br></div=
+>
+<div class=3D"gmail_quote">If I understand things correctly: libfl.so from =
+flex provides default implementations for yylex() and yywrap(). console-too=
+ls/loadkeys provides its own implementations for these, so linking with lib=
+fl.so is not necessary.<br>
+<br>In order to remove the floating dependency I can patch to either remove=
+ @LEXLIB@ from LDADD, or I can pass &quot;-Wl,--as-needed&quot; in LDFLAGS,=
+ both ways seems to get rid of the dependency on libfl.<br><br></div><div c=
+lass=3D"gmail_quote">
+Any preferred way of handling this ?<br><br></div><div class=3D"gmail_quote=
+">/Jacob<br></div></div></div>
+
+--001a1134630a4877ff04f77c889d--
