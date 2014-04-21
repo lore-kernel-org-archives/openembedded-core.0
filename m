@@ -1,29 +1,36 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id A54C865D24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Apr 2014 17:27:06 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N4E005PY5SD2R00@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 21 Apr 2014 12:26:48 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id B91E7201BF; Mon,
-	21 Apr 2014 13:26:37 -0400 (EDT)
-Date: Mon, 21 Apr 2014 13:26:37 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-id: <20140421172637.GQ11339@denix.org>
-References: <1396324451-26983-1-git-send-email-denis@denix.org>
-	<20140406224639.GD3370@denix.org> <5342C918.5030307@linux.intel.com>
-	<20140407210549.GI3370@denix.org> <1396909331.24597.84.camel@ted>
-MIME-version: 1.0
-In-reply-to: <1396909331.24597.84.camel@ted>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] udev-extraconf: update mount.sh to use /run/media instead of /media
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 59B5165CFC;
+	Mon, 21 Apr 2014 18:40:22 +0000 (UTC)
+Received: by mail-vc0-f179.google.com with SMTP id ij19so1385091vcb.38
+	for <multiple recipients>; Mon, 21 Apr 2014 11:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ZaMQ9t5ClBMw4D6+a5Qc0Jj5X/+p8flG0SuwAq/V+rc=;
+	b=ngWNM/lF+kTOzVgG5cqvTDqM9N+fWb7wNdO6V3siNgxYW6p9NQTtI5+D4wzcQIlETt
+	A2lEmg+y+69dBODX50FhmsLQMaOamjAeWbpv+FUHzMi4QVQqxkfWYfOy4/Vy07E8ZLJH
+	0V6HiUZF7GdrUKe812/3r8Q0MCyOBh2N9pKmEScxn9PXKOSy6bKa9yTVEjdpnClAxCG6
+	WVBbIJjv0REx+ei+S1fuHbap0NmZ8V4Mz11G4wdVp8CVYw2kE8mRCjWGvbSAxmAZu8Vq
+	WU0/03c33nXKe6s+wM/7zBjovm8MOE5x0c556pP4oCVJGds+SF0/qvVz3y7Ea3vuQrXU
+	Y0Iw==
+MIME-Version: 1.0
+X-Received: by 10.220.69.72 with SMTP id y8mr4511493vci.21.1398105623647; Mon,
+	21 Apr 2014 11:40:23 -0700 (PDT)
+Received: by 10.52.120.4 with HTTP; Mon, 21 Apr 2014 11:40:23 -0700 (PDT)
+In-Reply-To: <20140421153432.GF2486@jama>
+References: <20140421153432.GF2486@jama>
+Date: Mon, 21 Apr 2014 20:40:23 +0200
+Message-ID: <CALbNGRR35DOKew=DA9fYfzrNtbs83Jb-ZwCuZm7w=EVJFqTxow@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2014-04-03
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Apr 2014 17:27:06 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 21 Apr 2014 18:40:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Apr 07, 2014 at 11:22:11PM +0100, Richard Purdie wrote:
-> On Mon, 2014-04-07 at 17:05 -0400, Denys Dmytriyenko wrote:
-> > I understand the timing concern and am fine waiting another week for when 1.7 
-> > window opens.
-> > 
-> > But I'm slightly confused as to since when OE-Core is concerned about breaking 
-> > bbappends in other layers? I guess some layers are not created equal, eh? :)
-> 
-> The question is more one of timing. I don't think its reasonable that we
-> break things like that between -rc2 and -rc3 of 1.6 without a better
-> reason...
-> 
-> I'm even nervous changing the sstate checksums but I think the CONFFILES
-> change does warrant that for example.
+On Mon, Apr 21, 2014 at 5:34 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> gnome-backgrounds fix is on ML
+> mousepad, gd are fixed now, but fix wasn't included in qemuarm build
+> iozone3 should be fixed by v2 on ML
+>
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+>
+> == Failed tasks 2014-04-21 ==
+>
+> === common (7) ===
+>     * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.bb, do_compile
+Will try to fix this one
 
-Is 1.7 window now open? Should I resubmit this patch again? Thanks.
-
--- 
-Denys
+Andreas
 
