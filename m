@@ -1,37 +1,53 @@
-Return-Path: <cliff.brake@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 0486B605BC;
-	Mon, 21 Apr 2014 20:09:27 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id uy17so2182857igb.3
-	for <multiple recipients>; Mon, 21 Apr 2014 13:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:from:to:subject:content-type
-	:content-transfer-encoding;
-	bh=oPd+0mWpatlmZOKTGdwP66FYbKvkBem/NK+x/sJkSN4=;
-	b=CZ/pSpi+haiMvFluYRAk9+ENUnlRngGnEtkq2I882WncyjtM4F041Q67yQHnUCAF7R
-	MRB1DOryoKN6/QW5zCK0vna6MM0Tk4P9pHbpfvD44U/7/ryJlVoPm/qcfoVz0JXdy3vI
-	pu3k3iTx7eO4Oq56nxvh3JzILc8JlEo3MhuF+ZizdIm97qJpetTM3usomdrNp1uI7MBN
-	udMJaL0xwKbtd+DxIFLVPs4Vqs7yPMM//uY1JXhGZ9cgzB3j68TvWS5kJHjZpTgCmCCA
-	BkKHCRJfC2nNp6u4CVZoX5uXy+8wUS08GX5lfpizzKRR6nj7GpU7XXDKXp92Vf10DkHN
-	G5KQ==
-X-Received: by 10.50.61.177 with SMTP id q17mr24485694igr.44.1398110968206;
-	Mon, 21 Apr 2014 13:09:28 -0700 (PDT)
-Received: from happy.bec-systems.com (cable-pool6-cs-200.doycomm.com.
-	[66.219.185.200]) by mx.google.com with ESMTPSA id
-	i16sm23127836igf.11.2014.04.21.13.09.26 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Apr 2014 13:09:27 -0700 (PDT)
-X-Google-Original-Date: Mon, 21 Apr 2014 20:09:25 GMT
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F8326121F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Apr 2014 20:52:59 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id kp14so147453pab.19
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Apr 2014 13:52:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=sender:message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type;
+	bh=wMMn3ZC80E2OeEICxjBun5dicjrxvuannJTTjjD+V68=;
+	b=BixehPJ8c0ma0JgE6vIpkonA+Jcc7NevDe17r9S/oHCDeWuGsMIAi/X1Px2hO6t//V
+	mFjDEIK7KpC73wWJgNY6LHJF910lQF9Qp/LhZyV97Em/RjMYCkYGWcIdjnsSDhmpkgpR
+	svpBLc7zwniHexWjRKoup1IKNgT1vlbN/ORpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:message-id:date:from:user-agent
+	:mime-version:to:cc:subject:references:in-reply-to:content-type;
+	bh=wMMn3ZC80E2OeEICxjBun5dicjrxvuannJTTjjD+V68=;
+	b=b3v5jVbGPF07M2LOnMHisVE1CKhmCLQdYfJzqiZbnP8/xNmUEdbFgsWPzQnuHJ5VYm
+	q4c4YrUHCU9zm9UoSxAC9gWw/Tkn49n+iouBiD5BQho3X8752JnMVY+YO16NRVu973MF
+	rd+zCW13eQmuLjS3fDZ2G2xQOgK3SP8TtqxuGlGjeOJdhPk7ISfAY/QEhLJhlYCMqK+3
+	8lSXlUCObQk8Zp0vIxuy+CovJPe/kjCUJ6ICJU3ofHLrZvWKCpZukHSV2mMAn8tW3eTM
+	5/q/E5sjyNyd7cPHfdVTl38pbcJbW0t1MKD/KdTCNR/J8FN2IYUkzxPt7O2//FDfpDip
+	W6Pg==
+X-Gm-Message-State: ALoCoQlCl+MGM7PDwv8hDfVN1G9YKqxSLeK/4gsjgn1UJ6tKiF2RUownpNMm25FDYJmMKDhRREOc
+X-Received: by 10.66.148.230 with SMTP id tv6mr4172734pab.155.1398113579723;
+	Mon, 21 Apr 2014 13:52:59 -0700 (PDT)
+Received: from [192.168.17.115] (static-50-43-12-44.bvtn.or.frontiernet.net.
+	[50.43.12.44]) by mx.google.com with ESMTPSA id
+	pq3sm80036648pbb.57.2014.04.21.13.52.56 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 21 Apr 2014 13:52:56 -0700 (PDT)
+Sender: Michael Halstead <mhalstead@linuxfoundation.org>
+Message-ID: <53558521.1050105@yoctoproject.org>
+Date: Mon, 21 Apr 2014 13:52:49 -0700
+From: Michael Halstead <michael@yoctoproject.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-X-Mailer: Nodemailer (0.3.22; +http://andris9.github.com/Nodemailer/)
-Date: Mon, 21 Apr 2014 13:09:27 -0700 (PDT)
-Message-Id: <1398110965776.bae433ef@Nodemailer>
-From: cliff.brake@gmail.com
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org,
-	angstrom-distro-devel@linuxtogo.org, meta-ti@yoctoproject.org
-Subject: OE Changelog since 2014-04-13 until 2014-04-20
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1397947224.16672.15.camel@ted>
+In-Reply-To: <1397947224.16672.15.camel@ted>
+X-Enigmail-Version: 1.5.2
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: Re: Fetch/Unpack performance dependent on git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,375 +60,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Apr 2014 20:09:33 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Mon, 21 Apr 2014 20:52:59 -0000
+X-Groupsio-MsgNum: 52502
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+	micalg=sha1; boundary="------------ms090102070004090300090500"
+
+--------------ms090102070004090300090500
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Changelog since 2014-04-13 until 2014-04-20.  Projects included in this =
-report:
-
-bitbake: git://git.openembedded.org/bitbake
-openembedded-core: git://git.openembedded.org/openembedded-core
-meta-openembedded: git://git.openembedded.org/meta-openembedded
-meta-angstrom: git://github.com/Angstrom-distribution/meta-angstrom.git
-meta-arago: git://arago-project.org/git/meta-arago.git
-meta-beagleboard: git://github.com/beagleboard/meta-beagleboard.git
-meta-browser: git://github.com/OSSystems/meta-browser.git
-meta-bug: git://github.com/buglabs/meta-bug.git
-meta-chicken: git://github.com/OSSystems/meta-chicken
-meta-efikamx: git://github.com/kraj/meta-efikamx.git
-meta-ettus: http://github.com/koenkooi/meta-ettus.git
-meta-fsl-arm: git://git.yoctoproject.org/meta-fsl-arm
-meta-fsl-arm-extra: git://github.com/Freescale/meta-fsl-arm-extra.git
-meta-fsl-ppc: git://git.yoctoproject.org/meta-fsl-ppc
-meta-guacamayo: git://github.com/Guacamayo/meta-guacamayo.git
-meta-gumstix: git://github.com/gumstix/meta-gumstix.git
-meta-gumstix-community: =
-git://gitorious.org/schnitzeltony-oe-meta/meta-gumstix-community.git
-meta-handheld: git://git.openembedded.org/meta-handheld
-meta-igep: http://github.com/ebutera/meta-igep.git
-meta-intel: git://git.yoctoproject.org/meta-intel
-meta-ivi: git://git.yoctoproject.org/meta-ivi
-meta-java: git://github.com/woglinde/meta-java
-meta-kde: git://gitorious.org/openembedded-core-layers/meta-kde.git
-meta-micro: git://git.openembedded.org/meta-micro
-meta-mono: git://git.yoctoproject.org/meta-mono.git
-meta-netbookpro: git://github.com/tworaz/meta-netbookpro
-meta-nslu2: git://github.com/kraj/meta-nslu2
-meta-opie: git://git.openembedded.org/meta-opie
-meta-qt3: git://git.yoctoproject.org/meta-qt3
-meta-qt5: git://github.com/meta-qt5/meta-qt5.git
-meta-slugos: git://github.com/kraj/meta-slugos
-meta-systemd: git://git.yoctoproject.org/meta-systemd
-meta-raspberrypi: git://github.com/djwillis/meta-raspberrypi.git
-meta-smartphone: http://git.shr-project.org/repo/meta-smartphone.git
-meta-ti: git://git.yoctoproject.org/meta-ti
-meta-webos: git://github.com/openwebos/meta-webos.git
-meta-xilinx: git://git.yoctoproject.org/meta-xilinx
-meta-yocto: git://git.yoctoproject.org/meta-yocto
-openembedded: git://git.openembedded.org/openembedded
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for bitbake:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for openembedded-core:
-
-Alexandru DAMIAN (1):
-=20=20toaster.bbclass: do not fail on non-existent files
-
-Denys Dmytriyenko (1):
-=20=20u-boot: fix beaglebone boot issue with large kernel images
-
-Stefan Stanacar (1):
-=20=20scripts/send-error-report: use a real server as the default
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-openembedded:
-
-Adam YH Lee (2):
-=20=20gvfs-gdu-volume-monitor: Define build dependency on libgnome-keyring
-=20=20xfce4-session: Take the precedence over mini-x-session
-
-Andreas M=C3=BCller (12):
-=20=20xfce-git.bbclass initial add
-=20=20xarchiver: fix configue
-=20=20xfwm4: fix configue by inheriting xfce-git.bbclass
-=20=20libxfce4ui: fix configue by inheriting xfce-git.bbclass
-=20=20xfce4-taskmanager: fix configue by inheriting xfce-git.bbclass
-=20=20xfce4-closebutton-plugin: fix configue by inheriting xfce-git.bbclass
-=20=20xfce4-settings: fix configue by inheriting xfce-git.bbclass
-=20=20xfce4-dev-tools: update to 4.11.0
-=20=20sound-theme-freedesktop: fix configure
-=20=20abiword: update to 3.0.0 to fix build
-=20=20evince: make nautilus extension a PACKAGECONFIG and disable by default
-=20=20gnome-disk-utility: change PACKAGECONFIG default: remove nautilus
-
-Changhyeok Bae (1):
-=20=20libunwind: Add mirror site
-
-Chong.Lu@windriver.com (3):
-=20=20lvm2: fix mlock() on vectors vma for ARM.
-=20=20lvm2: add explicit selinux support control
-=20=20mariadb: use /bin/false as the login shell
-
-Denys Dmytriyenko (1):
-=20=20linuxptp: fix and simplify recipe, drop dependency on kernel
-
-Fathi Boudra (2):
-=20=20fwts: update to 14.03.01 release
-=20=20acpica: update to 20140325 release
-
-Jack Mitchell (1):
-=20=20rsyslog: remove unsupported option from initscript
-
-Jackie Huang (11):
-=20=20bonnie++: update to version 1.03e
-=20=20dialog: update to version 1.1-20120706
-=20=20libnet: update version to 1.1.6
-=20=20liblockfile: set default mailgroup and install libnfslock
-=20=20libestr: use BP instead of P to fix multilib builds
-=20=20libedit: update version to 20130712-3.1
-=20=20iw: use BP instead of P to fix multilib builds
-=20=20eject: fix multilib builds
-=20=20fbset: fix parallel build
-=20=20eventlog: update version to 0.2.13
-=20=20rsyslog: add status command and a minor fix for initscript
-
-Jate Sujjavanich (1):
-=20=20samba: Add talloc PACKAGECONFIG
-
-Kang Kai (7):
-=20=20smartmontools: update to 6.2
-=20=20smartmontools: add init script
-=20=20smartmontools: add PACKAGECONFIG and runtime dependency
-=20=20swig: add native wrapper for SWIGLIB
-=20=20sg3-utils: update to 1.38
-=20=20libyaml: update to 0.1.5
-=20=20yajl: update to 2.1.0
-
-Koen Kooi (3):
-=20=20mongodb: update to 2.6
-=20=20gimp, gegl, babl: change SRC_URI to http
-=20=20sshfs-fuse: update to 2.5
-
-Marc Ferland (1):
-=20=20autobahn: fix 'Missing sha256 SRC_URI checksum'
-
-Martin Jansa (48):
-=20=20efl: upgrade to 1.9.0
-=20=20webkit-efl: upgrade to new snapshot r164189
-=20=20e-wm: upgrade to 0.18.4 and drop old 0.17.5
-=20=20e-tasks: Migrate to eldbus
-=20=20python-efl: upgrade to 1.9.0
-=20=20eve: restrict for armv7a, because upstream dropped support in =
-webkit-efl
-=20=20efl, elementary, e-wm: upgrade to latest versions 1.9.2 and 1.18.6
-=20=20eve: adapt to webkit-efl changes
-=20=20mplayer2: bump SRCREV to fix build issues with newer live555
-=20=20libdc1394: add libsdl dependency
-=20=20sound-theme-freedesktop: add glib-2.0 and intltool-native dependency
-=20=20freerdp: move to nonworking
-=20=20gnome-control-center: include datadir/mime in PN
-=20=20tracker: inherit only gnomebase, fix QA warn
-=20=20libwnck*: inherit only gnomebase
-=20=20elementary: remove --disable-web
-=20=20wvstreams: fix QA warning
-=20=20gnome-menus: inherit only gnomebase
-=20=20babl: inherit only gnomebase
-=20=20dconf: inherit only gnomebase
-=20=20gnome-bluetooth: inherit only gnomebase, gtk-icon-cache
-=20=20libgtop: inherit only gnomebase
-=20=20libgdata: inherit only gnomebase
-=20=20gnome-disk-utility: inherit only gnomebase, gtk-icon-cache
-=20=20libgnome-keyring: inherit only gnomebase
-=20=20libbonobo: inherit only gnomebase
-=20=20modemmanager: inherit only gnomebase
-=20=20gcr: inherit only gnomebase, gtk-icon-cache
-=20=20gnome-themes: inherit only gnomebase
-=20=20zenity: inherit only gnomebase
-=20=20goffice: inherit only gnomebase
-=20=20gtksourceview2: inherit only gnomebase
-=20=20metacity: inherit only gnomebase
-=20=20atftp: include whole sysconfdir in PN
-=20=20zram: include whole sysconfdir in PN
-=20=20edbus: remove test-gui option
-=20=20libgnomecanvas: add intltool-native dependency
-=20=20mousepad: add intltool-native and xfce4-dev-tools-native dependency
-=20=20lzip: remove infodir
-=20=20emacs: remove infodir
-=20=20libgnomecups: inherit only gnomebase
-=20=20libgnomeprint: inherit only gnomebase
-=20=20tracker: remove --disable-introspection
-=20=20libbonoboui: inherit only gnomebase
-=20=20gnome-backgrounds: inherit only gnomebase, add glib-2.0 dependency
-=20=20efl, elementary, e-wm: Upgrade to 1.9.3/0.18.7
-=20=20eve: move to new git repo
-=20=20efl: explicitly depend on lua5.1
-
-Matthieu CRAPET (2):
-=20=20open-vcdiff: add new recipe for version 0.8.3
-=20=20zsh: upgrade to 5.0.5
-
-Ming Liu (1):
-=20=20collectd: explicitly enable/disable libsensors support
-
-Otavio Salvador (1):
-=20=20libinih: Update to 25078f7
-
-Paul Barker (4):
-=20=20fftw: Refactor EXTRA_OECONF
-=20=20fftw: Upgrade to v3.3.4
-=20=20vim: Upgrade to v7.4.258
-=20=20ipsec-tools: Update patch status
-
-Philip Balister (1):
-=20=20swig: Update to version 2.0.12 and fix cmake find swig issue.
-
-Trevor Woerner (10):
-=20=20abiword: force build order
-=20=20asio: package bump
-=20=20gtkmathview: fix B!=3DS
-=20=20gtkmathview: fix qa issue
-=20=20gtkmathview: fix build error
-=20=20licenses: add The Open Group Public License
-=20=20libdc1394: disable building examples
-=20=20utouch-evemu: force serial build
-=20=20xfconf: remove unrecognized configure option
-=20=20acpitests: add individual checksums
-
-Wenzong Fan (2):
-=20=20collectd: enable/disable libpq explicitly
-=20=20collectd: fix init status
-
-stephen.arnold42 (2):
-=20=20gd: added upstream license file and fixed configure warnings
-=20=20gpm: sets D equal to DESTDIR instead of ROOT in do_install
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-angstrom:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-arago:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-beagleboard:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-browser:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-bug:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-chicken:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-efikamx:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ettus:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-arm:
-
-Jacob Kroon (1):
-=20=20linux-imx-rt: Drop extra 'rt' in version name
-
-Otavio Salvador (2):
-=20=20linux-fslc: Update to 3.14.1 stable release
-=20=20u-boot-fslc: Fix native contamination for libssl
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-arm-extra:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-ppc:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-guacamayo:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-gumstix:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-gumstix-community:
-
-Andreas M=C3=BCller (1):
-=20=20linux-omap-3.11/TODO: fix omapfb note
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-handheld:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-igep:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-intel:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ivi:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-java:
-
-Henning Heinold (6):
-=20=20cacao: fix target compilation and packaging
-=20=20jamvm: add inherit pkgconfig
-=20=20jamvm: update git version to ebd11bde0a97b57f0d18938c6b65468d3c932719
-=20=20jamvm: update git url to sourceforge while berlios is gone
-=20=20java-test-image: add jamvm, cacao and classpath
-=20=20openjdk: add our renamed libjavanet.so and lib.so to the private libs
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-kde:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-micro:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-mono:
-
-Alex J Lennon (2):
-=20=20mono-native: Added libgdiplus-native and native dependencies to =
-support xbui
-=20=20mono,mono-native: Added older 3.2.8 recipes back in as there appear =
-to be so
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-netbookpro:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-nslu2:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-opie:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-qt3:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-qt5:
-
-Andreas Oberritter (1):
-=20=20qtwebkit: fix packageconfig
-
-Jonathan Liu (1):
-=20=20qtwebkit: add packageconfig for qtmultimedia
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-slugos:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-systemd:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-raspberrypi:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-smartphone:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ti:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-webos:
-
-Martin Jansa (1):
-=20=20luna-service2: Add missing dependency on boost
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-xilinx:
-
-Nathan Rossi (2):
-=20=20machine-xilinx-default.inc: Move defconfig setup
-=20=20machine/boards: Fix up cfg fragment eof newlines
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-yocto:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for openembedded:
-
-
-
+On 04/19/2014 03:40 PM, Richard Purdie wrote:
+> I thought it might be worth highlighting to people that the performance=
+
+> of the git fetcher *and* the unpack process is highly dependant on the
+> version of git.
+>
+> Firstly, all versions of git 1.6+ appear to default to injecting an
+> fsync() after fetching objects. fsync() usage significantly hurts our
+> builds. It is also a bit pointless in our usecase, we can however
+> disable it with a simple tweak to the fetcher:
+>
+> -        ud.basecmd =3D data.getVar("FETCHCMD_git", d, True) or "git"
+> +        ud.basecmd =3D data.getVar("FETCHCMD_git", d, True) or "git -c=
+ core.fsyncobjectfiles=3D0"
+>
+> Secondly, for older versions of git, git clone is running repository
+> coverage checks even for local cloning. E.g.:
+>
+> git version 1.8.3.2 on my system:
+>
+> $ bitbake linux-yocto -c fetch
+> $ time bitbake linux-yocto -c unpack
+> 51.33user 1.93system 1:09.27elapsed 76%CPU (0avgtext+0avgdata 779380max=
+resident)k
+>
+> after updating to git 1.9.2:
+>
+> $ bitbake linux-yocto -c fetch
+> $ time bitbake linux-yocto -c unpack
+> 4.28user 0.63system 0:04.36elapsed 112%CPU (0avgtext+0avgdata 260692max=
+resident)k
+>
+> so 16 times faster!
+>
+> The commit in question for anyone interested:
+>
+> https://github.com/git/git/commit/125a05fd0b45416558923b753f6418c24208d=
+443
+>
+> Michael/Beth: Can we please upgrade the autobuilder to a daisy release
+> buildtools tarball which has git 1.9.x in it? This should massively
+> speed up certain parts of the autobuilder.
+The new buildtools are installed at /opt/poky/1.6 and I've updated
+~pokybuild/.bashrc to source them. Restarting all the buildslaves should
+put them to use. I'll restart all of them that aren't building
+currently. opensuse131-a.yp, on the current nightly, is the only one
+occupied at the moment.
+
+Michael Halstead
+Yocto Project / System Administrator
+
+
+>
+> Stefan: Could you see which version of git is on the performance
+> benchmark machine? A run with the daisy build tools tarball would be
+> extremely interesting if its before 1.9.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+
+
+--------------ms090102070004090300090500
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIINjDCCBjQw
+ggQcoAMCAQICASAwDQYJKoZIhvcNAQEFBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNVBAoTDVN0YXJ0
+Q29tIEx0ZC4xKzApBgNVBAsTIlNlY3VyZSBEaWdpdGFsIENlcnRpZmljYXRlIFNpZ25pbmcxKTAn
+BgNVBAMTIFN0YXJ0Q29tIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTA3MTAyNDIxMDI1NVoX
+DTE3MTAyNDIxMDI1NVowgYwxCzAJBgNVBAYTAklMMRYwFAYDVQQKEw1TdGFydENvbSBMdGQuMSsw
+KQYDVQQLEyJTZWN1cmUgRGlnaXRhbCBDZXJ0aWZpY2F0ZSBTaWduaW5nMTgwNgYDVQQDEy9TdGFy
+dENvbSBDbGFzcyAyIFByaW1hcnkgSW50ZXJtZWRpYXRlIENsaWVudCBDQTCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBAMsohUWcASz7GfKrpTOMKqANy9BV7V0igWdGxA8IU77L3aTxErQ+
+fcxtDYZ36Z6GH0YFn7fq5RADteP0AYzrCA+EQTfi8q1+kA3m0nwtwXG94M5sIqsvs7lRP1aycBke
+/s5g9hJHryZ2acScnzczjBCAo7X1v5G3yw8MDP2m2RCye0KfgZ4nODerZJVzhAlOD9YejvAXZqHk
+sw56HzElVIoYSZ3q4+RJuPXXfIoyby+Y2m1E+YzX5iCZXBx05gk6MKAW1vaw4/v2OOLy6FZH3XHH
+tOkzUreG//CsFnB9+uaYSlR65cdGzTsmoIK8WH1ygoXhRBm98SD7Hf/r3FELNvUCAwEAAaOCAa0w
+ggGpMA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgEGMB0GA1UdDgQWBBSuVYNv7DHKufcd
++q9rMfPIHeOsuzAfBgNVHSMEGDAWgBROC+8apEBbpRdphzDKNGhD0EGu8jBmBggrBgEFBQcBAQRa
+MFgwJwYIKwYBBQUHMAGGG2h0dHA6Ly9vY3NwLnN0YXJ0c3NsLmNvbS9jYTAtBggrBgEFBQcwAoYh
+aHR0cDovL3d3dy5zdGFydHNzbC5jb20vc2ZzY2EuY3J0MFsGA1UdHwRUMFIwJ6AloCOGIWh0dHA6
+Ly93d3cuc3RhcnRzc2wuY29tL3Nmc2NhLmNybDAnoCWgI4YhaHR0cDovL2NybC5zdGFydHNzbC5j
+b20vc2ZzY2EuY3JsMIGABgNVHSAEeTB3MHUGCysGAQQBgbU3AQIBMGYwLgYIKwYBBQUHAgEWImh0
+dHA6Ly93d3cuc3RhcnRzc2wuY29tL3BvbGljeS5wZGYwNAYIKwYBBQUHAgEWKGh0dHA6Ly93d3cu
+c3RhcnRzc2wuY29tL2ludGVybWVkaWF0ZS5wZGYwDQYJKoZIhvcNAQEFBQADggIBADqpJw3I07QW
+ke9plNBpxUxcffc7nUrIQpJHDci91DFG7fVhHRkMZ1J+BKg5UNUxIFJ2Z9B90Micc/NXcs7kPBRd
+n6XGO/vPc87Y6R+cWS9Nc9+fp3Enmsm94OxOwI9wn8qnr/6o3mD4noP9JphwUPTXwHovjavRnhUQ
+HLfo/i2NG0XXgTHXS2Xm0kVUozXqpYpAdumMiB/vezj1QHQJDmUdPYMcp+reg9901zkyT3fDW/iv
+JVv6pWtkh6Pw2ytZT7mvg7YhX3V50Nv860cV11mocUVcqBLv0gcT+HBDYtbuvexNftwNQKD5193A
+7zN4vG7CTYkXxytSjKuXrpEatEiFPxWgb84nVj25SU5q/r1Xhwby6mLhkbaXslkVtwEWT3Van49r
+KjlK4XrUKYYWtnfzq6aSak5u0Vpxd1rY79tWhD3EdCvOhNz/QplNa+VkIsrcp7+8ZhP1l1b2U6Ma
+xIVteuVMD3X0vziIwr7jxYae9FZjbxlpUemqXjcC0QaFfN7qI0JsQMALL7iGRBg7K0CoOBzECdD3
+fuZil5kU/LP9cr1BK31U0Uy651bFnAMMMkqhAChIbn0ei72VnbpSsrrSdF0BAGYQ8vyHae5aCg+H
+75dVCV33K6FuxZrf09yTz+Vx/PkdRUYkXmZz/OTfyJXsUOUXrym6KvI2rYpccSk5MIIHUDCCBjig
+AwIBAgICIgMwDQYJKoZIhvcNAQEFBQAwgYwxCzAJBgNVBAYTAklMMRYwFAYDVQQKEw1TdGFydENv
+bSBMdGQuMSswKQYDVQQLEyJTZWN1cmUgRGlnaXRhbCBDZXJ0aWZpY2F0ZSBTaWduaW5nMTgwNgYD
+VQQDEy9TdGFydENvbSBDbGFzcyAyIFByaW1hcnkgSW50ZXJtZWRpYXRlIENsaWVudCBDQTAeFw0x
+MjA2MTMwNDU5MjlaFw0xNDA2MTQxNjE4MzBaMIGRMRkwFwYDVQQNExBnMDFwWTYwMWJGM1BrRTY3
+MQswCQYDVQQGEwJVUzEPMA0GA1UECBMGT3JlZ29uMRIwEAYDVQQHEwlIaWxsc2Jvcm8xGTAXBgNV
+BAMTEE1pY2hhZWwgSGFsc3RlYWQxJzAlBgkqhkiG9w0BCQEWGG1pY2hhZWxAeW9jdG9wcm9qZWN0
+Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMFZ+GW0VKdiyuQy3hlOvwcHxcm0
+8ZwNGGah4zipYky5wVFZO7p9LjJfyF6rvd24xdkaTluxTMmd9pfq2cOVQ6c3RsPufv1yBUbytk6F
+4Wk+qD0qEGjuHh5FfakcLIEsHiSn3nzaQZHaolS/yzx/A3coQS8pQrshZYqAF/ME5OxMyL8KDdtk
+xatt1reDPqzvI5rKYdeEbmHsTYgd9WWHvs8MfZFHidZoAXMXU+PcsKCUxEYhgP/h9NKcTApu/Mhd
+IPKn11pD+gfDM+ochGu1uxuW/t1tNJyRYDVQSDV+rpliQ7mrimSmyktIKkow02pUk4Xw3OqdYq7/
+/HpVOUs5nk8CAwEAAaOCA7MwggOvMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgSwMB0GA1UdJQQWMBQG
+CCsGAQUFBwMCBggrBgEFBQcDBDAdBgNVHQ4EFgQUcZFNotb1OfDmPE6GQ6MQIBh7meUwHwYDVR0j
+BBgwFoAUrlWDb+wxyrn3HfqvazHzyB3jrLswIwYDVR0RBBwwGoEYbWljaGFlbEB5b2N0b3Byb2pl
+Y3Qub3JnMIICIQYDVR0gBIICGDCCAhQwggIQBgsrBgEEAYG1NwECAjCCAf8wLgYIKwYBBQUHAgEW
+Imh0dHA6Ly93d3cuc3RhcnRzc2wuY29tL3BvbGljeS5wZGYwNAYIKwYBBQUHAgEWKGh0dHA6Ly93
+d3cuc3RhcnRzc2wuY29tL2ludGVybWVkaWF0ZS5wZGYwgfcGCCsGAQUFBwICMIHqMCcWIFN0YXJ0
+Q29tIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MAMCAQEagb5UaGlzIGNlcnRpZmljYXRlIHdhcyBp
+c3N1ZWQgYWNjb3JkaW5nIHRvIHRoZSBDbGFzcyAyIFZhbGlkYXRpb24gcmVxdWlyZW1lbnRzIG9m
+IHRoZSBTdGFydENvbSBDQSBwb2xpY3ksIHJlbGlhbmNlIG9ubHkgZm9yIHRoZSBpbnRlbmRlZCBw
+dXJwb3NlIGluIGNvbXBsaWFuY2Ugb2YgdGhlIHJlbHlpbmcgcGFydHkgb2JsaWdhdGlvbnMuMIGc
+BggrBgEFBQcCAjCBjzAnFiBTdGFydENvbSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTADAgECGmRM
+aWFiaWxpdHkgYW5kIHdhcnJhbnRpZXMgYXJlIGxpbWl0ZWQhIFNlZSBzZWN0aW9uICJMZWdhbCBh
+bmQgTGltaXRhdGlvbnMiIG9mIHRoZSBTdGFydENvbSBDQSBwb2xpY3kuMDYGA1UdHwQvMC0wK6Ap
+oCeGJWh0dHA6Ly9jcmwuc3RhcnRzc2wuY29tL2NydHUyLWNybC5jcmwwgY4GCCsGAQUFBwEBBIGB
+MH8wOQYIKwYBBQUHMAGGLWh0dHA6Ly9vY3NwLnN0YXJ0c3NsLmNvbS9zdWIvY2xhc3MyL2NsaWVu
+dC9jYTBCBggrBgEFBQcwAoY2aHR0cDovL2FpYS5zdGFydHNzbC5jb20vY2VydHMvc3ViLmNsYXNz
+Mi5jbGllbnQuY2EuY3J0MCMGA1UdEgQcMBqGGGh0dHA6Ly93d3cuc3RhcnRzc2wuY29tLzANBgkq
+hkiG9w0BAQUFAAOCAQEANR/d6M8GHL/rkx3Kz9ILDxYMcekmFgefaDXNQMicUHiUw5TsIl5af1pS
+Y2AvbKlA2/FZnyG8w42FuK6ZQBZJxs4/N10NW8qDmuuFTi6TyJgurj73tx9RogW50miDHMZLoMRe
+avB1h8zy99L2lRPZSebpSFkrQdYDHaGRVhYMjEcWNW9cLxhR8BaAEw/KlpERv3hUQpwGMppYOE66
+M7KJ3HpeR7DXfa4njL9W2hukTQNsskdWtzejHp5iQ65+5Mv+NXLmYP4uLJcR9AbttgNhwStc0P1b
+LxnQkElGeUzATOBq+QsVZ7Fo6sSS7kqrhpfaPibqpj83m/wSgpKVsbZJ3DGCA9owggPWAgEBMIGT
+MIGMMQswCQYDVQQGEwJJTDEWMBQGA1UEChMNU3RhcnRDb20gTHRkLjErMCkGA1UECxMiU2VjdXJl
+IERpZ2l0YWwgQ2VydGlmaWNhdGUgU2lnbmluZzE4MDYGA1UEAxMvU3RhcnRDb20gQ2xhc3MgMiBQ
+cmltYXJ5IEludGVybWVkaWF0ZSBDbGllbnQgQ0ECAiIDMAkGBSsOAwIaBQCgggIbMBgGCSqGSIb3
+DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE0MDQyMTIwNTI0OVowIwYJKoZIhvcN
+AQkEMRYEFDKxAFS+ebbxSAutXt25AJxV6qPHMGwGCSqGSIb3DQEJDzFfMF0wCwYJYIZIAWUDBAEq
+MAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAw
+BwYFKw4DAgcwDQYIKoZIhvcNAwICASgwgaQGCSsGAQQBgjcQBDGBljCBkzCBjDELMAkGA1UEBhMC
+SUwxFjAUBgNVBAoTDVN0YXJ0Q29tIEx0ZC4xKzApBgNVBAsTIlNlY3VyZSBEaWdpdGFsIENlcnRp
+ZmljYXRlIFNpZ25pbmcxODA2BgNVBAMTL1N0YXJ0Q29tIENsYXNzIDIgUHJpbWFyeSBJbnRlcm1l
+ZGlhdGUgQ2xpZW50IENBAgIiAzCBpgYLKoZIhvcNAQkQAgsxgZaggZMwgYwxCzAJBgNVBAYTAklM
+MRYwFAYDVQQKEw1TdGFydENvbSBMdGQuMSswKQYDVQQLEyJTZWN1cmUgRGlnaXRhbCBDZXJ0aWZp
+Y2F0ZSBTaWduaW5nMTgwNgYDVQQDEy9TdGFydENvbSBDbGFzcyAyIFByaW1hcnkgSW50ZXJtZWRp
+YXRlIENsaWVudCBDQQICIgMwDQYJKoZIhvcNAQEBBQAEggEAnWaIFXRh+HEYhcD6heGKhfuOImVt
+hDaut5gMGVR8il1LbTDJ9NH7j+PmRqGJ7Y/hiMd4fx8tW5b25UaaPjHLNrqAHRsaMGuFifH59PIp
+MSW/fY4RrxUlMZoqQvJAQ09vT8cGb2Jj0hvAW38G/uZ+zhU6dzAsvCMJ1Z5D3qT5hU5H0wuMru55
+2lILrWNU+zTyOeFItCZ5Jd/5qZ4b+qCz7QrjSOn4IsAbvgzw5LBOh+eexg7hBzDG0JxPRTOWYTaQ
+EN5oFmqDHAEDwOLjJecRXPLWnxitauyGEKMSMs5iKGMz3G9evQCOeTcFMs5GfnszW5bmOByIaNqL
+Exv3ghwhpwAAAAAAAA==
+
+--------------ms090102070004090300090500--
