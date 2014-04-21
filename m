@@ -1,41 +1,27 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AE3665D08
+Return-Path: <denis@denix.org>
+Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
+	[206.46.173.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FB4265D1B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Apr 2014 16:06:49 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id k14so2765015wgh.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Apr 2014 09:06:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=X5JqzlJ2L3pNhGr/jv695H5gZfBemhs1Fs+D5fJccGY=;
-	b=Bwh281AVR13X5kv8QnVr0N62vFRWgRnegAzNDrHxSWxDIIg91X08nz+fcCaE0mKlgM
-	YMt38FCAim8cYZ34oRqbS3IYd5WVfD6T7+U7FpP4bLkkPt88lMP0eel6nHCsqCDy9JdL
-	xEpq8V6FUFJzAmXcsKiTftJvC033ofW5b700FQjTZBzXqZmJZjulxftTgC+NQId/b+id
-	pZj2531pTLnPBYNeYqeoZcdebwFQjldttPOYaq/qei1ANjRQgtishBXlGJmA7aLX3iNd
-	EB+lMckZZzoqOq1joLxvWAKoo2WhhJq/RukYfzNAdCEpgbPmlOtsf2nw1JsvdNPggXWk
-	SgxA==
-X-Gm-Message-State: ALoCoQn3k5uD6mpx4cCyJ6XJYBiN6WGoeDrW6pf7YEABeti85MdYgq+M1azBV2rxTxVUOUjB3OBi
-X-Received: by 10.194.9.8 with SMTP id v8mr2656227wja.53.1398096409895;
-	Mon, 21 Apr 2014 09:06:49 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id ll1sm57710803wjc.6.2014.04.21.09.06.48
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 21 Apr 2014 09:06:49 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20140421153432.GF2486@jama>
-Date: Mon, 21 Apr 2014 18:06:41 +0200
-Message-Id: <C2E43C04-5157-4E66-B0FA-0149531642C8@dominion.thruhere.net>
-References: <20140421153432.GF2486@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1874)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world, Failed tasks 2014-04-03
+	Mon, 21 Apr 2014 17:23:52 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173017.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N4E000955MY8S50@vms173017.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 21 Apr 2014 12:23:38 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id B1DF8201BF; Mon,
+	21 Apr 2014 13:23:22 -0400 (EDT)
+Date: Mon, 21 Apr 2014 13:23:22 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-id: <20140421172322.GP11339@denix.org>
+References: <1397152528-16715-1-git-send-email-denis@denix.org>
+	<1397152528-16715-3-git-send-email-denis@denix.org>
+MIME-version: 1.0
+In-reply-to: <1397152528-16715-3-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH v2 3/4] cryptodev-module: recipe for out-of-tree cryptodev device driver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,101 +34,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Apr 2014 16:06:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 21 Apr 2014 17:24:01 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
+ping. Is master-next open for new changes?
 
-Op 21 apr. 2014, om 17:34 heeft Martin Jansa <martin.jansa@gmail.com> =
-het volgende geschreven:
-
-> gnome-backgrounds fix is on ML
-> mousepad, gd are fixed now, but fix wasn't included in qemuarm build
-> iozone3 should be fixed by v2 on ML
->=20
-> http://www.openembedded.org/wiki/Bitbake_World_Status
->=20
-> =3D=3D Failed tasks 2014-04-21 =3D=3D
->=20
-> =3D=3D=3D common (7) =3D=3D=3D
->    * =
-meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.bb, =
-do_compile
->    * =
-meta-openembedded/meta-gnome/recipes-gnome/gnome-backgrounds/gnome-backgro=
-unds_2.32.0.bb, do_configure
->    * =
-meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb, =
-do_configure
->    * =
-meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-soft_1.=
-15.1.bb, do_compile
->    * =
-meta-openembedded/meta-oe/recipes-benchmark/iozone3/iozone3_414.bb, =
-do_fetch
->    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, =
-do_compile
->    * =
-openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb,=
- do_configure
->=20
-> =3D=3D=3D common-x86 (4) =3D=3D=3D
->    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, =
-do_compile
->    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.2.bb, =
-do_install
->    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, =
-do_compile
->    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
-
-The grub fix has been being ignored for a few weeks now on the oe-core =
-ML :(
-
->=20
-> =3D=3D=3D qemuarm (5) =3D=3D=3D
->    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, =
-do_compile
->    * meta-openembedded/meta-oe/recipes-support/gd/gd_2.1.0.bb, =
-do_configure
->    * =
-meta-openembedded/meta-xfce/recipes-apps/mousepad/mousepad_0.3.0.bb, =
-do_configure
->    * openembedded-core/meta/recipes-bsp/grub/grub_git.bb, do_package
->    * =
-openembedded-core/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb, =
-do_compile
->=20
-> =3D=3D=3D qemux86 (0) =3D=3D=3D
->=20
-> =3D=3D=3D qemux86_64 (2) =3D=3D=3D
->    * =
-meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libimobile=
-device_1.1.4.bb, do_configure
->    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, =
-do_configure
->=20
-> =3D=3D=3D Number of failed tasks =3D=3D=3D
-> {| class=3Dwikitable
-> |-
-> ||qemuarm       ||12    =
-||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world=
-.20140418_190059.log/
-> |-
-> ||qemux86       ||14    =
-||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world=
-.20140419_163001.log/
-> |-
-> ||qemux86_64    ||13    =
-||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world=
-.20140420_141804.log/
-> |}
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> --=20
+On Thu, Apr 10, 2014 at 01:55:27PM -0400, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+> 
+> Depends on cryptodev-linux for providing a header file
+> 
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+> v2 - add patch to fix INIT_COMPLETION rename in 3.13+ kernels
+> 
+>  .../cryptodev/cryptodev-module_1.6.bb              | 18 +++++
+>  ...talling-header-file-provided-by-another-p.patch | 28 +++++++
+>  ...-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch | 86 ++++++++++++++++++++++
+>  3 files changed, 132 insertions(+)
+>  create mode 100644 meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+>  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+>  create mode 100644 meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch
+> 
+> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+> new file mode 100644
+> index 0000000..df50e5a
+> --- /dev/null
+> +++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+> @@ -0,0 +1,18 @@
+> +require cryptodev_${PV}.inc
+> +
+> +SUMMARY = "A /dev/crypto device driver kernel module"
+> +
+> +inherit module
+> +
+> +# Header file provided by a separate package
+> +DEPENDS += "cryptodev-linux"
+> +
+> +SRC_URI += " \
+> +file://0001-Disable-installing-header-file-provided-by-another-p.patch \
+> +file://0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch \
+> +"
+> +
+> +EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+> +
+> +RCONFLICTS_${PN} = "ocf-linux"
+> +RREPLACES_${PN} = "ocf-linux"
+> diff --git a/meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch b/meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+> new file mode 100644
+> index 0000000..a580fc6
+> --- /dev/null
+> +++ b/meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+> @@ -0,0 +1,28 @@
+> +From 8a884f55bd1527baa82fab68c186ba546273860c Mon Sep 17 00:00:00 2001
+> +From: Denys Dmytriyenko <denys@ti.com>
+> +Date: Sun, 6 Apr 2014 19:51:39 -0400
+> +Subject: [PATCH] Disable installing header file provided by another package
+> +
+> +Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> +
+> +Upstream-Status: Inappropriate [ OE specific ]
+> +---
+> + Makefile | 2 --
+> + 1 file changed, 2 deletions(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index d66ef26..8e97c6a 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -23,8 +23,6 @@ install: modules_install
+> + 
+> + modules_install:
+> + 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` modules_install
+> +-	@echo "Installing cryptodev.h in $(PREFIX)/usr/include/crypto ..."
+> +-	@install -D crypto/cryptodev.h $(PREFIX)/usr/include/crypto/cryptodev.h
+> + 
+> + clean:
+> + 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` clean
+> +-- 
+> +1.9.1
+> +
+> diff --git a/meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch b/meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch
+> new file mode 100644
+> index 0000000..c5c7ec7
+> --- /dev/null
+> +++ b/meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch
+> @@ -0,0 +1,86 @@
+> +From 57b5544de80db85c8955499831fdaa30829db77a Mon Sep 17 00:00:00 2001
+> +From: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
+> +Date: Thu, 23 Jan 2014 03:40:00 +0100
+> +Subject: [PATCH] In the 3.13-rc1 Linux kernel, the INIT_COMPLETION macro has
+> + been replaced with an inline function, reinit_completion [1][2]. We are
+> + currently using the 3.13-rc3 Linux kernel, which leads to the following
+> + error:
+> +
+> +cryptlib.c:279:2: error: implicit declaration of function 'INIT_COMPLETION' [-Werror=implicit-function-declaration]
+> +  INIT_COMPLETION(cdata->async.result->completion);
+> +
+> +[1] https://github.com/torvalds/linux/commit/c32f74ab2872994bc8336ed367313da3139350ca
+> +[2] https://github.com/torvalds/linux/commit/62026aedaacedbe1ffe94a3599ad4acd8ecdf587
+> +
+> +Signed-off-by: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
+> +Reviewed-by: Cristian Stoica <cristian.stoica@freescale.com>
+> +Tested-by: Cristian Stoica <cristian.stoica@freescale.com>
+> +Signed-off-by: Horia Geanta <horia.geanta@freescale.com>
+> +Signed-off-by: Phil Sutter <phil@nwl.cc>
+> +
+> +Upstream-Status: Backport
+> +---
+> + cryptlib.c      | 8 ++++----
+> + cryptodev_int.h | 6 ++++++
+> + 2 files changed, 10 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/cryptlib.c b/cryptlib.c
+> +index 54d5d41..a923c14 100644
+> +--- a/cryptlib.c
+> ++++ b/cryptlib.c
+> +@@ -217,7 +217,7 @@ ssize_t cryptodev_cipher_encrypt(struct cipher_data *cdata,
+> + {
+> + 	int ret;
+> + 
+> +-	INIT_COMPLETION(cdata->async.result->completion);
+> ++	reinit_completion(&cdata->async.result->completion);
+> + 
+> + 	if (cdata->aead == 0) {
+> + 		ablkcipher_request_set_crypt(cdata->async.request,
+> +@@ -240,7 +240,7 @@ ssize_t cryptodev_cipher_decrypt(struct cipher_data *cdata,
+> + {
+> + 	int ret;
+> + 
+> +-	INIT_COMPLETION(cdata->async.result->completion);
+> ++	reinit_completion(&cdata->async.result->completion);
+> + 	if (cdata->aead == 0) {
+> + 		ablkcipher_request_set_crypt(cdata->async.request,
+> + 			(struct scatterlist *)src, dst,
+> +@@ -351,7 +351,7 @@ ssize_t cryptodev_hash_update(struct hash_data *hdata,
+> + {
+> + 	int ret;
+> + 
+> +-	INIT_COMPLETION(hdata->async.result->completion);
+> ++	reinit_completion(&hdata->async.result->completion);
+> + 	ahash_request_set_crypt(hdata->async.request, sg, NULL, len);
+> + 
+> + 	ret = crypto_ahash_update(hdata->async.request);
+> +@@ -363,7 +363,7 @@ int cryptodev_hash_final(struct hash_data *hdata, void* output)
+> + {
+> + 	int ret;
+> + 
+> +-	INIT_COMPLETION(hdata->async.result->completion);
+> ++	reinit_completion(&hdata->async.result->completion);
+> + 	ahash_request_set_crypt(hdata->async.request, NULL, output, 0);
+> + 
+> + 	ret = crypto_ahash_final(hdata->async.request);
+> +diff --git a/cryptodev_int.h b/cryptodev_int.h
+> +index 12dd5b1..188063d 100644
+> +--- a/cryptodev_int.h
+> ++++ b/cryptodev_int.h
+> +@@ -2,6 +2,12 @@
+> + #ifndef CRYPTODEV_INT_H
+> + # define CRYPTODEV_INT_H
+> + 
+> ++#include <linux/version.h>
+> ++
+> ++#if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 13, 0))
+> ++#  define reinit_completion(x) INIT_COMPLETION(*(x))
+> ++#endif
+> ++
+> + #include <linux/init.h>
+> + #include <linux/sched.h>
+> + #include <linux/fs.h>
+> +-- 
+> +1.9.1
+> +
+> -- 
+> 1.9.1
+> 
+> -- 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
 
