@@ -1,39 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
-	[209.85.213.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B116F65D52
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Apr 2014 20:30:07 +0000 (UTC)
-Received: by mail-yh0-f46.google.com with SMTP id b6so2942937yha.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Apr 2014 13:30:08 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DF8A165D2F;
+	Mon, 21 Apr 2014 03:14:05 +0000 (UTC)
+Received: by mail-ie0-f170.google.com with SMTP id rd18so3506864iec.1
+	for <multiple recipients>; Sun, 20 Apr 2014 20:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=DDZj1NCfQafBv8dX9kH+WZ6PK0a9sy084tBZ/gFVtPY=;
-	b=IZqJdphKlr+NKn+2oZ2hLw2iLu82pSxlXKeBlkL+IzPYmjJh7MGiJM1L9rIUZe1z1Y
-	vVdveJHVOuGt0C9YuE39umZQJIcCSPjecyOUKChVLDlWIhTAkSEsqMWfeE+5EGMJNttx
-	BTuyBMIi8BBTycKYrB8oW+uOvBgLnnHvTYD9uapJ5n2s/qgXeV3I+gcWeDS0p+cQ81eI
-	VK2ie3lRoGSc5POAlZ7HUoMW4f5160Ll20d72n9p8P5BTiei4exkrUyg95oc4gPDhn8P
-	8tUXkD98bANVLlaFixyF5DKfls/haqf3cbeYFx4JGXLVxn+TQSL6Rq+gUspe+qER5vpy
-	y10g==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=z8jU8Lsp7g2QSQTShy25c6v0Zbj2j4S4eRD22DDfn5o=;
+	b=C8tpLZjKlTJOwjEt+Rs4y2vIcyBi1sX4cv3RCorAUuBk5JdK2/jhajps7c9Mr8JfFI
+	HxA5FDvUy/bZ3y0cFTO29dZJMEvmxNqI1PqVcllbdurXv5rAcO9SIe4uPMUk0SCr3fAT
+	/ycgswApKYqeEnp3AgUiztOs/t8rKqcCc5wyONW4Mvw4ETSl1JvmKIrScHIY6pl2Q53t
+	7b38HP+TgvQ6vSmq7XVx0pOsjI1qK+copKxraxdUYcBufjZJ7D/n3zBfG8I3AEBwR+yz
+	u6KMAe1mdb+z9SJtjZvnmuvLR70q3KB1QGyYVt329KYigqWDfnxNxFBbkWlCLN9Q28RJ
+	Mcdw==
 MIME-Version: 1.0
-X-Received: by 10.236.149.211 with SMTP id x59mr47695869yhj.34.1398025808351; 
-	Sun, 20 Apr 2014 13:30:08 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.124.72 with HTTP; Sun, 20 Apr 2014 13:30:08 -0700 (PDT)
-In-Reply-To: <1397997578-3623-1-git-send-email-mike.looijmans@topic.nl>
-References: <1397997578-3623-1-git-send-email-mike.looijmans@topic.nl>
-Date: Sun, 20 Apr 2014 17:30:08 -0300
-X-Google-Sender-Auth: 7zx3a2Og7NR-Bj-GqAK5hvprLWA
-Message-ID: <CAP9ODKrnuFmJcsAmgNV0BdeB8mJnW2nNGq_Cto7oggN6r3+R+Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Mike Looijmans <milo-software@users.sourceforge.net>,
-	Patches and discussions about the oe-core layer
+X-Received: by 10.50.30.167 with SMTP id t7mr19359386igh.17.1398050046626;
+	Sun, 20 Apr 2014 20:14:06 -0700 (PDT)
+Received: by 10.50.229.14 with HTTP; Sun, 20 Apr 2014 20:14:06 -0700 (PDT)
+Received: by 10.50.229.14 with HTTP; Sun, 20 Apr 2014 20:14:06 -0700 (PDT)
+In-Reply-To: <CAPbeDCkwiD0ZKAYS=AAkUEQnZvVNvFjNAgqtmJ8mcW_HXSV_DA@mail.gmail.com>
+References: <20140418183632.GG2486@jama>
+	<CAPbeDCnP_Qr1fUS9MAFZ4mLCRcoNJ=M1n8Umx-8m6m0b8Sxm0w@mail.gmail.com>
+	<CAPbeDCkwiD0ZKAYS=AAkUEQnZvVNvFjNAgqtmJ8mcW_HXSV_DA@mail.gmail.com>
+Date: Sun, 20 Apr 2014 20:14:06 -0700
+Message-ID: <CAMKF1soHe6Yt1yzdWJC-hfy+o5dLPMeKmLHVj6nTXPadXF2Ntg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] PR bumps to remove PRINC use in meta-openpli
+Subject: Re: [oe] State of bitbake world, test-dependencies 2014-04-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +43,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Apr 2014 20:30:12 -0000
+X-List-Received-Date: Mon, 21 Apr 2014 03:14:09 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc0da66850d004f784e41c
+
+--047d7bdc0da66850d004f784e41c
 Content-Type: text/plain; charset=UTF-8
 
-Hello Mike,
-
-On Sun, Apr 20, 2014 at 9:39 AM,  <mike.looijmans@topic.nl> wrote:
-> From: Mike Looijmans <milo-software@users.sourceforge.net>
+On Apr 20, 2014 10:16 AM, "Jacob Kroon" <jacob.kroon@gmail.com> wrote:
 >
-> Resolves warnings of this kind in the OpenPLi layer:
->  WARNING: Use of PRINC * was detected in the recipe *
+> On Sat, Apr 19, 2014 at 1:03 PM, Jacob Kroon <jacob.kroon@gmail.com>
+wrote:
+>
+> > On Fri, Apr 18, 2014 at 8:36 PM, Martin Jansa <martin.jansa@gmail.com
+>wrote:
+> >
+> >> And more importantly floating dependencies, reply here
+> >> when you start working on some of these.
+> >>
+> >> Found differences:
+> >> ccid/ccid/latest lost dependency on  flex
+> >> console-tools/console-tools/latest lost dependency on  flex
+> >>
+> >
+> > I'll have a go at resolving the console-tools/flex floating dep.
+> >
+>
+> If I understand things correctly: libfl.so from flex provides default
+> implementations for yylex() and yywrap(). console-tools/loadkeys provides
+> its own implementations for these, so linking with libfl.so is not
+> necessary.
+>
+> In order to remove the floating dependency I can patch to either remove
+> @LEXLIB@ from LDADD, or I can pass "-Wl,--as-needed" in LDFLAGS, both ways
+> seems to get rid of the dependency on libfl.
+>
+> Any preferred way of handling this ?
 
-I am afraid this won't make Daisy (Richard, could you confirm?),
-anyway a remark below..
+remove LEXLIB from LDFLAGS
+>
+> /Jacob
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
->  SECTION = "base"
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> -PR = "r154"
-> +PR = "r153"
+--047d7bdc0da66850d004f784e41c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Please use 155 and don't go backwards.
+<p dir=3D"ltr"><br>
+On Apr 20, 2014 10:16 AM, &quot;Jacob Kroon&quot; &lt;<a href=3D"mailto:jac=
+ob.kroon@gmail.com">jacob.kroon@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Sat, Apr 19, 2014 at 1:03 PM, Jacob Kroon &lt;<a href=3D"mailto:jac=
+ob.kroon@gmail.com">jacob.kroon@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; &gt; On Fri, Apr 18, 2014 at 8:36 PM, Martin Jansa &lt;<a href=3D"mail=
+to:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt;wrote:<br>
+&gt; &gt;<br>
+&gt; &gt;&gt; And more importantly floating dependencies, reply here<br>
+&gt; &gt;&gt; when you start working on some of these.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Found differences:<br>
+&gt; &gt;&gt; ccid/ccid/latest lost dependency on =C2=A0flex<br>
+&gt; &gt;&gt; console-tools/console-tools/latest lost dependency on =C2=A0f=
+lex<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; I&#39;ll have a go at resolving the console-tools/flex floating d=
+ep.<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; If I understand things correctly: libfl.so from flex provides default<=
+br>
+&gt; implementations for yylex() and yywrap(). console-tools/loadkeys provi=
+des<br>
+&gt; its own implementations for these, so linking with libfl.so is not<br>
+&gt; necessary.<br>
+&gt;<br>
+&gt; In order to remove the floating dependency I can patch to either remov=
+e<br>
+&gt; @LEXLIB@ from LDADD, or I can pass &quot;-Wl,--as-needed&quot; in LDFL=
+AGS, both ways<br>
+&gt; seems to get rid of the dependency on libfl.<br>
+&gt;<br>
+&gt; Any preferred way of handling this ?</p>
+<p dir=3D"ltr">remove LEXLIB from LDFLAGS<br>
+&gt;<br>
+&gt; /Jacob<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-devel mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembed=
+ded-devel@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-devel">http://lists.openembedded.org/mailman/listinfo/openembedded-devel</=
+a><br>
+</p>
 
-
-
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--047d7bdc0da66850d004f784e41c--
