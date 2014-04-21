@@ -1,28 +1,36 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E7165D1C
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0EE601A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Apr 2014 05:41:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3L5fjdK013253
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 20 Apr 2014 22:41:45 -0700 (PDT)
-Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Sun, 20 Apr 2014 22:41:45 -0700
-Message-ID: <5354AF95.7040109@windriver.com>
-Date: Mon, 21 Apr 2014 13:41:41 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: ming liu <mliu3@pek-lpgbuild1.wrs.com>
-References: <1398058390-3227-1-git-send-email-mliu3@pek-lpgbuild1.wrs.com>
-In-Reply-To: <1398058390-3227-1-git-send-email-mliu3@pek-lpgbuild1.wrs.com>
-X-Originating-IP: [128.224.163.186]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] binconfig.bbclass: fix multilib file conflicts
+	Mon, 21 Apr 2014 10:23:14 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id z11so3019400lbi.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Apr 2014 03:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=zZp4gPHFJLkh0nzwLTDHIYcdnlBNuty8f63PDM+rVo8=;
+	b=ZbJoZ1rcHzhruGB+ONNZLGrFbPUSjV13F1QIca/Mof0DdtZ1pvngpcnUQG0UGoyDAk
+	4QBFBKR51f9XwbCMTbEzdC0A7198bb6Zs6Sxa2DR/hLAuJF4RVN0DgT3OjYiWh3xXMTg
+	QhwG3ghoVEer6ek1kk+JA4SZbY6VryhhhgX0UZCp5d08tU87Fkksl7YTYyLI6kmesikI
+	s39+ietMJdV0Q/4liXfpe3Khp/sV8a2rjIR397ulJZx9VjBuH9+vWtCz1Tb3WBOnuTL9
+	oqr6Adt7x8KA22h+O82Iu4nOMxffEv8E2ITEZbJvelT/gNS9iqnwhXkJA0HDCbfSxc5D
+	wGpw==
+X-Received: by 10.152.26.66 with SMTP id j2mr26973229lag.25.1398075794821;
+	Mon, 21 Apr 2014 03:23:14 -0700 (PDT)
+Received: from localhost.localdomain (c83-249-172-217.bredband.comhem.se.
+	[83.249.172.217])
+	by mx.google.com with ESMTPSA id z10sm36970543lbu.1.2014.04.21.03.23.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Apr 2014 03:23:14 -0700 (PDT)
+Sender: Jacob Kroon <jacob.kroon@gmail.com>
+From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Apr 2014 12:23:00 +0200
+Message-Id: <1398075780-18038-1-git-send-email-jacob.kroon@mikrodidakt.se>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] console-tools: Remove floating runtime dependency on flex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,142 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Apr 2014 05:41:46 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Apr 2014 10:23:17 -0000
 
-I know this patch is not going to be integrated, for as Richard Purdie 
-pointed out, it should be replaced by a requirement and not needed for 
-any kind of shored up, but my V1 patch introduced a few drawbacks, so I 
-put the V2 here to ensure anybody wanna enable multilib in their builds 
-wouldn't get blocked by this issue before the binconfig.bbclass is removed.
+The 'loadkeys' program defines its own yywrap()/yylex() functions,
+there is no need to link with flex shared library.
 
-//Ming Liu
+Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+---
+ .../console-tools-0.3.2/no-dep-on-libfl.patch         | 19 +++++++++++++++++++
+ .../recipes-core/console-tools/console-tools_0.3.2.bb |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-core/console-tools/console-tools-0.3.2/no-dep-on-libfl.patch
 
-On 04/21/2014 01:33 PM, ming liu wrote:
-> From: Ming Liu <ming.liu@windriver.com>
->
-> In most cases binconfig files conflict among multilib packages, to avoid
-> that, use update-alternatives link *-config from real path with a
-> PACKAGE_ARCH suffix.
->
-> This change needs only apply to target recipes.
->
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->   meta/classes/binconfig.bbclass |   86 +++++++++++++++++++++++++++++++++++++++-
->   1 files changed, 85 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
-> index 7158c8c..b6c3923 100644
-> --- a/meta/classes/binconfig.bbclass
-> +++ b/meta/classes/binconfig.bbclass
-> @@ -1,4 +1,6 @@
-> -FILES_${PN}-dev += "${bindir}/*-config"
-> +BINCONFIG_FILES = "${bindir}/*-config"
-> +BINCONFIG_FILES_class-target = "${bindir}/*-config.${PACKAGE_ARCH}"
-> +FILES_${PN}-dev += "${BINCONFIG_FILES}"
->    
->   # The namespaces can clash here hence the two step replace
->   def get_binconfig_mangle(d):
-> @@ -26,9 +28,21 @@ def get_binconfig_mangle(d):
->   
->       return s
->   
-> +python __anonymous() {
-> +    # Update Alternatives are only used on target packages
-> +    if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or \
-> +       bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or \
-> +       bb.data.inherits_class('cross-canadian', d):
-> +        return
-> +
-> +    if not 'virtual/update-alternatives' in d.getVar('PROVIDES', True):
-> +        d.appendVar('DEPENDS', ' virtual/${MLPREFIX}update-alternatives')
-> +}
-> +
->   BINCONFIG_GLOB ?= "*-config"
->   
->   PACKAGE_PREPROCESS_FUNCS += "binconfig_package_preprocess"
-> +PACKAGE_PREPROCESS_FUNCS_append_class-target = " binconfig_rename_package_preprocess"
->   
->   binconfig_package_preprocess () {
->   	for config in `find ${PKGD} -name '${BINCONFIG_GLOB}'`; do
-> @@ -51,6 +65,76 @@ binconfig_package_preprocess () {
->   	done	
->   }
->   
-> +binconfig_rename_package_preprocess () {
-> +	for config in `find ${PKGD} -name '${BINCONFIG_GLOB}'`; do
-> +		if [ -h $config ]; then
-> +			real_config=`readlink $config`
-> +			unlink $config
-> +			( cd ${PKGD}${bindir} ; ln -sf $real_config.${PACKAGE_ARCH} $config.${PACKAGE_ARCH} )
-> +		else
-> +			mv $config $config.${PACKAGE_ARCH}
-> +		fi
-> +	done
-> +}
-> +
-> +BINCONFIG_PRIORITY ?= "10"
-> +
-> +PACKAGESPLITFUNCS_prepend_class-target = "populate_packages_binconfig "
-> +
-> +#
-> +# Fix binconfig conflicts among multilib packages
-> +#
-> +python populate_packages_binconfig () {
-> +    import os, glob
-> +
-> +    pkg = d.getVar('PN', True) + '-dev'
-> +    dvar = d.getVar('PKGD', True)
-> +    bindir = d.getVar('bindir', True)
-> +    binconfig_glob = d.getVar('BINCONFIG_GLOB', True)
-> +    binconfig_priority = d.getVar('BINCONFIG_PRIORITY', True)
-> +    binconfig_setup_links = ""
-> +    binconfig_remove_links = ""
-> +    for file in glob.glob('%s%s/%s.%s' % (dvar, bindir, binconfig_glob, d.getVar('PACKAGE_ARCH', True))):
-> +        binconfig_target = os.path.basename(file)
-> +        binconfig_name = binconfig_target[:binconfig_target.find('.')]
-> +        binconfig_link = bindir + os.sep + binconfig_name
-> +        binconfig_setup_links += '\tupdate-alternatives --install %s %s %s %s\n' % (binconfig_link, binconfig_name, binconfig_target, binconfig_priority)
-> +        binconfig_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (binconfig_name, binconfig_target)
-> +
-> +        if binconfig_setup_links:
-> +            provider = d.getVar('VIRTUAL-RUNTIME_update-alternatives', True)
-> +            if provider:
-> +                d.appendVar('RDEPENDS_%s' % pkg, ' ' + d.getVar('MLPREFIX') + provider)
-> +
-> +            postinst = d.getVar('pkg_postinst_%s' % pkg, True) or '#!/bin/sh\n'
-> +            postinst += binconfig_setup_links
-> +            d.setVar('pkg_postinst_%s' % pkg, postinst)
-> +
-> +            postrm = d.getVar('pkg_postrm_%s' % pkg, True) or '#!/bin/sh\n'
-> +            postrm += binconfig_remove_links
-> +            d.setVar('pkg_postrm_%s' % pkg, postrm)
-> +}
-> +
-> +python package_do_filedeps_append_class-target () {
-> +    import glob
-> +
-> +    pn = d.getVar('BPN', True)
-> +    pkg = d.getVar('PN', True) + '-dev'
-> +    pkgdest = d.getVar('PKGDEST', True)
-> +    bindir = d.getVar('bindir', True)
-> +    binconfig_glob = d.getVar('BINCONFIG_GLOB', True)
-> +
-> +    for file in glob.glob('%s/%s%s/%s.%s' % (pkgdest, pkg, bindir, binconfig_glob, d.getVar('PACKAGE_ARCH', True))):
-> +        binconfig_target = os.path.basename(file)
-> +        binconfig_link = '%s/%s' % (bindir, binconfig_target[:binconfig_target.find('.')])
-> +
-> +        # Add file provide
-> +        trans_target = oe.package.file_translate('%s/%s' % (bindir, binconfig_target))
-> +        d.appendVar('FILERPROVIDES_%s_%s' % (trans_target, pkg), " " + binconfig_link)
-> +        if not trans_target in (d.getVar('FILERPROVIDESFLIST_%s' % pkg, True) or ""):
-> +            d.appendVar('FILERPROVIDESFLIST_%s' % pkg, " " + trans_target)
-> +}
-> +
->   SYSROOT_PREPROCESS_FUNCS += "binconfig_sysroot_preprocess"
->   
->   binconfig_sysroot_preprocess () {
+diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/no-dep-on-libfl.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/no-dep-on-libfl.patch
+new file mode 100644
+index 0000000..a6735a5
+--- /dev/null
++++ b/meta/recipes-core/console-tools/console-tools-0.3.2/no-dep-on-libfl.patch
+@@ -0,0 +1,19 @@
++No reason to link with libfl since 'loadkeys' implements
++its own yywrap()/yylex() functions.
++
++Upstream-Status: Pending
++Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
++
++Index: console-tools-0.3.2/kbdtools/Makefile.am
++===================================================================
++--- console-tools-0.3.2.orig/kbdtools/Makefile.am
+++++ console-tools-0.3.2/kbdtools/Makefile.am
++@@ -19,8 +19,6 @@ LDADD = ../lib/ctlocal/libctlocal.a ../l
++ 	../lib/cfont/libcfont.la \
++ 	../lib/console/libconsole.la ../lib/generic/libctgeneric.la
++ 
++-loadkeys_LDADD = $(LDADD) @LEXLIB@
++-
++ bin_SCRIPTS = mk_modmap
++ 
++ noinst_HEADERS = loadkeys.h
+diff --git a/meta/recipes-core/console-tools/console-tools_0.3.2.bb b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+index 80fab55..c60a5a0 100644
+--- a/meta/recipes-core/console-tools/console-tools_0.3.2.bb
++++ b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/lct/console-tools-${PV}.tar.gz \
+            file://uclibc-fileno.patch \
+            file://nodocs.patch \
+            file://fix-libconsole-linking.patch \
++           file://no-dep-on-libfl.patch \
+            file://lcmessage.m4 \
+            file://Makevars"
+ 
+-- 
+1.9.0
 
 
