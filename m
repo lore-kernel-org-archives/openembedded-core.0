@@ -1,34 +1,31 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FBB26098B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F36CB6098B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 14:52:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3MEqXMb023930
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Apr 2014 14:57:41 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3MEvak7015068 for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Apr 2014 15:57:37 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mlAaGbCtBDAE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 07:52:33 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.235) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 22 Apr 2014 07:52:32 -0700
-Message-ID: <5356822F.1050803@windriver.com>
-Date: Tue, 22 Apr 2014 09:52:31 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>, Robert Yang
-	<liezhi.yang@windriver.com>, "Yang, Zhangle (Eric)"
-	<Zhangle.Yang@windriver.com>,
-	Ming Liu <ming.liu@windriver.com>, <Randy.MacLeod@windriver.com>,
-	kane <jian.kang@windriver.com>
-References: <5355DF66.7010100@windriver.com>
-In-Reply-To: <5355DF66.7010100@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] About rpm multilib packagegroup QA Warning: install files into a shared area when those files already exist
+	Tue, 22 Apr 2014 15:57:36 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3MEvXPg015064
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Apr 2014 15:57:35 +0100
+Message-ID: <1398178648.16672.47.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Apr 2014 15:57:28 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: Arch specific compilers (instead of tune specific)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,135 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 14:52:35 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 22 Apr 2014 14:57:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 4/21/14, 10:17 PM, Hongxu Jia wrote:
-> Hi All,
->
-> This issue could be reproduced only by building multilib packagegroup
-> package in the first time. [YOCTO #5532]
->
-> *Step:
-> 1) bitbake packagegroup-core-nfs-server
->
-> 2) bitbake lib32-packagegroup-core-nfs-server
->       Only the first time to do the build has this issue:
->       ...
->      WARNING: The recipe lib32-packagegroup-core-nfs is trying to install
-> files into a shared area when those files already exist. Those files
-> and their manifest location are:
-> /home/jiahongxu/yocto/build-20131120-yocto-qemux86-64/tmp/deploy/rpm/all/packagegroup-core-nfs-server-1.0-r2.all.rpm
->
->         Matched in manifest-allarch-packagegroup-core-nfs.deploy-rpm
+Right now we build multiple different versions of gcc-cross, effectively
+one per target tune. This is somewhat inefficient and the problem just
+gets worse when you bring multilibs into the equation.
 
-There are two types of 'packagegroup' packages.  Ones that are specific to an 
-architecture (or machine), and one that are 'all' packages.
+In theory at least, we can actually use the same cross binaries
+(binutils/gcc/gdb) for all tunes for a given architecture. We've already
+proven this is possible with the changes to the -cross-canadian
+variants.
 
-All packages in indeed generic and should not have references to 'lib32' or 
-specific other package types on RPM.
+There are some things we don't currently support well too such as
+multilib SDKs and 64 bit kernels with 32 bit userspace.
 
-> *Analysis:
->
-> - The following commit message is the background which come
-> from oe-core d08e64a98316d7659b0fb56812667c534f66a1a8
-> [YOCTO #4532] Mark Hatle
->       In deb/ipk on a multilib package, the package name has specific
-> multilib
->       references in it.  I.e. the alternative libraries start with something
->       like lib32-...  This was done primarily because deb/ipk do not
-> allow two
->       packages with the same name (but different architectures) to be
->       installed at the same time.  So the name has to be unique.
->
->       In RPM however, the names of the packages and matches with the
->       architectures and if they are not the same we can do these multilib
->       installs.
->
-> - For this rpm multilib packagegroup issue, the multilib and non-multilib
-> packages have the same name 'packagegroup-core-nfs-server', and
-> the same architectures 'all'.
+In the 1.7 timeframe I'd therefore like to propose we re-work the
+gcc-cross recipes to have common architecture specific binaries. The
+advantage would be fewer builds of gcc, better sstate cache reuse (and
+size) and faster turnaround when switching tunes.
 
-This is correct.  For a packagegroup that only wants generically named 
-functionality (and all package) then we could end up trying to generate two of 
-them...
+I've already experimented with patches for this and have something that
+roughly works at:
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t67&id=9c10238df1b2a5d818b289f85d2b9a13e2a886e9
 
-> *Solution
->
-> - One possible fix is as Mark Hatle suggested simply to follow the
-> deb/ipk package
-> naming, but this causes a design advantage of rpm.  When a package has a
-> dependency on 'bash', we really don't care what bash is installed, only
-> that -a-
-> bash is installed.  In the deb/ipk case, the lib32- packages would end
-> up with a
-> lib32-bash dependency and you could potentially end up with two 'bash'
-> packages
-> being installed.
+This patch makes the cross recipes more like native ones with a new arch
+suffix to the cross recipe.
 
-Yes, we want to avoid that unless we find there simply is no other way.  One 
-possible fix (using the above approach), if this is an 'all' package, and we're 
-not in the primary multilib, we could simply skip the package_write_rpm step. 
-This may prevent the warning and will avoid repackaging things unnecessarily.
+At the practical level there are some challenges:
 
-We only want to do this for 'all' types, and not for a tune or machine type, as 
-those are allowed to have specific architectural references in them.
+a) We need to split out a libgcc-initial from gcc-cross-intial since
+this is target specific.
+b) We need to stop gcc-cross and -initial from building libgcc but we
+still need the unwind.h header it installs.
+c) We need to remove references to tunes from the arch specific parts.
+This includes the gcc float option code.
+d) Need to remove the sstate dependency of gcc-cross-${TARGET_ARCH} on
+libc
+e) To allow libgcc-initial to work, we need to save out the
+gcc-cross-initial artefacts. I'm hoping we can slim these down a little
+(for gcc-cross too).
 
-> - Tweak oe-core commit 1674541ed83fa4645f2e078f65fe0f878527ee6e
-> 'multilib: fix allarch/kernel/module-base multilib issues', skip the
-> packagegroup
-> allarch recipes in multilib_virtclass_handler and  extend PROVIDES/RPROVIDES
-> for packagegroup allarch recipes. It will not build the multilib
-> packagegroup allarch
-> recipes if the same packagegroup allarch recipes has already been built.
-> But I think it's a bad idea, the previous packagegroup allarch check is
-> reasonable.
+I'll split that patch into a number of patches and alter it to better
+reuse the libgcc code now I have an idea what I'm aiming for.
 
-In this case, it would likely break deb and opkg.  Even though we don't use 
-them, I still don't want to break them unintentionally.
+I'd also note that this change doesn't yet optimise the multilib
+toolchain build but that should be an easy step from this patch.
 
-> - We could simply add PACKAGE_ARCH = "${MACHINE_ARCH}" in each
-> packagegroup allarch recipe to avoid the QA Warning, but it actually
-> doesn't work
-> at the image do_rootfs time, the smart could not correctly find the RDEPENDS
-> between multilib and non-multilib packagegroup packages.
->
-> - Is it necessary to fix the multilib packagegroup issue, it seems the
-> warning
-> occurs on the world building, we rarely build both of the multilib and
-> non-multilib
-> for one package at the same time , we could simple tweak the sanity check
-> to ignore the warning.
+We may need to end up listing a hard list of "aliases" for the toolchain
+on each arch rather than some of the funky multilib parsing we currently
+do for simplicity. There are only a finite set of permutations supported
+anyway.
 
-It is a warning that really doesn't cause a problem.  Tweaking the sanity check 
-is another option -- but the actions of the system are incorrect.  It should 
-know for RPM that we're not REALLY rebuilding the packagegroup, and not 
-repackage it.
+The purpose of the email is to give people a headsup this is coming and
+let people take a look at the preliminary code. 
 
-If we were to modify the sanity check, then we should change it to verify what 
-has been installed already, and what is about to be installed/overwritten have 
-the same contents.  If the contents differ, then it's still a warning. 
-Otherwise we could silently ignore the warning for our customers (and try to 
-resolve this in the community for WR 7, if it's still an issue there.)
+Khem: Particularly interested in your thoughts! :)
 
-> Any suggestion is welcomed.
+Cheers,
 
-For WR 6, either we should:
+Richard
 
-Adjust the package generation to avoid generating 'all', secondary multilib 
-packages using rpm.
-
-or
-
-Adjust the sanity check to verify the second package overwriting the first has 
-the same contents.  [Specifically package set.]
-
---Mark
-
-> //Hongxu
->
-> //Hongxu
->
 
 
