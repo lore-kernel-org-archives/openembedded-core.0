@@ -1,24 +1,20 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F518609B1
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1543B609A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 18:00:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3MI0gnE001369
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 11:00:42 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 22 Apr 2014 11:00:42 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Apr 2014 11:00:41 -0700
-Message-ID: <1398189641-16698-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [V2][PATCH 1/1] pixbufcache: add error exit in pixbufcache_sstate_postinst
+	Tue, 22 Apr 2014 23:42:25 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2014 16:37:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,907,1389772800"; d="scan'208";a="525742175"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.182])
+	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2014 16:42:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Apr 2014 16:42:25 -0700
+Message-Id: <1398210145-15701-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] report-error: Add posting in the public note
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 18:00:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Apr 2014 23:42:30 -0000
 
-In order to attempt recovery of a failed populate_sysroot_setscene,
-we need to explicitly error exit an SSTATEPOSTINSTFUNC.  So, we test
-the return value of gdk-pixbuf-query-loaders.
-
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/pixbufcache.bbclass |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ meta/classes/report-error.bbclass | 1 +
+ scripts/send-error-report         | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index 922174d..b8d75bd 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -46,14 +46,16 @@ python populate_packages_append() {
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 479b38d..15adc97 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -60,6 +60,7 @@ python errorreport_handler () {
+                 filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
+                 datafile = errorreport_savedata(e, jsondata, filename)
+                 bb.note("The errors of this build are stored in: %s. You can send the errors to an upstream server by running: send-error-report %s [server]" % (datafile, datafile))
++                bb.note("The contents of these logs will be posted in public if you use the above script. Please ensure you remove any identifying or propriety information before sending.")
  }
  
- #
--# Add a sstate postinst hook to update the cache for native packages
-+# Add an sstate postinst hook to update the cache for native packages.
-+# An error exit during populate_sysroot_setscene allows bitbake to
-+# try to recover by re-building the package.
- #
- SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ addhandler errorreport_handler
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index 3d1f7a4..48d983b 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -97,8 +97,9 @@ def sendData(json_file, server):
  
- pixbufcache_sstate_postinst() {
- 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
- 	then
--		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache
-+		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache || exit 1
- 	fi
- }
- 
+ if __name__ == '__main__':
+     print ("\nSends an error report (if the report-error class was enabled) to a remote server.")
++    print("\nThis scripts sends the contents of the error to a public upstream server.")
++    print("\nPlease remove any identifying information before sending.")
+     if len(sys.argv) < 2:
+-        print("\nThis scripts sends the contents of a file to an upstream server.")
+         print("\nUsage: send-error-report <error_fileName> [server]")
+         print("\nIf this is the first when sending a report you'll be asked for your name and optionally your email address.")
+         print("They will be associated with your report.\n")
 -- 
-1.7.3.4
+1.8.3.1
 
 
