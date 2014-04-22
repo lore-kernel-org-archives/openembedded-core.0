@@ -1,30 +1,36 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 51F66609AC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id C0D14609BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 13:21:40 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2014 06:21:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,904,1389772800"; d="scan'208";a="524855188"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2014 06:21:40 -0700
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.183]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.98]) with mapi id
-	14.03.0123.003; Tue, 22 Apr 2014 14:20:44 +0100
-From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: WSR: WW15 & WW16 Corneliu Stoicescu
-Thread-Index: Ac9eLVD6s6ToP3jyTzOVedmyuKY52A==
-Date: Tue, 22 Apr 2014 13:20:43 +0000
-Message-ID: <33115ABC4887814E8A92A08FBC93416B0A253AFB@IRSMSX103.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Tue, 22 Apr 2014 14:07:43 +0000 (UTC)
+Received: by mail-qg0-f53.google.com with SMTP id f51so5309701qge.26
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Apr 2014 07:07:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=iPV2Gb9gYpr4HNVL1D0W0p26qUm25WvRxtxq8my+b30=;
+	b=RQ5jRovbYC8I0e9HPH5OvQR1CqaBgGpN+i915ure1cMS8aIymi1WlJoyZxB3UyEbZe
+	VkjNvpclBI74qe0T7e5Cezu3Xy6znqrYkdAeGF2lH7NF7IssMVT50ZofN/6lJxU9uidU
+	6x6DZycwCAwSfiyvf4oVWKLJqM+9IrG1llde8/0KueNLfVGb4ZFOLfvs6Yt0ov9DIcrX
+	R+BVNGukatjXdIHz5mK9kGhYOLirE2GUjCI2kVloQRoUwIzQjxPSaT/r22ON7N2AX+Dq
+	Am0FQliORbvzqs66K4Y1iiQWkgj25HwzBR5XPeuXBCV7m0WqA89Bs9XRIK7Sae5M26Hv
+	azXw==
+X-Gm-Message-State: ALoCoQk8Nc/N1Y0ZRmRMfWBTk0OXeIPi/bk2gpsE8z19FTE9qmRwWFAHj9sBiIrPZsmJuZWcQz03
+X-Received: by 10.224.75.10 with SMTP id w10mr47682839qaj.52.1398175663996;
+	Tue, 22 Apr 2014 07:07:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: WSR: WW15 & WW16 Corneliu Stoicescu
+Received: by 10.140.19.136 with HTTP; Tue, 22 Apr 2014 07:07:23 -0700 (PDT)
+In-Reply-To: <1397438532-16886-1-git-send-email-jslater@windriver.com>
+References: <1397438532-16886-1-git-send-email-jslater@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Apr 2014 15:07:23 +0100
+Message-ID: <CAJTo0LagCvf=vEHvKkiKN+PoBukUjS281MveS0_Vq8ud9X=eHw@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] pixbuff.bbclass: check for gdk-pixbuf-query-loaders errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 13:21:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 22 Apr 2014 14:07:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-WW15:
-	- OOO WW15.4
-	- Finished 1.6 M5 RC2 Full Pass=20
-	- Started 1.6 M5 RC4 Full Pass
-	- Verified QA owned bugs=20
-	- Tried to boot beaglebone image on a beaglebone black board. The kernel h=
-ad some issues and are logged in this bug: https://bugzilla.yoctoproject.or=
-g/show_bug.cgi?id=3D6165=20
+This needs rebasing onto current master as there's an attempt at
+failing fatally in master (which then won't get noticed, due to the
+issue this fixes).
 
-WW16:
-	- Finished 1.6 M5 RC4 Full Pass
-		* Also did the beaglebone black stress testing
-		* send out the final report to the oe-core mailing list
-	- Verified feature: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D54=
-56
-	- Verified QA owned bugs
+Ross
 
-Next WW17:
-	- OOO WW17.1
-	- beaglebone black re-testing for kernel boot fixes (post 1.6_M5_RC4)
-	- re-organize tests in Testopia and oe-selftest
-		* some test cases in Testopia should be moved on other products that make=
- more sense for them.
-		* in order to better correlate oe-selftest and Testopia tests, we should =
-have a clear correlation between oe-selftest tests modules and Testopia pro=
-ducts. We will do this by having exactly 1 module for each Testopia product=
- (eg: bitbake, oe-core, meta-yocto, toaster, etc.)
-	- Send  RFC on oe-core mailing list about possible developer-oriented oe-s=
-elftest improvements
-		* we have some proposals for developer oriented improvements to oe-selfte=
-st; these should help them better test patches before submission and it sho=
-uld be easy and straightforward to use.=20
-
-Regards,
-Corneliu Stoicescu
-Yocto QA
+On 14 April 2014 02:22, Joe Slater <jslater@windriver.com> wrote:
+> If we do not see all the bits we need during populate_sysroot_setscene,
+> we do not want to keep quiet about it and let somebody get screwed
+> later.  By error exiting, we let bitbake try to recover by
+> rebuilding the package.  This will, hopefully, fix any dependency
+> issues, etc, but if not, at least we tried.
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/classes/pixbufcache.bbclass |    5 ++++-
+>  1 files changed, 4 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+> index 414fd30..edbb948 100644
+> --- a/meta/classes/pixbufcache.bbclass
+> +++ b/meta/classes/pixbufcache.bbclass
+> @@ -53,7 +53,10 @@ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+>  pixbufcache_sstate_postinst() {
+>         if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+>         then
+> -               gdk-pixbuf-query-loaders --update-cache
+> +               if ! gdk-pixbuf-query-loaders --update-cache
+> +               then
+> +                       exit 1
+> +               fi
+>         fi
+>  }
+>
+> --
+> 1.7.3.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
