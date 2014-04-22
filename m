@@ -1,28 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A81776098B
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F518609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 16:44:06 +0000 (UTC)
+	Tue, 22 Apr 2014 18:00:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3MGi7HV021433
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3MI0gnE001369
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 09:44:07 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.235) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 22 Apr 2014 09:44:06 -0700
-Message-ID: <53569C56.2070308@windriver.com>
-Date: Tue, 22 Apr 2014 11:44:06 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
+	Tue, 22 Apr 2014 11:00:42 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 22 Apr 2014 11:00:42 -0700
+From: Joe Slater <jslater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <5355DF66.7010100@windriver.com> <5356822F.1050803@windriver.com>
-In-Reply-To: <5356822F.1050803@windriver.com>
-Subject: Re: [RFC] About rpm multilib packagegroup QA Warning: install files into a shared area when those files already exist
+Date: Tue, 22 Apr 2014 11:00:41 -0700
+Message-ID: <1398189641-16698-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [V2][PATCH 1/1] pixbufcache: add error exit in pixbufcache_sstate_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,149 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 16:44:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Apr 2014 18:00:42 -0000
+Content-Type: text/plain
 
-On 4/22/14, 9:52 AM, Mark Hatle wrote:
-> On 4/21/14, 10:17 PM, Hongxu Jia wrote:
->> Hi All,
->>
->> This issue could be reproduced only by building multilib packagegroup
->> package in the first time. [YOCTO #5532]
->>
->> *Step:
->> 1) bitbake packagegroup-core-nfs-server
->>
->> 2) bitbake lib32-packagegroup-core-nfs-server
->>        Only the first time to do the build has this issue:
->>        ...
->>       WARNING: The recipe lib32-packagegroup-core-nfs is trying to install
->> files into a shared area when those files already exist. Those files
->> and their manifest location are:
->> /home/jiahongxu/yocto/build-20131120-yocto-qemux86-64/tmp/deploy/rpm/all/packagegroup-core-nfs-server-1.0-r2.all.rpm
->>
->>          Matched in manifest-allarch-packagegroup-core-nfs.deploy-rpm
->
-> There are two types of 'packagegroup' packages.  Ones that are specific to an
-> architecture (or machine), and one that are 'all' packages.
->
-> All packages in indeed generic and should not have references to 'lib32' or
-> specific other package types on RPM.
->
->> *Analysis:
->>
->> - The following commit message is the background which come
->> from oe-core d08e64a98316d7659b0fb56812667c534f66a1a8
->> [YOCTO #4532] Mark Hatle
->>        In deb/ipk on a multilib package, the package name has specific
->> multilib
->>        references in it.  I.e. the alternative libraries start with something
->>        like lib32-...  This was done primarily because deb/ipk do not
->> allow two
->>        packages with the same name (but different architectures) to be
->>        installed at the same time.  So the name has to be unique.
->>
->>        In RPM however, the names of the packages and matches with the
->>        architectures and if they are not the same we can do these multilib
->>        installs.
->>
->> - For this rpm multilib packagegroup issue, the multilib and non-multilib
->> packages have the same name 'packagegroup-core-nfs-server', and
->> the same architectures 'all'.
->
-> This is correct.  For a packagegroup that only wants generically named
-> functionality (and all package) then we could end up trying to generate two of
-> them...
->
->> *Solution
->>
->> - One possible fix is as Mark Hatle suggested simply to follow the
->> deb/ipk package
->> naming, but this causes a design advantage of rpm.  When a package has a
->> dependency on 'bash', we really don't care what bash is installed, only
->> that -a-
->> bash is installed.  In the deb/ipk case, the lib32- packages would end
->> up with a
->> lib32-bash dependency and you could potentially end up with two 'bash'
->> packages
->> being installed.
->
-> Yes, we want to avoid that unless we find there simply is no other way.  One
-> possible fix (using the above approach), if this is an 'all' package, and we're
-> not in the primary multilib, we could simply skip the package_write_rpm step.
-> This may prevent the warning and will avoid repackaging things unnecessarily.
->
-> We only want to do this for 'all' types, and not for a tune or machine type, as
-> those are allowed to have specific architectural references in them.
->
->> - Tweak oe-core commit 1674541ed83fa4645f2e078f65fe0f878527ee6e
->> 'multilib: fix allarch/kernel/module-base multilib issues', skip the
->> packagegroup
->> allarch recipes in multilib_virtclass_handler and  extend PROVIDES/RPROVIDES
->> for packagegroup allarch recipes. It will not build the multilib
->> packagegroup allarch
->> recipes if the same packagegroup allarch recipes has already been built.
->> But I think it's a bad idea, the previous packagegroup allarch check is
->> reasonable.
->
-> In this case, it would likely break deb and opkg.  Even though we don't use
-> them, I still don't want to break them unintentionally.
->
->> - We could simply add PACKAGE_ARCH = "${MACHINE_ARCH}" in each
->> packagegroup allarch recipe to avoid the QA Warning, but it actually
->> doesn't work
->> at the image do_rootfs time, the smart could not correctly find the RDEPENDS
->> between multilib and non-multilib packagegroup packages.
->>
->> - Is it necessary to fix the multilib packagegroup issue, it seems the
->> warning
->> occurs on the world building, we rarely build both of the multilib and
->> non-multilib
->> for one package at the same time , we could simple tweak the sanity check
->> to ignore the warning.
->
-> It is a warning that really doesn't cause a problem.  Tweaking the sanity check
-> is another option -- but the actions of the system are incorrect.  It should
-> know for RPM that we're not REALLY rebuilding the packagegroup, and not
-> repackage it.
->
-> If we were to modify the sanity check, then we should change it to verify what
-> has been installed already, and what is about to be installed/overwritten have
-> the same contents.  If the contents differ, then it's still a warning.
-> Otherwise we could silently ignore the warning for our customers (and try to
-> resolve this in the community for WR 7, if it's still an issue there.)
->
->> Any suggestion is welcomed.
->
-> For WR 6, either we should:
+In order to attempt recovery of a failed populate_sysroot_setscene,
+we need to explicitly error exit an SSTATEPOSTINSTFUNC.  So, we test
+the return value of gdk-pixbuf-query-loaders.
 
-My apologies, I thought this was an internal discussion  (nothing internal about 
-my reply, but it may be a bit confusing.)  Just so people can follow along WR6 
-is Yocto Project/OE 1.5, and WR 7 is "future work" (i.e. what the community is 
-working on now.)
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/classes/pixbufcache.bbclass |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-The tone of the email doesn't change.  We've got a problem with existing 
-versions and multilibs, and we need to figure out if this is something we can 
-solve in the community and then either backport (or if the community work has 
-changed to much) figure out a workaround for our existing products.
-
---Mark
-
-> Adjust the package generation to avoid generating 'all', secondary multilib
-> packages using rpm.
->
-> or
->
-> Adjust the sanity check to verify the second package overwriting the first has
-> the same contents.  [Specifically package set.]
->
-> --Mark
->
->> //Hongxu
->>
->> //Hongxu
->>
->
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index 922174d..b8d75bd 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -46,14 +46,16 @@ python populate_packages_append() {
+ }
+ 
+ #
+-# Add a sstate postinst hook to update the cache for native packages
++# Add an sstate postinst hook to update the cache for native packages.
++# An error exit during populate_sysroot_setscene allows bitbake to
++# try to recover by re-building the package.
+ #
+ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ 
+ pixbufcache_sstate_postinst() {
+ 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+ 	then
+-		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache
++		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache || exit 1
+ 	fi
+ }
+ 
+-- 
+1.7.3.4
 
 
