@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C0D14609BF
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FBB26098B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 14:07:43 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id f51so5309701qge.26
+	Tue, 22 Apr 2014 14:52:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3MEqXMb023930
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 07:07:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=iPV2Gb9gYpr4HNVL1D0W0p26qUm25WvRxtxq8my+b30=;
-	b=RQ5jRovbYC8I0e9HPH5OvQR1CqaBgGpN+i915ure1cMS8aIymi1WlJoyZxB3UyEbZe
-	VkjNvpclBI74qe0T7e5Cezu3Xy6znqrYkdAeGF2lH7NF7IssMVT50ZofN/6lJxU9uidU
-	6x6DZycwCAwSfiyvf4oVWKLJqM+9IrG1llde8/0KueNLfVGb4ZFOLfvs6Yt0ov9DIcrX
-	R+BVNGukatjXdIHz5mK9kGhYOLirE2GUjCI2kVloQRoUwIzQjxPSaT/r22ON7N2AX+Dq
-	Am0FQliORbvzqs66K4Y1iiQWkgj25HwzBR5XPeuXBCV7m0WqA89Bs9XRIK7Sae5M26Hv
-	azXw==
-X-Gm-Message-State: ALoCoQk8Nc/N1Y0ZRmRMfWBTk0OXeIPi/bk2gpsE8z19FTE9qmRwWFAHj9sBiIrPZsmJuZWcQz03
-X-Received: by 10.224.75.10 with SMTP id w10mr47682839qaj.52.1398175663996;
-	Tue, 22 Apr 2014 07:07:43 -0700 (PDT)
+	Tue, 22 Apr 2014 07:52:33 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 22 Apr 2014 07:52:32 -0700
+Message-ID: <5356822F.1050803@windriver.com>
+Date: Tue, 22 Apr 2014 09:52:31 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.140.19.136 with HTTP; Tue, 22 Apr 2014 07:07:23 -0700 (PDT)
-In-Reply-To: <1397438532-16886-1-git-send-email-jslater@windriver.com>
-References: <1397438532-16886-1-git-send-email-jslater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Apr 2014 15:07:23 +0100
-Message-ID: <CAJTo0LagCvf=vEHvKkiKN+PoBukUjS281MveS0_Vq8ud9X=eHw@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] pixbuff.bbclass: check for gdk-pixbuf-query-loaders errors
+To: Hongxu Jia <hongxu.jia@windriver.com>, Robert Yang
+	<liezhi.yang@windriver.com>, "Yang, Zhangle (Eric)"
+	<Zhangle.Yang@windriver.com>,
+	Ming Liu <ming.liu@windriver.com>, <Randy.MacLeod@windriver.com>,
+	kane <jian.kang@windriver.com>
+References: <5355DF66.7010100@windriver.com>
+In-Reply-To: <5355DF66.7010100@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] About rpm multilib packagegroup QA Warning: install files into a shared area when those files already exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +41,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 14:07:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 22 Apr 2014 14:52:35 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This needs rebasing onto current master as there's an attempt at
-failing fatally in master (which then won't get noticed, due to the
-issue this fixes).
+On 4/21/14, 10:17 PM, Hongxu Jia wrote:
+> Hi All,
+>
+> This issue could be reproduced only by building multilib packagegroup
+> package in the first time. [YOCTO #5532]
+>
+> *Step:
+> 1) bitbake packagegroup-core-nfs-server
+>
+> 2) bitbake lib32-packagegroup-core-nfs-server
+>       Only the first time to do the build has this issue:
+>       ...
+>      WARNING: The recipe lib32-packagegroup-core-nfs is trying to install
+> files into a shared area when those files already exist. Those files
+> and their manifest location are:
+> /home/jiahongxu/yocto/build-20131120-yocto-qemux86-64/tmp/deploy/rpm/all/packagegroup-core-nfs-server-1.0-r2.all.rpm
+>
+>         Matched in manifest-allarch-packagegroup-core-nfs.deploy-rpm
 
-Ross
+There are two types of 'packagegroup' packages.  Ones that are specific to an 
+architecture (or machine), and one that are 'all' packages.
 
-On 14 April 2014 02:22, Joe Slater <jslater@windriver.com> wrote:
-> If we do not see all the bits we need during populate_sysroot_setscene,
-> we do not want to keep quiet about it and let somebody get screwed
-> later.  By error exiting, we let bitbake try to recover by
-> rebuilding the package.  This will, hopefully, fix any dependency
-> issues, etc, but if not, at least we tried.
+All packages in indeed generic and should not have references to 'lib32' or 
+specific other package types on RPM.
+
+> *Analysis:
 >
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  meta/classes/pixbufcache.bbclass |    5 ++++-
->  1 files changed, 4 insertions(+), 1 deletions(-)
+> - The following commit message is the background which come
+> from oe-core d08e64a98316d7659b0fb56812667c534f66a1a8
+> [YOCTO #4532] Mark Hatle
+>       In deb/ipk on a multilib package, the package name has specific
+> multilib
+>       references in it.  I.e. the alternative libraries start with something
+>       like lib32-...  This was done primarily because deb/ipk do not
+> allow two
+>       packages with the same name (but different architectures) to be
+>       installed at the same time.  So the name has to be unique.
 >
-> diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-> index 414fd30..edbb948 100644
-> --- a/meta/classes/pixbufcache.bbclass
-> +++ b/meta/classes/pixbufcache.bbclass
-> @@ -53,7 +53,10 @@ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
->  pixbufcache_sstate_postinst() {
->         if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
->         then
-> -               gdk-pixbuf-query-loaders --update-cache
-> +               if ! gdk-pixbuf-query-loaders --update-cache
-> +               then
-> +                       exit 1
-> +               fi
->         fi
->  }
+>       In RPM however, the names of the packages and matches with the
+>       architectures and if they are not the same we can do these multilib
+>       installs.
 >
-> --
-> 1.7.3.4
+> - For this rpm multilib packagegroup issue, the multilib and non-multilib
+> packages have the same name 'packagegroup-core-nfs-server', and
+> the same architectures 'all'.
+
+This is correct.  For a packagegroup that only wants generically named 
+functionality (and all package) then we could end up trying to generate two of 
+them...
+
+> *Solution
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> - One possible fix is as Mark Hatle suggested simply to follow the
+> deb/ipk package
+> naming, but this causes a design advantage of rpm.  When a package has a
+> dependency on 'bash', we really don't care what bash is installed, only
+> that -a-
+> bash is installed.  In the deb/ipk case, the lib32- packages would end
+> up with a
+> lib32-bash dependency and you could potentially end up with two 'bash'
+> packages
+> being installed.
+
+Yes, we want to avoid that unless we find there simply is no other way.  One 
+possible fix (using the above approach), if this is an 'all' package, and we're 
+not in the primary multilib, we could simply skip the package_write_rpm step. 
+This may prevent the warning and will avoid repackaging things unnecessarily.
+
+We only want to do this for 'all' types, and not for a tune or machine type, as 
+those are allowed to have specific architectural references in them.
+
+> - Tweak oe-core commit 1674541ed83fa4645f2e078f65fe0f878527ee6e
+> 'multilib: fix allarch/kernel/module-base multilib issues', skip the
+> packagegroup
+> allarch recipes in multilib_virtclass_handler and  extend PROVIDES/RPROVIDES
+> for packagegroup allarch recipes. It will not build the multilib
+> packagegroup allarch
+> recipes if the same packagegroup allarch recipes has already been built.
+> But I think it's a bad idea, the previous packagegroup allarch check is
+> reasonable.
+
+In this case, it would likely break deb and opkg.  Even though we don't use 
+them, I still don't want to break them unintentionally.
+
+> - We could simply add PACKAGE_ARCH = "${MACHINE_ARCH}" in each
+> packagegroup allarch recipe to avoid the QA Warning, but it actually
+> doesn't work
+> at the image do_rootfs time, the smart could not correctly find the RDEPENDS
+> between multilib and non-multilib packagegroup packages.
+>
+> - Is it necessary to fix the multilib packagegroup issue, it seems the
+> warning
+> occurs on the world building, we rarely build both of the multilib and
+> non-multilib
+> for one package at the same time , we could simple tweak the sanity check
+> to ignore the warning.
+
+It is a warning that really doesn't cause a problem.  Tweaking the sanity check 
+is another option -- but the actions of the system are incorrect.  It should 
+know for RPM that we're not REALLY rebuilding the packagegroup, and not 
+repackage it.
+
+If we were to modify the sanity check, then we should change it to verify what 
+has been installed already, and what is about to be installed/overwritten have 
+the same contents.  If the contents differ, then it's still a warning. 
+Otherwise we could silently ignore the warning for our customers (and try to 
+resolve this in the community for WR 7, if it's still an issue there.)
+
+> Any suggestion is welcomed.
+
+For WR 6, either we should:
+
+Adjust the package generation to avoid generating 'all', secondary multilib 
+packages using rpm.
+
+or
+
+Adjust the sanity check to verify the second package overwriting the first has 
+the same contents.  [Specifically package set.]
+
+--Mark
+
+> //Hongxu
+>
+> //Hongxu
+>
+
 
