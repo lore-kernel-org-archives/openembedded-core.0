@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E7B360DD7
+	by mail.openembedded.org (Postfix) with ESMTP id 2954265D75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 23:49:39 +0000 (UTC)
+	Tue, 22 Apr 2014 23:49:40 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2014 16:49:40 -0700
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2014 16:49:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,907,1389772800"; d="scan'208";a="497712239"
+X-IronPort-AV: E=Sophos;i="4.97,907,1389772800"; d="scan'208";a="497712245"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.182])
 	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2014 16:49:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Apr 2014 16:49:27 -0700
-Message-Id: <db84b0123ef1434809a5752719d24959938db202.1398210385.git.sgw@linux.intel.com>
+Date: Tue, 22 Apr 2014 16:49:28 -0700
+Message-Id: <9b1d8b63b1abc2b19c567de5c29e5834efe09f8f.1398210385.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1398210385.git.sgw@linux.intel.com>
 References: <cover.1398210385.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1398210385.git.sgw@linux.intel.com>
 References: <cover.1398210385.git.sgw@linux.intel.com>
-Subject: [PATCH 05/10] mc: update to 4.8.12
+Subject: [PATCH 06/10] msmtp: update to 1.4.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 23:49:39 -0000
-
-Remove the disable-samba since it's been renamed to vfs_smb and disabled
-by default.
+X-List-Received-Date: Tue, 22 Apr 2014 23:49:40 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/mc/{mc_4.8.10.bb => mc_4.8.12.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/mc/{mc_4.8.10.bb => mc_4.8.12.bb} (92%)
+ meta/recipes-extended/msmtp/{msmtp_1.4.31.bb => msmtp_1.4.32.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.4.31.bb => msmtp_1.4.32.bb} (82%)
 
-diff --git a/meta/recipes-extended/mc/mc_4.8.10.bb b/meta/recipes-extended/mc/mc_4.8.12.bb
-similarity index 92%
-rename from meta/recipes-extended/mc/mc_4.8.10.bb
-rename to meta/recipes-extended/mc/mc_4.8.12.bb
-index 511771a..9a43949 100644
---- a/meta/recipes-extended/mc/mc_4.8.10.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.12.bb
-@@ -8,12 +8,12 @@ RDEPENDS_${PN} = "ncurses-terminfo"
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.4.31.bb b/meta/recipes-extended/msmtp/msmtp_1.4.32.bb
+similarity index 82%
+rename from meta/recipes-extended/msmtp/msmtp_1.4.31.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.4.32.bb
+index 57942ed..1ef8547 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.4.31.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.4.32.bb
+@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SRC_URI = "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.bz2 \
+           "
  
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "792ac0ffa30dc95ea1889a548128186d"
+-SRC_URI[sha256sum] = "247af9a95fa22f506e85109fc4268a5d91ca03af9b17eebcc1e46b7cd64c225f"
++SRC_URI[md5sum] = "aa60e22211118f222470439cea60f795"
++SRC_URI[sha256sum] = "2bf0c5c7e78f9905f48de235a75111a1a88238793043bbeae00360b22f1a5f88"
  
--SRC_URI[md5sum] = "eb4bdc23abd4fdfa14911d53d65c8186"
--SRC_URI[sha256sum] = "5f4166fe78fbf4b42f51ed526ca7f79fea8c77d04355c2b97d4df2a6bd2a1b1a"
-+SRC_URI[md5sum] = "a64c426364bfaee56b628f6c0738aade"
-+SRC_URI[sha256sum] = "1054fcc27a488771cbe5b85d7c10135fa1cd1b7682a19930d44b51a023e39396"
- 
- inherit autotools gettext pkgconfig
- 
--EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x --without-samba"
-+EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x"
- 
- FILES_${PN}-dbg += "${libexecdir}/mc/.debug/"
+ inherit gettext autotools update-alternatives
  
 -- 
 1.8.3.1
