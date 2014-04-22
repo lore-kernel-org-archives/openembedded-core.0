@@ -1,20 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1543B609A7
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AF0A0601A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Apr 2014 23:42:25 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2014 16:37:35 -0700
+	Tue, 22 Apr 2014 23:49:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2014 16:49:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,907,1389772800"; d="scan'208";a="525742175"
+X-IronPort-AV: E=Sophos;i="4.97,907,1389772800"; d="scan'208";a="497712213"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2014 16:42:25 -0700
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2014 16:49:35 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Apr 2014 16:42:25 -0700
-Message-Id: <1398210145-15701-1-git-send-email-sgw@linux.intel.com>
+Date: Tue, 22 Apr 2014 16:49:22 -0700
+Message-Id: <cover.1398210385.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] report-error: Add posting in the public note
+Subject: [PATCH 00/10] Package Updates post 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +27,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Apr 2014 23:42:30 -0000
+X-List-Received-Date: Tue, 22 Apr 2014 23:49:36 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/report-error.bbclass | 1 +
- scripts/send-error-report         | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+Richard,
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 479b38d..15adc97 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -60,6 +60,7 @@ python errorreport_handler () {
-                 filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
-                 datafile = errorreport_savedata(e, jsondata, filename)
-                 bb.note("The errors of this build are stored in: %s. You can send the errors to an upstream server by running: send-error-report %s [server]" % (datafile, datafile))
-+                bb.note("The contents of these logs will be posted in public if you use the above script. Please ensure you remove any identifying or propriety information before sending.")
- }
- 
- addhandler errorreport_handler
-diff --git a/scripts/send-error-report b/scripts/send-error-report
-index 3d1f7a4..48d983b 100755
---- a/scripts/send-error-report
-+++ b/scripts/send-error-report
-@@ -97,8 +97,9 @@ def sendData(json_file, server):
- 
- if __name__ == '__main__':
-     print ("\nSends an error report (if the report-error class was enabled) to a remote server.")
-+    print("\nThis scripts sends the contents of the error to a public upstream server.")
-+    print("\nPlease remove any identifying information before sending.")
-     if len(sys.argv) < 2:
--        print("\nThis scripts sends the contents of a file to an upstream server.")
-         print("\nUsage: send-error-report <error_fileName> [server]")
-         print("\nIf this is the first when sending a report you'll be asked for your name and optionally your email address.")
-         print("They will be associated with your report.\n")
+Here is a batch of patches to start off the post 1.6 package
+update season!
+
+Sau!
+
+The following changes since commit 90a955761db4724f0222527a129a3904d6d8aa6e:
+
+  scripts/send-error-report: use a real server as the default (2014-04-19 11:04:05 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
+
+Saul Wold (10):
+  help2man update to 1.44.1
+  cups: update to 1.7.2
+  lsbinitscripts: update to 9.53
+  man-pages: update to 3.64
+  mc: update to 4.8.12
+  msmtp: update to 1.4.32
+  libxkbcommon: update to 0.4.1
+  util-macros: update to 1.19.0
+  sqlite3: Update to 3080403
+  libnl: update to 3.2.24
+
+ ...-native_1.44.1.bb => help2man-native_1.45.1.bb} |  4 +--
+ .../cups/{cups_1.7.1.bb => cups_1.7.2.bb}          |  4 +--
+ ...binitscripts_9.52.bb => lsbinitscripts_9.53.bb} |  6 ++--
+ .../{man-pages_3.60.bb => man-pages_3.64.bb}       |  4 +--
+ .../mc/{mc_4.8.10.bb => mc_4.8.12.bb}              |  6 ++--
+ .../msmtp/{msmtp_1.4.31.bb => msmtp_1.4.32.bb}     |  4 +--
+ ...libxkbcommon_0.4.0.bb => libxkbcommon_0.4.1.bb} |  4 +--
+ ...util-macros_1.18.0.bb => util-macros_1.19.0.bb} |  6 ++--
+ ...free-caused-by-freeing-link-af_data-in-rt.patch | 41 ----------------------
+ .../libnl/{libnl_3.2.22.bb => libnl_3.2.24.bb}     |  9 +++--
+ .../{sqlite3_3.8.3.1.bb => sqlite3_3080403.bb}     | 10 +++---
+ 11 files changed, 28 insertions(+), 70 deletions(-)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.44.1.bb => help2man-native_1.45.1.bb} (79%)
+ rename meta/recipes-extended/cups/{cups_1.7.1.bb => cups_1.7.2.bb} (40%)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.52.bb => lsbinitscripts_9.53.bb} (78%)
+ rename meta/recipes-extended/man-pages/{man-pages_3.60.bb => man-pages_3.64.bb} (82%)
+ rename meta/recipes-extended/mc/{mc_4.8.10.bb => mc_4.8.12.bb} (92%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.4.31.bb => msmtp_1.4.32.bb} (82%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.4.0.bb => libxkbcommon_0.4.1.bb} (81%)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.18.0.bb => util-macros_1.19.0.bb} (75%)
+ delete mode 100644 meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
+ rename meta/recipes-support/libnl/{libnl_3.2.22.bb => libnl_3.2.24.bb} (83%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.8.3.1.bb => sqlite3_3080403.bb} (68%)
+
 -- 
 1.8.3.1
 
