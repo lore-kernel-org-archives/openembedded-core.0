@@ -1,39 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id BCC3760DD7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6727A609BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 10:29:17 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id lh14so880212vcb.6
+	Wed, 23 Apr 2014 10:33:01 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id q108so707038qgd.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 03:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding;
-	bh=dk3tmwHqhsQoujcjmnu7EaQPsNIhTa3VVTJp5xiJkDc=;
-	b=Z4dNs2ZyGfObTyoHbnS3dwMqQ3LxlD0dbkYNQ5TWMyv1EZXpEqkweWn7P7fzuu8nGa
-	wQytXQJSHRp/AO0jl082eZzjg/TmfWf1wn7mV44SvrZznWPFfVsLcEx89n/yPpG6leob
-	zOjuq3bM3aPn7/UfaHZXsOVUDLuWj6peDTwtYGRJwp9HlS6OxOCw+MShk69Azj19Vze/
-	BxNr722OTuZzcXeU9SfnkOtIHGMPz8LNqV1MnrITKIqRl7OpKiB/FQRXujSpwe0uPcB0
-	FluSbiXBX8xXDdcDPZWKy+85ijxBOYS6/xfTr7LWPlL0Q11y6UU6iDBsxOv1DulRKbYj
-	spqQ==
-X-Received: by 10.221.4.66 with SMTP id ob2mr2017487vcb.28.1398248957642; Wed,
-	23 Apr 2014 03:29:17 -0700 (PDT)
+	Wed, 23 Apr 2014 03:33:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=xDTSXa8S8NTEwY0CR4f8X8cYaUKhbyhnVQku5lhdoVc=;
+	b=AbM4CSXwG3zOqhKKRMDVVBX1XDgxonbgBMJu8NQWrrB0QJ0Fg3hKyxu5wTfbtQsQCa
+	ZXbMpxF9uYxYNZzSIMK6bI7/mq3wyZA1LtmLDk6o6Dz3UPreeVokzHBD1W04ZdyEVR1a
+	u302HC5i/cYwSauoZgf9/hHzAhYJReGBS5dzoXt0BUw0R3noq0FGoYBn8FKE3u1PBZUa
+	1E9D4q6ocQFOnE6kj+fFGePt8aUPG0iaEnq8PKugTSd8kR/AjEtjBH9aFleyeMSRpHdI
+	ZW2zjHE+nCKPd9wSpoLBylh9iCO6mXx+um8u6XQfJ/ol/q33LgJbqwAmAWbNfkmQmgJP
+	WxQQ==
+X-Gm-Message-State: ALoCoQn5uh4LfvAc+q+bLOGf2eW38GJTNy7y+vD9wLcEOtW5W0xZYN9PLhiel0Eb8AoVuzGfMwSU
+X-Received: by 10.224.147.77 with SMTP id k13mr55215700qav.64.1398249182782;
+	Wed, 23 Apr 2014 03:33:02 -0700 (PDT)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.221.5.133 with HTTP; Wed, 23 Apr 2014 03:28:37 -0700 (PDT)
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A254DBE@IRSMSX103.ger.corp.intel.com>
-References: <33115ABC4887814E8A92A08FBC93416B0A254DBE@IRSMSX103.ger.corp.intel.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 23 Apr 2014 11:28:37 +0100
-X-Google-Sender-Auth: xHRynt6_aDUJNsesX6BdXNAZEVk
-Message-ID: <CANyK_8cBY=H2vGYH9B7=5AdjCHoiP1AY_xk0o80+YcCuL8zG5g@mail.gmail.com>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: oe-selftest developer oriented improvements
+Received: by 10.140.19.136 with HTTP; Wed, 23 Apr 2014 03:32:42 -0700 (PDT)
+In-Reply-To: <1398189641-16698-1-git-send-email-jslater@windriver.com>
+References: <1398189641-16698-1-git-send-email-jslater@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Apr 2014 11:32:42 +0100
+Message-ID: <CAJTo0LYiWUZ-RSRnC=RJDLKoDU2xOs2C3qEqC+QOC-z_HSLLTg@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [V2][PATCH 1/1] pixbufcache: add error exit in pixbufcache_sstate_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,78 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 10:29:20 -0000
+X-List-Received-Date: Wed, 23 Apr 2014 10:33:09 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 23 April 2014 10:26, Stoicescu, CorneliuX
-<corneliux.stoicescu@intel.com> wrote:
-> Hello,
+Acked-By: Ross Burton <ross.burton@intel.com>
+
+On 22 April 2014 19:00, Joe Slater <jslater@windriver.com> wrote:
+> In order to attempt recovery of a failed populate_sysroot_setscene,
+> we need to explicitly error exit an SSTATEPOSTINSTFUNC.  So, we test
+> the return value of gdk-pixbuf-query-loaders.
 >
-> During the 1.6 development/testing cycle we introduced and used oe-selfte=
-st more and more for QA purposes to identify various issues in the master b=
-ranch. For those who don't know yet what is oe-selftest, it is a python uni=
-t test based testing framework designed to simulate poky external usage pat=
-terns. What we basically do is translate test case steps into python classe=
-s and methods. This is useful both in reducing QA workload and the coverage=
- of our tests. For more information please visit the oe-selftest wiki page:=
- https://wiki.yoctoproject.org/wiki/Oe-selftest
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/classes/pixbufcache.bbclass |    6 ++++--
+>  1 files changed, 4 insertions(+), 2 deletions(-)
 >
-> What we would like oe-selftest to be useful with as well is helping devel=
-opers quickly test their patches before submission. With this in mind, we c=
-ame up with some ideas but we also encourage everyone to contribute with th=
-eirs.
+> diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+> index 922174d..b8d75bd 100644
+> --- a/meta/classes/pixbufcache.bbclass
+> +++ b/meta/classes/pixbufcache.bbclass
+> @@ -46,14 +46,16 @@ python populate_packages_append() {
+>  }
 >
-> Test suites can be created from existing automated tests and accessed usi=
-ng command-line options. For example, using 'oe-selftest --test-suite type=
-=3Drecipe target=3Dman' would test the recipe man and 'oe-selftest --test-s=
-uite type=3Dclass target=3Dbuildhistory' would test the buildhistory class.
+>  #
+> -# Add a sstate postinst hook to update the cache for native packages
+> +# Add an sstate postinst hook to update the cache for native packages.
+> +# An error exit during populate_sysroot_setscene allows bitbake to
+> +# try to recover by re-building the package.
+>  #
+>  SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
 >
-> 1)   Testing recipes updates or new recipes
+>  pixbufcache_sstate_postinst() {
+>         if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+>         then
+> -               GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache
+> +               GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache || exit 1
+>         fi
+>  }
 >
-> Even though we cannot test every single scenario or the functionality of =
-a recipe, we could create a test suite that would:
-> - build the recipe with all major architectures(qemux86, qemux86-64, qemu=
-arm, qemuppc, qemumips)
-> - rebuild the recipe from sstate(with or without a sstate file for the re=
-cipe)
-> - perform cleaning operations on the recipe(cleansstate)
-> - force all major tasks on the recipe (bitbake -C <task> <recipe>)
-> - selectively use each combination of .bbappend files with the recipe; al=
-l the combinations should not break the recipe build.
-> - we could also create mini test suites just for some of these tests like=
- testing only the rebuild from sstate.
-> (any experience from common recipe build fails can be helpful here)
+> --
+> 1.7.3.4
 >
-
-I'd really like to see this, it could cut down on cases where
-something works for one developer but then hits an edge case when sent
-to the autobuilder.
-
-I can also see 'type=3Dpackage' being useful, to check that a generated
-package installs cleanly in an image. For example, if package x
-contains a file which clashes with something already installed on
-core-image-minimal, 'bitbake x' won't show this but 'bitbake
-core-image-minimal' with 'IMAGE_INSTALL +=3D x' set will do.
-
-Taking that a step further, that image could then be booted in qemu
-and the relevant ptest suite ran. I'm not sure how that would be
-automated myself or how the ptest log and results would be pulled off
-the qemu image but if it is possible I think it would be a very useful
-option.
-
-I also think it would be helpful to have options for a 'quick' test
-and a 'full' test. For some of my projects I have recipes which aren't
-pushed upstream to oe-core, meta-oe, etc and have a fairly restricted
-use-case. A quick test that just targets the current value of MACHINE
-and maybe skips some tests which would be expected to take a longer
-time could be very helpful.
-
-Thanks,
-
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
