@@ -1,31 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E16F65D89
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 701F2610CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 13:25:24 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s3NDPAt9030847; Wed, 23 Apr 2014 14:25:10 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jTkydlpGRXKA; Wed, 23 Apr 2014 14:25:10 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s3NDP3tW030840
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 23 Apr 2014 14:25:04 +0100
-Message-ID: <1398259497.16672.111.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 23 Apr 2014 14:24:57 +0100
-In-Reply-To: <db84b0123ef1434809a5752719d24959938db202.1398210385.git.sgw@linux.intel.com>
-References: <cover.1398210385.git.sgw@linux.intel.com>
-	<db84b0123ef1434809a5752719d24959938db202.1398210385.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 05/10] mc: update to 4.8.12
+	Wed, 23 Apr 2014 15:01:24 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id i17so1069785qcy.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Apr 2014 08:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=ZdXEif7LY7lZ1maXreJxSKaDbMUzsC1l019KEnsI6JA=;
+	b=cFVfTEA+1hg/A9K8Wk+S8dBs8gk2IqYN10dyVTue0E4R0Nc1h0pi+UVsWfFsVZxVHU
+	eC1VgEVgtdoEvvRIfjmBR3QC6FWBHTzomax1Mcgvjzd1Jyg1WVaJjv9teInVVtRMdYJx
+	Mg7VWDC6ywIgLnOsf/8bvcP4j4/TZ9NNAfKMoaxZTzVSZkkuVc7Mkgh9rS/jJtYNLyqH
+	S/6mn//5Xb0kLSuyyI/dt/xYLHdzXvKlflGL9/uBTh9Ub/PqCLaBej97DucR9TasY0X4
+	9Igsr5F5I3Ne0UWhszsThilNiMYFByITMcvD3lF1UKpg3rxewciqu9kLMBkkRY3dnffH
+	JneQ==
+MIME-Version: 1.0
+X-Received: by 10.224.56.5 with SMTP id w5mr56800986qag.60.1398265284984; Wed,
+	23 Apr 2014 08:01:24 -0700 (PDT)
+Received: by 10.96.148.2 with HTTP; Wed, 23 Apr 2014 08:01:24 -0700 (PDT)
+Date: Wed, 23 Apr 2014 09:01:24 -0600
+Message-ID: <CACS+7ZQ2J9JDPHJWo+HA7XDU33OjGmSdzsRmGNMaRDnLTGACeQ@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] systemd: fix systemd-user pam configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,53 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 13:25:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Apr 2014 15:01:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2014-04-22 at 16:49 -0700, Saul Wold wrote:
-> Remove the disable-samba since it's been renamed to vfs_smb and disabled
-> by default.
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Will this detect the presence of samba in the sysroot and autoconfigure
-itself to enabled?
+Use common-auth and common-session files instead of system-auth.
+system-auth is a Fedora-ism that oe-core doesn't have. This fixes
+an issue where the systemd user session manager fails to start.
 
-Cheers,
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ .../systemd/systemd/systemd-pam-fix-systemd-user.patch     | 14 ++++++++++++++
+ meta/recipes-core/systemd/systemd_211.bb                   |  1 +
+ 2 files changed, 15 insertions(+)
+ create mode 100644
+meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
 
-Richard
-
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-extended/mc/{mc_4.8.10.bb => mc_4.8.12.bb} | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-extended/mc/{mc_4.8.10.bb => mc_4.8.12.bb} (92%)
-> 
-> diff --git a/meta/recipes-extended/mc/mc_4.8.10.bb b/meta/recipes-extended/mc/mc_4.8.12.bb
-> similarity index 92%
-> rename from meta/recipes-extended/mc/mc_4.8.10.bb
-> rename to meta/recipes-extended/mc/mc_4.8.12.bb
-> index 511771a..9a43949 100644
-> --- a/meta/recipes-extended/mc/mc_4.8.10.bb
-> +++ b/meta/recipes-extended/mc/mc_4.8.12.bb
-> @@ -8,12 +8,12 @@ RDEPENDS_${PN} = "ncurses-terminfo"
->  
->  SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
->  
-> -SRC_URI[md5sum] = "eb4bdc23abd4fdfa14911d53d65c8186"
-> -SRC_URI[sha256sum] = "5f4166fe78fbf4b42f51ed526ca7f79fea8c77d04355c2b97d4df2a6bd2a1b1a"
-> +SRC_URI[md5sum] = "a64c426364bfaee56b628f6c0738aade"
-> +SRC_URI[sha256sum] = "1054fcc27a488771cbe5b85d7c10135fa1cd1b7682a19930d44b51a023e39396"
->  
->  inherit autotools gettext pkgconfig
->  
-> -EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x --without-samba"
-> +EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x"
->  
->  FILES_${PN}-dbg += "${libexecdir}/mc/.debug/"
->  
-> -- 
-> 1.8.3.1
-> 
-
-
+diff --git a/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
+b/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
+new file mode 100644
+index 0000000..58614e8
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
+@@ -0,0 +1,14 @@
++diff --git a/src/login/systemd-user b/src/login/systemd-user
++index 7b57dbf..c0fc793 100644
++--- a/src/login/systemd-user
+++++ b/src/login/systemd-user
++@@ -2,7 +2,7 @@
++
++ # Used by systemd when launching systemd user instances.
++
++-account include system-auth
++-session include system-auth
+++account include common-account
+++session include common-session
++ auth required pam_deny.so
++ password required pam_deny.so
+diff --git a/meta/recipes-core/systemd/systemd_211.bb
+b/meta/recipes-core/systemd/systemd_211.bb
+index 44b1965..df632ab 100644
+--- a/meta/recipes-core/systemd/systemd_211.bb
++++ b/meta/recipes-core/systemd/systemd_211.bb
+@@ -27,6 +27,7 @@ SRC_URI =
+"git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://systemd-pam-fix-execvpe.patch \
+            file://systemd-pam-fix-fallocate.patch \
+            file://systemd-pam-fix-mkostemp.patch \
++           file://systemd-pam-fix-systemd-user.patch \
+            file://optional_secure_getenv.patch \
+            file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
+            file://uclibc-sysinfo_h.patch \
+-- 
+1.9.0
 
