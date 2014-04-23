@@ -1,35 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0549F65D73
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C558565D75
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 16:18:02 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id c9so1147345qcz.5
+	Wed, 23 Apr 2014 16:24:56 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id f51so1210750qge.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 09:18:03 -0700 (PDT)
+	Wed, 23 Apr 2014 09:24:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=fNNtkIEdEmWriTxUWMyjlciw5ih7ueEBYfPybjL5BWg=;
-	b=a+Hw3jsMScadcbBL0NGIksQPZ94sOfrma8KLMYRfX+Kh7MFpwBPA/4MzLHMMV7U08E
-	7ro0N7pRwfbeJwvoZuxYkxdUsAYHvRjrKwyZMtkMZ5Br0pmxU9P50YHMREjyP0Mm7mOj
-	kmmQKOLZ40qLYSqTl6ALNs1S0TIvBT9m/E/2npsUYtk1k49RJmn9E97Xgg4WZpgQTkTZ
-	sBxxF+QU0kbpatyGxg5+Ni6rWyZ6MVvJ5wLDoNvu/xnZ3kVe36oHrRLBFneg+V9KL2C0
-	7jyJ4FdWk9g0frgR7yZD9mo7Vj+7H5vLXvMVkNjxT0j+wOychGq7kCZ2cmiJs/AHPbla
-	u2VA==
-X-Gm-Message-State: ALoCoQnTOL3fv8zaQ2AbAOHqlfQ2Wdugpm5jUM0hxwgTBB0zFn5NYLA260qmpUPB8640DfvP7UgA
-X-Received: by 10.140.86.178 with SMTP id p47mr13594920qgd.66.1398269883025;
-	Wed, 23 Apr 2014 09:18:03 -0700 (PDT)
+	:message-id:subject:to:content-type;
+	bh=35vaMvIEWhQGmgJckSlNoaVXMQR/MAMPKMm1uXJGd6E=;
+	b=T4XGG8e8JOUaGYpk0IXbs0VQmNMaYG1cvGqq1Q6kMHRKjq2WEu3s2z5dsPhdMl0TUY
+	zJGSlAVNCc8O82ovJS+KwyE1ajTdU/Ixc7k9lOvNd7hpEqDT1z/DXBPqXORRrCZVwHyN
+	vQR6cIJ0Is64mhl/7JmvOi9uO1l9FnXcM+++AZO/zz/ZVjhrZPr6pB/1nR6VlJyGGsyx
+	DmO45bTekJMyDf5zwXNtKrmiLTh1yHaceOXe5TbCYRwh8/wcNb96JPcUSGX1/X6jGYXT
+	9twZZ6Iv8VMYHUOgZMiQmesiAOmLpEtwy8nt6S5tch0vB8NkW5XzVEyCiTsCtAWAnr7y
+	Eh/Q==
+X-Gm-Message-State: ALoCoQkKfBhtdMBLDPyoj5r/SYi6fQ0Yl48XB2zETMksqOyEqmhITzhYOS7ANyTsHtKldGyHe9Oz
+X-Received: by 10.140.81.112 with SMTP id e103mr21145808qgd.99.1398270296696; 
+	Wed, 23 Apr 2014 09:24:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.19.136 with HTTP; Wed, 23 Apr 2014 09:17:42 -0700 (PDT)
-In-Reply-To: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
+Received: by 10.140.19.136 with HTTP; Wed, 23 Apr 2014 09:24:36 -0700 (PDT)
+In-Reply-To: <CACS+7ZR9BMcn=_cRVswCUSRWuY-QYH-LWXy1aUF-ORK-9HLQYw@mail.gmail.com>
 References: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
+	<CAJTo0LaOkcf=EJz9fPWxBBhw+yif2aSJgvWaeiWY0bSSMtNGaA@mail.gmail.com>
+	<CACS+7ZR9BMcn=_cRVswCUSRWuY-QYH-LWXy1aUF-ORK-9HLQYw@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Apr 2014 17:17:42 +0100
-Message-ID: <CAJTo0LaOkcf=EJz9fPWxBBhw+yif2aSJgvWaeiWY0bSSMtNGaA@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Apr 2014 17:24:36 +0100
+Message-ID: <CAJTo0La_W6n793OfROq237ig_G4KGisyvPJW5AtWPPcUL1GCCg@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] systemd: fix tests when not using gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,17 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 16:18:03 -0000
+X-List-Received-Date: Wed, 23 Apr 2014 16:24:57 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 23 April 2014 16:01, Dan McGregor <danismostlikely@gmail.com> wrote:
-> Explicitly mark the dummy function as externally visible
-> so that ld can find the symbol at link time. This is needed
-> when the DISTRO_FEATURE ld-is-gold is not enabled; systemd
-> uses -flto anyway.
+(re-adding the list)
 
-So how does this work for me currently (or the autobuilder), where
-ld-is-gold isn't enabled?
+On 23 April 2014 17:19, Dan McGregor <danismostlikely@gmail.com> wrote:
+> Sorry, I should have been more specific. It breaks with Linaro GCC from
+> meta-linaro, not the one in oe-core. It works fine with oe-core's gcc.
+
+So arguably this should be in meta-linaro, as it's to fix a problem
+with their (presumably, old) toolchain?
 
 Ross
 
