@@ -1,25 +1,32 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8916365D89
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 455C865D68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 18:00:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Apr 2014 10:55:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,913,1389772800"; d="scan'208";a="498258094"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2014 11:00:17 -0700
-Message-ID: <5357FFB1.50207@linux.intel.com>
-Date: Wed, 23 Apr 2014 11:00:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Wed, 23 Apr 2014 19:08:40 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id i8so1447537qcq.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Apr 2014 12:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=cpNAtKFji+HgLufMfOOrkAbxkIcL77yfpMf4lMUnFEU=;
+	b=s5sSBSTcYMBEGGlFKt1AYhHo5Is2v9WQ7RA2YP/MQkr2ki22dxS4anqGf+6GhbjWT/
+	rkJmzQrv8SP16J2y+eMt3Q4zxokQl5q0fJAu9tIkr5hv78dWe1pFuAg5sIEzcGPGbruc
+	iRAau7ERneNKXHw845Zt5T8kvS87KYn+1FTvaXRe566KdYSyB9B8arCJrU97gaF3uln9
+	NN0df0EdMWhk97sGACS0tl4LDCwOQDn08u6L34p4yMY0lg0k+lqjBx4+kNQ/phUbkvD8
+	waA3up5hUcRfxjsMo02PTZAtPeGm48SufoH2aiycJ9Jkm2yaENwjasPCYPbQLD3N8pA/
+	IGrw==
 MIME-Version: 1.0
-To: Christian Charreyre <christian.charreyre@cioinfoindus.fr>, 
-	openembedded-core@lists.openembedded.org
-References: <1398242491-2373-1-git-send-email-christian.charreyre@cioinfoindus.fr>
-In-Reply-To: <1398242491-2373-1-git-send-email-christian.charreyre@cioinfoindus.fr>
-Subject: Re: [PATCH] tree: new recipe for version 1.6.0
+X-Received: by 10.224.51.5 with SMTP id b5mr51733488qag.42.1398280120922; Wed,
+	23 Apr 2014 12:08:40 -0700 (PDT)
+Received: by 10.96.148.2 with HTTP; Wed, 23 Apr 2014 12:08:40 -0700 (PDT)
+In-Reply-To: <CACS+7ZQ2J9JDPHJWo+HA7XDU33OjGmSdzsRmGNMaRDnLTGACeQ@mail.gmail.com>
+References: <CACS+7ZQ2J9JDPHJWo+HA7XDU33OjGmSdzsRmGNMaRDnLTGACeQ@mail.gmail.com>
+Date: Wed, 23 Apr 2014 13:08:40 -0600
+Message-ID: <CACS+7ZQ0=-3Mi9Nc1w12ZAcCdr9cAubXe1xDDRA8tfE2fBR=eA@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] systemd: fix systemd-user pam configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,115 +39,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 18:00:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Apr 2014 19:08:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 04/23/2014 01:41 AM, Christian Charreyre wrote:
-> This patch creates the recipe for the command tree, which is a recursive
-> directory listing command that produces a depth indented listing of files,
-> which is colorized ala dircolors if the LS_COLORS environment variable is
-> set and output is to tty
->
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Thanks for the submission, a couple of questions and comments below.
+Use common-auth and common-session files instead of system-auth.
+system-auth is a convention that oe-core doesn't follow. This
+fixes an issue where the systemd user session manager fails to
+start.
 
-Why is this needed in oe-core?  Are there many people interested in it?
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ .../systemd/systemd-pam-fix-systemd-user.patch     | 37 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_211.bb           |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644
+meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
 
-Maybe it should start in meta-openemebedded/meta-oe
-
-> Signed-off-by: Christian Charreyre <christian.charreyre@cioinfoindus.fr>
-> ---
->   .../tree/tree/0001-adapt-Makefile.patch            |   44 ++++++++++++++++++++
->   meta/recipes-support/tree/tree_1.6.0.bb |   15 +++++++
->   2 files changed, 59 insertions(+)
->   create mode 100644 meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
->   create mode 100644 meta/recipes-support/tree/tree_1.6.0.bb
->
-> diff --git a/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch b/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
-> new file mode 100644
-> index 0000000..bcc19c9
-> --- /dev/null
-> +++ b/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
-> @@ -0,0 +1,44 @@
-> +Adapt Makefile to cross compilation and tool environment
-> +
-This 0001-adapt-Makefile.patch should have an Upstream-Status and 
-Signed-off-by tags also.
-
-Please see: http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-
-> +Index: tree-1.6.0/Makefile
-> +===================================================================
-> +--- tree-1.6.0.orig/Makefile	2011-06-24 16:25:27.000000000 +0200
-> ++++ tree-1.6.0/Makefile	2014-04-22 16:53:14.817331834 +0200
-> +@@ -16,23 +16,23 @@
-> + # along with this program; if not, write to the Free Software
-> + # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-> +
-> +-prefix = /usr
-> ++prefix = ${DESTDIR}/usr
-> +
-> +-CC=gcc
-> ++CC ?= gcc
-> +
-> + VERSION=1.6.0
-> + TREE_DEST=tree
-> + BINDIR=${prefix}/bin
-> + MAN=tree.1
-> +-MANDIR=${prefix}/man/man1
-> ++MANDIR=${prefix}/share/man/man1
-> + OBJS=tree.o unix.o html.o xml.o hash.o color.o
-> +
-> + # Uncomment options below for your particular OS:
-> +
-> + # Linux defaults:
-> + #CFLAGS=-ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-> +-CFLAGS=-O4 -Wall  -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-> +-LDFLAGS=-s
-> ++CFLAGS ?= -O4 -Wall  -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-> ++LDFLAGS ?= -s
-> +
-> + # Uncomment for FreeBSD:
-> + #CFLAGS=-O2 -Wall -fomit-frame-pointer
-> +@@ -97,7 +97,7 @@
-> + 	install -d $(BINDIR)
-> + 	install -d $(MANDIR)
-> + 	if [ -e $(TREE_DEST) ]; then \
-> +-		install -s $(TREE_DEST) $(BINDIR)/$(TREE_DEST); \
-> ++		install $(TREE_DEST) $(BINDIR)/$(TREE_DEST); \
-> + 	fi
-> + 	install doc/$(MAN) $(MANDIR)/$(MAN)
-> +
-> diff --git a/meta/recipes-support/tree/tree_1.6.0.bb b/meta/recipes-support/tree/tree_1.6.0.bb
-> new file mode 100644
-> index 0000000..f1ca376
-> --- /dev/null
-> +++ b/meta/recipes-support/tree/tree_1.6.0.bb
-> @@ -0,0 +1,15 @@
-> +DESCRIPTION = "a recursive directory listing command."
-This is more of a SUMMARY, can you expand of the DESCRIPTIION?
-
-> +SECTION = "console/utils"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
-> +
-> +SRC_URI = "http://mama.indstate.edu/users/ice/${PN}/src/${PN}-${PV}.tgz \
-> +	file://0001-adapt-Makefile.patch \
-> +"
-> +
-> +SRC_URI[md5sum] = "04e967a3f4108d50cde3b4b0e89e970a"
-> +SRC_URI[sha256sum] = "4dc470a74880338b01da41701d8db90d0fb178877e526d385931a007d68d7591"
-> +
-> +inherit autotools
-> +
-Does it really use autotools?  I think it can just use the standard 
-do_compile/do_install and does not require autotools.
-
-> +CFLAGS_append = " -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
->
-
-Thanks again
-	Sau!
-
+diff --git a/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
+b/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
+new file mode 100644
+index 0000000..9aa024b
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
+@@ -0,0 +1,37 @@
++From a46c9c81f7b03037338cdeed5f491f16e0252328 Mon Sep 17 00:00:00 2001
++From: Dan McGregor <dan.mcgregor@usask.ca>
++Date: Thu, 13 Mar 2014 10:16:27 -0600
++Subject: [PATCH] Use common-auth and common-session for logind
++
++Use common-auth and common-session files in systemd-user's pam
++configuration instead of system-auth.  system-auth is used in
++RedHat, Fedora, Arch, and others. OpenEmbedded, Debian, and OpenSUSE
++use common-auth, common-session, and common-account.
++
++Upstream tracks the system-auth method because it seems to be more
++popular and is easier for them.
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
++---
++ src/login/systemd-user | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/login/systemd-user b/src/login/systemd-user
++index 7b57dbf..c0fc793 100644
++--- a/src/login/systemd-user
+++++ b/src/login/systemd-user
++@@ -2,7 +2,7 @@
++
++ # Used by systemd when launching systemd user instances.
++
++-account include system-auth
++-session include system-auth
+++account include common-account
+++session include common-session
++ auth required pam_deny.so
++ password required pam_deny.so
++--
++1.9.0
++
+diff --git a/meta/recipes-core/systemd/systemd_211.bb
+b/meta/recipes-core/systemd/systemd_211.bb
+index 44b1965..df632ab 100644
+--- a/meta/recipes-core/systemd/systemd_211.bb
++++ b/meta/recipes-core/systemd/systemd_211.bb
+@@ -27,6 +27,7 @@ SRC_URI =
+"git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://systemd-pam-fix-execvpe.patch \
+            file://systemd-pam-fix-fallocate.patch \
+            file://systemd-pam-fix-mkostemp.patch \
++           file://systemd-pam-fix-systemd-user.patch \
+            file://optional_secure_getenv.patch \
+            file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
+            file://uclibc-sysinfo_h.patch \
+-- 
+1.9.0
 
