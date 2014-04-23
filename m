@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C558565D75
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 49B8965D50
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 16:24:56 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id f51so1210750qge.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 09:24:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=35vaMvIEWhQGmgJckSlNoaVXMQR/MAMPKMm1uXJGd6E=;
-	b=T4XGG8e8JOUaGYpk0IXbs0VQmNMaYG1cvGqq1Q6kMHRKjq2WEu3s2z5dsPhdMl0TUY
-	zJGSlAVNCc8O82ovJS+KwyE1ajTdU/Ixc7k9lOvNd7hpEqDT1z/DXBPqXORRrCZVwHyN
-	vQR6cIJ0Is64mhl/7JmvOi9uO1l9FnXcM+++AZO/zz/ZVjhrZPr6pB/1nR6VlJyGGsyx
-	DmO45bTekJMyDf5zwXNtKrmiLTh1yHaceOXe5TbCYRwh8/wcNb96JPcUSGX1/X6jGYXT
-	9twZZ6Iv8VMYHUOgZMiQmesiAOmLpEtwy8nt6S5tch0vB8NkW5XzVEyCiTsCtAWAnr7y
-	Eh/Q==
-X-Gm-Message-State: ALoCoQkKfBhtdMBLDPyoj5r/SYi6fQ0Yl48XB2zETMksqOyEqmhITzhYOS7ANyTsHtKldGyHe9Oz
-X-Received: by 10.140.81.112 with SMTP id e103mr21145808qgd.99.1398270296696; 
-	Wed, 23 Apr 2014 09:24:56 -0700 (PDT)
+	Wed, 23 Apr 2014 16:36:30 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Apr 2014 09:35:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,912,1389772800"; d="scan'208";a="498187871"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2014 09:34:55 -0700
+Message-ID: <5357EBAE.6040408@linux.intel.com>
+Date: Wed, 23 Apr 2014 09:34:54 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.140.19.136 with HTTP; Wed, 23 Apr 2014 09:24:36 -0700 (PDT)
-In-Reply-To: <CACS+7ZR9BMcn=_cRVswCUSRWuY-QYH-LWXy1aUF-ORK-9HLQYw@mail.gmail.com>
-References: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
-	<CAJTo0LaOkcf=EJz9fPWxBBhw+yif2aSJgvWaeiWY0bSSMtNGaA@mail.gmail.com>
-	<CACS+7ZR9BMcn=_cRVswCUSRWuY-QYH-LWXy1aUF-ORK-9HLQYw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Apr 2014 17:24:36 +0100
-Message-ID: <CAJTo0La_W6n793OfROq237ig_G4KGisyvPJW5AtWPPcUL1GCCg@mail.gmail.com>
 To: Dan McGregor <danismostlikely@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+	openembedded-core@lists.openembedded.org
+References: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
+In-Reply-To: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
 Subject: Re: [PATCH 2/2] systemd: fix tests when not using gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,17 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 16:24:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Apr 2014 16:36:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-(re-adding the list)
+On 04/23/2014 08:01 AM, Dan McGregor wrote:
+> From: Dan McGregor <dan.mcgregor@usask.ca>
+>
+> Explicitly mark the dummy function as externally visible
+> so that ld can find the symbol at link time. This is needed
+> when the DISTRO_FEATURE ld-is-gold is not enabled; systemd
+> uses -flto anyway.
+>
+> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+> ---
+>   meta/recipes-core/systemd/systemd/systemd-lto-fix.patch | 14 ++++++++++++++
+>   meta/recipes-core/systemd/systemd_211.bb                |  1 +
+>   2 files changed, 15 insertions(+)
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
+>
+> diff --git a/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
+> b/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
+> new file mode 100644
+> index 0000000..90875e4
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
 
-On 23 April 2014 17:19, Dan McGregor <danismostlikely@gmail.com> wrote:
-> Sorry, I should have been more specific. It breaks with Linaro GCC from
-> meta-linaro, not the one in oe-core. It works fine with oe-core's gcc.
+The patch also needs an appropriate Upstream-Status and Signed-off-by 
+tags here.
 
-So arguably this should be in meta-linaro, as it's to fix a problem
-with their (presumably, old) toolchain?
+Thanks
+	Sau!
 
-Ross
+> @@ -0,0 +1,14 @@
+> +diff --git a/src/test/test-udev.c b/src/test/test-udev.c
+> +index b064744..3753c87 100644
+> +--- a/src/test/test-udev.c
+> ++++ b/src/test/test-udev.c
+> +@@ -36,7 +36,8 @@
+> + #include "udev.h"
+> + #include "udev-util.h"
+> +
+> +-void udev_main_log(struct udev *udev, int priority,
+> ++void __attribute__((externally_visible))
+> ++     udev_main_log(struct udev *udev, int priority,
+> +                    const char *file, int line, const char *fn,
+> +                    const char *format, va_list args) {}
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_211.bb
+> b/meta/recipes-core/systemd/systemd_211.bb
+> index df632ab..ddf89b8 100644
+> --- a/meta/recipes-core/systemd/systemd_211.bb
+> +++ b/meta/recipes-core/systemd/systemd_211.bb
+> @@ -23,6 +23,7 @@ PV = "211+git${SRCPV}"
+>
+>   SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=git
+> \
+>              file://binfmt-install.patch \
+> +           file://systemd-lto-fix.patch \
+>              file://systemd-pam-configure-check-uclibc.patch \
+>              file://systemd-pam-fix-execvpe.patch \
+>              file://systemd-pam-fix-fallocate.patch \
+>
 
