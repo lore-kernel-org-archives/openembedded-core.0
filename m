@@ -1,35 +1,41 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F7E665D50
+Return-Path: <gary.robertson@linaro.org>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id D452C65D0F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 16:43:55 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id j5so1203699qga.22
+	Wed, 23 Apr 2014 17:02:59 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id vb8so1330377obc.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 09:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=cSLJ734A3AYgOgHpUcz8hnE4JmIo4R+KAtaoo79IbK4=;
-	b=xBcm1pL4PH9QE4MbW2MDRP7rgLYFKr6Os9pV2HFiuFVVy89Udhy1LNH+qDTH/DiuDa
-	F3LYSceHGYUIifxcuSy5Ce/zsMFVFXX1Bp8fMCxI6anMiya0OXY4wwZEOLBT6Jq9Q5/E
-	FGiv2XRIsC0bCatQXCzx4mowddsDg3CFWVVmqRRSD1yBP4+gu45eXs3+Fxi23MCHjudX
-	CG/iB1g1IPob8M4RV5RuE8HCWx4vrac1OTEEDgs+L6WwOYUmJdbzffo+d4dXE6DyESbz
-	9jWf62ylRHX8xFhjBM7kKBadFlXz+EjSdbES0FxsQ0ktoxTa9gi3md7NUnazOTKKPGY4
-	tk9g==
-MIME-Version: 1.0
-X-Received: by 10.140.48.173 with SMTP id o42mr55941529qga.68.1398271436169;
-	Wed, 23 Apr 2014 09:43:56 -0700 (PDT)
-Received: by 10.96.148.2 with HTTP; Wed, 23 Apr 2014 09:43:56 -0700 (PDT)
-In-Reply-To: <5357EBAE.6040408@linux.intel.com>
-References: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
-	<5357EBAE.6040408@linux.intel.com>
-Date: Wed, 23 Apr 2014 10:43:56 -0600
-Message-ID: <CACS+7ZQOx4JqsRERztKBgFrNZTkQmdG0CoGN0DbdxZxWy75NDg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] systemd: fix tests when not using gold
+	Wed, 23 Apr 2014 10:03:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=t9QfSpBX01gipE5L9hTM7iwbskZxQbc7Zf8pPRPG598=;
+	b=fWGO3R3mcF9ahX30V8OX04J5aHXzpZfeDaDR7mdXAivuEeb+uITxePHnzJjfbpGiB8
+	zUqzwDivyWxhzljGuD+p2U/O+8EO415GQqvO6Errn4M5YPTid4JDwWInXmKFx7K8cTMt
+	K49XyOX1gTWpJm8QxeJVslOpHG2+0SMbNWJ6y4QeU9qR92gvsGT6QIxp+9auN/6ZX4yf
+	jHMKXizBcrZH53LEMX3EEiI33jAgOQppOLeQDq+n0uOXnm0NtaRyNZ5MzC+LficCnpxD
+	7L7l3mKVp3fThIvk2OW81mtbl5HLmKryUyNqgY5afUCcWwX8GUMHuzn2YKgLa6t3pHx+
+	858Q==
+X-Gm-Message-State: ALoCoQl5JtiTi91y1fwXZyXbCyz/MYWHNdb3KiF6peJ1x0wiLa6+Q5IGMyrGsttQJ0OwNz3VhAa0
+X-Received: by 10.182.24.226 with SMTP id x2mr43931023obf.13.1398272580823;
+	Wed, 23 Apr 2014 10:03:00 -0700 (PDT)
+Received: from honkintosh.cybertech.lan (65-120-133-114.dia.static.qwest.net.
+	[65.120.133.114])
+	by mx.google.com with ESMTPSA id c7sm6047272oek.12.2014.04.23.10.02.59
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 23 Apr 2014 10:03:00 -0700 (PDT)
+From: gary.robertson@linaro.org
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Apr 2014 11:59:47 -0500
+Message-Id: <1398272388-3326-1-git-send-email-gary.robertson@linaro.org>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>
+References: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>
+Cc: mike.holmes@linaro.org, clark.williams@gmail.com
+Subject: [PATCH V2 1/1] rt-tests: bump version 0.87 => 0.89
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,103 +48,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 16:43:58 -0000
-Content-Type: multipart/alternative; boundary=001a1135346440a85a04f7b8700f
+X-List-Received-Date: Wed, 23 Apr 2014 17:03:04 -0000
 
---001a1135346440a85a04f7b8700f
-Content-Type: text/plain; charset=UTF-8
 
-On 23 April 2014 10:34, Saul Wold <sgw@linux.intel.com> wrote:
+Thanks for the helpful comments as I am a relative newbie at patch submission
+etiquette and procedures within the community.
+In response to comments received from the mailing list, I have:
+   - included contents from the initial cover letter into the patch header and
+   - removed the obsoleted patch files from the recipe metadata.
 
-> On 04/23/2014 08:01 AM, Dan McGregor wrote:
->
->> From: Dan McGregor <dan.mcgregor@usask.ca>
->>
->> Explicitly mark the dummy function as externally visible
->> so that ld can find the symbol at link time. This is needed
->> when the DISTRO_FEATURE ld-is-gold is not enabled; systemd
->> uses -flto anyway.
->>
->> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
->> ---
->>   meta/recipes-core/systemd/systemd/systemd-lto-fix.patch | 14
->> ++++++++++++++
->>   meta/recipes-core/systemd/systemd_211.bb                |  1 +
->>   2 files changed, 15 insertions(+)
->>   create mode 100644 meta/recipes-core/systemd/
->> systemd/systemd-lto-fix.patch
->>
->> diff --git a/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->> b/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->> new file mode 100644
->> index 0000000..90875e4
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->>
->
-> The patch also needs an appropriate Upstream-Status and Signed-off-by tags
-> here.
->
-> Thanks
->         Sau!
->
->
-As I said to Ross off-list (accidentally), this patch was for Linaro GCC as
-of 2014-03-20. I'm going to check that it's still vald, and if so I'll send
-it upstream too.
 
-Thanks,
-
---001a1135346440a85a04f7b8700f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-3 April 2014 10:34, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mailto:sgw@l=
-inux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
-<div class=3D"">On 04/23/2014 08:01 AM, Dan McGregor wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: Dan McGregor &lt;<a href=3D"mailto:dan.mcgregor@usask.ca" target=3D"_=
-blank">dan.mcgregor@usask.ca</a>&gt;<br>
-<br>
-Explicitly mark the dummy function as externally visible<br>
-so that ld can find the symbol at link time. This is needed<br>
-when the DISTRO_FEATURE ld-is-gold is not enabled; systemd<br>
-uses -flto anyway.<br>
-<br>
-Signed-off-by: Dan McGregor &lt;<a href=3D"mailto:dan.mcgregor@usask.ca" ta=
-rget=3D"_blank">dan.mcgregor@usask.ca</a>&gt;<br>
----<br>
-=C2=A0 meta/recipes-core/systemd/<u></u>systemd/systemd-lto-fix.patch | 14 =
-++++++++++++++<br>
-=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_211.bb" target=
-=3D"_blank">syst<u></u>emd_211.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A01 +<br>
-=C2=A0 2 files changed, 15 insertions(+)<br>
-=C2=A0 create mode 100644 meta/recipes-core/systemd/<u></u>systemd/systemd-=
-lto-fix.patch<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<u></u>systemd/systemd-lto-fix.patch=
-<br>
-b/meta/recipes-core/systemd/<u></u>systemd/systemd-lto-fix.patch<br>
-new file mode 100644<br>
-index 0000000..90875e4<br>
---- /dev/null<br>
-+++ b/meta/recipes-core/systemd/<u></u>systemd/systemd-lto-fix.patch<br>
-</blockquote>
-<br></div>
-The patch also needs an appropriate Upstream-Status and Signed-off-by tags =
-here.<br>
-<br>
-Thanks<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sau!<div class=3D"HOEnZb"><div class=3D"h5"><br=
-></div></div></blockquote></div><br></div><div class=3D"gmail_extra">As I s=
-aid to Ross off-list (accidentally), this patch was for Linaro GCC as of 20=
-14-03-20. I&#39;m going to check that it&#39;s still vald, and if so I&#39;=
-ll send it upstream too.<br>
-<br></div><div class=3D"gmail_extra">Thanks,<br></div></div>
-
---001a1135346440a85a04f7b8700f--
