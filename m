@@ -1,32 +1,28 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 455C865D68
+Return-Path: <denis@denix.org>
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CC43265D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 19:08:40 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id i8so1447537qcq.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 12:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=cpNAtKFji+HgLufMfOOrkAbxkIcL77yfpMf4lMUnFEU=;
-	b=s5sSBSTcYMBEGGlFKt1AYhHo5Is2v9WQ7RA2YP/MQkr2ki22dxS4anqGf+6GhbjWT/
-	rkJmzQrv8SP16J2y+eMt3Q4zxokQl5q0fJAu9tIkr5hv78dWe1pFuAg5sIEzcGPGbruc
-	iRAau7ERneNKXHw845Zt5T8kvS87KYn+1FTvaXRe566KdYSyB9B8arCJrU97gaF3uln9
-	NN0df0EdMWhk97sGACS0tl4LDCwOQDn08u6L34p4yMY0lg0k+lqjBx4+kNQ/phUbkvD8
-	waA3up5hUcRfxjsMo02PTZAtPeGm48SufoH2aiycJ9Jkm2yaENwjasPCYPbQLD3N8pA/
-	IGrw==
-MIME-Version: 1.0
-X-Received: by 10.224.51.5 with SMTP id b5mr51733488qag.42.1398280120922; Wed,
-	23 Apr 2014 12:08:40 -0700 (PDT)
-Received: by 10.96.148.2 with HTTP; Wed, 23 Apr 2014 12:08:40 -0700 (PDT)
-In-Reply-To: <CACS+7ZQ2J9JDPHJWo+HA7XDU33OjGmSdzsRmGNMaRDnLTGACeQ@mail.gmail.com>
-References: <CACS+7ZQ2J9JDPHJWo+HA7XDU33OjGmSdzsRmGNMaRDnLTGACeQ@mail.gmail.com>
-Date: Wed, 23 Apr 2014 13:08:40 -0600
-Message-ID: <CACS+7ZQ0=-3Mi9Nc1w12ZAcCdr9cAubXe1xDDRA8tfE2fBR=eA@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] systemd: fix systemd-user pam configuration
+	Wed, 23 Apr 2014 23:42:09 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173021.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N4I00B43CHW4250@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 23 Apr 2014 18:41:56 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4936A200AC; Wed,
+	23 Apr 2014 19:41:56 -0400 (EDT)
+Date: Wed, 23 Apr 2014 19:41:56 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Tom Rini <tom.rini@gmail.com>
+Message-id: <20140423234156.GV11339@denix.org>
+References: <1382459830-15683-1-git-send-email-trini@ti.com>
+	<20131031112730.GU19303@bill-the-cat>
+MIME-version: 1.0
+In-reply-to: <20131031112730.GU19303@bill-the-cat>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] udev: Update touchscreen rule for ID_INPUT_TOUCHSCREEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,82 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 19:08:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Apr 2014 23:42:12 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+On Thu, Oct 31, 2013 at 07:27:30AM -0400, Tom Rini wrote:
+> On Tue, Oct 22, 2013 at 12:37:10PM -0400, Tom Rini wrote:
+> 
+> > Since udev 174 udev has been running input_id as a built-in command and
+> > setting this value in the environment for touchscreens.  Use this logic
+> > to detect when to make a touchscreen0 symlink.
+> > 
+> > Signed-off-by: Tom Rini <trini@ti.com>
+> > ---
+> >  meta/recipes-core/udev/udev/local.rules |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-core/udev/udev/local.rules b/meta/recipes-core/udev/udev/local.rules
+> > index 72d92ef..d0b0216 100644
+> > --- a/meta/recipes-core/udev/udev/local.rules
+> > +++ b/meta/recipes-core/udev/udev/local.rules
+> > @@ -17,5 +17,5 @@
+> >  ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
+> >  
+> >  # Create a symlink to any touchscreen input device
+> > -SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*", SYMLINK+="input/touchscreen0"
+> > +SUBSYSTEM=="input", KERNEL=="event[0-9]*", ENV{ID_INPUT_TOUCHSCREEN}=="1", SYMLINK+="input/touchscreen0"
+> 
+> Ping
 
-Use common-auth and common-session files instead of system-auth.
-system-auth is a convention that oe-core doesn't follow. This
-fixes an issue where the systemd user session manager fails to
-start.
+Was it ever reviewed? Ping^2
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- .../systemd/systemd-pam-fix-systemd-user.patch     | 37 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_211.bb           |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644
-meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
-
-diff --git a/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
-b/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
-new file mode 100644
-index 0000000..9aa024b
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/systemd-pam-fix-systemd-user.patch
-@@ -0,0 +1,37 @@
-+From a46c9c81f7b03037338cdeed5f491f16e0252328 Mon Sep 17 00:00:00 2001
-+From: Dan McGregor <dan.mcgregor@usask.ca>
-+Date: Thu, 13 Mar 2014 10:16:27 -0600
-+Subject: [PATCH] Use common-auth and common-session for logind
-+
-+Use common-auth and common-session files in systemd-user's pam
-+configuration instead of system-auth.  system-auth is used in
-+RedHat, Fedora, Arch, and others. OpenEmbedded, Debian, and OpenSUSE
-+use common-auth, common-session, and common-account.
-+
-+Upstream tracks the system-auth method because it seems to be more
-+popular and is easier for them.
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
-+---
-+ src/login/systemd-user | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/login/systemd-user b/src/login/systemd-user
-+index 7b57dbf..c0fc793 100644
-+--- a/src/login/systemd-user
-++++ b/src/login/systemd-user
-+@@ -2,7 +2,7 @@
-+
-+ # Used by systemd when launching systemd user instances.
-+
-+-account include system-auth
-+-session include system-auth
-++account include common-account
-++session include common-session
-+ auth required pam_deny.so
-+ password required pam_deny.so
-+--
-+1.9.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_211.bb
-b/meta/recipes-core/systemd/systemd_211.bb
-index 44b1965..df632ab 100644
---- a/meta/recipes-core/systemd/systemd_211.bb
-+++ b/meta/recipes-core/systemd/systemd_211.bb
-@@ -27,6 +27,7 @@ SRC_URI =
-"git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://systemd-pam-fix-execvpe.patch \
-            file://systemd-pam-fix-fallocate.patch \
-            file://systemd-pam-fix-mkostemp.patch \
-+           file://systemd-pam-fix-systemd-user.patch \
-            file://optional_secure_getenv.patch \
-            file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
-            file://uclibc-sysinfo_h.patch \
 -- 
-1.9.0
+Denys
 
