@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6727A609BD
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C5A6E65D9A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 10:33:01 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q108so707038qgd.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 03:33:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=xDTSXa8S8NTEwY0CR4f8X8cYaUKhbyhnVQku5lhdoVc=;
-	b=AbM4CSXwG3zOqhKKRMDVVBX1XDgxonbgBMJu8NQWrrB0QJ0Fg3hKyxu5wTfbtQsQCa
-	ZXbMpxF9uYxYNZzSIMK6bI7/mq3wyZA1LtmLDk6o6Dz3UPreeVokzHBD1W04ZdyEVR1a
-	u302HC5i/cYwSauoZgf9/hHzAhYJReGBS5dzoXt0BUw0R3noq0FGoYBn8FKE3u1PBZUa
-	1E9D4q6ocQFOnE6kj+fFGePt8aUPG0iaEnq8PKugTSd8kR/AjEtjBH9aFleyeMSRpHdI
-	ZW2zjHE+nCKPd9wSpoLBylh9iCO6mXx+um8u6XQfJ/ol/q33LgJbqwAmAWbNfkmQmgJP
-	WxQQ==
-X-Gm-Message-State: ALoCoQn5uh4LfvAc+q+bLOGf2eW38GJTNy7y+vD9wLcEOtW5W0xZYN9PLhiel0Eb8AoVuzGfMwSU
-X-Received: by 10.224.147.77 with SMTP id k13mr55215700qav.64.1398249182782;
-	Wed, 23 Apr 2014 03:33:02 -0700 (PDT)
+	Wed, 23 Apr 2014 10:59:30 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Apr 2014 03:59:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,911,1389772800"; d="scan'208";a="497982384"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2014 03:59:29 -0700
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 23 Apr 2014 11:58:57 +0100
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.183]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.128]) with mapi id
+	14.03.0123.003; Wed, 23 Apr 2014 11:58:57 +0100
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Thread-Topic: [OE-core] oe-selftest developer oriented improvements
+Thread-Index: Ac9ezDUTM3PgP7mMTAmWhXLdaavYDwACjJ2AAAL7efA=
+Date: Wed, 23 Apr 2014 10:58:56 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B0A25638D@IRSMSX103.ger.corp.intel.com>
+References: <33115ABC4887814E8A92A08FBC93416B0A254DBE@IRSMSX103.ger.corp.intel.com>
+	<CANyK_8cBY=H2vGYH9B7=5AdjCHoiP1AY_xk0o80+YcCuL8zG5g@mail.gmail.com>
+In-Reply-To: <CANyK_8cBY=H2vGYH9B7=5AdjCHoiP1AY_xk0o80+YcCuL8zG5g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Received: by 10.140.19.136 with HTTP; Wed, 23 Apr 2014 03:32:42 -0700 (PDT)
-In-Reply-To: <1398189641-16698-1-git-send-email-jslater@windriver.com>
-References: <1398189641-16698-1-git-send-email-jslater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Apr 2014 11:32:42 +0100
-Message-ID: <CAJTo0LYiWUZ-RSRnC=RJDLKoDU2xOs2C3qEqC+QOC-z_HSLLTg@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2][PATCH 1/1] pixbufcache: add error exit in pixbufcache_sstate_postinst
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: oe-selftest developer oriented improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 10:33:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Apr 2014 10:59:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Acked-By: Ross Burton <ross.burton@intel.com>
-
-On 22 April 2014 19:00, Joe Slater <jslater@windriver.com> wrote:
-> In order to attempt recovery of a failed populate_sysroot_setscene,
-> we need to explicitly error exit an SSTATEPOSTINSTFUNC.  So, we test
-> the return value of gdk-pixbuf-query-loaders.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  meta/classes/pixbufcache.bbclass |    6 ++++--
->  1 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-> index 922174d..b8d75bd 100644
-> --- a/meta/classes/pixbufcache.bbclass
-> +++ b/meta/classes/pixbufcache.bbclass
-> @@ -46,14 +46,16 @@ python populate_packages_append() {
->  }
->
->  #
-> -# Add a sstate postinst hook to update the cache for native packages
-> +# Add an sstate postinst hook to update the cache for native packages.
-> +# An error exit during populate_sysroot_setscene allows bitbake to
-> +# try to recover by re-building the package.
->  #
->  SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
->
->  pixbufcache_sstate_postinst() {
->         if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
->         then
-> -               GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache
-> +               GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache || exit 1
->         fi
->  }
->
-> --
-> 1.7.3.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+DQo+ID4gMSkgICBUZXN0aW5nIHJlY2lwZXMgdXBkYXRlcyBvciBuZXcgcmVjaXBlcw0KPiA+DQo+
+ID4gRXZlbiB0aG91Z2ggd2UgY2Fubm90IHRlc3QgZXZlcnkgc2luZ2xlIHNjZW5hcmlvIG9yIHRo
+ZSBmdW5jdGlvbmFsaXR5IG9mIGENCj4gcmVjaXBlLCB3ZSBjb3VsZCBjcmVhdGUgYSB0ZXN0IHN1
+aXRlIHRoYXQgd291bGQ6DQo+ID4gLSBidWlsZCB0aGUgcmVjaXBlIHdpdGggYWxsIG1ham9yIGFy
+Y2hpdGVjdHVyZXMocWVtdXg4NiwgcWVtdXg4Ni02NCwNCj4gPiBxZW11YXJtLCBxZW11cHBjLCBx
+ZW11bWlwcykNCj4gPiAtIHJlYnVpbGQgdGhlIHJlY2lwZSBmcm9tIHNzdGF0ZSh3aXRoIG9yIHdp
+dGhvdXQgYSBzc3RhdGUgZmlsZSBmb3IgdGhlDQo+ID4gcmVjaXBlKQ0KPiA+IC0gcGVyZm9ybSBj
+bGVhbmluZyBvcGVyYXRpb25zIG9uIHRoZSByZWNpcGUoY2xlYW5zc3RhdGUpDQo+ID4gLSBmb3Jj
+ZSBhbGwgbWFqb3IgdGFza3Mgb24gdGhlIHJlY2lwZSAoYml0YmFrZSAtQyA8dGFzaz4gPHJlY2lw
+ZT4pDQo+ID4gLSBzZWxlY3RpdmVseSB1c2UgZWFjaCBjb21iaW5hdGlvbiBvZiAuYmJhcHBlbmQg
+ZmlsZXMgd2l0aCB0aGUgcmVjaXBlOyBhbGwNCj4gdGhlIGNvbWJpbmF0aW9ucyBzaG91bGQgbm90
+IGJyZWFrIHRoZSByZWNpcGUgYnVpbGQuDQo+ID4gLSB3ZSBjb3VsZCBhbHNvIGNyZWF0ZSBtaW5p
+IHRlc3Qgc3VpdGVzIGp1c3QgZm9yIHNvbWUgb2YgdGhlc2UgdGVzdHMgbGlrZQ0KPiB0ZXN0aW5n
+IG9ubHkgdGhlIHJlYnVpbGQgZnJvbSBzc3RhdGUuDQo+ID4gKGFueSBleHBlcmllbmNlIGZyb20g
+Y29tbW9uIHJlY2lwZSBidWlsZCBmYWlscyBjYW4gYmUgaGVscGZ1bCBoZXJlKQ0KPiA+DQo+IA0K
+PiBJJ2QgcmVhbGx5IGxpa2UgdG8gc2VlIHRoaXMsIGl0IGNvdWxkIGN1dCBkb3duIG9uIGNhc2Vz
+IHdoZXJlIHNvbWV0aGluZyB3b3Jrcw0KPiBmb3Igb25lIGRldmVsb3BlciBidXQgdGhlbiBoaXRz
+IGFuIGVkZ2UgY2FzZSB3aGVuIHNlbnQgdG8gdGhlIGF1dG9idWlsZGVyLg0KPiANCj4gSSBjYW4g
+YWxzbyBzZWUgJ3R5cGU9cGFja2FnZScgYmVpbmcgdXNlZnVsLCB0byBjaGVjayB0aGF0IGEgZ2Vu
+ZXJhdGVkDQo+IHBhY2thZ2UgaW5zdGFsbHMgY2xlYW5seSBpbiBhbiBpbWFnZS4gRm9yIGV4YW1w
+bGUsIGlmIHBhY2thZ2UgeCBjb250YWlucyBhIGZpbGUNCj4gd2hpY2ggY2xhc2hlcyB3aXRoIHNv
+bWV0aGluZyBhbHJlYWR5IGluc3RhbGxlZCBvbiBjb3JlLWltYWdlLW1pbmltYWwsDQo+ICdiaXRi
+YWtlIHgnIHdvbid0IHNob3cgdGhpcyBidXQgJ2JpdGJha2UgY29yZS1pbWFnZS1taW5pbWFsJyB3
+aXRoDQo+ICdJTUFHRV9JTlNUQUxMICs9IHgnIHNldCB3aWxsIGRvLg0KPiANCj4gVGFraW5nIHRo
+YXQgYSBzdGVwIGZ1cnRoZXIsIHRoYXQgaW1hZ2UgY291bGQgdGhlbiBiZSBib290ZWQgaW4gcWVt
+dSBhbmQgdGhlDQo+IHJlbGV2YW50IHB0ZXN0IHN1aXRlIHJhbi4gSSdtIG5vdCBzdXJlIGhvdyB0
+aGF0IHdvdWxkIGJlIGF1dG9tYXRlZCBteXNlbGYgb3INCj4gaG93IHRoZSBwdGVzdCBsb2cgYW5k
+IHJlc3VsdHMgd291bGQgYmUgcHVsbGVkIG9mZiB0aGUgcWVtdSBpbWFnZSBidXQgaWYgaXQgaXMN
+Cj4gcG9zc2libGUgSSB0aGluayBpdCB3b3VsZCBiZSBhIHZlcnkgdXNlZnVsIG9wdGlvbi4NCg0K
+RXZlbiB0aG91Z2ggd2UgY2Fubm90IGJvb3QgdGhlIGltYWdlIGFuZCBydW4gcHRlc3QgYXQgdGhl
+IG1vbWVudCB1c2luZyBvZS1zZWxmdGVzdCwgaXQgY291bGQgYmUgZG9uZSBpbiB0aGUgZnV0dXJl
+LiBUaGlzIGNhbiBiZSBkb25lIG5vdyB3aXRoIHRoZSAndGVzdGltYWdlJyBmZWF0dXJlIHRob3Vn
+aC4gV2UgbmVlZCB0byBpbnZlc3RpZ2F0ZSB0aGUgdXNhZ2Ugb2YgdGhlIDIgdG9vbHMgdG9nZXRo
+ZXIuDQoNClRoYW5rIHlvdSBmb3IgdGhlIGZlZWRiYWNrIQ0KDQpSZWdhcmRzLA0KQ29ybmVsaXUg
+DQpZb2N0byBRQQ0K
 
