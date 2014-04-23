@@ -1,21 +1,35 @@
-Return-Path: <christian.charreyre@cioinfoindus.fr>
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr
-	[80.12.242.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 0222C65D04
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E347B65D78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 08:41:32 +0000 (UTC)
-Received: from localhost.localdomain ([109.208.223.182]) by mwinf5d56 with ME
-	id tLhV1n00B3wkFtH03LhZmM; Wed, 23 Apr 2014 10:41:33 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0aWFuLmNoYXJyZXlyZS5jaW9Ad2FuYWRvby5mcg==
-X-ME-Date: Wed, 23 Apr 2014 10:41:33 +0200
-X-ME-IP: 109.208.223.182
-From: Christian Charreyre <christian.charreyre@cioinfoindus.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Apr 2014 10:41:31 +0200
-Message-Id: <1398242491-2373-1-git-send-email-christian.charreyre@cioinfoindus.fr>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] tree: new recipe for version 1.6.0
+	Wed, 23 Apr 2014 09:27:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Apr 2014 02:27:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,910,1389772800"; d="scan'208";a="497943153"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by orsmga001.jf.intel.com with ESMTP; 23 Apr 2014 02:27:23 -0700
+Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 23 Apr 2014 10:26:21 +0100
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.183]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.50]) with mapi id
+	14.03.0123.003; Wed, 23 Apr 2014 10:26:21 +0100
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: oe-selftest developer oriented improvements
+Thread-Index: Ac9ezDUTM3PgP7mMTAmWhXLdaavYDw==
+Date: Wed, 23 Apr 2014 09:26:21 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B0A254DBE@IRSMSX103.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: oe-selftest developer oriented improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,93 +42,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Apr 2014 08:41:33 -0000
+X-List-Received-Date: Wed, 23 Apr 2014 09:27:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This patch creates the recipe for the command tree, which is a recursive
-directory listing command that produces a depth indented listing of files,
-which is colorized ala dircolors if the LS_COLORS environment variable is
-set and output is to tty
+Hello,
 
-Signed-off-by: Christian Charreyre <christian.charreyre@cioinfoindus.fr>
----
- .../tree/tree/0001-adapt-Makefile.patch            |   44 ++++++++++++++++++++
- meta/recipes-support/tree/tree_1.6.0.bb |   15 +++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
- create mode 100644 meta/recipes-support/tree/tree_1.6.0.bb
+During the 1.6 development/testing cycle we introduced and used oe-selftest=
+ more and more for QA purposes to identify various issues in the master bra=
+nch. For those who don't know yet what is oe-selftest, it is a python unit =
+test based testing framework designed to simulate poky external usage patte=
+rns. What we basically do is translate test case steps into python classes =
+and methods. This is useful both in reducing QA workload and the coverage o=
+f our tests. For more information please visit the oe-selftest wiki page: h=
+ttps://wiki.yoctoproject.org/wiki/Oe-selftest=20
 
-diff --git a/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch b/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
-new file mode 100644
-index 0000000..bcc19c9
---- /dev/null
-+++ b/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
-@@ -0,0 +1,44 @@
-+Adapt Makefile to cross compilation and tool environment
-+
-+Index: tree-1.6.0/Makefile
-+===================================================================
-+--- tree-1.6.0.orig/Makefile	2011-06-24 16:25:27.000000000 +0200
-++++ tree-1.6.0/Makefile	2014-04-22 16:53:14.817331834 +0200
-+@@ -16,23 +16,23 @@
-+ # along with this program; if not, write to the Free Software
-+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ 
-+-prefix = /usr
-++prefix = ${DESTDIR}/usr
-+ 
-+-CC=gcc
-++CC ?= gcc
-+ 
-+ VERSION=1.6.0
-+ TREE_DEST=tree
-+ BINDIR=${prefix}/bin
-+ MAN=tree.1
-+-MANDIR=${prefix}/man/man1
-++MANDIR=${prefix}/share/man/man1
-+ OBJS=tree.o unix.o html.o xml.o hash.o color.o
-+ 
-+ # Uncomment options below for your particular OS:
-+ 
-+ # Linux defaults:
-+ #CFLAGS=-ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-+-CFLAGS=-O4 -Wall  -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-+-LDFLAGS=-s
-++CFLAGS ?= -O4 -Wall  -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-++LDFLAGS ?= -s
-+ 
-+ # Uncomment for FreeBSD:
-+ #CFLAGS=-O2 -Wall -fomit-frame-pointer
-+@@ -97,7 +97,7 @@
-+ 	install -d $(BINDIR)
-+ 	install -d $(MANDIR)
-+ 	if [ -e $(TREE_DEST) ]; then \
-+-		install -s $(TREE_DEST) $(BINDIR)/$(TREE_DEST); \
-++		install $(TREE_DEST) $(BINDIR)/$(TREE_DEST); \
-+ 	fi
-+ 	install doc/$(MAN) $(MANDIR)/$(MAN)
-+ 
-diff --git a/meta/recipes-support/tree/tree_1.6.0.bb b/meta/recipes-support/tree/tree_1.6.0.bb
-new file mode 100644
-index 0000000..f1ca376
---- /dev/null
-+++ b/meta/recipes-support/tree/tree_1.6.0.bb
-@@ -0,0 +1,15 @@
-+DESCRIPTION = "a recursive directory listing command."
-+SECTION = "console/utils"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
-+
-+SRC_URI = "http://mama.indstate.edu/users/ice/${PN}/src/${PN}-${PV}.tgz \
-+	file://0001-adapt-Makefile.patch \
-+"
-+
-+SRC_URI[md5sum] = "04e967a3f4108d50cde3b4b0e89e970a"
-+SRC_URI[sha256sum] = "4dc470a74880338b01da41701d8db90d0fb178877e526d385931a007d68d7591"
-+
-+inherit autotools
-+
-+CFLAGS_append = " -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
--- 
-1.7.9.5
+What we would like oe-selftest to be useful with as well is helping develop=
+ers quickly test their patches before submission. With this in mind, we cam=
+e up with some ideas but we also encourage everyone to contribute with thei=
+rs.
 
+Test suites can be created from existing automated tests and accessed using=
+ command-line options. For example, using 'oe-selftest --test-suite type=3D=
+recipe target=3Dman' would test the recipe man and 'oe-selftest --test-suit=
+e type=3Dclass target=3Dbuildhistory' would test the buildhistory class.
+
+1)   Testing recipes updates or new recipes
+
+Even though we cannot test every single scenario or the functionality of a =
+recipe, we could create a test suite that would:
+- build the recipe with all major architectures(qemux86, qemux86-64, qemuar=
+m, qemuppc, qemumips)
+- rebuild the recipe from sstate(with or without a sstate file for the reci=
+pe)
+- perform cleaning operations on the recipe(cleansstate)
+- force all major tasks on the recipe (bitbake -C <task> <recipe>)
+- selectively use each combination of .bbappend files with the recipe; all =
+the combinations should not break the recipe build.
+- we could also create mini test suites just for some of these tests like t=
+esting only the rebuild from sstate.
+(any experience from common recipe build fails can be helpful here)
+
+2)  Testing classes
+
+This is tricky. There is no general testing pattern to test all classes as =
+they provide different functionality. Because of this we should have specif=
+ic tests for each class or set of classes.  Also when updating a class, the=
+ developer could add new tests or update the old ones. The tests used here =
+should be straightforward and well documented.
+Also I believe it's desired to have tests(even rudimentary ones) for all oe=
+-core features and this could help push this forward.
+
+3)  Stress testing=20
+
+There were scenarios where sometimes a recipe would fail to build due to a =
+race condition. We could create tests that run in a configurable number of =
+build directories at a time with a specific number of threads and parallel =
+make. For example, on a 8 threaded machine we could have 3 builds with 4 th=
+reads and parallel make each run in parallel building the same recipe oven =
+and over until it fails.=20
+
+I hope many of you have made it to this line and hope to hear your feedback=
+(comments, additions or new ideas). Based on it we will introduce the menti=
+oned functionality or not.
+
+Thank you again for the time!
+Regards,
+Corneliu
+Yocto QA
 
