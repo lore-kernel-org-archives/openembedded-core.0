@@ -1,23 +1,30 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 291A465D0A
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 9765165D71
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Apr 2014 17:28:27 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 24 Apr 2014 19:28:26 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 8B4B528C69A;
-	Thu, 24 Apr 2014 19:28:26 +0200 (CEST)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Apr 2014 19:28:25 +0200
-Message-ID: <1398360505-45987-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] openssl: enable ptest support
+	Thu, 24 Apr 2014 18:01:44 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173025.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N4J00GYHRE0ENQ0@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 24 Apr 2014 13:01:23 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id A65B52011D; Thu,
+	24 Apr 2014 14:01:12 -0400 (EDT)
+Date: Thu, 24 Apr 2014 14:01:12 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-id: <20140424180112.GW11339@denix.org>
+References: <1382459830-15683-1-git-send-email-trini@ti.com>
+	<20131031112730.GU19303@bill-the-cat>
+	<20140423234156.GV11339@denix.org>
+	<1425117.VHBJzLZIOr@peggleto-mobl5.ger.corp.intel.com>
+MIME-version: 1.0
+In-reply-to: <1425117.VHBJzLZIOr@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] udev: Update touchscreen rule for ID_INPUT_TOUCHSCREEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,176 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Apr 2014 17:28:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Apr 2014 18:01:46 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-From: "Maxin B. John" <maxin.john@enea.com>
+On Thu, Apr 24, 2014 at 09:56:20AM +0100, Paul Eggleton wrote:
+> On Wednesday 23 April 2014 19:41:56 Denys Dmytriyenko wrote:
+> > On Thu, Oct 31, 2013 at 07:27:30AM -0400, Tom Rini wrote:
+> > > On Tue, Oct 22, 2013 at 12:37:10PM -0400, Tom Rini wrote:
+> > > > Since udev 174 udev has been running input_id as a built-in command and
+> > > > setting this value in the environment for touchscreens.  Use this logic
+> > > > to detect when to make a touchscreen0 symlink.
+> > > > 
+> > > > Signed-off-by: Tom Rini <trini@ti.com>
+> > > > ---
+> > > > 
+> > > >  meta/recipes-core/udev/udev/local.rules |    2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/meta/recipes-core/udev/udev/local.rules
+> > > > b/meta/recipes-core/udev/udev/local.rules index 72d92ef..d0b0216 100644
+> > > > --- a/meta/recipes-core/udev/udev/local.rules
+> > > > +++ b/meta/recipes-core/udev/udev/local.rules
+> > > > @@ -17,5 +17,5 @@
+> > > > 
+> > > >  ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*",
+> > > >  RUN+="/sbin/modprobe $env{MODALIAS}"
+> > > >  
+> > > >  # Create a symlink to any touchscreen input device
+> > > > 
+> > > > -SUBSYSTEM=="input", KERNEL=="event[0-9]*",
+> > > > ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*",
+> > > > SYMLINK+="input/touchscreen0" +SUBSYSTEM=="input",
+> > > > KERNEL=="event[0-9]*", ENV{ID_INPUT_TOUCHSCREEN}=="1",
+> > > > SYMLINK+="input/touchscreen0"> 
+> > > Ping
+> > 
+> > Was it ever reviewed? Ping^2
+> 
+> Sorry, what do you mean? It was reviewed and merged:
+> 
+> http://cgit.openembedded.org/openembedded-core/commit/?id=5abcfcd4380aacafc45d776f557738fb18089113
 
-Install openssl test suite and run it as ptest.
+Oops, I guess I looked in Dora and it was merged after the release. Sorry for 
+the noise.
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-connectivity/openssl/openssl.inc      |   19 ++++-
- .../openssl/openssl/Makefiles-ptest.patch          |   75 ++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl/run-ptest |    2 +
- .../recipes-connectivity/openssl/openssl_1.0.1g.bb |    2 +
- 4 files changed, 97 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
- create mode 100755 meta/recipes-connectivity/openssl/openssl/run-ptest
-
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index ee02fb7..6ef7e3e 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -30,7 +30,7 @@ export DIRS = "crypto ssl apps"
- export EX_LIBS = "-lgcc -ldl"
- export AS = "${CC} -c"
- 
--inherit pkgconfig siteinfo multilib_header
-+inherit pkgconfig siteinfo multilib_header ptest
- 
- PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
- FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
-@@ -47,6 +47,7 @@ FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
- FILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
- CONFFILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
- RRECOMMENDS_libcrypto += "openssl-conf"
-+RDEPENDS_${PN}-ptest += "${PN}-misc make"
- 
- do_configure_prepend_darwin () {
- 	sed -i -e '/version-script=openssl\.ld/d' Configure
-@@ -140,6 +141,10 @@ do_compile () {
- 	oe_runmake
- }
- 
-+do_compile_ptest () {
-+	oe_runmake buildtest
-+}
-+
- do_install () {
- 	oe_runmake INSTALL_PREFIX="${D}" MANDIR="${mandir}" install
- 
-@@ -169,5 +174,17 @@ do_install () {
- 	fi
- }
- 
-+do_install_ptest () {
-+	cp -r Makefile test ${D}${PTEST_PATH}
-+	mkdir -p ${D}${PTEST_PATH}/apps
-+	ln -sf /usr/lib/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
-+	ln -sf /usr/lib/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
-+	ln -sf /usr/bin/openssl         ${D}${PTEST_PATH}/apps
-+	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
-+	mkdir -p ${D}${PTEST_PATH}/util
-+	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
-+	install util/shlib_wrap.sh     ${D}${PTEST_PATH}/util
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch b/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
-new file mode 100644
-index 0000000..ac53a91
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
-@@ -0,0 +1,75 @@
-+Add 'buildtest' and 'runtest' targets to Makefile, to build and run tests
-+cross-compiled.
-+
-+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-+Signed-off-by: Maxin B. John <maxin.john@enea.com>
-+Upstream-Status: Pending
-+---
-+diff -uNr a/Makefile b/Makefile
-+--- a/Makefile.org	2012-05-10 17:06:02.000000000 +0200
-++++ b/Makefile.org	2012-10-27 00:05:55.359424024 +0200
-+@@ -411,8 +411,16 @@
-+ test:   tests
-+ 
-+ tests: rehash
-++	$(MAKE) buildtest
-++	$(MAKE) runtest
-++
-++buildtest:
-++	@(cd test && \
-++	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=.. TESTS='$(TESTS)' OPENSSL_DEBUG_MEMORY=on OPENSSL_CONF=../apps/openssl.cnf exe apps);
-++
-++runtest:
-+ 	@(cd test && echo "testing..." && \
-+-	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=.. TESTS='$(TESTS)' OPENSSL_DEBUG_MEMORY=on OPENSSL_CONF=../apps/openssl.cnf tests );
-++	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=.. TESTS='$(TESTS)' OPENSSL_DEBUG_MEMORY=on OPENSSL_CONF=../apps/openssl.cnf alltests );
-+ 	OPENSSL_CONF=apps/openssl.cnf util/opensslwrap.sh version -a
-+ 
-+ report:
-+diff --git a/test/Makefile b/test/Makefile
-+index 3912f82..1696767 100644
-+--- a/test/Makefile
-++++ b/test/Makefile
-+@@ -128,7 +128,7 @@ tests:	exe apps $(TESTS)
-+ apps:
-+ 	@(cd ..; $(MAKE) DIRS=apps all)
-+ 
-+-alltests: \
-++all-tests= \
-+ 	test_des test_idea test_sha test_md4 test_md5 test_hmac \
-+ 	test_md2 test_mdc2 test_wp \
-+ 	test_rmd test_rc2 test_rc4 test_rc5 test_bf test_cast test_aes \
-+@@ -138,6 +138,11 @@ alltests: \
-+ 	test_ss test_ca test_engine test_evp test_ssl test_tsa test_ige \
-+ 	test_jpake test_cms
-+ 
-++alltests:
-++	@(for i in $(all-tests); do \
-++	( $(MAKE) $$i && echo "PASS: $$i" ) || echo "FAIL: $$i"; \
-++	done)
-++
-+ test_evp:
-+ 	../util/shlib_wrap.sh ./$(EVPTEST) evptests.txt
-+ 
-+@@ -203,7 +208,7 @@ test_x509:
-+ 	echo test second x509v3 certificate
-+ 	sh ./tx509 v3-cert2.pem 2>/dev/null
-+ 
-+-test_rsa: $(RSATEST)$(EXE_EXT)
-++test_rsa:
-+ 	@sh ./trsa 2>/dev/null
-+ 	../util/shlib_wrap.sh ./$(RSATEST)
-+ 
-+@@ -298,11 +303,11 @@ test_tsa:
-+ 	  sh ./testtsa; \
-+ 	fi
-+ 
-+-test_ige: $(IGETEST)$(EXE_EXT)
-++test_ige:
-+ 	@echo "Test IGE mode"
-+ 	../util/shlib_wrap.sh ./$(IGETEST)
-+ 
-+-test_jpake: $(JPAKETEST)$(EXE_EXT)
-++test_jpake:
-+ 	@echo "Test JPAKE"
-+ 	../util/shlib_wrap.sh ./$(JPAKETEST)
-diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
-new file mode 100755
-index 0000000..3b20fce
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+make -k runtest
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
-index f3c20e8..5ca29d0 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
-@@ -34,6 +34,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://initial-aarch64-bits.patch \
-             file://find.pl \
-             file://openssl-fix-des.pod-error.patch \
-+            file://Makefiles-ptest.patch \
-+            file://run-ptest \
-            "
- 
- SRC_URI[md5sum] = "de62b43dfcd858e66a74bee1c834e959"
 -- 
-1.7.10.4
-
+Denys
 
