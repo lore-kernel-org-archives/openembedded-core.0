@@ -1,35 +1,31 @@
-Return-Path: <Mylene.Josserand@navocap.com>
-Received: from maiev.nerim.net (smtp-154-thursday.nerim.net [194.79.134.154])
-	by mail.openembedded.org (Postfix) with ESMTP id 44E7965D2B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 64A6465D2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Apr 2014 13:09:52 +0000 (UTC)
-Received: from mail.navocap.com (navocap-sdsl-19-50.cnt.nerim.net
-	[213.215.19.50])
-	by maiev.nerim.net (Postfix) with ESMTPS id D35AE2E019;
-	Thu, 24 Apr 2014 15:09:52 +0200 (CEST)
-Received: from COURRIER2014.nvp.local (192.168.200.2) by
-	courrier2014.nvp.local (192.168.200.2) with Microsoft SMTP Server (TLS)
-	id 15.0.775.38; Thu, 24 Apr 2014 15:09:52 +0200
-Received: from COURRIER2014.nvp.local ([fe80::888a:1763:2a1b:ad8a]) by
-	courrier2014.nvp.local ([fe80::888a:1763:2a1b:ad8a%14]) with mapi id
-	15.00.0775.031; Thu, 24 Apr 2014 15:09:52 +0200
-From: Mylene Josserand <Mylene.Josserand@navocap.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [OE-core] kernel-yocto.bbclass : commas missing to use custom
-	defconfig
-Thread-Index: AQHPX6J3i3MfeBF9U0CfnskY72n/YJsgkOWAgAAmwaU=
-Date: Thu, 24 Apr 2014 13:09:51 +0000
-Message-ID: <7916ecfd0f17466294848173252a9b16@courrier2014.nvp.local>
-References: <6e38b70bb3d84cb08af610496d2723ed@courrier2014.nvp.local>,
-	<CADkTA4NGe-eJC7aVAa+Q=fg-Ba_-gFDioB8hWUnH=UsAgmOJzQ@mail.gmail.com>
-In-Reply-To: <CADkTA4NGe-eJC7aVAa+Q=fg-Ba_-gFDioB8hWUnH=UsAgmOJzQ@mail.gmail.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.200.116]
-MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: kernel-yocto.bbclass : commas missing to use custom defconfig
+	Thu, 24 Apr 2014 14:24:23 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3OEOJTr019588 for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Apr 2014 15:24:19 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Kkav9sEBWwn7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Apr 2014 15:24:19 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3OEOER1019584
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Apr 2014 15:24:16 +0100
+Message-ID: <1398349449.16672.178.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Apr 2014 15:24:09 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] gcc-cross-initial: Separate out libgcc-initial
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +38,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Apr 2014 13:09:55 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Apr 2014 14:24:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-______________________________________=0A=
-De : Bruce Ashfield <bruce.ashfield@gmail.com>=0A=
-Envoy=E9 : jeudi 24 avril 2014 14:29=0A=
-=C0 : Mylene Josserand=0A=
-Cc : openembedded-core=0A=
-Objet : Re: [OE-core] kernel-yocto.bbclass : commas missing to use custom d=
-efconfig=0A=
-=0A=
->Hmmm. I had a patch for this last year, but it looks like it fell=0A=
-through the cracks=0A=
->when I was submitting changes to the various release branches.=0A=
-=0A=
-=0A=
-I was surprised that it was not patched yet. I understand now :)=0A=
-=0A=
-=0A=
->Thanks for the report, I'll take care of digging up that old patch and=0A=
-sending it=0A=
->out shortly.=0A=
-=0A=
-=0A=
-With pleasure and thank you !=0A=
-=0A=
-=0A=
-=0A=
-Best regards,=0A=
-=0A=
-Mylene JOSSERAND=0A=
-=0A=
-=0A=
+Its useful to separate out the native (cross) binaries from the target
+compilation. We already do this for libgcc, this now takes the same
+approach for -initial.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-core/eglibc/eglibc-initial.inc b/meta/recipes-core/eglibc/eglibc-initial.inc
+index 0f0e1cd..4cc6ffe 100644
+--- a/meta/recipes-core/eglibc/eglibc-initial.inc
++++ b/meta/recipes-core/eglibc/eglibc-initial.inc
+@@ -1,4 +1,4 @@
+-DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial"
++DEPENDS = "linux-libc-headers virtual/${TARGET_PREFIX}gcc-initial libgcc-initial"
+ PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
+ 
+ PACKAGES = ""
+diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+index 375b9bc..04c5d9a 100644
+--- a/meta/recipes-core/eglibc/eglibc.inc
++++ b/meta/recipes-core/eglibc/eglibc.inc
+@@ -33,7 +33,7 @@ siteconfig_do_siteconfig_gencache_prepend = " \
+ "
+ 
+ # nptl needs unwind support in gcc, which can't be built without glibc.
+-DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
++DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
+ # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
+ #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+ PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index 8184538..b6f04de 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -38,10 +38,11 @@ do_configure_prepend () {
+ }
+ 
+ do_compile () {
+-    oe_runmake all-gcc all-target-libgcc
++    oe_runmake all-gcc configure-target-libgcc
+ }
+ do_install () {
+-	oe_runmake 'DESTDIR=${D}' install-gcc install-target-libgcc
++	( cd ${B}/${TARGET_SYS}/libgcc; oe_runmake 'DESTDIR=${D}' install-unwind_h )
++	oe_runmake 'DESTDIR=${D}' install-gcc
+ 
+ 	# We don't really need this (here shares/ contains man/, info/, locale/).
+ 	rm -rf ${D}${datadir}/
+@@ -64,6 +65,14 @@ do_install () {
+ 	# so we overwirte the generated include-fixed/limits.h for gcc-cross-initial
+ 	# to get rid references to real limits.h
+ 	cp gcc/include-fixed/limits.h ${D}${gcclibdir}/${TARGET_SYS}/${BINV}/include-fixed/limits.h
++
++	# gcc-runtime installs libgcc into a special location in staging since it breaks doing a standalone build
++	case ${PN} in
++		*gcc-cross-initial-${TARGET_ARCH}|*gcc-crosssdk-initial-${TARGET_ARCH})
++			dest=${D}/${includedir}/gcc-build-internal-initial-${TARGET_SYS}
++			hardlinkdir . $dest
++		;;
++	esac
+ }
+ #
+ # Override the default sysroot staging copy since this won't look like a target system
+diff --git a/meta/recipes-devtools/gcc/libgcc-initial.inc b/meta/recipes-devtools/gcc/libgcc-initial.inc
+new file mode 100644
+index 0000000..2ba27a8
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/libgcc-initial.inc
+@@ -0,0 +1,16 @@
++require libgcc-common.inc
++
++DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial"
++
++STAGINGCC = "gcc-cross-initial"
++STAGINGCC_class-nativesdk = "gcc-crosssdk-initial"
++PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
++
++PACKAGES = ""
++
++EXTRA_OECONF += "--disable-shared"
++
++LIBGCCBUILDTREENAME = "gcc-build-internal-initial-"
++
++do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_TCBOOTSTRAP}/"
++
+diff --git a/meta/recipes-devtools/gcc/libgcc-initial_4.8.bb b/meta/recipes-devtools/gcc/libgcc-initial_4.8.bb
+new file mode 100644
+index 0000000..19f253f
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/libgcc-initial_4.8.bb
+@@ -0,0 +1,2 @@
++require recipes-devtools/gcc/gcc-${PV}.inc
++require libgcc-initial.inc
+
+
 
