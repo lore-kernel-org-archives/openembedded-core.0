@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E724065D71
+	by mail.openembedded.org (Postfix) with ESMTP id 053CD65DAD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Apr 2014 09:16:02 +0000 (UTC)
+	Thu, 24 Apr 2014 09:16:03 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2014 02:16:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,917,1389772800"; d="scan'208";a="518695444"
+X-IronPort-AV: E=Sophos;i="4.97,917,1389772800"; d="scan'208";a="518695460"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2014 02:15:44 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2014 02:15:46 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Apr 2014 12:19:02 +0300
-Message-Id: <cover.1398331032.git.cristian.iorga@intel.com>
+Date: Thu, 24 Apr 2014 12:19:04 +0300
+Message-Id: <7c2ea9f468512653e94715af439d86d2addbdacb.1398331032.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/4] Various multimedia and comms PUs
+In-Reply-To: <cover.1398331032.git.cristian.iorga@intel.com>
+References: <cover.1398331032.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1398331032.git.cristian.iorga@intel.com>
+References: <cover.1398331032.git.cristian.iorga@intel.com>
+Subject: [PATCH 2/4] bluez5: upgrade to 5.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,35 +33,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 Apr 2014 09:16:03 -0000
 
-The following changes since commit 68ef727cdcef439e9bfc57996f3cebfc0e07789e:
-
-  ref-manual: Added new section to the 1.6 migration section plus some 1.5 edits. (2014-04-23 21:11:08 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/PU2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PU2
-
-Cristian Iorga (4):
-  connman: upgrade to 1.23
-  bluez5: upgrade to 5.18
-  harfbuzz: upgrade to 0.9.27
-  iproute2: upgrade to 3.14
-
- meta/recipes-connectivity/bluez5/bluez5_5.15.bb                    | 4 ----
- meta/recipes-connectivity/bluez5/bluez5_5.18.bb                    | 3 +++
- meta/recipes-connectivity/connman/connman.inc                      | 2 +-
- .../connman/{connman_1.22.bb => connman_1.23.bb}                   | 4 ++--
- meta/recipes-connectivity/iproute2/iproute2.inc                    | 2 --
- .../iproute2/{iproute2_3.12.0.bb => iproute2_3.14.0.bb}            | 7 +++----
- .../harfbuzz/{harfbuzz_0.9.26.bb => harfbuzz_0.9.27.bb}            | 5 ++---
- 7 files changed, 11 insertions(+), 16 deletions(-)
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5_5.15.bb | 4 ----
+ meta/recipes-connectivity/bluez5/bluez5_5.18.bb | 3 +++
+ 2 files changed, 3 insertions(+), 4 deletions(-)
  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.15.bb
  create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.18.bb
- rename meta/recipes-connectivity/connman/{connman_1.22.bb => connman_1.23.bb} (68%)
- rename meta/recipes-connectivity/iproute2/{iproute2_3.12.0.bb => iproute2_3.14.0.bb} (51%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.26.bb => harfbuzz_0.9.27.bb} (88%)
 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.15.bb b/meta/recipes-connectivity/bluez5/bluez5_5.15.bb
+deleted file mode 100644
+index 85735f0..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.15.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require bluez5.inc
+-SRC_URI[md5sum] = "92e29e51b361aab78cca30ef0cf8812e"
+-SRC_URI[sha256sum] = "487bd75697e565793bf5bc4fbd5fa6a602788313b0c694f7542b81689fc0aa87"
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.18.bb b/meta/recipes-connectivity/bluez5/bluez5_5.18.bb
+new file mode 100644
+index 0000000..ed5b29a
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.18.bb
+@@ -0,0 +1,3 @@
++require bluez5.inc
++SRC_URI[md5sum] = "9c71404f86287cd9441e86783be3aae1"
++SRC_URI[sha256sum] = "8c8bb13db83d0de6c85def2da8dfa0a758aff595405fb57a00719ed94d558340"
 -- 
 1.9.1
 
