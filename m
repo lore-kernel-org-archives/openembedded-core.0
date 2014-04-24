@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 411DB65D34
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E5465DCA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Apr 2014 02:06:21 +0000 (UTC)
+	Thu, 24 Apr 2014 02:06:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3O26Mkc004460
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s3O26K9c028403
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Apr 2014 19:06:22 -0700 (PDT)
+	Wed, 23 Apr 2014 19:06:20 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 23 Apr 2014 19:06:21 -0700
+	14.3.169.1; Wed, 23 Apr 2014 19:06:20 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Apr 2014 10:07:26 +0800
-Message-ID: <806504230ea599d6dda0a77743b080b8ed8eb915.1398305029.git.Qi.Chen@windriver.com>
+Date: Thu, 24 Apr 2014 10:07:25 +0800
+Message-ID: <cover.1398305029.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1398305029.git.Qi.Chen@windriver.com>
-References: <cover.1398305029.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/4] cronie: add systemd support
+Subject: [PATCH V2 0/4] systemd related fixes post 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Apr 2014 02:06:21 -0000
+X-List-Received-Date: Thu, 24 Apr 2014 02:06:22 -0000
 Content-Type: text/plain
 
-Add systemd support for cronie.
+Changes since V1:
+1. Fix an error in generate-rndc-key.sh. The command should be `chmod' instead of `chown'.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/cronie/cronie/crond.service |   11 +++++++++++
- meta/recipes-extended/cronie/cronie_1.4.11.bb     |   12 +++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
+The following changes since commit bec37f8b85b6dd1e4e1c1b9b215a7952ca2fc386:
+
+  build-appliance-image: Update to  head revision (2014-04-22 22:53:34 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-post-1.6
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-post-1.6
+
+Chen Qi (4):
+  cronie: add systemd support
+  bind: add systemd support
+  ppp: add systemd support
+  tcf-agent: add systemd support
+
+ .../bind/bind/generate-rndc-key.sh                 |    7 +++++++
+ meta/recipes-connectivity/bind/bind/named.service  |   22 ++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   17 ++++++++++++++-
+ meta/recipes-connectivity/ppp/ppp/ppp@.service     |    9 ++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.6.bb         |    9 ++++++--
+ .../tcf-agent/tcf-agent/tcf-agent.service          |   10 +++++++++
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    8 ++++++-
+ meta/recipes-extended/cronie/cronie/crond.service  |   11 ++++++++++
+ meta/recipes-extended/cronie/cronie_1.4.11.bb      |   12 ++++++++++-
+ 9 files changed, 100 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/generate-rndc-key.sh
+ create mode 100644 meta/recipes-connectivity/bind/bind/named.service
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/ppp@.service
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
  create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
 
-diff --git a/meta/recipes-extended/cronie/cronie/crond.service b/meta/recipes-extended/cronie/cronie/crond.service
-new file mode 100644
-index 0000000..d435a6e
---- /dev/null
-+++ b/meta/recipes-extended/cronie/cronie/crond.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=Periodic Command Scheduler
-+
-+[Service]
-+EnvironmentFile=/etc/sysconfig/crond
-+ExecStart=@SBINDIR@/crond -n $CRONDARGS
-+ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
-+Restart=always
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.11.bb b/meta/recipes-extended/cronie/cronie_1.4.11.bb
-index d98d0d9..2a932e0 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.11.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.11.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-            file://fix-out-of-tree-build.patch \
-            file://crond.init \
-            file://crontab \
-+           file://crond.service \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
- 
- PAM_SRC_URI = "file://crond_pam_config.patch"
-@@ -27,7 +28,7 @@ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
- SRC_URI[md5sum] = "2ba645cf54de17f138ef70312843862f"
- SRC_URI[sha256sum] = "fd08084cedddbb42499f80ddb7f2158195c3555c2ff40ee11d4ece2f9864d7be"
- 
--inherit autotools update-rc.d useradd
-+inherit autotools update-rc.d useradd systemd
- 
- 
- PACKAGECONFIG ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-@@ -42,12 +43,21 @@ INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "--system crontab"
- 
-+SYSTEMD_SERVICE_${PN} = "crond.service"
-+
- do_install_append () {
- 	install -d ${D}${sysconfdir}/sysconfig/
- 	install -d ${D}${sysconfdir}/init.d/
- 	install -m 0644 ${S}/crond.sysconfig ${D}${sysconfdir}/sysconfig/crond
- 	install -m 0755 ${WORKDIR}/crond.init ${D}${sysconfdir}/init.d/crond
- 
-+	# install systemd unit files
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+	       -e 's,@SBINDIR@,${sbindir},g' \
-+	       ${D}${systemd_unitdir}/system/crond.service
-+
- 	# below are necessary for a complete cron environment
- 	install -d ${D}${localstatedir}/spool/cron
- 	install -m 0755 ${WORKDIR}/crontab ${D}${sysconfdir}/
 -- 
 1.7.9.5
 
