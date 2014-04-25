@@ -1,40 +1,26 @@
-Return-Path: <komar@komar.bionik.tu-berlin.de>
-Received: from mo4-p05-ob.smtp.rzone.de (mo4-p05-ob.smtp.rzone.de
-	[81.169.146.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C35F765D28
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 90C7E65D76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Apr 2014 11:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; t=1398424948; l=2511;
-	s=domk; d=evologics.de;
-	h=Content-Type:MIME-Version:Reply-To:Subject:To:From:Date:
-	X-RZG-CLASS-ID:X-RZG-AUTH; bh=s0Xg9y4R6CDS6x6N7XCnnQpaQlQ=;
-	b=VEBf+GBZMJuoD9KSgXKN/A/IYi8PsWcO6YSBtROZai4eRhpuTstas07Yop1IvWAFLt2
-	SJIEZRic9lVrd1lzP1bz6ugrZlrNaWQpqUeALEKInPuCd1AAowrvADD8LCjtxdD2QyAz/
-	U43hLCjiDn10GLrtnvH836Qdp5Aurh+rrCk=
-X-RZG-AUTH: :J2MJdFKIfukmJ5nsom3zZ+ltBBdf16KfU3Oeu279H3e/0njMlfC6YEeAELeL659Z
-X-RZG-CLASS-ID: mo05
-Received: from komar.lab.evologics.de (mapocho.bionik.tu-berlin.de
-	[130.149.198.84]) by smtp.strato.de (RZmta 32.39 AUTH)
-	with ESMTPSA id a003a3q3PBMS04N
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA256 (256/256 bits))
-	(Client did not present a certificate)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Apr 2014 13:22:28 +0200 (CEST)
-Received: from komar by komar.lab.evologics.de with local (Exim 4.82)
-	(envelope-from <komar@komar.lab.evologics.de>) id 1WdeD6-0002b5-7f
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Apr 2014 13:22:28 +0200
-Date: Fri, 25 Apr 2014 13:22:28 +0200
-From: Maksym Komar <komar@evologics.de>
+	Fri, 25 Apr 2014 11:35:03 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 25 Apr 2014 04:35:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,926,1389772800"; d="scan'208";a="499664678"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 25 Apr 2014 04:35:04 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.46])
+	by linux.intel.com (Postfix) with ESMTP id 305D36A4083;
+	Fri, 25 Apr 2014 04:34:43 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20140425112228.GB31049@komar.lab.evologics.de>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [PATCH] bitbake do not show error if mkfs.ubifs fail
+Date: Fri, 25 Apr 2014 14:35:27 +0300
+Message-Id: <1398425727-17087-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] oeqa/utils: sshcontrol: realtime logging of output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: Maksym Komar <komar@evologics.de>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,84 +30,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Apr 2014 11:22:33 -0000
-X-Groupsio-MsgNum: 52599
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rQ2U398070+RC21q"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 25 Apr 2014 11:35:05 -0000
 
---rQ2U398070+RC21q
-Content-Type: multipart/mixed; boundary="zx4FCpZtqtKETZ7O"
-Content-Disposition: inline
+Log the output of the command as it runs not when it finished, else
+tail -f tmp/work/minnow-poky-linux/core-image-sato/1.0-r0/testimage/ssh_target_log
+isn't as useful as it could be.
 
---zx4FCpZtqtKETZ7O
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-I spend some time to find why .ubifs generate, but .ubi image do not.
-In IMAGE_CMD_ubi it's like "mkfs.ubifs ... && ubinize", and while && is the=
-re, "set -e" do not work.
-
---=20
-EvoLogics GmbH
-Ackerstra=C3=9Fe 76, 13355 Berlin
-Tel.: + 49- (0) 30- 46 06 82 26
-Fax:  + 49- (0) 30- 46 06 82 15
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Rudolf Bannasch, Dr. Kostyantyn Kebkal
-Amtsgericht Berlin, Charlottenburg (unter der) Nummer HR B 77787
-Steuer- Nr.: 37/296/20446
-
---zx4FCpZtqtKETZ7O
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0001-fix-not-show-error-if-mkfs.ubifs-fail.patch"
-Content-Transfer-Encoding: quoted-printable
-
-From e75f2ce250198e12f855f3492168b661b2e672b9 Mon Sep 17 00:00:00 2001
-From: Maksym Komar <komar@evologics.de>
-Date: Fri, 25 Apr 2014 12:59:52 +0200
-Subject: [PATCH] fix not show error if mkfs.ubifs fail
-
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/classes/image_types.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/utils/sshcontrol.py | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bb=
-class
-index f38e3b6..a7d18c7 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -93,7 +93,8 @@ IMAGE_CMD_ubi () {
- 	echo vol_type=3Ddynamic >> ubinize.cfg=20
- 	echo vol_name=3D${UBI_VOLNAME} >> ubinize.cfg=20
- 	echo vol_flags=3Dautoresize >> ubinize.cfg
--	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs=
-.ubifs ${MKUBIFS_ARGS} && ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.root=
-fs.ubi ${UBINIZE_ARGS} ubinize.cfg
-+	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs=
-.ubifs ${MKUBIFS_ARGS}
-+	ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} u=
-binize.cfg
- }
- IMAGE_CMD_ubifs =3D "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/=
-${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
-=20
---=20
-1.9.1
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index d355d5e..1c81795 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -29,8 +29,15 @@ class SSHProcess(object):
+         self.output = None
+         self.process = None
+         self.starttime = None
++        self.logfile = None
+ 
+-    def run(self, command, timeout=None):
++    def log(self, msg):
++        if self.logfile:
++            with open(self.logfile, "a") as f:
++               f.write("%s" % msg)
++
++    def run(self, command, timeout=None, logfile=None):
++        self.logfile = logfile
+         self.starttime = time.time()
+         output = ''
+         self.process = subprocess.Popen(command, **self.options)
+@@ -45,8 +52,10 @@ class SSHProcess(object):
+                         eof = True
+                     else:
+                         output += data
++                        self.log(data)
+                         endtime = time.time() + timeout
+ 
++
+             # process hasn't returned yet
+             if not eof:
+                 self.process.terminate()
+@@ -55,9 +64,12 @@ class SSHProcess(object):
+                     self.process.kill()
+                 except OSError:
+                     pass
+-                output += "\nProcess killed - no output for %d seconds. Total running time: %d seconds." % (timeout, time.time() - self.starttime)
++                lastline = "\nProcess killed - no output for %d seconds. Total running time: %d seconds." % (timeout, time.time() - self.starttime)
++                self.log(lastline)
++                output += lastline
+         else:
+             output = self.process.communicate()[0]
++            self.log(output.rstrip())
+ 
+         self.status = self.process.wait()
+         self.output = output.rstrip()
+@@ -91,9 +103,8 @@ class SSHControl(object):
+         self.log("[Running]$ %s" % " ".join(command))
+ 
+         proc = SSHProcess()
+-        status, output = proc.run(command, timeout)
++        status, output = proc.run(command, timeout, logfile=self.logfile)
+ 
+-        self.log("%s" % output)
+         self.log("[Command returned '%d' after %.2f seconds]" % (status, time.time() - proc.starttime))
+ 
+         if status and not ignore_status:
+-- 
+1.9.0
 
 
---zx4FCpZtqtKETZ7O--
-
---rQ2U398070+RC21q
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlNaRW4ACgkQr4+vp6uhAeIx/QCfQjOirSEm9zJkkl0H63Bg6pR5
-SKkAoJajD1z5dBdD5iyjmhFrCWMw84MW
-=vvCI
------END PGP SIGNATURE-----
-
---rQ2U398070+RC21q--
