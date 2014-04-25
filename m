@@ -1,34 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F22965DE9
+Return-Path: <petter@technux.se>
+Received: from vsp-authed-03-02.binero.net (vsp-authed02.binero.net
+	[195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id DBE5565E03
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Apr 2014 19:44:33 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id h18so2604684igc.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Apr 2014 12:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=uebsHSPRvddZ5Sqwy7JGD49XeBKgpsgbr+BFviHr98Y=;
-	b=kBI0sW7A7VW8gwLXLU8YgaEbY29eHsIz9toueplv/pGle+DP1WK1Jtll/cU/UXQZ/f
-	tJrHlqNFfW1D0kbjNzLVKmc27OMoDFGhwm3JXBGKKK/cbUeYWnHS+KPpRmQ69rEih3ge
-	KvHJ1udYt7IcxfS5Xq8AeOPLDFndLlpyQ5x03o3s+w3YmVw0b2OcRd1Vgea2hlTprWFk
-	b3W2uXJGYGbaPW6auiBXkLD3rJNmdp1Cc5+GlgKTuu2ICFbc9wYJIrN3NiJOoUoXBJ/E
-	7/4UrRGVx0uKdO5NTkhA1aTg9evVWtvB4nMS32Z1p1WySvlaYk/MgQAbNFHws3UMFTD3
-	cJow==
-X-Received: by 10.42.161.69 with SMTP id s5mr3203357icx.70.1398455074827; Fri,
-	25 Apr 2014 12:44:34 -0700 (PDT)
+	Fri, 25 Apr 2014 22:11:35 +0000 (UTC)
+Received: from smtp01.binero.se (unknown [195.74.38.28])
+	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Sat, 26 Apr 2014 00:11:29 +0200 (CEST)
+Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
+	[81.229.90.163]) (Authenticated sender: petter@technux.se)
+	by smtp-01-01.atm.binero.net (Postfix) with ESMTPSA id F3DD23A1C8;
+	Sat, 26 Apr 2014 00:11:20 +0200 (CEST)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 26 Apr 2014 00:11:12 +0200
+Message-Id: <cover.1398462168.git.petter@technux.se>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.50.229.14 with HTTP; Fri, 25 Apr 2014 12:44:04 -0700 (PDT)
-In-Reply-To: <1398331182.16672.175.camel@ted>
-References: <1398331182.16672.175.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 25 Apr 2014 12:44:04 -0700
-Message-ID: <CAMKF1sqWdDneW7dvQrSk_owBorB2GaJpicJTCtmHz3JRk1_jHw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-cross: Improve handling of unwind.h
+Subject: [PATCH 0/2] x-load: fix broken beaglebone support and FILEPATHS usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,23 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Apr 2014 19:44:38 -0000
+X-List-Received-Date: Fri, 25 Apr 2014 22:11:36 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 24, 2014 at 2:19 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-> @@ -71,7 +71,6 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
->            file://0048-PR58854_fix_arm_apcs_epilogue.patch \
->            file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
->            file://0050-PR-target-58595.patch \
-> -          file://0051-fix-unwind-race.patch \
->           "
->  SRC_URI[md5sum] = "a3d7d63b9cb6b6ea049469a0c4a43c9d"
->  SRC_URI[sha256sum] = "09dc2276c73424bbbfda1dbddc62bbbf900c9f185acf7f3e1d773ce2d7e3cdc8"
+The following changes since commit c446d4edca3b4edfcdee48247391bfb306aab4c2:
 
-if 0051-fix-unwind-race.patch is not needed then please delete it from
-metadata as well. Ideally this should have been squashed with commit
-d3b02218dcfedda8e4efb43b8fa6d13af8d91f78 before push
+  default-distrovars.inc: Add libgcc-initial to the GPLv3 whitelist (same as libgcc) (2014-04-25 18:00:38 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib petmab/fix_xload
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_xload
+
+Petter Mabäcker (2):
+  x-load: fix broken beaglebone support
+  x-load: remove usage of FILESPATH
+
+ .../x-load/x-load-git/beagleboard/name.patch       |   18 ----------
+ .../0001-Change-omap3530beagle-target-name.patch   |   37 ++++++++++++++++++++
+ meta/recipes-bsp/x-load/x-load_git.bb              |    6 ++--
+ 3 files changed, 39 insertions(+), 22 deletions(-)
+ delete mode 100644 meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch
+ create mode 100644 meta/recipes-bsp/x-load/x-load/beaglebone/0001-Change-omap3530beagle-target-name.patch
+
+-- 
+1.7.9.5
+
 
