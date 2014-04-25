@@ -1,41 +1,18 @@
-Return-Path: <gary.robertson@linaro.org>
-Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
-	[209.85.219.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D1E6565D31
+Return-Path: <changhyeok.bae@lge.com>
+Received: from lgeamrelo01.lge.com (lgeamrelo01.lge.com [156.147.1.125])
+	by mail.openembedded.org (Postfix) with ESMTP id 4173E60D71
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Apr 2014 22:09:25 +0000 (UTC)
-Received: by mail-oa0-f41.google.com with SMTP id j17so3388909oag.28
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Apr 2014 15:09:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Aw8McOPTJdFBn0tfjbo2p+4ckZJWygVW43zUYiYLZno=;
-	b=aFZ+jfdjmu00rIf27L21ZnVfW6H31BdLfLq8J8TgbrCOnyu2F7Eeh3IXdskOBDW3W0
-	RU/dRCumgj0fLYEauZMpGJ+ZdEt8Cp1zEttnuMtnZiutPRt0Nw3fkgQ2Y0jXDtae4J3J
-	VypEuYAwbwPIHcJAFdLWQauf1c2+gSMEy684hQtNmUJHTOSs5+a42YD+3MhhmVTlYv0t
-	4puWo2kseL0Ac5dOeXWA0nu5nseT+YA6vepBSKbFZw4r7Ila58g7su+kjRTz+s9sDl1O
-	whkICSfFUWu/JQq8iDQ2tYZNaqqedum4izQJ/yHoo25WkudL2NWXJM6VaLiQmFPO9hAT
-	aPCQ==
-X-Gm-Message-State: ALoCoQl6Bj7LdH9Yx8l7+C/UnQm0AtRWwXCbXpImlwAgvLS58NHIRN9h10U749ekJaG7Zle8jrj+
-X-Received: by 10.60.17.132 with SMTP id o4mr3705417oed.34.1398377366354;
-	Thu, 24 Apr 2014 15:09:26 -0700 (PDT)
-Received: from honkintosh.cybertech.lan (65-120-133-114.dia.static.qwest.net.
-	[65.120.133.114]) by mx.google.com with ESMTPSA id
-	qh7sm11198194obc.13.2014.04.24.15.09.25 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 24 Apr 2014 15:09:25 -0700 (PDT)
-From: gary.robertson@linaro.org
+	Fri, 25 Apr 2014 00:46:56 +0000 (UTC)
+Received: from unknown (HELO changhyeok.bae) (10.177.232.191)
+	by 156.147.1.125 with ESMTP; 25 Apr 2014 09:46:51 +0900
+X-Original-SENDERIP: 10.177.232.191
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: Changhyeok Bae <changhyeok.bae@lge.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Apr 2014 17:09:05 -0500
-Message-Id: <1398377346-19557-2-git-send-email-gary.robertson@linaro.org>
+Date: Fri, 25 Apr 2014 09:46:46 +0900
+Message-Id: <1398386806-12058-1-git-send-email-changhyeok.bae@lge.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1398377346-19557-1-git-send-email-gary.robertson@linaro.org>
-References: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>
-	<1398377346-19557-1-git-send-email-gary.robertson@linaro.org>
-Cc: mike.holmes@linaro.org, clark.williams@gmail.com
-Subject: [PATCH V3 1/1] rt-tests: bump version 0.87 => 0.89
+Subject: [PATCH] mirrors.bbclass: Add mirror site
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,230 +25,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Apr 2014 22:09:26 -0000
+X-List-Received-Date: Fri, 25 Apr 2014 00:46:58 -0000
 
-From: Anders Roxell <anders.roxell@linaro.org>
+* The SRC_URI is not accessible.
+  So need to add mirror site referred by the original site.
+* The problem is that
+  http://download.savannah.nongnu.org/releases and
+  http://download.savannah.gnu.org/releases redirects to closest mirror
+  and few mirrors (e.g. .jp) weren't working correctly while
+  http://download-mirror.savannah.gnu.org/releases/ seems to be reliable.
 
-cyclictest was updated to correct some problems with CPU affinity selection
-and display of help and/or execution details.
-These patches were accepted by the maintainer of the cyclictest utility.
-The changes were reflected in an updated release of rt-tests - v0.89
-The cyclictest changes were successfully tested on both an ARM v7 and x86_64
-host environment.
-The OE recipe was updated locally to incorporate the newer rt-tests release
-and the resulting builds were verified for the same ARM v7 target
-and for qemux86.
-Patch files obsoleted by the rt-tests 0.89 release were removed from the recipe
-	deleted:    meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
-	deleted:    meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
-	deleted:    meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+Signed-off-by: Changhyeok Bae <changhyeok.bae@lge.com>
 ---
- ...1-rt-tests-Allow-for-user-specified-PYLIB.patch |   35 ----------
- ...02-rt-tests-Break-out-install_hwlatdetect.patch |   68 --------------------
- .../files/added-missing-dependencies.patch         |   50 --------------
- meta/recipes-rt/rt-tests/rt-tests.inc              |    7 +-
- .../{rt-tests_0.87.bb => rt-tests_0.89.bb}         |    0
- 5 files changed, 2 insertions(+), 158 deletions(-)
- delete mode 100644 meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
- delete mode 100644 meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
- delete mode 100644 meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
- rename meta/recipes-rt/rt-tests/{rt-tests_0.87.bb => rt-tests_0.89.bb} (100%)
+ meta/classes/mirrors.bbclass |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch b/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
-deleted file mode 100644
-index 8b493eb..0000000
---- a/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 66765522b634952346f1a3ab7d00c7222a1f9361 Mon Sep 17 00:00:00 2001
--Message-Id: <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
--From: Darren Hart <dvhart@linux.intel.com>
--Date: Tue, 11 Sep 2012 15:19:30 -0700
--Subject: [PATCH 1/2] rt-tests: Allow for user-specified PYLIB
--
--Upstream-Status: Submitted
--
--Allow users (build systems) to specify PYLIB. This allows for a
--cross-build-system to specify the target PYLIB rather than the host
--PYLIB.
--
--Signed-off-by: Darren Hart <dvhart@linux.intel.com>
--CC: Clark Williams <williams@redhat.com>
--CC: John Kacur <jkacur@redhat.com>
-----
-- Makefile | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile b/Makefile
--index 3a82407..61e2f9f 100644
----- a/Makefile
--+++ b/Makefile
--@@ -23,7 +23,7 @@ endif
-- CFLAGS ?= -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
-- LDFLAGS ?=
-- 
---PYLIB  := $(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
--+PYLIB  ?= $(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
-- 
-- ifndef DEBUG
-- 	CFLAGS	+= -O2
---- 
--1.7.11.4
--
-diff --git a/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch b/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
-deleted file mode 100644
-index bc6136f..0000000
---- a/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From af93e580d005a2bba6ed36528003af4cf631adb8 Mon Sep 17 00:00:00 2001
--Message-Id: <af93e580d005a2bba6ed36528003af4cf631adb8.1347419597.git.dvhart@linux.intel.com>
--In-Reply-To: <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
--References: <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
--From: Darren Hart <dvhart@linux.intel.com>
--Date: Tue, 11 Sep 2012 14:51:10 -0700
--Subject: [PATCH 2/2] rt-tests: Break out install_hwlatdetect
--
--Upstream-Status: Submitted
--
--Allow hwlatdetect to be installed independently of the rest of the
--tests. This is convenient for build systems that package it separately
--due to the python dependency.
--
--Signed-off-by: Darren Hart <dvhart@linux.intel.com>
--CC: Clark Williams <williams@redhat.com>
--CC: John Kacur <jkacur@redhat.com>
-----
-- Makefile | 18 +++++++++++-------
-- 1 file changed, 11 insertions(+), 7 deletions(-)
--
--diff --git a/Makefile b/Makefile
--index 61e2f9f..636e63b 100644
----- a/Makefile
--+++ b/Makefile
--@@ -119,21 +119,15 @@ changelog:
-- 	git log >ChangeLog
-- 
-- .PHONY: install
---install: all
--+install: all install_hwlatdetect
-- 	mkdir -p "$(DESTDIR)$(bindir)" "$(DESTDIR)$(mandir)/man4"
-- 	mkdir -p "$(DESTDIR)$(srcdir)" "$(DESTDIR)$(mandir)/man8"
-- 	cp $(TARGETS) "$(DESTDIR)$(bindir)"
---	if test -n "$(PYLIB)" ; then \
---		install -D -m 755 src/hwlatdetect/hwlatdetect.py $(DESTDIR)$(PYLIB)/hwlatdetect.py ; \
---		rm -f "$(DESTDIR)$(bindir)/hwlatdetect" ; \
---		ln -s $(PYLIB)/hwlatdetect.py "$(DESTDIR)$(bindir)/hwlatdetect" ; \
---	fi
-- 	install -D -m 644 src/backfire/backfire.c "$(DESTDIR)$(srcdir)/backfire/backfire.c"
-- 	install -m 644 src/backfire/Makefile "$(DESTDIR)$(srcdir)/backfire/Makefile"
-- 	gzip src/backfire/backfire.4 -c >"$(DESTDIR)$(mandir)/man4/backfire.4.gz"
-- 	gzip src/cyclictest/cyclictest.8 -c >"$(DESTDIR)$(mandir)/man8/cyclictest.8.gz"
-- 	gzip src/pi_tests/pi_stress.8 -c >"$(DESTDIR)$(mandir)/man8/pi_stress.8.gz"
---	gzip src/hwlatdetect/hwlatdetect.8 -c >"$(DESTDIR)$(mandir)/man8/hwlatdetect.8.gz"
-- 	gzip src/ptsematest/ptsematest.8 -c >"$(DESTDIR)$(mandir)/man8/ptsematest.8.gz"
-- 	gzip src/sigwaittest/sigwaittest.8 -c >"$(DESTDIR)$(mandir)/man8/sigwaittest.8.gz"
-- 	gzip src/svsematest/svsematest.8 -c >"$(DESTDIR)$(mandir)/man8/svsematest.8.gz"
--@@ -141,6 +135,16 @@ install: all
-- 	gzip src/backfire/sendme.8 -c >"$(DESTDIR)$(mandir)/man8/sendme.8.gz"
-- 	gzip src/hackbench/hackbench.8 -c >"$(DESTDIR)$(mandir)/man8/hackbench.8.gz"
-- 
--+.PHONY: install_hwlatdetect
--+install_hwlatdetect: hwlatdetect
--+	if test -n "$(PYLIB)" ; then \
--+		mkdir -p "$(DESTDIR)$(bindir)" "$(DESTDIR)$(mandir)/man8" ; \
--+		install -D -m 755 src/hwlatdetect/hwlatdetect.py $(DESTDIR)$(PYLIB)/hwlatdetect.py ; \
--+		rm -f "$(DESTDIR)$(bindir)/hwlatdetect" ; \
--+		ln -s $(PYLIB)/hwlatdetect.py "$(DESTDIR)$(bindir)/hwlatdetect" ; \
--+		gzip src/hwlatdetect/hwlatdetect.8 -c >"$(DESTDIR)$(mandir)/man8/hwlatdetect.8.gz" ; \
--+	fi
--+
-- .PHONY: release
-- release: clean changelog
-- 	mkdir -p releases
---- 
--1.7.11.4
--
-diff --git a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-deleted file mode 100644
-index e420282..0000000
---- a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From 82d28701486ba5a699544a168448bf93b1ccd7b1 Mon Sep 17 00:00:00 2001
--From: Jackie Huang <jackie.huang@windriver.com>
--Date: Thu, 6 Dec 2012 11:26:14 +0800
--Subject: [PATCH] Added missing dependencies
--
--Upstream-Status: Submitted [linux-rt-users]
--
--The following targets missed dependency on librttest.a:
--pi_stress
--rt-migrate-test
--hackbench
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- Makefile |    6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/Makefile b/Makefile
--index fd3cdb3..60707a7 100644
----- a/Makefile
--+++ b/Makefile
--@@ -68,14 +68,14 @@ cyclictest: cyclictest.o librttest.a
-- signaltest: signaltest.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-- 
---pi_stress: pi_stress.o
--+pi_stress: pi_stress.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-- 
-- hwlatdetect:  src/hwlatdetect/hwlatdetect.py
-- 	chmod +x src/hwlatdetect/hwlatdetect.py
-- 	ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
-- 
---rt-migrate-test: rt-migrate-test.o
--+rt-migrate-test: rt-migrate-test.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-- 
-- ptsematest: ptsematest.o librttest.a
--@@ -96,7 +96,7 @@ sendme: sendme.o librttest.a
-- pip_stress: pip_stress.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-- 
---hackbench: hackbench.o
--+hackbench: hackbench.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-- 
-- librttest.a: rt-utils.o error.o rt-get_cpu.o
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 81f4f2b..1d876b0 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,10 +1,7 @@
--# Version v0.87
--SRCREV = "b0413ae5ed802004fb0c4af74a1757381fd2b91f"
-+# Version v0.89
-+SRCREV = "9164ec4db2645f52ffdd20e6d1b72bb0411ab40e"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
--           file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
--           file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
--           file://added-missing-dependencies.patch \
-            file://hackbench-fix-error-check.patch \
- "
- 
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.87.bb b/meta/recipes-rt/rt-tests/rt-tests_0.89.bb
-similarity index 100%
-rename from meta/recipes-rt/rt-tests/rt-tests_0.87.bb
-rename to meta/recipes-rt/rt-tests/rt-tests_0.89.bb
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index 1fd7cd8..a632032 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -45,6 +45,8 @@ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://sunsite.ualberta.ca/pub/M
+ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
+ http://www.apache.org/dist  http://archive.apache.org/dist \n \
+ http://downloads.sourceforge.net/watchdog/ http://fossies.org/linux/misc/ \n \
++http://download.savannah.nongnu.org/releases/ http://download-mirror.savannah.gnu.org/releases/ \n \
++http://download.savannah.gnu.org/releases/ http://download-mirror.savannah.gnu.org/releases/ \n \
+ cvs://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+ svn://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+ git://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
 -- 
 1.7.9.5
 
