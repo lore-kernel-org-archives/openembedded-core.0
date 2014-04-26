@@ -1,23 +1,24 @@
 Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id B49D765D22
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 3715C65D22
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Apr 2014 14:51:35 +0000 (UTC)
+	Sat, 26 Apr 2014 14:54:36 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Sat, 26 Apr 2014 16:51:29 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 65AA428C882;
-	Sat, 26 Apr 2014 16:51:29 +0200 (CEST)
+	Sat, 26 Apr 2014 16:54:34 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 1496528C882;
+	Sat, 26 Apr 2014 16:54:35 +0200 (CEST)
+Date: Sat, 26 Apr 2014 16:54:35 +0200
 From: "Maxin B. John" <maxin.john@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 26 Apr 2014 16:51:25 +0200
-Message-ID: <1398523885-16845-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.10.4
+Message-ID: <20140426145434.GA16902@sestofb10.enea.se>
+References: <1398360505-45987-1-git-send-email-maxin.john@enea.com>
 MIME-Version: 1.0
+In-Reply-To: <1398360505-45987-1-git-send-email-maxin.john@enea.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
 	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] ltp: update version to 20140422
+Subject: Re: [PATCH] openssl: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,106 +31,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Apr 2014 14:51:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 26 Apr 2014 14:54:37 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-From: "Maxin B. John" <maxin.john@enea.com>
-
-Update ltp version to 20140422
-Removed two patches that already exist in the current version:
-1. regen-makefile.patch
-2. ffsb-remove-hardcoded-configure.patch
-
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- .../ltp/ltp/ffsb-remove-hardcoded-configure.patch  |   15 -------------
- meta/recipes-extended/ltp/ltp/regen-makefile.patch |   22 --------------------
- .../ltp/{ltp_20140115.bb => ltp_20140422.bb}       |    6 ++----
- 3 files changed, 2 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/regen-makefile.patch
- rename meta/recipes-extended/ltp/{ltp_20140115.bb => ltp_20140422.bb} (96%)
-
-diff --git a/meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch b/meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
-deleted file mode 100644
-index 9f02711..0000000
---- a/meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Get rid of the hardcoded configure call preventing cross-compilation
--
--Upstream-Status: Pending
--Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
--
----- a/utils/Makefile
--+++ b/utils/Makefile
--@@ -29,7 +29,6 @@ FILTER_OUT_DIRS		:= $(FFSBDIR)
-- FFSB			:= $(FFSBDIR)/ffsb
-- 
-- $(FFSB): $(FFSBDIR)
---	cd $^; ./configure
-- 	$(MAKE) -C $^ -f "$(abs_srcdir)/$^/Makefile" all
-- 	cp $(FFSBDIR)/ffsb ffsb
-- 
-diff --git a/meta/recipes-extended/ltp/ltp/regen-makefile.patch b/meta/recipes-extended/ltp/ltp/regen-makefile.patch
-deleted file mode 100644
-index 3e114a1..0000000
---- a/meta/recipes-extended/ltp/ltp/regen-makefile.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Fix the dependencies for linux_syscall_numbers.h where in a parallel build it was
--finding the temporary file linux_syscall_numbers.h.[pid].sh (where sh is an
--architecture name).  Instead don't wildcard *.sh as the only .sh we care about
--here is regen.sh, so hard-code that.
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/testcases/kernel/include/Makefile b/testcases/kernel/include/Makefile
--index db21a2a..585eb5e 100644
----- a/testcases/kernel/include/Makefile
--+++ b/testcases/kernel/include/Makefile
--@@ -28,7 +28,7 @@ INSTALL_DIR		:= $(includedir)
-- 
-- MAKE_TARGETS		:= linux_syscall_numbers.h
-- 
---linux_syscall_numbers.h: $(wildcard $(abs_srcdir)/*.sh $(abs_srcdir)/*.in)
---	$(SHELL) "$(abs_srcdir)/regen.sh"
--+linux_syscall_numbers.h: $(abs_srcdir)/regen.sh $(wildcard $(abs_srcdir)/*.in)
--+	$(SHELL) "$<"
-- 
-- include $(top_srcdir)/include/mk/generic_leaf_target.mk
-diff --git a/meta/recipes-extended/ltp/ltp_20140115.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
-similarity index 96%
-rename from meta/recipes-extended/ltp/ltp_20140115.bb
-rename to meta/recipes-extended/ltp/ltp_20140422.bb
-index c2ee9fb..bad9e6f 100644
---- a/meta/recipes-extended/ltp/ltp_20140115.bb
-+++ b/meta/recipes-extended/ltp/ltp_20140422.bb
-@@ -20,12 +20,10 @@ LIC_FILES_CHKSUM = "\
- "
- 
- DEPENDS = "attr libaio libcap acl openssl"
--SRCREV = "c8b3e28097e7d3208df9daceaf92c25eae87ebf0"
-+SRCREV = "f4c3bfe1eab51eb72caeb0f3336d2790c9a8bd1b"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
--    file://regen-makefile.patch \
--    file://ffsb-remove-hardcoded-configure.patch \
-     file://ltp-Do-not-link-against-libfl.patch \
- "
- 
-@@ -46,7 +44,7 @@ do_configure_append() {
- 
- # The makefiles make excessive use of make -C and several include testcases.mk
- # which triggers a build of the syscall header. To reproduce, build ltp,
--# then delete the header, then "make -j XX" and watch regen.sh run multiple 
-+# then delete the header, then "make -j XX" and watch regen.sh run multiple
- # times. Its easier to generate this once here instead.
- do_compile_prepend () {
- 	( make -C ${B}/testcases/kernel include/linux_syscall_numbers.h )
--- 
-1.7.10.4
-
+ping ..
+On Thu, Apr 24, 2014 at 07:28:25PM +0200, Maxin B. John wrote:
+> From: "Maxin B. John" <maxin.john@enea.com>
+> 
+> Install openssl test suite and run it as ptest.
+> 
+> Signed-off-by: Maxin B. John <maxin.john@enea.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl.inc      |   19 ++++-
+>  .../openssl/openssl/Makefiles-ptest.patch          |   75 ++++++++++++++++++++
+>  .../recipes-connectivity/openssl/openssl/run-ptest |    2 +
+>  .../recipes-connectivity/openssl/openssl_1.0.1g.bb |    2 +
+>  4 files changed, 97 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
+>  create mode 100755 meta/recipes-connectivity/openssl/openssl/run-ptest
+> 
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> index ee02fb7..6ef7e3e 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -30,7 +30,7 @@ export DIRS = "crypto ssl apps"
+>  export EX_LIBS = "-lgcc -ldl"
+>  export AS = "${CC} -c"
+>  
+> -inherit pkgconfig siteinfo multilib_header
+> +inherit pkgconfig siteinfo multilib_header ptest
+>  
+>  PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+>  FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+> @@ -47,6 +47,7 @@ FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
+>  FILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
+>  CONFFILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
+>  RRECOMMENDS_libcrypto += "openssl-conf"
+> +RDEPENDS_${PN}-ptest += "${PN}-misc make"
+>  
+>  do_configure_prepend_darwin () {
+>  	sed -i -e '/version-script=openssl\.ld/d' Configure
+> @@ -140,6 +141,10 @@ do_compile () {
+>  	oe_runmake
+>  }
+>  
+> +do_compile_ptest () {
+> +	oe_runmake buildtest
+> +}
+> +
+>  do_install () {
+>  	oe_runmake INSTALL_PREFIX="${D}" MANDIR="${mandir}" install
+>  
+> @@ -169,5 +174,17 @@ do_install () {
+>  	fi
+>  }
+>  
+> +do_install_ptest () {
+> +	cp -r Makefile test ${D}${PTEST_PATH}
+> +	mkdir -p ${D}${PTEST_PATH}/apps
+> +	ln -sf /usr/lib/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
+> +	ln -sf /usr/lib/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
+> +	ln -sf /usr/bin/openssl         ${D}${PTEST_PATH}/apps
+> +	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
+> +	mkdir -p ${D}${PTEST_PATH}/util
+> +	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
+> +	install util/shlib_wrap.sh     ${D}${PTEST_PATH}/util
+> +}
+> +
+>  BBCLASSEXTEND = "native nativesdk"
+>  
+> diff --git a/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch b/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
+> new file mode 100644
+> index 0000000..ac53a91
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl/Makefiles-ptest.patch
+> @@ -0,0 +1,75 @@
+> +Add 'buildtest' and 'runtest' targets to Makefile, to build and run tests
+> +cross-compiled.
+> +
+> +Signed-off-by: Anders Roxell <anders.roxell@enea.com>
+> +Signed-off-by: Maxin B. John <maxin.john@enea.com>
+> +Upstream-Status: Pending
+> +---
+> +diff -uNr a/Makefile b/Makefile
+> +--- a/Makefile.org	2012-05-10 17:06:02.000000000 +0200
+> ++++ b/Makefile.org	2012-10-27 00:05:55.359424024 +0200
+> +@@ -411,8 +411,16 @@
+> + test:   tests
+> + 
+> + tests: rehash
+> ++	$(MAKE) buildtest
+> ++	$(MAKE) runtest
+> ++
+> ++buildtest:
+> ++	@(cd test && \
+> ++	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=.. TESTS='$(TESTS)' OPENSSL_DEBUG_MEMORY=on OPENSSL_CONF=../apps/openssl.cnf exe apps);
+> ++
+> ++runtest:
+> + 	@(cd test && echo "testing..." && \
+> +-	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=.. TESTS='$(TESTS)' OPENSSL_DEBUG_MEMORY=on OPENSSL_CONF=../apps/openssl.cnf tests );
+> ++	$(CLEARENV) && $(MAKE) -e $(BUILDENV) TOP=.. TESTS='$(TESTS)' OPENSSL_DEBUG_MEMORY=on OPENSSL_CONF=../apps/openssl.cnf alltests );
+> + 	OPENSSL_CONF=apps/openssl.cnf util/opensslwrap.sh version -a
+> + 
+> + report:
+> +diff --git a/test/Makefile b/test/Makefile
+> +index 3912f82..1696767 100644
+> +--- a/test/Makefile
+> ++++ b/test/Makefile
+> +@@ -128,7 +128,7 @@ tests:	exe apps $(TESTS)
+> + apps:
+> + 	@(cd ..; $(MAKE) DIRS=apps all)
+> + 
+> +-alltests: \
+> ++all-tests= \
+> + 	test_des test_idea test_sha test_md4 test_md5 test_hmac \
+> + 	test_md2 test_mdc2 test_wp \
+> + 	test_rmd test_rc2 test_rc4 test_rc5 test_bf test_cast test_aes \
+> +@@ -138,6 +138,11 @@ alltests: \
+> + 	test_ss test_ca test_engine test_evp test_ssl test_tsa test_ige \
+> + 	test_jpake test_cms
+> + 
+> ++alltests:
+> ++	@(for i in $(all-tests); do \
+> ++	( $(MAKE) $$i && echo "PASS: $$i" ) || echo "FAIL: $$i"; \
+> ++	done)
+> ++
+> + test_evp:
+> + 	../util/shlib_wrap.sh ./$(EVPTEST) evptests.txt
+> + 
+> +@@ -203,7 +208,7 @@ test_x509:
+> + 	echo test second x509v3 certificate
+> + 	sh ./tx509 v3-cert2.pem 2>/dev/null
+> + 
+> +-test_rsa: $(RSATEST)$(EXE_EXT)
+> ++test_rsa:
+> + 	@sh ./trsa 2>/dev/null
+> + 	../util/shlib_wrap.sh ./$(RSATEST)
+> + 
+> +@@ -298,11 +303,11 @@ test_tsa:
+> + 	  sh ./testtsa; \
+> + 	fi
+> + 
+> +-test_ige: $(IGETEST)$(EXE_EXT)
+> ++test_ige:
+> + 	@echo "Test IGE mode"
+> + 	../util/shlib_wrap.sh ./$(IGETEST)
+> + 
+> +-test_jpake: $(JPAKETEST)$(EXE_EXT)
+> ++test_jpake:
+> + 	@echo "Test JPAKE"
+> + 	../util/shlib_wrap.sh ./$(JPAKETEST)
+> diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
+> new file mode 100755
+> index 0000000..3b20fce
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl/run-ptest
+> @@ -0,0 +1,2 @@
+> +#!/bin/sh
+> +make -k runtest
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
+> index f3c20e8..5ca29d0 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
+> @@ -34,6 +34,8 @@ SRC_URI += "file://configure-targets.patch \
+>              file://initial-aarch64-bits.patch \
+>              file://find.pl \
+>              file://openssl-fix-des.pod-error.patch \
+> +            file://Makefiles-ptest.patch \
+> +            file://run-ptest \
+>             "
+>  
+>  SRC_URI[md5sum] = "de62b43dfcd858e66a74bee1c834e959"
+> -- 
+> 1.7.10.4
 
