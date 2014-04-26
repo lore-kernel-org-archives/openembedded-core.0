@@ -1,36 +1,29 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2258C65DCB
+Return-Path: <petter@technux.se>
+Received: from vsp-authed-04-02.binero.net (vsp-authed02.binero.net
+	[195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id C975B65D72
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Apr 2014 15:21:20 +0000 (UTC)
-Received: by mail-lb0-f173.google.com with SMTP id l4so3937565lbv.32
+	Sat, 26 Apr 2014 18:39:11 +0000 (UTC)
+Received: from smtp01.binero.se (unknown [195.74.38.28])
+	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Apr 2014 08:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id;
-	bh=OI2vAcqYpXgUUNfs9UKP8+85TuRnh2VNDsXzfq/Jcho=;
-	b=ezOv16nnln75qETJPz9xR2fz2jAUHKax96tQUrIBZOOLlOYc7T7LFuxPcoM+oPCGxm
-	0eRAM/NonUGcpcjBk6JZ7/Gmq/KuqHhN38jd9ayYX903SFcdqz7sR+1vkV6B4gE/2DKr
-	r6SBV+7m6PkDmq8NU+m3X2OuvuOWlyJ5Uu/PUXIhJ4LZ69I+HDqi5fYTBiH0ad78p5rt
-	jpXZET4nTFRQsBpe+lxN3lFqP9sJmoNC2btwZCOqeUqxsn1u8qxYfaUuFv9cQc49rzyZ
-	F0PwEpSAbuNRYFldJ6awM274AEFhBjiTAxUc/hivVv8qisNwdfKz7vuVHhUDV0zOp/Hp
-	6tYA==
-X-Received: by 10.152.116.43 with SMTP id jt11mr458071lab.41.1398525680868;
-	Sat, 26 Apr 2014 08:21:20 -0700 (PDT)
-Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
-	[89.253.118.72]) by mx.google.com with ESMTPSA id
-	jh4sm11999575lbb.26.2014.04.26.08.21.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 26 Apr 2014 08:21:20 -0700 (PDT)
-Sender: Jacob Kroon <jacob.kroon@gmail.com>
-From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 26 Apr 2014 17:19:36 +0200
-Message-Id: <1398525576-21643-1-git-send-email-jacob.kroon@mikrodidakt.se>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] sstate-cache-management: Minor cleanup of help text
+	Sat, 26 Apr 2014 20:39:02 +0200 (CEST)
+Received: from webmail.binero.se (unknown [195.74.38.9])
+	(Authenticated sender: petter@technux.se)
+	by smtp-02-01.atm.binero.net (Postfix) with ESMTPA id 02DFB3A125
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Apr 2014 20:39:03 +0200 (CEST)
+MIME-Version: 1.0
+Date: Sat, 26 Apr 2014 20:39:02 +0200
+From: petter@technux.se
+To: <openembedded-core@lists.openembedded.org>
+In-Reply-To: <535BB044.6030502@mlbassoc.com>
+References: <cover.1398462168.git.petter@technux.se>
+	<535BB044.6030502@mlbassoc.com>
+Message-ID: <a39a653b557587457fa05eeb545d7d87@technux.se>
+X-Sender: petter@technux.se
+User-Agent: Binero Webmail/0.8.4
+Subject: Re: [PATCH 0/2] x-load: fix broken beaglebone support and FILEPATHS usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +36,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Apr 2014 15:21:21 -0000
+X-List-Received-Date: Sat, 26 Apr 2014 18:39:18 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
----
- scripts/sstate-cache-management.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+2014-04-26 15:10 skrev Gary Thomas:
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index e5c57d3..2286765 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -69,17 +69,17 @@ Options:
-         Conflicts with --remove-duplicated.
- 
-   -L, --follow-symlink
--        Rmove both the symbol link and the destination file, default: no.
-+        Remove both the symbol link and the destination file, default: no.
- 
-   -y, --yes
-         Automatic yes to prompts; assume "yes" as answer to all prompts
-         and run non-interactively.
- 
-   -v, --verbose
--        explain what is being done
-+        Explain what is being done.
- 
-   -D, --debug
--        show debug info, repeat for more debug info
-+        Show debug info, repeat for more debug info.
- 
- EOF
- }
--- 
-1.9.0
+> On 2014-04-25 16:11, Petter Mabäcker wrote:
+>
+>> The following changes since commit
+>> c446d4edca3b4edfcdee48247391bfb306aab4c2: default-distrovars.inc: 
+>> Add
+>> libgcc-initial to the GPLv3 whitelist (same as libgcc) (2014-04-25
+>> 18:00:38 +0100) are available in the git repository at:
+>> git://git.yoctoproject.org/poky-contrib petmab/fix_xload
+>>
+> 
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_xload
+>> [1] Petter Mabäcker (2): x-load: fix broken beaglebone support 
+>> x-load:
+>> remove usage of FILESPATH 
+>> .../x-load/x-load-git/beagleboard/name.patch
+>> | 18 ---------- .../0001-Change-omap3530beagle-target-name.patch | 
+>> 37
+>> ++++++++++++++++++++ meta/recipes-bsp/x-load/x-load_git.bb | 6 ++-- 
+>> 3
+>> files changed, 39 insertions(+), 22 deletions(-) delete mode 100644
+>> meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch create 
+>> mode
+>> 100644
+>>
+>
+meta/recipes-bsp/x-load/x-load/beaglebone/0001-Change-omap3530beagle-target-name.patch
+>
+> These changes don't seem quite correct since the beagleboard
+> wasn't renamed to be beaglebone - they are separate entities
+> and there are still beagleboard(s) out there (supported by
+> meta-ti)
+>
+> At most, your changes should simply add support for beaglebone,
+> not remove support for beagleboard.
+>
+> --
+> ------------------------------------------------------------
+> Gary Thomas | Consulting for the
+> MLB Associates | Embedded world
+> ------------------------------------------------------------
 
+Hi,
+
+Thanks for your input. Beagleboard is not longer supported in YP. See: 
+Yocto Bug #2444, that results in for example:
+
+9680453 yocto-project-qs: Substituting Beaglebone for Beagleboard.
+and
+7254dfb Drop beagleboard, replaced by beaglebone
+
+And usage of meta-ti layer to build beagleboard will override the 
+x-load version within meta layer (from oe) anyway (see 
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/tree/recipes-bsp/x-load/x-load_git.bb). 
+So my opinion is that it's correct to replace beagleboard with 
+beaglebone in this commit. But if you have any other opinion, please let 
+me know and I will of course consider them.
+
+Anyone else who have any comments about this?
+
+BR,
+Petter
+
+Links:
+------
+[1] 
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_xload
 
