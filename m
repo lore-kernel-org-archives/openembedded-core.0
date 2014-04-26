@@ -1,27 +1,31 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-04-02.binero.net (vsp-authed02.binero.net
-	[195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 88D8065D99
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 261AB65D91
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Apr 2014 22:11:37 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Sat, 26 Apr 2014 00:11:32 +0200 (CEST)
-Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
-	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-01-01.atm.binero.net (Postfix) with ESMTPSA id D2A231A4DA;
-	Sat, 26 Apr 2014 00:11:31 +0200 (CEST)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 26 Apr 2014 00:11:20 +0200
-Message-Id: <039dd277887300080a5f094804910932d9f0eb42.1398462168.git.petter@technux.se>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <b9ff9866b658eef7f8798f2d449e92930250640b.1398462168.git.petter@technux.se>
-References: <b9ff9866b658eef7f8798f2d449e92930250640b.1398462168.git.petter@technux.se>
-In-Reply-To: <cover.1398462168.git.petter@technux.se>
-References: <cover.1398462168.git.petter@technux.se>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] x-load: remove usage of FILESPATH
+	Sat, 26 Apr 2014 10:21:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3QAL2KH001425 for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Apr 2014 11:21:02 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2bflkJoXzvtx
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Apr 2014 11:21:02 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3QAKxZk001336
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Apr 2014 11:21:00 +0100
+Message-ID: <1398507653.16672.241.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 26 Apr 2014 11:20:53 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] cross: Drop package tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Apr 2014 22:11:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 26 Apr 2014 10:21:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Usage of FILESPATH is discouraged, since it can make recipes harder to
-bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
-However in x-load a better solution is to use a path that exists in
-FILESPATH by default.
+Cross packages are not packaged so we can drop all the packaging tasks
+for some small performance improvements.
 
-Signed-off-by: Petter Mabäcker <petter@technux.se>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-Change-omap3530beagle-target-name.patch   |    0
- meta/recipes-bsp/x-load/x-load_git.bb              |    2 --
- 2 files changed, 2 deletions(-)
- rename meta/recipes-bsp/x-load/{x-load-git => x-load}/beaglebone/0001-Change-omap3530beagle-target-name.patch (100%)
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 480ec48..b7d33f5 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -63,3 +63,11 @@ do_install () {
+ }
+ 
+ USE_NLS = "no"
++
++deltask package
++deltask packagedata
++deltask package_write_ipk
++deltask package_write_deb
++deltask package_write_rpm
++deltask package_write
++
 
-diff --git a/meta/recipes-bsp/x-load/x-load-git/beaglebone/0001-Change-omap3530beagle-target-name.patch b/meta/recipes-bsp/x-load/x-load/beaglebone/0001-Change-omap3530beagle-target-name.patch
-similarity index 100%
-rename from meta/recipes-bsp/x-load/x-load-git/beaglebone/0001-Change-omap3530beagle-target-name.patch
-rename to meta/recipes-bsp/x-load/x-load/beaglebone/0001-Change-omap3530beagle-target-name.patch
-diff --git a/meta/recipes-bsp/x-load/x-load_git.bb b/meta/recipes-bsp/x-load/x-load_git.bb
-index 5112349..e5d9400 100644
---- a/meta/recipes-bsp/x-load/x-load_git.bb
-+++ b/meta/recipes-bsp/x-load/x-load_git.bb
-@@ -1,7 +1,5 @@
- require x-load.inc
- 
--FILESPATH = "${FILE_DIRNAME}/x-load-git/${MACHINE}:${FILE_DIRNAME}/x-load-git/"
--
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;beginline=1;endline=25;md5=ef08d08cb99057bbb5b9d6d0c5a4396f"
- 
--- 
-1.7.9.5
 
 
