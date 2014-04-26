@@ -1,29 +1,35 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-04-02.binero.net (vsp-authed02.binero.net
-	[195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id C975B65D72
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A3965DF4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Apr 2014 18:39:11 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS
+	Sat, 26 Apr 2014 21:42:52 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id v10so55548pde.27
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Apr 2014 20:39:02 +0200 (CEST)
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	(Authenticated sender: petter@technux.se)
-	by smtp-02-01.atm.binero.net (Postfix) with ESMTPA id 02DFB3A125
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Apr 2014 20:39:03 +0200 (CEST)
-MIME-Version: 1.0
-Date: Sat, 26 Apr 2014 20:39:02 +0200
-From: petter@technux.se
-To: <openembedded-core@lists.openembedded.org>
-In-Reply-To: <535BB044.6030502@mlbassoc.com>
-References: <cover.1398462168.git.petter@technux.se>
-	<535BB044.6030502@mlbassoc.com>
-Message-ID: <a39a653b557587457fa05eeb545d7d87@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Subject: Re: [PATCH 0/2] x-load: fix broken beaglebone support and FILEPATHS usage
+	Sat, 26 Apr 2014 14:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=Qr0OXdAs7sZ/7ZBatm4DpOPX12yj4kFPDW6Uqa/lyrU=;
+	b=bbHVRYCtaxfdsHhz3K/YVaVVQaIXvuHSl+anStkmzi7CUW5hrxUKzIHYb7pm3vtUJB
+	qUjNV2pM5SzyVOPTRcJeMrwOMlo2+p8lBdLYvVl97RTpOrDyFJ9+Jl8/5xF4+HCjnPBc
+	YomLEV0pooq2/ZsqpCTVafk0t063R7CD/VXHtra1WYmT5XqLtsv4zkEt0/qXzfchGb8g
+	kd5gNHxZRmgj15LqItpKi/hzkixq7zfZ7TirPqQYkdS8XP2Woeq62/99D1ccUZ31QxVz
+	b3YDVJNVkYqAsMZdp4fE03KChVtBYzweCLuXGLOlB5MOn8uxgiY9sazkvnSDCWYmeTPM
+	0CDA==
+X-Received: by 10.68.162.34 with SMTP id xx2mr19730692pbb.120.1398548573460;
+	Sat, 26 Apr 2014 14:42:53 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id
+	ba5sm24644122pbc.61.2014.04.26.14.42.52 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 26 Apr 2014 14:42:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 26 Apr 2014 14:45:02 -0700
+Message-Id: <1398548702-23182-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] uclibc: Add libgcc-initial to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,77 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Apr 2014 18:39:18 -0000
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 26 Apr 2014 21:42:53 -0000
 
-2014-04-26 15:10 skrev Gary Thomas:
+Now Separated out libgcc-initial is there
 
-> On 2014-04-25 16:11, Petter Mabäcker wrote:
->
->> The following changes since commit
->> c446d4edca3b4edfcdee48247391bfb306aab4c2: default-distrovars.inc: 
->> Add
->> libgcc-initial to the GPLv3 whitelist (same as libgcc) (2014-04-25
->> 18:00:38 +0100) are available in the git repository at:
->> git://git.yoctoproject.org/poky-contrib petmab/fix_xload
->>
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_xload
->> [1] Petter Mabäcker (2): x-load: fix broken beaglebone support 
->> x-load:
->> remove usage of FILESPATH 
->> .../x-load/x-load-git/beagleboard/name.patch
->> | 18 ---------- .../0001-Change-omap3530beagle-target-name.patch | 
->> 37
->> ++++++++++++++++++++ meta/recipes-bsp/x-load/x-load_git.bb | 6 ++-- 
->> 3
->> files changed, 39 insertions(+), 22 deletions(-) delete mode 100644
->> meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch create 
->> mode
->> 100644
->>
->
-meta/recipes-bsp/x-load/x-load/beaglebone/0001-Change-omap3530beagle-target-name.patch
->
-> These changes don't seem quite correct since the beagleboard
-> wasn't renamed to be beaglebone - they are separate entities
-> and there are still beagleboard(s) out there (supported by
-> meta-ti)
->
-> At most, your changes should simply add support for beaglebone,
-> not remove support for beagleboard.
->
-> --
-> ------------------------------------------------------------
-> Gary Thomas | Consulting for the
-> MLB Associates | Embedded world
-> ------------------------------------------------------------
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc-initial_git.bb |    2 +-
+ meta/recipes-core/uclibc/uclibc_git.bb         |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Hi,
+diff --git a/meta/recipes-core/uclibc/uclibc-initial_git.bb b/meta/recipes-core/uclibc/uclibc-initial_git.bb
+index 3a1140e..6433229 100644
+--- a/meta/recipes-core/uclibc/uclibc-initial_git.bb
++++ b/meta/recipes-core/uclibc/uclibc-initial_git.bb
+@@ -2,7 +2,7 @@ SECTION = "base"
+ require uclibc.inc
+ require uclibc-git.inc
+ 
+-DEPENDS = "linux-libc-headers ncurses-native virtual/${TARGET_PREFIX}gcc-initial kern-tools-native"
++DEPENDS = "linux-libc-headers ncurses-native virtual/${TARGET_PREFIX}gcc-initial libgcc-initial kern-tools-native"
+ PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
+ 
+ PACKAGES = ""
+diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
+index b4f5d9c..38a7e45 100644
+--- a/meta/recipes-core/uclibc/uclibc_git.bb
++++ b/meta/recipes-core/uclibc/uclibc_git.bb
+@@ -11,7 +11,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+            virtual/${TARGET_PREFIX}gcc-initial \
+            virtual/${TARGET_PREFIX}libc-initial \
+            linux-libc-headers ncurses-native \
+-           kern-tools-native"
++           libgcc-initial kern-tools-native"
+ 
+ RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
+ RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
+-- 
+1.7.10.4
 
-Thanks for your input. Beagleboard is not longer supported in YP. See: 
-Yocto Bug #2444, that results in for example:
-
-9680453 yocto-project-qs: Substituting Beaglebone for Beagleboard.
-and
-7254dfb Drop beagleboard, replaced by beaglebone
-
-And usage of meta-ti layer to build beagleboard will override the 
-x-load version within meta layer (from oe) anyway (see 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/tree/recipes-bsp/x-load/x-load_git.bb). 
-So my opinion is that it's correct to replace beagleboard with 
-beaglebone in this commit. But if you have any other opinion, please let 
-me know and I will of course consider them.
-
-Anyone else who have any comments about this?
-
-BR,
-Petter
-
-Links:
-------
-[1] 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_xload
 
