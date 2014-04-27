@@ -1,18 +1,18 @@
 Return-Path: <changhyeok.bae@lge.com>
 Received: from lgeamrelo01.lge.com (lgeamrelo01.lge.com [156.147.1.125])
-	by mail.openembedded.org (Postfix) with ESMTP id F3A0C606D5
+	by mail.openembedded.org (Postfix) with ESMTP id D52F665E2F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Apr 2014 06:34:42 +0000 (UTC)
+	Sun, 27 Apr 2014 06:37:18 +0000 (UTC)
 Received: from unknown (HELO changhyeok.bae) (10.177.232.191)
-	by 156.147.1.125 with ESMTP; 27 Apr 2014 15:34:41 +0900
+	by 156.147.1.125 with ESMTP; 27 Apr 2014 15:37:19 +0900
 X-Original-SENDERIP: 10.177.232.191
 X-Original-MAILFROM: changhyeok.bae@lge.com
 From: Changhyeok Bae <changhyeok.bae@lge.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Apr 2014 15:34:46 +0900
-Message-Id: <1398580486-7982-1-git-send-email-changhyeok.bae@lge.com>
+Date: Sun, 27 Apr 2014 15:37:24 +0900
+Message-Id: <1398580644-8044-1-git-send-email-changhyeok.bae@lge.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v4] mirrors.bbclass: Add mirror site for savannah
+Subject: [PATCH v5] mirrors.bbclass: Add mirror site for savannah
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,16 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Apr 2014 06:34:44 -0000
+X-List-Received-Date: Sun, 27 Apr 2014 06:37:19 -0000
 
 * The SRC_URI is not accessible.
   So need to add mirror site referred by the original site.
 * The problem is that
-  http://download.savannah.nongnu.org/releases and
   http://download.savannah.gnu.org/releases redirects to closest mirror
   and few mirrors (e.g. .jp) weren't working correctly while
   http://download-mirror.savannah.gnu.org/releases/ seems to be reliable.
-* Add SAVANNAH_GNU_MIRROR & SAVANNAH_NONGNU_MIRROR variable in bitbake.conf.
+* Add SAVANNAH_GNU_MIRROR variable in bitbake.conf.
 * Change the SRC_URI using the new variable.
 
 Signed-off-by: Changhyeok Bae <changhyeok.bae@lge.com>
