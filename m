@@ -1,18 +1,31 @@
-Return-Path: <changhyeok.bae@lge.com>
-Received: from lgeamrelo01.lge.com (lgeamrelo01.lge.com [156.147.1.125])
-	by mail.openembedded.org (Postfix) with ESMTP id D52F665E2F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A6F5265D50
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Apr 2014 06:37:18 +0000 (UTC)
-Received: from unknown (HELO changhyeok.bae) (10.177.232.191)
-	by 156.147.1.125 with ESMTP; 27 Apr 2014 15:37:19 +0900
-X-Original-SENDERIP: 10.177.232.191
-X-Original-MAILFROM: changhyeok.bae@lge.com
-From: Changhyeok Bae <changhyeok.bae@lge.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Apr 2014 15:37:24 +0900
-Message-Id: <1398580644-8044-1-git-send-email-changhyeok.bae@lge.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v5] mirrors.bbclass: Add mirror site for savannah
+	Sun, 27 Apr 2014 08:33:50 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s3R8XiRF021469; Sun, 27 Apr 2014 09:33:44 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Etbqi1yUAQkA; Sun, 27 Apr 2014 09:33:43 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s3R8XaBC021465
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 27 Apr 2014 09:33:39 +0100
+Message-ID: <1398587611.16672.287.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 27 Apr 2014 09:33:31 +0100
+In-Reply-To: <CAMKF1sqSYANfi1XjgrjUwkB0+bDcj45Vzd05ANv=XZ5=dOgQbA@mail.gmail.com>
+References: <1398558130.16672.282.camel@ted>
+	<CAMKF1sqSYANfi1XjgrjUwkB0+bDcj45Vzd05ANv=XZ5=dOgQbA@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: Drop ARCH_FLAGS_FOR_TARGET usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,160 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Apr 2014 06:37:19 -0000
+X-List-Received-Date: Sun, 27 Apr 2014 08:33:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* The SRC_URI is not accessible.
-  So need to add mirror site referred by the original site.
-* The problem is that
-  http://download.savannah.gnu.org/releases redirects to closest mirror
-  and few mirrors (e.g. .jp) weren't working correctly while
-  http://download-mirror.savannah.gnu.org/releases/ seems to be reliable.
-* Add SAVANNAH_GNU_MIRROR variable in bitbake.conf.
-* Change the SRC_URI using the new variable.
+On Sat, 2014-04-26 at 22:05 -0700, Khem Raj wrote:
+> On Sat, Apr 26, 2014 at 5:22 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > As far as I can tell this variable is now completely unneeded. It would
+> > only ever get used in target builds and these are now correctly done
+> > in the target environment namespace, not any of our cross environments.
+> > As such, CC and other variables contain the correct compilers and other
+> > tune options and these are correctly picked up when building libgcc,
+> > libstdc++ and others.
+> >
+> > I tried to figure out where else these would make any sense and couldn't
+> > find anything. Builds appear fine without them so lets drop the complexity
+> > including the patch adding in this flag to gcc.
+> 
+> AFAR these were needed when doing SDK builds which was a shortcoming
+> in gcc itself
+> have you tried a SDK build with it ?
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@lge.com>
----
- meta/classes/mirrors.bbclass                      |    1 +
- meta/conf/bitbake.conf                            |    1 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb    |    2 +-
- meta/recipes-devtools/dmidecode/dmidecode_2.12.bb |    2 +-
- meta/recipes-devtools/quilt/quilt-0.61.inc        |    2 +-
- meta/recipes-extended/ed/ed_0.5.bb                |    2 +-
- meta/recipes-extended/texi2html/texi2html_5.0.bb  |    2 +-
- meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb     |    2 +-
- meta/recipes-support/attr/acl.inc                 |    2 +-
- meta/recipes-support/attr/attr.inc                |    2 +-
- 10 files changed, 10 insertions(+), 8 deletions(-)
+Yes, it seems to build just fine...
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index 1fd7cd8..b7aedb2 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -45,6 +45,7 @@ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://sunsite.ualberta.ca/pub/M
- ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/  ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
- http://www.apache.org/dist  http://archive.apache.org/dist \n \
- http://downloads.sourceforge.net/watchdog/ http://fossies.org/linux/misc/ \n \
-+${SAVANNAH_GNU_MIRROR} http://download-mirror.savannah.gnu.org/releases \n \
- cvs://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- svn://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- git://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b3786a7..2cf717a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -568,6 +568,7 @@ KERNELORG_MIRROR = "http://kernel.org/pub"
- SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
- XLIBS_MIRROR = "http://xlibs.freedesktop.org/release"
- XORG_MIRROR = "http://xorg.freedesktop.org/releases"
-+SAVANNAH_GNU_MIRROR = "http://download.savannah.gnu.org/releases"
- 
- # You can use the mirror of your country to get faster downloads by putting
- #  export DEBIAN_MIRROR = "ftp://ftp.de.debian.org/debian/pool"
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 34e0a54..3080c08 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -9,7 +9,7 @@ PR = "r13"
- 
- RDEPENDS_${PN} = "${PN}-inittab"
- 
--SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
-            file://install.patch \
-            file://crypt-lib.patch \
-            file://pidof-add-m-option.patch \
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
-index 61779fe..9f5ea6d 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.nongnu.org/dmidecode/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
- 
--SRC_URI = "http://savannah.nongnu.org/download/dmidecode/${BP}.tar.bz2"
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/dmidecode/${BP}.tar.bz2"
- 
- COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc).*-linux"
- 
-diff --git a/meta/recipes-devtools/quilt/quilt-0.61.inc b/meta/recipes-devtools/quilt/quilt-0.61.inc
-index 4d915bf..9ae4377 100644
---- a/meta/recipes-devtools/quilt/quilt-0.61.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.61.inc
-@@ -4,7 +4,7 @@ SECTION = "devel"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--SRC_URI = "http://download.savannah.gnu.org/releases/quilt/quilt-${PV}.tar.gz \
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
-         file://install.patch \
-         file://run-ptest \
-         file://Makefile \
-diff --git a/meta/recipes-extended/ed/ed_0.5.bb b/meta/recipes-extended/ed/ed_0.5.bb
-index a696c0c..927124c 100644
---- a/meta/recipes-extended/ed/ed_0.5.bb
-+++ b/meta/recipes-extended/ed/ed_0.5.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6ddd5335ef96fb858a138230af773710 \
-                     file://main.c;beginline=1;endline=17;md5=36d4b85e5ae9028e918d1cc775c2475e"
- 
- PR = "r2"
--SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/ed/ed-${PV}.tar.bz2"
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/ed/ed-${PV}.tar.bz2"
- 
- SRC_URI[md5sum] = "4ee21e9dcc9b5b6012c23038734e1632"
- SRC_URI[sha256sum] = "edef2bbde0fbf0d88232782a0eded323f483a0519d6fde9a3b1809056fd35f3e"
-diff --git a/meta/recipes-extended/texi2html/texi2html_5.0.bb b/meta/recipes-extended/texi2html/texi2html_5.0.bb
-index a22b981..86cbc58 100644
---- a/meta/recipes-extended/texi2html/texi2html_5.0.bb
-+++ b/meta/recipes-extended/texi2html/texi2html_5.0.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- 
- PR = "r2"
- 
--SRC_URI     = "http://download.savannah.gnu.org/releases/texi2html/${BPN}-${PV}.tar.bz2 \
-+SRC_URI     = "${SAVANNAH_GNU_MIRROR}/texi2html/${BPN}-${PV}.tar.bz2 \
-                file://fix_gettext_version.patch"
- 
- SRC_URI[md5sum] = "f15ac876fcdc8be865b16535f480aa54"
-diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-index f124be9..06f9b60 100644
---- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-+++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 
- DEPENDS = "gtk+ intltool-native"
- DEPENDS_append_poky = " libowl"
--SRC_URI = "http://savannah.nongnu.org/download/${BPN}/${BPN}-${PV}.tar.gz \
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
- 	   file://leafpad.desktop"
- 
- SRC_URI[md5sum] = "254a72fc67505e3aa52884c729cd7b97"
-diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
-index 355dbdd..bc9fd6d 100644
---- a/meta/recipes-support/attr/acl.inc
-+++ b/meta/recipes-support/attr/acl.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
-                     file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
- 
- DEPENDS = "attr"
--SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz \
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
-            file://run-ptest \
-            file://acl-fix-the-order-of-expected-output-of-getfacl.patch \
- "
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 873c1ff..3468d0c 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
-                     file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
-                     file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb"
- 
--SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/attr/${BP}.src.tar.gz \
-            file://run-ptest \
- "
- 
--- 
-1.7.9.5
+Cheers,
+
+Richard
 
 
