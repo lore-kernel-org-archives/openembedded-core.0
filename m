@@ -1,36 +1,40 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 30AE865E69
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 800C865E80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Apr 2014 12:45:41 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1WekwC-0004vk-1c for openembedded-core@lists.openembedded.org;
-	Mon, 28 Apr 2014 14:45:36 +0200
-Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Apr 2014 14:45:36 +0200
-Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	Mon, 28 Apr 2014 14:26:09 +0000 (UTC)
+Received: by mail-wg0-f46.google.com with SMTP id a1so963346wgh.29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Apr 2014 14:45:36 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
+	Mon, 28 Apr 2014 07:26:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=k2gbKPzylYxGSCFmzKfYDerYWzWYKc/DeHEL3VopgT0=;
+	b=Xoz3WSz1UXgsfsvzxi3DEmtrEm1/ildC3g/757RYIR8vavJANt4D0XDjuZwrkp511z
+	9tdeDxXmIZ0fh8rXqEAlE1WNkoX+LOCo0U9g9kEU79hyWpebGoKJzoTdjb4f7Vcjo7c4
+	otOXvjUnZygpMOBlatQ1abd2pnxmMW3vd3V7vy8t2MaSOH/0VzMXDwTtUWQw3bvTZoTe
+	1OQjpQVr4EK41NhlahCdU6ZEdutqYXHzWSG3HrspXocNi32GCSECXFCiIt5arnZIbM1t
+	BDlQzisRb0Yi3HdsknRQ7LfZ+5Vc7nhAwSZ1QXSWeFRcNPTQ73URU0kOiXpC+9bGhUAU
+	c+kQ==
+X-Gm-Message-State: ALoCoQlp4t5yhuD4gybg7kMDqBLfodhK7HTc5hVO3Lzl6kyvXn3Z6lsuhS6dWDWJR303dJ+YN6ga
+X-Received: by 10.180.210.238 with SMTP id mx14mr13095859wic.61.1398695169203; 
+	Mon, 28 Apr 2014 07:26:09 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id
+	h19sm18085519wiw.17.2014.04.28.07.26.07 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 28 Apr 2014 07:26:08 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 28 Apr 2014 14:45:26 +0200
-Message-ID: <ljlih4$rvg$1@ger.gmane.org>
-References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>	<0D39BCEC-9039-4A3F-9E65-85965061E698@dominion.thruhere.net>
-	<3327056.Df3VZKvVg7@peggleto-mobl5.ger.corp.intel.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-In-Reply-To: <3327056.Df3VZKvVg7@peggleto-mobl5.ger.corp.intel.com>
-X-Enigmail-Version: 1.6
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: OE Github repositories
+In-Reply-To: <1373547110-11539-1-git-send-email-cristian.iorga@intel.com>
+Date: Mon, 28 Apr 2014 16:26:07 +0200
+Message-Id: <4087F39D-2252-47C8-B596-81648E6C08FD@dominion.thruhere.net>
+References: <1373547110-11539-1-git-send-email-cristian.iorga@intel.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] xdg-utils: upgrade to 1.1.0-rc1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,58 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Apr 2014 12:45:42 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Apr 2014 14:26:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
 
-Paul Eggleton schreef op 28-04-14 13:08:
-> On Monday 28 April 2014 12:43:58 Koen Kooi wrote:
->> Op 28 apr. 2014, om 12:10 heeft Paul Eggleton
-> <paul.eggleton@linux.intel.com> het volgende
-> geschreven:
->>> Hi folks,
->>> 
->>> Could whoever has admin access for the OpenEmbedded repositories on
->>> github please do two things:
->>> 
->>> 1) Stop having both "oe-core" and "openembedded-core" repositories -
->>> the latter is four months out-of-date. I'd suggest if we want to be
->>> consistent with our openembedded.org repos we should keep the
->>> "openembedded-core" repository and make it so it is kept up-to-date.
->>> 
->>> 2) Rename the "meta-oe" repository to "meta-openembedded", since
->>> meta-oe the layer is distinct from meta-openembedded the repository,
->>> and again this would be consistent with the primary repository
->>> naming.
->> 
->> Keep in mind that renaming/removing 'oe-core' and 'meta-oe' will
->> breaks things which use those repos to pull from by default. Which the
->> oe.org git server has improved a lot, it still can't beat githubs CDN.
-> 
-> OK then, how about this instead:
-> 
-> 1) Ensure the "openembedded-core" repository is kept up-to-date
-> 
-> 2) Add a "meta-openembedded" repository and ensure it is kept up-to-date
-> 
-> 3) Add a warning to the description for the contracted name repositories
-> that the fully-named repositories should be used instead, so we can
-> eventually drop them
-> 
-> 4) Change documentation / scripts to match #3
+Op 11 jul. 2013, om 14:51 heeft Cristian Iorga =
+<cristian.iorga@intel.com> het volgende geschreven:
 
-Sounds like a good plan to me!
+> This version of xdg-utils is needed by BA in order
+> to associate correctly types of files with PCManFM
+> file manager.
+> The release cycle of xdg-utils is very slow, so this
+> is the best shot of a stable version available for
+> YP 1.5 release.
+> As a reference, the previous stable version was released in 2007.
+> Also, desktop Linux distros use this release candidate as a stable
+> version, for example, Ubuntu 12.04.
+>=20
+> Part of the implementation of [YOCTO #2370].
+>=20
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+> .../xdg-utils/{xdg-utils_1.0.2.bb =3D> xdg-utils_1.1.0-rc1.bb}  |    9 =
+++++-----
+> 1 file changed, 4 insertions(+), 5 deletions(-)
+> rename meta/recipes-extended/xdg-utils/{xdg-utils_1.0.2.bb =3D> =
+xdg-utils_1.1.0-rc1.bb} (80%)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
-
-iD8DBQFTXk1mMkyGM64RGpERAn8NAJ49r8TimCZIouIBM45jseXqA3xUCACdGPsh
-jb5olKQRlsskP9x4vlmEIms=
-=FqlW
------END PGP SIGNATURE-----
-
+This has been in OE-core for a while, but I do have to point out that it =
+violates the version policy, it should be: 1.0.2+1.1.0-rc1=
 
