@@ -1,20 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6408E609B1
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B0BE4609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Apr 2014 17:20:45 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Apr 2014 10:19:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,952,1389772800"; d="scan'208";a="530616127"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.182])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Apr 2014 10:19:22 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Apr 2014 10:19:22 -0700
-Message-Id: <1398791962-18885-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH][Dora] build-appliance: Update to Dora 1.5.2
+	Tue, 29 Apr 2014 17:31:04 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id 9so469884ykp.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Apr 2014 10:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=I095QBvALqNmRUIVZx82N11Rhv1nJGsrZFnjsE+Rw2g=;
+	b=xA4S0F541TH9kmNzP1NMUv1QjVbnnjKgnVdLoeOQ1tvsFckvhdVq6HApLEbwJHlXWf
+	OkK2f0d23NYvCC+vfMclq9o3tYq+vYIuXCdkTwlH2k6FOHWrThRpaTy4kbrt/hgLfLnt
+	vRxtFvmrJ9q+Kn6jZbJu4Q9IGoDnRjBxNpheG8pywFdTvy7OGyJlqSn0uDrRa3kVpRSg
+	0Uc61ZtKU636M6yesUXGaJH83ziqt8xdaIQYHsVLWGGy47GOh+XQHivF3wlfgpG0GCxV
+	B2YnsFM7TMS0fyRvvN6AcqevWYbuSnAcEvXQ8/vy38bkfdjHjTkkREgOlGwySDhZ86dJ
+	IVFw==
+MIME-Version: 1.0
+X-Received: by 10.236.101.51 with SMTP id a39mr16649690yhg.78.1398792665233;
+	Tue, 29 Apr 2014 10:31:05 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.124.72 with HTTP; Tue, 29 Apr 2014 10:31:05 -0700 (PDT)
+In-Reply-To: <1398770975.16672.421.camel@ted>
+References: <1398761378.16672.363.camel@ted> <1398770975.16672.421.camel@ted>
+Date: Tue, 29 Apr 2014 14:31:05 -0300
+X-Google-Sender-Auth: a-Q-UoDCDW56bSszjG6edQ1ywKo
+Message-ID: <CAP9ODKrFSLuAuJBrycV__kteTJtcGQkjSEa_AewM+6NaUxbuMg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Status Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Apr 2014 17:20:46 -0000
+X-List-Received-Date: Tue, 29 Apr 2014 17:31:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fix to be HEAD of Dora, not master
+On Tue, Apr 29, 2014 at 8:29 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-04-29 at 09:49 +0100, Richard Purdie wrote:
+> contains - I also have concerns about the contains() changes being a
+> touch too aggressive and needing a little more soak time. I had assumed
+> they just standardised references to the function, not removal of the
+> functions themselves yet. I'm therefore holding off some of the bitbake
+> side of those changes.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/images/build-appliance-image_8.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Could you add contains_any patch in meanwhile? I understand you want
+to keep it rest for some time now before dropping the code of
+oe.utils.contains.
 
-diff --git a/meta/recipes-core/images/build-appliance-image_8.0.bb b/meta/recipes-core/images/build-appliance-image_8.0.bb
-index 916a88b..261beb6 100644
---- a/meta/recipes-core/images/build-appliance-image_8.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_8.0.bb
-@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
- 
- inherit core-image
- 
--SRCREV ?= "107269d9d02debe1adde9745df52da9dd5faf5c7"
-+SRCREV ?= "e07904836a5dc71bb68577eeb4963bc7ecde0224"
- SRC_URI = "git://git.yoctoproject.org/poky \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
 -- 
-1.8.3.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
