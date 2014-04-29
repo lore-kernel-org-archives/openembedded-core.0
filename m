@@ -1,29 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 398E3610D8
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B56DA617AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Apr 2014 11:30:01 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s3TBTiGD008392; Tue, 29 Apr 2014 12:29:44 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QjPHkcQK0yq4; Tue, 29 Apr 2014 12:29:44 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s3TBTfv4008385
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 29 Apr 2014 12:29:42 +0100
-Message-ID: <1398770975.16672.421.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Apr 2014 12:29:35 +0100
-In-Reply-To: <1398761378.16672.363.camel@ted>
-References: <1398761378.16672.363.camel@ted>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: Re: Status Update
+	Tue, 29 Apr 2014 13:51:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596666"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:08 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Apr 2014 16:29:44 +0300
+Message-Id: <b46b6d312a1191901b19dd0430c0caf3473d1c2b.1398775392.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
+References: <cover.1398775392.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
+References: <cover.1398775392.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 02/12] libdrm: upgrade to 2.4.53
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Apr 2014 11:30:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Apr 2014 13:51:10 -0000
 
-On Tue, 2014-04-29 at 09:49 +0100, Richard Purdie wrote:
-> Master
-> ======
-> 
-> I've started merging patches in so this has opened for changes. Of note
-> so far:
-> 
-> GCC - I did find a few moments to write most of the patches needed to
-> rework our parts of our gcc recipes and continue to improve the
-> toolchain which will be valuable as we more forward. The first part of
-> these has merged. The second part is out there for review and there are
-> some bugs there I need to fix before it merges (meta-ide-support in
-> particular). There is a third set of patches I've not cleaned up and
-> sent out yet which standardise the toolchain hashes.
-> 
-> Bitbake - The task scheduling algorithm has a couple of bugs in it which
-> I found after noticing some strange behaviour with low numbers of
-> threads. This was worth a 7% speedup of our benchmark image build test.
-> Unfortunately it was too late to get that into 1.6 but it may make the
-> next point release. I also found that git 1.8 is slow for some
-> operations and we really want to use 1.9+ (worth around 1 minute on
-> linux-yocto kernel build time). Chris has also found what looks like a
-> nasty bug in the codeparser cache which is a good thing to find.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../drm/{libdrm_2.4.52.bb => libdrm_2.4.53.bb}     |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.52.bb => libdrm_2.4.53.bb} (46%)
 
-B != S - I meant to add here that I merged the B != S patch for
-autotools which does have impact for other layers. I did work a while
-back to fix up oe-core and the layers the yocto autobuilder tests. We've
-held off this for a while and the hope was other layers would get tested
-and fixed up. I'm not sure that has happened, particularly in meta-oe as
-yet unfortunately. The benefits to B != S are significant in build
-accuracy and determinism and I did say I'd merge it after release so
-that has now happened.
-
-PRINC - I have dropped the removal of PRINC for this cycle since there
-were concerns about that and its probably a little aggressive.
-
-contains - I also have concerns about the contains() changes being a
-touch too aggressive and needing a little more soak time. I had assumed
-they just standardised references to the function, not removal of the
-functions themselves yet. I'm therefore holding off some of the bitbake
-side of those changes.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.52.bb b/meta/recipes-graphics/drm/libdrm_2.4.53.bb
+similarity index 46%
+rename from meta/recipes-graphics/drm/libdrm_2.4.52.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.53.bb
+index 75b1846..323bef5 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.52.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.53.bb
+@@ -3,6 +3,6 @@ require libdrm.inc
+ SRC_URI += "file://installtests.patch \
+             file://GNU_SOURCE_definition.patch \
+            "
+-SRC_URI[md5sum] = "01b75624a5da3a7543923e54c3547a24"
+-SRC_URI[sha256sum] = "fa693c2f1f61befcefbdcc396673e38481110bac9db610afa4b8afb2be0218c1"
++SRC_URI[md5sum] = "342886a137ddd9ed4341675d132388ad"
++SRC_URI[sha256sum] = "1b0c28fd2f2b92d2df0a73d1aed88f43cb0dee1267aea6bc52ccb5fca5757a08"
+ 
+-- 
+1.7.9.5
 
 
