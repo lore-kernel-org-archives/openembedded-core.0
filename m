@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id F13DE65D35
+	by mail.openembedded.org (Postfix) with ESMTP id 7C69765D41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Apr 2014 13:51:18 +0000 (UTC)
+	Tue, 29 Apr 2014 13:51:19 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:17 -0700
+	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596793"
+X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596803"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:16 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:17 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Apr 2014 16:29:52 +0300
-Message-Id: <a014d007732080ba7f68040e14e1ed7235f7b56d.1398775392.git.laurentiu.palcu@intel.com>
+Date: Tue, 29 Apr 2014 16:29:53 +0300
+Message-Id: <dc64730f29ffc49ffd36e2cb2509c0a693a03e33.1398775392.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 10/12] nasm: upgrade to 2.11.02
+Subject: [PATCH 11/12] xauth: upgrade to 1.0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +35,25 @@ X-List-Received-Date: Tue, 29 Apr 2014 13:51:19 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../nasm/{nasm_2.11.bb => nasm_2.11.02.bb}         |    4 ++--
+ .../xorg-app/{xauth_1.0.8.bb => xauth_1.0.9.bb}    |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.11.bb => nasm_2.11.02.bb} (81%)
+ rename meta/recipes-graphics/xorg-app/{xauth_1.0.8.bb => xauth_1.0.9.bb} (68%)
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.11.bb b/meta/recipes-devtools/nasm/nasm_2.11.02.bb
-similarity index 81%
-rename from meta/recipes-devtools/nasm/nasm_2.11.bb
-rename to meta/recipes-devtools/nasm/nasm_2.11.02.bb
-index 5f4b953..db84ec5 100644
---- a/meta/recipes-devtools/nasm/nasm_2.11.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.11.02.bb
-@@ -6,8 +6,8 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+diff --git a/meta/recipes-graphics/xorg-app/xauth_1.0.8.bb b/meta/recipes-graphics/xorg-app/xauth_1.0.9.bb
+similarity index 68%
+rename from meta/recipes-graphics/xorg-app/xauth_1.0.8.bb
+rename to meta/recipes-graphics/xorg-app/xauth_1.0.9.bb
+index a2da49e..b173f4f 100644
+--- a/meta/recipes-graphics/xorg-app/xauth_1.0.8.bb
++++ b/meta/recipes-graphics/xorg-app/xauth_1.0.9.bb
+@@ -8,5 +8,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5ec74dd7ea4d10c4715a7c44f159a40b"
+ DEPENDS += "libxau libxext libxmu"
+ PE = "1"
  
- 
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
--SRC_URI[md5sum] = "4cd558047ea5ed51fc2c7c94e249c7b8"
--SRC_URI[sha256sum] = "1ce7e897c67255a195367a60c739a90a0b33a4a73f058f7cda3253bcf975642b"
-+SRC_URI[md5sum] = "3bbc8ed83115b8caf7931f35ec3bc5e0"
-+SRC_URI[sha256sum] = "ece26b5ef565f94d19a72756d05965e424d2e5ca55f88b949852da70dd62f0e0"
- 
- inherit autotools-brokensep
- 
+-SRC_URI[md5sum] = "50ee2ec0836c0186b05ec8fdcfd566d0"
+-SRC_URI[sha256sum] = "a8696ae7a50c699d5fb3a41408b60d98843d19ea46e9f09e391cb98c8f7fd4f7"
++SRC_URI[md5sum] = "7d6003f32838d5b688e2c8a131083271"
++SRC_URI[sha256sum] = "56ce1523eb48b1f8a4f4244fe1c3d8e6af1a3b7d4b0e6063582421b0b68dc28f"
 -- 
 1.7.9.5
 
