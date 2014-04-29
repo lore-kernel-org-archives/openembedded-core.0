@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BE95A65D3A
+	by mail.openembedded.org (Postfix) with ESMTP id 58EF965D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Apr 2014 13:51:16 +0000 (UTC)
+	Tue, 29 Apr 2014 13:51:17 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:14 -0700
+	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596733"
+X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596754"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:13 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:14 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Apr 2014 16:29:49 +0300
-Message-Id: <767542f8161597869c62bd61d3e075cd912879a4.1398775392.git.laurentiu.palcu@intel.com>
+Date: Tue, 29 Apr 2014 16:29:50 +0300
+Message-Id: <8920dbc73863d6697dbe8d60c420b6a0f407300a.1398775392.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 07/12] xrandr: upgrade to 1.4.2
+Subject: [PATCH 08/12] xtrans: upgrade to 1.3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Apr 2014 13:51:16 -0000
+X-List-Received-Date: Tue, 29 Apr 2014 13:51:17 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../xorg-app/{xrandr_1.4.1.bb => xrandr_1.4.2.bb}  |    4 ++--
+ .../xorg-lib/{xtrans_1.3.3.bb => xtrans_1.3.4.bb}  |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xrandr_1.4.1.bb => xrandr_1.4.2.bb} (72%)
+ rename meta/recipes-graphics/xorg-lib/{xtrans_1.3.3.bb => xtrans_1.3.4.bb} (82%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.4.1.bb b/meta/recipes-graphics/xorg-app/xrandr_1.4.2.bb
-similarity index 72%
-rename from meta/recipes-graphics/xorg-app/xrandr_1.4.1.bb
-rename to meta/recipes-graphics/xorg-app/xrandr_1.4.2.bb
-index 6ca6863..84f01b0 100644
---- a/meta/recipes-graphics/xorg-app/xrandr_1.4.1.bb
-+++ b/meta/recipes-graphics/xorg-app/xrandr_1.4.2.bb
-@@ -11,5 +11,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
- DEPENDS += "libxrandr libxrender"
- PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.3.3.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.3.4.bb
+similarity index 82%
+rename from meta/recipes-graphics/xorg-lib/xtrans_1.3.3.bb
+rename to meta/recipes-graphics/xorg-lib/xtrans_1.3.4.bb
+index 9895ea3..f2b8921 100644
+--- a/meta/recipes-graphics/xorg-lib/xtrans_1.3.3.bb
++++ b/meta/recipes-graphics/xorg-lib/xtrans_1.3.4.bb
+@@ -20,5 +20,5 @@ inherit gettext
  
--SRC_URI[md5sum] = "52c3de0297bf45be6a189dc2e0515638"
--SRC_URI[sha256sum] = "67b554ab975652778bef587f86dab7fec8cb95dfd21c11d98a203dac5c241e50"
-+SRC_URI[md5sum] = "78fd973d9b532106f8777a3449176148"
-+SRC_URI[sha256sum] = "b2e76ee92ff827f1c52ded7c666fe6f2704ca81cdeef882397da4e3e8ab490bc"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "2f14c31ab556fc91039f51a113b38aa2"
+-SRC_URI[sha256sum] = "622db4adce224581a44fbe41321bbb0bdc0c78aec586ba83548f1f1c6e8a09bf"
++SRC_URI[md5sum] = "a615e17d9fee6f097fc3b716eacb3dca"
++SRC_URI[sha256sum] = "054d4ee3efd52508c753e9f7bc655ef185a29bd2850dd9e2fc2ccc33544f583a"
 -- 
 1.7.9.5
 
