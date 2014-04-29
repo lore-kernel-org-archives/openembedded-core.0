@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CAEDA65D2C
+	by mail.openembedded.org (Postfix) with ESMTP id 7A6F065D35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Apr 2014 13:51:12 +0000 (UTC)
+	Tue, 29 Apr 2014 13:51:13 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:10 -0700
+	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596676"
+X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596694"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:09 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:10 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Apr 2014 16:29:45 +0300
-Message-Id: <a2e46c0068330b9d66160132365f02f55d530a76.1398775392.git.laurentiu.palcu@intel.com>
+Date: Tue, 29 Apr 2014 16:29:46 +0300
+Message-Id: <8aefee12186272390575857904f91e7f4c33ce2d.1398775392.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 03/12] xserver-xorg: upgrade to 1.15.1
+Subject: [PATCH 04/12] python-pygobject: upgrade to 2.28.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Apr 2014 13:51:13 -0000
+X-List-Received-Date: Tue, 29 Apr 2014 13:51:14 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- ...erver-xorg_1.15.0.bb => xserver-xorg_1.15.1.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.0.bb => xserver-xorg_1.15.1.bb} (88%)
+ ...bject_2.27.91.bb => python-pygobject_2.28.3.bb} |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python-pygobject_2.27.91.bb => python-pygobject_2.28.3.bb} (87%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.1.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.1.bb
-index 1f9fa04..6a4168e 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.1.bb
-@@ -8,8 +8,8 @@ SRC_URI += "file://crosscompile.patch \
-             file://xorg-CVE-2013-6424.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python-pygobject_2.27.91.bb
+rename to meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+index 49ee108..9dbe47c 100644
+--- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
++++ b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+ DEPENDS = "python python-pygobject-native glib-2.0"
+ DEPENDS_class-native = "python-native glib-2.0-native"
+ RDEPENDS_class-native = ""
+-PR = "r6"
  
--SRC_URI[md5sum] = "c2ace3697b32414094cf8c597c39d7d9"
--SRC_URI[sha256sum] = "613b2f2e7ee2a06d2f8e862c836dc70d319c52f1537749e027398f40086aabb8"
-+SRC_URI[md5sum] = "e4c70262ed89764be8f8f5d699ed9227"
-+SRC_URI[sha256sum] = "626db6882602ebe1ff81f7a4231c7ccc6ceb5032f2b5b3954bf749e1567221e2"
+ MAJ_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+@@ -13,8 +12,8 @@ SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2 \
+            file://obsolete_automake_macros.patch \
+ "
+ 
+-SRC_URI[md5sum] = "2b11a3050264721aac83188224b093a8"
+-SRC_URI[sha256sum] = "a1dffbe2a8e0d490594554ed8d06f0ee4a371acb6c210e7f35158e9ae77e0df4"
++SRC_URI[md5sum] = "aa64900b274c4661a5c32e52922977f9"
++SRC_URI[sha256sum] = "7da88c169a56efccc516cebd9237da3fe518a343095a664607b368fe21df95b6"
+ S = "${WORKDIR}/pygobject-${PV}"
+ 
+ FILESPATH = "${FILE_DIRNAME}/python-pygobject:${FILE_DIRNAME}/files"
 -- 
 1.7.9.5
 
