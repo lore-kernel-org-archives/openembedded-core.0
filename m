@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A6F065D35
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0D065D18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Apr 2014 13:51:13 +0000 (UTC)
+	Tue, 29 Apr 2014 13:51:14 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:11 -0700
+	by orsmga101.jf.intel.com with ESMTP; 29 Apr 2014 06:51:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596694"
+X-IronPort-AV: E=Sophos;i="4.97,951,1389772800"; d="scan'208";a="531596703"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:10 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Apr 2014 06:51:11 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Apr 2014 16:29:46 +0300
-Message-Id: <8aefee12186272390575857904f91e7f4c33ce2d.1398775392.git.laurentiu.palcu@intel.com>
+Date: Tue, 29 Apr 2014 16:29:47 +0300
+Message-Id: <c319fb276280318db3e7e0d311aec5b560ac25ff.1398775392.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1398775392.git.laurentiu.palcu@intel.com>
 References: <cover.1398775392.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 04/12] python-pygobject: upgrade to 2.28.3
+Subject: [PATCH 05/12] gdb: upgrade to 7.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,98 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 29 Apr 2014 13:51:14 -0000
 
+Removed the following patch(es):
+ * gdb-fix-cygwin-check-in-configure-script.patch (changes included in release)
+
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- ...bject_2.27.91.bb => python-pygobject_2.28.3.bb} |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-pygobject_2.27.91.bb => python-pygobject_2.28.3.bb} (87%)
+ .../gdb/{gdb-7.6.2.inc => gdb-7.7.inc}             |    6 ++--
+ ...canadian_7.6.2.bb => gdb-cross-canadian_7.7.bb} |    0
+ .../gdb/{gdb-cross_7.6.2.bb => gdb-cross_7.7.bb}   |    0
+ .../gdb-fix-cygwin-check-in-configure-script.patch |   38 --------------------
+ .../gdb/{gdb_7.6.2.bb => gdb_7.7.bb}               |    0
+ 5 files changed, 2 insertions(+), 42 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-7.6.2.inc => gdb-7.7.inc} (61%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.6.2.bb => gdb-cross-canadian_7.7.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.6.2.bb => gdb-cross_7.7.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch
+ rename meta/recipes-devtools/gdb/{gdb_7.6.2.bb => gdb_7.7.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-rename to meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-index 49ee108..9dbe47c 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- DEPENDS = "python python-pygobject-native glib-2.0"
- DEPENDS_class-native = "python-native glib-2.0-native"
- RDEPENDS_class-native = ""
--PR = "r6"
+diff --git a/meta/recipes-devtools/gdb/gdb-7.6.2.inc b/meta/recipes-devtools/gdb/gdb-7.7.inc
+similarity index 61%
+rename from meta/recipes-devtools/gdb/gdb-7.6.2.inc
+rename to meta/recipes-devtools/gdb/gdb-7.7.inc
+index ea69b39..62adcaa 100644
+--- a/meta/recipes-devtools/gdb/gdb-7.6.2.inc
++++ b/meta/recipes-devtools/gdb/gdb-7.7.inc
+@@ -4,9 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+ 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
  
- MAJ_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
+-SRC_URI += " file://gdb-fix-cygwin-check-in-configure-script.patch "
+-
+ S = "${WORKDIR}/${BPN}-${PV}"
  
-@@ -13,8 +12,8 @@ SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2 \
-            file://obsolete_automake_macros.patch \
- "
- 
--SRC_URI[md5sum] = "2b11a3050264721aac83188224b093a8"
--SRC_URI[sha256sum] = "a1dffbe2a8e0d490594554ed8d06f0ee4a371acb6c210e7f35158e9ae77e0df4"
-+SRC_URI[md5sum] = "aa64900b274c4661a5c32e52922977f9"
-+SRC_URI[sha256sum] = "7da88c169a56efccc516cebd9237da3fe518a343095a664607b368fe21df95b6"
- S = "${WORKDIR}/pygobject-${PV}"
- 
- FILESPATH = "${FILE_DIRNAME}/python-pygobject:${FILE_DIRNAME}/files"
+-SRC_URI[md5sum] = "9ebf09fa76e4ca6034157086e9b20348"
+-SRC_URI[sha256sum] = "17f7bcda1b24336aadcb1c5e703c355551e59467e221c6f4353b720dffad73a7"
++SRC_URI[md5sum] = "40051ff95b39bd57b14b1809e2c16152"
++SRC_URI[sha256sum] = "8814d98c2733639cb602b6ecd8d69e02498017e02b5724c9451c285b0e9ee173"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.2.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.2.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.6.2.bb b/meta/recipes-devtools/gdb/gdb-cross_7.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_7.6.2.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_7.7.bb
+diff --git a/meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch b/meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch
+deleted file mode 100644
+index 4e4647b..0000000
+--- a/meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-Avoid false positives if the search pattern "lose" is found in path
+-descriptions in comments generated by the preprocessor.
+-
+-See <https://sourceware.org/bugzilla/show_bug.cgi?id=16152>.
+----
+- gdb/configure    | 2 +-
+- gdb/configure.ac | 2 +-
+- 3 files changed, 7 insertions(+), 2 deletions(-)
+-
+-diff --git a/gdb/configure b/gdb/configure
+-index 5514b2f..b38e183 100755
+---- a/gdb/configure
+-+++ b/gdb/configure
+-@@ -12446,7 +12446,7 @@ lose
+- #endif
+- _ACEOF
+- if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+--  $EGREP "lose" >/dev/null 2>&1; then :
+-+  $EGREP "^lose$" >/dev/null 2>&1; then :
+-   gdb_cv_os_cygwin=yes
+- else
+-   gdb_cv_os_cygwin=no
+-diff --git a/gdb/configure.ac b/gdb/configure.ac
+-index 9b73887..2947293 100644
+---- a/gdb/configure.ac
+-+++ b/gdb/configure.ac
+-@@ -1877,7 +1877,7 @@ AC_SUBST(WERROR_CFLAGS)
+- 
+- # In the Cygwin environment, we need some additional flags.
+- AC_CACHE_CHECK([for cygwin], gdb_cv_os_cygwin,
+--[AC_EGREP_CPP(lose, [
+-+[AC_EGREP_CPP(^lose$, [
+- #if defined (__CYGWIN__) || defined (__CYGWIN32__)
+- lose
+- #endif],[gdb_cv_os_cygwin=yes],[gdb_cv_os_cygwin=no])])
+--- 
+-1.8.4
+-
+diff --git a/meta/recipes-devtools/gdb/gdb_7.6.2.bb b/meta/recipes-devtools/gdb/gdb_7.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_7.6.2.bb
+rename to meta/recipes-devtools/gdb/gdb_7.7.bb
 -- 
 1.7.9.5
 
