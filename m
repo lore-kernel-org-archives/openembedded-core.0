@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 15DDD65D24
+	by mail.openembedded.org (Postfix) with ESMTP id 330E060144
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 30 Apr 2014 12:41:43 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2014 05:32:24 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 30 Apr 2014 05:32:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,958,1389772800"; d="scan'208";a="531267806"
+X-IronPort-AV: E=Sophos;i="4.97,958,1389772800"; d="scan'208";a="531267830"
 Received: from cgwithan-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.50])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Apr 2014 05:32:23 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 30 Apr 2014 05:32:25 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Apr 2014 13:32:02 +0100
-Message-Id: <9dbd5d93498c7004a36d34c3ddf5480d7f263610.1398861075.git.paul.eggleton@linux.intel.com>
+Date: Wed, 30 Apr 2014 13:32:04 +0100
+Message-Id: <e1607f8802ac0a2a5cc1f870e9b5db3f574dd7d4.1398861075.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <cover.1398861075.git.paul.eggleton@linux.intel.com>
 References: <cover.1398861075.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1398861075.git.paul.eggleton@linux.intel.com>
 References: <cover.1398861075.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/8] scripts/contrib/serdevtry: add script to handle transient serial terminals
+Subject: [PATCH 8/8] oeqa: add proper handling for command errors where needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,86 +34,102 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 30 Apr 2014 12:41:43 -0000
 
-When running automated tests (or just generally interacting with)
-boards whose serial console devices are on the board itself and thus
-disappear when powered down or practically disconnected, such as the
-BeagleBone white, some terminal programs (e.g. picocom) will exit when
-the device disappears and need to be restarted after the serial device
-returns. This script handles this automatically for such terminal
-programs.
+For use outside of tests themselves, we want a better error than
+AssertionError, so create one and allow us to request it when calling
+runCmd(). This enables us to avoid tracebacks during master image
+operations if the power control command fails.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/contrib/serdevtry | 60 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
- create mode 100755 scripts/contrib/serdevtry
+ meta/lib/oeqa/controllers/masterimage.py |  6 +++++-
+ meta/lib/oeqa/utils/__init__.py          | 12 ++++++++++++
+ meta/lib/oeqa/utils/commands.py          | 10 +++++++---
+ 3 files changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/contrib/serdevtry b/scripts/contrib/serdevtry
-new file mode 100755
-index 0000000..74bd7b7
---- /dev/null
-+++ b/scripts/contrib/serdevtry
-@@ -0,0 +1,60 @@
-+#!/bin/sh
+diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+index d151e24..f2585d4 100644
+--- a/meta/lib/oeqa/controllers/masterimage.py
++++ b/meta/lib/oeqa/controllers/masterimage.py
+@@ -20,6 +20,7 @@ import subprocess
+ import oeqa.targetcontrol
+ import oeqa.utils.sshcontrol as sshcontrol
+ import oeqa.utils.commands as commands
++from oeqa.utils import CommandError
+ 
+ from abc import ABCMeta, abstractmethod
+ 
+@@ -94,7 +95,10 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget):
+     def power_ctl(self, msg):
+         if self.powercontrol_cmd:
+             cmd = "%s %s" % (self.powercontrol_cmd, msg)
+-            commands.runCmd(cmd, preexec_fn=os.setsid, env=self.origenv)
++            try:
++                commands.runCmd(cmd, assert_error=False, preexec_fn=os.setsid, env=self.origenv)
++            except CommandError as e:
++                bb.fatal(str(e))
+ 
+     def power_cycle(self, conn):
+         if self.powercontrol_cmd:
+diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
+index 8eda927..2260046 100644
+--- a/meta/lib/oeqa/utils/__init__.py
++++ b/meta/lib/oeqa/utils/__init__.py
+@@ -1,3 +1,15 @@
+ # Enable other layers to have modules in the same named directory
+ from pkgutil import extend_path
+ __path__ = extend_path(__path__, __name__)
 +
-+# Copyright (C) 2014 Intel Corporation
-+#
-+# Released under the MIT license (see COPYING.MIT)
 +
-+if [ "$1" = "" -o "$1" = "--help" ] ; then
-+    echo "Usage: $0 <serial terminal command>"
-+    echo
-+    echo "Simple script to handle maintaining a terminal for serial devices that"
-+    echo "disappear when a device is powered down or reset, such as the USB"
-+    echo "serial console on the original BeagleBone (white version)."
-+    echo
-+    echo "e.g. $0 picocom -b 115200 /dev/ttyUSB0"
-+    echo
-+    exit
-+fi
++# Borrowed from CalledProcessError
 +
-+args="$@"
-+DEVICE=""
-+while [ "$1" != "" ]; do
-+    case "$1" in
-+        /dev/*)
-+            DEVICE=$1
-+            break;;
-+    esac
-+    shift
-+done
++class CommandError(Exception):
++    def __init__(self, retcode, cmd, output = None):
++        self.retcode = retcode
++        self.cmd = cmd
++        self.output = output
++    def __str__(self):
++        return "Command '%s' returned non-zero exit status %d with output: %s" % (self.cmd, self.retcode, self.output)
 +
-+if [ "$DEVICE" != "" ] ; then
-+    while true; do
-+        if [ ! -e $DEVICE ] ; then
-+            echo "serdevtry: waiting for $DEVICE to exist..."
-+            while [ ! -e $DEVICE ]; do
-+                sleep 0.1
-+            done
-+        fi
-+        if [ ! -w $DEVICE ] ; then
-+            # Sometimes (presumably because of a race with udev) we get to
-+            # the device before its permissions have been set up
-+            RETRYNUM=0
-+            while [ ! -w $DEVICE ]; do
-+                if [ "$RETRYNUM" = "2" ] ; then
-+                    echo "Device $DEVICE exists but is not writable!"
-+                    exit 1
-+                fi
-+                RETRYNUM=$((RETRYNUM+1))
-+                sleep 0.1
-+            done
-+        fi
-+        $args
-+        if [ -e $DEVICE ] ; then
-+            break
-+        fi
-+    done
-+else
-+    echo "Unable to determine device node from command: $args"
-+    exit 1
-+fi
-+
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 9b42620..7637b9d 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -1,4 +1,4 @@
+-# Copyright (c) 2013 Intel Corporation
++# Copyright (c) 2013-2014 Intel Corporation
+ #
+ # Released under the MIT license (see COPYING.MIT)
+ 
+@@ -14,6 +14,7 @@ import signal
+ import subprocess
+ import threading
+ import logging
++from oeqa.utils import CommandError
+ 
+ class Command(object):
+     def __init__(self, command, bg=False, timeout=None, data=None, **options):
+@@ -84,8 +85,8 @@ class Command(object):
+ class Result(object):
+     pass
+ 
+-def runCmd(command, ignore_status=False, timeout=None, **options):
+ 
++def runCmd(command, ignore_status=False, timeout=None, assert_error=True, **options):
+     result = Result()
+ 
+     cmd = Command(command, timeout=timeout, **options)
+@@ -97,7 +98,10 @@ def runCmd(command, ignore_status=False, timeout=None, **options):
+     result.pid = cmd.process.pid
+ 
+     if result.status and not ignore_status:
+-        raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, result.output))
++        if assert_error:
++            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, result.output))
++        else:
++            raise CommandError(result.status, command, result.output)
+ 
+     return result
+ 
 -- 
 1.9.0
 
