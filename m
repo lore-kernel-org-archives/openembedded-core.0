@@ -1,36 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 03EF465D67;
-	Wed, 30 Apr 2014 16:06:12 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id gl10so1386307lab.37
-	for <multiple recipients>; Wed, 30 Apr 2014 09:06:13 -0700 (PDT)
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 68E1E65D14
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Apr 2014 17:58:35 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id jy13so2644596veb.30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Apr 2014 10:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=RPvw4XJYtz9odt1cZL+2rpUToEO8cbKzpv+GznKRl8o=;
-	b=C+6yHkxOsa2rgblJGuSFhDG4KB3gCaCGOjVBop4saZKh+9SBU6mqSAJIeYgURBiEWs
-	uubLD7+1keYWXgyAxYDhFPTpCqbX/Td8C4vICAqdcREoE82xKRYv/uRvcckaYmV5Jp3t
-	txYfHnawQryOiFPrVqg9CprWAXPa4Y6b/SaGWG2ILEnhHS7BMEIfnQQasJq3MrVr9iAl
-	k5vIALs3vYfZlls6V8wiTiZMDvgB2Ub7dqDwQurSmBb2yLoeagz4GQe5aF0QWFrqjzIN
-	dIeK4rBYEDj7xq1qvr0M5w8IIzllwQJq3Tf1lenP06JOVAQQvlmec6eUfnm++PSjhRR1
-	RttA==
-X-Received: by 10.152.19.65 with SMTP id c1mr2185761lae.35.1398873972883;
-	Wed, 30 Apr 2014 09:06:12 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	fa8sm26732889lbc.18.2014.04.30.09.06.10 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Apr 2014 09:06:11 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 30 Apr 2014 18:06:26 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140430160626.GN2486@jama>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=HocB91aF/VmUow9hG4phYvFOywGf+c/IXSI9pHma8cc=;
+	b=gfHD/Z7taprrhsTbjlZuIGRsM2z5KM/J6WxZK+VE6KIk45SYx1g72R/BwBm5PL2pRP
+	5thXAKckMT47e7dHnhmzTsJ9tOCP6aPaInBYKgHFSmgl8+iuOLtwOBB/g8XUMx3XhfRz
+	u7lor0ciYVyDr4Gv706gKIF3Vr93LAys2Az0pmWAEGdm8/gAqcf7L9piAGEf1i4fiNEJ
+	4I0tPcudlKe/mnpNTb4KECVNvjYjiEcvZ0+cvMiiAVirArh+akazK8yKPDJkngCplCD/
+	mQbsMNuMqMlZZpiQnx5ROh3aAUdHqk916cb2fIslVG9MIjV/i1jPXJNf4qddrQ0/Y9hk
+	ohlQ==
+X-Received: by 10.52.51.197 with SMTP id m5mr3954630vdo.9.1398880716535; Wed,
+	30 Apr 2014 10:58:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-04-30
+Sender: paul.betafive@gmail.com
+Received: by 10.221.5.133 with HTTP; Wed, 30 Apr 2014 10:57:56 -0700 (PDT)
+In-Reply-To: <1398873268.16672.529.camel@ted>
+References: <535F3FFD.1080403@hostmobility.com>
+	<535F4513.20407@hostmobility.com> <1398873268.16672.529.camel@ted>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 30 Apr 2014 18:57:56 +0100
+X-Google-Sender-Auth: afq_xLLYHZlIMEvZf0q6MpfJv10
+Message-ID: <CANyK_8c_-UdtF6ZqHLvQcs_JJ9PGjP+wP0dJGH_3imkn4n4h4w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: quilt-native fails on tar version 1.27.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,86 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Apr 2014 16:06:16 -0000
-X-Groupsio-MsgNum: 52716
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="roczexVbllXyERLp"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Apr 2014 17:58:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
---roczexVbllXyERLp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 30 April 2014 16:54, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-04-29 at 08:22 +0200, Mirza Krak wrote:
+>> Hi.
+>>
+>> I recently updated my Ubuntu PC to 14.04 LTS which broke yocto builds.
+>>
+>>   From what I can see is that there seems to be an issue with the tar
+>> command and quilt-native recipe. But I am to newb to fix this. Do you
+>> guys have any ideas?
+>
+> You're using an old release on a modern system which wasn't around when
+> the release was made.
+>
 
-> Khem sent couple of patches for B!=3DS issues, bit thanks to him!
->=20
-> I have local patch to set B=3DS/autotools-brokensep for remaining failing
-> recipes, but I'll wait a bit more for people to send fixes.
+Just wanted to add to the comments on this as I got into a discussion
+on the mailing list about this recently. The recommendations I got
+were to keep the old branch on the old version of the distro that you
+were using. With linux containers being supported in Ubuntu 14.04,
+it's pretty easy to create a container with Ubuntu 12.04 installed and
+use that for building old branches of OpenEmbedded. If you can't find
+a good guide online on how to set this up, let me know and I'll write
+up a blog post of how I did it.
 
-This patch was included in this build, that's why there is only few
-issues, next build will include oe-core/daisy to help with meta-oe/daisy
-stabilization.
+For example, in my situation I have a system image built against the
+dylan branch which I need to continue supporting and I can't
+realistically upgrade to a newer branch. I now have a Ubuntu 12.04
+container running that build, while new builds against the daisy or
+master branches are being done in a Ubuntu 14.04 container.
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+Hope this helps,
 
-=3D=3D Failed tasks 2014-04-30 =3D=3D
+-- 
+Paul Barker
 
-=3D=3D=3D common (6) =3D=3D=3D
-    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
-b, do_compile
-    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_c=
-onfigure
-    * meta-openembedded/meta-oe/recipes-devtools/log4cplus/log4cplus_1.1.1.=
-bb, do_configure
-    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
-ile
-    * meta-openembedded/meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb,=
- do_configure
-    * meta-openembedded/meta-webserver/recipes-php/xdebug/xdebug_2.2.3.bb, =
-do_configure
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
-=3D=3D=3D common-x86 (3) =3D=3D=3D
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
-pile
-    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * openembedded-core/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb, d=
-o_compile
-
-=3D=3D=3D qemux86 (0) =3D=3D=3D
-
-=3D=3D=3D qemux86_64 (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
-obiledevice_1.1.4.bb, do_configure
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||7     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140429_174836.log/
-|-
-||qemux86       ||9     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140429_192931.log//
-|-
-||qemux86_64    ||10    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140429_215135.log//
-|}
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---roczexVbllXyERLp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlNhH4IACgkQN1Ujt2V2gBw9mwCeKiIy4tCOOtw9NbVDJ0D4GmAH
-OHcAoI2IP0kp7x2VPkR6LAIh/WsaS0IW
-=cARX
------END PGP SIGNATURE-----
-
---roczexVbllXyERLp--
