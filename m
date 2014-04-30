@@ -1,24 +1,26 @@
-Return-Path: <radek.dostal@streamunlimited.com>
-X-Greylist: delayed 1243 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 30 Apr 2014 13:23:21 UTC
-Received: from lbmfmo03.bon.at (bsmtp4.bon.at [195.3.86.186])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A06665D9C
+Return-Path: <valentin.popa@intel.com>
+X-Greylist: delayed 566 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 30 Apr 2014 15:49:31 UTC
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 47B8E60D71
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Apr 2014 13:23:21 +0000 (UTC)
-Received: from bsmtp.bon.at (unknown [192.168.181.108])
-	by lbmfmo03.bon.at (Postfix) with ESMTP id 8FBD2CE726
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Apr 2014 15:02:38 +0200 (CEST)
-Received: from rdostal-desktop.sue.net (unknown [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTP id 18E7B13007B;
-	Wed, 30 Apr 2014 15:02:25 +0200 (CEST)
-From: Radek Dostal <radek.dostal@streamunlimited.com>
+	Wed, 30 Apr 2014 15:49:31 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 30 Apr 2014 08:35:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,959,1389772800"; d="scan'208";a="523845889"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Apr 2014 08:39:46 -0700
+From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Apr 2014 15:01:58 +0200
-Message-Id: <1398862918-1604-1-git-send-email-radek.dostal@streamunlimited.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Radek Dostal <radek.dostal@streamunlimited.com>
-Subject: [PATCH] distutils.bbclass: only modify *.py file if it contains path to be removed
+Date: Wed, 30 Apr 2014 18:39:33 +0300
+Message-Id: <153e7dbb41620edc7920b6c31556a4965dd4ed1d.1398871949.git.valentin.popa@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1398871949.git.valentin.popa@intel.com>
+References: <cover.1398871949.git.valentin.popa@intel.com>
+In-Reply-To: <cover.1398871949.git.valentin.popa@intel.com>
+References: <cover.1398871949.git.valentin.popa@intel.com>
+Subject: [PATCH 3/3] wpa-supplicant: add libgcrypt as a dependencie
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Apr 2014 13:23:25 -0000
+X-List-Received-Date: Wed, 30 Apr 2014 15:49:34 -0000
 
-Currently sed command touches every single *.py file. This modifies the
-timestamp of the file. All *.pyo files will be recompiled during the first
-boot, because timestamp will not match. This should be only necessary if
-sed command changes the file.
+gnutls doesn't depend on libgcrypt anymore but
+wpa-supplicant does. So add it as a dependencie.
 
-Signed-off-by: Radek Dostal <radek.dostal@streamunlimited.com>
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/classes/distutils.bbclass |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index f3da023..cd1d148 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -43,7 +43,11 @@ distutils_do_install() {
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+index 6eb3d2d..61c29ef 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+@@ -6,7 +6,7 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
+                     file://README;beginline=1;endline=56;md5=a07250b28e857455336bb59fc31cb845 \
+                     file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=e8e021e30f3a6ab7c341b66b86626a5a"
+-DEPENDS = "gnutls dbus libnl openssl"
++DEPENDS = "gnutls dbus libnl openssl libgcrypt"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
  
-         # support filenames with *spaces*
-         find ${D} -name "*.py" -print0 | while read -d $'\0' i ; do \
--            sed -i -e s:${D}::g "$i"
-+            # only modify file if it contains path to avoid recompilation on the target
-+            if (cat "$i" | grep "${D}") >/dev/null 2>&1
-+            then
-+                sed -i -e s:${D}::g "$i"
-+            fi
-         done
- 
-         if test -e ${D}${bindir} ; then	
+ inherit systemd
 -- 
-1.7.9.5
+1.9.1
 
 
