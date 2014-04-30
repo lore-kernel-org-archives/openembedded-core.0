@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2744065DC8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Apr 2014 15:56:19 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s3UFkg2q032321; Wed, 30 Apr 2014 16:46:42 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iJ_Vs1Kh1S24; Wed, 30 Apr 2014 16:46:42 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s3UFkd9L032315
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 30 Apr 2014 16:46:41 +0100
-Message-ID: <1398872793.16672.526.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Radek Dostal <radek.dostal@streamunlimited.com>
-Date: Wed, 30 Apr 2014 16:46:33 +0100
-In-Reply-To: <1398862918-1604-1-git-send-email-radek.dostal@streamunlimited.com>
-References: <1398862918-1604-1-git-send-email-radek.dostal@streamunlimited.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] distutils.bbclass: only modify *.py file if it contains path to be removed
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 03EF465D67;
+	Wed, 30 Apr 2014 16:06:12 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id gl10so1386307lab.37
+	for <multiple recipients>; Wed, 30 Apr 2014 09:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=RPvw4XJYtz9odt1cZL+2rpUToEO8cbKzpv+GznKRl8o=;
+	b=C+6yHkxOsa2rgblJGuSFhDG4KB3gCaCGOjVBop4saZKh+9SBU6mqSAJIeYgURBiEWs
+	uubLD7+1keYWXgyAxYDhFPTpCqbX/Td8C4vICAqdcREoE82xKRYv/uRvcckaYmV5Jp3t
+	txYfHnawQryOiFPrVqg9CprWAXPa4Y6b/SaGWG2ILEnhHS7BMEIfnQQasJq3MrVr9iAl
+	k5vIALs3vYfZlls6V8wiTiZMDvgB2Ub7dqDwQurSmBb2yLoeagz4GQe5aF0QWFrqjzIN
+	dIeK4rBYEDj7xq1qvr0M5w8IIzllwQJq3Tf1lenP06JOVAQQvlmec6eUfnm++PSjhRR1
+	RttA==
+X-Received: by 10.152.19.65 with SMTP id c1mr2185761lae.35.1398873972883;
+	Wed, 30 Apr 2014 09:06:12 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	fa8sm26732889lbc.18.2014.04.30.09.06.10 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 Apr 2014 09:06:11 -0700 (PDT)
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 30 Apr 2014 18:06:26 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140430160626.GN2486@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, Failed tasks 2014-04-30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Apr 2014 15:56:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Apr 2014 16:06:16 -0000
+X-Groupsio-MsgNum: 52716
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="roczexVbllXyERLp"
+Content-Disposition: inline
 
-On Wed, 2014-04-30 at 15:01 +0200, Radek Dostal wrote:
-> Currently sed command touches every single *.py file. This modifies the
-> timestamp of the file. All *.pyo files will be recompiled during the first
-> boot, because timestamp will not match. This should be only necessary if
-> sed command changes the file.
-> 
-> Signed-off-by: Radek Dostal <radek.dostal@streamunlimited.com>
-> ---
->  meta/classes/distutils.bbclass |    6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-> index f3da023..cd1d148 100644
-> --- a/meta/classes/distutils.bbclass
-> +++ b/meta/classes/distutils.bbclass
-> @@ -43,7 +43,11 @@ distutils_do_install() {
->  
->          # support filenames with *spaces*
->          find ${D} -name "*.py" -print0 | while read -d $'\0' i ; do \
-> -            sed -i -e s:${D}::g "$i"
-> +            # only modify file if it contains path to avoid recompilation on the target
-> +            if (cat "$i" | grep "${D}") >/dev/null 2>&1
+--roczexVbllXyERLp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can we do something here which doesn't involve three different shell
-calls please?
+> Khem sent couple of patches for B!=3DS issues, bit thanks to him!
+>=20
+> I have local patch to set B=3DS/autotools-brokensep for remaining failing
+> recipes, but I'll wait a bit more for people to send fixes.
 
-Cheers,
+This patch was included in this build, that's why there is only few
+issues, next build will include oe-core/daisy to help with meta-oe/daisy
+stabilization.
 
-Richard
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
+=3D=3D Failed tasks 2014-04-30 =3D=3D
 
-> +            then
-> +                sed -i -e s:${D}::g "$i"
-> +            fi
->          done
->  
->          if test -e ${D}${bindir} ; then	
-> -- 
-> 1.7.9.5
-> 
+=3D=3D=3D common (6) =3D=3D=3D
+    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
+b, do_compile
+    * meta-openembedded/meta-oe/recipes-devtools/cloud9/cloud9_0.6.bb, do_c=
+onfigure
+    * meta-openembedded/meta-oe/recipes-devtools/log4cplus/log4cplus_1.1.1.=
+bb, do_configure
+    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb,=
+ do_configure
+    * meta-openembedded/meta-webserver/recipes-php/xdebug/xdebug_2.2.3.bb, =
+do_configure
 
+=3D=3D=3D common-x86 (3) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 
+=3D=3D=3D qemuarm (1) =3D=3D=3D
+    * openembedded-core/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb, d=
+o_compile
 
+=3D=3D=3D qemux86 (0) =3D=3D=3D
+
+=3D=3D=3D qemux86_64 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
+obiledevice_1.1.4.bb, do_configure
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||7     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140429_174836.log/
+|-
+||qemux86       ||9     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140429_192931.log//
+|-
+||qemux86_64    ||10    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140429_215135.log//
+|}
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--roczexVbllXyERLp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlNhH4IACgkQN1Ujt2V2gBw9mwCeKiIy4tCOOtw9NbVDJ0D4GmAH
+OHcAoI2IP0kp7x2VPkR6LAIh/WsaS0IW
+=cARX
+-----END PGP SIGNATURE-----
+
+--roczexVbllXyERLp--
