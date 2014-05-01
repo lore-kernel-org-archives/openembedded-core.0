@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0895A615F0
+	by mail.openembedded.org (Postfix) with ESMTP id B560B61EC2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 May 2014 14:39:32 +0000 (UTC)
+	Thu,  1 May 2014 14:40:42 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s41EdRCS002459 for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 May 2014 15:39:28 +0100
+	s41EebMR002504 for <openembedded-core@lists.openembedded.org>;
+	Thu, 1 May 2014 15:40:37 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KEu1VittkVA9
+	with LMTP id 77ib5zN91BwX
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 May 2014 15:39:27 +0100 (BST)
+	Thu,  1 May 2014 15:40:06 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s41EdNPM002456
+	s41Ee2nY002474
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 May 2014 15:39:25 +0100
-Message-ID: <1398955157.30460.79.camel@ted>
+	Thu, 1 May 2014 15:40:03 +0100
+Message-ID: <1398955196.30460.80.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 01 May 2014 15:39:17 +0100
+Date: Thu, 01 May 2014 15:39:56 +0100
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] tcmode-default.inc: Add default SDK PREFERRED_PROVIDERS
+Subject: [PATCH] base.bbclass: Silence PREFERRED_PROVIDER warnings for sdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 May 2014 14:39:35 -0000
+X-List-Received-Date: Thu, 01 May 2014 14:40:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-We should be explicit about the providers for the SDK toolchain so
-add entries to do this.
+Unfortunately expandKeys() notices overlap between the SDK and TARGET
+PREFERRED_PROVIDERS entries when we set things up for the SDK recipes.
+
+To avoid this, delete one of the sets of keys to avoid supurious warnings.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 1afc94d..03742d8 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -9,6 +9,12 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++ = "gcc-cross-${TARGET_ARCH}"
- PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs = "gcc-runtime"
- PREFERRED_PROVIDER_gdb = "gdb"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 1c40043..5c2d6a2 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -284,7 +284,7 @@ def buildcfg_neededvars(d):
+         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
  
-+PREFERRED_PROVIDER_virtual/${SDK_PREFIX}binutils-crosssdk = "binutils-crosssdk-${SDK_ARCH}"
-+PREFERRED_PROVIDER_virtual/${SDK_PREFIX}gcc-initial = "gcc-crosssdk-initial-${SDK_ARCH}"
-+PREFERRED_PROVIDER_virtual/${SDK_PREFIX}gcc = "gcc-crosssdk-${SDK_ARCH}"
-+PREFERRED_PROVIDER_virtual/${SDK_PREFIX}g++ = "gcc-crosssdk-${SDK_ARCH}"
-+PREFERRED_PROVIDER_virtual/${SDK_PREFIX}compilerlibs = "nativesdk-gcc-runtime"
+ addhandler base_eventhandler
+-base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted"
++base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise"
+ python base_eventhandler() {
+     if isinstance(e, bb.event.ConfigParsed):
+         e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
+@@ -312,6 +312,18 @@ python base_eventhandler() {
+ 
+         statusheader = e.data.getVar('BUILDCFG_HEADER', True)
+         bb.plain('\n%s\n%s\n' % (statusheader, '\n'.join(statuslines)))
 +
- # Default libc config
- PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "${TCLIBC}"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-for-gcc ?= "nativesdk-${TCLIBC}"
++    # This code is to silence warnings where the SDK variables overwrite the 
++    # target ones and we'd see dulpicate key names overwriting each other
++    # for various PREFERRED_PROVIDERS
++    if isinstance(e, bb.event.RecipePreFinalise):
++        if e.data.getVar("TARGET_PREFIX", True) == e.data.getVar("SDK_PREFIX", True):
++            e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}binutils")
++            e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc-initial")
++            e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc")
++            e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++")
++            e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs")
++
+ }
+ 
+ addtask configure after do_patch
 
 
 
