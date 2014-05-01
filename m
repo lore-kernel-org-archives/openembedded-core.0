@@ -1,40 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 654096083B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1357F6098B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 May 2014 06:10:33 +0000 (UTC)
-Received: by mail-vc0-f182.google.com with SMTP id lf12so3465161vcb.41
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Apr 2014 23:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=TKOUKEBfOh8DafrRtmv8twAgGBP54ISjwCHKjBH76oo=;
-	b=FanlaLmF1Uzuq0F03DASEHRI9eDJ6qZBKFitJ3CYkFr4qg49FiG8l18Em+7TkFOY1z
-	a5QG32hFPpUChunxfa1xrBqXKYXXYkDl1fDbTbM9EqHXdzScydPkf3iTU0rku+pqo9HE
-	Bp4XwpNnwU+k4WsIR9EvOLhFNvHzQ8CycMrJeMLNSgRHQbRdLi2DO431y2xTd8jTnczS
-	tupLDSEkqm1QV2og0xtSbNLh+jnwt737M3ZQ55oPokfkpHiTIs7Y/GRJFbFVxkfYJ3Iu
-	gzULeWqj6MoMlNEIaaYD3i6mZWiO+DwcX3aPYY5IcGR/uskJuILMZuVCUKDxORjviPaW
-	W+4A==
-X-Received: by 10.58.31.136 with SMTP id a8mr7473734vei.20.1398924634534;
-	Wed, 30 Apr 2014 23:10:34 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	zz3sm20469923vdb.21.2014.04.30.23.10.32 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Apr 2014 23:10:33 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 1 May 2014 08:10:48 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20140501061048.GQ2486@jama>
-References: <1398890453-24966-1-git-send-email-otavio@ossystems.com.br>
+	Thu,  1 May 2014 11:34:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 May 2014 04:34:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,964,1389772800"; d="scan'208";a="531823240"
+Received: from abamaras-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.26])
+	by fmsmga002.fm.intel.com with ESMTP; 01 May 2014 04:34:48 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Valentin Popa <valentin.popa@intel.com>
+Date: Thu, 01 May 2014 12:34:47 +0100
+Message-ID: <1823217.vjqjHS5tvm@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.13.10-200.fc20.x86_64; KDE/4.12.4; x86_64; ;
+	)
+In-Reply-To: <cff8f1a8914290689c411c19e78f7118036eda9c.1398871949.git.valentin.popa@intel.com>
+References: <cover.1398871949.git.valentin.popa@intel.com>
+	<cff8f1a8914290689c411c19e78f7118036eda9c.1398871949.git.valentin.popa@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1398890453-24966-1-git-send-email-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-tools: Enable GTK support for X11, Wayland and DirectFB
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] nettle: add nettle to poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,81 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 May 2014 06:10:39 -0000
-X-Groupsio-MsgNum: 52720
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UPatEw4DQAkUPfEY"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 01 May 2014 11:34:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---UPatEw4DQAkUPfEY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Valentin,
 
-On Wed, Apr 30, 2014 at 05:40:53PM -0300, Otavio Salvador wrote:
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-
-This should include required bitbake version bump.
-
+On Wednesday 30 April 2014 18:39:31 Valentin Popa wrote:
+> Newer versions of gnutls depends on nettle.
+> 
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 > ---
->  meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/rec=
-ipes-multimedia/alsa/alsa-tools_1.0.27.bb
-> index dfa9b97..3113481 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-> @@ -11,7 +11,8 @@ LIC_FILES_CHKSUM =3D "file://hdsploader/COPYING;md5=3D9=
-4d55d512a9ba36caa9b7df079bae1
->  SRC_URI =3D "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.b=
-z2 \
->             file://mips_has_no_io_h.patch \
->             file://autotools.patch \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'file://ma=
-kefile_no_gtk.patch', d)}"
-> +           ${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland dire=
-ctfb', '', \
-> +                                    'file://makefile_no_gtk.patch', d)}"
-> =20
->  SRC_URI[md5sum] =3D "1ea381d00a6069a98613aa7effa4cb51"
->  SRC_URI[sha256sum] =3D "6562611b5a6560712f109e09740a9d4fa47296b07ed9590c=
-b44139c5f154ada2"
-> @@ -20,7 +21,7 @@ inherit autotools-brokensep
-> =20
->  EXTRA_OEMAKE +=3D "GITCOMPILE_ARGS=3D'--host=3D${HOST_SYS} --build=3D${B=
-UILD_SYS} --target=3D${TARGET_SYS} --with-libtool-sysroot=3D${STAGING_DIR_H=
-OST} --prefix=3D${prefix}'"
-> =20
-> -PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk=
-+', '', d)}"
-> +PACKAGECONFIG ??=3D "${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wa=
-yland directfb', 'gtk+', '', d)}"
->  PACKAGECONFIG[gtk+] =3D ",,gtk+ gtk+3,"
-> =20
->  # configure.ac/.in doesn't exist so force copy
-> --=20
-> 2.0.0.rc0
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  meta/recipes-support/nettle/nettle_2.7.1.bb | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>  create mode 100644 meta/recipes-support/nettle/nettle_2.7.1.bb
+> 
+> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb
+> b/meta/recipes-support/nettle/nettle_2.7.1.bb new file mode 100644
+> index 0000000..eb7c9de
+> --- /dev/null
+> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+> @@ -0,0 +1,22 @@
+> +DESCRIPTION = "A low level cryptographic library"
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Since this value is short, could you please set it as SUMMARY instead?
 
---UPatEw4DQAkUPfEY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> +HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+> +SECTION = "libs"
+> +LICENSE = "GPLv2+"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+Is this license value correct? From the documentation:
 
-iEYEARECAAYFAlNh5WgACgkQN1Ujt2V2gBwuvACgmDFRfRNnO8QlprtD0KNVmF9D
-ZsMAoJG1j+RjpigpInj4VakWTNralKTR
-=d2k8
------END PGP SIGNATURE-----
+"Nettle is distributed under the GNU Lesser General Public License (LGPL), see 
+the file COPYING.LIB for details"
 
---UPatEw4DQAkUPfEY--
+It looks like it might be even more complicated than that, since there is also 
+a GPLv2 copying file in the 2.7.1 source.
+
+> +LIC_FILES_CHKSUM =
+> "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+
+Given the above we'd probably want to checksum more than just this file.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
