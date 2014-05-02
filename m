@@ -1,23 +1,31 @@
-Return-Path: <radek.dostal@streamunlimited.com>
-X-Greylist: delayed 158278 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 02 May 2014 09:00:28 UTC
-Received: from bsmtp.bon.at (bsmtp3.bon.at [213.33.87.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 1006460577
+Return-Path: <tarek.elsherbiny@gmail.com>
+Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DE6460144
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 09:00:28 +0000 (UTC)
-Received: from rdostal-desktop.sue.net (unknown [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTP id 9ACEE1300DA;
-	Fri,  2 May 2014 11:00:25 +0200 (CEST)
-From: Radek Dostal <radek.dostal@streamunlimited.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri,  2 May 2014 11:00:18 +0200
-Message-Id: <1399021218-27441-1-git-send-email-radek.dostal@streamunlimited.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1398872793.16672.526.camel@ted>
-References: <1398872793.16672.526.camel@ted>
-Cc: Radek Dostal <radek.dostal@streamunlimited.com>,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] distutils.bbclass: only modify *.py file if it contains path to be removed
+	Fri,  2 May 2014 11:04:31 +0000 (UTC)
+Received: by mail-yh0-f53.google.com with SMTP id i57so4003905yha.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 May 2014 04:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=gOo3OWYeeW4LbdUeHcUcoUJhJxx20ktT7ziRwIcv3TQ=;
+	b=EdiW5FOHbF9iUouYd7nzzIZjqNHxkk4OTeNwYyjKOhK4GRhlwWoBRUK3KKmrYUZx+2
+	0ZiOn/OJQKrcrufgjKq0eFiv9wemQp2OZhtKMKHf0WOy43yynSd2zE1IOA3DsQz3P1+I
+	QRifozRd4Nyz1QaRAWbJ2Cg7m7HfHoq1i41cw5fwpEiuw/dCYlzdSsMk82Fy8cqKNNBu
+	WL6mIRbVABafbvBvEk8obzzQ+6i5gG2QQqGS/wZVsa5TvBdw6sq6nyYOeuWg4dJR0DG0
+	oBuJQpuvnRNACLocH89bDkPXwjxYt99gndG4wYlbR0QmQM12VnwbFxM97cBUxgiixg20
+	mUqg==
+MIME-Version: 1.0
+X-Received: by 10.236.209.68 with SMTP id r44mr3946753yho.152.1399028672203;
+	Fri, 02 May 2014 04:04:32 -0700 (PDT)
+Received: by 10.170.71.65 with HTTP; Fri, 2 May 2014 04:04:32 -0700 (PDT)
+Date: Fri, 2 May 2014 12:04:32 +0100
+Message-ID: <CAB3sqtZbtJGsh_jMUnvJAyFmXJVHZT2bvZ=DJ0N-fSB-VYu4Tg@mail.gmail.com>
+From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
+To: yocto@yoctoproject.org, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: DNS when using Static IP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 09:00:31 -0000
+X-List-Received-Date: Fri, 02 May 2014 11:04:32 -0000
+Content-Type: multipart/alternative; boundary=001a11c2a77e099a7b04f868bfdc
 
-Currently sed command touches every single *.py file. This modifies the
-timestamp of the file. All *.pyo files will be recompiled during the first
-boot, because timestamp will not match. This should be only necessary if
-sed command changes the file.
+--001a11c2a77e099a7b04f868bfdc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Radek Dostal <radek.dostal@streamunlimited.com>
----
- meta/classes/distutils.bbclass |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Hi.
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index f3da023..18e1a34 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -43,7 +43,11 @@ distutils_do_install() {
- 
-         # support filenames with *spaces*
-         find ${D} -name "*.py" -print0 | while read -d $'\0' i ; do \
--            sed -i -e s:${D}::g "$i"
-+            # only modify file if it contains path to avoid recompilation on the target
-+            if (grep "${D}" "$i") >/dev/null 2>&1
-+            then
-+                sed -i -e s:${D}::g "$i"
-+            fi
-         done
- 
-         if test -e ${D}${bindir} ; then	
+I'm trying to set my IP config to a static address.
+
+iface eth0 inet static
+     address 192.168.55.45
+     network 192.168.55.0
+     netmask 255.255.255.0
+     broadcast 192.168.55.255
+     gateway 192.168.55.1
+     dns-nameservers 192.168.10.2
+
+But I don't get the DNS server address to be included in /etc/resolv.conf
+
+If I run in dchp mode, then the resolv.conf is updated with my DNS address.
+Is there something I'm missing here in my setup?
+
+
 -- 
-1.7.9.5
+*Tarek*
 
+--001a11c2a77e099a7b04f868bfdc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Hi.</div><div><br></div><div>I&#39;m trying to set my=
+ IP config to a static address.</div><div><br></div><div>iface eth0 inet st=
+atic</div><div>=C2=A0 =C2=A0 =C2=A0address 192.168.55.45</div><div>=C2=A0 =
+=C2=A0 =C2=A0network 192.168.55.0</div>
+<div>=C2=A0 =C2=A0 =C2=A0netmask 255.255.255.0</div><div>=C2=A0 =C2=A0 =C2=
+=A0broadcast 192.168.55.255</div><div>=C2=A0 =C2=A0 =C2=A0gateway 192.168.5=
+5.1</div><div>=C2=A0 =C2=A0 =C2=A0dns-nameservers 192.168.10.2</div><div><b=
+r></div><div>But I don&#39;t get the DNS server address to be included in /=
+etc/resolv.conf</div>
+<div><br></div><div>If I run in dchp mode, then the resolv.conf is updated =
+with my DNS address.</div><div>Is there something I&#39;m missing here in m=
+y setup?</div><div><br></div><div><br></div>-- <br><div dir=3D"ltr"><i><fon=
+t color=3D"#666666" face=3D"arial, helvetica, sans-serif">Tarek</font></i><=
+/div>
+
+</div>
+
+--001a11c2a77e099a7b04f868bfdc--
