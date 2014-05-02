@@ -1,39 +1,29 @@
-Return-Path: <tarek.elsherbiny@gmail.com>
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DBC30605B3
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 541 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 02 May 2014 13:10:00 UTC
+Received: from smtp01.online.nl (smtp01.online.nl [194.134.41.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 818E0605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 13:08:53 +0000 (UTC)
-Received: by mail-yk0-f174.google.com with SMTP id 9so1368589ykp.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 May 2014 06:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=zRJrQpGDmxjyeHLWdIJrumI2uq3VjIOPkNvGavW1Gwo=;
-	b=H56KWsoy/J4Zi+beZzOOOFZlfVSKl24Oc0gcgEokM7BRTuPf3WBp3VhB2BLVJn5YVX
-	JPNSf+K0sEkRwoNp8RFy4flyEDOPESuW+gH4pelmxWZ+qwiX9pXTUvdWT07KtJNrSekm
-	J0MztbqtnatlY3lF7xC6FZ0NqDF5lXmCuB4ub+tiTNRyDo3mkb2F+cQjBS46BslgaVOU
-	AGqbikYDH5ZC8JR4KQkgv/pVQC113V1s4VoV20Xnb7YLXTUiLSb1vCJrW1vq6eVhMNLE
-	PUq/uyld58dVH21Qt+S89Y6WqAcR9KvW82/noiZKQ9sQz5j1/DleqQRLIPR2mjia+ce5
-	CVkQ==
+	Fri,  2 May 2014 13:10:00 +0000 (UTC)
+Received: from smtp01.online.nl (localhost [127.0.0.1])
+	by smtp01.online.nl (Postfix) with ESMTP id 36ADF8E5ED;
+	Fri,  2 May 2014 15:00:59 +0200 (CEST)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp01.online.nl (Postfix) with ESMTP;
+	Fri,  2 May 2014 15:00:58 +0200 (CEST)
+Message-ID: <5363970A.8000601@topic.nl>
+Date: Fri, 02 May 2014 15:00:58 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-X-Received: by 10.236.209.68 with SMTP id r44mr4830996yho.152.1399036134280;
-	Fri, 02 May 2014 06:08:54 -0700 (PDT)
-Received: by 10.170.71.65 with HTTP; Fri, 2 May 2014 06:08:54 -0700 (PDT)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
-References: <CAB3sqtZbtJGsh_jMUnvJAyFmXJVHZT2bvZ=DJ0N-fSB-VYu4Tg@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB1CEA4705@IRSMSX105.ger.corp.intel.com>
-	<CAB3sqta0_u-Uv4EKXd6Y9upxyQfDEQ9_m_H=OL=tmMFKRb_14w@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
-Date: Fri, 2 May 2014 14:08:54 +0100
-Message-ID: <CAB3sqtbRMmCb_gLPVBrHBi1ft-6ji1q4S4F=1CkZFkitaFNUYg@mail.gmail.com>
-From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: DNS when using Static IP
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1398963761.12731.1.camel@ted>
+In-Reply-To: <1398963761.12731.1.camel@ted>
+X-Online-Scanned: by Cloudmark authority (on smtp01.online.nl)
+Subject: Re: My thoughts on the future of OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,322 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 13:08:54 -0000
-Content-Type: multipart/alternative; boundary=001a11c2a77ecfed1a04f86a7b87
+X-List-Received-Date: Fri, 02 May 2014 13:10:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c2a77ecfed1a04f86a7b87
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 05/01/2014 07:02 PM, Richard Purdie wrote:
+> I was asked what I thought were things that needed discussion at OEDAM.
+> Sadly I won't be there but I thought it might help to write down my
+> thoughts in a few areas.
+>
+> Developer Workflow
+> ------------------
+>
+> Firstly, I think the big piece we need to address as a project is
+> "developer workflow" as this is where people are struggling using it.
+>
+> Unfortunately "developer workflow" means different things to different
+> people? Which one do I mean then? I actually mean all of them. As some
+> examples:
 
-My image is based on core-image-base.
+Just about fifteen minutes ago I was asked the question of "Yay, I could 
+build a complete image for the board from scratch. Now how do I create 
+and run a HelloWorld application on it?"
 
-include recipes-core/images/core-image-base.bb
+The answer I was forced to give him was still horribly complicated - 
+create a repository, create a recipe, add the recipe, build the image, 
+and loop until it works. That's the method I usually follow myself, but 
+there are probably a few dozen others.
 
+I expect him back in about an hour asking: "How can I quickly recompile 
+and run after changing the code?"
 
+My answer again is going to be disappointing to him again. I'll be 
+forced to say he'll have to commit the change and build the image again.
 
-On Fri, May 2, 2014 at 1:49 PM, Iorga, Cristian <cristian.iorga@intel.com>w=
-rote:
-
->  Not really, I just wanted to get a better overview of the issue that you
-> are facing.
->
-> What image did you started from, if any?
->
->
->
-> *From:* Tarek El-Sherbiny [mailto:tarek.elsherbiny@gmail.com]
-> *Sent:* Friday, May 2, 2014 3:31 PM
-> *To:* Iorga, Cristian
-> *Cc:* openembedded-core@lists.openembedded.org; yocto@yoctoproject.org
-> *Subject:* RE: [OE-core] DNS when using Static IP
->
->
->
-> No connman is not included.  Shall I include it and try?
->
-> On 2 May 2014 13:01, "Iorga, Cristian" <cristian.iorga@intel.com> wrote:
->
->   Hello,
->
->
->
-> What image did you start from, if any?
->
-> i.e., core-image-minimal, core-image-sato, etc=E2=80=A6
->
-> Is connman included?
->
->
->
-> Regards,
->
-> Cristian Iorga
->
-> YP
->
-> Intel Corporation
->
->
->
-> *From:* openembedded-core-bounces@lists.openembedded.org [mailto:
-> openembedded-core-bounces@lists.openembedded.org] *On Behalf Of *Tarek
-> El-Sherbiny
-> *Sent:* Friday, May 2, 2014 2:05 PM
-> *To:* yocto@yoctoproject.org; openembedded-core@lists.openembedded.org
-> *Subject:* [OE-core] DNS when using Static IP
->
->
->
-> Hi.
->
->
->
-> I'm trying to set my IP config to a static address.
->
->
->
-> iface eth0 inet static
->
->      address 192.168.55.45
->
->      network 192.168.55.0
->
->      netmask 255.255.255.0
->
->      broadcast 192.168.55.255
->
->      gateway 192.168.55.1
->
->      dns-nameservers 192.168.10.2
->
->
->
-> But I don't get the DNS server address to be included in /etc/resolv.conf
->
->
->
-> If I run in dchp mode, then the resolv.conf is updated with my DNS addres=
-s.
->
-> Is there something I'm missing here in my setup?
->
->
->
->
->
-> --
->
-> *Tarek*
->
->
+After the weekend he'll ask me how to debug his code on target. The 
+answer to that? Well, I have the whole weekend to think about that.
 
 
---=20
-*Tarek*
-
---001a11c2a77ecfed1a04f86a7b87
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">My image is based on core-image-base.<div><br></div><div>i=
-nclude recipes-core/images/<a href=3D"http://core-image-base.bb">core-image=
--base.bb</a><br></div><div><br></div></div><div class=3D"gmail_extra"><br><=
-br>
-<div class=3D"gmail_quote">On Fri, May 2, 2014 at 1:49 PM, Iorga, Cristian =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:cristian.iorga@intel.com" target=3D=
-"_blank">cristian.iorga@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">
+This is basically what scares away new developers. It's easy to compile 
+an image, but it there isn't an obvious way to start developing your own 
+application.
 
 
+Don't get me wrong. OE is still by far the best cross-compile 
+environment in existence.
 
 
+Mike.
 
-
-<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">Not really, I just wanted=
- to get a better overview of the issue that you are facing.<u></u><u></u></=
-span></p>
-
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">What image did you starte=
-d from, if any?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><a name=3D"145bcfb7fa931e82__MailEndCompose"><span s=
-tyle=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&q=
-uot;;color:#1f497d"><u></u>=C2=A0<u></u></span></a></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><b><span style=3D"font-si=
-ze:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">From:</sp=
-an></b><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quo=
-t;sans-serif&quot;"> Tarek El-Sherbiny [mailto:<a href=3D"mailto:tarek.elsh=
-erbiny@gmail.com" target=3D"_blank">tarek.elsherbiny@gmail.com</a>]
-<br>
-<b>Sent:</b> Friday, May 2, 2014 3:31 PM<br>
-<b>To:</b> Iorga, Cristian<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a>; <a href=3D"mail=
-to:yocto@yoctoproject.org" target=3D"_blank">yocto@yoctoproject.org</a><br>
-<b>Subject:</b> RE: [OE-core] DNS when using Static IP<u></u><u></u></span>=
-</p><div><div class=3D"h5">
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><u></u>=C2=A0<u></u></p>
-<p style=3D"margin-left:.5in">No connman is not included.=C2=A0 Shall I inc=
-lude it and try?<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">On 2 May 2014 13:01, &quo=
-t;Iorga, Cristian&quot; &lt;<a href=3D"mailto:cristian.iorga@intel.com" tar=
-get=3D"_blank">cristian.iorga@intel.com</a>&gt; wrote:<u></u><u></u></p>
-<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0i=
-n 0in 0in 6.0pt;margin-left:4.8pt;margin-right:0in">
-<div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">Hello,</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">=C2=A0</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">What image did you start from, if any?</span><u>=
-</u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">i.e., core-image-minimal, core-image-sato, etc=
-=E2=80=A6</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">Is connman included?</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">=C2=A0</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">Regards,</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">Cristian Iorga</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">YP</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
-serif&quot;;color:#1f497d">Intel Corporation</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in">
-<a name=3D"145bcfb7fa931e82_145bccf95e661649__MailEndCompose"><span style=
-=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;=
-;color:#1f497d">=C2=A0</span></a><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-<b><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sa=
-ns-serif&quot;">From:</span></b><span style=3D"font-size:11.0pt;font-family=
-:&quot;Calibri&quot;,&quot;sans-serif&quot;">
-<a href=3D"mailto:openembedded-core-bounces@lists.openembedded.org" target=
-=3D"_blank">
-openembedded-core-bounces@lists.openembedded.org</a> [mailto:<a href=3D"mai=
-lto:openembedded-core-bounces@lists.openembedded.org" target=3D"_blank">ope=
-nembedded-core-bounces@lists.openembedded.org</a>]
-<b>On Behalf Of </b>Tarek El-Sherbiny<br>
-<b>Sent:</b> Friday, May 2, 2014 2:05 PM<br>
-<b>To:</b> <a href=3D"mailto:yocto@yoctoproject.org" target=3D"_blank">yoct=
-o@yoctoproject.org</a>;
-<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> [OE-core] DNS when using Static IP</span><u></u><u></u></p>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-Hi.<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-I&#39;m trying to set my IP config to a static address.<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-iface eth0 inet static<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0 =C2=A0 =C2=A0address 192.168.55.45<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0 =C2=A0 =C2=A0network 192.168.55.0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0 =C2=A0 =C2=A0netmask 255.255.255.0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0 =C2=A0 =C2=A0broadcast 192.168.55.255<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0 =C2=A0 =C2=A0gateway 192.168.55.1<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0 =C2=A0 =C2=A0dns-nameservers 192.168.10.2<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-But I don&#39;t get the DNS server address to be included in /etc/resolv.co=
-nf<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-If I run in dchp mode, then the resolv.conf is updated with my DNS address.=
-<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-Is there something I&#39;m missing here in my setup?<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-=C2=A0<u></u><u></u></p>
-</div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
--- <u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
-<i><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;colo=
-r:#666666">Tarek</span></i><u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-</blockquote>
-</div>
-</div></div></div>
-</div>
-
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div dir=3D"=
-ltr"><i><font color=3D"#666666" face=3D"arial, helvetica, sans-serif">Tarek=
-</font></i></div>
-</div>
-
---001a11c2a77ecfed1a04f86a7b87--
