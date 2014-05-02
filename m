@@ -1,31 +1,28 @@
-Return-Path: <tarek.elsherbiny@gmail.com>
-Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DE6460144
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C59760048
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 11:04:31 +0000 (UTC)
-Received: by mail-yh0-f53.google.com with SMTP id i57so4003905yha.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 May 2014 04:04:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=gOo3OWYeeW4LbdUeHcUcoUJhJxx20ktT7ziRwIcv3TQ=;
-	b=EdiW5FOHbF9iUouYd7nzzIZjqNHxkk4OTeNwYyjKOhK4GRhlwWoBRUK3KKmrYUZx+2
-	0ZiOn/OJQKrcrufgjKq0eFiv9wemQp2OZhtKMKHf0WOy43yynSd2zE1IOA3DsQz3P1+I
-	QRifozRd4Nyz1QaRAWbJ2Cg7m7HfHoq1i41cw5fwpEiuw/dCYlzdSsMk82Fy8cqKNNBu
-	WL6mIRbVABafbvBvEk8obzzQ+6i5gG2QQqGS/wZVsa5TvBdw6sq6nyYOeuWg4dJR0DG0
-	oBuJQpuvnRNACLocH89bDkPXwjxYt99gndG4wYlbR0QmQM12VnwbFxM97cBUxgiixg20
-	mUqg==
+	Fri,  2 May 2014 11:19:08 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 May 2014 04:14:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,972,1389772800"; d="scan'208";a="504843158"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by orsmga001.jf.intel.com with ESMTP; 02 May 2014 04:19:02 -0700
+Message-ID: <53637F1D.9090500@intel.com>
+Date: Fri, 02 May 2014 14:18:53 +0300
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-X-Received: by 10.236.209.68 with SMTP id r44mr3946753yho.152.1399028672203;
-	Fri, 02 May 2014 04:04:32 -0700 (PDT)
-Received: by 10.170.71.65 with HTTP; Fri, 2 May 2014 04:04:32 -0700 (PDT)
-Date: Fri, 2 May 2014 12:04:32 +0100
-Message-ID: <CAB3sqtZbtJGsh_jMUnvJAyFmXJVHZT2bvZ=DJ0N-fSB-VYu4Tg@mail.gmail.com>
-From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
-To: yocto@yoctoproject.org, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: DNS when using Static IP
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1398871949.git.valentin.popa@intel.com>
+	<cff8f1a8914290689c411c19e78f7118036eda9c.1398871949.git.valentin.popa@intel.com>
+	<1823217.vjqjHS5tvm@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1823217.vjqjHS5tvm@peggleto-mobl5.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] nettle: add nettle to poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 11:04:32 -0000
-Content-Type: multipart/alternative; boundary=001a11c2a77e099a7b04f868bfdc
+X-List-Received-Date: Fri, 02 May 2014 11:19:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c2a77e099a7b04f868bfdc
-Content-Type: text/plain; charset=UTF-8
+On 05/01/2014 02:34 PM, Paul Eggleton wrote:
+> Hi Valentin,
+>
+> On Wednesday 30 April 2014 18:39:31 Valentin Popa wrote:
+>> Newer versions of gnutls depends on nettle.
+>>
+>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>> ---
+>>   meta/recipes-support/nettle/nettle_2.7.1.bb | 22 ++++++++++++++++++++++
+>>   1 file changed, 22 insertions(+)
+>>   create mode 100644 meta/recipes-support/nettle/nettle_2.7.1.bb
+>>
+>> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb
+>> b/meta/recipes-support/nettle/nettle_2.7.1.bb new file mode 100644
+>> index 0000000..eb7c9de
+>> --- /dev/null
+>> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+>> @@ -0,0 +1,22 @@
+>> +DESCRIPTION = "A low level cryptographic library"
+> Since this value is short, could you please set it as SUMMARY instead?
+>
+>> +HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+>> +SECTION = "libs"
+>> +LICENSE = "GPLv2+"
+> Is this license value correct? From the documentation:
+>
+> "Nettle is distributed under the GNU Lesser General Public License (LGPL), see
+> the file COPYING.LIB for details"
 
-Hi.
+I'll add both GPLv2 AND LGPLv2.1 (GPL contamination) .
 
-I'm trying to set my IP config to a static address.
-
-iface eth0 inet static
-     address 192.168.55.45
-     network 192.168.55.0
-     netmask 255.255.255.0
-     broadcast 192.168.55.255
-     gateway 192.168.55.1
-     dns-nameservers 192.168.10.2
-
-But I don't get the DNS server address to be included in /etc/resolv.conf
-
-If I run in dchp mode, then the resolv.conf is updated with my DNS address.
-Is there something I'm missing here in my setup?
+>
+> It looks like it might be even more complicated than that, since there is also
+> a GPLv2 copying file in the 2.7.1 source.
+>
+>> +LIC_FILES_CHKSUM =
+>> "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+> Given the above we'd probably want to checksum more than just this file.
+>
+> Cheers,
+> Paul
+>
 
 
--- 
-*Tarek*
-
---001a11c2a77e099a7b04f868bfdc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi.</div><div><br></div><div>I&#39;m trying to set my=
- IP config to a static address.</div><div><br></div><div>iface eth0 inet st=
-atic</div><div>=C2=A0 =C2=A0 =C2=A0address 192.168.55.45</div><div>=C2=A0 =
-=C2=A0 =C2=A0network 192.168.55.0</div>
-<div>=C2=A0 =C2=A0 =C2=A0netmask 255.255.255.0</div><div>=C2=A0 =C2=A0 =C2=
-=A0broadcast 192.168.55.255</div><div>=C2=A0 =C2=A0 =C2=A0gateway 192.168.5=
-5.1</div><div>=C2=A0 =C2=A0 =C2=A0dns-nameservers 192.168.10.2</div><div><b=
-r></div><div>But I don&#39;t get the DNS server address to be included in /=
-etc/resolv.conf</div>
-<div><br></div><div>If I run in dchp mode, then the resolv.conf is updated =
-with my DNS address.</div><div>Is there something I&#39;m missing here in m=
-y setup?</div><div><br></div><div><br></div>-- <br><div dir=3D"ltr"><i><fon=
-t color=3D"#666666" face=3D"arial, helvetica, sans-serif">Tarek</font></i><=
-/div>
-
-</div>
-
---001a11c2a77e099a7b04f868bfdc--
