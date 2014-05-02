@@ -1,28 +1,24 @@
 Return-Path: <valentin.popa@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C59760048
+X-Greylist: delayed 662 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 02 May 2014 11:30:52 UTC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 57DF460048
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 11:19:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 May 2014 04:14:12 -0700
+	Fri,  2 May 2014 11:30:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 02 May 2014 04:19:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,972,1389772800"; d="scan'208";a="504843158"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
-	([10.237.105.76])
-	by orsmga001.jf.intel.com with ESMTP; 02 May 2014 04:19:02 -0700
-Message-ID: <53637F1D.9090500@intel.com>
-Date: Fri, 02 May 2014 14:18:53 +0300
+X-IronPort-AV: E=Sophos;i="4.97,972,1389772800"; d="scan'208";a="532443555"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
+	by fmsmga002.fm.intel.com with ESMTP; 02 May 2014 04:19:39 -0700
 From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1398871949.git.valentin.popa@intel.com>
-	<cff8f1a8914290689c411c19e78f7118036eda9c.1398871949.git.valentin.popa@intel.com>
-	<1823217.vjqjHS5tvm@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <1823217.vjqjHS5tvm@peggleto-mobl5.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] nettle: add nettle to poky
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 May 2014 14:19:26 +0300
+Message-Id: <1399029566-14565-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cff8f1a8914290689c411c19e78f7118036eda9c.1398871949.git.valentin.popa@intel.com>
+References: <cff8f1a8914290689c411c19e78f7118036eda9c.1398871949.git.valentin.popa@intel.com>
+Subject: [PATCH 1/3] nettle: add nettle to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 11:19:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 May 2014 11:30:55 -0000
 
-On 05/01/2014 02:34 PM, Paul Eggleton wrote:
-> Hi Valentin,
->
-> On Wednesday 30 April 2014 18:39:31 Valentin Popa wrote:
->> Newer versions of gnutls depends on nettle.
->>
->> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
->> ---
->>   meta/recipes-support/nettle/nettle_2.7.1.bb | 22 ++++++++++++++++++++++
->>   1 file changed, 22 insertions(+)
->>   create mode 100644 meta/recipes-support/nettle/nettle_2.7.1.bb
->>
->> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb
->> b/meta/recipes-support/nettle/nettle_2.7.1.bb new file mode 100644
->> index 0000000..eb7c9de
->> --- /dev/null
->> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> @@ -0,0 +1,22 @@
->> +DESCRIPTION = "A low level cryptographic library"
-> Since this value is short, could you please set it as SUMMARY instead?
->
->> +HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
->> +SECTION = "libs"
->> +LICENSE = "GPLv2+"
-> Is this license value correct? From the documentation:
->
-> "Nettle is distributed under the GNU Lesser General Public License (LGPL), see
-> the file COPYING.LIB for details"
+Newer versions of gnutls depends on nettle.
 
-I'll add both GPLv2 AND LGPLv2.1 (GPL contamination) .
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ meta/recipes-support/nettle/nettle_2.7.1.bb | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/recipes-support/nettle/nettle_2.7.1.bb
 
->
-> It looks like it might be even more complicated than that, since there is also
-> a GPLv2 copying file in the 2.7.1 source.
->
->> +LIC_FILES_CHKSUM =
->> "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
-> Given the above we'd probably want to checksum more than just this file.
->
-> Cheers,
-> Paul
->
+diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
+new file mode 100644
+index 0000000..87f1639
+--- /dev/null
++++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "A low level cryptographic library"
++HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
++SECTION = "libs"
++LICENSE = "LGPLv2.1 & GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
++                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
++                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
++
++DEPENDS += "gmp"
++
++SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
++
++SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
++SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
++
++do_configure_prepend() {
++       if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
++               cp ${S}/aclocal.m4 ${S}/acinclude.m4
++       fi
++}
++
++inherit autotools
++
++BBCLASSEXTEND = "native"
+-- 
+1.9.1
 
 
