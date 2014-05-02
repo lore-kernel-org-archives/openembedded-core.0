@@ -1,34 +1,29 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 36C4A601A9
+Return-Path: <philip@balister.org>
+X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 02 May 2014 16:11:46 UTC
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 3ADB8606A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 15:46:35 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id d49so544733eek.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 May 2014 08:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=SN80768KpfH3bdXvxbUCmNVfHLSuVZFX3pLB7ysduWg=;
-	b=vB4SzArqhBdG+dqE8flRxUBoF+/vPBtQuXQ58ry8IQ8sXmTXA+0OLMAPyKbRQ3dey/
-	a+QGXLsgZEN9+RVaAPAYmNww6Pw4bMq9CgrsOSa3tq4dkmfEcGbe5c+q+8D5JpnogCK1
-	a56bcOs3Hps9b7sXEos78xrYnNJf8vubIkWYyPSZH3Ha0lJHlt4SD1cDC/9eNR9fuIkz
-	H3ZccgWFqp2AI94oNdAq8YgT61LL6f3MCh7/t9TkgwYJgBoiLERWCsZP4L4BKdgkQXcs
-	Df0/BTqvnCd2oWnU0UWf3jiYaanJmWKTJdfkKwsNUXRbPxwVrZVfYgLn+Cs5eLrLsHVh
-	JmdA==
-X-Received: by 10.15.90.201 with SMTP id q49mr15800516eez.65.1399045596463;
-	Fri, 02 May 2014 08:46:36 -0700 (PDT)
-Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id w1sm5483707eel.16.2014.05.02.08.46.34
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 02 May 2014 08:46:35 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 May 2014 15:46:25 +0000
-Message-Id: <1399045585-8415-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.9.2
-Subject: [PATCH] PR bumps to remove PRINC usage from meta-raspberrypi
+	Fri,  2 May 2014 16:11:46 +0000 (UTC)
+Received: (qmail 28158 invoked by uid 1003); 2 May 2014 16:05:06 -0000
+Received: from unknown (HELO ?10.16.37.49?) (philip@opensdr.com@64.186.172.226)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	2 May 2014 16:05:06 -0000
+Message-ID: <5363C230.5070508@balister.org>
+Date: Fri, 02 May 2014 09:05:04 -0700
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Mike Looijmans <mike.looijmans@topic.nl>, 
+	"Burton, Ross" <ross.burton@intel.com>
+References: <1398963761.12731.1.camel@ted>
+	<5363970A.8000601@topic.nl>	<CAJTo0LaYfVWuBkn4wsHcjWQvoGBv6r+U+Vd+ozb=_=ynPYvkHQ@mail.gmail.com>
+	<5363A741.6080508@topic.nl>
+In-Reply-To: <5363A741.6080508@topic.nl>
+X-Enigmail-Version: 1.6
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: My thoughts on the future of OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,49 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 15:46:40 -0000
+X-List-Received-Date: Fri, 02 May 2014 16:11:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-This allows us to remove the following uses of PRINC in meta-raspberrypi:
+On 05/02/2014 07:10 AM, Mike Looijmans wrote:
+> On 05/02/2014 03:47 PM, Burton, Ross wrote:
+>> On 2 May 2014 14:00, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+>>> Just about fifteen minutes ago I was asked the question of "Yay, I could
+>>> build a complete image for the board from scratch. Now how do I
+>>> create and
+>>> run a HelloWorld application on it?"
+>>
+>> Depending on context simply adding the "tools-sdk dev-pkgs"
+>> IMAGE_FEATURES is sufficient to build applications on the target, as
+>> long as it's for the hello world or iterative development approaches.
+>> Obviously a recipe would need to be written at some point but getting
+>> a toolchain in the image for development on the target is trivial.
+>>
+>> Ross
+>>
+> 
+> That would be for "how do I create and run a HelloWorld application on
+> target without using my PC at all?".
+> 
+> I guess I'm still a bit stuck in the era where the target had very
+> limited resources. For first time users, this is much easier, and for a
+> workshop, I've indeed supplied a dozen boards that had editors,
+> compilers and library headers pre-installed for immediate development.
+> 
+> That will work for hello-world style apps, but for more complex projects
+> that draw in a few dozen complex libraries (gstreamer comes to mind)
+> this is not going to be very satisfactory.
+> 
+> 
+> What he was asking for was "How do I use the cross-compile environment
+> to develop my own application and run it on the target machine?"
+> 
+> 
 
-recipes-bsp/formfactor/formfactor_0.0.bbappend:
-    PRINC = "1"
+https://github.com/balister/meta-sdr/wiki/CrossCompile
 
-recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bbappend:
-    PRINC := "${@int(PRINC) + 5}"
+IS what I tell people for GNU Radio. The generic method should be OK for
+other cases. I need to collect techniques to move output onto the target.
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- meta/recipes-bsp/formfactor/formfactor_0.0.bb                 | 2 +-
- meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-index 29d1435..d1ae2a2 100644
---- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-+++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-@@ -3,7 +3,7 @@ SECTION = "base"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r44"
-+PR = "r45"
- 
- SRC_URI = "file://config file://machconfig"
- S = "${WORKDIR}"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index 54b0885..549c7c8 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.x.org"
- SECTION = "x11/base"
- LICENSE = "MIT-X"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r28"
-+PR = "r33"
- 
- SRC_URI = "file://xorg.conf"
- 
--- 
-1.9.2
-
+Philip
 
