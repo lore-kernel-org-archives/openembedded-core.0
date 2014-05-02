@@ -1,38 +1,35 @@
-Return-Path: <cristian.iorga@intel.com>
-X-Greylist: delayed 743 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 02 May 2014 13:02:11 UTC
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EBD7605B3
+Return-Path: <tarek.elsherbiny@gmail.com>
+Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
+	[209.85.160.174])
+	by mail.openembedded.org (Postfix) with ESMTP id DBC30605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 13:02:11 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 02 May 2014 05:49:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,972,1389772800"; 
-	d="scan'208,217";a="524935021"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga001.fm.intel.com with ESMTP; 02 May 2014 05:49:24 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 2 May 2014 13:49:22 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.70]) by
-	IRSMSX151.ger.corp.intel.com ([163.33.192.59]) with mapi id
-	14.03.0123.003; Fri, 2 May 2014 13:49:22 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
-Thread-Topic: [OE-core] DNS when using Static IP
-Thread-Index: AQHPZfZ3cgrM/KGiWU+GRRsgAF/qcpstMAqA///39gCAABWJgA==
-Date: Fri, 2 May 2014 12:49:22 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
+	Fri,  2 May 2014 13:08:53 +0000 (UTC)
+Received: by mail-yk0-f174.google.com with SMTP id 9so1368589ykp.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 May 2014 06:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=zRJrQpGDmxjyeHLWdIJrumI2uq3VjIOPkNvGavW1Gwo=;
+	b=H56KWsoy/J4Zi+beZzOOOFZlfVSKl24Oc0gcgEokM7BRTuPf3WBp3VhB2BLVJn5YVX
+	JPNSf+K0sEkRwoNp8RFy4flyEDOPESuW+gH4pelmxWZ+qwiX9pXTUvdWT07KtJNrSekm
+	J0MztbqtnatlY3lF7xC6FZ0NqDF5lXmCuB4ub+tiTNRyDo3mkb2F+cQjBS46BslgaVOU
+	AGqbikYDH5ZC8JR4KQkgv/pVQC113V1s4VoV20Xnb7YLXTUiLSb1vCJrW1vq6eVhMNLE
+	PUq/uyld58dVH21Qt+S89Y6WqAcR9KvW82/noiZKQ9sQz5j1/DleqQRLIPR2mjia+ce5
+	CVkQ==
+MIME-Version: 1.0
+X-Received: by 10.236.209.68 with SMTP id r44mr4830996yho.152.1399036134280;
+	Fri, 02 May 2014 06:08:54 -0700 (PDT)
+Received: by 10.170.71.65 with HTTP; Fri, 2 May 2014 06:08:54 -0700 (PDT)
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
 References: <CAB3sqtZbtJGsh_jMUnvJAyFmXJVHZT2bvZ=DJ0N-fSB-VYu4Tg@mail.gmail.com>
 	<969F26A8BAB325438E7EB80D3C3134FB1CEA4705@IRSMSX105.ger.corp.intel.com>
 	<CAB3sqta0_u-Uv4EKXd6Y9upxyQfDEQ9_m_H=OL=tmMFKRb_14w@mail.gmail.com>
-In-Reply-To: <CAB3sqta0_u-Uv4EKXd6Y9upxyQfDEQ9_m_H=OL=tmMFKRb_14w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
+	<969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
+Date: Fri, 2 May 2014 14:08:54 +0100
+Message-ID: <CAB3sqtbRMmCb_gLPVBrHBi1ft-6ji1q4S4F=1CkZFkitaFNUYg@mail.gmail.com>
+From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
 Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -49,234 +46,322 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 13:02:12 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB1CEA474FIRSMSX105gercor_"
+X-List-Received-Date: Fri, 02 May 2014 13:08:54 -0000
+Content-Type: multipart/alternative; boundary=001a11c2a77ecfed1a04f86a7b87
 
---_000_969F26A8BAB325438E7EB80D3C3134FB1CEA474FIRSMSX105gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a11c2a77ecfed1a04f86a7b87
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Tm90IHJlYWxseSwgSSBqdXN0IHdhbnRlZCB0byBnZXQgYSBiZXR0ZXIgb3ZlcnZpZXcgb2YgdGhl
-IGlzc3VlIHRoYXQgeW91IGFyZSBmYWNpbmcuDQpXaGF0IGltYWdlIGRpZCB5b3Ugc3RhcnRlZCBm
-cm9tLCBpZiBhbnk/DQoNCkZyb206IFRhcmVrIEVsLVNoZXJiaW55IFttYWlsdG86dGFyZWsuZWxz
-aGVyYmlueUBnbWFpbC5jb21dDQpTZW50OiBGcmlkYXksIE1heSAyLCAyMDE0IDM6MzEgUE0NClRv
-OiBJb3JnYSwgQ3Jpc3RpYW4NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnOyB5b2N0b0B5b2N0b3Byb2plY3Qub3JnDQpTdWJqZWN0OiBSRTogW09FLWNvcmVdIERO
-UyB3aGVuIHVzaW5nIFN0YXRpYyBJUA0KDQoNCk5vIGNvbm5tYW4gaXMgbm90IGluY2x1ZGVkLiAg
-U2hhbGwgSSBpbmNsdWRlIGl0IGFuZCB0cnk/DQpPbiAyIE1heSAyMDE0IDEzOjAxLCAiSW9yZ2Es
-IENyaXN0aWFuIiA8Y3Jpc3RpYW4uaW9yZ2FAaW50ZWwuY29tPG1haWx0bzpjcmlzdGlhbi5pb3Jn
-YUBpbnRlbC5jb20+PiB3cm90ZToNCkhlbGxvLA0KDQpXaGF0IGltYWdlIGRpZCB5b3Ugc3RhcnQg
-ZnJvbSwgaWYgYW55Pw0KaS5lLiwgY29yZS1pbWFnZS1taW5pbWFsLCBjb3JlLWltYWdlLXNhdG8s
-IGV0Y+KApg0KSXMgY29ubm1hbiBpbmNsdWRlZD8NCg0KUmVnYXJkcywNCkNyaXN0aWFuIElvcmdh
-DQpZUA0KSW50ZWwgQ29ycG9yYXRpb24NCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNl
-c0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2Vz
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNl
-c0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2Vz
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+XSBPbiBCZWhhbGYgT2YgVGFyZWsgRWwtU2hlcmJpbnkN
-ClNlbnQ6IEZyaWRheSwgTWF5IDIsIDIwMTQgMjowNSBQTQ0KVG86IHlvY3RvQHlvY3RvcHJvamVj
-dC5vcmc8bWFpbHRvOnlvY3RvQHlvY3RvcHJvamVjdC5vcmc+OyBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPg0KU3ViamVjdDogW09FLWNvcmVdIEROUyB3aGVuIHVzaW5nIFN0YXRpYyBJ
-UA0KDQpIaS4NCg0KSSdtIHRyeWluZyB0byBzZXQgbXkgSVAgY29uZmlnIHRvIGEgc3RhdGljIGFk
-ZHJlc3MuDQoNCmlmYWNlIGV0aDAgaW5ldCBzdGF0aWMNCiAgICAgYWRkcmVzcyAxOTIuMTY4LjU1
-LjQ1DQogICAgIG5ldHdvcmsgMTkyLjE2OC41NS4wDQogICAgIG5ldG1hc2sgMjU1LjI1NS4yNTUu
-MA0KICAgICBicm9hZGNhc3QgMTkyLjE2OC41NS4yNTUNCiAgICAgZ2F0ZXdheSAxOTIuMTY4LjU1
-LjENCiAgICAgZG5zLW5hbWVzZXJ2ZXJzIDE5Mi4xNjguMTAuMg0KDQpCdXQgSSBkb24ndCBnZXQg
-dGhlIEROUyBzZXJ2ZXIgYWRkcmVzcyB0byBiZSBpbmNsdWRlZCBpbiAvZXRjL3Jlc29sdi5jb25m
-DQoNCklmIEkgcnVuIGluIGRjaHAgbW9kZSwgdGhlbiB0aGUgcmVzb2x2LmNvbmYgaXMgdXBkYXRl
-ZCB3aXRoIG15IEROUyBhZGRyZXNzLg0KSXMgdGhlcmUgc29tZXRoaW5nIEknbSBtaXNzaW5nIGhl
-cmUgaW4gbXkgc2V0dXA/DQoNCg0KLS0NClRhcmVrDQo=
+My image is based on core-image-base.
 
---_000_969F26A8BAB325438E7EB80D3C3134FB1CEA474FIRSMSX105gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+include recipes-core/images/core-image-base.bb
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYi
-O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
-CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
-YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9y
-OnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnANCgl7bXNvLXN0eWxlLXBy
-aW9yaXR5Ojk5Ow0KCW1zby1tYXJnaW4tdG9wLWFsdDphdXRvOw0KCW1hcmdpbi1yaWdodDowaW47
-DQoJbXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87DQoJbWFyZ2luLWxlZnQ6MGluOw0KCWZvbnQt
-c2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6IlRpbWVzIE5ldyBSb21hbiIsInNlcmlmIjt9DQpz
-cGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250
-LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0No
-cERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNh
-bGlicmkiLCJzYW5zLXNlcmlmIjt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAx
-MS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGluO30NCmRpdi5Xb3JkU2VjdGlv
-bjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+
-PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8
-L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0
-IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNo
-YXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMi
-IGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5Ob3QgcmVhbGx5LCBJIGp1c3Qgd2FudGVkIHRvIGdldCBhIGJldHRlciBvdmVydmll
-dyBvZiB0aGUgaXNzdWUgdGhhdCB5b3UgYXJlIGZhY2luZy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6
-IzFGNDk3RCI+V2hhdCBpbWFnZSBkaWQgeW91IHN0YXJ0ZWQgZnJvbSwgaWYgYW55PzxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29t
-cG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
-aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
-Z2luLWxlZnQ6LjVpbiI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bh
-bj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
-aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gVGFyZWsgRWwtU2hlcmJpbnkgW21h
-aWx0bzp0YXJlay5lbHNoZXJiaW55QGdtYWlsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlk
-YXksIE1heSAyLCAyMDE0IDM6MzEgUE08YnI+DQo8Yj5Ubzo8L2I+IElvcmdhLCBDcmlzdGlhbjxi
-cj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsg
-eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSRTogW09FLWNvcmVd
-IEROUyB3aGVuIHVzaW5nIFN0YXRpYyBJUDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwv
-cD4NCjxwIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj5ObyBjb25ubWFuIGlzIG5vdCBpbmNsdWRl
-ZC4mbmJzcDsgU2hhbGwgSSBpbmNsdWRlIGl0IGFuZCB0cnk/PG86cD48L286cD48L3A+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPk9uIDIgTWF5
-IDIwMTQgMTM6MDEsICZxdW90O0lvcmdhLCBDcmlzdGlhbiZxdW90OyAmbHQ7PGEgaHJlZj0ibWFp
-bHRvOmNyaXN0aWFuLmlvcmdhQGludGVsLmNvbSI+Y3Jpc3RpYW4uaW9yZ2FAaW50ZWwuY29tPC9h
-PiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5v
-bmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYu
-MHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowaW4iPg0KPGRpdj4NCjxkaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1h
-cmdpbi1ib3R0b20tYWx0OmF1dG87bWFyZ2luLWxlZnQ6LjVpbiI+DQo8c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SGVsbG8sPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1t
-YXJnaW4tYm90dG9tLWFsdDphdXRvO21hcmdpbi1sZWZ0Oi41aW4iPg0KPHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOzwvc3Bhbj48bzpwPjwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28t
-bWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5XaGF0IGltYWdlIGRpZCB5b3Ugc3RhcnQgZnJv
-bSwgaWYgYW55Pzwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0
-eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bztt
-YXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
-OTdEIj5pLmUuLCBjb3JlLWltYWdlLW1pbmltYWwsIGNvcmUtaW1hZ2Utc2F0bywgZXRj4oCmPC9z
-cGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJn
-aW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvO21hcmdpbi1sZWZ0Oi41
-aW4iPg0KPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
-aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPklzIGNvbm5t
-YW4gaW5jbHVkZWQ/PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIg
-c3R5bGU9Im1zby1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRv
-O21hcmdpbi1sZWZ0Oi41aW4iPg0KPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
-RjQ5N0QiPiZuYnNwOzwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-IHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0
-bzttYXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5SZWdhcmRzLDwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6
-YXV0bzttYXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj5DcmlzdGlhbiBJb3JnYTwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJv
-dHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
-dW90Oztjb2xvcjojMUY0OTdEIj5ZUDwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRv
-bS1hbHQ6YXV0bzttYXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
-Oztjb2xvcjojMUY0OTdEIj5JbnRlbCBDb3Jwb3JhdGlvbjwvc3Bhbj48bzpwPjwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28t
-bWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDouNWluIj4NCjxhIG5hbWU9IjE0NWJj
-Y2Y5NWU2NjE2NDlfX01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
-Y29sb3I6IzFGNDk3RCI+Jm5ic3A7PC9zcGFuPjwvYT48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJv
-dHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+DQo8Yj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPg0K
-PGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyIgdGFyZ2V0PSJfYmxhbmsiPg0Kb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnPC9hPiBbbWFpbHRvOjxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRk
-ZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj5v
-cGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+XQ0KPGI+
-T24gQmVoYWxmIE9mIDwvYj5UYXJlayBFbC1TaGVyYmlueTxicj4NCjxiPlNlbnQ6PC9iPiBGcmlk
-YXksIE1heSAyLCAyMDE0IDI6MDUgUE08YnI+DQo8Yj5Ubzo8L2I+IDxhIGhyZWY9Im1haWx0bzp5
-b2N0b0B5b2N0b3Byb2plY3Qub3JnIiB0YXJnZXQ9Il9ibGFuayI+eW9jdG9AeW9jdG9wcm9qZWN0
-Lm9yZzwvYT47DQo8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyIgdGFyZ2V0PSJfYmxhbmsiPm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmc8L2E+PGJyPg0KPGI+U3ViamVjdDo8L2I+IFtPRS1jb3JlXSBETlMgd2hlbiB1
-c2luZyBTdGF0aWMgSVA8L3NwYW4+PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-IiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1
-dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0KJm5ic3A7PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bztt
-c28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+DQpIaS48bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28t
-bWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVm
-dDoxLjBpbiI+DQombmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJv
-dHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+DQpJJ20gdHJ5aW5nIHRvIHNldCBteSBJ
-UCBjb25maWcgdG8gYSBzdGF0aWMgYWRkcmVzcy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bztt
-c28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+DQombmJzcDs8bzpw
-PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJt
-c28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4t
-bGVmdDoxLjBpbiI+DQppZmFjZSBldGgwIGluZXQgc3RhdGljPG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0
-OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0KJm5i
-c3A7ICZuYnNwOyAmbmJzcDthZGRyZXNzIDE5Mi4xNjguNTUuNDU8bzpwPjwvbzpwPjwvcD4NCjwv
-ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1h
-bHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+DQom
-bmJzcDsgJm5ic3A7ICZuYnNwO25ldHdvcmsgMTkyLjE2OC41NS4wPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3At
-YWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0K
-Jm5ic3A7ICZuYnNwOyAmbmJzcDtuZXRtYXNrIDI1NS4yNTUuMjU1LjA8bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRv
-cC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+
-DQombmJzcDsgJm5ic3A7ICZuYnNwO2Jyb2FkY2FzdCAxOTIuMTY4LjU1LjI1NTxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJn
-aW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvO21hcmdpbi1sZWZ0OjEu
-MGluIj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7Z2F0ZXdheSAxOTIuMTY4LjU1LjE8bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFy
-Z2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDox
-LjBpbiI+DQombmJzcDsgJm5ic3A7ICZuYnNwO2Rucy1uYW1lc2VydmVycyAxOTIuMTY4LjEwLjI8
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxl
-PSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJn
-aW4tbGVmdDoxLjBpbiI+DQombmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFy
-Z2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDoxLjBpbiI+DQpCdXQgSSBkb24ndCBnZXQg
-dGhlIEROUyBzZXJ2ZXIgYWRkcmVzcyB0byBiZSBpbmNsdWRlZCBpbiAvZXRjL3Jlc29sdi5jb25m
-PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHls
-ZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87bWFy
-Z2luLWxlZnQ6MS4waW4iPg0KJm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1h
-cmdpbi1ib3R0b20tYWx0OmF1dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0KSWYgSSBydW4gaW4gZGNo
-cCBtb2RlLCB0aGVuIHRoZSByZXNvbHYuY29uZiBpcyB1cGRhdGVkIHdpdGggbXkgRE5TIGFkZHJl
-c3MuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBz
-dHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87
-bWFyZ2luLWxlZnQ6MS4waW4iPg0KSXMgdGhlcmUgc29tZXRoaW5nIEknbSBtaXNzaW5nIGhlcmUg
-aW4gbXkgc2V0dXA/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20t
-YWx0OmF1dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0KJm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0
-OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0KJm5i
-c3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJt
-c28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzttYXJnaW4t
-bGVmdDoxLjBpbiI+DQotLSA8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0
-OmF1dG87bWFyZ2luLWxlZnQ6MS4waW4iPg0KPGk+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZx
-dW90O0FyaWFsJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzY2NjY2NiI+VGFy
-ZWs8L3NwYW4+PC9pPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
-aXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---_000_969F26A8BAB325438E7EB80D3C3134FB1CEA474FIRSMSX105gercor_--
+
+On Fri, May 2, 2014 at 1:49 PM, Iorga, Cristian <cristian.iorga@intel.com>w=
+rote:
+
+>  Not really, I just wanted to get a better overview of the issue that you
+> are facing.
+>
+> What image did you started from, if any?
+>
+>
+>
+> *From:* Tarek El-Sherbiny [mailto:tarek.elsherbiny@gmail.com]
+> *Sent:* Friday, May 2, 2014 3:31 PM
+> *To:* Iorga, Cristian
+> *Cc:* openembedded-core@lists.openembedded.org; yocto@yoctoproject.org
+> *Subject:* RE: [OE-core] DNS when using Static IP
+>
+>
+>
+> No connman is not included.  Shall I include it and try?
+>
+> On 2 May 2014 13:01, "Iorga, Cristian" <cristian.iorga@intel.com> wrote:
+>
+>   Hello,
+>
+>
+>
+> What image did you start from, if any?
+>
+> i.e., core-image-minimal, core-image-sato, etc=E2=80=A6
+>
+> Is connman included?
+>
+>
+>
+> Regards,
+>
+> Cristian Iorga
+>
+> YP
+>
+> Intel Corporation
+>
+>
+>
+> *From:* openembedded-core-bounces@lists.openembedded.org [mailto:
+> openembedded-core-bounces@lists.openembedded.org] *On Behalf Of *Tarek
+> El-Sherbiny
+> *Sent:* Friday, May 2, 2014 2:05 PM
+> *To:* yocto@yoctoproject.org; openembedded-core@lists.openembedded.org
+> *Subject:* [OE-core] DNS when using Static IP
+>
+>
+>
+> Hi.
+>
+>
+>
+> I'm trying to set my IP config to a static address.
+>
+>
+>
+> iface eth0 inet static
+>
+>      address 192.168.55.45
+>
+>      network 192.168.55.0
+>
+>      netmask 255.255.255.0
+>
+>      broadcast 192.168.55.255
+>
+>      gateway 192.168.55.1
+>
+>      dns-nameservers 192.168.10.2
+>
+>
+>
+> But I don't get the DNS server address to be included in /etc/resolv.conf
+>
+>
+>
+> If I run in dchp mode, then the resolv.conf is updated with my DNS addres=
+s.
+>
+> Is there something I'm missing here in my setup?
+>
+>
+>
+>
+>
+> --
+>
+> *Tarek*
+>
+>
+
+
+--=20
+*Tarek*
+
+--001a11c2a77ecfed1a04f86a7b87
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">My image is based on core-image-base.<div><br></div><div>i=
+nclude recipes-core/images/<a href=3D"http://core-image-base.bb">core-image=
+-base.bb</a><br></div><div><br></div></div><div class=3D"gmail_extra"><br><=
+br>
+<div class=3D"gmail_quote">On Fri, May 2, 2014 at 1:49 PM, Iorga, Cristian =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:cristian.iorga@intel.com" target=3D=
+"_blank">cristian.iorga@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1f497d">Not really, I just wanted=
+ to get a better overview of the issue that you are facing.<u></u><u></u></=
+span></p>
+
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1f497d">What image did you starte=
+d from, if any?<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><a name=3D"145bcfb7fa931e82__MailEndCompose"><span s=
+tyle=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&q=
+uot;;color:#1f497d"><u></u>=C2=A0<u></u></span></a></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><b><span style=3D"font-si=
+ze:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">From:</sp=
+an></b><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quo=
+t;sans-serif&quot;"> Tarek El-Sherbiny [mailto:<a href=3D"mailto:tarek.elsh=
+erbiny@gmail.com" target=3D"_blank">tarek.elsherbiny@gmail.com</a>]
+<br>
+<b>Sent:</b> Friday, May 2, 2014 3:31 PM<br>
+<b>To:</b> Iorga, Cristian<br>
+<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a>; <a href=3D"mail=
+to:yocto@yoctoproject.org" target=3D"_blank">yocto@yoctoproject.org</a><br>
+<b>Subject:</b> RE: [OE-core] DNS when using Static IP<u></u><u></u></span>=
+</p><div><div class=3D"h5">
+<p class=3D"MsoNormal" style=3D"margin-left:.5in"><u></u>=C2=A0<u></u></p>
+<p style=3D"margin-left:.5in">No connman is not included.=C2=A0 Shall I inc=
+lude it and try?<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">On 2 May 2014 13:01, &quo=
+t;Iorga, Cristian&quot; &lt;<a href=3D"mailto:cristian.iorga@intel.com" tar=
+get=3D"_blank">cristian.iorga@intel.com</a>&gt; wrote:<u></u><u></u></p>
+<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0i=
+n 0in 0in 6.0pt;margin-left:4.8pt;margin-right:0in">
+<div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">Hello,</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">=C2=A0</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">What image did you start from, if any?</span><u>=
+</u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">i.e., core-image-minimal, core-image-sato, etc=
+=E2=80=A6</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">Is connman included?</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">=C2=A0</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">Regards,</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">Cristian Iorga</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">YP</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-=
+serif&quot;;color:#1f497d">Intel Corporation</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">
+<a name=3D"145bcfb7fa931e82_145bccf95e661649__MailEndCompose"><span style=
+=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;=
+;color:#1f497d">=C2=A0</span></a><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+<b><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sa=
+ns-serif&quot;">From:</span></b><span style=3D"font-size:11.0pt;font-family=
+:&quot;Calibri&quot;,&quot;sans-serif&quot;">
+<a href=3D"mailto:openembedded-core-bounces@lists.openembedded.org" target=
+=3D"_blank">
+openembedded-core-bounces@lists.openembedded.org</a> [mailto:<a href=3D"mai=
+lto:openembedded-core-bounces@lists.openembedded.org" target=3D"_blank">ope=
+nembedded-core-bounces@lists.openembedded.org</a>]
+<b>On Behalf Of </b>Tarek El-Sherbiny<br>
+<b>Sent:</b> Friday, May 2, 2014 2:05 PM<br>
+<b>To:</b> <a href=3D"mailto:yocto@yoctoproject.org" target=3D"_blank">yoct=
+o@yoctoproject.org</a>;
+<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">openembedded-core@lists.openembedded.org</a><br>
+<b>Subject:</b> [OE-core] DNS when using Static IP</span><u></u><u></u></p>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+Hi.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+I&#39;m trying to set my IP config to a static address.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+iface eth0 inet static<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0 =C2=A0 =C2=A0address 192.168.55.45<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0 =C2=A0 =C2=A0network 192.168.55.0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0 =C2=A0 =C2=A0netmask 255.255.255.0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0 =C2=A0 =C2=A0broadcast 192.168.55.255<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0 =C2=A0 =C2=A0gateway 192.168.55.1<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0 =C2=A0 =C2=A0dns-nameservers 192.168.10.2<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+But I don&#39;t get the DNS server address to be included in /etc/resolv.co=
+nf<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+If I run in dchp mode, then the resolv.conf is updated with my DNS address.=
+<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+Is there something I&#39;m missing here in my setup?<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+=C2=A0<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+-- <u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">
+<i><span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;colo=
+r:#666666">Tarek</span></i><u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+</blockquote>
+</div>
+</div></div></div>
+</div>
+
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div dir=3D"=
+ltr"><i><font color=3D"#666666" face=3D"arial, helvetica, sans-serif">Tarek=
+</font></i></div>
+</div>
+
+--001a11c2a77ecfed1a04f86a7b87--
