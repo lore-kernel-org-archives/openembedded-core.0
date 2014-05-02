@@ -1,36 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B3DCE60196
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp01.online.nl (smtp01.online.nl [194.134.41.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 29B0B60808
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 May 2014 13:47:41 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id q107so292428qgd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 May 2014 06:47:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=C6ZAjZZ4ieTSfj1J2VHmEPd/ZjuDL6f37bqa/aAjJ2s=;
-	b=RjcTO2Z8kf6x2M+cbZXopIVJ6yExwmqKl3kKHxfL7vn2NGceJFHky+MIQaEIgeAU2w
-	BJBqOOayfYLuUkuQ5g6PSLs2oVt/xilx//IonXnM/rtLIeoiZzp1DxTs2NAi07W4uL4G
-	0VxmglzhalgtalgSoIHli+vpIf73BbT68bfmlzAStYr91yMubzAz8PO9iv/wVh69fCCH
-	HesWwenWChohnwwTqVMDv8PEcBwA3ycok9wZjW8dl5wluhx3BVLXYvpHySvjFErfHzWI
-	+rV5b/UtriygjXS5EdrdXwtPrUCw9kyUByyCVmm2BeeP69/wWEVvJnUrebzyw9lWNy8j
-	7Yuw==
-X-Gm-Message-State: ALoCoQk8/K4dcawJMnJsaOE9dvQ4i2jkaf701V88wekd9yhx/EvCjE6nZkm3zIO+pcIAfSNqe+xM
-X-Received: by 10.224.160.142 with SMTP id n14mr22604992qax.17.1399038462244; 
-	Fri, 02 May 2014 06:47:42 -0700 (PDT)
+	Fri,  2 May 2014 14:15:59 +0000 (UTC)
+Received: from smtp01.online.nl (localhost [127.0.0.1])
+	by smtp01.online.nl (Postfix) with ESMTP id 5B4728E8BB;
+	Fri,  2 May 2014 16:15:59 +0200 (CEST)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp01.online.nl (Postfix) with ESMTP;
+	Fri,  2 May 2014 16:15:59 +0200 (CEST)
+Message-ID: <5363A89F.6060709@topic.nl>
+Date: Fri, 02 May 2014 16:15:59 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.140.19.136 with HTTP; Fri, 2 May 2014 06:47:22 -0700 (PDT)
-In-Reply-To: <5363970A.8000601@topic.nl>
-References: <1398963761.12731.1.camel@ted> <5363970A.8000601@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 2 May 2014 14:47:22 +0100
-Message-ID: <CAJTo0LaYfVWuBkn4wsHcjWQvoGBv6r+U+Vd+ozb=_=ynPYvkHQ@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: My thoughts on the future of OE?
+To: "Iorga, Cristian" <cristian.iorga@intel.com>, 
+	Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
+References: <CAB3sqtZbtJGsh_jMUnvJAyFmXJVHZT2bvZ=DJ0N-fSB-VYu4Tg@mail.gmail.com>	<969F26A8BAB325438E7EB80D3C3134FB1CEA4705@IRSMSX105.ger.corp.intel.com>	<CAB3sqta0_u-Uv4EKXd6Y9upxyQfDEQ9_m_H=OL=tmMFKRb_14w@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB1CEA474F@IRSMSX105.ger.corp.intel.com>
+X-Online-Scanned: by Cloudmark authority (on smtp01.online.nl)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: DNS when using Static IP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +38,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 May 2014 13:47:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 02 May 2014 14:16:01 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2 May 2014 14:00, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> Just about fifteen minutes ago I was asked the question of "Yay, I could
-> build a complete image for the board from scratch. Now how do I create and
-> run a HelloWorld application on it?"
+When using DHCP, busybox's udhcpc script will write the DNS entries that 
+the server returned into the resolv.conf file.
 
-Depending on context simply adding the "tools-sdk dev-pkgs"
-IMAGE_FEATURES is sufficient to build applications on the target, as
-long as it's for the hello world or iterative development approaches.
-Obviously a recipe would need to be written at some point but getting
-a toolchain in the image for development on the target is trivial.
+In this case, I think you'll have to "provide" resolv.conf in some other 
+way, there's nothing in ifup/ifdown that will modify resolv.conf based 
+on keywords in the interfaces file.
 
-Ross
+Mike.
+
+
+On 05/02/2014 02:49 PM, Iorga, Cristian wrote:
+> Not really, I just wanted to get a better overview of the issue that you
+> are facing.
+>
+> What image did you started from, if any?
+>
+> *From:*Tarek El-Sherbiny [mailto:tarek.elsherbiny@gmail.com]
+> *Sent:* Friday, May 2, 2014 3:31 PM
+> *To:* Iorga, Cristian
+> *Cc:* openembedded-core@lists.openembedded.org; yocto@yoctoproject.org
+> *Subject:* RE: [OE-core] DNS when using Static IP
+>
+> No connman is not included.  Shall I include it and try?
+>
+> On 2 May 2014 13:01, "Iorga, Cristian" <cristian.iorga@intel.com
+> <mailto:cristian.iorga@intel.com>> wrote:
+>
+>     Hello,
+>
+>     What image did you start from, if any?
+>
+>     i.e., core-image-minimal, core-image-sato, etc…
+>
+>     Is connman included?
+>
+>     Regards,
+>
+>     Cristian Iorga
+>
+>     YP
+>
+>     Intel Corporation
+>
+>     *From:*openembedded-core-bounces@lists.openembedded.org
+>     <mailto:openembedded-core-bounces@lists.openembedded.org>
+>     [mailto:openembedded-core-bounces@lists.openembedded.org
+>     <mailto:openembedded-core-bounces@lists.openembedded.org>] *On
+>     Behalf Of *Tarek El-Sherbiny
+>     *Sent:* Friday, May 2, 2014 2:05 PM
+>     *To:* yocto@yoctoproject.org <mailto:yocto@yoctoproject.org>;
+>     openembedded-core@lists.openembedded.org
+>     <mailto:openembedded-core@lists.openembedded.org>
+>     *Subject:* [OE-core] DNS when using Static IP
+>
+>     Hi.
+>
+>     I'm trying to set my IP config to a static address.
+>
+>     iface eth0 inet static
+>
+>           address 192.168.55.45
+>
+>           network 192.168.55.0
+>
+>           netmask 255.255.255.0
+>
+>           broadcast 192.168.55.255
+>
+>           gateway 192.168.55.1
+>
+>           dns-nameservers 192.168.10.2
+>
+>     But I don't get the DNS server address to be included in
+>     /etc/resolv.conf
+>
+>     If I run in dchp mode, then the resolv.conf is updated with my DNS
+>     address.
+>
+>     Is there something I'm missing here in my setup?
+>
+>     --
+>
+>     /Tarek/
+>
+>
+>
+
+
+-- 
+Mike Looijmans
 
