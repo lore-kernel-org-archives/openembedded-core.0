@@ -1,37 +1,35 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 52EAE605B2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 79467606E0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 May 2014 15:14:44 +0000 (UTC)
-Received: by mail-yh0-f47.google.com with SMTP id a41so2839994yho.20
+	Sat,  3 May 2014 17:24:32 +0000 (UTC)
+Received: by mail-vc0-f171.google.com with SMTP id lc6so1954516vcb.16
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 May 2014 08:14:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=LttOq+LcQWqkHuh1USEAf4e6mhLNJIG3vLT/pfENP/s=;
-	b=mE4KyWWJHVYWBc0k4OpTBgLvhpJTDLxnBLttZ27qZCizgYYJFjmmTVRocNDkjP6ygl
-	epZ8tcjtvuUbfhwxejdXeTi9DqlwKGdgYAgyoNzkgJCVwpW0YA+h5CWOCfbVxlmSzQYz
-	zFqByJ1BebImSfOowKCejvOrC0J0lV5TguHI+OKrZpNeoqgMtXheexeU2Y5dIwx7fHxS
-	nIx1C0xpCdvzqU2ddlQalUzKtIsJQ8CdiXX3FvGAmGzM9jblqUQRjQzOygc3OO4xjWHy
-	9av6zv2/LkI8zWu6iGhTOSBG+pVi1RTuT0Mgk8oA2W5ASFoTY2c/49h/0OGIrsRMFxeD
-	yz6Q==
-X-Gm-Message-State: ALoCoQlSH0c7MQI3fuwp6dvxkd0PjTdtAENinG+IGE6vj1woOsD1uDZ5AHkfcJWE+MrZNz9A6MMv
-MIME-Version: 1.0
-X-Received: by 10.236.142.204 with SMTP id i52mr32878544yhj.6.1399130085286;
-	Sat, 03 May 2014 08:14:45 -0700 (PDT)
-Received: by 10.170.156.8 with HTTP; Sat, 3 May 2014 08:14:45 -0700 (PDT)
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A254DBE@IRSMSX103.ger.corp.intel.com>
-References: <33115ABC4887814E8A92A08FBC93416B0A254DBE@IRSMSX103.ger.corp.intel.com>
-Date: Sat, 3 May 2014 11:14:45 -0400
-Message-ID: <CALmOhgkxOU3tagcWw7GRSpoJab9V=6N8SQwkSrr1xJB7vDAD=Q@mail.gmail.com>
-From: Trevor Woerner <trevor.woerner@linaro.org>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: oe-selftest developer oriented improvements
+	Sat, 03 May 2014 10:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=Jx/tEDaOxkPGSdNQOwMVwdDOnLtAo5xX2hKyJro0BsQ=;
+	b=EONCP5qO3CUV3EQpT4ixXajSCyTM7AWsB5S1ItAVYnGnvsvUoHXqo8RN4ZBJC6tOSa
+	468Tw8d3mK1E2xVRGVZedjlVaRBP1shrZomkbm5ofRm/vdFGMAMn8jTgkbAnH1m1gOEV
+	2f2L7uqSdo9sBsRWEOGexscvUjuyJpWLWaRlvVXT9IoXjl5kRR3v/S7dWQHf1eWEB4Oo
+	/82t8BkLtjHkCpGkZQhaokrljGfY1hTvbZtTqFBZskVkF2hgf4yQOExl4mviGxqY7GnY
+	SVoctuIbkS9YhIXBK07r4f3L7S0IKoXf5W8SF1O4LLJyi82yNkxfStFziN9pkCNPnoSd
+	kSTA==
+X-Received: by 10.58.201.5 with SMTP id jw5mr18358648vec.6.1399137873863;
+	Sat, 03 May 2014 10:24:33 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	d8sm3791988vek.11.2014.05.03.10.24.32 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 03 May 2014 10:24:33 -0700 (PDT)
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 May 2014 19:24:49 +0200
+Message-Id: <1399137889-6482-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] defaultsetup: enable blacklist by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 May 2014 15:14:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 03 May 2014 17:24:35 -0000
 
-Hello,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/distro/defaultsetup.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This sounds like a great addition!
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index 5557350..4437267 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -17,6 +17,7 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'
+ 
+ USER_CLASSES ?= ""
+ PACKAGE_CLASSES ?= "package_ipk"
++INHERIT_BLACKLIST = "blacklist"
+ INHERIT_DISTRO ?= "debian devshell sstate license"
+-INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}"
++INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
+ 
+-- 
+1.9.1
 
-On 23 April 2014 05:26, Stoicescu, CorneliuX
-<corneliux.stoicescu@intel.com> wrote:
-> 1)   Testing recipes updates or new recipes
-> (any experience from common recipe build fails can be helpful here)
-
-I recently stumbled on a situation where doing a clean on a recipe did
-not remove its artifacts from the sysroot (or some variation of
-"clean" that is supposed to remove such artifacts). Making sure this
-step works correctly would be a nice test to automate.
-
-> 3)  Stress testing
-
-Being able to catch incomplete DEPENDS would be great. And maybe even
-being able to catch bloating DEPENDS would be good too. I have
-sometimes come across DEPENDS lines that include more things that
-required (which I assume is just carry-over from older versions).
-Having the correct DEPENDS would help builds to succeed and also
-improve the scheduling.
 
