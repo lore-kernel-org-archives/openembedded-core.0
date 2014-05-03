@@ -1,37 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E4A60196
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F03A26098B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 May 2014 09:04:07 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id e16so3299310qcx.27
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 May 2014 02:04:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=n8y5BAYjxKGm3VAORGEbGweRjj1B9QhnrgYUOUNigLk=;
-	b=A9YNtsdiSek7gCZDt4xtwxfKeq80lfn4+E/Cr0M9MicHiCVQtKMSg2Y6Ijhbl2G4hm
-	i8ipHWAonrpuBwNMHjOg0ZGQEi5nwnNM0yRFlt6S2Cjkznp8LSU9J/+ellk1zBnFSgpj
-	Ay5ML7z+xcG2pUAkpCpEYpcwGRSVxkOTfsCPHkSn+lVGNoigk0OLvYZIhUIZdQea2oVh
-	o2PpCkLxTdMbyeE4orXZyL8zodJTBZcCR8akSP6q7ZtCpzNkF8vuU/CihOPvML+4MLEB
-	NmDtH75vyhpzgls3DoMD4IrdrjZiupuilBoCoP/fFGsoExqHl01QqC4egrwuqOl5bUMX
-	t+xw==
-X-Gm-Message-State: ALoCoQnauv45j/1zX72V7zFObnyG1zKSiG4M9oWBKYoKtVzbQnKtb67VDLHZZC5JhTX4F2A6hpV3
-X-Received: by 10.229.221.194 with SMTP id id2mr28564402qcb.5.1399107848238;
-	Sat, 03 May 2014 02:04:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.19.136 with HTTP; Sat, 3 May 2014 02:03:48 -0700 (PDT)
-In-Reply-To: <1399068428.12731.88.camel@ted>
+	Sat,  3 May 2014 09:08:28 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4398GnL004449; Sat, 3 May 2014 10:08:16 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hUKZc01nYKRU; Sat,  3 May 2014 10:08:16 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4398EMV004444
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sat, 3 May 2014 10:08:15 +0100
+Message-ID: <1399108088.12731.94.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 03 May 2014 10:08:08 +0100
+In-Reply-To: <CAJTo0Lbb_D7+SOMuPE5fKY52mnHuw=s3Y_0LxOzwsQTQcKsYXg@mail.gmail.com>
 References: <CANyK_8f74ZEqzX1ve=93GnZ7fg1NEiZUVeOKmmHuY+kHX-UseA@mail.gmail.com>
 	<1399066445.12731.86.camel@ted>
 	<CANyK_8eUuUqAMf87-pSVdd7X5_BTXOn7iQCdQ0XYyTjxu=PKbA@mail.gmail.com>
 	<1399068428.12731.88.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 3 May 2014 10:03:48 +0100
-Message-ID: <CAJTo0Lbb_D7+SOMuPE5fKY52mnHuw=s3Y_0LxOzwsQTQcKsYXg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAJTo0Lbb_D7+SOMuPE5fKY52mnHuw=s3Y_0LxOzwsQTQcKsYXg@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Ensuring a task is re-ran when local.conf is updated
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,21 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 May 2014 09:04:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 03 May 2014 09:08:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2 May 2014 23:07, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> It may well do and I've realised the issue:
->
-> codeparser.py:
-> class PythonParser():
->     getvars = ("d.getVar", "bb.data.getVar", "data.getVar", "d.appendVar", "d.prependVar")
->
-> we probably need to change this to an .endswith(".getVar", ".appendVar",
-> ".prependVar") type check...
+On Sat, 2014-05-03 at 10:03 +0100, Burton, Ross wrote:
+> On 2 May 2014 23:07, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > It may well do and I've realised the issue:
+> >
+> > codeparser.py:
+> > class PythonParser():
+> >     getvars = ("d.getVar", "bb.data.getVar", "data.getVar", "d.appendVar", "d.prependVar")
+> >
+> > we probably need to change this to an .endswith(".getVar", ".appendVar",
+> > ".prependVar") type check...
+> 
+> Could this be the root-cause of so many instances where we've had to
+> add explicit hints that variables should be added to the hash?
 
-Could this be the root-cause of so many instances where we've had to
-add explicit hints that variables should be added to the hash?
+Is there really "so many"?
 
-Ross
+In each case we've seen its been due to the code being python that the
+parser can't expand. A simple example that trips it up:
+
+a = "FOO"
+d.getVar(a)
+
+We've only added in fixups where the missing variables were adequately
+explained. The other set of things we manually tune are exclusions since
+there are some variables like the build path that we want to actively
+exclude.
+
+However the majority of the accesses we make are simple and the parser
+can find them...
+
+Cheers,
+
+Richard
+
+
 
