@@ -1,35 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 79467606E0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 61D0D65E83
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 May 2014 17:24:32 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id lc6so1954516vcb.16
+	Sat,  3 May 2014 20:46:49 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id l6so1506661qcy.31
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 May 2014 10:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Jx/tEDaOxkPGSdNQOwMVwdDOnLtAo5xX2hKyJro0BsQ=;
-	b=EONCP5qO3CUV3EQpT4ixXajSCyTM7AWsB5S1ItAVYnGnvsvUoHXqo8RN4ZBJC6tOSa
-	468Tw8d3mK1E2xVRGVZedjlVaRBP1shrZomkbm5ofRm/vdFGMAMn8jTgkbAnH1m1gOEV
-	2f2L7uqSdo9sBsRWEOGexscvUjuyJpWLWaRlvVXT9IoXjl5kRR3v/S7dWQHf1eWEB4Oo
-	/82t8BkLtjHkCpGkZQhaokrljGfY1hTvbZtTqFBZskVkF2hgf4yQOExl4mviGxqY7GnY
-	SVoctuIbkS9YhIXBK07r4f3L7S0IKoXf5W8SF1O4LLJyi82yNkxfStFziN9pkCNPnoSd
-	kSTA==
-X-Received: by 10.58.201.5 with SMTP id jw5mr18358648vec.6.1399137873863;
-	Sat, 03 May 2014 10:24:33 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	d8sm3791988vek.11.2014.05.03.10.24.32 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 03 May 2014 10:24:33 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 May 2014 19:24:49 +0200
-Message-Id: <1399137889-6482-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] defaultsetup: enable blacklist by default
+	Sat, 03 May 2014 13:46:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9QlBok1pBozeUmkCJaIbo7TwnJcFg99f4dIPkpXywGQ=;
+	b=H9MuJnfiV7mRt6yPG2LPz3duWw+vcW0A3eiGDFL2fx8qQXU+RSbAPcNeD87KTRJ0fG
+	fGZiz1800u/rUFw0KTT5OpGMUDeXmqWcGJM4x4tumWfxUrM2Y1NFCqLMA3ZPwvBGeLXL
+	NJOScsM3lbQJ/mpP6oyLMKxXn6WRocVRTzza4yjxFXpJ28DBrUPwB1blHM6Z5VZAmuQX
+	9DT+ustAr46qTzc2/poNNufI5C109O/jrTayv1wPjbtI8Zmv3rtMIaUSDTu9Asq1nqKv
+	/8usmrL7Xtv0jC+0UWE0Pm9gKJ62eht4uvYSSlTBbtS2rUTYwOALf4cVMtsaQ1XRuK9+
+	RgLA==
+X-Gm-Message-State: ALoCoQlmaJJ4p7nCesPHYMj6xjvUuDgjl4WCibI0Wj6dMFgmwi4a44TnwWpJG9prG52rYd8Oqdxq
+X-Received: by 10.140.109.70 with SMTP id k64mr30938732qgf.92.1399150010565;
+	Sat, 03 May 2014 13:46:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.101.77 with HTTP; Sat, 3 May 2014 13:46:30 -0700 (PDT)
+In-Reply-To: <1399108088.12731.94.camel@ted>
+References: <CANyK_8f74ZEqzX1ve=93GnZ7fg1NEiZUVeOKmmHuY+kHX-UseA@mail.gmail.com>
+	<1399066445.12731.86.camel@ted>
+	<CANyK_8eUuUqAMf87-pSVdd7X5_BTXOn7iQCdQ0XYyTjxu=PKbA@mail.gmail.com>
+	<1399068428.12731.88.camel@ted>
+	<CAJTo0Lbb_D7+SOMuPE5fKY52mnHuw=s3Y_0LxOzwsQTQcKsYXg@mail.gmail.com>
+	<1399108088.12731.94.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 3 May 2014 21:46:30 +0100
+Message-ID: <CAJTo0LYTjqP1x_oChu27f5J7jws4Rv5tP5kZ8ZrOPv86rUQ2MA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Ensuring a task is re-ran when local.conf is updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,27 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 May 2014 17:24:35 -0000
+X-List-Received-Date: Sat, 03 May 2014 20:46:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/distro/defaultsetup.conf | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 3 May 2014 10:08, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+>> Could this be the root-cause of so many instances where we've had to
+>> add explicit hints that variables should be added to the hash?
+>
+> Is there really "so many"?
+>
+> In each case we've seen its been due to the code being python that the
+> parser can't expand. A simple example that trips it up:
 
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index 5557350..4437267 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -17,6 +17,7 @@ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'
- 
- USER_CLASSES ?= ""
- PACKAGE_CLASSES ?= "package_ipk"
-+INHERIT_BLACKLIST = "blacklist"
- INHERIT_DISTRO ?= "debian devshell sstate license"
--INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}"
-+INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
- 
--- 
-1.9.1
+Maybe I'm biased from my experience with the systemd class but
+thinking about the situation which caused me pain, it was through a
+localdata.getVar so this would solve it.
 
+Ross
 
