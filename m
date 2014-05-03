@@ -1,34 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
-	[209.85.213.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E50466098C
+Return-Path: <joelf@ti.com>
+Received: from bear.ext.ti.com (bear.ext.ti.com [192.94.94.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D81B260DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 May 2014 22:44:23 +0000 (UTC)
-Received: by mail-yh0-f48.google.com with SMTP id v1so5461519yhn.35
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 May 2014 15:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=WbjqrGqchIrpEpnP8ggCQIa9S5xm/SpmRv02hwz13vo=;
-	b=ZGtLxOW1hzTO5FJdeRQ07va866DX60anzcz09RoZ7ViSeABuXV7KCj2TWv0NIRFwf1
-	1hZTn1CGp7lNVajGvtpw4blQBfDKJvXyFWOA4Eoqufo+02XUacjW5BfhznL7uWrIfAHh
-	h/JEeyZ0J5Fh/lbNtoRBn6LfkTdCXBICz0BKd0OjEbuCkRgHPKXSxA1yzvwQVQMK8jba
-	EtAw4EqqBXyKop1Ed6ls6G2BAEONxTQh9cCU+jI937AzQXXQptW4deIpSpEHnu927qkm
-	Q6N6SlpPOSQjv9PfrMyaQccTonSmBEQp86cOIunHLKY4U0Tn9DgKvvCmTSIvwHsefzCY
-	ycBg==
+	Sat,  3 May 2014 22:53:04 +0000 (UTC)
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id s43Mr4Xw002345;
+	Sat, 3 May 2014 17:53:04 -0500
+Received: from DLEE70.ent.ti.com (dlee70.ent.ti.com [157.170.170.113])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s43Mr4f7028640;
+	Sat, 3 May 2014 17:53:04 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE70.ent.ti.com
+	(157.170.170.113) with Microsoft SMTP Server id 14.3.174.1;
+	Sat, 3 May 2014 17:53:03 -0500
+Received: from [172.22.140.4] (ileax41-snat.itg.ti.com [10.172.224.153])	by
+	dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id s43Mr3Px005334;
+	Sat, 3 May 2014 17:53:03 -0500
+Message-ID: <5365734E.5090604@ti.com>
+Date: Sat, 3 May 2014 17:53:02 -0500
+From: Joel Fernandes <joelf@ti.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-X-Received: by 10.236.142.16 with SMTP id h16mr15408127yhj.2.1399157064575;
-	Sat, 03 May 2014 15:44:24 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.166.132 with HTTP; Sat, 3 May 2014 15:44:24 -0700 (PDT)
-In-Reply-To: <1399156743-14903-1-git-send-email-joelf@ti.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 References: <1399156743-14903-1-git-send-email-joelf@ti.com>
-Date: Sat, 3 May 2014 19:44:24 -0300
-X-Google-Sender-Auth: 7L4s7SAsr0Anb36nhiTmlxHwJPk
-Message-ID: <CAP9ODKqbWSBmOm=A47aypdT53eeRMZQ27_8BsoaoHGHoVu-50Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Joel Fernandes <joelf@ti.com>
+	<CAP9ODKqbWSBmOm=A47aypdT53eeRMZQ27_8BsoaoHGHoVu-50Q@mail.gmail.com>
+In-Reply-To: <CAP9ODKqbWSBmOm=A47aypdT53eeRMZQ27_8BsoaoHGHoVu-50Q@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] serial-getty service: Add linux as default TERM
@@ -44,20 +40,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 May 2014 22:44:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 03 May 2014 22:53:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, May 3, 2014 at 7:39 PM, Joel Fernandes <joelf@ti.com> wrote:
-> In poky with systemd enabled, vt102 is selected for getty
-> causing user to experience a very crappy terminal. Default
-> TERM to linux.
->
-> Signed-off-by: Joel Fernandes <joelf@ti.com>
+On 05/03/2014 05:44 PM, Otavio Salvador wrote:
+> On Sat, May 3, 2014 at 7:39 PM, Joel Fernandes <joelf@ti.com> wrote:
+>> In poky with systemd enabled, vt102 is selected for getty
+>> causing user to experience a very crappy terminal. Default
+>> TERM to linux.
+>>
+>> Signed-off-by: Joel Fernandes <joelf@ti.com>
+> 
+> Don't bump PR, this is not needed in this case.
+> 
 
-Don't bump PR, this is not needed in this case.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+OK, will the package still update for folks?
 
