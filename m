@@ -1,34 +1,30 @@
-Return-Path: <sstncr@gmail.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DDCE60897
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E6BC760559
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 May 2014 17:41:38 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id c13so4668429eek.38
+	Sun,  4 May 2014 20:04:21 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id mc6so230287lab.38
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 May 2014 10:41:39 -0700 (PDT)
+	Sun, 04 May 2014 13:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=+BNNfnVd0E5l41jSt5E014L06znZCGoXqDnnCZ7OJlA=;
-	b=p5jLde9/1144It9c7c6AQrqQBo0hjHibkBtMWKW2wW1Uc+ZUFbxpJre3F+NpjNjWh6
-	tTl94QHNa5WIyd5M8/phcQyzmTCgYZEloZhiUkDAo9SZnM1kc71d9FY/CWKip15St/1T
-	1x/F/oHHIVipAjupJOPBqEldr8JXLj7yUgP9wIKpTvuBGK59grTpfxljG4g7BpjNU9O8
-	Om5jAwd+GD8vyhIuLlc3vBA2zrz38fUhRar3MCjrvuXGrUg/A0NTUBDqYY9XYnRoYS15
-	ecAPOEXuIH6AHnNtyLXxqgLuJx6Q4RRpnqJN3g9RwteRMac6aoxE1I3B5zBMfn7adYtq
-	Q8CA==
-X-Received: by 10.14.215.9 with SMTP id d9mr26612760eep.64.1399225299740;
-	Sun, 04 May 2014 10:41:39 -0700 (PDT)
-Received: from localhost.localdomain (5-12-85-239.residential.rdsnet.ro.
-	[5.12.85.239])
-	by mx.google.com with ESMTPSA id w6sm9765154eej.7.2014.05.04.10.41.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 04 May 2014 10:41:39 -0700 (PDT)
-From: Stefan Stanacar <sstncr@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 May 2014 20:41:14 +0300
-Message-Id: <1399225274-10139-1-git-send-email-sstncr@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] scripts/cleanup-workdir: fix after binutils-cross name change
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=PZbNcid023zYrswADnAGTkgM3hUsV11OC/5DgqmKkfU=;
+	b=RDyztDYVDkkdfpGb/bQs3YF4xh/qrlR9LapxA0hfsjeHf4f4wj8720sZG67n2gs2F+
+	mYNnuwpeAS8uBbND0Iog6CxmfWmm0+K0OmoyVm5usfalMrC0G+O9kldpl5RYLM6ZPGrW
+	t6qXXokwPtaNDQVWCbcxlKKOVYe8A2Hba7f2pKN4nRfi2IrSMOQ9P5x7ekKAVOgSTBav
+	LkuDiwNKHVPnCK3hXaJBUUkL/+27l2Ia+WdhZBTynmb5kOX21nIe2sjCc/mDkdayu9AH
+	6n2rsUpkBKW3yJw/7PigOd6j54EBm5pTXgjednnH0554s2zGorDpd95tobi8FUWFzrUk
+	XSUw==
+MIME-Version: 1.0
+X-Received: by 10.152.36.161 with SMTP id r1mr8919312laj.29.1399233861915;
+	Sun, 04 May 2014 13:04:21 -0700 (PDT)
+Received: by 10.112.36.164 with HTTP; Sun, 4 May 2014 13:04:21 -0700 (PDT)
+Date: Sun, 4 May 2014 22:04:21 +0200
+Message-ID: <CAPbeDCkQ5+fKDLwmwsRK6y8WcJwoctTrGw1_FbF9JAr3o3bWTA@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: rm_work not cleaning up when doing "-c populate_sdk"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,31 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 May 2014 17:41:42 -0000
+X-List-Received-Date: Sun, 04 May 2014 20:04:23 -0000
+Content-Type: multipart/alternative; boundary=089e0158b5e44c192504f89885f5
 
-Signed-off-by: Stefan Stanacar <sstncr@gmail.com>
----
- scripts/cleanup-workdir | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+--089e0158b5e44c192504f89885f5
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/scripts/cleanup-workdir b/scripts/cleanup-workdir
-index 25fef97..cffac59 100755
---- a/scripts/cleanup-workdir
-+++ b/scripts/cleanup-workdir
-@@ -49,9 +49,10 @@ def run_command(cmd):
- 
- def get_cur_arch_dirs(workdir, arch_dirs):
-     pattern = workdir + '/(.*?)/'
--
-+    tunearch = run_command("bitbake -e | grep ^TUNE_ARCH=")
-+    tunearch = tunearch.split('"')[1]
-     # select thest 5 packages to get the dirs of current arch
--    pkgs = ['hicolor-icon-theme', 'base-files', 'acl-native', 'binutils-crosssdk', 'nativesdk-autoconf']
-+    pkgs = ['hicolor-icon-theme', 'base-files', 'acl-native', 'binutils-crosssdk-' + tunearch, 'nativesdk-autoconf']
- 
-     for pkg in pkgs:
-         cmd = "bitbake -e " + pkg + " | grep ^IMAGE_ROOTFS="
--- 
-1.9.0
+Hello,
 
+I'm using the rm_work class in my setup, and I noticed that the work
+directories for all my nativesdk-* packages we're not being cleaned up.
 
+I do "bitbake -c populate_sdk my-image" to create the SDK.
+
+From what I can tell by looking at rm_work.class, the rm_work task is
+appended at the end, but for some reason rm_work is not executed.
+
+If I do "bitbake nativesdk-<somepackage>", rm_work is indeed executed.
+
+Would it be possible to hook in rm_work in the populate_sdk case as well ?
+Or is there another way of executing rm_work for all packages ?
+
+-- Jacob
+
+--089e0158b5e44c192504f89885f5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div><div><div>Hello,<br><br></div>I&#39;m using=
+ the rm_work class in my setup, and I noticed that the work directories for=
+ all my nativesdk-* packages we&#39;re not being cleaned up.<br><br></div>
+I do &quot;bitbake -c populate_sdk my-image&quot; to create the SDK.<br><br=
+></div>From what I can tell by looking at rm_work.class, the rm_work task i=
+s appended at the end, but for some reason rm_work is not executed.<br>
+<br></div><div>If I do &quot;bitbake nativesdk-&lt;somepackage&gt;&quot;, r=
+m_work is indeed executed.<br><br></div>Would it be possible to hook in rm_=
+work in the populate_sdk case as well ?<br></div><div>Or is there another w=
+ay of executing rm_work for all packages ?<br>
+</div><div><br>-- Jacob</div></div>
+
+--089e0158b5e44c192504f89885f5--
