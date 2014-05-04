@@ -1,40 +1,26 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CCA7605B2
+Return-Path: <Ming.Liu@windriver.com>
+X-Greylist: delayed 5816 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 04 May 2014 11:07:32 UTC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 69E986098B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 May 2014 10:17:42 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id lj1so2466424pab.8
+	Sun,  4 May 2014 11:07:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s449Ua8h022566
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 May 2014 03:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=oHjC914bGp4/U08Xu9ENrjP90qY+XdtnBJyyPWubwG0=;
-	b=pfbYzx2Ue/Vdi8iiNxqb/GD+lU2oF+UNI2N97enVDET5f+Ppxb4qQNZKkG9AC2AyQN
-	VycgbEyW7NOOY9MFJqFuW9o+3X6yt3O+NKKLThCOQbAInxEb03bDFiDxThePljoxUdXI
-	E0d8fsZ69729xnVfdz0Aabo0TlsvLnRD4favMoBKq/oytKnBtxW2bcZAz6KEor1GiHVV
-	zxhOrFUzx1pB+c+temcOQXrR5ObAOQO1Jhf1Wm6ARG4zB33Mv/pg7jZG+2somzfj75/f
-	O68nIR0lwdsHVD8TzEyG/dQ5g/eyzmgg1S/5s5nBbdOiQ2T7Ft2gyLCarI6fJXRLD8pu
-	oBhA==
-X-Received: by 10.66.240.70 with SMTP id vy6mr27261119pac.80.1399198662742;
-	Sun, 04 May 2014 03:17:42 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	au16sm41725813pac.27.2014.05.04.03.17.40 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 04 May 2014 03:17:41 -0700 (PDT)
-Message-ID: <536613A5.3020003@gmail.com>
-Date: Sun, 04 May 2014 20:17:09 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Sun, 4 May 2014 02:30:36 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 4 May 2014 02:30:36 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 4 May 2014 17:30:33 +0800
+Message-ID: <1399195833-4364-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-To: Joel Fernandes <joelf@ti.com>, 
- openembedded-core@lists.openembedded.org
-References: <1399160215-16270-1-git-send-email-joelf@ti.com>
-In-Reply-To: <1399160215-16270-1-git-send-email-joelf@ti.com>
-Subject: Re: [PATCH v2] serial-getty service: Add linux as default TERM
+Subject: [PATCH] ldconfig-native: default to both lib and lib64 directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,44 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 May 2014 10:17:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 04 May 2014 11:07:34 -0000
+Content-Type: text/plain
 
-On 4/05/2014 9:36 AM, Joel Fernandes wrote:
-> In poky with systemd enabled, vt102 is selected for getty
-> causing user to experience a very crappy terminal. Default
-> TERM to linux.
->
-> Signed-off-by: Joel Fernandes <joelf@ti.com>
-> ---
-> v2: Dropped PR bump
->
->   .../systemd-serialgetty/serial-getty@.service      |    1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> index 865de34..eb2280b 100644
-> --- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> +++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> @@ -20,6 +20,7 @@ Before=getty.target
->   IgnoreOnIsolate=yes
->   
->   [Service]
-> +Environment="TERM=linux"
->   ExecStart=-/sbin/agetty --keep-baud %I @BAUDRATE@ $TERM
->   Type=idle
->   Restart=always
-I would prefer:
-Environment="TERM=xterm"
-ExecStart=-/sbin/agetty -8 --keep-baud %I @BAUDRATE@ $TERM
+make ldconfig default to both /lib+/usr/lib and /lib64+/usr/lib64
+on bi-ABI architectures.
 
-"xterm" as it is much more widely supported than "linux". Also, PuTTY 
-uses "xterm" by default.
--8 to assume the tty is 8-bit clean and disable parity detection. I have 
-had some issues where parity sometimes gets enabled even though the 
-serial line is 8-bit clean and I end up with garbage on the serial terminal.
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ .../ldconfig-default-to-both-lib-and-lib64.patch   | 32 ++++++++++++++++++++++
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |  4 ++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
 
-Regards,
-Jonathan
+diff --git a/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+new file mode 100644
+index 0000000..230502e
+--- /dev/null
++++ b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++make ldconfig default to both /lib+/usr/lib and /lib64+/usr/lib64
++on bi-ABI architectures.
++
++---
++ ldconfig.c |    5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff -urpN a/ldconfig.c b/ldconfig.c
++--- a/ldconfig.c
+++++ b/ldconfig.c
++@@ -52,7 +52,9 @@
++ 
++ #define SYSCONFDIR "/etc"
++ #define LIBDIR "/usr/lib"
+++#define LIBDIR64 "/usr/lib64"
++ #define SLIBDIR "/lib"
+++#define SLIBDIR64 "/lib64"
++ # define N_(msgid)  msgid
++ #define _(msg) msg
++ 
++@@ -1373,6 +1375,9 @@ main (int argc, char **argv)
++       add_system_dir (SLIBDIR);
++       if (strcmp (SLIBDIR, LIBDIR))
++ 	add_system_dir (LIBDIR);
+++      add_system_dir (SLIBDIR64);
+++      if (strcmp (SLIBDIR64, LIBDIR64))
+++	add_system_dir (LIBDIR64);
++     }
++ 
++   const char *aux_cache_file = _PATH_LDCONFIG_AUX_CACHE;
+diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+index d7bc444..69748a4 100644
+--- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
++++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+@@ -10,7 +10,9 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+            file://32and64bit.patch \
+            file://endian-ness_handling.patch \
+            file://flag_fix.patch \
+-           file://endianess-header.patch"
++           file://endianess-header.patch \
++           file://ldconfig-default-to-both-lib-and-lib64.patch \
++"
+ 
+ PR = "r2"
+ 
+-- 
+1.8.4.1
+
 
