@@ -1,32 +1,32 @@
 Return-Path: <joelf@ti.com>
-Received: from comal.ext.ti.com (comal.ext.ti.com [198.47.26.152])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D8C60144
+Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [192.94.94.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 080F965CD5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 May 2014 20:35:26 +0000 (UTC)
+	Sun,  4 May 2014 20:36:54 +0000 (UTC)
 Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id s44KZRoD007400
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id s44KauiT031391
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 May 2014 15:35:27 -0500
-Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s44KZRYZ001036
+	Sun, 4 May 2014 15:36:56 -0500
+Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s44Kauek003208
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 May 2014 15:35:27 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DFLE72.ent.ti.com
-	(128.247.5.109) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 4 May 2014 15:35:27 -0500
+	Sun, 4 May 2014 15:36:56 -0500
+Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE71.ent.ti.com
+	(157.170.170.114) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 4 May 2014 15:36:55 -0500
 Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
-	[128.247.22.53])	by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id
-	s44KZRfY005509;	Sun, 4 May 2014 15:35:27 -0500
+	[128.247.22.53])	by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id
+	s44Katc5002739;	Sun, 4 May 2014 15:36:55 -0500
 Received: from joelboxx.am.dhcp.ti.com (joelboxx.am.dhcp.ti.com
 	[128.247.71.22])	by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with
-	ESMTP id s44KZRt08336;	Sun, 4 May 2014 15:35:27 -0500 (CDT)
+	ESMTP id s44Katt08406;	Sun, 4 May 2014 15:36:55 -0500 (CDT)
 From: Joel Fernandes <joelf@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 4 May 2014 16:46:11 -0400
-Message-ID: <1399236371-3167-1-git-send-email-joelf@ti.com>
+Date: Sun, 4 May 2014 16:47:45 -0400
+Message-ID: <1399236465-3261-1-git-send-email-joelf@ti.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH v3] serial-getty service: Add linux as default TERM
+Subject: [PATCH v4] serial-getty service: Add xterm as default TERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 May 2014 20:35:27 -0000
+X-List-Received-Date: Sun, 04 May 2014 20:36:55 -0000
 Content-Type: text/plain
 
 In poky with systemd enabled, vt102 is selected for getty
@@ -50,7 +50,8 @@ Reviewed-by: Jonathan Liu <net147@gmail.com>
 Signed-off-by: Joel Fernandes <joelf@ti.com>
 ---
 v2: Removed PR bump.
-v3: Changed TERM to xterm, pass -8 to getty.
+v3: Changed TERM to xterm than linux, pass -8 to getty.
+v4: Corrected patch title (Sorry!)
 
  .../systemd-serialgetty/serial-getty@.service      |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
