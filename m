@@ -1,26 +1,25 @@
-Return-Path: <Ming.Liu@windriver.com>
-X-Greylist: delayed 5816 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 04 May 2014 11:07:32 UTC
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 69E986098B
+Return-Path: <Maxin.John@enea.com>
+X-Greylist: delayed 331 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 04 May 2014 14:07:46 UTC
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 6AC0D60702
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 May 2014 11:07:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s449Ua8h022566
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 May 2014 02:30:36 -0700 (PDT)
-Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Sun, 4 May 2014 02:30:36 -0700
-From: Ming Liu <ming.liu@windriver.com>
+	Sun,  4 May 2014 14:07:46 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Sun, 4 May 2014
+	16:02:09 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 1036C28C882;
+	Sun,  4 May 2014 16:02:09 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 4 May 2014 17:30:33 +0800
-Message-ID: <1399195833-4364-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
+Date: Sun, 4 May 2014 16:02:07 +0200
+Message-ID: <1399212127-30830-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: [PATCH] ldconfig-native: default to both lib and lib64 directories
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] gdbm: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +32,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 May 2014 11:07:34 -0000
+X-List-Received-Date: Sun, 04 May 2014 14:07:48 -0000
 Content-Type: text/plain
 
-make ldconfig default to both /lib+/usr/lib and /lib64+/usr/lib64
-on bi-ABI architectures.
+From: "Maxin B. John" <maxin.john@enea.com>
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Install gdbm test-suite and run it as ptest
+
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
 ---
- .../ldconfig-default-to-both-lib-and-lib64.patch   | 32 ++++++++++++++++++++++
- meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |  4 ++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+ meta/recipes-support/gdbm/files/ptest.patch |   36 +++++++++++++++++++++++++++
+ meta/recipes-support/gdbm/files/run-ptest   |    7 ++++++
+ meta/recipes-support/gdbm/gdbm_1.11.bb      |   13 ++++++++--
+ 3 files changed, 54 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/gdbm/files/ptest.patch
+ create mode 100755 meta/recipes-support/gdbm/files/run-ptest
 
-diff --git a/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+diff --git a/meta/recipes-support/gdbm/files/ptest.patch b/meta/recipes-support/gdbm/files/ptest.patch
 new file mode 100644
-index 0000000..230502e
+index 0000000..65236fb
 --- /dev/null
-+++ b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
-@@ -0,0 +1,32 @@
-+Upstream-Status: Inappropriate [embedded specific]
++++ b/meta/recipes-support/gdbm/files/ptest.patch
+@@ -0,0 +1,36 @@
++Add install-ptest rules.
 +
-+make ldconfig default to both /lib+/usr/lib and /lib64+/usr/lib64
-+on bi-ABI architectures.
++Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
++Signed-off-by: Maxin B. John <maxin.john@enea.com>
++Upstream-Status: Pending
 +
-+---
-+ ldconfig.c |    5 +++++
-+ 1 file changed, 5 insertions(+)
++diff -ur a/Makefile.am b/Makefile.am
++--- a/Makefile.am	2011-08-16 10:13:10.000000000 +0200
+++++ b/Makefile.am	2013-04-12 18:02:16.473715873 +0200
++@@ -31,3 +31,8 @@
++ 	d=`date '+%d/%m/%Y'`; \
++ 	sed 's|/\*@DIST_DATE@\*/|"'"$$d"'"|' $(srcdir)/src/version.c > \
++ 		$(distdir)/src/version.c
+++
+++install-ptest:
+++	@for subdir in $(SUBDIRS); do \
+++		$(MAKE) -C $$subdir DESTDIR=$(DESTDIR)/$$subdir $@; \
+++	done
++diff -ur a/tests/Makefile.am b/tests/Makefile.am
++--- a/tests/Makefile.am	2011-11-11 19:39:42.000000000 +0100
+++++ b/tests/Makefile.am	2013-04-12 18:30:57.066301037 +0200
++@@ -132,4 +132,14 @@
++ dtdel_LDADD = ../src/libgdbm.la ../compat/libgdbm_compat.la
++ d_creat_ce_LDADD = ../src/libgdbm.la ../compat/libgdbm_compat.la
++ 
+++buildtests: $(check_PROGRAMS) $(TESTSUITE)
++ 
+++install-ptest: $(check_PROGRAMS) $(TESTSUITE)
+++	@$(INSTALL) -d $(DESTDIR)
+++	@for file in $^; do \
+++		if [ -x .libs/$$file ]; then \
+++			$(INSTALL_PROGRAM) .libs/$$file $(DESTDIR)/$$file; \
+++		else \
+++			$(INSTALL_PROGRAM) $$file $(DESTDIR) ; \
+++		fi \
+++	done
+diff --git a/meta/recipes-support/gdbm/files/run-ptest b/meta/recipes-support/gdbm/files/run-ptest
+new file mode 100755
+index 0000000..615da84
+--- /dev/null
++++ b/meta/recipes-support/gdbm/files/run-ptest
+@@ -0,0 +1,7 @@
++#!/bin/sh
++#
++# This script is used to run the gmdb test suite
 +
-+diff -urpN a/ldconfig.c b/ldconfig.c
-+--- a/ldconfig.c
-++++ b/ldconfig.c
-+@@ -52,7 +52,9 @@
-+ 
-+ #define SYSCONFDIR "/etc"
-+ #define LIBDIR "/usr/lib"
-++#define LIBDIR64 "/usr/lib64"
-+ #define SLIBDIR "/lib"
-++#define SLIBDIR64 "/lib64"
-+ # define N_(msgid)  msgid
-+ #define _(msg) msg
-+ 
-+@@ -1373,6 +1375,9 @@ main (int argc, char **argv)
-+       add_system_dir (SLIBDIR);
-+       if (strcmp (SLIBDIR, LIBDIR))
-+ 	add_system_dir (LIBDIR);
-++      add_system_dir (SLIBDIR64);
-++      if (strcmp (SLIBDIR64, LIBDIR64))
-++	add_system_dir (LIBDIR64);
-+     }
-+ 
-+   const char *aux_cache_file = _PATH_LDCONFIG_AUX_CACHE;
-diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
-index d7bc444..69748a4 100644
---- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
-@@ -10,7 +10,9 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://32and64bit.patch \
-            file://endian-ness_handling.patch \
-            file://flag_fix.patch \
--           file://endianess-header.patch"
-+           file://endianess-header.patch \
-+           file://ldconfig-default-to-both-lib-and-lib64.patch \
-+"
++cd tests
++
++./testsuite AUTOTEST_PATH=$PWD abs_builddir=$PWD COMPAT=1 | sed 's/^[^0-9]*\([0-9]\+\): \(.*\)\(ok\|pass\|skipped\|fail\|FAILED\)\(.*\)$/\3: \2 \4/;s/ \+/ /g;s/^ok/PASS/;s/^skipped/SKIP/;s/^fail/FAIL/;s/^FAILED/FAIL/'
+diff --git a/meta/recipes-support/gdbm/gdbm_1.11.bb b/meta/recipes-support/gdbm/gdbm_1.11.bb
+index 3d02594..adf8c5b 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.11.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.11.bb
+@@ -5,12 +5,15 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=241da1b9fe42e642cbb2c24d5e0c4d24"
  
- PR = "r2"
  
+-SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
++           file://run-ptest \
++           file://ptest.patch \
++          "
+ 
+ SRC_URI[md5sum] = "72c832680cf0999caedbe5b265c8c1bd"
+ SRC_URI[sha256sum] = "8d912f44f05d0b15a4a5d96a76f852e905d051bb88022fcdfd98b43be093e3c3"
+ 
+-inherit autotools gettext texinfo lib_package
++inherit autotools gettext texinfo lib_package ptest
+ 
+ # Needed for dbm python module
+ EXTRA_OECONF = "-enable-libgdbm-compat"
+@@ -28,6 +31,12 @@ do_install_append () {
+     ln -sf ../gdbm.h ${D}/${includedir}/gdbm/gdbm.h
+ }
+ 
++RDEPENDS_${PN}-ptest += "diffutils"
++
++do_compile_ptest() {
++    oe_runmake -C tests buildtests
++}
++
+ PACKAGES =+ "${PN}-compat \
+             "
+ FILES_${PN}-compat = "${libdir}/libgdbm_compat${SOLIBS} \
 -- 
-1.8.4.1
+1.7.10.4
 
 
