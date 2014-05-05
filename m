@@ -1,24 +1,39 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 895E965F0F
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D43165F46
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 15:17:31 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 May 2014 08:17:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,988,1389772800"; d="scan'208";a="506136163"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 05 May 2014 08:17:23 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 May 2014 18:20:48 +0300
-Message-Id: <39874be410c4c4876ffdbfb25fd5f5cbbc905ccf.1399303211.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1399303211.git.cristian.iorga@intel.com>
-References: <cover.1399303211.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1399303211.git.cristian.iorga@intel.com>
-References: <cover.1399303211.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/2] linux-firmware: upgrade to commit dec41bce44e0dff6a2c3358a958fadf22bf58858
+	Mon,  5 May 2014 15:29:35 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id b15so5555446eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 May 2014 08:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=S8utU0jmtHP6FK6qHJOCxMWlOv+cHHaeRVpzwgCQwoo=;
+	b=seleDmKOnBGCtAA25ql3zREyacSJHU0uG4tIjNrfFySI4QHqFkSthrUJuiURqc5TWg
+	y96dOei02hhukd3nvbnSL1OyWmBcmWIwQSKJ3nzSvIqeI/pCMu3ML5hGO0s8/7YuMy42
+	8EB0cBGY4TVJp9+HHcMYv66EWgngRdpCVOfjkd0u15Tvwj/6alyj7lJQ1GOtjcwyuD5f
+	WfsoDEproZu+eQO+c1ig5jY8vdAGDuIMKa0vqFRGO8xyXZNVzu9pdUNJYlBNCxpjno7B
+	IL0TR8kOqHtcfIHdumcNWXbRVpGvAk90nYe12CBSuCJJya4zxPw9Cx1iDcUN0dGHV7TT
+	LEIQ==
+X-Received: by 10.14.223.136 with SMTP id v8mr3099074eep.91.1399303776295;
+	Mon, 05 May 2014 08:29:36 -0700 (PDT)
+Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id u1sm30466002eex.31.2014.05.05.08.29.35
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 May 2014 08:29:35 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+Date: Mon, 5 May 2014 15:29:33 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Marco <koansoftware@gmail.com>
+Message-ID: <20140505152931.GA26865@gmail.com>
+References: <53679D4E.6060202@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <53679D4E.6060202@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Upgrade to a package with all its dependency without network
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,103 +46,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 15:17:31 -0000
+X-List-Received-Date: Mon, 05 May 2014 15:29:38 -0000
+X-Groupsio-MsgNum: 52833
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
+Content-Disposition: inline
 
-- Updated copyright years for radeon firmware;
-- Changed copyright terms (privilege of use) for qla2xxx firmware;
-- Changed Broadcom firmware name for SDIO;
-- Added TI wl18xx firmware package.
+--2fHTh5uZTiUOsy+g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../linux-firmware/linux-firmware_git.bb           | 27 ++++++++++++++--------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+On Mon, May 05, 2014 at 04:16:46PM +0200, Marco wrote:
+> Hello,
+> I need to be able to upgrade to a package with all its dependency chain o=
+n a
+> target system that does not have access to the network.
+>=20
+> I'm trying to understand what may be the best and also the simplest
+> solution.
+> Perhaps there is already this functionality in OE/Yocto?
+>=20
+> I thought to implement a new opkg feture so that I can to generate the li=
+st
+> of dependencies of a package and then extract the packages from OE/Yocto
+> using a script or an application.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index c148336..a107f80 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -7,11 +7,11 @@ SECTION = "kernel"
- 
- LICENSE = "Proprietary"
- 
--LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=9c2faab1bfca55e1510d6bde67206f9c \
-+LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
--                    file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
-+                    file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
-                     file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-@@ -24,7 +24,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=9c2faab1bfca55e1510d6bde67206f9c \
-                     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
-                    "
- 
--SRCREV = "600caefd83a406540b2a789be6415e44c9b87add"
-+SRCREV = "dec41bce44e0dff6a2c3358a958fadf22bf58858"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
-@@ -63,7 +63,7 @@ do_install() {
- PACKAGES =+ "${PN}-ralink \
-              ${PN}-radeon \
-              ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8787 ${PN}-sd8797 \
--             ${PN}-wl12xx ${PN}-vt6656 \
-+             ${PN}-wl12xx ${PN}-wl18xx ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
-              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
-@@ -162,6 +162,13 @@ FILES_${PN}-wl12xx = " \
-   /lib/firmware/ti-connectivity \
- "
- 
-+LICENSE_${PN}-wl18xx = "Firmware-ti-connectivity"
-+FILES_${PN}-wl18xx = " \
-+  /lib/firmware/wl18* \
-+  /lib/firmware/TI* \
-+  /lib/firmware/ti-connectivity \
-+"
-+
- LICENSE_${PN}-vt6656 = "Firmware-via_vt6656"
- FILES_${PN}-vt6656 = " \
-   /lib/firmware/vntwusb.fw \
-@@ -179,27 +186,27 @@ FILES_${PN}-broadcom-license = " \
- 
- LICENSE_${PN}-bcm4329 = "Firmware-bcm4329"
- FILES_${PN}-bcm4329 = " \
--  /lib/firmware/brcm/brcmfmac4329.bin \
-+  /lib/firmware/brcm/brcmfmac4329-sdio.bin \
- "
- RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
- ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
--ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329.bin"
-+ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329-sdio.bin"
- 
- LICENSE_${PN}-bcm4330 = "Firmware-bcm4330"
- FILES_${PN}-bcm4330 = " \
--  /lib/firmware/brcm/brcmfmac4330.bin \
-+  /lib/firmware/brcm/brcmfmac4330-sdio.bin \
- "
- RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
- ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
--ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330.bin"
-+ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330-sdio.bin"
- 
- LICENSE_${PN}-bcm4334 = "Firmware-bcm4334"
- FILES_${PN}-bcm4334 = " \
--  /lib/firmware/brcm/brcmfmac4334.bin \
-+  /lib/firmware/brcm/brcmfmac4334-sdio.bin \
- "
- RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
- ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
--ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334.bin"
-+ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
- 
- RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6000g2a-6 = "${PN}-iwlwifi-license"
--- 
-1.9.1
+opkg v0.2.x (the latest release series) doesn't really support this behavio=
+ur
+very well. The caching logic just doesn't work. For example, I have a board
+connected at the minute with a feed configured so I tried this:
 
+    opkg install --download-only ncurses-terminfo
+    ifdown eth0
+    opkg install ncurses-terminfo
 
+You'd hope that would pick up the package files from the cache but it doesn=
+'t.
+So even if you put the files there yourself, you may no have a simple way to
+install them.
+
+An interim solution I can see is to put all the packages you want in one
+directory then run 'opkg-make-index' from opkg-utils on that directory so t=
+hat
+it is a complete package feed. Then add that as a source in
+/etc/opkg/base-feeds.conf.
+
+The development branch of opkg which will become v0.3.x has much better cac=
+he
+logic, it just needs finishing off and tidying up. I'm very busy at the min=
+ute
+but it's getting there. Any help to close the remaining issues so it can be
+released would be appreciated!
+
+>=20
+> Another possibility would be to extend the operation of bitbake so I pull
+> out the package and dependencies putting them in a dedicated directory to=
+ be
+> moved on the target for the update.
+>=20
+> For now I'm just analyzing what may be the possibilities and I'd love to
+> have any comments or advice from someone more experienced than me on this
+> topic.
+>=20
+> Thanks
+> --=20
+> Marco Cavallini | KOAN sas | Bergamo - Italia
+>  embedded and real-time software engineering
+> Phone:+39-035-255.235 - Fax:+39-178-22.39.748
+>       http://www.KoanSoftware.com
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--2fHTh5uZTiUOsy+g
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJTZ65bAAoJEBwoJlo7UPQDdzgH/RxyvqoJsDTjBE1Ts5XJmRoU
+nP6d4pA/CaZkWcwrAxQsLaxC4apUNOvKott3sT+eX/3b+MTlMB7D+nljQNlCHGaZ
+Rifx0q80Y1a0EgBftm0oM6dAabxqQvA3RARXE63fn/5FpW5UrU43Yxp4mbtqzWeJ
+dTPDxujd5iM0l8s0GPNJwWn5E3YnuUJvKqUYffhRnyw15XfVsIdH8Yv3TOgVg/eX
+7at2x0Lm1MRQbZqmdV7QTlTkk5+exGUrzQNqOivvYE/oJ119Jhs4w3hfra2jCqDa
+mWapUDvsE2VEWBXKiJ1jTPZbVnF5nIByNJu5ZnS6GRqvKYTPZujvFTFViLAqmXg=
+=fnnU
+-----END PGP SIGNATURE-----
+
+--2fHTh5uZTiUOsy+g--
