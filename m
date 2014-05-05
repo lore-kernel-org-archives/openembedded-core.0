@@ -1,35 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id AA917601A8
+Return-Path: <Ming.Liu@windriver.com>
+X-Greylist: delayed 2214 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 05 May 2014 03:07:30 UTC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 52EA3601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 03:04:15 +0000 (UTC)
-Received: by mail-ie0-f179.google.com with SMTP id lx4so7258586iec.24
+	Mon,  5 May 2014 03:07:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s452UbMi000622
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 May 2014 20:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=wo3mp1+VVFlD1RlOA5o5c8YiHgjkO6kesZt+oCEps0M=;
-	b=Qwow/XDXUw0be9rNMYNdJSGe50mlU+ES3IiPrZXQNPC1Sqdf1zNxpJHHGQOliV5pJW
-	6R+/fs8rc2R2THkDbUcFTf3XUHU3Ytl20cUsTeyrzn5Ae4saAyfUrYVc2HzS+taHbLVw
-	Q7ZZW7ToPYf1u4geZVQqf9kEDFOTLLX4hc8/uGTMILRl6d5pry5aNA5ODXrZAi89cZF3
-	2zLTZC1ApzwiY6Z8IOeh4zmdjfCR7NoAP2uNrRkgwRAYtt3zQ4ecTjytLu48H0or/yM/
-	EJv1C0JeH+nVvcSbyItt/pmWEHR04lrnHPlPFXMrRPwRckDApNgSZ4lx6cv4MS1D31yS
-	gGfw==
-X-Received: by 10.42.196.73 with SMTP id ef9mr2046139icb.25.1399259056105;
-	Sun, 04 May 2014 20:04:16 -0700 (PDT)
+	Sun, 4 May 2014 19:30:37 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 4 May 2014 19:30:37 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 May 2014 10:30:33 +0800
+Message-ID: <1399257033-7155-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-Received: by 10.50.74.228 with HTTP; Sun, 4 May 2014 20:03:46 -0700 (PDT)
-In-Reply-To: <1399243070-25365-1-git-send-email-tylerwhall@gmail.com>
-References: <1399243070-25365-1-git-send-email-tylerwhall@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 4 May 2014 20:03:46 -0700
-Message-ID: <CAMKF1soiXoaBN=vLXXXUVDf7fUATaL7deScP8epRt+cyK7jVTw@mail.gmail.com>
-To: Tyler Hall <tylerwhall@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3: Substitute correct python version in shebang
+Subject: [PATCH V2] ldconfig-native: also default to lib32 and lib64 directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 03:04:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 May 2014 03:07:31 -0000
+Content-Type: text/plain
 
-On Sun, May 4, 2014 at 3:37 PM, Tyler Hall <tylerwhall@gmail.com> wrote:
-> If python2 and python3 are both available, scripts that are subject to
-> this substitution can possibly run with the wrong python version.
-> python3-config is one such script.
->
-> Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+make ldconfig default to /lib+/usr/lib, /lib32+/usr/lib32 and
+/lib64+/usr/lib64 on bi-ABI architectures.
 
-Thanks looks good to me.
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ .../ldconfig-default-to-all-multilib-dirs.patch    | 37 ++++++++++++++++++++++
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |  4 ++-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
 
-> ---
->  meta/recipes-devtools/python/python3-native_3.3.3.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-native_3.3.3.bb b/meta/recipes-devtools/python/python3-native_3.3.3.bb
-> index 7238eaf..0fd7349 100644
-> --- a/meta/recipes-devtools/python/python3-native_3.3.3.bb
-> +++ b/meta/recipes-devtools/python/python3-native_3.3.3.bb
-> @@ -71,6 +71,6 @@ do_install() {
->
->         # Make sure we use /usr/bin/env python
->         for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
-> -               sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
-> +               sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
->         done
->  }
-> --
-> 1.9.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
+new file mode 100644
+index 0000000..5ed4f6f
+--- /dev/null
++++ b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
+@@ -0,0 +1,37 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++make ldconfig default to both /lib+/usr/lib, /lib32+/usr/lib32 and
++/lib64+/usr/lib64 on bi-ABI architectures.
++
++---
++ ldconfig.c |   10 ++++++++++
++ 1 file changed, 10 insertions(+)
++
++diff -urpN a/ldconfig.c b/ldconfig.c
++--- a/ldconfig.c
+++++ b/ldconfig.c
++@@ -52,7 +52,11 @@
++ 
++ #define SYSCONFDIR "/etc"
++ #define LIBDIR "/usr/lib"
+++#define LIBDIR32 "/usr/lib32"
+++#define LIBDIR64 "/usr/lib64"
++ #define SLIBDIR "/lib"
+++#define SLIBDIR32 "/lib32"
+++#define SLIBDIR64 "/lib64"
++ # define N_(msgid)  msgid
++ #define _(msg) msg
++ 
++@@ -1373,6 +1377,12 @@ main (int argc, char **argv)
++       add_system_dir (SLIBDIR);
++       if (strcmp (SLIBDIR, LIBDIR))
++ 	add_system_dir (LIBDIR);
+++      add_system_dir (SLIBDIR32);
+++      if (strcmp (SLIBDIR32, LIBDIR32))
+++	add_system_dir (LIBDIR32);
+++      add_system_dir (SLIBDIR64);
+++      if (strcmp (SLIBDIR64, LIBDIR64))
+++	add_system_dir (LIBDIR64);
++     }
++ 
++   const char *aux_cache_file = _PATH_LDCONFIG_AUX_CACHE;
+diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+index d7bc444..75ffbf6 100644
+--- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
++++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+@@ -10,7 +10,9 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+            file://32and64bit.patch \
+            file://endian-ness_handling.patch \
+            file://flag_fix.patch \
+-           file://endianess-header.patch"
++           file://endianess-header.patch \
++           file://ldconfig-default-to-all-multilib-dirs.patch \
++"
+ 
+ PR = "r2"
+ 
+-- 
+1.8.4.1
+
 
