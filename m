@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AFD1D65F44
+	by mail.openembedded.org (Postfix) with ESMTP id 895E965F0F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 15:17:30 +0000 (UTC)
+	Mon,  5 May 2014 15:17:31 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 May 2014 08:17:31 -0700
+	by orsmga101.jf.intel.com with ESMTP; 05 May 2014 08:17:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,988,1389772800"; d="scan'208";a="506136161"
+X-IronPort-AV: E=Sophos;i="4.97,988,1389772800"; d="scan'208";a="506136163"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 05 May 2014 08:17:22 -0700
+	by orsmga001.jf.intel.com with ESMTP; 05 May 2014 08:17:23 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 May 2014 18:20:47 +0300
-Message-Id: <4142c388d31f6f5120a7eb4ea28c8c7449ca9b76.1399303211.git.cristian.iorga@intel.com>
+Date: Mon,  5 May 2014 18:20:48 +0300
+Message-Id: <39874be410c4c4876ffdbfb25fd5f5cbbc905ccf.1399303211.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1399303211.git.cristian.iorga@intel.com>
 References: <cover.1399303211.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1399303211.git.cristian.iorga@intel.com>
 References: <cover.1399303211.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/2] taglib: upgrade to 1.9.1
+Subject: [PATCH 2/2] linux-firmware: upgrade to commit dec41bce44e0dff6a2c3358a958fadf22bf58858
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +31,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 15:17:30 -0000
+X-List-Received-Date: Mon, 05 May 2014 15:17:31 -0000
 
-- Updated website;
-- Updated tarball location;
-- Switched to BP variable;
-- Improved source dir definition;
+- Updated copyright years for radeon firmware;
+- Changed copyright terms (privilege of use) for qla2xxx firmware;
+- Changed Broadcom firmware name for SDIO;
+- Added TI wl18xx firmware package.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../taglib/{taglib_1.8.bb => taglib_1.9.1.bb}              | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
- rename meta/recipes-support/taglib/{taglib_1.8.bb => taglib_1.9.1.bb} (64%)
+ .../linux-firmware/linux-firmware_git.bb           | 27 ++++++++++++++--------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-support/taglib/taglib_1.8.bb b/meta/recipes-support/taglib/taglib_1.9.1.bb
-similarity index 64%
-rename from meta/recipes-support/taglib/taglib_1.8.bb
-rename to meta/recipes-support/taglib/taglib_1.9.1.bb
-index 7327bc8..0ecb444 100644
---- a/meta/recipes-support/taglib/taglib_1.8.bb
-+++ b/meta/recipes-support/taglib/taglib_1.9.1.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "Library for reading and editing the meta-data of popular audio formats"
- SECTION = "libs/multimedia"
--HOMEPAGE = "http://developer.kde.org/~wheeler/taglib.html"
-+HOMEPAGE = "http://taglib.github.io/"
- LICENSE = "LGPLv2.1 | MPL-1"
- LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
-                     file://COPYING.MPL;md5=bfe1f75d606912a4111c90743d6c7325 \
-@@ -8,15 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index c148336..a107f80 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -7,11 +7,11 @@ SECTION = "kernel"
  
- DEPENDS = "zlib"
+ LICENSE = "Proprietary"
  
--PR = "r1"
--# http://developer.kde.org/~wheeler/files/src/taglib-${PV}.tar.gz
--SRC_URI = "https://github.com/downloads/taglib/taglib/taglib-1.8.tar.gz \
--           "
-+SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
-+SRC_URI[md5sum] = "0d35df96822bbd564c5504cb3c2e4d86"
-+SRC_URI[sha256sum] = "72d371cd1419a87ae200447a53bff2be219283071e80fd12337928cc967dc71a"
+-LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=9c2faab1bfca55e1510d6bde67206f9c \
++LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
+                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
+-                    file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
++                    file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
+                     file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
+                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
+                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+@@ -24,7 +24,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=9c2faab1bfca55e1510d6bde67206f9c \
+                     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
+                    "
  
--SRC_URI[md5sum] = "dcb8bd1b756f2843e18b1fdf3aaeee15"
--SRC_URI[sha256sum] = "66d33481703c90236a0a9d1c38fd81b584ca7109ded049225f5463dcaffc209a"
--
--S = "${WORKDIR}/taglib-${PV}"
-+S = "${WORKDIR}/${BP}"
+-SRCREV = "600caefd83a406540b2a789be6415e44c9b87add"
++SRCREV = "dec41bce44e0dff6a2c3358a958fadf22bf58858"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
  
- inherit cmake pkgconfig binconfig
+@@ -63,7 +63,7 @@ do_install() {
+ PACKAGES =+ "${PN}-ralink \
+              ${PN}-radeon \
+              ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8787 ${PN}-sd8797 \
+-             ${PN}-wl12xx ${PN}-vt6656 \
++             ${PN}-wl12xx ${PN}-wl18xx ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
+@@ -162,6 +162,13 @@ FILES_${PN}-wl12xx = " \
+   /lib/firmware/ti-connectivity \
+ "
  
++LICENSE_${PN}-wl18xx = "Firmware-ti-connectivity"
++FILES_${PN}-wl18xx = " \
++  /lib/firmware/wl18* \
++  /lib/firmware/TI* \
++  /lib/firmware/ti-connectivity \
++"
++
+ LICENSE_${PN}-vt6656 = "Firmware-via_vt6656"
+ FILES_${PN}-vt6656 = " \
+   /lib/firmware/vntwusb.fw \
+@@ -179,27 +186,27 @@ FILES_${PN}-broadcom-license = " \
+ 
+ LICENSE_${PN}-bcm4329 = "Firmware-bcm4329"
+ FILES_${PN}-bcm4329 = " \
+-  /lib/firmware/brcm/brcmfmac4329.bin \
++  /lib/firmware/brcm/brcmfmac4329-sdio.bin \
+ "
+ RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
+ ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329-sdio.bin"
+ 
+ LICENSE_${PN}-bcm4330 = "Firmware-bcm4330"
+ FILES_${PN}-bcm4330 = " \
+-  /lib/firmware/brcm/brcmfmac4330.bin \
++  /lib/firmware/brcm/brcmfmac4330-sdio.bin \
+ "
+ RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
+ ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4330-sdio.bin"
+ 
+ LICENSE_${PN}-bcm4334 = "Firmware-bcm4334"
+ FILES_${PN}-bcm4334 = " \
+-  /lib/firmware/brcm/brcmfmac4334.bin \
++  /lib/firmware/brcm/brcmfmac4334-sdio.bin \
+ "
+ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
+ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+-ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
+ 
+ RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6000g2a-6 = "${PN}-iwlwifi-license"
 -- 
 1.9.1
 
