@@ -1,42 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EC1A365F81
+Return-Path: <tylerwhall@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4189365F80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 17:10:13 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id e53so5599275eek.36
+	Mon,  5 May 2014 17:55:50 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id hl10so5080265igb.15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 May 2014 10:10:13 -0700 (PDT)
+	Mon, 05 May 2014 10:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vcrKAvr3j1xgiwO24hqLpgErx2JysP7NczWYbsjipik=;
-	b=uRy8X7QjoAMapm3KfGc5m4/+EN/rzmwiKmYCde7XN+3wjaD0vTSE0ZWG+gO/8sql9i
-	+WvyHSxJ5KcrUgF29JVjZF7LUv1zEzhHfM+1b5Shaq5jA4rVUXzsNyI/WlEQfmP0vIcw
-	CbjdM2JpS1EA8n6FmUQyyIm+sVqqn9C1moIICu1Yo96HRYLx9sz0++isZFtPFr36muLp
-	cBkzBnB9MnwO6Tb6ZuTbK1AJZSjehhXmIReL1vCf1sho7bu3mGZiYJtJjgw6iY7bZswh
-	MuecYmLneEFeGnGbbMIn5zCE5DXtFadfXIXsewYYvjci3Z3C+nVblFOYxl5PDiRVwHA8
-	dK/Q==
-X-Received: by 10.15.34.197 with SMTP id e45mr3582844eev.112.1399309813864;
-	Mon, 05 May 2014 10:10:13 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id
-	t50sm31143757eev.28.2014.05.05.10.10.12 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 May 2014 10:10:12 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Mon, 5 May 2014 17:10:10 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Message-ID: <20140505171010.GA12987@gmail.com>
-References: <535F3FFD.1080403@hostmobility.com>
-	<535F4513.20407@hostmobility.com> <1398873268.16672.529.camel@ted>
-	<CANyK_8c_-UdtF6ZqHLvQcs_JJ9PGjP+wP0dJGH_3imkn4n4h4w@mail.gmail.com>
-	<CALmOhgm4=Gw=yE2SRc7YS5ZvH+oyrP=g3fSiDPyT50X5CZQxLQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CALmOhgm4=Gw=yE2SRc7YS5ZvH+oyrP=g3fSiDPyT50X5CZQxLQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: quilt-native fails on tar version 1.27.1
+	h=from:to:cc:subject:date:message-id;
+	bh=Pt9Ben0eZs52TtLN3YumX0E5Y37200uHu8i6ltOkcPI=;
+	b=XhSvLQzH09aAer3mMBnSIRI1ph6gOkpOOKheMAUbjK73Pg7UqCfuzrpg8Qi3E5gkB7
+	Qj/gZ+4iY/i+yi1Y4g4D0dYFljDWzQjwq4yyEWfnuI3oiIvOorNrcp7V8oMzhaWljihj
+	ywDp21rf5VHzuODZK3+7yLkSEjFMLoVP3wWXWwxeq+DkbSJBNg2jhX2kjq3mifKCXrA9
+	Qu5PcmMj0QyllCGWlCIwkwGMUTmr3JjVySubBgDaQtvjCzcgUONqPk9zOyKo9c5VvZB+
+	/AaKatNG4l+5KtQ9efCb9yn8gczQNiOvoF1amAJnu/w5wpeOq+oqalM7frPChABezr/T
+	5WXA==
+X-Received: by 10.42.25.147 with SMTP id a19mr3982389icc.89.1399312551760;
+	Mon, 05 May 2014 10:55:51 -0700 (PDT)
+Received: from localhost.localdomain (CPE-76-177-97-210.natcky.res.rr.com.
+	[76.177.97.210])
+	by mx.google.com with ESMTPSA id p4sm29614167igy.7.2014.05.05.10.55.49
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 May 2014 10:55:50 -0700 (PDT)
+From: Tyler Hall <tylerwhall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 May 2014 13:55:42 -0400
+Message-Id: <1399312542-31067-1-git-send-email-tylerwhall@gmail.com>
+X-Mailer: git-send-email 1.9.2
+Subject: [PATCH v2] python3: Substitute correct python version in shebang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,57 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 17:10:17 -0000
-X-Groupsio-MsgNum: 52837
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 05 May 2014 17:55:53 -0000
 
---rwEMma7ioTxnRzrJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If python2 and python3 are both available, scripts that are subject to
+this substitution can possibly run with the wrong python version.
+python3-config is one such script.
 
-On Fri, May 02, 2014 at 11:23:40PM -0400, Trevor Woerner wrote:
-> On 30 April 2014 13:57, Paul Barker <paul@paulbarker.me.uk> wrote:
-> > If you can't find
-> > a good guide online on how to set this up, let me know and I'll write
-> > up a blog post of how I did it.
->=20
-> I'd be interested in reading this, if you wrote it up. Which container
-> technology did you use?
+Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+---
 
-I just used standard Linux Containers, didn't bother with Docker or anything
-else like that.
+v2: Update comment
 
-I've wrote up how I did things at:
-    http://www.paulbarker.me.uk/articles/ubuntu-1404-lxc-oe.html
+ meta/recipes-devtools/python/python3-native_3.3.3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-It's not perfect as I haven't had much time to dedicate to writing it up, b=
-ut it
-should be enough to help people out.
+diff --git a/meta/recipes-devtools/python/python3-native_3.3.3.bb b/meta/recipes-devtools/python/python3-native_3.3.3.bb
+index 7238eaf..ead0348 100644
+--- a/meta/recipes-devtools/python/python3-native_3.3.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.3.3.bb
+@@ -69,8 +69,8 @@ do_install() {
+ 	install -d ${D}${bindir}/${PN}
+ 	install -m 0755 Parser/pgen ${D}${bindir}/${PN}
+ 
+-	# Make sure we use /usr/bin/env python
++	# Make sure we use python3 from $PATH
+ 	for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
+-		sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
++		sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
+ 	done
+ }
+-- 
+1.9.2
 
-Cheers,
 
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---rwEMma7ioTxnRzrJ
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQEcBAEBAgAGBQJTZ8XyAAoJEBwoJlo7UPQDdtUH/jvMtS7qZyaXN+7qdIY4BRik
-EzVBErAgHvr68jMoh6iMa1FV4994aGUuKFSZWw6ogQDiKwaP/chtst26s565OulN
-/++EpGot9uxCRVyRJb8d9txmh+ZQdwA9yN7QW6qN9LCUUTczwmuucZ81QOoyyW7I
-WQesfkvweZrIp6a78hbTChnG8NOzt7rNqjWqay/iO0KtihjrKkYBF8kRdF6eGNaO
-GrDaJNlS8nGVJPNdZYGB8RREm+ZD6RuwuC/VR3eiVhItZpUxGvMIXf8bh6o26iwE
-8GknG18k7sVnZ+I17imU4dwEgnCv2thCX1cIAsT/gcAK7mFfLo4hCgIMvn8eWks=
-=gr4s
------END PGP SIGNATURE-----
-
---rwEMma7ioTxnRzrJ--
