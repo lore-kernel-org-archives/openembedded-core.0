@@ -1,34 +1,42 @@
-Return-Path: <flihp@twobit.us>
-Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
-	by mail.openembedded.org (Postfix) with ESMTP id 47AA665F54
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EC1A365F81
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 16:49:17 +0000 (UTC)
-Received: from [216.57.91.130] (helo=[10.204.207.200])
-	by smtp.twobit.us with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <flihp@twobit.us>)
-	id 1WhM1X-0004B0-BR; Mon, 05 May 2014 16:45:59 +0000
-Message-ID: <5367C0FC.40400@twobit.us>
-Date: Mon, 05 May 2014 12:49:00 -0400
-From: Philip Tricca <flihp@twobit.us>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20131104 Icedove/17.0.10
+	Mon,  5 May 2014 17:10:13 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id e53so5599275eek.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 May 2014 10:10:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vcrKAvr3j1xgiwO24hqLpgErx2JysP7NczWYbsjipik=;
+	b=uRy8X7QjoAMapm3KfGc5m4/+EN/rzmwiKmYCde7XN+3wjaD0vTSE0ZWG+gO/8sql9i
+	+WvyHSxJ5KcrUgF29JVjZF7LUv1zEzhHfM+1b5Shaq5jA4rVUXzsNyI/WlEQfmP0vIcw
+	CbjdM2JpS1EA8n6FmUQyyIm+sVqqn9C1moIICu1Yo96HRYLx9sz0++isZFtPFr36muLp
+	cBkzBnB9MnwO6Tb6ZuTbK1AJZSjehhXmIReL1vCf1sho7bu3mGZiYJtJjgw6iY7bZswh
+	MuecYmLneEFeGnGbbMIn5zCE5DXtFadfXIXsewYYvjci3Z3C+nVblFOYxl5PDiRVwHA8
+	dK/Q==
+X-Received: by 10.15.34.197 with SMTP id e45mr3582844eev.112.1399309813864;
+	Mon, 05 May 2014 10:10:13 -0700 (PDT)
+Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id
+	t50sm31143757eev.28.2014.05.05.10.10.12 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 May 2014 10:10:12 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+Date: Mon, 5 May 2014 17:10:10 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Message-ID: <20140505171010.GA12987@gmail.com>
+References: <535F3FFD.1080403@hostmobility.com>
+	<535F4513.20407@hostmobility.com> <1398873268.16672.529.camel@ted>
+	<CANyK_8c_-UdtF6ZqHLvQcs_JJ9PGjP+wP0dJGH_3imkn4n4h4w@mail.gmail.com>
+	<CALmOhgm4=Gw=yE2SRc7YS5ZvH+oyrP=g3fSiDPyT50X5CZQxLQ@mail.gmail.com>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1397611008-7653-1-git-send-email-flihp@twobit.us>
-	<5366C06B.7060805@twobit.us> <5367B323.30901@linux.intel.com>
-In-Reply-To: <5367B323.30901@linux.intel.com>
-X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 216.57.91.130
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] grub-efi: Use a variable to specify built-in grub modules.
+In-Reply-To: <CALmOhgm4=Gw=yE2SRc7YS5ZvH+oyrP=g3fSiDPyT50X5CZQxLQ@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: quilt-native fails on tar version 1.27.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,61 +49,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 16:49:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 May 2014 17:10:17 -0000
+X-Groupsio-MsgNum: 52837
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Disposition: inline
 
-On 05/05/2014 11:49 AM, Saul Wold wrote:
-> On 05/04/2014 03:34 PM, Philip Tricca wrote:
->> ping ...
->>
-> 
-> It was merged on 4/16!
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Whoops. Was watching the mailing list, not git. My bad.
+On Fri, May 02, 2014 at 11:23:40PM -0400, Trevor Woerner wrote:
+> On 30 April 2014 13:57, Paul Barker <paul@paulbarker.me.uk> wrote:
+> > If you can't find
+> > a good guide online on how to set this up, let me know and I'll write
+> > up a blog post of how I did it.
+>=20
+> I'd be interested in reading this, if you wrote it up. Which container
+> technology did you use?
 
-Thanks!
-Philip
+I just used standard Linux Containers, didn't bother with Docker or anything
+else like that.
 
-> Sau!
-> 
->> On 04/15/2014 09:16 PM, Philip Tricca wrote:
->>> The previous behavior defines a static set of modules that are built
->>> into the grub efi executable. This works fine for a limited set of boot
->>> environments namely the standard linux/initrd. This patch conditionally
->>>   assigns the same modules to a variable. This allows other meta layers
->>> to add additional modules or completely override the defaults. The use
->>> case driving this patch is the use of multiboot2 and related modules.
->>>
->>> Signed-off-by: Philip Tricca <flihp@twobit.us>
->>> ---
->>>   meta/recipes-bsp/grub/grub-efi_2.00.bb |    4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb
->>> b/meta/recipes-bsp/grub/grub-efi_2.00.bb
->>> index 6944cb2..4b43749 100644
->>> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
->>> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
->>> @@ -70,12 +70,14 @@ do_install_class-native() {
->>>       install -m 755 grub-mkimage ${D}${bindir}
->>>   }
->>>
->>> +GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt
->>> normal efi_gop iso9660 search"
->>> +
->>>   do_deploy() {
->>>       # Search for the grub.cfg on the local boot media by using the
->>>       # built in cfg file provided via this recipe
->>>       grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
->>>                      -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
->>> -                   boot linux ext2 fat serial part_msdos part_gpt
->>> normal efi_gop iso9660 search
->>> +                   ${GRUB_BUILDIN}
->>>       install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
->>>   }
->>>
->>>
->>
+I've wrote up how I did things at:
+    http://www.paulbarker.me.uk/articles/ubuntu-1404-lxc-oe.html
 
+It's not perfect as I haven't had much time to dedicate to writing it up, b=
+ut it
+should be enough to help people out.
 
+Cheers,
+
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJTZ8XyAAoJEBwoJlo7UPQDdtUH/jvMtS7qZyaXN+7qdIY4BRik
+EzVBErAgHvr68jMoh6iMa1FV4994aGUuKFSZWw6ogQDiKwaP/chtst26s565OulN
+/++EpGot9uxCRVyRJb8d9txmh+ZQdwA9yN7QW6qN9LCUUTczwmuucZ81QOoyyW7I
+WQesfkvweZrIp6a78hbTChnG8NOzt7rNqjWqay/iO0KtihjrKkYBF8kRdF6eGNaO
+GrDaJNlS8nGVJPNdZYGB8RREm+ZD6RuwuC/VR3eiVhItZpUxGvMIXf8bh6o26iwE
+8GknG18k7sVnZ+I17imU4dwEgnCv2thCX1cIAsT/gcAK7mFfLo4hCgIMvn8eWks=
+=gr4s
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
