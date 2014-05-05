@@ -1,30 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F015665EE6
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D46365F2F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 08:58:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s458w7iR002854
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 5 May 2014 01:58:07 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Mon, 5 May 2014 01:58:06 -0700
-Message-ID: <536752A5.2050103@windriver.com>
-Date: Mon, 5 May 2014 16:58:13 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1399275082.git.Qi.Chen@windriver.com>	
-	<70f2774fe13948f7f044c202325762d48cd1369e.1399275082.git.Qi.Chen@windriver.com>
-	<1399277902.12731.109.camel@ted>
-In-Reply-To: <1399277902.12731.109.camel@ted>
-X-Originating-IP: [128.224.162.187]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] populate_sdk_base: modify the recrdeptask of do_populate_sdk
+	Mon,  5 May 2014 11:26:23 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id x12so1232793wgg.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 May 2014 04:26:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pQo2O5pflFW2F4BwWOnzmtk/5W4XUqhQrVSdtKT73x0=;
+	b=Oh/KNNeUWpWlqbZ5dphfwwFCA0cQoLriYC/ClGYf+cgjMAjsuFt8uPU2S18fz53yGS
+	xIiCdfBnOyxB5AicWF0QORAoxq6HjB5HXC4pQvGd7iPEbVG7pVlCPBujqofYQmS3lCIv
+	rrWgpktIXG6E8xQh19EJG4sMXzEAUVvZWU49w9AWMOLwZ1/XhcVo86C2byWEsWWhmx81
+	uS4bbL0S7R4Qk+Hkk1T7ZC6RzfmKb3wAFv6wL9cgB3MUcj8ffn2uXf+wnJHnvOU+bSX/
+	m2O1mQLtPhccRoPLfgGRxx98qKZJ1XtqjvFVvaZ+PlLdml+bRZzh2folbU20CAURLlAw
+	Dxvg==
+X-Gm-Message-State: ALoCoQmgIDPag8Bg7iysS8uNkMp77NlhFs7Mxfx3y6XD6ULMCyaJLbMYj6b6xzigsWXzgafBfBzO
+X-Received: by 10.194.84.101 with SMTP id x5mr1719235wjy.52.1399289184126;
+	Mon, 05 May 2014 04:26:24 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id
+	fi2sm17160695wic.15.2014.05.05.04.26.23 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 May 2014 04:26:23 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 May 2014 13:26:19 +0200
+Message-Id: <1399289179-5662-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] libarchive: add missing e2fsprogs dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 08:58:09 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 May 2014 11:26:26 -0000
 
-On 05/05/2014 04:18 PM, Richard Purdie wrote:
-> On Mon, 2014-05-05 at 16:11 +0800, Chen Qi wrote:
->> If 'rm_work' is enabled, `bitbake core-image-xxx -c populate_sdk'
->> doesn't clean things up for the nativesdk packages.
->>
->> This patch modifies the 'recrdeptask' for do_populate_sdk to fix this
->> problem.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/populate_sdk_base.bbclass |    2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
->> index 10d04ed..278d1b7 100644
->> --- a/meta/classes/populate_sdk_base.bbclass
->> +++ b/meta/classes/populate_sdk_base.bbclass
->> @@ -333,5 +333,5 @@ populate_sdk_log_check() {
->>   do_populate_sdk[dirs] = "${TOPDIR}"
->>   do_populate_sdk[depends] += "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_DEPENDS', True).split()])}"
->>   do_populate_sdk[rdepends] = "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_RDEPENDS', True).split()])}"
->> -do_populate_sdk[recrdeptask] += "do_packagedata do_package_write_rpm do_package_write_ipk do_package_write_deb"
->> +do_populate_sdk[recrdeptask] += "do_packagedata do_${BB_DEFAULT_TASK}"
-> No. This task has no such dependency on do_build of the other tasks. We
-> don't create invalid dependencies just for the sake of it.
->
-> If you run "bitbake X -c populate_sysroot" or -c package_write_ipk or
-> 101 other options, it will not run rm_work either. Are you proposing we
-> add do_${BB_DEFAULT_TASK} to every task in the system?
->
-> Cheers,
->
-> Richard
->
->
->
+This fixes the following build error:
+	| libarchive/archive_entry.c:59:55: fatal error: ext2fs/ext2_fs.h: No such file or directory
 
-Thanks for making things clear.
+There is no configure options to avoid this dependency.
 
-Best Regards,
-Chen Qi
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-extended/libarchive/libarchive_3.1.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+index eedbaa7..277d8c8 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+@@ -5,6 +5,8 @@ SECTION = "devel"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
+ 
++DEPENDS = "e2fsprogs"
++
+ PACKAGECONFIG ?= "libxml2 zlib bz2"
+ 
+ PACKAGECONFIG_append_class-target = "\
+-- 
+1.9.0
+
 
