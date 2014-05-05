@@ -1,33 +1,35 @@
-Return-Path: <joelf@ti.com>
-Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [192.94.94.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 1006960D0B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A873F60D0B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 00:34:39 +0000 (UTC)
-Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id s450YdPG030184;
-	Sun, 4 May 2014 19:34:39 -0500
-Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
-	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id s450Ydjc013689;
-	Sun, 4 May 2014 19:34:39 -0500
-Received: from dlep33.itg.ti.com (157.170.170.75) by DLEE71.ent.ti.com
-	(157.170.170.114) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 4 May 2014 19:34:39 -0500
-Received: from [172.22.143.171] (ileax41-snat.itg.ti.com [10.172.224.153])	by
-	dlep33.itg.ti.com (8.14.3/8.13.8) with ESMTP id s450YdV7018244;
-	Sun, 4 May 2014 19:34:39 -0500
-Message-ID: <5366DC9E.1020702@ti.com>
-Date: Sun, 4 May 2014 19:34:38 -0500
-From: Joel Fernandes <joelf@ti.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	Mon,  5 May 2014 01:00:47 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id h3so807915igd.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 04 May 2014 18:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ODHEzOgolb/FXltz1D5WpkhHXnL2K4uJz2VSomOtQfw=;
+	b=JrB+Wi4VR0etUXBU+sj+/WogaqiFTJfC6D7VychRTORkirt7TeuG+APSDMT81chjzN
+	pCzd57zL5JSIT8ATRBz7I37HrGLSEIwyhAm/L3R8VZspNqHYymeObYcWEjZoWEZ4WzGc
+	5sX/kVbMvCMQwlwIlx5m13hozQRI+6XdlaRYo6i5sg5Gbjrshxv+6XLRBhwEEtEP+3R7
+	48qUFA0s7wwiZjx31kez3ViHtEv2Pfmr/jo9Dptl4bmLDBTvP0vj86phDRELBkFW3a/t
+	GR9px8GLj6oaEubo/KuopeY4/0BlzuDq7Wniu+plBALI/i0W82GkdhRDHkjCAL4TLFnE
+	v/Rw==
+X-Received: by 10.50.30.167 with SMTP id t7mr19845062igh.17.1399251648216;
+	Sun, 04 May 2014 18:00:48 -0700 (PDT)
 MIME-Version: 1.0
-To: Tyler Hall <tylerwhall@gmail.com>
-References: <5366A8B5.6020900@ti.com>
-	<CAOjnSCb-Fkxs3J_5eycnQ6gpRaoJpbsdP6H9+UVEHRm6kwbd8g@mail.gmail.com>
-In-Reply-To: <CAOjnSCb-Fkxs3J_5eycnQ6gpRaoJpbsdP6H9+UVEHRm6kwbd8g@mail.gmail.com>
+Received: by 10.50.74.228 with HTTP; Sun, 4 May 2014 18:00:18 -0700 (PDT)
+In-Reply-To: <1399195833-4364-1-git-send-email-ming.liu@windriver.com>
+References: <1399195833-4364-1-git-send-email-ming.liu@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 4 May 2014 18:00:18 -0700
+Message-ID: <CAMKF1spF46XQKgQOkQ3TG7H-x=Zh+f9Kqo8jugy0L96T6qL8vQ@mail.gmail.com>
+To: Ming Liu <ming.liu@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Quick question about OE-core/bitbake's re-building
+Subject: Re: [PATCH] ldconfig-native: default to both lib and lib64 directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,53 +42,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 00:34:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 May 2014 01:00:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05/04/2014 04:52 PM, Tyler Hall wrote:
-> On Sun, May 4, 2014 at 4:53 PM, Joel Fernandes <joelf@ti.com
-> <mailto:joelf@ti.com>> wrote:
-> 
->     How does it figure out when it needs to rebuild a package?
-> 
->  
-> Bitbake generates hashes for every task that are based on the data that
-> will be used when running the task. This includes the body of the task
-> function, any variables it references, checksums of required files, and
-> hashes of tasks it depends on. This data is stored for each task in
-> $BUILDDIR/tmp/stamps. The task will re-run if a matching sigdata file
-> does not exist in the stamps directory. You can run bitbake-dumpsig on a
-> sigdata file to see what metadata changes will cause the task to rebuild.
-> 
->     For example if I modify the file:
->      ../meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> 
->     Does it track the modification time to know it needs to rebuild
->     "systemd-serialgetty"?
-> 
->     Because doing such a modification didn't cause it to rebuild.
-> 
+On Sun, May 4, 2014 at 2:30 AM, Ming Liu <ming.liu@windriver.com> wrote:
+> make ldconfig default to both /lib+/usr/lib and /lib64+/usr/lib64
+> on bi-ABI architectures.
 
-Thanks for your reply, that was helpful.
+There is also lib32 and usr/lib32 version when you have mips. So this
+is half solution if you want to solve mutlilib
 
-> The modification time won't trigger a rebuild since the contents hash
-> the same. Changing the contents of the file should trigger a rebuild,
-> though.
-
-Makes sense. That's what I observed.
-
-However one thing, is the updates don't happen if you revert the changes
-back to what it used to be in an earlier revision.
-
-For example if I make changes such that task hash is now X
-Then I build, and its called r0.0.
-Then I make some more changes such that the hash is now Y
-And it becomes r0.1.
-
-Then after some more changes, it becomes X. Now instead of rebuilding
-and calling it r0.2, the rebuild doesn't happen. I wonder if this is the
-right thing, or the updates should continue to roll.
-
--Joel
+>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> ---
+>  .../ldconfig-default-to-both-lib-and-lib64.patch   | 32 ++++++++++++++++++++++
+>  meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |  4 ++-
+>  2 files changed, 35 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+>
+> diff --git a/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+> new file mode 100644
+> index 0000000..230502e
+> --- /dev/null
+> +++ b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-both-lib-and-lib64.patch
+> @@ -0,0 +1,32 @@
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +make ldconfig default to both /lib+/usr/lib and /lib64+/usr/lib64
+> +on bi-ABI architectures.
+> +
+> +---
+> + ldconfig.c |    5 +++++
+> + 1 file changed, 5 insertions(+)
+> +
+> +diff -urpN a/ldconfig.c b/ldconfig.c
+> +--- a/ldconfig.c
+> ++++ b/ldconfig.c
+> +@@ -52,7 +52,9 @@
+> +
+> + #define SYSCONFDIR "/etc"
+> + #define LIBDIR "/usr/lib"
+> ++#define LIBDIR64 "/usr/lib64"
+> + #define SLIBDIR "/lib"
+> ++#define SLIBDIR64 "/lib64"
+> + # define N_(msgid)  msgid
+> + #define _(msg) msg
+> +
+> +@@ -1373,6 +1375,9 @@ main (int argc, char **argv)
+> +       add_system_dir (SLIBDIR);
+> +       if (strcmp (SLIBDIR, LIBDIR))
+> +       add_system_dir (LIBDIR);
+> ++      add_system_dir (SLIBDIR64);
+> ++      if (strcmp (SLIBDIR64, LIBDIR64))
+> ++      add_system_dir (LIBDIR64);
+> +     }
+> +
+> +   const char *aux_cache_file = _PATH_LDCONFIG_AUX_CACHE;
+> diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+> index d7bc444..69748a4 100644
+> --- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+> +++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+> @@ -10,7 +10,9 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
+>             file://32and64bit.patch \
+>             file://endian-ness_handling.patch \
+>             file://flag_fix.patch \
+> -           file://endianess-header.patch"
+> +           file://endianess-header.patch \
+> +           file://ldconfig-default-to-both-lib-and-lib64.patch \
+> +"
+>
+>  PR = "r2"
+>
+> --
+> 1.8.4.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
