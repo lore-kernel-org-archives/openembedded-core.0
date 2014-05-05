@@ -1,39 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D43165F46
+Return-Path: <joelf@ti.com>
+Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DAD865F54
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 15:29:35 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id b15so5555446eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 May 2014 08:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=S8utU0jmtHP6FK6qHJOCxMWlOv+cHHaeRVpzwgCQwoo=;
-	b=seleDmKOnBGCtAA25ql3zREyacSJHU0uG4tIjNrfFySI4QHqFkSthrUJuiURqc5TWg
-	y96dOei02hhukd3nvbnSL1OyWmBcmWIwQSKJ3nzSvIqeI/pCMu3ML5hGO0s8/7YuMy42
-	8EB0cBGY4TVJp9+HHcMYv66EWgngRdpCVOfjkd0u15Tvwj/6alyj7lJQ1GOtjcwyuD5f
-	WfsoDEproZu+eQO+c1ig5jY8vdAGDuIMKa0vqFRGO8xyXZNVzu9pdUNJYlBNCxpjno7B
-	IL0TR8kOqHtcfIHdumcNWXbRVpGvAk90nYe12CBSuCJJya4zxPw9Cx1iDcUN0dGHV7TT
-	LEIQ==
-X-Received: by 10.14.223.136 with SMTP id v8mr3099074eep.91.1399303776295;
-	Mon, 05 May 2014 08:29:36 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id u1sm30466002eex.31.2014.05.05.08.29.35
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 May 2014 08:29:35 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Mon, 5 May 2014 15:29:33 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Marco <koansoftware@gmail.com>
-Message-ID: <20140505152931.GA26865@gmail.com>
-References: <53679D4E.6060202@gmail.com>
+	Mon,  5 May 2014 15:31:02 +0000 (UTC)
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id s45FV32R002343;
+	Mon, 5 May 2014 10:31:03 -0500
+Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s45FV17l018909;
+	Mon, 5 May 2014 10:31:03 -0500
+Received: from dflp32.itg.ti.com (10.64.6.15) by DLEE71.ent.ti.com
+	(157.170.170.114) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 5 May 2014 10:31:02 -0500
+Received: from [10.247.29.57] (ileax41-snat.itg.ti.com [10.172.224.153])	by
+	dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id s45FV2a2020595;
+	Mon, 5 May 2014 10:31:02 -0500
+Message-ID: <5367AEB4.5080909@ti.com>
+Date: Mon, 5 May 2014 10:31:00 -0500
+From: Joel Fernandes <joelf@ti.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-In-Reply-To: <53679D4E.6060202@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Upgrade to a package with all its dependency without network
+To: Khem Raj <raj.khem@gmail.com>
+References: <1399160215-16270-1-git-send-email-joelf@ti.com>
+	<536613A5.3020003@gmail.com>
+	<CAMKF1spb-jndL4NqiW_Qq3KChtdKKX+1Zahj5CSak6nwm7zLRw@mail.gmail.com>
+	<5366F952.5000206@ti.com> <5366FCAB.3040907@ti.com>
+	<CAMKF1sq43mfkbe_DN6rK563eOPjhQ7Ti_z-Y5apT-LFTTirFyA@mail.gmail.com>
+In-Reply-To: <CAMKF1sq43mfkbe_DN6rK563eOPjhQ7Ti_z-Y5apT-LFTTirFyA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] serial-getty service: Add linux as default TERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,100 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 15:29:38 -0000
-X-Groupsio-MsgNum: 52833
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 05 May 2014 15:31:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---2fHTh5uZTiUOsy+g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 05/04/2014 10:02 PM, Khem Raj wrote:
+> On Sun, May 4, 2014 at 7:51 PM, Joel Fernandes <joelf@ti.com> wrote:
+>> Khem,
+>> terminfo data (/usr/share/terminfo) seems to be coming from ncurses in
+>> my build. I think ncurses-terminfo-base. Not sure what the right
+>> dependency play we should be doing for this... set dependency to
+>> ncurses-terminfo-base?
+>>
+> 
+> adding ncurses to dependencies would do it. but that could be an overkill.
+> 
+>> by the way
+>> /lib/systemd/system/debug-shell.service
+>> which ships with systemd already sets Environment=TERM=linux
+> 
+> yes this seems ok probably.
+> 
 
-On Mon, May 05, 2014 at 04:16:46PM +0200, Marco wrote:
-> Hello,
-> I need to be able to upgrade to a package with all its dependency chain o=
-n a
-> target system that does not have access to the network.
->=20
-> I'm trying to understand what may be the best and also the simplest
-> solution.
-> Perhaps there is already this functionality in OE/Yocto?
->=20
-> I thought to implement a new opkg feture so that I can to generate the li=
-st
-> of dependencies of a package and then extract the packages from OE/Yocto
-> using a script or an application.
+Ok. I'll take that as an Ack :-D. So can you pull this patch (or someone
+else)?
 
-opkg v0.2.x (the latest release series) doesn't really support this behavio=
-ur
-very well. The caching logic just doesn't work. For example, I have a board
-connected at the minute with a feed configured so I tried this:
+Regards,
+-Joel
 
-    opkg install --download-only ncurses-terminfo
-    ifdown eth0
-    opkg install ncurses-terminfo
-
-You'd hope that would pick up the package files from the cache but it doesn=
-'t.
-So even if you put the files there yourself, you may no have a simple way to
-install them.
-
-An interim solution I can see is to put all the packages you want in one
-directory then run 'opkg-make-index' from opkg-utils on that directory so t=
-hat
-it is a complete package feed. Then add that as a source in
-/etc/opkg/base-feeds.conf.
-
-The development branch of opkg which will become v0.3.x has much better cac=
-he
-logic, it just needs finishing off and tidying up. I'm very busy at the min=
-ute
-but it's getting there. Any help to close the remaining issues so it can be
-released would be appreciated!
-
->=20
-> Another possibility would be to extend the operation of bitbake so I pull
-> out the package and dependencies putting them in a dedicated directory to=
- be
-> moved on the target for the update.
->=20
-> For now I'm just analyzing what may be the possibilities and I'd love to
-> have any comments or advice from someone more experienced than me on this
-> topic.
->=20
-> Thanks
-> --=20
-> Marco Cavallini | KOAN sas | Bergamo - Italia
->  embedded and real-time software engineering
-> Phone:+39-035-255.235 - Fax:+39-178-22.39.748
->       http://www.KoanSoftware.com
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---2fHTh5uZTiUOsy+g
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQEcBAEBAgAGBQJTZ65bAAoJEBwoJlo7UPQDdzgH/RxyvqoJsDTjBE1Ts5XJmRoU
-nP6d4pA/CaZkWcwrAxQsLaxC4apUNOvKott3sT+eX/3b+MTlMB7D+nljQNlCHGaZ
-Rifx0q80Y1a0EgBftm0oM6dAabxqQvA3RARXE63fn/5FpW5UrU43Yxp4mbtqzWeJ
-dTPDxujd5iM0l8s0GPNJwWn5E3YnuUJvKqUYffhRnyw15XfVsIdH8Yv3TOgVg/eX
-7at2x0Lm1MRQbZqmdV7QTlTkk5+exGUrzQNqOivvYE/oJ119Jhs4w3hfra2jCqDa
-mWapUDvsE2VEWBXKiJ1jTPZbVnF5nIByNJu5ZnS6GRqvKYTPZujvFTFViLAqmXg=
-=fnnU
------END PGP SIGNATURE-----
-
---2fHTh5uZTiUOsy+g--
