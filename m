@@ -1,26 +1,34 @@
-Return-Path: <Ming.Liu@windriver.com>
-X-Greylist: delayed 2214 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 05 May 2014 03:07:30 UTC
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 52EA3601A8
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2395260173
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 03:07:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s452UbMi000622
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  5 May 2014 04:04:16 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id hr17so4312952lab.22
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 May 2014 19:30:37 -0700 (PDT)
-Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Sun, 4 May 2014 19:30:37 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 May 2014 10:30:33 +0800
-Message-ID: <1399257033-7155-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
+	Sun, 04 May 2014 21:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=chEiknWq0GDEzvA98k1SVOJ6Kny1W17c3804DFv3Mws=;
+	b=AdwyraTxI48OnrlnxqcfkS8/esX0B79kctaS0K7iu4vgjhJUlk6onm2uaXKJ+PAzKC
+	KPPrmY0x7flHsBDpNKr1t1FR7wcnfEEiG3/W3q2r1Kn2xHDAVkmSigxdWkx+dxIv/30t
+	6SkjtZw9kfy4cYTf2n2vy6mZEekmZzG4WNzm9p+ftkFr7wYczuBgXZ954gAejAoYMVQT
+	QQdbR3bKNmyY8rVo0ExUpl/hoPLaH2J9oOittSh12uVmr+FCLQ6CMX/DITPOUcgILejJ
+	5SiF/RjQZWvc+L62SxUojYLVUWUfEVIsHHdU4cJA6z5Zdp0sA8Qn7mNR1Rjkk9UjcwK9
+	x7SA==
 MIME-Version: 1.0
-Subject: [PATCH V2] ldconfig-native: also default to lib32 and lib64 directories
+X-Received: by 10.152.29.8 with SMTP id f8mr10506140lah.11.1399262656810; Sun,
+	04 May 2014 21:04:16 -0700 (PDT)
+Received: by 10.112.36.164 with HTTP; Sun, 4 May 2014 21:04:16 -0700 (PDT)
+In-Reply-To: <1399243070-25365-1-git-send-email-tylerwhall@gmail.com>
+References: <1399243070-25365-1-git-send-email-tylerwhall@gmail.com>
+Date: Mon, 5 May 2014 06:04:16 +0200
+Message-ID: <CAPbeDC=J6mL0vfMYpZQsF4cEjcUq6ktZSBb1g4H8Qword8eXew@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: Tyler Hall <tylerwhall@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3: Substitute correct python version in shebang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +41,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 03:07:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 May 2014 04:04:19 -0000
+Content-Type: multipart/alternative; boundary=089e0158c1589b543704f89f395f
 
-make ldconfig default to /lib+/usr/lib, /lib32+/usr/lib32 and
-/lib64+/usr/lib64 on bi-ABI architectures.
+--089e0158c1589b543704f89f395f
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- .../ldconfig-default-to-all-multilib-dirs.patch    | 37 ++++++++++++++++++++++
- meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |  4 ++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
+On Mon, May 5, 2014 at 12:37 AM, Tyler Hall <tylerwhall@gmail.com> wrote:
 
-diff --git a/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
-new file mode 100644
-index 0000000..5ed4f6f
---- /dev/null
-+++ b/meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+make ldconfig default to both /lib+/usr/lib, /lib32+/usr/lib32 and
-+/lib64+/usr/lib64 on bi-ABI architectures.
-+
-+---
-+ ldconfig.c |   10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff -urpN a/ldconfig.c b/ldconfig.c
-+--- a/ldconfig.c
-++++ b/ldconfig.c
-+@@ -52,7 +52,11 @@
-+ 
-+ #define SYSCONFDIR "/etc"
-+ #define LIBDIR "/usr/lib"
-++#define LIBDIR32 "/usr/lib32"
-++#define LIBDIR64 "/usr/lib64"
-+ #define SLIBDIR "/lib"
-++#define SLIBDIR32 "/lib32"
-++#define SLIBDIR64 "/lib64"
-+ # define N_(msgid)  msgid
-+ #define _(msg) msg
-+ 
-+@@ -1373,6 +1377,12 @@ main (int argc, char **argv)
-+       add_system_dir (SLIBDIR);
-+       if (strcmp (SLIBDIR, LIBDIR))
-+ 	add_system_dir (LIBDIR);
-++      add_system_dir (SLIBDIR32);
-++      if (strcmp (SLIBDIR32, LIBDIR32))
-++	add_system_dir (LIBDIR32);
-++      add_system_dir (SLIBDIR64);
-++      if (strcmp (SLIBDIR64, LIBDIR64))
-++	add_system_dir (LIBDIR64);
-+     }
-+ 
-+   const char *aux_cache_file = _PATH_LDCONFIG_AUX_CACHE;
-diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
-index d7bc444..75ffbf6 100644
---- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
-@@ -10,7 +10,9 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://32and64bit.patch \
-            file://endian-ness_handling.patch \
-            file://flag_fix.patch \
--           file://endianess-header.patch"
-+           file://endianess-header.patch \
-+           file://ldconfig-default-to-all-multilib-dirs.patch \
-+"
- 
- PR = "r2"
- 
--- 
-1.8.4.1
+> If python2 and python3 are both available, scripts that are subject to
+> this substitution can possibly run with the wrong python version.
+> python3-config is one such script.
+>
+> Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+> ---
+>  meta/recipes-devtools/python/python3-native_3.3.3.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-native_3.3.3.bbb/meta/recipes-devtools/python/
+> python3-native_3.3.3.bb
+> index 7238eaf..0fd7349 100644
+> --- a/meta/recipes-devtools/python/python3-native_3.3.3.bb
+> +++ b/meta/recipes-devtools/python/python3-native_3.3.3.bb
+> @@ -71,6 +71,6 @@ do_install() {
+>
+>         # Make sure we use /usr/bin/env python
+>
+
+the comment above should perhaps be updated together with this change
 
 
+>         for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python
+> ${D}${bindir}/${PN}`; do
+> -               sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
+> +               sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
+>         done
+>  }
+>
+
+--089e0158c1589b543704f89f395f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
+on, May 5, 2014 at 12:37 AM, Tyler Hall <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:tylerwhall@gmail.com" target=3D"_blank">tylerwhall@gmail.com</a>&gt;</=
+span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">If python2 and python3 are both available, s=
+cripts that are subject to<br>
+this substitution can possibly run with the wrong python version.<br>
+python3-config is one such script.<br>
+<br>
+Signed-off-by: Tyler Hall &lt;<a href=3D"mailto:tylerwhall@gmail.com">tyler=
+whall@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-native_3.3.3.b=
+b" target=3D"_blank">python3-native_3.3.3.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-native_=
+3.3.3.bb" target=3D"_blank">python3-native_3.3.3.bb</a> b/meta/recipes-devt=
+ools/python/<a href=3D"http://python3-native_3.3.3.bb" target=3D"_blank">py=
+thon3-native_3.3.3.bb</a><br>
+
+index 7238eaf..0fd7349 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-native_3.3.3.b=
+b" target=3D"_blank">python3-native_3.3.3.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-native_3.3.3.b=
+b" target=3D"_blank">python3-native_3.3.3.bb</a><br>
+@@ -71,6 +71,6 @@ do_install() {<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Make sure we use /usr/bin/env python<br></blo=
+ckquote><div><br></div><div>the comment above should perhaps be updated tog=
+ether with this change<br>=C2=A0<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/py=
+thon ${D}${bindir}/${PN}`; do<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;1s|^#!.*|=
+#!/usr/bin/env python|&#39; $PYTHSCRIPT<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;1s|^#!.*|=
+#!/usr/bin/env python3|&#39; $PYTHSCRIPT<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+=C2=A0}<br></blockquote><br></div></div></div>
+
+--089e0158c1589b543704f89f395f--
