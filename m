@@ -1,36 +1,25 @@
-Return-Path: <joelf@ti.com>
-Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DAD865F54
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7029665F49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 15:31:02 +0000 (UTC)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id s45FV32R002343;
-	Mon, 5 May 2014 10:31:03 -0500
-Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id s45FV17l018909;
-	Mon, 5 May 2014 10:31:03 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DLEE71.ent.ti.com
-	(157.170.170.114) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 5 May 2014 10:31:02 -0500
-Received: from [10.247.29.57] (ileax41-snat.itg.ti.com [10.172.224.153])	by
-	dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id s45FV2a2020595;
-	Mon, 5 May 2014 10:31:02 -0500
-Message-ID: <5367AEB4.5080909@ti.com>
-Date: Mon, 5 May 2014 10:31:00 -0500
-From: Joel Fernandes <joelf@ti.com>
+	Mon,  5 May 2014 15:50:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 May 2014 08:50:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,988,1389772800"; d="scan'208";a="533781910"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by fmsmga002.fm.intel.com with ESMTP; 05 May 2014 08:49:58 -0700
+Message-ID: <5367B323.30901@linux.intel.com>
+Date: Mon, 05 May 2014 08:49:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1399160215-16270-1-git-send-email-joelf@ti.com>
-	<536613A5.3020003@gmail.com>
-	<CAMKF1spb-jndL4NqiW_Qq3KChtdKKX+1Zahj5CSak6nwm7zLRw@mail.gmail.com>
-	<5366F952.5000206@ti.com> <5366FCAB.3040907@ti.com>
-	<CAMKF1sq43mfkbe_DN6rK563eOPjhQ7Ti_z-Y5apT-LFTTirFyA@mail.gmail.com>
-In-Reply-To: <CAMKF1sq43mfkbe_DN6rK563eOPjhQ7Ti_z-Y5apT-LFTTirFyA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] serial-getty service: Add linux as default TERM
+To: Philip Tricca <flihp@twobit.us>, openembedded-core@lists.openembedded.org
+References: <1397611008-7653-1-git-send-email-flihp@twobit.us>
+	<5366C06B.7060805@twobit.us>
+In-Reply-To: <5366C06B.7060805@twobit.us>
+Subject: Re: [PATCH] grub-efi: Use a variable to specify built-in grub modules.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 15:31:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 05 May 2014 15:50:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/04/2014 10:02 PM, Khem Raj wrote:
-> On Sun, May 4, 2014 at 7:51 PM, Joel Fernandes <joelf@ti.com> wrote:
->> Khem,
->> terminfo data (/usr/share/terminfo) seems to be coming from ncurses in
->> my build. I think ncurses-terminfo-base. Not sure what the right
->> dependency play we should be doing for this... set dependency to
->> ncurses-terminfo-base?
+On 05/04/2014 03:34 PM, Philip Tricca wrote:
+> ping ...
+>
+
+It was merged on 4/16!
+
+Sau!
+
+> On 04/15/2014 09:16 PM, Philip Tricca wrote:
+>> The previous behavior defines a static set of modules that are built
+>> into the grub efi executable. This works fine for a limited set of boot
+>> environments namely the standard linux/initrd. This patch conditionally
+>>   assigns the same modules to a variable. This allows other meta layers
+>> to add additional modules or completely override the defaults. The use
+>> case driving this patch is the use of multiboot2 and related modules.
 >>
-> 
-> adding ncurses to dependencies would do it. but that could be an overkill.
-> 
->> by the way
->> /lib/systemd/system/debug-shell.service
->> which ships with systemd already sets Environment=TERM=linux
-> 
-> yes this seems ok probably.
-> 
-
-Ok. I'll take that as an Ack :-D. So can you pull this patch (or someone
-else)?
-
-Regards,
--Joel
+>> Signed-off-by: Philip Tricca <flihp@twobit.us>
+>> ---
+>>   meta/recipes-bsp/grub/grub-efi_2.00.bb |    4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>> index 6944cb2..4b43749 100644
+>> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>> @@ -70,12 +70,14 @@ do_install_class-native() {
+>>   	install -m 755 grub-mkimage ${D}${bindir}
+>>   }
+>>
+>> +GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search"
+>> +
+>>   do_deploy() {
+>>   	# Search for the grub.cfg on the local boot media by using the
+>>   	# built in cfg file provided via this recipe
+>>   	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+>>   	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
+>> -	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
+>> +	               ${GRUB_BUILDIN}
+>>   	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+>>   }
+>>
+>>
+>
 
