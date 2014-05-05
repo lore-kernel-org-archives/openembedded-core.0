@@ -1,38 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 75847607BF;
-	Mon,  5 May 2014 01:03:53 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id l4so1072259lbv.6
-	for <multiple recipients>; Sun, 04 May 2014 18:03:53 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7895D607BF;
+	Mon,  5 May 2014 01:05:12 +0000 (UTC)
+Received: by mail-ig0-f175.google.com with SMTP id uq10so1631109igb.14
+	for <multiple recipients>; Sun, 04 May 2014 18:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=1vUEDABOOAHvc1jVxi7cF1MwJ+2Yxelvh3RTB5CPRH8=;
-	b=Jqlu4QZxukHLpW+BhaENLUgerYVIzA2XUO6WQtP4Zo+Ul8hp4Z6PfqqBBMICk0PEG3
-	bOTMLvbiPprvqcgq2R9yrxieDGUPn2ZRbztRkNk5sZIwEsIzX1L/nBSGkCBSEUJIAjLn
-	B+bZ728o2t2vT6eDuHmHDL1/clL3k7uyXFttE9Q01CrxajkMxy5YtCPB5nz3DHLyUa9/
-	rTNuEMXqvxRcyvAOXFJ5d+yzeE6UPx3xww+qWJbj22CXihzpb7NFWtcWJ/KTXGsULlEU
-	kAdFnKe42QigB4HtqzFnhuR671vBI2cBHLUeMWx+98AjT8i7QhFxzbrmFd4+oQoFZoCr
-	jbIg==
-X-Received: by 10.152.203.129 with SMTP id kq1mr9863503lac.6.1399251833385;
-	Sun, 04 May 2014 18:03:53 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	o1sm7722934lbw.16.2014.05.04.18.03.51 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 04 May 2014 18:03:52 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 5 May 2014 03:04:11 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140505010411.GJ2486@jama>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=dajaEGF45y0Lrb/wtA15AQHmbK2dxQxyayCovu7wnIA=;
+	b=mSDGj0vN6L6hfTL+BrG/vG4nnRlhCZrgrTqycxjPXIGccztc4nstiZqECAJrwr5zOq
+	mtvCamrTJwfDwgro/LWhY+GTZ1CS8JfSP0ymbZv4VRoMmrrkzxwXX/BWOT1rMshePwzc
+	hENQkjC4+C6s9NhRhHYz9ZXdGGxrRvUEbvDeCh61HLU/6fADdyogE8yK1fCv0xZ4Vbxw
+	FtH9SkV4v/zhO8qE0Qo/LYDq/icxLzTZI0NW+VfaXot9Yzs6WKJtrTurEewdjs44ddHp
+	PUp3Yq2UHxbSwuCEvuqtC2pjSaSr04c1NW3CQ9ZlGnqCoYAapFHUWHjhM9nUokT/AlrZ
+	c31w==
+X-Received: by 10.50.49.109 with SMTP id t13mr20141418ign.2.1399251913915;
+	Sun, 04 May 2014 18:05:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.74.228 with HTTP; Sun, 4 May 2014 18:04:43 -0700 (PDT)
+In-Reply-To: <20140505010411.GJ2486@jama>
 References: <20140504111629.5E32A504E8@opal.openembedded.org>
 	<20140504145024.GD2486@jama>
 	<CAMKF1sqAEB77eo6dQzkZgqqk1CQkWoa_YFP4y_ZNwteJoRz7KA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqAEB77eo6dQzkZgqqk1CQkWoa_YFP4y_ZNwteJoRz7KA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<20140505010411.GJ2486@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 4 May 2014 18:04:43 -0700
+Message-ID: <CAMKF1spnBSmGovXvruu9T-ij5jefL-Mi9Q=R03_-oF115smP-w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: "openembedded-commits@lists.openembedded.org"
 	<openembedded-commits@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
@@ -50,45 +45,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 01:03:54 -0000
-X-Groupsio-MsgNum: 52801
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zrG9CCljkUFHxaeO"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 05 May 2014 01:05:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
---zrG9CCljkUFHxaeO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, May 4, 2014 at 6:04 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> I'm already testing it with daisy build to fix one world build issue, if
+> that works, can we drop 4.9 from commit message?
 
-On Sun, May 04, 2014 at 04:53:14PM -0700, Khem Raj wrote:
-> On Sun, May 4, 2014 at 7:50 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> >> Update the structure to work with immutable bio_vecs
-> >
-> > Is this really 4.9 specific? It's failing with the same error message in
-> > every qemuarm world build (even with daisy).
->=20
-> its not specific to gcc 4.9, however thats where I discovered it. The
-> fix although is generic and should work
-> in any compiler.
+OK, will do it in next rebase
 
-I'm already testing it with daisy build to fix one world build issue, if
-that works, can we drop 4.9 from commit message?
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---zrG9CCljkUFHxaeO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlNm44sACgkQN1Ujt2V2gBw4tQCggUxCCA7u0vSZ4SrgfurOCqdx
-yk8AnRLlx35GBGNZ7CuLK9VTU9IsZ17Y
-=wVpJ
------END PGP SIGNATURE-----
-
---zrG9CCljkUFHxaeO--
