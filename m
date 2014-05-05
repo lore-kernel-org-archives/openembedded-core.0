@@ -1,25 +1,35 @@
-Return-Path: <David.Nystrom@enea.com>
-X-Greylist: delayed 327 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 05 May 2014 11:45:10 UTC
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 97CA365F28
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3678560E49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 11:45:10 +0000 (UTC)
-Received: from [172.16.141.119] (172.16.141.119) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Mon, 5 May 2014
-	13:39:41 +0200
-Message-ID: <5367787C.1080503@enea.com>
-Date: Mon, 5 May 2014 13:39:40 +0200
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-References: <1398963761.12731.1.camel@ted>
-In-Reply-To: <1398963761.12731.1.camel@ted>
-X-Originating-IP: [172.16.141.119]
-Subject: Re: My thoughts on the future of OE?
+	Mon,  5 May 2014 13:36:11 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id e16so1894061lan.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 May 2014 06:36:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=fhWI3h55d2zx2wBw1gns7dTAPz+g2TvwMcxBHUzOs2E=;
+	b=lP9L9ktaMCOqKeFrwoYtOX5nsUrybFWTGxYJLzfZxQbhuwf1J8JDWl7rfybGWM02x8
+	S7iJFWFK+/G8eaFlWXEnvTE9jk4fz/YFwAOANiGfiIGx+MgIifYDEV2MbHeeWiyjATJP
+	fFBhD391bQ4bc3x7cbXFkuo2AHk0XZg45QTcMZAwJAo34gzzOUkYYg5c3onN5x57lUqg
+	r8dfmToTxXIDWLXd6xGAK/U+AVyB4086eww7RrGeZBRLadyLvdKkvw6YfhUu50N79sZa
+	4XXkWSBcfsVoM+0C0ObjmiTlSm2Zl/3kuhYAKPnM5MYOU4Gqd6Q6NZs1hCGcJBYn8UgQ
+	E//w==
+X-Received: by 10.152.203.168 with SMTP id kr8mr12384322lac.17.1399296971881; 
+	Mon, 05 May 2014 06:36:11 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id r9sm1998451lal.0.2014.05.05.06.36.09
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 May 2014 06:36:10 -0700 (PDT)
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 May 2014 15:36:28 +0200
+Message-Id: <1399296988-26654-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.2
+Subject: [PATCH] qt4: Explicitly disable sqlite2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,115 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 11:45:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 May 2014 13:36:14 -0000
 
-On 2014-05-01 19:02, Richard Purdie wrote:
-> I was asked what I thought were things that needed discussion at OEDAM.
-> Sadly I won't be there but I thought it might help to write down my
-> thoughts in a few areas.
->
-> Developer Workflow
-> ------------------
->
-> Firstly, I think the big piece we need to address as a project is
-> "developer workflow" as this is where people are struggling using it.
+* notice that this disables only sqlite2 (sqlite dependency),
+  sqlite (sqlite3 dependency) stays enabled
 
-Good initiative.
+* fixes these errors detected by test-dependencies.sh:
+  qt4-embedded/qt4-embedded-plugin-sqldriver-sqlite2/latest doesn't exist
+  qt4-embedded/qt4-embedded-plugin-sqldriver-sqlite2-dbg/latest doesn't exist
+  qt4-x11-free/qt4-plugin-sqldriver-sqlite2/latest doesn't exist
+  qt4-x11-free/qt4-plugin-sqldriver-sqlite2-dbg/latest doesn't exist
 
-> Unfortunately "developer workflow" means different things to different
-> people? Which one do I mean then? I actually mean all of them. As some
-> examples:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-qt/qt4/qt4.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Whilst OE supplies a superior interface towards distribution engineers, 
-and one-man-army developers who usually work top-down on the entire 
-software stack, its currently supplies a suboptimal user experience for 
-bigger teams, where each team tend to care only about their app, and its 
-dependencies.
-
-IMHO, the biggest issue is maintainable interfaces between different 
-participants within the larger projects.
-The package repository should be able to facilitate a good user facing 
-interface for Application developers and kernel developers.
-
-I fear that an item in a locked sstate might not be a small enough 
-cross-section for reporting bugs against. How do I trace a buggy package 
-installed on my target rootfs, back to an item in the locked sstate?
-
-> -----------------------------------------------------------------------
->
-> * A kernel developer wanting to rebuild a kernel
->    [on/off target, with the ADT/SDK or a recipe]
-> * A kernel developer wanting to build a kernel module
->    [on/off target, with the ADT/SDK or a recipe]
-> * An application developer wanting to build a single App
->    [on/off target, with the ADT/SDK or a recipe]
-> * An application developer wanting to (re)build a library, linking an
->    App to it
->    [on/off target, with the ADT/SDK or a recipe]
-> * A user wanting to rebuild an image with a package added
->    [on and off target - feeds or a build]
-> * A user wanting to rebuild an image with more advanced changes
-
-An example of a low-overhead scenario for a bigger project:
-
-** Distribution Engineers
-* Works in the bitbake/OE environment and against the upstream Yocto 
-community.
-* Makes sure the distribution package repository is kept up to date..
-* Syncs releses, upgrades and bugfixes with the upstream community.
-* Recieves patches and configuration from Developers and integrate them 
-into the distribution, either by SRCREV:s or patches.
-
-** Kernel Developers
-* Uses on SDK/ADT tarball provided by the SI.
-* Upstreams patches to Upstream.
-* Backports patches, sends new SCM revisions, and kernel configuration 
-shards to the SI.
-* Creates the rootfs image by method X[1] from the package repository.
-* Expands the rootfs image by method X[1] from the package repository.
-* Bugreports on other ADs or KDs packages using the package versions.
-
-** Application Developers
-* Uses on SDK/ADT tarball provided by the SI.
-* Determines application dependencies/configuration and notifies SI of 
-requirements.
-* Maintains the applications recipe.
-* Creates the rootfs image by method X[1] from the package repository.
-* Expands the rootfs image by method X[1] from the package repository.
-* Upstreams recipes, patches or SCM revisions to the SI for his 
-application/s for distribution.
-* Bugreports on other ADs or KDs packages using the package versions.
-
-
-Ref:[1]
-The current options are:
-
-1. Static core-image-best-guess with package-management delivered by DE.
---
-Works OK with static storage. This is a pain with volatile storage 
-though, or read-only rootfs:s.
-And it is bloaty with bigger repos, and limited storage size.
-Different teams images will differ over time.
-
-2. BUILD_IMAGES_FROM_FEEDS
---
-Works only for ipk. Still requires bitbake/OE env for rather lightweight 
-use-case.
-
-Possible Future for [1]:
-Step 1:
-Let AD/KD create rootfs images from the package repository with a 
-lightweight tool in the SDK tarball. Dependencies needed by postinstall 
-hooks needs to be available in the nativesdk sysroot.
-This would also allow customization of the SDK targets sysroot, and SDK 
-nativesdk sysroots on a per-package level.
-i.e. If I'm cross compiling and missing libcurl from the target sysroot, 
-I should be able to expand it easily with the distributions version of 
-libcurl.
-
-
-
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 0023f16..6de0202 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -8,7 +8,7 @@ require qt4_arch.inc
+ QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
+ QT_DISTRO_FLAGS_linuxstdbase = "-sm"
+ 
+-QT_SQL_DRIVER_FLAGS ?= "-no-sql-ibase -no-sql-mysql -no-sql-psql -no-sql-odbc -plugin-sql-sqlite -system-sqlite"
++QT_SQL_DRIVER_FLAGS ?= "-no-sql-ibase -no-sql-mysql -no-sql-psql -no-sql-odbc -no-sql-sqlite2 -plugin-sql-sqlite -system-sqlite"
+ 
+ QT_GLFLAGS ?= ""
+ 
+-- 
+1.9.2
 
 
