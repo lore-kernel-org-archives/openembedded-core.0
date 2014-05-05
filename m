@@ -1,41 +1,31 @@
-Return-Path: <koansoftware@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1397260889
+Return-Path: <Bruce.Ashfield@windriver.com>
+X-Greylist: delayed 3435 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 05 May 2014 15:07:30 UTC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 64AE660D8D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 May 2014 14:16:50 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id t10so1816732eei.19
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 May 2014 07:16:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:reply-to:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=MluToyL34ZqUwc36Rvz5R0NqnMEdTbuvATp0db4d31M=;
-	b=VtwuXs6JSUIJU7U0N2lA4r1fogtez/BDQbW+TIBnBp7VNwtXOxbk24OGGDctyvLErK
-	G4dBTDYQC9qaFHVvoU/LOPp929GSHqIQAyCGTc9lhTS0TKGQzD2DcprYkr677r3+VA2Q
-	trwZLVUnOOHcPKpCO8wOtJjMazpF0FgjH/pokHvqrKvK7GRY3DEvUN4sGe4Y9R/uCwqz
-	S/Zj2ftCv7yzloqd2HEq2JSUZuEZY/6OOeiQLIw8rf+KGPV5SdAN+PqDnsqJoK62/umc
-	9LVoCdJhQzO/Y1mSJ9OpwHfyhBGqu/jWl2XgTwOBy9Xgmg3fYivFhOG9uaFi64gfz1uz
-	OlLA==
-X-Received: by 10.15.42.138 with SMTP id u10mr32784842eev.7.1399299410980;
-	Mon, 05 May 2014 07:16:50 -0700 (PDT)
-Received: from [192.168.0.5]
-	(host56-7-static.30-87-b.business.telecomitalia.it. [87.30.7.56])
-	by mx.google.com with ESMTPSA id t4sm29972645eeb.29.2014.05.05.07.16.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 05 May 2014 07:16:49 -0700 (PDT)
-Message-ID: <53679D4E.6060202@gmail.com>
-Date: Mon, 05 May 2014 16:16:46 +0200
-From: Marco <koansoftware@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Mon,  5 May 2014 15:07:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s45EAF9w004267
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 5 May 2014 07:10:15 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 5 May 2014 07:10:14 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 5 May 2014 10:10:07 -0400
+Message-ID: <6e326495b27935d351c2a3c89d5b73603eba52c3.1399297986.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1399297986.git.bruce.ashfield@windriver.com>
+References: <cover.1399297986.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: Upgrade to a package with all its dependency without network
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/6] kernel-yocto: quote kconfig mode check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: koansoftware@gmail.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -45,34 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 May 2014 14:16:52 -0000
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 May 2014 15:07:34 -0000
+Content-Type: text/plain
 
-Hello,
-I need to be able to upgrade to a package with all its dependency chain 
-on a target system that does not have access to the network.
+We allow inheriting recipes to control the kconfig mode used by merge_config.sh
+via the KCONFIG_MODE variable. An error crept into the variable reference, and
+since it is not quoted, the true condition always runs.
 
-I'm trying to understand what may be the best and also the simplest 
-solution.
-Perhaps there is already this functionality in OE/Yocto?
+The result is that operations without an explicit kconfig mode cannot trigger
+allnoconfig for defconfig builds, which can result in some options being
+dropped from the final .config.
 
-I thought to implement a new opkg feture so that I can to generate the 
-list of dependencies of a package and then extract the packages from 
-OE/Yocto using a script or an application.
+Quoting the reference allows it to evaluate properly.
 
-Another possibility would be to extend the operation of bitbake so I 
-pull out the package and dependencies putting them in a dedicated 
-directory to be moved on the target for the update.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For now I'm just analyzing what may be the possibilities and I'd love to 
-have any comments or advice from someone more experienced than me on 
-this topic.
-
-Thanks
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 53bc6d443cdb..6010dc94e026 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -241,7 +241,7 @@ do_kernel_configme() {
+ 	echo "[INFO] doing kernel configme"
+ 	export KMETA=${KMETA}
+ 
+-	if [ -n ${KCONFIG_MODE} ]; then
++	if [ -n "${KCONFIG_MODE}" ]; then
+ 		configmeflags=${KCONFIG_MODE}
+ 	else
+ 		# If a defconfig was passed, use =n as the baseline, which is achieved
 -- 
-Marco Cavallini | KOAN sas | Bergamo - Italia
-  embedded and real-time software engineering
-Phone:+39-035-255.235 - Fax:+39-178-22.39.748
-       http://www.KoanSoftware.com
+1.8.1.2
+
 
