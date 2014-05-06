@@ -1,25 +1,28 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-02-02.binero.net (vsp-authed02.binero.net
-	[195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 09FD166008
+Return-Path: <christian.charreyre@cioinfoindus.fr>
+X-Greylist: delayed 451 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 06 May 2014 16:21:05 UTC
+Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr
+	[80.12.242.128])
+	by mail.openembedded.org (Postfix) with ESMTP id D30A265EE6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 14:08:33 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-02-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Tue,  6 May 2014 16:03:29 +0200 (CEST)
-Received: from localhost.localdomain
-	(host-90-236-146-96.mobileonline.telia.com [90.236.146.96])
-	(Authenticated sender: petter@technux.se)
-	by smtp-01-01.atm.binero.net (Postfix) with ESMTPSA id 76DAE3A1C8;
-	Tue,  6 May 2014 16:03:19 +0200 (CEST)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 May 2014 16:03:12 +0200
-Message-Id: <2ddfd116517d43dc6b2a3578929dd342d5f0b4c9.1399384792.git.petter@technux.se>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1399384792.git.petter@technux.se>
-References: <cover.1399384792.git.petter@technux.se>
-Subject: [PATCH 1/1] x-load: remove recipe
+	Tue,  6 May 2014 16:21:05 +0000 (UTC)
+Received: from [192.168.1.15] ([86.210.248.153]) by mwinf5d63 with ME
+	id ygDW1n00H3KKMLN03gDWeR; Tue, 06 May 2014 18:13:31 +0200
+X-ME-Helo: [192.168.1.15]
+X-ME-Auth: Y2hyaXN0aWFuLmNoYXJyZXlyZS5jaW9Ad2FuYWRvby5mcg==
+X-ME-Date: Tue, 06 May 2014 18:13:31 +0200
+X-ME-IP: 86.210.248.153
+Message-ID: <53690A2A.7030106@cioinfoindus.fr>
+Date: Tue, 06 May 2014 18:13:30 +0200
+From: Christian Charreyre <christian.charreyre@cioinfoindus.fr>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1398242491-2373-1-git-send-email-christian.charreyre@cioinfoindus.fr>
+	<5357FFB1.50207@linux.intel.com>
+In-Reply-To: <5357FFB1.50207@linux.intel.com>
+Subject: Re: [PATCH] tree: new recipe for version 1.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,122 +35,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 14:08:34 -0000
+X-List-Received-Date: Tue, 06 May 2014 16:21:08 -0000
+X-Groupsio-MsgNum: 52878
+Content-Type: multipart/mixed; boundary="------------080501060304000309070701"
 
-From: Petter Mabacker <petter@technux.se>
+--------------080501060304000309070701
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-x-load has been superseded by u-boot SPL for all cortex based TI SoCs.
-For legacy boards meta-ti layer (that contains a maintained recipe)
-should be used instead.
+Hello Saul,
 
-Signed-off-by: Petter Mabacker <petter@technux.se>
----
- .../x-load/x-load-git/beagleboard/name.patch       |   18 ---------
- meta/recipes-bsp/x-load/x-load.inc                 |   40 --------------------
- meta/recipes-bsp/x-load/x-load_git.bb              |   21 ----------
- 3 files changed, 79 deletions(-)
- delete mode 100644 meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch
- delete mode 100644 meta/recipes-bsp/x-load/x-load.inc
- delete mode 100644 meta/recipes-bsp/x-load/x-load_git.bb
+Le 23/04/2014 20:00, Saul Wold a écrit :
+> On 04/23/2014 01:41 AM, Christian Charreyre wrote:
+>> This patch creates the recipe for the command tree, which is a recursive
+>> directory listing command that produces a depth indented listing of 
+>> files,
+>> which is colorized ala dircolors if the LS_COLORS environment 
+>> variable is
+>> set and output is to tty
+>>
+>
+> Thanks for the submission, a couple of questions and comments below.
+>
+> Why is this needed in oe-core?  Are there many people interested in it?
+>
+> Maybe it should start in meta-openemebedded/meta-oe
 
-diff --git a/meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch b/meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch
-deleted file mode 100644
-index 29c26a9..0000000
---- a/meta/recipes-bsp/x-load/x-load-git/beagleboard/name.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -225,8 +225,9 @@ omap3evm_config :	unconfig
-- overo_config :	unconfig
-- 	@$(MKCONFIG) $(@:_config=) arm omap3 overo
-- 
---omap3530beagle_config :    unconfig
---	@$(MKCONFIG) $(@:_config=) arm omap3 omap3530beagle
--+beagleboard_config :    unconfig
--+	@$(MKCONFIG) omap3530beagle arm omap3 omap3530beagle
--+	@./mkconfig omap3530beagle arm omap3 omap3530beagle
-- 
-- #########################################################################
-- ## OMAP4 (ARM-CortexA9) Systems
-diff --git a/meta/recipes-bsp/x-load/x-load.inc b/meta/recipes-bsp/x-load/x-load.inc
-deleted file mode 100644
-index 05d5ff0..0000000
---- a/meta/recipes-bsp/x-load/x-load.inc
-+++ /dev/null
-@@ -1,40 +0,0 @@
--SUMMARY = "First level bootloader for OMAP SoCs"
--SECTION = "bootloaders"
--LICENSE = "GPL"
--
--inherit deploy
--
--DEPENDS = ""
--
--PARALLEL_MAKE=""
--
--EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX}"
--
--XLOAD_MACHINE ?= "${MACHINE}_config"
--
--XLOAD_IMAGE ?= "x-load-${MACHINE}-${PV}-${PR}.bin.ift"
--XLOAD_SYMLINK ?= "x-load-${MACHINE}.bin.ift"
--MLO_IMAGE ?= "MLO-${MACHINE}-${PV}-${PR}"
--MLO_SYMLINK ?= "MLO-${MACHINE}"
--
--do_compile () {
--	unset LDFLAGS
--	unset CFLAGS
--	unset CPPFLAGS
--	oe_runmake distclean
--	oe_runmake ${XLOAD_MACHINE}
--	oe_runmake ift
--}
--
--do_deploy () {
--	install ${S}/x-load.bin.ift ${DEPLOYDIR}/${XLOAD_IMAGE}
--	install ${S}/x-load.bin.ift ${DEPLOYDIR}/${MLO_IMAGE}
--
--	cd ${DEPLOYDIR}
--	rm -f ${XLOAD_SYMLINK}
--	ln -sf ${XLOAD_IMAGE} ${XLOAD_SYMLINK}
--	rm -f ${MLO_SYMLINK}
--	ln -sf ${MLO_IMAGE} ${MLO_SYMLINK}
--}
--addtask deploy before do_build after do_compile
--
-diff --git a/meta/recipes-bsp/x-load/x-load_git.bb b/meta/recipes-bsp/x-load/x-load_git.bb
-deleted file mode 100644
-index 65dc85c..0000000
---- a/meta/recipes-bsp/x-load/x-load_git.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--require x-load.inc
--
--FILESPATH = "${FILE_DIRNAME}/x-load-git/${MACHINE}:${FILE_DIRNAME}/x-load-git/"
--
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://README;beginline=1;endline=25;md5=ef08d08cb99057bbb5b9d6d0c5a4396f"
--
--SRCREV = "9f94c6577e3a018b6b75cbe39f32bb331871f915"
--PV = "1.5.0+git${SRCPV}"
--
--#SRC_URI = "git://www.sakoman.net/git/x-load-omap3.git;branch=master"
--#SRC_URI = "git://gitorious.org/x-load-omap3/mainline.git;branch=master"
--SRC_URI = "git://gitorious.org/x-loader/x-loader.git;branch=master"
--
--SRC_URI_append_beagleboard = " file://name.patch "
--
--S = "${WORKDIR}/git"
--
--PACKAGE_ARCH = "${MACHINE_ARCH}"
--
--COMPATIBLE_MACHINE = "(beagleboard|omap3evm|overo)"
+I didn't know where to locate it. meta-openemebedded/meta-oeis OK for 
+me, I'll change the patch accordingly.
+>
+>> Signed-off-by: Christian Charreyre <christian.charreyre@cioinfoindus.fr>
+>> ---
+>>   .../tree/tree/0001-adapt-Makefile.patch            |   44 
+>> ++++++++++++++++++++
+>>   meta/recipes-support/tree/tree_1.6.0.bb |   15 +++++++
+>>   2 files changed, 59 insertions(+)
+>>   create mode 100644 
+>> meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
+>>   create mode 100644 meta/recipes-support/tree/tree_1.6.0.bb
+>>
+>> diff --git a/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch 
+>> b/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
+>> new file mode 100644
+>> index 0000000..bcc19c9
+>> --- /dev/null
+>> +++ b/meta/recipes-support/tree/tree/0001-adapt-Makefile.patch
+>> @@ -0,0 +1,44 @@
+>> +Adapt Makefile to cross compilation and tool environment
+>> +
+> This 0001-adapt-Makefile.patch should have an Upstream-Status and 
+> Signed-off-by tags also.
+>
+> Please see: 
+> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+OK, done in next version
+
+>
+>> +Index: tree-1.6.0/Makefile
+>> +===================================================================
+>> +--- tree-1.6.0.orig/Makefile    2011-06-24 16:25:27.000000000 +0200
+>> ++++ tree-1.6.0/Makefile    2014-04-22 16:53:14.817331834 +0200
+>> +@@ -16,23 +16,23 @@
+>> + # along with this program; if not, write to the Free Software
+>> + # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 
+>> 02111-1307  USA
+>> +
+>> +-prefix = /usr
+>> ++prefix = ${DESTDIR}/usr
+>> +
+>> +-CC=gcc
+>> ++CC ?= gcc
+>> +
+>> + VERSION=1.6.0
+>> + TREE_DEST=tree
+>> + BINDIR=${prefix}/bin
+>> + MAN=tree.1
+>> +-MANDIR=${prefix}/man/man1
+>> ++MANDIR=${prefix}/share/man/man1
+>> + OBJS=tree.o unix.o html.o xml.o hash.o color.o
+>> +
+>> + # Uncomment options below for your particular OS:
+>> +
+>> + # Linux defaults:
+>> + #CFLAGS=-ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE 
+>> -D_FILE_OFFSET_BITS=64
+>> +-CFLAGS=-O4 -Wall  -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+>> +-LDFLAGS=-s
+>> ++CFLAGS ?= -O4 -Wall  -DLINUX -D_LARGEFILE64_SOURCE 
+>> -D_FILE_OFFSET_BITS=64
+>> ++LDFLAGS ?= -s
+>> +
+>> + # Uncomment for FreeBSD:
+>> + #CFLAGS=-O2 -Wall -fomit-frame-pointer
+>> +@@ -97,7 +97,7 @@
+>> +     install -d $(BINDIR)
+>> +     install -d $(MANDIR)
+>> +     if [ -e $(TREE_DEST) ]; then \
+>> +-        install -s $(TREE_DEST) $(BINDIR)/$(TREE_DEST); \
+>> ++        install $(TREE_DEST) $(BINDIR)/$(TREE_DEST); \
+>> +     fi
+>> +     install doc/$(MAN) $(MANDIR)/$(MAN)
+>> +
+>> diff --git a/meta/recipes-support/tree/tree_1.6.0.bb 
+>> b/meta/recipes-support/tree/tree_1.6.0.bb
+>> new file mode 100644
+>> index 0000000..f1ca376
+>> --- /dev/null
+>> +++ b/meta/recipes-support/tree/tree_1.6.0.bb
+>> @@ -0,0 +1,15 @@
+>> +DESCRIPTION = "a recursive directory listing command."
+> This is more of a SUMMARY, can you expand of the DESCRIPTIION?
+
+I'll try
+
+>
+>> +SECTION = "console/utils"
+>> +LICENSE = "GPLv2"
+>> +LIC_FILES_CHKSUM = 
+>> "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+>> +
+>> +SRC_URI = 
+>> "http://mama.indstate.edu/users/ice/${PN}/src/${PN}-${PV}.tgz \
+>> +    file://0001-adapt-Makefile.patch \
+>> +"
+>> +
+>> +SRC_URI[md5sum] = "04e967a3f4108d50cde3b4b0e89e970a"
+>> +SRC_URI[sha256sum] = 
+>> "4dc470a74880338b01da41701d8db90d0fb178877e526d385931a007d68d7591"
+>> +
+>> +inherit autotools
+>> +
+> Does it really use autotools?  I think it can just use the standard 
+> do_compile/do_install and does not require autotools.
+
+I used autotools inheritance to avoid to explicitely define 
+do_compile/do_install. Whet is the good method if I don't inherit from 
+autotools.
+Do I define them explicitely in the recipe or is there a way to inherit 
+from another class ?
+
+>
+>> +CFLAGS_append = " -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+>>
+>
+> Thanks again
+>     Sau!
+>
+>
+
+Waiting for your reply to send a corrected patch.
+
+Regards.
+
+
 -- 
-1.7.9.5
+
+Christian Charreyre
+CIO Informatique Industrielle
+11 Avenue Marigny 13014 Marseille
+Tél : 04 95 05 19 41
+http://www.cioinfoindus.fr
 
 
+
+
+--------------080501060304000309070701
+Content-Type: text/x-vcard; charset=utf-8;
+ name="christian_charreyre.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="christian_charreyre.vcf"
+
+begin:vcard
+fn:Christian  Charreyre
+n:Charreyre;Christian 
+org:CIO Informatique Industrielle
+adr;dom:;;11 Avenue Marigny;Marseille;;13014
+email;internet:christian.charreyre@cioinfoindus.fr
+tel;work:04 95 05 19 41
+url:http://www.cioinfoindus.fr
+version:2.1
+end:vcard
+
+
+--------------080501060304000309070701--
