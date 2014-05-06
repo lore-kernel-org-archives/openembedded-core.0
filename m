@@ -1,24 +1,20 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 2076065F25
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C3E9601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 21:01:09 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N5600JD54XBRI31@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 06 May 2014 15:00:47 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 12C172018E; Tue,
-	06 May 2014 16:00:46 -0400 (EDT)
-Date: Tue, 06 May 2014 16:00:46 -0400
-From: Denys Dmytriyenko <denis@denix.org>
+	Tue,  6 May 2014 21:14:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 May 2014 14:10:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,998,1389772800"; d="scan'208";a="535888815"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.214])
+	by orsmga002.jf.intel.com with ESMTP; 06 May 2014 14:14:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-id: <20140506200046.GC11339@denix.org>
-MIME-version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Recipes erroneously marked as "commercial"?
+Date: Tue,  6 May 2014 14:14:55 -0700
+Message-Id: <1399410895-31327-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] openssh: add /var/log/lastlog to volatile list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +27,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 21:01:10 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 06 May 2014 21:15:02 -0000
 
-So, long time ago we had a short list of "commercial" packages in a global 
-variable COMMERCIAL_LICENSE:
+The /var/log/messages reports /var/log/lastlog as missing, since openssh
+needs this file, create it as a volatile.
 
-COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp"
+[YOCTO #6172]
 
-Then, at some point, the packages that depend on commercial ones were added to 
-the list, to allow wold builds to be successful:
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd | 1 +
+ 1 file changed, 1 insertion(+)
 
-http://cgit.openembedded.org/openembedded-core/commit/?id=c69453fe94a649c518b0e6d79616f05579b864ce
-
-So, the list was appended with this:
-
-COMMERCIAL_LICENSE_DEPENDEES ?= "gst-plugins-ugly libomxil gst-openmax"
-
-Then, later on, the feature was changed from a global list to a per-recipe 
-flags:
-
-http://cgit.openembedded.org/openembedded-core/commit/?id=a2760661b8c7a4a1b6f2e556853b3a9ae38cbcb5
-http://cgit.openembedded.org/openembedded-core/commit/?id=43410523a07d9eb52a7d57ae3dc1cc320cbbc6f9
-
-And all those recipes got marked with LICENSE_FLAGS = "commercial" 
-automatically, even if they are not really commercial.
-
-The question is - should we clean those up now? I can send a quick patch, if 
-my understanding above is correct.
-
+diff --git a/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd b/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd
+index 122320a..a0d2af3 100644
+--- a/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd
++++ b/meta/recipes-connectivity/openssh/openssh/volatiles.99_sshd
+@@ -1 +1,2 @@
+ d root root 0755 /var/run/sshd none
++f root root 0644 /var/log/lastlog none
 -- 
-Denys
+1.8.3.1
+
 
