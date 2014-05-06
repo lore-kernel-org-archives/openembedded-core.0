@@ -1,26 +1,30 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 79F3F65F17
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 95E6365FC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 12:17:57 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,997,1389740400"; d="scan'208";a="50770620"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 06 May 2014 14:17:49 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Tue, 6 May 2014 14:17:48 +0200
-Received: from u56.usr.ingenico.loc (10.23.7.56) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Tue, 6 May 2014 14:17:48 +0200
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 May 2014 14:17:53 +0200
-Message-ID: <1399378673-32040-7-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.9.2
-In-Reply-To: <1399378673-32040-1-git-send-email-Matthieu.Crapet@ingenico.com>
-References: <1399378673-32040-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	Tue,  6 May 2014 13:20:39 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id va2so6775502obc.23
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 May 2014 06:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=o7uSGEnGKXJ7lczMIlwQrbH8gBwABadNa75NUxfRR/8=;
+	b=ta6YhsSdYwiqmX0+vUG28UqxU4HhaXfEuSWSalv20oh0OCs0r9WEsxbVOk2bJicNqS
+	mzOU47S5E2IPmygeBUUvWrjuB6AbAjM6SY6Z7dMil5UBVa345MoTsXmRcH7Y0FaBmJ0y
+	ZSUQ+q34ODyL3caMO+uR0w4aN4Xe82AgTz59qK9nTwsC3oG5ev/6u+VKz5UkBGxvasev
+	aCVVVDKMtpZqlwLz5kRZMfTcXDyrEEHLmsNZVYPx4fi3+9Gx1bMciDBPFBib0nAHRsdG
+	GfpwxxWokrQZ4IPya1QV1BlDyr/0y/M+Ag/AnPBe79XIYHaOdoigMQIOCcdRLIWW6/sD
+	rM+Q==
+X-Received: by 10.60.73.39 with SMTP id i7mr9105812oev.51.1399382439976; Tue,
+	06 May 2014 06:20:39 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 7/7] scripts/runqemu: avoid pipe with sed
+Received: by 10.182.111.133 with HTTP; Tue, 6 May 2014 06:20:19 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 6 May 2014 15:20:19 +0200
+Message-ID: <CAPybu_2QJ=GXH0Vo_hvAOu-uoj=KDe2ouyQ1EC6pmx6cSKc8TQ@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: daisy: System crash running grub-efi on 64 bit machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 12:17:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 May 2014 13:20:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Replace:
-cat <file> | sed -e xxx
-By:
-sed -e xxx <file>
+Hello
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- scripts/runqemu | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I have just ported my build system to daisy and I am unable to boot
+from grub-efi. As soon as the grub binary is loaded by uefi, the
+system freezes. The error can be reproduced on virtualbox.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index e270274..ff64a1d 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -355,10 +355,10 @@ setup_path_vars() {
- 
-         MACHINE=$MACHINE bitbake -e > $BITBAKE_ENV_TMPFILE
-         if [ -z "$OE_TMPDIR" ] ; then
--            OE_TMPDIR=`cat $BITBAKE_ENV_TMPFILE | sed -n 's/^TMPDIR=\"\(.*\)\"/\1/p'`
-+            OE_TMPDIR=`sed -n 's/^TMPDIR=\"\(.*\)\"/\1/p' $BITBAKE_ENV_TMPFILE`
-         fi
-         if [ -z "$DEPLOY_DIR_IMAGE" ] ; then
--            DEPLOY_DIR_IMAGE=`cat $BITBAKE_ENV_TMPFILE | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
-+            DEPLOY_DIR_IMAGE=`sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p' $BITBAKE_ENV_TMPFILE`
-         fi
-         if [ -z "$OE_TMPDIR" ]; then
-             # Check for errors from bitbake that the user needs to know about
+Since it is even before the kernel is loaded, and no error message is
+given I don't know which will be the easiest way to debug the issue. I
+hope that the log message from virtualbox can give you a hint of the
+issue: https://gist.github.com/anonymous/7ffd78aa3aada41801fe .
+
+It could be a toolchain issue, because if I build the same code (even
+with the patches) with Debian's gcc everything works as expected.
+
+If anyone needs the .vdi file I will be more than happy to share it.
+
+Thanks!
+
+
+
 -- 
-1.8.5.4
-
+Ricardo Ribalda
 
