@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D363265F94
+	by mail.openembedded.org (Postfix) with ESMTP id AA92765F94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 13:48:51 +0000 (UTC)
+	Tue,  6 May 2014 13:49:29 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s46DmkLY010965 for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 May 2014 14:48:46 +0100
+	s46DnP2J010989 for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 May 2014 14:49:25 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 98-7J59sD9yX
+	with LMTP id ZAUlO6OPXvbv
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 14:48:46 +0100 (BST)
+	Tue,  6 May 2014 14:49:24 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s46DmhZd010962
+	s46DnKJT010979
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 May 2014 14:48:45 +0100
-Message-ID: <1399384117.12731.150.camel@ted>
+	Tue, 6 May 2014 14:49:22 +0100
+Message-ID: <1399384154.12731.151.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 06 May 2014 14:48:37 +0100
+Date: Tue, 06 May 2014 14:49:14 +0100
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] ptest: Work from PTEST_ENABLED, not DISTRO_FEATURES
+Subject: [PATCH] attr: Fix uclibc builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 13:48:52 -0000
+X-List-Received-Date: Tue, 06 May 2014 13:49:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Some classes of recipe disable ptest even though its in DISTRO_FEATURES
-(e.g. nativesdk). We shouldn't attempt to build ptest packages when
-its disabled. This replaces some DISTRO_FEATURE checks with PTEST_ENABLED
-checks instead.
+attr needs libintl headers and libs. Add in the missing dependency and
+the missing linker flag.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index c96e74f..4e6f075 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -13,7 +13,7 @@ PTEST_ENABLED_class-cross-canadian = ""
- RDEPENDS_${PN}-ptest_class-native = ""
- RDEPENDS_${PN}-ptest_class-nativesdk = ""
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index 873c1ff..63964e75 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Utilities for manipulating filesystem extended attributes"
+ HOMEPAGE = "http://savannah.nongnu.org/projects/attr/"
+ SECTION = "libs"
  
--PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
-+PACKAGES =+ "${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)}"
+-DEPENDS = "ncurses"
++DEPENDS = "ncurses virtual/libintl"
  
- do_configure_ptest() {
-     :
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index c7e1e63..4510ae3 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
- DEPENDS = "expat virtual/libintl"
- RDEPENDS_dbus_class-native = ""
- RDEPENDS_dbus_class-nativesdk = ""
--PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest', '', d)}"
-+PACKAGES += "${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus-ptest', '', d)}"
- ALLOW_EMPTY_dbus-ptest = "1"
- RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
+ LICENSE = "LGPLv2.1+ & GPLv2+"
+ LICENSE_${PN} = "GPLv2+"
+@@ -17,6 +17,8 @@ SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
  
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 4d27262..65c83e9 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -31,7 +31,7 @@ S = "${WORKDIR}/glib-${PV}"
+ require ea-acl.inc
  
- CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap --disable-man"
- 
--PTEST_CONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '--enable-installed-tests', '--disable-installed-tests', d)}"
-+PTEST_CONF = "${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-installed-tests', '--disable-installed-tests', d)}"
- EXTRA_OECONF = "--enable-included-printf=no ${CORECONF} ${PTEST_CONF}"
- EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
- EXTRA_OECONF_append_libc-uclibc = " --with-libiconv=gnu"
++LDFLAGS_append_libc-uclibc = " -lintl"
++
+ # libdir should point to .la
+ do_install_append() {
+ 	sed -i ${D}${libdir}/libattr.la -e \
 
 
 
