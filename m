@@ -1,39 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D210265F89
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F67765F92
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 08:53:34 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id i17so8281563qcy.36
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 May 2014 01:53:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=w6sTw0KDvVS3KujbrQJSBg89d3J45Ac3vASd3/UvvgM=;
-	b=QIKFvLfgYmycrPf033JCyvgN4VgZvjwDv5IjL6vDN9RQY6hce5p1v8rvfxZTijqxQI
-	HTmd+VK3rEEbPtxZioNd4lW+0K/IS1OavJI/hG9dE47UQU2oA5iOl/avNoPm84lnA3tH
-	fSsXq95woMZ8XpmkLdgowWFC2hnMgQYgxvEzXV/T/CjPS8kkUFNn1neoNkvWfF7Jj8GL
-	Ixcsv59RiYBZAjlO2VMYURffi/A+pOAbPoXjAna4llT37CZxELQhWjC1qMF6A8o1E//o
-	LxFKVfjHWvpKog0ykuPALUMrz3+5zYJhafGY8zHRI2aEfKgDcXj/pe6iUO2uhZmV3jz0
-	UArw==
-X-Gm-Message-State: ALoCoQkZa3v7m1TQzbJp1XM1vysAZ1CXBL6BA/hDmQNaYNG6qof9Y/QZtE/qlpqkiDi9CcKjuN2m
-X-Received: by 10.224.160.142 with SMTP id n14mr53681996qax.17.1399366415079; 
-	Tue, 06 May 2014 01:53:35 -0700 (PDT)
+	Tue,  6 May 2014 09:17:06 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 06 May 2014 02:17:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,996,1389772800"; d="scan'208";a="428142516"
+Received: from kcathuko-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.115])
+	by azsmga001.ch.intel.com with ESMTP; 06 May 2014 02:17:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 06 May 2014 10:17:03 +0100
+Message-ID: <3786353.G8dUuZuNuH@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.2-200.fc20.x86_64; KDE/4.12.4; x86_64; ; )
+In-Reply-To: <A4B8EEBF-A117-4A52-B23E-FB09372AC3DF@dominion.thruhere.net>
+References: <1399289179-5662-1-git-send-email-koen.kooi@linaro.org>
+	<53680880.30402@linux.intel.com>
+	<A4B8EEBF-A117-4A52-B23E-FB09372AC3DF@dominion.thruhere.net>
 MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Tue, 6 May 2014 01:53:14 -0700 (PDT)
-In-Reply-To: <5366DC9E.1020702@ti.com>
-References: <5366A8B5.6020900@ti.com>
-	<CAOjnSCb-Fkxs3J_5eycnQ6gpRaoJpbsdP6H9+UVEHRm6kwbd8g@mail.gmail.com>
-	<5366DC9E.1020702@ti.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 May 2014 09:53:14 +0100
-Message-ID: <CAJTo0LarnY3ZHU-3OHTi0nv-dvJCWdeG6kTMtcL1NkYVsOdX5w@mail.gmail.com>
-To: Joel Fernandes <joelf@ti.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Quick question about OE-core/bitbake's re-building
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <koen.kooi@linaro.org>
+Subject: Re: [PATCH] libarchive: add missing e2fsprogs dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,28 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 08:53:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 06 May 2014 09:17:14 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 5 May 2014 01:34, Joel Fernandes <joelf@ti.com> wrote:
-> However one thing, is the updates don't happen if you revert the changes
-> back to what it used to be in an earlier revision.
+On Tuesday 06 May 2014 07:52:23 Koen Kooi wrote:
+> Op 5 mei 2014, om 23:54 heeft Saul Wold <sgw@linux.intel.com> het volgende 
+geschreven:
+> > On 05/05/2014 04:26 AM, Koen Kooi wrote:
+> >> This fixes the following build error:
+> >> 	| libarchive/archive_entry.c:59:55: fatal error: ext2fs/ext2_fs.h: No
+> >> 	| such file or directory>> 
+> >> There is no configure options to avoid this dependency.
+> >> 
+> >> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> >> ---
+> >> 
+> >>  meta/recipes-extended/libarchive/libarchive_3.1.2.bb | 2 ++
+> >>  1 file changed, 2 insertions(+)
+> >> 
+> >> diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+> >> b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb index
+> >> eedbaa7..277d8c8 100644
+> >> --- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+> >> +++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+> >> @@ -5,6 +5,8 @@ SECTION = "devel"
+> >> 
+> >>  LICENSE = "BSD"
+> >>  LIC_FILES_CHKSUM = "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
+> >> 
+> >> +DEPENDS = "e2fsprogs"
+> >> +
+> > 
+> > By doing this we also have to extend e2fprogs to be a nativesdk target.
+> > 
+> > Is there not a way to make this optional by editing the configure.ac and
+> > adding a switch?  What functionality to we gain or loose with / without
+> > the ext2fs extensions?
 >
-> For example if I make changes such that task hash is now X
-> Then I build, and its called r0.0.
-> Then I make some more changes such that the hash is now Y
-> And it becomes r0.1.
->
-> Then after some more changes, it becomes X. Now instead of rebuilding
-> and calling it r0.2, the rebuild doesn't happen. I wonder if this is the
-> right thing, or the updates should continue to roll.
+> I really have no idea, I just had the above buildfailure yesterday.
 
-So the hash that Joel refers to is used as a key in the "sstate
-cache", and the build packages are cached in there.  When you revert
-the package back to X instead of having to do a rebuild, it can simply
-extract the relevant file from the cache.
+FYI this is a bug I was meant to be fixing in the 1.6 cycle (I noticed the 
+error in one of my builds a few months ago). Simply adding e2fsprogs to 
+DEPENDS adds time to the build, plus when I submitted a patch to do this I 
+found that nativesdk-e2fsprogs doesn't actually build at the moment and since 
+it's actually only the header it wants, I had in mind to just use the header 
+from e2fsprogs-native. I haven't got around to testing the latter solution 
+though.
 
-(you can verify this by reading the cooker log of the build)
+Anyway, I've now done what I should have done earlier and filed a bug:
 
-Ross
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
