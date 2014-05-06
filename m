@@ -1,26 +1,26 @@
 Return-Path: <Matthieu.CRAPET@ingenico.com>
 Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id C3B6E65FE5
+	by mail.openembedded.org (Postfix) with ESMTP id 79F3F65F17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 12:17:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,997,1389740400"; d="scan'208";a="50770615"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 06 May 2014 14:17:47 +0200
+	Tue,  6 May 2014 12:17:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,997,1389740400"; d="scan'208";a="50770620"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 06 May 2014 14:17:49 +0200
 Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Tue, 6 May 2014 14:17:47 +0200
+	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
+	(TLS) id 14.2.318.1; Tue, 6 May 2014 14:17:48 +0200
 Received: from u56.usr.ingenico.loc (10.23.7.56) by
 	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Tue, 6 May 2014 14:17:46 +0200
+	id 14.2.328.9; Tue, 6 May 2014 14:17:48 +0200
 From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 May 2014 14:17:50 +0200
-Message-ID: <1399378673-32040-4-git-send-email-Matthieu.Crapet@ingenico.com>
+Date: Tue, 6 May 2014 14:17:53 +0200
+Message-ID: <1399378673-32040-7-git-send-email-Matthieu.Crapet@ingenico.com>
 X-Mailer: git-send-email 1.9.2
 In-Reply-To: <1399378673-32040-1-git-send-email-Matthieu.Crapet@ingenico.com>
 References: <1399378673-32040-1-git-send-email-Matthieu.Crapet@ingenico.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/7] dropbear: avoid pipe with sed
+Subject: [PATCH 7/7] scripts/runqemu: avoid pipe with sed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,66 +41,28 @@ cat <file> | sed -e xxx
 By:
 sed -e xxx <file>
 
-+ fix indentation
-
 Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ scripts/runqemu | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 5a7be49..9fec09e 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -46,12 +46,12 @@ CFLAGS += "-DSFTPSERVER_PATH=\\"${libdir}/openssh/sftp-server\\""
+diff --git a/scripts/runqemu b/scripts/runqemu
+index e270274..ff64a1d 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -355,10 +355,10 @@ setup_path_vars() {
  
- do_install() {
- 	install -d ${D}${sysconfdir} \
--		   ${D}${sysconfdir}/init.d \
--		   ${D}${sysconfdir}/default \
--		   ${D}${sysconfdir}/dropbear \
--                   ${D}${bindir} \
--		   ${D}${sbindir} \
--		   ${D}${localstatedir}
-+		${D}${sysconfdir}/init.d \
-+		${D}${sysconfdir}/default \
-+		${D}${sysconfdir}/dropbear \
-+		${D}${bindir} \
-+		${D}${sbindir} \
-+		${D}${localstatedir}
- 
- 	install -m 0755 dropbearmulti ${D}${sbindir}/
- 	ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
-@@ -60,11 +60,11 @@ do_install() {
- 	do
- 		ln -s ./dropbearmulti ${D}${sbindir}/$i
- 	done
--	cat ${WORKDIR}/init | sed -e 's,/etc,${sysconfdir},g' \
--				  -e 's,/usr/sbin,${sbindir},g' \
--				  -e 's,/var,${localstatedir},g' \
--				  -e 's,/usr/bin,${bindir},g' \
--				  -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/dropbear
-+	sed -e 's,/etc,${sysconfdir},g' \
-+		-e 's,/usr/sbin,${sbindir},g' \
-+		-e 's,/var,${localstatedir},g' \
-+		-e 's,/usr/bin,${bindir},g' \
-+		-e 's,/usr,${prefix},g' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/dropbear
- 	chmod 755 ${D}${sysconfdir}/init.d/dropbear
- 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
- 		install -d ${D}${sysconfdir}/pam.d
-@@ -77,9 +77,9 @@ do_install() {
- 	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_unitdir}/system
- 	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_unitdir}/system
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
--	       -e 's,@BINDIR@,${bindir},g' \
--	       -e 's,@SBINDIR@,${sbindir},g' \
--	       ${D}${systemd_unitdir}/system/dropbear.socket ${D}${systemd_unitdir}/system/*.service
-+		-e 's,@BINDIR@,${bindir},g' \
-+		-e 's,@SBINDIR@,${sbindir},g' \
-+		${D}${systemd_unitdir}/system/dropbear.socket ${D}${systemd_unitdir}/system/*.service
- }
- 
- inherit update-alternatives
+         MACHINE=$MACHINE bitbake -e > $BITBAKE_ENV_TMPFILE
+         if [ -z "$OE_TMPDIR" ] ; then
+-            OE_TMPDIR=`cat $BITBAKE_ENV_TMPFILE | sed -n 's/^TMPDIR=\"\(.*\)\"/\1/p'`
++            OE_TMPDIR=`sed -n 's/^TMPDIR=\"\(.*\)\"/\1/p' $BITBAKE_ENV_TMPFILE`
+         fi
+         if [ -z "$DEPLOY_DIR_IMAGE" ] ; then
+-            DEPLOY_DIR_IMAGE=`cat $BITBAKE_ENV_TMPFILE | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
++            DEPLOY_DIR_IMAGE=`sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p' $BITBAKE_ENV_TMPFILE`
+         fi
+         if [ -z "$OE_TMPDIR" ]; then
+             # Check for errors from bitbake that the user needs to know about
 -- 
 1.8.5.4
 
