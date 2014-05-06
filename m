@@ -1,26 +1,26 @@
 Return-Path: <Matthieu.CRAPET@ingenico.com>
 Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id C2CF265EF8
+	by mail.openembedded.org (Postfix) with ESMTP id C342765FDF
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 May 2014 12:17:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,997,1389740400"; d="scan'208";a="50770616"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+X-IronPort-AV: E=Sophos;i="4.97,997,1389740400"; d="scan'208";a="50770618"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
 	by antispam1.usr.ingenico.loc with ESMTP; 06 May 2014 14:17:48 +0200
 Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	(TLS) id 14.2.318.1; Tue, 6 May 2014 14:17:47 +0200
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Tue, 6 May 2014 14:17:48 +0200
 Received: from u56.usr.ingenico.loc (10.23.7.56) by
 	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
 	id 14.2.328.9; Tue, 6 May 2014 14:17:47 +0200
 From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 May 2014 14:17:51 +0200
-Message-ID: <1399378673-32040-5-git-send-email-Matthieu.Crapet@ingenico.com>
+Date: Tue, 6 May 2014 14:17:52 +0200
+Message-ID: <1399378673-32040-6-git-send-email-Matthieu.Crapet@ingenico.com>
 X-Mailer: git-send-email 1.9.2
 In-Reply-To: <1399378673-32040-1-git-send-email-Matthieu.Crapet@ingenico.com>
 References: <1399378673-32040-1-git-send-email-Matthieu.Crapet@ingenico.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/7] sysvinit-inittab: avoid pipe with grep
+Subject: [PATCH 6/7] initscripts: avoid pipe with sed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 06 May 2014 12:17:57 -0000
 Content-Type: text/plain
 
+Small optimisation in /etc/init.d/populate-volatile.sh.
+
 Replace:
-cat <file> | grep xxx
+cat <file> | sed -e xxx
 By:
-grep xxx <file>
+sed -e xxx <file>
 
 Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
 ---
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 30641da..c3244b4 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -54,7 +54,7 @@ if [ "x$D" = "x" ] && [ -e /proc/consoles ]; then
- 	for i in $tmp
- 	do
- 		j=`echo ${i} | sed s/^.*\;//g`
--		if [ -z "`cat /proc/consoles | grep ${j}`" ]; then
-+		if [ -z "`grep ${j} /proc/consoles`" ]; then
- 			sed -i /^.*${j}$/d /etc/inittab
- 		fi
- 	done
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 6ffe1f2..e707b20 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -106,7 +106,7 @@ check_requirements() {
+ 	TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
+ 	TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
+ 
+-	cat ${ROOT_DIR}/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
++	sed 's@\(^:\)*:.*@\1@' ${ROOT_DIR}/etc/passwd | sort | uniq > "${TMP_DEFINED}"
+ 	cat ${CFGFILE} | grep -v "^#" | cut -s -d " " -f 2 > "${TMP_INTERMED}"
+ 	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 	NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
+@@ -120,7 +120,7 @@ check_requirements() {
+ 	}
+ 
+ 
+-	cat ${ROOT_DIR}/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
++	sed 's@\(^:\)*:.*@\1@' ${ROOT_DIR}/etc/group | sort | uniq > "${TMP_DEFINED}"
+ 	cat ${CFGFILE} | grep -v "^#" | cut -s -d " " -f 3 > "${TMP_INTERMED}"
+ 	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 
 -- 
 1.8.5.4
 
