@@ -1,44 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C915B65D20;
-	Tue,  6 May 2014 18:09:06 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id db12so7669116veb.11
-	for <multiple recipients>; Tue, 06 May 2014 11:09:07 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C1FA6098B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  6 May 2014 18:26:00 +0000 (UTC)
+Received: by mail-ie0-f182.google.com with SMTP id tp5so10254404ieb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 May 2014 11:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=J9ENx/wUtye5UCGmeCN3scVT5wMDfc/8nofhZzUxoGE=;
-	b=q2mclvJ6g1nbI/R2AUQeGZVBpb0kJDMqHifb0fT5DuGntosb2VO097FSVVhsYgSn6P
-	RzOK00nwDJZB6cQqvhmUmTo7tqpLhI6uUWrrl3/6EewjHd9aQCXVePKYKvahywD+44XV
-	QNXf2r8xRe+PdgYKjTeL4LLiL75qwqpWxlknSXpMpJWzsrQxied0FRis41//vwXD8hYK
-	+iJIijR4/9blyZvOMIT+ykk5Wj/npt+RYN3doYKXR0u8yWuPI1XPCDz8R0F+X6aJpD1m
-	GxVgIGjiesMb6rsAshyUn7sngNr9YJSGLZZr+Rc5uYEbd2nq0baClfsgikgMeu2y70mr
-	YK4A==
-X-Received: by 10.52.72.4 with SMTP id z4mr1618194vdu.71.1399399747118;
-	Tue, 06 May 2014 11:09:07 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	xr10sm17305670vec.2.2014.05.06.11.09.05 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 May 2014 11:09:06 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 6 May 2014 20:09:26 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140506180926.GB30955@jama>
-References: <53691266.2090107@intel.com>
-	<CAMKF1so2Zrx0D39wkGj0xYSbGOKu7Kd3iMS6D=6_+yjj2vGYXA@mail.gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=VERS8sbadZtYqVbDXQFdu0U5VU2//YOfy1T9NczwrzQ=;
+	b=REQWkuZn3sAqHZ2plodeYIl+NaXM4Y1mmnM7JoETVBACbntvMreTilvjQWejJQ4vuC
+	FTw+QF3U7RM13sdge84jBc4A8uftBUymmqVf3HBNgUy0snL0DDdOKgMUznOuOZyiDYnU
+	QlSPPdeyplpMmTxju0Pb7SodNeraYEJrCbKsxmPzu8Dp+Mc7mjxzCNg9A0m3dQ63hGTL
+	6KTfkkaoC2npOvJouFQM6n8YfMx1yRgDN/ocdHmpUeLf/uVvEN+Wl/ecvR559h/XydqE
+	Kpz4cin9PbF95f/8+IPjWauVBgkt+uThdHz4AGUtiKF5owoYknqwLt5griEhhhalEDEX
+	S/Yg==
+X-Received: by 10.43.62.204 with SMTP id xb12mr4733993icb.51.1399400761475;
+	Tue, 06 May 2014 11:26:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1so2Zrx0D39wkGj0xYSbGOKu7Kd3iMS6D=6_+yjj2vGYXA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Yocto Project Discussion <yocto@yoctoproject.org>,
-	"poky@yoctoproject.org" <poky@yoctoproject.org>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	Saul Wold <saul.wold@intel.com>
-Subject: Re: [bitbake-devel] Daisy Stable Branch - open for patch suggestions
+Received: by 10.50.74.228 with HTTP; Tue, 6 May 2014 11:25:31 -0700 (PDT)
+In-Reply-To: <20140506103329.GD12987@gmail.com>
+References: <1399289179-5662-1-git-send-email-koen.kooi@linaro.org>
+	<A4B8EEBF-A117-4A52-B23E-FB09372AC3DF@dominion.thruhere.net>
+	<3786353.G8dUuZuNuH@peggleto-mobl5.ger.corp.intel.com>
+	<3296908.lWzdU1Kadh@peggleto-mobl5.ger.corp.intel.com>
+	<20140506103329.GD12987@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 6 May 2014 11:25:31 -0700
+Message-ID: <CAMKF1srXCeedrKMS78WvgXO9PAMJe1sWXAywPSsgp1Tya7q7pA@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <koen.kooi@linaro.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libarchive: add missing e2fsprogs dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,83 +48,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 18:09:11 -0000
-X-Groupsio-MsgNum: 52884
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MW5yreqqjyrRcusr"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 06 May 2014 18:26:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
---MW5yreqqjyrRcusr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 6, 2014 at 3:33 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+> On Tue, May 06, 2014 at 10:18:41AM +0100, Paul Eggleton wrote:
+>> On Tuesday 06 May 2014 10:17:03 Paul Eggleton wrote:
+>> > On Tuesday 06 May 2014 07:52:23 Koen Kooi wrote:
+>> > > Op 5 mei 2014, om 23:54 heeft Saul Wold <sgw@linux.intel.com> het volgende
+>> >
+>> > geschreven:
+>> > > > On 05/05/2014 04:26 AM, Koen Kooi wrote:
+>> > > >> This fixes the following build error:
+>> > > >>        | libarchive/archive_entry.c:59:55: fatal error: ext2fs/ext2_fs.h: No
+>> > > >>        | such file or directory>>
+>> > > >>
+>> > > >> There is no configure options to avoid this dependency.
+>> > > >>
+>> > > >> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>> > > >> ---
+>> > > >>
+>> > > >>  meta/recipes-extended/libarchive/libarchive_3.1.2.bb | 2 ++
+>> > > >>  1 file changed, 2 insertions(+)
+>> > > >>
+>> > > >> diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+>> > > >> b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb index
+>> > > >> eedbaa7..277d8c8 100644
+>> > > >> --- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+>> > > >> +++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
+>> > > >> @@ -5,6 +5,8 @@ SECTION = "devel"
+>> > > >>
+>> > > >>  LICENSE = "BSD"
+>> > > >>  LIC_FILES_CHKSUM =
+>> > > >>  "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
+>> > > >>
+>> > > >> +DEPENDS = "e2fsprogs"
+>> > > >> +
+>> > > >
+>> > > > By doing this we also have to extend e2fprogs to be a nativesdk target.
+>> > > >
+>> > > > Is there not a way to make this optional by editing the configure.ac and
+>> > > > adding a switch?  What functionality to we gain or loose with / without
+>> > > > the ext2fs extensions?
+>> > >
+>> > > I really have no idea, I just had the above buildfailure yesterday.
+>> >
+>> > FYI this is a bug I was meant to be fixing in the 1.6 cycle (I noticed the
+>> > error in one of my builds a few months ago). Simply adding e2fsprogs to
+>> > DEPENDS adds time to the build, plus when I submitted a patch to do this I
+>> > found that nativesdk-e2fsprogs doesn't actually build at the moment and
+>> > since it's actually only the header it wants, I had in mind to just use the
+>> > header from e2fsprogs-native. I haven't got around to testing the latter
+>> > solution though.
+>> >
+>> > Anyway, I've now done what I should have done earlier and filed a bug:
+>>
+>> Oops, sent too early - bug link:
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6268
+>>
+>> Cheers,
+>> Paul
+>>
+>
+> I just had a quick look at this as I've done a bit of work with libarchive. It
+> looks like as long as the header isn't found at configure time there's no
+> problem at compile time. Could we work around this by modifying config.h in a
+> do_configure_append() function to undefine the relevant symbol
+> (HAVE_EXT2FS_EXT2_FS_H)?
 
-On Tue, May 06, 2014 at 10:55:59AM -0700, Khem Raj wrote:
-> Saul
->=20
-> On Tue, May 6, 2014 at 9:48 AM, Saul Wold <saul.wold@intel.com> wrote:
-> >
-> > [Sorry for the overlap, want to make sure I hit a broad audience]
-> >
-> > Hi Everyone!
-> >
-> > I will be the stable maintainer for the Daisy branch, and it is now ope=
-n for
-> > suggestions of backport patches.  I am starting to generate a list of
-> > patches that are already in master.
->=20
-> Thanks for helping with 1.6/daisy
->=20
-> >
-> > The following wiki page has the Policies and process for requesting a f=
-ix in
-> > a stable branch, please review that before sending a patch.
-> >
-> > https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
-> >
-> > Please remember to include [daisy] in any request (backport or commit).
-> >
->=20
-> I already have a patch posted for daisy back port.
-> see http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/50627
+It can be disabled in many ways and easiest is to cache the autconf
+variable and set it to 'no'
+but we loose The EXT2 ioctls that are used on Linux to get/set file
+flags since our build systems
+are mostly linux I would think this is a good thing to enable in libarchive.
 
-I'm preparing patches I would like to see in daisy in
-contrib/jansa/daisy-backports branch, I'll send it to ML when I consider
-them ready, e.g. top 7 commits:
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/daisy-=
-backports
-
-> > We do not have a hard date for this yet, but likely be in late May - ea=
-rly
-> > June time frame for the 1.6.1 release.
-> >
-> > Thanks to all for your efforts.
-> >
-> > Sau!
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --=20
-> _______________________________________________
-> bitbake-devel mailing list
-> bitbake-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/bitbake-devel
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---MW5yreqqjyrRcusr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlNpJVYACgkQN1Ujt2V2gBzEVQCfcZ3wSzmF4QQcwPmLccmGy57x
-NvMAoIgXLZPhU5UDYTpfdutvfB0yY9Tz
-=MM9P
------END PGP SIGNATURE-----
-
---MW5yreqqjyrRcusr--
