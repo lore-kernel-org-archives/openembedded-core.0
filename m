@@ -1,35 +1,31 @@
-Return-Path: <Sean_Hudson@mentor.com>
-X-Greylist: delayed 921 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 06 May 2014 20:34:36 UTC
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B94865DC4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2319D65EC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 20:34:36 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Whlpc-0004kw-EV from Sean_Hudson@mentor.com ;
-	Tue, 06 May 2014 13:19:16 -0700
-Received: from SVR-ORW-FEM-06.mgc.mentorg.com ([147.34.97.120]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 6 May 2014 13:19:15 -0700
-Received: from [172.30.2.41] (147.34.91.1) by SVR-ORW-FEM-06.mgc.mentorg.com
-	(147.34.97.120) with Microsoft SMTP Server id 14.2.247.3;
-	Tue, 6 May 2014 13:19:15 -0700
-Message-ID: <536943C2.3040800@mentor.com>
-Date: Tue, 6 May 2014 15:19:14 -0500
-From: Sean Hudson <sean_hudson@mentor.com>
-Organization: Mentor Graphics - Embedded Software Division
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Denys Dmytriyenko <denis@denix.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20140506200046.GC11339@denix.org>
-In-Reply-To: <20140506200046.GC11339@denix.org>
-X-Enigmail-Version: 1.5.2
-X-OriginalArrivalTime: 06 May 2014 20:19:15.0993 (UTC)
-	FILETIME=[73F42890:01CF6968]
-Subject: Re: Recipes erroneously marked as "commercial"?
+	Tue,  6 May 2014 20:37:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s46KbYa3032414; Tue, 6 May 2014 21:37:34 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OsHQeTBk6YJX; Tue,  6 May 2014 21:37:33 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s46KbVVE032408
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 6 May 2014 21:37:32 +0100
+Message-ID: <1399408645.31891.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 06 May 2014 21:37:25 +0100
+In-Reply-To: <CAMKF1sqwy+Tj=0SrV+iWAiGEh_8aO7CGE0EQNRpd_DP_bUKsOA@mail.gmail.com>
+References: <1399384154.12731.151.camel@ted>
+	<CAMKF1sqwy+Tj=0SrV+iWAiGEh_8aO7CGE0EQNRpd_DP_bUKsOA@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] attr: Fix uclibc builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 20:34:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 06 May 2014 20:37:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/06/2014 03:00 PM, Denys Dmytriyenko wrote:
-> So, long time ago we had a short list of "commercial" packages in a global 
-> variable COMMERCIAL_LICENSE:
->
-> COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp"
->
-> Then, at some point, the packages that depend on commercial ones were added to 
-> the list, to allow wold builds to be successful:
->
-> http://cgit.openembedded.org/openembedded-core/commit/?id=c69453fe94a649c518b0e6d79616f05579b864ce
->
-> So, the list was appended with this:
->
-> COMMERCIAL_LICENSE_DEPENDEES ?= "gst-plugins-ugly libomxil gst-openmax"
->
-> Then, later on, the feature was changed from a global list to a per-recipe 
-> flags:
->
-> http://cgit.openembedded.org/openembedded-core/commit/?id=a2760661b8c7a4a1b6f2e556853b3a9ae38cbcb5
-> http://cgit.openembedded.org/openembedded-core/commit/?id=43410523a07d9eb52a7d57ae3dc1cc320cbbc6f9
->
-> And all those recipes got marked with LICENSE_FLAGS = "commercial" 
-> automatically, even if they are not really commercial.
->
-> The question is - should we clean those up now? I can send a quick patch, if 
-> my understanding above is correct.
->
-I encountered this issue recently and raised it in IRC.  As an
-interested party, I'd love to see these updated.
+On Tue, 2014-05-06 at 10:43 -0700, Khem Raj wrote:
+> Richard
+> 
+> 
+> On Tue, May 6, 2014 at 6:49 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > attr needs libintl headers and libs. Add in the missing dependency and
+> > the missing linker flag.
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+> > index 873c1ff..63964e75 100644
+> > --- a/meta/recipes-support/attr/attr.inc
+> > +++ b/meta/recipes-support/attr/attr.inc
+> > @@ -2,7 +2,7 @@ SUMMARY = "Utilities for manipulating filesystem extended attributes"
+> >  HOMEPAGE = "http://savannah.nongnu.org/projects/attr/"
+> >  SECTION = "libs"
+> >
+> > -DEPENDS = "ncurses"
+> > +DEPENDS = "ncurses virtual/libintl"
+> >
+> 
+> may be something like
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/musl&id=6c67b40e4784e12ed6a71ab4696710b913e55455
+> 
+> is needed here.
+> 
+> Secondly we already have
+> 
+> LDFLAGS_append_libc-uclibc = "${@['', ' -lintl '][(d.getVar('PN',
+> True) == d.getVar('BPN', True)) and (d.getVar('USE_NLS', True) ==
+> 'yes')]}"
+> 
+> in ea-acl.inc
 
-  (Thanks Denys for sending it to the list so quickly.)
+Hmm, I hadn't seen that. The trouble is that I'm setting up uclibc as a
+multilib and this conditional may be wrong, we may need to rethink the
+PN == BPN as it isn't in the multilib case.
+
+Cheers,
+
+Richard
+
 
