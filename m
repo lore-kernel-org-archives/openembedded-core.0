@@ -1,37 +1,35 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B81C65F8D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id DD83F65F8E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 07:03:50 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id f8so362901wiw.16
+	Tue,  6 May 2014 07:30:24 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id kx10so8231209pab.33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 May 2014 00:03:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vcGD2c33lVjgjzpD019KDm+2xirTmLipOdwGcOpWQKs=;
-	b=l+5gODcQqpxVl8MuZIaA4xnGqI4fX50LbKD1bVPWUGNvNtPvL9hLKFRsO5wLRCxhqI
-	5z6W6rNT+r42DHZozQLUNo9oL8Om1HdiuXs63kHbhXhxTvZGT7hV7bRQ6c6KEb4MmRpH
-	DhEOEdmzcP96iAcEPIiJMc3FqpIbkHUvClv6EQDQdFtVWQNyZYiwh3qjx2pJMPwHSDxe
-	HdwVaTNxfiqmgaZ+ijAfvB5qpjkceQQUVKdLXguumL7HS6qvRO16MkUcFwa/Ts7oWiF9
-	6ytHQsnl3j1u03ysJCsX7PZkzCSoj6ABo7kaizhD3+GGclRLB5YVCIG1/5EDF5VfZJCn
-	pIDg==
-X-Gm-Message-State: ALoCoQk16nX5a2lHAZw56dfBlR7JGzAxfW2hFbFkPWlrjtzcmwvcjusjHuYn2pjz9+gZg0qHUjcG
-X-Received: by 10.180.94.98 with SMTP id db2mr13905569wib.1.1399359831137;
-	Tue, 06 May 2014 00:03:51 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	Tue, 06 May 2014 00:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=UPNTKdDhBt+Ikvh8Z0oIlXhr83/t6IqiCc6B00Xd+w8=;
+	b=RyTORMKTjY03Wztczo4IihiKE+9d+anZTR94CSqdyvhAkDVTdlfEHL98Wgb7tVrRaf
+	FvddUsQmKznQ5XKtxaalJ4IzBQwxSKR+wHCUKzKtYkmmioyqD/HHrVHGsq3jBWbNQvvn
+	xWDCCMn3Nip3ZYFp1jfVWMSrgZeveJEUbUCZ17Cq//tWpjdkpRZJDsfqpyxr0Mv7T0g3
+	v4IrSHPM8Uazoo2XZiSPhvtkubLowke8b6pYFK+W85AN9H25L00GQMNzIYo7ciYp7JZU
+	IhliKvVoHcX8A4DBj9opEqzFgaiB3C6jPqPt8QDCv8W4+C4x9Ro6m4CLgvQ4T5qjc0Vv
+	BjEA==
+X-Received: by 10.66.191.39 with SMTP id gv7mr3245502pac.150.1399361425554;
+	Tue, 06 May 2014 00:30:25 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
 	by mx.google.com with ESMTPSA id
-	t18sm22716131wiv.16.2014.05.06.00.03.50 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 May 2014 00:03:50 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
+	zv3sm91381360pab.20.2014.05.06.00.30.24 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 06 May 2014 00:30:24 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 May 2014 09:03:46 +0200
-Message-Id: <1399359826-26761-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] ltp: enable PM and RT tests
+Date: Tue,  6 May 2014 00:32:50 -0700
+Message-Id: <1399361570-7655-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.2
+Subject: [PATCH] tcmode-default.inc: Adjust for new toolchain component changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 07:03:53 -0000
+X-List-Received-Date: Tue, 06 May 2014 07:30:25 -0000
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+Recently we renames the cross compilers as well as spun out
+libgcc-initial from gcc-initial out. We need to also express
+it in default tcmode otherwise defining GCCVERSION and/or BINUVERSION
+outside OE-Core does not cover all cases
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/ltp/ltp_20140422.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/distro/include/tcmode-default.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
-index bad9e6f..995d617 100644
---- a/meta/recipes-extended/ltp/ltp_20140422.bb
-+++ b/meta/recipes-extended/ltp/ltp_20140422.bb
-@@ -36,6 +36,8 @@ TARGET_CC_ARCH += "${LDFLAGS}"
- export prefix = "/opt/ltp"
- export exec_prefix = "/opt/ltp"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 03742d8..0e81f06 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -30,9 +30,8 @@ UCLIBCVERSION ?= "0.9.33+git%"
+ LINUXLIBCVERSION ?= "3.14"
  
-+EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
-+
- # ltp doesn't regenerate ffsb-6.0-rc2 configure and hardcode configure call.
- # we explicitly force regeneration of that directory and pass configure options.
- do_configure_append() {
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+-PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
+-PREFERRED_VERSION_gcc-cross-initial ?= "${GCCVERSION}"
+-PREFERRED_VERSION_gcc-cross-intermediate ?= "${GCCVERSION}"
++PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
++PREFERRED_VERSION_gcc-cross-initial-${TARGET_ARCH} ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk-initial ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk-intermediate ?= "${SDKGCCVERSION}"
+@@ -40,9 +39,10 @@ PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCCVERSION}
+ PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
+ PREFERRED_VERSION_nativesdk-gcc-runtime ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
++PREFERRED_VERSION_libgcc-initial ?= "${GCCVERSION}"
+ PREFERRED_VERSION_nativesdk-libgcc ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_binutils ?= "${BINUVERSION}"
+-PREFERRED_VERSION_binutils-cross ?= "${BINUVERSION}"
++PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-crosssdk ?= "${BINUVERSION}"
+ PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
+ PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
 -- 
-1.9.0
+1.9.2
 
 
