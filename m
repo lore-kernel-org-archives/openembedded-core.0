@@ -1,37 +1,26 @@
-Return-Path: <pirobk@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id ED26D65F99
+Return-Path: <cristiana.voicu@intel.com>
+X-Greylist: delayed 591 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 06 May 2014 08:34:32 UTC
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C34B365F89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 08:14:46 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id e51so1465885eek.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 May 2014 01:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=TXpZe7y+L4fUjxiUM7+V/l/07tLnnTTCL5VAIwxltJ8=;
-	b=M9XNtoY9NDAOUKjnT5T5dm1ya4YG/Kzb9ut1gbGWyVzcMx3U9FkudsybdCex/nCFKF
-	TDqli8UlGAJG5tAdUdukX0Ur34hV8R0eIi+0N94ovqKpm13gxlxTGEk24sLYEg2SUf+o
-	88wXG5qGLmn4wjReklwA9ANEY+ZH4XXYpfRRFrpqCnd9g/1dTHFqUgudWC0O5trU16lV
-	tulyHBhG7hHv6vgfTkJMe9BMmGfKN4d5fTifn89cT+kQogIYHMI1Qz1MK1MDzXUloGKl
-	oFRHsKUoN6dUVLlxPEpTPfteEFFJv0xT3BoBVFbaU9UxpwjKvJUDlKYUchU3eGWKMry2
-	jTDQ==
-X-Received: by 10.14.4.70 with SMTP id 46mr1213142eei.116.1399364087388;
-	Tue, 06 May 2014 01:14:47 -0700 (PDT)
-Received: from [192.168.1.149] (p5DCFD013.dip0.t-ipconnect.de. [93.207.208.19])
-	by mx.google.com with ESMTPSA id
-	t50sm36389394eev.28.2014.05.06.01.14.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 06 May 2014 01:14:46 -0700 (PDT)
-Message-ID: <536899F5.1030104@gmail.com>
-Date: Tue, 06 May 2014 10:14:45 +0200
-From: =?ISO-8859-1?Q?Bj=F6rn_Krombholz?= <pirobk@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Icedove/24.5.0
-MIME-Version: 1.0
+	Tue,  6 May 2014 08:34:32 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 May 2014 01:24:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,995,1389772800"; d="scan'208";a="535335974"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
+	by orsmga002.jf.intel.com with ESMTP; 06 May 2014 01:24:43 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: meta-toolchain doesn't compile working binaries
+Date: Tue,  6 May 2014 11:26:16 +0300
+Message-Id: <4222ac3be6a78b9e9eb4ff9f523838d1327cb9da.1399364699.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1399364698.git.cristiana.voicu@intel.com>
+References: <cover.1399364698.git.cristiana.voicu@intel.com>
+In-Reply-To: <cover.1399364698.git.cristiana.voicu@intel.com>
+References: <cover.1399364698.git.cristiana.voicu@intel.com>
+Subject: [PATCH 2/2] rxvt-unicode: upgrade to 9.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,69 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 08:14:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 May 2014 08:34:35 -0000
 
-Hi,
+Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+---
+ .../rxvt.desktop                                   |    0
+ .../{rxvt-unicode-9.19 => rxvt-unicode}/rxvt.png   |  Bin 2847 -> 2847 bytes
+ .../{rxvt-unicode-9.19 => rxvt-unicode}/xwc.patch  |    0
+ .../{rxvt-unicode_9.19.bb => rxvt-unicode_9.20.bb} |    4 ++--
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.19 => rxvt-unicode}/rxvt.desktop (100%)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.19 => rxvt-unicode}/rxvt.png (100%)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.19 => rxvt-unicode}/xwc.patch (100%)
+ rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.19.bb => rxvt-unicode_9.20.bb} (93%)
 
-I'm having trouble building a working toolchain (meta-toolchain) on yocto-1.4 release.
-
-Buildsystem is x86_64, on current Debian Sid.
-
-The problem seems to be with ld-linux[...].so, SDKMACHINE doesn't seem to matter (x86_64 and i686 produce broken binaries).
-
-The effect is, that (almost) every binary in the toolchain segfaults when being run.
-
-
-Example m4:
-(in /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux)
-
-Host ld:
-$ usr/bin/m4 --help
-Segmentation fault
-
-Explicitly using the toolchain ld:
-$ lib/ld-linux-x86-64.so.2 usr/bin/m4 --help
-Usage: usr/bin/m4 [OPTION]... [FILE]...
-[...]
-
-
-Comparing the build with a toolchain created on Jul 30th 2013 (which works fine) I see one major difference:
-
-Old (working) toolchain:
-$ ldd m4
-        linux-vdso.so.1 (0x00007fffdae00000)
-        libc.so.6 => /usr/local/oecore-x86_64.old_201307/sysroots/x86_64-angstromsdk-linux/usr/bin/./../../lib/libc.so.6 (0x00007f6a71ed0000)
-        /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f6a72280000)
-
-
-New (broken) toolchain:
-$ ldd m4
-        linux-vdso.so.1 (0x00007fff36e00000)
-        libc.so.6 => /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/bin/./../../lib/libc.so.6 (0x00007f00e7860000)
-        /lib64/ld-linux-x86-64.so.2 (0x00007f00e7c10000)
-
-
-The internal toolchain (from tmp/build/) is working fine, though the ldd output looks similar to the broken built one:
-
-[...]build/tmp-angstrom_v2013_06-eglibc/sysroots/x86_64-linux/usr/bin$ ldd m4 
-        linux-vdso.so.1 (0x00007fff9fdc8000)                                                                                                                                                                                                                                   
-        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f481cda8000)                                                                                                                                                                                                      
-        /lib64/ld-linux-x86-64.so.2 (0x00007f481d188000)
-
-ATM, on Debian Sid /lib64/ld-linux-x86-64.so.2 is just a link /lib64/ld-linux-x86-64.so.2 -> /lib/x86_64-linux-gnu/ld-2.18.so
-
-I'd appreciate if someone could give me a hint on this matter, or a point me in a direction, where the problem might be.
-As mentioned I already tried changing the SDKMACHINE and a completely clean build folder with no effect.
-
-
-Thanks
-Björn
-
-
-
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
+similarity index 100%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.desktop
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.png b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.png
+similarity index 100%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.png
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.png
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/xwc.patch
+similarity index 100%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/xwc.patch
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode/xwc.patch
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.19.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.20.bb
+similarity index 93%
+rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.19.bb
+rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.20.bb
+index 72eca6d..3a1ea66 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.19.bb
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.20.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2
+ 	   file://rxvt.desktop \
+ 	   file://rxvt.png"
+ 
+-SRC_URI[md5sum] = "45ad197eb9b5a840c0f65e3a8131921c"
+-SRC_URI[sha256sum] = "d9237cf1973af461ecbeeb708e4d00893294771558e8338b4f33418ed52d3241"
++SRC_URI[md5sum] = "4a5b823f08d21036f94a6c51e94d025b"
++SRC_URI[sha256sum] = "e73e13fe64b59fd3c8e6e20c00f149d388741f141b8155e4700d3ed40aa94b4e"
+ 
+ inherit autotools update-alternatives
+ 
 -- 
-Björn Krombholz
-pironex GmbH -- http://www.pironex.de
+1.7.9.5
+
 
