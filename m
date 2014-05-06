@@ -1,20 +1,39 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FB0165FB5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D210265F89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 08:34:53 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 May 2014 01:24:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,995,1389772800"; d="scan'208";a="535335954"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.143])
-	by orsmga002.jf.intel.com with ESMTP; 06 May 2014 01:24:41 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 May 2014 11:26:14 +0300
-Message-Id: <cover.1399364698.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/2] Package upgrades
+	Tue,  6 May 2014 08:53:34 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id i17so8281563qcy.36
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 May 2014 01:53:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=w6sTw0KDvVS3KujbrQJSBg89d3J45Ac3vASd3/UvvgM=;
+	b=QIKFvLfgYmycrPf033JCyvgN4VgZvjwDv5IjL6vDN9RQY6hce5p1v8rvfxZTijqxQI
+	HTmd+VK3rEEbPtxZioNd4lW+0K/IS1OavJI/hG9dE47UQU2oA5iOl/avNoPm84lnA3tH
+	fSsXq95woMZ8XpmkLdgowWFC2hnMgQYgxvEzXV/T/CjPS8kkUFNn1neoNkvWfF7Jj8GL
+	Ixcsv59RiYBZAjlO2VMYURffi/A+pOAbPoXjAna4llT37CZxELQhWjC1qMF6A8o1E//o
+	LxFKVfjHWvpKog0ykuPALUMrz3+5zYJhafGY8zHRI2aEfKgDcXj/pe6iUO2uhZmV3jz0
+	UArw==
+X-Gm-Message-State: ALoCoQkZa3v7m1TQzbJp1XM1vysAZ1CXBL6BA/hDmQNaYNG6qof9Y/QZtE/qlpqkiDi9CcKjuN2m
+X-Received: by 10.224.160.142 with SMTP id n14mr53681996qax.17.1399366415079; 
+	Tue, 06 May 2014 01:53:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.101.77 with HTTP; Tue, 6 May 2014 01:53:14 -0700 (PDT)
+In-Reply-To: <5366DC9E.1020702@ti.com>
+References: <5366A8B5.6020900@ti.com>
+	<CAOjnSCb-Fkxs3J_5eycnQ6gpRaoJpbsdP6H9+UVEHRm6kwbd8g@mail.gmail.com>
+	<5366DC9E.1020702@ti.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 May 2014 09:53:14 +0100
+Message-ID: <CAJTo0LarnY3ZHU-3OHTi0nv-dvJCWdeG6kTMtcL1NkYVsOdX5w@mail.gmail.com>
+To: Joel Fernandes <joelf@ti.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Quick question about OE-core/bitbake's re-building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 08:34:53 -0000
+X-List-Received-Date: Tue, 06 May 2014 08:53:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The packages has been succesfully compiled for all major architectures.
-Tested locally on a core-image-sato image.
+On 5 May 2014 01:34, Joel Fernandes <joelf@ti.com> wrote:
+> However one thing, is the updates don't happen if you revert the changes
+> back to what it used to be in an earlier revision.
+>
+> For example if I make changes such that task hash is now X
+> Then I build, and its called r0.0.
+> Then I make some more changes such that the hash is now Y
+> And it becomes r0.1.
+>
+> Then after some more changes, it becomes X. Now instead of rebuilding
+> and calling it r0.2, the rebuild doesn't happen. I wonder if this is the
+> right thing, or the updates should continue to roll.
 
-The following changes since commit 7b78c364b7de901f97cd8dbe56d5e02f545bf3d3:
+So the hash that Joel refers to is used as a key in the "sstate
+cache", and the build packages are cached in there.  When you revert
+the package back to X instead of having to do a rebuild, it can simply
+extract the relevant file from the cache.
 
-  cleanup-workdir: Fix crosssdk reference after addition of PN (2014-05-05 09:05:42 +0100)
+(you can verify this by reading the cooker log of the build)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib cvoicu/work
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/work
-
-Cristiana Voicu (2):
-  babeltrace: upgrade to 1.2.1
-  rxvt-unicode: upgrade to 9.20
-
- ...-Support-out-of-tree-builds-in-babeltrace.patch |   17 +++++++++++++++++
- .../{babeltrace_1.1.1.bb => babeltrace_1.2.1.bb}   |    7 ++++---
- .../rxvt.desktop                                   |    0
- .../{rxvt-unicode-9.19 => rxvt-unicode}/rxvt.png   |  Bin 2847 -> 2847 bytes
- .../{rxvt-unicode-9.19 => rxvt-unicode}/xwc.patch  |    0
- .../{rxvt-unicode_9.19.bb => rxvt-unicode_9.20.bb} |    4 ++--
- 6 files changed, 23 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-Support-out-of-tree-builds-in-babeltrace.patch
- rename meta/recipes-kernel/lttng/{babeltrace_1.1.1.bb => babeltrace_1.2.1.bb} (72%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.19 => rxvt-unicode}/rxvt.desktop (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.19 => rxvt-unicode}/rxvt.png (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.19 => rxvt-unicode}/xwc.patch (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.19.bb => rxvt-unicode_9.20.bb} (93%)
-
--- 
-1.7.9.5
-
+Ross
 
