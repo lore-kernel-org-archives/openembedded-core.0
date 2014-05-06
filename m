@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 398B765F98
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 619F365FBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 07:53:00 +0000 (UTC)
+	Tue,  6 May 2014 07:53:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s467r2bG012126
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s467r3PS022025
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 May 2014 00:53:02 -0700 (PDT)
+	Tue, 6 May 2014 00:53:03 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 6 May 2014 00:53:01 -0700
+	14.3.169.1; Tue, 6 May 2014 00:53:02 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 May 2014 15:53:11 +0800
-Message-ID: <cover.1399362735.git.Qi.Chen@windriver.com>
+Date: Tue, 6 May 2014 15:53:12 +0800
+Message-ID: <8d81d6f9406caf97225d9d80b8880eb29d6b5f64.1399362735.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1399362735.git.Qi.Chen@windriver.com>
+References: <cover.1399362735.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] mmc-utils: fix compilation failure for mips64 target.
+Subject: [PATCH 1/1] mmc-utils: fix compilation failure for mips64 target.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 07:53:04 -0000
+X-List-Received-Date: Tue, 06 May 2014 07:53:05 -0000
 Content-Type: text/plain
 
-The following changes since commit b77494025b3d47fd5130ae6c445ac84cabb1f91e:
+This patch fixes mmc-utils compilation failure for qemumips64.
+Remove the 'include <asm-generic/int-ll64.h>' line from mmc.h,
+because this file is automatically included if _MIPS_SZLONG
+is not 64, otherwise, <asm-generic/int-l64.h> is included.
 
-  sstatetests: Use TUNE_ARCH instead of TARGET_ARCH (2014-05-04 17:36:14 +0100)
+Expicitly including <asm-generic/int-ll64.h> will cause the
+compilation failure for mips64 target.
 
-are available in the git repository at:
+[YOCTO #6267]
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/mmc-utils-qemumips64
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/mmc-utils-qemumips64
-
-Chen Qi (1):
-  mmc-utils: fix compilation failure for mips64 target.
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  ...mc.h-don-t-include-asm-generic-int-ll64.h.patch |   28 ++++++++++++++++++++
  meta/recipes-devtools/mmc/mmc-utils_git.bb         |    4 +--
  2 files changed, 30 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
 
+diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
+new file mode 100644
+index 0000000..1724de5
+--- /dev/null
++++ b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
+@@ -0,0 +1,28 @@
++Upstream-Status: Pending
++
++mmc.h: don't include <asm-generic/int-ll64.h>
++
++Including this file causes a compile failure for qemumips64.
++This file is not needed to be explicitly included, because it will be
++included by the <linux/mmc/ioctl.h> file if _MIPS_SZLONG is not 64.
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ mmc.h |    1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/mmc.h b/mmc.h
++index 9871d62..3df2cdf 100644
++--- a/mmc.h
+++++ b/mmc.h
++@@ -14,7 +14,6 @@
++  * Boston, MA 021110-1307, USA.
++  */
++ 
++-#include <asm-generic/int-ll64.h>
++ #include <linux/mmc/ioctl.h>
++ #include <stdio.h>
++ 
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index abde4b1..d88520c 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -8,8 +8,8 @@ SRCREV = "11f2ceabc4ad3f0dd568e0ce68166e4803e0615b"
+ 
+ PV = "0.1"
+ 
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;protocol=git;branch=${BRANCH}"
+-
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;protocol=git;branch=${BRANCH} \
++           file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 1.7.9.5
 
