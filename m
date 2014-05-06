@@ -1,44 +1,35 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D047D60559
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id F2EDB606E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 May 2014 16:48:38 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id kx10so8795780pab.33
+	Tue,  6 May 2014 17:02:22 +0000 (UTC)
+Received: by mail-ie0-f175.google.com with SMTP id rl12so9710341iec.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 May 2014 09:48:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:organization:user-agent
-	:mime-version:to:subject:content-type:content-transfer-encoding;
-	bh=uqKhxAsMjJUYEvmYel2XFHyLSS4BIlBP6qjD3gV/aCE=;
-	b=bUs0JZWfuj3j7AaAbKtK5R8mZAhybzq0zwjBh3EksHT0AnN1ur5TV7oPhov+p8h85e
-	CDgu9pmhelcmcPC78GorTdc6R+gt+k91/AsRaMQWkPwWmbpVIGTqCrvjgjKRgkwKOq/J
-	4dt7UWMP1rUFzebVJ5KawVLjmpWvcRZjrJ2RgpzmYbMkpG7nm41FD7ES+rCLJWEKqe5e
-	XtrKa8XdKQTbIjA7b9eGdth+InaHojTfpNqOJa3gdA77I0CUGK0u3ys10lKOumwuw+J8
-	xa2Lg2V/uusvAksAGCW8XkcZ1lLTTVyWnRdpuEiCVf1ok/siRZT9O8BcYrQljxLSZGYx
-	iWCw==
-X-Gm-Message-State: ALoCoQnSYQiAiV9B+ujFSwwHlPSz/ekhrKV3j1h4Imeg3y3VnE+PoZnvzgvWFrMxBFUwDohSTZKf
-X-Received: by 10.66.136.103 with SMTP id pz7mr8220553pab.140.1399394919765;
-	Tue, 06 May 2014 09:48:39 -0700 (PDT)
-Received: from [10.6.18.24] (c-50-186-0-160.hsd1.or.comcast.net.
-	[50.186.0.160]) by mx.google.com with ESMTPSA id
-	iq10sm1393660pbc.14.2014.05.06.09.48.38 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 06 May 2014 09:48:39 -0700 (PDT)
-Message-ID: <53691266.2090107@intel.com>
-Date: Tue, 06 May 2014 09:48:38 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Tue, 06 May 2014 10:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=SVMvw5IIFFT1FoqWwoYVl1bME0Xwq2X2Fcc52S7ApVk=;
+	b=VIYRhnA8MdVrx43L3RAFJAt7jOY3zNRjlaPW2eqy67Rc234Ka1LBCZEXIrnbPI2hLJ
+	O8IRxQebMtTKVcCApRY9wpaUtvldiyfcr3/JXrWsW2VEia76Fkc6GQELgYcVU4aMcfnM
+	gTxSHGre4y4fzyyfNY/BqWDwCcxsenyspFwJoNLuOXXnG1U/2L0Kw1I2uvPmPQkn2zAB
+	itP3/tjLRPnYWYV9c6CZnKlt51oxvksi9NSYl7g6Fl8Lu+I2tUsoQuvAmrQMGNk/MYgU
+	d/Xjq4akzWFthOHFN2nhX3hGKrOAEOG2CH2iPs/9cwyxB66k6flCjTGrInuJulPmRfFP
+	IUDA==
+X-Received: by 10.51.17.5 with SMTP id ga5mr34282226igd.2.1399395742415; Tue,
+	06 May 2014 10:02:22 -0700 (PDT)
 MIME-Version: 1.0
-To: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>, 
-	Yocto Project Discussion <yocto@yoctoproject.org>, 
-	"poky@yoctoproject.org" <poky@yoctoproject.org>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>
-Subject: Daisy Stable Branch - open for patch suggestions
+Received: by 10.50.74.228 with HTTP; Tue, 6 May 2014 10:01:52 -0700 (PDT)
+In-Reply-To: <536899F5.1030104@gmail.com>
+References: <536899F5.1030104@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 6 May 2014 10:01:52 -0700
+Message-ID: <CAMKF1sroWHnXGjAZ0qX48+H3DC--q6SefHZT6zUj3WpOPz3Z=g@mail.gmail.com>
+To: =?UTF-8?Q?Bj=C3=B6rn_Krombholz?= <pirobk@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain doesn't compile working binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,30 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 May 2014 16:48:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 May 2014 17:02:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, May 6, 2014 at 1:14 AM, Bj=C3=B6rn Krombholz <pirobk@gmail.com> wro=
+te:
+> Comparing the build with a toolchain created on Jul 30th 2013 (which work=
+s fine) I see one major difference:
 
-[Sorry for the overlap, want to make sure I hit a broad audience]
-
-Hi Everyone!
-
-I will be the stable maintainer for the Daisy branch, and it is now open 
-for suggestions of backport patches.  I am starting to generate a list 
-of patches that are already in master.
-
-The following wiki page has the Policies and process for requesting a 
-fix in a stable branch, please review that before sending a patch.
-
-https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
-
-Please remember to include [daisy] in any request (backport or commit).
-
-We do not have a hard date for this yet, but likely be in late May - 
-early June time frame for the 1.6.1 release.
-
-Thanks to all for your efforts.
-
-Sau!
+what is the delta between the working and non working OE-Core repo
 
