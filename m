@@ -1,40 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4706098B
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
+	[209.85.219.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B1A0260897
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 11:31:15 +0000 (UTC)
-Received: by mail-ee0-f53.google.com with SMTP id c13so630807eek.26
+	Wed,  7 May 2014 11:32:44 +0000 (UTC)
+Received: by mail-oa0-f45.google.com with SMTP id l6so1020675oag.32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 May 2014 04:31:16 -0700 (PDT)
+	Wed, 07 May 2014 04:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=26tlI+edtyO+zYikSvFqXuQ56OKlNHXxX2qU/lw34dU=;
-	b=vsWonHCpmz17r9hrqXu7okXdDXumpUF9quV/n1FJNmh2wjxEBSLfGNQxQHMzeKcJdh
-	zpzzh55t08kOVn/88kCVZDobriTTub0nsOVDu7z1g9HI4LMGJuY97sQOz4kh738HCG9q
-	uYKXy4lRYHRC+H9Ku9Nrg2Mo1R39lY3ARkdbMFIgq5mMm3eJ46+rAD+HZtolDkY4ID0z
-	485YeomS8tbCAXHwbH9DnCRram09lljH2rEMLfzVbPFZzSnFsHc9AYNntz2c9dhycvC+
-	iXbXr/gCDRePLxa5h79pB0nPnStUdyxE5Az8X55t0+MMN4+G26+V7+5DMFAZ6fbNWQG0
-	w9CQ==
-X-Received: by 10.14.126.73 with SMTP id a49mr16996636eei.46.1399462276431;
-	Wed, 07 May 2014 04:31:16 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id a4sm45770365eep.12.2014.05.07.04.31.14
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 07 May 2014 04:31:15 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Wed, 7 May 2014 11:31:13 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Marco <koansoftware@gmail.com>
-Message-ID: <20140507113113.GA26157@gmail.com>
-References: <53679D4E.6060202@gmail.com> <20140505152931.GA26865@gmail.com>
-	<5369E6C1.2090907@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=vflIxIEomAbqWwRu1glBq0WM+X96n5IHnBR3vQL3Gno=;
+	b=BfXdeqLTeshJ00+wvG3ObG6AYusZQAJeST9wkQg6eEHT5pLSOKrgCpeqOo7Xcch70r
+	pyiXJ0phw7L1FCkxXkXd+rCa3QD6hNP8ngmOsULtucZ1HlWGGPBBbsGe82a9gj4FaVWd
+	NRypS12g46hbe3AO+g+lA4eiSGxGI/1Bnqv+ozX3JZDQp/P6pRUpmhgoAjBzHUBrD7mn
+	euQJRRlfyxO2oUVbOzqxtRYmnxWkBpTj/an1+R7Rd+NSRrI2SpCd3AJ7t/5VRDaykIPL
+	cV5P3MIm2sPPnd5hAVH6+okVS0Cp5rGMWHu8EUeFmQ8Nwz7SmrVt5dDUDag3+kVvIYNg
+	G8IQ==
+X-Received: by 10.60.130.195 with SMTP id og3mr22200536oeb.36.1399462365072;
+	Wed, 07 May 2014 04:32:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5369E6C1.2090907@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Upgrade to a package with all its dependency without network
+Received: by 10.182.111.133 with HTTP; Wed, 7 May 2014 04:32:25 -0700 (PDT)
+In-Reply-To: <CAMKF1so0OkCq73JeZGLAQGb5Cn3+ZKwU=GimrW0CAu39BC+6DA@mail.gmail.com>
+References: <CAPybu_2QJ=GXH0Vo_hvAOu-uoj=KDe2ouyQ1EC6pmx6cSKc8TQ@mail.gmail.com>
+	<CAMKF1so0OkCq73JeZGLAQGb5Cn3+ZKwU=GimrW0CAu39BC+6DA@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 7 May 2014 13:32:25 +0200
+Message-ID: <CAPybu_0pX2pw79ukVm4NWQUhT_kbXUJUrjuFuSJuP-HPjBN=yA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: daisy: System crash running grub-efi on 64 bit machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,103 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 11:31:16 -0000
-X-Groupsio-MsgNum: 52925
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 07 May 2014 11:32:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
---AqsLC8rIMeq19msA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I was using dora. But it seems that I was also using all the files
+from grub-efi-native to build the grub binary. Of course this is
+breaking the cross compilation barrier...
 
-On Wed, May 07, 2014 at 09:54:41AM +0200, Marco wrote:
-> Il 05/05/2014 17:29, Paul Barker ha scritto:
-> >On Mon, May 05, 2014 at 04:16:46PM +0200, Marco wrote:
-> >>Hello,
-> >>I need to be able to upgrade to a package with all its dependency chain=
- on a
-> >>target system that does not have access to the network.
-> >>
-> >>I'm trying to understand what may be the best and also the simplest
-> >>solution.
-> >>Perhaps there is already this functionality in OE/Yocto?
-> >>
-> >>I thought to implement a new opkg feture so that I can to generate the =
-list
-> >>of dependencies of a package and then extract the packages from OE/Yocto
-> >>using a script or an application.
-> >
-> >opkg v0.2.x (the latest release series) doesn't really support this beha=
-viour
-> >very well. The caching logic just doesn't work. For example, I have a bo=
-ard
-> >connected at the minute with a feed configured so I tried this:
-> >
-> >     opkg install --download-only ncurses-terminfo
-> >     ifdown eth0
-> >     opkg install ncurses-terminfo
-> >
-> >You'd hope that would pick up the package files from the cache but it do=
-esn't.
-> >So even if you put the files there yourself, you may no have a simple wa=
-y to
-> >install them.
-> >
-> >An interim solution I can see is to put all the packages you want in one
-> >directory then run 'opkg-make-index' from opkg-utils on that directory s=
-o that
-> >it is a complete package feed. Then add that as a source in
-> >/etc/opkg/base-feeds.conf.
-> >
->=20
-> Hi Paul,
-> thank you for answering.
->=20
-> This is exactly the main problem, how to extract all the packages I (or I
-> should say the package itself) want, in one directory.
-> Would be possible to extend opkg with this feature?
->=20
+What is pretty strange is that both my distro and poky uses the same
+compiler 4.8.2. For exactly the same source code, one build with my
+distro gcc via grub-efi-native and the other with the cross compiler I
+get one binary that works and another that crashes the machine.
 
-Yes, a few people have asked for some method of supporting this use-case so=
- we
-definitely want to make it work. Now may not be the best time to work on it=
- as
-the package download code in opkg master is currently in flux and the curre=
-nt
-work needs finishing. I'm hoping to finish tidying this up soon and then th=
-ere
-will be a stable base on which to add this feature.
+Unfortunately I am not an expert on uefi nor grub, so I dont know the
+best way to debug this (except adding printfs...)
 
-I'd suggest filing an enhancement request at
-https://code.google.com/p/opkg/issues/.
+Is the output from virtualbox useful some how? Can anybody else
+reproduce the error?
 
-If you'd like to discuss the details of how this could be implemented within
-opkg or contribute patches yourself then that's best discussed on the opkg
-mailing list at opkg-devel@googlegroups.com.
 
-Cheers,
+Thanks!
 
---=20
-Paul Barker
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+On Tue, May 6, 2014 at 7:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, May 6, 2014 at 6:20 AM, Ricardo Ribalda Delgado
+> <ricardo.ribalda@gmail.com> wrote:
+>>
+>> I have just ported my build system to daisy and I am unable to boot
+>> from grub-efi. As soon as the grub binary is loaded by uefi, the
+>> system freezes. The error can be reproduced on virtualbox.
+>>
+>> Since it is even before the kernel is loaded, and no error message is
+>> given I don't know which will be the easiest way to debug the issue. I
+>> hope that the log message from virtualbox can give you a hint of the
+>> issue: https://gist.github.com/anonymous/7ffd78aa3aada41801fe .
+>>
+>> It could be a toolchain issue, because if I build the same code (even
+>> with the patches) with Debian's gcc everything works as expected.
+>>
+>> If anyone needs the .vdi file I will be more than happy to share it.
+>
+> what was the working release you used before and whats the compiler
+> version on that release
 
---AqsLC8rIMeq19msA
-Content-Type: application/pgp-signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQEcBAEBAgAGBQJTahmBAAoJEBwoJlo7UPQDj0gH/34kwA+rc9B9EaShxZKHgjs3
-iTb8lYUztjOvQxOsRvmoMADuw1gWUhd5Jg4r2YTa+lhT3p5HM//+r3KI+Fc7/vBz
-5WO2B98KcVyFilhVxTsO8ZIwuJPzsMj87o12iUATehPu2n8AUPXkcvPYY8mMaFSw
-OhnAF2R08Z6liwa9CW7Dz4fDNPv/zxrQH8PUaQpbSFIdcOlUMPSZLBxsQq4x5nt5
-JO9stHoBpsDIL5FK+c1X2um8fuWTrFiowbZGwUjSuapz5GhtHTiklbFlLoXLpWJC
-JWhavNO71Wm+MbaSX97hMqfZQAQOQsO4GU6spfysLtV+UXNNZTYJozRN4IHgc4U=
-=7u4N
------END PGP SIGNATURE-----
+-- 
+Ricardo Ribalda
 
---AqsLC8rIMeq19msA--
