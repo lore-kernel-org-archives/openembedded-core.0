@@ -1,32 +1,23 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id AA778601A2;
-	Wed,  7 May 2014 18:43:25 +0000 (UTC)
-Received: by mail-lb0-f173.google.com with SMTP id 10so2001944lbg.32
-	for <multiple recipients>; Wed, 07 May 2014 11:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=TA5x/e+5CMe/AH1clNKtGkUS98tpKfIZTTdkqQKPf4c=;
-	b=i8jb1mXqMFRaVg82jZT5+Apl59H+g9Xc88dlE63j5CgJ9/FWl+kFNXe+OCH3hDjF4n
-	Az9T1W59E2Vyg7kGN6AEmq1sMXe4XW9Yx5DKmMbNFKPYhMQ/+LSrCaLyRoH30zYvRWkF
-	dTOd9qGzCeqBh6VL6f0EPAV8xOUZp9O3evzIxAbvXl9/OK/Br5421Yi/6bUfTfW+ZITf
-	A92IZOoiHNNbC44E/h0HBZF+Tds57+wG6NlP844fS3m8dO8lpeedai9UOR8Br/6DFICT
-	/44Mte0mr6faaYTiDyOAqK0mF0ssOwbNW3t3clCHnWAWJfTKGXp4RmXxjgHA2WHlhGTI
-	uRBg==
-X-Received: by 10.112.135.198 with SMTP id pu6mr3986455lbb.58.1399488206134;
-	Wed, 07 May 2014 11:43:26 -0700 (PDT)
+Return-Path: <petter@technux.se>
+Received: from vsp-authed-04-02.binero.net (vsp-authed02.binero.net
+	[195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 58807601A2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 May 2014 21:20:07 +0000 (UTC)
+Received: from smtp01.binero.se (unknown [195.74.38.28])
+	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Wed,  7 May 2014 23:20:00 +0200 (CEST)
+Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
+	[81.229.90.163]) (Authenticated sender: petter@technux.se)
+	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 042053A141;
+	Wed,  7 May 2014 23:19:52 +0200 (CEST)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 May 2014 23:19:42 +0200
+Message-Id: <cover.1399497346.git.petter@technux.se>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.173.197 with HTTP; Wed, 7 May 2014 11:43:05 -0700 (PDT)
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Wed, 7 May 2014 11:43:05 -0700
-X-Google-Sender-Auth: 3yxTwkdn5qpUIj1ionYxCUXumDY
-Message-ID: <CA+YB3ra_3PswPOi=3O9uU0XRw766G5BeOBACPHVkJUWnV6sspA@mail.gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: OE TSC public meeting 13 May 2014
+Subject: [PATCH 00/13] Remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,42 +30,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 18:43:28 -0000
+X-List-Received-Date: Wed, 07 May 2014 21:20:12 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-There will be a public OpenEmbedded TSC/workgroup IRC meeting on
-Tuesday, 13 May 2014, at 18:00 GMT (11am PDT, 12pm CDT, 2pm EDT, 20:00
-CEST, 19:00 BST).
+Fixes [YOCTO #4497]
 
-If you're interested in discussing long-term technical efforts around
-the OpenEmbedded project please join us on irc.freenode.net in channel
-#oe at the time listed.
+We extend the search path in a number of recipes by setting FILESPATH,
+which is not really desirable since the manner in which we have done it
+can make the recipe harder to bbappend (and we explicitly advise modifying
+FILESPATH this in the manual). These should be changed to use FILESEXTRAPATHS
+to extend the path instead or use a default FILESPATH (e.g. BP, BPN or files).
 
-Possible topics for discussion (based on the last meeting and recent
-mailing list topics):
 
-Issues and solutions discussed at the OEDAM last week, including:
+The following changes since commit 7b78c364b7de901f97cd8dbe56d5e02f545bf3d3:
 
-- Lava
-- ongoing role of the TSC
-- Why is embedded still hard? & RP's email
-- Lune as potential Sato replacement
-- increasing layer quality
-- next+1 release
-- online voting
-- best practices - image deployment, default config
-- wiki/website organization
-- meta-oe quality
-- developer community outreach
-- bug scrub
-- toaster feedback
-- infrastructure
+  cleanup-workdir: Fix crosssdk reference after addition of PN (2014-05-05 09:05:42 +0100)
 
-Minutes from OEDAM will be posted before this public meeting.
+are available in the git repository at:
 
-New topics for discussion are welcome.
+  git://git.yoctoproject.org/poky-contrib petmab/bug/4497
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/bug/4497
+
+Petter Mabäcker (13):
+  systemtap: remove usage of FILESPATH
+  dbus: remove usage of FILESPATH
+  gstreamer: remove unused FILESPATH
+  trace-cmd: remove usage of FILESPATH
+  xorg-lib: remove usage of FILESPATH
+  mesa: remove usage of FILESPATH
+  qemu: remove unused FILESPATH
+  linuxdoc-tools: remove usage of FILESPATH
+  gcc: remove usage of FILESPATH
+  python: remove usage of FILESPATH
+  u-boot: remove unused FILESPATH
+  uclibc: remove usage of FILESPATH
+  eglibc: remove usage of FILESPATH
+
+ meta/recipes-bsp/u-boot/u-boot.inc                 |    1 -
+ meta/recipes-core/dbus/dbus-test_1.6.18.bb         |    2 +-
+ .../fix_for_centos_5.8.patch                       |    0
+ .../eglibc/cross-localedef-native_2.19.bb          |    3 +--
+ meta/recipes-core/eglibc/eglibc_2.19.bb            |    4 +---
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |    2 +-
+ .../0001-Add-eventfd_read-and-eventfd_write.patch  |    0
+ ...nt.c-wtent.c-move-functions-from-utxent.c.patch |    0
+ ...1-atexit_old-Do-not-add-it-to-shared-libc.patch |    0
+ ...brt-Use-nodefaultlibs-instead-of-nostdlib.patch |    0
+ ...-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch |    0
+ ...rk-Hide-pthread_atfork-in-shared-versions.patch |    0
+ .../0002-wire-setns-syscall.patch                  |    0
+ ...tl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch |    0
+ .../0004-Add-clock_adjtime-syscall.patch           |    0
+ .../{uclibc-git => files}/argp-headers.patch       |    0
+ .../{uclibc-git => files}/argp-support.patch       |    0
+ .../compile-arm-fork-with-O2.patch                 |    0
+ .../uclibc/{uclibc-git => files}/locale.cfg        |    0
+ .../uclibc/{uclibc-git => files}/obstack.cfg       |    0
+ .../uclibc/{uclibc-git => files}/orign_path.patch  |    0
+ .../{uclibc-git => files}/powerpc_copysignl.patch  |    0
+ .../remove_attribute_optimize_Os.patch             |    0
+ .../uclibc/{uclibc-git => files}/uClibc.distro     |    0
+ .../uclibc/{uclibc-git => files}/uClibc.machine    |    0
+ .../uclibc_enable_log2_test.patch                  |    0
+ meta/recipes-core/uclibc/uclibc-git.inc            |    4 +---
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |    2 +-
+ .../linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb |    3 +--
+ .../recipes-devtools/python/python-native_2.7.3.bb |    2 +-
+ .../python/python-pygobject_2.28.3.bb              |    2 +-
+ .../qemu/nativesdk-qemu-helper_1.0.bb              |    1 -
+ meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb        |    2 +-
+ meta/recipes-graphics/xorg-lib/libx11.inc          |    2 +-
+ .../{systemtap => files}/docproc-build-fix.patch   |    0
+ .../obsolete_automake_macros.patch                 |    0
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |    2 --
+ .../{trace-cmd => files}/addldflags.patch          |    0
+ .../blktrace-api-compatibility.patch               |    0
+ .../kernelshark-fix-syntax-error-of-shell.patch    |    0
+ .../{trace-cmd => files}/make-docs-optional.patch  |    0
+ ...dd-checks-for-invalid-pointers-to-fix-seg.patch |    0
+ ...o-not-call-stop_threads-if-doing-latency-.patch |    0
+ ...etting-plugin-to-nop-clears-data-before-i.patch |    0
+ .../trace-cmd-fix-syntax-error-of-shell.patch      |    0
+ meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |    2 --
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc  |    2 --
+ .../gstreamer/gstreamer1.0-plugins.inc             |    2 --
+ 48 files changed, 11 insertions(+), 27 deletions(-)
+ rename meta/recipes-core/eglibc/{eglibc-2.19 => cross-localedef-native-2.19}/fix_for_centos_5.8.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0001-Add-eventfd_read-and-eventfd_write.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0001-atexit_old-Do-not-add-it-to-shared-libc.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0002-wire-setns-syscall.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0003-fcntl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/0004-Add-clock_adjtime-syscall.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/argp-headers.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/argp-support.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/compile-arm-fork-with-O2.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/locale.cfg (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/obstack.cfg (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/orign_path.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/powerpc_copysignl.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/remove_attribute_optimize_Os.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/uClibc.distro (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/uClibc.machine (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => files}/uclibc_enable_log2_test.patch (100%)
+ rename meta/recipes-kernel/systemtap/{systemtap => files}/docproc-build-fix.patch (100%)
+ rename meta/recipes-kernel/systemtap/{systemtap => files}/obsolete_automake_macros.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/addldflags.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/blktrace-api-compatibility.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/kernelshark-fix-syntax-error-of-shell.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/make-docs-optional.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch (100%)
+ rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-fix-syntax-error-of-shell.patch (100%)
 
 -- 
-Jeff Osier-Mixon @Intel
-Yocto Project Community Manager http://yoctoproject.org
+1.7.9.5
+
 
