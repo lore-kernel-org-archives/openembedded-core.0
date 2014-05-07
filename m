@@ -1,35 +1,23 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B1A0260897
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 5C7FA606E0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 11:32:44 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id l6so1020675oag.32
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 May 2014 04:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vflIxIEomAbqWwRu1glBq0WM+X96n5IHnBR3vQL3Gno=;
-	b=BfXdeqLTeshJ00+wvG3ObG6AYusZQAJeST9wkQg6eEHT5pLSOKrgCpeqOo7Xcch70r
-	pyiXJ0phw7L1FCkxXkXd+rCa3QD6hNP8ngmOsULtucZ1HlWGGPBBbsGe82a9gj4FaVWd
-	NRypS12g46hbe3AO+g+lA4eiSGxGI/1Bnqv+ozX3JZDQp/P6pRUpmhgoAjBzHUBrD7mn
-	euQJRRlfyxO2oUVbOzqxtRYmnxWkBpTj/an1+R7Rd+NSRrI2SpCd3AJ7t/5VRDaykIPL
-	cV5P3MIm2sPPnd5hAVH6+okVS0Cp5rGMWHu8EUeFmQ8Nwz7SmrVt5dDUDag3+kVvIYNg
-	G8IQ==
-X-Received: by 10.60.130.195 with SMTP id og3mr22200536oeb.36.1399462365072;
-	Wed, 07 May 2014 04:32:45 -0700 (PDT)
+	Wed,  7 May 2014 12:24:17 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Wed, 7 May 2014
+	14:24:16 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id AF82028C882;
+	Wed,  7 May 2014 14:24:16 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 May 2014 14:24:15 +0200
+Message-ID: <1399465455-58463-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.182.111.133 with HTTP; Wed, 7 May 2014 04:32:25 -0700 (PDT)
-In-Reply-To: <CAMKF1so0OkCq73JeZGLAQGb5Cn3+ZKwU=GimrW0CAu39BC+6DA@mail.gmail.com>
-References: <CAPybu_2QJ=GXH0Vo_hvAOu-uoj=KDe2ouyQ1EC6pmx6cSKc8TQ@mail.gmail.com>
-	<CAMKF1so0OkCq73JeZGLAQGb5Cn3+ZKwU=GimrW0CAu39BC+6DA@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 7 May 2014 13:32:25 +0200
-Message-ID: <CAPybu_0pX2pw79ukVm4NWQUhT_kbXUJUrjuFuSJuP-HPjBN=yA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: daisy: System crash running grub-efi on 64 bit machine
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] libxml2: fix CVE-2014-0191
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,51 +30,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 11:32:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 07 May 2014 12:24:21 -0000
+Content-Type: text/plain
 
-I was using dora. But it seems that I was also using all the files
-from grub-efi-native to build the grub binary. Of course this is
-breaking the cross compilation barrier...
+From: "Maxin B. John" <maxin.john@enea.com>
 
-What is pretty strange is that both my distro and poky uses the same
-compiler 4.8.2. For exactly the same source code, one build with my
-distro gcc via grub-efi-native and the other with the cross compiler I
-get one binary that works and another that crashes the machine.
+It was discovered that libxml2, a library providing support to read,
+modify and write XML files, incorrectly performs entity substituton in
+the doctype prolog, even if the application using libxml2 disabled any
+entity substitution. A remote attacker could provide a
+specially-crafted XML file that, when processed, would lead to the
+exhaustion of CPU and memory resources or file descriptors.
 
-Unfortunately I am not an expert on uefi nor grub, so I dont know the
-best way to debug this (except adding printfs...)
+Reference: https://access.redhat.com/security/cve/CVE-2014-0191
 
-Is the output from virtualbox useful some how? Can anybody else
-reproduce the error?
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-core/libxml/libxml2.inc               |    1 +
+ .../libxml/libxml2/libxml2-CVE-2014-0191-fix.patch |   37 ++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-0191-fix.patch
 
-
-Thanks!
-
-
-On Tue, May 6, 2014 at 7:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, May 6, 2014 at 6:20 AM, Ricardo Ribalda Delgado
-> <ricardo.ribalda@gmail.com> wrote:
->>
->> I have just ported my build system to daisy and I am unable to boot
->> from grub-efi. As soon as the grub binary is loaded by uefi, the
->> system freezes. The error can be reproduced on virtualbox.
->>
->> Since it is even before the kernel is loaded, and no error message is
->> given I don't know which will be the easiest way to debug the issue. I
->> hope that the log message from virtualbox can give you a hint of the
->> issue: https://gist.github.com/anonymous/7ffd78aa3aada41801fe .
->>
->> It could be a toolchain issue, because if I build the same code (even
->> with the patches) with Debian's gcc everything works as expected.
->>
->> If anyone needs the .vdi file I will be more than happy to share it.
->
-> what was the working release you used before and whats the compiler
-> version on that release
-
-
-
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 7fb2644..60bb6b8 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -18,6 +18,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://ansidecl.patch \
+            file://runtest.patch \
+            file://run-ptest \
++           file://libxml2-CVE-2014-0191-fix.patch \
+           "
+ 
+ inherit autotools pkgconfig binconfig pythonnative ptest
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-0191-fix.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-0191-fix.patch
+new file mode 100644
+index 0000000..1c05ae6
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-0191-fix.patch
+@@ -0,0 +1,37 @@
++From: Daniel Veillard <veillard@redhat.com>
++Date: Tue, 22 Apr 2014 15:30:56 +0800
++Subject: Do not fetch external parameter entities
++
++Unless explicitely asked for when validating or replacing entities
++with their value. Problem pointed out by Daniel Berrange <berrange@redhat.com>
++
++Upstream-Status: Backport
++Reference: https://access.redhat.com/security/cve/CVE-2014-0191
++
++Signed-off-by: Daniel Veillard <veillard@redhat.com>
++Signed-off-by: Maxin B. John <maxin.john@enea.com>
++---
++diff -Naur libxml2-2.9.1-orig/parser.c libxml2-2.9.1/parser.c
++--- libxml2-2.9.1-orig/parser.c	2013-04-16 15:39:18.000000000 +0200
+++++ libxml2-2.9.1/parser.c	2014-05-07 13:35:46.883687946 +0200
++@@ -2595,6 +2595,20 @@
++ 		    xmlCharEncoding enc;
++ 
++ 		    /*
+++		     * Note: external parsed entities will not be loaded, it is
+++		     * not required for a non-validating parser, unless the
+++		     * option of validating, or substituting entities were
+++		     * given. Doing so is far more secure as the parser will
+++		     * only process data coming from the document entity by
+++		     * default.
+++		     */
+++                    if ((entity->etype == XML_EXTERNAL_PARAMETER_ENTITY) &&
+++		        ((ctxt->options & XML_PARSE_NOENT) == 0) &&
+++			((ctxt->options & XML_PARSE_DTDVALID) == 0) &&
+++			(ctxt->validate == 0))
+++			return;
+++
+++		    /*
++ 		     * handle the extra spaces added before and after
++ 		     * c.f. http://www.w3.org/TR/REC-xml#as-PE
++ 		     * this is done independently.
 -- 
-Ricardo Ribalda
+1.7.10.4
+
 
