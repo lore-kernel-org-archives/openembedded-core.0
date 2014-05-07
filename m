@@ -1,27 +1,27 @@
 Return-Path: <petter@technux.se>
-Received: from vsp-authed-02-02.binero.net (vsp-authed02.binero.net
+Received: from vsp-authed-03-02.binero.net (vsp-authed02.binero.net
 	[195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4E765F34
+	by mail.openembedded.org (Postfix) with ESMTP id 0F5F965F3A
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 May 2014 21:20:20 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-02-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Wed,  7 May 2014 23:20:21 +0200 (CEST)
+	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Wed,  7 May 2014 23:20:33 +0200 (CEST)
 Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
 	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id C899D3A152;
+	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 7901C3A149;
 	Wed,  7 May 2014 23:20:13 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 May 2014 23:19:50 +0200
-Message-Id: <699098e9da6b5932cce137031ad8dc3604d949a3.1399497346.git.petter@technux.se>
+Date: Wed,  7 May 2014 23:19:49 +0200
+Message-Id: <a98bd6e1e24cbea2755002af23a0de5f72f8e22c.1399497346.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <b481b46603ad2ee97a9cc55890293e24db85b8e7.1399497346.git.petter@technux.se>
 References: <b481b46603ad2ee97a9cc55890293e24db85b8e7.1399497346.git.petter@technux.se>
 In-Reply-To: <cover.1399497346.git.petter@technux.se>
 References: <cover.1399497346.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCH 04/13] trace-cmd: remove usage of FILESPATH
+Subject: [PATCH 03/13] gstreamer: remove unused FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,75 +41,42 @@ Content-Transfer-Encoding: 8bit
 Fixes [YOCTO #4497]
 
 Usage of FILESPATH is discouraged, since it can make recipes harder to
-bbappend. All current patches in trace-cmd are shared, move them to
-files instead, since it's included in base FILESPATH.
+bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+However in gstreamer no FILESPATH additions are currently needed so
+instead it should be removed.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- .../{trace-cmd => files}/addldflags.patch          |    0
- .../blktrace-api-compatibility.patch               |    0
- .../kernelshark-fix-syntax-error-of-shell.patch    |    0
- .../{trace-cmd => files}/make-docs-optional.patch  |    0
- ...dd-checks-for-invalid-pointers-to-fix-seg.patch |    0
- ...o-not-call-stop_threads-if-doing-latency-.patch |    0
- ...etting-plugin-to-nop-clears-data-before-i.patch |    0
- .../trace-cmd-fix-syntax-error-of-shell.patch      |    0
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |    2 --
- 9 files changed, 2 deletions(-)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/addldflags.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/blktrace-api-compatibility.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/kernelshark-fix-syntax-error-of-shell.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/make-docs-optional.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch (100%)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => files}/trace-cmd-fix-syntax-error-of-shell.patch (100%)
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc  |    2 --
+ .../gstreamer/gstreamer1.0-plugins.inc             |    2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch b/meta/recipes-kernel/trace-cmd/files/addldflags.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
-rename to meta/recipes-kernel/trace-cmd/files/addldflags.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/blktrace-api-compatibility.patch b/meta/recipes-kernel/trace-cmd/files/blktrace-api-compatibility.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/blktrace-api-compatibility.patch
-rename to meta/recipes-kernel/trace-cmd/files/blktrace-api-compatibility.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/files/kernelshark-fix-syntax-error-of-shell.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-rename to meta/recipes-kernel/trace-cmd/files/kernelshark-fix-syntax-error-of-shell.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch b/meta/recipes-kernel/trace-cmd/files/make-docs-optional.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/make-docs-optional.patch
-rename to meta/recipes-kernel/trace-cmd/files/make-docs-optional.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch b/meta/recipes-kernel/trace-cmd/files/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch
-rename to meta/recipes-kernel/trace-cmd/files/trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch b/meta/recipes-kernel/trace-cmd/files/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch
-rename to meta/recipes-kernel/trace-cmd/files/trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch b/meta/recipes-kernel/trace-cmd/files/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch
-rename to meta/recipes-kernel/trace-cmd/files/trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/files/trace-cmd-fix-syntax-error-of-shell.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/trace-cmd-fix-syntax-error-of-shell.patch
-rename to meta/recipes-kernel/trace-cmd/files/trace-cmd-fix-syntax-error-of-shell.patch
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index d61097d..291c068 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -21,8 +21,6 @@ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+index b2d3d3c..2697609 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+@@ -6,8 +6,6 @@ DEPENDS = "gstreamer"
  
- EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
+ inherit autotools pkgconfig
  
--FILESPATH = "${FILE_DIRNAME}/trace-cmd"
+-FILESPATH =. "${FILE_DIRNAME}/gst-plugins:"
 -
- do_install() {
- 	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
- 	rm -rf ${D}${datadir}/trace-cmd
+ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2"
+ 
+ GSTREAMER_DEBUG ?= "--disable-debug"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index 4ab8ea8..687aa2f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -6,8 +6,6 @@ DEPENDS = "gstreamer1.0"
+ 
+ inherit autotools pkgconfig
+ 
+-FILESPATH =. "${FILE_DIRNAME}/gst-plugins:"
+-
+ GSTREAMER_1_0_DEBUG ?= "--disable-debug"
+ GSTREAMER_1_0_GIT_BRANCH ?= "master"
+ EXTRA_OECONF = "--disable-valgrind ${GSTREAMER_1_0_DEBUG} --disable-examples "
 -- 
 1.7.9.5
 
