@@ -1,32 +1,26 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A62A601A8
+Return-Path: <changhyeok.bae@lge.com>
+X-Greylist: delayed 899 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 07 May 2014 04:24:46 UTC
+Received: from lgeamrelo02.lge.com (lgeamrelo02.lge.com [156.147.1.126])
+	by mail.openembedded.org (Postfix) with ESMTP id ED654601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 03:34:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s473Yb93024614
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 May 2014 20:34:37 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.52]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0169.001;
-	Tue, 6 May 2014 20:34:36 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
+	Wed,  7 May 2014 04:24:46 +0000 (UTC)
+Received: from unknown (HELO CHBae0915) (10.196.7.105)
+	by 156.147.1.126 with ESMTP; 7 May 2014 13:09:46 +0900
+X-Original-SENDERIP: 10.196.7.105
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: "Changhyeok Bae" <changhyeok.bae@lge.com>
+To: "'Saul Wold'" <sgw@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] setserial: package depends on groff-native to build
-Thread-Index: AQHPSMgxL62sAtcjdE+Zs5vepFH3dJs0uGkg
-Date: Wed, 7 May 2014 03:34:35 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AAB64778E0@ALA-MBB.corp.ad.wrs.com>
-References: <1395820331-20426-1-git-send-email-jackie.huang@windriver.com>
-In-Reply-To: <1395820331-20426-1-git-send-email-jackie.huang@windriver.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.200]
+References: <1398609887-20141-1-git-send-email-changhyeok.bae@lge.com>
+	<5363F517.3050806@linux.intel.com>
+In-Reply-To: <5363F517.3050806@linux.intel.com>
+Date: Wed, 7 May 2014 13:10:08 +0900
+Message-ID: <000601cf69aa$3bb1ab50$b31501f0$@lge.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] setserial: package depends on groff-native to build
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQC/ZGBwgoxL5wfDCrDzjCEc038GFgIbrrLQnUOtLgA=
+Subject: Re: [PATCH v6] mirrors.bbclass: Add mirror site for savannah
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,49 +33,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 03:34:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 May 2014 04:24:52 -0000
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Language: ko
 
-Ping, can someone merge this?
+Hi Sau
 
-Thanks,
-Jackie
+How about maintaining SAVANNAH_GNU_MIRROR and SAVANNA_NOGNU_MIRROR?
+However, I think that it's fine to add same mirror site
+(http://download-mirror.savannah.gnu.org/releases/)
+for SAVANNAH_GNU_MIRROR and SAVANNA_NOGNU_MIRROR?
 
-> -----Original Message-----
-> From: jackie.huang@windriver.com [mailto:jackie.huang@windriver.com]
-> Sent: Wednesday, March 26, 2014 3:52 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Huang, Jie (Jackie)
-> Subject: [PATCH] setserial: package depends on groff-native to build
->=20
-> From: Yue Tao <Yue.Tao@windriver.com>
->=20
-> Signed-off-by: Jonas Zetterberg <jonas.zetterberg@windriver.com>
-> Signed-off-by: Yue Tao <yue.tao@windriver.com>
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+On 04/27/2014 07:44 AM, Changhyeok Bae wrote:
+> * The SRC_URI is not accessible.
+>    So need to add mirror site referred by the original site.
+> * The problem is that
+>    http://download.savannah.gnu.org/releases redirects to closest mirror
+>    and few mirrors (e.g. .jp) weren't working correctly while
+>    http://download-mirror.savannah.gnu.org/releases/ seems to be reliable.
+> * Add SAVANNAH_MIRROR variable in bitbake.conf.
+> * Change the SRC_URI using the new variable.
+>
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@lge.com>
 > ---
->  meta/recipes-bsp/setserial/setserial_2.17.bb |    2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-
-> bsp/setserial/setserial_2.17.bb
-> index 65d6068..f1e8cd3 100644
-> --- a/meta/recipes-bsp/setserial/setserial_2.17.bb
-> +++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
-> @@ -8,6 +8,8 @@ LICENSE =3D "GPLv2.0"
->  LIC_FILES_CHKSUM =3D
-> "file://version.h;beginline=3D1;endline=3D6;md5=3D2e7c59cb9e57e356ae81f50=
-f4e4dfd99"
->  PR =3D "r3"
->=20
-> +DEPENDS +=3D "groff-native"
-> +
->  inherit autotools-brokensep
->=20
->  SRC_URI =3D "${SOURCEFORGE_MIRROR}/setserial/${BPN}-${PV}.tar.gz \
-> --
-> 1.7.9.5
+>   meta/classes/mirrors.bbclass                      |    1 +
+>   meta/conf/bitbake.conf                            |    1 +
+>   meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb    |    2 +-
+>   meta/recipes-devtools/dmidecode/dmidecode_2.12.bb |    2 +-
+>   meta/recipes-devtools/quilt/quilt-0.61.inc        |    2 +-
+>   meta/recipes-extended/ed/ed_0.5.bb                |    2 +-
+>   meta/recipes-extended/texi2html/texi2html_5.0.bb  |    2 +-
+>   meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb     |    2 +-
+>   meta/recipes-support/attr/acl.inc                 |    2 +-
+>   meta/recipes-support/attr/attr.inc                |    2 +-
+>   10 files changed, 10 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta/classes/mirrors.bbclass 
+> b/meta/classes/mirrors.bbclass index 1fd7cd8..4091a19 100644
+> --- a/meta/classes/mirrors.bbclass
+> +++ b/meta/classes/mirrors.bbclass
+> @@ -45,6 +45,7 @@ ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/
+ftp://sunsite.ualberta.ca/pub/M
+>   ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/
+ftp://the.wiretapped.net/pub/security/host-security/lsof/ \n \
+>   http://www.apache.org/dist  http://archive.apache.org/dist \n \
+>   http://downloads.sourceforge.net/watchdog/ 
+> http://fossies.org/linux/misc/ \n \
+> +${SAVANNAH_MIRROR} http://download-mirror.savannah.gnu.org/releases 
+> +\n \
+>   cvs://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+>   svn://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+>   git://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf index 
+> b3786a7..fc3f988 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -568,6 +568,7 @@ KERNELORG_MIRROR = "http://kernel.org/pub"
+>   SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
+>   XLIBS_MIRROR = "http://xlibs.freedesktop.org/release"
+>   XORG_MIRROR = "http://xorg.freedesktop.org/releases"
+> +SAVANNAH_MIRROR = "http://download.savannah.gnu.org/releases"
+>
+I may have been unclear in my request, we should have both a
+SAVANNAH_GNU_MIRROR and a SAVANNAH_NONGNU_MIRROR that point to their
+respective downloads area (gnu and nongnu) and then adjust the SRC_URI below
+appropriately.
+
+Otherwise download areas change and can cause problems for caches and other
+tools.
+
+Thanks
+	Sau!
+
+>   # You can use the mirror of your country to get faster downloads by
+putting
+>   #  export DEBIAN_MIRROR = "ftp://ftp.de.debian.org/debian/pool"
+> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb 
+> b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> index 34e0a54..6841d6f 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> @@ -9,7 +9,7 @@ PR = "r13"
+>
+>   RDEPENDS_${PN} = "${PN}-inittab"
+>
+> -SRC_URI = 
+> "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvini
+> t-${PV}.tar.bz2 \
+> +SRC_URI = "${SAVANNAH_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
+>              file://install.patch \
+>              file://crypt-lib.patch \
+>              file://pidof-add-m-option.patch \ diff --git 
+> a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb 
+> b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
+> index 61779fe..1a5c8e2 100644
+> --- a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
+> +++ b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.nongnu.org/dmidecode/"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+>
+> -SRC_URI = "http://savannah.nongnu.org/download/dmidecode/${BP}.tar.bz2"
+> +SRC_URI = "${SAVANNAH_MIRROR}/dmidecode/${BP}.tar.bz2"
+>
+>   COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc).*-linux"
+>
+> diff --git a/meta/recipes-devtools/quilt/quilt-0.61.inc 
+> b/meta/recipes-devtools/quilt/quilt-0.61.inc
+> index 4d915bf..79285e0 100644
+> --- a/meta/recipes-devtools/quilt/quilt-0.61.inc
+> +++ b/meta/recipes-devtools/quilt/quilt-0.61.inc
+> @@ -4,7 +4,7 @@ SECTION = "devel"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>
+> -SRC_URI = 
+> "http://download.savannah.gnu.org/releases/quilt/quilt-${PV}.tar.gz \
+> +SRC_URI = "${SAVANNAH_MIRROR}/quilt/quilt-${PV}.tar.gz \
+>           file://install.patch \
+>           file://run-ptest \
+>           file://Makefile \
+> diff --git a/meta/recipes-extended/ed/ed_0.5.bb 
+> b/meta/recipes-extended/ed/ed_0.5.bb
+> index a696c0c..12476de 100644
+> --- a/meta/recipes-extended/ed/ed_0.5.bb
+> +++ b/meta/recipes-extended/ed/ed_0.5.bb
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =
+"file://COPYING;md5=6ddd5335ef96fb858a138230af773710 \
+>
+file://main.c;beginline=1;endline=17;md5=36d4b85e5ae9028e918d1cc775c2475e"
+>
+>   PR = "r2"
+> -SRC_URI =
+"http://download.savannah.gnu.org/releases-noredirect/ed/ed-${PV}.tar.bz2"
+> +SRC_URI = "${SAVANNAH_MIRROR}/ed/ed-${PV}.tar.bz2"
+>
+>   SRC_URI[md5sum] = "4ee21e9dcc9b5b6012c23038734e1632"
+>   SRC_URI[sha256sum] =
+"edef2bbde0fbf0d88232782a0eded323f483a0519d6fde9a3b1809056fd35f3e"
+> diff --git a/meta/recipes-extended/texi2html/texi2html_5.0.bb 
+> b/meta/recipes-extended/texi2html/texi2html_5.0.bb
+> index a22b981..b991fc6 100644
+> --- a/meta/recipes-extended/texi2html/texi2html_5.0.bb
+> +++ b/meta/recipes-extended/texi2html/texi2html_5.0.bb
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =
+"file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+>
+>   PR = "r2"
+>
+> -SRC_URI     =
+"http://download.savannah.gnu.org/releases/texi2html/${BPN}-${PV}.tar.bz2 \
+> +SRC_URI     = "${SAVANNAH_MIRROR}/texi2html/${BPN}-${PV}.tar.bz2 \
+>                  file://fix_gettext_version.patch"
+>
+>   SRC_URI[md5sum] = "f15ac876fcdc8be865b16535f480aa54"
+> diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb 
+> b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+> index f124be9..a4924e9 100644
+> --- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+> +++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = 
+> "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>
+>   DEPENDS = "gtk+ intltool-native"
+>   DEPENDS_append_poky = " libowl"
+> -SRC_URI = 
+> "http://savannah.nongnu.org/download/${BPN}/${BPN}-${PV}.tar.gz \
+> +SRC_URI = "${SAVANNAH_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+>   	   file://leafpad.desktop"
+>
+>   SRC_URI[md5sum] = "254a72fc67505e3aa52884c729cd7b97"
+> diff --git a/meta/recipes-support/attr/acl.inc 
+> b/meta/recipes-support/attr/acl.inc
+> index 355dbdd..81a2f17 100644
+> --- a/meta/recipes-support/attr/acl.inc
+> +++ b/meta/recipes-support/attr/acl.inc
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =
+"file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
+>
+file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
+>
+>   DEPENDS = "attr"
+> -SRC_URI = 
+> "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz \
+> +SRC_URI = "${SAVANNAH_MIRROR}/acl/${BP}.src.tar.gz \
+>              file://run-ptest \
+>              file://acl-fix-the-order-of-expected-output-of-getfacl.patch
+\
+>   "
+> diff --git a/meta/recipes-support/attr/attr.inc 
+> b/meta/recipes-support/attr/attr.inc
+> index 873c1ff..266bf61 100644
+> --- a/meta/recipes-support/attr/attr.inc
+> +++ b/meta/recipes-support/attr/attr.inc
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
+"file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
+>
+file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
+>
+file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb"
+>
+> -SRC_URI = 
+> "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
+> +SRC_URI = "${SAVANNAH_MIRROR}/attr/${BP}.src.tar.gz \
+>              file://run-ptest \
+>   "
+>
+>
 
 
