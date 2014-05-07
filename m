@@ -1,36 +1,40 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C001609BF
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id EC4706098B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 11:23:42 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id p9so1092032lbv.25
+	Wed,  7 May 2014 11:31:15 +0000 (UTC)
+Received: by mail-ee0-f53.google.com with SMTP id c13so630807eek.26
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 May 2014 04:23:42 -0700 (PDT)
+	Wed, 07 May 2014 04:31:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6jNCkxbubzdKXnS7azWmVNM0eaxOana1BCk5kXib5Kg=;
-	b=JmgyIF3BM2Qal7IkPVBQn+qJ7HQNpsahfJZQPqtxl35xlec5p/HJmcda/ok5/BLk0d
-	dxxrlpIT9SSgyRqzvGKsbJCM36zWO/FvOO6fTQIKlltKWZHPqd1PW+Fdk8MhoZ3msi7i
-	5MJ4VoEICyU4RQYS22CGEz/0Rsf+XBFUj9UOJNkfPlZliwBH0vDuOKlOKsfDF+2TMWXJ
-	wAGYKhlRHHbaD4U7ydAhH1CH08CZ3b9aXfMbaZWYWMzXUbIxQo3ZrOuK40tvRtD05zyT
-	b2MM4j7ZWy63LzmL/LK1l8OaSNxZneluygZBTMvlCKb12+MvzF3AUzTbQoom46V2ymFf
-	cf2Q==
-X-Received: by 10.112.164.148 with SMTP id yq20mr40191905lbb.22.1399461822377; 
-	Wed, 07 May 2014 04:23:42 -0700 (PDT)
-Received: from neopili.qtec.com (0x4dd4aed9.adsl.cybercity.dk.
-	[77.212.174.217])
-	by mx.google.com with ESMTPSA id vr5sm1490773lbb.21.2014.05.07.04.23.39
+	h=sender:date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=26tlI+edtyO+zYikSvFqXuQ56OKlNHXxX2qU/lw34dU=;
+	b=vsWonHCpmz17r9hrqXu7okXdDXumpUF9quV/n1FJNmh2wjxEBSLfGNQxQHMzeKcJdh
+	zpzzh55t08kOVn/88kCVZDobriTTub0nsOVDu7z1g9HI4LMGJuY97sQOz4kh738HCG9q
+	uYKXy4lRYHRC+H9Ku9Nrg2Mo1R39lY3ARkdbMFIgq5mMm3eJ46+rAD+HZtolDkY4ID0z
+	485YeomS8tbCAXHwbH9DnCRram09lljH2rEMLfzVbPFZzSnFsHc9AYNntz2c9dhycvC+
+	iXbXr/gCDRePLxa5h79pB0nPnStUdyxE5Az8X55t0+MMN4+G26+V7+5DMFAZ6fbNWQG0
+	w9CQ==
+X-Received: by 10.14.126.73 with SMTP id a49mr16996636eei.46.1399462276431;
+	Wed, 07 May 2014 04:31:16 -0700 (PDT)
+Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id a4sm45770365eep.12.2014.05.07.04.31.14
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 07 May 2014 04:23:39 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
-	richard.purdie@linuxfoundation.org
-Date: Wed,  7 May 2014 13:23:35 +0200
-Message-Id: <1399461815-6753-1-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.0.0.rc0
-Subject: [PATCH] package_manager: Fix NoneType Object on do_populate_sdk
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 May 2014 04:31:15 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+Date: Wed, 7 May 2014 11:31:13 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Marco <koansoftware@gmail.com>
+Message-ID: <20140507113113.GA26157@gmail.com>
+References: <53679D4E.6060202@gmail.com> <20140505152931.GA26865@gmail.com>
+	<5369E6C1.2090907@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <5369E6C1.2090907@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Upgrade to a package with all its dependency without network
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,45 +47,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 11:23:47 -0000
+X-List-Received-Date: Wed, 07 May 2014 11:31:16 -0000
+X-Groupsio-MsgNum: 52925
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
+Content-Disposition: inline
 
-PACKAGE_EXCLUDE can be not defined or empty, leading to a build error.
+--AqsLC8rIMeq19msA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-File: '/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/lib/oe/package_manager.py', lineno: 1649, function: _create_configs
-     1645:                    "Pin-Priority: %d\n\n" % (arch, priority))
-     1646:
-     1647:                priority += 5
-     1648:
- *** 1649:            for pkg in self.d.getVar('PACKAGE_EXCLUDE', True).split():
-     1650:                prefs_file.write(
-     1651:                    "Package: %s\n"
-     1652:                    "Pin: release *\n"
-     1653:                    "Pin-Priority: -1\n\n" % pkg)
-Exception: AttributeError: 'NoneType' object has no attribute 'split'
+On Wed, May 07, 2014 at 09:54:41AM +0200, Marco wrote:
+> Il 05/05/2014 17:29, Paul Barker ha scritto:
+> >On Mon, May 05, 2014 at 04:16:46PM +0200, Marco wrote:
+> >>Hello,
+> >>I need to be able to upgrade to a package with all its dependency chain=
+ on a
+> >>target system that does not have access to the network.
+> >>
+> >>I'm trying to understand what may be the best and also the simplest
+> >>solution.
+> >>Perhaps there is already this functionality in OE/Yocto?
+> >>
+> >>I thought to implement a new opkg feture so that I can to generate the =
+list
+> >>of dependencies of a package and then extract the packages from OE/Yocto
+> >>using a script or an application.
+> >
+> >opkg v0.2.x (the latest release series) doesn't really support this beha=
+viour
+> >very well. The caching logic just doesn't work. For example, I have a bo=
+ard
+> >connected at the minute with a feed configured so I tried this:
+> >
+> >     opkg install --download-only ncurses-terminfo
+> >     ifdown eth0
+> >     opkg install ncurses-terminfo
+> >
+> >You'd hope that would pick up the package files from the cache but it do=
+esn't.
+> >So even if you put the files there yourself, you may no have a simple wa=
+y to
+> >install them.
+> >
+> >An interim solution I can see is to put all the packages you want in one
+> >directory then run 'opkg-make-index' from opkg-utils on that directory s=
+o that
+> >it is a complete package feed. Then add that as a source in
+> >/etc/opkg/base-feeds.conf.
+> >
+>=20
+> Hi Paul,
+> thank you for answering.
+>=20
+> This is exactly the main problem, how to extract all the packages I (or I
+> should say the package itself) want, in one directory.
+> Would be possible to extend opkg with this feature?
+>=20
 
-ERROR: Function failed: do_populate_sdk
-ERROR: Logfile of failure stored in: /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.21363
-NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- meta/lib/oe/package_manager.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Yes, a few people have asked for some method of supporting this use-case so=
+ we
+definitely want to make it work. Now may not be the best time to work on it=
+ as
+the package download code in opkg master is currently in flux and the curre=
+nt
+work needs finishing. I'm hoping to finish tidying this up soon and then th=
+ere
+will be a stable base on which to add this feature.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index a8360fe..b33ee60 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1637,7 +1637,8 @@ class DpkgPM(PackageManager):
- 
-                 priority += 5
- 
--            for pkg in self.d.getVar('PACKAGE_EXCLUDE', True).split():
-+            pkg_exclude = self.d.getVar('PACKAGE_EXCLUDE', True) or ""
-+            for pkg in pkg_exclude:
-                 prefs_file.write(
-                     "Package: %s\n"
-                     "Pin: release *\n"
--- 
-2.0.0.rc0
+I'd suggest filing an enhancement request at
+https://code.google.com/p/opkg/issues/.
 
+If you'd like to discuss the details of how this could be implemented within
+opkg or contribute patches yourself then that's best discussed on the opkg
+mailing list at opkg-devel@googlegroups.com.
 
+Cheers,
+
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--AqsLC8rIMeq19msA
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJTahmBAAoJEBwoJlo7UPQDj0gH/34kwA+rc9B9EaShxZKHgjs3
+iTb8lYUztjOvQxOsRvmoMADuw1gWUhd5Jg4r2YTa+lhT3p5HM//+r3KI+Fc7/vBz
+5WO2B98KcVyFilhVxTsO8ZIwuJPzsMj87o12iUATehPu2n8AUPXkcvPYY8mMaFSw
+OhnAF2R08Z6liwa9CW7Dz4fDNPv/zxrQH8PUaQpbSFIdcOlUMPSZLBxsQq4x5nt5
+JO9stHoBpsDIL5FK+c1X2um8fuWTrFiowbZGwUjSuapz5GhtHTiklbFlLoXLpWJC
+JWhavNO71Wm+MbaSX97hMqfZQAQOQsO4GU6spfysLtV+UXNNZTYJozRN4IHgc4U=
+=7u4N
+-----END PGP SIGNATURE-----
+
+--AqsLC8rIMeq19msA--
