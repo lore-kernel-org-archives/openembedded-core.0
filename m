@@ -1,27 +1,27 @@
 Return-Path: <petter@technux.se>
 Received: from vsp-authed-03-02.binero.net (vsp-authed02.binero.net
 	[195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F5F965F3A
+	by mail.openembedded.org (Postfix) with ESMTP id 1044065F49
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 May 2014 21:20:20 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
 	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Wed,  7 May 2014 23:20:33 +0200 (CEST)
+	Wed,  7 May 2014 23:20:35 +0200 (CEST)
 Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
 	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 7901C3A149;
-	Wed,  7 May 2014 23:20:13 +0200 (CEST)
+	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 6175A3A154;
+	Wed,  7 May 2014 23:20:14 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 May 2014 23:19:49 +0200
-Message-Id: <a98bd6e1e24cbea2755002af23a0de5f72f8e22c.1399497346.git.petter@technux.se>
+Date: Wed,  7 May 2014 23:19:52 +0200
+Message-Id: <ef46a93d3cc0aba1ae86b5c78c29374b0e9eacd5.1399497346.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <b481b46603ad2ee97a9cc55890293e24db85b8e7.1399497346.git.petter@technux.se>
 References: <b481b46603ad2ee97a9cc55890293e24db85b8e7.1399497346.git.petter@technux.se>
 In-Reply-To: <cover.1399497346.git.petter@technux.se>
 References: <cover.1399497346.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCH 03/13] gstreamer: remove unused FILESPATH
+Subject: [PATCH 06/13] mesa: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +42,27 @@ Fixes [YOCTO #4497]
 
 Usage of FILESPATH is discouraged, since it can make recipes harder to
 bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
-However in gstreamer no FILESPATH additions are currently needed so
-instead it should be removed.
+Avoid using files dir in mesa, since current patchdirs are only shared
+between some of the bb-files. Also remove unused filespath addition.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/recipes-multimedia/gstreamer/gst-plugins.inc  |    2 --
- .../gstreamer/gstreamer1.0-plugins.inc             |    2 --
- 2 files changed, 4 deletions(-)
+ meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-index b2d3d3c..2697609 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-@@ -6,8 +6,6 @@ DEPENDS = "gstreamer"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+index 8c7d8e8..9059207 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+@@ -2,7 +2,7 @@ require mesa_${PV}.bb
  
- inherit autotools pkgconfig
+ SUMMARY += " (OpenGL only, no EGL/GLES)"
  
--FILESPATH =. "${FILE_DIRNAME}/gst-plugins:"
--
- SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2"
+-FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/mesa-${PV}", "${FILE_DIRNAME}/mesa"], d)}"
++FILESEXTRAPATHS_prepend := "${THISDIR}/mesa:"
  
- GSTREAMER_DEBUG ?= "--disable-debug"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index 4ab8ea8..687aa2f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -6,8 +6,6 @@ DEPENDS = "gstreamer1.0"
+ PROVIDES = "virtual/libgl virtual/mesa"
  
- inherit autotools pkgconfig
- 
--FILESPATH =. "${FILE_DIRNAME}/gst-plugins:"
--
- GSTREAMER_1_0_DEBUG ?= "--disable-debug"
- GSTREAMER_1_0_GIT_BRANCH ?= "master"
- EXTRA_OECONF = "--disable-valgrind ${GSTREAMER_1_0_DEBUG} --disable-examples "
 -- 
 1.7.9.5
 
