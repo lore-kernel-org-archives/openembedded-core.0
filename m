@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E46060703
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C001609BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 09:28:23 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s479RoS7021418 for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 May 2014 10:28:19 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RCwqcYbieQfs
+	Wed,  7 May 2014 11:23:42 +0000 (UTC)
+Received: by mail-lb0-f180.google.com with SMTP id p9so1092032lbv.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 10:28:19 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s479SEnF021436
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 May 2014 10:28:16 +0100
-Message-ID: <1399454888.31891.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 07 May 2014 10:28:08 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] tcmode-default: Fix up sdk related PREFERRED_VERSION variables after toolchain changes
+	Wed, 07 May 2014 04:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6jNCkxbubzdKXnS7azWmVNM0eaxOana1BCk5kXib5Kg=;
+	b=JmgyIF3BM2Qal7IkPVBQn+qJ7HQNpsahfJZQPqtxl35xlec5p/HJmcda/ok5/BLk0d
+	dxxrlpIT9SSgyRqzvGKsbJCM36zWO/FvOO6fTQIKlltKWZHPqd1PW+Fdk8MhoZ3msi7i
+	5MJ4VoEICyU4RQYS22CGEz/0Rsf+XBFUj9UOJNkfPlZliwBH0vDuOKlOKsfDF+2TMWXJ
+	wAGYKhlRHHbaD4U7ydAhH1CH08CZ3b9aXfMbaZWYWMzXUbIxQo3ZrOuK40tvRtD05zyT
+	b2MM4j7ZWy63LzmL/LK1l8OaSNxZneluygZBTMvlCKb12+MvzF3AUzTbQoom46V2ymFf
+	cf2Q==
+X-Received: by 10.112.164.148 with SMTP id yq20mr40191905lbb.22.1399461822377; 
+	Wed, 07 May 2014 04:23:42 -0700 (PDT)
+Received: from neopili.qtec.com (0x4dd4aed9.adsl.cybercity.dk.
+	[77.212.174.217])
+	by mx.google.com with ESMTPSA id vr5sm1490773lbb.21.2014.05.07.04.23.39
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 May 2014 04:23:39 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
+	richard.purdie@linuxfoundation.org
+Date: Wed,  7 May 2014 13:23:35 +0200
+Message-Id: <1399461815-6753-1-git-send-email-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.0.0.rc0
+Subject: [PATCH] package_manager: Fix NoneType Object on do_populate_sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 09:28:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 May 2014 11:23:47 -0000
 
-Also drop an obsolete gcc-cross-intermediate reference.
+PACKAGE_EXCLUDE can be not defined or empty, leading to a build error.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+File: '/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/lib/oe/package_manager.py', lineno: 1649, function: _create_configs
+     1645:                    "Pin-Priority: %d\n\n" % (arch, priority))
+     1646:
+     1647:                priority += 5
+     1648:
+ *** 1649:            for pkg in self.d.getVar('PACKAGE_EXCLUDE', True).split():
+     1650:                prefs_file.write(
+     1651:                    "Package: %s\n"
+     1652:                    "Pin: release *\n"
+     1653:                    "Pin-Priority: -1\n\n" % pkg)
+Exception: AttributeError: 'NoneType' object has no attribute 'split'
+
+ERROR: Function failed: do_populate_sdk
+ERROR: Logfile of failure stored in: /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.21363
+NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 0e81f06..23e8857 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -32,18 +32,18 @@ LINUXLIBCVERSION ?= "3.14"
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-initial-${TARGET_ARCH} ?= "${GCCVERSION}"
--PREFERRED_VERSION_gcc-crosssdk ?= "${SDKGCCVERSION}"
--PREFERRED_VERSION_gcc-crosssdk-initial ?= "${SDKGCCVERSION}"
--PREFERRED_VERSION_gcc-crosssdk-intermediate ?= "${SDKGCCVERSION}"
-+PREFERRED_VERSION_gcc-crosssdk-${SDK_ARCH} ?= "${SDKGCCVERSION}"
-+PREFERRED_VERSION_gcc-crosssdk-initial-${SDK_ARCH} ?= "${SDKGCCVERSION}"
- PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
- PREFERRED_VERSION_nativesdk-gcc-runtime ?= "${SDKGCCVERSION}"
- PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_libgcc-initial ?= "${GCCVERSION}"
- PREFERRED_VERSION_nativesdk-libgcc ?= "${SDKGCCVERSION}"
-+PREFERRED_VERSION_nativesdk-libgcc-initial ?= "${SDKGCCVERSION}"
- PREFERRED_VERSION_binutils ?= "${BINUVERSION}"
- PREFERRED_VERSION_binutils-cross-${TARGET_ARCH} ?= "${BINUVERSION}"
--PREFERRED_VERSION_binutils-crosssdk ?= "${BINUVERSION}"
-+PREFERRED_VERSION_binutils-crosssdk-${SDK_ARCH} ?= "${BINUVERSION}"
- PREFERRED_VERSION_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${BINUVERSION}"
- PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
- PREFERRED_VERSION_nativesdk-linux-libc-headers ?= "${LINUXLIBCVERSION}"
+ meta/lib/oe/package_manager.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index a8360fe..b33ee60 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1637,7 +1637,8 @@ class DpkgPM(PackageManager):
+ 
+                 priority += 5
+ 
+-            for pkg in self.d.getVar('PACKAGE_EXCLUDE', True).split():
++            pkg_exclude = self.d.getVar('PACKAGE_EXCLUDE', True) or ""
++            for pkg in pkg_exclude:
+                 prefs_file.write(
+                     "Package: %s\n"
+                     "Pin: release *\n"
+-- 
+2.0.0.rc0
 
 
