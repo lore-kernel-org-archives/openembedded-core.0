@@ -1,33 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 504F760703
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FA7365EC9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 15:27:27 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s47FRFQP005796; Wed, 7 May 2014 16:27:16 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id LY4lXV42vCjn; Wed,  7 May 2014 16:27:15 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s47FR7eF005765
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 7 May 2014 16:27:09 +0100
-Message-ID: <1399476421.31891.39.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Wed, 07 May 2014 16:27:01 +0100
-In-Reply-To: <20140506215901.GI11339@denix.org>
-References: <536899F5.1030104@gmail.com> <20140506205518.GE11339@denix.org>
-	<CAMKF1spaD8x1e2VYMwq34R2RLbz6xDw9ypDVwzr8sQJBuOpm5A@mail.gmail.com>
-	<5369533B.9010209@windriver.com> <20140506214430.GG11339@denix.org>
-	<536958D5.2090806@windriver.com> <20140506215901.GI11339@denix.org>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: meta-toolchain doesn't compile working binaries
+	Wed,  7 May 2014 16:05:42 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id l18so1197302wgh.23
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 May 2014 09:05:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=x4mf0vtBp7psU1KIKw6tR3X8AbzZPMUbQsoLIw32YL8=;
+	b=eQYafwXBuFusG17iXAbd7hk3L3Y9iLUpJ/izFFL6cogvIhBNqIWisFjm/UbG5kF5Jt
+	Gqzh4WyRwqUYLAwr1jRvhT9+/ufsdZcXns2Gf3fh/x2rR7w+idFSCnZbG9CaOyJZ9Wyn
+	bPzIrVtLjL6t00vSgHymaPXJmublWP2Cera3cnw/jOCrOyc61HAXcya4llLNLhPsg/0i
+	5XkogQGwpnfCqO5vexSFyYBZayYWGz7orsNPkpC4VAknlAe3/1HXQUZb7ib2XCATlQ1C
+	9XLHR0N4txIw8gXKvxSW53K/1Bx8PtcSO1gdCofqL01WPV47Lic4eFssMO+RUt4CwTV6
+	u40A==
+X-Gm-Message-State: ALoCoQnkvfMhfCMHa/VG7IYifWzvvmQB2sqc31/0cQcjm8JGFpfYTPx/8BFVmbBkjyEAGS96ts28
+X-Received: by 10.194.48.100 with SMTP id k4mr14385431wjn.49.1399478742722;
+	Wed, 07 May 2014 09:05:42 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	cd10sm32480474wib.0.2014.05.07.09.05.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 May 2014 09:05:42 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 May 2014 17:05:31 +0100
+Message-Id: <1399478735-27819-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/5] librsvg: upgrade to 2.40.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,46 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 15:27:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 May 2014 16:05:46 -0000
 
-On Tue, 2014-05-06 at 17:59 -0400, Denys Dmytriyenko wrote:
-> On Tue, May 06, 2014 at 04:49:09PM -0500, Mark Hatle wrote:
-> > On 5/6/14, 4:44 PM, Denys Dmytriyenko wrote:
-> > >On Tue, May 06, 2014 at 04:25:15PM -0500, Mark Hatle wrote:
-> > >>On 5/6/14, 3:56 PM, Khem Raj wrote:
-> > >>>On Tue, May 6, 2014 at 1:55 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> > >>>>Do you know that OE toolchain is not relocatable?
-> > >>>
-> > >>>is that true ?
-> > >>>
-> > >>
-> > >>It's the load path of the executables, they use the libc-nativesdk,
-> > >>so they need a hard path to the correct ld.so to get started.
-> > >
-> > >More specifically, it's PT_INTERP section of the ELF header in every binary
-> > >that hardcodes the full path to our own dynamic linker/loader (i.e. mentioned
-> > >libc-nativesdk). I wish it would support the use of $ORIGIN similar to RPATH
-> > >and RUNPATH for libraries, but I bet there are all kinds of corner cases with
-> > >that... :)
-> > >
-> > 
-> > $ORIGIN, RPATH and RUNPATH are all implemented by the ld.so, there
-> > is no way to dynamically assign the interpreter (ld.so).
-> 
-> Yes, the above wish was highly abstract and hypothetical and would probably 
-> require kernel to support $ORIGIN used in the ELF header... But I'm not 
-> suggesting it, just speculating! :)
+Also add Upstream-Status to gtk-option.patch
 
-Right, that would need support in the kernel and would mean that the SDK
-was restricted to specific kernel versions.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/librsvg/librsvg/gtk-option.patch                |    3 +++
+ .../recipes-gnome/librsvg/{librsvg_2.40.1.bb => librsvg_2.40.2.bb} |    4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.1.bb => librsvg_2.40.2.bb} (92%)
 
-Having said that, I have wondered if we could see if we could get it in
-and then someday remove this restriction.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-gnome/librsvg/librsvg/gtk-option.patch b/meta/recipes-gnome/librsvg/librsvg/gtk-option.patch
+index 9185041..d44bdd3 100644
+--- a/meta/recipes-gnome/librsvg/librsvg/gtk-option.patch
++++ b/meta/recipes-gnome/librsvg/librsvg/gtk-option.patch
+@@ -1,3 +1,6 @@
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=712693]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
+ From 18917f7fd3160afe06019f4b6234aeb78a3fdb4e Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 19 Nov 2013 16:00:29 +0000
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
+similarity index 92%
+rename from meta/recipes-gnome/librsvg/librsvg_2.40.1.bb
+rename to meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
+index 7b97df5..34d8ca1 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.1.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
+@@ -17,8 +17,8 @@ GNOME_COMPRESS_TYPE = "xz"
+ SRC_URI += "file://gtk-option.patch \
+             file://vapigen.m4"
+ 
+-SRC_URI[archive.md5sum] = "a31eb5d66c3fe94d888a6b17a287ea42"
+-SRC_URI[archive.sha256sum] = "8813b4fe776d5e7acbce28bacbaed30ccb0cec3734eb3632c711a16ebe2961d7"
++SRC_URI[archive.md5sum] = "acdecdb9f08f3bf662a68bf7dafb8b82"
++SRC_URI[archive.sha256sum] = "48049b643294636df7de1a4b997414d699666f5dc44776945c218a257d2a291c"
+ 
+ EXTRA_OECONF = "--disable-introspection --disable-vala"
+ 
+-- 
+1.7.10.4
 
 
