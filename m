@@ -1,26 +1,32 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C7FA605B3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 18:11:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 07 May 2014 10:59:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1005,1389772800"; d="scan'208";a="527990411"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga001.fm.intel.com with ESMTP; 07 May 2014 11:04:20 -0700
-Message-ID: <536A75A4.6030403@linux.intel.com>
-Date: Wed, 07 May 2014 11:04:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id AA778601A2;
+	Wed,  7 May 2014 18:43:25 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id 10so2001944lbg.32
+	for <multiple recipients>; Wed, 07 May 2014 11:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to:content-type;
+	bh=TA5x/e+5CMe/AH1clNKtGkUS98tpKfIZTTdkqQKPf4c=;
+	b=i8jb1mXqMFRaVg82jZT5+Apl59H+g9Xc88dlE63j5CgJ9/FWl+kFNXe+OCH3hDjF4n
+	Az9T1W59E2Vyg7kGN6AEmq1sMXe4XW9Yx5DKmMbNFKPYhMQ/+LSrCaLyRoH30zYvRWkF
+	dTOd9qGzCeqBh6VL6f0EPAV8xOUZp9O3evzIxAbvXl9/OK/Br5421Yi/6bUfTfW+ZITf
+	A92IZOoiHNNbC44E/h0HBZF+Tds57+wG6NlP844fS3m8dO8lpeedai9UOR8Br/6DFICT
+	/44Mte0mr6faaYTiDyOAqK0mF0ssOwbNW3t3clCHnWAWJfTKGXp4RmXxjgHA2WHlhGTI
+	uRBg==
+X-Received: by 10.112.135.198 with SMTP id pu6mr3986455lbb.58.1399488206134;
+	Wed, 07 May 2014 11:43:26 -0700 (PDT)
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1399478735-27819-1-git-send-email-ross.burton@intel.com>
-	<1399478735-27819-4-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1399478735-27819-4-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH 4/5] freetype: upgrade to 2.5.3
+Sender: jefro.net@gmail.com
+Received: by 10.112.173.197 with HTTP; Wed, 7 May 2014 11:43:05 -0700 (PDT)
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Wed, 7 May 2014 11:43:05 -0700
+X-Google-Sender-Auth: 3yxTwkdn5qpUIj1ionYxCUXumDY
+Message-ID: <CA+YB3ra_3PswPOi=3O9uU0XRw766G5BeOBACPHVkJUWnV6sspA@mail.gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OE TSC public meeting 13 May 2014
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 18:11:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 May 2014 18:43:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05/07/2014 09:05 AM, Ross Burton wrote:
-> Also drop the redundant definition of S.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   .../freetype/{freetype_2.5.2.bb => freetype_2.5.3.bb}        |   10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
->   rename meta/recipes-graphics/freetype/{freetype_2.5.2.bb => freetype_2.5.3.bb} (89%)
->
-> diff --git a/meta/recipes-graphics/freetype/freetype_2.5.2.bb b/meta/recipes-graphics/freetype/freetype_2.5.3.bb
-> similarity index 89%
-> rename from meta/recipes-graphics/freetype/freetype_2.5.2.bb
-> rename to meta/recipes-graphics/freetype/freetype_2.5.3.bb
-> index 0c62a67..7182c21 100644
-> --- a/meta/recipes-graphics/freetype/freetype_2.5.2.bb
-> +++ b/meta/recipes-graphics/freetype/freetype_2.5.3.bb
-> @@ -13,13 +13,9 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=c017ff17fc6f0794adf93db5559ccd56
->
->   SECTION = "libs"
->
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
-> -"
-> -
-> -SRC_URI[md5sum] = "10e8f4d6a019b124088d18bc26123a25"
-> -SRC_URI[sha256sum] = "4ff4bd393aa01071ec7b849d035508a505a78f88b2bcf25ff11e58e43c0b9def"
-> -
-> -S = "${WORKDIR}/freetype-${PV}"
->
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2"
-> +SRC_URI[md5sum] = "d6b60f06bfc046e43ab2a6cbfd171d65"
-> +SRC_URI[sha256sum] = "c0848b29d52ef3ca27ad92e08351f023c5e24ce8cea7d8fe69fc96358e65f75e"
->
->   inherit autotools-brokensep pkgconfig binconfig multilib_header
->
->
+There will be a public OpenEmbedded TSC/workgroup IRC meeting on
+Tuesday, 13 May 2014, at 18:00 GMT (11am PDT, 12pm CDT, 2pm EDT, 20:00
+CEST, 19:00 BST).
 
-Hmm, something else went wrong:
+If you're interested in discussing long-term technical efforts around
+the OpenEmbedded project please join us on irc.freenode.net in channel
+#oe at the time listed.
 
->  /srv/hdd/builds/world/tmp/sysroots/x86_64-linux/lib -Wl,-O1 -L/srv/hdd/builds/world/tmp/sysroots/x86_64-linux/usr/lib -lharfbuzz  -no-undefined
->> | /bin/grep: /srv/hdd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/libfreetype.la: No such file or directory
->> | sed: can't read /srv/hdd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/libfreetype.la: No such file or directory
->> | libtool:   error: '/srv/hdd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/libfreetype.la' is not a valid libtool archive
->> | make: *** [/srv/hdd/builds/world/tmp/work/x86_64-linux/freetype-native/2.5.3-r0/freetype-2.5.3/objs/libfreetype.la] Error 1
->> | ERROR: oe_runmake failed
->> | WARNING: /srv/hdd/builds/world/tmp/work/x86_64-linux/freetype-native/2.5.3-r0/temp/run.do_compile.28294:1 exit 1 from
->> |   exit 1
->> | ERROR: Function failed: do_compile (log file is located at /srv/hdd/builds/world/tmp/work/x86_64-linux/freetype-native/2.5.3-r0/temp/log.do_compile.28294)
->
+Possible topics for discussion (based on the last meeting and recent
+mailing list topics):
 
+Issues and solutions discussed at the OEDAM last week, including:
 
-Sau!
+- Lava
+- ongoing role of the TSC
+- Why is embedded still hard? & RP's email
+- Lune as potential Sato replacement
+- increasing layer quality
+- next+1 release
+- online voting
+- best practices - image deployment, default config
+- wiki/website organization
+- meta-oe quality
+- developer community outreach
+- bug scrub
+- toaster feedback
+- infrastructure
 
+Minutes from OEDAM will be posted before this public meeting.
+
+New topics for discussion are welcome.
+
+-- 
+Jeff Osier-Mixon @Intel
+Yocto Project Community Manager http://yoctoproject.org
 
