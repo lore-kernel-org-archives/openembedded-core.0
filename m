@@ -1,36 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 15ABB609BF
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A16060703
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 May 2014 03:05:17 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id l13so547879iga.10
+	Wed,  7 May 2014 03:29:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s473Tu01010964
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 May 2014 20:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=arA5wnjSk5g8cZEFaloCWdYYnjvVjiMsHVeMXA/fqyc=;
-	b=U2m+T7soVdcEbbn5Jsn7ZjaTU/HmQgFMGMt3Ln8CA5ENJoKxJsIRwp0prEf/puEp0K
-	pfQANrDRjOCGEQzfUwDdP6gym+h7irtLWFJ3wKuAaFiplfTHZimQcEVF1u0H5/EQ+4UY
-	D9KCXEuKhDdCvbMt5gp7mvuAggMZ5UCPSNtP/lxAmuOUvotVEi5iCyOwrIMdYiA9YZ29
-	JVwWqn7bkIFOsGUQcXjxtiB/BKyuF9rotZmtg1nmILtapGLQ80xvmDxtebggUKXvb3Sz
-	OsVnrqoPKf/ib5OOYu6ZESWHGWaCuqcjUNsOoigjhL5aszyal8gnPPgl5eOaUKN3+uIi
-	qpRw==
-X-Received: by 10.50.83.6 with SMTP id m6mr38306309igy.30.1399431918622; Tue,
-	06 May 2014 20:05:18 -0700 (PDT)
+	Tue, 6 May 2014 20:29:56 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 6 May 2014 20:29:55 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 May 2014 11:30:07 +0800
+Message-ID: <cover.1399433345.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.50.74.228 with HTTP; Tue, 6 May 2014 20:04:48 -0700 (PDT)
-In-Reply-To: <4520dfb98e41d7f6da81fd929993c4cf6979f698.1399431138.git.Qi.Chen@windriver.com>
-References: <cover.1399431138.git.Qi.Chen@windriver.com>
-	<4520dfb98e41d7f6da81fd929993c4cf6979f698.1399431138.git.Qi.Chen@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 6 May 2014 20:04:48 -0700
-Message-ID: <CAMKF1srnp6FYiD7wtc=5JjnLw2iQNLR14N1pkGjbvssHJTL_WQ@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] sudo: upgrade from 1.8.9p5 to 1.8.10p2
+Subject: [PATCH V3 0/1] sudo: upgrade from 1.8.9p5 to 1.8.10p2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,11 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 03:05:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 07 May 2014 03:29:56 -0000
+Content-Type: text/plain
 
-On Tue, May 6, 2014 at 7:53 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
-> file now declares that compat/inet_pton.c bears a certain license.
+The following changes since commit 82813d27640549255dc81a15d7fb63688431f747:
 
-be specific, which license
+  tcmode-default.inc: Adjust for new toolchain component changes (2014-05-06 21:31:57 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/sudo-1.8.10p2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/sudo-1.8.10p2
+
+Chen Qi (1):
+  sudo: upgrade from 1.8.9p5 to 1.8.10p2
+
+ meta/recipes-extended/sudo/files/volatiles.99_sudo |    1 +
+ meta/recipes-extended/sudo/sudo.inc                |    6 +++---
+ .../sudo/{sudo_1.8.9p5.bb => sudo_1.8.10p2.bb}     |   13 ++++++++++---
+ 3 files changed, 14 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-extended/sudo/files/volatiles.99_sudo
+ rename meta/recipes-extended/sudo/{sudo_1.8.9p5.bb => sudo_1.8.10p2.bb} (57%)
+
+-- 
+1.7.9.5
+
 
