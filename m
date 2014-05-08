@@ -1,29 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F14860167;
-	Thu,  8 May 2014 16:58:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 08 May 2014 09:58:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1012,1389772800"; d="scan'208";a="528653836"
-Received: from paulonei-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.94])
-	by fmsmga001.fm.intel.com with ESMTP; 08 May 2014 09:57:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 08 May 2014 17:57:54 +0100
-Message-ID: <2287383.nOAQ2ykZqg@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.2-200.fc20.x86_64; KDE/4.12.4; x86_64; ; )
-In-Reply-To: <20140508161908.GQ30955@jama>
-References: <CAJTo0LZbPXzXyvKXGZZYDT1BDWg3XYrRO_NXsXmuHLMmmW_S3Q@mail.gmail.com>
-	<4880759.hcBN3hRDv1@peggleto-mobl5.ger.corp.intel.com>
-	<20140508161908.GQ30955@jama>
-MIME-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembedded-core@lists.openembedded.org,
-	OE-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: [yocto] GStreamer 0.10's future
+Return-Path: <paul.betafive@gmail.com>
+X-Greylist: delayed 466 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 08 May 2014 17:02:53 UTC
+Received: from mail-ee0-f51.google.com (unknown [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E63D65ED6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 May 2014 17:02:53 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id e51so1928193eek.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 May 2014 10:02:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=Z5UJd5aPIHUbqyb8FWXqQ6awkcUyxf6bjaA38I+saFY=;
+	b=MeZY1up8EOkKzueS8PX86NO2NsYMpBs6UTXYCM4f0M6+oPS/I7r606ZzDBuNGF+/Ci
+	fgJqGQPyNXEatSAylBrke+BOFgyoxbs2mnm7zGraPhGU5YqMncqR0wYr79F8OvTTLXdV
+	k0wHrkVatWehFkHY2EnvutESsYANHuUZlixqolvlPQXcZ91mBOpieoWzQOUyXwgMgmFM
+	ztCmZfREpgAQcW+YAvnh495yMh5UOijueezzO6cDB/3XRdCKz+3B9uc+TryLc9WJaPcV
+	Ftv8NOi2HCIbm3XRRGLirmjPzsLvQ3Qg5qxaisuI5G/zKRnleASoRtQMD2ZGL5itNBdD
+	/j3g==
+X-Received: by 10.15.111.195 with SMTP id cj43mr7096022eeb.17.1399568107791;
+	Thu, 08 May 2014 09:55:07 -0700 (PDT)
+Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id n41sm5424793eeg.4.2014.05.08.09.55.06
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 08 May 2014 09:55:07 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 May 2014 16:55:04 +0000
+Message-Id: <1399568104-11641-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.9.2
+Subject: [PATCH RFC] Support hierarchical ipk feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +43,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 16:58:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 08 May 2014 17:02:56 -0000
 
-On Thursday 08 May 2014 18:19:08 Martin Jansa wrote:
-> On Thu, May 08, 2014 at 04:07:19PM +0100, Paul Eggleton wrote:
-> > On Thursday 08 May 2014 15:48:40 Burton, Ross wrote:
-> > > Hi all,
-> > > 
-> > > Sorry for the cross-post but I want this to have a wide audience.
-> > > 
-> > > For the 1.7 release I want to move GStreamer 0.10 from oe-core into
-> > > meta-multimedia, and ensure everything in oe-core has ported to
-> > > GStreamer 1.x.  GStreamer 0.10 is considered dead upstream and is
-> > > unmaintained so we don't need to be shipping both versions anymore.
-> > > 
-> > > Everyone in agreement?  Should I expect any hate mail over this?
-> > 
-> > +1
-> > 
-> > The next question is does that mean for the "old" libav (which gst-ffmpeg
-> > depends upon), do we move that as well or drop it?
-> 
-> libav was migrated to oe-core quite recently and there is couple of
-> recipes in meta-oe, meta-webserver depending on it/ffmpeg so moving to
-> meta-multimedia wouldn't be very easy.
-> 
-> meta-multimedia/recipes-multimedia/sox/sox_14.4.0.bb:DEPENDS = "libpng libav
-> libsndfile1" meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb:DEPENDS =
-> "libusb1 libcec libplist expat yajl gperf-native libxmu fribidi mpeg2dec
-> ffmpeg samba fontconfig curl python libass libmodplug libmicrohttpd wavpack
-> libmms cmake-native libsdl-image libsdl-mixer virtual/egl mysql5 sqlite3
-> libmms faad2 libcdio libpcre boost lzo enca avahi libsamplerate0
-> libxinerama libxrandr libxtst bzip2 virtual/libsdl jasper zip-native zlib
-> libtinyxml libmad"
-> meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb:DEPENDS =
-> "alsa-lib libsamplerate0 libsndfile1 libvorbis libogg faad2 ffmpeg curl
-> sqlite bzip2 pulseaudio" meta-multimedia/recipes-multimedia/vlc/vlc.inc:  
-> faad2 ffmpeg flac libxpm libxinerama fluidsynth alsa-lib libdvdcss \
-> 
-> meta-oe/recipes-multimedia/nonworking/minidlna/minidlna_1.0.25.bb:DEPENDS =
-> "flac libav jpeg sqlite3 libexif libogg libid3tag"
-> meta-oe/recipes-support/opencv/opencv_2.4.bb:PACKAGECONFIG ??= "eigen gtk
-> jpeg libav png tiff v4l"
-> meta-oe/recipes-graphics/gegl/gegl_0.2.0.bb:PACKAGECONFIG[avformat] =
-> "--with-libavformat,--without-libavformat,libav"
-> meta-oe/recipes-multimedia/libpostproc/libpostproc_git.bb:DEPENDS = "libav"
-> meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb:DEPENDS = "libvpx
-> libdvdread libtheora virtual/libsdl ffmpeg xsp zlib \
-> 
-> meta-webserver/recipes-httpd/cherokee/cherokee_1.2.98.bb:PACKAGECONFIG[ffmpe
-> g] = "--with-ffmpeg,--without-ffmpeg,libav"
-> 
-> But I would like to see migration to libav-9 which currently has negative
-> D_P (mplayer2 already depends on 9*, but there are few recipes which fails
-> with libav-9 too - see earlier world builds for list).
+This is an RFC only and is not suitable for merging yet. The necessary patches
+for opkg-utils have also been posted for review but have not been merged yet. I
+want to know if there is general approval for adding this feature to oe-core. If
+there is, I'll go ahead and merge the opkg-utils patches and post a new patch
+series which includes the update to the SRCREV used for opkg-utils in oe-core.
 
-Yes, I'm just talking about libav 0.8 here - libav 9 would remain where it is. 
-That might still be problematic though given that their PN is the same. I'm 
-open to better suggestions, but I think we have to do *something* here.
+This patch has been tested on qemuarm:
 
-Cheers,
-Paul
+  A feed was created with IPK_HIERARCHICAL_FEED unset and opkg was pointed at
+  that feed. 'opkg update && opkg install ncurses-terminfo-base' worked
+  correctly, downloading a package file from the same directory as the package
+  feed.
+  
+  IPK_HIERARCHICAL_FEED was then set to "1" in local.conf and the feed was
+  rebuilt by running 'bitbake core-image-minimal && bitbake package-index'. On
+  qemu 'opkg update && opkg install ncurses-terminfo' worked correctly,
+  downloading the package from the subdirectory 'n/ncurses-terminfo'.
 
+  Finally, IPK_HIERARCHICAL_FEED was unset again and the feed was rebuilt. On
+  qemu 'opkg update && opkg install ncurses' worked correctly, downloading
+  package files from the same directory as the package feed again.
+
+Those tests prove that changes to IPK_HIERARCHICAL_FEED do not break the upgrade
+path of an existing system provided that 'bitbake pacakge-index' is re-ran after
+the change.
+
+The proposed commit message follows...
+
+
+
+package_ipk.bbclass: Support hierarchical feed
+
+This patch allows for an optional new layout for ipk feed directories which I've
+called a 'hierarchical feed' and is based on how Debian pools package files. It
+is disabled by default and is enabled by setting IPK_HIERARCHICAL_FEED to "1".
+
+In the traditional feed layout, package files are placed in <outdir>/<arch>/.
+This can lead to several thousand files existing in a single directory which is
+often a problem if developers want to upload a package feed to a shared web
+hosting provider. For example, in my case, listing files via FTP only shows the
+first 2000 files, breaking my scripts which attempt to upload only new and
+changed files via FTP.
+
+In the hierarchical feed, package files are written to
+'<outdir>/<arch>/<pkg_prefix>/<pkg_subdir>', where pkg_prefix is the first
+letter of the package file name for non-lib packages or "lib" plus the 4th
+letter of the pacakge file name for lib pacakges (eg, 'l' for less, 'libc' for
+libc6).  pkg_subdir is the root of the pacakge file name, discarding the version
+and architecture parts and the common suffixes '-dbg', '-dev', '-doc',
+'-staticdev' and '-locale-*'.
+
+This change relies on recent patches to opkg-utils which support hierarchical
+package feeds.
+
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ meta/classes/package_ipk.bbclass | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 2949d1d..680b9bf 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -63,7 +63,26 @@ python do_package_ipk () {
+         bb.data.update_data(localdata)
+         basedir = os.path.join(os.path.dirname(root))
+         arch = localdata.getVar('PACKAGE_ARCH', True)
+-        pkgoutdir = "%s/%s" % (outdir, arch)
++        if localdata.getVar('IPK_HIERARCHICAL_FEED') == "1":
++            # Spread packages across subdirectories so each isn't too crowded
++            if pkgname.startswith('lib'):
++                pkg_prefix = 'lib' + pkgname[3]
++            else:
++                pkg_prefix = pkgname[0]
++
++            # Keep -dbg, -dev, -doc, -staticdev and -locale-* packages together
++            if pkgname[-4:] in ('-dbg', '-dev', '-doc'):
++                pkg_subdir = pkgname[:-4]
++            elif pkgname.endswith('-staticdev'):
++                pkg_subdir = pkgname[:-10]
++            elif '-locale-' in pkgname:
++                pkg_subdir = pkgname[:pkgname.find('-locale-')]
++            else:
++                pkg_subdir = pkgname
++
++            pkgoutdir = "%s/%s/%s/%s" % (outdir, arch, pkg_prefix, pkg_subdir)
++        else:
++            pkgoutdir = "%s/%s" % (outdir, arch)
+         bb.utils.mkdirhier(pkgoutdir)
+         os.chdir(root)
+         cleanupcontrol(root)
 -- 
+1.9.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
