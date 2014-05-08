@@ -1,24 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (unknown [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CFAD260559
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 May 2014 16:37:44 +0000 (UTC)
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F14860167;
+	Thu,  8 May 2014 16:58:43 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 08 May 2014 09:32:22 -0700
+	by azsmga101.ch.intel.com with ESMTP; 08 May 2014 09:58:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1012,1389772800"; d="scan'208";a="528639913"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga001.fm.intel.com with ESMTP; 08 May 2014 09:37:20 -0700
-Message-ID: <536BB2C0.60903@linux.intel.com>
-Date: Thu, 08 May 2014 09:37:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+X-IronPort-AV: E=Sophos;i="4.97,1012,1389772800"; d="scan'208";a="528653836"
+Received: from paulonei-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.94])
+	by fmsmga001.fm.intel.com with ESMTP; 08 May 2014 09:57:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 08 May 2014 17:57:54 +0100
+Message-ID: <2287383.nOAQ2ykZqg@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.2-200.fc20.x86_64; KDE/4.12.4; x86_64; ; )
+In-Reply-To: <20140508161908.GQ30955@jama>
+References: <CAJTo0LZbPXzXyvKXGZZYDT1BDWg3XYrRO_NXsXmuHLMmmW_S3Q@mail.gmail.com>
+	<4880759.hcBN3hRDv1@peggleto-mobl5.ger.corp.intel.com>
+	<20140508161908.GQ30955@jama>
 MIME-Version: 1.0
-To: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
-References: <1399019818-4767-1-git-send-email-koen.kooi@linaro.org>
-In-Reply-To: <1399019818-4767-1-git-send-email-koen.kooi@linaro.org>
-Subject: Re: [PATCHv4] git: fix perl binding installation
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembedded-core@lists.openembedded.org,
+	OE-devel <openembedded-devel@lists.openembedded.org>
+Subject: Re: [yocto] GStreamer 0.10's future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,63 +36,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 16:37:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 May 2014 16:58:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 05/02/2014 01:36 AM, Koen Kooi wrote:
-> Git.pm wasn't ending up in the package because do_install removed it
-> with a misleading comment about multilib. Workaround the problem so
-> that Git.pm ends up in the correct dir *and* doesn't get deleted.
->
+On Thursday 08 May 2014 18:19:08 Martin Jansa wrote:
+> On Thu, May 08, 2014 at 04:07:19PM +0100, Paul Eggleton wrote:
+> > On Thursday 08 May 2014 15:48:40 Burton, Ross wrote:
+> > > Hi all,
+> > > 
+> > > Sorry for the cross-post but I want this to have a wide audience.
+> > > 
+> > > For the 1.7 release I want to move GStreamer 0.10 from oe-core into
+> > > meta-multimedia, and ensure everything in oe-core has ported to
+> > > GStreamer 1.x.  GStreamer 0.10 is considered dead upstream and is
+> > > unmaintained so we don't need to be shipping both versions anymore.
+> > > 
+> > > Everyone in agreement?  Should I expect any hate mail over this?
+> > 
+> > +1
+> > 
+> > The next question is does that mean for the "old" libav (which gst-ffmpeg
+> > depends upon), do we move that as well or drop it?
+> 
+> libav was migrated to oe-core quite recently and there is couple of
+> recipes in meta-oe, meta-webserver depending on it/ffmpeg so moving to
+> meta-multimedia wouldn't be very easy.
+> 
+> meta-multimedia/recipes-multimedia/sox/sox_14.4.0.bb:DEPENDS = "libpng libav
+> libsndfile1" meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb:DEPENDS =
+> "libusb1 libcec libplist expat yajl gperf-native libxmu fribidi mpeg2dec
+> ffmpeg samba fontconfig curl python libass libmodplug libmicrohttpd wavpack
+> libmms cmake-native libsdl-image libsdl-mixer virtual/egl mysql5 sqlite3
+> libmms faad2 libcdio libpcre boost lzo enca avahi libsamplerate0
+> libxinerama libxrandr libxtst bzip2 virtual/libsdl jasper zip-native zlib
+> libtinyxml libmad"
+> meta-multimedia/recipes-multimedia/musicpd/mpd_0.18.9.bb:DEPENDS =
+> "alsa-lib libsamplerate0 libsndfile1 libvorbis libogg faad2 ffmpeg curl
+> sqlite bzip2 pulseaudio" meta-multimedia/recipes-multimedia/vlc/vlc.inc:  
+> faad2 ffmpeg flac libxpm libxinerama fluidsynth alsa-lib libdvdcss \
+> 
+> meta-oe/recipes-multimedia/nonworking/minidlna/minidlna_1.0.25.bb:DEPENDS =
+> "flac libav jpeg sqlite3 libexif libogg libid3tag"
+> meta-oe/recipes-support/opencv/opencv_2.4.bb:PACKAGECONFIG ??= "eigen gtk
+> jpeg libav png tiff v4l"
+> meta-oe/recipes-graphics/gegl/gegl_0.2.0.bb:PACKAGECONFIG[avformat] =
+> "--with-libavformat,--without-libavformat,libav"
+> meta-oe/recipes-multimedia/libpostproc/libpostproc_git.bb:DEPENDS = "libav"
+> meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb:DEPENDS = "libvpx
+> libdvdread libtheora virtual/libsdl ffmpeg xsp zlib \
+> 
+> meta-webserver/recipes-httpd/cherokee/cherokee_1.2.98.bb:PACKAGECONFIG[ffmpe
+> g] = "--with-ffmpeg,--without-ffmpeg,libav"
+> 
+> But I would like to see migration to libav-9 which currently has negative
+> D_P (mplayer2 already depends on 9*, but there are few recipes which fails
+> with libav-9 too - see earlier world builds for list).
 
-Seems to be a problem as RP was concerned with:
+Yes, I'm just talking about libav 0.8 here - libav 9 would remain where it is. 
+That might still be problematic though given that their PN is the same. I'm 
+open to better suggestions, but I think we have to do *something* here.
 
+Cheers,
+Paul
 
-> /srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/bin/git difftool
-> Can't locate Error.pm in @INC (@INC contains: /srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.14.3 /srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl//5.14.3 /srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/ /srv/ssd/machines/meta-intel-iot-devkit/build/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.14.3 .) at /srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/git/git-core/git-difftool line 17.
-> BEGIN failed--compilation aborted at /srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/git/git-core/git-difftool line 17.
+-- 
 
-Doing a find in my sysroot:
-
-/srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.14.3/CPANPLUS/Error.pm
-/srv/ssd/builds/world/tmp/sysroots/x86_64-linux/usr/lib/perl/5.14.3/Error.pm
-
-Sau!
-
-
-> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-> ---
->   meta/recipes-devtools/git/git.inc | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-> index 73e11eb..178b768 100644
-> --- a/meta/recipes-devtools/git/git.inc
-> +++ b/meta/recipes-devtools/git/git.inc
-> @@ -28,10 +28,14 @@ do_install () {
->   		template_dir=${datadir}/git-core/templates \
->   		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
->
-> +	cd ${B}/perl && oe_runmake install DESTDIR="${D}" bindir=${bindir}
-> +
->   	# ${libdir} is not applicable here, perl-native files are always
->   	# installed to /usr/lib on both 32/64 bits targets.
-> +	# Fix up build paths and point to target locations.
-> +	mv ${D}${exec_prefix}/lib/perl-native/perl ${D}${exec_prefix}/lib/perl
-> +	sed -i -e s:${D}::g ${D}${exec_prefix}/lib/perl/*/auto/Git/.packlist
->   	rm -rf ${D}${exec_prefix}/lib/perl-native
-> -	rmdir ${D}${exec_prefix}/lib || true
->   }
->
->   PERLSEDFIXUP = " \
-> @@ -75,6 +79,7 @@ PERLTOOLS = " \
->   PACKAGES =+ "${PN}-perltools"
->   FILES_${PN}-perltools += " \
->       ${PERLTOOLS} \
-> +    ${prefix}/lib/perl \
->       ${datadir}/perl \
->   "
->   RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path liberror-perl findutils"
->
+Paul Eggleton
+Intel Open Source Technology Centre
 
