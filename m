@@ -1,30 +1,34 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (unknown [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E2EC60897
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 May 2014 22:03:21 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D530C60897;
+	Thu,  8 May 2014 22:06:35 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s48M3G2t006709; Thu, 8 May 2014 23:03:16 +0100
+	s48M6MR9006811; Thu, 8 May 2014 23:06:23 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ImGLgeftG0wf; Thu,  8 May 2014 23:03:16 +0100 (BST)
+	with LMTP id AKsFxjNx7hlI; Thu,  8 May 2014 23:06:22 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s48M3B37006701
+	s48M6I9F006806
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 8 May 2014 23:03:12 +0100
-Message-ID: <1399586585.31891.75.camel@ted>
+	Thu, 8 May 2014 23:06:19 +0100
+Message-ID: <1399586771.31891.76.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 08 May 2014 23:03:05 +0100
-In-Reply-To: <1399568104-11641-1-git-send-email-paul@paulbarker.me.uk>
-References: <1399568104-11641-1-git-send-email-paul@paulbarker.me.uk>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 08 May 2014 23:06:11 +0100
+In-Reply-To: <2287383.nOAQ2ykZqg@peggleto-mobl5.ger.corp.intel.com>
+References: <CAJTo0LZbPXzXyvKXGZZYDT1BDWg3XYrRO_NXsXmuHLMmmW_S3Q@mail.gmail.com>
+	<4880759.hcBN3hRDv1@peggleto-mobl5.ger.corp.intel.com>
+	<20140508161908.GQ30955@jama>
+	<2287383.nOAQ2ykZqg@peggleto-mobl5.ger.corp.intel.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH RFC] Support hierarchical ipk feeds
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [yocto] GStreamer 0.10's future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,82 +41,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 22:03:23 -0000
+X-List-Received-Date: Thu, 08 May 2014 22:06:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-05-08 at 16:55 +0000, Paul Barker wrote:
-> This is an RFC only and is not suitable for merging yet. The necessary patches
-> for opkg-utils have also been posted for review but have not been merged yet. I
-> want to know if there is general approval for adding this feature to oe-core. If
-> there is, I'll go ahead and merge the opkg-utils patches and post a new patch
-> series which includes the update to the SRCREV used for opkg-utils in oe-core.
-> 
-> This patch has been tested on qemuarm:
-> 
->   A feed was created with IPK_HIERARCHICAL_FEED unset and opkg was pointed at
->   that feed. 'opkg update && opkg install ncurses-terminfo-base' worked
->   correctly, downloading a package file from the same directory as the package
->   feed.
->   
->   IPK_HIERARCHICAL_FEED was then set to "1" in local.conf and the feed was
->   rebuilt by running 'bitbake core-image-minimal && bitbake package-index'. On
->   qemu 'opkg update && opkg install ncurses-terminfo' worked correctly,
->   downloading the package from the subdirectory 'n/ncurses-terminfo'.
-> 
->   Finally, IPK_HIERARCHICAL_FEED was unset again and the feed was rebuilt. On
->   qemu 'opkg update && opkg install ncurses' worked correctly, downloading
->   package files from the same directory as the package feed again.
-> 
-> Those tests prove that changes to IPK_HIERARCHICAL_FEED do not break the upgrade
-> path of an existing system provided that 'bitbake pacakge-index' is re-ran after
-> the change.
-> 
-> The proposed commit message follows...
-> 
-> 
-> 
-> package_ipk.bbclass: Support hierarchical feed
-> 
-> This patch allows for an optional new layout for ipk feed directories which I've
-> called a 'hierarchical feed' and is based on how Debian pools package files. It
-> is disabled by default and is enabled by setting IPK_HIERARCHICAL_FEED to "1".
-> 
-> In the traditional feed layout, package files are placed in <outdir>/<arch>/.
-> This can lead to several thousand files existing in a single directory which is
-> often a problem if developers want to upload a package feed to a shared web
-> hosting provider. For example, in my case, listing files via FTP only shows the
-> first 2000 files, breaking my scripts which attempt to upload only new and
-> changed files via FTP.
-> 
-> In the hierarchical feed, package files are written to
-> '<outdir>/<arch>/<pkg_prefix>/<pkg_subdir>', where pkg_prefix is the first
-> letter of the package file name for non-lib packages or "lib" plus the 4th
-> letter of the pacakge file name for lib pacakges (eg, 'l' for less, 'libc' for
-> libc6).  pkg_subdir is the root of the pacakge file name, discarding the version
-> and architecture parts and the common suffixes '-dbg', '-dev', '-doc',
-> '-staticdev' and '-locale-*'.
-> 
-> This change relies on recent patches to opkg-utils which support hierarchical
-> package feeds.
+On Thu, 2014-05-08 at 17:57 +0100, Paul Eggleton wrote:
+> Yes, I'm just talking about libav 0.8 here - libav 9 would remain where it is. 
+> That might still be problematic though given that their PN is the same. I'm 
+> open to better suggestions, but I think we have to do *something* here.
 
-FWIW I'm ok with this and its something we probably want to enable by
-default however:
-
-a) I'm not sure <pkg_subdir> is that useful, we tend to only have one
-version of things around in most cases and I can't imagine people having
-a lot of these.
-
-b) How are the "common suffixes" configured? I guess its just a loose
-thing but I worry about the "why did my package get put into directory X
-when its really part of Y?" type questions. Perhaps splitting on the
-first dash in the name might be good enough? I'm thinking about
-kernel-modules-xxx for example and some of our other dynamically
-generated packages.
+We could put a PROVIDES += "xxx" into one of the libavs and then DEPENDS
+on that in the corresponding recipes...
 
 Cheers,
 
 Richard
-
 
 
