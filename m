@@ -1,40 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pa0-f41.google.com (unknown [209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B1A1265F09
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 751D365ED6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 May 2014 10:56:27 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id lj1so2706927pab.14
+	Thu,  8 May 2014 12:11:14 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s48CBA64012828 for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 May 2014 13:11:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id fGZvd9ZChMdU
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 May 2014 03:56:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=IlqCHZdXHlr4WMVP4T8VkVoXFnT3fuQfKRFk2XFDw8w=;
-	b=pFdzpB8dCGAZ7KydkP7eLn2QNSxz24QivPfuEmH7PRRVzi+OarVCXUQiEvY3+QzGeE
-	JceNcXhX5dDV3So/RQAgpbRW+u29ZD6wiM0BolyIPtHYDWB+e0YPk/SA0WXI+3tdt6SD
-	2PtpEfaHYi4NX0v624GY2N36V4b3yRIymc5oAHgqyvdQwst8+Vmseyct2OtP/ZCMFuG9
-	NUplSwJDvKCE7SeVS0pLfaBlVS37gJUZDYjH38xtBcZ6O3EQSMjSNbx2dWlmcxQPytBl
-	pDfTrhWJnwUtW4KDcKpHYyH+wBTp1tStJQ6deGAbkKw2yXV/CC/fWJNMgPGQ406AwfY5
-	tSiw==
-X-Received: by 10.66.65.169 with SMTP id y9mr6041895pas.145.1399546219086;
-	Thu, 08 May 2014 03:50:19 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	qp12sm2961616pab.47.2014.05.08.03.50.16 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 May 2014 03:50:18 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 8 May 2014 12:50:39 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Petter =?iso-8859-1?Q?Mab=E4cker?= <petter@technux.se>
-Message-ID: <20140508105039.GO30955@jama>
-References: <cover.1399497346.git.petter@technux.se>
-	<f9d97da2b459cde8ed023d1f130b1af580eb436e.1399497346.git.petter@technux.se>
-MIME-Version: 1.0
-In-Reply-To: <f9d97da2b459cde8ed023d1f130b1af580eb436e.1399497346.git.petter@technux.se>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 08/13] linuxdoc-tools: remove usage of FILESPATH
+	Thu,  8 May 2014 13:11:10 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s48CB6TT012823
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 May 2014 13:11:08 +0100
+Message-ID: <1399551060.31891.57.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 08 May 2014 13:11:00 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] attr: Fix uclibc builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,85 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 10:56:27 -0000
-X-Groupsio-MsgNum: 52972
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IpgPcFyQO6wM49Um"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 May 2014 12:11:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---IpgPcFyQO6wM49Um
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+attr needs libintl headers and libs. Add in the missing dependency and
+ensure the linker flag gets passed in multilib builds by replacing the
+PN == BPN check with a class-target override instead.
 
-On Wed, May 07, 2014 at 11:19:54PM +0200, Petter Mab=E4cker wrote:
-> Fixes [YOCTO #4497]
->=20
-> Usage of FILESPATH is discouraged, since it can make recipes harder to
-> bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
->=20
-> Signed-off-by: Petter Mab=E4cker <petter@technux.se>
-> ---
->  .../linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb |    3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0=
-=2E9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9=
-=2E69.bb
-> index fce4178..4f908c3 100644
-> --- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-> +++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-> @@ -5,6 +5,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D077ef64ec3ac25=
-7fb0d786531cf26931"
-> =20
->  DEPENDS =3D "groff-native openjade-native"
-> =20
-> +FILESEXTRAPATHS_prepend :=3D "${THISDIR}/linuxdoc-tools-native:"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index 873c1ff..01ad59c 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Utilities for manipulating filesystem extended attributes"
+ HOMEPAGE = "http://savannah.nongnu.org/projects/attr/"
+ SECTION = "libs"
+ 
+-DEPENDS = "ncurses"
++DEPENDS = "ncurses virtual/libintl"
+ 
+ LICENSE = "LGPLv2.1+ & GPLv2+"
+ LICENSE_${PN} = "GPLv2+"
+diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+index 785ce0c..72f623e 100644
+--- a/meta/recipes-support/attr/ea-acl.inc
++++ b/meta/recipes-support/attr/ea-acl.inc
+@@ -34,8 +34,8 @@ FILES_lib${BPN}-doc = "${mandir}/man2 \
+ 
+ BBCLASSEXTEND = "native"
+ # Only append ldflags for target recipe and if USE_NLS is enabled
+-LDFLAGS_append_libc-uclibc = "${@['', ' -lintl '][(d.getVar('PN', True) == d.getVar('BPN', True)) and (d.getVar('USE_NLS', True) == 'yes')]}"
+-EXTRA_OECONF_append_libc-uclibc = "${@['', ' --disable-gettext '][(d.getVar('PN', True) == d.getVar('BPN', True)) and (d.getVar('USE_NLS', True) == 'no')]}"
++LDFLAGS_append_libc-uclibc_class-target = "${@['', ' -lintl '][(d.getVar('USE_NLS', True) == 'yes')]}"
++EXTRA_OECONF_append_libc-uclibc_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
+ 
+ fix_symlink () {
+ 	if test "${libdir}" = "${base_libdir}" ; then
 
-Please use
 
-git mv meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native meta/reci=
-pes-devtools/linuxdoc-tools/linuxdoc-tools
 
-instead
-
-> =20
->  SRC_URI =3D "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}=
-=2Eorig.tar.gz \
->             file://disable_sgml2rtf.patch \
-> @@ -15,8 +16,6 @@ SRC_URI =3D "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/lin=
-uxdoc-tools_${PV}.orig.tar.
->  SRC_URI[md5sum] =3D "1d13d500918a7a145b0edc2f16f61dd1"
->  SRC_URI[sha256sum] =3D "7103facee18a2ea97186ca459d743d22f7f89ad4b5cd1dfd=
-1c34f83d6bfd4101"
-> =20
-> -FILESPATH =3D "${FILE_DIRNAME}/linuxdoc-tools-native/"
-> -
->  inherit autotools-brokensep native
-> =20
->  do_configure () {
-> --=20
-> 1.7.9.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---IpgPcFyQO6wM49Um
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlNrYX8ACgkQN1Ujt2V2gBwHTACfRpre0CaSt4KSzXpGgKi85G3J
-wf4AoKsZScKjhif8VSngKQsDKMn6Oowi
-=JMPt
------END PGP SIGNATURE-----
-
---IpgPcFyQO6wM49Um--
