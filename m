@@ -1,37 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ee0-f48.google.com (unknown [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AF09606E0
+Return-Path: <raj.khem@gmail.com>
+X-Greylist: delayed 497 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 08 May 2014 19:25:50 UTC
+Received: from mail-ig0-f175.google.com (unknown [209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E691E60144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 May 2014 18:38:30 +0000 (UTC)
-Received: by mail-ee0-f48.google.com with SMTP id e49so1962185eek.21
+	Thu,  8 May 2014 19:25:50 +0000 (UTC)
+Received: by mail-ig0-f175.google.com with SMTP id uq10so210995igb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 May 2014 11:38:31 -0700 (PDT)
+	Thu, 08 May 2014 12:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=7Kx76EWZmBKTfAe4peoeMcnJbw/naU++8uEtsMWZveM=;
-	b=vvW1odiuodKftEfmaYtitN6UtgBdZkyu6caP66bbNNx+HAOHy0ukLVMht6iDUHCA3x
-	Oio117xxf9/D2Vu4qnoJ7BMbRgQkMfCAFLg+HN11atau5KlS7qide4w/YKHLfhVBb6/J
-	41s8kiaS5rTEhXDH9tsqxss8Df1bBEYv+OipUAZ9re+OBusc7vih2Zl/WFFbEUKUvT98
-	HRRHU8PaSujwm5as8DlZyGB+f7JQ9gR9Nfsj/GS8WZPDiEx5PhaGuuqSBEHSxXOj0uPf
-	9nzL88Gzn4v0rFmvFvrikIupYUTZ1VGI8Ms2FWO+yee5dX0ab4GmlFI8xyB7Vj0Ht+L+
-	zVIw==
-X-Received: by 10.15.49.8 with SMTP id i8mr5061938eew.33.1399574311659;
-	Thu, 08 May 2014 11:38:31 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id l1sm5936975eem.45.2014.05.08.11.38.29
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 May 2014 11:38:30 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Thu, 8 May 2014 18:38:27 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Saul Wold <sgw@linux.intel.com>,
-	OE Core <openembedded-core@lists.openembedded.org>
-Message-ID: <20140508183827.GE26157@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=40IEngj/06Gy/y2CR0LdY3PLoF16z5gQhCfrInWTlos=;
+	b=PgP8sglgUOhAzoWJMNlgp39577V2UvGQlxMZ+i1AV4pHMTJPaZY/Ij4a3knmvNFmyI
+	Qu/A/K/S0u+B0QbtikHHBmlpxxee93wNGr9jk8x/SPHsWb6MsEJwcPOEaTwLnr/YJjWd
+	sW2cwzwXP/4ydagjhIJxh4m/Zf9nRYlg0ImB4rZ2uSTa2JCAIibmHHX4lQHZuevs6nBg
+	Ebdgfqe6zYgp8pWXeD08uF395bVSNtC7I1YAboHEEFhDsWSFRWBJq9euQGT5ZjRq4vAU
+	ZqGuHmxJlIFbBWJtvUoSyi3uhaqGoTsLvVkpxL6x0+XrYA5dWUBOBHXg9uwEsg5mNJep
+	NTUQ==
+X-Received: by 10.50.78.201 with SMTP id d9mr58442881igx.17.1399576654837;
+	Thu, 08 May 2014 12:17:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Daisy backports of opkg fixes
+Received: by 10.50.74.228 with HTTP; Thu, 8 May 2014 12:17:04 -0700 (PDT)
+In-Reply-To: <1399551060.31891.57.camel@ted>
+References: <1399551060.31891.57.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 8 May 2014 12:17:04 -0700
+Message-ID: <CAMKF1spg+BBr7fP9pfZi6p9dBEre5TMWVPxpZDoact_ZBHZP-g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] attr: Fix uclibc builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,63 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 18:38:33 -0000
-X-Groupsio-MsgNum: 53000
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cYtjc4pxslFTELvY"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 May 2014 19:25:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
---cYtjc4pxslFTELvY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 8, 2014 at 5:11 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> +LDFLAGS_append_libc-uclibc_class-target = "${@['', ' -lintl '][(d.getVar('USE_NLS', True) == 'yes')]}"
+> +EXTRA_OECONF_append_libc-uclibc_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
 
-Saul,
+I think we can drop class-target override. this was needed when libc
+override arched into native recipes as well and
+we would get attr-native compiled differently for uclibc and glibc but
+thats been fixed
 
-opkg 0.2.2 missed inclusion in daisy as it was released too late but it did=
- fix
-a couple of important bugs (with opkg issue numbers in brackets):
-
-- Fix '--force-reinstall' flag so that it acts as an upgrade rather than
-  removing possibly critical packages before reinstall (issue 71)
-
-- Symlinks are now correctly removed during package uninstall (issue 91)
-
-Both of these could be beneficial to have in daisy. The first one in partic=
-ular
-prevents commands like 'opkg install --force-reinstall libc6' from complete=
-ly
-bricking a system.
-
-As the stable branch policy forbids backporting the package upgrade, I'm ha=
-ppy
-to add these fixes as patches which apply on top of opkg 0.2.1.
-
-I'll let you decide if these are worth backporting first though before I do=
- the
-work.
-
-Thanks,
-
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---cYtjc4pxslFTELvY
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQEcBAEBAgAGBQJTa88jAAoJEBwoJlo7UPQDt6wIAIhRuWbYhGjK0F6XDnfP1WLJ
-MJj7TaMjLXE03+6LuOqTVNIqX5jL/0T07xKo35/NnjFXSRsv0KEeobV9TK2DyLZ5
-FMMR+wXTkpzzlXGjEoN36DubY+TfhKFV+n7O4ek1pXY+P92tGjMiHYady1s+QGMQ
-rz/GN1ZWrgNDpPA8pTV22LLUO5yt9spFjQjQCiQl8UL/atAejBYPXFwhDa+FfuMS
-Kr7oO8h0hOHxtMqQBgnzpTKPgWpD85Ugbf7HBrVQUsxojNgT0uzkqYr+Kcoq5/gf
-AzUBhCzxylsJNEwu6KdI64klNysHzS7GvpbuhEvCURjdhLqgKzx+vmgn8TiDsnM=
-=OFcj
------END PGP SIGNATURE-----
-
---cYtjc4pxslFTELvY--
