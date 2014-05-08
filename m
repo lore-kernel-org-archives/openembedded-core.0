@@ -1,28 +1,36 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-04-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id C32B165F45
+Return-Path: <ross.burton@intel.com>
+X-Greylist: delayed 2106 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 08 May 2014 14:49:00 UTC
+Received: from mail-qa0-f51.google.com (unknown [209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AEA5965F77
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 May 2014 14:48:41 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Thu,  8 May 2014 16:48:35 +0200 (CEST)
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	(Authenticated sender: petter@technux.se)
-	by smtp-03-01.atm.binero.net (Postfix) with ESMTPA id D52A43A183;
-	Thu,  8 May 2014 16:48:34 +0200 (CEST)
+	Thu,  8 May 2014 14:48:59 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id w8so2585855qac.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 May 2014 07:49:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-type;
+	bh=Ay51WwAn38//YeMMCZjXlGoA7RJSrRmw85ORyupltCo=;
+	b=KkkfYvoMQmofS3/hKQggWz7WuzLJG2NyqzihgjflJnO3oDeQt4YhbAHu+6q7E58yGu
+	/znBLZzF0us/9MopQJ4JZ5Ornp8ckON5O7HaPEEjgRT/C6bdBwRyrNkhKvAETj4Ell1u
+	4nmOmREfd+1kdoCcfHAwHZEB/YRCY1Le2EbS41DUsnpd4QbGUC/EZi9Rqy5NAByTsRh9
+	WDwmkgpsZzCrJz8tvAzkiS9d0wJIWACRt7aCf35KotSEccyBzxQ8F5NcRt5UWJga9Bgm
+	KqWr2fSlWKHFEewzkCaZXGqLYdD/bT2+TivqnBu0O+k6mrsjMWVTNpv8VtrP3LL0JncW
+	SDwQ==
+X-Gm-Message-State: ALoCoQlCQ1BTLndOcUudH5a/3Dg0vGUKXK4KQfAghg6nshhos7/84WQqhJXikEzDgIn4WqgycqEf
+X-Received: by 10.224.115.68 with SMTP id h4mr5443612qaq.35.1399560540785;
+	Thu, 08 May 2014 07:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Date: Thu, 08 May 2014 16:48:34 +0200
-From: petter@technux.se
-To: Martin Jansa <martin.jansa@gmail.com>
-In-Reply-To: <20140508105039.GO30955@jama>
-References: <cover.1399497346.git.petter@technux.se>
-	<f9d97da2b459cde8ed023d1f130b1af580eb436e.1399497346.git.petter@technux.se>
-	<20140508105039.GO30955@jama>
-Message-ID: <3f3cb656d31802085af85ef566e1d065@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 08/13] linuxdoc-tools: remove usage of FILESPATH
+Received: by 10.140.101.77 with HTTP; Thu, 8 May 2014 07:48:40 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 May 2014 15:48:40 +0100
+Message-ID: <CAJTo0LZbPXzXyvKXGZZYDT1BDWg3XYrRO_NXsXmuHLMmmW_S3Q@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OE-devel <openembedded-devel@lists.openembedded.org>, 
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+Subject: GStreamer 0.10's future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 14:48:45 -0000
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 May 2014 14:49:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-2014-05-08 12:50 skrev Martin Jansa:
+Hi all,
 
-> On Wed, May 07, 2014 at 11:19:54PM +0200, Petter Mabäcker wrote:
->
->> Fixes [YOCTO #4497] Usage of FILESPATH is discouraged, since it can
->> make recipes harder to bbappend. Instead FILESEXTRAPATHS should be 
->> used
->> to extend the path. Signed-off-by: Petter Mabäcker 
->> <petter@technux.se>
->> --- .../linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb | 3 +-- 1 
->> file
->> changed, 1 insertion(+), 2 deletions(-) diff --git
->> 
->> a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
->> 
->> b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
->> index fce4178..4f908c3 100644 ---
->> 
->> a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
->> +++
->> 
->> b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
->> @@ -5,6 +5,7 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=077ef64ec3ac257fb0d786531cf26931" DEPENDS =
->> "groff-native openjade-native" +FILESEXTRAPATHS_prepend :=
->> "${THISDIR}/linuxdoc-tools-native:"
->
-> Please use
->
-> git mv meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native
-> meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools
->
-> instead
+Sorry for the cross-post but I want this to have a wide audience.
 
-Good point, feels like a better way to solve it that way. Will fix this 
-in v2.
+For the 1.7 release I want to move GStreamer 0.10 from oe-core into
+meta-multimedia, and ensure everything in oe-core has ported to
+GStreamer 1.x.  GStreamer 0.10 is considered dead upstream and is
+unmaintained so we don't need to be shipping both versions anymore.
 
->
->> SRC_URI =
->>
-> 
-> "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.gz
->> file://disable_sgml2rtf.patch [1] @@ -15,8 +16,6 @@ SRC_URI =
->> 
->> "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.
->> SRC_URI[md5sum] = "1d13d500918a7a145b0edc2f16f61dd1" 
->> SRC_URI[sha256sum]
->> = "7103facee18a2ea97186ca459d743d22f7f89ad4b5cd1dfd1c34f83d6bfd4101"
->> -FILESPATH = "${FILE_DIRNAME}/linuxdoc-tools-native/" - inherit
->> autotools-brokensep native do_configure () { -- 1.7.9.5 --
->> _______________________________________________ Openembedded-core
->> mailing list Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core [2]
+Everyone in agreement?  Should I expect any hate mail over this?
 
-
-Links:
-------
-[1] file://disable_sgml2rtf.patch
-[2] http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
