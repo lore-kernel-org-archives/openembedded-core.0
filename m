@@ -1,24 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A3C605F4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (unknown [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 164E360781
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 May 2014 23:24:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s48NOpE9003921
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 May 2014 16:24:51 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 8 May 2014 16:24:50 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 May 2014 18:24:50 -0500
-Message-ID: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.5.3
-MIME-Version: 1.0
-Subject: [PATCH] base-files: Add /run/lock as a standard directory
+	Fri,  9 May 2014 00:39:35 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 08 May 2014 17:39:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1014,1389772800"; d="scan'208";a="528874082"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.214])
+	by fmsmga001.fm.intel.com with ESMTP; 08 May 2014 17:39:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 May 2014 17:39:35 -0700
+Message-Id: <1399595975-22866-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] update-rc.d: Handle multilib case for initsctipts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 23:24:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 09 May 2014 00:39:37 -0000
 
-rpm -V -qa
+When building multilib, we also have to add the multlib prefix otherwise
+we get a WARNING:
+WARNING: Multilib QA Issue: lib32-dbus package lib32-dbus - suspicious values 'initscripts-functions' in RDEPENDS
 
-Will report:
+[YOCTO #6164]
 
-Unsatisfied dependencies for base-files-3.0.14-r73.2.0.qemux86_64:
-/proc/mounts
-/run/lock
-
-The /run/lock directory was being dynamically created during package install,
-but should have been owned by the base-files package.
-
-(Note: /proc/mounts is a different issue)
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/update-rc.d.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 6d76a2b..d38d30b 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -34,8 +34,8 @@ docdir_append = "/${P}"
- dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
- dirs2775 = "/home ${prefix}/src ${localstatedir}/local"
- dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
--           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sbin \
--           ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
-+           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /run/lock \
-+           /sbin ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
-            ${libdir} ${sbindir} ${datadir} \
-            ${datadir}/common-licenses ${datadir}/dict ${infodir} \
-            ${mandir} ${datadir}/misc ${localstatedir} \
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 81cc976..56eef4e 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -79,7 +79,8 @@ python populate_packages_updatercd () {
+             return
+         statement = "grep -q -w '/etc/init.d/functions' %s" % path
+         if subprocess.call(statement, shell=True) == 0:
+-            d.appendVar('RDEPENDS_' + pkg, ' initscripts-functions')
++            mlprefix = d.getVar('MLPREFIX', True) or ""
++            d.appendVar('RDEPENDS_' + pkg, ' %sinitscripts-functions' % (mlprefix))
+ 
+     def update_rcd_package(pkg):
+         bb.debug(1, 'adding update-rc.d calls to preinst/postinst/prerm/postrm for %s' % pkg)
 -- 
-1.8.5.3
+1.8.3.1
 
 
