@@ -1,40 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-la0-f52.google.com (unknown [209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ADF6605B2
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41409605B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 15:06:57 +0000 (UTC)
-Received: by mail-la0-f52.google.com with SMTP id gl10so527793lab.25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 May 2014 08:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=H+6avpR+8pV8xVqCj2YPnqZKu99693LaOhGom9mYh7k=;
-	b=VmqNJRtjkaPgRVMV9wSy6d9MZsZZYc4KdXsWqgjz1qpEdxMg2u6nUxPUdQ2MZEN+aY
-	cYxyh1o1hwN1v9XZqPNYq/derm9I2OpL7ahqMiriKqv5J5B9E4pzqJRqsuYpGyp1DBLI
-	hy2K5C44f2TLYj269wOSCGUuOJfWKeQPgEPS7a3VqaxEwr7wB4tah5HxxrooiKnW6xSQ
-	EtQRXgD0M/XdUnnaMJUmvQdi3AUPrANUwN/UrDrd+3BvH0RSwort6cYzjhLqNxrE9efq
-	p0HGlVU2V1YqUJuOYnLU7z0ywTNzo9ogLiFp8vMkZ8clA0+NeKwG+6K1Hym6BC69QhET
-	ojmg==
-X-Received: by 10.112.218.99 with SMTP id pf3mr11629792lbc.5.1399648018318;
-	Fri, 09 May 2014 08:06:58 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	g6sm1502912laa.10.2014.05.09.08.06.56 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 May 2014 08:06:57 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 9 May 2014 17:07:21 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20140509150721.GA22774@jama>
-References: <1399645908-14499-1-git-send-email-ticotimo@gmail.com>
-	<CAJTo0LYCdUJMPN8+pZWXrvsRc9fyiq7gm2dOh0N3gRcqWFP1CA@mail.gmail.com>
+	Fri,  9 May 2014 15:14:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s49FEjKs004346
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 9 May 2014 08:14:46 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 9 May 2014 08:14:45 -0700
+Message-ID: <536CF0E6.9060800@windriver.com>
+Date: Fri, 9 May 2014 10:14:46 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYCdUJMPN8+pZWXrvsRc9fyiq7gm2dOh0N3gRcqWFP1CA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>
+	<CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston: add lcms, libpoppler-glib dependenies
+Subject: Re: [PATCH] base-files: Add /run/lock as a standard directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,46 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 15:07:00 -0000
-X-Groupsio-MsgNum: 53028
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 09 May 2014 15:14:48 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---OXfL5xGRrasGEqWY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/9/14, 4:16 AM, Burton, Ross wrote:
+> On 9 May 2014 00:24, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> The /run/lock directory was being dynamically created during package install,
+>> but should have been owned by the base-files package.
+>
+> Doesn't do_install generate the /var/run/lock -> /run/lock symlink, as
+> /run is always a tmpfs so has to be populated on boot?
+>
 
-On Fri, May 09, 2014 at 03:42:37PM +0100, Burton, Ross wrote:
-> On 9 May 2014 15:31, Tim Orling <ticotimo@gmail.com> wrote:
-> > +DEPENDS +=3D "wayland virtual/egl pango lcms libpoppler-glib"
->=20
-> For a start libpoppler isn't in oe-core, so this causes a build
-> failure for everyone not using meta-oe.
->=20
-> These are for the basic test applications: I'd prefer to see a patch
-> that either forcibly disabled the checks or added configure options so
-> the dependencies can be controlled.
+The /var/run/lock -> /run/lock symlink is generated, but the /run/lock is never 
+created by anything that I could find.
 
-FWIW: I've sent WIP patch a while ago, but never finished it
-http://patchwork.openembedded.org/patch/57011/
+/run is not always a tmpfs...  We've got configurations where it's persistent.
 
-IIRC it doesn't apply to current version now.
+With that said, the fix may be incorrect though if something is generally used 
+to create this as a tmpfs, which package would normally create the directory and 
+populate it?  the volatiles code?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--Mark
 
---OXfL5xGRrasGEqWY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> Ross
+>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlNs7ykACgkQN1Ujt2V2gByb3QCbBHBnvHJ7+y0oObQ2skxeiKYQ
-CegAn2XnJ+D7ekWzCd3cEowAU8PMNb4V
-=cH5V
------END PGP SIGNATURE-----
-
---OXfL5xGRrasGEqWY--
