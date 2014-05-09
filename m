@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41409605B2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (unknown [209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 13E266059B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 15:14:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s49FEjKs004346
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 May 2014 08:14:46 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 9 May 2014 08:14:45 -0700
-Message-ID: <536CF0E6.9060800@windriver.com>
-Date: Fri, 9 May 2014 10:14:46 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Fri,  9 May 2014 15:18:55 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id a108so4697846qge.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 May 2014 08:18:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=RoY6x9HzOsGdEJsx9n3ZqF6bZMq6xWtM6gvL3xYHHd4=;
+	b=BPOL/2ApuXwA9oNqlqJidr046VP8nd0mSDm272LS51Tj327mRuBv0obL7z+RCH3YzW
+	3b/9KMx0Z1ZoZTNsQY5E/sw2zgVP24eODjEjcGQpidL3IiXGJVV9mDTG5hHj70zXr6/J
+	lywdLGzPUiBhFzm5Ab49wTT7zwQC2h5RZfj/h7UldQtFVIsH19LssiXorePyZDJvxdwP
+	I6/0APbs182pXwz+3nM/eLkKp5XSgfuA2OQTvb4XZIi3tTQoI6P/B00UJDxx2ObCwTkA
+	8/grECJ9upJhf2NE2v3ef1TRytbuOTMEvgrrp5akRq/6hWlK2HW+ruYT+/FVlURZFLt8
+	SXnA==
+X-Gm-Message-State: ALoCoQnh+/nXqxyAn6+/UjOjOwWP8WPF/6HLpixLjyUoQ0EW3/tjOMsyx9pHndaWIEVJDiQLpJbZ
+X-Received: by 10.224.121.133 with SMTP id h5mr15377612qar.79.1399648736404;
+	Fri, 09 May 2014 08:18:56 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>
-	<CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
+Received: by 10.140.101.77 with HTTP; Fri, 9 May 2014 08:18:36 -0700 (PDT)
+In-Reply-To: <20140509150721.GA22774@jama>
+References: <1399645908-14499-1-git-send-email-ticotimo@gmail.com>
+	<CAJTo0LYCdUJMPN8+pZWXrvsRc9fyiq7gm2dOh0N3gRcqWFP1CA@mail.gmail.com>
+	<20140509150721.GA22774@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 May 2014 16:18:36 +0100
+Message-ID: <CAJTo0LYAv1e0ko7jK6mm9Uz1Hsqvd7rq8dYshogVAE8mCMa=Aw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: Add /run/lock as a standard directory
+Subject: Re: [PATCH] weston: add lcms, libpoppler-glib dependenies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 15:14:48 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 May 2014 15:18:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 5/9/14, 4:16 AM, Burton, Ross wrote:
-> On 9 May 2014 00:24, Mark Hatle <mark.hatle@windriver.com> wrote:
->> The /run/lock directory was being dynamically created during package install,
->> but should have been owned by the base-files package.
+On 9 May 2014 16:07, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> For a start libpoppler isn't in oe-core, so this causes a build
+>> failure for everyone not using meta-oe.
+>>
+>> These are for the basic test applications: I'd prefer to see a patch
+>> that either forcibly disabled the checks or added configure options so
+>> the dependencies can be controlled.
 >
-> Doesn't do_install generate the /var/run/lock -> /run/lock symlink, as
-> /run is always a tmpfs so has to be populated on boot?
+> FWIW: I've sent WIP patch a while ago, but never finished it
+> http://patchwork.openembedded.org/patch/57011/
 >
+> IIRC it doesn't apply to current version now.
 
-The /var/run/lock -> /run/lock symlink is generated, but the /run/lock is never 
-created by anything that I could find.
+If definitely doesn't apply to master: weston doesn't check for
+poppler anymore as the PDF viewer was removed.
 
-/run is not always a tmpfs...  We've got configurations where it's persistent.
+LCMS should have an explicit with/without as it is used for colour
+management in the server.
 
-With that said, the fix may be incorrect though if something is generally used 
-to create this as a tmpfs, which package would normally create the directory and 
-populate it?  the volatiles code?
-
---Mark
-
-> Ross
->
-
+Ross
 
