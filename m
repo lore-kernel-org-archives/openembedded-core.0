@@ -1,40 +1,21 @@
-Return-Path: <walters@verbum.org>
-Received: from out5-smtp.messagingengine.com (unknown [66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id BC95960173
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D6F04606E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 20:54:52 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 6DCB021881
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 16:54:53 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute1.internal (MEProxy); Fri, 09 May 2014 16:54:53 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:subject:to:cc:message-id
-	:in-reply-to:references:mime-version:content-type; s=smtpout;
-	bh=axSlemk4v6H4AeikYAfmZrUUaEs=; b=MUU9HTAMELxoh5Nr4vmCHhE5rGhR
-	4hZsJmYudhNzWof8yrAHSTEUEjSPPuzpEhWJLGhkcAgv+y9JzQ3Ue9CCUiUtJk9m
-	qnL4Lba9aH1pIY5N26n+6/CmhRDHhpteuuczxC1oRPpypTInTHyPf9Rg+96tlNH4
-	rPh9J/kpUpUIV9Q=
-X-Sasl-enc: kBiXfaxpwz9Oxdfex8nKRVYQ3yRghwTgo1ZBHqnLj08P 1399668893
-Received: from [192.168.1.4] (unknown [66.31.18.51])
-	by mail.messagingengine.com (Postfix) with ESMTPA id B90DEC0000C;
-	Fri,  9 May 2014 16:54:52 -0400 (EDT)
-Date: Fri, 09 May 2014 20:50:51 +0000
-From: Colin Walters <walters@verbum.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-Id: <1399668891.22845.1@mail.messagingengine.com>
-In-Reply-To: <536D3C0F.1040605@windriver.com>
-References: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>
-	<CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
-	<536CF0E6.9060800@windriver.com>
-	<1399664736.22845.0@mail.messagingengine.com>
-	<536D3C0F.1040605@windriver.com>
-X-Mailer: geary/0.6.0
-MIME-Version: 1.0
-X-OriginalDate: Fri, 09 May 2014 20:50:51 -0004
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: Add /run/lock as a standard directory
+	Fri,  9 May 2014 21:20:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 May 2014 14:20:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1020,1389772800"; d="scan'208";a="536676756"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.214])
+	by fmsmga002.fm.intel.com with ESMTP; 09 May 2014 14:20:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 May 2014 14:20:01 -0700
+Message-Id: <1399670401-1448-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH][Dylan] openssl: fix CVE-2014-0198
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +28,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 20:54:53 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 09 May 2014 21:20:32 -0000
 
-On Fri, May 9, 2014 at 4:35 PM, Mark Hatle <mark.hatle@windriver.com> 
-wrote:
-> 
-> Certain system configurations may require parts of the /run 
-> filesystem to not always be on tmpfs.  (Some situations where you 
-> have a lot of disk, but limited ram for instance..  using tmpfs will 
-> potentially put your system into a low memory state, or you might not 
-> have enough tmpfs to run the system properly.)
+From: "Maxin B. John" <maxin.john@enea.com>
 
-I understand not doing /tmp-on-tmpfs, but /run?  Fix the parts of 
-userspace that are allocating significant memory there.
+A null pointer dereference bug was discovered in do_ssl3_write().
+An attacker could possibly use this to cause OpenSSL to crash, resulting
+in a denial of service.
 
-And if you're really not mounting /run as tmpfs, I hope you're ensuring 
-it's emptied immediately after mounting.
+https://access.redhat.com/security/cve/CVE-2014-0198
 
->  /run is one of the directories that needs to be investigated.  Is 
-> there actually anything there that may be desirable to persist from 
-> one boot to the next?
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch | 23 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch
 
-No.  It not being persistent is part of the API contract.
-http://lwn.net/Articles/436012/
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch
+new file mode 100644
+index 0000000..d7cd974
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Backport
++
++Reference: https://bugzilla.redhat.com/show_bug.cgi?id=1093837
++
++CVE-2014-0198: An attacker can trigger generation of an SSL
++alert which could cause a null pointer dereference.
++
++Signed-off-by: Maxin B. John <maxin.john@enea.com>
++---
++diff -Naur openssl-1.0.1g-orig/ssl/s3_pkt.c openssl-1.0.1g/ssl/s3_pkt.c
++--- openssl-1.0.1g-orig/ssl/s3_pkt.c	2014-03-17 17:14:20.000000000 +0100
+++++ openssl-1.0.1g/ssl/s3_pkt.c	2014-05-06 02:32:43.862587660 +0200
++@@ -657,6 +657,10 @@
++ 		if (i <= 0)
++ 			return(i);
++ 		/* if it went, fall through and send more stuff */
+++		/* we may have released our buffer, so get it again */
+++		if (wb->buf == NULL)
+++			if (!ssl3_setup_write_buffer(s))
+++				return -1;
++ 		}
++ 
++ 	if (len == 0 && !create_empty_fragment)
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index 103cb48..bc1b944 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+ 
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ 
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+ 
+@@ -36,6 +36,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://0001-Fix-DTLS-retransmission-from-previous-session.patch \
+             file://0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch \
+             file://CVE-2014-0160.patch \
++            file://openssl-CVE-2014-0198-fix.patch \
+            "
+ 
+ SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+-- 
+1.8.3.2
 
 
