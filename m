@@ -1,34 +1,35 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-pa0-f44.google.com (unknown [209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E51C60897
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f180.google.com (unknown [209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A79060167
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 14:31:03 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id ld10so4428936pab.17
+	Fri,  9 May 2014 14:42:56 +0000 (UTC)
+Received: by mail-qc0-f180.google.com with SMTP id i17so4559456qcy.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 May 2014 07:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=b65M9cyH3jXTPa1IWiG9SGHoYp2A/jgdWipw6uMriAs=;
-	b=wdGxfUkD9qiw6WHld9BH5UxPfc4+dc+TfM1xPYFC89Zz5BSxYMsoPijDlkFrvZi3eT
-	dMZVvUWdcljEr7UDESDifPUOmSp19dttfU9wYGD8tfUhiGo27GxEGbCgEsiYSB9KTNh1
-	LMqlCvPaVllsh+dhxvY3h7TA842dcNvnk/nLwYUENwiLo64cAX8Np3vGIkMq/GlCVA8N
-	czDxJZ6A6FKy48kTw1JooZ/BnMGQW4kAAT4L1aeK35e7dIlj8noETAKSKlcnOO2/K7sr
-	X78/hvZwXXR4E8KmGaPtlHdPgLssrBgCxaHYqtaMKszWbRCK89xu2wKPlIIeclfLA7Jf
-	/pyg==
-X-Received: by 10.66.249.165 with SMTP id yv5mr20914098pac.79.1399645864755;
-	Fri, 09 May 2014 07:31:04 -0700 (PDT)
-Received: from gentoo.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
-	[75.128.22.150])
-	by mx.google.com with ESMTPSA id vm3sm7919174pbc.45.2014.05.09.07.31.02
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 May 2014 07:31:03 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 May 2014 07:31:48 -0700
-Message-Id: <1399645908-14499-1-git-send-email-ticotimo@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] weston: add lcms, libpoppler-glib dependenies
+	Fri, 09 May 2014 07:42:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CiMkiNFSale7yboLFD00JRDNQlrm9nORnPXFFfxYVFU=;
+	b=C2WOP4vL2zKEdQBCZIabAyElpDuKmTRY+HXtSnneYwcwxOcdU986HDNcrKRRXyyn8V
+	fsrcfCTGjGiXj1lGznoX8soTCADAueGWUBe4AFQsuQSDR7o+JMBXC48jCDtqIMDy/E7D
+	I2sQlrpmr2+6s5gpH31mEd7JwHxM67wCfqhLtFat87V5VCs0Jyh1MipAn74P5rCJxX4T
+	aL9MFnSWKjMB7mjtvmIO8j5B5ZeI5LWEpFX4lSkAgxwMZXcHCFIOE3JH1YPBUMogx+ku
+	1VRuwP2jYQDlt7NyPeFTfZRaOGqu7pJAp9MaKlENgwgRAL7a4PbVpxCwkXPKcWCDw03R
+	i1Cg==
+X-Gm-Message-State: ALoCoQnTMX8MvWGkYurytKdZNf/euEh87P3BrDknuCYPbk+GdLYvLtCLuJ3TNrTo7v5LZIUwPjFw
+X-Received: by 10.229.134.198 with SMTP id k6mr15118260qct.13.1399646577486;
+	Fri, 09 May 2014 07:42:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.101.77 with HTTP; Fri, 9 May 2014 07:42:37 -0700 (PDT)
+In-Reply-To: <1399645908-14499-1-git-send-email-ticotimo@gmail.com>
+References: <1399645908-14499-1-git-send-email-ticotimo@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 May 2014 15:42:37 +0100
+Message-ID: <CAJTo0LYCdUJMPN8+pZWXrvsRc9fyiq7gm2dOh0N3gRcqWFP1CA@mail.gmail.com>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: add lcms, libpoppler-glib dependenies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,31 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 14:31:07 -0000
+X-List-Received-Date: Fri, 09 May 2014 14:42:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Tim Orling <TicoTimo@gmail.com>
+On 9 May 2014 15:31, Tim Orling <ticotimo@gmail.com> wrote:
+> +DEPENDS += "wayland virtual/egl pango lcms libpoppler-glib"
 
-fixes for JaMa test-dependencies build (oe-core-contrib/jansa/daisy-backports)
+For a start libpoppler isn't in oe-core, so this causes a build
+failure for everyone not using meta-oe.
 
-Signed-off-by: Tim Orling <TicoTimo@gmail.com>
----
- meta/recipes-graphics/wayland/weston_1.4.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These are for the basic test applications: I'd prefer to see a patch
+that either forcibly disabled the checks or added configure options so
+the dependencies can be controlled.
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.4.0.bb
-index 5213166..abacb58 100644
---- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.4.0.bb
-@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "74a2319d98e9cdb1acf24659699719aa89ac268cf549759271e326edc5
- inherit autotools pkgconfig useradd
- 
- DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
--DEPENDS += "wayland virtual/egl pango"
-+DEPENDS += "wayland virtual/egl pango lcms libpoppler-glib"
- 
- EXTRA_OECONF = "--enable-setuid-install \
-                 --disable-xwayland \
--- 
-1.8.3.2
-
+Ross
 
