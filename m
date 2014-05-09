@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E830601A0
+Return-Path: <ticotimo@gmail.com>
+X-Greylist: delayed 1430 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 09 May 2014 17:10:49 UTC
+Received: from mail-la0-f45.google.com (unknown [209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B414D6059B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 15:50:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s49Fo8xw000564
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 May 2014 08:50:08 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 9 May 2014 08:50:08 -0700
-Message-ID: <536CF931.8070705@windriver.com>
-Date: Fri, 9 May 2014 10:50:09 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Fri,  9 May 2014 17:10:48 +0000 (UTC)
+Received: by mail-la0-f45.google.com with SMTP id gl10so82673lab.32
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 May 2014 10:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=9Te4dZ0yKd/u8IaBdDHiKkxZ/FXByoMRQR4VZ6dBjXA=;
+	b=ygrZAJLRGjDdBs4wHORl8SbAJkAQcsDtIvlU0VI0W2vY780UdJkMSo62qjDHpUvx5m
+	nXibgwH6042YZ3MeANslS7+ekyrFf8QOgrvGb6FSUPbDCzOKxPwUFP6c8cZXVtC73IYV
+	y1+M/yokFA9I2CXiw3g22GMfF27xJSLcIs/zuLFCeLMKy/A0BwkUMAgMS4l3bP18uouy
+	xLnVo+0p4YntZchXfbsPG9PMJDl5lLrP44wdYhVqn0sU7yWjTxQqc7ZDtcDy5hWSJ626
+	Ul5nuI5Td9+W1rgkTDicVObXX23hKTltLURa5VQMCPqNKdwhicxvt+XIEc0qTVwtaZqH
+	/G8A==
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>	<CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
-	<536CF0E6.9060800@windriver.com> <536CF4D3.6020701@linux.intel.com>
-In-Reply-To: <536CF4D3.6020701@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: Add /run/lock as a standard directory
+X-Received: by 10.112.46.97 with SMTP id u1mr2366039lbm.50.1399654019536; Fri,
+	09 May 2014 09:46:59 -0700 (PDT)
+Received: by 10.114.216.4 with HTTP; Fri, 9 May 2014 09:46:59 -0700 (PDT)
+In-Reply-To: <CAJTo0LYAv1e0ko7jK6mm9Uz1Hsqvd7rq8dYshogVAE8mCMa=Aw@mail.gmail.com>
+References: <1399645908-14499-1-git-send-email-ticotimo@gmail.com>
+	<CAJTo0LYCdUJMPN8+pZWXrvsRc9fyiq7gm2dOh0N3gRcqWFP1CA@mail.gmail.com>
+	<20140509150721.GA22774@jama>
+	<CAJTo0LYAv1e0ko7jK6mm9Uz1Hsqvd7rq8dYshogVAE8mCMa=Aw@mail.gmail.com>
+Date: Fri, 9 May 2014 09:46:59 -0700
+Message-ID: <CANx9H-AZ2CfjewGUEDRyzsspqtES_XQt0f15oY61VY4RLK523w@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: add lcms, libpoppler-glib dependenies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +43,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 15:50:10 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 May 2014 17:10:52 -0000
+Content-Type: multipart/alternative; boundary=001a113497e6a49cab04f8fa58ad
 
-On 5/9/14, 10:31 AM, Saul Wold wrote:
-> On 05/09/2014 08:14 AM, Mark Hatle wrote:
->> On 5/9/14, 4:16 AM, Burton, Ross wrote:
->>> On 9 May 2014 00:24, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>> The /run/lock directory was being dynamically created during package
->>>> install,
->>>> but should have been owned by the base-files package.
->>>
->>> Doesn't do_install generate the /var/run/lock -> /run/lock symlink, as
->>> /run is always a tmpfs so has to be populated on boot?
->>>
->>
->> The /var/run/lock -> /run/lock symlink is generated, but the /run/lock
->> is never created by anything that I could find.
->>
->> /run is not always a tmpfs...  We've got configurations where it's
->> persistent.
->>
->> With that said, the fix may be incorrect though if something is
->> generally used to create this as a tmpfs, which package would normally
->> create the directory and populate it?  the volatiles code?
->>
+--001a113497e6a49cab04f8fa58ad
+Content-Type: text/plain; charset=UTF-8
+
+Consider this patch DOA. I'll try over the weekend to apply a more
+appropriate fix, unless someone else wants to jump in. There are plenty of
+other packages on the list :)
+
+
+On Fri, May 9, 2014 at 8:18 AM, Burton, Ross <ross.burton@intel.com> wrote:
+
+> On 9 May 2014 16:07, Martin Jansa <martin.jansa@gmail.com> wrote:
+> >> For a start libpoppler isn't in oe-core, so this causes a build
+> >> failure for everyone not using meta-oe.
+> >>
+> >> These are for the basic test applications: I'd prefer to see a patch
+> >> that either forcibly disabled the checks or added configure options so
+> >> the dependencies can be controlled.
+> >
+> > FWIW: I've sent WIP patch a while ago, but never finished it
+> > http://patchwork.openembedded.org/patch/57011/
+> >
+> > IIRC it doesn't apply to current version now.
 >
-> Ross is almost correct here, there is a link generated from via the
-> volatiles file in initscripts recipe, which will be created during
-> package install time.
-
-We still have the packaging issue though.  Nothing 'owns' that directory, yet 
-other package(s) reference it.  At a minimum something should own it (or it 
-needs to get shoved into the /etc/rpm/sysinfo/Dirnames file to show yes, the 
-directory really is available.)
-
-/proc/mounts has always been an issue since it's owned by the system, but that 
-can be dealt with using the same type of this /etc/rpm/sysinfo/Providenames....
-
-(There is a feature enhancement in the YP bugzilla to more easily support a 
-persistent filesystem, vs always using the volatiles..  we probably should drop 
-this for now and come back around when that is investigated.)
-
---Mark
-
-> Sau!
+> If definitely doesn't apply to master: weston doesn't check for
+> poppler anymore as the PDF viewer was removed.
 >
->> --Mark
->>
->>> Ross
->>>
->>
+> LCMS should have an explicit with/without as it is used for colour
+> management in the server.
+>
+> Ross
+>
 
+--001a113497e6a49cab04f8fa58ad
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Consider this patch DOA. I&#39;ll try over the weekend to =
+apply a more appropriate fix, unless someone else wants to jump in. There a=
+re plenty of other packages on the list :)<br></div><div class=3D"gmail_ext=
+ra">
+<br><br><div class=3D"gmail_quote">On Fri, May 9, 2014 at 8:18 AM, Burton, =
+Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+<div class=3D"">On 9 May 2014 16:07, Martin Jansa &lt;<a href=3D"mailto:mar=
+tin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; For a start libpoppler isn&#39;t in oe-core, so this causes a buil=
+d<br>
+&gt;&gt; failure for everyone not using meta-oe.<br>
+&gt;&gt;<br>
+&gt;&gt; These are for the basic test applications: I&#39;d prefer to see a=
+ patch<br>
+&gt;&gt; that either forcibly disabled the checks or added configure option=
+s so<br>
+&gt;&gt; the dependencies can be controlled.<br>
+&gt;<br>
+&gt; FWIW: I&#39;ve sent WIP patch a while ago, but never finished it<br>
+&gt; <a href=3D"http://patchwork.openembedded.org/patch/57011/" target=3D"_=
+blank">http://patchwork.openembedded.org/patch/57011/</a><br>
+&gt;<br>
+&gt; IIRC it doesn&#39;t apply to current version now.<br>
+<br>
+</div>If definitely doesn&#39;t apply to master: weston doesn&#39;t check f=
+or<br>
+poppler anymore as the PDF viewer was removed.<br>
+<br>
+LCMS should have an explicit with/without as it is used for colour<br>
+management in the server.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Ross<br>
+</font></span></blockquote></div><br></div>
+
+--001a113497e6a49cab04f8fa58ad--
