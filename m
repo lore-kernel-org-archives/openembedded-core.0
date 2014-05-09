@@ -1,38 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (unknown [209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F84765D55
+Return-Path: <petter@technux.se>
+Received: from vsp-authed-01-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id E5DC060144
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 02:25:34 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id uq10so596742igb.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 May 2014 19:25:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=6yjFFQjTuFtNCXBpdKUlgIwkgBBrV/AJioEh+n+63LQ=;
-	b=M8tkyZ1v0QsnCScV7ZmLgjK01QO5iNjO777++yKX8y1F7iD1wQBp/bpVRrmeyjTmXV
-	mQwtZggbwVPoVuEK8IR99ei+M8g2WT4yVopp2i7+5/ohY3dKdwmhxcRGC742Jct3HSZY
-	PeljMTgdYKIsAATMfm60FTqE7nQWz0wNcj05ns1zrJmOnn5rQW1l9ZnlCwczSxKoq+Mb
-	ajLMFceJWip829wyKH0jo2ceKpKenTIZa2TKxTuwh92hNPnb4aRLxMDHsC72j6vNOa1S
-	t/oEs/Vxxabg+gF+/Gzu0AL05ZHtrfELY8lr8Cz96L+4vK//fuyQ343BJtia0Vb1rI7c
-	th8Q==
-X-Received: by 10.50.78.201 with SMTP id d9mr2946328igx.17.1399602335887; Thu,
-	08 May 2014 19:25:35 -0700 (PDT)
+	Fri,  9 May 2014 04:53:26 +0000 (UTC)
+Received: from smtp01.binero.se (unknown [195.74.38.28])
+	by vsp-authed-01-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Fri,  9 May 2014 06:53:34 +0200 (CEST)
+Received: from webmail.binero.se (unknown [195.74.38.9])
+	(Authenticated sender: petter@technux.se)
+	by smtp-02-01.atm.binero.net (Postfix) with ESMTPA id 285FD3A123;
+	Fri,  9 May 2014 06:53:21 +0200 (CEST)
 MIME-Version: 1.0
-Received: by 10.50.74.228 with HTTP; Thu, 8 May 2014 19:25:05 -0700 (PDT)
-In-Reply-To: <CACS+7ZSK1P1Ev=sdFGeOz8aixRCABF_Lg1g5avbtAkZaR7xZXQ@mail.gmail.com>
-References: <CACS+7ZR=mA9+=NzxF=XLXvxxgypsjzcftZQ0UVWG-0rBLk202A@mail.gmail.com>
-	<5357EBAE.6040408@linux.intel.com>
-	<CACS+7ZQOx4JqsRERztKBgFrNZTkQmdG0CoGN0DbdxZxWy75NDg@mail.gmail.com>
-	<CAMKF1soB12wsTJ_V0+9Fq8FWX8=HWEv9iANmBvBOb4=kiKv4mQ@mail.gmail.com>
-	<CACS+7ZSK1P1Ev=sdFGeOz8aixRCABF_Lg1g5avbtAkZaR7xZXQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 8 May 2014 19:25:05 -0700
-Message-ID: <CAMKF1srBoDJd_B=5gZJgQ5npBCLtQx2tsCvhDv_q8OoQzB6xbA@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: fix tests when not using gold
+Date: Fri, 09 May 2014 06:53:21 +0200
+From: petter@technux.se
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <20140508105334.GP30955@jama>
+References: <cover.1399497346.git.petter@technux.se>
+	<f81a9671ffe21ca44d9a06d78a61550e94ba170c.1399497346.git.petter@technux.se>
+	<20140508105334.GP30955@jama>
+Message-ID: <7ebd830c6330d909b128a8d25d368689@technux.se>
+X-Sender: petter@technux.se
+User-Agent: Binero Webmail/0.8.4
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/13] python: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,70 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 02:25:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 09 May 2014 04:53:31 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 28, 2014 at 2:36 PM, Dan McGregor <danismostlikely@gmail.com> wrote:
-> On 23 April 2014 20:37, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Wed, Apr 23, 2014 at 9:43 AM, Dan McGregor <danismostlikely@gmail.com>
->> wrote:
->> > On 23 April 2014 10:34, Saul Wold <sgw@linux.intel.com> wrote:
->> >>
->> >> On 04/23/2014 08:01 AM, Dan McGregor wrote:
->> >>>
->> >>> From: Dan McGregor <dan.mcgregor@usask.ca>
->> >>>
->> >>> Explicitly mark the dummy function as externally visible
->> >>> so that ld can find the symbol at link time. This is needed
->> >>> when the DISTRO_FEATURE ld-is-gold is not enabled; systemd
->> >>> uses -flto anyway.
->> >>>
->> >>> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
->> >>> ---
->> >>>   meta/recipes-core/systemd/systemd/systemd-lto-fix.patch | 14
->> >>> ++++++++++++++
->> >>>   meta/recipes-core/systemd/systemd_211.bb                |  1 +
->> >>>   2 files changed, 15 insertions(+)
->> >>>   create mode 100644
->> >>> meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->> >>>
->> >>> diff --git a/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->> >>> b/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->> >>> new file mode 100644
->> >>> index 0000000..90875e4
->> >>> --- /dev/null
->> >>> +++ b/meta/recipes-core/systemd/systemd/systemd-lto-fix.patch
->> >>
->> >>
->> >> The patch also needs an appropriate Upstream-Status and Signed-off-by
->> >> tags
->> >> here.
->> >>
->> >> Thanks
->> >>         Sau!
->> >>
->> >
->> > As I said to Ross off-list (accidentally), this patch was for Linaro GCC
->> > as
->> > of 2014-03-20. I'm going to check that it's still vald, and if so I'll
->> > send
->> > it upstream too.
->>
->> FWIW, I have updated the systemd recipe to 212+ its here
->>
->> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/musl&id=f4283b924c13ea4d98b4251e11dd6a3388f195d5
->>
->> can you check if this patch is still needed there ? I use gold/arm and
->> did not run into this issue.
->>
+2014-05-08 12:53 skrev Martin Jansa:
+
+> On Wed, May 07, 2014 at 11:19:56PM +0200, Petter Mabäcker wrote:
 >
-> I just reran it, and it does indeed fail with meta-linaro-toolchain,
-> gcc_linaro-4.8, and binutils_linaro-2.24. It builds fine with my patch.
+>> Fixes [YOCTO #4497] Usage of FILESPATH is discouraged, since it can
+>> make recipes harder to bbappend. Instead FILESEXTRAPATHS should be 
+>> used
+>> to extend the path. Don't migrate paths that already exist in base
+>> FILESPATH to FILESEXTRAPATHS (e.g. BPN, BP and files). 
+>> Signed-off-by:
+>> Petter Mabäcker <petter@technux.se> ---
+>> .../recipes-devtools/python/python-native_2.7.3.bb | 2 +-
+>> .../python/python-pygobject_2.28.3.bb | 2 +- 2 files changed, 2
+>> insertions(+), 2 deletions(-) diff --git
+>> a/meta/recipes-devtools/python/python-native_2.7.3.bb
+>> b/meta/recipes-devtools/python/python-native_2.7.3.bb index
+>> 0c66d27..4949546 100644 ---
+>> a/meta/recipes-devtools/python/python-native_2.7.3.bb +++
+>> b/meta/recipes-devtools/python/python-native_2.7.3.bb @@ -21,7 +21,7 
+>> @@
+>> SRC_URI += " " S = "${WORKDIR}/Python-${PV}" -FILESPATH =
+>> "${FILE_DIRNAME}/python-native/:${FILE_DIRNAME}/python/"
+>> +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:" inherit native diff
+>> --git a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+>> b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb index
+>> 9dbe47c..691666c 100644 ---
+>> a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb +++
+>> b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb @@ -16,7
+>> +16,7 @@ SRC_URI[md5sum] = "aa64900b274c4661a5c32e52922977f9"
+>> SRC_URI[sha256sum] =
+>> "7da88c169a56efccc516cebd9237da3fe518a343095a664607b368fe21df95b6" S 
+>> =
+>> "${WORKDIR}/pygobject-${PV}" -FILESPATH =
+>> "${FILE_DIRNAME}/python-pygobject:${FILE_DIRNAME}/files"
+>> +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+>
+> Is this one correct?
+>
+> There is
+> BBCLASSEXTEND = "native"
+>
+> and prepending python-pygobject-native doesn't seem to be needed.
 
-I took another look at this patch. I think you should get feedback from systemd
-community on it. It seems to me that its happening in conjunction with LTO
-and there could be a back port in linaro gcc which is triggering it.
-In that case sooner or later it will show up with upstream gcc as
-well.
+You're right, this is not needed for pygobject. Will fix this in v2.
+>
+>> EXTRA_OECONF += "--disable-introspection" PARALLEL_MAKEINST = "" --
+>> 1.7.9.5 -- _______________________________________________
+>> Openembedded-core mailing list 
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core [1]
+
+
+Links:
+------
+[1] http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
