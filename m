@@ -1,39 +1,29 @@
-Return-Path: <walters@verbum.org>
-X-Greylist: delayed 419 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 09 May 2014 19:52:35 UTC
-Received: from out5-smtp.messagingengine.com (unknown [66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id 71B8D60167
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 254A460559
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 May 2014 19:52:35 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id E654E21D9F;
-	Fri,  9 May 2014 15:45:37 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute4.internal (MEProxy); Fri, 09 May 2014 15:45:37 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:subject:to:cc:message-id
-	:in-reply-to:references:mime-version:content-type; s=smtpout;
-	bh=LqFjGjt06iI2/yXJDrUAxFj/L68=; b=FmyyNNZ7NC8riJc0qyIL0zeKuxEA
-	mSmZ+oHPn3Qjk0gpeZN729zMjJeKhBpPgb4umq0zBk4/mQ0hoKvnzTHNv1eeT/s5
-	mLsWG7fhU8k7QC85y1ibQBpjQGr/RzsoKPFt3o0+HK074A8A9VGYoFhVsxfzKrLh
-	0q0PaHfxwH659kc=
-X-Sasl-enc: 6JAFXbfIqJWky1877bxbwyejwYIyzgdcpwwJgNr436tF 1399664737
-Received: from [192.168.1.4] (unknown [66.31.18.51])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 7BAC2680253;
-	Fri,  9 May 2014 15:45:37 -0400 (EDT)
-Date: Fri, 09 May 2014 19:41:36 +0000
-From: Colin Walters <walters@verbum.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-Id: <1399664736.22845.0@mail.messagingengine.com>
-In-Reply-To: <536CF0E6.9060800@windriver.com>
-References: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>
-	<CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>
-	<536CF0E6.9060800@windriver.com>
-X-Mailer: geary/0.6.0
+	Fri,  9 May 2014 20:35:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s49KZQuw023329
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 9 May 2014 13:35:26 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 9 May 2014 13:35:25 -0700
+Message-ID: <536D3C0F.1040605@windriver.com>
+Date: Fri, 9 May 2014 15:35:27 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-OriginalDate: Fri, 09 May 2014 19:41:36 -0004
+To: Colin Walters <walters@verbum.org>
+References: <1399591490-13000-1-git-send-email-mark.hatle@windriver.com>	<CAJTo0LZ75OkvT+yNkbczmqVT1=xSCu1PZainWDyWXAy8Frro+Q@mail.gmail.com>	<536CF0E6.9060800@windriver.com>
+	<1399664736.22845.0@mail.messagingengine.com>
+In-Reply-To: <1399664736.22845.0@mail.messagingengine.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: Add /run/lock as a standard	directory
+Subject: Re: [PATCH] base-files: Add /run/lock as a standard directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,15 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 May 2014 19:52:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 09 May 2014 20:35:29 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 9, 2014 at 11:14 AM, Mark Hatle <mark.hatle@windriver.com> 
-wrote:
-> 
-> /run is not always a tmpfs...  We've got configurations where it's 
-> persistent.
+On 5/9/14, 2:41 PM, Colin Walters wrote:
+> On Fri, May 9, 2014 at 11:14 AM, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+>>
+>> /run is not always a tmpfs...  We've got configurations where it's
+>> persistent.
+>
+> What?  Why?
+>
 
-What?  Why?
+Certain system configurations may require parts of the /run filesystem to not 
+always be on tmpfs.  (Some situations where you have a lot of disk, but limited 
+ram for instance..  using tmpfs will potentially put your system into a low 
+memory state, or you might not have enough tmpfs to run the system properly.)
 
+As part of the future work to allow for persistent storage on certain things 
+that the volatiles are doing right now, /run is one of the directories that 
+needs to be investigated.  Is there actually anything there that may be 
+desirable to persist from one boot to the next?
+
+--Mark
 
