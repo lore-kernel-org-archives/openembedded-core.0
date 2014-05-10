@@ -1,26 +1,26 @@
 Return-Path: <petter@technux.se>
-Received: from vsp-authed-02-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 5051860E49
+Received: from vsp-authed-04-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F49460173
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 May 2014 08:06:18 +0000 (UTC)
+	Sat, 10 May 2014 08:06:20 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-02-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Sat, 10 May 2014 10:06:16 +0200 (CEST)
+	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Sat, 10 May 2014 10:06:14 +0200 (CEST)
 Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
 	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 7C66D3A120;
-	Sat, 10 May 2014 10:06:13 +0200 (CEST)
+	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 522563A142;
+	Sat, 10 May 2014 10:06:14 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 May 2014 10:05:55 +0200
-Message-Id: <3d66b3d83d02812a1e141b318f3af8ea76907dae.1399671290.git.petter@technux.se>
+Date: Sat, 10 May 2014 10:05:58 +0200
+Message-Id: <d166f0f875d07b0b7e7720292eef77df92b98afb.1399671290.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 References: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 In-Reply-To: <cover.1399671290.git.petter@technux.se>
 References: <cover.1399671290.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv2 02/13] dbus: remove usage of FILESPATH
+Subject: [PATCHv2 05/13] xorg-lib: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 May 2014 08:06:20 -0000
+X-List-Received-Date: Sat, 10 May 2014 08:06:21 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -44,21 +44,21 @@ bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/recipes-core/dbus/dbus-test_1.6.18.bb |    2 +-
+ meta/recipes-graphics/xorg-lib/libx11.inc |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.6.18.bb b/meta/recipes-core/dbus/dbus-test_1.6.18.bb
-index 9ea0f4d..bff1a46 100644
---- a/meta/recipes-core/dbus/dbus-test_1.6.18.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.6.18.bb
-@@ -23,7 +23,7 @@ SRC_URI[md5sum] = "b02e9c95027a416987b81f9893831061"
- SRC_URI[sha256sum] = "7085a0895a9eb11a952394cdbea6d8b4358e17cb991fed0e8fb85e2b9e686dcd"
+diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+index e07d42d..6c45828 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11.inc
++++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+@@ -8,7 +8,7 @@ require xorg-lib-common.inc
  
- S="${WORKDIR}/dbus-${PV}"
--FILESPATH = "${FILE_DIRNAME}/dbus"
-+FILESEXTRAPATHS_prepend := "${THISDIR}/dbus:"
+ inherit siteinfo
  
- inherit autotools pkgconfig gettext ptest
+-FILESPATH = "${FILE_DIRNAME}/libx11"
++FILESEXTRAPATHS_prepend := "${THISDIR}/libx11:"
+ 
+ PE = "1"
  
 -- 
 1.7.9.5
