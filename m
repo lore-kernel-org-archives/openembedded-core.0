@@ -1,26 +1,26 @@
 Return-Path: <petter@technux.se>
-Received: from vsp-authed-02-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 789A660173
+Received: from vsp-authed-04-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CD5D60703
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 May 2014 08:06:19 +0000 (UTC)
+	Sat, 10 May 2014 08:06:23 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-02-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Sat, 10 May 2014 10:06:17 +0200 (CEST)
+	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Sat, 10 May 2014 10:06:18 +0200 (CEST)
 Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
 	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 095763A127;
+	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id D03703A144;
 	Sat, 10 May 2014 10:06:14 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 May 2014 10:05:57 +0200
-Message-Id: <d7746ce8ca07c3056b77cd9c808fddb00ca44957.1399671290.git.petter@technux.se>
+Date: Sat, 10 May 2014 10:06:00 +0200
+Message-Id: <a55df61c843bc11c4f045157486c68ef7433c0f5.1399671290.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 References: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 In-Reply-To: <cover.1399671290.git.petter@technux.se>
 References: <cover.1399671290.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv2 04/13] trace-cmd: refactoring recipe
+Subject: [PATCHv2 07/13] qemu: remove unused FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,122 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 May 2014 08:06:23 -0000
+X-List-Received-Date: Sat, 10 May 2014 08:06:24 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Fixes [YOCTO #4497]
 
-Refactoring recipe to avoid duplicated entries in trace-cmd and
-kernelshark bb-files. Also remove usage of FILESPATH and split package
-unique patches into separate dirs.
+Usage of FILESPATH is discouraged, since it can make recipes harder to
+bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+However in nativesdk-qemu-helper no FILESPATH additions are currently needed so
+instead it should be removed.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- .../kernelshark-fix-syntax-error-of-shell.patch    |    0
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |   18 ++++--------------
- meta/recipes-kernel/trace-cmd/trace-cmd.inc        |   14 ++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |   16 ++++------------
- 4 files changed, 22 insertions(+), 26 deletions(-)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => kernelshark}/kernelshark-fix-syntax-error-of-shell.patch (100%)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd.inc
+ .../qemu/nativesdk-qemu-helper_1.0.bb              |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
-similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-rename to meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index d61097d..e64abe2 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -1,28 +1,18 @@
- SUMMARY = "Graphical trace viewer for Ftrace"
- LICENSE = "GPLv2"
-+
-+require trace-cmd.inc
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
+diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+index fe03b82..51d1c59 100644
+--- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
++++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+@@ -3,7 +3,6 @@ LICENSE = "GPLv2"
+ RDEPENDS_${PN} = "nativesdk-qemu"
+ PR = "r9"
  
--SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
--PR = "r3"
--PV = "1.2+git${SRCPV}"
--
- DEPENDS = "gtk+"
- RDEPENDS_${PN} = "trace-cmd"
+-FILESPATH = "${FILE_DIRNAME}/qemu-helper"
  
--inherit pkgconfig pythonnative
--
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
--           file://addldflags.patch \
--           file://make-docs-optional.patch \
--           file://blktrace-api-compatibility.patch \
--           file://kernelshark-fix-syntax-error-of-shell.patch"
--S = "${WORKDIR}/git"
-+SRC_URI_append = "file://kernelshark-fix-syntax-error-of-shell.patch"
- 
- EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
- 
--FILESPATH = "${FILE_DIRNAME}/trace-cmd"
--
- do_install() {
- 	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
- 	rm -rf ${D}${datadir}/trace-cmd
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd.inc b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-new file mode 100644
-index 0000000..2c8d83d
---- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-@@ -0,0 +1,14 @@
-+SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
-+PR = "r3"
-+PV = "1.2+git${SRCPV}"
-+
-+inherit pkgconfig pythonnative
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/trace-cmd:"
-+
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
-+           file://addldflags.patch \
-+           file://make-docs-optional.patch \
-+           file://blktrace-api-compatibility.patch \
-+"
-+S = "${WORKDIR}/git"
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-index a0c823b..6f3319d 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-@@ -1,26 +1,18 @@
- SUMMARY = "User interface to Ftrace"
- LICENSE = "GPLv2 & LGPLv2.1"
-+
-+require trace-cmd.inc
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
-                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
-                     file://trace-input.c;beginline=5;endine=8;md5=6ad47cc2b03385d8456771eec5eeea0b"
- 
--SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
--PR = "r3"
--PV = "1.2+git${SRCPV}"
--
--inherit pkgconfig pythonnative
--
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
--           file://addldflags.patch \
--           file://make-docs-optional.patch \
--           file://blktrace-api-compatibility.patch \
--           file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
-+SRC_URI_append = "file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
-            file://trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch \
-            file://trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch \
-            file://trace-cmd-fix-syntax-error-of-shell.patch \
- "
--S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "'prefix=${prefix}'"
- 
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5d4e0b4c28f999 \
+                     file://${COREBASE}/scripts/runqemu;endline=18;md5=77fbe442a88b1bcdc29c3ba67733b21b"
 -- 
 1.7.9.5
 
