@@ -1,26 +1,34 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-03-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 4802965FFA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f179.google.com (unknown [209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id AE511605B2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 May 2014 08:06:29 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Sat, 10 May 2014 10:06:39 +0200 (CEST)
-Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
-	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id E5ED63A148;
-	Sat, 10 May 2014 10:06:15 +0200 (CEST)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 May 2014 10:06:04 +0200
-Message-Id: <3cb088d340722192e80629d712bdfb8dafb0a7e1.1399671290.git.petter@technux.se>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
-References: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
-In-Reply-To: <cover.1399671290.git.petter@technux.se>
-References: <cover.1399671290.git.petter@technux.se>
+	Sat, 10 May 2014 16:20:31 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id hn18so2298326igb.6
+	for <multiple recipients>; Sat, 10 May 2014 09:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=j7KAs5Sn8GFDbq4s9n/ywDPclbIzZ9qY5Uxu8YviyzU=;
+	b=HOzS9pnj6B2XzUoZPos1GBZXHFfWH3maRgyEKE+v3SLhQ7PmXA53gGv2WyYOWuwpkC
+	s1vCMLngu6cDtBH4ll5HJsM+Co8w7bp4hlqj+CBF0cGXmHq2KcD71VD9S/FMW9VfYHrV
+	Pan5cr7hcpsIiaBjKKc9URtX25qOTaKEfVzpVaWCTnaVeEHGvWBjdA68vyAqBcoKHiCF
+	2aLIdrCNEG2OC6YHIFZLCIyyezH82HgXA/rrkKpJf8RAVLk7NoxfVhIdsySDvRDOX7j+
+	H/wwkmf/LsIUgQrG7qZFNtIq8IbENGnTwbHcAwyPDqIr3aYgeoqnaESC2mK6wVevGVz6
+	bVqQ==
+X-Received: by 10.50.109.130 with SMTP id hs2mr22554399igb.29.1399738477515;
+	Sat, 10 May 2014 09:14:37 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCHv2 11/13] u-boot: remove unused FILESPATH
+Received: by 10.50.79.133 with HTTP; Sat, 10 May 2014 09:14:07 -0700 (PDT)
+In-Reply-To: <CAJTo0LZbPXzXyvKXGZZYDT1BDWg3XYrRO_NXsXmuHLMmmW_S3Q@mail.gmail.com>
+References: <CAJTo0LZbPXzXyvKXGZZYDT1BDWg3XYrRO_NXsXmuHLMmmW_S3Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 10 May 2014 09:14:07 -0700
+Message-ID: <CAMKF1sqETNuu4EVasrJfdumQvvOYmhC3g6ez9px5EDhsMTTLUg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-devel <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: GStreamer 0.10's future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +41,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 May 2014 08:06:29 -0000
+X-List-Received-Date: Sat, 10 May 2014 16:20:33 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Fixes [YOCTO #4497]
+On Thu, May 8, 2014 at 7:48 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> For the 1.7 release I want to move GStreamer 0.10 from oe-core into
+> meta-multimedia, and ensure everything in oe-core has ported to
+> GStreamer 1.x.  GStreamer 0.10 is considered dead upstream and is
+> unmaintained so we don't need to be shipping both versions anymore.
+>
+> Everyone in agreement?  Should I expect any hate mail over this?
 
-Usage of FILESPATH is discouraged, since it can make recipes harder to
-bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
-However in u-boot no FILESPATH additions are currently needed so
-instead it should be removed.
-
-Signed-off-by: Petter Mabäcker <petter@technux.se>
----
- meta/recipes-bsp/u-boot/u-boot.inc |    1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index cb50949..d826a40 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -65,7 +65,6 @@ do_install () {
- }
- 
- FILES_${PN} = "/boot ${sysconfdir}"
--FILESPATH =. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
- 
- do_deploy () {
-     install -d ${DEPLOYDIR}
--- 
-1.7.9.5
-
+I think we still have QT versions which has not yet removed the
+support. but as long as its in
+some layer I am good with it.
 
