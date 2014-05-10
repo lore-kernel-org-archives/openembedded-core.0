@@ -1,6 +1,6 @@
 Return-Path: <petter@technux.se>
 Received: from vsp-authed-01-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id CD4B360703
+	by mail.openembedded.org (Postfix) with ESMTP id E1A6965FF5
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 10 May 2014 08:06:24 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
@@ -8,19 +8,19 @@ Received: from smtp01.binero.se (unknown [195.74.38.28])
 	Sat, 10 May 2014 10:06:39 +0200 (CEST)
 Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
 	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 60A8B3A146;
+	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 1B6DA3A145;
 	Sat, 10 May 2014 10:06:15 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 May 2014 10:06:02 +0200
-Message-Id: <1cd14adb985cc0ae62272779d4839f8afecbdbc0.1399671290.git.petter@technux.se>
+Date: Sat, 10 May 2014 10:06:01 +0200
+Message-Id: <a8ffb5c87144b9c70f77a61ce8b54e42aa0dce91.1399671290.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 References: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 In-Reply-To: <cover.1399671290.git.petter@technux.se>
 References: <cover.1399671290.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv2 09/13] gcc: remove usage of FILESPATH
+Subject: [PATCHv2 08/13] linuxdoc-tools: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,58 +40,58 @@ Content-Transfer-Encoding: 8bit
 Fixes [YOCTO #4497]
 
 Usage of FILESPATH is discouraged, since it can make recipes harder to
-bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+bbappend.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc |    4 ++--
- meta/recipes-devtools/gcc/gcc-4.9.inc |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ .../linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb |    3 ---
+ .../disable_dvips_doc.patch                        |    0
+ .../disable_sgml2rtf.patch                         |    0
+ .../disable_tex_doc.patch                          |    0
+ .../disable_txt_doc.patch                          |    0
+ 5 files changed, 3 deletions(-)
+ rename meta/recipes-devtools/linuxdoc-tools/{linuxdoc-tools-native => linuxdoc-tools}/disable_dvips_doc.patch (100%)
+ rename meta/recipes-devtools/linuxdoc-tools/{linuxdoc-tools-native => linuxdoc-tools}/disable_sgml2rtf.patch (100%)
+ rename meta/recipes-devtools/linuxdoc-tools/{linuxdoc-tools-native => linuxdoc-tools}/disable_tex_doc.patch (100%)
+ rename meta/recipes-devtools/linuxdoc-tools/{linuxdoc-tools-native => linuxdoc-tools}/disable_txt_doc.patch (100%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 42b4212..fe20b12 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -8,7 +8,7 @@ PV = "4.8.2"
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+index fce4178..ed6ab73 100644
+--- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
++++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=077ef64ec3ac257fb0d786531cf26931"
  
- BINV = "4.8.2"
+ DEPENDS = "groff-native openjade-native"
  
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.8' ], d)}"
-+FILESEXTRAPATHS_prepend := "${THISDIR}/gcc-4.8:"
+-
+ SRC_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.gz \
+            file://disable_sgml2rtf.patch \
+            file://disable_txt_doc.patch \
+@@ -15,8 +14,6 @@ SRC_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.
+ SRC_URI[md5sum] = "1d13d500918a7a145b0edc2f16f61dd1"
+ SRC_URI[sha256sum] = "7103facee18a2ea97186ca459d743d22f7f89ad4b5cd1dfd1c34f83d6bfd4101"
  
- DEPENDS =+ "mpfr gmp libmpc zlib"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
-@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-                    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
-+                   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
+-FILESPATH = "${FILE_DIRNAME}/linuxdoc-tools-native/"
+-
+ inherit autotools-brokensep native
  
- SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0002-uclibc-conf.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 865ec47..5d46bdf 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -8,7 +8,7 @@ PV = "4.9.0"
- 
- BINV = "4.9.0"
- 
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.9' ], d)}"
-+FILESEXTRAPATHS_prepend := "${THISDIR}/gcc-4.9:"
- 
- DEPENDS =+ "mpfr gmp libmpc zlib"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
-@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-                    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
-+                   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
- 
- SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+ do_configure () {
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_dvips_doc.patch b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_dvips_doc.patch
+similarity index 100%
+rename from meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_dvips_doc.patch
+rename to meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_dvips_doc.patch
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_sgml2rtf.patch b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_sgml2rtf.patch
+similarity index 100%
+rename from meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_sgml2rtf.patch
+rename to meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_sgml2rtf.patch
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_tex_doc.patch b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_tex_doc.patch
+similarity index 100%
+rename from meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_tex_doc.patch
+rename to meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_tex_doc.patch
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_txt_doc.patch
+similarity index 100%
+rename from meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch
+rename to meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools/disable_txt_doc.patch
 -- 
 1.7.9.5
 
