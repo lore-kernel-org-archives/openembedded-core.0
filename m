@@ -1,24 +1,26 @@
 Return-Path: <petter@technux.se>
-Received: from vsp-authed-04-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A45C60D0B
+Received: from vsp-authed-02-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 5051860E49
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 10 May 2014 08:06:18 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS;
-	Sat, 10 May 2014 10:06:13 +0200 (CEST)
+	by vsp-authed-02-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Sat, 10 May 2014 10:06:16 +0200 (CEST)
 Received: from eldbvzzwp1-7x.lan (81-229-90-163-no67.tbcn.telia.com
 	[81.229.90.163]) (Authenticated sender: petter@technux.se)
-	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 399543A11F;
+	by smtp-09-01.atm.binero.net (Postfix) with ESMTPSA id 7C66D3A120;
 	Sat, 10 May 2014 10:06:13 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 May 2014 10:05:54 +0200
-Message-Id: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
+Date: Sat, 10 May 2014 10:05:55 +0200
+Message-Id: <3d66b3d83d02812a1e141b318f3af8ea76907dae.1399671290.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
+References: <a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
 In-Reply-To: <cover.1399671290.git.petter@technux.se>
 References: <cover.1399671290.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv2 01/13] systemtap: remove usage of FILESPATH
+Subject: [PATCHv2 02/13] dbus: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 May 2014 08:06:19 -0000
+X-List-Received-Date: Sat, 10 May 2014 08:06:20 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -42,35 +44,21 @@ bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- .../systemtap/systemtap-uprobes_git.bb             |    2 ++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |    2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/dbus/dbus-test_1.6.18.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
-index ab9acba..7d76b52 100644
---- a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
-@@ -11,6 +11,8 @@ ALLOW_EMPTY_${PN} = "1"
+diff --git a/meta/recipes-core/dbus/dbus-test_1.6.18.bb b/meta/recipes-core/dbus/dbus-test_1.6.18.bb
+index 9ea0f4d..bff1a46 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.6.18.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.6.18.bb
+@@ -23,7 +23,7 @@ SRC_URI[md5sum] = "b02e9c95027a416987b81f9893831061"
+ SRC_URI[sha256sum] = "7085a0895a9eb11a952394cdbea6d8b4358e17cb991fed0e8fb85e2b9e686dcd"
  
- inherit module-base gettext
+ S="${WORKDIR}/dbus-${PV}"
+-FILESPATH = "${FILE_DIRNAME}/dbus"
++FILESEXTRAPATHS_prepend := "${THISDIR}/dbus:"
  
-+FILESEXTRAPATHS_prepend := "${THISDIR}/systemtap:"
-+
- FILES_${PN} += "${datadir}/systemtap/runtime/uprobes"
- 
- EXTRA_OEMAKE = ""
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 78439c1..717d66f 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -8,8 +8,6 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://obsolete_automake_macros.patch \
-           "
- 
--FILESPATH = "${FILE_DIRNAME}/systemtap"
--
- # systemtap doesn't support mips
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64).*-linux'
+ inherit autotools pkgconfig gettext ptest
  
 -- 
 1.7.9.5
