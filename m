@@ -1,35 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (unknown [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 099126059B
+Return-Path: <andyblac@icloud.com>
+X-Greylist: delayed 3610 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 11 May 2014 17:30:13 UTC
+Received: from st11p00mm-asmtp003.mac.com (unknown [17.172.81.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E6756059B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 May 2014 17:05:50 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s4BH5hYx022223; Sun, 11 May 2014 18:05:43 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nTv9w88hpiqg; Sun, 11 May 2014 18:05:43 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s4BH5ehQ022219
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 11 May 2014 18:05:42 +0100
-Message-ID: <1399827934.31891.119.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Robertson <gary.robertson@linaro.org>
-Date: Sun, 11 May 2014 18:05:34 +0100
-In-Reply-To: <1399586980.31891.79.camel@ted>
-References: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>
-	<1398272388-3326-1-git-send-email-gary.robertson@linaro.org>
-	<1398272388-3326-2-git-send-email-gary.robertson@linaro.org>
-	<CAF7YWnzBffap=rUnEAVhJ1B6x4-v7rvv9LR+mxK6i_tw=Gqbyg@mail.gmail.com>
-	<1399586980.31891.79.camel@ted>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Mike Holmes <mike.holmes@linaro.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] rt-tests: bump version 0.87 => 0.89
+	Sun, 11 May 2014 17:30:13 +0000 (UTC)
+MIME-version: 1.0
+Received: from macmuppets.DiskStation.me
+	(host86-167-70-74.range86-167.btcentralplus.com [86.167.70.74])
+	by st11p00mm-asmtp003.mac.com
+	(Oracle Communications Messaging Server 7u4-27.08(7.0.4.27.7) 64bit
+	(built Aug
+	22 2013)) with ESMTPSA id <0N5F00B154I2NE70@st11p00mm-asmtp003.mac.com>
+	for openembedded-core@lists.openembedded.org;
+	Sun, 11 May 2014 16:30:04 +0000 (GMT)
+Received: from [192.168.1.31]
+	(host86-167-70-74.range86-167.btcentralplus.com [86.167.70.74])
+	(Authenticated sender: andyblac)	by macmuppets.DiskStation.me (Postfix)
+	with ESMTPSA id CC673B30240	for
+	<openembedded-core@lists.openembedded.org>; 
+	Sun, 11 May 2014 17:29:59 +0100 (IST)
+From: Andrew Blackburn <andyblac@icloud.com>
+Message-id: <874B01E8-8A61-442E-981C-3FCE0763854E@icloud.com>
+Date: Sun, 11 May 2014 17:29:55 +0100
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.1874)
+X-Spam-Status: No
+X-MANTSH: 1TEIXWV4bG1oaGkdHB0lGUkdDRl5PWBoaEhEKTEMXGx0EGx0YBBIZBBsSEBseGh8
+	aEQpYTRdLEQptfhcaEQpMWRcbGhsbEQpZSRcRClleF2hjeREKQ04XSxsZGmJCH2lmHX9jGXhzB
+	x5oGxwZGh4dEQpYXBcZBBoEGxsHTU4fGBgYGUsFGx0EGx0YBBIZBBsSEBseGh8bEQpeWRdhWn9
+	FRBEKQ1oXEhwEGxwdBB0aBB0eEQpCXhcbEQpCRRdtQWBPQ01wYRp+YREKQk4Xa0UaUlAeQ1xZX
+	GgRCkJMF2UcekZwQENgeRMSEQpCbBdrUxx/GB1HblhsUBEKQkAXYHhpWB9rQmNJHR8RCkJYF2h
+	DeGceQXpgXBtSEQpwaBdjYEZwHV1GTkxeHBEKcGgXaRxkBWx+QwVCb0sRCnBoF29TZWNnTWROB
+	UVaEQpwaBdlbW8ebGNAaEhDexEKcGgXYmNLe0kcQHgeXRkRCnBsF2BYSF5oc0x6f28YEQ==
+X-CLX-Spam: false
+X-CLX-Score: 1011
+X-Proofpoint-Virus-Version: vendor=fsecure
+	engine=2.50.10432:5.11.96,1.0.14,0.0.0000
+	definitions=2014-05-11_02:2014-05-09, 2014-05-11,
+	1970-01-01 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=48 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=7.0.1-1402240000
+	definitions=main-1405110231
+X-MailScanner-ID: CC673B30240.A90F7
+X-MailScanner: Found to be clean
+X-MailScanner-From: andyblac@icloud.com
+Subject: talloc build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,52 +60,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 May 2014 17:05:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 11 May 2014 17:30:24 -0000
+Content-type: text/plain; charset=windows-1252
+Content-transfer-encoding: quoted-printable
 
-On Thu, 2014-05-08 at 23:09 +0100, Richard Purdie wrote:
-> On Thu, 2014-05-08 at 16:24 -0500, Gary Robertson wrote:
-> 
-> > I am regrettably new at patch submissions within the Linux / Open
-> > Source community, so please forgive my breach of etiquette if I abuse
-> > the balance between persistence and peskiness.
-> > 
-> > I submitted the first version of this recipe patch on 18 APR and
-> > received prompt suggestions for improvement.
-> > However since amending the patch to incorporate those improvements and
-> > re-submitting the patch on 24 APR, I have heard no further comments or
-> > responses.
-> > 
-> > So I am pinging the list once more to check the status of the patch.
-> > Please let me know if additional work must be done to make the patch
-> > acceptable.
-> > 
-> > (BTW, I authored the patch to cyclictest and Anders Roxell authored
-> > the patch to update the recipe with the new version of the rt-tests.
-> > I subsequently submitted the recipe patch on his behalf... that is why
-> > his name appears as author of the patch itself.)
-> 
-> We have tried this in some of the test builds. My memory says something
-> failed and we hence didn't merge it but I'm not remembering which
-> version of the series that was, or what the failure was. Saul may
-> remember.
-> 
-> We do try and reply to the patches where we identify failures with
-> pointers to the logs but this one has probably fallen through the
-> cracks, sorry.
-> 
-> If we can't remember we'll try it in master-next or mut and see if we
-> can remember what the issue was...
+hi all,
 
-I merged this as I thought we were ok, then we found:
+i recently merged =91meta-openembedded=92 master into my branch, but i =
+am now getting a build error with tallow, below is the erro i am =
+getting, can anyone help on how to fix.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/85/steps/BuildImages/logs/stdio
 
-so a patch to fix that would be much appreciated.
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+ERROR: Function failed: do_configure (log file is located at =
+/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
+loc-2.0.1-r2/temp/log.do_configure.9168)
+ERROR: Logfile of failure stored in: =
+/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
+loc-2.0.1-r2/temp/log.do_configure.9168
+Log data follows:
+| DEBUG: Executing python function sysroot_cleansstate
+| DEBUG: Python function sysroot_cleansstate finished
+| DEBUG: SITE files ['endian-little', 'bit-32', 'mips-common', =
+'common-linux', 'common-glibc', 'mipsel-linux', 'common']
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing python function autotools_copy_aclocals
+| DEBUG: Python function autotools_copy_aclocals finished
+| DEBUG: Executing shell function do_configure
+| gnu-configize: 'configure.ac' or 'configure.in' is required
+| WARNING: =
+/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
+loc-2.0.1-r2/temp/run.do_configure.9168:1 exit 1 from
+|   gnu-configize
+| ERROR: Function failed: do_configure (log file is located at =
+/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
+loc-2.0.1-r2/temp/log.do_configure.9168)
+ERROR: Task 4967 =
+(/home/vix/oe-alliance/meta-openembedded/meta-oe/recipes-support/talloc/ta=
+lloc_2.0.1.bb, do_configure) failed with exit code =911'
 
-Cheers,
 
-Richard
 
+hope someone can help
+
+
+cheers
+Andy.=
 
