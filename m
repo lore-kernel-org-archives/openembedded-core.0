@@ -1,35 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-la0-f47.google.com (unknown [209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B070460167;
-	Sun, 11 May 2014 06:59:02 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id pn19so1021250lab.34
-	for <multiple recipients>; Sat, 10 May 2014 23:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=4HvF5oNFLSC9H/+dcwk/K+aC2cMf1boAxEB0hLGyCBA=;
-	b=amKE7MM2LtFZwm+clcMVIWMPbcbDCVBuO/v+t8thyYEQFch9OUqHZtAk5ohxF3UujL
-	iMHuZJnz+cHtJL+1Yoid24LRT4EEBCrzGcMy5m7zQLge6CYeHY2htG04v+47tL8k2AvV
-	L42mDMC+XCvh1qQbp+dfATxWEJfkfxybvUPlaUMujmfKEQVWR4KLHLsTIgr0HdJVJ93p
-	Y+uKsqEn6gkjs37cfYNmqY0aSloLdQPlIaP7y6aDgfb4COnAkFqifTtGKy3CCW/b6/U6
-	PtqqW3CrBAT8DiDQyVaZmxJAGJfa5NFCDWBWrbOiS8iSgd3h3uIGK/DdG8a8/oNxFm+g
-	3DOw==
-X-Received: by 10.152.23.42 with SMTP id j10mr7287956laf.19.1399791542208;
-	Sat, 10 May 2014 23:59:02 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	n6sm7002864laj.17.2014.05.10.23.59.00 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 10 May 2014 23:59:01 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 11 May 2014 08:59:27 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140511065927.GD22774@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, test-dependencies 2014-05-11
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B53CE605B3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 11 May 2014 12:13:19 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4BCDCei017878; Sun, 11 May 2014 13:13:12 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id pWoG4uKgYopI; Sun, 11 May 2014 13:13:12 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4BCD6iA017872
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 11 May 2014 13:13:08 +0100
+Message-ID: <1399810380.31891.110.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: petter@technux.se
+Date: Sun, 11 May 2014 13:13:00 +0100
+In-Reply-To: <df4fba969a1fcfe305dd2d3d304bfc35@technux.se>
+References: <cover.1399671290.git.petter@technux.se>
+	<a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
+	<CAMKF1sob1+VHoBZQxjm-MkrPE02+f6JKqzGaxiNz0yNL-WA2ZQ@mail.gmail.com>
+	<df4fba969a1fcfe305dd2d3d304bfc35@technux.se>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 01/13] systemtap: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,161 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 May 2014 06:59:06 -0000
-X-Groupsio-MsgNum: 53068
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bajzpZikUji1w+G9"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 11 May 2014 12:13:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---bajzpZikUji1w+G9
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 2014-05-11 at 00:31 +0200, petter@technux.se wrote:
+> 2014-05-10 18:58 skrev Khem Raj:
+> 
+> > On Sat, May 10, 2014 at 1:05 AM, Petter Mabäcker <petter@technux.se>
+> > wrote:
+> >
+> >> +FILESEXTRAPATHS_prepend := "${THISDIR}/systemtap:"
+> >
+> > would something like
+> >
+> > FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemtap:"
+> >
+> > avoid the prepend and immediate evaluation
+> 
+> I guess someone with deep bitbake knowledge can answer this better. But 
+> as far as I understand, you should always use immediate evaluation when 
+> using THISDIR, to be extra safe. Not sure if it's more safe to use 
+> FILE_DIRNAME if you want to avoid immediate expanding when using 
+> FILESEXTRAPATHS?
+> 
+> The bitbake documentations says:
+> 
+> "The operators "_append" and "_prepend" differ from the operators ".=" 
+> and "=." in that they are deferred until after parsing completes rather 
+> than being immediately applied."
+> 
+> Not sure if above means that "=." will also immediately expand 
+> variables or not?
 
-On Fri, May 09, 2014 at 02:55:49PM +0200, Martin Jansa wrote:
-> On Fri, May 09, 2014 at 01:37:46PM +0200, Martin Jansa wrote:
-> > On Tue, May 06, 2014 at 09:51:44PM +0200, Martin Jansa wrote:
-> > > On Fri, Apr 25, 2014 at 03:00:09AM +0200, Martin Jansa wrote:
-> > > > On Fri, Apr 18, 2014 at 08:36:32PM +0200, Martin Jansa wrote:
-> > > > > On Thu, Apr 03, 2014 at 03:06:09PM +0200, Martin Jansa wrote:
-> > > > > > I've just started this long test-dependencies build so jenkins =
-will be busy
-> > > > > > for next 14 days or so, but I'll send complete qa.log in advanc=
-e as soon as
-> > > > > > it finishes building world from scratch.
-> > > >=20
-> > > > This one is only "incremental" (so testing only recipes which faile=
-d in
-> > > > previous run) and it took only 3,5 days to finish :).
-> > > >=20
-> > > > Mostly because of firefox (libnotify) and efl/lua fix we're down to=
- 72 recipes with
-> > > > issues (instead of 187 found in previous run or 100 w/o firefox*)
-> > >=20
-> > > I've sent couple of WIP patches to oe-devel ML and now we're down to =
-50
-> > > recipes with issues, there are still 2 days to send patches for daisy,
-> > > so hurry up.
-> > >=20
-> > > Complete logs:
-> > > http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.dep=
-endencies.20140506_041120.log/
-> >=20
-> > Big thanks to Tim Orling and Andreas M=FCller for sending fixes for vlc
-> > and xfce recipes we're down to=20
->=20
-> -ENOCOFFEE: down to 44 :)
->=20
-> recipes fixed in last iteration:
->=20
-> < console-tools
-> < gimp
-> < qtbase
-> < vlc
-> < xfce4-settings
-> < xfce4-weather-plugin
+They're not.
 
-Complete logs:
-http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.dependenc=
-ies.20140510_150213.log/
+> Personally I have always used FILESEXTRAPATHS_prepend := 
+> "${THISDIR}/<somename>:" like the yocto documentation recommends. But 
+> sure if you can avoid immediate expanding in FILESEXTRPATHS, that would 
+> mean a tiny optimization. In that case perhaps the documentation should 
+> be updated as well. Looking in meta-layer both methods seems to be used.
 
-Recipes fixed in last iteration (patches on ML)
-< tk
-< gst-plugins-bad
-< gst-plugins-good
-< gstreamer1.0-plugins-good
-< libao
-< navit
-< sox
-< xterm
+What Khem means is that in the case we know we're in the .bb file
+directory, we can use FILE_DIRNAME instead of using :=.
 
-I'm still looking into python-efl and now also mongodb and maliit-framework=
- which I would like to finish before branching daisy
+Why? FILE_DIRNAME is defined as:
 
-ccid/ccid/latest lost dependency on  flex
-consolekit/consolekit/latest lost dependency on  polkit
-directfb/directfb/latest lost dependency on  libdrm libdrm-kms liblzma tiff
-engrave/engrave/latest lost dependency on  flex
-epiphany/epiphany/latest lost dependency on  libavahi-client libavahi-commo=
-n libavahi-gobject libnotify
-expedite/expedite/latest lost dependency on  libsdl
-flashrom/flashrom/latest lost dependency on  libftdi
-gammu/gammu/latest lost dependency on  glib-2.0 libgudev-1.0
-gammu/libgammu/latest lost dependency on  glib-2.0
-glade3/glade3/latest lost dependency on  dbus-glib dbus-lib gconf gnome-vfs=
- libart-lgpl libavahi-client libavahi-common libavahi-glib libbonobo libbon=
-oboui libcanberra libcap libgcrypt libgnome libgnome-keyring libgnomecanvas=
- libgnomeui libgpg-error libice libltdl libogg libsm libvorbis libxcomposit=
-e libxcursor libxdamage libxfixes libxrandr orbit2 popt util-linux-libuuid
-gmtk/gmtk/latest lost dependency on  cairo-gobject dbus-lib gtk+3 json-c li=
-bcap libice libpulse libpulse-mainloop-glib libpulsecommon libsm libsndfile=
-1 libx11-xcb libxi libxtst util-linux-libuuid
-gnokii/libgnokii/latest lost dependency on  bluez4 libical libusb-compat li=
-busb1 pcsc-lite-lib
-gnome-panel/gnome-panel/latest lost dependency on  dbus-lib
-guile/guile/latest lost dependency on  libgc ncurses-libncurses readline
-libmicrohttpd/libmicrohttpd-bin/latest lost dependency on  file
-libungif/libungif/latest lost dependency on  libice libsm libx11 libxau lib=
-xcb libxdmcp util-linux-libuuid
-libungif/libungif-utils/latest lost dependency on  libx11
-maliit-framework/maliit-framework-gtk/latest lost dependency on  eglibc gli=
-b-2.0 gtk+ gtk+3 libgcc libqtcore4 maliit-framework pango
-midori/midori/latest lost dependency on  libxscrnsaver
-mongodb/mongodb/latest lost dependency on  libpcap
-mpd/mpd/latest lost dependency on  fluidsynth libao libcdio libcdio-cdda li=
-bcdio-paranoia libjack libmms libmodplug libopus mpg123 openal-soft wavpack=
- yajl
-mpeg2dec/mpeg2dec/latest lost dependency on  libx11 libxext libxv
-mpg123/mpg123/latest lost dependency on  audiofile esound libjack libsdl op=
-enal-soft portaudio-v19 tslib
-opencv/libopencv-highgui/latest lost dependency on  jasper libdc1394
-oscam/oscam/latest lost dependency on  pcsc-lite-lib
-piglit/piglit/latest lost dependency on  libxrender
-protobuf/protobuf/latest lost dependency on  zlib
-python-efl/python-edje/latest lost dependency on  edje eglibc eina libpytho=
-n2
-python-efl/python-elementary/latest lost dependency on  eglibc eina element=
-ary evas libpython2
-stunnel/stunnel/latest lost dependency on  libwrap zlib
-synergy/synergy/latest lost dependency on  libxinerama
-tracker/tracker/latest lost dependency on  dbus-glib enca gnutls gtk+3 libg=
-ee libgsf libgudev-1.0 libnmglib libnmutil libtasn1 libudev libunistring up=
-ower
-tracker/tracker-dev/latest lost dependency on  cairo enca expat fontconfig =
-freetype giflib gstreamer lcms libbz2 libgsf libgstpbutils-0.10 libgsttag-0=
-=2E10 liblzma libpoppler libpoppler-glib libunistring libx11 libxau libxcb =
-libxcb-render libxcb-shm libxdmcp libxext libxrender pixman taglib taglib-c=
- tiff
-tracker/tracker-nautilus-extension/latest lost dependency on  atk cairo egl=
-ibc expat fontconfig freetype gdk-pixbuf glib-2.0 gtk+ harfbuzz libffi libp=
-ng libsqlite3 libunistring libx11 libxau libxcb libxcb-render libxcb-shm li=
-bxdmcp libxext libxrender pango pixman tracker util-linux-libuuid zlib
-tumbler/tumbler/latest lost dependency on  gstreamer1.0 libbz2 libgsf libgs=
-ttag-1.0 libxml2
-vagalume/vagalume/latest lost dependency on  libproxy
-weston/weston/latest lost dependency on  lcms
-weston/weston-examples/latest lost dependency on  libpoppler-glib
-wv/wv/latest lost dependency on  libpng
-wvstreams/wvstreams/latest lost dependency on  dbus-lib libwvstreams-base r=
-eadline
-xdelta3/xdelta3/latest lost dependency on  liblzma
-xserver-xorg/xserver-xorg/latest lost dependency on  libunwind
-xserver-xorg/xserver-xorg-xvfb/latest lost dependency on  libunwind
-perf/perf/latest lost dependency on  libunwind
+conf/bitbake.conf:FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+FILE will point to the .bb file.
 
---bajzpZikUji1w+G9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Cheers,
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+Richard
 
-iEYEARECAAYFAlNvH88ACgkQN1Ujt2V2gBySpwCbBp4VDPJQUVhNh1SXIRijisUH
-UfcAoK4AR3iz2G1jQme1xjugOHHMRJPv
-=/MeM
------END PGP SIGNATURE-----
 
---bajzpZikUji1w+G9--
+
+
