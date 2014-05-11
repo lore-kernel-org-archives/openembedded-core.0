@@ -1,43 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (unknown [209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 83E0C6017E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ve0-f178.google.com (unknown [209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id F00F260167
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 May 2014 23:49:40 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id rd3so5855150pab.35
+	Sun, 11 May 2014 06:47:48 +0000 (UTC)
+Received: by mail-ve0-f178.google.com with SMTP id sa20so7198986veb.23
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 May 2014 16:49:42 -0700 (PDT)
+	Sat, 10 May 2014 23:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=1k4FvZDeGAZLjFq07ckMnvhWYk6f1tYXMK+nekSssuo=;
-	b=C7TaWIg4nnMQzHx6pGSPIQswiuirzdHFWGRVFl0AwI1weUwD3RkJ+uMiNCQRgG5a3z
-	k6bJPqtJrDDojwDlsNK7dMil2x7O+EF5lYJ0oxh1cnUgrt1dLkZDyp+dexTZx6dn9NiV
-	KINvRjxlORulko16lWPchDL4WK+wQ22ct1p56Vb4WdUfnaqru+Kpqvge+xJg94BQZEyW
-	tvODUU8RqpEzzRV6zSaSK8WdgACAO7gt5eT+1CHgItwkgFl7xrN1Ki9S0AjkfMAQP2Hk
-	myckLhdV2dD7BSTApVQ0rj5bs1byNcc0X5h4jNYvrJhrZoTcL2g1nUXSH1H5RG8GSMpE
-	jIRQ==
-X-Received: by 10.66.148.197 with SMTP id tu5mr37779821pab.108.1399765781944; 
-	Sat, 10 May 2014 16:49:41 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:7a5:21bd:656d:abb7:5cd3?
-	([2601:9:3580:7a5:21bd:656d:abb7:5cd3])
+	h=from:to:cc:subject:date:message-id;
+	bh=hGTXE0SF0VPg3RcFIY3kGmx/ESKknLaqVEKEOVDivvE=;
+	b=0yU8vhz/LR8VItTK9u8CtBKYLKPm4JtAtr+Kscs9dtwGZHVPe1L+zEoFd5ClV4YO6b
+	os5/OFjQxgPq/CoLxWSc/d/dPOeRVJeX+9RM9YDM/ksT+4wjDG8g3YsQhtO5C7xkw/ZA
+	j4kVFpFyszP/zBpScjM8i7BD2C6cGkIFQ6APwwgtZImn1Y0fXzo3o+1I05VhSMGRugcD
+	R/vAnHlm8dv+2AdNk3nqMQxUA+WPdg9xwCW5bjTQYM92Bp+Ysf8YUM0clXd4THMTEuMv
+	U3DWpSS10bpT4DRw/n4c2fwNiqKDm88d3uYDijN018TWQuxL7QA0jheohI+3v/Rhi1Pe
+	z2CA==
+X-Received: by 10.220.190.197 with SMTP id dj5mr16742609vcb.19.1399790869601; 
+	Sat, 10 May 2014 23:47:49 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	hk5sm14785183pbb.86.2014.05.10.16.49.40 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 10 May 2014 16:49:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <df4fba969a1fcfe305dd2d3d304bfc35@technux.se>
-Date: Sat, 10 May 2014 16:49:38 -0700
-Message-Id: <FE43330E-F520-41D3-8553-4F0964EA7AA8@gmail.com>
-References: <cover.1399671290.git.petter@technux.se>
-	<a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>
-	<CAMKF1sob1+VHoBZQxjm-MkrPE02+f6JKqzGaxiNz0yNL-WA2ZQ@mail.gmail.com>
-	<df4fba969a1fcfe305dd2d3d304bfc35@technux.se>
-To: petter@technux.se
-X-Mailer: Apple Mail (2.1874)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 01/13] systemtap: remove usage of FILESPATH
+	fa8sm9492283vdb.11.2014.05.10.23.47.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 10 May 2014 23:47:48 -0700 (PDT)
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 May 2014 08:48:08 +0200
+Message-Id: <1399790890-32695-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.2
+Subject: [PATCH 1/3] gst-plugins-bad: add PACKAGECONFIG for schro, dc1394 and faac
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,73 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 May 2014 23:49:41 -0000
-X-Groupsio-MsgNum: 53064
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7D48AE3B-C750-4ADD-B652-1F8F757B761F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sun, 11 May 2014 06:47:53 -0000
 
---Apple-Mail=_7D48AE3B-C750-4ADD-B652-1F8F757B761F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
+* resolve following issues from test-dependencies issues:
+  gst-plugins-bad/gst-plugins-bad-meta/latest lost dependency on
+    gst-plugins-bad-dc1394 gst-plugins-bad-faac gst-plugins-bad-schro
+  Found errors:
+  gst-plugins-bad/gst-plugins-bad-dc1394/latest doesn't exist
+  gst-plugins-bad/gst-plugins-bad-dc1394-dev/latest doesn't exist
+  gst-plugins-bad/gst-plugins-bad-faac/latest doesn't exist
+  gst-plugins-bad/gst-plugins-bad-faac-dev/latest doesn't exist
+  gst-plugins-bad/gst-plugins-bad-schro/latest doesn't exist
+  gst-plugins-bad/gst-plugins-bad-schro-dev/latest doesn't exist
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On May 10, 2014, at 3:31 PM, petter@technux.se wrote:
-
-> 2014-05-10 18:58 skrev Khem Raj:
->=20
->> On Sat, May 10, 2014 at 1:05 AM, Petter Mab=E4cker =
-<petter@technux.se>
->> wrote:
->>=20
->>> +FILESEXTRAPATHS_prepend :=3D "${THISDIR}/systemtap:"
->>=20
->> would something like
->>=20
->> FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/systemtap:"
->>=20
->> avoid the prepend and immediate evaluation
->=20
-> I guess someone with deep bitbake knowledge can answer this better. =
-But as far as I understand, you should always use immediate evaluation =
-when using THISDIR, to be extra safe. Not sure if it's more safe to use =
-FILE_DIRNAME if you want to avoid immediate expanding when using =
-FILESEXTRAPATHS?
->=20
-> The bitbake documentations says:
->=20
-> "The operators "_append" and "_prepend" differ from the operators ".=3D"=
- and "=3D." in that they are deferred until after parsing completes =
-rather than being immediately applied."
->=20
-> Not sure if above means that "=3D." will also immediately expand =
-variables or not?
->=20
-> Personally I have always used FILESEXTRAPATHS_prepend :=3D =
-"${THISDIR}/<somename>:" like the yocto documentation recommends. But =
-sure if you can avoid immediate expanding in FILESEXTRPATHS, that would =
-mean a tiny optimization. In that case perhaps the documentation should =
-be updated as well. Looking in meta-layer both methods seems to be used.
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+index a26acef..2ecdcf2 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+@@ -34,6 +34,9 @@ PACKAGECONFIG[sndfile] = "--enable-sndfile,--disable-sndfile,libsndfile1"
+ PACKAGECONFIG[vp8] = "--enable-vp8,--disable-vp8,libvpx"
+ PACKAGECONFIG[ass] = "--enable-assrender,--disable-assrender,libass"
+ PACKAGECONFIG[openal] = "--enable-openal,--disable-openal,openal-soft"
++PACKAGECONFIG[schro] = "--enable-schro,--disable-schro,schroedinger"
++PACKAGECONFIG[dc1394] = "--enable-dc1394,--disable-dc1394,libdc1394"
++PACKAGECONFIG[faac] = "--enable-faac,--disable-faac,faac"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ 
+-- 
+1.9.2
 
 
-I was hinting on avoiding THISDIR but that does not solve the problem =
-probably what you have it ok in this case.
-
-
---Apple-Mail=_7D48AE3B-C750-4ADD-B652-1F8F757B761F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-
-iEYEARECAAYFAlNuuxIACgkQuwUzVZGdMxRVGgCePc/GE0gGY1ige8n41yd2Ajw/
-FqUAnjBdmUYA6t5WqR2P7cS0S5Kgl/lk
-=bSuN
------END PGP SIGNATURE-----
-
---Apple-Mail=_7D48AE3B-C750-4ADD-B652-1F8F757B761F--
