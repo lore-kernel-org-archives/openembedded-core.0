@@ -1,38 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-vc0-f176.google.com (unknown [209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7515F65FE3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f174.google.com (unknown [209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B9CE65FE3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 May 2014 18:46:06 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id lg15so7692519vcb.35
+	Sun, 11 May 2014 22:47:09 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id h3so3126312igd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 May 2014 11:46:07 -0700 (PDT)
+	Sun, 11 May 2014 15:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=FxanWs7UXX90iPLmKEaNf88UxJSMHCar6QbA/F8f9YA=;
-	b=JJt3pIfqSPBLaf3kZdr/I9IMp6MaFYE6BCx/EoqRfEVYMhbRKQ30OyaAvtTXYN+G6I
-	UUmSQVzc3HAxzYLBZr104DIW/MU4s/IyKiANx3tTURkelPpmNB4eW0+ZYFY4kRh6JP4h
-	XjSoz+kTAk0z8kkQnSgS/jT12kjl0kya+uNIBvoiR0uKgGDZPWCV3GIkZvwfsRaJqUA/
-	UUP25SIc7xZGqutZKxTYD8qD/Y9Dbg1SaHWRNUYeBzJzy5NmMDWytGvqHNOO2VHgHDSv
-	QvQDDO6gHAwd3tKWcQTiVVNCXzkUn6sEBbAObg87HZ9N/Pu6T6eCKcj0H/n2CFpXvVPp
-	Xx2g==
-X-Received: by 10.58.122.164 with SMTP id lt4mr19140446veb.2.1399833967557;
-	Sun, 11 May 2014 11:46:07 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	xr10sm11633671vec.2.2014.05.11.11.46.04 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 11 May 2014 11:46:05 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 11 May 2014 20:46:31 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Andrew Blackburn <andyblac@icloud.com>
-Message-ID: <20140511184631.GF22774@jama>
-References: <874B01E8-8A61-442E-981C-3FCE0763854E@icloud.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=ozvG7RWa5RdHnNF/d5K40dhUBf4iDaae4ajF/DljQ4o=;
+	b=oE5UtIIoqv1B/cQIro3qjritc+RKIUVK21vfIpOJX+WmdAs9WmJV9rWvJEqZfBuuVK
+	dQ04n9X9I1fmYt7AngWAd+es9GkyCmL8F/fZoND0lZbME+3QUXFhbq2MHUQNad3hbu6L
+	SW69YlG4+1eE9i+1OK2Fc8COI50PKrq3EAfMPH9ZUwY77ii5PORlhHXk6eXJgda59ywk
+	ahdkas81Tev3HcBdVXXLmVdsIbZrh383X7mxsogdb03rPrXeHWv+RY2PmAfA6HAQvmKp
+	kzYi2ji3XYJKPMYxU+KhMt1a9PrwlWBYvYkL9B+CC51owWIB2/WfrHMrDmgsJ+wOtK+l
+	APqQ==
+X-Received: by 10.50.20.8 with SMTP id j8mr20354202ige.17.1399848430889; Sun,
+	11 May 2014 15:47:10 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.50.79.133 with HTTP; Sun, 11 May 2014 15:46:40 -0700 (PDT)
 In-Reply-To: <874B01E8-8A61-442E-981C-3FCE0763854E@icloud.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
+References: <874B01E8-8A61-442E-981C-3FCE0763854E@icloud.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 11 May 2014 15:46:40 -0700
+Message-ID: <CAMKF1so70jmiMNdfT_sBvnfHRd5zQNS-6LL3JufMs5H__+765A@mail.gmail.com>
+To: Andrew Blackburn <andyblac@icloud.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: talloc build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,27 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 May 2014 18:46:07 -0000
-X-Groupsio-MsgNum: 53073
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="O98KdSgI27dgYlM5"
-Content-Disposition: inline
-
---O98KdSgI27dgYlM5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 11 May 2014 22:47:10 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 11, 2014 at 05:29:55PM +0100, Andrew Blackburn wrote:
+On Sun, May 11, 2014 at 9:29 AM, Andrew Blackburn <andyblac@icloud.com> wro=
+te:
 > hi all,
->=20
+>
 > i recently merged =E2=80=98meta-openembedded=E2=80=99 master into my bran=
 ch, but i am now getting a build error with tallow, below is the erro i am =
 getting, can anyone help on how to fix.
 
-See e-mails about world status and threads about autotools-brokensep and
-B!=3DS.
+It could be that S !=3D B change might be impacting this recipe. Can you
+change the recipe to inherit autotools-brokensep instead of autotools
+class.
 
+>
+>
 > NOTE: Preparing runqueue
 > NOTE: Executing SetScene Tasks
 > NOTE: Executing RunQueue Tasks
@@ -96,33 +88,17 @@ oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/talloc-2.0.1-r=
 > ERROR: Task 4967 (/home/vix/oe-alliance/meta-openembedded/meta-oe/recipes=
 -support/talloc/talloc_2.0.1.bb, do_configure) failed with exit code =E2=80=
 =981'
->=20
->=20
->=20
+>
+>
+>
 > hope someone can help
->=20
->=20
+>
+>
 > cheers
 > Andy.
-> --=20
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---O98KdSgI27dgYlM5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlNvxYcACgkQN1Ujt2V2gBxV7QCdH3gLuYkSlQDOqdF9zBKPKDoR
-8zoAnj00hDGv8H9Ajool2NAN7j5NM+J9
-=a/tw
------END PGP SIGNATURE-----
-
---O98KdSgI27dgYlM5--
