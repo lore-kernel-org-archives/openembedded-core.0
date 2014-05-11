@@ -1,53 +1,31 @@
-Return-Path: <andyblac@icloud.com>
-X-Greylist: delayed 3610 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 11 May 2014 17:30:13 UTC
-Received: from st11p00mm-asmtp003.mac.com (unknown [17.172.81.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E6756059B
+Return-Path: <petter@technux.se>
+Received: from vsp-authed-01-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 3621C605F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 May 2014 17:30:13 +0000 (UTC)
-MIME-version: 1.0
-Received: from macmuppets.DiskStation.me
-	(host86-167-70-74.range86-167.btcentralplus.com [86.167.70.74])
-	by st11p00mm-asmtp003.mac.com
-	(Oracle Communications Messaging Server 7u4-27.08(7.0.4.27.7) 64bit
-	(built Aug
-	22 2013)) with ESMTPSA id <0N5F00B154I2NE70@st11p00mm-asmtp003.mac.com>
-	for openembedded-core@lists.openembedded.org;
-	Sun, 11 May 2014 16:30:04 +0000 (GMT)
-Received: from [192.168.1.31]
-	(host86-167-70-74.range86-167.btcentralplus.com [86.167.70.74])
-	(Authenticated sender: andyblac)	by macmuppets.DiskStation.me (Postfix)
-	with ESMTPSA id CC673B30240	for
-	<openembedded-core@lists.openembedded.org>; 
-	Sun, 11 May 2014 17:29:59 +0100 (IST)
-From: Andrew Blackburn <andyblac@icloud.com>
-Message-id: <874B01E8-8A61-442E-981C-3FCE0763854E@icloud.com>
-Date: Sun, 11 May 2014 17:29:55 +0100
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.1874)
-X-Spam-Status: No
-X-MANTSH: 1TEIXWV4bG1oaGkdHB0lGUkdDRl5PWBoaEhEKTEMXGx0EGx0YBBIZBBsSEBseGh8
-	aEQpYTRdLEQptfhcaEQpMWRcbGhsbEQpZSRcRClleF2hjeREKQ04XSxsZGmJCH2lmHX9jGXhzB
-	x5oGxwZGh4dEQpYXBcZBBoEGxsHTU4fGBgYGUsFGx0EGx0YBBIZBBsSEBseGh8bEQpeWRdhWn9
-	FRBEKQ1oXEhwEGxwdBB0aBB0eEQpCXhcbEQpCRRdtQWBPQ01wYRp+YREKQk4Xa0UaUlAeQ1xZX
-	GgRCkJMF2UcekZwQENgeRMSEQpCbBdrUxx/GB1HblhsUBEKQkAXYHhpWB9rQmNJHR8RCkJYF2h
-	DeGceQXpgXBtSEQpwaBdjYEZwHV1GTkxeHBEKcGgXaRxkBWx+QwVCb0sRCnBoF29TZWNnTWROB
-	UVaEQpwaBdlbW8ebGNAaEhDexEKcGgXYmNLe0kcQHgeXRkRCnBsF2BYSF5oc0x6f28YEQ==
-X-CLX-Spam: false
-X-CLX-Score: 1011
-X-Proofpoint-Virus-Version: vendor=fsecure
-	engine=2.50.10432:5.11.96,1.0.14,0.0.0000
-	definitions=2014-05-11_02:2014-05-09, 2014-05-11,
-	1970-01-01 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=48 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0
-	reason=mlx scancount=1 engine=7.0.1-1402240000
-	definitions=main-1405110231
-X-MailScanner-ID: CC673B30240.A90F7
-X-MailScanner: Found to be clean
-X-MailScanner-From: andyblac@icloud.com
-Subject: talloc build error
+	Sun, 11 May 2014 18:13:32 +0000 (UTC)
+Received: from smtp01.binero.se (unknown [195.74.38.28])
+	by vsp-authed-01-02.binero.net (Halon Mail Gateway) with ESMTPS;
+	Sun, 11 May 2014 20:13:45 +0200 (CEST)
+Received: from [192.168.1.82] (81-229-90-163-no67.tbcn.telia.com
+	[81.229.90.163]) (Authenticated sender: petter@technux.se)
+	by smtp-04-01.atm.binero.net (Postfix) with ESMTPSA id 473963A11D;
+	Sun, 11 May 2014 20:13:27 +0200 (CEST)
+Message-ID: <536FBDC6.4090806@technux.se>
+Date: Sun, 11 May 2014 20:13:26 +0200
+From: =?UTF-8?B?UGV0dGVyIE1hYsOkY2tlcg==?= <petter@technux.se>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1399671290.git.petter@technux.se>	
+	<a517943d9b90ee7793ec9f6734a0bdd80c38d75f.1399671290.git.petter@technux.se>	
+	<CAMKF1sob1+VHoBZQxjm-MkrPE02+f6JKqzGaxiNz0yNL-WA2ZQ@mail.gmail.com>	
+	<df4fba969a1fcfe305dd2d3d304bfc35@technux.se>
+	<1399810380.31891.110.camel@ted>
+In-Reply-To: <1399810380.31891.110.camel@ted>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 01/13] systemtap: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 May 2014 17:30:24 -0000
-Content-type: text/plain; charset=windows-1252
-Content-transfer-encoding: quoted-printable
+X-List-Received-Date: Sun, 11 May 2014 18:13:37 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-hi all,
+On 05/11/2014 02:13 PM, Richard Purdie wrote:
+> On Sun, 2014-05-11 at 00:31 +0200, petter@technux.se wrote:
+>> 2014-05-10 18:58 skrev Khem Raj:
+>>
+>>> On Sat, May 10, 2014 at 1:05 AM, Petter Mabäcker <petter@technux.se>
+>>> wrote:
+>>>
+>>>> +FILESEXTRAPATHS_prepend := "${THISDIR}/systemtap:"
+>>> would something like
+>>>
+>>> FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemtap:"
+>>>
+>>> avoid the prepend and immediate evaluation
+>> I guess someone with deep bitbake knowledge can answer this better. But
+>> as far as I understand, you should always use immediate evaluation when
+>> using THISDIR, to be extra safe. Not sure if it's more safe to use
+>> FILE_DIRNAME if you want to avoid immediate expanding when using
+>> FILESEXTRAPATHS?
+>>
+>> The bitbake documentations says:
+>>
+>> "The operators "_append" and "_prepend" differ from the operators ".="
+>> and "=." in that they are deferred until after parsing completes rather
+>> than being immediately applied."
+>>
+>> Not sure if above means that "=." will also immediately expand
+>> variables or not?
+> They're not.
+>
+>> Personally I have always used FILESEXTRAPATHS_prepend :=
+>> "${THISDIR}/<somename>:" like the yocto documentation recommends. But
+>> sure if you can avoid immediate expanding in FILESEXTRPATHS, that would
+>> mean a tiny optimization. In that case perhaps the documentation should
+>> be updated as well. Looking in meta-layer both methods seems to be used.
+> What Khem means is that in the case we know we're in the .bb file
+> directory, we can use FILE_DIRNAME instead of using :=.
+>
+> Why? FILE_DIRNAME is defined as:
+>
+> conf/bitbake.conf:FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
+>
+> FILE will point to the .bb file.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+Ok, that makes sense. I will send up a new changeset using this method 
+instead.
 
-i recently merged =91meta-openembedded=92 master into my branch, but i =
-am now getting a build error with tallow, below is the erro i am =
-getting, can anyone help on how to fix.
-
-
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-ERROR: Function failed: do_configure (log file is located at =
-/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
-loc-2.0.1-r2/temp/log.do_configure.9168)
-ERROR: Logfile of failure stored in: =
-/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
-loc-2.0.1-r2/temp/log.do_configure.9168
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: SITE files ['endian-little', 'bit-32', 'mips-common', =
-'common-linux', 'common-glibc', 'mipsel-linux', 'common']
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_copy_aclocals
-| DEBUG: Python function autotools_copy_aclocals finished
-| DEBUG: Executing shell function do_configure
-| gnu-configize: 'configure.ac' or 'configure.in' is required
-| WARNING: =
-/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
-loc-2.0.1-r2/temp/run.do_configure.9168:1 exit 1 from
-|   gnu-configize
-| ERROR: Function failed: do_configure (log file is located at =
-/home/vix/oe-alliance/builds/openvix/tmp/work/mips32el-oe-linux/talloc/tal=
-loc-2.0.1-r2/temp/log.do_configure.9168)
-ERROR: Task 4967 =
-(/home/vix/oe-alliance/meta-openembedded/meta-oe/recipes-support/talloc/ta=
-lloc_2.0.1.bb, do_configure) failed with exit code =911'
-
-
-
-hope someone can help
-
-
-cheers
-Andy.=
+BR,
+Petter
 
