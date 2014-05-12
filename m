@@ -1,50 +1,40 @@
-Return-Path: <drew@moseleynet.net>
-Received: from mail-pa0-f44.google.com (unknown [209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F86E61F16
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 22:31:42 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id ld10so9361083pab.31
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 15:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=moseleynet.net; s=google;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=q4uQNqdKqMue8LAvJgfgmZNGnPwr/5IkZyxmaEJytbI=;
-	b=PZrG7bQUpceNjkxeoDjp6XR/jkD1R/OuxJDixtCSxItOaniP/CQs/j9D2Bj0h+rYxK
-	cFzBrxcB6OAoOJF9gL4khY2xOICMoyeW5cdymWU94yAv8xWh8rlv3ahdjSgalDsCEPIc
-	top8J0vGRoNxc014CqZ3RKLFsrJyRR2kgVq3o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=q4uQNqdKqMue8LAvJgfgmZNGnPwr/5IkZyxmaEJytbI=;
-	b=c81KUeEwgO41EArGZHT0j7Te5W3FJtxZ3IcKZLx5hSOjiLRL1H4/XkAUtiaBGgDC7J
-	FJ86dFYpypqMNuEr3X9gbR1vmRf4IrAD4aN/B05wh+mbi1hi9KVaaSEjpzkb/wf+X14a
-	0UptsAEEttbEU74fCOTSybj/6TzsKihKSOBJKe2Hut+Gmr3JD5d6ieTBCIhBkhMvaurD
-	FnzgLunAkcSgqBfaWeUWcgojJfh7Q1H5Am5022Wo4yY+OR57DEum1Fp6sbAWt0XeWdTQ
-	XrHFIFH34YkkUFjT3FX3ge6g1DNXAd+Z0QufCgUfhoFDDnAvLJ/kvqYHVhLDqg6hwwjY
-	TRbA==
-X-Gm-Message-State: ALoCoQnf35pomfikrWt3QOqF6v95W7NA04hcO1tcAhqi+IuX31ub2bmEXAQ4XFuccY6UAF5ztk+k
-X-Received: by 10.66.162.74 with SMTP id xy10mr60132958pab.4.1399933593372;
-	Mon, 12 May 2014 15:26:33 -0700 (PDT)
-Received: from [192.168.1.33] (cpe-174-096-222-251.carolina.res.rr.com.
-	[174.96.222.251]) by mx.google.com with ESMTPSA id
-	cj1sm53257364pac.40.2014.05.12.15.26.32 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 12 May 2014 15:26:32 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Drew Moseley <drew@moseleynet.net>
-In-Reply-To: <1399930965.31891.143.camel@ted>
-Date: Mon, 12 May 2014 18:26:29 -0400
-Message-Id: <E9FBD9C7-053A-4320-B910-F606E78C1C74@moseleynet.net>
-References: <537110BF.3000109@linux.intel.com>
-	<1399925446-28631-1-git-send-email-drew@moseleynet.net>
-	<1399930965.31891.143.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1874)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mesa-demos: Specify the lib dir properly.
+Return-Path: <jefro.net@gmail.com>
+X-Greylist: delayed 1149 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 12 May 2014 23:47:35 UTC
+Received: from mail-lb0-f178.google.com (unknown [209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A466560702;
+	Mon, 12 May 2014 23:47:34 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id w7so8001396lbi.37
+	for <multiple recipients>; Mon, 12 May 2014 16:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=q6makARq8awrCPq/PLaWqqWMSEoO3MFJTy+/iTtO534=;
+	b=sInSZZwWMU8JA0eAD71NS8QHHUPqbUi2YD7nCtbIj730dbtNnHtTVyW7jPqqIYb2KY
+	kHkZvH0dSqhwm9izrNejz8YzigYrbjB10YUwHCoSqH9pcDVY21/Z2+iihFAwfdDz7Eg9
+	sJwCzcu9QUQ4p9r5wYAwo76D42oUlR0MCdJfZIWUSq0uJrowVjQ+HrNmnnf0/ZgMC04Q
+	PKBuBVx22j3ECjjkJishwHsjQdn6g4H0tV8ajgX8mGAgPXNRofkiRO+Jmf3uBQ3/Xjbj
+	Am7eOhquja6TACt2hhEgxTlFgHFh6XTdQ70smuySq6PXVjg6Q7znODoOYxv6nxvrY3yS
+	ai+g==
+X-Received: by 10.152.121.72 with SMTP id li8mr23060lab.45.1399936819672; Mon,
+	12 May 2014 16:20:19 -0700 (PDT)
+MIME-Version: 1.0
+Sender: jefro.net@gmail.com
+Received: by 10.112.173.197 with HTTP; Mon, 12 May 2014 16:19:59 -0700 (PDT)
+In-Reply-To: <20140507231808.GM11339@denix.org>
+References: <530697CC.5050402@balister.org> <20140507231808.GM11339@denix.org>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Mon, 12 May 2014 16:19:59 -0700
+X-Google-Sender-Auth: YW0di-1wcvsWbjzhIFrBcR1U3Rk
+Message-ID: <CA+YB3raM8kDp_K259c-ao=nSgfvgXTmi5vpju5wAnA0WwGHH3A@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OEDAM: OpenEmbedded Developers (Americas) Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,57 +47,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 22:31:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 12 May 2014 23:47:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On May 12, 2014, at 5:42 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2014-05-12 at 16:10 -0400, \Drew Moseley wrote:
->> From: Drew Moseley <drew_moseley@mentor.com>
->>=20
->> Use STAGING_EXECPREFIXDIR to specify the location of glut
->> header files and libs rather than STAGING_LIBDIR.
->>=20
->> Also revert the previous unneeded change to glut.patch.
->>=20
->> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
->> ---
->> meta/recipes-graphics/mesa/mesa-demos/glut.patch |    2 +-
->> meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb   |    2 +-
->> 2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> Is this change multilib safe?
->=20
-> It looks to me like this hardcodes "lib" and things like "lib64" or
-> "lib32" would be an issue since it wouldn't honour $libdir?
->=20
-> Cheers,
->=20
-> Richard
+Meeting notes have been published on the OEDAM page:
 
-Sort of.  This is essentially putting the code back to what it was =
-yesterday
-which was hardcoded to /lib.  It doesn't affect Yocto builds since the
-"--sysroot" option makes the directories specified here redundant.  I =
-have
-verified the libraries are properly located even when installed in =
-usr/lib64.
+http://openembedded.org/wiki/OEDAM#Minutes
 
-Ultimately this should probably be cleaned up in the upstream mesa-demos
-by adding a "--with-glut-includes" and "--with-glut-libs" or some such =
-but
-this is at least less broken than it was before   Previously setting =
-"glut"
-in the packageconfig would pass "--with-glut" to configure resulting in
-the build failure:
+Jefro takes the blame for typos and other reporting errors.
 
-> ../../x86_64-mel-linux-libtool: line 6012: cd: yes/lib: No such file =
-or directory
-> x86_64-mel-linux-libtool: link: cannot determine absolute directory =
-name of `yes/lib'
-> make[2]: *** [libutil.la] Error 1
+On Wed, May 7, 2014 at 4:18 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> The OpenEmbedded Board of Directors would like to thank everyone who was able
+> to participate (either in person in Santa Clara or online) in our first OEDAM
+> OpenEmbedded Developers (Americas) Meeting on May 2nd and 3rd! The meeting was
+> a huge success and a lot of fun!
+>
+> We would also like to thank Ettus Research/NI for providing the premises, as
+> well as Jefro and the Yocto Project for sponsoring the event and providing
+> food!
+>
+> The meeting minutes should be published shortly.
+>
+> --
+> Denys
+>
+>
+> On Thu, Feb 20, 2014 at 07:03:24PM -0500, Philip Balister wrote:
+>> The OpenEmbedded Project is holding a developers meeting May 2-3,
+>> 2014, in Santa Clara, CA. This meeting is immediately after the Embedded
+>> Linux Conference North America. All active OpenEmbedded and Yocto
+>> Project developers are invited to attend.
+>>
+>> NOTE: this is a development meeting for the project itself, not a
+>> training session.
+>>
+>> May 2-3, 2014
+>> time TBD
+>>
+>> Ettus Research/National Instruments
+>> 4600 Patrick Henry Drive
+>> Santa Clara, CA 95054 USA
+>>
+>> Lunch will be provided on both days.
+>>
+>> For more information and to add yourself to the list of attendees, see
+>> the wiki page at
+>> http://openembedded.org/wiki/OEDAM
+>>
+>> Here are a couple of photos from 2009:
+>>
+>> http://www.flickr.com/photos/32615155@N00/sets/72157622653686647/
+>>
+>> I'd like to thank Jefro for help with this announcement. Any errors are
+>> mine though.
+>>
+>> Philip, OpenEmbedded eV Chair.
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Drew
 
+
+-- 
+Jeff Osier-Mixon @Intel
+Yocto Project Community Manager http://yoctoproject.org
 
