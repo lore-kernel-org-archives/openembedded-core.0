@@ -1,29 +1,31 @@
-Return-Path: <drew@moseleynet.net>
-Received: from relay1.mentorg.com (unknown [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 298B860167
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CFB760167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 20:10:25 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1WjwYM-0000X5-CN from drew@moseleynet.net 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 12 May 2014 13:10:26 -0700
-Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 12 May 2014 13:10:26 -0700
-Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
-	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Mon, 12 May 2014 13:10:25 -0700
-From: "\\Drew Moseley" <drew@moseleynet.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 16:10:46 -0400
-Message-Id: <1399925446-28631-1-git-send-email-drew@moseleynet.net>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <537110BF.3000109@linux.intel.com>
+	Mon, 12 May 2014 21:43:01 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4CLguMj009971; Mon, 12 May 2014 22:42:56 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iFJY40VIQhq1; Mon, 12 May 2014 22:42:56 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4CLgqf5009968
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 12 May 2014 22:42:54 +0100
+Message-ID: <1399930965.31891.143.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "\\Drew Moseley" <drew@moseleynet.net>
+Date: Mon, 12 May 2014 22:42:45 +0100
+In-Reply-To: <1399925446-28631-1-git-send-email-drew@moseleynet.net>
 References: <537110BF.3000109@linux.intel.com>
-X-OriginalArrivalTime: 12 May 2014 20:10:25.0890 (UTC)
-	FILETIME=[36775C20:01CF6E1E]
-Subject: [PATCH] mesa-demos: Specify the lib dir properly.
+	<1399925446-28631-1-git-send-email-drew@moseleynet.net>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa-demos: Specify the lib dir properly.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 20:10:28 -0000
+X-List-Received-Date: Mon, 12 May 2014 21:43:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Drew Moseley <drew_moseley@mentor.com>
+On Mon, 2014-05-12 at 16:10 -0400, \Drew Moseley wrote:
+> From: Drew Moseley <drew_moseley@mentor.com>
+> 
+> Use STAGING_EXECPREFIXDIR to specify the location of glut
+> header files and libs rather than STAGING_LIBDIR.
+> 
+> Also revert the previous unneeded change to glut.patch.
+> 
+> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa-demos/glut.patch |    2 +-
+>  meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb   |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Use STAGING_EXECPREFIXDIR to specify the location of glut
-header files and libs rather than STAGING_LIBDIR.
+Is this change multilib safe?
 
-Also revert the previous unneeded change to glut.patch.
+It looks to me like this hardcodes "lib" and things like "lib64" or
+"lib32" would be an issue since it wouldn't honour $libdir?
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- meta/recipes-graphics/mesa/mesa-demos/glut.patch |    2 +-
- meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb   |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/glut.patch b/meta/recipes-graphics/mesa/mesa-demos/glut.patch
-index 2ca5a93..84b6d4f 100644
---- a/meta/recipes-graphics/mesa/mesa-demos/glut.patch
-+++ b/meta/recipes-graphics/mesa/mesa-demos/glut.patch
-@@ -27,7 +27,7 @@ Index: mesa-demos-8.0.1/configure.ac
- -		[glutInit],
- -		[],
- -		[glut_enabled=no])
--+	 GLUT_LIBS="-L$withval -lglut"],
-++	 GLUT_LIBS="-L$withval/lib -lglut"],
- +	[GLUT_CFLAGS=""
- +	 GLUT_LIBS="-lglut"]
- +        )
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-index 211df3b..7cda19e 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-@@ -33,7 +33,7 @@ PACKAGECONFIG[freetype2] = "--enable-freetype2,--disable-freetype2,freetype"
- PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm,virtual/libgl"
- PACKAGECONFIG[gles1] = "--enable-gles1,--disable-gles1,virtual/libgles1"
- PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,virtual/libgles2"
--PACKAGECONFIG[glut] = "--with-glut=${STAGING_LIBDIR},--without-glut,"
-+PACKAGECONFIG[glut] = "--with-glut=${STAGING_EXECPREFIXDIR},--without-glut,"
- PACKAGECONFIG[osmesa] = "--enable-osmesa,--disable-osmesa,"
- PACKAGECONFIG[vg] = "--enable-vg,--disable-vg,virtual/libvg"
- PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayland"
--- 
-1.7.9.5
+Richard
 
 
