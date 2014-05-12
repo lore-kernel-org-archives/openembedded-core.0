@@ -1,33 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (unknown [209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 41F7360167
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 47F9065EE2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 18:36:31 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id h3so4199298igd.1
+	Mon, 12 May 2014 18:54:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4CIs4jl001334
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 11:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=bpeXASwFj8SXmPy+iHYn7q7Sa3wLTZdD8QpXaZfoV0Y=;
-	b=O6nFffycHaovhKCgiG1L7fNFE2ycGWLdye1RerLUSlMGnt2dfG0KG4jStaE9hUc5uY
-	rSvIPVLMt3l0DHfDge2l9aAMyGkP9mLngPNcdTkiJsHGD/xvEFhiWbwzYcvJfAurq7jG
-	jlYH0K2buJUekcblvU86BLMeFoRtu7+ZTENM6qsa9ow9V2nRd61lHEmtntRw6luAzkGl
-	pgR8tBtZBS9leXp+FJE0Tiwmcpquy3AOHZXx5GgMqNL5V0ETXqmjHDjAfB4g8j4yIh/+
-	CSVZsSnIdum4/QrCvwrtSZwSWzaUVOEl3pN5I9hawvqPsSxboi9koSr4Hb1q3qWpAKbW
-	x8oQ==
-X-Received: by 10.50.78.201 with SMTP id d9mr47228204igx.17.1399919792330;
-	Mon, 12 May 2014 11:36:32 -0700 (PDT)
+	Mon, 12 May 2014 11:54:06 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 12 May 2014 11:54:04 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 May 2014 11:54:04 -0700
+Message-ID: <1399920844-11263-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.50.79.133 with HTTP; Mon, 12 May 2014 11:36:02 -0700 (PDT)
-In-Reply-To: <1399914003.31891.140.camel@ted>
-References: <1399914003.31891.140.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 12 May 2014 11:36:02 -0700
-Message-ID: <CAMKF1sok81zbF=t18Z7n7aB_KP9YvNKr5kV54m0y+TW7LwVheQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer: Better gcc 4.9 fix
+Subject: [PATCH 1/1] qemu: define PACKAGECONFIG[] for ssh2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 18:36:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 12 May 2014 18:54:08 -0000
+Content-Type: text/plain
 
-On Mon, May 12, 2014 at 10:00 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> gstreamer does runtime detection to enable/disable things like SSE code.
-> Unfortunately it is broken and will try and use this even with i586
-> compiler flags. This change forces it back to the approach with gcc 4.8
-> by disabling the problematic headers.
+qemu configure will search for libssh2 if we do not enable or
+disable it's use, resulting in non-deterministic builds.  We
+define PACKAGECONFIG[] to avoid this.
 
-I think patch is safer.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
->
-> Its suboptimal but less so that the proposed previous forced enabling of
-> SSE on x86 everywhere.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-> index 83b856b..4a8a994 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-> @@ -33,3 +33,5 @@ do_configure_prepend() {
->  }
->
->  FILES_${PN} += "${datadir}/${BPN}"
-> +
-> +CACHED_CONFIGUREVARS_append_i586 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> index eb13277..1691c99 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> @@ -37,3 +37,4 @@ EXTRA_OECONF += " \
->
->  FILES_${PN} += "${datadir}/gst-plugins-base"
->
-> +CACHED_CONFIGUREVARS_append_i586 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 138ba68..2702986 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -94,6 +94,7 @@ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses,"
+ PACKAGECONFIG[gtk+] = "--enable-gtk,--disable-gtk,gtk+ libvte,"
+ PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
+ PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl,"
++PACKAGECONFIG[ssh2] = "--enable-libssh2,--disable-libssh2,libssh2,"
+ 
+ # Qemu target will not build in world build for ARM or Mips
+ BROKEN_qemuarm = "1"
+-- 
+1.7.9.5
+
 
