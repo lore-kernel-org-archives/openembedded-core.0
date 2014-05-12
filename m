@@ -1,28 +1,28 @@
 Return-Path: <petter@technux.se>
-Received: from vsp-authed-02-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 8479F61F16
+Received: from vsp-authed-01-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 863FB60167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 14:28:38 +0000 (UTC)
+	Mon, 12 May 2014 14:28:41 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-02-02.binero.net (Halon Mail Gateway) with ESMTPS
+	by vsp-authed-01-02.binero.net (Halon Mail Gateway) with ESMTPS
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 16:28:28 +0200 (CEST)
+	Mon, 12 May 2014 16:28:44 +0200 (CEST)
 Received: from localhost.localdomain
 	(host-90-236-245-133.mobileonline.telia.com [90.236.245.133])
 	(Authenticated sender: petter@technux.se)
-	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 7B6763A220;
-	Mon, 12 May 2014 15:55:45 +0200 (CEST)
+	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 7905E3A236;
+	Mon, 12 May 2014 15:55:47 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 15:55:29 +0200
-Message-Id: <875252a972e731f1e12927fdc6fbc9a46b326a04.1399868537.git.petter@technux.se>
+Date: Mon, 12 May 2014 15:55:38 +0200
+Message-Id: <93cd270eb35bc3fffb1bd55e01c04ba82085f799.1399868537.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
 References: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
 In-Reply-To: <cover.1399868537.git.petter@technux.se>
 References: <cover.1399868537.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv3 04/13] trace-cmd: refactoring recipe
+Subject: [PATCHv3 13/13] eglibc: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,121 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 14:28:39 -0000
+X-List-Received-Date: Mon, 12 May 2014 14:28:42 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Fixes [YOCTO #4497]
 
-Refactoring recipe to avoid duplicated entries in trace-cmd and
-kernelshark bb-files. Also remove usage of FILESPATH and split package
-unique patches into separate dirs.
+Usage of FILESPATH is discouraged, since it can make recipes harder
+to bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+If possible try to use any of the default FILESPATH dirs.
+
+Also remove superfluous comment and do minor indentation fix.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- .../kernelshark-fix-syntax-error-of-shell.patch    |    0
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |   18 ++++--------------
- meta/recipes-kernel/trace-cmd/trace-cmd.inc        |   14 ++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |   16 ++++------------
- 4 files changed, 22 insertions(+), 26 deletions(-)
- rename meta/recipes-kernel/trace-cmd/{trace-cmd => kernelshark}/kernelshark-fix-syntax-error-of-shell.patch (100%)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd.inc
+ .../fix_for_centos_5.8.patch                       |    0
+ .../eglibc/cross-localedef-native_2.19.bb          |    3 +--
+ meta/recipes-core/eglibc/eglibc_2.19.bb            |    4 +---
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |    2 +-
+ 4 files changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-core/eglibc/{eglibc-2.19 => cross-localedef-native-2.19}/fix_for_centos_5.8.patch (100%)
 
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch b/meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
+diff --git a/meta/recipes-core/eglibc/eglibc-2.19/fix_for_centos_5.8.patch b/meta/recipes-core/eglibc/cross-localedef-native-2.19/fix_for_centos_5.8.patch
 similarity index 100%
-rename from meta/recipes-kernel/trace-cmd/trace-cmd/kernelshark-fix-syntax-error-of-shell.patch
-rename to meta/recipes-kernel/trace-cmd/kernelshark/kernelshark-fix-syntax-error-of-shell.patch
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index d61097d..e64abe2 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -1,28 +1,18 @@
- SUMMARY = "Graphical trace viewer for Ftrace"
- LICENSE = "GPLv2"
-+
-+require trace-cmd.inc
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
+rename from meta/recipes-core/eglibc/eglibc-2.19/fix_for_centos_5.8.patch
+rename to meta/recipes-core/eglibc/cross-localedef-native-2.19/fix_for_centos_5.8.patch
+diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb
+index 3ce0e1d..1c13eb8 100644
+--- a/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb
++++ b/meta/recipes-core/eglibc/cross-localedef-native_2.19.bb
+@@ -13,8 +13,7 @@ LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=e9a558e243b36d3209f380deb394b
+ inherit native
+ inherit autotools
  
--SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
--PR = "r3"
--PV = "1.2+git${SRCPV}"
+-# pick up an eglibc patch
+-FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/${P}:"
+ 
+ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25243.tar.bz2 \
+ 	   file://fix_for_centos_5.8.patch;patchdir=.. \
+diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
+index 8f09676..1ddce82 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.19.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
+@@ -24,7 +24,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
+            file://0001-R_ARM_TLS_DTPOFF32.patch \
+            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+            file://fix-tibetian-locales.patch \
+-	   file://ppce6500-32b_slow_ieee754_sqrt.patch \
++           file://ppce6500-32b_slow_ieee754_sqrt.patch \
+           "
+ SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
+ SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
+@@ -49,8 +49,6 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
+ 
+ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
+ 
+-FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
 -
- DEPENDS = "gtk+"
- RDEPENDS_${PN} = "trace-cmd"
+ #
+ # For now, we will skip building of a gcc package if it is a uclibc one
+ # and our build is not a uclibc one, and we skip a glibc one if our build
+diff --git a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+index 75ffbf6..7c34635 100644
+--- a/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
++++ b/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+@@ -16,7 +16,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
  
--inherit pkgconfig pythonnative
--
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
--           file://addldflags.patch \
--           file://make-docs-optional.patch \
--           file://blktrace-api-compatibility.patch \
--           file://kernelshark-fix-syntax-error-of-shell.patch"
--S = "${WORKDIR}/git"
-+SRC_URI_append = "file://kernelshark-fix-syntax-error-of-shell.patch"
+ PR = "r2"
  
- EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
+-FILESPATH = "${FILE_DIRNAME}/${PN}-${PV}/"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/${P}:"
  
--FILESPATH = "${FILE_DIRNAME}/trace-cmd"
--
- do_install() {
- 	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
- 	rm -rf ${D}${datadir}/trace-cmd
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd.inc b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-new file mode 100644
-index 0000000..fb8c5fa
---- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd.inc
-@@ -0,0 +1,14 @@
-+SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
-+PR = "r3"
-+PV = "1.2+git${SRCPV}"
-+
-+inherit pkgconfig pythonnative
-+
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/trace-cmd:"
-+
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
-+           file://addldflags.patch \
-+           file://make-docs-optional.patch \
-+           file://blktrace-api-compatibility.patch \
-+"
-+S = "${WORKDIR}/git"
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-index a0c823b..6f3319d 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-@@ -1,26 +1,18 @@
- SUMMARY = "User interface to Ftrace"
- LICENSE = "GPLv2 & LGPLv2.1"
-+
-+require trace-cmd.inc
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
-                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
-                     file://trace-input.c;beginline=5;endine=8;md5=6ad47cc2b03385d8456771eec5eeea0b"
- 
--SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
--PR = "r3"
--PV = "1.2+git${SRCPV}"
--
--inherit pkgconfig pythonnative
--
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git \
--           file://addldflags.patch \
--           file://make-docs-optional.patch \
--           file://blktrace-api-compatibility.patch \
--           file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
-+SRC_URI_append = "file://trace-cmd-Add-checks-for-invalid-pointers-to-fix-seg.patch \
-            file://trace-cmd-Do-not-call-stop_threads-if-doing-latency-.patch \
-            file://trace-cmd-Setting-plugin-to-nop-clears-data-before-i.patch \
-            file://trace-cmd-fix-syntax-error-of-shell.patch \
- "
--S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "'prefix=${prefix}'"
+ inherit native
  
 -- 
 1.7.9.5
