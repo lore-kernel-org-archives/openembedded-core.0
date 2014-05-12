@@ -1,6 +1,6 @@
 Return-Path: <petter@technux.se>
 Received: from vsp-authed-02-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 54DEB605B2
+	by mail.openembedded.org (Postfix) with ESMTP id 5465E60167
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 12 May 2014 14:28:31 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
@@ -10,19 +10,19 @@ Received: from smtp01.binero.se (unknown [195.74.38.28])
 Received: from localhost.localdomain
 	(host-90-236-245-133.mobileonline.telia.com [90.236.245.133])
 	(Authenticated sender: petter@technux.se)
-	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 4294B3A232;
-	Mon, 12 May 2014 15:55:47 +0200 (CEST)
+	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 27F2C3A227;
+	Mon, 12 May 2014 15:55:46 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 15:55:37 +0200
-Message-Id: <4b97136db0b402561c806a63beb5618b9dd36cc6.1399868537.git.petter@technux.se>
+Date: Mon, 12 May 2014 15:55:32 +0200
+Message-Id: <3f449f6a2f45365dc12ac6cb345f813152e6e1d3.1399868537.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
 References: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
 In-Reply-To: <cover.1399868537.git.petter@technux.se>
 References: <cover.1399868537.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv3 12/13] uclibc: remove usage of FILESPATH
+Subject: [PATCHv3 07/13] qemu: remove unused FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +43,26 @@ Fixes [YOCTO #4497]
 
 Usage of FILESPATH is discouraged, since it can make recipes harder to
 bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+However in nativesdk-qemu-helper no FILESPATH additions are currently needed so
+instead it should be removed.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/recipes-core/uclibc/uclibc-git.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../qemu/nativesdk-qemu-helper_1.0.bb              |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index 0649aca..69e834d 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -2,7 +2,7 @@ SRCREV="5eddde8f094ef52dca06695cc598e3b2556dcccb"
+diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+index fe03b82..51d1c59 100644
+--- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
++++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+@@ -3,7 +3,6 @@ LICENSE = "GPLv2"
+ RDEPENDS_${PN} = "nativesdk-qemu"
+ PR = "r9"
  
- PV = "0.9.33+git${SRCPV}"
+-FILESPATH = "${FILE_DIRNAME}/qemu-helper"
  
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/uclibc-git' ], d)}"
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
- 
- SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
- 	file://uClibc.machine \
-@@ -24,6 +24,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
- 	file://0001-Add-eventfd_read-and-eventfd_write.patch \
- 	file://0002-wire-setns-syscall.patch \
- 	file://0003-fcntl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch \
--        file://0004-Add-clock_adjtime-syscall.patch \ 
-+	file://0004-Add-clock_adjtime-syscall.patch \ 
- 	"
- S = "${WORKDIR}/git"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5d4e0b4c28f999 \
+                     file://${COREBASE}/scripts/runqemu;endline=18;md5=77fbe442a88b1bcdc29c3ba67733b21b"
 -- 
 1.7.9.5
 
