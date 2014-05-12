@@ -1,31 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (unknown [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 991D966069
+Return-Path: <drew@moseleynet.net>
+X-Greylist: delayed 432 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 12 May 2014 17:00:58 UTC
+Received: from mail-ee0-f52.google.com (unknown [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D57CC60173
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 17:00:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s4CH0ECN031533 for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 18:00:14 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PX3-t43GUsC5
+	Mon, 12 May 2014 17:00:58 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id e53so4816996eek.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 18:00:13 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s4CH09ve031529
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 18:00:11 +0100
-Message-ID: <1399914003.31891.140.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 May 2014 18:00:03 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] gstreamer: Better gcc 4.9 fix
+	Mon, 12 May 2014 10:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=moseleynet.net; s=google;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to;
+	bh=33M7TidDo5B5+q+rl+TBJVyw4EkyCSldOynJ3GLP/mc=;
+	b=UbUzk2G66xXwPuaKTsxkHttmelo3ijWE9ECEu1mNneqeXibCj4CqXI3eeiHiWego34
+	mig4AFUZdrtE7QxXoO6jbqfuLc8qQVLum0YSyQwieBLVX4/tjMvVmrumGyDUypdskvFg
+	WgnWz9RbY/uxGy5xE9Lz68cCHoaWgUhyGmJ8E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:content-transfer-encoding:message-id:references:to;
+	bh=33M7TidDo5B5+q+rl+TBJVyw4EkyCSldOynJ3GLP/mc=;
+	b=l5lsDV6cxewgoFdTbrA9EC+CCKfq64sAMl1BcE6PgCqgTmWXrUYTWsTQ4wnsk6yMaT
+	vGk6jAA+VlGWrLIBQwCFQrYCi5p/gSbQfslvqjAIRtSGG8vyp8HGuZ/gLit1Q3mmHk0e
+	madlKKkUUc+3bNc9b87T6rHHz1yNagIiaI5Nh9h9mRKBGcis2sLaIudjxkHKAg0eOdjZ
+	lZVmWumPsh+HRgICJi0lrpkdKtYWw+MgZXY/KZzS/DjmKurNM33L/8QCRdAQ65Uc3eJG
+	ZV3upzD1/EQwiUs0xHdZM+GsSVBx1X9jZuDyFW6mInyb4aP8QdA1mYxZbutRi/jbn6yp
+	SZOw==
+X-Gm-Message-State: ALoCoQnozTtaG9Li2k66fte6PdECXQ7nqXePQE8h5qST+dx7qPJwLBVO4b2QHdnatHqNKn9VWsqn
+X-Received: by 10.15.33.67 with SMTP id b43mr29739085eev.39.1399913626805;
+	Mon, 12 May 2014 09:53:46 -0700 (PDT)
+Received: from [192.168.1.33] (cpe-174-096-222-251.carolina.res.rr.com.
+	[174.96.222.251])
+	by mx.google.com with ESMTPSA id m2sm6384380eey.36.2014.05.12.09.53.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 12 May 2014 09:53:46 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Drew Moseley <drew@moseleynet.net>
+In-Reply-To: <1399912450-27861-1-git-send-email-drew@moseleynet.net>
+Date: Mon, 12 May 2014 12:53:42 -0400
+Message-Id: <256005AE-6E85-452F-97A8-E50AE3E243DB@moseleynet.net>
+References: <1399580261-16249-1-git-send-email-drew@moseleynet.net>
+	<1399912450-27861-1-git-send-email-drew@moseleynet.net>
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.1874)
+Subject: Re: [PATCH] mesa-demos: Specify the lib dir to locate glut libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +58,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 17:00:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 May 2014 17:00:59 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-gstreamer does runtime detection to enable/disable things like SSE code.
-Unfortunately it is broken and will try and use this even with i586
-compiler flags. This change forces it back to the approach with gcc 4.8
-by disabling the problematic headers.
+On May 12, 2014, at 12:34 PM, Drew Moseley <drew@moseleynet.net> wrote:
+> From: Drew Moseley <drew_moseley@mentor.com>
+> 
+> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 
-Its suboptimal but less so that the proposed previous forced enabling of
-SSE on x86 everywhere.
+Not sure why "git send-email" dropped the V2 that I thought I put into the 
+subject but for clarity this patch completely replaces my earlier one.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-index 83b856b..4a8a994 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-@@ -33,3 +33,5 @@ do_configure_prepend() {
- }
- 
- FILES_${PN} += "${datadir}/${BPN}"
-+
-+CACHED_CONFIGUREVARS_append_i586 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index eb13277..1691c99 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -37,3 +37,4 @@ EXTRA_OECONF += " \
- 
- FILES_${PN} += "${datadir}/gst-plugins-base"
- 
-+CACHED_CONFIGUREVARS_append_i586 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
+The modification of glut.patch is no longer needed.
 
+Drew
 
 
