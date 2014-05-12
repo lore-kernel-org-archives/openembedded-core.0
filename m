@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f169.google.com (unknown [209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A7F7B65FCE
+Received: from mail-la0-f46.google.com (unknown [209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 96EC96605B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 11:34:40 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id s7so7511337lbd.0
+	Mon, 12 May 2014 11:34:41 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id ec20so1807351lab.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 04:34:40 -0700 (PDT)
+	Mon, 12 May 2014 04:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=TgtZcIQmpp61zmo3XdnyGzbyUF8IzkY9yD7WlBgJrws=;
-	b=Cr1SkZE0xk/yBwbKhMCKyLp/4gQ49vJWdXfSkONvlfnBaGBOsXvR/0McMNe3SzoiZ+
-	3FPhhaYhFAvnEiRxRDk+2m751BpOCGAUjTuA5swzbZ1RK9EAP9SPMpUTYEL1VNGkNw5H
-	JHx6YQuRA7SsPxgHBBI6GPDL/CubJxggM8/AvmL7ltWDRIrHTv2E1VtUBBMB2Pbor9ev
-	bu2nGuQMBvX3pYli8xCklqoakcZA9fK09HOI5OxswllHX8n7tGWjteKWd5jfo+JhXbUb
-	P3+NWJleL8RY6P6V/B1RDtL6IRXP36JN/LfqcDGgllMd5kAA9GFvs22EGnaULNrBTc5z
-	Pd1Q==
-X-Received: by 10.112.4.106 with SMTP id j10mr24058320lbj.7.1399894480691;
-	Mon, 12 May 2014 04:34:40 -0700 (PDT)
+	:references; bh=/+fPwleku1wdBWx2TpY4GVPoUsW9hiE+eTEnJpHExg8=;
+	b=KzGdN5VthT0Gu6skE1oqoCSQp3MkK8nt9lf7ElCBVfqTBoI39A88ASnJEI7hBaPzqV
+	2AKjy+WIJZKLROMRGEVId+gRjAHe+XvO7uKyryQXxfaVGCC3uW1qP9jK16L0vxkgpN9x
+	VjlOHwuvEI0woiYr7UMsYvPiJr2AGHBUU23hyepOpG4bLyHm8nNom7WB9xCCgs2NCjpy
+	RB7+6H7xTel+yfQktrXkOwZChlK1/3JWTO5INgez9D8Bu3K+809+IIIctA5710oPmze8
+	eBydcTESRyEw+ExB7V0ce1on9WwQn6c5Xq7OThCt5jn2x1soKb4gRt9ks3ETux9Emq9R
+	Qcnw==
+X-Received: by 10.152.5.4 with SMTP id o4mr898149lao.64.1399894482543;
+	Mon, 12 May 2014 04:34:42 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	bg4sm2231169lbb.6.2014.05.12.04.34.39
+	yr11sm1855801lbb.5.2014.05.12.04.34.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 May 2014 04:34:39 -0700 (PDT)
+	Mon, 12 May 2014 04:34:41 -0700 (PDT)
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 13:34:50 +0200
-Message-Id: <a789ea4bfaf42ad32e15519424ec8e99ffebc782.1399894447.git.Martin.Jansa@gmail.com>
+Date: Mon, 12 May 2014 13:34:51 +0200
+Message-Id: <e052aa614dc2fd1c34aa52da5d8355d70af03c19.1399894447.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.9.2
 In-Reply-To: <cover.1399894447.git.Martin.Jansa@gmail.com>
 References: <cover.1399894447.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1399894447.git.Martin.Jansa@gmail.com>
 References: <cover.1399894447.git.Martin.Jansa@gmail.com>
-Subject: [daisy][PATCH 01/10] libnotify: add dbus-glib dependency
+Subject: [daisy][PATCH 02/10] gsettings-desktop-schemas: add missing dependency on intltool-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,53 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 11:34:41 -0000
+X-List-Received-Date: Mon, 12 May 2014 11:34:44 -0000
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* | No package 'dbus-glib-1' found
-  | configure:11865: error: Package requirements (gtk+-2.0 >= 2.18, glib-2.0 >= 2.6,
-    dbus-1 >= 0.76, dbus-glib-1 >= 0.76 gmodule-2.0) were not met:
+* do_configure fails with:
+  | NOTE: Executing intltoolize --copy --force --automake
+  | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gsettings-desktop-schemas/3.10.1-r1/temp/run.do_configure.1111: 180:
+  /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gsettings-desktop-schemas/3.10.1-r1/temp/run.do_configure.1111:
+   intltoolize: not found
+  | WARNING: exit code 127 from a shell command.
+  | ERROR: Function failed: do_configure (log file is located at
+  /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gsettings-desktop-schemas/3.10.1-r1/temp/log.do_configure.1111)
+  NOTE: recipe gsettings-desktop-schemas-3.10.1-r1: task do_configure:
 
 * introduced in:
-  commit 5c1eeb5d16566521e45947b07fdcd9f552fec45b
-  Author: Alexandru Palalau <alexandrux.palalau@intel.com>
-  Date:   Thu Feb 27 12:05:41 2014 +0200
+  commit 1138976f7bdcd24ef57451a2c2ceffa43666610f
+  Author: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
+  Date:   Tue Mar 11 13:27:46 2014 +0000
 
-      libnotify: don't use gnome.bbclass
-
-  because gnome.bbclass was adding gconf->dbus-glib dependency
-
-* it was also causing other recipes to fail when they were depending
-  on libnotify which has dbus-glib in pkg-config and dbus-glib was
-  missing, e.g. firefox:
-  | checking for libnotify >= 0.4... Package dbus-glib-1 was not found
-  in the pkg-config search path. Perhaps you should add the directory
-  containing `dbus-glib-1.pc' to the PKG_CONFIG_PATH environment
-  variable Package 'dbus-glib-1', required by 'libnotify', not found
-  | configure: error: Library requirements (libnotify >= 0.4) not met;
-  consider adjusting the PKG_CONFIG_PATH environment variable if your
-  libraries are in a nonstandard prefix so pkg-config can find them.
+    gsettings-desktop-schemas: removed unneeded class inheritance
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-gnome/libnotify/libnotify_0.6.0.bb | 2 +-
+ meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-index a1f2fbc..1d92b64 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
+diff --git a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb
+index 7217c66..eb09d2f 100644
+--- a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb
++++ b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.10.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  PR = "r1"
  
--DEPENDS = "dbus gtk+"
-+DEPENDS = "dbus gtk+ dbus-glib"
+-DEPENDS = "glib-2.0"
++DEPENDS = "glib-2.0 intltool-native"
  
- inherit gnomebase
- SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
+ inherit gnomebase gsettings gettext
+ 
 -- 
 1.9.2
 
