@@ -1,39 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (unknown [74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BAF960E79
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C0C0F606E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 12:23:21 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id t61so6658041wes.20
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 05:23:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=XsztNvLUfzMpnsYneLIFfCrF/TuE7aIT/3VyxS9odnk=;
-	b=G6Eh+M/uVctR/Qamrpzuq9nivxwnJfAZHDrN58PWOrCKkUv/pVKbRSsnnt2Chs8iXj
-	+wyl5Jcehqd5Y3SDhats+/xuUMklz7dRg1bsECLMGHPmgt2Ctj6+pgNbeKYKDHNeB9XL
-	U7jdBrICzDdGx+O1hU46xsyuJbdUrTsS1GX6UaGxboGB/ZWwAVCrBd3qf2DkjKMQgrVO
-	upy5CMAVfMHwVtgS1HsqtG5XrZmi1yV4cSwVS2PeUyZA8MFPtf3wfjJDDLcLpH7p5fIS
-	uUyGEkO310Pcx+RpYMQlTNNSf3EYquZhTvRXU5RxKjHJ0hdES4Yh39n8HgBkwIBACKGv
-	93Kw==
-X-Gm-Message-State: ALoCoQmJNAgDg8/oY14HrOmAGZelYMO7om5HrgrNNQyPAeY958hh3ZGJ2sudpInVxiDQe6DYnUTt
-X-Received: by 10.194.9.8 with SMTP id v8mr1915349wja.53.1399896905288;
-	Mon, 12 May 2014 05:15:05 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	ct2sm17699110wjb.33.2014.05.12.05.15.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 May 2014 05:15:04 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 13:14:50 +0100
-Message-Id: <1399896893-486-4-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1399896893-486-1-git-send-email-ross.burton@intel.com>
-References: <1399896893-486-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 4/7] gdk-pixbuf: upgrade to 2.30.7
+	Mon, 12 May 2014 13:36:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4CDa2UI020687; Mon, 12 May 2014 14:36:03 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id QYdriD7pLo27; Mon, 12 May 2014 14:36:02 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4CDZvmh020677
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 12 May 2014 14:35:59 +0100
+Message-ID: <1399901751.31891.132.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Mon, 12 May 2014 14:35:51 +0100
+In-Reply-To: <6b5bf7d0a382dc4f9af759c5c7072a411c2bdda5.1399892554.git.hongxu.jia@windriver.com>
+References: <cover.1399892554.git.hongxu.jia@windriver.com>
+	<6b5bf7d0a382dc4f9af759c5c7072a411c2bdda5.1399892554.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] socat: fix do_configure/do_compile failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,524 +38,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 12:23:23 -0000
+X-List-Received-Date: Mon, 12 May 2014 13:36:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Drop tests-check.patch as it has been merged into this release.
+On Mon, 2014-05-12 at 19:06 +0800, Hongxu Jia wrote:
+> We reference 1.7.2.3 to fix the do_configure/do_compile failures in 1.7.2.4
 
-License checksums updated as the FSF address was changed.
+I'm afraid these descriptions don't help much. What was the problem that
+was encountered? How does a change from 1.7.2.3 fix it? Why are these
+fixes "oe specific"? They don't look embedded specific?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../gdk-pixbuf/gdk-pixbuf/tests-check.patch        |  465 --------------------
- .../{gdk-pixbuf_2.30.3.bb => gdk-pixbuf_2.30.7.bb} |    7 +-
- 2 files changed, 3 insertions(+), 469 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.30.3.bb => gdk-pixbuf_2.30.7.bb} (94%)
+More explanation is needed for these patches.
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch
-deleted file mode 100644
-index 31f3368..0000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch
-+++ /dev/null
-@@ -1,465 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 9fa240c1ad5a815d63d8aa9126954152c2607f2e Mon Sep 17 00:00:00 2001
--From: Matthias Clasen <mclasen@redhat.com>
--Date: Sat, 25 Jan 2014 21:29:34 +0000
--Subject: Make testsuite robust against disabled formats
--
--Skip tests if their file format is not supported by the
--available loaders.
--
--https://bugzilla.gnome.org/show_bug.cgi?id=722651
-----
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index de3442e..80840c2 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -42,17 +42,57 @@ dist_installed_test_data =		\
-- 	icc-profile.png			\
-- 	$(wildcard $(srcdir)/test-images/*)
-- 
--+pixbuf_icc_SOURCES = 			\
--+	pixbuf-icc.c			\
--+	test-common.c			\
--+	test-common.h			\
--+	$(NULL)
--+
--+pixbuf_scale_SOURCES = 			\
--+	pixbuf-scale.c			\
--+	test-common.c			\
--+	test-common.h			\
--+	$(NULL)
--+
--+pixbuf_stream_SOURCES =			\
--+	pixbuf-stream.c			\
--+	test-common.c			\
--+	test-common.h			\
--+	$(NULL)
--+
--+pixbuf_threads_SOURCES =		\
--+	pixbuf-threads.c		\
--+	test-common.c			\
--+	test-common.h			\
--+	$(NULL)
--+
--+pixbuf_icon_serialize_SOURCES =		\
--+	pixbuf-icon-serialize.c		\
--+	test-common.c			\
--+	test-common.h			\
--+	$(NULL)
--+
--+pixbuf_save_SOURCES =			\
--+	pixbuf-save.c			\
--+	test-common.c			\
--+	test-common.h			\
--+	$(NULL)
--+
-- pixbuf_resource_SOURCES = 		\
-- 	pixbuf-resource.c		\
--+	test-common.c			\
--+	test-common.h			\
-- 	resources.h			\
---	resources.c
--+	resources.c			\
--+	$(NULL)
-- 
-- BUILT_SOURCES += resources.h resources.c
-- DISTCLEANFILES += 			\
-- 	resources.h resources.c 	\
-- 	pixbuf-save-options		\
-- 	pixbuf-randomly-modified-image	\
---	pixbuf-save-roundtrip
--+	pixbuf-save-roundtrip		\
--+	$(NULL)
-- 	
-- EXTRA_DIST += resources.gresource.xml
-- TESTS_ENVIRONMENT += GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache
--diff --git a/tests/pixbuf-icc.c b/tests/pixbuf-icc.c
--index 9cb9c90..3b95b09 100644
----- a/tests/pixbuf-icc.c
--+++ b/tests/pixbuf-icc.c
--@@ -22,6 +22,7 @@
-- 
-- #include "config.h"
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- 
-- static void
-- test_incremental (gconstpointer data)
--@@ -34,7 +35,12 @@ test_incremental (gconstpointer data)
--   gchar *contents;
--   gsize size;
-- 
---  
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   g_file_get_contents (g_test_get_filename (G_TEST_DIST, filename, NULL), &contents, &size, &error);
--   g_assert_no_error (error);
-- 
--@@ -62,6 +68,12 @@ test_nonincremental (gconstpointer data)
--   GdkPixbuf *pixbuf;
--   const gchar *profile;
-- 
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   pixbuf = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, filename, NULL), &error);
--   g_assert_no_error (error);
-- 
--diff --git a/tests/pixbuf-icon-serialize.c b/tests/pixbuf-icon-serialize.c
--index 20bf6e1..880c654 100644
----- a/tests/pixbuf-icon-serialize.c
--+++ b/tests/pixbuf-icon-serialize.c
--@@ -1,5 +1,6 @@
-- #include "config.h"
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- #include <string.h>
-- #include <glib.h>
-- 
--@@ -13,6 +14,12 @@ test_serialize (void)
--   GIcon *icon;
--   GInputStream *stream;
-- 
--+  if (!format_supported ("png"))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   pixbuf = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, "test-image.png", NULL), &error);
--   g_assert_no_error (error);
--   g_assert (pixbuf != NULL);
--diff --git a/tests/pixbuf-resource.c b/tests/pixbuf-resource.c
--index a747bca..aa0bed8 100644
----- a/tests/pixbuf-resource.c
--+++ b/tests/pixbuf-resource.c
--@@ -22,6 +22,7 @@
-- 
-- #include "config.h"
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- #include <string.h>
-- 
-- #define compare_option(p1, p2, key) \
--@@ -77,6 +78,12 @@ test_resource (void)
--   GError *error = NULL;
--   GdkPixbuf *pixbuf, *ref;
-- 
--+  if (!format_supported ("png"))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, "icc-profile.png", NULL);
--   ref = gdk_pixbuf_new_from_file (path, &error);
--   g_assert_no_error (error);
--@@ -111,6 +118,12 @@ test_resource_at_scale (void)
--   GError *error = NULL;
--   GdkPixbuf *pixbuf, *ref;
-- 
--+  if (!format_supported ("png"))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, "icc-profile.png", NULL);
--   ref = gdk_pixbuf_new_from_file_at_scale (path, 40, 10, FALSE, &error);
--   g_assert_no_error (error);
--diff --git a/tests/pixbuf-save.c b/tests/pixbuf-save.c
--index f7df29b..78ab288 100644
----- a/tests/pixbuf-save.c
--+++ b/tests/pixbuf-save.c
--@@ -21,6 +21,7 @@
--  */
-- 
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- #include <string.h>
-- 
-- #define compare_option(p1, p2, key) \
--@@ -76,6 +77,12 @@ test_save_roundtrip (void)
--   GdkPixbuf *ref;
--   GdkPixbuf *pixbuf;
-- 
--+  if (!format_supported ("png"))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   ref = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, "test-image.png", NULL), &error);
--   g_assert_no_error (error);
-- 
--@@ -98,6 +105,12 @@ test_save_options (void)
--   GdkPixbuf *pixbuf;
--   GError *error = NULL;
-- 
--+  if (!format_supported ("png"))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   ref = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 10, 10);
--   gdk_pixbuf_fill (ref, 0xff00ff00);
-- 
--diff --git a/tests/pixbuf-scale.c b/tests/pixbuf-scale.c
--index 4fd9fd5..d57e56a 100644
----- a/tests/pixbuf-scale.c
--+++ b/tests/pixbuf-scale.c
--@@ -22,6 +22,7 @@
-- 
-- #include "config.h"
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- 
-- static void
-- test_scale (gconstpointer data)
--@@ -33,6 +34,12 @@ test_scale (gconstpointer data)
--   GdkPixbuf *pixbuf;
--   gint width, height;
-- 
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
--   ref = gdk_pixbuf_new_from_file (path, &error);
--   g_assert_no_error (error);
--diff --git a/tests/pixbuf-stream.c b/tests/pixbuf-stream.c
--index 0c2cebe..d66ce3e 100644
----- a/tests/pixbuf-stream.c
--+++ b/tests/pixbuf-stream.c
--@@ -22,6 +22,7 @@
-- 
-- #include "config.h"
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- #include <string.h>
-- 
-- #define compare_option(p1, p2, key) \
--@@ -71,6 +72,12 @@ test_stream (gconstpointer data)
--   GFile *file;
--   GInputStream *stream;
-- 
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
--   ref = gdk_pixbuf_new_from_file (path, &error);
--   g_assert_no_error (error);
--@@ -116,6 +123,12 @@ test_stream_async (gconstpointer data)
--   gsize size;
--   GInputStream *stream;
-- 
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
--   ref = gdk_pixbuf_new_from_file (path, &error);
--   g_assert_no_error (error);
--@@ -138,6 +151,12 @@ test_stream_at_scale (gconstpointer data)
--   GFile *file;
--   GInputStream *stream;
-- 
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
--   ref = gdk_pixbuf_new_from_file_at_scale (path, 20, 30, TRUE, &error);
--   g_assert_no_error (error);
--@@ -167,6 +186,12 @@ test_stream_at_scale_async (gconstpointer data)
--   gsize size;
--   GInputStream *stream;
-- 
--+  if (!format_supported (filename))
--+    {
--+      g_test_skip ("format not supported");
--+      return;
--+    }
--+
--   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
--   ref = gdk_pixbuf_new_from_file_at_scale (path, 40, 10, FALSE, &error);
--   g_assert_no_error (error);
--diff --git a/tests/pixbuf-threads.c b/tests/pixbuf-threads.c
--index 5eeb9dd..f2694fd 100644
----- a/tests/pixbuf-threads.c
--+++ b/tests/pixbuf-threads.c
--@@ -18,7 +18,9 @@
--  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
--  */
-- 
--+#include "config.h"
-- #include "gdk-pixbuf/gdk-pixbuf.h"
--+#include "test-common.h"
-- 
-- static void
-- load_image (gpointer data, 
--@@ -71,15 +73,24 @@ test_threads (void)
-- 
--   for (i = 0; i < iterations; i++)
--     {
---      g_thread_pool_push (pool, "valid_jpeg_test", NULL);
---      g_thread_pool_push (pool, "valid_png_test", NULL);
---      g_thread_pool_push (pool, "valid_gif_test", NULL);
---      g_thread_pool_push (pool, "valid_bmp_test", NULL);
---      g_thread_pool_push (pool, "valid_jpeg_progressive_test", NULL);
---      g_thread_pool_push (pool, "valid_xpm_test", NULL);
---      g_thread_pool_push (pool, "valid_ras_test", NULL);
---      g_thread_pool_push (pool, "valid_tga_test", NULL);
---      g_thread_pool_push (pool, "valid_tiff1_test", NULL);
--+      if (format_supported ("jpeg"))
--+        g_thread_pool_push (pool, "valid_jpeg_test", NULL);
--+      if (format_supported ("png"))
--+        g_thread_pool_push (pool, "valid_png_test", NULL);
--+      if (format_supported ("gif"))
--+        g_thread_pool_push (pool, "valid_gif_test", NULL);
--+      if (format_supported ("bmp"))
--+        g_thread_pool_push (pool, "valid_bmp_test", NULL);
--+      if (format_supported ("jpeg"))
--+        g_thread_pool_push (pool, "valid_jpeg_progressive_test", NULL);
--+      if (format_supported ("xpm"))
--+        g_thread_pool_push (pool, "valid_xpm_test", NULL);
--+      if (format_supported ("ras"))
--+        g_thread_pool_push (pool, "valid_ras_test", NULL);
--+      if (format_supported ("tga"))
--+        g_thread_pool_push (pool, "valid_tga_test", NULL);
--+      if (format_supported ("tiff"))
--+        g_thread_pool_push (pool, "valid_tiff1_test", NULL);
--     }
-- 
--   g_thread_pool_free (pool, FALSE, TRUE);
--diff --git a/tests/test-common.c b/tests/test-common.c
--new file mode 100644
--index 0000000..c7673e3
----- /dev/null
--+++ b/tests/test-common.c
--@@ -0,0 +1,65 @@
--+/* -*- Mode: C; c-basic-offset: 2; -*- */
--+/* GdkPixbuf library - test loaders
--+ *
--+ * Copyright (C) 2014 Red Hat, Inc.
--+ *
--+ * This program is free software; you can redistribute it and/or modify
--+ * it under the terms of the GNU General Public License as published by
--+ * the Free Software Foundation; either version 2 of the License, or
--+ * (at your option) any later version.
--+ *
--+ * This program is distributed in the hope that it will be useful,
--+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
--+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--+ * GNU General Public License for more details.
--+ *
--+ * You should have received a copy of the GNU General Public License
--+ * along with this program; if not, write to the Free Software
--+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
--+ *
--+ * Author: Matthias Clasen
--+ */
--+
--+#include "config.h"
--+#include "test-common.h"
--+#include "gdk-pixbuf/gdk-pixbuf.h"
--+
--+#include <string.h>
--+
--+gboolean
--+format_supported (const gchar *filename)
--+{
--+  const gchar *name = NULL;
--+  GSList *formats, *l;
--+  gboolean retval;
--+  const gchar *names[] = { "png", "jpeg", "bmp", "gif", "ras",
--+    "tga", "xpm", "xbm" };
--+  gint i;
--+
--+  for (i = 0; i < G_N_ELEMENTS (names); i++)
--+    {
--+      if (strstr (filename, names[i]))
--+        {
--+          name = names[i];
--+          break;
--+        }
--+    }
--+  if (name == NULL)
--+    return FALSE;
--+
--+  retval = FALSE;
--+  formats = gdk_pixbuf_get_formats ();
--+  for (l = formats; l; l = l->next)
--+    {
--+      GdkPixbufFormat *format = l->data;
--+
--+      if (g_str_equal (gdk_pixbuf_format_get_name (format), name))
--+        {
--+          retval = TRUE;
--+          break;
--+        }
--+    }
--+  g_slist_free (formats);
--+
--+  return retval;
--+}
--diff --git a/tests/test-common.h b/tests/test-common.h
--new file mode 100644
--index 0000000..32ff35a
----- /dev/null
--+++ b/tests/test-common.h
--@@ -0,0 +1,33 @@
--+/* -*- Mode: C; c-basic-offset: 2; -*- */
--+/* GdkPixbuf library - test loaders
--+ *
--+ * Copyright (C) 2014 Red Hat, Inc.
--+ *
--+ * This program is free software; you can redistribute it and/or modify
--+ * it under the terms of the GNU General Public License as published by
--+ * the Free Software Foundation; either version 2 of the License, or
--+ * (at your option) any later version.
--+ *
--+ * This program is distributed in the hope that it will be useful,
--+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
--+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--+ * GNU General Public License for more details.
--+ *
--+ * You should have received a copy of the GNU General Public License
--+ * along with this program; if not, write to the Free Software
--+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
--+ *
--+ * Author: Matthias Clasen
--+ */
--+
--+#ifndef __TEST_COMMON_H__
--+
--+#include <glib.h>
--+
--+G_BEGIN_DECLS
--+
--+gboolean format_supported (const gchar *filename);
--+
--+G_END_DECLS
--+
--+#endif  /* __TEST_COMMON_H__ */
----
--cgit v0.9.2
-\ No newline at end of file
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.7.bb
-similarity index 94%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.7.bb
-index 19848b5..a9d1eed 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.7.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
- 
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
--                    file://gdk-pixbuf/gdk-pixbuf.h;endline=26;md5=5066b71daefeff678494fffa3040aba9"
-+                    file://gdk-pixbuf/gdk-pixbuf.h;endline=26;md5=72b39da7cbdde2e665329fef618e1d6b"
- 
- SECTION = "libs"
- 
-@@ -17,12 +17,11 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
-            file://extending-libinstall-dependencies.patch \
-            file://run-ptest \
--           file://tests-check.patch \
-            file://fatal-loader.patch \
-            "
- 
--SRC_URI[md5sum] = "81161cc895eb43afd9ae7354b87e2261"
--SRC_URI[sha256sum] = "c229c53f59573eab9410b53690a4b9db770312c80a4d84ecd6295aa894574494"
-+SRC_URI[md5sum] = "1195d26f14adfe99ff0878d37678a70a"
-+SRC_URI[sha256sum] = "0aafc365eab1083a53f15e4828333b968219ffcb1a995ac6289c0147c9ffad06"
- 
- inherit autotools pkgconfig gettext pixbufcache ptest
- 
--- 
-1.7.10.4
+Cheers,
+
+Richard
+
+
+
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../socat/socat/fix-cross-compiling-failed.patch   | 25 ++++++++++++++++++++
+>  .../socat/fix-linux-errqueue.h-not-found.patch     | 27 ++++++++++++++++++++++
+>  meta/recipes-connectivity/socat/socat_1.7.2.4.bb   |  2 ++
+>  3 files changed, 54 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
+>  create mode 100644 meta/recipes-connectivity/socat/socat/fix-linux-errqueue.h-not-found.patch
+> 
+> diff --git a/meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch b/meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
+> new file mode 100644
+> index 0000000..6b9658b
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
+> @@ -0,0 +1,25 @@
+> +configure.in: fix cross compiling failed
+> +
+> +The confugring failed in 1.7.2.4, we reference 1.7.2.3 to fix this issue.
+> +
+> +Upstream-Status: Inappropriate [oe specific]
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + configure.in | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/configure.in b/configure.in
+> +--- a/configure.in
+> ++++ b/configure.in
+> +@@ -41,7 +41,7 @@ AC_CHECK_PROG(AR, ar, ar, gar)
+> + # fail
+> + AC_LANG_COMPILER_REQUIRE()
+> + 
+> +-if test "$CC" = "gcc"; then
+> ++if test "$GCC" = yes; then
+> +    CFLAGS="$CFLAGS -D_GNU_SOURCE -Wall -Wno-parentheses"
+> +    ERRONWARN="-Werror -O0"
+> + elif test "$CC" = "clang"; then
+> +-- 
+> +1.8.1.2
+> +
+> diff --git a/meta/recipes-connectivity/socat/socat/fix-linux-errqueue.h-not-found.patch b/meta/recipes-connectivity/socat/socat/fix-linux-errqueue.h-not-found.patch
+> new file mode 100644
+> index 0000000..1de7aae
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/socat/socat/fix-linux-errqueue.h-not-found.patch
+> @@ -0,0 +1,27 @@
+> +configure.in: fix linux/errqueue.h not found
+> +
+> +The compiling failed in 1.7.2.4, we reference 1.7.2.3 to fix this issue.
+> +
+> +Upstream-Status: Inappropriate [oe specific]
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + configure.in | 3 +--
+> + 1 file changed, 1 insertion(+), 2 deletions(-)
+> +
+> +diff --git a/configure.in b/configure.in
+> +index 70922f9..bdfbe98 100644
+> +--- a/configure.in
+> ++++ b/configure.in
+> +@@ -79,8 +79,7 @@ AC_HEADER_RESOLV()
+> + 
+> + AC_CHECK_HEADERS(termios.h linux/if_tun.h)
+> + AC_CHECK_HEADERS(net/if_dl.h)
+> +-AC_CHECK_HEADERS(linux/types.h)
+> +-AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [#include <linux/types.h>])
+> ++AC_CHECK_HEADERS(linux/types.h linux/errqueue.h)
+> + AC_CHECK_HEADERS(sys/utsname.h sys/select.h sys/file.h)
+> + AC_CHECK_HEADERS(util.h bsd/libutil.h libutil.h sys/stropts.h regex.h)
+> + AC_CHECK_HEADERS(linux/fs.h linux/ext2_fs.h)
+> +-- 
+> +1.8.1.2
+> +
+> diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
+> index 6c3aba1..777125f 100644
+> --- a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
+> +++ b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
+> @@ -15,6 +15,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>  SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+>             file://compile.patch \
+>             file://fix-xxx_SHIFT-autoheader.patch \
+> +           file://fix-cross-compiling-failed.patch \
+> +           file://fix-linux-errqueue.h-not-found.patch \
+>  "
+>  
+> 
+> -- 
+> 1.8.1.2
+> 
+
 
 
