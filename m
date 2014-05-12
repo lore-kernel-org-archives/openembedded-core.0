@@ -1,28 +1,26 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-03-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id C2DC960167
+Return-Path: <laurentiu.palcu@intel.com>
+X-Greylist: delayed 613 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 12 May 2014 14:39:20 UTC
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 59EDD601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 14:28:42 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 16:28:51 +0200 (CEST)
-Received: from localhost.localdomain
-	(host-90-236-245-133.mobileonline.telia.com [90.236.245.133])
-	(Authenticated sender: petter@technux.se)
-	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id B32593A221;
-	Mon, 12 May 2014 15:55:45 +0200 (CEST)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+	Mon, 12 May 2014 14:39:20 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 12 May 2014 07:29:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1035,1389772800"; d="scan'208";a="430987765"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by azsmga001.ch.intel.com with ESMTP; 12 May 2014 07:29:07 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 15:55:30 +0200
-Message-Id: <46984ebf20f7d54a90ecae600ade5a5dd13eb449.1399868537.git.petter@technux.se>
+Date: Mon, 12 May 2014 17:29:02 +0300
+Message-Id: <fa467600cf1c4f30d489d77801f85c06fccb53b9.1399904787.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
-References: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
-In-Reply-To: <cover.1399868537.git.petter@technux.se>
-References: <cover.1399868537.git.petter@technux.se>
-MIME-Version: 1.0
-Subject: [PATCHv3 05/13] xorg-lib: remove usage of FILESPATH
+In-Reply-To: <cover.1399904787.git.laurentiu.palcu@intel.com>
+References: <cover.1399904787.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1399904787.git.laurentiu.palcu@intel.com>
+References: <cover.1399904787.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/1] adt_installer: run autoreconf before configuring opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 14:28:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 12 May 2014 14:39:24 -0000
 
-Fixes [YOCTO #4497]
+opkg fails to build on hosts with older autotools versions.
 
-Usage of FILESPATH is discouraged, since it can make recipes harder to
-bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+[YOCTO #6293]
 
-Signed-off-by: Petter Mabäcker <petter@technux.se>
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../installer/adt-installer/adt_installer          |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index e07d42d..b04eafb 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -8,7 +8,7 @@ require xorg-lib-common.inc
+diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
+index 1f2d039..7fc37f8 100755
+--- a/meta/recipes-devtools/installer/adt-installer/adt_installer
++++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
+@@ -182,6 +182,7 @@ if [ ! -x "$LOCAL_OPKG_LOC/bin/opkg-cl" ]; then
+   check_result
  
- inherit siteinfo
- 
--FILESPATH = "${FILE_DIRNAME}/libx11"
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/libx11:"
- 
- PE = "1"
+   echo_info "Configure opkg ...\n"
++  autoreconf
+   ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --with-opkglibdir=$OPKG_LIBDIR --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg --disable-shave >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
+   check_result
  
 -- 
 1.7.9.5
