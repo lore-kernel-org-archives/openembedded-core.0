@@ -1,29 +1,31 @@
-Return-Path: <drew@moseleynet.net>
-Received: from relay1.mentorg.com (unknown [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CEB62606E0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7922D66069
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 16:33:49 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1WjtAk-00025D-Tc from drew@moseleynet.net 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 12 May 2014 09:33:50 -0700
-Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 12 May 2014 09:33:50 -0700
-Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
-	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Mon, 12 May 2014 09:33:50 -0700
-From: Drew Moseley <drew@moseleynet.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 12:34:10 -0400
-Message-Id: <1399912450-27861-1-git-send-email-drew@moseleynet.net>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1399580261-16249-1-git-send-email-drew@moseleynet.net>
-References: <1399580261-16249-1-git-send-email-drew@moseleynet.net>
-X-OriginalArrivalTime: 12 May 2014 16:33:50.0613 (UTC)
-	FILETIME=[F4AD7450:01CF6DFF]
-Subject: [PATCH] mesa-demos: Specify the lib dir to locate glut libraries
+	Mon, 12 May 2014 16:58:08 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4CGw4Y1031385 for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 May 2014 17:58:04 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id h_rgv5UPF8TK
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 May 2014 17:58:04 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4CGvvX9031326
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 May 2014 17:57:58 +0100
+Message-ID: <1399913871.31891.138.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 May 2014 17:57:51 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] rt-tests: Fix warning flag typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 16:33:52 -0000
+X-List-Received-Date: Mon, 12 May 2014 16:58:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Drew Moseley <drew_moseley@mentor.com>
+As per the comment, this makes it match the Makefile
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 1d876b0..954782c 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -8,7 +8,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+ S = "${WORKDIR}/git"
+ 
+ # need to append rt-tests' default CFLAGS to ours
+-CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnulli"
++CFLAGS += "-I${S}/src/include -D_GNU_SOURCE -Wall -Wno-nonnull"
+ 
+ # calling 'uname -m' is broken on crossbuilds
+ EXTRA_OEMAKE = "NUMA=0"
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-index d6e6fbc..7cda19e 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-@@ -33,7 +33,7 @@ PACKAGECONFIG[freetype2] = "--enable-freetype2,--disable-freetype2,freetype"
- PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm,virtual/libgl"
- PACKAGECONFIG[gles1] = "--enable-gles1,--disable-gles1,virtual/libgles1"
- PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,virtual/libgles2"
--PACKAGECONFIG[glut] = "--with-glut,--without-glut,"
-+PACKAGECONFIG[glut] = "--with-glut=${STAGING_EXECPREFIXDIR},--without-glut,"
- PACKAGECONFIG[osmesa] = "--enable-osmesa,--disable-osmesa,"
- PACKAGECONFIG[vg] = "--enable-vg,--disable-vg,virtual/libvg"
- PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayland"
--- 
-1.7.9.5
 
 
