@@ -1,28 +1,28 @@
 Return-Path: <petter@technux.se>
-Received: from vsp-authed-03-02.binero.net (unknown [195.74.38.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F0AD61F16
+Received: from vsp-authed-04-02.binero.net (unknown [195.74.38.226])
+	by mail.openembedded.org (Postfix) with ESMTP id A48BC65ED6
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 12 May 2014 14:28:31 +0000 (UTC)
 Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTPS
+	by vsp-authed-04-02.binero.net (Halon Mail Gateway) with ESMTPS
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 16:28:42 +0200 (CEST)
+	Mon, 12 May 2014 16:28:21 +0200 (CEST)
 Received: from localhost.localdomain
 	(host-90-236-245-133.mobileonline.telia.com [90.236.245.133])
 	(Authenticated sender: petter@technux.se)
-	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id 955563A22A;
-	Mon, 12 May 2014 15:55:46 +0200 (CEST)
+	by smtp-10-01.atm.binero.net (Postfix) with ESMTPSA id E71E03A226;
+	Mon, 12 May 2014 15:55:45 +0200 (CEST)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 May 2014 15:55:34 +0200
-Message-Id: <137e3edaf55597cc81ebee17598048e8ba7bde05.1399868537.git.petter@technux.se>
+Date: Mon, 12 May 2014 15:55:31 +0200
+Message-Id: <4d331f1a13bcbc414268bd6047f507695085ffcb.1399868537.git.petter@technux.se>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
 References: <1da008f3d9c89cfaf931e94d18154acfed49d636.1399868537.git.petter@technux.se>
 In-Reply-To: <cover.1399868537.git.petter@technux.se>
 References: <cover.1399868537.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCHv3 09/13] gcc: remove usage of FILESPATH
+Subject: [PATCHv3 06/13] mesa: remove usage of FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +43,26 @@ Fixes [YOCTO #4497]
 
 Usage of FILESPATH is discouraged, since it can make recipes harder to
 bbappend. Instead FILESEXTRAPATHS should be used to extend the path.
+Also remove unused filespath addition.
 
 Signed-off-by: Petter Mabäcker <petter@technux.se>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc |    4 ++--
- meta/recipes-devtools/gcc/gcc-4.9.inc |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 42b4212..aa822cf 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -8,7 +8,7 @@ PV = "4.8.2"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+index 8c7d8e8..2acc21d 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+@@ -2,7 +2,7 @@ require mesa_${PV}.bb
  
- BINV = "4.8.2"
+ SUMMARY += " (OpenGL only, no EGL/GLES)"
  
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.8' ], d)}"
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.8:"
+-FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/mesa-${PV}", "${FILE_DIRNAME}/mesa"], d)}"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/mesa:"
  
- DEPENDS =+ "mpfr gmp libmpc zlib"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
-@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-                    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
-+                   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
+ PROVIDES = "virtual/libgl virtual/mesa"
  
- SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0002-uclibc-conf.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 865ec47..a409430 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -8,7 +8,7 @@ PV = "4.9.0"
- 
- BINV = "4.9.0"
- 
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.9' ], d)}"
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
- 
- DEPENDS =+ "mpfr gmp libmpc zlib"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
-@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-                    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
-+                   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
- 
- SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
 -- 
 1.7.9.5
 
