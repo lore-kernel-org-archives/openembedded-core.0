@@ -1,26 +1,33 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1928966091
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f174.google.com (unknown [209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 41F7360167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 18:21:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 May 2014 11:21:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1036,1389772800"; d="scan'208";a="539085714"
-Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by orsmga002.jf.intel.com with ESMTP; 12 May 2014 11:19:43 -0700
-Message-ID: <537110BF.3000109@linux.intel.com>
-Date: Mon, 12 May 2014 11:19:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Mon, 12 May 2014 18:36:31 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id h3so4199298igd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 May 2014 11:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=bpeXASwFj8SXmPy+iHYn7q7Sa3wLTZdD8QpXaZfoV0Y=;
+	b=O6nFffycHaovhKCgiG1L7fNFE2ycGWLdye1RerLUSlMGnt2dfG0KG4jStaE9hUc5uY
+	rSvIPVLMt3l0DHfDge2l9aAMyGkP9mLngPNcdTkiJsHGD/xvEFhiWbwzYcvJfAurq7jG
+	jlYH0K2buJUekcblvU86BLMeFoRtu7+ZTENM6qsa9ow9V2nRd61lHEmtntRw6luAzkGl
+	pgR8tBtZBS9leXp+FJE0Tiwmcpquy3AOHZXx5GgMqNL5V0ETXqmjHDjAfB4g8j4yIh/+
+	CSVZsSnIdum4/QrCvwrtSZwSWzaUVOEl3pN5I9hawvqPsSxboi9koSr4Hb1q3qWpAKbW
+	x8oQ==
+X-Received: by 10.50.78.201 with SMTP id d9mr47228204igx.17.1399919792330;
+	Mon, 12 May 2014 11:36:32 -0700 (PDT)
 MIME-Version: 1.0
-To: Drew Moseley <drew@moseleynet.net>, 
-	openembedded-core@lists.openembedded.org
-References: <1399580261-16249-1-git-send-email-drew@moseleynet.net>
-	<1399912450-27861-1-git-send-email-drew@moseleynet.net>
-In-Reply-To: <1399912450-27861-1-git-send-email-drew@moseleynet.net>
-Subject: Re: [PATCH] mesa-demos: Specify the lib dir to locate glut libraries
+Received: by 10.50.79.133 with HTTP; Mon, 12 May 2014 11:36:02 -0700 (PDT)
+In-Reply-To: <1399914003.31891.140.camel@ted>
+References: <1399914003.31891.140.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 12 May 2014 11:36:02 -0700
+Message-ID: <CAMKF1sok81zbF=t18Z7n7aB_KP9YvNKr5kV54m0y+TW7LwVheQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer: Better gcc 4.9 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 May 2014 18:21:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 May 2014 18:36:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05/12/2014 09:34 AM, Drew Moseley wrote:
-> From: Drew Moseley <drew_moseley@mentor.com>
+On Mon, May 12, 2014 at 10:00 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> gstreamer does runtime detection to enable/disable things like SSE code.
+> Unfortunately it is broken and will try and use this even with i586
+> compiler flags. This change forces it back to the approach with gcc 4.8
+> by disabling the problematic headers.
+
+I think patch is safer.
+
 >
-> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+> Its suboptimal but less so that the proposed previous forced enabling of
+> SSE on x86 everywhere.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->   meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> index 83b856b..4a8a994 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> @@ -33,3 +33,5 @@ do_configure_prepend() {
+>  }
 >
-> diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-> index d6e6fbc..7cda19e 100644
-> --- a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-> @@ -33,7 +33,7 @@ PACKAGECONFIG[freetype2] = "--enable-freetype2,--disable-freetype2,freetype"
->   PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm,virtual/libgl"
->   PACKAGECONFIG[gles1] = "--enable-gles1,--disable-gles1,virtual/libgles1"
->   PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,virtual/libgles2"
-> -PACKAGECONFIG[glut] = "--with-glut,--without-glut,"
-> +PACKAGECONFIG[glut] = "--with-glut=${STAGING_EXECPREFIXDIR},--without-glut,"
->   PACKAGECONFIG[osmesa] = "--enable-osmesa,--disable-osmesa,"
->   PACKAGECONFIG[vg] = "--enable-vg,--disable-vg,virtual/libvg"
->   PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayland"
+>  FILES_${PN} += "${datadir}/${BPN}"
+> +
+> +CACHED_CONFIGUREVARS_append_i586 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
+> index eb13277..1691c99 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
+> @@ -37,3 +37,4 @@ EXTRA_OECONF += " \
 >
-
-Seems the first version was merged already, so we could revert it or if 
-you want to rebase this change against master, which would remove the 
-configure patch and update the PACKAGECONFIG as above.
-
-Thanks
-	Sau!
-
+>  FILES_${PN} += "${datadir}/gst-plugins-base"
+>
+> +CACHED_CONFIGUREVARS_append_i586 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
