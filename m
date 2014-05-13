@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D6667605B2
+	by mail.openembedded.org (Postfix) with ESMTP id D83096608F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 11:02:36 +0000 (UTC)
+	Tue, 13 May 2014 11:02:37 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 13 May 2014 04:02:37 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 13 May 2014 04:02:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1043,1389772800"; d="scan'208";a="531050019"
+X-IronPort-AV: E=Sophos;i="4.97,1043,1389772800"; d="scan'208";a="531050050"
 Received: from hpatters-mobl.amr.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.37])
-	by fmsmga001.fm.intel.com with ESMTP; 13 May 2014 04:02:02 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 13 May 2014 04:02:03 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 May 2014 12:00:59 +0100
-Message-Id: <ac2c47160772d0d164beb63e1cea1587cad84733.1399978792.git.paul.eggleton@linux.intel.com>
+Date: Tue, 13 May 2014 12:01:00 +0100
+Message-Id: <68b7d8bb7884dedd264de8d1b6d68e67daaf0ff5.1399978792.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <cover.1399978792.git.paul.eggleton@linux.intel.com>
 References: <cover.1399978792.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1399978792.git.paul.eggleton@linux.intel.com>
 References: <cover.1399978792.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/6] openssh: update to 6.6p1
+Subject: [PATCH 2/6] openssh: move packaging definitions to the end
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +36,40 @@ X-List-Received-Date: Tue, 13 May 2014 11:02:40 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../openssh/{openssh_6.5p1.bb => openssh_6.6p1.bb}                    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_6.5p1.bb => openssh_6.6p1.bb} (97%)
+ meta/recipes-connectivity/openssh/openssh_6.6p1.bb | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssh/openssh_6.5p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_6.6p1.bb
-index b93b9ae..e784cf4 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+index e784cf4..5173a93 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
 +++ b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
-@@ -33,8 +33,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+@@ -10,13 +10,6 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
  
- PAM_SRC_URI = "file://sshd"
+-RPROVIDES_${PN}-ssh = "ssh"
+-RPROVIDES_${PN}-sshd = "sshd"
+-
+-RCONFLICTS_${PN} = "dropbear"
+-RCONFLICTS_${PN}-sshd = "dropbear"
+-RCONFLICTS_${PN}-keygen = "ssh-keygen"
+-
+ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
+            file://nostrip.patch \
+            file://sshd_config \
+@@ -141,6 +134,13 @@ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+ RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
+ RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
  
--SRC_URI[md5sum] = "a084e7272b8cbd25afe0f5dce4802fef"
--SRC_URI[sha256sum] = "a1195ed55db945252d5a1730d4a2a2a5c1c9a6aa01ef2e5af750a962623d9027"
-+SRC_URI[md5sum] = "3e9800e6bca1fbac0eea4d41baa7f239"
-+SRC_URI[sha256sum] = "48c1f0664b4534875038004cc4f3555b8329c2a81c1df48db5c517800de203bb"
- 
- inherit useradd update-rc.d update-alternatives systemd
++RPROVIDES_${PN}-ssh = "ssh"
++RPROVIDES_${PN}-sshd = "sshd"
++
++RCONFLICTS_${PN} = "dropbear"
++RCONFLICTS_${PN}-sshd = "dropbear"
++RCONFLICTS_${PN}-keygen = "ssh-keygen"
++
+ CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
+ CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
  
 -- 
 1.9.0
