@@ -1,36 +1,43 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f181.google.com (unknown [74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B1E61605B2
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f176.google.com (unknown [209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 897E465ECB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 07:37:53 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id w61so8033632wes.12
+	Tue, 13 May 2014 07:45:31 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id n15so5729276wiw.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 00:37:54 -0700 (PDT)
+	Tue, 13 May 2014 00:45:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=57n0lpIbTmiA0kh+XWCLUYyeyzEPSZWsiuCGRwm9dXA=;
-	b=J7PP4zCPUF09kpJo6UMAZC8R9zoGl7FtC0EYbsPWwMzuJVRp+DYUWd9D7oLKS6r2PD
-	E8VrTGz+Qsow1a/jfXNNBt6oGstaYiWYtJNkfX7bAqAe/A33zaNyMf/XT1BNPN9PZdPK
-	eJC1N1viL1Y6+HI4vX4aHevSePkDgSLJHd1eSFY6stoY1r0ik0Ghby5T4EuBV4rPS2om
-	m67L+lZUSs+2fVwS4De/eLf2kbjJqoE+wOTaoscr1VM5+qRyqJWUIfz15lkIh5pjB/9a
-	pjAaa/wCeaWoTnLvIcrhUxZIOqOTrI6aS5Pif3Idncj/a0YPg4fkXEoey5dlqNOr3JGA
-	iheQ==
-X-Gm-Message-State: ALoCoQme3qXRZCp+ARkEkvIb3RQ+1N3wL6iX6cSktFlomTk2gXOD/z6hzmo4Tj+lgACPg2GiRCo5
-X-Received: by 10.194.222.197 with SMTP id qo5mr116459wjc.78.1399966249309;
-	Tue, 13 May 2014 00:30:49 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id be3sm21088074wjc.5.2014.05.13.00.30.48
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=+7aDRPD94PU3sUR0IBQk2/3osOPoL+1tHWu7m+jH/DA=;
+	b=lz4p6YAfkBIj/Pfjv9ufKFkAJpAbWGEI2J0F+E6f/F+/dIiGmHlVpNhOKfuhP7LseL
+	Gff29k9K1JxsPfBTQlDnECZcMiIPQh2RPqCQW2Y95KlRcoQkLm+kLmw6c6I7/JTzTbfH
+	Y22DpUJFRdSEJvAI30LX2pnHP5KzorexrLXtwO5BAhjLOAQ107ZZT2qWCjMtvgk4cXJd
+	2+ExnKYB9ZmgxNTr2TlOEq6jn93tfg5epPbTcIK2YiHkQb/z5f/hxstKD7b+B8B3C4zV
+	Br/6xR9f9xfNn/A1WOcgLpaT2/sSJA53Ag9h2jaouMdyYpmapDGyfidKgd1GxRoqueB3
+	BTMQ==
+X-Gm-Message-State: ALoCoQkd873ClC75dL1w+PrsHm7+N1xUyhDqemZGpIKq0fdB+s0hinKR+8VXS2p5uXLrSjoYHnZV
+X-Received: by 10.180.107.97 with SMTP id hb1mr19735877wib.20.1399967132784;
+	Tue, 13 May 2014 00:45:32 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::d55c:c67d:d4e:7aee?
+	([2001:610:612:0:d55c:c67d:d4e:7aee])
+	by mx.google.com with ESMTPSA id bj5sm20463091wib.3.2014.05.13.00.45.31
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 May 2014 00:30:48 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 May 2014 09:30:41 +0200
-Message-Id: <1399966241-25745-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [RFC][PATCH] curl: work around RRECOMMENDS problems in -native* recipes
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 13 May 2014 00:45:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <53710BDA.10306@mentor.com>
+Date: Tue, 13 May 2014 09:45:30 +0200
+Message-Id: <AA1395AD-4FF5-4EF8-ACB1-8DFDE52EB8BF@dominion.thruhere.net>
+References: <53710BDA.10306@mentor.com>
+To: Sean Hudson <sean_hudson@mentor.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: yocto-announce@yoctoproject.org, yocto-bsp@yoctoproject.org,
+	yocto@yoctoproject.org, openembedded-core@lists.openembedded.org,
+	meta-amd@yoctoproject.org, poky@yoctoproject.org
+Subject: Re: New meta-amd mailing list announcement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +50,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 May 2014 07:37:55 -0000
+X-List-Received-Date: Tue, 13 May 2014 07:45:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Both curl-native and git-(replacement-)native need ca-certs installed to support https:// but since PACKAGES is reset to "" R* variables don't work and ca-certs don't end up in sysroot. Adding it to DEPENDS works around this.
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-support/curl/curl_7.36.0.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Op 12 mei 2014, om 19:58 heeft Sean Hudson <sean_hudson@mentor.com> het =
+volgende geschreven:
 
-diff --git a/meta/recipes-support/curl/curl_7.36.0.bb b/meta/recipes-support/curl/curl_7.36.0.bb
-index f3401fa..affc2e1 100644
---- a/meta/recipes-support/curl/curl_7.36.0.bb
-+++ b/meta/recipes-support/curl/curl_7.36.0.bb
-@@ -6,8 +6,11 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
- 
- DEPENDS = "zlib gnutls"
--DEPENDS_class-native = "zlib-native openssl-native"
--DEPENDS_class-nativesdk = "nativesdk-zlib"
-+
-+# RDEPENDS/RRECOMMENDS don't work for -native, so add ca-certs to DEPENDS to install 
-+# them into sysroot to make https:// work for curl and git
-+DEPENDS_class-native = "zlib-native openssl-native ca-certificates-native"
-+DEPENDS_class-nativesdk = "nativesdk-zlib ca-certificates-nativesdk"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://pkgconfig_fix.patch \
--- 
-1.9.0
+> There is a new mailing list for AMD platform/board related patches and
+> discussion.
+> You can sign up here: https://lists.yoctoproject.org/listinfo/meta-amd
+>=20
+> The meta-amd layer git repository is publicly available here:
+> git://git.yoctoproject.org/meta-amd
+> (cgit web interface here:
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-amd/)
 
+Your machine.conf violates good practices by setting DISTRO vars.=
 
