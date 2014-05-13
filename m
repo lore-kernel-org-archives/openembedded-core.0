@@ -1,36 +1,21 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f182.google.com (unknown [74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C8B19605B2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D77F366070
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 10:16:31 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id t60so130422wes.41
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 03:16:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IlwzvmKa8Cp0Cmu6JgwlQE4bFZEacBde8/q4shzDEPc=;
-	b=V+Wg4GoSg8wUQ0JflydUvfrcptSOontR+8YGQwAV3E0woZxs2NecKXXg4Fs7Rza+jq
-	Jla7SD7IvpbHtjf3IxyDfdiNECPEGgmS2VHuVYETCxRzemMZ7yiOahWMRnl7FWe1eZyP
-	JWURG0S9AVH/Lp8Q7X0zzSO59D9t7wIPTvm5cdsKWdzPnxqXGNIR6UxXJhQ//zXBlVEs
-	88/HLCGfkEgYBSbfn2tsZOhXC7FM6KnStqaQZVJUpE5SpraVQ3T4rTKcuUeCYzOKnqqe
-	Y8ThhZFa7q6dq41nJiPX37BYTpAXH96qnQqku3AOG4TF0r8pouKYdSJQu9AcEbBA1hVc
-	omqA==
-X-Gm-Message-State: ALoCoQlZmX3oXIhk6VFLEt4MF9fL3tGVfJdh30ZI/FLwq59dFa0ELR1DNYs0JKjMNecSGZFD6IXa
-X-Received: by 10.194.120.101 with SMTP id lb5mr944923wjb.74.1399976191929;
-	Tue, 13 May 2014 03:16:31 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id
-	ej2sm21624518wjd.21.2014.05.13.03.16.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 May 2014 03:16:31 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
+	Tue, 13 May 2014 11:02:34 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 May 2014 04:02:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1043,1389772800"; d="scan'208";a="531049994"
+Received: from hpatters-mobl.amr.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.37])
+	by fmsmga001.fm.intel.com with ESMTP; 13 May 2014 04:02:01 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 May 2014 12:16:29 +0200
-Message-Id: <1399976189-1863-1-git-send-email-koen.kooi@linaro.org>
+Date: Tue, 13 May 2014 12:00:58 +0100
+Message-Id: <cover.1399978792.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] ca-certificates: generate CAfile for -native in do_install
+Subject: [PATCH 0/6] Recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +28,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 May 2014 10:16:32 -0000
+X-List-Received-Date: Tue, 13 May 2014 11:02:40 -0000
 
-Git-replacement-native needs the generated files in place for https:// URIs:
+Recipe upgrades plus a couple of tidy-up patches.
 
-WARNING: Failed to fetch URL git://github.com/kernelslacker/trinity.git;protocol=https, attempting MIRRORS if available
-ERROR: Fetcher failure: Fetch command failed with exit code 128, output:
-Cloning into bare repository '/build/linaro/build/build/downloads/git2/github.com.kernelslacker.trinity.git'...
-fatal: unable to access 'https://github.com/kernelslacker/trinity.git/': error setting certificate verify locations:
- CAfile: /build/linaro/build/build/tmp-eglibc/sysroots/x86_64-linux/etc/ssl/certs/ca-certificates.crt
- CApath: none
 
-ERROR: Function failed: Fetcher failure for URL: 'git://github.com/kernelslacker/trinity.git;protocol=https'. Unable to fetch URL from any source.
-ERROR: Logfile of failure stored in: /build/linaro/build/build/tmp-eglibc/work/aarch64-oe-linux/trinity/1.3-r0/temp/log.do_fetch.7843
-ERROR: Task 1378 (/build/linaro/build/meta-linaro/meta-linaro/recipes-extra/trinity/trinity_1.3.bb, do_fetch) failed with exit code '1'
+The following changes since commit 23521fccb122b64f3469d46176f73fe476b0dfc5:
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-support/ca-certificates/ca-certificates_20130610.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+  gstreamer1.0-plugins-good: add libxfixes and libxdamange to x11 depends (2014-05-11 13:07:36 +0100)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb b/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb
-index 2dd3742..c9ef07b 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb
-@@ -67,4 +67,8 @@ do_install_append_class-nativesdk () {
-     SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
- }
- 
-+do_install_append_class-native () {
-+    SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
-+}
-+
- BBCLASSEXTEND += "native nativesdk"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/upgrades
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/upgrades
+
+Paul Eggleton (6):
+  openssh: update to 6.6p1
+  openssh: move packaging definitions to the end
+  ethtool: upgrade to 3.14
+  nfs-utils: upgrade to 1.3.0
+  dropbear: add missing patch header
+  libsdl2: upgrade to 2.0.3
+
+ .../{nfs-utils_1.2.9.bb => nfs-utils_1.3.0.bb}         |  7 +++----
+ .../openssh/{openssh_6.5p1.bb => openssh_6.6p1.bb}     | 18 +++++++++---------
+ .../dropbear/dropbear/0003-configure.patch             |  4 +++-
+ .../ethtool/{ethtool_3.13.bb => ethtool_3.14.bb}       |  4 ++--
+ .../libsdl2/{libsdl2_2.0.1.bb => libsdl2_2.0.3.bb}     |  6 +++---
+ 5 files changed, 20 insertions(+), 19 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.2.9.bb => nfs-utils_1.3.0.bb} (95%)
+ rename meta/recipes-connectivity/openssh/{openssh_6.5p1.bb => openssh_6.6p1.bb} (97%)
+ rename meta/recipes-extended/ethtool/{ethtool_3.13.bb => ethtool_3.14.bb} (87%)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.1.bb => libsdl2_2.0.3.bb} (91%)
+
 -- 
 1.9.0
 
