@@ -1,26 +1,40 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B1729660B8
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-we0-f172.google.com (unknown [74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 59C576098B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 07:46:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4D7k7sK023304
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 13 May 2014 09:26:24 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id k48so77833wev.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 00:46:07 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 13 May 2014 00:46:06 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 May 2014 15:46:26 +0800
-Message-ID: <488068880ae4caab34aba4e470e80921a787f167.1399967110.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1399967110.git.Qi.Chen@windriver.com>
-References: <cover.1399967110.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] openssh: fix for CVE-2014-2532
+	Tue, 13 May 2014 02:26:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:content-transfer-encoding:message-id:references:to;
+	bh=Z1YMiNkl9n3goeBEaoIqBv07A1AOXVDIeox+p5eIHUI=;
+	b=cMsC2jLrb9v693G2YBL/22CjQV+9hHqNYRysruV66oRTHW8Oa4dNdsqmudhPKMiAQe
+	D6qMKv4tzxDDgmipF2ysdcXkhprVEzRw2F31OPBlSTLdnGYw5AKFndqNCoZuKCzwgUkH
+	mjSD9kpqA79pxGv8MU655hhUYipER35WbaX4QLKNsRPHdZQq2rUA/O3KuxvqugoUZPZn
+	XL46vYdYtuF73YQ/GpQ0mZ7WE+E6gelPYTyMLOyKpDZlaenj2mKcBSDoi0fRaoLFkUMu
+	rIHdxIz0zO2oevrhVtz8xd5usoYS8xSQHD8xw3U7M237XgF7sjnUqGBHjH1XYQeAwN64
+	AiYQ==
+X-Gm-Message-State: ALoCoQmNp5kNXDESAsx3xNheN6+dFbV5uiPo/G2vLCjd82bHnCFVzO2BPRLTbvR8lIsFYJ4GN/Td
+X-Received: by 10.180.206.205 with SMTP id lq13mr19906496wic.11.1399973185221; 
+	Tue, 13 May 2014 02:26:25 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::d90e:8256:7752:a01e?
+	([2001:610:612:0:d90e:8256:7752:a01e])
+	by mx.google.com with ESMTPSA id fq2sm20900591wib.2.2014.05.13.02.26.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 13 May 2014 02:26:24 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen.kooi@linaro.org>
+In-Reply-To: <1399966241-25745-1-git-send-email-koen.kooi@linaro.org>
+Date: Tue, 13 May 2014 11:26:24 +0200
+Message-Id: <6A2B2269-AA5F-4AFD-AC4F-F02B519F05DC@linaro.org>
+References: <1399966241-25745-1-git-send-email-koen.kooi@linaro.org>
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1874)
+Subject: Re: [RFC][PATCH] curl: work around RRECOMMENDS problems in -native* recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +47,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 May 2014 07:46:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 May 2014 09:26:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-sshd in OpenSSH before 6.6 does not properly support wildcards on
-AcceptEnv lines in sshd_config, which allows remote attackers to
-bypass intended environment restrictions by using a substring located
-before a wildcard character.
+Op 13 mei 2014, om 09:30 heeft Koen Kooi <koen.kooi@linaro.org> het =
+volgende geschreven:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../openssh/openssh/openssh-CVE-2014-2532.patch    |   22 ++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_6.5p1.bb |    3 ++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
+> Both curl-native and git-(replacement-)native need ca-certs installed =
+to support https:// but since PACKAGES is reset to "" R* variables don't =
+work and ca-certs don't end up in sysroot. Adding it to DEPENDS works =
+around this.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
-new file mode 100644
-index 0000000..3deaf3f
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
-@@ -0,0 +1,22 @@
-+Upstream-Status: Backport
-+
-+Fix for CVE-2014-2532
-+
-+Backported from openssh-6.6p1.tar.gz
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+--- a/session.c
-++++ b/session.c
-+@@ -955,6 +955,11 @@
-+ 	u_int envsize;
-+ 	u_int i, namelen;
-+ 
-++	if (strchr(name, '=') != NULL) {
-++		error("Invalid environment variable \"%.100s\"", name);
-++		return;
-++	}
-++
-+ 	/*
-+ 	 * If we're passed an uninitialized list, allocate a single null
-+ 	 * entry before continuing.
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
-index b93b9ae..230f38a 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.5p1.bb
-@@ -29,7 +29,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://sshdgenkeys.service \
-            file://volatiles.99_sshd \
-            file://add-test-support-for-busybox.patch \
--           file://run-ptest"
-+           file://run-ptest \
-+           file://openssh-CVE-2014-2532.patch"
- 
- PAM_SRC_URI = "file://sshd"
- 
--- 
-1.7.9.5
+And here's the error message
+
+WARNING: Failed to fetch URL =
+git://github.com/kernelslacker/trinity.git;protocol=3Dhttps, attempting =
+MIRRORS if available
+ERROR: Fetcher failure: Fetch command failed with exit code 128, output:
+Cloning into bare repository =
+'/build/linaro/build/build/downloads/git2/github.com.kernelslacker.trinity=
+.git'...
+fatal: unable to access 'https://github.com/kernelslacker/trinity.git/': =
+error setting certificate verify locations:
+  CAfile: =
+/build/linaro/build/build/tmp-eglibc/sysroots/x86_64-linux/etc/ssl/certs/c=
+a-certificates.crt
+  CApath: none
+
+ERROR: Function failed: Fetcher failure for URL: =
+'git://github.com/kernelslacker/trinity.git;protocol=3Dhttps'. Unable to =
+fetch URL from any source.
+ERROR: Logfile of failure stored in: =
+/build/linaro/build/build/tmp-eglibc/work/aarch64-oe-linux/trinity/1.3-r0/=
+temp/log.do_fetch.7843
+ERROR: Task 1378 =
+(/build/linaro/build/meta-linaro/meta-linaro/recipes-extra/trinity/trinity=
+_1.3.bb, do_fetch) failed with exit code '1'
+
+The bad news: the postinst needs to run for -native* as well :(
+
+--
+Koen Kooi
+Builds and Baselines | Release Manager
+Linaro.org | Open source software for ARM SoCs
+
+
+
+
+>=20
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> ---
+> meta/recipes-support/curl/curl_7.36.0.bb | 7 +++++--
+> 1 file changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/curl/curl_7.36.0.bb =
+b/meta/recipes-support/curl/curl_7.36.0.bb
+> index f3401fa..affc2e1 100644
+> --- a/meta/recipes-support/curl/curl_7.36.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.36.0.bb
+> @@ -6,8 +6,11 @@ LICENSE =3D "MIT"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;beginline=3D7;md5=3D3a34942f4ae3fbf1a303160714e664ac"
+>=20
+> DEPENDS =3D "zlib gnutls"
+> -DEPENDS_class-native =3D "zlib-native openssl-native"
+> -DEPENDS_class-nativesdk =3D "nativesdk-zlib"
+> +
+> +# RDEPENDS/RRECOMMENDS don't work for -native, so add ca-certs to =
+DEPENDS to install=20
+> +# them into sysroot to make https:// work for curl and git
+> +DEPENDS_class-native =3D "zlib-native openssl-native =
+ca-certificates-native"
+> +DEPENDS_class-nativesdk =3D "nativesdk-zlib =
+ca-certificates-nativesdk"
+>=20
+> SRC_URI =3D "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+>            file://pkgconfig_fix.patch \
+> --=20
+> 1.9.0
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
 
 
