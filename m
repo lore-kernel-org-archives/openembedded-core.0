@@ -1,26 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 865C36600B
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f50.google.com (unknown [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 878B460196
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 02:54:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4D2s65s017041
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 13 May 2014 07:19:56 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id x12so7786888wgg.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 May 2014 19:54:06 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 12 May 2014 19:54:05 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 May 2014 10:54:26 +0800
-Message-ID: <61850645ac9dce0499383ace5ddd5af4c29bccf2.1399949579.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1399949579.git.Qi.Chen@windriver.com>
-References: <cover.1399949579.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] gdb: add PACKAGECONFIG for babeltrace
+	Tue, 13 May 2014 00:19:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kLfHPmNxSlEMpJ8odqupyt8IxLyqt67/5rxXiD0Ht2c=;
+	b=byuyx1RduG5efQURMmeoGK36juU/nv4AwI/1uFdmoLwxtJIpoEB3nC46m03LaNibBL
+	4zLBnZd6LD3PXUlKDPdaLNAqUf8B6k6lnqyaR6PZYqeJYHsYJlHzvLr82MeOzQjJ5a0H
+	9HNMJsk+ZKl8ou1WSXc0DGejZiUpe6SZ7iUJtJVwZ5Tks93wEQVZfQjbBB6u9J/96eNJ
+	/sPG6j7v3JuuGRMaFwQ+yUCLJZAvOHU69vXjPvehL8QGyZpr8+bdpYmboDL8G2SKrV4V
+	3P4HF8QToIgKakZBwnQtThGNP34oH/cdz5OJQtmhT9YCIvBt1cskYjV4v3gY5CPpzG5j
+	3CCQ==
+X-Gm-Message-State: ALoCoQnKdcB1c3YjZ1a3LFHSYglv1+bAQktR1wsotjNhTU571Ujq5u5KFv0LB/lIeI2YWM/Sgm4P
+X-Received: by 10.195.13.76 with SMTP id ew12mr57876wjd.80.1399965597319;
+	Tue, 13 May 2014 00:19:57 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id v17sm557902wib.1.2014.05.13.00.19.56
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 May 2014 00:19:56 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 May 2014 09:19:51 +0200
+Message-Id: <1399965591-10258-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] curl: make PACKAGES match with FILES/RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 May 2014 02:54:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 May 2014 07:20:02 -0000
 
-Add PACKAGECONFIG for 'babeltrace' so that we don't have the implicit
-dependency which might lead to problems when building images.
+Mostly cosmetic, but entries in PACKAGES should be specified the exact same way as FILES/RRECOMMENDS entries to avoid problems.
 
-As an example of showing what problem we might have without this patch,
-see the following steps which would lead to a failure.
-1. IMAGE_INSTALL_append = " gdb"
-2. bitbake babeltrace
-3. bitbake gdb
-4. bitbake babeltrace -ccleansstate
-5. bitbake core-image-minimal
-
-The rootfs process would fail with the following error message.
-error: Can't install gdb-7.7-r0@i586: no package provides babeltrace >= 1.2.1+git0+66c2a20b43
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- meta/recipes-devtools/gdb/gdb_7.7.bb |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/curl/curl_7.36.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gdb/gdb_7.7.bb b/meta/recipes-devtools/gdb/gdb_7.7.bb
-index c7ca26b..1abc9d8 100644
---- a/meta/recipes-devtools/gdb/gdb_7.7.bb
-+++ b/meta/recipes-devtools/gdb/gdb_7.7.bb
-@@ -5,6 +5,7 @@ inherit python-dir
+diff --git a/meta/recipes-support/curl/curl_7.36.0.bb b/meta/recipes-support/curl/curl_7.36.0.bb
+index bd7191d..f3401fa 100644
+--- a/meta/recipes-support/curl/curl_7.36.0.bb
++++ b/meta/recipes-support/curl/curl_7.36.0.bb
+@@ -47,7 +47,7 @@ do_install_append() {
+ 	oe_multilib_header curl/curlbuild.h
+ }
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python"
-+PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
+-PACKAGES =+ "libcurl libcurl-dev libcurl-staticdev libcurl-doc"
++PACKAGES =+ "lib${BPN} lib${BPN}-dev lib${BPN}-staticdev lib${BPN}-doc"
  
- do_configure_prepend() {
- 	if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python', '', d)}" ]; then
+ FILES_lib${BPN} = "${libdir}/lib*.so.*"
+ RRECOMMENDS_lib${BPN} += "ca-certificates"
 -- 
-1.7.9.5
+1.9.0
 
 
