@@ -1,24 +1,22 @@
 Return-Path: <max.eliaser@intel.com>
-Received: from mga09.intel.com (unknown [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 987F26A38B
+Received: from mga02.intel.com (unknown [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 984F066101
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 21:38:35 +0000 (UTC)
+	Wed, 14 May 2014 21:38:49 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 May 2014 14:33:34 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 May 2014 14:38:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1054,1389772800"; d="scan'208";a="540535023"
+X-IronPort-AV: E=Sophos;i="4.97,1054,1389772800"; d="scan'208";a="540534926"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.149])
-	by orsmga002.jf.intel.com with ESMTP; 14 May 2014 14:38:36 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 May 2014 14:38:22 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 14:36:42 -0700
-Message-Id: <4607c274a894441baa289f2eaf8eb5f773d1cc35.1400103108.git.max.eliaser@intel.com>
+Date: Wed, 14 May 2014 14:36:41 -0700
+Message-Id: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
-References: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
 In-Reply-To: <cover.1400103108.git.max.eliaser@intel.com>
 References: <cover.1400103108.git.max.eliaser@intel.com>
-Subject: [PATCH 2/3] Add texinfo-dummy-native recipe w/ scripts to stand in for Texinfo utils.
+Subject: [PATCH 1/3] Allow texinfo, texinfo-native recipes to build w/o host system's Texinfo utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,221 +29,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 21:38:38 -0000
+X-List-Received-Date: Wed, 14 May 2014 21:38:54 -0000
 
-More work toward eliminating the dependency on the host system's Texinfo--
-Python scripts that understand the same command-line options as the Texinfo
-utilities, and create blank output files if appropriate, but don't actually
-do any of the work done by those utilities.
+This is necessary for the eventual removal of Yocto's current dependency on
+the host system's Texinfo utilities.
 
-This will be necessary to avoid circular dependencies when we start explicitly
-tracking dependencies on texinfo-native; i.e. texinfo-native ->
-autoconf-native -> texinfo-native. If we have all native recipes that inherit
-texinfo.bbclass depend on texinfo-dummy-native instead of texinfo-native, the
-cycle is broken.
+The Texinfo suite's build system actually already has a self-bootstrap system
+it uses when cross-compiling or when Texinfo binaries aren't already
+available. This had been suppressed with patches, but this commit removes
+those patches and alters the recipe to make the bootstrapping work properly.
 
-It may also provide a performance gain by skipping the actual work of
-formatting and generating documentation files.
+This adds no real overhead for the texinfo-native recipe, but it does mean
+that the target architecture recipe actually builds some native binaries
+before building the cross-compiled ones. I find this extra overhead
+acceptable, since I doubt too many people using Yocto are shipping
+images with cross-compiled versions of the Texinfo utilities.
+
+The removal of these patches also allows us to make the target arch texinfo
+recipe no longer depend on texinfo-native, since we're going back to using the
+built-in bootstrapping process as the Texinfo upstream maintainers intended.
 
 Signed-off-by: Max Eliaser <max.eliaser@intel.com>
 ---
- .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
- .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
- .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
- 3 files changed, 171 insertions(+)
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+ .../texinfo/texinfo/disable-native-tools.patch     | 43 ----------------------
+ .../texinfo/texinfo/use_host_makedoc.patch         | 17 ---------
+ meta/recipes-extended/texinfo/texinfo_5.2.bb       |  8 +---
+ 3 files changed, 2 insertions(+), 66 deletions(-)
+ delete mode 100644 meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
+ delete mode 100644 meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
 
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-new file mode 100644
-index 0000000..b5420a3
---- /dev/null
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-@@ -0,0 +1,30 @@
-+DESCRIPTION = "Fake version of the texinfo utility suite"
-+SECTION = "console/utils"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d6bb62e73ca8b901d3f2e9d71542f4bb"
-+DEPENDS = ""
-+PV = "1.0"
-+
-+SRC_URI = "file://template.py file://COPYING"
-+
-+S = "${WORKDIR}"
-+
-+NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
-+
-+inherit native
-+
-+do_install_name() {
-+    FILENAME="${D}${bindir}/$1"
-+    # Using ln causes problems with rm_work
-+    cp -T "${S}/template.py" "$FILENAME"
-+    chmod +x $FILENAME
-+}
-+
-+do_install() {
-+    mkdir -p "${D}${bindir}"
-+    for i in makeinfo pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-+             txixml2texi texi2any install-info ginstall-info \
-+             update-info-dir; do
-+        do_install_name $i
-+    done
-+}
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
-new file mode 100644
-index 0000000..531cbe7
---- /dev/null
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
-@@ -0,0 +1,19 @@
-+Copyright (c) 2014 Intel Corp.
-+
-+Permission is hereby granted, free of charge, to any person obtaining a copy
-+of this software and associated documentation files (the "Software"), to deal
-+in the Software without restriction, including without limitation the rights
-+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+copies of the Software, and to permit persons to whom the Software is
-+furnished to do so, subject to the following conditions:
-+
-+The above copyright notice and this permission notice shall be included in
-+all copies or substantial portions of the Software.
-+
-+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+THE SOFTWARE.
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-new file mode 100644
-index 0000000..4dc31a9
---- /dev/null
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-@@ -0,0 +1,122 @@
-+#! /usr/bin/env python2.7
-+
-+# template.py (and other filenames)
-+# By Max Eliaser (max.eliaser@intel.com)
-+
-+# Copyright (c) 2014 Intel Corp.
-+
-+# Permission is hereby granted, free of charge, to any person obtaining a copy
-+# of this software and associated documentation files (the "Software"), to deal
-+# in the Software without restriction, including without limitation the rights
-+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+# copies of the Software, and to permit persons to whom the Software is
-+# furnished to do so, subject to the following conditions:
-+
-+# The above copyright notice and this permission notice shall be included in
-+# all copies or substantial portions of the Software.
-+
-+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+# THE SOFTWARE.
-+
-+# This program acts like a dummy version of the texinfo utilities, creating
-+# the right output files but leaving them blank. It will parse out the name
-+# of the executable from argv[0] and emulate the corresponding program, so
-+# multiple copies of this script will exist under different names.
-+
-+import sys, os
-+
-+olong = "--output="
-+Elong = "--macro-expand="
-+
-+
-+this_binary = sys.argv[0].split ("/")[-1]
-+
-+# To be outputted if functionality that hasn't been stubbed yet is invoked.
-+stub_msg = """
-+This stand-in version of %s is not yet fully capable of emulating the real
-+version from the GNU texinfo suite. If you see this message, file a bug report
-+with details on the recipe that failed.
-+""" % this_binary
-+
-+# Autotools setups query the version, so this is actually necessary. Some of
-+# them (lookin' at you, eglibc) actually look for the substring "GNU texinfo,"
-+# so we put that substring in there without actually telling a lie.
-+version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
-+ 
-+Super amazing version which is totally not fake in any way whatsoever.
-+Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
-+license.
-+""" % this_binary
-+
-+simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-+                   txixml2texi install-info ginstall-info \
-+                   update-info-dir".split ()
-+
-+# These utilities use a slightly different set of options and flags.
-+complex_binaries = "makeinfo texi2any".split ()
-+
-+valid_binaries = simple_binaries + complex_binaries
-+
-+# For generating blank output files.
-+def touch_file (path):
-+    f = open (path, "w")
-+    f.close ()
-+
-+assert this_binary in valid_binaries, \
-+       this_binary + " is not one of " + ', '.join (valid_binaries)
-+
-+if "--version" in sys.argv:
-+    print version_str
-+    sys.exit (0)
-+
-+# For debugging
-+log_interceptions = False
-+if log_interceptions:
-+    f = open ("/tmp/intercepted_" + this_binary, "a")
-+    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
-+    f.close ()
-+
-+# Look through the options and flags, and if necessary, touch any output
-+# files.
-+arg_idx = 1
-+while arg_idx < len (sys.argv):
-+    arg = sys.argv [arg_idx]
-+    
-+    if arg == "--":
-+        break
-+    
-+    # Something like -I . can result in a need for this (specifically the .)
-+    elif len (arg) < 2:
-+        pass
-+    
-+    # Check if -o or --output is specified. These can be used at most once.
-+    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
-+        touch_file (sys.argv[arg_idx + 1])
-+        sys.exit (0)
-+    elif arg.startswith (olong):
-+        touch_file (arg.split ("=")[1])
-+        sys.exit (0)
-+    
-+    # Check for functionality that isn't implemented yet.
-+    else:
-+        assert arg[1] == '-' or 'E' not in arg or \
-+               this_binary in simple_binaries, \
-+               "-E option not yet supported" + stub_msg
-+        
-+        assert not arg.startswith (Elong), \
-+               Elong[:-1] + " option not yet supported" + stub_msg
-+    
-+    arg_idx += 1
-+
-+# The -o/--output option overrides the default. For makeinfo and texi2any,
-+# that default is to look for a @setfilename command in the input file.
-+# Otherwise, printing nothing to stdout and then exiting should suffice.
-+assert this_binary in simple_binaries, \
-+       "Don't know how to get default output file name from input file!" + \
-+       stub_msg
-+
+diff --git a/meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch b/meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
+deleted file mode 100644
+index ab6f165..0000000
+--- a/meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-We already DEPEND on the native texinfo being present before building so
+-there isn't any need to try and build the required native texinfo binaries
+-before cross-compiling. This simplifies the recipe somewhat!
+-
+-Upstream-Status: Inappropriate oe specific
+-
+-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+-
+-Index: texinfo-4.13/configure.ac
+-===================================================================
+---- texinfo-4.13.orig/configure.ac
+-+++ texinfo-4.13/configure.ac
+-@@ -100,29 +100,7 @@ AC_CANONICAL_BUILD
+- # $native_tools is also added to SUBDIRS in the main Makefile.am,
+- # so that make compiles the native tools first.
+- #
+--if test "$cross_compiling" = no; then
+--  native_tools=
+--else
+--  native_tools=tools
+--  test -d "$native_tools" || mkdir "$native_tools"
+--  confdir=`(cd "$srcdir";pwd)`
+--  # Make sure the secondary configure won't fail with
+--  # "error: source directory already configured".
+--  rm -f config.status
+--  AC_MSG_NOTICE([[Doing configure of native tools (${build}).]])
+--  cd "$native_tools" || exit 1
+--  # Run secondary configure in alternate environment or
+--  # it gets the wrong CC etc.
+--  # env -i gives this build host configure a clean environment;
+--  # consequently, we have to re-initialize $PATH.
+--  env -i CC="$BUILD_CC" AR="$BUILD_AR" RANLIB="$BUILD_RANLIB" \
+--      PATH="$PATH" \
+--      tools_only=1 \
+--    ${confdir}/configure --build=${build} --host=${build} \
+--                         --disable-rpath --disable-nls
+--  cd .. || exit 1
+--  AC_MSG_NOTICE([[Continuing with main configure (${host}).]])
+--fi
+-+native_tools=
+- AC_SUBST(native_tools)
+- AM_CONDITIONAL(TOOLS_ONLY, [[test "x$tools_only" = x1]])
+- 
+diff --git a/meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch b/meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
+deleted file mode 100644
+index 5b7f32d..0000000
+--- a/meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate [cross build specific]
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: texinfo-5.1/info/Makefile.am
+-===================================================================
+---- texinfo-5.1.orig/info/Makefile.am
+-+++ texinfo-5.1/info/Makefile.am
+-@@ -76,7 +76,7 @@ cmd_sources = $(srcdir)/session.c $(srcd
+- # more than once.
+- funs.h: makedoc$(EXEEXT) $(cmd_sources)
+- 	rm -f $(generated_sources)
+--	$(top_builddir)/$(native_tools)/info/makedoc $(cmd_sources)
+-+	makedoc $(cmd_sources)
+- 
+- # The following hack is necessary to hint make before the automatic
+- # dependencies are built.
+diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+index c1ccaa7..53e7e4f 100644
+--- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
++++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+@@ -7,19 +7,14 @@ SECTION = "console/utils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-DEPENDS = "zlib ncurses texinfo-native"
++DEPENDS = "zlib ncurses"
+ DEPENDS_class-native = "zlib-native ncurses-native"
+ 
+-TARGET_PATCH = "file://use_host_makedoc.patch"
+-TARGET_PATCH_class-native = ""
+-
+ SRC_URI = "${GNU_MIRROR}/texinfo/${BP}.tar.gz \
+            file://texinfo-4.12-zlib.patch \
+            file://texinfo-4.13a-powerpc.patch \
+-           file://disable-native-tools.patch \
+            file://link-zip.patch \
+            file://dont-depend-on-help2man.patch \
+-           ${TARGET_PATCH} \
+           "
+ 
+ SRC_URI[md5sum] = "1b8f98b80a8e6c50422125e07522e8db"
+@@ -33,6 +28,7 @@ inherit gettext autotools
+ do_compile_prepend() {
+ 	if [ -d tools ];then
+ 		oe_runmake -C tools/gnulib/lib
++		oe_runmake -C tools/info/ makedoc # TODO: Investigate whether this is an upstream bug
+ 	fi
+ }
+ 
 -- 
 1.8.3.2
 
