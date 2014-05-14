@@ -1,35 +1,25 @@
-Return-Path: <sstncr@gmail.com>
-X-Greylist: delayed 1221 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 14 May 2014 13:40:31 UTC
-Received: from mail-wg0-f51.google.com (unknown [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F39865F09
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 465A960167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 13:40:31 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id x13so1946044wgg.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 06:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=R3jARiYGGCifcN+YF6Tzxc5MB8LJeAt9Rqne6yJVg2o=;
-	b=W2cDWQpBwrIimP4torzlCZKBmpHUo0kam5Raglp5Gh8bPY28+KBq2EBxCrIGM8MxsA
-	9QrOpvP7ZJormp5R1yZFuQlfwT8W5zU9VXitXgry692WMmQUhhsOXBJy/oE3ox5IhOe8
-	6we+YPESqDvGVDekVAJR/SqSSJHfOLjbcCSToLN7v0T1stdlqrPsqhNkN1USWccIa+E6
-	U1KRmFwQGp39VN3ItXSfs0dgoOEHbaadhJHIj4WPyT0aMxd14I7lmZvN08NIlMXK2Uva
-	aCJnmvtiBjPOngWseaZqskPx612xTDOooBudwwzSG4L8LKWgy9RuC5VxEhYH/iUcSKqm
-	51ag==
+	Wed, 14 May 2014 17:20:40 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 May 2014 10:20:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1053,1389772800"; d="scan'208";a="432143442"
+Received: from adelemck-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.194])
+	by azsmga001.ch.intel.com with ESMTP; 14 May 2014 10:20:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 May 2014 18:20:35 +0100
+Message-ID: <1468686.RJRCQvgyKo@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <cover.1399978792.git.paul.eggleton@linux.intel.com>
+References: <cover.1399978792.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.180.80.232 with SMTP id u8mr26165935wix.13.1400073179887;
-	Wed, 14 May 2014 06:12:59 -0700 (PDT)
-Received: by 10.216.48.6 with HTTP; Wed, 14 May 2014 06:12:59 -0700 (PDT)
-In-Reply-To: <1399981408-11719-1-git-send-email-georgex.l.musat@intel.com>
-References: <1399981408-11719-1-git-send-email-georgex.l.musat@intel.com>
-Date: Wed, 14 May 2014 16:12:59 +0300
-Message-ID: <CANr+NRuFD=WMLgqjE2pXUkFBixaa3AAgKk2agm31jf_zgAJkTw@mail.gmail.com>
-From: Stefan Stanacar <sstncr@gmail.com>
-To: Lucian Musat <georgex.l.musat@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oeqa/runtime: Update test names with testopia tc numbers.
+Subject: Re: [PATCH 0/6] Recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 13:40:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 14 May 2014 17:20:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Lucian,
+On Tuesday 13 May 2014 12:00:58 Paul Eggleton wrote:
+> Recipe upgrades plus a couple of tidy-up patches.
+> 
+> 
+> The following changes since commit 23521fccb122b64f3469d46176f73fe476b0dfc5:
+> 
+>   gstreamer1.0-plugins-good: add libxfixes and libxdamange to x11 depends
+> (2014-05-11 13:07:36 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib paule/upgrades
+>  
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paul
+> e/upgrades
+> 
+> Paul Eggleton (6):
+>   openssh: update to 6.6p1
+>   openssh: move packaging definitions to the end
+>   ethtool: upgrade to 3.14
+>   nfs-utils: upgrade to 1.3.0
+>   dropbear: add missing patch header
+>   libsdl2: upgrade to 2.0.3
 
-I'm afraid that you added some lines in the smart.py module, that
-shouldn't be there. Also a patch description would be nice, explaining
-why this is needed.
-
-On Tue, May 13, 2014 at 2:43 PM, Lucian Musat <georgex.l.musat@intel.com> wrote:
-> diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime/smart.py
-> index 195f117..735cbca 100644
-> --- a/meta/lib/oeqa/runtime/smart.py
-> +++ b/meta/lib/oeqa/runtime/smart.py
-> @@ -14,7 +14,7 @@ def setUpModule():
->
->  class SmartRepoTest(SmartTest):
-> @@ -54,11 +54,13 @@ class SmartRepoTest(SmartTest):
->      @classmethod
->      def tearDownClass(self):
->          self.repo_server.stop()
-> +       smartsRepo = SmartRepoTest
-> +       smartsRepo.cleanup()
->
-
-Those two lines shouldn't be here  and they don't seem to be correct anyway.
-
->
->  class SyslogTest(oeRuntimeTest):
->
-> -    @skipUnlessPassed("test_ssh")
-> -    def test_syslog_help(self):
-> -        (status,output) = self.target.run('/sbin/syslogd --help')
-> -        self.assertEqual(status, 0, msg="status and output: %s and %s" % (status,output))
-> -
-> -    @skipUnlessPassed("test_syslog_help")
-> -    def test_syslog_running(self):
-> +    @skipUnlessPassed("test_ssh_tc_224")
-> +    def test_syslog_help_tc_202(self):
-> +        (status,output) = self.target.run('ls -l /sbin/syslogd')
-> +        if ('busybox' in output):
-> +               pass
-> +       else:
-> +               (status,output) = self.target.run('/sbin/syslogd --help')
-> +               self.assertEqual(status, 0, msg="status and output: %s and %s" % (status,output))
-> +
-> +    @skipUnlessPassed("test_syslog_help_tc_202")
-> +    def test_syslog_running_tc_202(self):
->          (status,output) = self.target.run(oeRuntimeTest.pscmd + ' | grep -i [s]yslogd')
->          self.assertEqual(status, 0, msg="no syslogd process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
-
-Again you are doing more changes that the summary of the patch
-suggests, you are more than renaming methods here... And why is that
-needed? Why did it worked until now and what triggered this change for
-this test?
-
+I've rebased this branch on top of master and re-pushed it, since the OpenSSH 
+CVEs have now been merged. The substance of the patches has not otherwise 
+changed however.
 
 Cheers,
-Stefan
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
