@@ -1,25 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 465A960167
+Return-Path: <drew_moseley@mentor.com>
+X-Greylist: delayed 1191 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 14 May 2014 17:28:02 UTC
+Received: from relay1.mentorg.com (unknown [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B3CB60167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 17:20:40 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 May 2014 10:20:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1053,1389772800"; d="scan'208";a="432143442"
-Received: from adelemck-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.194])
-	by azsmga001.ch.intel.com with ESMTP; 14 May 2014 10:20:39 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 14 May 2014 17:28:02 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Wkcf6-00065D-84 from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 May 2014 10:08:12 -0700
+Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 14 May 2014 10:08:12 -0700
+Received: from sb-ubuntu-1204-64bit.alm.mentorg.com ([134.86.97.83]) by
+	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Wed, 14 May 2014 10:08:11 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 18:20:35 +0100
-Message-ID: <1468686.RJRCQvgyKo@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <cover.1399978792.git.paul.eggleton@linux.intel.com>
-References: <cover.1399978792.git.paul.eggleton@linux.intel.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/6] Recipe upgrades
+Date: Wed, 14 May 2014 13:08:38 -0400
+Message-Id: <1400087318-19465-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <53726B27.1050609@linux.intel.com>
+References: <53726B27.1050609@linux.intel.com>
+X-OriginalArrivalTime: 14 May 2014 17:08:11.0867 (UTC)
+	FILETIME=[161B5AB0:01CF6F97]
+Subject: [PATCH] glib-2.0: Do not use readlink to set target paths.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +38,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 17:20:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 May 2014 17:28:12 -0000
 
-On Tuesday 13 May 2014 12:00:58 Paul Eggleton wrote:
-> Recipe upgrades plus a couple of tidy-up patches.
-> 
-> 
-> The following changes since commit 23521fccb122b64f3469d46176f73fe476b0dfc5:
-> 
->   gstreamer1.0-plugins-good: add libxfixes and libxdamange to x11 depends
-> (2014-05-11 13:07:36 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib paule/upgrades
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paul
-> e/upgrades
-> 
-> Paul Eggleton (6):
->   openssh: update to 6.6p1
->   openssh: move packaging definitions to the end
->   ethtool: upgrade to 3.14
->   nfs-utils: upgrade to 1.3.0
->   dropbear: add missing patch header
->   libsdl2: upgrade to 2.0.3
+Do not use readlink to set ABS_GLIB_RUNTIME_LIBDIR when cross
+compiling.  Doing so causes host paths to potentially pollute the
+target.  Unfortunately in this case we don't actually convert to
+an absolute path.
 
-I've rebased this branch on top of master and re-pushed it, since the OpenSSH 
-CVEs have now been merged. The substance of the patches has not otherwise 
-changed however.
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ ...c-Do-not-use-readlink-when-cross-compilin.patch |   31 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch
+new file mode 100644
+index 0000000..0be3631
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch
+@@ -0,0 +1,31 @@
++commit 9b38d507ec37b3d7d4df6095fa7ed16b47d399f7
++Author: Drew Moseley <drew_moseley@mentor.com>
++Date:   Sat Mar 29 21:10:43 2014 -0400
++
++    configure.ac: Do not use readlink when cross compiling.
++
++    Do not use readlink to set ABS_GLIB_RUNTIME_LIBDIR when cross
++    compiling.  Doing so causes host paths to potentially pollute
++    the target.
++
++    Note that in this case the path is not converted to absolute if
++    it contains any ".." references so it's not completely correct.
++
++    Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=727575]
++    Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
++
++diff -rub glib-2.38.2.orig/configure.ac glib-2.38.2/configure.ac
++--- glib-2.38.2.orig/configure.ac	2014-04-03 20:17:13.035567143 -0400
+++++ glib-2.38.2/configure.ac	2014-04-03 20:19:07.071566057 -0400
++@@ -275,7 +275,11 @@
++            [],
++ 	   [with_runtime_libdir=""])
++ GLIB_RUNTIME_LIBDIR="$with_runtime_libdir"
+++AS_IF([ test $cross_compiling = yes ], [
+++ABS_GLIB_RUNTIME_LIBDIR="$libdir/$with_runtime_libdir"
+++], [
++ ABS_GLIB_RUNTIME_LIBDIR="`readlink -m $libdir/$with_runtime_libdir`"
+++])
++ AC_SUBST(GLIB_RUNTIME_LIBDIR)
++ AC_SUBST(ABS_GLIB_RUNTIME_LIBDIR)
++ AM_CONDITIONAL(HAVE_GLIB_RUNTIME_LIBDIR, [test "x$with_runtime_libdir" != "x"])
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
+index 3be126f..ff1fb87 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://run-ptest \
+            file://ptest-paths.patch \
+            file://uclibc.patch \
++           file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
+           "
+ 
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
