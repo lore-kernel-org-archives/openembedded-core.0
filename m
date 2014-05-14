@@ -1,35 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f176.google.com (unknown [74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BB9C65DBF
+Return-Path: <Yasir_Khan@mentor.com>
+X-Greylist: delayed 3293 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 14 May 2014 13:00:30 UTC
+Received: from relay1.mentorg.com (unknown [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 873A760167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 10:13:26 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id q59so1682483wes.35
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 03:13:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=LwMXJ8/X0V6ZW8rJ+uSPbXedtlz8kX/mZtffimTNL00=;
-	b=JGKSOcclnjBrmvnck/zY/Vh4L5atEq51GlvySybMzY9Q6KHNp9msGpnwQFW5Kv2u7q
-	3X1W3yZnZRIEXrJ+B+tba3ItAu2IDHzESN6NwhgOTXp48ai5MtZAyl3DXiV5rNYAORxL
-	6xXDSlj0e1es8Jmp9UTeZZcifLPx6X3Txpevx/PWsXGGkz1ii6JLWN9osekcfAoQS7An
-	iGRzG4QZ6TWpV+BE267PR3SwKdrXQyjfg2lj2l9OfCStE6fwrE5EGugzoqyNsOqVP7zU
-	ECgSlt/dNkLsD0R8F7xcLclPEaSIOw08rTWZUKEcQ6OnNzOceh7Jejb/fSdMzI9b4tbM
-	v4oA==
-X-Gm-Message-State: ALoCoQkRyapBkv56Lm9hnuGD6VqmgPn6j4uaDSzNQ1piJc2vxMYoedXIrdalEN2rJdTqs438+cHY
-X-Received: by 10.180.92.103 with SMTP id cl7mr2788221wib.26.1400062407001;
-	Wed, 14 May 2014 03:13:27 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id cl9sm1885605wjc.25.2014.05.14.03.13.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 May 2014 03:13:26 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 14 May 2014 13:00:30 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1WkXwI-0001yM-LO from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 May 2014 05:05:38 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 14 May 2014 05:05:37 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 11:13:19 +0100
-Message-Id: <1400062399-1426-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] freetype: disable harfbuzz
+Date: Wed, 14 May 2014 17:04:53 +0500
+Message-Id: <1400069093-37048-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 14 May 2014 12:05:38.0048 (UTC)
+	FILETIME=[D1966800:01CF6F6C]
+Subject: [PATCH] bluez5: Update the bluetooth.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 10:13:27 -0000
+X-List-Received-Date: Wed, 14 May 2014 13:00:35 -0000
 
-Freetype has an automatically detected dependency on Harfbuzz, which has a
-dependency on Freetype.
+From: Yasir-Khan <yasir_khan@mentor.com>
 
-To produce deterministic builds and avoid link failures when rebuilding freetype
-with harfbuzz present add a PACKAGECONFIG for Harfbuzz and disable it by
-default.
+In bluez5, agent interface has been renamed from org.bluez.Agent
+to org.bluez.Agent1. Reflect this change in bluetooth.conf to
+allow sending of dbus messages to agent interface.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+*Resolves no PIN prompt bug while pairing
+*Resolves bluetooth keyboard connection problem
+
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
 ---
- meta/recipes-graphics/freetype/freetype_2.5.3.bb |    2 ++
- 1 file changed, 2 insertions(+)
+ .../bluez5/bluez5/bluetooth.conf                   |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/freetype/freetype_2.5.3.bb b/meta/recipes-graphics/freetype/freetype_2.5.3.bb
-index 7182c21..5d239e8 100644
---- a/meta/recipes-graphics/freetype/freetype_2.5.3.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.5.3.bb
-@@ -26,6 +26,8 @@ EXTRA_OECONF = "--without-zlib --without-bzip2 CC_BUILD='${BUILD_CC}'"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
+index ca5e9e4..e21e72e 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
++++ b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
+@@ -10,7 +10,7 @@
+   <policy context="default">
+     <allow own="org.bluez"/>
+     <allow send_destination="org.bluez"/>
+-    <allow send_interface="org.bluez.Agent"/>
++    <allow send_interface="org.bluez.Agent1"/>
+   </policy>
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[pixmap] = "--with-png,--without-png,libpng"
-+# This results in a circular dependency so enabling is non-trivial
-+PACKAGECONFIG[harfbuzz] = "--with-harfbuzz,--without-harfbuzz,harfbuzz"
- 
- do_configure() {
- 	cd builds/unix
+ </busconfig>
 -- 
-1.7.10.4
+1.7.9.5
 
 
