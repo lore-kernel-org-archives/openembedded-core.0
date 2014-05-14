@@ -1,34 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f180.google.com (unknown [209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 373DD6601E
+Return-Path: <oram.embedded@gmail.com>
+Received: from mail-yk0-f169.google.com (unknown [209.85.160.169])
+	by mail.openembedded.org (Postfix) with ESMTP id E37AB6098B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 00:54:44 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id as1so1165981iec.39
+	Wed, 14 May 2014 02:10:19 +0000 (UTC)
+Received: by mail-yk0-f169.google.com with SMTP id 200so1056395ykr.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 17:54:45 -0700 (PDT)
+	Tue, 13 May 2014 19:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=fsbmq/LkujR7XgMMg45FLqBRtZ4VmId3rnnMACOCGmA=;
-	b=RRBCkNIeEWuUZ+763Tf1t7dX8ylf6b60Qh925usLpIZ11lBjBYHjtdgM/buN2M6Ckk
-	EiBJM+F5ftV9a/wHmyVldelFyk6M7qcBbSii14tEWycIFe4fRvZx6jZuFubcWbkOB2+G
-	q03XkzDr/vQfA85TnOzfA9cWp0NpFKzDDW1lWXCAzxMxN4wv79HwapbsYAWsqbP+cPbG
-	1MOU05zWCgnMTtXB9Ds9V7wB8BfZ3m9yd32cbSfW4wfxpl+qvrf9ADfvgBZYuAAxXllH
-	6wBzvs+n0984Uu+mNAXoJhtgR4DcQozcez10KGhFA9uQubRccGOlLwDxG86XvRbiR/KC
-	+hOQ==
-X-Received: by 10.43.93.5 with SMTP id bs5mr274290icc.11.1400028885641; Tue,
-	13 May 2014 17:54:45 -0700 (PDT)
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=2e/8fhm5Ecej9rQ1mtBJSueMrqD3KRvqyujf5vnLW60=;
+	b=BbBzGsX48vCHLDuipyijhwUMFkSnLBu7yglDhRvtgbDfGo1auNSISJ4a1COpMFDOgf
+	I6i818S4qwmRIP9jL7vEK1iw9X0D9D6/CVBgSzEjGSdlog1mQQEwl9RwW0t2c742vKiP
+	g4VqRapsZB3uZq0X85H5OH+wGJiW4pC3jb9lEA8+EYux4ervrH0n+Y34VxeoMUuDODoZ
+	mXIPSGSxCLqc9osMQfEd2hlP+ozCJj9se3FZ+pK0l4L4XjZAyb8d1FS5ATrCWorA2okh
+	4s4tnun+lQAA22kceWK9N1oOC+zjjd/EJDFZACR+J2M6t5BOCxWX3goOCYzan3eMFkZM
+	9QHw==
 MIME-Version: 1.0
-Received: by 10.50.79.133 with HTTP; Tue, 13 May 2014 17:54:15 -0700 (PDT)
-In-Reply-To: <CAGw0TDOG3uPt36sRbA5gqKcyTRkLi6sqdOgs6xkhZ5KFbp_omw@mail.gmail.com>
-References: <CAGw0TDOG3uPt36sRbA5gqKcyTRkLi6sqdOgs6xkhZ5KFbp_omw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 May 2014 17:54:15 -0700
-Message-ID: <CAMKF1spJif6MDdHVF+zha2epA9jE61nZQNw_=AGQvGse+Ru4tg@mail.gmail.com>
-To: Charles Oram <charles@oram.co.nz>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: libmtp "Makefile.am: No such file or directory" build error
+X-Received: by 10.236.119.99 with SMTP id m63mr801048yhh.65.1400033420156;
+	Tue, 13 May 2014 19:10:20 -0700 (PDT)
+Sender: oram.embedded@gmail.com
+Received: by 10.170.229.84 with HTTP; Tue, 13 May 2014 19:10:20 -0700 (PDT)
+Date: Wed, 14 May 2014 14:10:20 +1200
+X-Google-Sender-Auth: XKRLOsIEzVC-ayhhFXgetyv5Ydk
+Message-ID: <CAGw0TDMuODtcF6P-DFDsGg3d4Vuvgu0nuHG5muAFDBuO=6ZDoA@mail.gmail.com>
+From: Charles Oram <charles@oram.co.nz>
+To: openembedded-core@lists.openembedded.org
+Subject: [meta-oe] [PATCH] libmtp_1.1.5.bb : Fix 'Makefile.am: No such file or directory' build error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,53 +38,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 00:54:46 -0000
+X-List-Received-Date: Wed, 14 May 2014 02:10:24 -0000
+Content-Type: multipart/alternative; boundary=20cf3011e287aea84f04f952ae3f
+
+--20cf3011e287aea84f04f952ae3f
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, May 13, 2014 at 5:33 PM, Charles Oram <charles@oram.co.nz> wrote:
-> Hi,
-> I am building an image using Yocto Project (dora branch) for the Cubox-i and
-> I am getting an error when trying to build libmtp.
->
-> Here is part of the log file (log.do_unpack) with the error:
->
-> DEBUG: Executing shell function skip_udev_rules_generation
-> sed: can't read Makefile.am: No such file or directory
-> WARNING: exit code 2 from a shell command.
-> ERROR: Function failed: skip_udev_rules_generation (log file is located at
-> /home/charles/fsl-community-bsp/build/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/libmtp/1.1.5-r0/temp/log.do_unpack.14617)
->
-> libmtp_1.1.5.bb has the following in it:
->
-> skip_udev_rules_generation () {
->     sed -i -e '/^noinst_DATA=/,/util\/mtp-hotplug -H/d' Makefile.am
->     cp ${WORKDIR}/69-libmtp.rules ${S}/
-> }
->
-> but it looks to me like it should be:
->
-> skip_udev_rules_generation () {
->     sed -i -e '/^noinst_DATA=/,/util\/mtp-hotplug -H/d' ${S}/Makefile.am
->     cp ${WORKDIR}/69-libmtp.rules ${S}/
-> }
->
-> i.e. with ${S}/ path to Makefile.am.
->
-> With this change it builds (not sure yet wither it runs as I have other
-> build errors to fix).
+libmtp_1.1.5.bb : Fix "Makefile.am: No such file or directory" build error.
 
-thats correct fix. Please submit a path to relevant layer. Follow
-http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+skip_udev_rules_generation() needs to reference Makefile.am in the recipe
+source directory.
 
-> I'm still learning about Yocto and OpenEmbedded - does this fix look right?
->
-> regards,
-> Charles
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Charles Oram <charles at oram.co.nz
+<http://lists.openembedded.org/mailman/listinfo/openembedded-core>>
 
+---
+ meta-oe/recipes-connectivity/
+libmtp/libmtp_1.1.5.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bbb/meta-oe/recipes-connectivity/libmtp/
+libmtp_1.1.5.bb
+index f4ea800..e164f49 100644
+--- a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
++++ b/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
+@@ -29,7 +29,7 @@ do_unpack[vardeps] += "skip_udev_rules_generation"
+ do_unpack[postfuncs] += "skip_udev_rules_generation"
+
+ skip_udev_rules_generation () {
+-       sed -i -e '/^noinst_DATA=/,/util\/mtp-hotplug -H/d' Makefile.am
++       sed -i -e '/^noinst_DATA=/,/util\/mtp-hotplug -H/d' ${S}/Makefile.am
+        cp ${WORKDIR}/69-libmtp.rules ${S}/
+ }
+
+
+--
+1.7.10.4
+
+--20cf3011e287aea84f04f952ae3f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><font><span style=3D"font-family:arial,helvetica,sans-seri=
+f"><a href=3D"http://libmtp_1.1.5.bb">libmtp_1.1.5.bb</a> : Fix &quot;Makef=
+ile.am: No such file or directory&quot; build error.<br><br>skip_udev_rules=
+_generation() needs to reference Makefile.am in the recipe source directory=
+.<br>
+<br></span></font><pre><font><span style=3D"font-family:arial,helvetica,san=
+s-serif">Signed-off-by: Charles Oram &lt;<a href=3D"http://lists.openembedd=
+ed.org/mailman/listinfo/openembedded-core">charles at oram.co.nz</a>&gt;</s=
+pan></font><br>
+</pre>---<br>
+=C2=A0meta-oe/recipes-connectivity/<div id=3D":27j" class=3D"">libmtp/<a hr=
+ef=3D"http://libmtp_1.1.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> | =C2=
+=A0 =C2=A02 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1=
+.1.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> b/meta-oe/recipes-connectivi=
+ty/libmtp/<a href=3D"http://libmtp_1.1.5.bb" target=3D"_blank">libmtp_1.1.5=
+.bb</a><br>
+
+index f4ea800..e164f49 100644<br>
+--- a/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1.1.5.bb=
+" target=3D"_blank">libmtp_1.1.5.bb</a><br>
++++ b/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1.1.5.bb=
+" target=3D"_blank">libmtp_1.1.5.bb</a><br>
+@@ -29,7 +29,7 @@ do_unpack[vardeps] +=3D &quot;skip_udev_rules_generation&=
+quot;<br>
+=C2=A0do_unpack[postfuncs] +=3D &quot;skip_udev_rules_generation&quot;<br>
+<br>
+=C2=A0skip_udev_rules_generation () {<br>
+- =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/^noinst_DATA=3D/,/util\/mtp-hotplug =
+-H/d&#39; Makefile.am<br>
++ =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/^noinst_DATA=3D/,/util\/mtp-hotplug =
+-H/d&#39; ${S}/Makefile.am<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${WORKDIR}/69-libmtp.rules ${S}/<br>
+=C2=A0}<div class=3D""><div id=3D":27c" class=3D"" tabindex=3D"0"><img clas=
+s=3D"" src=3D"https://mail.google.com/mail/u/0/images/cleardot.gif"></div><=
+/div><div class=3D""><br>
+</div><span class=3D""><font color=3D"#888888"><br>
+--<br>
+1.7.10.4</font></span></div><br></div>
+
+--20cf3011e287aea84f04f952ae3f--
