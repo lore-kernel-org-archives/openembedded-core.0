@@ -1,40 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (unknown [209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 74AE865F09
+Received: from mail-we0-f176.google.com (unknown [74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BB9C65DBF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 09:33:11 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id f51so2357168qge.12
+	Wed, 14 May 2014 10:13:26 +0000 (UTC)
+Received: by mail-we0-f176.google.com with SMTP id q59so1682483wes.35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 02:33:12 -0700 (PDT)
+	Wed, 14 May 2014 03:13:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=a3lyFEH7y8okYgUChC11mOOU9RKr6uA3lqHFQg3/dWI=;
-	b=jH1NSQdpJt/G3Yv5IhIAUaBvRLTIOexefCYE94IAh1DzqJB8BlA9VUHwP7DAU9wSCt
-	Aoar+dW4rPYJc7qDEiG3LiYBT+K4lwHV4U3H6Yqz3pR8N3INsxzClT7OTaQeOhqo2OW0
-	oiP4UNfFjudVSqFG/kuRAk0DdeiKaRWdZxqz455yKBVwnu9RoXv0YU/WHf3KZpaevU8c
-	dsZybIov597KNDIjITzmZGOGH3Zy6rNjDr7+v0nsJbTJKqaWpAwRqRww/4C1rbUQ9tHf
-	/rY7Sj81Ia3tsZzP7PCZV6JRYUe0neto0OvdFK7BN5Pz/ZvsDmoNbQI6s8rN2LbXWFPB
-	VhkQ==
-X-Gm-Message-State: ALoCoQk3lD48jwVmo5QvCHSk3Gqd6yahmSNyvru419qz6ZVnBrtkyBiDjVGI7D2ja2csQSyfrQkC
-X-Received: by 10.140.28.3 with SMTP id 3mr3660812qgy.71.1400059992784; Wed,
-	14 May 2014 02:33:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Wed, 14 May 2014 02:32:52 -0700 (PDT)
-In-Reply-To: <1400054003.31891.216.camel@ted>
-References: <1399896893-486-1-git-send-email-ross.burton@intel.com>
-	<1399896893-486-3-git-send-email-ross.burton@intel.com>
-	<5372F106.4060700@linux.intel.com>
-	<2A7DAC5C-A9C7-4EE2-80C1-2E6D0270C8E8@dominion.thruhere.net>
-	<1400054003.31891.216.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 May 2014 10:32:52 +0100
-Message-ID: <CAJTo0LY3OuWVXhC=KyYovM7cBP-u0LBej_h87P-25YNBkFTcuQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] freetype: upgrade to 2.5.3
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=LwMXJ8/X0V6ZW8rJ+uSPbXedtlz8kX/mZtffimTNL00=;
+	b=JGKSOcclnjBrmvnck/zY/Vh4L5atEq51GlvySybMzY9Q6KHNp9msGpnwQFW5Kv2u7q
+	3X1W3yZnZRIEXrJ+B+tba3ItAu2IDHzESN6NwhgOTXp48ai5MtZAyl3DXiV5rNYAORxL
+	6xXDSlj0e1es8Jmp9UTeZZcifLPx6X3Txpevx/PWsXGGkz1ii6JLWN9osekcfAoQS7An
+	iGRzG4QZ6TWpV+BE267PR3SwKdrXQyjfg2lj2l9OfCStE6fwrE5EGugzoqyNsOqVP7zU
+	ECgSlt/dNkLsD0R8F7xcLclPEaSIOw08rTWZUKEcQ6OnNzOceh7Jejb/fSdMzI9b4tbM
+	v4oA==
+X-Gm-Message-State: ALoCoQkRyapBkv56Lm9hnuGD6VqmgPn6j4uaDSzNQ1piJc2vxMYoedXIrdalEN2rJdTqs438+cHY
+X-Received: by 10.180.92.103 with SMTP id cl7mr2788221wib.26.1400062407001;
+	Wed, 14 May 2014 03:13:27 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id cl9sm1885605wjc.25.2014.05.14.03.13.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 May 2014 03:13:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 May 2014 11:13:19 +0100
+Message-Id: <1400062399-1426-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] freetype: disable harfbuzz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,21 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 09:33:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 14 May 2014 10:13:27 -0000
 
-On 14 May 2014 08:53, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> Its an odd error, why would a build of freetype be looking into the
-> sysroot for a freetype.la file?
+Freetype has an automatically detected dependency on Harfbuzz, which has a
+dependency on Freetype.
 
-Someone on oe-devel hit this too and I noticed it was looking in the
-sysroot, which I didn't spot when Saul first encounted this error.
+To produce deterministic builds and avoid link failures when rebuilding freetype
+with harfbuzz present add a PACKAGECONFIG for Harfbuzz and disable it by
+default.
 
-Freetype now has an optional dependency on harfbuzz, but harfbuzz
-depends on freetype.  The changelog implies this is opt-in but I
-suspect it's automatically detected, which is why we're hitting this
-breakage.  I'll replicate and force-disable the harfbuzz linking in
-freetype if that's the problem.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/freetype/freetype_2.5.3.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-Ross
+diff --git a/meta/recipes-graphics/freetype/freetype_2.5.3.bb b/meta/recipes-graphics/freetype/freetype_2.5.3.bb
+index 7182c21..5d239e8 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.5.3.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.5.3.bb
+@@ -26,6 +26,8 @@ EXTRA_OECONF = "--without-zlib --without-bzip2 CC_BUILD='${BUILD_CC}'"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[pixmap] = "--with-png,--without-png,libpng"
++# This results in a circular dependency so enabling is non-trivial
++PACKAGECONFIG[harfbuzz] = "--with-harfbuzz,--without-harfbuzz,harfbuzz"
+ 
+ do_configure() {
+ 	cd builds/unix
+-- 
+1.7.10.4
+
 
