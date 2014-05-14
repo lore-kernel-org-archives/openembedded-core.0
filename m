@@ -1,34 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f176.google.com (unknown [209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 730BA6601E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (unknown [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F2AEB660CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 03:08:21 +0000 (UTC)
-Received: by mail-ie0-f176.google.com with SMTP id ar20so1291946iec.35
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 20:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=6w0uxMGy6RC6ihquoZk7ARs9BIxQEIdJxjAn+IgZNXY=;
-	b=LeIaIXjuSydrBKfLOhaTKvEf2tOgamGQgv1nFtW6kN90XEW53RG1rbMz05wXIPMlFq
-	IYvt+jmnRMmVAE1HYZKbp9WbL/YozttloTm8d26Mv4HU0Aj/F2Y1j9lviGn6Vll82haL
-	mNKM3CBSNlOV0VYXpHW/LmXLPncRra431lYiUNkAE743suZQNvBYNAhjTfQDcfsBX4SR
-	O4EnryKoZyT+Q2h7Fq7TngMFUktokZ02GPaeITiSy9YY51PQCtj3EJIK9qKHlocEEU7S
-	RasUNl8RjS3oBaG82mTwRFn8e/xrIZM7hycZKFue9zTuCT0V1VcJyQnnWoUgi8mBssRM
-	R1ag==
-X-Received: by 10.42.214.143 with SMTP id ha15mr634115icb.59.1400036902979;
-	Tue, 13 May 2014 20:08:22 -0700 (PDT)
+	Wed, 14 May 2014 04:08:20 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 May 2014 21:03:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1049,1389772800"; d="scan'208";a="540010112"
+Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
+	by orsmga002.jf.intel.com with ESMTP; 13 May 2014 21:08:20 -0700
+Message-ID: <5372EC34.6010703@linux.intel.com>
+Date: Tue, 13 May 2014 21:08:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.50.79.133 with HTTP; Tue, 13 May 2014 20:07:52 -0700 (PDT)
-In-Reply-To: <CAGw0TDMuODtcF6P-DFDsGg3d4Vuvgu0nuHG5muAFDBuO=6ZDoA@mail.gmail.com>
-References: <CAGw0TDMuODtcF6P-DFDsGg3d4Vuvgu0nuHG5muAFDBuO=6ZDoA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 May 2014 20:07:52 -0700
-Message-ID: <CAMKF1srioT7m2MTSKJ-fh+43jWH2HX-PoFCTPigybwh-81QySg@mail.gmail.com>
-To: Charles Oram <charles@oram.co.nz>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe] [PATCH] libmtp_1.1.5.bb : Fix 'Makefile.am: No such file or directory' build error.
+To: gary.robertson@linaro.org, openembedded-core@lists.openembedded.org
+References: <1397851967-24110-1-git-send-email-gary.robertson@linaro.org>	<1398377346-19557-1-git-send-email-gary.robertson@linaro.org>	<1398377346-19557-2-git-send-email-gary.robertson@linaro.org>
+	<536D4FB7.6060709@linux.intel.com>
+In-Reply-To: <536D4FB7.6060709@linux.intel.com>
+Cc: mike.holmes@linaro.org, clark.williams@gmail.com
+Subject: Re: [PATCH V3 1/1] rt-tests: bump version 0.87 => 0.89
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,134 +33,319 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 03:08:33 -0000
-Content-Type: multipart/alternative; boundary=20cf301d439a464dea04f9537eb8
+X-List-Received-Date: Wed, 14 May 2014 04:08:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---20cf301d439a464dea04f9537eb8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 13, 2014 at 7:10 PM, Charles Oram <charles@oram.co.nz> wrote:
-
-> libmtp_1.1.5.bb : Fix "Makefile.am: No such file or directory" build
-> error.
+On 05/09/2014 02:59 PM, Saul Wold wrote:
+> On 04/24/2014 03:09 PM, gary.robertson@linaro.org wrote:
+>> From: Anders Roxell <anders.roxell@linaro.org>
+>>
+>> cyclictest was updated to correct some problems with CPU affinity
+>> selection
+>> and display of help and/or execution details.
+>> These patches were accepted by the maintainer of the cyclictest utility.
+>> The changes were reflected in an updated release of rt-tests - v0.89
+>> The cyclictest changes were successfully tested on both an ARM v7 and
+>> x86_64
+>> host environment.
+>> The OE recipe was updated locally to incorporate the newer rt-tests
+>> release
+>> and the resulting builds were verified for the same ARM v7 target
+>> and for qemux86.
+>> Patch files obsoleted by the rt-tests 0.89 release were removed from
+>> the recipe
+>>     deleted:
+>> meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
+>>
+>>     deleted:
+>> meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
+>>
+> Did you test build hwlatdetect?  This seems to break the install process
+> for hwlatdetect which was part of this patch.
 >
-> skip_udev_rules_generation() needs to reference Makefile.am in the recipe
-> source directory.
+> There is also some additional files installed but not shipped in
+> /usr/src/backfile.
 >
->
-=E2=80=8BLooks good though it belongs to a oe devel mailing list.=E2=80=8B
-
-
-
-> Signed-off-by: Charles Oram <charles at oram.co.nz <http://lists.openembe=
-dded.org/mailman/listinfo/openembedded-core>>
->
-> ---
->  meta-oe/recipes-connectivity/
-> libmtp/libmtp_1.1.5.bb |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bbb/meta-oe=
-/recipes-connectivity/libmtp/
-> libmtp_1.1.5.bb
-> index f4ea800..e164f49 100644
-> --- a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
-> +++ b/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
-> @@ -29,7 +29,7 @@ do_unpack[vardeps] +=3D "skip_udev_rules_generation"
->  do_unpack[postfuncs] +=3D "skip_udev_rules_generation"
->
->  skip_udev_rules_generation () {
-> -       sed -i -e '/^noinst_DATA=3D/,/util\/mtp-hotplug -H/d' Makefile.am
-> +       sed -i -e '/^noinst_DATA=3D/,/util\/mtp-hotplug -H/d'
-> ${S}/Makefile.am
->         cp ${WORKDIR}/69-libmtp.rules ${S}/
->  }
->
->
-> --
-> 1.7.10.4
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Please test with hwlatdetect also.
 >
 
---20cf301d439a464dea04f9537eb8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif"><br></div><div class=3D"gmail_extra"><br><br><div class=3D"gmai=
-l_quote">On Tue, May 13, 2014 at 7:10 PM, Charles Oram <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:charles@oram.co.nz" target=3D"_blank">charles@oram.co.n=
-z</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><font><span style=3D"font-f=
-amily:arial,helvetica,sans-serif"><a href=3D"http://libmtp_1.1.5.bb" target=
-=3D"_blank">libmtp_1.1.5.bb</a> : Fix &quot;Makefile.am: No such file or di=
-rectory&quot; build error.<br>
-
-<br>skip_udev_rules_generation() needs to reference Makefile.am in the reci=
-pe source directory.<br>
-<br></span></font><pre><font><span style=3D"font-family:arial,helvetica,san=
-s-serif"></span></font></pre></div></blockquote><div><br></div><div><div cl=
-ass=3D"gmail_default" style=3D"font-family:verdana,sans-serif">=E2=80=8BLoo=
-ks good though it belongs to a oe devel mailing list.=E2=80=8B</div>
-
-<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
-<pre><font><span style=3D"font-family:arial,helvetica,sans-serif">Signed-of=
-f-by: Charles Oram &lt;<a href=3D"http://lists.openembedded.org/mailman/lis=
-tinfo/openembedded-core" target=3D"_blank">charles at oram.co.nz</a>&gt;</s=
-pan></font><br>
+This issue has not been addressed yet and is causing build failures, can 
+you please look into this.
+> ERROR: Function failed: do_install (log file is located at /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-hwlatdetect/0.85-r0/temp/log.do_install.7871)
+> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-hwlatdetect/0.85-r0/temp/log.do_install.7871
+> Log data follows:
+> | DEBUG: Executing shell function do_install
+> | NOTE: make -j 16 NUMA=0 PYLIB=/usr/lib/python2.7/dist-packages install_hwlatdetect DESTDIR=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-hwlatdetect/0.85-r0/image SBINDIR=/usr/sbin MANDIR=/usr/share/man INCLUDEDIR=/usr/include
+> | make: *** No rule to make target `install_hwlatdetect'.  Stop.
+> | ERROR: oe_runmake failed
 
 
-</pre>---<br>
-=C2=A0meta-oe/recipes-connectivity/<div>libmtp/<a href=3D"http://libmtp_1.1=
-.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> | =C2=A0 =C2=A02 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1=
-.1.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> b/meta-oe/recipes-connectivi=
-ty/libmtp/<a href=3D"http://libmtp_1.1.5.bb" target=3D"_blank">libmtp_1.1.5=
-.bb</a><br>
+Thanks
+	Sau!
 
 
 
-index f4ea800..e164f49 100644<br>
---- a/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1.1.5.bb=
-" target=3D"_blank">libmtp_1.1.5.bb</a><br>
-+++ b/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1.1.5.bb=
-" target=3D"_blank">libmtp_1.1.5.bb</a><br>
-@@ -29,7 +29,7 @@ do_unpack[vardeps] +=3D &quot;skip_udev_rules_generation&=
-quot;<br>
-=C2=A0do_unpack[postfuncs] +=3D &quot;skip_udev_rules_generation&quot;<br>
-<br>
-=C2=A0skip_udev_rules_generation () {<br>
-- =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/^noinst_DATA=3D/,/util\/mtp-hotplug =
--H/d&#39; Makefile.am<br>
-+ =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/^noinst_DATA=3D/,/util\/mtp-hotplug =
--H/d&#39; ${S}/Makefile.am<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${WORKDIR}/69-libmtp.rules ${S}/<br>
-=C2=A0}<div><div><img src=3D"https://mail.google.com/mail/u/0/images/cleard=
-ot.gif"></div></div><div><br>
-</div><span><font color=3D"#888888"><br>
---<br>
-1.7.10.4</font></span></div><br></div>
-<br>--<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-<br></blockquote></div><br></div></div>
+> Thanks
+>      Sau!
+>
+>>     deleted:
+>> meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+>>
+>> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+>> Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+>> ---
+>>   ...1-rt-tests-Allow-for-user-specified-PYLIB.patch |   35 ----------
+>>   ...02-rt-tests-Break-out-install_hwlatdetect.patch |   68
+>> --------------------
+>>   .../files/added-missing-dependencies.patch         |   50
+>> --------------
+>>   meta/recipes-rt/rt-tests/rt-tests.inc              |    7 +-
+>>   .../{rt-tests_0.87.bb => rt-tests_0.89.bb}         |    0
+>>   5 files changed, 2 insertions(+), 158 deletions(-)
+>>   delete mode 100644
+>> meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
+>>
+>>   delete mode 100644
+>> meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
+>>
+>>   delete mode 100644
+>> meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+>>   rename meta/recipes-rt/rt-tests/{rt-tests_0.87.bb =>
+>> rt-tests_0.89.bb} (100%)
+>>
+>> diff --git
+>> a/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
+>> b/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
+>>
+>> deleted file mode 100644
+>> index 8b493eb..0000000
+>> ---
+>> a/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
+>>
+>> +++ /dev/null
+>> @@ -1,35 +0,0 @@
+>> -From 66765522b634952346f1a3ab7d00c7222a1f9361 Mon Sep 17 00:00:00 2001
+>> -Message-Id:
+>> <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
+>>
+>> -From: Darren Hart <dvhart@linux.intel.com>
+>> -Date: Tue, 11 Sep 2012 15:19:30 -0700
+>> -Subject: [PATCH 1/2] rt-tests: Allow for user-specified PYLIB
+>> -
+>> -Upstream-Status: Submitted
+>> -
+>> -Allow users (build systems) to specify PYLIB. This allows for a
+>> -cross-build-system to specify the target PYLIB rather than the host
+>> -PYLIB.
+>> -
+>> -Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> -CC: Clark Williams <williams@redhat.com>
+>> -CC: John Kacur <jkacur@redhat.com>
+>> ----
+>> - Makefile | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -diff --git a/Makefile b/Makefile
+>> -index 3a82407..61e2f9f 100644
+>> ---- a/Makefile
+>> -+++ b/Makefile
+>> -@@ -23,7 +23,7 @@ endif
+>> - CFLAGS ?= -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
+>> - LDFLAGS ?=
+>> -
+>> --PYLIB  := $(shell python -c 'import distutils.sysconfig;  print
+>> distutils.sysconfig.get_python_lib()')
+>> -+PYLIB  ?= $(shell python -c 'import distutils.sysconfig;  print
+>> distutils.sysconfig.get_python_lib()')
+>> -
+>> - ifndef DEBUG
+>> -     CFLAGS    += -O2
+>> ---
+>> -1.7.11.4
+>> -
+>> diff --git
+>> a/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
+>> b/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
+>>
+>> deleted file mode 100644
+>> index bc6136f..0000000
+>> ---
+>> a/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
+>>
+>> +++ /dev/null
+>> @@ -1,68 +0,0 @@
+>> -From af93e580d005a2bba6ed36528003af4cf631adb8 Mon Sep 17 00:00:00 2001
+>> -Message-Id:
+>> <af93e580d005a2bba6ed36528003af4cf631adb8.1347419597.git.dvhart@linux.intel.com>
+>>
+>> -In-Reply-To:
+>> <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
+>>
+>> -References:
+>> <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
+>>
+>> -From: Darren Hart <dvhart@linux.intel.com>
+>> -Date: Tue, 11 Sep 2012 14:51:10 -0700
+>> -Subject: [PATCH 2/2] rt-tests: Break out install_hwlatdetect
+>> -
+>> -Upstream-Status: Submitted
+>> -
+>> -Allow hwlatdetect to be installed independently of the rest of the
+>> -tests. This is convenient for build systems that package it separately
+>> -due to the python dependency.
+>> -
+>> -Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> -CC: Clark Williams <williams@redhat.com>
+>> -CC: John Kacur <jkacur@redhat.com>
+>> ----
+>> - Makefile | 18 +++++++++++-------
+>> - 1 file changed, 11 insertions(+), 7 deletions(-)
+>> -
+>> -diff --git a/Makefile b/Makefile
+>> -index 61e2f9f..636e63b 100644
+>> ---- a/Makefile
+>> -+++ b/Makefile
+>> -@@ -119,21 +119,15 @@ changelog:
+>> -     git log >ChangeLog
+>> -
+>> - .PHONY: install
+>> --install: all
+>> -+install: all install_hwlatdetect
+>> -     mkdir -p "$(DESTDIR)$(bindir)" "$(DESTDIR)$(mandir)/man4"
+>> -     mkdir -p "$(DESTDIR)$(srcdir)" "$(DESTDIR)$(mandir)/man8"
+>> -     cp $(TARGETS) "$(DESTDIR)$(bindir)"
+>> --    if test -n "$(PYLIB)" ; then \
+>> --        install -D -m 755 src/hwlatdetect/hwlatdetect.py
+>> $(DESTDIR)$(PYLIB)/hwlatdetect.py ; \
+>> --        rm -f "$(DESTDIR)$(bindir)/hwlatdetect" ; \
+>> --        ln -s $(PYLIB)/hwlatdetect.py
+>> "$(DESTDIR)$(bindir)/hwlatdetect" ; \
+>> --    fi
+>> -     install -D -m 644 src/backfire/backfire.c
+>> "$(DESTDIR)$(srcdir)/backfire/backfire.c"
+>> -     install -m 644 src/backfire/Makefile
+>> "$(DESTDIR)$(srcdir)/backfire/Makefile"
+>> -     gzip src/backfire/backfire.4 -c
+>> >"$(DESTDIR)$(mandir)/man4/backfire.4.gz"
+>> -     gzip src/cyclictest/cyclictest.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/cyclictest.8.gz"
+>> -     gzip src/pi_tests/pi_stress.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/pi_stress.8.gz"
+>> --    gzip src/hwlatdetect/hwlatdetect.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/hwlatdetect.8.gz"
+>> -     gzip src/ptsematest/ptsematest.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/ptsematest.8.gz"
+>> -     gzip src/sigwaittest/sigwaittest.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/sigwaittest.8.gz"
+>> -     gzip src/svsematest/svsematest.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/svsematest.8.gz"
+>> -@@ -141,6 +135,16 @@ install: all
+>> -     gzip src/backfire/sendme.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/sendme.8.gz"
+>> -     gzip src/hackbench/hackbench.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/hackbench.8.gz"
+>> -
+>> -+.PHONY: install_hwlatdetect
+>> -+install_hwlatdetect: hwlatdetect
+>> -+    if test -n "$(PYLIB)" ; then \
+>> -+        mkdir -p "$(DESTDIR)$(bindir)" "$(DESTDIR)$(mandir)/man8" ; \
+>> -+        install -D -m 755 src/hwlatdetect/hwlatdetect.py
+>> $(DESTDIR)$(PYLIB)/hwlatdetect.py ; \
+>> -+        rm -f "$(DESTDIR)$(bindir)/hwlatdetect" ; \
+>> -+        ln -s $(PYLIB)/hwlatdetect.py
+>> "$(DESTDIR)$(bindir)/hwlatdetect" ; \
+>> -+        gzip src/hwlatdetect/hwlatdetect.8 -c
+>> >"$(DESTDIR)$(mandir)/man8/hwlatdetect.8.gz" ; \
+>> -+    fi
+>> -+
+>> - .PHONY: release
+>> - release: clean changelog
+>> -     mkdir -p releases
+>> ---
+>> -1.7.11.4
+>> -
+>> diff --git
+>> a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+>> b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+>> deleted file mode 100644
+>> index e420282..0000000
+>> --- a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+>> +++ /dev/null
+>> @@ -1,50 +0,0 @@
+>> -From 82d28701486ba5a699544a168448bf93b1ccd7b1 Mon Sep 17 00:00:00 2001
+>> -From: Jackie Huang <jackie.huang@windriver.com>
+>> -Date: Thu, 6 Dec 2012 11:26:14 +0800
+>> -Subject: [PATCH] Added missing dependencies
+>> -
+>> -Upstream-Status: Submitted [linux-rt-users]
+>> -
+>> -The following targets missed dependency on librttest.a:
+>> -pi_stress
+>> -rt-migrate-test
+>> -hackbench
+>> -
+>> -Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>> ----
+>> - Makefile |    6 +++---
+>> - 1 file changed, 3 insertions(+), 3 deletions(-)
+>> -
+>> -diff --git a/Makefile b/Makefile
+>> -index fd3cdb3..60707a7 100644
+>> ---- a/Makefile
+>> -+++ b/Makefile
+>> -@@ -68,14 +68,14 @@ cyclictest: cyclictest.o librttest.a
+>> - signaltest: signaltest.o librttest.a
+>> -     $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+>> -
+>> --pi_stress: pi_stress.o
+>> -+pi_stress: pi_stress.o librttest.a
+>> -     $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+>> -
+>> - hwlatdetect:  src/hwlatdetect/hwlatdetect.py
+>> -     chmod +x src/hwlatdetect/hwlatdetect.py
+>> -     ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
+>> -
+>> --rt-migrate-test: rt-migrate-test.o
+>> -+rt-migrate-test: rt-migrate-test.o librttest.a
+>> -     $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+>> -
+>> - ptsematest: ptsematest.o librttest.a
+>> -@@ -96,7 +96,7 @@ sendme: sendme.o librttest.a
+>> - pip_stress: pip_stress.o librttest.a
+>> -     $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+>> -
+>> --hackbench: hackbench.o
+>> -+hackbench: hackbench.o librttest.a
+>> -     $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+>> -
+>> - librttest.a: rt-utils.o error.o rt-get_cpu.o
+>> ---
+>> -1.7.9.5
+>> -
+>> diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc
+>> b/meta/recipes-rt/rt-tests/rt-tests.inc
+>> index 81f4f2b..1d876b0 100644
+>> --- a/meta/recipes-rt/rt-tests/rt-tests.inc
+>> +++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+>> @@ -1,10 +1,7 @@
+>> -# Version v0.87
+>> -SRCREV = "b0413ae5ed802004fb0c4af74a1757381fd2b91f"
+>> +# Version v0.89
+>> +SRCREV = "9164ec4db2645f52ffdd20e6d1b72bb0411ab40e"
+>>
+>>   SRC_URI =
+>> "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
+>> -           file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
+>> -           file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
+>> -           file://added-missing-dependencies.patch \
+>>              file://hackbench-fix-error-check.patch \
+>>   "
+>>
+>> diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.87.bb
+>> b/meta/recipes-rt/rt-tests/rt-tests_0.89.bb
+>> similarity index 100%
+>> rename from meta/recipes-rt/rt-tests/rt-tests_0.87.bb
+>> rename to meta/recipes-rt/rt-tests/rt-tests_0.89.bb
+>>
 
---20cf301d439a464dea04f9537eb8--
