@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (unknown [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 54F75660FF
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8010E66114
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 08:51:52 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s4E8plwS013593 for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 09:51:47 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id d7l1QfMzAs52
+	Wed, 14 May 2014 09:29:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4E9T9hb002108
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 09:51:47 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s4E8phIS013588
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 09:51:45 +0100
-Message-ID: <1400057497.31891.233.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 May 2014 09:51:37 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: RFC: Removing binconfig -config files - Request for help
+	Wed, 14 May 2014 02:29:09 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 14 May 2014 02:29:08 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 May 2014 17:29:06 +0800
+Message-ID: <cover.1400058860.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/1] dbus: Update to 1.8.2 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,81 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 08:51:59 -0000
+X-List-Received-Date: Wed, 14 May 2014 09:29:13 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Anyone who has looked at what the binconfig class actually does will
-realised its pretty gruesome. It applies a long list of replacements
-against the -config files in ${S} and ${B} and doesn't even wait for the
-software to install them. This is dated and there is a much better
-alternative, pkg-config.
+Start with systemd:
+root@qemuarm:~# systemctl status dbus.service
+● dbus.service - D-Bus System Message Bus
+   Loaded: loaded (/lib/systemd/system/dbus.service; static)
+   Active: active (running) since Wed 2014-05-14 09:15:33 UTC; 19s ago
+     Docs: man:dbus-daemon(1)
+ Main PID: 98 (dbus-daemon)
+   CGroup: /system.slice/dbus.service
+           └─98 /usr/bin/dbus-daemon --system --address=systemd: --nofork --n...
 
-We added pkg-config to those pieces of software that were missing them a
-while ago. Now, I believe the time has come to stop installing some of
-the -config files. Once this was a huge challenge but there aren't that
-many left.
+May 14 09:15:33 qemuarm systemd[1]: Started D-Bus System Message Bus.
+root@qemuarm:~# systemctl status dbus.socket 
+● dbus.socket - D-Bus System Message Bus Socket
+   Loaded: loaded (/lib/systemd/system/dbus.socket; static)
+   Active: active (running) since Wed 2014-05-14 09:15:33 UTC; 25s ago
+   Listen: /var/run/dbus/system_bus_socket (Stream)
 
-My proposal is that we add some new function to utils.bbclass which we
-can call and which creates a "dead" -config script which simply prints
-and error and then "exit 1".
+May 14 09:15:33 qemuarm systemd[1]: Starting D-Bus System Message Bus Socket.
+May 14 09:15:33 qemuarm systemd[1]: Listening on D-Bus System Message Bus S...t.
+Hint: Some lines were ellipsized, use -l to show in full.
 
-We'd then one by one stop classes inheriting the binconfig class and
-replace them with calls to this function. I filed an enhancement in the
-Yocto bugzilla for this:
+Start with sysvinit:
+root@qemuarm:~# /etc/init.d/dbus-1 status
+/usr/bin/dbus-daemon (pid 324) is running...
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=6320
+Test ptest suite:
+root@qemuarm:/usr/lib/dbus-test/ptest# ./run-ptest 
+PASS: test/test-bus
+PASS: test/test-bus-launch-helper
+PASS: test/test-bus-system
+PASS: test/test-corrupt
+PASS: test/test-dbus
+** Message: ProcessID of this process is 124
+** Message: UnixUserID of this process is 0
+** Message: SKIP: set DBUS_TEST_DATA to a directory containing valid-config-files/incoming-limit.conf
+PASS: test/test-dbus-daemon
+PASS: test/test-dbus-daemon-eavesdrop
+...
 
-There is also a patch attached there which starts some of this work.
-Specifically:
 
-* Converts several gnupg related m4 files to use pkg-config instead of 
-  the -config scripts and make sure the pkgconfig files have the right
-  data in them.
-* Fix libarchive to use pkg-config for libxml-2.0
-* Fix lighthttp to use pkg-config for pcre
-* Fix libxslt to use pkg-config for libxml-2.0
+The following changes since commit d6900a5fe7670cb4514969d60e0ca65372121c87:
 
-I did post on the gnupg mailing list asking whether they could switch 
-to pkg-config. There is history in the archives to suggest they 
-won't, based on bad reasoning but asking again doesn't hurt. No reply
-as yet. This is probably the biggest chunk of users we have left.
+  wic: Extend indirect string connection to support image names and rootfs (2014-05-13 19:35:11 +0100)
 
-Potential issues I'm aware of:
+are available in the git repository at:
 
-* apr-1-config/apu-1-config for subversion/apache
-* curl-config for python-pycurl
-* cups-config for cups itself
+  git://git.pokylinux.org/poky-contrib chonglu/dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/dbus
 
-What I don't know at this point is how much of meta-oe uses the -config
-files. There are a few other files in crossscripts such as guile-config,
-some tcl pieces and so on, I was planning just to leave those alone.
+Chong Lu (1):
+  dbus: Update to 1.8.2 version
 
-We have here and in that patch a pretty good set of examples on how to
-proceed with this, I'm hoping someone who fancies a bit of a challenge
-may pick this up and help. The next steps probably need to be:
+ .../{dbus-test_1.6.18.bb => dbus-test_1.8.2.bb}    |  13 +-
+ meta/recipes-core/dbus/dbus.inc                    |  14 +-
+ ...orrect-address-when-using-address-systemd.patch | 193 ---------------------
+ ...y-freeing-if-error-during-listing-service.patch |  45 -----
+ meta/recipes-core/dbus/dbus/ptest.patch            | 154 ----------------
+ meta/recipes-core/dbus/dbus/run-ptest              |  11 +-
+ meta/recipes-core/dbus/dbus_1.6.18.bb              |   4 -
+ meta/recipes-core/dbus/dbus_1.8.2.bb               |   4 +
+ 8 files changed, 34 insertions(+), 404 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.6.18.bb => dbus-test_1.8.2.bb} (74%)
+ delete mode 100644 meta/recipes-core/dbus/dbus/Set-correct-address-when-using-address-systemd.patch
+ delete mode 100644 meta/recipes-core/dbus/dbus/fixed-memory-freeing-if-error-during-listing-service.patch
+ delete mode 100644 meta/recipes-core/dbus/dbus/ptest.patch
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.6.18.bb
+ create mode 100644 meta/recipes-core/dbus/dbus_1.8.2.bb
 
-* A world build of OE-Core before and after this patch set with 
-  buildhistory, see if anything changes
-* Clean up and submit the patches in the existing large patch to OE-Core
-* Iterate one by one through the OE-Core recipes inheriting binconfig, 
-  checking meta-oe for recipes depending on that one and check they use 
-  pkg-config and not the -config script
-* Write the utils.bbclass helper function
-* Convert recipes to stop inheriting binconfig and instead neuter the 
-  -config files.
-* Investigate the remaining four -config files above. I suspect the 
-  apache projects aren't going to switch but we can ask. It may well be 
-  worth leaving those alone. Investigate curl/cups further.
-
-This probably isn't something we'll solve tomorrow but I think the time
-is right to have a plan in place and to start to execute on it.
-
-Any thoughts/comments/concerns?
-
-Cheers,
-
-Richard
-
+-- 
+1.8.1.2
 
 
