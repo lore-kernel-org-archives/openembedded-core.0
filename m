@@ -1,39 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-X-Greylist: delayed 596 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 14 May 2014 20:38:10 UTC
-Received: from mail-yk0-f173.google.com (unknown [209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A202765DBF
+Return-Path: <andrea.adami@gmail.com>
+X-Greylist: delayed 465 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 14 May 2014 21:08:15 UTC
+Received: from mail-ee0-f54.google.com (unknown [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B02066098B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 20:38:10 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 142so97478ykq.18
+	Wed, 14 May 2014 21:08:15 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id b57so85702eek.41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 13:38:11 -0700 (PDT)
+	Wed, 14 May 2014 14:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:organization;
-	bh=fONYNQY3nRWctieDGHJXjhIDd+ihDmkwEyHwwZrHm3s=;
-	b=EoiU+R9I7kReElli7HVROnpCtkNNDpxHAsYuE3vc6Aj7kh9HEtZEISiUJnonHZAw0H
-	A4Ceyyj2e/pheUckdNVp1U3MmX0qD1VEyuSqyAbJMpoyQCuR+dXQ4utPD+aIbKY9vI4u
-	84DHq8rDbDbuXLs0som0NuB0OgPeL2qppUHQXVoI4Txx3geWoWlkFz/rw0ifXENP3eE5
-	qlxOZvsPX3jSrsHMJuLT3mnVoAk6fQ2/7br145TtXAmghAJTvOEbX+jqIZJ+FZUTI3r2
-	qkLj3w5+TJlfIp1T/1W7nr+Z3b46AXHjzbNNiBVg1XmRj0jg+1Is8xsp3OXqFXyrzB87
-	s9Qw==
-X-Received: by 10.236.87.139 with SMTP id y11mr8641179yhe.27.1400099439567;
-	Wed, 14 May 2014 13:30:39 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id r27sm4132709yhk.17.2014.05.14.13.30.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 14 May 2014 13:30:38 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 1B6401ACE5DA0; Wed, 14 May 2014 17:30:34 -0300 (BRT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 May 2014 17:30:31 -0300
-Message-Id: <1400099434-22527-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.0.0.rc2
-Organization: O.S. Systems Software LTDA.
-Subject: [daisy][PATCH 1/4] tcf-agent: add systemd support
+	h=from:to:cc:subject:date:message-id;
+	bh=3JQ7kHahX18JrgH11lZa2PHCxNWnAp7GBBQHrxKYzsI=;
+	b=00VyD9f8XTUNYN7SwQT93XW9y4Gc7wsYL6yCjsau5STgFiesrKEJMTnQYRrDn0+kfi
+	SvWt6I9+R511Y6ecsIt4YGkF+0c4d30fhGyQ356K7RVOFtKGT8TkIoE8UxXrH9BQ6Mxi
+	ggkrEixgkMRefGUN3ccGtv7ve0Ef5yQ/KEFL2O5i9OxwIutrZnGSIdqothQdBDvTpYUn
+	XSd6Hghxhd4uG6/pBe66jHrjqBJlnRhEb3Xq21vPsYbQ61vXPV0nD/JrxJuXy/vMES00
+	Hj1fq9t//2PpDpDMELfMPQlZGp7ynYNMIGoz0nKJqvxhiUcyobmbXqlr+9pdoMqLn5FH
+	hR5A==
+X-Received: by 10.14.172.69 with SMTP id s45mr8310628eel.14.1400101231346;
+	Wed, 14 May 2014 14:00:31 -0700 (PDT)
+Received: from mizar.208.67.220.220
+	(host234-253-dynamic.10-79-r.retail.telecomitalia.it.
+	[79.10.253.234])
+	by mx.google.com with ESMTPSA id h6sm7616495eew.38.2014.05.14.14.00.30
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 14 May 2014 14:00:30 -0700 (PDT)
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 May 2014 23:00:22 +0200
+Message-Id: <1400101222-26332-1-git-send-email-andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] mips: add tune file for mips32r2 (only hard-float)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,72 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 20:38:15 -0000
+X-List-Received-Date: Wed, 14 May 2014 21:08:17 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Kernel and initramfs built and tested on GCW Zero (jz4770)
 
-Add systemd unit file tcf-agent.service.
-
-(From OE-Core rev: 1a4feebf98780f586bf2e81cf9844e6805a50799)
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
 ---
- meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service | 10 ++++++++++
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb            |  8 +++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
+ meta/conf/machine/include/tune-mips32r2.inc | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-mips32r2.inc
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
+diff --git a/meta/conf/machine/include/tune-mips32r2.inc b/meta/conf/machine/include/tune-mips32r2.inc
 new file mode 100644
-index 0000000..5d7a586
+index 0000000..fb60592
 --- /dev/null
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=Target Communication Framework agent
-+After=network.target
++++ b/meta/conf/machine/include/tune-mips32r2.inc
+@@ -0,0 +1,17 @@
++DEFAULTTUNE ?= "mips32r2"
 +
-+[Service]
-+Type=forking
-+ExecStart=@SBINDIR@/tcf-agent -d -L- -l0
++require conf/machine/include/mips/arch-mips.inc
 +
-+[Install]
-+WantedBy=multi-user.target
-\ No newline at end of file
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 1eb0021..616a6a7 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -12,6 +12,7 @@ PR = "r2"
- SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
-            file://fix_ranlib.patch \
-            file://tcf-agent.init \
-+           file://tcf-agent.service \
-           "
- 
- DEPENDS = "util-linux openssl"
-@@ -19,7 +20,9 @@ RDEPENDS_${PN} = "bash"
- 
- S = "${WORKDIR}/git"
- 
--inherit update-rc.d
-+inherit update-rc.d systemd
++TUNEVALID[mips32r2] = "Enable mips32r2 specific processor optimizations"
++TUNECONFLICTS[mips32r2] = "n64 n32"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "mips32r2", " -march=mips32r2", "", d)}"
 +
-+SYSTEMD_SERVICE_${PN} = "tcf-agent.service"
- 
- INITSCRIPT_NAME = "tcf-agent"
- INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
-@@ -44,5 +47,8 @@ do_install() {
- 	oe_runmake install INSTALLROOT=${D}
- 	install -d ${D}${sysconfdir}/init.d/
- 	install -m 0755 ${WORKDIR}/tcf-agent.init ${D}${sysconfdir}/init.d/tcf-agent
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/tcf-agent.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/tcf-agent.service
- }
- 
++AVAILTUNES += "mips32r2 mips32r2el"
++
++TUNE_FEATURES_tune-mips32r2 = "${TUNE_FEATURES_tune-mips} mips32r2"
++MIPSPKGSFX_VARIANT_tune-mips32r2 = "mips32r2"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2 = "mips mips32 mips32r2"
++
++TUNE_FEATURES_tune-mips32r2el = "${TUNE_FEATURES_tune-mipsel} mips32r2"
++MIPSPKGSFX_VARIANT_tune-mips32r2el = "mips32r2el"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2el = "mipsel mips32el mips32r2el"
 -- 
-2.0.0.rc2
+1.9.1
 
 
