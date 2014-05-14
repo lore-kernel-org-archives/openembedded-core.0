@@ -1,31 +1,34 @@
-Return-Path: <oram.embedded@gmail.com>
-Received: from mail-yk0-f169.google.com (unknown [209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E37AB6098B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f176.google.com (unknown [209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 730BA6601E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 02:10:19 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 200so1056395ykr.14
+	Wed, 14 May 2014 03:08:21 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id ar20so1291946iec.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 May 2014 19:10:20 -0700 (PDT)
+	Tue, 13 May 2014 20:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:message-id:subject:from:to:content-type;
-	bh=2e/8fhm5Ecej9rQ1mtBJSueMrqD3KRvqyujf5vnLW60=;
-	b=BbBzGsX48vCHLDuipyijhwUMFkSnLBu7yglDhRvtgbDfGo1auNSISJ4a1COpMFDOgf
-	I6i818S4qwmRIP9jL7vEK1iw9X0D9D6/CVBgSzEjGSdlog1mQQEwl9RwW0t2c742vKiP
-	g4VqRapsZB3uZq0X85H5OH+wGJiW4pC3jb9lEA8+EYux4ervrH0n+Y34VxeoMUuDODoZ
-	mXIPSGSxCLqc9osMQfEd2hlP+ozCJj9se3FZ+pK0l4L4XjZAyb8d1FS5ATrCWorA2okh
-	4s4tnun+lQAA22kceWK9N1oOC+zjjd/EJDFZACR+J2M6t5BOCxWX3goOCYzan3eMFkZM
-	9QHw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=6w0uxMGy6RC6ihquoZk7ARs9BIxQEIdJxjAn+IgZNXY=;
+	b=LeIaIXjuSydrBKfLOhaTKvEf2tOgamGQgv1nFtW6kN90XEW53RG1rbMz05wXIPMlFq
+	IYvt+jmnRMmVAE1HYZKbp9WbL/YozttloTm8d26Mv4HU0Aj/F2Y1j9lviGn6Vll82haL
+	mNKM3CBSNlOV0VYXpHW/LmXLPncRra431lYiUNkAE743suZQNvBYNAhjTfQDcfsBX4SR
+	O4EnryKoZyT+Q2h7Fq7TngMFUktokZ02GPaeITiSy9YY51PQCtj3EJIK9qKHlocEEU7S
+	RasUNl8RjS3oBaG82mTwRFn8e/xrIZM7hycZKFue9zTuCT0V1VcJyQnnWoUgi8mBssRM
+	R1ag==
+X-Received: by 10.42.214.143 with SMTP id ha15mr634115icb.59.1400036902979;
+	Tue, 13 May 2014 20:08:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.236.119.99 with SMTP id m63mr801048yhh.65.1400033420156;
-	Tue, 13 May 2014 19:10:20 -0700 (PDT)
-Sender: oram.embedded@gmail.com
-Received: by 10.170.229.84 with HTTP; Tue, 13 May 2014 19:10:20 -0700 (PDT)
-Date: Wed, 14 May 2014 14:10:20 +1200
-X-Google-Sender-Auth: XKRLOsIEzVC-ayhhFXgetyv5Ydk
-Message-ID: <CAGw0TDMuODtcF6P-DFDsGg3d4Vuvgu0nuHG5muAFDBuO=6ZDoA@mail.gmail.com>
-From: Charles Oram <charles@oram.co.nz>
-To: openembedded-core@lists.openembedded.org
-Subject: [meta-oe] [PATCH] libmtp_1.1.5.bb : Fix 'Makefile.am: No such file or directory' build error.
+Received: by 10.50.79.133 with HTTP; Tue, 13 May 2014 20:07:52 -0700 (PDT)
+In-Reply-To: <CAGw0TDMuODtcF6P-DFDsGg3d4Vuvgu0nuHG5muAFDBuO=6ZDoA@mail.gmail.com>
+References: <CAGw0TDMuODtcF6P-DFDsGg3d4Vuvgu0nuHG5muAFDBuO=6ZDoA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 May 2014 20:07:52 -0700
+Message-ID: <CAMKF1srioT7m2MTSKJ-fh+43jWH2HX-PoFCTPigybwh-81QySg@mail.gmail.com>
+To: Charles Oram <charles@oram.co.nz>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe] [PATCH] libmtp_1.1.5.bb : Fix 'Makefile.am: No such file or directory' build error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,66 +41,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 02:10:24 -0000
-Content-Type: multipart/alternative; boundary=20cf3011e287aea84f04f952ae3f
+X-List-Received-Date: Wed, 14 May 2014 03:08:33 -0000
+Content-Type: multipart/alternative; boundary=20cf301d439a464dea04f9537eb8
 
---20cf3011e287aea84f04f952ae3f
+--20cf301d439a464dea04f9537eb8
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-libmtp_1.1.5.bb : Fix "Makefile.am: No such file or directory" build error.
+On Tue, May 13, 2014 at 7:10 PM, Charles Oram <charles@oram.co.nz> wrote:
 
-skip_udev_rules_generation() needs to reference Makefile.am in the recipe
-source directory.
-
-Signed-off-by: Charles Oram <charles at oram.co.nz
-<http://lists.openembedded.org/mailman/listinfo/openembedded-core>>
-
----
- meta-oe/recipes-connectivity/
-libmtp/libmtp_1.1.5.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bbb/meta-oe/recipes-connectivity/libmtp/
-libmtp_1.1.5.bb
-index f4ea800..e164f49 100644
---- a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
-+++ b/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
-@@ -29,7 +29,7 @@ do_unpack[vardeps] += "skip_udev_rules_generation"
- do_unpack[postfuncs] += "skip_udev_rules_generation"
-
- skip_udev_rules_generation () {
--       sed -i -e '/^noinst_DATA=/,/util\/mtp-hotplug -H/d' Makefile.am
-+       sed -i -e '/^noinst_DATA=/,/util\/mtp-hotplug -H/d' ${S}/Makefile.am
-        cp ${WORKDIR}/69-libmtp.rules ${S}/
- }
+> libmtp_1.1.5.bb : Fix "Makefile.am: No such file or directory" build
+> error.
+>
+> skip_udev_rules_generation() needs to reference Makefile.am in the recipe
+> source directory.
+>
+>
+=E2=80=8BLooks good though it belongs to a oe devel mailing list.=E2=80=8B
 
 
---
-1.7.10.4
 
---20cf3011e287aea84f04f952ae3f
+> Signed-off-by: Charles Oram <charles at oram.co.nz <http://lists.openembe=
+dded.org/mailman/listinfo/openembedded-core>>
+>
+> ---
+>  meta-oe/recipes-connectivity/
+> libmtp/libmtp_1.1.5.bb |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bbb/meta-oe=
+/recipes-connectivity/libmtp/
+> libmtp_1.1.5.bb
+> index f4ea800..e164f49 100644
+> --- a/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
+> +++ b/meta-oe/recipes-connectivity/libmtp/libmtp_1.1.5.bb
+> @@ -29,7 +29,7 @@ do_unpack[vardeps] +=3D "skip_udev_rules_generation"
+>  do_unpack[postfuncs] +=3D "skip_udev_rules_generation"
+>
+>  skip_udev_rules_generation () {
+> -       sed -i -e '/^noinst_DATA=3D/,/util\/mtp-hotplug -H/d' Makefile.am
+> +       sed -i -e '/^noinst_DATA=3D/,/util\/mtp-hotplug -H/d'
+> ${S}/Makefile.am
+>         cp ${WORKDIR}/69-libmtp.rules ${S}/
+>  }
+>
+>
+> --
+> 1.7.10.4
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+--20cf301d439a464dea04f9537eb8
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><font><span style=3D"font-family:arial,helvetica,sans-seri=
-f"><a href=3D"http://libmtp_1.1.5.bb">libmtp_1.1.5.bb</a> : Fix &quot;Makef=
-ile.am: No such file or directory&quot; build error.<br><br>skip_udev_rules=
-_generation() needs to reference Makefile.am in the recipe source directory=
-.<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif"><br></div><div class=3D"gmail_extra"><br><br><div class=3D"gmai=
+l_quote">On Tue, May 13, 2014 at 7:10 PM, Charles Oram <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:charles@oram.co.nz" target=3D"_blank">charles@oram.co.n=
+z</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><font><span style=3D"font-f=
+amily:arial,helvetica,sans-serif"><a href=3D"http://libmtp_1.1.5.bb" target=
+=3D"_blank">libmtp_1.1.5.bb</a> : Fix &quot;Makefile.am: No such file or di=
+rectory&quot; build error.<br>
+
+<br>skip_udev_rules_generation() needs to reference Makefile.am in the reci=
+pe source directory.<br>
 <br></span></font><pre><font><span style=3D"font-family:arial,helvetica,san=
-s-serif">Signed-off-by: Charles Oram &lt;<a href=3D"http://lists.openembedd=
-ed.org/mailman/listinfo/openembedded-core">charles at oram.co.nz</a>&gt;</s=
+s-serif"></span></font></pre></div></blockquote><div><br></div><div><div cl=
+ass=3D"gmail_default" style=3D"font-family:verdana,sans-serif">=E2=80=8BLoo=
+ks good though it belongs to a oe devel mailing list.=E2=80=8B</div>
+
+<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
+<pre><font><span style=3D"font-family:arial,helvetica,sans-serif">Signed-of=
+f-by: Charles Oram &lt;<a href=3D"http://lists.openembedded.org/mailman/lis=
+tinfo/openembedded-core" target=3D"_blank">charles at oram.co.nz</a>&gt;</s=
 pan></font><br>
+
+
 </pre>---<br>
-=C2=A0meta-oe/recipes-connectivity/<div id=3D":27j" class=3D"">libmtp/<a hr=
-ef=3D"http://libmtp_1.1.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> | =C2=
-=A0 =C2=A02 +-<br>
+=C2=A0meta-oe/recipes-connectivity/<div>libmtp/<a href=3D"http://libmtp_1.1=
+.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> | =C2=A0 =C2=A02 +-<br>
 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
 diff --git a/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1=
 .1.5.bb" target=3D"_blank">libmtp_1.1.5.bb</a> b/meta-oe/recipes-connectivi=
 ty/libmtp/<a href=3D"http://libmtp_1.1.5.bb" target=3D"_blank">libmtp_1.1.5=
 .bb</a><br>
+
+
 
 index f4ea800..e164f49 100644<br>
 --- a/meta-oe/recipes-connectivity/libmtp/<a href=3D"http://libmtp_1.1.5.bb=
@@ -114,11 +156,19 @@ quot;<br>
 + =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/^noinst_DATA=3D/,/util\/mtp-hotplug =
 -H/d&#39; ${S}/Makefile.am<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${WORKDIR}/69-libmtp.rules ${S}/<br>
-=C2=A0}<div class=3D""><div id=3D":27c" class=3D"" tabindex=3D"0"><img clas=
-s=3D"" src=3D"https://mail.google.com/mail/u/0/images/cleardot.gif"></div><=
-/div><div class=3D""><br>
-</div><span class=3D""><font color=3D"#888888"><br>
+=C2=A0}<div><div><img src=3D"https://mail.google.com/mail/u/0/images/cleard=
+ot.gif"></div></div><div><br>
+</div><span><font color=3D"#888888"><br>
 --<br>
 1.7.10.4</font></span></div><br></div>
+<br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+<br></blockquote></div><br></div></div>
 
---20cf3011e287aea84f04f952ae3f--
+--20cf301d439a464dea04f9537eb8--
