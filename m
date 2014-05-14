@@ -1,21 +1,24 @@
 Return-Path: <max.eliaser@intel.com>
 Received: from mga09.intel.com (unknown [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D301601A0
+	by mail.openembedded.org (Postfix) with ESMTP id 9955F6A3F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 21:38:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 May 2014 14:32:59 -0700
+	Wed, 14 May 2014 21:38:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 May 2014 14:33:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1054,1389772800"; d="scan'208";a="511779123"
+X-IronPort-AV: E=Sophos;i="4.97,1054,1389772800"; d="scan'208";a="540535044"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.149])
-	by orsmga001.jf.intel.com with ESMTP; 14 May 2014 14:37:31 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 May 2014 14:38:38 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 14:35:37 -0700
-Message-Id: <cover.1400103108.git.max.eliaser@intel.com>
+Date: Wed, 14 May 2014 14:36:43 -0700
+Message-Id: <6c587dec0715ed0d57e597503bc0864fe26ccb13.1400103108.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-Subject: [PATCH 0/3] Suppress Texinfo utilities invoked at build time for -cross & -native recipes
+In-Reply-To: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
+References: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
+In-Reply-To: <cover.1400103108.git.max.eliaser@intel.com>
+References: <cover.1400103108.git.max.eliaser@intel.com>
+Subject: [PATCH 3/3] native/cross recipes use texinfo-dummy-native; target arch use host's Texinfo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,70 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 21:38:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 14 May 2014 21:38:38 -0000
 
-Hello list,
+To unpack that to more than a single line: -native and -cross recipes are made
+to use the dummy Texinfo utilities provided by texinfo-dummy-native if they
+invoke those utilities at build time. The target-architecture (cross-compiled)
+recipes still use the genuine Texinfo utilites. Right now, they still use
+the host system's Texinfo utilities, but could be made to use the
+texinfo-native recipe we already ship with some config file changes.
 
-As per discussion with Richard Purdie and others, I'm submitting a patch to 
-suppress some unnecessary invocations of utilities from the Texinfo suite during
-Yocto builds. Specifically, it targets -native and -cross recipes that inherit
-texinfo.bbclass.
+Signed-off-by: Max Eliaser <max.eliaser@intel.com>
+---
+ meta/classes/texinfo.bbclass | 15 ++++++++++++++-
+ meta/conf/bitbake.conf       |  1 +
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-The Texinfo utilities are suppressed by supplying doppelgänger executables which
-understand the same command-line options as the genuine Texinfo utilites, and
-which can create blank output files where expected, but which do no actual
-processing, formatting, or markup. To see how this is done, look in the 
-texinfo-dummy-native recipe (under meta/recipes-extended,) added in this patch
-series, as well as the modifications to texinfo.bbclass, also in this patch 
-series.
-
-Suppressing the Texinfo utilities for -native and -cross recipes does provide a
-noticable performance gain, as documented in bug 2421. [1] You could make the 
-case that this patch series still does not completely address bug 2421, as there
-are other utilities not from the Texinfo suite (groff, pod2man, etc) which are
-not suppressed by these changes.
-
-Target-architecture recipes continue to use the host system's Texinfo utilities
-as before, so that dependency is not eliminated by this patch series. 
-
-Regards,
--Max Eliaser
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2421
-The following changes since commit 7b78c364b7de901f97cd8dbe56d5e02f545bf3d3:
-
-  cleanup-workdir: Fix crosssdk reference after addition of PN (2014-05-05 09:05:42 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib meliaser/texinfo-build
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/texinfo-build
-
-Max Eliaser (3):
-  Allow texinfo, texinfo-native recipes to build w/o host system's
-    Texinfo utils
-  Add texinfo-dummy-native recipe w/ scripts to stand in for Texinfo
-    utils.
-  native/cross recipes use texinfo-dummy-native; target arch use host's
-    Texinfo.
-
- meta/classes/texinfo.bbclass                       |  15 ++-
- meta/conf/bitbake.conf                             |   1 +
- .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
- .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
- .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
- .../texinfo/texinfo/disable-native-tools.patch     |  43 --------
- .../texinfo/texinfo/use_host_makedoc.patch         |  17 ---
- meta/recipes-extended/texinfo/texinfo_5.2.bb       |   8 +-
- 8 files changed, 188 insertions(+), 67 deletions(-)
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
- delete mode 100644 meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
- delete mode 100644 meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
-
+diff --git a/meta/classes/texinfo.bbclass b/meta/classes/texinfo.bbclass
+index 60cba0f..92efbcc 100644
+--- a/meta/classes/texinfo.bbclass
++++ b/meta/classes/texinfo.bbclass
+@@ -1,2 +1,15 @@
+ # This class is inherited by recipes whose upstream packages invoke the
+-# texinfo utilities at build-time. This class currently does nothing.
++# texinfo utilities at build-time. Native and cross recipes are made to use the
++# dummy scripts provided by texinfo-dummy-native, for improved performance. 
++# Target architecture recipes use the genuine Texinfo utilities. By default, 
++# they use the Texinfo utilities on the host system. If you want to use the
++# Texinfo recipe shipped with yoco, you can remove texinfo-native from 
++# ASSUME_PROVIDED and makeinfo from SANITY_REQUIRED_UTILITIES.
++
++TEXDEP = "texinfo-native"
++TEXDEP_class-native = "texinfo-dummy-native"
++TEXDEP_class-cross = "texinfo-dummy-native"
++DEPENDS_append = " ${TEXDEP}"
++PATH_prepend_class-native = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
++PATH_prepend_class-cross = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
++
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 66f435f..889b547 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -180,6 +180,7 @@ ASSUME_PROVIDED = "\
+     python-native-runtime \
+     tar-native \
+     virtual/libintl-native \
++    texinfo-native\
+     "
+ # gzip-native should be listed above?
+ 
 -- 
 1.8.3.2
 
