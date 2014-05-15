@@ -1,39 +1,41 @@
-Return-Path: <gary.robertson@linaro.org>
-X-Greylist: delayed 354 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 14 May 2014 23:45:25 UTC
-Received: from mail-ob0-f181.google.com (unknown [209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 1352865FE5
+Return-Path: <joaohf@gmail.com>
+X-Greylist: delayed 334 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 May 2014 01:43:16 UTC
+Received: from mail-yk0-f174.google.com (unknown [209.85.160.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 62DE865F99
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 23:45:25 +0000 (UTC)
-Received: by mail-ob0-f181.google.com with SMTP id wm4so334906obc.40
+	Thu, 15 May 2014 01:43:16 +0000 (UTC)
+Received: by mail-yk0-f174.google.com with SMTP id 9so345938ykp.19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 16:45:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=72P0Pp3SPLM1mKWL3Nfp1pxihFO5n8hGUsK5xqCxt6Q=;
-	b=DKKbfFYZXYqEEwhJzOUcF0nS8ywTmKvICNrmrBYrgoxDik9Lue0ZmEEPs97BnESUcd
-	XlJdiiOgDtdSoS8TiGaoPoN9jK9iGPJ0aDkgZfu6RtN+k7Yq08kTButD1tijcwSaIHRN
-	SRT7Oq5gTiesVJ36HvuynH+rQSwrLv07pnHof52fLh+lqE7BjO/HXDZvzwUZfIW8TF1A
-	AV6IxA0ycR5SpRT05fppP0eYwF6MzIzf4VGVMg9K0Rm3ejerf76Csks+o8oSZDu/qY5B
-	m7cVmgToJfBXo03b9rxc8EKFoS7EE5KWLwcInySSMXr3G7yuI8/2YE74jCAYYvt1TFlD
-	7Npw==
-X-Gm-Message-State: ALoCoQkDht9ce8Gq6iZwqJ15q4CQ3zW+I1ppI1qBDap7jToPQmtzi0cDQUp+OmGjDG98LvHsLvZ9
-X-Received: by 10.60.115.202 with SMTP id jq10mr6711461oeb.0.1400110772311;
-	Wed, 14 May 2014 16:39:32 -0700 (PDT)
-Received: from honkintosh.cybertech.lan (65-120-133-114.dia.static.qwest.net.
-	[65.120.133.114])
-	by mx.google.com with ESMTPSA id to6sm5877102obb.6.2014.05.14.16.39.31
+	Wed, 14 May 2014 18:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=P1UNyA1gP5PhAKNQxeYWaWc60EBZhdCUARG4bS0SY4w=;
+	b=cRdXuj6fwuFSJ6wy7Lha7uKOMbzOfROFXTKFPD8unbYX32zdpYrub9akk5Ie7spz5b
+	71rBxNpL7gkSegGFg2M7hdGec7aKLvWcpddmIBE4nE283uYJOXP6UnWR/VYOA92fly/h
+	iwHDfxQClIT3jky3YSlnqGv5oESX5dzdzMvQxo7EQSy5QhOjKHoB2KPNm5Uu/QiA+EVa
+	HZuSF4HM7Nk7kAqhCNgjOgdfOrOWwLUFM6DJAq5Rzq2q7eSAbhS4BHUEf/xQMiVVnyGm
+	s+3kCP09tO8JkXbCN+duSJbXfx8lGCoyCp3MqgnrLxDnlojgBCq+UQlwLs7ulFZwhba2
+	C8Pg==
+X-Received: by 10.236.230.6 with SMTP id i6mr10728573yhq.14.1400117869852;
+	Wed, 14 May 2014 18:37:49 -0700 (PDT)
+Received: from localhost.localdomain ([201.53.199.239])
+	by mx.google.com with ESMTPSA id k50sm576778yhc.21.2014.05.14.18.37.48
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 May 2014 16:39:31 -0700 (PDT)
-From: "Gary S. Robertson" <gary.robertson@linaro.org>
+	Wed, 14 May 2014 18:37:49 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 18:38:41 -0500
-Message-Id: <1400110721-23181-1-git-send-email-gary.robertson@linaro.org>
-X-Mailer: git-send-email 1.7.9.5
-Cc: mike.holmes@linaro.org
-Subject: [PATCH] rt-tests: restore erroneously deleted patch files
+Date: Wed, 14 May 2014 22:37:28 -0300
+Message-Id: <1400117848-4350-3-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
+References: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
+MIME-Version: 1.0
+Cc: tom.zanussi@linux.intel.com
+Subject: [PATCH 2/2] wic: add support to look in all layers and get plugins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,217 +48,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 23:45:26 -0000
+X-List-Received-Date: Thu, 15 May 2014 01:43:19 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: "Gary S. Robertson" <gary.robertson@linaro.org>
+Plugins are looked in 'scripts/lib/mic/plugins/[type]/' directory on all
+BBLAYERS variable returned by bitbake environment. If found, it will
+be load at runtime.
 
-Commit "rt-tests: bump version 0.87 => 0.89" (SHA1 ID: 7996ca) erroneously
-deleted several patch files which were still required for proper function
-of the rt-tests recipe.  These missing patches adversely affected builds
-of the hwlatdetect and hackbench utilities as well as other components.
+The user could create your own plugin and keep it inside its layers. For
+now the path must be <layer-dir>/scripts/lib/mic/plugins/[type]/. Where
+'type' could be 'imager' or 'source'.
 
-This commit restores the missing patches and allows the recipe to properly
-generate all the components once more.  hwlatdetect and hackbench are
-built properly and the /usr/src/backfire directory is properly populated
-on the target system.
-
-Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
 ---
- ...1-rt-tests-Allow-for-user-specified-PYLIB.patch |   35 ++++++++++
- ...02-rt-tests-Break-out-install_hwlatdetect.patch |   68 ++++++++++++++++++++
- .../files/added-missing-dependencies.patch         |   50 ++++++++++++++
- meta/recipes-rt/rt-tests/rt-tests.inc              |    3 +
- 4 files changed, 156 insertions(+)
- create mode 100644 meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
- create mode 100644 meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
- create mode 100644 meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+ scripts/lib/mic/plugin.py | 28 +++++++++++++++++++++++-----
+ 1 file changed, 23 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch b/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
-new file mode 100644
-index 0000000..8b493eb
---- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/0001-rt-tests-Allow-for-user-specified-PYLIB.patch
-@@ -0,0 +1,35 @@
-+From 66765522b634952346f1a3ab7d00c7222a1f9361 Mon Sep 17 00:00:00 2001
-+Message-Id: <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
-+From: Darren Hart <dvhart@linux.intel.com>
-+Date: Tue, 11 Sep 2012 15:19:30 -0700
-+Subject: [PATCH 1/2] rt-tests: Allow for user-specified PYLIB
-+
-+Upstream-Status: Submitted
-+
-+Allow users (build systems) to specify PYLIB. This allows for a
-+cross-build-system to specify the target PYLIB rather than the host
-+PYLIB.
-+
-+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-+CC: Clark Williams <williams@redhat.com>
-+CC: John Kacur <jkacur@redhat.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 3a82407..61e2f9f 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -23,7 +23,7 @@ endif
-+ CFLAGS ?= -D_GNU_SOURCE -Wall -Wno-nonnull -Isrc/include
-+ LDFLAGS ?=
-+ 
-+-PYLIB  := $(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
-++PYLIB  ?= $(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
-+ 
-+ ifndef DEBUG
-+ 	CFLAGS	+= -O2
-+-- 
-+1.7.11.4
-+
-diff --git a/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch b/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
-new file mode 100644
-index 0000000..bc6136f
---- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/0002-rt-tests-Break-out-install_hwlatdetect.patch
-@@ -0,0 +1,68 @@
-+From af93e580d005a2bba6ed36528003af4cf631adb8 Mon Sep 17 00:00:00 2001
-+Message-Id: <af93e580d005a2bba6ed36528003af4cf631adb8.1347419597.git.dvhart@linux.intel.com>
-+In-Reply-To: <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
-+References: <66765522b634952346f1a3ab7d00c7222a1f9361.1347419597.git.dvhart@linux.intel.com>
-+From: Darren Hart <dvhart@linux.intel.com>
-+Date: Tue, 11 Sep 2012 14:51:10 -0700
-+Subject: [PATCH 2/2] rt-tests: Break out install_hwlatdetect
-+
-+Upstream-Status: Submitted
-+
-+Allow hwlatdetect to be installed independently of the rest of the
-+tests. This is convenient for build systems that package it separately
-+due to the python dependency.
-+
-+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-+CC: Clark Williams <williams@redhat.com>
-+CC: John Kacur <jkacur@redhat.com>
-+---
-+ Makefile | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 61e2f9f..636e63b 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -119,21 +119,15 @@ changelog:
-+ 	git log >ChangeLog
-+ 
-+ .PHONY: install
-+-install: all
-++install: all install_hwlatdetect
-+ 	mkdir -p "$(DESTDIR)$(bindir)" "$(DESTDIR)$(mandir)/man4"
-+ 	mkdir -p "$(DESTDIR)$(srcdir)" "$(DESTDIR)$(mandir)/man8"
-+ 	cp $(TARGETS) "$(DESTDIR)$(bindir)"
-+-	if test -n "$(PYLIB)" ; then \
-+-		install -D -m 755 src/hwlatdetect/hwlatdetect.py $(DESTDIR)$(PYLIB)/hwlatdetect.py ; \
-+-		rm -f "$(DESTDIR)$(bindir)/hwlatdetect" ; \
-+-		ln -s $(PYLIB)/hwlatdetect.py "$(DESTDIR)$(bindir)/hwlatdetect" ; \
-+-	fi
-+ 	install -D -m 644 src/backfire/backfire.c "$(DESTDIR)$(srcdir)/backfire/backfire.c"
-+ 	install -m 644 src/backfire/Makefile "$(DESTDIR)$(srcdir)/backfire/Makefile"
-+ 	gzip src/backfire/backfire.4 -c >"$(DESTDIR)$(mandir)/man4/backfire.4.gz"
-+ 	gzip src/cyclictest/cyclictest.8 -c >"$(DESTDIR)$(mandir)/man8/cyclictest.8.gz"
-+ 	gzip src/pi_tests/pi_stress.8 -c >"$(DESTDIR)$(mandir)/man8/pi_stress.8.gz"
-+-	gzip src/hwlatdetect/hwlatdetect.8 -c >"$(DESTDIR)$(mandir)/man8/hwlatdetect.8.gz"
-+ 	gzip src/ptsematest/ptsematest.8 -c >"$(DESTDIR)$(mandir)/man8/ptsematest.8.gz"
-+ 	gzip src/sigwaittest/sigwaittest.8 -c >"$(DESTDIR)$(mandir)/man8/sigwaittest.8.gz"
-+ 	gzip src/svsematest/svsematest.8 -c >"$(DESTDIR)$(mandir)/man8/svsematest.8.gz"
-+@@ -141,6 +135,16 @@ install: all
-+ 	gzip src/backfire/sendme.8 -c >"$(DESTDIR)$(mandir)/man8/sendme.8.gz"
-+ 	gzip src/hackbench/hackbench.8 -c >"$(DESTDIR)$(mandir)/man8/hackbench.8.gz"
-+ 
-++.PHONY: install_hwlatdetect
-++install_hwlatdetect: hwlatdetect
-++	if test -n "$(PYLIB)" ; then \
-++		mkdir -p "$(DESTDIR)$(bindir)" "$(DESTDIR)$(mandir)/man8" ; \
-++		install -D -m 755 src/hwlatdetect/hwlatdetect.py $(DESTDIR)$(PYLIB)/hwlatdetect.py ; \
-++		rm -f "$(DESTDIR)$(bindir)/hwlatdetect" ; \
-++		ln -s $(PYLIB)/hwlatdetect.py "$(DESTDIR)$(bindir)/hwlatdetect" ; \
-++		gzip src/hwlatdetect/hwlatdetect.8 -c >"$(DESTDIR)$(mandir)/man8/hwlatdetect.8.gz" ; \
-++	fi
-++
-+ .PHONY: release
-+ release: clean changelog
-+ 	mkdir -p releases
-+-- 
-+1.7.11.4
-+
-diff --git a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-new file mode 100644
-index 0000000..e420282
---- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-@@ -0,0 +1,50 @@
-+From 82d28701486ba5a699544a168448bf93b1ccd7b1 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Thu, 6 Dec 2012 11:26:14 +0800
-+Subject: [PATCH] Added missing dependencies
-+
-+Upstream-Status: Submitted [linux-rt-users]
-+
-+The following targets missed dependency on librttest.a:
-+pi_stress
-+rt-migrate-test
-+hackbench
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ Makefile |    6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index fd3cdb3..60707a7 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -68,14 +68,14 @@ cyclictest: cyclictest.o librttest.a
-+ signaltest: signaltest.o librttest.a
-+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+-pi_stress: pi_stress.o
-++pi_stress: pi_stress.o librttest.a
-+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ hwlatdetect:  src/hwlatdetect/hwlatdetect.py
-+ 	chmod +x src/hwlatdetect/hwlatdetect.py
-+ 	ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
-+ 
-+-rt-migrate-test: rt-migrate-test.o
-++rt-migrate-test: rt-migrate-test.o librttest.a
-+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ ptsematest: ptsematest.o librttest.a
-+@@ -96,7 +96,7 @@ sendme: sendme.o librttest.a
-+ pip_stress: pip_stress.o librttest.a
-+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+-hackbench: hackbench.o
-++hackbench: hackbench.o librttest.a
-+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
-+ 
-+ librttest.a: rt-utils.o error.o rt-get_cpu.o
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 954782c..ee5a1af 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -2,6 +2,9 @@
- SRCREV = "9164ec4db2645f52ffdd20e6d1b72bb0411ab40e"
+diff --git a/scripts/lib/mic/plugin.py b/scripts/lib/mic/plugin.py
+index df03c15..bec33d6 100644
+--- a/scripts/lib/mic/plugin.py
++++ b/scripts/lib/mic/plugin.py
+@@ -20,12 +20,14 @@ import os, sys
+ from mic import msger
+ from mic import pluginbase
+ from mic.utils import errors
+-
++from mic.utils.oe.misc import *
  
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
-+           file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
-+           file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
-+           file://added-missing-dependencies.patch \
-            file://hackbench-fix-error-check.patch \
- "
+ __ALL__ = ['PluginMgr', 'pluginmgr']
+ 
+ PLUGIN_TYPES = ["imager", "source"] # TODO  "hook"
+ 
++PLUGIN_DIR = "/lib/mic/plugins" # relative to scripts
++SCRIPTS_PLUGIN_DIR = "scripts" + PLUGIN_DIR
+ 
+ class PluginMgr(object):
+     plugin_dirs = {}
+@@ -42,8 +44,23 @@ class PluginMgr(object):
+         mic_path = os.path.dirname(__file__)
+         eos = mic_path.find('scripts') + len('scripts')
+         scripts_path = mic_path[:eos]
++        self.scripts_path = scripts_path
++        self.plugin_dir = scripts_path + PLUGIN_DIR
++        self.layers_path = None
++
++    def _build_plugin_dir_list(self, dl, ptype):
++        if self.layers_path is None:
++            self.layers_path = get_bitbake_var("BBLAYERS")
++        layer_dirs = []
++
++        for layer_path in self.layers_path.split():
++            path = os.path.join(layer_path, SCRIPTS_PLUGIN_DIR, ptype)
++            layer_dirs.append(path)
+ 
+-        self.plugin_dir = scripts_path + "/lib/mic/plugins"
++            path = os.path.join(dl, ptype)
++            layer_dirs.append(path)
++
++        return layer_dirs
+ 
+     def append_dirs(self, dirs):
+         for path in dirs:
+@@ -56,7 +73,7 @@ class PluginMgr(object):
+         path = os.path.abspath(os.path.expanduser(path))
+ 
+         if not os.path.isdir(path):
+-            msger.warning("Plugin dir is not a directory or does not exist: %s"\
++            msger.debug("Plugin dir is not a directory or does not exist: %s"\
+                           % path)
+             return
+ 
+@@ -93,8 +110,9 @@ class PluginMgr(object):
+         if ptype not in PLUGIN_TYPES:
+             raise errors.CreatorError('%s is not valid plugin type' % ptype)
+ 
+-        self._add_plugindir(os.path.join(self.plugin_dir, ptype))
+-        self._load_all()
++        plugins_dir = self._build_plugin_dir_list(self.plugin_dir, ptype)
++
++        self.append_dirs(plugins_dir)
+ 
+         return pluginbase.get_plugins(ptype)
  
 -- 
-1.7.9.5
+1.8.3.2
 
 
