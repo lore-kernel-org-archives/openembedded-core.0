@@ -1,20 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id AD2D765FD8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f172.google.com (unknown [209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C71D65E87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 15:58:39 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 15 May 2014 08:58:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1060,1389772800"; d="scan'208";a="432626702"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.90])
-	by azsmga001.ch.intel.com with ESMTP; 15 May 2014 08:58:38 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 May 2014 08:58:37 -0700
-Message-Id: <1400169517-29966-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] libusb1: Update to 1.0.18
+	Thu, 15 May 2014 16:06:35 +0000 (UTC)
+Received: by mail-yk0-f172.google.com with SMTP id 79so1042579ykr.31
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 May 2014 09:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=oiR1hvGzTTZGvWNiH9KBwjCOvXfoLQoIiPT3EHe0t3w=;
+	b=gmZiQNKWxX/EmS11Gfm8zjPDR79E/ToyGfrNLcyxPgCs3Ri9b8c4hJ2zFaH3J3/Enm
+	2SMp3ahplK8OeuQuDidjo1qB35QSM6SQ/n06im6mpUiRte7MTQY5agVeDRQNqTyV4EjX
+	AoAct/dfuU2zqBB2onCiAibMW1fj+l+ukYXUCa3np1KPemyofPQKirez0vC951/hXW+L
+	5YNqc03lG9m7gorMHNX4CPbmLXpwwtM8K4nTZEfaJsC2FuU2Hx2bASMt7HEWheuXGoTc
+	ilBnJ/aMBIMJFd2gqU3Pf9V4psogzIipnsZ+uHqo9RxeEcFwEvNZ2OiEDtex+Zg5psto
+	rPqA==
+MIME-Version: 1.0
+X-Received: by 10.236.230.6 with SMTP id i6mr16781938yhq.14.1400169996933;
+	Thu, 15 May 2014 09:06:36 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.166.213 with HTTP; Thu, 15 May 2014 09:06:36 -0700 (PDT)
+In-Reply-To: <1399319125-39998-1-git-send-email-tudor.florea@enea.com>
+References: <1399319125-39998-1-git-send-email-tudor.florea@enea.com>
+Date: Thu, 15 May 2014 13:06:36 -0300
+X-Google-Sender-Auth: IsBg5h-ZuM8DIO7jLpLW4MTcJWs
+Message-ID: <CAP9ODKr2hE++mrqLiUY1+u2jVGNhTvrZBnU7peKJvXZeRDF_1A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Tudor Florea <tudor.florea@enea.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] curl: remove inapporpriate file from curl release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,45 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 15:58:41 -0000
+X-List-Received-Date: Thu, 15 May 2014 16:06:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../{libusb1-1.0.9 => libusb1}/obsolete_automake_macros.patch      | 0
- .../recipes-support/libusb/{libusb1_1.0.9.bb => libusb1_1.0.18.bb} | 7 ++-----
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-support/libusb/{libusb1-1.0.9 => libusb1}/obsolete_automake_macros.patch (100%)
- rename meta/recipes-support/libusb/{libusb1_1.0.9.bb => libusb1_1.0.18.bb} (78%)
+On Mon, May 5, 2014 at 4:45 PM, Tudor Florea <tudor.florea@enea.com> wrote:
+> This is the adaptation for the a bugfix upstream
+> The inappropriate file src/tool_hugehelp.c presence in the curl 7.36 release
+> interfered with the upstream fix for
+> https://sourceforge.net/p/curl/bugs/1350/
+>
+> Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 
-diff --git a/meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch b/meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
-similarity index 100%
-rename from meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
-rename to meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.9.bb b/meta/recipes-support/libusb/libusb1_1.0.18.bb
-similarity index 78%
-rename from meta/recipes-support/libusb/libusb1_1.0.9.bb
-rename to meta/recipes-support/libusb/libusb1_1.0.18.bb
-index d57425b..c64f1db 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.9.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.18.bb
-@@ -8,14 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--PR = "r1"
--
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
--           file://obsolete_automake_macros.patch \
-           "
- 
--SRC_URI[md5sum] = "7f5a02375ad960d4e33a6dae7d63cfcb"
--SRC_URI[sha256sum] = "e920eedc2d06b09606611c99ec7304413c6784cba6e33928e78243d323195f9b"
-+SRC_URI[md5sum] = "4a6d049923efc6496f1d383054dac1a6"
-+SRC_URI[sha256sum] = "c73f5cec45a5de94418da4e151b7232958571926984acfb9bce02b9424e83720"
- 
- S = "${WORKDIR}/libusb-${PV}"
- 
+Tested-by: Otavio Salvador <otavio@ossystems.com.br>
+
+This fixed the imx28evk build failure for me.
+
 -- 
-1.8.3.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
