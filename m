@@ -1,26 +1,41 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC7D66117
+Return-Path: <joaohf@gmail.com>
+X-Greylist: delayed 1347 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 May 2014 02:06:55 UTC
+Received: from mail-yh0-f47.google.com (unknown [209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B0CF465F99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 02:04:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4F24HSX024769
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 15 May 2014 02:06:55 +0000 (UTC)
+Received: by mail-yh0-f47.google.com with SMTP id z6so2479776yhz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 19:04:17 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 14 May 2014 19:04:16 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 May 2014 10:03:59 +0800
-Message-ID: <3b6067c51b075316fb2b810e90e1d6e63c25d84f.1400118419.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1400118419.git.rongqing.li@windriver.com>
-References: <cover.1400118419.git.rongqing.li@windriver.com>
+	Wed, 14 May 2014 19:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=q9svzb/Vav7Q3p2NGSr1oi5RIYUkRj0SDyxsD8xr+GU=;
+	b=yLBKgDaBq34kIlbHLtWzoSp3c0cE5WcX0VliunRVkiE8gkaXvNdX25DN41JPMVGVO/
+	Wsk/W1+hwKK8SSccn1sXsXytp3F4hJBsevhThlc1HzAXvhE5xOAZWYnwOEFBzRW376aB
+	Whhm8qJrZB2jNpfjsLBCarnBfXPQ75EEWT8+Y/a8dU3hkrklVTXCavhEjO54Okoa3u43
+	LqECynuEXphTbOa9nOgU1LP74akyO8pAo10FYhIs+2Of0LJ3f15B8htoPewl6riAPai1
+	DxgdAGuxFCJX5SINXFkwFfwPQe1q7Y3HVQHpnUNNq7WRVyh9wcT/fNqV5L86u2tXuHQ1
+	CmbA==
+X-Received: by 10.236.130.37 with SMTP id j25mr10610914yhi.106.1400117866082; 
+	Wed, 14 May 2014 18:37:46 -0700 (PDT)
+Received: from localhost.localdomain ([201.53.199.239])
+	by mx.google.com with ESMTPSA id k50sm576778yhc.21.2014.05.14.18.37.44
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 14 May 2014 18:37:45 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 May 2014 22:37:27 -0300
+Message-Id: <1400117848-4350-2-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
+References: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/12] Security Advisory - ffmpeg - CVE-2013-0854
+Cc: tom.zanussi@linux.intel.com
+Subject: [PATCH 1/2] wic: add support to look in all layers and get .wks file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +48,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 02:04:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 May 2014 02:06:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Yue Tao <Yue.Tao@windriver.com>
+.wks file are looked in 'scripts/lib/image/canned-wks' directory on all
+BBLAYERS variable returned by bitbake environment. If found, it will
+be used.
 
-The mjpeg_decode_scan_progressive_ac function in libavcodec/mjpegdec.c
-in FFmpeg before 1.1 allows remote attackers to have an unspecified
-impact via crafted MJPEG data.
+The user could create your own .wks and keep it inside its layers. For
+now the path must be <layer-dir>/scripts/lib/image/canned-wks.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0854
-
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
 ---
- .../0001-mjpegdec-check-SE.patch                   |   32 ++++++++++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+ scripts/lib/image/engine.py | 72 +++++++++++++++++++++++++++------------------
+ scripts/wic                 |  6 ++++
+ 2 files changed, 49 insertions(+), 29 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
-new file mode 100644
-index 0000000..2b9302f
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
-@@ -0,0 +1,32 @@
-+From 1f41cffe1e3e79620f587545bdfcbd7e6e68ed29 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Sun, 11 Nov 2012 00:01:24 +0100
-+Subject: [PATCH] mjpegdec: check SE.
-+
-+Commit 1f41cffe1e3e79620f587545bdfcbd7e6e68ed29 release/1.1
-+
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+---
-+ libavcodec/mjpegdec.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/libavcodec/mjpegdec.c b/libavcodec/mjpegdec.c
-+index 6b5266d..0a71a6f 100644
-+--- a/gst-libs/ext/libav/libavcodec/mjpegdec.c
-++++ b/gst-libs/ext/libav/libavcodec/mjpegdec.c
-+@@ -905,6 +905,11 @@ static int mjpeg_decode_scan_progressive
-+     int16_t *quant_matrix = s->quant_matrixes[ s->quant_index[c] ];
-+     GetBitContext mb_bitmask_gb;
-+ 
-++    if (se > 63) {
-++        av_log(s->avctx, AV_LOG_ERROR, "SE %d is too large\n", se);
-++        return AVERROR_INVALIDDATA;
-++    }
-++
-+     if (mb_bitmask) {
-+         init_get_bits(&mb_bitmask_gb, mb_bitmask, s->mb_width*s->mb_height);
-+     }
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 0d0ba9a..28ea29e 100644
---- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch \
-            file://0001-atrac3dec-Check-coding-mode-against-channels.patch \
-            file://0001-eamad-fix-out-of-array-accesses.patch \
-+           file://0001-mjpegdec-check-SE.patch \
- "
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index 311737a..3bda1bf 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -90,6 +90,20 @@ def find_artifacts(image_name):
  
- SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
+ 
+ CANNED_IMAGE_DIR = "lib/image/canned-wks" # relative to scripts
++SCRIPTS_CANNED_IMAGE_DIR = "scripts/" + CANNED_IMAGE_DIR
++
++def build_canned_image_list(dl):
++    layers_path = get_bitbake_var("BBLAYERS")
++    canned_wks_layer_dirs = []
++
++    for layer_path in layers_path.split():
++        path = os.path.join(layer_path, SCRIPTS_CANNED_IMAGE_DIR)
++        canned_wks_layer_dirs.append(path)
++
++    path = os.path.join(dl, CANNED_IMAGE_DIR)
++    canned_wks_layer_dirs.append(path)
++
++    return canned_wks_layer_dirs
+ 
+ def find_canned_image(scripts_path, wks_file):
+     """
+@@ -97,15 +111,16 @@ def find_canned_image(scripts_path, wks_file):
+ 
+     Return False if not found
+     """
+-    canned_wks_dir = os.path.join(scripts_path, CANNED_IMAGE_DIR)
+-
+-    for root, dirs, files in os.walk(canned_wks_dir):
+-        for file in files:
+-            if file.endswith("~") or file.endswith("#"):
+-                continue
+-            if file.endswith(".wks") and wks_file + ".wks" == file:
+-                fullpath = os.path.join(canned_wks_dir, file)
+-                return fullpath
++    layers_canned_wks_dir = build_canned_image_list(scripts_path)
++
++    for canned_wks_dir in layers_canned_wks_dir:
++        for root, dirs, files in os.walk(canned_wks_dir):
++            for file in files:
++                if file.endswith("~") or file.endswith("#"):
++                    continue
++                if file.endswith(".wks") and wks_file + ".wks" == file:
++                    fullpath = os.path.join(canned_wks_dir, file)
++                    return fullpath
+     return None
+ 
+ 
+@@ -113,32 +128,31 @@ def list_canned_images(scripts_path):
+     """
+     List the .wks files in the canned image dir, minus the extension.
+     """
+-    canned_wks_dir = os.path.join(scripts_path, CANNED_IMAGE_DIR)
+-
+-    for root, dirs, files in os.walk(canned_wks_dir):
+-        for file in files:
+-            if file.endswith("~") or file.endswith("#"):
+-                continue
+-            if file.endswith(".wks"):
+-                fullpath = os.path.join(canned_wks_dir, file)
+-                f = open(fullpath, "r")
+-                lines = f.readlines()
+-                for line in lines:
+-                    desc = ""
+-                    idx = line.find("short-description:")
+-                    if idx != -1:
+-                        desc = line[idx + len("short-description:"):].strip()
+-                        break
+-                basename = os.path.splitext(file)[0]
+-                print "  %s\t\t%s" % (basename, desc)
++    layers_canned_wks_dir = build_canned_image_list(scripts_path)
++
++    for canned_wks_dir in layers_canned_wks_dir:
++        for root, dirs, files in os.walk(canned_wks_dir):
++            for file in files:
++                if file.endswith("~") or file.endswith("#"):
++                    continue
++                if file.endswith(".wks"):
++                    fullpath = os.path.join(canned_wks_dir, file)
++                    f = open(fullpath, "r")
++                    lines = f.readlines()
++                    for line in lines:
++                        desc = ""
++                        idx = line.find("short-description:")
++                        if idx != -1:
++                            desc = line[idx + len("short-description:"):].strip()
++                            break
++                    basename = os.path.splitext(file)[0]
++                    print "  %s\t\t%s" % (basename.ljust(30), desc)
+ 
+ 
+ def list_canned_image_help(scripts_path, fullpath):
+     """
+     List the help and params in the specified canned image.
+     """
+-    canned_wks_dir = os.path.join(scripts_path, CANNED_IMAGE_DIR)
+-
+     f = open(fullpath, "r")
+     lines = f.readlines()
+     found = False
+diff --git a/scripts/wic b/scripts/wic
+index 4423340..2d3fd09 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -214,6 +214,12 @@ def wic_list_subcommand(args, usage_str):
+ 
+     (options, args) = parser.parse_args(args)
+ 
++    bitbake_env_lines = find_bitbake_env_lines(None)
++    if not bitbake_env_lines:
++        print "Couldn't get bitbake environment, exiting."
++        sys.exit(1)
++    set_bitbake_env_lines(bitbake_env_lines)
++
+     if not wic_list(args, scripts_path, options.properties_file):
+         logging.error("Bad list arguments, exiting\n")
+         parser.print_help()
 -- 
-1.7.10.4
+1.8.3.2
 
 
