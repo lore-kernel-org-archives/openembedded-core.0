@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 477116969A
+	by mail.openembedded.org (Postfix) with ESMTP id 77B0065D0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 02:04:06 +0000 (UTC)
+	Thu, 15 May 2014 02:04:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4F248AD024760
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4F24BgN024763
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 19:04:08 -0700 (PDT)
+	Wed, 14 May 2014 19:04:11 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 14 May 2014 19:04:07 -0700
+	14.3.169.1; Wed, 14 May 2014 19:04:10 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 May 2014 10:03:53 +0800
-Message-ID: <34e07b16aaa02184126d95942d778292ec07377e.1400118419.git.rongqing.li@windriver.com>
+Date: Thu, 15 May 2014 10:03:55 +0800
+Message-ID: <594f6cb9dd40800e643404edb8e2edbf57698330.1400118419.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1400118419.git.rongqing.li@windriver.com>
 References: <cover.1400118419.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/12] Security Advisory - ffmpeg - CVE-2014-2099
+Subject: [PATCH 05/12] Security Advisory - ffmpeg - CVE-2013-0845
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,85 +38,96 @@ Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-The msrle_decode_frame function in libavcodec/msrle.c in FFmpeg before
-2.1.4 does not properly calculate line sizes, which allows remote
-attackers to cause a denial of service (out-of-bounds array access) or
-possibly have unspecified other impact via crafted Microsoft RLE video
-data.
+libavcodec/alsdec.c in FFmpeg before 1.0.4 allows remote attackers to
+have an unspecified impact via a crafted block length, which triggers an
+out-of-bounds write.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2099
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0845
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- ...le-use-av_image_get_linesize-to-calculate.patch |   48 ++++++++++++++++++++
+ .../0001-alsdec-check-block-length.patch           |   61 ++++++++++++++++++++
  .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
 new file mode 100644
-index 0000000..1d5bba4
+index 0000000..bac1fde
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
-@@ -0,0 +1,48 @@
-+From 573d5fdedae72bf59d8c0b0766fdee171063d36f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
+@@ -0,0 +1,61 @@
++From 6df0d3e2916c223dbe4262bf1b876dff1cb3f980 Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Sun, 16 Feb 2014 23:08:52 +0100
-+Subject: [PATCH] avcodec/msrle: use av_image_get_linesize() to calculate the
-+ linesize
++Date: Wed, 12 Dec 2012 12:28:45 +0100
++Subject: [PATCH] alsdec: check block length
 +
-+Commit 573d5fdedae72bf59d8c0b0766fdee171063d36f release/0.9
++Commit 6df0d3e2916c223dbe4262bf1b876dff1cb3f980 release/1.0
 +
-+Fixes out of array access
-+Fixes: 14a74a0a2dc67ede543f0e35d834fbbe-asan_heap-oob_49572c_556_cov_215466444_44_001_engine_room.mov
++Fix writing over the end
++
 +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit c919e1ca2ecfc47d796382973ba0e48b8f6f92a2)
-+
-+Conflicts:
-+
-+	libavcodec/msrle.c
-+(cherry picked from commit bc1c8ec5e65098fd2ccd8456f667151dfc9cda42)
++(cherry picked from commit 0ceca269b66ec12a23bf0907bd2c220513cdbf16)
 +
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
 +---
-+ libavcodec/msrle.c |    3 ++-
-+ 1 files changed, 2 insertions(+), 1 deletions(-)
++ libavcodec/alsdec.c | 10 ++++++++--
++ 1 file changed, 8 insertions(+), 2 deletions(-)
 +
-+diff --git a/libavcodec/msrle.c b/libavcodec/msrle.c
-+index 30159bb..c39ae7b 100644
-+--- a/gst-libs/ext/libav/libavcodec/msrle.c
-++++ b/gst-libs/ext/libav/libavcodec/msrle.c
-+@@ -35,6 +35,7 @@
-+ #include "avcodec.h"
-+ #include "dsputil.h"
-+ #include "msrledec.h"
-++#include "libavutil/imgutils.h"
++diff --git a/libavcodec/alsdec.c b/libavcodec/alsdec.c
++index 46dd0b4..1095b01 100644
++--- a/gst-libs/ext/libav/libavcodec/alsdec.c
+++++ b/gst-libs/ext/libav/libavcodec/alsdec.c
++@@ -552,12 +552,15 @@ static void get_block_sizes(ALSDecContext *ctx, unsigned int *div_blocks,
 + 
-+ typedef struct MsrleContext {
-+     AVCodecContext *avctx;
-+@@ -107,7 +108,7 @@ static int msrle_decode_frame(AVCodecContext *avctx,
++ /** Read the block data for a constant block
++  */
++-static void read_const_block_data(ALSDecContext *ctx, ALSBlockData *bd)
+++static int read_const_block_data(ALSDecContext *ctx, ALSBlockData *bd)
++ {
++     ALSSpecificConfig *sconf = &ctx->sconf;
++     AVCodecContext *avctx    = ctx->avctx;
++     GetBitContext *gb        = &ctx->gb;
 + 
-+     /* FIXME how to correctly detect RLE ??? */
-+     if (avctx->height * istride == avpkt->size) { /* assume uncompressed */
-+-        int linesize = avctx->width * avctx->bits_per_coded_sample / 8;
-++        int linesize = av_image_get_linesize(avctx->pix_fmt, avctx->width, 0);
-+         uint8_t *ptr = s->frame.data[0];
-+         uint8_t *buf = avpkt->data + (avctx->height-1)*istride;
-+         int i, j;
+++    if (bd->block_length <= 0)
+++        return -1;
+++
++     *bd->raw_samples = 0;
++     *bd->const_block = get_bits1(gb);    // 1 = constant value, 0 = zero block (silence)
++     bd->js_blocks    = get_bits1(gb);
++@@ -572,6 +575,8 @@ static void read_const_block_data(ALSDecContext *ctx, ALSBlockData *bd)
++ 
++     // ensure constant block decoding by reusing this field
++     *bd->const_block = 1;
+++
+++    return 0;
++ }
++ 
++ 
++@@ -971,7 +976,8 @@ static int read_block(ALSDecContext *ctx, ALSBlockData *bd)
++         if (read_var_block_data(ctx, bd))
++             return -1;
++     } else {
++-        read_const_block_data(ctx, bd);
+++        if (read_const_block_data(ctx, bd) < 0)
+++            return -1;
++     }
++ 
++     return 0;
 +-- 
-+1.7.5.4
++1.8.5.2.233.g932f7e4
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 3d1f207..05cc404 100644
+index 847b927..430bcc7 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://gst-ffmpeg-CVE-2013-3674.patch \
-            file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
-            file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
-+           file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
+@@ -28,6 +28,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
+            file://0001-huffyuvdec-Skip-len-0-cases.patch \
+            file://0001-huffyuvdec-Check-init_vlc-return-codes.patch \
++           file://0001-alsdec-check-block-length.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
