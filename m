@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A4D466120
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 484AA6A359
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 02:04:08 +0000 (UTC)
+	Thu, 15 May 2014 02:04:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F249x5016382
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4F245Zp024757
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 19:04:09 -0700 (PDT)
+	Wed, 14 May 2014 19:04:05 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 14 May 2014 19:04:09 -0700
+	14.3.169.1; Wed, 14 May 2014 19:04:04 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 May 2014 10:03:54 +0800
-Message-ID: <17da1aaf6bb99a8e127c420a6122afb0e2495ab5.1400118419.git.rongqing.li@windriver.com>
+Date: Thu, 15 May 2014 10:03:51 +0800
+Message-ID: <98a143164c6ea5690ab55288e0cedc3330e5a639.1400118419.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1400118419.git.rongqing.li@windriver.com>
 References: <cover.1400118419.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/12] Security Advisory - ffmpeg - CVE-2013-0868
+Subject: [PATCH 01/12] Security Advisory - ffmpeg - CVE-2014-2263
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,191 +38,103 @@ Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-libavcodec/huffyuvdec.c in FFmpeg before 1.1.2 allows remote attackers
-to have an unspecified impact via crafted Huffyuv data, related to an
-out-of-bounds write and (1) unchecked return codes from the init_vlc
-function and (2) len==0 cases.
+The mpegts_write_pmt function in the MPEG2 transport stream (aka DVB)
+muxer (libavformat/mpegtsenc.c) in FFmpeg, possibly 2.1 and earlier,
+allows remote attackers to have unspecified impact and vectors, which
+trigger an out-of-bounds write.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0868
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2263
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 ++++++++++++++++++++
- .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |    2 +
- 3 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+ ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   67 ++++++++++++++++++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
 new file mode 100644
-index 0000000..e26165b
+index 0000000..0e00355
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
-@@ -0,0 +1,87 @@
-+From b666debffec1fcbb19ef377635a53b9a58bca8a4 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+@@ -0,0 +1,67 @@
++From 12770701856a05b6b3cd706f708f8e9a4e8a1336 Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Tue, 29 Jan 2013 18:29:41 +0100
-+Subject: [PATCH] huffyuvdec: Check init_vlc() return codes.
++Date: Thu, 13 Feb 2014 13:59:51 +0100
++Subject: [PATCH] avformat/mpegtsenc: Check data array size in
++ mpegts_write_pmt()
 +
-+Commit b666debffec1fcbb19ef377635a53b9a58bca8a4 release/1.0
++COmmit 12770701856a05b6b3cd706f708f8e9a4e8a1336 release/0.11
 +
 +Prevents out of array writes
 +
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit f67a0d115254461649470452058fa3c28c0df294)
++(cherry picked from commit 842b6c14bcfc1c5da1a2d288fd65386eb8c158ad)
++
++Conflicts:
++
++	libavformat/mpegtsenc.c
++(cherry picked from commit e87de3f50b765134588d0b048c32ed4b8acc16fb)
 +
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
 +---
-+ libavcodec/huffyuv.c | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
++ libavformat/mpegtsenc.c |    9 +++++++--
++ 1 files changed, 7 insertions(+), 2 deletions(-)
 +
-+diff --git a/libavcodec/huffyuv.c b/libavcodec/huffyuv.c
-+index 58da789..993e524 100644
-+--- a/gst-libs/ext/libav/libavcodec/huffyuv.c
-++++ b/gst-libs/ext/libav/libavcodec/huffyuv.c
-+@@ -33,6 +33,7 @@
-+ #include "put_bits.h"
-+ #include "dsputil.h"
-+ #include "thread.h"
-++#include "libavutil/avassert.h"
++diff --git a/libavformat/mpegtsenc.c b/libavformat/mpegtsenc.c
++index 793e205..a12d19f 100644
++--- a/gst-libs/ext/libav/libavformat/mpegtsenc.c
+++++ b/gst-libs/ext/libav/libavformat/mpegtsenc.c
++@@ -240,7 +240,7 @@ static void mpegts_write_pat(AVFormatContext *s)
++                           data, q - data);
++ }
 + 
-+ #define VLC_BITS 11
-+ 
-+@@ -287,6 +287,7 @@ static void generate_joint_tables(HYuvCo
-+                     int len1 = s->len[p][u];
-+                     if (len1 > limit || !len1)
-+                         continue;
-++                    av_assert0(i < (1 << VLC_BITS));
-+                     len[i] = len0 + len1;
-+                     bits[i] = (s->bits[0][y] << len1) + s->bits[p][u];
-+                     symbols[i] = (y<<8) + u;
-+@@ -320,6 +321,7 @@ static void generate_joint_tables(HYuvCo
-+                     int len2 = s->len[2][r&255];
-+                     if (len2 > limit1 || !len2)
-+                         continue;
-++                    av_assert0(i < (1 << VLC_BITS));
-+                     len[i] = len0 + len1 + len2;
-+                     bits[i] = (code << len2) + s->bits[2][r&255];
-+                     if(s->decorrelate){
-+@@ -343,6 +345,7 @@ static void generate_joint_tables(HYuvCo
-+ static int read_huffman_tables(HYuvContext *s, const uint8_t *src, int length){
-+     GetBitContext gb;
-+     int i;
-++    int ret;
-+ 
-+     init_get_bits(&gb, src, length*8);
-+ 
-+@@ -353,7 +356,9 @@ static int read_huffman_tables(HYuvConte
-+             return -1;
++-static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
+++static int mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++ {
++     //    MpegTSWrite *ts = s->priv_data;
++     uint8_t data[1012], *q, *desc_length_ptr, *program_info_length_ptr;
++@@ -293,6 +293,10 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++             stream_type = STREAM_TYPE_PRIVATE_DATA;
++             break;
 +         }
-+         free_vlc(&s->vlc[i]);
-+-        init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1, s->bits[i], 4, 4, 0);
-++        if ((ret = init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1,
-++                           s->bits[i], 4, 4, 0)) < 0)
-++            return ret;
+++
+++        if (q - data > sizeof(data) - 32)
+++            return AVERROR(EINVAL);
+++
++         *q++ = stream_type;
++         put16(&q, 0xe000 | ts_st->pid);
++         desc_length_ptr = q;
++@@ -324,7 +328,7 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++                 len_ptr = q++;
++                 *len_ptr = 0;
++ 
++-                for (p = lang->value; next && *len_ptr < 255 / 4 * 4; p = next + 1) {
+++                for (p = lang->value; next && *len_ptr < 255 / 4 * 4 && q - data < sizeof(data) - 4; p = next + 1) {
++                     next = strchr(p, ',');
++                     if (strlen(p) != 3 && (!next || next != p + 3))
++                         continue; /* not a 3-letter code */
++@@ -386,6 +390,7 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
 +     }
++     mpegts_write_section1(&service->pmt, PMT_TID, service->sid, 0, 0, 0,
++                           data, q - data);
+++    return 0;
++ }
 + 
-+     generate_joint_tables(s);
-+@@ -365,6 +370,7 @@ static int read_old_huffman_tables(HYuvC
-+ #if 1
-+     GetBitContext gb;
-+     int i;
-++    int ret;
-+ 
-+     init_get_bits(&gb, classic_shift_luma, sizeof(classic_shift_luma)*8);
-+     if(read_len_table(s->len[0], &gb)<0)
-+@@ -385,7 +391,9 @@ static int read_old_huffman_tables(HYuvC
-+ 
-+     for(i=0; i<3; i++){
-+         free_vlc(&s->vlc[i]);
-+-        init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1, s->bits[i], 4, 4, 0);
-++        if ((ret = init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1,
-++                            s->bits[i], 4, 4, 0)) < 0)
-++            return ret;
-+     }
-+ 
-+     generate_joint_tables(s);
++ /* NOTE: str == NULL is accepted for an empty string */
 +-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
-new file mode 100644
-index 0000000..68bc966
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
-@@ -0,0 +1,59 @@
-+From db0f7f7394e1f994ed38db043f78ed0f10bde0da Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Tue, 29 Jan 2013 19:22:33 +0100
-+Subject: [PATCH] huffyuvdec: Skip len==0 cases
-+
-+Commit db0f7f7394e1f994ed38db043f78ed0f10bde0da release/1.0
-+
-+Fixes vlc decoding for hypothetical files that would contain such cases.
-+
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit 0dfc01c2bbf4b71bb56201bc4a393321e15d1b31)
-+
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+---
-+ libavcodec/huffyuv.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/libavcodec/huffyuv.c b/libavcodec/huffyuv.c
-+index 993e524..72ed351 100644
-+--- a/gst-libs/ext/libav/libavcodec/huffyuv.c
-++++ b/gst-libs/ext/libav/libavcodec/huffyuv.c
-+@@ -281,11 +281,11 @@ static void generate_joint_tables(HYuvCo
-+             for(i=y=0; y<256; y++){
-+                 int len0 = s->len[0][y];
-+                 int limit = VLC_BITS - len0;
-+-                if(limit <= 0)
-++                if(limit <= 0 || !len0)
-+                     continue;
-+                 for(u=0; u<256; u++){
-+                     int len1 = s->len[p][u];
-+-                    if(len1 > limit)
-++                    if (len1 > limit || !len1)
-+                         continue;
-+                     len[i] = len0 + len1;
-+                     bits[i] = (s->bits[0][y] << len1) + s->bits[p][u];
-+@@ -308,17 +308,17 @@ static void generate_joint_tables(HYuvCo
-+         for(i=0, g=-16; g<16; g++){
-+             int len0 = s->len[p0][g&255];
-+             int limit0 = VLC_BITS - len0;
-+-            if(limit0 < 2)
-++            if (limit0 < 2 || !len0)
-+                 continue;
-+             for(b=-16; b<16; b++){
-+                 int len1 = s->len[p1][b&255];
-+                 int limit1 = limit0 - len1;
-+-                if(limit1 < 1)
-++                if (limit1 < 1 || !len1)
-+                     continue;
-+                 code = (s->bits[p0][g&255] << len1) + s->bits[p1][b&255];
-+                 for(r=-16; r<16; r++){
-+                     int len2 = s->len[2][r&255];
-+-                    if(len2 > limit1)
-++                    if (len2 > limit1 || !len2)
-+                         continue;
-+                     len[i] = len0 + len1 + len2;
-+                     bits[i] = (code << len2) + s->bits[2][r&255];
-+-- 
-+1.8.5.2.233.g932f7e4
++1.7.5.4
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 05cc404..847b927 100644
+index e1257a2..4913539 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -26,6 +26,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
-            file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
-            file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
-+           file://0001-huffyuvdec-Skip-len-0-cases.patch \
-+           file://0001-huffyuvdec-Check-init_vlc-return-codes.patch \
+@@ -23,6 +23,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libav_e500mc.patch \
+            file://libav_e5500.patch \
+            file://gst-ffmpeg-CVE-2013-3674.patch \
++           file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
