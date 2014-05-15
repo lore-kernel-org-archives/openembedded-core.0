@@ -1,37 +1,26 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yk0-f174.google.com (unknown [209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4952D6098B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3940366117
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 01:45:20 +0000 (UTC)
-Received: by mail-yk0-f174.google.com with SMTP id 9so349390ykp.5
+	Thu, 15 May 2014 02:04:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F246Yi016379
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 18:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=ClP+CzyOPATMH0yrYdxpetUsJdFsZD1YkoS01zIjE8E=;
-	b=hp2Gq1fMN5MSLvrfY3I80yDGGhOy79kz1g9jdJRYCcgdg9Y3nA9bOOGPEIIFi1py9+
-	NbiFtua0bWNAWzOy85YuCw8SO7oWVaIvnYuj+R/Y9+HAcMHHBobyO+oCxpirYiDS3yda
-	VuWfv1g0EtoLCioUVBQDJW6f40CkCRyB6wU6+EJUO5tfH5+WpSH239R96tmudQAyRNJO
-	h9a4ho+Uw6ItpoaBDcbd1QsqaLO4SUednDCLTzWtOmWjWkzj7BWynJpgCczwF00Z6mMC
-	z7oi+t/uxpkbkzlc3fP521+OhztMWDpn/JWUHq3tWzCgAjop5I2J5ohXec4EIHGo+jvW
-	8bAw==
-X-Received: by 10.236.93.195 with SMTP id l43mr10919751yhf.40.1400117863042;
-	Wed, 14 May 2014 18:37:43 -0700 (PDT)
-Received: from localhost.localdomain ([201.53.199.239])
-	by mx.google.com with ESMTPSA id k50sm576778yhc.21.2014.05.14.18.37.39
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 May 2014 18:37:42 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
-	<joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 22:37:26 -0300
-Message-Id: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
+	Wed, 14 May 2014 19:04:06 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 14 May 2014 19:04:06 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 May 2014 10:03:52 +0800
+Message-ID: <5e5444710c6e70799ec5454332e3fffbc743ebc2.1400118419.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1400118419.git.rongqing.li@windriver.com>
+References: <cover.1400118419.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Cc: tom.zanussi@linux.intel.com
-Subject: [PATCH 0/2] wic: looking by plugins and .wks file in all layers
+Subject: [PATCH 02/12] Security Advisory - ffmpeg - CVE-2013-0865
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,65 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 01:45:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 May 2014 02:04:09 -0000
+Content-Type: text/plain
 
-Hi,
+From: Yue Tao <Yue.Tao@windriver.com>
 
-This introduces a little wic usability enhanced. Now wic has the
-ability to search in all layers looking by .wks files and plugins.
+The vqa_decode_chunk function in libavcodec/vqavideo.c in FFmpeg before
+1.0.4 and 1.1.x before 1.1.2 allows remote attackers to have an
+unspecified impact via a large (1) cbp0 or (2) cbpz chunk in Westwood
+Studios VQA Video file, which triggers an out-of-bounds write.
 
-The aim is to provide the layers a way to keep .wks and plugins that
-they use. Without this patch the user need to inform the full path of .wks, or put it
-in scripts directory. Or, in case of plugins, only putting in scripts directory.
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0865
 
-Example:
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...o-check-chunk-sizes-before-reading-chunks.patch |   49 ++++++++++++++++++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
 
-In .wks case, inside my custom layer I have the following files: 
-
-scripts/lib/image/canned-wks/
- otns-directdisk-devel.wks
- otns-directdisk.wks
- otns-directsdcard-devel.wks
- otns-directsdcard.wks
- otns-nobml-directdisk-devel.wks
- otns-nobml-directsdcard-devel.wks
-
-So, I do:
-
- $ wic list images
-  otns-directdisk-devel                         Create a 'pcbios' direct disk image
-  otns-directdisk                               Create a 'pcbios' direct disk image
-  otns-nobml-directdisk-devel                   Create a 'pcbios' direct disk image
-  otns-nobml-directsdcard-devel                 Create a 'pcbios' direct disk image
-  otns-directsdcard                             Create a 'pcbios' direct disk image
-  otns-directsdcard-devel                       Create a 'pcbios' direct disk image
-  mkefidisk                                     Create an EFI disk image
-  directdisk                                    Create a 'pcbios' direct disk image
-
-And to plugins case, in another layer, I have:
-
-scripts/lib/mic/plugins/source/
- bootimg-pcbios-myplugin.py
-
-
-To sum up, this enhanced wic because users could keep .wks and plugins inside their own layers.
-
-I don't know if using the 'scripts/lib/' is the best to keep files in layers. Any suggestion?
-
-Thanks.
-
-João Henrique Ferreira de Freitas (2):
-  wic: add support to look in all layers and get .wks file
-  wic: add support to look in all layers and get plugins
-
- scripts/lib/image/engine.py | 72 +++++++++++++++++++++++++++------------------
- scripts/lib/mic/plugin.py   | 28 ++++++++++++++----
- scripts/wic                 |  6 ++++
- 3 files changed, 72 insertions(+), 34 deletions(-)
-
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
+new file mode 100644
+index 0000000..c4002d5
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
+@@ -0,0 +1,49 @@
++From 2cac35086c9e103fa98960c546d5017e7363803a Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michaelni@gmx.at>
++Date: Fri, 25 Jan 2013 06:11:59 +0100
++Subject: [PATCH] vqavideo: check chunk sizes before reading chunks
++
++Commit 2cac35086c9e103fa98960c546d5017e7363803a release/0.7
++
++Fixes out of array writes
++
++Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
++Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++(cherry picked from commit ab6c9332bfa1e20127a16392a0b85a4aa4840889)
++
++Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++---
++ libavcodec/vqavideo.c |   10 ++++++++++
++ 1 files changed, 10 insertions(+), 0 deletions(-)
++
++diff --git a/libavcodec/vqavideo.c b/libavcodec/vqavideo.c
++index d1eab5b..6e1ce6c 100644
++--- a/gst-libs/ext/libav/libavcodec/vqavideo.c
+++++ b/gst-libs/ext/libav/libavcodec/vqavideo.c
++@@ -527,6 +527,11 @@ static void vqa_decode_chunk(VqaContext *s)
++         chunk_size = AV_RB32(&s->buf[cbp0_chunk + 4]);
++         cbp0_chunk += CHUNK_PREAMBLE_SIZE;
++ 
+++        if (chunk_size > MAX_CODEBOOK_SIZE - s->next_codebook_buffer_index) {
+++            av_log(s->avctx, AV_LOG_ERROR, "cbp0 chunk too large (0x%X bytes)\n", chunk_size);
+++            return AVERROR_INVALIDDATA;
+++        }
+++
++         /* accumulate partial codebook */
++         memcpy(&s->next_codebook_buffer[s->next_codebook_buffer_index],
++             &s->buf[cbp0_chunk], chunk_size);
++@@ -550,6 +555,11 @@ static void vqa_decode_chunk(VqaContext *s)
++         chunk_size = AV_RB32(&s->buf[cbpz_chunk + 4]);
++         cbpz_chunk += CHUNK_PREAMBLE_SIZE;
++ 
+++        if (chunk_size > MAX_CODEBOOK_SIZE - s->next_codebook_buffer_index) {
+++            av_log(s->avctx, AV_LOG_ERROR, "cbpz chunk too large (0x%X bytes)\n", chunk_size);
+++            return AVERROR_INVALIDDATA;
+++        }
+++
++         /* accumulate partial codebook */
++         memcpy(&s->next_codebook_buffer[s->next_codebook_buffer_index],
++             &s->buf[cbpz_chunk], chunk_size);
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+index 4913539..3d1f207 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libav_e5500.patch \
+            file://gst-ffmpeg-CVE-2013-3674.patch \
+            file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
++           file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
+ "
+ 
+ SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
 -- 
-1.8.3.2
+1.7.10.4
 
 
