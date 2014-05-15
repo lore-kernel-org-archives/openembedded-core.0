@@ -1,41 +1,30 @@
-Return-Path: <joaohf@gmail.com>
-X-Greylist: delayed 1347 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 15 May 2014 02:06:55 UTC
-Received: from mail-yh0-f47.google.com (unknown [209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B0CF465F99
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 88D9A660E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 02:06:55 +0000 (UTC)
-Received: by mail-yh0-f47.google.com with SMTP id z6so2479776yhz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 19:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=q9svzb/Vav7Q3p2NGSr1oi5RIYUkRj0SDyxsD8xr+GU=;
-	b=yLBKgDaBq34kIlbHLtWzoSp3c0cE5WcX0VliunRVkiE8gkaXvNdX25DN41JPMVGVO/
-	Wsk/W1+hwKK8SSccn1sXsXytp3F4hJBsevhThlc1HzAXvhE5xOAZWYnwOEFBzRW376aB
-	Whhm8qJrZB2jNpfjsLBCarnBfXPQ75EEWT8+Y/a8dU3hkrklVTXCavhEjO54Okoa3u43
-	LqECynuEXphTbOa9nOgU1LP74akyO8pAo10FYhIs+2Of0LJ3f15B8htoPewl6riAPai1
-	DxgdAGuxFCJX5SINXFkwFfwPQe1q7Y3HVQHpnUNNq7WRVyh9wcT/fNqV5L86u2tXuHQ1
-	CmbA==
-X-Received: by 10.236.130.37 with SMTP id j25mr10610914yhi.106.1400117866082; 
-	Wed, 14 May 2014 18:37:46 -0700 (PDT)
-Received: from localhost.localdomain ([201.53.199.239])
-	by mx.google.com with ESMTPSA id k50sm576778yhc.21.2014.05.14.18.37.44
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 May 2014 18:37:45 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
-	<joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 May 2014 22:37:27 -0300
-Message-Id: <1400117848-4350-2-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
-References: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
+	Thu, 15 May 2014 02:32:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F2Wn46018495
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 14 May 2014 19:32:49 -0700 (PDT)
+Received: from [128.224.162.182] (128.224.162.182) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Wed, 14 May 2014 19:32:49 -0700
+Message-ID: <5374273C.1040603@windriver.com>
+Date: Thu, 15 May 2014 10:32:28 +0800
+From: Wenlin Kang <wenlin.kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Cc: tom.zanussi@linux.intel.com
-Subject: [PATCH 1/2] wic: add support to look in all layers and get .wks file
+To: Christopher Larson <clarson@kergoth.com>
+References: <1400059849-7711-1-git-send-email-wenlin.kang@windriver.com>
+	<CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com>
+In-Reply-To: <CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com>
+X-Originating-IP: [128.224.162.182]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools.bbclass: fixed bash build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,144 +37,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 02:06:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 May 2014 02:32:56 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050509080309010700020400"
+
+--------------050509080309010700020400
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-.wks file are looked in 'scripts/lib/image/canned-wks' directory on all
-BBLAYERS variable returned by bitbake environment. If found, it will
-be used.
+On 2014年05月15日 01:45, Christopher Larson wrote:
+>
+> On Wed, May 14, 2014 at 2:30 AM, Wenlin Kang 
+> <wenlin.kang@windriver.com <mailto:wenlin.kang@windriver.com>> wrote:
+>
+>     When build bash, a error occurs, the cause is that autotools uses
+>     improper Makefile.in.in <http://Makefile.in.in> which is from
+>     path/gettext/po/ but not bash
+>     itself in bash/po/,so to avoid some error to occur, we should use
+>     package itself Makefile.in.in <http://Makefile.in.in> file if it has.
+>
+>     Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com
+>     <mailto:wenlin.kang@windriver.com>>
+>
+>
+> This will cause breakage when the shipped Makefile.in.in 
+> <http://Makefile.in.in> gettext version mismatches with the 
+> gettext-native/gettext we built.
 
-The user could create your own .wks and keep it inside its layers. For
-now the path must be <layer-dir>/scripts/lib/image/canned-wks.
+     but if we directly use gettext-native/gettext/Makefile.in.in just 
+as now,  for bash, it do occur some problem,  can't  get correct value 
+of PACKAGE, VERSION due to use incorrect  variable name(the right should 
+is PACKAGE_NAME, PACKAGE_VERSION) , can't get BUILD_DIR, and  can't get 
+po-directories(it indeed isn't exist) in bash/po/Makefile.
+these all can trigger a build error in bash/po ,  so, whether we can 
+have a much well solution for it, can you have some good advices, thanks?
+> -- 
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
 
-Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
----
- scripts/lib/image/engine.py | 72 +++++++++++++++++++++++++++------------------
- scripts/wic                 |  6 ++++
- 2 files changed, 49 insertions(+), 29 deletions(-)
 
-diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
-index 311737a..3bda1bf 100644
---- a/scripts/lib/image/engine.py
-+++ b/scripts/lib/image/engine.py
-@@ -90,6 +90,20 @@ def find_artifacts(image_name):
- 
- 
- CANNED_IMAGE_DIR = "lib/image/canned-wks" # relative to scripts
-+SCRIPTS_CANNED_IMAGE_DIR = "scripts/" + CANNED_IMAGE_DIR
-+
-+def build_canned_image_list(dl):
-+    layers_path = get_bitbake_var("BBLAYERS")
-+    canned_wks_layer_dirs = []
-+
-+    for layer_path in layers_path.split():
-+        path = os.path.join(layer_path, SCRIPTS_CANNED_IMAGE_DIR)
-+        canned_wks_layer_dirs.append(path)
-+
-+    path = os.path.join(dl, CANNED_IMAGE_DIR)
-+    canned_wks_layer_dirs.append(path)
-+
-+    return canned_wks_layer_dirs
- 
- def find_canned_image(scripts_path, wks_file):
-     """
-@@ -97,15 +111,16 @@ def find_canned_image(scripts_path, wks_file):
- 
-     Return False if not found
-     """
--    canned_wks_dir = os.path.join(scripts_path, CANNED_IMAGE_DIR)
--
--    for root, dirs, files in os.walk(canned_wks_dir):
--        for file in files:
--            if file.endswith("~") or file.endswith("#"):
--                continue
--            if file.endswith(".wks") and wks_file + ".wks" == file:
--                fullpath = os.path.join(canned_wks_dir, file)
--                return fullpath
-+    layers_canned_wks_dir = build_canned_image_list(scripts_path)
-+
-+    for canned_wks_dir in layers_canned_wks_dir:
-+        for root, dirs, files in os.walk(canned_wks_dir):
-+            for file in files:
-+                if file.endswith("~") or file.endswith("#"):
-+                    continue
-+                if file.endswith(".wks") and wks_file + ".wks" == file:
-+                    fullpath = os.path.join(canned_wks_dir, file)
-+                    return fullpath
-     return None
- 
- 
-@@ -113,32 +128,31 @@ def list_canned_images(scripts_path):
-     """
-     List the .wks files in the canned image dir, minus the extension.
-     """
--    canned_wks_dir = os.path.join(scripts_path, CANNED_IMAGE_DIR)
--
--    for root, dirs, files in os.walk(canned_wks_dir):
--        for file in files:
--            if file.endswith("~") or file.endswith("#"):
--                continue
--            if file.endswith(".wks"):
--                fullpath = os.path.join(canned_wks_dir, file)
--                f = open(fullpath, "r")
--                lines = f.readlines()
--                for line in lines:
--                    desc = ""
--                    idx = line.find("short-description:")
--                    if idx != -1:
--                        desc = line[idx + len("short-description:"):].strip()
--                        break
--                basename = os.path.splitext(file)[0]
--                print "  %s\t\t%s" % (basename, desc)
-+    layers_canned_wks_dir = build_canned_image_list(scripts_path)
-+
-+    for canned_wks_dir in layers_canned_wks_dir:
-+        for root, dirs, files in os.walk(canned_wks_dir):
-+            for file in files:
-+                if file.endswith("~") or file.endswith("#"):
-+                    continue
-+                if file.endswith(".wks"):
-+                    fullpath = os.path.join(canned_wks_dir, file)
-+                    f = open(fullpath, "r")
-+                    lines = f.readlines()
-+                    for line in lines:
-+                        desc = ""
-+                        idx = line.find("short-description:")
-+                        if idx != -1:
-+                            desc = line[idx + len("short-description:"):].strip()
-+                            break
-+                    basename = os.path.splitext(file)[0]
-+                    print "  %s\t\t%s" % (basename.ljust(30), desc)
- 
- 
- def list_canned_image_help(scripts_path, fullpath):
-     """
-     List the help and params in the specified canned image.
-     """
--    canned_wks_dir = os.path.join(scripts_path, CANNED_IMAGE_DIR)
--
-     f = open(fullpath, "r")
-     lines = f.readlines()
-     found = False
-diff --git a/scripts/wic b/scripts/wic
-index 4423340..2d3fd09 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -214,6 +214,12 @@ def wic_list_subcommand(args, usage_str):
- 
-     (options, args) = parser.parse_args(args)
- 
-+    bitbake_env_lines = find_bitbake_env_lines(None)
-+    if not bitbake_env_lines:
-+        print "Couldn't get bitbake environment, exiting."
-+        sys.exit(1)
-+    set_bitbake_env_lines(bitbake_env_lines)
-+
-     if not wic_list(args, scripts_path, options.properties_file):
-         logging.error("Bad list arguments, exiting\n")
-         parser.print_help()
 -- 
-1.8.3.2
+Thanks,
+Wenlin Kang
 
 
+--------------050509080309010700020400
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2014年05月15日 01:45, Christopher
+      Larson wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On Wed, May 14, 2014 at 2:30 AM,
+            Wenlin Kang <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:wenlin.kang@windriver.com" target="_blank">wenlin.kang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":lg" class="a3s" style="overflow:hidden">When
+                build bash, a error occurs, the cause is that autotools
+                uses<br>
+                improper <a moz-do-not-send="true"
+                  href="http://Makefile.in.in" target="_blank">Makefile.in.in</a>
+                which is from path/gettext/po/ but not bash<br>
+                itself in bash/po/,so to avoid some error to occur, we
+                should use<br>
+                package itself <a moz-do-not-send="true"
+                  href="http://Makefile.in.in" target="_blank">Makefile.in.in</a>
+                file if it has.<br>
+                <br>
+                Signed-off-by: Wenlin Kang &lt;<a moz-do-not-send="true"
+                  href="mailto:wenlin.kang@windriver.com">wenlin.kang@windriver.com</a>&gt;</div>
+            </blockquote>
+          </div>
+          <br>
+        </div>
+        <div class="gmail_extra">This will cause breakage when the
+          shipped <a moz-do-not-send="true"
+            href="http://Makefile.in.in">Makefile.in.in</a> gettext
+          version mismatches with the gettext-native/gettext we built.<br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+        but if we directly use gettext-native/gettext/Makefile.in.in
+    just as now,  for bash, it do occur some problem,  can't  get 
+    correct value of PACKAGE, VERSION due to use incorrect  variable
+    name(the right should is PACKAGE_NAME, PACKAGE_VERSION)
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <span style="color: rgb(51, 51, 51); font-family: arial; font-size:
+      24px; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: 24px; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: nowrap; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;"></span> , can't 
+    get BUILD_DIR, and  can't get po-directories(it indeed isn't exist)
+    in bash/po/Makefile.<br>
+    these all can trigger a build error in bash/po ,  so, whether we can
+    have a much well solution for it, can you have some good advices,
+    thanks?<br>
+    <blockquote
+cite="mid:CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          -- <br>
+          Christopher Larson<br>
+          clarson at kergoth dot com<br>
+          Founder - BitBake, OpenEmbedded, OpenZaurus<br>
+          Maintainer - Tslib<br>
+          Senior Software Engineer, Mentor Graphics
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Thanks,
+Wenlin Kang</pre>
+  </body>
+</html>
+
+--------------050509080309010700020400--
