@@ -1,26 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (unknown [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EBDCF61F16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 14:29:59 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 May 2014 07:24:37 -0700
+Return-Path: <valentin.popa@intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id A318C605B3;
+	Thu, 15 May 2014 14:49:37 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 May 2014 07:49:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1059,1389772800"; d="scan'208";a="512191904"
-Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 15 May 2014 07:29:36 -0700
-Message-ID: <5374CF4F.80508@linux.intel.com>
-Date: Thu, 15 May 2014 07:29:35 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,1059,1389772800"; d="scan'208";a="432594462"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by azsmga001.ch.intel.com with ESMTP; 15 May 2014 07:49:32 -0700
+Message-ID: <5374D3EA.6000309@intel.com>
+Date: Thu, 15 May 2014 17:49:14 +0300
+From: Valentin Popa <valentin.popa@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: Max Eliaser <max.eliaser@intel.com>, 
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20140506170105.9D101503BF@opal.openembedded.org>
+	<20140515111302.GC2433@jama> <5374C05E.9060305@intel.com>
+	<20140515140723.GF2433@jama>
+In-Reply-To: <20140515140723.GF2433@jama>
+Cc: openembedded-commits@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
-References: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
-	<4607c274a894441baa289f2eaf8eb5f773d1cc35.1400103108.git.max.eliaser@intel.com>
-In-Reply-To: <4607c274a894441baa289f2eaf8eb5f773d1cc35.1400103108.git.max.eliaser@intel.com>
-Subject: Re: [PATCH 2/3] Add texinfo-dummy-native recipe w/ scripts to stand in for Texinfo utils.
+Subject: Re: [oe-commits] Valentin Popa : nettle: add nettle to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,228 +35,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 14:30:01 -0000
+X-List-Received-Date: Thu, 15 May 2014 14:49:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/14/2014 02:36 PM, Max Eliaser wrote:
-> More work toward eliminating the dependency on the host system's Texinfo--
-> Python scripts that understand the same command-line options as the Texinfo
-> utilities, and create blank output files if appropriate, but don't actually
-> do any of the work done by those utilities.
->
-> This will be necessary to avoid circular dependencies when we start explicitly
-> tracking dependencies on texinfo-native; i.e. texinfo-native ->
-> autoconf-native -> texinfo-native. If we have all native recipes that inherit
-> texinfo.bbclass depend on texinfo-dummy-native instead of texinfo-native, the
-> cycle is broken.
->
-> It may also provide a performance gain by skipping the actual work of
-> formatting and generating documentation files.
->
-> Signed-off-by: Max Eliaser <max.eliaser@intel.com>
-> ---
->   .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
->   .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
->   .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
->   3 files changed, 171 insertions(+)
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
->
-I think these should live in texinfo instead of adding a new 
-texinfo-dummp-native directory?
+On 05/15/2014 05:07 PM, Martin Jansa wrote:
+> On Thu, May 15, 2014 at 04:25:50PM +0300, Valentin Popa wrote:
+>> On 05/15/2014 02:13 PM, Martin Jansa wrote:
+>>> On Tue, May 06, 2014 at 05:01:05PM +0000, git@git.openembedded.org wrote:
+>>>> Module: openembedded-core.git
+>>>> Branch: master
+>>>> Commit: e0e5eaee72e49c01e76d56cd03fbfb3e20febbb0
+>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=e0e5eaee72e49c01e76d56cd03fbfb3e20febbb0
+>>>>
+>>>> Author: Valentin Popa <valentin.popa@intel.com>
+>>>> Date:   Mon Apr 28 17:28:19 2014 +0300
+>>>>
+>>>> nettle: add nettle to oe-core
+>>>>
+>>>> Newer versions of gnutls depends on nettle.
+>>> Any idea why it fails in some builds like this:
+>>>
+>>> | checking whether ln -s works... yes
+>>> | checking build system compiler gcc ... no
+>>> | configure: error: Specified CC_FOR_BUILD doesn't seem to work
+>>> | Configure failed. The contents of all config.log files follows to aid debugging
+>>> | ERROR: oe_runconf failed
+>>> | WARNING: exit code 1 from a shell command.
+>>>
+>>> config.log:
+>>> configure:4412: checking build system compiler gcc
+>>> configure:4425: gcc  conftest.c
+>>> conftest.c: In function 'main':
+>>> conftest.c:4:3: warning: incompatible implicit declaration of built-in function 'exit' [enabled by default]
+>>>      exit(0);
+>>>      ^
+>>> configure:4428: $? = 0
+>>> /OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a.out: cannot execute binary file
+>>> /OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./b.out: No such file or directory
+>>> /OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a.exe: No such file or directory
+>>> /OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a_out.exe: No such file or directory
+>>> /OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./conftest: No such file or directory
+>>> configure:4435: result: no
+>>> configure:4440: error: Specified CC_FOR_BUILD doesn't seem to work
+>>>
+>>> export CC_FOR_BUILD="gcc "
+>>>
+>> I suspect the crosscompiler; for what arch&machine does this fail?
+> cortexa8 and it's the only recipe failing like this (even after
+> cleansstate) so I don't expect it to be something as simple as
+> nonworking cross compiler.
 
-Sau!
+I've just built nettle for beaglebone with no issue (on master).
 
-> diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-> new file mode 100644
-> index 0000000..b5420a3
-> --- /dev/null
-> +++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-> @@ -0,0 +1,30 @@
-> +DESCRIPTION = "Fake version of the texinfo utility suite"
-> +SECTION = "console/utils"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d6bb62e73ca8b901d3f2e9d71542f4bb"
-> +DEPENDS = ""
-> +PV = "1.0"
-> +
-> +SRC_URI = "file://template.py file://COPYING"
-> +
-> +S = "${WORKDIR}"
-> +
-> +NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
-> +
-> +inherit native
-> +
-> +do_install_name() {
-> +    FILENAME="${D}${bindir}/$1"
-> +    # Using ln causes problems with rm_work
-> +    cp -T "${S}/template.py" "$FILENAME"
-> +    chmod +x $FILENAME
-> +}
-> +
-> +do_install() {
-> +    mkdir -p "${D}${bindir}"
-> +    for i in makeinfo pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-> +             txixml2texi texi2any install-info ginstall-info \
-> +             update-info-dir; do
-> +        do_install_name $i
-> +    done
-> +}
-> diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
-> new file mode 100644
-> index 0000000..531cbe7
-> --- /dev/null
-> +++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
-> @@ -0,0 +1,19 @@
-> +Copyright (c) 2014 Intel Corp.
-> +
-> +Permission is hereby granted, free of charge, to any person obtaining a copy
-> +of this software and associated documentation files (the "Software"), to deal
-> +in the Software without restriction, including without limitation the rights
-> +to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> +copies of the Software, and to permit persons to whom the Software is
-> +furnished to do so, subject to the following conditions:
-> +
-> +The above copyright notice and this permission notice shall be included in
-> +all copies or substantial portions of the Software.
-> +
-> +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> +IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> +FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-> +AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> +LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> +OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> +THE SOFTWARE.
-> diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-> new file mode 100644
-> index 0000000..4dc31a9
-> --- /dev/null
-> +++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-> @@ -0,0 +1,122 @@
-> +#! /usr/bin/env python2.7
-> +
-> +# template.py (and other filenames)
-> +# By Max Eliaser (max.eliaser@intel.com)
-> +
-> +# Copyright (c) 2014 Intel Corp.
-> +
-> +# Permission is hereby granted, free of charge, to any person obtaining a copy
-> +# of this software and associated documentation files (the "Software"), to deal
-> +# in the Software without restriction, including without limitation the rights
-> +# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> +# copies of the Software, and to permit persons to whom the Software is
-> +# furnished to do so, subject to the following conditions:
-> +
-> +# The above copyright notice and this permission notice shall be included in
-> +# all copies or substantial portions of the Software.
-> +
-> +# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> +# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> +# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-> +# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> +# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> +# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> +# THE SOFTWARE.
-> +
-> +# This program acts like a dummy version of the texinfo utilities, creating
-> +# the right output files but leaving them blank. It will parse out the name
-> +# of the executable from argv[0] and emulate the corresponding program, so
-> +# multiple copies of this script will exist under different names.
-> +
-> +import sys, os
-> +
-> +olong = "--output="
-> +Elong = "--macro-expand="
-> +
-> +
-> +this_binary = sys.argv[0].split ("/")[-1]
-> +
-> +# To be outputted if functionality that hasn't been stubbed yet is invoked.
-> +stub_msg = """
-> +This stand-in version of %s is not yet fully capable of emulating the real
-> +version from the GNU texinfo suite. If you see this message, file a bug report
-> +with details on the recipe that failed.
-> +""" % this_binary
-> +
-> +# Autotools setups query the version, so this is actually necessary. Some of
-> +# them (lookin' at you, eglibc) actually look for the substring "GNU texinfo,"
-> +# so we put that substring in there without actually telling a lie.
-> +version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
-> +
-> +Super amazing version which is totally not fake in any way whatsoever.
-> +Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
-> +license.
-> +""" % this_binary
-> +
-> +simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-> +                   txixml2texi install-info ginstall-info \
-> +                   update-info-dir".split ()
-> +
-> +# These utilities use a slightly different set of options and flags.
-> +complex_binaries = "makeinfo texi2any".split ()
-> +
-> +valid_binaries = simple_binaries + complex_binaries
-> +
-> +# For generating blank output files.
-> +def touch_file (path):
-> +    f = open (path, "w")
-> +    f.close ()
-> +
-> +assert this_binary in valid_binaries, \
-> +       this_binary + " is not one of " + ', '.join (valid_binaries)
-> +
-> +if "--version" in sys.argv:
-> +    print version_str
-> +    sys.exit (0)
-> +
-> +# For debugging
-> +log_interceptions = False
-> +if log_interceptions:
-> +    f = open ("/tmp/intercepted_" + this_binary, "a")
-> +    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
-> +    f.close ()
-> +
-> +# Look through the options and flags, and if necessary, touch any output
-> +# files.
-> +arg_idx = 1
-> +while arg_idx < len (sys.argv):
-> +    arg = sys.argv [arg_idx]
-> +
-> +    if arg == "--":
-> +        break
-> +
-> +    # Something like -I . can result in a need for this (specifically the .)
-> +    elif len (arg) < 2:
-> +        pass
-> +
-> +    # Check if -o or --output is specified. These can be used at most once.
-> +    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
-> +        touch_file (sys.argv[arg_idx + 1])
-> +        sys.exit (0)
-> +    elif arg.startswith (olong):
-> +        touch_file (arg.split ("=")[1])
-> +        sys.exit (0)
-> +
-> +    # Check for functionality that isn't implemented yet.
-> +    else:
-> +        assert arg[1] == '-' or 'E' not in arg or \
-> +               this_binary in simple_binaries, \
-> +               "-E option not yet supported" + stub_msg
-> +
-> +        assert not arg.startswith (Elong), \
-> +               Elong[:-1] + " option not yet supported" + stub_msg
-> +
-> +    arg_idx += 1
-> +
-> +# The -o/--output option overrides the default. For makeinfo and texi2any,
-> +# that default is to look for a @setfilename command in the input file.
-> +# Otherwise, printing nothing to stdout and then exiting should suffice.
-> +assert this_binary in simple_binaries, \
-> +       "Don't know how to get default output file name from input file!" + \
-> +       stub_msg
-> +
 >
+>>>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>>>
+>>>> ---
+>>>>
+>>>>    meta/recipes-support/nettle/nettle_2.7.1.bb | 24 ++++++++++++++++++++++++
+>>>>    1 file changed, 24 insertions(+)
+>>>>
+>>>> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
+>>>> new file mode 100644
+>>>> index 0000000..87f1639
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+>>>> @@ -0,0 +1,24 @@
+>>>> +SUMMARY = "A low level cryptographic library"
+>>>> +HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+>>>> +SECTION = "libs"
+>>>> +LICENSE = "LGPLv2.1 & GPLv2"
+>>>> +LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+>>>> +                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
+>>>> +                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
+>>>> +
+>>>> +DEPENDS += "gmp"
+>>>> +
+>>>> +SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
+>>>> +
+>>>> +SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
+>>>> +SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
+>>>> +
+>>>> +do_configure_prepend() {
+>>>> +       if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
+>>>> +               cp ${S}/aclocal.m4 ${S}/acinclude.m4
+>>>> +       fi
+>>>> +}
+>>>> +
+>>>> +inherit autotools
+>>>> +
+>>>> +BBCLASSEXTEND = "native"
+>>>>
+>>>> -- 
+>>>> _______________________________________________
+>>>> Openembedded-commits mailing list
+>>>> Openembedded-commits@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
 
