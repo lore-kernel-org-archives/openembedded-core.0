@@ -1,26 +1,39 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C4FFA660B2
+Return-Path: <belen.barros.pena@intel.com>
+X-Greylist: delayed 658 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 May 2014 10:11:30 UTC
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F3A966101
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 08:54:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F8saEX022737
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 01:54:36 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 15 May 2014 01:54:35 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 May 2014 16:54:32 +0800
-Message-ID: <5dc92baf1acffe4ad0e04c60e05704933940bb5d.1400144017.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1400144017.git.Chong.Lu@windriver.com>
-References: <cover.1400144017.git.Chong.Lu@windriver.com>
+	Thu, 15 May 2014 10:11:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 15 May 2014 03:00:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1058,1389772800"; d="scan'208";a="532323131"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga001.fm.intel.com with ESMTP; 15 May 2014 03:00:27 -0700
+Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 15 May 2014 10:58:52 +0100
+Received: from irsmsx106.ger.corp.intel.com ([169.254.8.28]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.50]) with mapi id
+	14.03.0123.003; Thu, 15 May 2014 10:58:51 +0100
+From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
+To: =?iso-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] My thoughts on the future of OE?
+Thread-Index: AQHPb5aAo1dhz2DuXEuAhJOj0yi9rpsxzjkAgA+bIgA=
+Date: Thu, 15 May 2014 09:58:51 +0000
+Message-ID: <CF9A4B84.441BD%belen.barros.pena@intel.com>
+References: <1398963761.12731.1.camel@ted> <5367787C.1080503@enea.com>
+In-Reply-To: <5367787C.1080503@enea.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/14.4.1.140326
+x-originating-ip: [10.237.224.30]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] syslinux-native: fix parallel building issue
+Subject: Re: My thoughts on the future of OE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,92 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 08:54:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 May 2014 10:11:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <7D8236DE6A83A04EB4F4C720725072B0@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-There might be an error when parallel build:
+On 05/05/2014 04:39, "David Nystr=F6m" <david.nystrom@enea.com> wrote:
 
-[snip]
-cp: cannot create directory `tmp/sysroots/x86_64-linux/usr/share/
-syslinux/com32/include/gplinclude': No such file or directory
-make[4]: *** [install] Error 1
-make[3]: *** [gpllib] Error 2
-[snip]
+>How do I trace a buggy package
+>installed on my target rootfs, back to an item in the locked sstate?
 
-This is a potential issue. In ${S}/com32/gpllib/Makefile file,
-install target wants to copy $(SRC)/../gplinclude to
-$(INSTALLROOT)$(COM32DIR)/include/ directory, but in ${S}/com32/lib/Makefile
-file, the install target will remove $(INSTALLROOT)$(COM32DIR)/include
-directory. We need to do com32/lib first.
+FWIW, you should be able to do that with Toaster, as long as you know
+which one is the buggy package :) With Toaster you can navigate the build
+process, from the package, to the recipe, to the tasks executed by the
+build system for that recipe. As part of the tasks information, Toaster
+will show you which tasks reused which sstate objects. So effectively you
+can trace any package to the corresponding sstate object(s).
 
-The patch make com32/gpllib depends on com32/lib to fix this issue.
+Cheers
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- .../syslinux-fix-parallel-building-issue.patch     | 38 ++++++++++++++++++++++
- meta/recipes-devtools/syslinux/syslinux_6.01.bb    |  3 +-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
-
-diff --git a/meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch b/meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
-new file mode 100644
-index 0000000..6b69579
---- /dev/null
-+++ b/meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
-@@ -0,0 +1,38 @@
-+syslinux-native: fix parallel building issue
-+
-+There might be an error when parallel build:
-+
-+[snip]
-+cp: cannot create directory `tmp/sysroots/x86_64-linux/usr/share/
-+syslinux/com32/include/gplinclude': No such file or directory
-+make[4]: *** [install] Error 1
-+make[3]: *** [gpllib] Error 2
-+[snip]
-+
-+This is a potential issue. In ${S}/com32/gpllib/Makefile file,
-+install target wants to copy $(SRC)/../gplinclude to
-+$(INSTALLROOT)$(COM32DIR)/include/ directory, but in ${S}/com32/lib/Makefile
-+file, the install target will remove $(INSTALLROOT)$(COM32DIR)/include
-+directory. We need to do com32/lib first.
-+
-+The patch make com32/gpllib depends on com32/lib to fix this issue.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ com32/Makefile |    1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/com32/Makefile b/com32/Makefile
-+index 7ea1b01..9a1721b 100644
-+--- a/com32/Makefile
-++++ b/com32/Makefile
-+@@ -20,3 +20,4 @@ modules: lib libutil gpllib
-+ rosh: lib libutil
-+ samples: libutil elflink/ldlinux
-+ sysdump: libupload gpllib
-++gpllib: lib
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-index 1af6806..89204b0 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-@@ -12,7 +12,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar
-            file://0001-movebits-Add-SMT_TERMINAL-a-last-resort-region-type.patch \
-            file://0002-memscan-build-a-linked-list-of-memory-scanners.patch \
-            file://0003-PXELINUX-Add-bios-memscan-function.patch \
--           file://0004-pxe-use-bios_fbm-and-real_base_mem-to-calculate-free.patch"
-+           file://0004-pxe-use-bios_fbm-and-real_base_mem-to-calculate-free.patch \
-+           file://syslinux-fix-parallel-building-issue.patch"
- 
- SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
- SRC_URI[sha256sum] = "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
--- 
-1.8.1.2
+Bel=E9n
 
 
