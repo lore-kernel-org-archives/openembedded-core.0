@@ -1,26 +1,24 @@
 Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3940366117
+	by mail.openembedded.org (Postfix) with ESMTP id EDFA365D0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 02:04:05 +0000 (UTC)
+	Thu, 15 May 2014 02:04:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F246Yi016379
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F243FY016373
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 May 2014 19:04:06 -0700 (PDT)
+	Wed, 14 May 2014 19:04:03 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 14 May 2014 19:04:06 -0700
+	14.3.169.1; Wed, 14 May 2014 19:04:02 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 May 2014 10:03:52 +0800
-Message-ID: <5e5444710c6e70799ec5454332e3fffbc743ebc2.1400118419.git.rongqing.li@windriver.com>
+Date: Thu, 15 May 2014 10:03:50 +0800
+Message-ID: <cover.1400118419.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1400118419.git.rongqing.li@windriver.com>
-References: <cover.1400118419.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/12] Security Advisory - ffmpeg - CVE-2013-0865
+Subject: [PATCH 00/12] forward 12 CVE patches for ffmpeg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,90 +34,60 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 15 May 2014 02:04:09 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Roy Li <rongqing.li@windriver.com>
 
-The vqa_decode_chunk function in libavcodec/vqavideo.c in FFmpeg before
-1.0.4 and 1.1.x before 1.1.2 allows remote attackers to have an
-unspecified impact via a large (1) cbp0 or (2) cbpz chunk in Westwood
-Studios VQA Video file, which triggers an out-of-bounds write.
+The following changes since commit 58417093d7ce83c8a2f683a356fddc23aaee5e8e:
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0865
+  wic: Extend indirect string connection to support image names and rootfs (2014-05-13 19:35:06 +0100)
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- ...o-check-chunk-sizes-before-reading-chunks.patch |   49 ++++++++++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 50 insertions(+)
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/ffmpeg-1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-1
+
+Yue Tao (12):
+  Security Advisory - ffmpeg - CVE-2014-2263
+  Security Advisory - ffmpeg - CVE-2013-0865
+  Security Advisory - ffmpeg - CVE-2014-2099
+  Security Advisory - ffmpeg - CVE-2013-0868
+  Security Advisory - ffmpeg - CVE-2013-0845
+  Security Advisory - ffmpeg - CVE-2013-0852
+  Security Advisory - ffmpeg - CVE-2013-0858
+  Security Advisory - ffmpeg - CVE-2013-0851
+  Security Advisory - ffmpeg - CVE-2013-0854
+  Security Advisory - ffmpeg - CVE-2013-0856
+  Security Advisory - ffmpeg - CVE-2013-0850
+  Security Advisory - ffmpeg - CVE-2013-0849
+
+ .../0001-alac-fix-nb_samples-order-case.patch      |   30 +++++++
+ .../0001-alsdec-check-block-length.patch           |   61 ++++++++++++++
+ ...ac3dec-Check-coding-mode-against-channels.patch |   37 +++++++++
+ ...le-use-av_image_get_linesize-to-calculate.patch |   48 +++++++++++
+ ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   67 +++++++++++++++
+ .../0001-eamad-fix-out-of-array-accesses.patch     |   29 +++++++
+ ...t-ref-count-check-and-limit-fix-out-of-ar.patch |   29 +++++++
+ ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 ++++++++++++++++++++
+ .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
+ .../0001-mjpegdec-check-SE.patch                   |   32 +++++++
+ ...heck-RLE-size-before-copying.-Fix-out-of-.patch |   34 ++++++++
+ ...001-roqvideodec-check-dimensions-validity.patch |   36 ++++++++
+ ...o-check-chunk-sizes-before-reading-chunks.patch |   49 +++++++++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |   13 +++
+ 14 files changed, 611 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-correct-ref-count-check-and-limit-fix-out-of-ar.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-roqvideodec-check-dimensions-validity.patch
  create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
-new file mode 100644
-index 0000000..c4002d5
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
-@@ -0,0 +1,49 @@
-+From 2cac35086c9e103fa98960c546d5017e7363803a Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Fri, 25 Jan 2013 06:11:59 +0100
-+Subject: [PATCH] vqavideo: check chunk sizes before reading chunks
-+
-+Commit 2cac35086c9e103fa98960c546d5017e7363803a release/0.7
-+
-+Fixes out of array writes
-+
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit ab6c9332bfa1e20127a16392a0b85a4aa4840889)
-+
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+---
-+ libavcodec/vqavideo.c |   10 ++++++++++
-+ 1 files changed, 10 insertions(+), 0 deletions(-)
-+
-+diff --git a/libavcodec/vqavideo.c b/libavcodec/vqavideo.c
-+index d1eab5b..6e1ce6c 100644
-+--- a/gst-libs/ext/libav/libavcodec/vqavideo.c
-++++ b/gst-libs/ext/libav/libavcodec/vqavideo.c
-+@@ -527,6 +527,11 @@ static void vqa_decode_chunk(VqaContext *s)
-+         chunk_size = AV_RB32(&s->buf[cbp0_chunk + 4]);
-+         cbp0_chunk += CHUNK_PREAMBLE_SIZE;
-+ 
-++        if (chunk_size > MAX_CODEBOOK_SIZE - s->next_codebook_buffer_index) {
-++            av_log(s->avctx, AV_LOG_ERROR, "cbp0 chunk too large (0x%X bytes)\n", chunk_size);
-++            return AVERROR_INVALIDDATA;
-++        }
-++
-+         /* accumulate partial codebook */
-+         memcpy(&s->next_codebook_buffer[s->next_codebook_buffer_index],
-+             &s->buf[cbp0_chunk], chunk_size);
-+@@ -550,6 +555,11 @@ static void vqa_decode_chunk(VqaContext *s)
-+         chunk_size = AV_RB32(&s->buf[cbpz_chunk + 4]);
-+         cbpz_chunk += CHUNK_PREAMBLE_SIZE;
-+ 
-++        if (chunk_size > MAX_CODEBOOK_SIZE - s->next_codebook_buffer_index) {
-++            av_log(s->avctx, AV_LOG_ERROR, "cbpz chunk too large (0x%X bytes)\n", chunk_size);
-++            return AVERROR_INVALIDDATA;
-++        }
-++
-+         /* accumulate partial codebook */
-+         memcpy(&s->next_codebook_buffer[s->next_codebook_buffer_index],
-+             &s->buf[cbpz_chunk], chunk_size);
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 4913539..3d1f207 100644
---- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libav_e5500.patch \
-            file://gst-ffmpeg-CVE-2013-3674.patch \
-            file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
-+           file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
- "
- 
- SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
 -- 
 1.7.10.4
 
