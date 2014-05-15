@@ -1,39 +1,26 @@
-Return-Path: <belen.barros.pena@intel.com>
-X-Greylist: delayed 658 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 15 May 2014 10:11:30 UTC
-Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3A966101
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 646BD66114
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 10:11:30 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 May 2014 03:00:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1058,1389772800"; d="scan'208";a="532323131"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2014 03:00:27 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 15 May 2014 10:58:52 +0100
-Received: from irsmsx106.ger.corp.intel.com ([169.254.8.28]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.50]) with mapi id
-	14.03.0123.003; Thu, 15 May 2014 10:58:51 +0100
-From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
-To: =?iso-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] My thoughts on the future of OE?
-Thread-Index: AQHPb5aAo1dhz2DuXEuAhJOj0yi9rpsxzjkAgA+bIgA=
-Date: Thu, 15 May 2014 09:58:51 +0000
-Message-ID: <CF9A4B84.441BD%belen.barros.pena@intel.com>
-References: <1398963761.12731.1.camel@ted> <5367787C.1080503@enea.com>
-In-Reply-To: <5367787C.1080503@enea.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.4.1.140326
-x-originating-ip: [10.237.224.30]
+	Thu, 15 May 2014 10:40:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4FAe5wd000668
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 May 2014 03:40:05 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 15 May 2014 03:40:04 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 May 2014 18:40:24 +0800
+Message-ID: <6fca99c6c3cdd8ae23101dce873f3cf86f221a1c.1400150280.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1400150280.git.Qi.Chen@windriver.com>
+References: <cover.1400150280.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: Re: My thoughts on the future of OE?
+Subject: [PATCH 2/3] init-live.sh: list block devices correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,26 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 10:11:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <7D8236DE6A83A04EB4F4C720725072B0@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 15 May 2014 10:40:05 -0000
+Content-Type: text/plain
 
-On 05/05/2014 04:39, "David Nystr=F6m" <david.nystrom@enea.com> wrote:
+Instead of using 'ls /dev/sd*' command to list block devices, we
+should rather use 'cat /proc/partitions'.
 
->How do I trace a buggy package
->installed on my target rootfs, back to an item in the locked sstate?
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/initrdscripts/files/init-live.sh |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FWIW, you should be able to do that with Toaster, as long as you know
-which one is the buggy package :) With Toaster you can navigate the build
-process, from the package, to the recipe, to the tasks executed by the
-build system for that recipe. As part of the tasks information, Toaster
-will show you which tasks reused which sstate objects. So effectively you
-can trace any package to the corresponding sstate object(s).
-
-Cheers
-
-Bel=E9n
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 9e53a25..0bc38b7 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -134,7 +134,7 @@ do
+ 	   echo "Mounted filesystems"
+            mount | grep media
+            echo "Available block devices"
+-           ls /dev/sd*
++           cat /proc/partitions
+            fatal "Cannot find $ROOT_IMAGE file in /media/* , dropping to a shell "
+       fi
+       C=$(( C + 1 ))
+-- 
+1.7.9.5
 
 
