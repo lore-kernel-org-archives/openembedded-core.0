@@ -1,37 +1,37 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f172.google.com (unknown [209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C71D65E87
+Received: from mail-yk0-f179.google.com (unknown [209.85.160.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 31576660CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 16:06:35 +0000 (UTC)
-Received: by mail-yk0-f172.google.com with SMTP id 79so1042579ykr.31
+	Thu, 15 May 2014 16:46:12 +0000 (UTC)
+Received: by mail-yk0-f179.google.com with SMTP id 19so1101755ykq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 09:06:37 -0700 (PDT)
+	Thu, 15 May 2014 09:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=oiR1hvGzTTZGvWNiH9KBwjCOvXfoLQoIiPT3EHe0t3w=;
-	b=gmZiQNKWxX/EmS11Gfm8zjPDR79E/ToyGfrNLcyxPgCs3Ri9b8c4hJ2zFaH3J3/Enm
-	2SMp3ahplK8OeuQuDidjo1qB35QSM6SQ/n06im6mpUiRte7MTQY5agVeDRQNqTyV4EjX
-	AoAct/dfuU2zqBB2onCiAibMW1fj+l+ukYXUCa3np1KPemyofPQKirez0vC951/hXW+L
-	5YNqc03lG9m7gorMHNX4CPbmLXpwwtM8K4nTZEfaJsC2FuU2Hx2bASMt7HEWheuXGoTc
-	ilBnJ/aMBIMJFd2gqU3Pf9V4psogzIipnsZ+uHqo9RxeEcFwEvNZ2OiEDtex+Zg5psto
-	rPqA==
+	bh=EUXM/LMAbbPfmUip+5xzPgTnq+IaPoBaxQcCzAMs9pE=;
+	b=lUdWrAxGAKZK0jrexeOD5ZquzULhb36LSqVUPmJSazaoOeyz8TBcTnrnPgamerju1f
+	P+tfvy8EgT5mei9bczF0T+WU3RaAwKnzZwiuCgYEE6O4h8YNcNlO0fLMhWhxL5K/bR+5
+	zdeoVo2bEcG5pc4tqsU5XJCAD8DSrpxLTukHIaYABNzaloYzgEZ5/eeHItM8cWvOoDLW
+	vmjnN3fqW2QkVdn+alLTSykgwxl9qoXqxMH/1VFvVA2JFqEPPn2eMuDljsCaZALBfpkh
+	4QTeUj5nFQwfBE6yTC3BcMloFXvihKaS6JlVhrGnAMenZxT+J0MYLTCCTBD4qIcSG9Vu
+	n7Ew==
 MIME-Version: 1.0
-X-Received: by 10.236.230.6 with SMTP id i6mr16781938yhq.14.1400169996933;
-	Thu, 15 May 2014 09:06:36 -0700 (PDT)
+X-Received: by 10.236.230.6 with SMTP id i6mr17097921yhq.14.1400172373051;
+	Thu, 15 May 2014 09:46:13 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.170.166.213 with HTTP; Thu, 15 May 2014 09:06:36 -0700 (PDT)
-In-Reply-To: <1399319125-39998-1-git-send-email-tudor.florea@enea.com>
-References: <1399319125-39998-1-git-send-email-tudor.florea@enea.com>
-Date: Thu, 15 May 2014 13:06:36 -0300
-X-Google-Sender-Auth: IsBg5h-ZuM8DIO7jLpLW4MTcJWs
-Message-ID: <CAP9ODKr2hE++mrqLiUY1+u2jVGNhTvrZBnU7peKJvXZeRDF_1A@mail.gmail.com>
+Received: by 10.170.166.213 with HTTP; Thu, 15 May 2014 09:46:12 -0700 (PDT)
+In-Reply-To: <1850820.V8BJsiNnsd@peggleto-mobl5.ger.corp.intel.com>
+References: <cover.1400118419.git.rongqing.li@windriver.com>
+	<1850820.V8BJsiNnsd@peggleto-mobl5.ger.corp.intel.com>
+Date: Thu, 15 May 2014 13:46:12 -0300
+X-Google-Sender-Auth: zEJPWVh0_G1KdVLNgMXQjYbNABw
+Message-ID: <CAP9ODKqvJoOw12gAb=Crxntz=ryvEXA7oF-eiO5HoHrHDhx2DQ@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Tudor Florea <tudor.florea@enea.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] curl: remove inapporpriate file from curl release
+Subject: Re: [PATCH 00/12] forward 12 CVE patches for ffmpeg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 16:06:38 -0000
+X-List-Received-Date: Thu, 15 May 2014 16:46:15 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, May 5, 2014 at 4:45 PM, Tudor Florea <tudor.florea@enea.com> wrote:
-> This is the adaptation for the a bugfix upstream
-> The inappropriate file src/tool_hugehelp.c presence in the curl 7.36 release
-> interfered with the upstream fix for
-> https://sourceforge.net/p/curl/bugs/1350/
+On Thu, May 15, 2014 at 5:51 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Hi Roy,
 >
-> Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+> On Thursday 15 May 2014 10:03:50 rongqing.li@windriver.com wrote:
+>> From: Roy Li <rongqing.li@windriver.com>
+>>
+>> The following changes since commit 58417093d7ce83c8a2f683a356fddc23aaee5e8e:
+>>
+>>   wic: Extend indirect string connection to support image names and rootfs
+>> (2014-05-13 19:35:06 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.pokylinux.org/poky-contrib roy/ffmpeg-1
+>>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-1
+>>
+>> Yue Tao (12):
+>>   Security Advisory - ffmpeg - CVE-2014-2263
+>>   Security Advisory - ffmpeg - CVE-2013-0865
+>>   Security Advisory - ffmpeg - CVE-2014-2099
+>>   Security Advisory - ffmpeg - CVE-2013-0868
+>>   Security Advisory - ffmpeg - CVE-2013-0845
+>>   Security Advisory - ffmpeg - CVE-2013-0852
+>>   Security Advisory - ffmpeg - CVE-2013-0858
+>>   Security Advisory - ffmpeg - CVE-2013-0851
+>>   Security Advisory - ffmpeg - CVE-2013-0854
+>>   Security Advisory - ffmpeg - CVE-2013-0856
+>>   Security Advisory - ffmpeg - CVE-2013-0850
+>>   Security Advisory - ffmpeg - CVE-2013-0849
+>
+> Note that whilst we should apply these patches, they won't actually have any
+> effect on unmodified builds because we do not use gst-ffmpeg's internal copy of
+> ffmpeg, we use libav instead. So if any of these fixes apply to libav (or if
+> there are equivalent fixes) we will need to apply them to libav.
 
-Tested-by: Otavio Salvador <otavio@ossystems.com.br>
+And please rework the commit logs for:
 
-This fixed the imx28evk build failure for me.
+ffmpeg: fix for Security Advisory CVE-2013-0849
+
+or anything similar, per your personal choice. But please put the
+recipe name as prefix.
 
 -- 
 Otavio Salvador                             O.S. Systems
