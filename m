@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 19BB766069
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B62C565F99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 08:51:32 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 15 May 2014 01:51:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1057,1389772800"; d="scan'208";a="432456020"
-Received: from mrdissan-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.179])
-	by azsmga001.ch.intel.com with ESMTP; 15 May 2014 01:51:32 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: rongqing.li@windriver.com
-Date: Thu, 15 May 2014 09:51:31 +0100
-Message-ID: <1850820.V8BJsiNnsd@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <cover.1400118419.git.rongqing.li@windriver.com>
-References: <cover.1400118419.git.rongqing.li@windriver.com>
+	Thu, 15 May 2014 08:54:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4F8sZHU027282
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 May 2014 01:54:35 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 15 May 2014 01:54:34 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 May 2014 16:54:31 +0800
+Message-ID: <cover.1400144017.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/12] forward 12 CVE patches for ffmpeg
+Subject: [PATCH 0/1] syslinux-native: fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 08:51:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 15 May 2014 08:54:38 -0000
+Content-Type: text/plain
 
-Hi Roy,
+The following changes since commit d6900a5fe7670cb4514969d60e0ca65372121c87:
 
-On Thursday 15 May 2014 10:03:50 rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
-> 
-> The following changes since commit 58417093d7ce83c8a2f683a356fddc23aaee5e8e:
-> 
->   wic: Extend indirect string connection to support image names and rootfs
-> (2014-05-13 19:35:06 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib roy/ffmpeg-1
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-1
-> 
-> Yue Tao (12):
->   Security Advisory - ffmpeg - CVE-2014-2263
->   Security Advisory - ffmpeg - CVE-2013-0865
->   Security Advisory - ffmpeg - CVE-2014-2099
->   Security Advisory - ffmpeg - CVE-2013-0868
->   Security Advisory - ffmpeg - CVE-2013-0845
->   Security Advisory - ffmpeg - CVE-2013-0852
->   Security Advisory - ffmpeg - CVE-2013-0858
->   Security Advisory - ffmpeg - CVE-2013-0851
->   Security Advisory - ffmpeg - CVE-2013-0854
->   Security Advisory - ffmpeg - CVE-2013-0856
->   Security Advisory - ffmpeg - CVE-2013-0850
->   Security Advisory - ffmpeg - CVE-2013-0849
+  wic: Extend indirect string connection to support image names and rootfs (2014-05-13 19:35:11 +0100)
 
-Note that whilst we should apply these patches, they won't actually have any 
-effect on unmodified builds because we do not use gst-ffmpeg's internal copy of 
-ffmpeg, we use libav instead. So if any of these fixes apply to libav (or if 
-there are equivalent fixes) we will need to apply them to libav.
+are available in the git repository at:
 
-Cheers,
-Paul
+  git://git.pokylinux.org/poky-contrib chonglu/syslinux
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/syslinux
+
+Chong Lu (1):
+  syslinux-native: fix parallel building issue
+
+ .../syslinux-fix-parallel-building-issue.patch     | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/syslinux/syslinux_6.01.bb    |  3 +-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
 
 -- 
+1.8.1.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
