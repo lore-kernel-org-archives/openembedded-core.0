@@ -1,26 +1,39 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E3EF7660F9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-lb0-f180.google.com (unknown [209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EC5961F16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 10:40:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4FAe6wV011109
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 03:40:07 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 15 May 2014 03:40:06 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 May 2014 18:40:25 +0800
-Message-ID: <d5f4c990c54f1743562b9e565ac76562455cc32f.1400150280.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1400150280.git.Qi.Chen@windriver.com>
-References: <cover.1400150280.git.Qi.Chen@windriver.com>
+	Thu, 15 May 2014 11:12:33 +0000 (UTC)
+Received: by mail-lb0-f180.google.com with SMTP id p9so652225lbv.39
+	for <multiple recipients>; Thu, 15 May 2014 04:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=mM9LdH1hZFvKmDxh+SqaeC4G3dh0da1p2Jj1dLCszp8=;
+	b=H0d5aQ49IDVjM0CZWWb+5bUCXyePRX6GK4t3FYtTvmJ04sEelx0JuKVXKKyZwhAaaF
+	9nR/X+ImibDOJb0bFIx1FSvKMRckkS/LbITPV1LEDQeXWHmTJqaJoqy6DemcgS5G6jDd
+	wGlULQXrbp/rNhblvPL2URxBI7kbjXd4A3yHamZJvTnKkWQgYkyRyJl5uNme88wscYeT
+	QZ6iv0WZAcaIsCGdXPHfkbNs7pQmNz8i2PgedQYIAk/RE8NvUU0fvpeteBhyJYZfCkOy
+	YBZNoTYU9jUrJqObctTwxjoTGKW9x0F5n89zzHtHu55choZD/RnO9wrk3+5ddIbsnmO7
+	xvow==
+X-Received: by 10.112.14.5 with SMTP id l5mr6734263lbc.12.1400152353712;
+	Thu, 15 May 2014 04:12:33 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	aa1sm5056396lbd.12.2014.05.15.04.12.31 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 May 2014 04:12:32 -0700 (PDT)
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 15 May 2014 13:13:02 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Valentin Popa <valentin.popa@intel.com>
+Message-ID: <20140515111302.GC2433@jama>
+References: <20140506170105.9D101503BF@opal.openembedded.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] initrdscripts: fix for /run/media
+In-Reply-To: <20140506170105.9D101503BF@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Valentin Popa : nettle: add nettle to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,216 +46,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 10:40:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 May 2014 11:12:38 -0000
+X-Groupsio-MsgNum: 53239
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xB0nW4MQa6jZONgY"
+Content-Disposition: inline
 
-mount.sh in udev-extraconf was modified to use /run/media instead
-of /media. Unfortunately, our scripts in initrdscripts have some
-dependency on the auto-mounting mechanism proviced by udev-extraconf.
-So these scripts should also be fixed to use /run/media instead /media,
-otherwise, our live image cannot work correctly.
+--xB0nW4MQa6jZONgY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../initrdscripts/files/init-install-efi-testfs.sh |   14 +++++++-------
- .../initrdscripts/files/init-install-efi.sh        |   14 +++++++-------
- .../initrdscripts/files/init-install-testfs.sh     |    4 ++--
- .../initrdscripts/files/init-install.sh            |    4 ++--
- meta/recipes-core/initrdscripts/files/init-live.sh |   18 +++++++++---------
- 5 files changed, 27 insertions(+), 27 deletions(-)
+On Tue, May 06, 2014 at 05:01:05PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: e0e5eaee72e49c01e76d56cd03fbfb3e20febbb0
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3De0e5eaee72e49c01e76d56cd03fbfb3e20febbb0
+>=20
+> Author: Valentin Popa <valentin.popa@intel.com>
+> Date:   Mon Apr 28 17:28:19 2014 +0300
+>=20
+> nettle: add nettle to oe-core
+>=20
+> Newer versions of gnutls depends on nettle.
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
-index 2fea761..7a0b4d4 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
-@@ -128,7 +128,7 @@ mkdir /rootmnt
- mkdir /bootmnt
- 
- mount $rootfs /ssd
--mount -o rw,loop,noatime,nodiratime /media/$1/$2 /rootmnt
-+mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /rootmnt
- 
- echo "Copying rootfs files..."
- cp -a /rootmnt/* /ssd
-@@ -150,13 +150,13 @@ mount $bootfs /ssd
- 
- EFIDIR="/ssd/EFI/BOOT"
- mkdir -p $EFIDIR
--cp /media/$1/vmlinuz /ssd
-+cp /run/media/$1/vmlinuz /ssd
- # Copy the efi loader
--cp /media/$1/EFI/BOOT/*.efi $EFIDIR
-+cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
- 
--if [ -f /media/$1/EFI/BOOT/grub.cfg ]; then
-+if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
-     GRUBCFG="$EFIDIR/grub.cfg"
--    cp /media/$1/EFI/BOOT/grub.cfg $GRUBCFG
-+    cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
-     # Update grub config for the installed image
-     # Delete the install entry
-     sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
-@@ -170,10 +170,10 @@ if [ -f /media/$1/EFI/BOOT/grub.cfg ]; then
-     sed -i "s@linux /vmlinuz *@linux /vmlinuz root=$rootfs rw $rootwait quiet @" $GRUBCFG
- fi
- 
--if [ -d /media/$1/loader ]; then
-+if [ -d /run/media/$1/loader ]; then
-     GUMMIBOOT_CFGS="/ssd/loader/entries/*.conf"
-     # copy config files for gummiboot
--    cp -dr /media/$1/loader /ssd
-+    cp -dr /run/media/$1/loader /ssd
-     # delete the install entry
-     rm -f /ssd/loader/entries/install.conf
-     # delete the initrd lines
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index ed3221b..8bd7025 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -128,7 +128,7 @@ mkdir /rootmnt
- mkdir /bootmnt
- 
- mount $rootfs /ssd
--mount -o rw,loop,noatime,nodiratime /media/$1/$2 /rootmnt
-+mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /rootmnt
- 
- echo "Copying rootfs files..."
- cp -a /rootmnt/* /ssd
-@@ -150,13 +150,13 @@ mount $bootfs /ssd
- 
- EFIDIR="/ssd/EFI/BOOT"
- mkdir -p $EFIDIR
--cp /media/$1/vmlinuz /ssd
-+cp /run/media/$1/vmlinuz /ssd
- # Copy the efi loader
--cp /media/$1/EFI/BOOT/*.efi $EFIDIR
-+cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
- 
--if [ -f /media/$1/EFI/BOOT/grub.cfg ]; then
-+if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
-     GRUBCFG="$EFIDIR/grub.cfg"
--    cp /media/$1/EFI/BOOT/grub.cfg $GRUBCFG
-+    cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
-     # Update grub config for the installed image
-     # Delete the install entry
-     sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
-@@ -170,10 +170,10 @@ if [ -f /media/$1/EFI/BOOT/grub.cfg ]; then
-     sed -i "s@linux /vmlinuz *@linux /vmlinuz root=$rootfs rw $rootwait quiet @" $GRUBCFG
- fi
- 
--if [ -d /media/$1/loader ]; then
-+if [ -d /run/media/$1/loader ]; then
-     GUMMIBOOT_CFGS="/ssd/loader/entries/*.conf"
-     # copy config files for gummiboot
--    cp -dr /media/$1/loader /ssd
-+    cp -dr /run/media/$1/loader /ssd
-     # delete the install entry
-     rm -f /ssd/loader/entries/install.conf
-     # delete the initrd lines
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-index d2f2420..26e1fb3 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-@@ -151,7 +151,7 @@ mkdir -p /boot
- 
- # Handling of the target root partition
- mount $rootfs /tgt_root
--mount -o rw,loop,noatime,nodiratime /media/$1/$2 /src_root
-+mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
- echo "Copying rootfs files..."
- cp -a /src_root/* /tgt_root
- if [ -d /tgt_root/etc/ ] ; then
-@@ -197,7 +197,7 @@ if [ ! -f /boot/grub/grub.cfg ] ; then
-     echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
- fi
- 
--cp /media/$1/vmlinuz /boot/
-+cp /run/media/$1/vmlinuz /boot/
- 
- umount /boot
- 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index 8e433d5..b160003 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -151,7 +151,7 @@ mkdir -p /boot
- 
- # Handling of the target root partition
- mount $rootfs /tgt_root
--mount -o rw,loop,noatime,nodiratime /media/$1/$2 /src_root
-+mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
- echo "Copying rootfs files..."
- cp -a /src_root/* /tgt_root
- if [ -d /tgt_root/etc/ ] ; then
-@@ -194,7 +194,7 @@ if [ ! -f /boot/grub/grub.cfg ] ; then
-     echo "kernel /vmlinuz root=$rootfs rw $3 $4 quiet" >> /boot/grub/menu.lst
- fi
- 
--cp /media/$1/vmlinuz /boot/
-+cp /run/media/$1/vmlinuz /boot/
- 
- umount /boot
- 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 0bc38b7..0be9b6f 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -82,9 +82,9 @@ boot_live_root() {
- 
-     # Move the mount points of some filesystems over to
-     # the corresponding directories under the real root filesystem.
--    for dir in `awk '/\/dev.* \/media/{print $2}' /proc/mounts`; do
--        mkdir -p  ${ROOT_MOUNT}/$dir
--        mount -n --move $dir ${ROOT_MOUNT}/$dir
-+    for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
-+        mkdir -p  ${ROOT_MOUNT}/media/${dir##*/}
-+        mount -n --move $dir ${ROOT_MOUNT}/media/${dir##*/}
-     done
-     mount -n --move /proc ${ROOT_MOUNT}/proc
-     mount -n --move /sys ${ROOT_MOUNT}/sys
-@@ -113,11 +113,11 @@ echo "Waiting for removable media..."
- C=0
- while true
- do
--  for i in `ls /media 2>/dev/null`; do
--      if [ -f /media/$i/$ROOT_IMAGE ] ; then
-+  for i in `ls /run/media 2>/dev/null`; do
-+      if [ -f /run/media/$i/$ROOT_IMAGE ] ; then
- 		found="yes"
- 		break
--	  elif [ -f /media/$i/isolinux/$ROOT_IMAGE ]; then
-+	  elif [ -f /run/media/$i/isolinux/$ROOT_IMAGE ]; then
- 		found="yes"
- 		ISOLINUX="isolinux"
- 		break	
-@@ -135,7 +135,7 @@ do
-            mount | grep media
-            echo "Available block devices"
-            cat /proc/partitions
--           fatal "Cannot find $ROOT_IMAGE file in /media/* , dropping to a shell "
-+           fatal "Cannot find $ROOT_IMAGE file in /run/media/* , dropping to a shell "
-       fi
-       C=$(( C + 1 ))
-   fi
-@@ -150,7 +150,7 @@ mount_and_boot() {
-     mkdir $ROOT_MOUNT
-     mknod /dev/loop0 b 7 0 2>/dev/null
- 
--    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
-+    if ! mount -o rw,loop,noatime,nodiratime /run/media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
- 	fatal "Could not mount rootfs image"
-     fi
- 
-@@ -211,7 +211,7 @@ case $label in
- 	mount_and_boot
- 	;;
-     install|install-efi)
--	if [ -f /media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
-+	if [ -f /run/media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
- 	    ./$label.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode $console_params
- 	else
- 	    fatal "Could not find $label script"
--- 
-1.7.9.5
+Any idea why it fails in some builds like this:
 
+| checking whether ln -s works... yes
+| checking build system compiler gcc ... no
+| configure: error: Specified CC_FOR_BUILD doesn't seem to work
+| Configure failed. The contents of all config.log files follows to aid deb=
+ugging
+| ERROR: oe_runconf failed
+| WARNING: exit code 1 from a shell command.
 
+config.log:
+configure:4412: checking build system compiler gcc
+configure:4425: gcc  conftest.c
+conftest.c: In function 'main':
+conftest.c:4:3: warning: incompatible implicit declaration of built-in func=
+tion 'exit' [enabled by default]
+   exit(0);
+   ^
+configure:4428: $? =3D 0
+/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a.out: cannot exe=
+cute binary file
+/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./b.out: No such fi=
+le or directory
+/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a.exe: No such fi=
+le or directory
+/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a_out.exe: No suc=
+h file or directory
+/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./conftest: No such=
+ file or directory
+configure:4435: result: no
+configure:4440: error: Specified CC_FOR_BUILD doesn't seem to work
+
+export CC_FOR_BUILD=3D"gcc "
+
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>=20
+> ---
+>=20
+>  meta/recipes-support/nettle/nettle_2.7.1.bb | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>=20
+> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-s=
+upport/nettle/nettle_2.7.1.bb
+> new file mode 100644
+> index 0000000..87f1639
+> --- /dev/null
+> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+> @@ -0,0 +1,24 @@
+> +SUMMARY =3D "A low level cryptographic library"
+> +HOMEPAGE =3D "http://www.lysator.liu.se/~nisse/nettle/"
+> +SECTION =3D "libs"
+> +LICENSE =3D "LGPLv2.1 & GPLv2"
+> +LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f1720=
+6a5b0a1 \
+> +                    file://serpent-decrypt.c;beginline=3D53;endline=3D67=
+;md5=3Dbcfd4745d53ca57f82907089898e390d \
+> +                    file://serpent-set-key.c;beginline=3D56;endline=3D70=
+;md5=3Dbcfd4745d53ca57f82907089898e390d"
+> +
+> +DEPENDS +=3D "gmp"
+> +
+> +SRC_URI =3D "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
+> +
+> +SRC_URI[md5sum] =3D "003d5147911317931dd453520eb234a5"
+> +SRC_URI[sha256sum] =3D "bc71ebd43435537d767799e414fce88e521b7278d48c8606=
+51216e1fc6555b40"
+> +
+> +do_configure_prepend() {
+> +       if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
+> +               cp ${S}/aclocal.m4 ${S}/acinclude.m4
+> +       fi
+> +}
+> +
+> +inherit autotools
+> +
+> +BBCLASSEXTEND =3D "native"
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--xB0nW4MQa6jZONgY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlN0oT4ACgkQN1Ujt2V2gBz+ewCcDhNc12OfHE5DdtHLoefOzMVr
+guQAn2SwtNR4kOS86CMCwN2YbcXsYZco
+=5n2T
+-----END PGP SIGNATURE-----
+
+--xB0nW4MQa6jZONgY--
