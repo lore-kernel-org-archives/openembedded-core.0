@@ -1,35 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-la0-f52.google.com (unknown [209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id F0FF3660FD;
-	Thu, 15 May 2014 13:01:41 +0000 (UTC)
-Received: by mail-la0-f52.google.com with SMTP id gl10so774808lab.11
-	for <multiple recipients>; Thu, 15 May 2014 06:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=6syA8NVIWCxzepknB6ZV4aKekns+tr3nlDgubBT5swE=;
-	b=AV9SHubbjLyWKHfR0n+VVc5yc13/4FBpFmh9tXC0urFIGsGbfzAI1AWS5OAC8q5tJS
-	jIhfCWSHtHEaAnOEnJxKW2xoBVHlKTJ4niGG6fjk88+bp1Z/rpzOZGrFzoYCTpyHoBNc
-	PDKHGbdrw+zpt1fszEbda7akgW/zHiGEizs/O+A/4rMWmhH74ZMqyhVuSizxS7dHsluo
-	dgdsFpy1u05Z+7aA2DhSrY58Wk0e548+EUuQLExJUQTtLHpppFTbcBDhjaq9CHe9x7Lt
-	kB3BhYg83YEBUEmfMR+NaSiPVIwRA+/BCpj8eOhhuwBtIUZTD3NAJC+3kofXIdm7aeFh
-	oS9Q==
-X-Received: by 10.112.189.103 with SMTP id gh7mr7022981lbc.35.1400158901213;
-	Thu, 15 May 2014 06:01:41 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id n3sm6017942lan.3.2014.05.15.06.01.39
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 May 2014 06:01:39 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 15 May 2014 15:02:10 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140515130210.GE2433@jama>
+Return-Path: <valentin.popa@intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id D018E65F09
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 May 2014 13:11:57 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 May 2014 06:11:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1059,1389772800"; d="scan'208";a="432549990"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
+	([10.237.105.76])
+	by azsmga001.ch.intel.com with ESMTP; 15 May 2014 06:11:54 -0700
+Message-ID: <5374BD08.8090707@intel.com>
+Date: Thu, 15 May 2014 16:11:36 +0300
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-05-15
+To: openembedded-core@lists.openembedded.org
+References: <cover.1400150280.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1400150280.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 0/3] live image misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,83 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 13:01:42 -0000
-X-Groupsio-MsgNum: 53244
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jkO+KyKz7TfD21mV"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 May 2014 13:11:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---jkO+KyKz7TfD21mV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 05/15/2014 01:40 PM, Chen Qi wrote:
+> The purpose of this patchset is to make our live image work correctly after the
+> following commit.
+>
+>      commit acfe3014d41de5e87cdbc58d0396349c6b9c3ffd
+>      udev-extraconf: update mount.sh to use /run/media instead of /media
+>
+> These patches are tested against the core-image-minimal iso image for both booting and installing.
+>
+> //Chen Qi
 
-This build still contains huge patch setting B =3D S or inherit for
-autotools-brokensep for all recipes which were failing in earlier
-master builds.
 
-abiword, libssh broken by libgcrypt upgrade (possible fix for libssh was se=
-nt to ML today)
-firefox broken by freetype upgrade (possible fix for harfbuzz was sent to M=
-L yesterday)
+Acked-by: Valentin Popa <valentin.popa@intel.com>
 
-grub.do_package failing again for some reason
-openembedded-core/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb, do_install =
-failing for some unknown reason as well
+>
+> The following changes since commit 58417093d7ce83c8a2f683a356fddc23aaee5e8e:
+>
+>    wic: Extend indirect string connection to support image names and rootfs (2014-05-13 19:35:06 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib ChenQi/live-image-misc-fixes
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/live-image-misc-fixes
+>
+> Chen Qi (3):
+>    udev-extraconf: fix the misuse of /run/media
+>    init-live.sh: list block devices correctly
+>    initrdscripts: fix for /run/media
+>
+>   .../initrdscripts/files/init-install-efi-testfs.sh |   14 +++++++-------
+>   .../initrdscripts/files/init-install-efi.sh        |   14 +++++++-------
+>   .../initrdscripts/files/init-install-testfs.sh     |    4 ++--
+>   .../initrdscripts/files/init-install.sh            |    4 ++--
+>   meta/recipes-core/initrdscripts/files/init-live.sh |   20 ++++++++++----------
+>   meta/recipes-core/udev/udev-extraconf/mount.sh     |    2 +-
+>   6 files changed, 29 insertions(+), 29 deletions(-)
+>
 
-I plan to start new full test-dependencies build now, so builder will
-be N/A for next 15 days.
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
-
-=3D=3D Failed tasks 2014-05-15 =3D=3D
-
-=3D=3D=3D common (3) =3D=3D=3D
-    * meta-openembedded/meta-gnome/recipes-gnome/abiword/abiword_3.0.0.bb, =
-do_compile
-    * meta-openembedded/meta-oe/recipes-support/libssh/libssh_git.bb, do_co=
-mpile
-    * openembedded-core/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb, do_in=
-stall
-
-=3D=3D=3D common-x86 (2) =3D=3D=3D
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
-
-=3D=3D=3D qemuarm (0) =3D=3D=3D
-
-=3D=3D=3D qemux86 (0) =3D=3D=3D
-
-=3D=3D=3D qemux86_64 (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
-_git.bb, do_compile
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||3     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140515_072544.log/
-|-
-||qemux86       ||5     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140515_084100.log/
-|-
-||qemux86_64    ||6     ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140515_100259.log/
-|}
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---jkO+KyKz7TfD21mV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlN0utIACgkQN1Ujt2V2gBxBsgCeJsiTh+ElupryEsWLCXB9BXQ+
-QQYAnjAEa5Ac3RmRjNCBUTiHN9y7pQeh
-=q8cD
------END PGP SIGNATURE-----
-
---jkO+KyKz7TfD21mV--
