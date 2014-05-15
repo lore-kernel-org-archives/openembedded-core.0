@@ -1,30 +1,24 @@
-Return-Path: <Wenlin.Kang@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 88D9A660E1
+	by mail.openembedded.org (Postfix) with ESMTP id 4B99965DBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 02:32:53 +0000 (UTC)
+	Thu, 15 May 2014 03:21:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F2Wn46018495
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 14 May 2014 19:32:49 -0700 (PDT)
-Received: from [128.224.162.182] (128.224.162.182) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Wed, 14 May 2014 19:32:49 -0700
-Message-ID: <5374273C.1040603@windriver.com>
-Date: Thu, 15 May 2014 10:32:28 +0800
-From: Wenlin Kang <wenlin.kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4F3LiIO021402
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 May 2014 20:21:44 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 14 May 2014 20:21:44 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 May 2014 11:21:44 +0800
+Message-ID: <1400124104-10777-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Christopher Larson <clarson@kergoth.com>
-References: <1400059849-7711-1-git-send-email-wenlin.kang@windriver.com>
-	<CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com>
-In-Reply-To: <CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com>
-X-Originating-IP: [128.224.162.182]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: fixed bash build error
+Subject: [PATCH] perl-5.14.3:fix CVE-2010-4777
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,140 +31,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 02:32:56 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050509080309010700020400"
+X-List-Received-Date: Thu, 15 May 2014 03:21:45 -0000
+Content-Type: text/plain
 
---------------050509080309010700020400
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-On 2014年05月15日 01:45, Christopher Larson wrote:
->
-> On Wed, May 14, 2014 at 2:30 AM, Wenlin Kang 
-> <wenlin.kang@windriver.com <mailto:wenlin.kang@windriver.com>> wrote:
->
->     When build bash, a error occurs, the cause is that autotools uses
->     improper Makefile.in.in <http://Makefile.in.in> which is from
->     path/gettext/po/ but not bash
->     itself in bash/po/,so to avoid some error to occur, we should use
->     package itself Makefile.in.in <http://Makefile.in.in> file if it has.
->
->     Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com
->     <mailto:wenlin.kang@windriver.com>>
->
->
-> This will cause breakage when the shipped Makefile.in.in 
-> <http://Makefile.in.in> gettext version mismatches with the 
-> gettext-native/gettext we built.
+The Perl_reg_numbered_buff_fetch function in Perl 5.10.0, 5.12.0,
+5.14.0, and other versions, when running with debugging enabled,
+allows context-dependent attackers to cause a denial of service
+(assertion failure and application exit) via crafted input that
+is not properly handled when using certain regular expressions,
+as demonstrated by causing SpamAssassin and OCSInventory to
+crash.
 
-     but if we directly use gettext-native/gettext/Makefile.in.in just 
-as now,  for bash, it do occur some problem,  can't  get correct value 
-of PACKAGE, VERSION due to use incorrect  variable name(the right should 
-is PACKAGE_NAME, PACKAGE_VERSION) , can't get BUILD_DIR, and  can't get 
-po-directories(it indeed isn't exist) in bash/po/Makefile.
-these all can trigger a build error in bash/po ,  so, whether we can 
-have a much well solution for it, can you have some good advices, thanks?
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4777
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../perl-5.14.3-fix-CVE-2010-4777.patch            |   30 ++++++++++++++++++++
+ meta/recipes-devtools/perl/perl-native_5.14.3.bb   |    3 +-
+ meta/recipes-devtools/perl/perl_5.14.3.bb          |    3 +-
+ 3 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
 
-
+diff --git a/meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch b/meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
+new file mode 100644
+index 0000000..bb726c8
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
+@@ -0,0 +1,30 @@
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -11868,8 +11868,25 @@ Perl_save_re_context(pTHX)
++ 
++ 		if (gvp) {
++ 		    GV * const gv = *gvp;
++-		    if (SvTYPE(gv) == SVt_PVGV && GvSV(gv))
++-			save_scalar(gv);
+++		    if (SvTYPE(gv) == SVt_PVGV && GvSV(gv)) {
+++			/* this is a copy of save_scalar() without the GETMAGIC call, RT#76538 */
+++			SV ** const sptr = &GvSVn(gv);
+++			SV * osv = *sptr;
+++			SV * nsv = newSV(0);
+++			save_pushptrptr(SvREFCNT_inc_simple(gv),
+++			SvREFCNT_inc(osv), SAVEt_SV);
+++			if (SvTYPE(osv) >= SVt_PVMG && SvMAGIC(osv) &&
+++			    SvTYPE(osv) != SVt_PVGV) {
+++			    if (SvGMAGICAL(osv)) {
+++				const bool oldtainted = PL_tainted;
+++				SvFLAGS(osv) |= (SvFLAGS(osv) &
+++				    (SVp_IOK|SVp_NOK|SVp_POK)) >> PRIVSHIFT;
+++				PL_tainted = oldtainted;
+++			    }
+++			    mg_localize(osv, nsv, 1);
+++			}
+++			*sptr = nsv;
+++		    }
++ 		}
++ 	    }
++ 	}
+diff --git a/meta/recipes-devtools/perl/perl-native_5.14.3.bb b/meta/recipes-devtools/perl/perl-native_5.14.3.bb
+index 2ef0a51..c38be41 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.14.3.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.14.3.bb
+@@ -17,7 +17,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://MM_Unix.pm.patch \
+            file://debian/errno_ver.diff \
+            file://dynaloaderhack.patch \
+-           file://perl-build-in-t-dir.patch"
++           file://perl-build-in-t-dir.patch \
++           file://perl-5.14.3-fix-CVE-2010-4777.patch "
+ 
+ SRC_URI[md5sum] = "f6a3d878c688d111b495c87db56c5be5"
+ SRC_URI[sha256sum] = "03638a4f01bc26b81231233671524b4163849a3a9ea5cc2397293080c4ea339f"
+diff --git a/meta/recipes-devtools/perl/perl_5.14.3.bb b/meta/recipes-devtools/perl/perl_5.14.3.bb
+index c307b99..fcd665b 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.3.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.3.bb
+@@ -74,7 +74,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+         file://config.sh-32-be \
+         file://config.sh-64 \
+         file://config.sh-64-le \
+-        file://config.sh-64-be"
++        file://config.sh-64-be \
++        file://perl-5.14.3-fix-CVE-2010-4777.patch "
+ #	file://debian/fakeroot.diff
+ 
+ SRC_URI[md5sum] = "f6a3d878c688d111b495c87db56c5be5"
 -- 
-Thanks,
-Wenlin Kang
+1.7.10.4
 
 
---------------050509080309010700020400
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2014年05月15日 01:45, Christopher
-      Larson wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Wed, May 14, 2014 at 2:30 AM,
-            Wenlin Kang <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:wenlin.kang@windriver.com" target="_blank">wenlin.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":lg" class="a3s" style="overflow:hidden">When
-                build bash, a error occurs, the cause is that autotools
-                uses<br>
-                improper <a moz-do-not-send="true"
-                  href="http://Makefile.in.in" target="_blank">Makefile.in.in</a>
-                which is from path/gettext/po/ but not bash<br>
-                itself in bash/po/,so to avoid some error to occur, we
-                should use<br>
-                package itself <a moz-do-not-send="true"
-                  href="http://Makefile.in.in" target="_blank">Makefile.in.in</a>
-                file if it has.<br>
-                <br>
-                Signed-off-by: Wenlin Kang &lt;<a moz-do-not-send="true"
-                  href="mailto:wenlin.kang@windriver.com">wenlin.kang@windriver.com</a>&gt;</div>
-            </blockquote>
-          </div>
-          <br>
-        </div>
-        <div class="gmail_extra">This will cause breakage when the
-          shipped <a moz-do-not-send="true"
-            href="http://Makefile.in.in">Makefile.in.in</a> gettext
-          version mismatches with the gettext-native/gettext we built.<br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-        but if we directly use gettext-native/gettext/Makefile.in.in
-    just as now,  for bash, it do occur some problem,  can't  get 
-    correct value of PACKAGE, VERSION due to use incorrect  variable
-    name(the right should is PACKAGE_NAME, PACKAGE_VERSION)
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <span style="color: rgb(51, 51, 51); font-family: arial; font-size:
-      24px; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: 24px; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: nowrap; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
-      255); display: inline !important; float: none;"></span> , can't 
-    get BUILD_DIR, and  can't get po-directories(it indeed isn't exist)
-    in bash/po/Makefile.<br>
-    these all can trigger a build error in bash/po ,  so, whether we can
-    have a much well solution for it, can you have some good advices,
-    thanks?<br>
-    <blockquote
-cite="mid:CABcZANmJwy2uid_pwHZzt=PHYpW=CetpkB0U3r-c=0EcFUONXg@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          -- <br>
-          Christopher Larson<br>
-          clarson at kergoth dot com<br>
-          Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-          Maintainer - Tslib<br>
-          Senior Software Engineer, Mentor Graphics
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Thanks,
-Wenlin Kang</pre>
-  </body>
-</html>
-
---------------050509080309010700020400--
