@@ -1,39 +1,34 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f180.google.com (unknown [209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EC5961F16
+Received: from mail-vc0-f181.google.com (unknown [209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1641E65FFC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 11:12:33 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id p9so652225lbv.39
-	for <multiple recipients>; Thu, 15 May 2014 04:12:33 -0700 (PDT)
+	Thu, 15 May 2014 12:08:41 +0000 (UTC)
+Received: by mail-vc0-f181.google.com with SMTP id ld13so4153066vcb.26
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 May 2014 05:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=mM9LdH1hZFvKmDxh+SqaeC4G3dh0da1p2Jj1dLCszp8=;
-	b=H0d5aQ49IDVjM0CZWWb+5bUCXyePRX6GK4t3FYtTvmJ04sEelx0JuKVXKKyZwhAaaF
-	9nR/X+ImibDOJb0bFIx1FSvKMRckkS/LbITPV1LEDQeXWHmTJqaJoqy6DemcgS5G6jDd
-	wGlULQXrbp/rNhblvPL2URxBI7kbjXd4A3yHamZJvTnKkWQgYkyRyJl5uNme88wscYeT
-	QZ6iv0WZAcaIsCGdXPHfkbNs7pQmNz8i2PgedQYIAk/RE8NvUU0fvpeteBhyJYZfCkOy
-	YBZNoTYU9jUrJqObctTwxjoTGKW9x0F5n89zzHtHu55choZD/RnO9wrk3+5ddIbsnmO7
-	xvow==
-X-Received: by 10.112.14.5 with SMTP id l5mr6734263lbc.12.1400152353712;
-	Thu, 15 May 2014 04:12:33 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=K1ShDJ1k2LGFqrmupwiMKu0WDO1crgHvXLEDSXBDKWk=;
+	b=uwnE+xW0p8qLgUnRsm43zyyYByN0TUPjnGtgKYjEfJz1j+VbImUEe+GgZcH0xWCeTo
+	RgKIKNj4VPu+nBdBDS1fHY/KzAZyMWabF6pQBAwMWMCBr6zt4ADY422o0ONDtr10SiKb
+	GSjC+bvqNKExY/0aioQuUU9yG82AoS6vu4nbzxMCw/uE+nK2HjiXhR+U/Jeuhr2JtbMk
+	IKWoMkpHaNI5VWfdSDezPQxq7cve19OI91OEwYu771CYLSH+9kUuskkMI7MgR4/Nc3Ab
+	Hi/YFcwnnxRVpZNfcnikX0oOXNwGFexTnbsk/qroq+lFsCk0NeWVrVevkzzBTg42/Uz1
+	K40w==
+X-Received: by 10.52.228.134 with SMTP id si6mr6952900vdc.5.1400155722246;
+	Thu, 15 May 2014 05:08:42 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	aa1sm5056396lbd.12.2014.05.15.04.12.31 for <multiple recipients>
+	sy5sm3359569vdb.26.2014.05.15.05.08.40 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 May 2014 04:12:32 -0700 (PDT)
+	Thu, 15 May 2014 05:08:41 -0700 (PDT)
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 15 May 2014 13:13:02 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Valentin Popa <valentin.popa@intel.com>
-Message-ID: <20140515111302.GC2433@jama>
-References: <20140506170105.9D101503BF@opal.openembedded.org>
-MIME-Version: 1.0
-In-Reply-To: <20140506170105.9D101503BF@opal.openembedded.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Valentin Popa : nettle: add nettle to oe-core
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 May 2014 14:09:08 +0200
+Message-Id: <1400155748-26271-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] lttng-modules: Fix build with older kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,128 +41,330 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 11:12:38 -0000
-X-Groupsio-MsgNum: 53239
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="xB0nW4MQa6jZONgY"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 May 2014 12:08:42 -0000
 
---xB0nW4MQa6jZONgY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* forward port this patch from daisy:
+  commit c11b29ff4f24af0445c3c6a694b8dc2037dcd7e4
+  Author: Tom Zanussi <tom.zanussi@intel.com>
+  Date:   Thu Mar 6 22:26:20 2014 -0600
 
-On Tue, May 06, 2014 at 05:01:05PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: e0e5eaee72e49c01e76d56cd03fbfb3e20febbb0
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3De0e5eaee72e49c01e76d56cd03fbfb3e20febbb0
->=20
-> Author: Valentin Popa <valentin.popa@intel.com>
-> Date:   Mon Apr 28 17:28:19 2014 +0300
->=20
-> nettle: add nettle to oe-core
->=20
-> Newer versions of gnutls depends on nettle.
+    lttng-modules: Fix 3.14 bio tracepoints
 
-Any idea why it fails in some builds like this:
+* how is it possible that it's in daisy but not in master?
 
-| checking whether ln -s works... yes
-| checking build system compiler gcc ... no
-| configure: error: Specified CC_FOR_BUILD doesn't seem to work
-| Configure failed. The contents of all config.log files follows to aid deb=
-ugging
-| ERROR: oe_runconf failed
-| WARNING: exit code 1 from a shell command.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../lttng/lttng-modules/bio-bvec-iter.patch        | 156 +++++++++++++++++++++
+ .../lttng/lttng-modules/fixup_block_driver.patch   | 122 ----------------
+ meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb   |   2 +-
+ 3 files changed, 157 insertions(+), 123 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch
 
-config.log:
-configure:4412: checking build system compiler gcc
-configure:4425: gcc  conftest.c
-conftest.c: In function 'main':
-conftest.c:4:3: warning: incompatible implicit declaration of built-in func=
-tion 'exit' [enabled by default]
-   exit(0);
-   ^
-configure:4428: $? =3D 0
-/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a.out: cannot exe=
-cute binary file
-/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./b.out: No such fi=
-le or directory
-/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a.exe: No such fi=
-le or directory
-/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./a_out.exe: No suc=
-h file or directory
-/OE//nettle/2.7.1-r0/nettle-2.7.1/configure: line 4430: ./conftest: No such=
- file or directory
-configure:4435: result: no
-configure:4440: error: Specified CC_FOR_BUILD doesn't seem to work
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch b/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+new file mode 100644
+index 0000000..d6c66e4
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+@@ -0,0 +1,156 @@
++Upstream-Status: Pending
++
++In 3.14, bi_sector and bi_size were moved into an iterator, thus
++breaking any tracepoints that still expect them in the bio.  Fix up
++the lttng-module tracepoints to use the new scheme when the kernel
++version is >= 3.14.
++
++Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
++
++diff --git a/instrumentation/events/lttng-module/block.h b/instrumentation/events/lttng-module/block.h
++index f3b8bff..0a61543 100644
++--- a/instrumentation/events/lttng-module/block.h
+++++ b/instrumentation/events/lttng-module/block.h
++@@ -341,9 +341,15 @@ TRACE_EVENT(block_bio_bounce,
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev ?
++ 					  bio->bi_bdev->bd_dev : 0)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(nr_sector, bio->bi_size >> 9)
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
++ 	),
++ 
++@@ -385,14 +391,24 @@ TRACE_EVENT(block_bio_complete,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev->bd_dev)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(nr_sector, bio->bi_size >> 9)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+++
++ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
++ 		tp_assign(error, error)
++ #else
++ 		tp_assign(error, 0)
++ #endif
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 	),
++ 
++ 	TP_printk("%d,%d %s %llu + %u [%d]",
++@@ -419,9 +435,15 @@ DECLARE_EVENT_CLASS(block_bio_merge,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev->bd_dev)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(nr_sector, bio->bi_size >> 9)
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
++ 	),
++ 
++@@ -485,9 +507,15 @@ TRACE_EVENT(block_bio_queue,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev->bd_dev)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(nr_sector, bio->bi_size >> 9)
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
++ 	),
++ 
++@@ -513,9 +541,15 @@ DECLARE_EVENT_CLASS(block_bio,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev ? bio->bi_bdev->bd_dev : 0)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(nr_sector, bio->bi_size >> 9)
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
++ 	),
++ 
++@@ -587,10 +621,17 @@ DECLARE_EVENT_CLASS(block_get_rq,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio ? bio->bi_bdev->bd_dev : 0)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio ? bio->bi_iter.bi_sector : 0)
+++		tp_assign(nr_sector, bio ? bio->bi_iter.bi_size >> 9 : 0)
+++		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
+++			      bio ? bio->bi_iter.bi_size >> 9 : 0)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio ? bio->bi_sector : 0)
++ 		tp_assign(nr_sector, bio ? bio->bi_size >> 9 : 0)
++ 		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
++ 			      bio ? bio->bi_size >> 9 : 0)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
++         ),
++ 
++@@ -759,9 +800,15 @@ TRACE_EVENT(block_split,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev->bd_dev)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(new_sector, new_sector)
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(new_sector, new_sector)
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
++ 	),
++ 
++@@ -805,11 +852,19 @@ TRACE_EVENT(block_remap,
++ 
++ 	TP_fast_assign(
++ 		tp_assign(dev, bio->bi_bdev->bd_dev)
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+++		tp_assign(sector, bio->bi_iter.bi_sector)
+++		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+++		tp_assign(old_dev, dev)
+++		tp_assign(old_sector, from)
+++		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 		tp_assign(sector, bio->bi_sector)
++ 		tp_assign(nr_sector, bio->bi_size >> 9)
++ 		tp_assign(old_dev, dev)
++ 		tp_assign(old_sector, from)
++ 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+++#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
++ 	),
++ 
++ 	TP_printk("%d,%d %s %llu + %u <- (%d,%d) %llu",
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch b/meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch
+deleted file mode 100644
+index 3644a47..0000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch
++++ /dev/null
+@@ -1,122 +0,0 @@
+-Fix errors like
+-
+-block.h:344:24: error: 'struct bio' has no member named 'bi_sector'
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: git/instrumentation/events/lttng-module/block.h
+-===================================================================
+---- git.orig/instrumentation/events/lttng-module/block.h	2014-05-02 22:20:01.814125429 -0700
+-+++ git/instrumentation/events/lttng-module/block.h	2014-05-02 22:28:48.927455709 -0700
+-@@ -341,9 +341,9 @@
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev ?
+- 					  bio->bi_bdev->bd_dev : 0)
+--		tp_assign(sector, bio->bi_sector)
+--		tp_assign(nr_sector, bio->bi_size >> 9)
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -385,14 +385,14 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+--		tp_assign(sector, bio->bi_sector)
+--		tp_assign(nr_sector, bio->bi_size >> 9)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
+- 		tp_assign(error, error)
+- #else
+- 		tp_assign(error, 0)
+- #endif
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 	),
+- 
+- 	TP_printk("%d,%d %s %llu + %u [%d]",
+-@@ -419,9 +419,9 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+--		tp_assign(sector, bio->bi_sector)
+--		tp_assign(nr_sector, bio->bi_size >> 9)
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -485,9 +485,9 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+--		tp_assign(sector, bio->bi_sector)
+--		tp_assign(nr_sector, bio->bi_size >> 9)
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -513,9 +513,9 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev ? bio->bi_bdev->bd_dev : 0)
+--		tp_assign(sector, bio->bi_sector)
+--		tp_assign(nr_sector, bio->bi_size >> 9)
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -587,10 +587,10 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio ? bio->bi_bdev->bd_dev : 0)
+--		tp_assign(sector, bio ? bio->bi_sector : 0)
+--		tp_assign(nr_sector, bio ? bio->bi_size >> 9 : 0)
+-+		tp_assign(sector, bio ? bio->bi_iter.bi_sector : 0)
+-+		tp_assign(nr_sector, bio ? bio->bi_iter.bi_size >> 9 : 0)
+- 		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
+--			      bio ? bio->bi_size >> 9 : 0)
+-+			      bio ? bio->bi_iter.bi_size >> 9 : 0)
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+-         ),
+- 
+-@@ -759,9 +759,9 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+--		tp_assign(sector, bio->bi_sector)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+- 		tp_assign(new_sector, new_sector)
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -805,11 +805,11 @@
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+--		tp_assign(sector, bio->bi_sector)
+--		tp_assign(nr_sector, bio->bi_size >> 9)
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+- 		tp_assign(old_dev, dev)
+- 		tp_assign(old_sector, from)
+--		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+- 	),
+- 
+- 	TP_printk("%d,%d %s %llu + %u <- (%d,%d) %llu",
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
+index 94e18b2..81a3983 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
+@@ -15,7 +15,7 @@ PV = "2.3.3"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.3 \
+            file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+-           file://fixup_block_driver.patch \
++           file://bio-bvec-iter.patch \
+           "
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
+-- 
+1.9.3
 
-export CC_FOR_BUILD=3D"gcc "
 
-> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->=20
-> ---
->=20
->  meta/recipes-support/nettle/nettle_2.7.1.bb | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->=20
-> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-s=
-upport/nettle/nettle_2.7.1.bb
-> new file mode 100644
-> index 0000000..87f1639
-> --- /dev/null
-> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
-> @@ -0,0 +1,24 @@
-> +SUMMARY =3D "A low level cryptographic library"
-> +HOMEPAGE =3D "http://www.lysator.liu.se/~nisse/nettle/"
-> +SECTION =3D "libs"
-> +LICENSE =3D "LGPLv2.1 & GPLv2"
-> +LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f1720=
-6a5b0a1 \
-> +                    file://serpent-decrypt.c;beginline=3D53;endline=3D67=
-;md5=3Dbcfd4745d53ca57f82907089898e390d \
-> +                    file://serpent-set-key.c;beginline=3D56;endline=3D70=
-;md5=3Dbcfd4745d53ca57f82907089898e390d"
-> +
-> +DEPENDS +=3D "gmp"
-> +
-> +SRC_URI =3D "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
-> +
-> +SRC_URI[md5sum] =3D "003d5147911317931dd453520eb234a5"
-> +SRC_URI[sha256sum] =3D "bc71ebd43435537d767799e414fce88e521b7278d48c8606=
-51216e1fc6555b40"
-> +
-> +do_configure_prepend() {
-> +       if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
-> +               cp ${S}/aclocal.m4 ${S}/acinclude.m4
-> +       fi
-> +}
-> +
-> +inherit autotools
-> +
-> +BBCLASSEXTEND =3D "native"
->=20
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---xB0nW4MQa6jZONgY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlN0oT4ACgkQN1Ujt2V2gBz+ewCcDhNc12OfHE5DdtHLoefOzMVr
-guQAn2SwtNR4kOS86CMCwN2YbcXsYZco
-=5n2T
------END PGP SIGNATURE-----
-
---xB0nW4MQa6jZONgY--
