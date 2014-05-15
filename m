@@ -1,37 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f179.google.com (unknown [209.85.160.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 31576660CB
+Return-Path: <max.eliaser@intel.com>
+X-Greylist: delayed 634 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 May 2014 17:42:57 UTC
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 135C26A57B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 16:46:12 +0000 (UTC)
-Received: by mail-yk0-f179.google.com with SMTP id 19so1101755ykq.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 09:46:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=EUXM/LMAbbPfmUip+5xzPgTnq+IaPoBaxQcCzAMs9pE=;
-	b=lUdWrAxGAKZK0jrexeOD5ZquzULhb36LSqVUPmJSazaoOeyz8TBcTnrnPgamerju1f
-	P+tfvy8EgT5mei9bczF0T+WU3RaAwKnzZwiuCgYEE6O4h8YNcNlO0fLMhWhxL5K/bR+5
-	zdeoVo2bEcG5pc4tqsU5XJCAD8DSrpxLTukHIaYABNzaloYzgEZ5/eeHItM8cWvOoDLW
-	vmjnN3fqW2QkVdn+alLTSykgwxl9qoXqxMH/1VFvVA2JFqEPPn2eMuDljsCaZALBfpkh
-	4QTeUj5nFQwfBE6yTC3BcMloFXvihKaS6JlVhrGnAMenZxT+J0MYLTCCTBD4qIcSG9Vu
-	n7Ew==
-MIME-Version: 1.0
-X-Received: by 10.236.230.6 with SMTP id i6mr17097921yhq.14.1400172373051;
-	Thu, 15 May 2014 09:46:13 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.166.213 with HTTP; Thu, 15 May 2014 09:46:12 -0700 (PDT)
-In-Reply-To: <1850820.V8BJsiNnsd@peggleto-mobl5.ger.corp.intel.com>
-References: <cover.1400118419.git.rongqing.li@windriver.com>
-	<1850820.V8BJsiNnsd@peggleto-mobl5.ger.corp.intel.com>
-Date: Thu, 15 May 2014 13:46:12 -0300
-X-Google-Sender-Auth: zEJPWVh0_G1KdVLNgMXQjYbNABw
-Message-ID: <CAP9ODKqvJoOw12gAb=Crxntz=ryvEXA7oF-eiO5HoHrHDhx2DQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Thu, 15 May 2014 17:42:57 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 May 2014 10:32:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1060,1389772800"; d="scan'208";a="539754096"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+	by fmsmga002.fm.intel.com with ESMTP; 15 May 2014 10:29:50 -0700
+Received: from orsmsx154.amr.corp.intel.com (10.22.226.12) by
+	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 15 May 2014 10:29:50 -0700
+Received: from orsmsx110.amr.corp.intel.com ([169.254.3.170]) by
+	ORSMSX154.amr.corp.intel.com ([169.254.11.72]) with mapi id
+	14.03.0123.003; Thu, 15 May 2014 10:29:50 -0700
+From: "Eliaser, MaX" <max.eliaser@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/12] forward 12 CVE patches for ffmpeg
+Thread-Topic: [OE-core] [PATCH 2/3] Add texinfo-dummy-native recipe w/
+	scripts to stand in for Texinfo utils.
+Thread-Index: AQHPb7zgJU5Yf/71MESjGhjruanHbZtCKg+A//+8dQ0=
+Date: Thu, 15 May 2014 17:29:49 +0000
+Message-ID: <E88D0531F83F3744B03D1A909A2B070F5BA0C6@ORSMSX110.amr.corp.intel.com>
+References: <50a2c132892ea8660f03f8cde3265599f79f2dd8.1400103108.git.max.eliaser@intel.com>
+	<4607c274a894441baa289f2eaf8eb5f773d1cc35.1400103108.git.max.eliaser@intel.com>,
+	<5374CF4F.80508@linux.intel.com>
+In-Reply-To: <5374CF4F.80508@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.41]
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/3] Add texinfo-dummy-native recipe w/ scripts to stand in for Texinfo utils.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 16:46:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 May 2014 17:43:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 15, 2014 at 5:51 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Roy,
->
-> On Thursday 15 May 2014 10:03:50 rongqing.li@windriver.com wrote:
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> The following changes since commit 58417093d7ce83c8a2f683a356fddc23aaee5e8e:
->>
->>   wic: Extend indirect string connection to support image names and rootfs
->> (2014-05-13 19:35:06 +0100)
->>
->> are available in the git repository at:
->>
->>   git://git.pokylinux.org/poky-contrib roy/ffmpeg-1
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-1
->>
->> Yue Tao (12):
->>   Security Advisory - ffmpeg - CVE-2014-2263
->>   Security Advisory - ffmpeg - CVE-2013-0865
->>   Security Advisory - ffmpeg - CVE-2014-2099
->>   Security Advisory - ffmpeg - CVE-2013-0868
->>   Security Advisory - ffmpeg - CVE-2013-0845
->>   Security Advisory - ffmpeg - CVE-2013-0852
->>   Security Advisory - ffmpeg - CVE-2013-0858
->>   Security Advisory - ffmpeg - CVE-2013-0851
->>   Security Advisory - ffmpeg - CVE-2013-0854
->>   Security Advisory - ffmpeg - CVE-2013-0856
->>   Security Advisory - ffmpeg - CVE-2013-0850
->>   Security Advisory - ffmpeg - CVE-2013-0849
->
-> Note that whilst we should apply these patches, they won't actually have any
-> effect on unmodified builds because we do not use gst-ffmpeg's internal copy of
-> ffmpeg, we use libav instead. So if any of these fixes apply to libav (or if
-> there are equivalent fixes) we will need to apply them to libav.
+Sure, I could do that. My understanding of the convention was that there wa=
+s one directory per upstream project, and all the different recipes in that=
+ directory implemented different targets or versions of that upstream proje=
+ct-- is that not correct?
 
-And please rework the commit logs for:
+-Max
+________________________________________
+From: Saul Wold [sgw@linux.intel.com]
+Sent: Thursday, May 15, 2014 7:29 AM
+To: Eliaser, MaX; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/3] Add texinfo-dummy-native recipe w/ scrip=
+ts to stand in for Texinfo utils.
 
-ffmpeg: fix for Security Advisory CVE-2013-0849
+I think these should live in texinfo instead of adding a new
+texinfo-dummp-native directory?
 
-or anything similar, per your personal choice. But please put the
-recipe name as prefix.
+Sau!
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
