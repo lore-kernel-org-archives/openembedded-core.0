@@ -1,26 +1,26 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (unknown [216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id 0630165FE5
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp08.online.nl (unknown [194.134.42.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DCD5865E87
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 12:48:04 +0000 (UTC)
-Received: (qmail 3103 invoked by uid 1003); 16 May 2014 12:48:05 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@71.171.37.254)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	16 May 2014 12:48:04 -0000
-Message-ID: <53760903.5000907@balister.org>
-Date: Fri, 16 May 2014 08:48:03 -0400
-From: Philip Balister <philip@balister.org>
+	Fri, 16 May 2014 15:04:38 +0000 (UTC)
+Received: from smtp08.online.nl (localhost [127.0.0.1])
+	by smtp08.online.nl (Postfix) with ESMTP id 373AF6630C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 May 2014 17:04:39 +0200 (CEST)
+Received: from [192.168.1.10] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp08.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 May 2014 17:04:39 +0200 (CEST)
+Message-ID: <53762907.8060600@topic.nl>
+Date: Fri, 16 May 2014 17:04:39 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>, 
- openembedded-core@lists.openembedded.org
-References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>	<3327056.Df3VZKvVg7@peggleto-mobl5.ger.corp.intel.com>	<ljlih4$rvg$1@ger.gmane.org>	<21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
-	<1400237551.5524.18.camel@phil-desktop.brightsign>
-In-Reply-To: <1400237551.5524.18.camel@phil-desktop.brightsign>
-X-Enigmail-Version: 1.6
-Subject: Re: [oe] OE Github repositories
+To: openembedded-core@lists.openembedded.org
+X-Online-Scanned: by Cloudmark authority (on smtp08.online.nl)
+Subject: Living without shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 12:48:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 16 May 2014 15:04:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/16/2014 06:52 AM, Phil Blundell wrote:
-> On Fri, 2014-05-16 at 11:51 +0100, Paul Eggleton wrote:
->> On Monday 28 April 2014 14:45:26 Koen Kooi wrote:
->>> Paul Eggleton schreef op 28-04-14 13:08:
->>>> OK then, how about this instead:
->>>>
->>>> 1) Ensure the "openembedded-core" repository is kept up-to-date
->>>>
->>>> 2) Add a "meta-openembedded" repository and ensure it is kept up-to-date
->>>>
->>>> 3) Add a warning to the description for the contracted name repositories
->>>> that the fully-named repositories should be used instead, so we can
->>>> eventually drop them
->>>>
->>>> 4) Change documentation / scripts to match #3
->>>
->>> Sounds like a good plan to me!
->>
->> OK, so who will do this then (whoever has access)?
-> 
-> I can do it if you like.
+Any package that wants to add user accounts (e.g. dbus) automatically 
+installs the "shadow" package into the image. This appears to be done by 
+adduser.bbclass.
 
-Thanks for taking care of this.
+We want to keep it small, and can easily live without the shadow 
+package. Busybox already provides adduser and similar commands, and also 
+handles login etc. just fine. So I tried adding a line
+RPROVIDES_busybox+="shadow"
+to the busybox recipe. I would expect to have an alternative provider 
+now, and no more forces installation of the big shadow.
 
-Philip
+The result was much more surprising though. Letting busybox provide 
+"shadow" resulted in failing to build the rootfs. The "adduser" command 
+did not work on the host. This was very unexpected - does shadow deliver 
+something into the sysroot that adduser.bbclass needs?
 
-> 
-> p.
-> 
-> 
+How can I get rid of the shadow package?
+
+-- 
+Mike Looijmans
 
