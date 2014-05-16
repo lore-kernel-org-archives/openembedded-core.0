@@ -1,24 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DDD96A382
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 75C876A57B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 02:12:18 +0000 (UTC)
+	Fri, 16 May 2014 02:12:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CJkA009572
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CLfY019602
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 19:12:19 -0700 (PDT)
+	Thu, 15 May 2014 19:12:21 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 15 May 2014 19:12:18 -0700
+	14.3.169.1; Thu, 15 May 2014 19:12:20 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 May 2014 10:12:08 +0800
-Message-ID: <cover.1400201782.git.rongqing.li@windriver.com>
+Date: Fri, 16 May 2014 10:12:09 +0800
+Message-ID: <7275879f293082cf7d42772f259df3daf5c99bc7.1400201782.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1400201782.git.rongqing.li@windriver.com>
+References: <cover.1400201782.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/12 v2] ffmpeg: backport 12 CVE patches
+Subject: [PATCH 01/12] ffmpeg: fix for Security Advisory CVE-2014-2263
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +36,110 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 16 May 2014 02:12:22 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Yue Tao <Yue.Tao@windriver.com>
 
-Diff with V1: use ffmpeg as prefix of commit header 
+The mpegts_write_pmt function in the MPEG2 transport stream (aka DVB)
+muxer (libavformat/mpegtsenc.c) in FFmpeg, possibly 2.1 and earlier,
+allows remote attackers to have unspecified impact and vectors, which
+trigger an out-of-bounds write.
 
-The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2263
 
-  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib roy/ffmpeg-2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-2
-
-Yue Tao (12):
-  ffmpeg: fix for Security Advisory CVE-2014-2263
-  ffmpeg: fix for Security Advisory CVE-2013-0865
-  ffmpeg: fix for Security Advisory CVE-2014-2099
-  ffmpeg: fix for Security Advisory CVE-2013-0868
-  ffmpeg: fix for Security Advisory CVE-2013-0845
-  ffmpeg: fix for Security Advisory CVE-2013-0852
-  ffmpeg: fix for Security Advisory CVE-2013-0858
-  ffmpeg: fix for Security Advisory CVE-2013-0851
-  ffmpeg: fix for Security Advisory CVE-2013-0854
-  ffmpeg: fix for Security Advisory CVE-2013-0856
-  ffmpeg: fix for Security Advisory CVE-2013-0850
-  ffmpeg: fix for Security Advisory CVE-2013-0849
-
- .../0001-alac-fix-nb_samples-order-case.patch      |   30 +++++++
- .../0001-alsdec-check-block-length.patch           |   61 ++++++++++++++
- ...ac3dec-Check-coding-mode-against-channels.patch |   37 +++++++++
- ...le-use-av_image_get_linesize-to-calculate.patch |   50 +++++++++++
- ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   69 ++++++++++++++++
- .../0001-eamad-fix-out-of-array-accesses.patch     |   29 +++++++
- ...t-ref-count-check-and-limit-fix-out-of-ar.patch |   29 +++++++
- ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 ++++++++++++++++++++
- .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
- .../0001-mjpegdec-check-SE.patch                   |   32 +++++++
- ...heck-RLE-size-before-copying.-Fix-out-of-.patch |   34 ++++++++
- ...001-roqvideodec-check-dimensions-validity.patch |   36 ++++++++
- ...o-check-chunk-sizes-before-reading-chunks.patch |   51 ++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |   13 +++
- 14 files changed, 617 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   69 ++++++++++++++++++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
+ 2 files changed, 70 insertions(+)
  create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-correct-ref-count-check-and-limit-fix-out-of-ar.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-roqvideodec-check-dimensions-validity.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+new file mode 100644
+index 0000000..68bb66e
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+@@ -0,0 +1,69 @@
++From 12770701856a05b6b3cd706f708f8e9a4e8a1336 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michaelni@gmx.at>
++Date: Thu, 13 Feb 2014 13:59:51 +0100
++Subject: [PATCH] avformat/mpegtsenc: Check data array size in
++ mpegts_write_pmt()
++
++Upstream-Status: Backport
++
++COmmit 12770701856a05b6b3cd706f708f8e9a4e8a1336 release/0.11
++
++Prevents out of array writes
++
++Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++(cherry picked from commit 842b6c14bcfc1c5da1a2d288fd65386eb8c158ad)
++
++Conflicts:
++
++	libavformat/mpegtsenc.c
++(cherry picked from commit e87de3f50b765134588d0b048c32ed4b8acc16fb)
++
++Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++---
++ libavformat/mpegtsenc.c |    9 +++++++--
++ 1 files changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/libavformat/mpegtsenc.c b/libavformat/mpegtsenc.c
++index 793e205..a12d19f 100644
++--- a/gst-libs/ext/libav/libavformat/mpegtsenc.c
+++++ b/gst-libs/ext/libav/libavformat/mpegtsenc.c
++@@ -240,7 +240,7 @@ static void mpegts_write_pat(AVFormatContext *s)
++                           data, q - data);
++ }
++ 
++-static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
+++static int mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++ {
++     //    MpegTSWrite *ts = s->priv_data;
++     uint8_t data[1012], *q, *desc_length_ptr, *program_info_length_ptr;
++@@ -293,6 +293,10 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++             stream_type = STREAM_TYPE_PRIVATE_DATA;
++             break;
++         }
+++
+++        if (q - data > sizeof(data) - 32)
+++            return AVERROR(EINVAL);
+++
++         *q++ = stream_type;
++         put16(&q, 0xe000 | ts_st->pid);
++         desc_length_ptr = q;
++@@ -324,7 +328,7 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++                 len_ptr = q++;
++                 *len_ptr = 0;
++ 
++-                for (p = lang->value; next && *len_ptr < 255 / 4 * 4; p = next + 1) {
+++                for (p = lang->value; next && *len_ptr < 255 / 4 * 4 && q - data < sizeof(data) - 4; p = next + 1) {
++                     next = strchr(p, ',');
++                     if (strlen(p) != 3 && (!next || next != p + 3))
++                         continue; /* not a 3-letter code */
++@@ -386,6 +390,7 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
++     }
++     mpegts_write_section1(&service->pmt, PMT_TID, service->sid, 0, 0, 0,
++                           data, q - data);
+++    return 0;
++ }
++ 
++ /* NOTE: str == NULL is accepted for an empty string */
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+index e1257a2..4913539 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+@@ -23,6 +23,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libav_e500mc.patch \
+            file://libav_e5500.patch \
+            file://gst-ffmpeg-CVE-2013-3674.patch \
++           file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
+ "
+ 
+ SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
 -- 
 1.7.10.4
 
