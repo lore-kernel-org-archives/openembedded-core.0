@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (unknown [209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 782806028A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 10:39:47 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id j5so3904156qga.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 03:39:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=hHCVHAZ4+WbjuJ3ih5I4TDoWAbIhpZv6Ov45ippRVWw=;
-	b=D/PuMoQ2+h/FLccnn6x345sdZqziIhwDK0kNRi7pT6tFE+VZl9H+Imb0DaDr3JwpJb
-	elsBV733emIASfhqLfxdYrNCEb3li2n8RiHBpzER0SHA4E/RsD+Sa2QhquR2s+5ORSez
-	XnOgzR9+ra/WqzqeAaDdKcwTntMikVEU1hv8Tw9g+srT26LCaZZ2i2TVV3Z9EKlR0yy8
-	VoHPdvbPEfLxeUZAZsibRMwtYH9cHJU9f3oWqADLjhisZNdn9aPUF5CrRtAJDk3Xc3iU
-	rTuds//Hy3+7s/D80EIeQ8VGP9jcow1v5+qEFRfi2gneCS1VO/k0ShKRoH78u4YNmt8P
-	hmcQ==
-X-Gm-Message-State: ALoCoQluX83TpGERqoGr7Jmk8KETiGDF6FU1mZ0aCMrD1OFUHCQo1hL8mq49G5uVnbCyc6HHgNc1
-X-Received: by 10.224.121.72 with SMTP id g8mr7890040qar.79.1400236788177;
-	Fri, 16 May 2014 03:39:48 -0700 (PDT)
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 43F9E6028A;
+	Fri, 16 May 2014 10:51:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 16 May 2014 03:51:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,1066,1389772800"; d="scan'208";a="532984221"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.87])
+	by fmsmga001.fm.intel.com with ESMTP; 16 May 2014 03:51:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Date: Fri, 16 May 2014 11:51:06 +0100
+Message-ID: <21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <ljlih4$rvg$1@ger.gmane.org>
+References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>
+	<3327056.Df3VZKvVg7@peggleto-mobl5.ger.corp.intel.com>
+	<ljlih4$rvg$1@ger.gmane.org>
 MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Fri, 16 May 2014 03:39:27 -0700 (PDT)
-In-Reply-To: <cover.1400219191.git.rongqing.li@windriver.com>
-References: <cover.1400219191.git.rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 16 May 2014 11:39:27 +0100
-Message-ID: <CAJTo0Lb6euhg7DvXoFG62-tgASvPcJGRSHAu1GcHn9oXTHudkw@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] subversion: backport 6 CVE patches
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: OE Github repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,19 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 10:39:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 16 May 2014 10:51:08 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 16 May 2014 07:00,  <rongqing.li@windriver.com> wrote:
->   subversion: fix for Security Advisory CVE-2013-1849
->   subversion: fix for Security Advisory CVE-2013-4505
->   subversion: fix for Security Advisory CVE-2013-4131
->   subversion: fix for Security Advisory CVE-2013-1845
->   subversion: fix for Security Advisory CVE-2013-1847 and CVE-2013-1846
->   subversion: fix for Security Advisory CVE-2013-4277
+On Monday 28 April 2014 14:45:26 Koen Kooi wrote:
+> Paul Eggleton schreef op 28-04-14 13:08:
+> > OK then, how about this instead:
+> > 
+> > 1) Ensure the "openembedded-core" repository is kept up-to-date
+> > 
+> > 2) Add a "meta-openembedded" repository and ensure it is kept up-to-date
+> > 
+> > 3) Add a warning to the description for the contracted name repositories
+> > that the fully-named repositories should be used instead, so we can
+> > eventually drop them
+> > 
+> > 4) Change documentation / scripts to match #3
+> 
+> Sounds like a good plan to me!
 
-Are these intended to be backported to daisy?  For master, presumably
-we could upgrade to 1.7.16 or 1.8.9?
+OK, so who will do this then (whoever has access)?
 
-Ross
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
