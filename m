@@ -1,26 +1,27 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 979C565EA8
+Received: from mga09.intel.com (unknown [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 24F63660CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 17:14:13 +0000 (UTC)
+	Fri, 16 May 2014 17:19:17 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 May 2014 10:14:14 -0700
+	by orsmga102.jf.intel.com with ESMTP; 16 May 2014 10:14:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1068,1389772800"; d="scan'208";a="512873608"
+X-IronPort-AV: E=Sophos;i="4.97,1068,1389772800"; d="scan'208";a="512876307"
 Received: from unknown (HELO [10.255.12.101]) ([10.255.12.101])
-	by orsmga001.jf.intel.com with ESMTP; 16 May 2014 10:14:13 -0700
-Message-ID: <53764764.1010608@linux.intel.com>
-Date: Fri, 16 May 2014 10:14:12 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 May 2014 10:19:02 -0700
+Message-ID: <53764886.8010100@linux.intel.com>
+Date: Fri, 16 May 2014 10:19:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: Jacob Kroon <jacob.kroon@gmail.com>
-References: <1400169517-29966-1-git-send-email-sgw@linux.intel.com>	<CAPbeDC=LgSCO0F7gB7nCJQCgXQrUvRAJCUt35Ss2JrVVWB21dQ@mail.gmail.com>
-	<CAPbeDC=Z8OTCuy7+Lj4Hp_y-j3FcA0Ro0SBNRvTRRxy4Zm+qdg@mail.gmail.com>
-In-Reply-To: <CAPbeDC=Z8OTCuy7+Lj4Hp_y-j3FcA0Ro0SBNRvTRRxy4Zm+qdg@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libusb1: Update to 1.0.18
+To: Valentin Popa <valentin.popa@intel.com>, 
+	"Burton, Ross" <ross.burton@intel.com>
+References: <cover.1399993010.git.valentin.popa@intel.com>
+	<84c0b7befda652d0d7f00dbdedece2e535bad760.1399993010.git.valentin.popa@intel.com>
+In-Reply-To: <84c0b7befda652d0d7f00dbdedece2e535bad760.1399993010.git.valentin.popa@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] mesa: upgrade to 10.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,104 +34,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 17:14:16 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Fri, 16 May 2014 17:19:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/16/2014 05:16 AM, Jacob Kroon wrote:
-> On Fri, May 16, 2014 at 7:13 AM, Jacob Kroon <jacob.kroon@gmail.com> wrote:
+On 05/13/2014 07:59 AM, Valentin Popa wrote:
+> (*) libdricore was removed.
+> (*) added libmesa-megadriver that includes
+>      all the hardlinks to the mesa megadriver.
+> (*) license is the same.
 >
->> Hello Saul,
->>
->>
->> On Thu, May 15, 2014 at 5:58 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>
->>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->>> ---
->>>   .../{libusb1-1.0.9 => libusb1}/obsolete_automake_macros.patch      | 0
->>>   .../recipes-support/libusb/{libusb1_1.0.9.bb => libusb1_1.0.18.bb} | 7
->>> ++-----
->>>   2 files changed, 2 insertions(+), 5 deletions(-)
->>>   rename meta/recipes-support/libusb/{libusb1-1.0.9 =>
->>> libusb1}/obsolete_automake_macros.patch (100%)
->>>   rename meta/recipes-support/libusb/{libusb1_1.0.9.bb =>
->>> libusb1_1.0.18.bb} (78%)
->>>
->>> diff --git
->>> a/meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
->>> b/meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
->>> similarity index 100%
->>> rename from
->>> meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
->>> rename to
->>> meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
->>> diff --git a/meta/recipes-support/libusb/libusb1_1.0.9.bbb/meta/recipes-support/libusb/
->>> libusb1_1.0.18.bb
->>> similarity index 78%
->>> rename from meta/recipes-support/libusb/libusb1_1.0.9.bb
->>> rename to meta/recipes-support/libusb/libusb1_1.0.18.bb
->>> index d57425b..c64f1db 100644
->>> --- a/meta/recipes-support/libusb/libusb1_1.0.9.bb
->>> +++ b/meta/recipes-support/libusb/libusb1_1.0.18.bb
->>> @@ -8,14 +8,11 @@ LIC_FILES_CHKSUM =
->>> "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
->>>
->>>   BBCLASSEXTEND = "native nativesdk"
->>>
->>> -PR = "r1"
->>> -
->>>   SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
->>> -           file://obsolete_automake_macros.patch \
->>>             "
->>>
->>
->> That patch is still in git, maybe it should be removed as well ?
->>
->>
-> Also, I think it needs to be added a PACKAGECONFIG for "udev", otherwise I
-> get a build failure when I generate an SDK on my system,
-> configure script can't find udev although it was requested.
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> ---
+>   .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |  0
+>   meta/recipes-graphics/mesa/mesa.inc                | 35 +++++++++++++---------
+>   .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |  4 +--
+>   meta/recipes-graphics/mesa/mesa_git.bb             |  4 +--
+>   4 files changed, 25 insertions(+), 18 deletions(-)
+>   rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
+>   rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
 >
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb b/meta/recipes-graphics/mesa/mesa-gl_10.1.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_10.1.3.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index a33b7b5..855a9e4 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -10,11 +10,11 @@ HOMEPAGE = "http://mesa3d.org"
+>   BUGTRACKER = "https://bugs.freedesktop.org"
+>   SECTION = "x11"
+>   LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
+>
+> -INC_PR = "r9"
+>   PE = "2"
+>
+> +LIC_FILES_CHKSUM = "file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de"
+> +
+>   DEPENDS = "expat makedepend-native flex-native bison-native udev"
+>
+>   PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
+> @@ -30,7 +30,7 @@ PACKAGECONFIG ??= "egl gles dri \
+>   		${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}\
+>   		"
+>
+> -X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
+> +X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes presentproto libxshmfence"
+>   PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
+>   PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+>   PACKAGECONFIG[wayland] = ",,wayland"
+> @@ -38,7 +38,7 @@ PACKAGECONFIG[wayland] = ",,wayland"
+>   DRIDRIVERS = "swrast"
+>   DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+>   DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
+> -PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, dri2proto libdrm"
+> +PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, dri2proto dri3proto libdrm"
+>
+In the configure, there is both enable-dri and enable-dri3, the default 
+is to enable dri3 for linux, but do we want to enable dri3 by default 
+and add the 2 new dependencies?
 
-> Something like the patch below does the trick for me:
->
-I am supprised you did not see a circular dependency with udev -> libusb 
--> udev, I think we need to disable-udev as default and if there is a 
-need for a libusb with udev support we will have to create a new recipe 
-possibly to build it after udev is built.
-
-Thoughts here?
+Just asking?
 
 Sau!
 
 
-> --- a/meta/recipes-support/libusb/libusb1_1.0.18.bb
-> +++ b/meta/recipes-support/libusb/libusb1_1.0.18.bb
-> @@ -8,12 +8,17 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+>   EXTRA_OECONF += "--enable-gbm"
 >
->   BBCLASSEXTEND = "native nativesdk"
->
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-> -          "
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
->
->   SRC_URI[md5sum] = "4a6d049923efc6496f1d383054dac1a6"
->   SRC_URI[sha256sum] =
-> "c73f5cec45a5de94418da4e151b7232958571926984acfb9bce02b9424e83720"
->
-> +PACKAGECONFIG ?= "udev"
-> +PACKAGECONFIG_class-native = ""
-> +PACKAGECONFIG_class-nativesdk = ""
+> @@ -78,7 +78,7 @@ RDEPENDS_${PN}-dev = ""
+>   PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+>                libosmesa libosmesa-dev \
+>                libgl-mesa libgl-mesa-dev \
+> -             libdricore libdricore-dev \
+> +             libmesa-megadriver \
+>                libglapi libglapi-dev \
+>                libgbm libgbm-dev \
+>                libgles1-mesa libgles1-mesa-dev \
+> @@ -96,7 +96,7 @@ do_install_append () {
+>       rm -f ${D}${libdir}/egl/*.la
+>       rm -f ${D}${libdir}/gallium-pipe/*.la
+>       rm -f ${D}${libdir}/gbm/*.la
+> -
 > +
-> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+>       # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used
+>       rm -f ${D}${sysconfdir}/drirc
+>   }
+> @@ -119,7 +119,7 @@ python __anonymous() {
+>           d.appendVar("RREPLACES_" + fullp, pkgs)
+>           d.appendVar("RPROVIDES_" + fullp, pkgs)
+>           d.appendVar("RCONFLICTS_" + fullp, pkgs)
+> -
 > +
->   S = "${WORKDIR}/libusb-${PV}"
+>           # For -dev, the first element is both the Debian and original name
+>           fullp += "-dev"
+>           pkgs = p[1] + "-dev"
+> @@ -130,15 +130,23 @@ python __anonymous() {
+>   }
 >
->   inherit autotools pkgconfig
+>   python mesa_populate_packages() {
+> -    dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
+> -
+>       pkgs = ['mesa', 'mesa-dev', 'mesa-dbg']
+> -    pkgs += do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-driver-%s', 'Mesa %s DRI driver', extra_depends='')
+>       for pkg in pkgs:
+>           d.setVar("RPROVIDES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+>           d.setVar("RCONFLICTS_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+>           d.setVar("RREPLACES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+> -
+> +
+> +    import re
+> +    dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
+> +    dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
+> +    for p in sorted(dri_pkgs):
+> +        m = re.match('^(.*)_dri\.so$', p)
+> +        if m:
+> +            pkg_name = " mesa-driver-%s" % legitimize_package_name(m.group(1))
+> +            d.appendVar("RPROVIDES_libmesa-megadriver", pkg_name)
+> +            d.appendVar("RCONFLICTS_libmesa-megadriver", pkg_name)
+> +            d.appendVar("RREPLACES_libmesa-megadriver", pkg_name)
+> +
+>       pipe_drivers_root = os.path.join(d.getVar('libdir', True), "gallium-pipe")
+>       do_split_packages(d, pipe_drivers_root, '^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
+>   }
+> @@ -148,8 +156,8 @@ PACKAGESPLITFUNCS_prepend = "mesa_populate_packages "
+>   PACKAGES_DYNAMIC += "^mesa-driver-.*"
 >
-> If this looks good I can submit a proper patch for it.
+>   FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
+> -
+> -FILES_libdricore = "${sysconfdir}/drirc ${libdir}/libdricore*.so.*"
+> +FILES_${PN} += "${sysconfdir}/drirc"
+> +FILES_libmesa-megadriver = "${libdir}/dri/*"
+>   FILES_libegl-mesa = "${libdir}/libEGL.so.*"
+>   FILES_libgbm = "${libdir}/libgbm.so.*"
+>   FILES_libgles1-mesa = "${libdir}/libGLESv1*.so.*"
+> @@ -164,7 +172,6 @@ FILES_libopenvg = "${libdir}/libOpenVG.so.*"
+>   FILES_libxvmcsoftpipe = "${libdir}/libXvMCsoftpipe.so.*"
 >
-> /Jacob
+>   FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc"
+> -FILES_libdricore-dev = "${libdir}/libdricore*.*"
+>   FILES_libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
+>   FILES_libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
+>   FILES_libgl-mesa-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
+> diff --git a/meta/recipes-graphics/mesa/mesa_9.2.5.bb b/meta/recipes-graphics/mesa/mesa_10.1.3.bb
+> similarity index 82%
+> rename from meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> rename to meta/recipes-graphics/mesa/mesa_10.1.3.bb
+> index 02ecd46..abc450a 100644
+> --- a/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_10.1.3.bb
+> @@ -5,8 +5,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+>              file://0006-fix-out-of-tree-egl.patch \
+>              "
+>
+> -SRC_URI[md5sum] = "9fb4de29ca1d9cfd03cbdefa123ba336"
+> -SRC_URI[sha256sum] = "b46ab9efed176df0591993397594d712ada9da6a47fd31bbe75050fe28eb6bf0"
+> +SRC_URI[md5sum] = "ba6dbe2b9cab0b4de840c996b9b6a3ad"
+> +SRC_URI[sha256sum] = "b2615e236ef25d0fb94b8420bdd2e2a520b7dd5ca2d4b93306154f7fd4adecc3"
+>
+>   S = "${WORKDIR}/Mesa-${PV}"
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+> index 1e6fdb5..59b0d1c 100644
+> --- a/meta/recipes-graphics/mesa/mesa_git.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
+> @@ -5,8 +5,8 @@ DEFAULT_PREFERENCE = "-1"
+>   LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
+>
+>   PR = "${INC_PR}.0"
+> -SRCREV = "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
+> -PV = "9.2.5+git${SRCPV}"
+> +SRCREV = "0028eb1083e6adc110a23a5f02c993cda217067a"
+> +PV = "10.1.3+git${SRCPV}"
+>
+>   SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+>              file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
 >
 
