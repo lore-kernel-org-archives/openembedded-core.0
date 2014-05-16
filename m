@@ -1,46 +1,36 @@
-Return-Path: <Zongchun.Yu@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com (unknown
-	[207.46.163.181])
-	by mail.openembedded.org (Postfix) with ESMTP id F036965EA8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (unknown [209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 979246098B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 09:01:23 +0000 (UTC)
-Received: from BY2PR03CA079.namprd03.prod.outlook.com (10.141.249.52) by
-	BY2PR03MB297.namprd03.prod.outlook.com (10.141.139.14) with Microsoft
-	SMTP Server (TLS) id 15.0.949.11; Fri, 16 May 2014 09:01:22 +0000
-Received: from BY2FFO11FD047.protection.gbl (2a01:111:f400:7c0c::111) by
-	BY2PR03CA079.outlook.office365.com (2a01:111:e400:2c5d::52) with
-	Microsoft SMTP Server (TLS) id 15.0.939.12 via Frontend Transport;
-	Fri, 16 May 2014 09:01:22 +0000
-Received: from az84smr01.freescale.net (192.88.158.2) by
-	BY2FFO11FD047.mail.protection.outlook.com (10.1.15.175) with Microsoft
-	SMTP Server (TLS) id 15.0.939.9 via Frontend Transport;
-	Fri, 16 May 2014 09:01:22 +0000
-Received: from localhost.localdomain (b40527-01.ap.freescale.net
-	[10.193.20.90])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s4G91K18021802;
-	Fri, 16 May 2014 02:01:20 -0700
-From: <b40527@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 May 2014 17:01:36 +0800
-Message-ID: <1400230896-5902-1-git-send-email-b40527@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(6009001)(199002)(189002)(77156001)(77982001)(81542001)(99396002)(74502001)(48376002)(64706001)(87936001)(81156002)(31966008)(85852003)(6806004)(88136002)(74662001)(46102001)(83072002)(44976005)(83322001)(19580405001)(89996001)(19580395003)(62966002)(76482001)(47776003)(20776003)(102836001)(50466002)(49486002)(50986999)(33646001)(21056001)(77096999)(87286001)(80022001)(81342001)(93916002)(92566001)(86152002)(79102001)(50226001)(92726001)(84676001)(69596002)(68736004)(36756003)(97736001)(4396001);
-	DIR:OUT; SFP:; SCL:1; SRVR:BY2PR03MB297;
-	H:az84smr01.freescale.net; FPR:; MLV:sfv;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+	Fri, 16 May 2014 09:39:36 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id q107so3710460qgd.38
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 May 2014 02:39:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Yu9bXnZwkRcvB6k3AeVXtCoVfv9AS1nhN3Xz4xyjlG4=;
+	b=Yr20qN2hxTTdK1xkE4S86/DZoSrYN7Ur+cmQwvxsofyvkMHtXpv05TaA5aYzIqpfeh
+	27Sg6/680rmcQl/1xY4S/x+t2SOH3a4KA/CcAlcsU/gJ419ITvxFIddoMrKGieHOumVA
+	GlwjiseSVl4hEo9VAwGmo1sGdPJbn1qf/Q2pEafd3jB3QTMjwQayfdm66lfCWqThqKMg
+	TgUZVsyao7d158PXD/2GIMO9xxszxctrAfRLdtBMsxeZkoCK2UqEkMoPKxNcjvQD81eq
+	2xUIeG5c1N+5nEP5gP9EOmtH+1GnqNmCicpqyfG4aZVy3U33GeKoAtMDEqD8aQkvE5hp
+	TsIg==
+X-Gm-Message-State: ALoCoQnIbpGJbzsqZoX38duyMFpcRuy45FYLat1tEujF/Y1YPa3nZjC6s4ZdKFf9XAUmQlHlu1p5
+X-Received: by 10.224.32.138 with SMTP id c10mr11283848qad.35.1400233177104;
+	Fri, 16 May 2014 02:39:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Forefront-PRVS: 02135EB356
-Received-SPF: Fail (: domain of freescale.com does not designate 192.88.158.2
-	as permitted sender) receiver=; client-ip=192.88.158.2;
-	helo=az84smr01.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.158.2)
-	smtp.mailfrom=Zongchun.Yu@freescale.com; 
-X-OriginatorOrg: freescale.com
-Cc: Zongchun Yu <Zongchun.Yu@freescale.com>
-Subject: [PATCH 2/2] Add api-doc class
+Received: by 10.140.101.77 with HTTP; Fri, 16 May 2014 02:39:17 -0700 (PDT)
+In-Reply-To: <1400226321-5201-1-git-send-email-b40527@freescale.com>
+References: <1400226321-5201-1-git-send-email-b40527@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 May 2014 10:39:17 +0100
+Message-ID: <CAJTo0Lar8Hbc1Gsa3k631M697ZHDOufJ1k7ugTUU=AWXaHjMAQ@mail.gmail.com>
+To: "b40527@freescale.com" <b40527@freescale.com>
+Cc: Zongchun Yu <Zongchun.Yu@freescale.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] Add api-doc class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,42 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 09:01:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 May 2014 09:39:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Zongchun Yu <Zongchun.Yu@freescale.com>
+As this class is specific to doxygen, please call it doxygen.bbclass.
 
-this class use doxygen to generate api docs from source code
+Also I think this should be opt-in not forcibly enabled as not
+everyone would want API documentation to be generated.
 
-Signed-off-by: Zongchun Yu <Zongchun.Yu@freescale.com>
----
- meta/classes/api-doc.bbclass |   16 ++++++++++++++++
- 1 files changed, 16 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/api-doc.bbclass
+Pretty sure you'll want to run doxygen after do_compile in case the
+documentation is generated from files built at compile time.  But
+don't most packages that use doxygen invoke it themselves?  You're
+also not actually installing the documentation anywhere.
 
-diff --git a/meta/classes/api-doc.bbclass b/meta/classes/api-doc.bbclass
-new file mode 100644
-index 0000000..0879c3e
---- /dev/null
-+++ b/meta/classes/api-doc.bbclass
-@@ -0,0 +1,16 @@
-+# Helper class to pull in the right dependencies and generate
-+# api documentation from sources code
-+
-+DEPENDS += "doxygen-native"
-+
-+# Doxygen configuration file
-+DOXYGEN_CFG ?= "Doxyfile"
-+
-+do_generate_doc () {
-+    if [ -e ${S}/${DOXYGEN_CFG} ]; then
-+        doxygen ${S}/${DOXYGEN_CFG}
-+    else
-+        bbfatal "no doxygen configuration file found"
-+    fi
-+}
-+addtask generate_doc before do_install after do_patch
--- 
-1.7.0.4
+Ross
 
+On 16 May 2014 08:45,  <b40527@freescale.com> wrote:
+> From: Zongchun Yu <Zongchun.Yu@freescale.com>
+>
+> this class use doxygen to generate api docs from source code
+>
+> Signed-off-by: Zongchun Yu <Zongchun.Yu@freescale.com>
+> ---
+>  meta/classes/api-doc.bbclass |   16 ++++++++++++++++
+>  1 files changed, 16 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/classes/api-doc.bbclass
+>
+> diff --git a/meta/classes/api-doc.bbclass b/meta/classes/api-doc.bbclass
+> new file mode 100644
+> index 0000000..0879c3e
+> --- /dev/null
+> +++ b/meta/classes/api-doc.bbclass
+> @@ -0,0 +1,16 @@
+> +# Helper class to pull in the right dependencies and generate
+> +# api documentation from sources code
+> +
+> +DEPENDS += "doxygen-native"
+> +
+> +# Doxygen configuration file
+> +DOXYGEN_CFG ?= "Doxyfile"
+> +
+> +do_generate_doc () {
+> +    if [ -e ${S}/${DOXYGEN_CFG} ]; then
+> +        doxygen ${S}/${DOXYGEN_CFG}
+> +    else
+> +        bbfatal "no doxygen configuration file found"
+> +    fi
+> +}
+> +addtask generate_doc before do_install after do_patch
+> --
+> 1.7.0.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
