@@ -1,26 +1,59 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 80F2865E87
+Return-Path: <pb@pbcl.net>
+X-Greylist: delayed 2134 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 16 May 2014 11:28:07 UTC
+Received: from hetzner.pbcl.net (unknown [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3E76601E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 11:09:03 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 May 2014 04:09:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1066,1389772800"; d="scan'208";a="433008756"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.123.87])
-	by azsmga001.ch.intel.com with ESMTP; 16 May 2014 04:09:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Roy Li <rongqing.li@windriver.com>
-Date: Fri, 16 May 2014 12:09 +0100
-Message-ID: <6339757.ULFiZ01mb2@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <cover.1400201782.git.rongqing.li@windriver.com>
-References: <cover.1400201782.git.rongqing.li@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/12 v2] ffmpeg: backport 12 CVE patches
+	Fri, 16 May 2014 11:28:07 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1WlFkg-0002XE-BL
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 May 2014 12:52:34 +0200
+Message-ID: <1400237551.5524.18.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 May 2014 11:52:31 +0100
+In-Reply-To: <21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
+References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>
+	<3327056.Df3VZKvVg7@peggleto-mobl5.ger.corp.intel.com>
+	<ljlih4$rvg$1@ger.gmane.org>
+	<21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Fri, 2014-05-16 at 11:51 +0100,
+	Paul Eggleton wrote: >
+	On Monday 28 April 2014 14:45:26 Koen Kooi wrote: > > Paul Eggleton
+	schreef
+	op 28-04-14 13:08: > > > OK then, how about this instead: > > > > > > 1)
+	Ensure the "openembedded-core" repository is kept up-to-date > > > > >
+	> 2)
+	Add a "meta-openembedded" repository and ensure it is kept up-to-date >
+	>
+	> > > > 3) Add a warning to the description for the contracted name
+	repositories
+	> > > that the fully-named repositories should be used instead,
+	so we can
+	> > > eventually drop them > > > > > > 4) Change documentation /
+	scripts
+	to match #3 > > > > Sounds like a good plan to me! > > OK,
+	so who will do this then (whoever has access)? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: Re: [oe] OE Github repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +66,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 11:09:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 16 May 2014 11:28:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Roy,
-
-On Friday 16 May 2014 10:12:08 rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
+On Fri, 2014-05-16 at 11:51 +0100, Paul Eggleton wrote:
+> On Monday 28 April 2014 14:45:26 Koen Kooi wrote:
+> > Paul Eggleton schreef op 28-04-14 13:08:
+> > > OK then, how about this instead:
+> > > 
+> > > 1) Ensure the "openembedded-core" repository is kept up-to-date
+> > > 
+> > > 2) Add a "meta-openembedded" repository and ensure it is kept up-to-date
+> > > 
+> > > 3) Add a warning to the description for the contracted name repositories
+> > > that the fully-named repositories should be used instead, so we can
+> > > eventually drop them
+> > > 
+> > > 4) Change documentation / scripts to match #3
+> > 
+> > Sounds like a good plan to me!
 > 
-> Diff with V1: use ffmpeg as prefix of commit header
-> 
-> The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
-> 
->   gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib roy/ffmpeg-2
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-2
-> 
-> Yue Tao (12):
->   ffmpeg: fix for Security Advisory CVE-2014-2263
->   ffmpeg: fix for Security Advisory CVE-2013-0865
->   ffmpeg: fix for Security Advisory CVE-2014-2099
->   ffmpeg: fix for Security Advisory CVE-2013-0868
->   ffmpeg: fix for Security Advisory CVE-2013-0845
->   ffmpeg: fix for Security Advisory CVE-2013-0852
->   ffmpeg: fix for Security Advisory CVE-2013-0858
->   ffmpeg: fix for Security Advisory CVE-2013-0851
->   ffmpeg: fix for Security Advisory CVE-2013-0854
->   ffmpeg: fix for Security Advisory CVE-2013-0856
->   ffmpeg: fix for Security Advisory CVE-2013-0850
->   ffmpeg: fix for Security Advisory CVE-2013-0849
+> OK, so who will do this then (whoever has access)?
 
-This should really be "gst-ffmpeg:" rather than just "ffmpeg:" since that's the 
-recipe being modified.
+I can do it if you like.
 
-Also, I'm not sure if you got my message yesterday (since there was a problem 
-with the email transmission) however I'll repeat it here just in case:
+p.
 
-> Note that whilst we should apply these patches, they won't actually have any
-> effect on unmodified builds because we do not use gst-ffmpeg's internal
-> copy of ffmpeg, we use libav instead. So if any of these fixes apply to
-> libav (or if there are equivalent fixes) we will need to apply them to
-> libav.
 
-Would you be able to take care of the corresponding patches to libav?
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
