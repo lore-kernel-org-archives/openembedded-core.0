@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 115EA6A5B2
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 40D306A9FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 02:12:34 +0000 (UTC)
+	Fri, 16 May 2014 02:12:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CZNn019630
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CaEW009584
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 19:12:35 -0700 (PDT)
+	Thu, 15 May 2014 19:12:36 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 15 May 2014 19:12:34 -0700
+	14.3.169.1; Thu, 15 May 2014 19:12:35 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 May 2014 10:12:15 +0800
-Message-ID: <8300979ec230f0d13c86c399db2aa40480b84860.1400201782.git.rongqing.li@windriver.com>
+Date: Fri, 16 May 2014 10:12:16 +0800
+Message-ID: <bdc98adf811ad747bcdfaef98c1532b2ccc4b369.1400201782.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1400201782.git.rongqing.li@windriver.com>
 References: <cover.1400201782.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/12] ffmpeg: fix for Security Advisory CVE-2013-0858
+Subject: [PATCH 08/12] ffmpeg: fix for Security Advisory CVE-2013-0851
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 02:12:34 -0000
+X-List-Received-Date: Fri, 16 May 2014 02:12:35 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-The atrac3_decode_init function in libavcodec/atrac3.c in FFmpeg before
-1.0.4 allows remote attackers to have an unspecified impact via ATRAC3
-data with the joint stereo coding mode set and fewer than two channels.
+The decode_frame function in libavcodec/eamad.c in FFmpeg before 1.1
+allows remote attackers to have an unspecified impact via crafted
+Electronic Arts Madcow video data, which triggers an out-of-bounds array
+access.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0858
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0851
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- ...ac3dec-Check-coding-mode-against-channels.patch |   37 ++++++++++++++++++++
+ .../0001-eamad-fix-out-of-array-accesses.patch     |   29 ++++++++++++++++++++
  .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
 new file mode 100644
-index 0000000..42cb5f4
+index 0000000..f45e3fd
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
-@@ -0,0 +1,37 @@
-+From 2502914c5f8eb77659d7c0868396862557a63245 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
+@@ -0,0 +1,29 @@
++From 63ac64864c6e0e84355aa3caa5b92208997a9a8d Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Fri, 9 Nov 2012 13:26:20 +0100
-+Subject: [PATCH] atrac3dec: Check coding mode against channels.
++Date: Sat, 17 Nov 2012 16:26:55 +0100
++Subject: [PATCH] eamad: fix out of array accesses
 +
 +Upstream-Status: Backport
 +
-+Commit 2502914c5f8eb77659d7c0868396862557a63245 release/1.0
++Commit 63ac64864c6e0e84355aa3caa5b92208997a9a8d release/1.1
 +
 +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit 13451f5520ce6b0afde861b2285dda659f8d4fb4)
-+
-+Conflicts:
-+
-+	libavcodec/atrac3.c
 +---
-+ libavcodec/atrac3.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ libavcodec/eamad.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libavcodec/atrac3.c b/libavcodec/atrac3.c
-+index 7d076be..1da4c78 100644
-+--- a/gst-libs/ext/libav/libavcodec/atrac3.c
-++++ b/gst-libs/ext/libav/libavcodec/atrac3.c
-+@@ -955,6 +955,11 @@ static av_cold int atrac3_decode_init(AVCodecContext *avctx)
-+     }
-+     /* Check the extradata. */
++diff --git a/libavcodec/eamad.c b/libavcodec/eamad.c
++index 2805195..e38650e 100644
++--- a/gst-libs/ext/libav/libavcodec/eamad.c
+++++ b/gst-libs/ext/libav/libavcodec/eamad.c
++@@ -237,7 +237,7 @@ static int decode_frame(AVCodecContext *avctx,
++     int chunk_type;
++     int inter;
 + 
-++    if (q->codingMode == JOINT_STEREO && avctx->channels < 2) {
-++        av_log(avctx, AV_LOG_ERROR, "Invalid coding mode\n");
-++        return AVERROR_INVALIDDATA;
-++    }
-++
-+     if (q->atrac3version != 4) {
-+         av_log(avctx,AV_LOG_ERROR,"Version %d != 4.\n",q->atrac3version);
-+         return AVERROR_INVALIDDATA;
++-    if (buf_size < 17) {
+++    if (buf_size < 26) {
++         av_log(avctx, AV_LOG_ERROR, "Input buffer too small\n");
++         *data_size = 0;
++         return -1;
 +-- 
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index eded98b..a603ff5 100644
+index a603ff5..0d0ba9a 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -30,6 +30,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-huffyuvdec-Check-init_vlc-return-codes.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
             file://0001-alsdec-check-block-length.patch \
             file://0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch \
-+           file://0001-atrac3dec-Check-coding-mode-against-channels.patch \
+            file://0001-atrac3dec-Check-coding-mode-against-channels.patch \
++           file://0001-eamad-fix-out-of-array-accesses.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
