@@ -1,29 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 430BB6028A
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DDD96A382
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 02:05:23 +0000 (UTC)
+	Fri, 16 May 2014 02:12:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G25LgL019136
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 15 May 2014 19:05:23 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 15 May 2014 19:05:21 -0700
-Message-ID: <53757279.3020908@windriver.com>
-Date: Fri, 16 May 2014 10:05:45 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CJkA009572
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 May 2014 19:12:19 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 15 May 2014 19:12:18 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 May 2014 10:12:08 +0800
+Message-ID: <cover.1400201782.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>
-References: <1400099434-22527-1-git-send-email-otavio@ossystems.com.br>	<CAMKF1srwzW+pU4K2wgSG6GPmRGmGdGqCbaJi34ZjF0Npi4TOcQ@mail.gmail.com>
-	<CAP9ODKrwxJ85rn5sPqaW7cvu3cu0+NFcgHOL_My3oUWR1dok5A@mail.gmail.com>
-In-Reply-To: <CAP9ODKrwxJ85rn5sPqaW7cvu3cu0+NFcgHOL_My3oUWR1dok5A@mail.gmail.com>
-X-Originating-IP: [128.224.162.187]
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH 1/4] tcf-agent: add systemd support
+Subject: [PATCH 00/12 v2] ffmpeg: backport 12 CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 02:05:31 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 May 2014 02:12:22 -0000
+Content-Type: text/plain
 
-On 05/15/2014 08:24 PM, Otavio Salvador wrote:
-> On Wed, May 14, 2014 at 7:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Wed, May 14, 2014 at 1:30 PM, Otavio Salvador
->> <otavio@ossystems.com.br> wrote:
->>> +       install -d ${D}${systemd_unitdir}/system
->>> +       install -m 0644 ${WORKDIR}/tcf-agent.service ${D}${systemd_unitdir}/system
->>> +       sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/tcf-agent.service
->> shouldn't this happened if systemd is enabled in distro
-> Agreed. Added Chen Qi in Cc.
->
+From: Roy Li <rongqing.li@windriver.com>
 
-In systemd.bbclass, there's function to remove things under 
-${systemdunitdir} if 'systemd' is not in DISTRO_FEATURES. So I think 
-there's no need to add a check here.
+Diff with V1: use ffmpeg as prefix of commit header 
 
-Below are the related codes.
+The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
 
-python rm_systemd_unitdir (){
-     import shutil
-     if not bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-         systemd_unitdir = oe.path.join(d.getVar("D", True), 
-d.getVar('systemd_unitdir', True))
-         if os.path.exists(systemd_unitdir):
-             shutil.rmtree(systemd_unitdir)
-         systemd_libdir = os.path.dirname(systemd_unitdir)
-         if (os.path.exists(systemd_libdir) and not 
-os.listdir(systemd_libdir)):
-             os.rmdir(systemd_libdir)
-}
-do_install[postfuncs] += "rm_systemd_unitdir "
+  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
 
-Best Regards,
-Chen Qi
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/ffmpeg-2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-2
+
+Yue Tao (12):
+  ffmpeg: fix for Security Advisory CVE-2014-2263
+  ffmpeg: fix for Security Advisory CVE-2013-0865
+  ffmpeg: fix for Security Advisory CVE-2014-2099
+  ffmpeg: fix for Security Advisory CVE-2013-0868
+  ffmpeg: fix for Security Advisory CVE-2013-0845
+  ffmpeg: fix for Security Advisory CVE-2013-0852
+  ffmpeg: fix for Security Advisory CVE-2013-0858
+  ffmpeg: fix for Security Advisory CVE-2013-0851
+  ffmpeg: fix for Security Advisory CVE-2013-0854
+  ffmpeg: fix for Security Advisory CVE-2013-0856
+  ffmpeg: fix for Security Advisory CVE-2013-0850
+  ffmpeg: fix for Security Advisory CVE-2013-0849
+
+ .../0001-alac-fix-nb_samples-order-case.patch      |   30 +++++++
+ .../0001-alsdec-check-block-length.patch           |   61 ++++++++++++++
+ ...ac3dec-Check-coding-mode-against-channels.patch |   37 +++++++++
+ ...le-use-av_image_get_linesize-to-calculate.patch |   50 +++++++++++
+ ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   69 ++++++++++++++++
+ .../0001-eamad-fix-out-of-array-accesses.patch     |   29 +++++++
+ ...t-ref-count-check-and-limit-fix-out-of-ar.patch |   29 +++++++
+ ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 ++++++++++++++++++++
+ .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
+ .../0001-mjpegdec-check-SE.patch                   |   32 +++++++
+ ...heck-RLE-size-before-copying.-Fix-out-of-.patch |   34 ++++++++
+ ...001-roqvideodec-check-dimensions-validity.patch |   36 ++++++++
+ ...o-check-chunk-sizes-before-reading-chunks.patch |   51 ++++++++++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |   13 +++
+ 14 files changed, 617 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-correct-ref-count-check-and-limit-fix-out-of-ar.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-roqvideodec-check-dimensions-validity.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
+
+-- 
+1.7.10.4
+
 
