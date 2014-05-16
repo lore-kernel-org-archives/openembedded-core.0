@@ -1,25 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DE8E65EA8
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 430BB6028A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 21:28:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 May 2014 14:28:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1062,1389772800"; d="scan'208";a="512421562"
-Received: from unknown (HELO [10.255.12.90]) ([10.255.12.90])
-	by orsmga001.jf.intel.com with ESMTP; 15 May 2014 14:28:13 -0700
-Message-ID: <5375316D.1000000@linux.intel.com>
-Date: Thu, 15 May 2014 14:28:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 16 May 2014 02:05:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G25LgL019136
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 15 May 2014 19:05:23 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Thu, 15 May 2014 19:05:21 -0700
+Message-ID: <53757279.3020908@windriver.com>
+Date: Fri, 16 May 2014 10:05:45 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: Max Eliaser <max.eliaser@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1400103108.git.max.eliaser@intel.com>
-In-Reply-To: <cover.1400103108.git.max.eliaser@intel.com>
-Subject: Re: [PATCH 0/3] Suppress Texinfo utilities invoked at build time for -cross & -native recipes
+To: Otavio Salvador <otavio@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>
+References: <1400099434-22527-1-git-send-email-otavio@ossystems.com.br>	<CAMKF1srwzW+pU4K2wgSG6GPmRGmGdGqCbaJi34ZjF0Npi4TOcQ@mail.gmail.com>
+	<CAP9ODKrwxJ85rn5sPqaW7cvu3cu0+NFcgHOL_My3oUWR1dok5A@mail.gmail.com>
+In-Reply-To: <CAP9ODKrwxJ85rn5sPqaW7cvu3cu0+NFcgHOL_My3oUWR1dok5A@mail.gmail.com>
+X-Originating-IP: [128.224.162.187]
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH 1/4] tcf-agent: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,83 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 May 2014 21:28:13 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 May 2014 02:05:31 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 05/15/2014 08:24 PM, Otavio Salvador wrote:
+> On Wed, May 14, 2014 at 7:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Wed, May 14, 2014 at 1:30 PM, Otavio Salvador
+>> <otavio@ossystems.com.br> wrote:
+>>> +       install -d ${D}${systemd_unitdir}/system
+>>> +       install -m 0644 ${WORKDIR}/tcf-agent.service ${D}${systemd_unitdir}/system
+>>> +       sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/tcf-agent.service
+>> shouldn't this happened if systemd is enabled in distro
+> Agreed. Added Chen Qi in Cc.
+>
 
-Max,
+In systemd.bbclass, there's function to remove things under 
+${systemdunitdir} if 'systemd' is not in DISTRO_FEATURES. So I think 
+there's no need to add a check here.
 
-we has a failure on the Autobuilder when attempting to build the world 
-build.
+Below are the related codes.
 
-This has some texinfo related failures, please check them out.
+python rm_systemd_unitdir (){
+     import shutil
+     if not bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+         systemd_unitdir = oe.path.join(d.getVar("D", True), 
+d.getVar('systemd_unitdir', True))
+         if os.path.exists(systemd_unitdir):
+             shutil.rmtree(systemd_unitdir)
+         systemd_libdir = os.path.dirname(systemd_unitdir)
+         if (os.path.exists(systemd_libdir) and not 
+os.listdir(systemd_libdir)):
+             os.rmdir(systemd_libdir)
+}
+do_install[postfuncs] += "rm_systemd_unitdir "
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/95/steps/BuildImages/logs/stdio
-
-Thanks
-
-Sau!
-
-On 05/14/2014 02:35 PM, Max Eliaser wrote:
-> Hello list,
->
-> As per discussion with Richard Purdie and others, I'm submitting a patch to
-> suppress some unnecessary invocations of utilities from the Texinfo suite during
-> Yocto builds. Specifically, it targets -native and -cross recipes that inherit
-> texinfo.bbclass.
->
-> The Texinfo utilities are suppressed by supplying doppelgänger executables which
-> understand the same command-line options as the genuine Texinfo utilites, and
-> which can create blank output files where expected, but which do no actual
-> processing, formatting, or markup. To see how this is done, look in the
-> texinfo-dummy-native recipe (under meta/recipes-extended,) added in this patch
-> series, as well as the modifications to texinfo.bbclass, also in this patch
-> series.
->
-> Suppressing the Texinfo utilities for -native and -cross recipes does provide a
-> noticable performance gain, as documented in bug 2421. [1] You could make the
-> case that this patch series still does not completely address bug 2421, as there
-> are other utilities not from the Texinfo suite (groff, pod2man, etc) which are
-> not suppressed by these changes.
->
-> Target-architecture recipes continue to use the host system's Texinfo utilities
-> as before, so that dependency is not eliminated by this patch series.
->
-> Regards,
-> -Max Eliaser
->
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2421
-> The following changes since commit 7b78c364b7de901f97cd8dbe56d5e02f545bf3d3:
->
->    cleanup-workdir: Fix crosssdk reference after addition of PN (2014-05-05 09:05:42 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib meliaser/texinfo-build
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/texinfo-build
->
-> Max Eliaser (3):
->    Allow texinfo, texinfo-native recipes to build w/o host system's
->      Texinfo utils
->    Add texinfo-dummy-native recipe w/ scripts to stand in for Texinfo
->      utils.
->    native/cross recipes use texinfo-dummy-native; target arch use host's
->      Texinfo.
->
->   meta/classes/texinfo.bbclass                       |  15 ++-
->   meta/conf/bitbake.conf                             |   1 +
->   .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
->   .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
->   .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
->   .../texinfo/texinfo/disable-native-tools.patch     |  43 --------
->   .../texinfo/texinfo/use_host_makedoc.patch         |  17 ---
->   meta/recipes-extended/texinfo/texinfo_5.2.bb       |   8 +-
->   8 files changed, 188 insertions(+), 67 deletions(-)
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
->   delete mode 100644 meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
->   delete mode 100644 meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
->
+Best Regards,
+Chen Qi
 
