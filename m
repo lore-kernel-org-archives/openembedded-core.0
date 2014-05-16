@@ -1,30 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E355266078
+	by mail.openembedded.org (Postfix) with ESMTP id F3DE366007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 05:33:58 +0000 (UTC)
+	Fri, 16 May 2014 06:00:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G5Xxka002295
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G605wR004216
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 22:33:59 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 15 May 2014 22:33:59 -0700
-Message-ID: <5375A343.20603@windriver.com>
-Date: Fri, 16 May 2014 13:33:55 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 15 May 2014 23:00:05 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 15 May 2014 23:00:05 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 May 2014 14:00:00 +0800
+Message-ID: <cover.1400219191.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Chong Lu <Chong.Lu@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1397036620.git.Chong.Lu@windriver.com>
-	<2e5aded6bd991ada5810d99cb6bfdc9bfe79c39b.1397036620.git.Chong.Lu@windriver.com>
-In-Reply-To: <2e5aded6bd991ada5810d99cb6bfdc9bfe79c39b.1397036620.git.Chong.Lu@windriver.com>
-X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH 1/1] tar: set acpaths to avoid "Argument list too long" error
+Subject: [PATCH 0/6] subversion: backport 6 CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 05:34:02 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 May 2014 06:00:08 -0000
+Content-Type: text/plain
 
-ping
+From: Roy Li <rongqing.li@windriver.com>
 
-On 04/09/2014 05:44 PM, Chong Lu wrote:
-> There would be an error when the TMPDIR is long/deep, for example when
-> len(TMPDIR) = 410 while our supported longest value is 410:
->
->      aclocal: error: cannot open xxx
->      autoreconf: aclocal failed with exit status: 1
->      ERROR: autoreconf execution failed.
->
-> Let aclocal use the relative path for the m4 file rather than the
-> absolute would fix the problem.
->
-> [YOCTO #6138]
->
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->   meta/recipes-extended/tar/tar.inc | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
-> index 30a1373..75c3518 100644
-> --- a/meta/recipes-extended/tar/tar.inc
-> +++ b/meta/recipes-extended/tar/tar.inc
-> @@ -10,6 +10,12 @@ inherit autotools gettext
->   
->   EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
->   
-> +# Let aclocal use the relative path for the m4 file rather than the
-> +# absolute since tar has a lot of m4 files, otherwise there might
-> +# be an "Argument list too long" error when it is built in a long/deep
-> +# directory.
-> +acpaths = "-I ./m4"
-> +
->   EXTRAINSTALL = "do_install_extra"
->   EXTRAINSTALL_class-nativesdk = ""
->   
+The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
+
+  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/subversion-1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/subversion-1
+
+Yue Tao (6):
+  subversion: fix for Security Advisory CVE-2013-1849
+  subversion: fix for Security Advisory CVE-2013-4505
+  subversion: fix for Security Advisory CVE-2013-4131
+  subversion: fix for Security Advisory CVE-2013-1845
+  subversion: fix for Security Advisory CVE-2013-1847 and CVE-2013-1846
+  subversion: fix for Security Advisory CVE-2013-4277
+
+ .../subversion-CVE-2013-4131.patch                 |   42 +++++
+ .../subversion-CVE-2013-4277.patch                 |   15 ++
+ .../subversion-CVE-2013-4505.patch                 |  130 +++++++++++++++
+ .../subversion/subversion-CVE-2013-1845.patch      |  171 ++++++++++++++++++++
+ .../subversion-CVE-2013-1847-CVE-2013-1846.patch   |   53 ++++++
+ .../subversion/subversion-CVE-2013-1849.patch      |   25 +++
+ .../subversion/subversion-CVE-2013-4277.patch      |   13 ++
+ .../subversion/subversion-CVE-2013-4505.patch      |  125 ++++++++++++++
+ .../subversion/subversion_1.6.15.bb                |    8 +-
+ .../subversion/subversion_1.7.10.bb                |    3 +
+ 10 files changed, 583 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4131.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4505.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1845.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1847-CVE-2013-1846.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4505.patch
+
+-- 
+1.7.10.4
 
 
