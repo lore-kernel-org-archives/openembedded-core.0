@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 45CEF6A382
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F2626A53E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 02:12:22 +0000 (UTC)
+	Fri, 16 May 2014 02:12:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CNsf009575
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4G2CO87019614
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 May 2014 19:12:23 -0700 (PDT)
+	Thu, 15 May 2014 19:12:29 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 15 May 2014 19:12:21 -0700
+	14.3.169.1; Thu, 15 May 2014 19:12:24 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 May 2014 10:12:10 +0800
-Message-ID: <8756226078972a5286277cd6be420673479dd20d.1400201782.git.rongqing.li@windriver.com>
+Date: Fri, 16 May 2014 10:12:11 +0800
+Message-ID: <badc0c42cd56b2245aab8fc1d1d0b6ca77615c12.1400201782.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1400201782.git.rongqing.li@windriver.com>
 References: <cover.1400201782.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/12] ffmpeg: fix for Security Advisory CVE-2013-0865
+Subject: [PATCH 03/12] ffmpeg: fix for Security Advisory CVE-2014-2099
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,92 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 02:12:22 -0000
+X-List-Received-Date: Fri, 16 May 2014 02:12:28 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-The vqa_decode_chunk function in libavcodec/vqavideo.c in FFmpeg before
-1.0.4 and 1.1.x before 1.1.2 allows remote attackers to have an
-unspecified impact via a large (1) cbp0 or (2) cbpz chunk in Westwood
-Studios VQA Video file, which triggers an out-of-bounds write.
+The msrle_decode_frame function in libavcodec/msrle.c in FFmpeg before
+2.1.4 does not properly calculate line sizes, which allows remote
+attackers to cause a denial of service (out-of-bounds array access) or
+possibly have unspecified other impact via crafted Microsoft RLE video
+data.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0865
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2099
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- ...o-check-chunk-sizes-before-reading-chunks.patch |   51 ++++++++++++++++++++
+ ...le-use-av_image_get_linesize-to-calculate.patch |   50 ++++++++++++++++++++
  .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
 new file mode 100644
-index 0000000..7e4f682
+index 0000000..b0a3fb1
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
-@@ -0,0 +1,51 @@
-+From 2cac35086c9e103fa98960c546d5017e7363803a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+@@ -0,0 +1,50 @@
++From 573d5fdedae72bf59d8c0b0766fdee171063d36f Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Fri, 25 Jan 2013 06:11:59 +0100
-+Subject: [PATCH] vqavideo: check chunk sizes before reading chunks
++Date: Sun, 16 Feb 2014 23:08:52 +0100
++Subject: [PATCH] avcodec/msrle: use av_image_get_linesize() to calculate the
++ linesize
 +
 +Upstream-Status: Backport
 +
-+Commit 2cac35086c9e103fa98960c546d5017e7363803a release/0.7
++Commit 573d5fdedae72bf59d8c0b0766fdee171063d36f release/0.9
 +
-+Fixes out of array writes
-+
++Fixes out of array access
++Fixes: 14a74a0a2dc67ede543f0e35d834fbbe-asan_heap-oob_49572c_556_cov_215466444_44_001_engine_room.mov
 +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit ab6c9332bfa1e20127a16392a0b85a4aa4840889)
++(cherry picked from commit c919e1ca2ecfc47d796382973ba0e48b8f6f92a2)
++
++Conflicts:
++
++	libavcodec/msrle.c
++(cherry picked from commit bc1c8ec5e65098fd2ccd8456f667151dfc9cda42)
 +
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
 +---
-+ libavcodec/vqavideo.c |   10 ++++++++++
-+ 1 files changed, 10 insertions(+), 0 deletions(-)
++ libavcodec/msrle.c |    3 ++-
++ 1 files changed, 2 insertions(+), 1 deletions(-)
 +
-+diff --git a/libavcodec/vqavideo.c b/libavcodec/vqavideo.c
-+index d1eab5b..6e1ce6c 100644
-+--- a/gst-libs/ext/libav/libavcodec/vqavideo.c
-++++ b/gst-libs/ext/libav/libavcodec/vqavideo.c
-+@@ -527,6 +527,11 @@ static void vqa_decode_chunk(VqaContext *s)
-+         chunk_size = AV_RB32(&s->buf[cbp0_chunk + 4]);
-+         cbp0_chunk += CHUNK_PREAMBLE_SIZE;
++diff --git a/libavcodec/msrle.c b/libavcodec/msrle.c
++index 30159bb..c39ae7b 100644
++--- a/gst-libs/ext/libav/libavcodec/msrle.c
+++++ b/gst-libs/ext/libav/libavcodec/msrle.c
++@@ -35,6 +35,7 @@
++ #include "avcodec.h"
++ #include "dsputil.h"
++ #include "msrledec.h"
+++#include "libavutil/imgutils.h"
 + 
-++        if (chunk_size > MAX_CODEBOOK_SIZE - s->next_codebook_buffer_index) {
-++            av_log(s->avctx, AV_LOG_ERROR, "cbp0 chunk too large (0x%X bytes)\n", chunk_size);
-++            return AVERROR_INVALIDDATA;
-++        }
-++
-+         /* accumulate partial codebook */
-+         memcpy(&s->next_codebook_buffer[s->next_codebook_buffer_index],
-+             &s->buf[cbp0_chunk], chunk_size);
-+@@ -550,6 +555,11 @@ static void vqa_decode_chunk(VqaContext *s)
-+         chunk_size = AV_RB32(&s->buf[cbpz_chunk + 4]);
-+         cbpz_chunk += CHUNK_PREAMBLE_SIZE;
++ typedef struct MsrleContext {
++     AVCodecContext *avctx;
++@@ -107,7 +108,7 @@ static int msrle_decode_frame(AVCodecContext *avctx,
 + 
-++        if (chunk_size > MAX_CODEBOOK_SIZE - s->next_codebook_buffer_index) {
-++            av_log(s->avctx, AV_LOG_ERROR, "cbpz chunk too large (0x%X bytes)\n", chunk_size);
-++            return AVERROR_INVALIDDATA;
-++        }
-++
-+         /* accumulate partial codebook */
-+         memcpy(&s->next_codebook_buffer[s->next_codebook_buffer_index],
-+             &s->buf[cbpz_chunk], chunk_size);
++     /* FIXME how to correctly detect RLE ??? */
++     if (avctx->height * istride == avpkt->size) { /* assume uncompressed */
++-        int linesize = avctx->width * avctx->bits_per_coded_sample / 8;
+++        int linesize = av_image_get_linesize(avctx->pix_fmt, avctx->width, 0);
++         uint8_t *ptr = s->frame.data[0];
++         uint8_t *buf = avpkt->data + (avctx->height-1)*istride;
++         int i, j;
 +-- 
 +1.7.5.4
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 4913539..3d1f207 100644
+index 3d1f207..05cc404 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libav_e5500.patch \
+@@ -25,6 +25,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
             file://gst-ffmpeg-CVE-2013-3674.patch \
             file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
-+           file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
+            file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
++           file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
