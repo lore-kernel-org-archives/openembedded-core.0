@@ -1,20 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B3F65FE5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f176.google.com (unknown [209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5627A660CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 May 2014 20:50:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 May 2014 13:50:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,1069,1389772800"; d="scan'208";a="512966351"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.101])
-	by orsmga001.jf.intel.com with ESMTP; 16 May 2014 13:50:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 May 2014 13:50:45 -0700
-Message-Id: <1400273445-15060-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] libusb1: disable floating dependency on udev
+	Sat, 17 May 2014 05:27:01 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id hl10so1619323igb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 May 2014 22:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=fvQUEeDmFe9rdEV09H5Y/dV5oCeLBduaeUQL941Mun8=;
+	b=YS1iy/4SLIjRsZ0fStmg1XERAwolUN4xB7YoXh+pZ7JE+qhF5tCAk9T4EDimljdx8q
+	2M1ONYN95CNKnyCqZu8JxVgzx5q0OMXoSbF45/1TgdkltAMGNEOzbv/8nl4QPa2ziAbo
+	rhfOTmikc7lFMivq+HTL6t71scbOddAcQyXS2GtsApMhTia7apQgcUclLR6ABeojvNOF
+	PlD/69TbqDlfmdMCn7jmncU01QXV1Q+CuA1xO95rfRvSeuYd0N6Bpk52CdNtcFIFFJfu
+	Esc3XzBm4kzJKu/JIV2LXlBUSGIejXMKUrGJvDYNptRwFZEoCR7Yy58mAGpTeAl7Vsqv
+	m1mw==
+X-Received: by 10.42.21.207 with SMTP id l15mr20626104icb.8.1400304422187;
+	Fri, 16 May 2014 22:27:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.79.133 with HTTP; Fri, 16 May 2014 22:26:30 -0700 (PDT)
+In-Reply-To: <53764764.1010608@linux.intel.com>
+References: <1400169517-29966-1-git-send-email-sgw@linux.intel.com>
+	<CAPbeDC=LgSCO0F7gB7nCJQCgXQrUvRAJCUt35Ss2JrVVWB21dQ@mail.gmail.com>
+	<CAPbeDC=Z8OTCuy7+Lj4Hp_y-j3FcA0Ro0SBNRvTRRxy4Zm+qdg@mail.gmail.com>
+	<53764764.1010608@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 16 May 2014 22:26:30 -0700
+Message-ID: <CAMKF1srjuEd=2cmWapfXCTbkBnT8ku6EZLUhLMnYWiQwh+O0sQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libusb1: Update to 1.0.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,57 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 May 2014 20:50:50 -0000
+X-List-Received-Date: Sat, 17 May 2014 05:27:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-libusb added support for udev, but this causes a circular dependecny between
-udev and libusb, so hardcode the disable here.
+On Fri, May 16, 2014 at 10:14 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> I am supprised you did not see a circular dependency with udev -> libusb ->
+> udev, I think we need to disable-udev as default and if there is a need for
+> a libusb with udev support we will have to create a new recipe possibly to
+> build it after udev is built.
+>
+> Thoughts here?
 
-Also remove the patch that is no longer used.
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../libusb/libusb1/obsolete_automake_macros.patch         | 15 ---------------
- meta/recipes-support/libusb/libusb1_1.0.18.bb             |  4 +++-
- 2 files changed, 3 insertions(+), 16 deletions(-)
- delete mode 100644 meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
-
-diff --git a/meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch b/meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
-deleted file mode 100644
-index b1dd66c..0000000
---- a/meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Submitted [https://libusb.org/ticket/159]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd libusb-1.0.9/configure.ac libusb-1.0.9/configure.ac
----- libusb-1.0.9/configure.ac	2012-04-20 09:44:27.000000000 +0300
--+++ libusb-1.0.9/configure.ac	2013-01-02 16:36:44.152121483 +0200
--@@ -31,7 +31,7 @@
--
-- AC_CONFIG_SRCDIR([libusb/core.c])
-- AC_CONFIG_MACRO_DIR([m4])
---AM_CONFIG_HEADER([config.h])
--+AC_CONFIG_HEADERS([config.h])
-- m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
--
-- AC_PREREQ([2.50])
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.18.bb b/meta/recipes-support/libusb/libusb1_1.0.18.bb
-index c64f1db..395145a 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.18.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.18.bb
-@@ -18,7 +18,9 @@ S = "${WORKDIR}/libusb-${PV}"
- 
- inherit autotools pkgconfig
- 
--EXTRA_OECONF = "--libdir=${base_libdir}"
-+# Don't configure udev by default since it will cause a circular
-+# dependecy with udev package, which depends on libusb
-+EXTRA_OECONF = "--libdir=${base_libdir} --disable-udev"
- 
- do_install_append() {
- 	install -d ${D}${libdir}
--- 
-1.8.3.1
-
+udev dependency on libusb seems wrong to me. Do we use usbutils IDs somehow ?
+otherwise remove the dep from udev.
 
