@@ -1,27 +1,24 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp09.online.nl (unknown [194.134.42.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 346326028A
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (unknown [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id AF25566078
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 May 2014 06:41:29 +0000 (UTC)
-Received: from smtp09.online.nl (localhost [127.0.0.1])
-	by smtp09.online.nl (Postfix) with ESMTP id E600F1E6FB;
-	Sat, 17 May 2014 08:41:29 +0200 (CEST)
-Received: from [192.168.1.10] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp09.online.nl (Postfix) with ESMTP;
-	Sat, 17 May 2014 08:41:29 +0200 (CEST)
-Message-ID: <53770499.50805@topic.nl>
-Date: Sat, 17 May 2014 08:41:29 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Sun, 18 May 2014 19:01:17 +0000 (UTC)
+Received: from pb by hetzner.pbcl.net with local (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1Wm6Kk-0005DW-0p; Sun, 18 May 2014 21:01:18 +0200
+Date: Sun, 18 May 2014 21:01:18 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20140518190117.GA20035@pbcl.net>
+References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>
+	<3327056.Df3VZKvVg7@peggleto-mobl5.ger.corp.intel.com>
+	<ljlih4$rvg$1@ger.gmane.org>
+	<21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <53762907.8060600@topic.nl> <5376498C.5060507@windriver.com>
-In-Reply-To: <5376498C.5060507@windriver.com>
-X-Online-Scanned: by Cloudmark authority (on smtp09.online.nl)
-Subject: Re: Living without shadow
+In-Reply-To: <21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: OE Github repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,129 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 May 2014 06:41:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 18 May 2014 19:01:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/16/2014 07:23 PM, Mark Hatle wrote:
-> On 5/16/14, 10:04 AM, Mike Looijmans wrote:
->> Any package that wants to add user accounts (e.g. dbus) automatically
->> installs the "shadow" package into the image. This appears to be done by
->> adduser.bbclass.
->>
->> We want to keep it small, and can easily live without the shadow
->> package. Busybox already provides adduser and similar commands, and also
->> handles login etc. just fine. So I tried adding a line
->> RPROVIDES_busybox+="shadow"
->> to the busybox recipe. I would expect to have an alternative provider
->> now, and no more forces installation of the big shadow.
->>
->> The result was much more surprising though. Letting busybox provide
->> "shadow" resulted in failing to build the rootfs. The "adduser" command
->> did not work on the host. This was very unexpected - does shadow deliver
->> something into the sysroot that adduser.bbclass needs?
->>
->> How can I get rid of the shadow package?
->>
->
-> Lets expand that briefly, from the current version of useradd.bbclass:
->
-> DEPENDS_append = "${USERADDDEPENDS}"
-> USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot shadow"
-> USERADDDEPENDS_class-cross = ""
-> USERADDDEPENDS_class-native = ""
-> USERADDDEPENDS_class-nativesdk = ""
->
-> What this does is for target packages, base-passwd [the password file],
-> shadow-native [tools needed to configure passwords at install time],
-> shadow-sysroot [shadow components needed to update the sysroot, and
-> shadow [target utilities] are added to the -depends-.
->
-> The DEPENDS are only build-time requirements, not runtime.
->
-> The system further requires RDEPENDS:
->
->          # RDEPENDS setup
->          rdepends = d.getVar("RDEPENDS_%s" % pkg, True) or ""
->          rdepends += ' ' + d.getVar('MLPREFIX') + 'base-passwd'
->          rdepends += ' ' + d.getVar('MLPREFIX') + 'shadow'
->          # base-files is where the default /etc/skel is packaged
->          rdepends += ' ' + d.getVar('MLPREFIX') + 'base-files'
->          d.setVar("RDEPENDS_%s" % pkg, rdepends)
->
-> For any package that has a call to a groupadd, useradd or groupmems,
-> those dependencies are added.  We can't install the package onto the
-> target without base-passwd (passwd/group file), shadow (utilities needed
-> by the package install scripting) and base-files (/etc/skel is needed to
-> add new users) being installed.
->
-> So with that said, what is required in the end is something that honors
-> the necessary 'groupadd', 'useradd' and 'groupmems' executables.  If
-> bitbake can provide them, then your RPROVIDES_busybox = "shadow" should
-> work fine.  (bitbake also provides 'su', may provide 'login', and
-> 'chpasswd'.)
->
-> If you are getting rootfs creation issues, then I need a reference to
-> the error messages to have an idea of what may be needed.
->
+On Fri, May 16, 2014 at 11:51:06AM +0100, Paul Eggleton wrote:
+> On Monday 28 April 2014 14:45:26 Koen Kooi wrote:
+> > Paul Eggleton schreef op 28-04-14 13:08:
+> > > OK then, how about this instead:
+> > > 
+> > > 1) Ensure the "openembedded-core" repository is kept up-to-date
+> > > 
+> > > 2) Add a "meta-openembedded" repository and ensure it is kept up-to-date
+> > > 
+> > > 3) Add a warning to the description for the contracted name repositories
+> > > that the fully-named repositories should be used instead, so we can
+> > > eventually drop them
+> > > 
+> > > 4) Change documentation / scripts to match #3
+> > 
+> > Sounds like a good plan to me!
+> 
+> OK, so who will do this then (whoever has access)?
 
-At the end I see this:
+[Cc list trimmed due to non-member posting constraints on oe-devel.]
 
-Collected errors:
-  * preinst_configure: Aborting installation of dbus-1.
-  * opkg_install_cmd: Cannot install package libavahi-client3.
-  * preinst_configure: Aborting installation of rpcbind.
-  * opkg_install_cmd: Cannot install package packagegroup-base.
-  * preinst_configure: Aborting installation of rpcbind.
-  * opkg_install_cmd: Cannot install package nfs-utils-client.
-  * preinst_configure: Aborting installation of avahi-daemon.
-  * opkg_install_cmd: Cannot install package avahi-daemon.
+I've done #1, #2 and #3.  I didn't know what scripts you were referring to
+in #4 so I haven't taken any action on that.
 
-The logs seems to be "interlaced", but here's a summary of the things I 
-cound find. If you want, I can send the full log.
+p.
 
-
-Downloading 
-file:/media/work/openpli-next/build/tmp/deploy/ipk/mips32el/base-passwd_3.5.29-r0_mips32el.ipk.
-  Removing any system startup links for dbus-1 ...
-Running groupadd commands...
-NOTE: Performing groupadd with [--root 
-/media/work/openpli-next/build/tmp/work/et10000-oe-linux/my-image/1.0-r0/rootfs 
--r netdev] and 10 times of retry
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-WARNING: groupadd command did not succeed. Retrying...
-ERROR: Tried running groupadd command 10 times without scucess, giving up
-
-  Removing any system startup links for rpcbind ...
-Running useradd commands...
-NOTE: Performing useradd with [--root 
-/media/work/openpli-next/build/tmp/work/et10000-oe-linux/my-image/1.0-r0/rootfs 
---system --no-create-home                        --shell /bin/false 
---user-group rpc] and 10 times of retry
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-WARNING: useradd command did not succeed. Retrying...
-ERROR: Tried running useradd command 10 times without scucess, giving up
-
-
-
-
-
--- 
-Mike Looijmans
 
