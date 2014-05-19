@@ -1,24 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 4911065FE5
+	by mail.openembedded.org (Postfix) with ESMTP id 7E0C465F69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 15:23:20 +0000 (UTC)
+	Mon, 19 May 2014 15:41:21 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 May 2014 08:23:21 -0700
+	by azsmga101.ch.intel.com with ESMTP; 19 May 2014 08:39:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,868,1392192000"; d="scan'208";a="434006607"
+X-IronPort-AV: E=Sophos;i="4.98,868,1392192000"; d="scan'208";a="434014417"
 Received: from unknown (HELO [10.255.12.101]) ([10.255.12.101])
-	by azsmga001.ch.intel.com with ESMTP; 19 May 2014 08:23:20 -0700
-Message-ID: <537A21E8.5010000@linux.intel.com>
-Date: Mon, 19 May 2014 08:23:20 -0700
+	by azsmga001.ch.intel.com with ESMTP; 19 May 2014 08:39:55 -0700
+Message-ID: <537A25CB.9060408@linux.intel.com>
+Date: Mon, 19 May 2014 08:39:55 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
 To: rongqing.li@windriver.com, openembedded-core@lists.openembedded.org
-References: <1400124104-10777-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1400124104-10777-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] perl-5.14.3:fix CVE-2010-4777
+References: <cover.1400201782.git.rongqing.li@windriver.com>
+	<c24e84fbaaad5b3761f135cf7dce07e3b9990bb3.1400201782.git.rongqing.li@windriver.com>
+In-Reply-To: <c24e84fbaaad5b3761f135cf7dce07e3b9990bb3.1400201782.git.rongqing.li@windriver.com>
+Subject: Re: [PATCH 04/12] ffmpeg: fix for Security Advisory CVE-2013-0868
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,99 +32,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 15:23:24 -0000
+X-List-Received-Date: Mon, 19 May 2014 15:41:23 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/14/2014 08:21 PM, rongqing.li@windriver.com wrote:
-> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+On 05/15/2014 07:12 PM, rongqing.li@windriver.com wrote:
+> From: Yue Tao <Yue.Tao@windriver.com>
 >
-> The Perl_reg_numbered_buff_fetch function in Perl 5.10.0, 5.12.0,
-> 5.14.0, and other versions, when running with debugging enabled,
-> allows context-dependent attackers to cause a denial of service
-> (assertion failure and application exit) via crafted input that
-> is not properly handled when using certain regular expressions,
-> as demonstrated by causing SpamAssassin and OCSInventory to
-> crash.
+> libavcodec/huffyuvdec.c in FFmpeg before 1.1.2 allows remote attackers
+> to have an unspecified impact via crafted Huffyuv data, related to an
+> out-of-bounds write and (1) unchecked return codes from the init_vlc
+> function and (2) len==0 cases.
 >
-> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4777
-> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0868
+>
+> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 > Signed-off-by: Roy Li <rongqing.li@windriver.com>
 > ---
->   .../perl-5.14.3-fix-CVE-2010-4777.patch            |   30 ++++++++++++++++++++
->   meta/recipes-devtools/perl/perl-native_5.14.3.bb   |    3 +-
->   meta/recipes-devtools/perl/perl_5.14.3.bb          |    3 +-
->   3 files changed, 34 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
+>   ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 ++++++++++++++++++++
+>   .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
+>   .../gstreamer/gst-ffmpeg_0.10.13.bb                |    2 +
+>   3 files changed, 148 insertions(+)
+>   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+>   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
 >
-> diff --git a/meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch b/meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
 > new file mode 100644
-> index 0000000..bb726c8
+> index 0000000..e859e44
 > --- /dev/null
-> +++ b/meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
-> @@ -0,0 +1,30 @@
-
-Another .patch file missing Upstream-Status and Signed-off-by
+> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+> @@ -0,0 +1,87 @@
+> +From b666debffec1fcbb19ef377635a53b9a58bca8a4 Mon Sep 17 00:00:00 2001
+> +From: Michael Niedermayer <michaelni@gmx.at>
+> +Date: Tue, 29 Jan 2013 18:29:41 +0100
+> +Subject: [PATCH] huffyuvdec: Check init_vlc() return codes.
+> +
+> +Upstream-Status: Backport
+> +
+> +Commit b666debffec1fcbb19ef377635a53b9a58bca8a4 release/1.0
+> +
+> +Prevents out of array writes
+> +
+> +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
+> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
+> +(cherry picked from commit f67a0d115254461649470452058fa3c28c0df294)
+> +
+> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
+> +---
+> + libavcodec/huffyuv.c | 14 ++++++++++----
+> + 1 file changed, 10 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/libavcodec/huffyuv.c b/libavcodec/huffyuv.c
+> +index 58da789..993e524 100644
+> +--- a/gst-libs/ext/libav/libavcodec/huffyuv.c
+> ++++ b/gst-libs/ext/libav/libavcodec/huffyuv.c
+> +@@ -33,6 +33,7 @@
+> + #include "put_bits.h"
+> + #include "dsputil.h"
+> + #include "thread.h"
+> ++#include "libavutil/avassert.h"
+> +
+> + #define VLC_BITS 11
+> +
+> +@@ -287,6 +287,7 @@ static void generate_joint_tables(HYuvCo
+> +                     int len1 = s->len[p][u];
+> +                     if (len1 > limit || !len1)
+> +                         continue;
+> ++                    av_assert0(i < (1 << VLC_BITS));
+> +                     len[i] = len0 + len1;
+> +                     bits[i] = (s->bits[0][y] << len1) + s->bits[p][u];
+> +                     symbols[i] = (y<<8) + u;
+> +@@ -320,6 +321,7 @@ static void generate_joint_tables(HYuvCo
+> +                     int len2 = s->len[2][r&255];
+> +                     if (len2 > limit1 || !len2)
+> +                         continue;
+> ++                    av_assert0(i < (1 << VLC_BITS));
+> +                     len[i] = len0 + len1 + len2;
+> +                     bits[i] = (code << len2) + s->bits[2][r&255];
+> +                     if(s->decorrelate){
+> +@@ -343,6 +345,7 @@ static void generate_joint_tables(HYuvCo
+> + static int read_huffman_tables(HYuvContext *s, const uint8_t *src, int length){
+> +     GetBitContext gb;
+> +     int i;
+> ++    int ret;
+> +
+> +     init_get_bits(&gb, src, length*8);
+> +
+> +@@ -353,7 +356,9 @@ static int read_huffman_tables(HYuvConte
+> +             return -1;
+> +         }
+> +         free_vlc(&s->vlc[i]);
+> +-        init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1, s->bits[i], 4, 4, 0);
+> ++        if ((ret = init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1,
+> ++                           s->bits[i], 4, 4, 0)) < 0)
+> ++            return ret;
+> +     }
+> +
+> +     generate_joint_tables(s);
+> +@@ -365,6 +370,7 @@ static int read_old_huffman_tables(HYuvC
+> + #if 1
+> +     GetBitContext gb;
+> +     int i;
+> ++    int ret;
+> +
+> +     init_get_bits(&gb, classic_shift_luma, sizeof(classic_shift_luma)*8);
+> +     if(read_len_table(s->len[0], &gb)<0)
+> +@@ -385,7 +391,9 @@ static int read_old_huffman_tables(HYuvC
+> +
+> +     for(i=0; i<3; i++){
+> +         free_vlc(&s->vlc[i]);
+> +-        init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1, s->bits[i], 4, 4, 0);
+> ++        if ((ret = init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1,
+> ++                            s->bits[i], 4, 4, 0)) < 0)
+> ++            return ret;
+> +     }
+> +
+> +     generate_joint_tables(s);
+> +--
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+> new file mode 100644
+> index 0000000..68bc966
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+> @@ -0,0 +1,59 @@
+> +From db0f7f7394e1f994ed38db043f78ed0f10bde0da Mon Sep 17 00:00:00 2001
+> +From: Michael Niedermayer <michaelni@gmx.at>
+> +Date: Tue, 29 Jan 2013 19:22:33 +0100
+> +Subject: [PATCH] huffyuvdec: Skip len==0 cases
+> +
+> +Commit db0f7f7394e1f994ed38db043f78ed0f10bde0da release/1.0
+> +
+> +Fixes vlc decoding for hypothetical files that would contain such cases.
+> +
+> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
+> +(cherry picked from commit 0dfc01c2bbf4b71bb56201bc4a393321e15d1b31)
+> +
+Missing Upstream-Status
 
 Sau!
 
-> +--- a/regcomp.c
-> ++++ b/regcomp.c
-> +@@ -11868,8 +11868,25 @@ Perl_save_re_context(pTHX)
+> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
+> +---
+> + libavcodec/huffyuv.c | 10 +++++-----
+> + 1 file changed, 5 insertions(+), 5 deletions(-)
 > +
-> + 		if (gvp) {
-> + 		    GV * const gv = *gvp;
-> +-		    if (SvTYPE(gv) == SVt_PVGV && GvSV(gv))
-> +-			save_scalar(gv);
-> ++		    if (SvTYPE(gv) == SVt_PVGV && GvSV(gv)) {
-> ++			/* this is a copy of save_scalar() without the GETMAGIC call, RT#76538 */
-> ++			SV ** const sptr = &GvSVn(gv);
-> ++			SV * osv = *sptr;
-> ++			SV * nsv = newSV(0);
-> ++			save_pushptrptr(SvREFCNT_inc_simple(gv),
-> ++			SvREFCNT_inc(osv), SAVEt_SV);
-> ++			if (SvTYPE(osv) >= SVt_PVMG && SvMAGIC(osv) &&
-> ++			    SvTYPE(osv) != SVt_PVGV) {
-> ++			    if (SvGMAGICAL(osv)) {
-> ++				const bool oldtainted = PL_tainted;
-> ++				SvFLAGS(osv) |= (SvFLAGS(osv) &
-> ++				    (SVp_IOK|SVp_NOK|SVp_POK)) >> PRIVSHIFT;
-> ++				PL_tainted = oldtainted;
-> ++			    }
-> ++			    mg_localize(osv, nsv, 1);
-> ++			}
-> ++			*sptr = nsv;
-> ++		    }
-> + 		}
-> + 	    }
-> + 	}
-> diff --git a/meta/recipes-devtools/perl/perl-native_5.14.3.bb b/meta/recipes-devtools/perl/perl-native_5.14.3.bb
-> index 2ef0a51..c38be41 100644
-> --- a/meta/recipes-devtools/perl/perl-native_5.14.3.bb
-> +++ b/meta/recipes-devtools/perl/perl-native_5.14.3.bb
-> @@ -17,7 +17,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
->              file://MM_Unix.pm.patch \
->              file://debian/errno_ver.diff \
->              file://dynaloaderhack.patch \
-> -           file://perl-build-in-t-dir.patch"
-> +           file://perl-build-in-t-dir.patch \
-> +           file://perl-5.14.3-fix-CVE-2010-4777.patch "
+> +diff --git a/libavcodec/huffyuv.c b/libavcodec/huffyuv.c
+> +index 993e524..72ed351 100644
+> +--- a/gst-libs/ext/libav/libavcodec/huffyuv.c
+> ++++ b/gst-libs/ext/libav/libavcodec/huffyuv.c
+> +@@ -281,11 +281,11 @@ static void generate_joint_tables(HYuvCo
+> +             for(i=y=0; y<256; y++){
+> +                 int len0 = s->len[0][y];
+> +                 int limit = VLC_BITS - len0;
+> +-                if(limit <= 0)
+> ++                if(limit <= 0 || !len0)
+> +                     continue;
+> +                 for(u=0; u<256; u++){
+> +                     int len1 = s->len[p][u];
+> +-                    if(len1 > limit)
+> ++                    if (len1 > limit || !len1)
+> +                         continue;
+> +                     len[i] = len0 + len1;
+> +                     bits[i] = (s->bits[0][y] << len1) + s->bits[p][u];
+> +@@ -308,17 +308,17 @@ static void generate_joint_tables(HYuvCo
+> +         for(i=0, g=-16; g<16; g++){
+> +             int len0 = s->len[p0][g&255];
+> +             int limit0 = VLC_BITS - len0;
+> +-            if(limit0 < 2)
+> ++            if (limit0 < 2 || !len0)
+> +                 continue;
+> +             for(b=-16; b<16; b++){
+> +                 int len1 = s->len[p1][b&255];
+> +                 int limit1 = limit0 - len1;
+> +-                if(limit1 < 1)
+> ++                if (limit1 < 1 || !len1)
+> +                     continue;
+> +                 code = (s->bits[p0][g&255] << len1) + s->bits[p1][b&255];
+> +                 for(r=-16; r<16; r++){
+> +                     int len2 = s->len[2][r&255];
+> +-                    if(len2 > limit1)
+> ++                    if (len2 > limit1 || !len2)
+> +                         continue;
+> +                     len[i] = len0 + len1 + len2;
+> +                     bits[i] = (code << len2) + s->bits[2][r&255];
+> +--
+> +1.8.5.2.233.g932f7e4
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+> index 05cc404..847b927 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+> @@ -26,6 +26,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
+>              file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
+>              file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
+>              file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
+> +           file://0001-huffyuvdec-Skip-len-0-cases.patch \
+> +           file://0001-huffyuvdec-Check-init_vlc-return-codes.patch \
+>   "
 >
->   SRC_URI[md5sum] = "f6a3d878c688d111b495c87db56c5be5"
->   SRC_URI[sha256sum] = "03638a4f01bc26b81231233671524b4163849a3a9ea5cc2397293080c4ea339f"
-> diff --git a/meta/recipes-devtools/perl/perl_5.14.3.bb b/meta/recipes-devtools/perl/perl_5.14.3.bb
-> index c307b99..fcd665b 100644
-> --- a/meta/recipes-devtools/perl/perl_5.14.3.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.14.3.bb
-> @@ -74,7 +74,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
->           file://config.sh-32-be \
->           file://config.sh-64 \
->           file://config.sh-64-le \
-> -        file://config.sh-64-be"
-> +        file://config.sh-64-be \
-> +        file://perl-5.14.3-fix-CVE-2010-4777.patch "
->   #	file://debian/fakeroot.diff
->
->   SRC_URI[md5sum] = "f6a3d878c688d111b495c87db56c5be5"
+>   SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
 >
 
