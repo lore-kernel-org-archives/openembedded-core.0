@@ -1,25 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0C465F69
+Received: from mga01.intel.com (unknown [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 802F665FD8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 15:41:21 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 May 2014 08:39:56 -0700
+	Mon, 19 May 2014 16:23:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 19 May 2014 09:23:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,868,1392192000"; d="scan'208";a="434014417"
-Received: from unknown (HELO [10.255.12.101]) ([10.255.12.101])
-	by azsmga001.ch.intel.com with ESMTP; 19 May 2014 08:39:55 -0700
-Message-ID: <537A25CB.9060408@linux.intel.com>
-Date: Mon, 19 May 2014 08:39:55 -0700
+X-IronPort-AV: E=Sophos;i="4.98,868,1392192000"; d="scan'208";a="541549787"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.101])
+	by fmsmga002.fm.intel.com with ESMTP; 19 May 2014 09:23:17 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: rongqing.li@windriver.com, openembedded-core@lists.openembedded.org
-References: <cover.1400201782.git.rongqing.li@windriver.com>
-	<c24e84fbaaad5b3761f135cf7dce07e3b9990bb3.1400201782.git.rongqing.li@windriver.com>
-In-Reply-To: <c24e84fbaaad5b3761f135cf7dce07e3b9990bb3.1400201782.git.rongqing.li@windriver.com>
-Subject: Re: [PATCH 04/12] ffmpeg: fix for Security Advisory CVE-2013-0868
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 May 2014 09:23:17 -0700
+Message-Id: <cover.1400516243.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 0/9] Misc Patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,204 +27,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 15:41:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 May 2014 16:23:40 -0000
 
-On 05/15/2014 07:12 PM, rongqing.li@windriver.com wrote:
-> From: Yue Tao <Yue.Tao@windriver.com>
->
-> libavcodec/huffyuvdec.c in FFmpeg before 1.1.2 allows remote attackers
-> to have an unspecified impact via crafted Huffyuv data, related to an
-> out-of-bounds write and (1) unchecked return codes from the init_vlc
-> function and (2) len==0 cases.
->
-> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0868
->
-> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 ++++++++++++++++++++
->   .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
->   .../gstreamer/gst-ffmpeg_0.10.13.bb                |    2 +
->   3 files changed, 148 insertions(+)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
->   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
-> new file mode 100644
-> index 0000000..e859e44
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
-> @@ -0,0 +1,87 @@
-> +From b666debffec1fcbb19ef377635a53b9a58bca8a4 Mon Sep 17 00:00:00 2001
-> +From: Michael Niedermayer <michaelni@gmx.at>
-> +Date: Tue, 29 Jan 2013 18:29:41 +0100
-> +Subject: [PATCH] huffyuvdec: Check init_vlc() return codes.
-> +
-> +Upstream-Status: Backport
-> +
-> +Commit b666debffec1fcbb19ef377635a53b9a58bca8a4 release/1.0
-> +
-> +Prevents out of array writes
-> +
-> +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-> +(cherry picked from commit f67a0d115254461649470452058fa3c28c0df294)
-> +
-> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-> +---
-> + libavcodec/huffyuv.c | 14 ++++++++++----
-> + 1 file changed, 10 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/libavcodec/huffyuv.c b/libavcodec/huffyuv.c
-> +index 58da789..993e524 100644
-> +--- a/gst-libs/ext/libav/libavcodec/huffyuv.c
-> ++++ b/gst-libs/ext/libav/libavcodec/huffyuv.c
-> +@@ -33,6 +33,7 @@
-> + #include "put_bits.h"
-> + #include "dsputil.h"
-> + #include "thread.h"
-> ++#include "libavutil/avassert.h"
-> +
-> + #define VLC_BITS 11
-> +
-> +@@ -287,6 +287,7 @@ static void generate_joint_tables(HYuvCo
-> +                     int len1 = s->len[p][u];
-> +                     if (len1 > limit || !len1)
-> +                         continue;
-> ++                    av_assert0(i < (1 << VLC_BITS));
-> +                     len[i] = len0 + len1;
-> +                     bits[i] = (s->bits[0][y] << len1) + s->bits[p][u];
-> +                     symbols[i] = (y<<8) + u;
-> +@@ -320,6 +321,7 @@ static void generate_joint_tables(HYuvCo
-> +                     int len2 = s->len[2][r&255];
-> +                     if (len2 > limit1 || !len2)
-> +                         continue;
-> ++                    av_assert0(i < (1 << VLC_BITS));
-> +                     len[i] = len0 + len1 + len2;
-> +                     bits[i] = (code << len2) + s->bits[2][r&255];
-> +                     if(s->decorrelate){
-> +@@ -343,6 +345,7 @@ static void generate_joint_tables(HYuvCo
-> + static int read_huffman_tables(HYuvContext *s, const uint8_t *src, int length){
-> +     GetBitContext gb;
-> +     int i;
-> ++    int ret;
-> +
-> +     init_get_bits(&gb, src, length*8);
-> +
-> +@@ -353,7 +356,9 @@ static int read_huffman_tables(HYuvConte
-> +             return -1;
-> +         }
-> +         free_vlc(&s->vlc[i]);
-> +-        init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1, s->bits[i], 4, 4, 0);
-> ++        if ((ret = init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1,
-> ++                           s->bits[i], 4, 4, 0)) < 0)
-> ++            return ret;
-> +     }
-> +
-> +     generate_joint_tables(s);
-> +@@ -365,6 +370,7 @@ static int read_old_huffman_tables(HYuvC
-> + #if 1
-> +     GetBitContext gb;
-> +     int i;
-> ++    int ret;
-> +
-> +     init_get_bits(&gb, classic_shift_luma, sizeof(classic_shift_luma)*8);
-> +     if(read_len_table(s->len[0], &gb)<0)
-> +@@ -385,7 +391,9 @@ static int read_old_huffman_tables(HYuvC
-> +
-> +     for(i=0; i<3; i++){
-> +         free_vlc(&s->vlc[i]);
-> +-        init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1, s->bits[i], 4, 4, 0);
-> ++        if ((ret = init_vlc(&s->vlc[i], VLC_BITS, 256, s->len[i], 1, 1,
-> ++                            s->bits[i], 4, 4, 0)) < 0)
-> ++            return ret;
-> +     }
-> +
-> +     generate_joint_tables(s);
-> +--
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
-> new file mode 100644
-> index 0000000..68bc966
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
-> @@ -0,0 +1,59 @@
-> +From db0f7f7394e1f994ed38db043f78ed0f10bde0da Mon Sep 17 00:00:00 2001
-> +From: Michael Niedermayer <michaelni@gmx.at>
-> +Date: Tue, 29 Jan 2013 19:22:33 +0100
-> +Subject: [PATCH] huffyuvdec: Skip len==0 cases
-> +
-> +Commit db0f7f7394e1f994ed38db043f78ed0f10bde0da release/1.0
-> +
-> +Fixes vlc decoding for hypothetical files that would contain such cases.
-> +
-> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-> +(cherry picked from commit 0dfc01c2bbf4b71bb56201bc4a393321e15d1b31)
-> +
-Missing Upstream-Status
 
-Sau!
+The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
 
-> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-> +---
-> + libavcodec/huffyuv.c | 10 +++++-----
-> + 1 file changed, 5 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/libavcodec/huffyuv.c b/libavcodec/huffyuv.c
-> +index 993e524..72ed351 100644
-> +--- a/gst-libs/ext/libav/libavcodec/huffyuv.c
-> ++++ b/gst-libs/ext/libav/libavcodec/huffyuv.c
-> +@@ -281,11 +281,11 @@ static void generate_joint_tables(HYuvCo
-> +             for(i=y=0; y<256; y++){
-> +                 int len0 = s->len[0][y];
-> +                 int limit = VLC_BITS - len0;
-> +-                if(limit <= 0)
-> ++                if(limit <= 0 || !len0)
-> +                     continue;
-> +                 for(u=0; u<256; u++){
-> +                     int len1 = s->len[p][u];
-> +-                    if(len1 > limit)
-> ++                    if (len1 > limit || !len1)
-> +                         continue;
-> +                     len[i] = len0 + len1;
-> +                     bits[i] = (s->bits[0][y] << len1) + s->bits[p][u];
-> +@@ -308,17 +308,17 @@ static void generate_joint_tables(HYuvCo
-> +         for(i=0, g=-16; g<16; g++){
-> +             int len0 = s->len[p0][g&255];
-> +             int limit0 = VLC_BITS - len0;
-> +-            if(limit0 < 2)
-> ++            if (limit0 < 2 || !len0)
-> +                 continue;
-> +             for(b=-16; b<16; b++){
-> +                 int len1 = s->len[p1][b&255];
-> +                 int limit1 = limit0 - len1;
-> +-                if(limit1 < 1)
-> ++                if (limit1 < 1 || !len1)
-> +                     continue;
-> +                 code = (s->bits[p0][g&255] << len1) + s->bits[p1][b&255];
-> +                 for(r=-16; r<16; r++){
-> +                     int len2 = s->len[2][r&255];
-> +-                    if(len2 > limit1)
-> ++                    if (len2 > limit1 || !len2)
-> +                         continue;
-> +                     len[i] = len0 + len1 + len2;
-> +                     bits[i] = (code << len2) + s->bits[2][r&255];
-> +--
-> +1.8.5.2.233.g932f7e4
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> index 05cc404..847b927 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> @@ -26,6 +26,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
->              file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
->              file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
->              file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
-> +           file://0001-huffyuvdec-Skip-len-0-cases.patch \
-> +           file://0001-huffyuvdec-Check-init_vlc-return-codes.patch \
->   "
->
->   SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
->
+  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Chen Qi (3):
+  udev-extraconf: fix the misuse of /run/media
+  init-live.sh: list block devices correctly
+  initrdscripts: fix for /run/media
+
+Chong Lu (1):
+  syslinux-native: fix parallel building issue
+
+Cristiana Voicu (1):
+  packagegroup-core-lsb: fix warning text
+
+Koen Kooi (1):
+  curl: work around RRECOMMENDS problems in -native* recipes
+
+Martin Jansa (1):
+  lttng-modules: Fix build with older kernels
+
+Ross Burton (1):
+  pango: enable ptest
+
+Saul Wold (1):
+  libusb1: disable floating dependency on udev
+
+ .../initrdscripts/files/init-install-efi-testfs.sh |  14 +-
+ .../initrdscripts/files/init-install-efi.sh        |  14 +-
+ .../initrdscripts/files/init-install-testfs.sh     |   4 +-
+ .../initrdscripts/files/init-install.sh            |   4 +-
+ meta/recipes-core/initrdscripts/files/init-live.sh |  20 +--
+ meta/recipes-core/udev/udev-extraconf/mount.sh     |   2 +-
+ .../syslinux-fix-parallel-building-issue.patch     |  38 +++++
+ meta/recipes-devtools/syslinux/syslinux_6.01.bb    |   3 +-
+ .../packagegroups/packagegroup-core-lsb.bb         |   6 +-
+ meta/recipes-graphics/pango/pango.inc              |  21 ++-
+ meta/recipes-graphics/pango/pango/no-tests.patch   |  15 --
+ meta/recipes-graphics/pango/pango/run-ptest        |   3 +
+ meta/recipes-graphics/pango/pango_1.36.3.bb        |   2 +-
+ .../lttng/lttng-modules/bio-bvec-iter.patch        | 156 +++++++++++++++++++++
+ .../lttng/lttng-modules/fixup_block_driver.patch   | 122 ----------------
+ meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb   |   2 +-
+ meta/recipes-support/curl/curl_7.36.0.bb           |   7 +-
+ .../libusb/libusb1/obsolete_automake_macros.patch  |  15 --
+ meta/recipes-support/libusb/libusb1_1.0.18.bb      |   4 +-
+ 19 files changed, 260 insertions(+), 192 deletions(-)
+ create mode 100644 meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango/no-tests.patch
+ create mode 100644 meta/recipes-graphics/pango/pango/run-ptest
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch
+ delete mode 100644 meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
+
+-- 
+1.8.3.1
+
 
