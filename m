@@ -1,24 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CCC6F65FE5
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B31C165FE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 05:27:24 +0000 (UTC)
+	Mon, 19 May 2014 05:27:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4J5RPsV026417
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4J5RREi004031
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 May 2014 22:27:26 -0700 (PDT)
+	Sun, 18 May 2014 22:27:27 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Sun, 18 May 2014 22:27:25 -0700
+	14.3.169.1; Sun, 18 May 2014 22:27:26 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 May 2014 13:27:17 +0800
-Message-ID: <cover.1400476449.git.rongqing.li@windriver.com>
+Date: Mon, 19 May 2014 13:27:18 +0800
+Message-ID: <4d9328799484fe3c3417d8d48a7ede7e4f357a15.1400476449.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1400476449.git.rongqing.li@windriver.com>
+References: <cover.1400476449.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6 v2] backport 6 CVE patches for subversion
+Subject: [PATCH 1/6] subversion: fix for Security Advisory CVE-2013-1849
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 05:27:26 -0000
+X-List-Received-Date: Mon, 19 May 2014 05:27:28 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Yue Tao <Yue.Tao@windriver.com>
 
-Diff with v1: add Upstream-status in two patches
+Reject operations on getcontentlength and getcontenttype properties
+if the resource is an activity.
 
-The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
-
-  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib roy/subversion-1
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/subversion-1
-
-Yue Tao (6):
-  subversion: fix for Security Advisory CVE-2013-1849
-  subversion: fix for Security Advisory CVE-2013-4505
-  subversion: fix for Security Advisory CVE-2013-4131
-  subversion: fix for Security Advisory CVE-2013-1845
-  subversion: fix for Security Advisory CVE-2013-1847 and CVE-2013-1846
-  subversion: fix for Security Advisory CVE-2013-4277
-
- .../subversion-CVE-2013-4131.patch                 |   42 +++++
- .../subversion-CVE-2013-4277.patch                 |   15 ++
- .../subversion-CVE-2013-4505.patch                 |  130 +++++++++++++++
- .../subversion/subversion-CVE-2013-1845.patch      |  171 ++++++++++++++++++++
- .../subversion-CVE-2013-1847-CVE-2013-1846.patch   |   53 ++++++
- .../subversion/subversion-CVE-2013-1849.patch      |   25 +++
- .../subversion/subversion-CVE-2013-4277.patch      |   15 ++
- .../subversion/subversion-CVE-2013-4505.patch      |  127 +++++++++++++++
- .../subversion/subversion_1.6.15.bb                |    6 +-
- .../subversion/subversion_1.7.10.bb                |    3 +
- 10 files changed, 586 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4131.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4505.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1845.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1847-CVE-2013-1846.patch
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../subversion/subversion-CVE-2013-1849.patch      |   25 ++++++++++++++++++++
+ .../subversion/subversion_1.6.15.bb                |    1 +
+ 2 files changed, 26 insertions(+)
  create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4505.patch
 
+diff --git a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch
+new file mode 100644
+index 0000000..734f9b0
+--- /dev/null
++++ b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch
+@@ -0,0 +1,25 @@
++Upstream-Status: Backport
++
++--- a/subversion/mod_dav_svn/liveprops.c
+++++ b/subversion/mod_dav_svn/liveprops.c
++@@ -410,7 +410,8 @@ insert_prop(const dav_resource *resource
++         svn_filesize_t len = 0;
++ 
++         /* our property, but not defined on collection resources */
++-        if (resource->collection || resource->baselined)
+++        if (resource->type == DAV_RESOURCE_TYPE_ACTIVITY
+++            || resource->collection || resource->baselined)
++           return DAV_PROP_INSERT_NOTSUPP;
++ 
++         serr = svn_fs_file_length(&len, resource->info->root.root,
++@@ -434,7 +435,9 @@ insert_prop(const dav_resource *resource
++         svn_string_t *pval;
++         const char *mime_type = NULL;
++ 
++-        if (resource->baselined && resource->type == DAV_RESOURCE_TYPE_VERSION)
+++        if (resource->type == DAV_RESOURCE_TYPE_ACTIVITY
+++            || (resource->baselined
+++                && resource->type == DAV_RESOURCE_TYPE_VERSION))
++           return DAV_PROP_INSERT_NOTSUPP;
++ 
++         if (resource->type == DAV_RESOURCE_TYPE_PRIVATE
+diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+index f225671..74cd149 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://disable-revision-install.patch \
+            file://libtool2.patch \
+            file://fix-install-depends.patch \
++           file://subversion-CVE-2013-1849.patch \
+           "
+ 
+ SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
 -- 
 1.7.10.4
 
