@@ -1,24 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 929C165F99
+	by mail.openembedded.org (Postfix) with ESMTP id E4F9865E37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 07:00:38 +0000 (UTC)
+	Mon, 19 May 2014 08:02:56 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4J70dTR006856
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4J82vfE015742
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 00:00:40 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
+	Mon, 19 May 2014 01:02:57 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 19 May 2014 00:00:38 -0700
-From: <rongqing.li@windriver.com>
+	14.3.169.1; Mon, 19 May 2014 01:02:56 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 May 2014 15:00:38 +0800
-Message-ID: <1400482838-7751-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+Date: Mon, 19 May 2014 16:03:27 +0800
+Message-ID: <cover.1400486523.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH] openssl: fix for CVE-2010-5298
+Subject: [PATCH 0/1] runqemu-internal: add "console=ttyS0" to ramfs image kernel parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,57 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 07:00:46 -0000
+X-List-Received-Date: Mon, 19 May 2014 08:02:57 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
 
-Race condition in the ssl3_read_bytes function in s3_pkt.c in OpenSSL
-through 1.0.1g, when SSL_MODE_RELEASE_BUFFERS is enabled, allows remote
-attackers to inject data across sessions or cause a denial of service
-(use-after-free and parsing error) via an SSL connection in a
-multithreaded environment.
+  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-5298
+are available in the git repository at:
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../openssl-1.0.1e/openssl-CVE-2010-5298.patch     |   24 ++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/runqemu-ramfs
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/runqemu-ramfs
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch
-new file mode 100644
-index 0000000..417a774
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch
-@@ -0,0 +1,24 @@
-+openssl fix for CVE-2010-5298
-+
-+Upstream-Status: Backport
-+
-+Race condition in the ssl3_read_bytes function in s3_pkt.c in OpenSSL
-+through 1.0.1g, when SSL_MODE_RELEASE_BUFFERS is enabled, allows remote
-+attackers to inject data across sessions or cause a denial of service
-+(use-after-free and parsing error) via an SSL connection in a
-+multithreaded environment.
-+
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-5298
-+
-+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-+--- a/ssl/s3_pkt.c
-++++ b/ssl/s3_pkt.c
-+@@ -1013,7 +1013,7 @@ start:
-+ 				{
-+ 				s->rstate=SSL_ST_READ_HEADER;
-+ 				rr->off=0;
-+-				if (s->mode & SSL_MODE_RELEASE_BUFFERS)
-++				if (s->mode & SSL_MODE_RELEASE_BUFFERS && s->s3->rbuf.left == 0)
-+ 					ssl3_release_read_buffer(s);
-+ 				}
-+ 			}
+Chen Qi (1):
+  runqemu-internal: add "console=ttyS0" to ramfs image kernel
+    parameters
+
+ scripts/runqemu-internal |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.7.10.4
+1.7.9.5
 
 
