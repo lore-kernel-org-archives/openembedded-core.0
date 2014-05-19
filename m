@@ -1,51 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-X-Greylist: delayed 528 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 19 May 2014 08:23:46 UTC
-Received: from bes.se.axis.com (unknown [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 12B4065D0E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (unknown [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CCB7665F69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 08:23:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id C5FDA2E39A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:14:59 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id RtmbYY5tVQFX
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:14:51 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 3A1EA2E38F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:14:51 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 1B79DCDA
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:14:51 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 105D5B5A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:14:51 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 0E9DD3E048
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:14:51 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
-	([10.0.5.74]) with mapi; Mon, 19 May 2014 10:14:50 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 May 2014 10:14:49 +0200
-Thread-Topic: Using users/groups from another recipe than the one creating them
-Thread-Index: Ac9zOmJt3ZaNgmRpT1y92nz2xUwFjQ==
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC7A7A1D9B648@xmail3.se.axis.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Mon, 19 May 2014 09:09:32 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 May 2014 02:09:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,865,1392192000"; d="scan'208";a="534060193"
+Received: from akagikob-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.55])
+	by fmsmga001.fm.intel.com with ESMTP; 19 May 2014 02:09:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Date: Mon, 19 May 2014 10:09:02 +0100
+Message-ID: <33349238.TiGAmUYbOr@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <20140518190117.GA20035@pbcl.net>
+References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>
+	<21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
+	<20140518190117.GA20035@pbcl.net>
 MIME-Version: 1.0
-Subject: Using users/groups from another recipe than the one creating them
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: OE Github repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 08:23:47 -0000
-Content-Language: en-US
+X-List-Received-Date: Mon, 19 May 2014 09:09:35 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Which assumption is correct: "a recipe A that depends on another=20
-recipe B can use users/groups that B creates" or "all recipes must=20
-create the users/groups they require themselves"?
+On Sunday 18 May 2014 21:01:18 Phil Blundell wrote:
+> On Fri, May 16, 2014 at 11:51:06AM +0100, Paul Eggleton wrote:
+> > On Monday 28 April 2014 14:45:26 Koen Kooi wrote:
+> > > Paul Eggleton schreef op 28-04-14 13:08:
+> > > > OK then, how about this instead:
+> > > > 
+> > > > 1) Ensure the "openembedded-core" repository is kept up-to-date
+> > > > 
+> > > > 2) Add a "meta-openembedded" repository and ensure it is kept
+> > > > up-to-date
+> > > > 
+> > > > 3) Add a warning to the description for the contracted name
+> > > > repositories
+> > > > that the fully-named repositories should be used instead, so we can
+> > > > eventually drop them
+> > > > 
+> > > > 4) Change documentation / scripts to match #3
+> > > 
+> > > Sounds like a good plan to me!
+> > 
+> > OK, so who will do this then (whoever has access)?
+> 
+> [Cc list trimmed due to non-member posting constraints on oe-devel.]
+> 
+> I've done #1, #2 and #3.  I didn't know what scripts you were referring to
+> in #4 so I haven't taken any action on that.
 
-The problem for us is that we have a lot of recipes that create=20
-users and groups, and subsequently a number of other related recipes=20
-that need to use those users and groups.=20
+OK, they're spread around a bit so I think others can take care of #4. Thanks!
 
-If the first assumption is correct then the useradd.bbclass needs to=20
-be corrected so that it adds a dependency from do_install to=20
-base-passwd:do_populate_sysroot and=20
-base-passwd:do_populate_sysroot_setscene, because if either of those=20
-tasks execute they will overwrite /etc/passwd and /etc/group,=20
-effectively removing any users/groups that were created earlier...
+Cheers,
+Paul
 
-On the other hand, if it is the second assumption that is correct,=20
-then there should be QA tests in place to make sure all recipes=20
-create the users/groups they use.
+-- 
 
-//Peter
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
