@@ -1,41 +1,31 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-X-Greylist: delayed 581 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 19 May 2014 10:39:59 UTC
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EB5365DA3
+Return-Path: <belen.barros.pena@intel.com>
+Received: from mga01.intel.com (unknown [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B230D605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 10:39:59 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 May 2014 03:30:19 -0700
+	Mon, 19 May 2014 11:15:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 19 May 2014 04:14:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,866,1392192000"; d="scan'208";a="513887780"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga001.jf.intel.com with ESMTP; 19 May 2014 03:30:18 -0700
-Received: from irsmsx105.ger.corp.intel.com (163.33.3.28) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 19 May 2014 11:30:17 +0100
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.183]) by
-	IRSMSX105.ger.corp.intel.com ([169.254.7.70]) with mapi id
-	14.03.0123.003; Mon, 19 May 2014 11:30:16 +0100
-From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-To: Stefan Stanacar <sstncr@gmail.com>, "Musat, GeorgeX L"
-	<georgex.l.musat@intel.com>
-Thread-Topic: [OE-core] [PTACH V2] oeqa/runtime: Update test names with
-	testopia tc numbers.
-Thread-Index: AQHPc0S2Fl93BEQqNE6gk2b7EJPi1ZtHszeg
-Date: Mon, 19 May 2014 10:30:16 +0000
-Message-ID: <33115ABC4887814E8A92A08FBC93416B0A263F62@IRSMSX103.ger.corp.intel.com>
-References: <1400229891-5302-1-git-send-email-georgex.l.musat@intel.com>
-	<CANr+NRu16-swsx2B1qCJU=H5dmqWwsbD=iD28LA76uTYg_E39A@mail.gmail.com>
-In-Reply-To: <CANr+NRu16-swsx2B1qCJU=H5dmqWwsbD=iD28LA76uTYg_E39A@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="4.98,866,1392192000"; d="scan'208";a="541366193"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga002.fm.intel.com with ESMTP; 19 May 2014 04:14:49 -0700
+Received: from irsmsx106.ger.corp.intel.com ([169.254.8.28]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.173]) with mapi id
+	14.03.0123.003; Mon, 19 May 2014 12:13:34 +0100
+From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [RFC] Development workflow
+Thread-Index: AQHPc1Nf1FTpbG839E6OxwY2+rJksg==
+Date: Mon, 19 May 2014 11:13:33 +0000
+Message-ID: <CF9FA5EC.44916%belen.barros.pena@intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+user-agent: Microsoft-MacOutlook/14.4.1.140326
+x-originating-ip: [10.237.224.30]
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PTACH V2] oeqa/runtime: Update test names with testopia tc numbers.
+Subject: [RFC] Development workflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,79 +38,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 10:40:02 -0000
+X-List-Received-Date: Mon, 19 May 2014 11:15:11 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <4653764CC0F35F4E80E47F163DCBDBDB@intel.com>
 Content-Transfer-Encoding: quoted-printable
 
+One of the things that came out of the discussion "Why is embedded still
+hard" at the OEDAM was the need to document development workflow best
+practices, particularly when it comes to application development.
+
+It was agreed that the first step should be collecting existing practices
+to understand what people are currently doing and what works well in which
+circumstances. If you are working (or have worked) with embedded
+application developers, you can help with this. You have a couple of
+sharing options:
+
+1) You can talk to me (a 45-minute conversation should do). I can then
+document our conversation, and once you are happy with the outcome, I can
+share it with the list. If you prefer this way, send me an email off list
+or ping me in IRC (belen)
+
+2) You can write it down in an email to the mailing list. You can use the
+examples Richard Purdie shared as a starting point
+
+http://lists.openembedded.org/pipermail/openembedded-core/2014-May/092079.h
+tml
+
+Or you can answer some / all of the following questions:
+
+* Can you tell me a little bit about the context in which you are using
+the Yocto Project? Is it for specific products? Is it across the whole
+company?
+
+* How many people are using Yocto Project? How are they organised? How are
+they split in terms of their skill set? What are their responsibilities?
+
+* How do the different skill sets interact? Are there specific
+deliverables they must hand over to each other, things like development
+images, or application recipes?
+
+* Can you describe the development process for custom applications? What
+are they main steps in the process?
+
+* Do you use the Yocto Project for the full development process, or only
+for certain steps in it?
+
+* Are there any steps in the process that are particularly problematic?
+Can you describe why?
+
+* What do you miss to assist you in those steps? Tools? Documentation?
+Best practices? Something else?
+
+* Have you looked at the Yocto Project ADT/SDK? Do you find it useful and
+if not, what would you consider its limitations?
+
+* Have you looked at the Yocto Project Eclipse plugin? Do you find it
+useful and if not, what would you consider its limitations?
+
+* If you could ask 3 wishes from the Yocto Project, what would they be?
+
+The document attached to this Bugzilla feature
 
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Stefan Stanacar
-> Sent: Monday, May 19, 2014 12:28 PM
-> To: Musat, GeorgeX L
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PTACH V2] oeqa/runtime: Update test names with
-> testopia tc numbers.
->=20
-> Hi Lucian,
->=20
-> On Fri, May 16, 2014 at 11:44 AM, Lucian Musat
-> <georgex.l.musat@intel.com> wrote:
-> >
-> >  class SmartRepoTest(SmartTest):
-> > @@ -54,11 +54,12 @@ class SmartRepoTest(SmartTest):
-> >      @classmethod
-> >      def tearDownClass(self):
-> >          self.repo_server.stop()
-> > +       smartsRepo =3D SmartRepoTest
-> >
->=20
-> Again, this line doesn't make sense and it probably shouldn't be here.
->=20
-> >  class SyslogTest(oeRuntimeTest):
-> >
-> > -    @skipUnlessPassed("test_ssh")
-> > -    def test_syslog_help(self):
-> > -        (status,output) =3D self.target.run('/sbin/syslogd --help')
-> > -        self.assertEqual(status, 0, msg=3D"status and output: %s and %=
-s" %
-> (status,output))
-> > +    @skipUnlessPassed("test_ssh_tc_224")
-> > +    def test_syslog_help_tc_202(self):
-> > +               (status,output) =3D self.target.run('/sbin/syslogd --he=
-lp')
-> > +               self.assertEqual(status, 0, msg=3D"status and output: %=
-s
-> > + and %s" % (status,output))
-> >
->=20
-> There are some whitespaces/tabs added here that probably shouldn't be.
->=20
-> Please also add a description why this patch is needed. Why do we need to
-> add testopia numbers to test names, how is it useful?
-> Also, isn't there any other way we could map these tests to testopia
-> testcases?
->=20
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D6225
 
-Hello Stefan,
+might also help somehow.
 
-Indeed we need a better description for this. Unfortunately there is no eas=
-y way to map these test cases without adding another maintenance point. Als=
-o this will be easy to read in the test output both by human eye and automa=
-ted scripts.
-What do you think? Do you have another idea we could investigate?
+Looking forward to all the answers.
 
-Regards,
-Corneliu
+Cheers,
 
-> Cheers,
-> Stefan
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Bel=E9n
+
+
 
