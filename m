@@ -1,35 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-X-Greylist: delayed 492 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 19 May 2014 02:20:25 UTC
-Received: from mail-pb0-f51.google.com (unknown [209.85.160.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C15765E05
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BD2F65EB4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 02:20:25 +0000 (UTC)
-Received: by mail-pb0-f51.google.com with SMTP id ma3so5186873pbc.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 May 2014 19:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=avw9eDNUOVxoP8T3MRwa6YeBhm9ns6vJahtVbLSezpA=;
-	b=m3dfhkJIdHETzhg22OtJFL0CFTHUHnrj5PrcXFcO1pG+m29121jUBQ0th5f+G0IMiU
-	1EkydjYqXpZdCLblHIhaYT5IxAa8xf3e/AcF6yu4XNLvNxHbLtrnwLhgubugnRrnRwfW
-	C2jlsuqWfUH3oKWs1I/HOctrD+WNvq2tjZhSHaYECqLf57D0WvKLQxmlFetMoARCkiir
-	5BFoYwEJCPeOusMeugZhHNIHHXQCqHJnvS7Oqbo6yUyvFZm9TAEhzI5dj4z+wwHyznwg
-	jp3Q5tazZO1DiN2EQaY2wuaPmdLudPR2VBk5TPCA/bRDr1S4/cteVulwyDTKx5HZk5VK
-	532w==
-X-Received: by 10.68.221.42 with SMTP id qb10mr39074823pbc.65.1400465534369;
-	Sun, 18 May 2014 19:12:14 -0700 (PDT)
-Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218]) by mx.google.com with ESMTPSA id
-	ox3sm26983836pbb.88.2014.05.18.19.12.13 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 18 May 2014 19:12:13 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 May 2014 19:14:32 -0700
-Message-Id: <1400465672-30863-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.2
-Subject: [dora][PATCH] prelink: Fix SRC_URI
+	Mon, 19 May 2014 03:02:31 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 18 May 2014 20:02:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,864,1392192000"; d="scan'208";a="433759855"
+Received: from unknown (HELO [10.255.12.101]) ([10.255.12.101])
+	by azsmga001.ch.intel.com with ESMTP; 18 May 2014 20:01:50 -0700
+Message-ID: <5379741E.5010207@linux.intel.com>
+Date: Sun, 18 May 2014 20:01:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>, Zongchun YU <b40527@freescale.com>
+References: <1400226305-5166-1-git-send-email-b40527@freescale.com>
+	<CAMKF1spxe7wAPvbGHB94n3bvHjNO5K+jnnrXHMzpDaYMtfqntg@mail.gmail.com>
+In-Reply-To: <CAMKF1spxe7wAPvbGHB94n3bvHjNO5K+jnnrXHMzpDaYMtfqntg@mail.gmail.com>
+Cc: Zongchun Yu <Zongchun.Yu@freescale.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] doxygen: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 02:20:26 -0000
+X-List-Received-Date: Mon, 19 May 2014 03:02:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The SHA we use it actually on cross_prelink branch
-if you do not use yocto source mirrors then the fetch
-for prelink on dora fails due to missing branch in SRC_URI
+On 05/16/2014 01:40 AM, Khem Raj wrote:
+> On Fri, May 16, 2014 at 12:45 AM,  <b40527@freescale.com> wrote:
+>> From: Zongchun Yu <Zongchun.Yu@freescale.com>
+>>
+>> Signed-off-by: Zongchun Yu <Zongchun.Yu@freescale.com>
+>> ---
+>>   .../doxygen/doxygen-native_1.8.6.bb                |   23 ++++++++++++++++++++
+>
+> Commit message should say that its adding recipe for doxygen-native
+> and not oxygen
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/prelink/prelink_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Also why are we adding it, what packages needs doxygen ?
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 744a55f..9f6e315 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -26,7 +26,7 @@ FILES_${PN}-cron = "${sysconfdir}/cron.daily ${sysconfdir}/default"
- 
- PACKAGES =+ "${PN}-cron"
- 
--SRC_URI = "git://git.yoctoproject.org/prelink-cross.git \
-+SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
-            file://prelink.conf \
-            file://prelink.cron.daily \
-            file://prelink.default \
--- 
-1.9.3
+Sau!
 
+>
+>>   1 files changed, 23 insertions(+), 0 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb
+>>
+>> diff --git a/meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb b/meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb
+>> new file mode 100644
+>> index 0000000..eac4c9b
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb
+>> @@ -0,0 +1,23 @@
+>> +DESCRIPTION = "Utilities for generating documentation from source code"
+>> +HOMEPAGE = "http://www.stack.nl/~dimitri/doxygen/index.html"
+>> +SECTION = "console/utils"
+>> +LICENSE = "GPLv2"
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=b380c86cea229fa42b9e543fc491f5eb"
+>> +DEPENDS = "flex-native bison-native"
+>> +
+>> +SRC_URI = "http://ftp.stack.nl/pub/users/dimitri/doxygen-${PV}.src.tar.gz"
+>> +
+>> +SRC_URI[md5sum] = "9385dc52f0627875f8fa758e754ec674"
+>> +SRC_URI[sha256sum] = "6a718625f0c0c1eb3dee78ec1f83409b49e790f4c6c47fd44cd51cb92695535f"
+>> +
+>> +inherit native
+>> +
+>> +EXTRA_OECONF = "--prefix ${prefix}"
+>> +
+>> +do_configure () {
+>> +    ./configure ${EXTRA_OECONF}
+>> +}
+>> +
+>> +do_install() {
+>> +    oe_runmake install DESTDIR=${D} MAN1DIR=share/man/man1
+>> +}
+>> --
+>> 1.7.0.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
