@@ -1,20 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (unknown [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 802F665FD8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f176.google.com (unknown [209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F0E6116C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 16:23:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 May 2014 09:23:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,868,1392192000"; d="scan'208";a="541549787"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.101])
-	by fmsmga002.fm.intel.com with ESMTP; 19 May 2014 09:23:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 May 2014 09:23:17 -0700
-Message-Id: <cover.1400516243.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [CONSOLIDATED PULL 0/9] Misc Patches
+	Mon, 19 May 2014 17:31:49 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id rl12so2643716iec.35
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 May 2014 10:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=8r/SWc3jYiSE2ntx3J0l54Ss2xYSuj1jeuXDLwjorXU=;
+	b=SjpmqKdGfvpjVlOHmfnyLugkTLoDO190sj3/zIOP6xkyBCdD4jl2tGvkCHBTqULXjv
+	Iw9JnJrIwDASono+VT3di+TXhVClKVa/B1T2LBsuBK6UqIVGexxwKu1rVzgtxk4hKKeA
+	PwWV9CT2QWhpG60CDF6dENJUuzcF6ILEB9Hjc6B4BDTCXC3uedlVvYdf0jxScODRRGgK
+	mRfSXqzpIHw7vNWJf+jCFGoxSCwpwv5PD/KfF283FPfHi5iux8SMCidiWxoR/weaxbTS
+	Ujc+SqaB5uW1VG62svG3k19wjaVt5WAHAA33bUOmXqPseT1fsUHQt1GrHAXyY8G5wSmk
+	gbbg==
+X-Received: by 10.50.65.3 with SMTP id t3mr19200744igs.20.1400520710627; Mon,
+	19 May 2014 10:31:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.117.33 with HTTP; Mon, 19 May 2014 10:31:20 -0700 (PDT)
+In-Reply-To: <7a92a9da4b308473462f49d608a71cd1d014fbdb.1400477731.git.Chong.Lu@windriver.com>
+References: <cover.1400477731.git.Chong.Lu@windriver.com>
+	<7a92a9da4b308473462f49d608a71cd1d014fbdb.1400477731.git.Chong.Lu@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 19 May 2014 10:31:20 -0700
+Message-ID: <CAMKF1sqhEE0HOqLZ9nQ=vUQQeCYw4eCxLTTG7-036vsmqS5TCA@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] libpcre: Update to 8.35 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,69 +42,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 16:23:40 -0000
+X-List-Received-Date: Mon, 19 May 2014 17:31:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Sun, May 18, 2014 at 10:36 PM, Chong Lu <Chong.Lu@windriver.com> wrote:
+> -LIC_FILES_CHKSUM = "file://LICENCE;md5=0920cc1a9f7ba95464491fa83c86afd8"
+> +LIC_FILES_CHKSUM = "file://LICENCE;md5=ded617e975f28e15952dc68b84a7ac1a"
 
-The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
-
-  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Chen Qi (3):
-  udev-extraconf: fix the misuse of /run/media
-  init-live.sh: list block devices correctly
-  initrdscripts: fix for /run/media
-
-Chong Lu (1):
-  syslinux-native: fix parallel building issue
-
-Cristiana Voicu (1):
-  packagegroup-core-lsb: fix warning text
-
-Koen Kooi (1):
-  curl: work around RRECOMMENDS problems in -native* recipes
-
-Martin Jansa (1):
-  lttng-modules: Fix build with older kernels
-
-Ross Burton (1):
-  pango: enable ptest
-
-Saul Wold (1):
-  libusb1: disable floating dependency on udev
-
- .../initrdscripts/files/init-install-efi-testfs.sh |  14 +-
- .../initrdscripts/files/init-install-efi.sh        |  14 +-
- .../initrdscripts/files/init-install-testfs.sh     |   4 +-
- .../initrdscripts/files/init-install.sh            |   4 +-
- meta/recipes-core/initrdscripts/files/init-live.sh |  20 +--
- meta/recipes-core/udev/udev-extraconf/mount.sh     |   2 +-
- .../syslinux-fix-parallel-building-issue.patch     |  38 +++++
- meta/recipes-devtools/syslinux/syslinux_6.01.bb    |   3 +-
- .../packagegroups/packagegroup-core-lsb.bb         |   6 +-
- meta/recipes-graphics/pango/pango.inc              |  21 ++-
- meta/recipes-graphics/pango/pango/no-tests.patch   |  15 --
- meta/recipes-graphics/pango/pango/run-ptest        |   3 +
- meta/recipes-graphics/pango/pango_1.36.3.bb        |   2 +-
- .../lttng/lttng-modules/bio-bvec-iter.patch        | 156 +++++++++++++++++++++
- .../lttng/lttng-modules/fixup_block_driver.patch   | 122 ----------------
- meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb   |   2 +-
- meta/recipes-support/curl/curl_7.36.0.bb           |   7 +-
- .../libusb/libusb1/obsolete_automake_macros.patch  |  15 --
- meta/recipes-support/libusb/libusb1_1.0.18.bb      |   4 +-
- 19 files changed, 260 insertions(+), 192 deletions(-)
- create mode 100644 meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
- delete mode 100644 meta/recipes-graphics/pango/pango/no-tests.patch
- create mode 100644 meta/recipes-graphics/pango/pango/run-ptest
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch
- delete mode 100644 meta/recipes-support/libusb/libusb1/obsolete_automake_macros.patch
-
--- 
-1.8.3.1
-
+what changed ?
 
