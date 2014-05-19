@@ -1,28 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ABB865F1F
+Return-Path: <corneliux.stoicescu@intel.com>
+X-Greylist: delayed 581 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 19 May 2014 10:39:59 UTC
+Received: from mga02.intel.com (unknown [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EB5365DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 09:58:02 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 May 2014 02:58:03 -0700
+	Mon, 19 May 2014 10:39:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 May 2014 03:30:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,866,1392192000"; d="scan'208";a="541333689"
-Received: from akagikob-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.55])
-	by fmsmga002.fm.intel.com with ESMTP; 19 May 2014 02:58:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-Date: Mon, 19 May 2014 10:58 +0100
-Message-ID: <3709235.f54P8fLhiD@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <53795F49.5000407@windriver.com>
-References: <cover.1400201782.git.rongqing.li@windriver.com>
-	<6339757.ULFiZ01mb2@peggleto-mobl5.ger.corp.intel.com>
-	<53795F49.5000407@windriver.com>
+X-IronPort-AV: E=Sophos;i="4.98,866,1392192000"; d="scan'208";a="513887780"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by orsmga001.jf.intel.com with ESMTP; 19 May 2014 03:30:18 -0700
+Received: from irsmsx105.ger.corp.intel.com (163.33.3.28) by
+	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Mon, 19 May 2014 11:30:17 +0100
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.183]) by
+	IRSMSX105.ger.corp.intel.com ([169.254.7.70]) with mapi id
+	14.03.0123.003; Mon, 19 May 2014 11:30:16 +0100
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: Stefan Stanacar <sstncr@gmail.com>, "Musat, GeorgeX L"
+	<georgex.l.musat@intel.com>
+Thread-Topic: [OE-core] [PTACH V2] oeqa/runtime: Update test names with
+	testopia tc numbers.
+Thread-Index: AQHPc0S2Fl93BEQqNE6gk2b7EJPi1ZtHszeg
+Date: Mon, 19 May 2014 10:30:16 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B0A263F62@IRSMSX103.ger.corp.intel.com>
+References: <1400229891-5302-1-git-send-email-georgex.l.musat@intel.com>
+	<CANr+NRu16-swsx2B1qCJU=H5dmqWwsbD=iD28LA76uTYg_E39A@mail.gmail.com>
+In-Reply-To: <CANr+NRu16-swsx2B1qCJU=H5dmqWwsbD=iD28LA76uTYg_E39A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/12 v2] ffmpeg: backport 12 CVE patches
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PTACH V2] oeqa/runtime: Update test names with testopia tc numbers.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,136 +48,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 09:58:06 -0000
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Mon, 19 May 2014 10:40:02 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 19 May 2014 09:32:57 Rongqing Li wrote:
-> On 05/16/2014 07:09 PM, Paul Eggleton wrote:
-> > Hi Roy,
-> > 
-> > On Friday 16 May 2014 10:12:08 rongqing.li@windriver.com wrote:
-> >> From: Roy Li <rongqing.li@windriver.com>
-> >> 
-> >> Diff with V1: use ffmpeg as prefix of commit header
-> >> 
-> >> The following changes since commit 
-e273301efa0037a13c3a60b4414140364d9c9873:
-> >>    gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
-> >> 
-> >> are available in the git repository at:
-> >>    git://git.pokylinux.org/poky-contrib roy/ffmpeg-2
-> >>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-2
-> >> 
-> >> Yue Tao (12):
-> >>    ffmpeg: fix for Security Advisory CVE-2014-2263
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0865
-> >>    ffmpeg: fix for Security Advisory CVE-2014-2099
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0868
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0845
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0852
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0858
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0851
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0854
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0856
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0850
-> >>    ffmpeg: fix for Security Advisory CVE-2013-0849
-> > 
-> > This should really be "gst-ffmpeg:" rather than just "ffmpeg:" since
-> > that's the recipe being modified.
-> 
-> Ok, I update it
-> 
-> =====================
-> The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
-> 
->    gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
-> 
-> are available in the git repository at:
-> 
->    git://git.pokylinux.org/poky-contrib roy/ffmpeg-2
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ffmpeg-2
-> 
-> Yue Tao (12):
->    gst-ffmpeg: fix for Security Advisory CVE-2014-2263
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0865
->    gst-ffmpeg: fix for Security Advisory CVE-2014-2099
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0868
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0845
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0852
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0858
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0851
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0854
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0856
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0850
->    gst-ffmpeg: fix for Security Advisory CVE-2013-0849
-> 
->   .../0001-alac-fix-nb_samples-order-case.patch      |   30 +++++++
->   .../0001-alsdec-check-block-length.patch           |   61 ++++++++++++++
->   ...ac3dec-Check-coding-mode-against-channels.patch |   37 +++++++++
->   ...le-use-av_image_get_linesize-to-calculate.patch |   50 +++++++++++
->   ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   69 ++++++++++++++++
-> .../0001-eamad-fix-out-of-array-accesses.patch     |   29 +++++++
-> ...t-ref-count-check-and-limit-fix-out-of-ar.patch |   29 +++++++
-> ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87
-> ++++++++++++++++++++
->   .../0001-huffyuvdec-Skip-len-0-cases.patch         |   59 +++++++++++++
->   .../0001-mjpegdec-check-SE.patch                   |   32 +++++++
->   ...heck-RLE-size-before-copying.-Fix-out-of-.patch |   34 ++++++++
->   ...001-roqvideodec-check-dimensions-validity.patch |   36 ++++++++
->   ...o-check-chunk-sizes-before-reading-chunks.patch |   51 ++++++++++++
->   .../gstreamer/gst-ffmpeg_0.10.13.bb                |   13 +++
->   14 files changed, 617 insertions(+)
->   create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_sample
-> s-order-case.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block
-> -length.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-co
-> ding-mode-against-channels.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-
-> av_image_get_linesize-to-calculate.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc
-> -Check-data-array-size-in-mpegts_w.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-a
-> rray-accesses.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-correct-ref-c
-> ount-check-and-limit-fix-out-of-ar.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-i
-> nit_vlc-return-codes.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-le
-> n-0-cases.patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.
-> patch create mode 100644
-> meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-pgssubdec-check-RL
-> E-size-before-copying.-Fix-out-of-.patch
-> > Also, I'm not sure if you got my message yesterday (since there was a
-> > problem> 
-> > with the email transmission) however I'll repeat it here just in case:
-> >> Note that whilst we should apply these patches, they won't actually have
-> >> any effect on unmodified builds because we do not use gst-ffmpeg's
-> >> internal copy of ffmpeg, we use libav instead. So if any of these fixes
-> >> apply to libav (or if there are equivalent fixes) we will need to apply
-> >> them to libav.
-> > 
-> > Would you be able to take care of the corresponding patches to libav?
-> 
-> I did not see the CVE patches on libav
 
-If they are applicable to the built-in copy of ffmpeg, at least some of them 
-should be applicable to libav.
 
-Actually I've noticed we're a couple of releases behind on libav 0.8 upgrades 
-(libav 0.8 is the version we are using with gst-ffmpeg), and we also need to do 
-a libav 9 upgrade. I will take care of at least doing the upgrades, but we 
-should double-check that these fixes are either not applicable or already 
-applied after that is done.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Stefan Stanacar
+> Sent: Monday, May 19, 2014 12:28 PM
+> To: Musat, GeorgeX L
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PTACH V2] oeqa/runtime: Update test names with
+> testopia tc numbers.
+>=20
+> Hi Lucian,
+>=20
+> On Fri, May 16, 2014 at 11:44 AM, Lucian Musat
+> <georgex.l.musat@intel.com> wrote:
+> >
+> >  class SmartRepoTest(SmartTest):
+> > @@ -54,11 +54,12 @@ class SmartRepoTest(SmartTest):
+> >      @classmethod
+> >      def tearDownClass(self):
+> >          self.repo_server.stop()
+> > +       smartsRepo =3D SmartRepoTest
+> >
+>=20
+> Again, this line doesn't make sense and it probably shouldn't be here.
+>=20
+> >  class SyslogTest(oeRuntimeTest):
+> >
+> > -    @skipUnlessPassed("test_ssh")
+> > -    def test_syslog_help(self):
+> > -        (status,output) =3D self.target.run('/sbin/syslogd --help')
+> > -        self.assertEqual(status, 0, msg=3D"status and output: %s and %=
+s" %
+> (status,output))
+> > +    @skipUnlessPassed("test_ssh_tc_224")
+> > +    def test_syslog_help_tc_202(self):
+> > +               (status,output) =3D self.target.run('/sbin/syslogd --he=
+lp')
+> > +               self.assertEqual(status, 0, msg=3D"status and output: %=
+s
+> > + and %s" % (status,output))
+> >
+>=20
+> There are some whitespaces/tabs added here that probably shouldn't be.
+>=20
+> Please also add a description why this patch is needed. Why do we need to
+> add testopia numbers to test names, how is it useful?
+> Also, isn't there any other way we could map these tests to testopia
+> testcases?
+>=20
 
-Cheers,
-Paul
+Hello Stefan,
 
--- 
+Indeed we need a better description for this. Unfortunately there is no eas=
+y way to map these test cases without adding another maintenance point. Als=
+o this will be easy to read in the test output both by human eye and automa=
+ted scripts.
+What do you think? Do you have another idea we could investigate?
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Regards,
+Corneliu
+
+> Cheers,
+> Stefan
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
