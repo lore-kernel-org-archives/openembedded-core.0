@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (unknown [209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AC7D65E37
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 42A7E605B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 21:12:08 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id rl12so2833848iec.23
+	Mon, 19 May 2014 21:47:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4JLlNb7008019
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 14:12:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ZNLkr0EQsa+xdjgHxCpNmRP5/t0sW9MvXLk8shzMo0c=;
-	b=Wix7D5JZrA/UCu6XTkwwyLmTVEsmkjjip2E043L27hmJYKkq5oM/LdPzqpf0/CI853
-	QUe3J+fYLaIyctj3QjzNT4HI759RSbbgSG8q2NrMleQJsNaNHOOyw+6K0Nv0DDZz2UbJ
-	OiIwuXL/eriXIIrP1/LAuuPzo/R/O/PtPyhtJLCCBQuR5CE+ghoRRZTODSmvPm+5e8Bi
-	/ieQtweYKApTolnIho9VgV5U8wihjFmRQTeZs+NGkMPtxVcCSVy9TXchRAz0p5WPBLAp
-	ZHEG3bqL1j8nRBD57k5OF2tJmfknTpk9NC6eZYMBymPPstOA+IUBvCm4MDnz1OYwQ3QG
-	mh1g==
-X-Received: by 10.43.62.204 with SMTP id xb12mr35267383icb.51.1400533930097;
-	Mon, 19 May 2014 14:12:10 -0700 (PDT)
+	Mon, 19 May 2014 14:47:23 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 19 May 2014 14:47:23 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 May 2014 16:51:40 -0500
+Message-ID: <cover.1400277127.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Received: by 10.50.117.33 with HTTP; Mon, 19 May 2014 14:11:40 -0700 (PDT)
-In-Reply-To: <3ca9244054e803966bbe4cccf29a1636b675a20d.1400486523.git.Qi.Chen@windriver.com>
-References: <cover.1400486523.git.Qi.Chen@windriver.com>
-	<3ca9244054e803966bbe4cccf29a1636b675a20d.1400486523.git.Qi.Chen@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 May 2014 14:11:40 -0700
-Message-ID: <CAMKF1spDjGZ2mBAQSXQsySNZJ-anqw-zmPOWCtSb+PYdVS+4xQ@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] runqemu-internal: add "console=ttyS0" to ramfs image kernel parameters
+Subject: [PATCH 0/1] pseudo permissions: better fchmodat, mask out write bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,11 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 21:12:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 May 2014 21:47:23 -0000
+Content-Type: text/plain
 
-On Mon, May 19, 2014 at 1:03 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
-> +    KERNCMDLINE="root=/dev/ram0 console=ttyS0 debugshell"
+(Sorry if this ends up getting duplicated, had mail server issues,
+and there may be deferred copies floating around somewhere.)
 
-is this valid for all kind of qemu machines ?
+Two changes:
+1. Report failures from calling fchmodat with AT_SYMLINK_NOFOLLOW,
+because otherwise GNU tar won't set modes as well as we would like
+it to. (No effect on generated filesystems, I think, just on the
+underlying local filesystem.)
+2. Mask out write bits for non-user in the real filesystem, so other
+users can't add stuff to the mode 777 directories in your rootfs.
+
+The following changes since commit e273301efa0037a13c3a60b4414140364d9c9873:
+
+  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:41 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib sees/pseudo-fchmodat
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo-fchmodat
+
+Peter Seebach (1):
+  pseudo: handle fchmodat better, mask out unwanted write bits
+
+ .../pseudo/files/pseudo-fchmodat-permissions.patch |   98 ++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |    3 +-
+ 2 files changed, 100 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
+
 
