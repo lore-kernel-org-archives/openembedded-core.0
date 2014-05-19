@@ -1,28 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (unknown [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CCB7665F69
+Return-Path: <sstncr@gmail.com>
+Received: from mail-we0-f180.google.com (unknown [74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2606B65F20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 09:09:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 May 2014 02:09:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,865,1392192000"; d="scan'208";a="534060193"
-Received: from akagikob-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.55])
-	by fmsmga001.fm.intel.com with ESMTP; 19 May 2014 02:09:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Mon, 19 May 2014 10:09:02 +0100
-Message-ID: <33349238.TiGAmUYbOr@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.3-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <20140518190117.GA20035@pbcl.net>
-References: <1874660.NNkBdmWv1O@peggleto-mobl5.ger.corp.intel.com>
-	<21882547.zdJQee8rlR@peggleto-mobl5.ger.corp.intel.com>
-	<20140518190117.GA20035@pbcl.net>
+	Mon, 19 May 2014 09:27:57 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id t61so5156561wes.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 May 2014 02:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=1Pt76d71unvvLU6ocMMkzcvpSuGDP7F24JpT++BcIQo=;
+	b=RAULQ3wdPEufo0fZsbaKKuiAg3G4eOjti7roV2K249q1PG3l1+VcGVPphxzwX0RHcj
+	28Hv5Y1AjkQvabxpOW9caMEFrVMy+SJBgzlPW5CKCKSjZgwFswxGur7S8MxKGGRijyUz
+	rA+jOEJPWEKlRLfCHRL8AGUnb6XnUgMjqviJuJhJGuS3jxT1de5Bfw8fokO0FQjtpVvv
+	38UttyBu3qkrgW4aSIKVEMRDMCbzwrbVYwnHzoMbE65y6N5eeReR12+lbEzkaEvKgylV
+	hzkwQxOQbcVqYofzsVkec4RV/dEBwNm9F+48nhkdmBdJCzD9HAx7NL5IWUpGvIT5On5D
+	/bCQ==
 MIME-Version: 1.0
+X-Received: by 10.194.250.68 with SMTP id za4mr672962wjc.89.1400491678656;
+	Mon, 19 May 2014 02:27:58 -0700 (PDT)
+Received: by 10.216.48.6 with HTTP; Mon, 19 May 2014 02:27:58 -0700 (PDT)
+In-Reply-To: <1400229891-5302-1-git-send-email-georgex.l.musat@intel.com>
+References: <1400229891-5302-1-git-send-email-georgex.l.musat@intel.com>
+Date: Mon, 19 May 2014 12:27:58 +0300
+Message-ID: <CANr+NRu16-swsx2B1qCJU=H5dmqWwsbD=iD28LA76uTYg_E39A@mail.gmail.com>
+From: Stefan Stanacar <sstncr@gmail.com>
+To: Lucian Musat <georgex.l.musat@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: OE Github repositories
+Subject: Re: [PTACH V2] oeqa/runtime: Update test names with testopia tc numbers.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 09:09:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 19 May 2014 09:27:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sunday 18 May 2014 21:01:18 Phil Blundell wrote:
-> On Fri, May 16, 2014 at 11:51:06AM +0100, Paul Eggleton wrote:
-> > On Monday 28 April 2014 14:45:26 Koen Kooi wrote:
-> > > Paul Eggleton schreef op 28-04-14 13:08:
-> > > > OK then, how about this instead:
-> > > > 
-> > > > 1) Ensure the "openembedded-core" repository is kept up-to-date
-> > > > 
-> > > > 2) Add a "meta-openembedded" repository and ensure it is kept
-> > > > up-to-date
-> > > > 
-> > > > 3) Add a warning to the description for the contracted name
-> > > > repositories
-> > > > that the fully-named repositories should be used instead, so we can
-> > > > eventually drop them
-> > > > 
-> > > > 4) Change documentation / scripts to match #3
-> > > 
-> > > Sounds like a good plan to me!
-> > 
-> > OK, so who will do this then (whoever has access)?
-> 
-> [Cc list trimmed due to non-member posting constraints on oe-devel.]
-> 
-> I've done #1, #2 and #3.  I didn't know what scripts you were referring to
-> in #4 so I haven't taken any action on that.
+Hi Lucian,
 
-OK, they're spread around a bit so I think others can take care of #4. Thanks!
+On Fri, May 16, 2014 at 11:44 AM, Lucian Musat
+<georgex.l.musat@intel.com> wrote:
+>
+>  class SmartRepoTest(SmartTest):
+> @@ -54,11 +54,12 @@ class SmartRepoTest(SmartTest):
+>      @classmethod
+>      def tearDownClass(self):
+>          self.repo_server.stop()
+> +       smartsRepo = SmartRepoTest
+>
+
+Again, this line doesn't make sense and it probably shouldn't be here.
+
+>  class SyslogTest(oeRuntimeTest):
+>
+> -    @skipUnlessPassed("test_ssh")
+> -    def test_syslog_help(self):
+> -        (status,output) = self.target.run('/sbin/syslogd --help')
+> -        self.assertEqual(status, 0, msg="status and output: %s and %s" % (status,output))
+> +    @skipUnlessPassed("test_ssh_tc_224")
+> +    def test_syslog_help_tc_202(self):
+> +               (status,output) = self.target.run('/sbin/syslogd --help')
+> +               self.assertEqual(status, 0, msg="status and output: %s and %s" % (status,output))
+>
+
+There are some whitespaces/tabs added here that probably shouldn't be.
+
+Please also add a description why this patch is needed. Why do we need
+to add testopia numbers to test names, how is it useful?
+Also, isn't there any other way we could map these tests to testopia testcases?
 
 Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Stefan
 
