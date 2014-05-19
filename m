@@ -1,26 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 898F26A637
+	by mail.openembedded.org (Postfix) with ESMTP id 66BA165FE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 05:27:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4J5RXA9026430
+	Mon, 19 May 2014 05:36:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4J5aXA2027147
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 18 May 2014 22:27:33 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Sun, 18 May 2014 22:27:33 -0700
-From: <rongqing.li@windriver.com>
+	Sun, 18 May 2014 22:36:33 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 18 May 2014 22:36:32 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 May 2014 13:27:23 +0800
-Message-ID: <9138880cd286d2700a380bfc21f70bfeb98ce675.1400476449.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1400476449.git.rongqing.li@windriver.com>
-References: <cover.1400476449.git.rongqing.li@windriver.com>
+Date: Mon, 19 May 2014 13:36:30 +0800
+Message-ID: <cover.1400477731.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH 6/6] subversion: fix for Security Advisory CVE-2013-4277
+Subject: [PATCH 0/1] libpcre: Update to 8.35 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 May 2014 05:27:32 -0000
+X-List-Received-Date: Mon, 19 May 2014 05:36:33 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+The following changes since commit 874d81a5ebb6395b0d65d0082471287e522d0c47:
 
-Svnserve in Apache Subversion 1.4.0 through 1.7.12 and 1.8.0 through
-1.8.1 allows local users to overwrite arbitrary files or kill arbitrary
-processes via a symlink attack on the file specified by the --pid-file
-option.
+  gstreamer/lame: Better gcc 4.9 fix (2014-05-15 23:27:45 +0100)
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4277
+are available in the git repository at:
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../subversion-1.7.10/subversion-CVE-2013-4277.patch    |   15 +++++++++++++++
- .../subversion/subversion-CVE-2013-4277.patch           |   15 +++++++++++++++
- meta/recipes-devtools/subversion/subversion_1.6.15.bb   |    3 ++-
- meta/recipes-devtools/subversion/subversion_1.7.10.bb   |    1 +
- 4 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
+  git://git.pokylinux.org/poky-contrib chonglu/libpcre
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/libpcre
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch b/meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
-new file mode 100644
-index 0000000..a5900d8
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Backport
-+
-+--- a/subversion/svnserve/main.c
-++++ b/subversion/svnserve/main.c
-+@@ -403,8 +403,9 @@ static svn_error_t *write_pid_file(const
-+   const char *contents = apr_psprintf(pool, "%" APR_PID_T_FMT "\n",
-+                                              getpid());
-+ 
-++  SVN_ERR(svn_io_remove_file2(filename, TRUE, pool));
-+   SVN_ERR(svn_io_file_open(&file, filename,
-+-                           APR_WRITE | APR_CREATE | APR_TRUNCATE,
-++                           APR_WRITE | APR_CREATE | APR_EXCL,
-+                            APR_OS_DEFAULT, pool));
-+   SVN_ERR(svn_io_file_write_full(file, contents, strlen(contents), NULL,
-+                                  pool));
-diff --git a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
-new file mode 100644
-index 0000000..21b8ef0
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Backport
-+
-+--- a/subversion/svnserve/main.c
-++++ b/subversion/svnserve/main.c
-+@@ -403,8 +403,9 @@ static svn_error_t *write_pid_file(const
-+   const char *contents = apr_psprintf(pool, "%" APR_PID_T_FMT "\n",
-+                                              getpid());
-+ 
-++  SVN_ERR(svn_io_remove_file(filename, pool));
-+   SVN_ERR(svn_io_file_open(&file, filename,
-+-                           APR_WRITE | APR_CREATE | APR_TRUNCATE,
-++                           APR_WRITE | APR_CREATE | APR_EXCL,
-+                            APR_OS_DEFAULT, pool));
-+   SVN_ERR(svn_io_file_write_full(file, contents, strlen(contents), NULL,
-+                                  pool));
-diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-index b86e578..1bc6374 100644
---- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-@@ -16,7 +16,8 @@ SRC_URI = "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://subversion-CVE-2013-1849.patch \
-            file://subversion-CVE-2013-4505.patch \
-            file://subversion-CVE-2013-1845.patch \
--           file://subversion-CVE-2013-1847-CVE-2013-1846.patch"
-+           file://subversion-CVE-2013-1847-CVE-2013-1846.patch \
-+           file://subversion-CVE-2013-4277.patch"
- 
- SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
- SRC_URI[sha256sum] = "b2919d603a5f3c19f42e3265c4b930e2376c43b3969b90ef9c42b2f72d5aaa45"
-diff --git a/meta/recipes-devtools/subversion/subversion_1.7.10.bb b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-index 2d06263..e745ce7 100644
---- a/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://neon.m4-fix-includes-and-cflags.patch \
-            file://subversion-CVE-2013-4505.patch \
-            file://subversion-CVE-2013-4131.patch \
-+           file://subversion-CVE-2013-4277.patch \
- "
- SRC_URI[md5sum] = "4088a77e14232876c9b4ff1541e6e200"
- SRC_URI[sha256sum] = "c1df222bec83d014d17785e2ceba6bc80962f64b280967de0285836d8d77a8e7"
+Chong Lu (1):
+  libpcre: Update to 8.35 version
+
+ meta/recipes-support/libpcre/{libpcre_8.34.bb => libpcre_8.35.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre_8.34.bb => libpcre_8.35.bb} (91%)
+
 -- 
-1.7.10.4
+1.8.1.2
 
 
