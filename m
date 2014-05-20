@@ -1,26 +1,34 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CCE66610F
+Return-Path: <yaoxp@cn.fujitsu.com>
+X-Greylist: delayed 649 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 20 May 2014 08:24:59 UTC
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E20665F69
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 06:42:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4K6gDo1001036
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 20 May 2014 08:24:58 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.98,872,1392134400"; d="scan'208";a="30758033"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 May 2014 16:11:35 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id s4K8E72R019656
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 23:42:13 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 19 May 2014 23:42:13 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 May 2014 14:42:10 +0800
-Message-ID: <593698e9fb204faa60acbe20e060beff6ac282a3.1400568090.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1400568090.git.Chong.Lu@windriver.com>
-References: <cover.1400568090.git.Chong.Lu@windriver.com>
+	Tue, 20 May 2014 16:14:07 +0800
+Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0146.002; Tue, 20 May 2014 16:14:14 +0800
+From: "yaoxp@cn.fujitsu.com" <yaoxp@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] lvm2: EXTRA_OECONF is been overwrited.
+Thread-Index: Ac90AtKIzqH0p3I6SAOJ0BWymaNuMQ==
+Date: Tue, 20 May 2014 08:14:13 +0000
+Message-ID: <9AD1F2A584A7644C9605656D538412FEA7B655@G08CNEXMBPEKD03.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.171]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] byacc: Update to 20140422 version
+Subject: [PATCH] lvm2: EXTRA_OECONF is been overwrited.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +41,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 May 2014 06:42:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 May 2014 08:25:05 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Upgrade byacc to 20140422 version.
-
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-extended/byacc/{byacc_20140101.bb => byacc_20140422.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/byacc/{byacc_20140101.bb => byacc_20140422.bb} (74%)
-
-diff --git a/meta/recipes-extended/byacc/byacc_20140101.bb b/meta/recipes-extended/byacc/byacc_20140422.bb
-similarity index 74%
-rename from meta/recipes-extended/byacc/byacc_20140101.bb
-rename to meta/recipes-extended/byacc/byacc_20140422.bb
-index dff315e..cf57738 100644
---- a/meta/recipes-extended/byacc/byacc_20140101.bb
-+++ b/meta/recipes-extended/byacc/byacc_20140422.bb
-@@ -7,5 +7,5 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=f186cf0d59bac042b75830396ec389a3"
- require byacc.inc
- 
--SRC_URI[md5sum] = "05aeba2369b90fa63bac5e7425090f9d"
--SRC_URI[sha256sum] = "78aea5a34ccb6c9f1ff673a94cd3e66b0f669b7a042c2fcfdada85f0f399421c"
-+SRC_URI[md5sum] = "e7c13c5e207dc05eab9145cc9972397b"
-+SRC_URI[sha256sum] = "2f104c7e200dd86844d5f3521e12cb55fc48a9c3da3480a65fde2ca8c053bdcc"
--- 
-1.8.1.2
-
+SGkgYWxsOg0KDQpJbiBsdm0yLmluYywgRVhUUkFfT0VDT05GIGhhcyBiZWVuIGFzc2lnbmVkIGJl
+Zm9yZSChrkVYVFJBX09FQ09ORiA9ICItLXdpdGgtdXNybGliZGlyPSR7bGliZGlyfSKhry4NCg0K
+U28sIKGuRVhUUkFfT0VDT05GID0gIi0td2l0aC11c3JsaWJkaXI9JHtsaWJkaXJ9IqGvIHNob3Vs
+ZCBiZSBjaGFuZ2VkIHRvIKGuRVhUUkFfT0VDT05GICs9ICItLXdpdGgtdXNybGliZGlyPSR7bGli
+ZGlyfSKhry4NCg0KU2lnbmVkLW9mZi1ieTogWWFvIFhpbnBhbiA8eWFveHBAY24uZnVqaXRzdS5j
+b20+DQotLS0NCm1ldGEtb2UvcmVjaXBlcy1zdXBwb3J0L2x2bTIvbHZtMi5pbmMgfCAyICstDQox
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdp
+dCBhL21ldGEtb2UvcmVjaXBlcy1zdXBwb3J0L2x2bTIvbHZtMi5pbmMgYi9tZXRhLW9lL3JlY2lw
+ZXMtc3VwcG9ydC9sdm0yL2x2bTIuaW5jDQppbmRleCBjNmE5ZWMwLi43MWY3ODJhIDEwMDY0NA0K
+LS0tIGEvbWV0YS1vZS9yZWNpcGVzLXN1cHBvcnQvbHZtMi9sdm0yLmluYw0KKysrIGIvbWV0YS1v
+ZS9yZWNpcGVzLXN1cHBvcnQvbHZtMi9sdm0yLmluYw0KQEAgLTQ3LDQgKzQ3LDQgQEAgRklMRVNf
+JHtQTn0gKz0gIiR7bGliZGlyfS9kZXZpY2UtbWFwcGVyLyouc28gJHtiYXNlX2xpYmRpcn0vdWRl
+diINCkZJTEVTXyR7UE59LWRiZyArPSAiJHtsaWJkaXJ9L2RldmljZS1tYXBwZXIvLmRlYnVnIg0K
+DQpSREVQRU5EU18ke1BOfSA9ICJiYXNoIg0KLUVYVFJBX09FQ09ORiA9ICItLXdpdGgtdXNybGli
+ZGlyPSR7bGliZGlyfSINCitFWFRSQV9PRUNPTkYgKz0gIi0td2l0aC11c3JsaWJkaXI9JHtsaWJk
+aXJ9Ig0KLS0NCjEuOC40LjINCg0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tDQpOQU1FOiBZYW8gWGlucGFuDQpURUw6ODU1OQ0KDQoNCg==
 
