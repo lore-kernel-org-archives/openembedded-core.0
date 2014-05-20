@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F2C3F65F69
+	by mail.openembedded.org (Postfix) with ESMTP id 6EAF9660F9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 01:52:18 +0000 (UTC)
+	Tue, 20 May 2014 01:52:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4K1qJIQ024563
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4K1qObN024566
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 18:52:19 -0700 (PDT)
+	Mon, 19 May 2014 18:52:24 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 19 May 2014 18:52:18 -0700
+	14.3.169.1; Mon, 19 May 2014 18:52:21 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 May 2014 09:52:06 +0800
-Message-ID: <0e8aa667ca4fa4377b8c100fa2648d61a2c0250e.1400550433.git.rongqing.li@windriver.com>
+Date: Tue, 20 May 2014 09:52:08 +0800
+Message-ID: <bac697d78d53307d55f3c62c5fa4b47f00c2f036.1400550433.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1400550433.git.rongqing.li@windriver.com>
 References: <cover.1400550433.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/12] gst-ffmpeg: fix for Security Advisory CVE-2014-2263
+Subject: [PATCH 03/12] gst-ffmpeg: fix for Security Advisory CVE-2014-2099
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 May 2014 01:52:21 -0000
+X-List-Received-Date: Tue, 20 May 2014 01:52:23 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-The mpegts_write_pmt function in the MPEG2 transport stream (aka DVB)
-muxer (libavformat/mpegtsenc.c) in FFmpeg, possibly 2.1 and earlier,
-allows remote attackers to have unspecified impact and vectors, which
-trigger an out-of-bounds write.
+The msrle_decode_frame function in libavcodec/msrle.c in FFmpeg before
+2.1.4 does not properly calculate line sizes, which allows remote
+attackers to cause a denial of service (out-of-bounds array access) or
+possibly have unspecified other impact via crafted Microsoft RLE video
+data.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2263
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2099
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   69 ++++++++++++++++++++
+ ...le-use-av_image_get_linesize-to-calculate.patch |   50 ++++++++++++++++++++
  .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
 new file mode 100644
-index 0000000..68bb66e
+index 0000000..b0a3fb1
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
-@@ -0,0 +1,69 @@
-+From 12770701856a05b6b3cd706f708f8e9a4e8a1336 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+@@ -0,0 +1,50 @@
++From 573d5fdedae72bf59d8c0b0766fdee171063d36f Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Thu, 13 Feb 2014 13:59:51 +0100
-+Subject: [PATCH] avformat/mpegtsenc: Check data array size in
-+ mpegts_write_pmt()
++Date: Sun, 16 Feb 2014 23:08:52 +0100
++Subject: [PATCH] avcodec/msrle: use av_image_get_linesize() to calculate the
++ linesize
 +
 +Upstream-Status: Backport
 +
-+COmmit 12770701856a05b6b3cd706f708f8e9a4e8a1336 release/0.11
++Commit 573d5fdedae72bf59d8c0b0766fdee171063d36f release/0.9
 +
-+Prevents out of array writes
-+
++Fixes out of array access
++Fixes: 14a74a0a2dc67ede543f0e35d834fbbe-asan_heap-oob_49572c_556_cov_215466444_44_001_engine_room.mov
++Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit 842b6c14bcfc1c5da1a2d288fd65386eb8c158ad)
++(cherry picked from commit c919e1ca2ecfc47d796382973ba0e48b8f6f92a2)
 +
 +Conflicts:
 +
-+	libavformat/mpegtsenc.c
-+(cherry picked from commit e87de3f50b765134588d0b048c32ed4b8acc16fb)
++	libavcodec/msrle.c
++(cherry picked from commit bc1c8ec5e65098fd2ccd8456f667151dfc9cda42)
 +
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
 +---
-+ libavformat/mpegtsenc.c |    9 +++++++--
-+ 1 files changed, 7 insertions(+), 2 deletions(-)
++ libavcodec/msrle.c |    3 ++-
++ 1 files changed, 2 insertions(+), 1 deletions(-)
 +
-+diff --git a/libavformat/mpegtsenc.c b/libavformat/mpegtsenc.c
-+index 793e205..a12d19f 100644
-+--- a/gst-libs/ext/libav/libavformat/mpegtsenc.c
-++++ b/gst-libs/ext/libav/libavformat/mpegtsenc.c
-+@@ -240,7 +240,7 @@ static void mpegts_write_pat(AVFormatContext *s)
-+                           data, q - data);
-+ }
++diff --git a/libavcodec/msrle.c b/libavcodec/msrle.c
++index 30159bb..c39ae7b 100644
++--- a/gst-libs/ext/libav/libavcodec/msrle.c
+++++ b/gst-libs/ext/libav/libavcodec/msrle.c
++@@ -35,6 +35,7 @@
++ #include "avcodec.h"
++ #include "dsputil.h"
++ #include "msrledec.h"
+++#include "libavutil/imgutils.h"
 + 
-+-static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
-++static int mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
-+ {
-+     //    MpegTSWrite *ts = s->priv_data;
-+     uint8_t data[1012], *q, *desc_length_ptr, *program_info_length_ptr;
-+@@ -293,6 +293,10 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
-+             stream_type = STREAM_TYPE_PRIVATE_DATA;
-+             break;
-+         }
-++
-++        if (q - data > sizeof(data) - 32)
-++            return AVERROR(EINVAL);
-++
-+         *q++ = stream_type;
-+         put16(&q, 0xe000 | ts_st->pid);
-+         desc_length_ptr = q;
-+@@ -324,7 +328,7 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
-+                 len_ptr = q++;
-+                 *len_ptr = 0;
++ typedef struct MsrleContext {
++     AVCodecContext *avctx;
++@@ -107,7 +108,7 @@ static int msrle_decode_frame(AVCodecContext *avctx,
 + 
-+-                for (p = lang->value; next && *len_ptr < 255 / 4 * 4; p = next + 1) {
-++                for (p = lang->value; next && *len_ptr < 255 / 4 * 4 && q - data < sizeof(data) - 4; p = next + 1) {
-+                     next = strchr(p, ',');
-+                     if (strlen(p) != 3 && (!next || next != p + 3))
-+                         continue; /* not a 3-letter code */
-+@@ -386,6 +390,7 @@ static void mpegts_write_pmt(AVFormatContext *s, MpegTSService *service)
-+     }
-+     mpegts_write_section1(&service->pmt, PMT_TID, service->sid, 0, 0, 0,
-+                           data, q - data);
-++    return 0;
-+ }
-+ 
-+ /* NOTE: str == NULL is accepted for an empty string */
++     /* FIXME how to correctly detect RLE ??? */
++     if (avctx->height * istride == avpkt->size) { /* assume uncompressed */
++-        int linesize = avctx->width * avctx->bits_per_coded_sample / 8;
+++        int linesize = av_image_get_linesize(avctx->pix_fmt, avctx->width, 0);
++         uint8_t *ptr = s->frame.data[0];
++         uint8_t *buf = avpkt->data + (avctx->height-1)*istride;
++         int i, j;
 +-- 
 +1.7.5.4
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index e1257a2..4913539 100644
+index 3d1f207..05cc404 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -23,6 +23,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libav_e500mc.patch \
-            file://libav_e5500.patch \
+@@ -25,6 +25,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
             file://gst-ffmpeg-CVE-2013-3674.patch \
-+           file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
+            file://0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch \
+            file://0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch \
++           file://0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
