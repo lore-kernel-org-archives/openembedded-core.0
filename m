@@ -1,26 +1,24 @@
 Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B6543660F9
+	by mail.openembedded.org (Postfix) with ESMTP id 90FC261F16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 02:49:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4K2np96025973
+	Tue, 20 May 2014 03:07:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4K37vFI026622
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 19:49:51 -0700 (PDT)
+	Mon, 19 May 2014 20:08:00 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 19 May 2014 19:49:50 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 19 May 2014 20:07:58 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 May 2014 10:49:48 +0800
-Message-ID: <1400554188-19458-2-git-send-email-rongqing.li@windriver.com>
+Date: Tue, 20 May 2014 11:07:58 +0800
+Message-ID: <1400555278-19708-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1400554188-19458-1-git-send-email-rongqing.li@windriver.com>
-References: <1400554188-19458-1-git-send-email-rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] grub-2.00: remove our 40_custom
+Subject: [PATCH] lttng: fix alignment issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +31,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 May 2014 02:49:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 May 2014 03:08:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
 From: Roy Li <rongqing.li@windriver.com>
 
-We have this in recipes-bsp/grub/grub/40_custom:
+Fix alignment issue in lttng-tools and babeltrace
 
-[snip]
-menuentry "Linux" {
-    set root=(hd0,1)
-    linux /vmlinuz root=__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__ __VGA_MODE__ quiet
-}
-[snip]
-
-These lines are only for initrdscripts/files/init-install.sh, the side
-effect is that it would make the target's grub-mkconfig doesn't work
-well since the 40_custom will be installed to /etc/grub.d/40_custom, the
-grub-mkconfig will run the 40_custom, and there will always be a
-'menuentry "Linux"' menu in grub.cfg no matter it is valid or not, we
-can do this in init-install.sh rather than grub to fix the problem,
-which is also much simpler.
-
-We have done the related work in init-install.sh, now we need remove our own
-40_custom, and use grub's own 40_custom which is the right one.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/recipes-bsp/grub/grub/40_custom |    9 ---------
- meta/recipes-bsp/grub/grub_2.00.bb   |    2 --
- 2 files changed, 11 deletions(-)
- delete mode 100755 meta/recipes-bsp/grub/grub/40_custom
+ ...uffers-from-objstack_alloc-on-sizeof-void.patch |   54 ++++++++++++++++++++
+ meta/recipes-kernel/lttng/babeltrace_1.2.1.bb      |    4 +-
+ ...nt-problems-on-targets-not-supporting-una.patch |   47 +++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb     |    1 +
+ meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     |    1 +
+ 5 files changed, 106 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace/Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
 
-diff --git a/meta/recipes-bsp/grub/grub/40_custom b/meta/recipes-bsp/grub/grub/40_custom
-deleted file mode 100755
-index f891b02..0000000
---- a/meta/recipes-bsp/grub/grub/40_custom
-+++ /dev/null
-@@ -1,9 +0,0 @@
--#!/bin/sh
--exec tail -n +3 $0
--# This file provides an easy way to add custom menu entries.  Simply type the
--# menu entries you want to add after this comment.  Be careful not to change
--# the 'exec tail' line above.
--menuentry "Linux" {
--    set root=(hd0,1)
--    linux /vmlinuz root=__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__ __VGA_MODE__ quiet
--}
-diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-index 6075b20..ce2d680 100644
---- a/meta/recipes-bsp/grub/grub_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub_2.00.bb
-@@ -20,7 +20,6 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-           file://grub-2.00-fpmath-sse-387-fix.patch \
-           file://remove-gets.patch \
-           file://check-if-liblzma-is-disabled.patch \
--          file://40_custom \
-           file://fix-issue-with-flex-2.5.37.patch \
-           file://grub-2.00-add-oe-kernel.patch \
-           "
-@@ -44,7 +43,6 @@ EXTRA_OECONF = "--with-platform=pc --disable-grub-mkfont --program-prefix="" \
+diff --git a/meta/recipes-kernel/lttng/babeltrace/Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch b/meta/recipes-kernel/lttng/babeltrace/Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch
+new file mode 100644
+index 0000000..8e81d2d
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace/Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch
+@@ -0,0 +1,54 @@
++From cae67efbd9ddf2cee6bbefec076dc8933ababc43 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Fredrik=20Markstr=C3=B6m?= <fredrik.markstrom@gmail.com>
++Date: Fri, 16 May 2014 10:10:38 +0800
++Subject: [PATCH] Fix: Align buffers from objstack_alloc on sizeof(void *)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Backport
++
++The buffers from objstack_alloc will store pointers, so they must
++be aligned on a pointer's size, or else it will cause issues on the
++CPUs which do not support unaligned addresses access.
++
++Signed-off-by: Fredrik Markstrom <fredrik.markstrom@gmail.com>
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
++---
++ formats/ctf/metadata/objstack.c |    5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/formats/ctf/metadata/objstack.c b/formats/ctf/metadata/objstack.c
++index 9e264a4..14d9252 100644
++--- a/formats/ctf/metadata/objstack.c
+++++ b/formats/ctf/metadata/objstack.c
++@@ -27,6 +27,7 @@
++ #include <stdlib.h>
++ #include <babeltrace/list.h>
++ #include <babeltrace/babeltrace-internal.h>
+++#include <babeltrace/align.h>
++ 
++ #define OBJSTACK_INIT_LEN		128
++ #define OBJSTACK_POISON			0xcc
++@@ -39,7 +40,7 @@ struct objstack_node {
++ 	struct bt_list_head node;
++ 	size_t len;
++ 	size_t used_len;
++-	char data[];
+++	char __attribute__ ((aligned (sizeof(void *)))) data[];
++ };
++ 
++ BT_HIDDEN
++@@ -118,6 +119,8 @@ void *objstack_alloc(struct objstack *objstack, size_t len)
++ 	struct objstack_node *last_node;
++ 	void *p;
++ 
+++	len = ALIGN(len, sizeof(void *));
+++
++ 	/* Get last node */
++ 	last_node = bt_list_entry(objstack->head.prev,
++ 			struct objstack_node, node);
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.2.1.bb b/meta/recipes-kernel/lttng/babeltrace_1.2.1.bb
+index 5c105d8..542491b 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.2.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.2.1.bb
+@@ -14,7 +14,9 @@ SRCREV = "66c2a20b4391fb5c7f870aeb0dde854f0ae1fc79"
+ PV = "1.2.1+git${SRCPV}"
  
- do_install_append () {
-     install -d ${D}${sysconfdir}/grub.d
--    install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/40_custom
- }
+ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.2 \
+-           file://0001-Fix-Support-out-of-tree-builds-in-babeltrace.patch"
++           file://0001-Fix-Support-out-of-tree-builds-in-babeltrace.patch \
++           file://Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch \
++"
  
- INSANE_SKIP_${PN} = "arch"
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch b/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+new file mode 100644
+index 0000000..2c1756e
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+@@ -0,0 +1,47 @@
++From 9dc4d3a8dcc7cfb6991e760e78f614afd593bf66 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Fredrik=20Markstr=C3=B6m?= <fredrik.markstrom@gmail.com>
++Date: Tue, 1 Apr 2014 17:46:23 +0200
++Subject: [PATCH v2] Fix: alignment problems on targets not supporting unaligned
++ access.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Submitted (https://www.mail-archive.com/lttng-dev@lists.lttng.org/msg06012.html) 
++
++Accessing floats, doubles and 64 bit int at unaligned addresses is not
++supported on all configurations of arm processors and if it is it's
++emulated and slow. This patch replaces direct assignments with memcpy.
++
++Signed-off-by: Fredrik Markström <fredrik.markstrom@gmail.com>
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++Acked-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c |    4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c b/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
++index 762d604..8c6dc96 100644
++--- a/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+++++ b/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
++@@ -222,7 +222,7 @@ int visit_node_load(struct filter_parser_ctx *ctx, struct ir_op *node)
++ 		if (!insn)
++ 			return -ENOMEM;
++ 		insn->op = FILTER_OP_LOAD_S64;
++-		*(int64_t *) insn->data = node->u.load.u.num;
+++		memcpy(insn->data, &node->u.load.u.num, sizeof(int64_t));
++ 		ret = bytecode_push(&ctx->bytecode, insn, 1, insn_len);
++ 		free(insn);
++ 		return ret;
++@@ -237,7 +237,7 @@ int visit_node_load(struct filter_parser_ctx *ctx, struct ir_op *node)
++ 		if (!insn)
++ 			return -ENOMEM;
++ 		insn->op = FILTER_OP_LOAD_DOUBLE;
++-		*(double *) insn->data = node->u.load.u.flt;
+++		memcpy(insn->data, &node->u.load.u.flt, sizeof(double));
++ 		ret = bytecode_push(&ctx->bytecode, insn, 1, insn_len);
++ 		free(insn);
++ 		return ret;
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+index ee59a46..db8b65b 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+@@ -18,6 +18,7 @@ PV = "v2.3.1"
+ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.3 \
+            file://runtest.patch \
+            file://run-ptest \
++           file://Fix-alignment-problems-on-targets-not-supporting-una.patch \
+ 	  "
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+index 223b52e..aab9bf6 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+@@ -18,6 +18,7 @@ PV = "v2.4.0"
+ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.4 \
+            file://runtest-2.4.0.patch \
+            file://run-ptest \
++           file://Fix-alignment-problems-on-targets-not-supporting-una.patch \
+ 	  "
+ 
+ S = "${WORKDIR}/git"
 -- 
 1.7.10.4
 
