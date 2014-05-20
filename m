@@ -1,40 +1,21 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f177.google.com (unknown [209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 85C1365F09
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (unknown [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 950186028A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 15:25:08 +0000 (UTC)
-Received: by mail-lb0-f177.google.com with SMTP id s7so521510lbd.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 08:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=QH/VatxkIkRljKKk+UWNk8NLEp6rqDIPiDup756UpBs=;
-	b=FuhBMUN4SAaRlAqIWungXZlHUFYxeLZTMdrlcckpbtZNMtcMKq0qfebaJQOuwCrKtG
-	CQVazz3Ilvfbw2Y7ngCiUeLVBUvEUZnGMnh1R8faz2ghQb1kWGV0pB3ylRL8v1+13//m
-	S2ub7LM6FPTh6cS16Mgw3V5Ewmsv0nBCb0/aQBliTYwYr4U1RbA+0fVtf+CRM/Gl/qYd
-	kM95ZEWRZ7g4sorOSKN3HzunNKXXSCYhxDfYsnOTDoNThRzYEyAZjehsEw9a0+lfVQNJ
-	lfC9T/eXh27YE8gFSpFC1QdpTSUubbHZ85Bm3Svj8rKDSCRbRYVyCaBpFWNJK0mKit6q
-	Rc5Q==
-X-Received: by 10.152.4.137 with SMTP id k9mr22515926lak.46.1400599508685;
-	Tue, 20 May 2014 08:25:08 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	vr5sm21106884lbb.21.2014.05.20.08.25.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 May 2014 08:25:07 -0700 (PDT)
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 20 May 2014 17:25:10 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140520152510.GB2424@jama>
-References: <1400155748-26271-1-git-send-email-Martin.Jansa@gmail.com>
-	<1400593365.28353.215.camel@ted>
+	Tue, 20 May 2014 17:39:00 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 20 May 2014 10:35:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,875,1392192000"; d="scan'208";a="534982568"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.101])
+	by fmsmga001.fm.intel.com with ESMTP; 20 May 2014 10:37:39 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 May 2014 10:37:39 -0700
+Message-Id: <cover.1400607302.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <1400593365.28353.215.camel@ted>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lttng-modules: Fix build with older kernels
+Subject: [CONSOLIDATED PULL 00/24] Updated with CVE set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,55 +28,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 May 2014 15:25:09 -0000
-X-Groupsio-MsgNum: 53394
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8X7/QrJGcKSMr1RN"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 20 May 2014 17:39:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---8X7/QrJGcKSMr1RN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Richard,
 
-On Tue, May 20, 2014 at 02:42:45PM +0100, Richard Purdie wrote:
-> On Thu, 2014-05-15 at 14:09 +0200, Martin Jansa wrote:
-> > * forward port this patch from daisy:
-> >   commit c11b29ff4f24af0445c3c6a694b8dc2037dcd7e4
-> >   Author: Tom Zanussi <tom.zanussi@intel.com>
-> >   Date:   Thu Mar 6 22:26:20 2014 -0600
-> >=20
-> >     lttng-modules: Fix 3.14 bio tracepoints
-> >=20
-> > * how is it possible that it's in daisy but not in master?
->=20
-> It looks like we have two versions of lttng-modules and friends. The
-> patch was applied in master and daisy to 2.4.0 but not to 2.3.3.
->=20
-> Why do we have two versions of the lttng pieces? :( One works on arm and
-> the other doesn't?
->=20
-> Anyhow, the change was in master and daisy.
+This contains the set from yesterday, plus additional updates
+and the first load of CVE patches (most will be back ported to 
+daisy).
 
-Yes, in the end I've discovered it as well and sent separate patch for
-daisy to apply the same patch in 2nd lttng-modules version:
+Sau!
 
-http://lists.openembedded.org/pipermail/openembedded-core/2014-May/092593.h=
-tml
+The following changes since commit be0327b6a900be5434b6b1f08277faf2f65d5da8:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  initrdscripts: fix for /run/media (2014-05-20 14:53:00 +0100)
 
---8X7/QrJGcKSMr1RN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+are available in the git repository at:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-iEYEARECAAYFAlN7c9YACgkQN1Ujt2V2gBz68wCdE5wLXDGEhRR/RoqRR1l4EQ8C
-2HwAnR0CniLI5QrW2t+JwijVDoiX0aSu
-=KhYV
------END PGP SIGNATURE-----
+Chen Qi (1):
+  runqemu-internal: add "console=ttyS0" to ramfs image kernel parameters
 
---8X7/QrJGcKSMr1RN--
+Chong Lu (2):
+  libpcre: Update to 8.35 version
+  quilt: Update to 0.63 version
+
+Cristian Iorga (1):
+  harfbuzz: upgrade to 0.9.28
+
+João Henrique Ferreira de Freitas (2):
+  wic: add support to look in all layers and get .wks file
+  wic: add support to look in all layers and get plugins
+
+Khem Raj (1):
+  tcmode-default.inc: Default to using gcc 4.9
+
+Koen Kooi (1):
+  curl: work around RRECOMMENDS problems in -native* recipes
+
+Li Wang (2):
+  nss: CVE-2014-1492
+  nss: CVE-2013-1740
+
+Martin Jansa (1):
+  lttng-modules: Fix build with older kernels
+
+Paul Eggleton (2):
+  libav: upgrade 0.8.x version to 0.8.11
+  libav: upgrade 9.x version to 9.13
+
+Saul Wold (1):
+  cups: fix for cups not building without avahi
+
+Yue Tao (10):
+  Screen: fix for Security Advisory CVE-2009-1214
+  screen: fix for Security Advisory CVE-2009-1215
+  subversion: fix for Security Advisory CVE-2013-1849
+  subversion: fix for Security Advisory CVE-2013-4505
+  subversion: fix for Security Advisory CVE-2013-4131
+  subversion: fix for Security Advisory CVE-2013-1845
+  subversion: fix for Security Advisory CVE-2013-1847 and CVE-2013-1846
+  subversion: fix for Security Advisory CVE-2013-4277
+  tiff: fix for Security Advisory CVE-2013-4231
+  openssl: fix for CVE-2010-5298
+
+ meta/conf/distro/include/tcmode-default.inc        |   2 +-
+ .../openssl-1.0.1e/openssl-CVE-2010-5298.patch     |  24 +
+ .../quilt/{quilt-0.61.inc => quilt-0.63.inc}       |   5 +-
+ .../{quilt-native_0.61.bb => quilt-native_0.63.bb} |   0
+ .../quilt/{quilt_0.61.bb => quilt_0.63.bb}         |   0
+ .../subversion-CVE-2013-4131.patch                 |  42 +
+ .../subversion-CVE-2013-4277.patch                 |  15 +
+ .../subversion-CVE-2013-4505.patch                 | 130 +++
+ .../subversion/subversion-CVE-2013-1845.patch      | 171 ++++
+ .../subversion-CVE-2013-1847-CVE-2013-1846.patch   |  53 ++
+ .../subversion/subversion-CVE-2013-1849.patch      |  25 +
+ .../subversion/subversion-CVE-2013-4277.patch      |  15 +
+ .../subversion/subversion-CVE-2013-4505.patch      | 127 +++
+ .../subversion/subversion_1.6.15.bb                |   6 +-
+ .../subversion/subversion_1.7.10.bb                |   3 +
+ meta/recipes-extended/cups/cups/cups-str4402.patch | 190 +++++
+ .../screen-4.0.3/screen-4.0.2-CVE-2009-1215.patch  |  27 +
+ .../screen-4.0.3/screen-4.0.3-CVE-2009-1214.patch  |  86 ++
+ meta/recipes-extended/screen/screen_4.0.3.bb       |   2 +
+ .../{harfbuzz_0.9.27.bb => harfbuzz_0.9.28.bb}     |   8 +-
+ .../lttng/lttng-modules/bio-bvec-iter.patch        | 156 ++++
+ .../lttng/lttng-modules/fixup_block_driver.patch   | 122 ---
+ meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb   |   2 +-
+ .../libav/{libav_0.8.9.bb => libav_0.8.11.bb}      |   4 +-
+ .../libav/{libav_9.10.bb => libav_9.13.bb}         |   4 +-
+ .../libtiff/files/libtiff-CVE-2013-4231.patch      |  44 +
+ meta/recipes-multimedia/libtiff/tiff_4.0.3.bb      |   3 +-
+ meta/recipes-support/curl/curl_7.36.0.bb           |   7 +-
+ .../libpcre/{libpcre_8.34.bb => libpcre_8.35.bb}   |   6 +-
+ .../nss/files/nss-CVE-2013-1740.patch              | 916 +++++++++++++++++++++
+ .../nss/files/nss-CVE-2014-1492.patch              |  68 ++
+ meta/recipes-support/nss/nss.inc                   |   2 +
+ scripts/lib/image/engine.py                        |  72 +-
+ scripts/lib/mic/plugin.py                          |  28 +-
+ scripts/runqemu-internal                           |   2 +-
+ scripts/wic                                        |   6 +
+ 36 files changed, 2196 insertions(+), 177 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch
+ rename meta/recipes-devtools/quilt/{quilt-0.61.inc => quilt-0.63.inc} (89%)
+ rename meta/recipes-devtools/quilt/{quilt-native_0.61.bb => quilt-native_0.63.bb} (100%)
+ rename meta/recipes-devtools/quilt/{quilt_0.61.bb => quilt_0.63.bb} (100%)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4131.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4505.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1845.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1847-CVE-2013-1846.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4505.patch
+ create mode 100644 meta/recipes-extended/cups/cups/cups-str4402.patch
+ create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen-4.0.2-CVE-2009-1215.patch
+ create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen-4.0.3-CVE-2009-1214.patch
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.27.bb => harfbuzz_0.9.28.bb} (87%)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/fixup_block_driver.patch
+ rename meta/recipes-multimedia/libav/{libav_0.8.9.bb => libav_0.8.11.bb} (79%)
+ rename meta/recipes-multimedia/libav/{libav_9.10.bb => libav_9.13.bb} (74%)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+ rename meta/recipes-support/libpcre/{libpcre_8.34.bb => libpcre_8.35.bb} (91%)
+ create mode 100644 meta/recipes-support/nss/files/nss-CVE-2013-1740.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-CVE-2014-1492.patch
+
+-- 
+1.8.3.1
+
+
