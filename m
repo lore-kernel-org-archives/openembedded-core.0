@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C1D716A937
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 066C76A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 01:52:39 +0000 (UTC)
+	Tue, 20 May 2014 01:52:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4K1qeBW024575
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4K1qgrp005687
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 May 2014 18:52:41 -0700 (PDT)
+	Mon, 19 May 2014 18:52:42 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 19 May 2014 18:52:37 -0700
+	14.3.169.1; Mon, 19 May 2014 18:52:41 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 May 2014 09:52:14 +0800
-Message-ID: <6fddfc68160d3c7fc157c49c1c1f848a93dd93a1.1400550433.git.rongqing.li@windriver.com>
+Date: Tue, 20 May 2014 09:52:15 +0800
+Message-ID: <aafa1efddf82ad757908e26ad3e0e9e2baf43036.1400550433.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1400550433.git.rongqing.li@windriver.com>
 References: <cover.1400550433.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/12] gst-ffmpeg: fix for Security Advisory CVE-2013-0854
+Subject: [PATCH 10/12] gst-ffmpeg: fix for Security Advisory CVE-2013-0856
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 May 2014 01:52:40 -0000
+X-List-Received-Date: Tue, 20 May 2014 01:52:41 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-The mjpeg_decode_scan_progressive_ac function in libavcodec/mjpegdec.c
-in FFmpeg before 1.1 allows remote attackers to have an unspecified
-impact via crafted MJPEG data.
+The lpc_prediction function in libavcodec/alac.c in FFmpeg before 1.1
+allows remote attackers to have an unspecified impact via crafted Apple
+Lossless Audio Codec (ALAC) data, related to a large nb_samples value.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0854
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0856
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../0001-mjpegdec-check-SE.patch                   |   32 ++++++++++++++++++++
+ .../0001-alac-fix-nb_samples-order-case.patch      |   30 ++++++++++++++++++++
  .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
 new file mode 100644
-index 0000000..d90bafa
+index 0000000..10ce0f3
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
-@@ -0,0 +1,32 @@
-+From 1f41cffe1e3e79620f587545bdfcbd7e6e68ed29 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
+@@ -0,0 +1,30 @@
++From e0884eadf6a15e93142131b695f48776f9a0ac31 Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Sun, 11 Nov 2012 00:01:24 +0100
-+Subject: [PATCH] mjpegdec: check SE.
++Date: Sat, 10 Nov 2012 17:14:04 +0100
++Subject: [PATCH] alac: fix nb_samples < order case
 +
 +Upstream-Status: Backport
 +
-+Commit 1f41cffe1e3e79620f587545bdfcbd7e6e68ed29 release/1.1
++Commit e0884eadf6a15e93142131b695f48776f9a0ac31 release/1.0
 +
 +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
 +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++(cherry picked from commit fd4f4923cce6a2cbf4f48640b4ac706e614a1594)
 +---
-+ libavcodec/mjpegdec.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ libavcodec/alac.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libavcodec/mjpegdec.c b/libavcodec/mjpegdec.c
-+index 6b5266d..0a71a6f 100644
-+--- a/gst-libs/ext/libav/libavcodec/mjpegdec.c
-++++ b/gst-libs/ext/libav/libavcodec/mjpegdec.c
-+@@ -905,6 +905,11 @@ static int mjpeg_decode_scan_progressive
-+     int16_t *quant_matrix = s->quant_matrixes[ s->quant_index[c] ];
-+     GetBitContext mb_bitmask_gb;
++diff --git a/libavcodec/alac.c b/libavcodec/alac.c
++index 9cd1737..e8e844a 100644
++--- a/gst-libs/ext/libav/libavcodec/alac.c
+++++ b/gst-libs/ext/libav/libavcodec/alac.c
++@@ -278,7 +278,7 @@ static void predictor_decompress_fir_ada
 + 
-++    if (se > 63) {
-++        av_log(s->avctx, AV_LOG_ERROR, "SE %d is too large\n", se);
-++        return AVERROR_INVALIDDATA;
-++    }
-++
-+     if (mb_bitmask) {
-+         init_get_bits(&mb_bitmask_gb, mb_bitmask, s->mb_width*s->mb_height);
-+     }
++     /* read warm-up samples */
++     if (predictor_coef_num > 0)
++-        for (i = 0; i < predictor_coef_num; i++) {
+++        for (i = 0; i < predictor_coef_num && i < output_size; i++) {
++             int32_t val;
++ 
++             val = buffer_out[i] + error_buffer[i+1];
 +-- 
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 0d0ba9a..28ea29e 100644
+index 28ea29e..a0673fd 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch \
+@@ -33,6 +33,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
             file://0001-atrac3dec-Check-coding-mode-against-channels.patch \
             file://0001-eamad-fix-out-of-array-accesses.patch \
-+           file://0001-mjpegdec-check-SE.patch \
+            file://0001-mjpegdec-check-SE.patch \
++           file://0001-alac-fix-nb_samples-order-case.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
