@@ -1,24 +1,20 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (unknown [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C429C60167
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id CACE165EA8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 17:43:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 May 2014 10:37:50 -0700
+	Wed, 21 May 2014 18:02:00 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 May 2014 11:02:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,881,1392192000"; d="scan'208";a="544377036"
-Received: from hdang1-mobl.amr.corp.intel.com ([10.254.54.44])
-	by orsmga002.jf.intel.com with ESMTP; 21 May 2014 10:42:54 -0700
-Message-ID: <537CE5CB.8030402@linux.intel.com>
-Date: Wed, 21 May 2014 10:43:39 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: rongqing.li@windriver.com, openembedded-core@lists.openembedded.org
-References: <1400554188-19458-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1400554188-19458-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH 1/2] initramfs-live-install: avoid using grub.d/40_custom
+X-IronPort-AV: E=Sophos;i="4.98,881,1392192000"; d="scan'208";a="535589556"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.101])
+	by fmsmga001.fm.intel.com with ESMTP; 21 May 2014 11:01:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 May 2014 11:01:50 -0700
+Message-Id: <cover.1400694661.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 00/16] CVE Patches and updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 May 2014 17:43:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 May 2014 18:02:05 -0000
 
-On 5/19/14, 19:49, rongqing.li@windriver.com wrote:
-> From: Robert Yang <liezhi.yang@windriver.com>
+Richard,
 
-Hi Robert,
+Another set of CVE fixes and some Updates.
 
-Just to clarify - there is no Patch 2/2 right?
+Thanks
+	Sau!
 
-> We have this in recipes-bsp/grub/grub/40_custom:
->
-> [snip]
-> menuentry "Linux" {
->      set root=(hd0,1)
->      linux /vmlinuz root=__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__ __VGA_MODE__ quiet
-> }
-> [snip]
->
-> These lines are only for initrdscripts/files/init-install.sh, the side
-> effect is that it would make the target's grub-mkconfig doesn't work
-> well since the 40_custom will be installed to /etc/grub.d/40_custom, the
-> grub-mkconfig will run the 40_custom, and there will always be a
-> 'menuentry "Linux"' menu in grub.cfg no matter it is valid or not, we
-> can do this in init-install.sh rather than grub to fix the problem,
-> which is also much simpler.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-core/initrdscripts/files/init-install.sh |   15 +++++++--------
->   1 file changed, 7 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index 8e433d5..0ede928 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -168,17 +168,16 @@ umount /src_root
->   # Handling of the target boot partition
->   mount $bootfs /boot
->   echo "Preparing boot partition..."
-> -if [ -f /etc/grub.d/40_custom ] ; then
-> +if [ -f /etc/grub.d/00_header ] ; then
->       echo "Preparing custom grub2 menu..."
->       GRUBCFG="/boot/grub/grub.cfg"
->       mkdir -p $(dirname $GRUBCFG)
-> -    cp /etc/grub.d/40_custom $GRUBCFG
-> -    sed -i "s@__ROOTFS__@$rootfs $rootwait@g" $GRUBCFG
-> -    sed -i "s/__VIDEO_MODE__/$3/g" $GRUBCFG
-> -    sed -i "s/__VGA_MODE__/$4/g" $GRUBCFG
-> -    sed -i "s/__CONSOLE__/$5/g" $GRUBCFG
-> -    sed -i "/#/d" $GRUBCFG
-> -    sed -i "/exec tail/d" $GRUBCFG
-> +    cat >$GRUBCFG <<_EOF
-> +menuentry "Linux" {
-> +    set root=(hd0,1)
-> +    linux /vmlinuz root=$rootfs $rootwait rw $5 $3 $4 quiet
-> +}
-> +_EOF
+The following changes since commit 7decf9dce56868e39902dac5957eb72f6e1e9acd:
 
-OK, seems like a reasonable incremental change. What becomes of the 
-40_custom file itself? Should that be removed from the grub recipe as well?
+  cups: fix for cups not building without avahi (2014-05-21 09:08:11 +0100)
 
-Does the BSP variable "APPEND" get incorporated here anywhere? It's 
-looking like it isn't - or maybe I'm missing it?
+are available in the git repository at:
 
-Thanks,
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Chong Lu (3):
+  flex: Update to 2.5.39 version
+  byacc: Update to 20140422 version
+  guile: Update to 2.0.11 version
+
+Sebastian Wiegand (1):
+  distro_features_check.bbclass: fix wrong indentation
+
+Yue Tao (12):
+  gst-ffmpeg: fix for Security Advisory CVE-2014-2263
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0865
+  gst-ffmpeg: fix for Security Advisory CVE-2014-2099
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0868
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0845
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0852
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0858
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0851
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0854
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0856
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0850
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0849
+
+ meta/classes/distro_features_check.bbclass         |  4 +-
+ .../flex/{flex_2.5.38.bb => flex_2.5.39.bb}        |  4 +-
+ .../guile/files/guile_2.0.9_fix_noreturn.patch     | 65 ----------------
+ .../guile/{guile_2.0.9.bb => guile_2.0.11.bb}      |  5 +-
+ .../byacc/{byacc_20140101.bb => byacc_20140422.bb} |  4 +-
+ .../0001-alac-fix-nb_samples-order-case.patch      | 30 ++++++++
+ .../0001-alsdec-check-block-length.patch           | 61 +++++++++++++++
+ ...ac3dec-Check-coding-mode-against-channels.patch | 37 +++++++++
+ ...le-use-av_image_get_linesize-to-calculate.patch | 50 +++++++++++++
+ ...egtsenc-Check-data-array-size-in-mpegts_w.patch | 69 +++++++++++++++++
+ .../0001-eamad-fix-out-of-array-accesses.patch     | 29 ++++++++
+ ...t-ref-count-check-and-limit-fix-out-of-ar.patch | 29 ++++++++
+ ...01-huffyuvdec-Check-init_vlc-return-codes.patch | 87 ++++++++++++++++++++++
+ .../0001-huffyuvdec-Skip-len-0-cases.patch         | 61 +++++++++++++++
+ .../0001-mjpegdec-check-SE.patch                   | 32 ++++++++
+ ...heck-RLE-size-before-copying.-Fix-out-of-.patch | 34 +++++++++
+ ...001-roqvideodec-check-dimensions-validity.patch | 36 +++++++++
+ ...o-check-chunk-sizes-before-reading-chunks.patch | 51 +++++++++++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                | 13 ++++
+ 19 files changed, 627 insertions(+), 74 deletions(-)
+ rename meta/recipes-devtools/flex/{flex_2.5.38.bb => flex_2.5.39.bb} (57%)
+ delete mode 100644 meta/recipes-devtools/guile/files/guile_2.0.9_fix_noreturn.patch
+ rename meta/recipes-devtools/guile/{guile_2.0.9.bb => guile_2.0.11.bb} (95%)
+ rename meta/recipes-extended/byacc/{byacc_20140101.bb => byacc_20140422.bb} (74%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-correct-ref-count-check-and-limit-fix-out-of-ar.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-roqvideodec-check-dimensions-validity.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
 
 -- 
-Darren Hart			Open Source Technology Center
-darren.hart@intel.com		            Intel Corporation
+1.8.3.1
+
 
