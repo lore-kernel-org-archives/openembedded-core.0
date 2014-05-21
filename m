@@ -1,33 +1,35 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-pa0-f53.google.com (unknown [209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C9EA665EDC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (unknown [209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CEBF661F16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 05:09:03 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id kp14so1015390pab.26
+	Wed, 21 May 2014 09:15:06 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id j5so2757721qga.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 22:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=2rg/5sBtWni8ei0zoVWZsoyS9Gv0W8/RsrhwW1By3YE=;
-	b=RBBgkktFDG4EeB89k9TgysABdht9nYWkINKlF/Kj8xN2jzbdSW62RaOSgMH2Z30Jak
-	XC6aEbkEgzngLFGgaqkqn6yUCBxkeD9OnYx3/q8ShkO0bQpBcD+kmoIb7zGN5JfUWxVj
-	/VD+EE2Jiz8hs3OXq8wWRTx5zzmvdhvDw5ziXkfGwWwQA0ltfu+GKArL9JFImQ1qZw1B
-	MO+nVAd8RFxe4Mwk/VafL4xEiIHuPdeFEPzpmoRVPrmIrowfog02GlevUvWhoGOzr32K
-	CihxPvxrVkjLTuIrkdfVfCMQJDnrPuK54lvYJe5rfBCduSidDW1oAds265ZzagOyqVIt
-	SykA==
-X-Received: by 10.68.190.74 with SMTP id go10mr17091198pbc.16.1400647547355;
-	Tue, 20 May 2014 21:45:47 -0700 (PDT)
-Received: from gentoo.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
-	[75.128.22.150]) by mx.google.com with ESMTPSA id
-	ck10sm99308401pac.0.2014.05.20.21.45.45 for <multiple recipients>
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Tue, 20 May 2014 21:45:46 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 May 2014 21:47:27 -0700
-Message-Id: <1400647649-27570-1-git-send-email-ticotimo@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH 0/2] Create ${CPAN_MIRROR} option
+	Wed, 21 May 2014 02:15:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Jin9LJ8rLQ2WGBIHr7UUhH+0hbjBfeiqUftwvnnz2io=;
+	b=MDsdlVLzwh7JjhYiRbRtpmODxwdkwTPBVqKYMkh0wJ46uzEK/DtNYxgKwi0kkdgV23
+	ktyEXkbTHofx+QbdOYkjPzdei6dm/8V9M/1dQ9rXXg1nYClX3fUbR5+36MRgT438EKfp
+	mq+g2bMdftjNlK7xufkWrmgHDKtMSSJzhGaEZIFVEFxDHS20cHp/dVsPpehU/F71Q8uV
+	SF6TdPut76GxSpIM3xnRBmQf1JdJ/RQ+6BdyfPNpWhGIJ3VciR+9r+DltZuSSGMMOkRs
+	HpTrqEgh7p70MjGQy27M0e0KRBYaaJI9MxyO0UiDrA5u4HpSa6fSqlyfHs5h+VYkMym5
+	D6mw==
+X-Gm-Message-State: ALoCoQll41WhiKRAVU8e4rKGBXIp0JwWGVSjdEGz7d1XL/TKq2bAzjgKynbP3dLoqpWE/H+UjQ1h
+X-Received: by 10.224.121.72 with SMTP id g8mr1666252qar.79.1400663708099;
+	Wed, 21 May 2014 02:15:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.101.77 with HTTP; Wed, 21 May 2014 02:14:48 -0700 (PDT)
+In-Reply-To: <1400638600-22676-1-git-send-email-rongqing.li@windriver.com>
+References: <1400638600-22676-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 May 2014 10:14:48 +0100
+Message-ID: <CAJTo0LYxCj02VqT6J6xFfOcuOuZb1g5Dbv0hFqcURetKUj6JaQ@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] man: use '#' instead of ', ' as separator in configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,24 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 May 2014 05:09:06 -0000
+X-List-Received-Date: Wed, 21 May 2014 09:15:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Tim Orling <TicoTimo@gmail.com>
+On 21 May 2014 03:16,  <rongqing.li@windriver.com> wrote:
+> $CC is able to has ',', when $CC includes some flags,
 
-* Perl modules are beginning to fail to fetch
-* Default CPAN site seems to be flaky lately
-* Add option to mirrors.bbclass to use metacpan.org
-* Continue to use main CPAN site as default in bitbake.conf
+Presumably you're referring to flags such as -Wl,-O1.  Shouldn't these
+flags be set in CPPFLAGS/CFLAGS/LDFLAGS, or can you give an example of
+where they need to be set in CC.
 
-Tim Orling (2):
-  mirrors.bbclass: add ${CPAN_MIRROR} option
-  bitbake.conf: add default ${CPAN_MIRROR}
-
- meta/classes/mirrors.bbclass | 2 ++
- meta/conf/bitbake.conf       | 1 +
- 2 files changed, 3 insertions(+)
-
--- 
-1.8.3.2
-
+Ross
 
