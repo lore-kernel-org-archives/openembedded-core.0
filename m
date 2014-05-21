@@ -1,27 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C81465D5B
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (unknown [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A5A2605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 12:01:25 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 May 2014 05:01:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,879,1392192000"; d="scan'208";a="535409507"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.156])
-	by fmsmga001.fm.intel.com with ESMTP; 21 May 2014 05:01:23 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-Date: Wed, 21 May 2014 13:01:22 +0100
-Message-ID: <6870056.jNAsUvdqdq@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.4-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <1400672277-7181-2-git-send-email-Matthieu.Crapet@ingenico.com>
-References: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<1400672277-7181-2-git-send-email-Matthieu.Crapet@ingenico.com>
+	Wed, 21 May 2014 12:19:35 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.98,879,1392159600"; d="scan'208";a="51555713"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 21 May 2014 14:19:37 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
+	(TLS) id 14.2.318.1; Wed, 21 May 2014 14:19:36 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.2.328.9; Wed, 21 May 2014 14:19:35 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 May 2014 14:19:42 +0200
+Message-ID: <1400674782-7845-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
+In-Reply-To: <6870056.jNAsUvdqdq@peggleto-mobl5.ger.corp.intel.com>
+References: <6870056.jNAsUvdqdq@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] libav: add version 10.1
+Subject: [PATCH v2] libav: add version 10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 May 2014 12:01:27 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 21 May 2014 12:19:37 -0000
+Content-Type: text/plain
 
-Hi Matthieu,
+Using common libav.inc
+Keep DEFAULT_PREFERENCE because gstreamer 0.10 requires 0.8.x.
 
-On Wednesday 21 May 2014 13:37:55 Matthieu Crapet wrote:
-> Using common libav.inc
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/recipes-multimedia/libav/libav_10.1.bb | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libav/libav_10.1.bb
 
-I'm not exactly thrilled with the prospect of carrying not just two but now 
-three versions of libav - do you know what the compatibility story is for 
-libav 10 with the recipes we would want to build against it (i.e. those 
-currently building against 9.x)?
-
-> Notice that DEFAULT_PREFERENCE = "-1" is not included.
-
-Given that we need 0.8.x to be built for gstreamer 0.10 which (as we've 
-discussed recently) is still needed, unless we can add some extra dependency 
-relationship which forces the correct version of libav to be built as Richard 
-suggested I don't think we can remove DEFAULT_PREFERENCE here.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-multimedia/libav/libav_10.1.bb b/meta/recipes-multimedia/libav/libav_10.1.bb
+new file mode 100644
+index 0000000..a9df3fd
+--- /dev/null
++++ b/meta/recipes-multimedia/libav/libav_10.1.bb
+@@ -0,0 +1,16 @@
++require libav.inc
++
++LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
++                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
++
++SRC_URI = "http://libav.org/releases/${BP}.tar.xz"
++
++SRC_URI[md5sum] = "0f751b439b6a5525d4c8a214f0db6aac"
++SRC_URI[sha256sum] = "d5e04dc9adf43a467aa628f622425697d587a29cb0b997b45459f59cb00f9e15"
++
++# Options for Libav version 10+
++PACKAGECONFIG[webp] = "--enable-libwebp,--disable-libwebp,libwebp"
++
++DEFAULT_PREFERENCE = "-1"
 -- 
+1.8.1.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
