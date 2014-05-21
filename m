@@ -1,35 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (unknown [209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id CEBF661F16
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (unknown [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 1487065E37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 09:15:06 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id j5so2757721qga.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 02:15:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Jin9LJ8rLQ2WGBIHr7UUhH+0hbjBfeiqUftwvnnz2io=;
-	b=MDsdlVLzwh7JjhYiRbRtpmODxwdkwTPBVqKYMkh0wJ46uzEK/DtNYxgKwi0kkdgV23
-	ktyEXkbTHofx+QbdOYkjPzdei6dm/8V9M/1dQ9rXXg1nYClX3fUbR5+36MRgT438EKfp
-	mq+g2bMdftjNlK7xufkWrmgHDKtMSSJzhGaEZIFVEFxDHS20cHp/dVsPpehU/F71Q8uV
-	SF6TdPut76GxSpIM3xnRBmQf1JdJ/RQ+6BdyfPNpWhGIJ3VciR+9r+DltZuSSGMMOkRs
-	HpTrqEgh7p70MjGQy27M0e0KRBYaaJI9MxyO0UiDrA5u4HpSa6fSqlyfHs5h+VYkMym5
-	D6mw==
-X-Gm-Message-State: ALoCoQll41WhiKRAVU8e4rKGBXIp0JwWGVSjdEGz7d1XL/TKq2bAzjgKynbP3dLoqpWE/H+UjQ1h
-X-Received: by 10.224.121.72 with SMTP id g8mr1666252qar.79.1400663708099;
-	Wed, 21 May 2014 02:15:08 -0700 (PDT)
+	Wed, 21 May 2014 11:37:50 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.98,879,1392159600"; d="scan'208";a="51552490"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 21 May 2014 13:37:51 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Wed, 21 May 2014 13:37:51 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.2.328.9; Wed, 21 May 2014 13:37:51 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 May 2014 13:37:54 +0200
+Message-ID: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
 MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Wed, 21 May 2014 02:14:48 -0700 (PDT)
-In-Reply-To: <1400638600-22676-1-git-send-email-rongqing.li@windriver.com>
-References: <1400638600-22676-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 May 2014 10:14:48 +0100
-Message-ID: <CAJTo0LYxCj02VqT6J6xFfOcuOuZb1g5Dbv0hFqcURetKUj6JaQ@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] man: use '#' instead of ', ' as separator in configure
+Subject: [PATCH 1/4] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,15 +31,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 May 2014 09:15:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 21 May 2014 11:37:52 -0000
+Content-Type: text/plain
 
-On 21 May 2014 03:16,  <rongqing.li@windriver.com> wrote:
-> $CC is able to has ',', when $CC includes some flags,
+Dropped libvorvis dependency because there is already a (better) builtin vorbis codec.
+Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using external library).
 
-Presumably you're referring to flags such as -Wl,-O1.  Shouldn't these
-flags be set in CPPFLAGS/CFLAGS/LDFLAGS, or can you give an example of
-where they need to be set in CC.
+Changes:
+- add --enable-nonfree when faac or openssl are used
+- add DESCRIPTION
+- sort PACKAGECONFIG entries
 
-Ross
+Tested with libav-0.8.11 & libav-9.13.
+
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/recipes-multimedia/libav/libav.inc | 39 ++++++++++++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
+index a05a2a6..0bcdedc 100644
+--- a/meta/recipes-multimedia/libav/libav.inc
++++ b/meta/recipes-multimedia/libav/libav.inc
+@@ -1,6 +1,12 @@
+-SUMMARY = "A complete, cross-platform solution to record, convert and stream audio and video"
++SUMMARY = "Open source audio and video processing tools and librairies"
++DESCRIPTION = "Libav is a friendly and community-driven effort to provide its users \
++               with a set of portable, functional and high-performance libraries for \
++               dealing with multimedia formats of all sorts. It originates from the \
++               FFmpeg codebase, but goes its own way these days, providing its users \
++               with reliable releases and a clear vision how to go forward."
+ HOMEPAGE = "http://libav.org/"
+ SECTION = "libs"
++
+ LICENSE = "GPLv2+"
+ LICENSE_FLAGS = "commercial"
+ 
+@@ -9,7 +15,7 @@ PROVIDES = "ffmpeg"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ 
+-DEPENDS = "zlib libogg libvorbis libtheora yasm-native"
++DEPENDS = "zlib libogg yasm-native"
+ 
+ INC_PR = "r8"
+ 
+@@ -23,21 +29,29 @@ BUILD_OPTIMIZATION = "${FULL_OPTIMIZATION}"
+ EXTRA_FFCONF_armv7a = "--cpu=cortex-a8"
+ EXTRA_FFCONF ?= ""
+ 
+-PACKAGECONFIG ??= "bzip2 x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
++PACKAGECONFIG ??= "bzip2 x264 theora ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG[bzip2] = "--enable-bzlib,--disable-bzlib,bzip2"
+-PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
++PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
+ PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
+-PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
+-PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
++PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
++PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+-PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
++PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
++PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
++PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
++PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
++PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
+ PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
++PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
++
++# Check codecs that require --enable-nonfree
++USE_NONFREE = "${@contains_one('PACKAGECONFIG', [ 'faac', 'openssl' ], d)}"
+ 
+ EXTRA_OECONF = " \
+     --enable-shared \
+     --enable-pthreads \
+     --enable-gpl \
++    ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d)} \
+     --enable-avfilter \
+     \
+     --cross-prefix=${TARGET_PREFIX} \
+@@ -91,6 +105,15 @@ LEAD_SONAME = "libavcodec.so"
+ 
+ FILES_${PN}-dev = "${includedir}"
+ 
++def contains_one(variable, checkvalues, d):
++    val = d.getVar(variable, True)
++    if not val:
++        return ''
++    val = set(val.split())
++    if val.intersection(checkvalues):
++        return 'yes'
++    return ''
++
+ python populate_packages_prepend() {
+     av_libdir = d.expand('${libdir}')
+     av_pkgconfig = d.expand('${libdir}/pkgconfig')
+-- 
+1.8.1.2
+
 
