@@ -1,24 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DACB65EDC
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-pa0-f43.google.com (unknown [209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B24E365F09
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 02:16:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4L2Ge0Q019721
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 21 May 2014 04:45:52 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id hz1so1006461pad.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 May 2014 19:16:40 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.149) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 20 May 2014 19:16:39 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 May 2014 10:16:40 +0800
-Message-ID: <1400638600-22676-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH] man: use '#' instead of ', ' as separator in configure
+	Tue, 20 May 2014 21:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=7Yy9hQq4BLsnrSnEM2xAM/l1bcEOn+pYc9JkLMORXBE=;
+	b=sVvthEw9DjiAv1HoEh+B1kAwa65LoYXCgdr+7PJGUmsGOXK+sZgqTx/5vE7VEITX1U
+	FtAKcYPPurPq9N5WZtcC7n19sqwothCRSApETtMYtpTREJQAk+YQvZ+44gjodrVX0h1G
+	rXt0L4e7f1K8axD0ZnoXVQly43N2vMIaVcWqR6nPsM/VWn/34EQG0GUhU2HuLBcmbG5U
+	mCGnP3kFXfew/aLVqqv3xYh7DbUA0MB31DbpdShAET12gMoyn7t4b6wf748JKHUdmp0x
+	ph+ts401fI+xIPYboL5CyTJjrEKxF7L3RzgGT+0Z9kej3PfIwUpD58vcS/CdbVv9tCWv
+	hHvQ==
+X-Received: by 10.68.234.2 with SMTP id ua2mr55536587pbc.81.1400647553054;
+	Tue, 20 May 2014 21:45:53 -0700 (PDT)
+Received: from gentoo.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
+	[75.128.22.150]) by mx.google.com with ESMTPSA id
+	ck10sm99308401pac.0.2014.05.20.21.45.51 for <multiple recipients>
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 May 2014 21:45:52 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 May 2014 21:47:28 -0700
+Message-Id: <1400647649-27570-2-git-send-email-ticotimo@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1400647649-27570-1-git-send-email-ticotimo@gmail.com>
+References: <1400647649-27570-1-git-send-email-ticotimo@gmail.com>
+Subject: [PATCH 1/2] mirrors.bbclass: add ${CPAN_MIRROR} option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 May 2014 02:16:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 May 2014 04:45:55 -0000
 
-From: yzhu1 <yanjun.zhu@windriver.com>
+From: Tim Orling <TicoTimo@gmail.com>
 
-$CC is able to has ',', when $CC includes some flags, which will trigger error,
-like:
-    | Creating Makefile from Makefile.in
-    | sed: -e expression #1, char 72: unknown option to `s'
-    |
-    | sed: -e expression #1, char 72: unknown option to `s'
+* Perl modules fail to fetch because default CPAN site has been flaky lately.
+* Create option to use metacpan.org as a mirror.
 
-So use '#' instead of ',' as separator, it is more safe for the case.
-
-Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Tim Orling <TicoTimo@gmail.com>
 ---
- meta/recipes-extended/man/man/man-configure.patch |   23 +++++++++++++++++++++
- meta/recipes-extended/man/man_1.6g.bb             |    1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-extended/man/man/man-configure.patch
+ meta/classes/mirrors.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/man/man/man-configure.patch b/meta/recipes-extended/man/man/man-configure.patch
-new file mode 100644
-index 0000000..edef7d4
---- /dev/null
-+++ b/meta/recipes-extended/man/man/man-configure.patch
-@@ -0,0 +1,23 @@
-+Upstream-Status: Pending
-+
-+$CC is able to has ',', when $CC includes some flags, which will trigger error,
-+like:
-+    | Creating Makefile from Makefile.in
-+    | sed: -e expression #1, char 72: unknown option to `s'
-+    |
-+    | sed: -e expression #1, char 72: unknown option to `s'
-+
-+So use '#' instead of ',' as separator
-+
-+Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
-+--- a/configure
-++++ b/configure
-+@@ -1321,7 +1321,7 @@ do
-+   echo "Creating $infile from $infile.in"
-+   sed -e '
-+ s,@version@,$version,
-+-s,@CC@,$CC,
-++s#@CC@#$CC#
-+ s,@EXEEXT@,$EXEEXT,
-+ s,@BUILD_CC@,$BUILD_CC,
-+ s,@INSTALL@,$INSTALL,
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index a66e01c..a2b16d2 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
-            file://man-1.5m2-sigpipe.patch \
-            file://man-1.6e-i18n_whatis.patch \
-            file://man-1.6e-new_sections.patch \
-+           file://man-configure.patch \
-            file://man.1.gz;unpack=false \
-            file://man.7.gz;unpack=false \
-            file://man.conf \
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index 90fb1e0..0d9b517 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -67,4 +67,6 @@ p4://.*/.*      http://sources.openembedded.org/ \n \
+ osc://.*/.*     http://sources.openembedded.org/ \n \
+ https?$://.*/.* http://sources.openembedded.org/ \n \
+ ftp://.*/.*     http://sources.openembedded.org/ \n \
++${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
++${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
+ "
 -- 
-1.7.10.4
+1.8.3.2
 
 
