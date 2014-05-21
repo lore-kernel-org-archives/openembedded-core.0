@@ -1,24 +1,24 @@
 Return-Path: <valentin.popa@intel.com>
 Received: from mga14.intel.com (unknown [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E2246AE3B
+	by mail.openembedded.org (Postfix) with ESMTP id 32B3A6AE8A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 May 2014 16:50:53 +0000 (UTC)
+	Wed, 21 May 2014 16:50:55 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 21 May 2014 09:46:52 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 21 May 2014 09:46:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,880,1392192000"; d="scan'208";a="535553991"
+X-IronPort-AV: E=Sophos;i="4.98,880,1392192000"; d="scan'208";a="535554018"
 Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by fmsmga001.fm.intel.com with ESMTP; 21 May 2014 09:50:28 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 21 May 2014 09:50:32 -0700
 From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 May 2014 19:49:59 +0300
-Message-Id: <5dbf22cbdb60170ecaef191c4fdddd05ff3aa518.1400690725.git.valentin.popa@intel.com>
+Date: Wed, 21 May 2014 19:50:02 +0300
+Message-Id: <5d0d1d68d7277dbb1546e7d30be552149d5d02a4.1400690725.git.valentin.popa@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1400690725.git.valentin.popa@intel.com>
 References: <cover.1400690725.git.valentin.popa@intel.com>
 In-Reply-To: <cover.1400690725.git.valentin.popa@intel.com>
 References: <cover.1400690725.git.valentin.popa@intel.com>
-Subject: [PATCH 1/4] dri3proto: add it to oe-core
+Subject: [PATCH 4/4] eglinfo: patched to compile with mesa10+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,100 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 May 2014 16:50:55 -0000
 
-mesa 10+ depends on this (if the user builds mesa
-with dri3 support enabled). So add it to oe-core.
+Solves the compile issue against mesa10+:
+../../src/glapi_stats.cpp: In function 'const char* eglinfo::get_shader_binary_format_string(GLint)':
+| ../../src/glapi_stats.cpp:171:8: error: 'GCCSO_SHADER_BINARY_FJ' was not declared in this scope
+|    case GCCSO_SHADER_BINARY_FJ: return "FJ_shader_binary_GCCSO";
 
 Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb
+ meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb    |  2 ++
+ meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb   |  2 ++
+ meta/recipes-graphics/eglinfo/eglinfo.inc          |  4 ++-
+ .../0001-eglinfo-x11-change-constant-name.patch    | 33 ++++++++++++++++++++++
+ 4 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
 
-diff --git a/meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb b/meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
+index 455d31e..456afe0 100644
+--- a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
++++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
+@@ -1,6 +1,8 @@
+ EGLINFO_PLATFORM ?= "fb"
+ EGLINFO_BINARY_NAME ?= "eglinfo-fb"
+ 
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/eglinfo:"
++
+ include eglinfo.inc
+ 
+ SUMMARY += "(Framebuffer version)"
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
+index 18fc893..676277a 100644
+--- a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
++++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
+@@ -1,6 +1,8 @@
+ EGLINFO_PLATFORM ?= "x11"
+ EGLINFO_BINARY_NAME ?= "eglinfo-x11"
+ 
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/eglinfo:"
++
+ include eglinfo.inc
+ 
+ DEPENDS += "virtual/libx11"
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
+index 785e7f1..b342f4e 100644
+--- a/meta/recipes-graphics/eglinfo/eglinfo.inc
++++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
+@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d4f33bc3add976f7dfae85dab66f03c"
+ 
+ DEPENDS = "virtual/egl"
+ 
+-SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master"
++SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master \
++           file://0001-eglinfo-x11-change-constant-name.patch"
++
+ SRCREV = "4a49ff59545d9b6a8222badab64115f89d3a6774"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch b/meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
 new file mode 100644
-index 0000000..bed97b3
+index 0000000..c125a96
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb
-@@ -0,0 +1,14 @@
-+require xorg-proto-common.inc
++++ b/meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
+@@ -0,0 +1,33 @@
++From 101a543d145568e1905b02a8ef7ab17b6c235d4a Mon Sep 17 00:00:00 2001
++From: Valentin Popa <valentin.popa@intel.com>
++Date: Wed, 21 May 2014 19:04:42 +0300
++Subject: [PATCH] eglinfo-x11: change constant name
 +
-+SUMMARY = "Direct Rendering Infrastructure 3 Extension"
++In mesa 10+, GCCSO_SHADER_BINARY_FJ was renamed to
++GL_GCCSO_SHADER_BINARY_FJ.
++Update the name so they match.
 +
-+DESCRIPTION = "The DRI3 extension provides mechanisms to translate between direct \
-+rendered buffers and X pixmaps. When combined with the Present extension, \
-+a complete direct rendering solution for OpenGL is provided."
++Upstream-Status: Pending
++https://github.com/dv1/eglinfo/issues/1
 +
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://dri3proto.h;endline=21;md5=ac90d1d416be3cb13e1d3c88cd5166bf"
++Signed-off-by: Valentin Popa <valentin.popa@intel.com>
++---
++ src/glapi_stats.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
++diff --git a/src/glapi_stats.cpp b/src/glapi_stats.cpp
++index 29f6650..b22f826 100644
++--- a/src/glapi_stats.cpp
+++++ b/src/glapi_stats.cpp
++@@ -168,7 +168,7 @@ char const * get_shader_binary_format_string(GLint const p_format)
++ 		case GL_SHADER_BINARY_VIV: return "SHADER_BINARY_VIV";
++ 		case GL_MALI_SHADER_BINARY_ARM: return "MALI_SHADER_BINARY";
++ 		case GL_SHADER_BINARY_DMP: return "SHADER_BINARY_DMP";
++-		case GCCSO_SHADER_BINARY_FJ: return "FJ_shader_binary_GCCSO";
+++		case GL_GCCSO_SHADER_BINARY_FJ: return "FJ_shader_binary_GCCSO";
++ 		case GL_SGX_BINARY_IMG: return "SGX_BINARY_IMG";
++ 		default: return 0;
++ 	}
++-- 
++1.9.1
 +
-+SRC_URI[md5sum] = "a3d2cbe60a9ca1bf3aea6c93c817fee3"
-+SRC_URI[sha256sum] = "01be49d70200518b9a6b297131f6cc71f4ea2de17436896af153226a774fc074"
 -- 
 1.9.1
 
