@@ -1,24 +1,24 @@
 Return-Path: <valentin.popa@intel.com>
 Received: from mga14.intel.com (unknown [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 32B3A6AE8A
+	by mail.openembedded.org (Postfix) with ESMTP id 32C036AE8B
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 21 May 2014 16:50:55 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 21 May 2014 09:46:54 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 21 May 2014 09:46:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,880,1392192000"; d="scan'208";a="535554018"
+X-IronPort-AV: E=Sophos;i="4.98,880,1392192000"; d="scan'208";a="535554012"
 Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by fmsmga001.fm.intel.com with ESMTP; 21 May 2014 09:50:32 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 21 May 2014 09:50:31 -0700
 From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 May 2014 19:50:02 +0300
-Message-Id: <5d0d1d68d7277dbb1546e7d30be552149d5d02a4.1400690725.git.valentin.popa@intel.com>
+Date: Wed, 21 May 2014 19:50:01 +0300
+Message-Id: <2af5d5ff37f4dc6cfb7758ff884cecb65883124d.1400690725.git.valentin.popa@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1400690725.git.valentin.popa@intel.com>
 References: <cover.1400690725.git.valentin.popa@intel.com>
 In-Reply-To: <cover.1400690725.git.valentin.popa@intel.com>
 References: <cover.1400690725.git.valentin.popa@intel.com>
-Subject: [PATCH 4/4] eglinfo: patched to compile with mesa10+
+Subject: [PATCH 3/4] mesa: upgrade to 10.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +33,162 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 May 2014 16:50:55 -0000
 
-Solves the compile issue against mesa10+:
-../../src/glapi_stats.cpp: In function 'const char* eglinfo::get_shader_binary_format_string(GLint)':
-| ../../src/glapi_stats.cpp:171:8: error: 'GCCSO_SHADER_BINARY_FJ' was not declared in this scope
-|    case GCCSO_SHADER_BINARY_FJ: return "FJ_shader_binary_GCCSO";
+(*) libdricore was removed.
+(*) added libmesa-megadriver that includes
+    all the hardlinks to the mesa megadriver.
+(*) license is the same.
 
 Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb    |  2 ++
- meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb   |  2 ++
- meta/recipes-graphics/eglinfo/eglinfo.inc          |  4 ++-
- .../0001-eglinfo-x11-change-constant-name.patch    | 33 ++++++++++++++++++++++
- 4 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
+ .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |  0
+ meta/recipes-graphics/mesa/mesa.inc                | 36 ++++++++++++++--------
+ .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |  4 +--
+ meta/recipes-graphics/mesa/mesa_git.bb             |  4 +--
+ 4 files changed, 28 insertions(+), 16 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
 
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-index 455d31e..456afe0 100644
---- a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-@@ -1,6 +1,8 @@
- EGLINFO_PLATFORM ?= "fb"
- EGLINFO_BINARY_NAME ?= "eglinfo-fb"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb b/meta/recipes-graphics/mesa/mesa-gl_10.1.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_10.1.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index a33b7b5..f7ee7c1 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -10,11 +10,11 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
  
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/eglinfo:"
-+
- include eglinfo.inc
+-INC_PR = "r9"
+ PE = "2"
  
- SUMMARY += "(Framebuffer version)"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-index 18fc893..676277a 100644
---- a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-@@ -1,6 +1,8 @@
- EGLINFO_PLATFORM ?= "x11"
- EGLINFO_BINARY_NAME ?= "eglinfo-x11"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de"
++
+ DEPENDS = "expat makedepend-native flex-native bison-native udev"
  
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/eglinfo:"
-+
- include eglinfo.inc
+ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
+@@ -39,6 +39,7 @@ DRIDRIVERS = "swrast"
+ DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+ DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
+ PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, dri2proto libdrm"
++PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, dri3proto presentproto libxshmfence"
  
- DEPENDS += "virtual/libx11"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
-index 785e7f1..b342f4e 100644
---- a/meta/recipes-graphics/eglinfo/eglinfo.inc
-+++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d4f33bc3add976f7dfae85dab66f03c"
+ EXTRA_OECONF += "--enable-gbm"
  
- DEPENDS = "virtual/egl"
+@@ -78,7 +79,7 @@ RDEPENDS_${PN}-dev = ""
+ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libosmesa libosmesa-dev \
+              libgl-mesa libgl-mesa-dev \
+-             libdricore libdricore-dev \
++             libmesa-megadriver \
+              libglapi libglapi-dev \
+              libgbm libgbm-dev \
+              libgles1-mesa libgles1-mesa-dev \
+@@ -96,7 +97,7 @@ do_install_append () {
+     rm -f ${D}${libdir}/egl/*.la
+     rm -f ${D}${libdir}/gallium-pipe/*.la
+     rm -f ${D}${libdir}/gbm/*.la
+-    
++
+     # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used 
+     rm -f ${D}${sysconfdir}/drirc
+ }
+@@ -119,7 +120,7 @@ python __anonymous() {
+         d.appendVar("RREPLACES_" + fullp, pkgs)
+         d.appendVar("RPROVIDES_" + fullp, pkgs)
+         d.appendVar("RCONFLICTS_" + fullp, pkgs)
+-        
++
+         # For -dev, the first element is both the Debian and original name
+         fullp += "-dev"
+         pkgs = p[1] + "-dev"
+@@ -130,15 +131,27 @@ python __anonymous() {
+ }
  
--SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master"
-+SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master \
-+           file://0001-eglinfo-x11-change-constant-name.patch"
+ python mesa_populate_packages() {
+-    dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
+-
+     pkgs = ['mesa', 'mesa-dev', 'mesa-dbg']
+-    pkgs += do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-driver-%s', 'Mesa %s DRI driver', extra_depends='')
+     for pkg in pkgs:
+         d.setVar("RPROVIDES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+         d.setVar("RCONFLICTS_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+         d.setVar("RREPLACES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+-    
 +
- SRCREV = "4a49ff59545d9b6a8222badab64115f89d3a6774"
++    import re
++    dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
++    dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
++    lib_name = "libmesa-megadriver"
++    mlprefix = d.getVar('MLPREFIX', True)
++    if mlprefix:
++       lib_name = "%s%s" % (mlprefix, lib_name)
++    for p in sorted(dri_pkgs):
++        m = re.match('^(.*)_dri\.so$', p)
++        if m:
++            pkg_name = " mesa-driver-%s" % legitimize_package_name(m.group(1))
++            d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
++            d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
++            d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
++
+     pipe_drivers_root = os.path.join(d.getVar('libdir', True), "gallium-pipe")
+     do_split_packages(d, pipe_drivers_root, '^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
+ }
+@@ -148,8 +161,8 @@ PACKAGESPLITFUNCS_prepend = "mesa_populate_packages "
+ PACKAGES_DYNAMIC += "^mesa-driver-.*"
  
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch b/meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
-new file mode 100644
-index 0000000..c125a96
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
-@@ -0,0 +1,33 @@
-+From 101a543d145568e1905b02a8ef7ab17b6c235d4a Mon Sep 17 00:00:00 2001
-+From: Valentin Popa <valentin.popa@intel.com>
-+Date: Wed, 21 May 2014 19:04:42 +0300
-+Subject: [PATCH] eglinfo-x11: change constant name
-+
-+In mesa 10+, GCCSO_SHADER_BINARY_FJ was renamed to
-+GL_GCCSO_SHADER_BINARY_FJ.
-+Update the name so they match.
-+
-+Upstream-Status: Pending
-+https://github.com/dv1/eglinfo/issues/1
-+
-+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-+---
-+ src/glapi_stats.cpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/glapi_stats.cpp b/src/glapi_stats.cpp
-+index 29f6650..b22f826 100644
-+--- a/src/glapi_stats.cpp
-++++ b/src/glapi_stats.cpp
-+@@ -168,7 +168,7 @@ char const * get_shader_binary_format_string(GLint const p_format)
-+ 		case GL_SHADER_BINARY_VIV: return "SHADER_BINARY_VIV";
-+ 		case GL_MALI_SHADER_BINARY_ARM: return "MALI_SHADER_BINARY";
-+ 		case GL_SHADER_BINARY_DMP: return "SHADER_BINARY_DMP";
-+-		case GCCSO_SHADER_BINARY_FJ: return "FJ_shader_binary_GCCSO";
-++		case GL_GCCSO_SHADER_BINARY_FJ: return "FJ_shader_binary_GCCSO";
-+ 		case GL_SGX_BINARY_IMG: return "SGX_BINARY_IMG";
-+ 		default: return 0;
-+ 	}
-+-- 
-+1.9.1
-+
+ FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
+-
+-FILES_libdricore = "${sysconfdir}/drirc ${libdir}/libdricore*.so.*"
++FILES_${PN} += "${sysconfdir}/drirc"
++FILES_libmesa-megadriver = "${libdir}/dri/*"
+ FILES_libegl-mesa = "${libdir}/libEGL.so.*"
+ FILES_libgbm = "${libdir}/libgbm.so.*"
+ FILES_libgles1-mesa = "${libdir}/libGLESv1*.so.*"
+@@ -164,7 +177,6 @@ FILES_libopenvg = "${libdir}/libOpenVG.so.*"
+ FILES_libxvmcsoftpipe = "${libdir}/libXvMCsoftpipe.so.*"
+ 
+ FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc"
+-FILES_libdricore-dev = "${libdir}/libdricore*.*"
+ FILES_libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
+ FILES_libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
+ FILES_libgl-mesa-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
+diff --git a/meta/recipes-graphics/mesa/mesa_9.2.5.bb b/meta/recipes-graphics/mesa/mesa_10.1.3.bb
+similarity index 82%
+rename from meta/recipes-graphics/mesa/mesa_9.2.5.bb
+rename to meta/recipes-graphics/mesa/mesa_10.1.3.bb
+index 02ecd46..abc450a 100644
+--- a/meta/recipes-graphics/mesa/mesa_9.2.5.bb
++++ b/meta/recipes-graphics/mesa/mesa_10.1.3.bb
+@@ -5,8 +5,8 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+            file://0006-fix-out-of-tree-egl.patch \
+            "
+ 
+-SRC_URI[md5sum] = "9fb4de29ca1d9cfd03cbdefa123ba336"
+-SRC_URI[sha256sum] = "b46ab9efed176df0591993397594d712ada9da6a47fd31bbe75050fe28eb6bf0"
++SRC_URI[md5sum] = "ba6dbe2b9cab0b4de840c996b9b6a3ad"
++SRC_URI[sha256sum] = "b2615e236ef25d0fb94b8420bdd2e2a520b7dd5ca2d4b93306154f7fd4adecc3"
+ 
+ S = "${WORKDIR}/Mesa-${PV}"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index 1e6fdb5..59b0d1c 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -5,8 +5,8 @@ DEFAULT_PREFERENCE = "-1"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
+ 
+ PR = "${INC_PR}.0"
+-SRCREV = "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
+-PV = "9.2.5+git${SRCPV}"
++SRCREV = "0028eb1083e6adc110a23a5f02c993cda217067a"
++PV = "10.1.3+git${SRCPV}"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
 -- 
 1.9.1
 
