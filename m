@@ -1,35 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f48.google.com (unknown [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 90E4265F11
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f46.google.com (unknown [209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4253965E05
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 14:28:49 +0000 (UTC)
-Received: by mail-wg0-f48.google.com with SMTP id b13so3478553wgh.19
+	Thu, 22 May 2014 14:41:18 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id ec20so1147957lab.33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 07:28:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=L2/TT63u0pt/fs3Kh/0K5XewWnXYb+d6hPNaQObVsg8=;
-	b=gg6KOhA91IHWuZg43wHP/9WGLzEBs11yZNR7ZMaQ1Hi5JZMDW/POfySJEmRxfn1/NN
-	yDsPBL66vjhL8AG3jxk1dfLuqEIKDmguCrz/wrr9JDsF8uarRA5qSIaBbU8ykKHhHB8M
-	hPotw4oCFWWbKyEsxc7oYwwgTc9fo8xqep869nIfdG5KcTx5GFrRk45SK89t5DvExH4m
-	DiwEY2mpVfrUOag+/tY8Qzfzf3/pifAcmaj4Q1YFIadqjvqHACRdhLhZyqqJfGmmLOkf
-	RE7XQnguecgz7sq/OwDFSHUIdoGdEtglMtHt1ukWcESrjfCqhI3XGfTvWGPGjC+oayuf
-	iWiA==
-X-Gm-Message-State: ALoCoQkR7xP8XmCW2HSWTEdjZH+wiPR36A5SGnuEvW311ESKciWzJAyEQ4V1QeoQb6wSL64Qif+1
-X-Received: by 10.180.85.10 with SMTP id d10mr3430037wiz.0.1400768930096;
-	Thu, 22 May 2014 07:28:50 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id o10sm560wjy.0.2014.05.22.07.28.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 22 May 2014 07:28:48 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 May 2014 15:28:32 +0100
-Message-Id: <1400768912-5313-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] perl: stop perl-modules recommending perl-ptest
+	Thu, 22 May 2014 07:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=tZsR8v2AzRq/m6qkeBgpDrmbcefVbHeInlR7SxoZE50=;
+	b=pnb7DMewFLNictHKC8iRw6e3ct4R9nolFCJ/tcfv6C3eyLK5Cezwpg8Fxlpg0TJ9hv
+	8lQndzJ/b60N/DhKDNwb35Bfea7wbVbc/HPpPHApl+dq2MpR7KrnYgAl7eUjj1HDSNqV
+	Az3TQ27NUtpiWoAllBQHLyc+pCAwMJGq19QDYtClm4fosCwwyiFvfX/T/a385FCTmbKH
+	RGKtNg+3/9ntECaFxe2ljz15jvpg5U5LFYRNlE9n2WWpbhWLHeBbX70rWTegJOBEgaqZ
+	qF8hVhbiVaQi0+NGiLEbWowzc0nySd6NEt0J0OmcysK433MsmtAJs6sGiSAhcMIpjN9U
+	8TFg==
+X-Received: by 10.152.4.227 with SMTP id n3mr43662405lan.16.1400769679422;
+	Thu, 22 May 2014 07:41:19 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.148.170 with HTTP; Thu, 22 May 2014 07:40:59 -0700 (PDT)
+In-Reply-To: <1400752550.17834.67.camel@ted>
+References: <1400752550.17834.67.camel@ted>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 22 May 2014 07:40:59 -0700
+X-Google-Sender-Auth: dca_WN2OSi4r8_dLv7xtH6cLZiU
+Message-ID: <CABcZANkrimph3NGAFVTu7ctq8WsPBa8A8HVzzX153m6T7zyKTA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lighthttp: Use pkg-config for pcre dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 May 2014 14:28:50 -0000
+X-List-Received-Date: Thu, 22 May 2014 14:41:21 -0000
+Content-Type: multipart/alternative; boundary=089e013d177c27782304f9fe1b23
 
-Change the logic that generates the perl-modules recommends to be an include
-filter instead of an exclude filter, so that new sub-packages don't become
-dependants of perl-modules (such as perl-ptest).
+--089e013d177c27782304f9fe1b23
+Content-Type: text/plain; charset=UTF-8
 
-[ YOCTO #6203 ]
+On Thu May 22, 2014 at 2:55 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/perl/perl_5.14.3.bb |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> +      AC_MSG_ERROR([pcre-config not found, install the pcre-devel package
+> or build with --without-pcre])
 
-diff --git a/meta/recipes-devtools/perl/perl_5.14.3.bb b/meta/recipes-devtools/perl/perl_5.14.3.bb
-index c307b99..c3ec5a8 100644
---- a/meta/recipes-devtools/perl/perl_5.14.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.3.bb
-@@ -320,7 +320,12 @@ python populate_packages_prepend () {
-     do_split_packages(d, libdir, 'Module/([^\/]*)\.pm', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
-     do_split_packages(d, libdir, 'Module/([^\/]*)/.*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
-     do_split_packages(d, libdir, '(^(?!(CPAN\/|CPANPLUS\/|Module\/|unicore\/|auto\/)[^\/]).*)\.(pm|pl|e2x)', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
--    d.setVar("RRECOMMENDS_${PN}-modules", d.getVar('PACKAGES', True).replace('${PN}-modules ', '').replace('${PN}-dbg ', '').replace('${PN}-misc ', '').replace('${PN}-dev ', '').replace('${PN}-pod ', '').replace('${PN}-doc ', ''))
-+
-+    # perl-modules should recommend every perl module, and only the
-+    # modules. Don't attempt to use the result of do_split_packages() as some
-+    # modules are manually split (eg. perl-module-unicore).
-+    packages = filter(lambda p: 'perl-module-' in p, d.getVar('PACKAGES', True).split())
-+    d.setVar("RRECOMMENDS_${PN}-modules", ' '.join(packages))
- }
- 
- PACKAGES_DYNAMIC += "^perl-module-.*"
+
+Minor quibble, but might want to adjust the error message while you're at
+it :)
 -- 
-1.7.10.4
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e013d177c27782304f9fe1b23
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">On Thu May 22, 2014 at 2:55 AM,=
+ Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linu=
+xfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&g=
+t;</span> wrote:<br>
+
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++ =C2=A0 =C2=A0 =C2=A0AC_MSG_ERROR([pcre-config not found, install the pcre=
+-devel package or build with --without-pcre])</blockquote></div><br></div><=
+div class=3D"gmail_extra">Minor quibble, but might want to adjust the error=
+ message while you&#39;re at it :)<br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
+
+--089e013d177c27782304f9fe1b23--
