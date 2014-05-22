@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (unknown [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 80B976A9C6
+	by mail.openembedded.org (Postfix) with ESMTP id 8501760E23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 09:50:15 +0000 (UTC)
+	Thu, 22 May 2014 09:51:05 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s4M9oAWY025450 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 10:50:10 +0100
+	s4M9p0HG025471 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 May 2014 10:51:01 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QUQ7aWHMbX6W
+	with LMTP id 4V00ZH6FLN42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 10:50:10 +0100 (BST)
+	Thu, 22 May 2014 10:51:00 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s4M9o8Wg025447
+	s4M9owUU025468
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 10:50:09 +0100
-Message-ID: <1400752200.17834.58.camel@ted>
+	Thu, 22 May 2014 10:50:59 +0100
+Message-ID: <1400752250.17834.59.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 May 2014 10:50:00 +0100
+Date: Thu, 22 May 2014 10:50:50 +0100
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] libassuan: Improve pkgconfig support
+Subject: [PATCH] gnupg: Convert to use pkg-config for dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,255 +38,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 May 2014 09:50:16 -0000
+X-List-Received-Date: Thu, 22 May 2014 09:51:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Add api_version and host to the .pc file and use pkg-config in the
-m4 macros for the package.
+Use pkg-config to find pth instead of pth-config and our own macros from
+aclocal-copy.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
-deleted file mode 100644
-index ac1604f..0000000
---- a/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--Add pkgconfig support to libassuan.
--This patch is rejected by upstream for the reason below:
--They think pkgconfig adds no portability and maintaining them is not worthwhile.
--
--Upstream-Status: Rejected
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
--Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
--
--Index: libassuan-2.1.0/Makefile.am
--===================================================================
----- libassuan-2.1.0.orig/Makefile.am
--+++ libassuan-2.1.0/Makefile.am
--@@ -24,10 +24,13 @@ AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gz
-- # (A suitable gitlog-to-changelog script can be found in GnuPG master.)
-- GITLOG_TO_CHANGELOG=gitlog-to-changelog
-- 
--+pkgconfigdir = $(libdir)/pkgconfig
--+pkgconfig_DATA = assuan.pc
--+
-- EXTRA_DIST = config.rpath autogen.sh README.GIT                  	\
--              ChangeLog-2011 doc/ChangeLog-2011 src/ChangeLog-2011 	\
--              tests/ChangeLog-2011 contrib/ChangeLog-2011     		\
---             build-aux/git-log-footer build-aux/git-log-fix
--+             build-aux/git-log-footer build-aux/git-log-fix assuan.pc.in
-- 
-- SUBDIRS = m4 src doc tests
-- 
--Index: libassuan-2.1.0/assuan.pc.in
--===================================================================
----- /dev/null
--+++ libassuan-2.1.0/assuan.pc.in
--@@ -0,0 +1,12 @@
--+prefix=@prefix@
--+exec_prefix=@exec_prefix@
--+libdir=@libdir@
--+includedir=@includedir@
--+
--+Name: libassuan
--+Description: IPC library used by GnuPG and GPGME
--+Requires:
--+Version: @VERSION@
--+Libs: -L${libdir} -lassuan
--+Libs.private: -lgpg-error
--+Cflags: -I${includedir}
--Index: libassuan-2.1.0/configure.ac
--===================================================================
----- libassuan-2.1.0.orig/configure.ac
--+++ libassuan-2.1.0/configure.ac
--@@ -433,7 +433,7 @@ AC_CONFIG_FILES([doc/Makefile])
-- AC_CONFIG_FILES([tests/Makefile])
-- AC_CONFIG_FILES([src/libassuan-config], [chmod +x src/libassuan-config])
-- AC_CONFIG_FILES([src/versioninfo.rc])
---
--+AC_CONFIG_FILES([assuan.pc])
-- AC_OUTPUT
-- 
-- echo "
-diff --git a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch b/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
 new file mode 100644
-index 0000000..4f96881
+index 0000000..ae92392
 --- /dev/null
-+++ b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-@@ -0,0 +1,158 @@
-+Add pkgconfig support to libassuan.
-+This patch is rejected by upstream for the reason below:
-+They think pkgconfig adds no portability and maintaining them is not worthwhile.
++++ b/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
+@@ -0,0 +1,86 @@
++Use pkg-config to find pth instead of pth-config.
 +
 +Upstream-Status: Rejected
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++[not submitted but they've been clear they don't want a pkg-config dependency]
 +
-+Index: libassuan-2.1.1/Makefile.am
++RP 2014/5/22
++
++Index: gnupg-2.0.22/m4/gnupg-pth.m4
 +===================================================================
-+--- libassuan-2.1.1.orig/Makefile.am	2014-05-13 20:57:37.794398357 +0000
-++++ libassuan-2.1.1/Makefile.am	2014-05-13 20:57:37.790398357 +0000
-+@@ -24,10 +24,13 @@
-+ # (A suitable gitlog-to-changelog script can be found in GnuPG master.)
-+ GITLOG_TO_CHANGELOG=gitlog-to-changelog
++--- gnupg-2.0.22.orig/m4/gnupg-pth.m4	2013-10-04 12:32:53.000000000 +0000
+++++ gnupg-2.0.22/m4/gnupg-pth.m4	2014-05-13 21:33:21.000000000 +0000
++@@ -17,33 +17,9 @@
++ # Taken and modified from the m4 macros which come with Pth.
++ AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
++   [
++-    _pth_version=`$PTH_CONFIG --version | awk 'NR==1 {print [$]3}'`
++     _req_version="ifelse([$1],,1.2.0,$1)"
+++    PKG_CHECK_MODULES(PTH, [pth >= $_req_version], [have_pth=yes], [have_pth=no])
 + 
-++pkgconfigdir = $(libdir)/pkgconfig
-++pkgconfig_DATA = libassuan.pc
-++
-+ EXTRA_DIST = config.rpath autogen.sh README.GIT                  	\
-+              ChangeLog-2011 doc/ChangeLog-2011 src/ChangeLog-2011 	\
-+              tests/ChangeLog-2011 contrib/ChangeLog-2011     		\
-+-             build-aux/git-log-footer build-aux/git-log-fix
-++             build-aux/git-log-footer build-aux/git-log-fix libassuan.pc.in
-+ 
-+ SUBDIRS = m4 src doc tests
-+ 
-+Index: libassuan-2.1.1/libassuan.pc.in
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ libassuan-2.1.1/libassuan.pc.in	2014-05-13 20:57:37.790398357 +0000
-+@@ -0,0 +1,14 @@
-++prefix=@prefix@
-++exec_prefix=@exec_prefix@
-++libdir=@libdir@
-++includedir=@includedir@
-++api_version=@LIBASSUAN_CONFIG_API_VERSION@
-++host=@LIBASSUAN_CONFIG_HOST@
-++
-++Name: libassuan
-++Description: IPC library used by GnuPG and GPGME
-++Requires:
-++Version: @VERSION@
-++Libs: -L${libdir} -lassuan
-++Libs.private: -lgpg-error
-++Cflags: -I${includedir}
-+Index: libassuan-2.1.1/configure.ac
-+===================================================================
-+--- libassuan-2.1.1.orig/configure.ac	2014-05-13 20:57:37.794398357 +0000
-++++ libassuan-2.1.1/configure.ac	2014-05-13 20:57:37.790398357 +0000
-+@@ -434,7 +434,7 @@
-+ AC_CONFIG_FILES([tests/Makefile])
-+ AC_CONFIG_FILES([src/libassuan-config], [chmod +x src/libassuan-config])
-+ AC_CONFIG_FILES([src/versioninfo.rc])
-+-
-++AC_CONFIG_FILES([libassuan.pc])
-+ AC_OUTPUT
-+ 
-+ echo "
-+Index: libassuan-2.1.1/src/libassuan.m4
-+===================================================================
-+--- libassuan-2.1.1.orig/src/libassuan.m4	2011-04-06 15:37:26.000000000 +0000
-++++ libassuan-2.1.1/src/libassuan.m4	2014-05-13 21:06:53.402395537 +0000
-+@@ -15,18 +15,6 @@
-+ dnl
-+ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
-+ [ AC_REQUIRE([AC_CANONICAL_HOST])
-+-  AC_ARG_WITH(libassuan-prefix,
-+-              AC_HELP_STRING([--with-libassuan-prefix=PFX],
-+-                             [prefix where LIBASSUAN is installed (optional)]),
-+-     libassuan_config_prefix="$withval", libassuan_config_prefix="")
-+-  if test x$libassuan_config_prefix != x ; then
-+-    libassuan_config_args="$libassuan_config_args --prefix=$libassuan_config_prefix"
-+-    if test x${LIBASSUAN_CONFIG+set} != xset ; then
-+-      LIBASSUAN_CONFIG=$libassuan_config_prefix/bin/libassuan-config
-+-    fi
-+-  fi
-+-
-+-  AC_PATH_TOOL(LIBASSUAN_CONFIG, libassuan-config, no)
-+ 
-+   tmp=ifelse([$1], ,1:0.9.2,$1)
-+   if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
-+@@ -37,51 +25,12 @@
-+     min_libassuan_version="$tmp"
-+   fi
-+ 
-+-  AC_MSG_CHECKING(for LIBASSUAN - version >= $min_libassuan_version)
-+-  ok=no
-+-  if test "$LIBASSUAN_CONFIG" != "no" \
-+-     && test -f "$LIBASSUAN_CONFIG" ; then
-+-    req_major=`echo $min_libassuan_version | \
-+-               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
-+-    req_minor=`echo $min_libassuan_version | \
-+-               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\)/\2/'`
-+-    req_micro=`echo $min_libassuan_version | \
-+-               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\)/\3/'`
-+-
-+-    libassuan_config_version=`$LIBASSUAN_CONFIG --version`
-+-    major=`echo $libassuan_config_version | \
-+-               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
-+-    minor=`echo $libassuan_config_version | \
-+-               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\).*/\2/'`
-+-    micro=`echo $libassuan_config_version | \
-+-               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\.\([[0-9]]*\).*/\3/'`
-+-
-+-    if test "$major" -gt "$req_major"; then
-+-        ok=yes
-+-    else 
-+-        if test "$major" -eq "$req_major"; then
-+-            if test "$minor" -gt "$req_minor"; then
-+-               ok=yes
-+-            else
-+-               if test "$minor" -eq "$req_minor"; then
-+-                   if test "$micro" -ge "$req_micro"; then
-+-                     ok=yes
-+-                   fi
-+-               fi
++-    AC_MSG_CHECKING(for PTH - version >= $_req_version)
++-    for _var in _pth_version _req_version; do
++-        eval "_val=\"\$${_var}\""
++-        _major=`echo $_val | sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\([[ab.]]\)\([[0-9]]*\)/\1/'`
++-        _minor=`echo $_val | sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\([[ab.]]\)\([[0-9]]*\)/\2/'`
++-        _rtype=`echo $_val | sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\([[ab.]]\)\([[0-9]]*\)/\3/'`
++-        _micro=`echo $_val | sed 's/\([[0-9]]*\)\.\([[0-9]]*\)\([[ab.]]\)\([[0-9]]*\)/\4/'`
++-        case $_rtype in
++-            "a" ) _rtype=0 ;;
++-            "b" ) _rtype=1 ;;
++-            "." ) _rtype=2 ;;
++-        esac
++-        _hex=`echo dummy | awk '{ printf("%d%02d%1d%02d", major, minor, rtype, micro); }' \
++-              "major=$_major" "minor=$_minor" "rtype=$_rtype" "micro=$_micro"`
++-        eval "${_var}_hex=\"\$_hex\""
++-    done
++-    have_pth=no
++-    if test ".$_pth_version_hex" != .; then
++-        if test ".$_req_version_hex" != .; then
++-            if test $_pth_version_hex -ge $_req_version_hex; then
++-                have_pth=yes
 +-            fi
 +-        fi
 +-    fi
++     if test $have_pth = yes; then
++        AC_MSG_RESULT(yes)
++        AC_MSG_CHECKING([whether PTH installation is sane])
++@@ -51,9 +29,9 @@
++          _gnupg_pth_save_cflags=$CFLAGS
++          _gnupg_pth_save_ldflags=$LDFLAGS
++          _gnupg_pth_save_libs=$LIBS
++-         CFLAGS="$CFLAGS `$PTH_CONFIG --cflags`"
++-         LDFLAGS="$LDFLAGS `$PTH_CONFIG --ldflags`"
++-         LIBS="$LIBS `$PTH_CONFIG --libs --all`"
+++         CFLAGS="$CFLAGS $PTH_CFLAGS"
+++         LDFLAGS="$LDFLAGS $PTH_LDFLAGS"
+++         LIBS="$LIBS $PTH_LIBS"
++          AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <pth.h>
++                                          ],
++                                          [[ pth_init ();]])],
++@@ -81,23 +59,11 @@
++ #
++ AC_DEFUN([GNUPG_PATH_PTH],
+++[
++-[ AC_ARG_WITH(pth-prefix,
++-             AC_HELP_STRING([--with-pth-prefix=PFX],
++-                           [prefix where GNU Pth is installed]),
++-     pth_config_prefix="$withval", pth_config_prefix="")
++-  if test x$pth_config_prefix != x ; then
++-     PTH_CONFIG="$pth_config_prefix/bin/pth-config"
 +-  fi
-+-
-+-  if test $ok = yes; then
-+-    AC_MSG_RESULT([yes ($libassuan_config_version)])
-+-  else
-+-    AC_MSG_RESULT(no)
-+-  fi
-++  PKG_CHECK_MODULES(LIBASSUAN, [libassuan >= $min_libassuan_version], [ok=yes], [ok=no])
-+ 
-+   if test $ok = yes; then
-+     if test "$req_libassuan_api" -gt 0 ; then
-+       tmp=`$LIBASSUAN_CONFIG --api-version 2>/dev/null || echo 0`
-++      tmp=`$PKG_CONFIG --variable=api_version libassuan`
-+       if test "$tmp" -gt 0 ; then
-+         AC_MSG_CHECKING([LIBASSUAN API version])
-+         if test "$req_libassuan_api" -eq "$tmp" ; then
-+@@ -96,7 +45,7 @@
-+ 
-+   if test $ok = yes; then
-+     if test x"$host" != x ; then
-+-      libassuan_config_host=`$LIBASSUAN_CONFIG --host 2>/dev/null || echo none`
-++      libassuan_config_host=`$PKG_CONFIG --variable=host libassuan`
-+       if test x"$libassuan_config_host" != xnone ; then
-+         if test x"$libassuan_config_host" != x"$host" ; then
-+   AC_MSG_WARN([[
-+@@ -137,12 +86,8 @@
-+ AC_DEFUN([AM_PATH_LIBASSUAN],
-+ [ _AM_PATH_LIBASSUAN_COMMON($1)
-+   if test $ok = yes; then
-+-    LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG $libassuan_config_args --cflags`
-+-    LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG $libassuan_config_args --libs`
-+     ifelse([$2], , :, [$2])
-+   else
-+-    LIBASSUAN_CFLAGS=""
-+-    LIBASSUAN_LIBS=""
-+     ifelse([$3], , :, [$3])
++-  AC_PATH_PROG(PTH_CONFIG, pth-config, no)
++   tmp=ifelse([$1], ,1.3.7,$1)
++-  if test "$PTH_CONFIG" != "no"; then
++-    GNUPG_PTH_VERSION_CHECK($tmp)
++-    if test $have_pth = yes; then
++-       PTH_CFLAGS=`$PTH_CONFIG --cflags`
++-       PTH_LIBS=`$PTH_CONFIG --ldflags`
++-       PTH_LIBS="$PTH_LIBS `$PTH_CONFIG --libs --all`"
+++  GNUPG_PTH_VERSION_CHECK($tmp)
+++  if test $have_pth = yes; then
++        AC_DEFINE(HAVE_PTH, 1,
++                 [Defined if the GNU Pth is available])
++-    fi
 +   fi
-+   AC_SUBST(LIBASSUAN_CFLAGS)
-diff --git a/meta/recipes-support/libassuan/libassuan_2.1.1.bb b/meta/recipes-support/libassuan/libassuan_2.1.1.bb
-index 60b3f92..6f7d674 100644
---- a/meta/recipes-support/libassuan/libassuan_2.1.1.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.1.1.bb
-@@ -17,3 +17,8 @@ SRC_URI[md5sum] = "757243cc4a71b30ed8d8dbe784035d36"
- SRC_URI[sha256sum] = "23e2d67779b88e90d29fe1df6b157109f1c2a647d0f1b2a0f4295bb3c0b2039d"
++   AC_SUBST(PTH_CFLAGS)
++   AC_SUBST(PTH_LIBS)
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.22.bb b/meta/recipes-support/gnupg/gnupg_2.0.22.bb
+index c1ed28c..2746578 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.22.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.0.22.bb
+@@ -10,7 +10,8 @@ PTH_libc-uclibc = "npth"
  
- inherit autotools texinfo binconfig pkgconfig
-+
+ inherit autotools gettext texinfo
+ 
+-SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
++SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
++           file://pkgconfig.patch"
+ 
+ SRC_URI[md5sum] = "ee22e7b4fdbfcb50229c2e6db6db291e"
+ SRC_URI[sha256sum] = "437d0ab259854359fc48aa8795af80cff4975e559c111c92c03d0bc91408e251"
+@@ -23,6 +24,14 @@ EXTRA_OECONF = "--disable-ldap \
+                 --with-readline=${STAGING_LIBDIR}/.. \
+                "
+ 
 +do_configure_prepend () {
 +	# Else these could be used in prefernce to those in aclocal-copy
-+	rm ${S}/m4/*.m4
++	rm -f ${S}/m4/gpg-error.m4
++	rm -f ${S}/m4/libassuan.m4
++	rm -f ${S}/m4/ksba.m4
++	rm -f ${S}/m4/libgcrypt.m4
 +}
++
+ do_install_append() {
+ 	ln -sf gpg2 ${D}${bindir}/gpg
+ 	ln -sf gpgv2 ${D}${bindir}/gpgv
 
 
 
