@@ -1,25 +1,31 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 64C3B605B2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 29B026B700
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 16:28:50 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 22 May 2014 09:28:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,888,1392192000"; d="scan'208";a="435618081"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.76])
-	([10.237.105.76])
-	by azsmga001.ch.intel.com with ESMTP; 22 May 2014 09:28:49 -0700
-Message-ID: <537E25A9.9080106@intel.com>
-Date: Thu, 22 May 2014 19:28:25 +0300
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1400690725.git.valentin.popa@intel.com>
-In-Reply-To: <cover.1400690725.git.valentin.popa@intel.com>
-Subject: [PATCH 0/4] [V3]mesa: upgrade to 10.1.3
+	Thu, 22 May 2014 16:29:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4MGTAn4012190 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 May 2014 17:29:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vyKuXQWDy5Hl
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 May 2014 17:29:09 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4MGT4nx012182
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 May 2014 17:29:06 +0100
+Message-ID: <1400776137.17834.78.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 May 2014 17:28:57 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] devshell: Add interactive python shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +38,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 May 2014 16:28:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 22 May 2014 16:29:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-New from V2:
+Being able to interact with the python context in the Bitbake task execution
+environment has long been desirable. This patch introduces such a
+mechanism. Executing "bitbake X -c devpyshell" will open a terminal connected
+to a python interactive interpretor in the task context so for example you can
+run commands like "d.getVar('WORKDIR')"
 
-(*) removed the old patch for eglinfo and updated the recipe to a newer 
-version.
-(*) renamed libmesa-megadriver to mesa-megadriver
+This version fixes various issues with the previous RFC version from a
+while ago and generally seems to work effectively.
 
-The changes are available at :
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-  git://git.yoctoproject.org/poky-contrib vpopa/mesa
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=vpopa/mesa
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index 92edb9e..a8e707d 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -31,3 +31,79 @@ python () {
+        d.setVarFlag("do_devshell", "manualfakeroot", "1")
+        d.delVarFlag("do_devshell", "fakeroot")
+ } 
++
++python do_devpyshell() {
++    m, s = os.openpty()
++    sname = os.ttyname(s)
++    os.system('stty cs8 -icanon min 1 -isig -echo -F %s > /dev/null 2> /dev/null' % sname)
++    pid = os.fork()
++    if pid:
++        oe_terminal("oepydevshell-internal.py %s" % sname, 'OpenEmbedded Developer PyShell', d)
++        os._exit(0)
++    else:
++        os.dup2(m, sys.stdin.fileno())
++        os.dup2(m, sys.stdout.fileno())
++        os.dup2(m, sys.stderr.fileno())
++        os.close(s)
++
++        sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
++
++        bb.utils.nonblockingfd(sys.stdout)
++        bb.utils.nonblockingfd(sys.stderr)
++        bb.utils.nonblockingfd(sys.stdin)
++
++        _context = {
++            "os": os,
++            "bb": bb,
++            "time": time,
++            "d": d,
++        }
++
++        import code, select
++
++        ps1 = "pydevshell> "
++        ps2 = "... "
++        buf = []
++        more = False
++        try:
++            i = code.InteractiveInterpreter(locals=_context)
++            print("OE PyShell (PN = %s)\n" % d.getVar("PN", True))
++
++            def prompt(more):
++                if more:
++                    prompt = ps2
++                else:
++                    prompt = ps1
++                sys.stdout.write(prompt)
++
++            prompt(more)
++            while True:
++                try:
++                    try:
++                        (r, _, _) = select.select([sys.stdin], [], [], 1)
++                        if not r:
++                            continue
++                        line = sys.stdin.readline().strip()
++                    except EOFError as e:
++                        sys.stdout.write("\n")
++                    except (OSError, IOError) as e:
++                        if e.errno == 11:
++                            continue
++                        raise
++                    else:
++                        buf.append(line)
++                        source = "\n".join(buf)
++                        more = i.runsource(source, "<pyshell>")
++                        if not more:
++                            buf = []
++                        prompt(more)
++                except KeyboardInterrupt:
++                    i.write("\nKeyboardInterrupt\n")
++                    buf = []
++                    more = False
++        except Exception as e:
++            bb.fatal(str(e))
++}
++addtask devpyshell after do_patch
++
++do_devpyshell[nostamp] = "1"
+diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
+new file mode 100755
+index 0000000..11bb828
+--- /dev/null
++++ b/scripts/oepydevshell-internal.py
+@@ -0,0 +1,54 @@
++#!/usr/bin/env python
++
++import os
++import sys
++import time
++import select
++import fcntl
++
++def nonblockingfd(fd):
++    fcntl.fcntl(fd, fcntl.F_SETFL, fcntl.fcntl(fd, fcntl.F_GETFL) | os.O_NONBLOCK)
++
++if len(sys.argv) != 2:
++    print("Incorrect parameters")
++    sys.exit(1)
++
++try:
++    pty = open(sys.argv[1], "w+b", 0)
++    nonblockingfd(pty)
++    nonblockingfd(sys.stdin)
++    # Don't buffer output by line endings
++    sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
++
++    i = ""
++    o = ""
++
++    while True:
++        writers = []
++        if i:
++            writers.append(sys.stdout)
++        if o:
++            writers.append(pty)
++        (ready, _, _) = select.select([pty, sys.stdin], writers , [], 1)
++        try:
++            if pty in ready:
++                i = i + pty.read()
++            if i:
++                # Write a page at a time to avoid overflowing output 
++                # d.keys() is a good way to do that
++                sys.stdout.write(i[:4096])
++                i = i[4096:]
++            if sys.stdin in ready:
++                o = o + sys.stdin.read()
++            if o:
++                pty.write(o)
++                o = ""
++        except (IOError, OSError) as e:
++            if e.errno == 11:
++                continue
++            raise
++except Exception as e:
++    print("Exception in oepydehshell-internal: " + str(e))
++    time.sleep(5)
++
++
 
-
-
-On 05/21/2014 07:49 PM, Valentin Popa wrote:
-> New in V2:
-> (*) eglinfo: patched to compile with mesa10+
-> (*) mesa: upgrade to 10.1.3 - multilib rootfs issue fixed
->
-> The following changes since commit 122079e9b0b513c46ca76993403db4cfa51e858f:
->
->    bitbake: data_smart: Fix an unusual variable reference bug (2014-05-21 16:47:01 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib vpopa/mesa
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=vpopa/mesa
->
-> Valentin Popa (4):
->    dri3proto: add it to oe-core
->    libxshmfence: add it to oe-core
->    mesa: upgrade to 10.1.3
->    eglinfo: patched to compile with mesa10+
->
->   meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb    |  2 ++
->   meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb   |  2 ++
->   meta/recipes-graphics/eglinfo/eglinfo.inc          |  4 ++-
->   .../0001-eglinfo-x11-change-constant-name.patch    | 33 ++++++++++++++++++++
->   .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |  0
->   meta/recipes-graphics/mesa/mesa.inc                | 36 ++++++++++++++--------
->   .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |  4 +--
->   meta/recipes-graphics/mesa/mesa_git.bb             |  4 +--
->   meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb | 17 ++++++++++
->   meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb  | 14 +++++++++
->   10 files changed, 99 insertions(+), 17 deletions(-)
->   create mode 100644 meta/recipes-graphics/eglinfo/eglinfo/0001-eglinfo-x11-change-constant-name.patch
->   rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
->   rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
->   create mode 100644 meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb
->   create mode 100644 meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb
->
 
 
