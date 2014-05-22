@@ -1,35 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f52.google.com (unknown [209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 922D566117
+Return-Path: <denis@denix.org>
+Received: from vms173019pub.verizon.net (unknown [206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B32D6116C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 18:56:39 +0000 (UTC)
-Received: by mail-yh0-f52.google.com with SMTP id z6so3352030yhz.39
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 May 2014 11:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=+KEbkH8EUq63+LrLYxVqvXthG25mXi7TYF7UCPtTJFM=;
-	b=V52gvR8CGWa0WCTLuItLdPH9udnBKSPnpOWvLmkXD2QxuFU5ojHrmCRk00NeBqVKvi
-	jKM44wx3alDw4KqOEj93fBT/PU0dgKfKUwR/vtBFQpa3ZPyT/ZzfI1L6fPRSeVp5qogv
-	SPFXU4xqUOV2wBV+HzZYaiQ4AutnNtJVU5epdpAFefEN5/mGyP242XpZg4vQyiXlGmAO
-	SHUWNcXXUkmCTInfAQ0qQ/13zw6xW6HpeiZRqV638YZkQY7NfywLeTD4bxqqRJ/6Wcyf
-	Xx0L4WINIKvEWWGuwfdCxHN42JVQ+p0r7gh82BhHNF1lo/wueLgraG0GcIkVDid73kjo
-	4Muw==
-MIME-Version: 1.0
-X-Received: by 10.236.180.169 with SMTP id j29mr86660587yhm.47.1400785000486; 
-	Thu, 22 May 2014 11:56:40 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.166.213 with HTTP; Thu, 22 May 2014 11:56:40 -0700 (PDT)
-In-Reply-To: <537E464F.10700@linux.intel.com>
+	Thu, 22 May 2014 19:09:59 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N5Z00MVRP7UDL00@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 22 May 2014 14:09:46 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 620D22016D; Thu,
+	22 May 2014 15:09:28 -0400 (EDT)
+Date: Thu, 22 May 2014 15:09:28 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-id: <20140522190928.GC27324@denix.org>
 References: <1400783274-7258-1-git-send-email-otavio@ossystems.com.br>
 	<537E464F.10700@linux.intel.com>
-Date: Thu, 22 May 2014 15:56:40 -0300
-X-Google-Sender-Auth: AMKUgG-V-q0CKZ2EBBDng2qF0vU
-Message-ID: <CAP9ODKrmQu+dSDm-5xQUDDsLn+wG9Y96Hj-GRkQunqFyTw4kig@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>, Denys Dmytriyenko <denys@ti.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+	<CAP9ODKrmQu+dSDm-5xQUDDsLn+wG9Y96Hj-GRkQunqFyTw4kig@mail.gmail.com>
+MIME-version: 1.0
+In-reply-to: <CAP9ODKrmQu+dSDm-5xQUDDsLn+wG9Y96Hj-GRkQunqFyTw4kig@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
 Subject: Re: [daisy-backport][PATCH 0/6] Daisy backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,52 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 May 2014 18:56:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 May 2014 19:10:00 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Hello,
+On Thu, May 22, 2014 at 03:56:40PM -0300, Otavio Salvador wrote:
+> Hello,
+> 
+> (Adding Denys in Cc)
+> 
+> On Thu, May 22, 2014 at 3:47 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > On 05/22/2014 11:27 AM, Otavio Salvador wrote:
+> >>
+> >> Hello,
+> >>
+> >> Those are the changes I have in my local backport branch which I run
+> >> on top of 'sgw/daisy' branch.
+> >>
+> >> Chen Qi (2):
+> >>    tcf-agent: add systemd support
+> >>    gdb: add PACKAGECONFIG for babeltrace
+> >>
+> > These are already in my branch
+> 
+> Good.
+> 
+> >> Denys Dmytriyenko (3):
+> >>    cryptodev-linux: move to recipes-kernel to be shared with module and
+> >>      tests
+> >>    cryptodev-linux: create common .inc file to be shared by module and
+> >>      tests
+> >>    cryptodev-tests: recipe for cryptodev test suite based on OpenSSL
+> >>
+> > I have pulled these for testing, but we don't normally enable new
+> > functionality in point releases.  I would like to get a clear justification
+> > as to why these are needed to be back-ported.
+> >
+> > Please provide more details on the cryptodev functionality and why it should
+> > be backported.
+> 
+> We need those to use crypto support in some SoC as is the case for
+> Freescale (in meta-fsl-arm) and TI (in meta-ti). Unfortunately this
+> has been sent late in the release but with the drop of ocf-linux it
+> makes sense to provide cryptodev in my opinion.
+> 
+> Denys?
 
-(Adding Denys in Cc)
+Did you miss the 4th patch in the series adding the actual cryptodev-module?
 
-On Thu, May 22, 2014 at 3:47 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 05/22/2014 11:27 AM, Otavio Salvador wrote:
->>
->> Hello,
->>
->> Those are the changes I have in my local backport branch which I run
->> on top of 'sgw/daisy' branch.
->>
->> Chen Qi (2):
->>    tcf-agent: add systemd support
->>    gdb: add PACKAGECONFIG for babeltrace
->>
-> These are already in my branch
-
-Good.
-
->> Denys Dmytriyenko (3):
->>    cryptodev-linux: move to recipes-kernel to be shared with module and
->>      tests
->>    cryptodev-linux: create common .inc file to be shared by module and
->>      tests
->>    cryptodev-tests: recipe for cryptodev test suite based on OpenSSL
->>
-> I have pulled these for testing, but we don't normally enable new
-> functionality in point releases.  I would like to get a clear justification
-> as to why these are needed to be back-ported.
->
-> Please provide more details on the cryptodev functionality and why it should
-> be backported.
-
-We need those to use crypto support in some SoC as is the case for
-Freescale (in meta-fsl-arm) and TI (in meta-ti). Unfortunately this
-has been sent late in the release but with the drop of ocf-linux it
-makes sense to provide cryptodev in my opinion.
-
-Denys?
+Otherwise I'd support this backport. ocf-linux was dropped before the release, 
+but complete cryptodev replacement didn't make in time for the release and was 
+added afterwards. The partial cryptodev support was for the header file only 
+and assumed that the kernel had been patched with the rest of cryptodev device 
+driver...
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Denys
 
