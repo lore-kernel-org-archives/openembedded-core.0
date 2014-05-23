@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (unknown [209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DB706A9C4
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (unknown [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A436F6B7CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 16:33:43 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id l6so8359650qcy.37
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 09:33:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=avJ6lj4IBmdh1MW8Ox47PNRlpt61UOoKv+T0cMwKMYY=;
-	b=V0nDlnat3NXz/ZyeQTzmpTEV+mcq8d6KpWaYuaeK1NaSzUTtBrPA/w0OcaJpTFGLz7
-	vGz6Xp96TJAP3LF7NWtXKrLG9Z7eSaaWgbhwCDjQxMI2NDMuAuShMn3Tkr5FSlJVzGDu
-	d6TmhLPOSshBJoh/RN6arLupJIcJoyJG+nUbNZTrsVAqotrLJblC9igUqaWLOUVk/mun
-	Rw6CrnhcFAr7b+xkO8t+o0QeS1e9QD/gdVmtd1LVHYoHdH/4HWDdfbigMwezY4dw9kOG
-	i96i9LEACHrxe2h1g8gHhldUwx+1xjckrQ0KpjvyjQCDpNY0hm6WqVCgzMD9y3KmKPvl
-	9Gwg==
-X-Gm-Message-State: ALoCoQnP7wIuLPE3FYiOBEKnG4NeduCXr97TCwzHE+KcNQDgZ6UMsPteaGLXLXQu8kdaM9R1ObmX
-X-Received: by 10.224.43.211 with SMTP id x19mr8058434qae.17.1400862824347;
-	Fri, 23 May 2014 09:33:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Fri, 23 May 2014 09:33:24 -0700 (PDT)
-In-Reply-To: <CAJTo0LbMGfDFMre2dNJXZ73R2NNzjtHyso_4orZT4yv0oc_OpA@mail.gmail.com>
-References: <1400825337-3955-1-git-send-email-b40527@freescale.com>
-	<CAJTo0LbMGfDFMre2dNJXZ73R2NNzjtHyso_4orZT4yv0oc_OpA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 23 May 2014 17:33:24 +0100
-Message-ID: <CAJTo0Laqj7cauEEEor5Us3TonSfeiPkOC=f3V5PvS2dEMCrW2g@mail.gmail.com>
-To: "b40527@freescale.com" <b40527@freescale.com>
-Cc: Zongchun Yu <Zongchun.Yu@freescale.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2][v2] doxygen-native: add recipe
+	Fri, 23 May 2014 16:51:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 May 2014 09:45:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,894,1392192000"; d="scan'208";a="545621627"
+Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
+	by orsmga002.jf.intel.com with ESMTP; 23 May 2014 09:50:54 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Fri, 23 May 2014 09:57:59 -0700
+Message-Id: <b3bebaeb85b2dbd47744319dbd3bcf38f452537a.1400864279.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH] linux-yocto-dev: Dynamic SRCREV update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +30,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 16:33:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 23 May 2014 16:51:09 -0000
 
-On 23 May 2014 14:49, Burton, Ross <ross.burton@intel.com> wrote:
-> Whilst this recipe works, I wonder if it would be more useful if it
-> were cross-compilable and used BBCLASSEXTEND to become native.
+The current implementation would result in the default SRCREVs being
+used by the fetcher, even though the anonymous python would update them
+to AUTOREV. This appears to be something to do with early parsing
+bitbake black magic.
 
-"That can't be too hard" I thought.  "Surely something as common as
-doxygen has a reasonable build system" I thought.
+This patch ensures the default is never assigned if we are actually
+building the recipe by using a function to assign it in the first place.
 
-When scratching an itch I discovered that Qt had written another build
-system (I make that three so far), but this branch appears to be able
-to build both target and native doxygen binaries:
+The USE_DEFAULT* variables are removed as they are not necessary to
+allow for overriding the SRCREVs.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/doxy
+The anonymous python parse check is moved closer to the top of the
+recipe to be a bit more logically representative of its intended
+purpose.
 
-Apart from the TODO in the recipe that needs to be resolved, it's
-entirely untested on both host and target.
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb |   29 ++++++++++----------------
+ 1 file changed, 11 insertions(+), 18 deletions(-)
 
-Ross
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 5e09720..9b49eee 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -11,37 +11,30 @@
+ inherit kernel
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-USE_MACHINE_AUTOREV ?= "1"
+-USE_META_AUTOREV ?= "1"
+-
+ # provide this .inc to set specific revisions
+ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+ 
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
++# by the use of AUTOREV SRCREVs, which are the default for this recipe.
++python () {
++    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-dev":
++        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-dev to enable it")
++}
++
+ KBRANCH = "standard/base"
+ KBRANCH_DEFAULT = "${KBRANCH}"
+ KMETA = "meta"
+ 
+-SRC_URI = "git://git.pokylinux.org/linux-yocto-dev.git;nocheckout=1;branch=${KBRANCH},${KMETA};name=machine,meta"
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+ # Set default SRCREVs. Both the machine and meta SRCREVs are statically set
+ # to the korg v3.7 tag, and hence prevent network access during parsing. If
+ # linux-yocto-dev is the preferred provider, they will be overridden to
+ # AUTOREV in following anonymous python routine and resolved when the
+ # variables are finalized.
+-SRCREV_machine ?= "29594404d7fe73cd80eaa4ee8c43dcc53970c60e"
+-SRCREV_meta ?= "29594404d7fe73cd80eaa4ee8c43dcc53970c60e"
+-
+-python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-dev":
+-        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-dev to enable it")
+-    else:
+-        # if the revisions have been changed from the defaults above we leave them
+-        # alone. But if the defaults are left, we change to AUTOREV.
+-        if d.getVar("USE_MACHINE_AUTOREV", True) == "1":
+-            d.setVar("SRCREV_machine", "${AUTOREV}")
+-        if d.getVar("USE_META_AUTOREV", True) == "1":
+-            d.setVar("SRCREV_meta", "${AUTOREV}")
+-}
++SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
++SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+ LINUX_VERSION ?= "3.14+"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+-- 
+1.7.9.5
+
 
