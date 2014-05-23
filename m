@@ -1,26 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (unknown [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F7BC6A9C4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f178.google.com (unknown [209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DB706A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 16:32:53 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 23 May 2014 09:27:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,894,1392192000"; d="scan'208";a="545614199"
-Received: from bidesilv-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.159])
-	by orsmga002.jf.intel.com with ESMTP; 23 May 2014 09:32:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 23 May 2014 17:32:51 +0100
-Message-ID: <1465921.q8qNxzHDdz@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.4-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <cover.1400861586.git.sgw@linux.intel.com>
-References: <cover.1400861586.git.sgw@linux.intel.com>
+	Fri, 23 May 2014 16:33:43 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id l6so8359650qcy.37
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 May 2014 09:33:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=avJ6lj4IBmdh1MW8Ox47PNRlpt61UOoKv+T0cMwKMYY=;
+	b=V0nDlnat3NXz/ZyeQTzmpTEV+mcq8d6KpWaYuaeK1NaSzUTtBrPA/w0OcaJpTFGLz7
+	vGz6Xp96TJAP3LF7NWtXKrLG9Z7eSaaWgbhwCDjQxMI2NDMuAuShMn3Tkr5FSlJVzGDu
+	d6TmhLPOSshBJoh/RN6arLupJIcJoyJG+nUbNZTrsVAqotrLJblC9igUqaWLOUVk/mun
+	Rw6CrnhcFAr7b+xkO8t+o0QeS1e9QD/gdVmtd1LVHYoHdH/4HWDdfbigMwezY4dw9kOG
+	i96i9LEACHrxe2h1g8gHhldUwx+1xjckrQ0KpjvyjQCDpNY0hm6WqVCgzMD9y3KmKPvl
+	9Gwg==
+X-Gm-Message-State: ALoCoQnP7wIuLPE3FYiOBEKnG4NeduCXr97TCwzHE+KcNQDgZ6UMsPteaGLXLXQu8kdaM9R1ObmX
+X-Received: by 10.224.43.211 with SMTP id x19mr8058434qae.17.1400862824347;
+	Fri, 23 May 2014 09:33:44 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Daisy - Initial Pull 000/111] Please Review
+Received: by 10.140.101.77 with HTTP; Fri, 23 May 2014 09:33:24 -0700 (PDT)
+In-Reply-To: <CAJTo0LbMGfDFMre2dNJXZ73R2NNzjtHyso_4orZT4yv0oc_OpA@mail.gmail.com>
+References: <1400825337-3955-1-git-send-email-b40527@freescale.com>
+	<CAJTo0LbMGfDFMre2dNJXZ73R2NNzjtHyso_4orZT4yv0oc_OpA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 23 May 2014 17:33:24 +0100
+Message-ID: <CAJTo0Laqj7cauEEEor5Us3TonSfeiPkOC=f3V5PvS2dEMCrW2g@mail.gmail.com>
+To: "b40527@freescale.com" <b40527@freescale.com>
+Cc: Zongchun Yu <Zongchun.Yu@freescale.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2][v2] doxygen-native: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 16:32:54 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 23 May 2014 16:33:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Saul,
+On 23 May 2014 14:49, Burton, Ross <ross.burton@intel.com> wrote:
+> Whilst this recipe works, I wonder if it would be more useful if it
+> were cross-compilable and used BBCLASSEXTEND to become native.
 
-On Friday 23 May 2014 09:19:05 Saul Wold wrote:
-> Here is the first pass at fixes, a number of these are requests
-> from the list, along with the 29 CVE Fixes.
+"That can't be too hard" I thought.  "Surely something as common as
+doxygen has a reasonable build system" I thought.
 
-Are you sure this was generated with the right starting revision? At least the 
-"u-boot: fix beaglebone boot issue with large kernel images" patch from Denys 
-is already on the daisy branch.
+When scratching an itch I discovered that Qt had written another build
+system (I make that three so far), but this branch appears to be able
+to build both target and native doxygen binaries:
 
-Cheers,
-Paul
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/doxy
 
--- 
+Apart from the TODO in the recipe that needs to be resolved, it's
+entirely untested on both host and target.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
