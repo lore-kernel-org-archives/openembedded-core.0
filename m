@@ -1,27 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D1DB065D1A
+Received: from mga02.intel.com (unknown [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 463E06B8B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 17:47:50 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 23 May 2014 10:47:51 -0700
+	Fri, 23 May 2014 17:48:11 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 May 2014 10:48:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,895,1392192000"; d="scan'208";a="436155243"
-Received: from unknown (HELO [10.255.12.174]) ([10.255.12.174])
-	by azsmga001.ch.intel.com with ESMTP; 23 May 2014 10:47:51 -0700
-Message-ID: <537F89C6.6060707@linux.intel.com>
-Date: Fri, 23 May 2014 10:47:50 -0700
+X-IronPort-AV: E=Sophos;i="4.98,895,1392192000"; d="scan'208";a="545646110"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.174])
+	by orsmga002.jf.intel.com with ESMTP; 23 May 2014 10:48:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	Darren Hart <dvhart@linux.intel.com>,
-	rongqing.li@windriver.com, openembedded-core@lists.openembedded.org
-References: <1400554188-19458-1-git-send-email-rongqing.li@windriver.com>	<537CE5CB.8030402@linux.intel.com>
-	<537D5BCE.60202@windriver.com>
-In-Reply-To: <537D5BCE.60202@windriver.com>
-Subject: Re: [PATCH 1/2] initramfs-live-install: avoid using grub.d/40_custom
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 May 2014 10:48:09 -0700
+Message-Id: <cover.1400867127.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 00/18] More patches!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,119 +27,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 17:47:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 May 2014 17:48:14 -0000
 
-On 05/21/2014 07:07 PM, Robert Yang wrote:
->
-> On 05/22/2014 01:43 AM, Darren Hart wrote:
->> On 5/19/14, 19:49, rongqing.li@windriver.com wrote:
->>> From: Robert Yang <liezhi.yang@windriver.com>
->>
->> Hi Robert,
->>
->> Just to clarify - there is no Patch 2/2 right?
->
-> Hi Darren,
->
-> Thanks, there is [PATCH 2/2] grub-2.00: remove our 40_custom:
->
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-May/092736.html
->
+Richard,
 
-There is a small issue still, the 40_custom is still mentioned in both 
-grub_git.bb and initrdscripts/files/init-install-testfs.sh
+We are catching up, here are some more patches and updates that
+have been run throught the Autobuilder.
+I am including Robert's initramfs chance as it's ok standalone,
+I believe he will address the other parts of removing the 40_custom
+next week.
 
-Sau!
+Thanks
+	Sau!
+The following changes since commit f1727bb18f35ff01e53d3d442a6ff3c613639fa6:
 
->
-> I'm a little busy recently, so Roy helped me forward porting this patch,
-> please see my comments below.
->
->>
->>> We have this in recipes-bsp/grub/grub/40_custom:
->>>
->>> [snip]
->>> menuentry "Linux" {
->>>      set root=(hd0,1)
->>>      linux /vmlinuz root=__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__
->>> __VGA_MODE__
->>> quiet
->>> }
->>> [snip]
->>>
->>> These lines are only for initrdscripts/files/init-install.sh, the side
->>> effect is that it would make the target's grub-mkconfig doesn't work
->>> well since the 40_custom will be installed to /etc/grub.d/40_custom, the
->>> grub-mkconfig will run the 40_custom, and there will always be a
->>> 'menuentry "Linux"' menu in grub.cfg no matter it is valid or not, we
->>> can do this in init-install.sh rather than grub to fix the problem,
->>> which is also much simpler.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>   meta/recipes-core/initrdscripts/files/init-install.sh |   15
->>> +++++++--------
->>>   1 file changed, 7 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh
->>> b/meta/recipes-core/initrdscripts/files/init-install.sh
->>> index 8e433d5..0ede928 100644
->>> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
->>> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
->>> @@ -168,17 +168,16 @@ umount /src_root
->>>   # Handling of the target boot partition
->>>   mount $bootfs /boot
->>>   echo "Preparing boot partition..."
->>> -if [ -f /etc/grub.d/40_custom ] ; then
->>> +if [ -f /etc/grub.d/00_header ] ; then
->>>       echo "Preparing custom grub2 menu..."
->>>       GRUBCFG="/boot/grub/grub.cfg"
->>>       mkdir -p $(dirname $GRUBCFG)
->>> -    cp /etc/grub.d/40_custom $GRUBCFG
->>> -    sed -i "s@__ROOTFS__@$rootfs $rootwait@g" $GRUBCFG
->>> -    sed -i "s/__VIDEO_MODE__/$3/g" $GRUBCFG
->>> -    sed -i "s/__VGA_MODE__/$4/g" $GRUBCFG
->>> -    sed -i "s/__CONSOLE__/$5/g" $GRUBCFG
->>> -    sed -i "/#/d" $GRUBCFG
->>> -    sed -i "/exec tail/d" $GRUBCFG
->>> +    cat >$GRUBCFG <<_EOF
->>> +menuentry "Linux" {
->>> +    set root=(hd0,1)
->>> +    linux /vmlinuz root=$rootfs $rootwait rw $5 $3 $4 quiet
->>> +}
->>> +_EOF
->>
->> OK, seems like a reasonable incremental change. What becomes of the
->> 40_custom
->> file itself? Should that be removed from the grub recipe as well?
->
-> I'm afraid that the grub's 40_custom should be kept as other distro does:
->
-> === begin ===
-> #!/bin/sh
-> exec tail -n +3 $0
-> # This file provides an easy way to add custom menu entries.  Simply
-> type the
-> # menu entries you want to add after this comment.  Be careful not to
-> change
-> # the 'exec tail' line above.
-> === end ===
->
-> The problem is that recipes-bsp/grub/grub/40_custom has added unneeded
-> lines.
->
->>
->> Does the BSP variable "APPEND" get incorporated here anywhere? It's
->> looking like
->> it isn't - or maybe I'm missing it?
->
-> Sorry, what do you mean about this, please ?
->
-> // Robert
->
->>
->> Thanks,
->>
+  guile: Update to 2.0.11 version (2014-05-21 10:50:37 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Cristian Iorga (1):
+  bluez5: upgrade to 5.19
+
+Peter Seebach (1):
+  pseudo: handle fchmodat better, mask out unwanted write bits
+
+Philip Balister (1):
+  python-native : Add patch to fix configure error with gcc 4.8.
+
+Richard Purdie (1):
+  taglib: Force a disable of the floating dependency on boost
+
+Robert Yang (1):
+  initramfs-live-install: avoid using grub.d/40_custom
+
+Ross Burton (1):
+  perl: stop perl-modules recommending perl-ptest
+
+Roy Li (2):
+  lttng-tools: fix alignment issue
+  babeltrace: fix alignment issue
+
+Sebastian Wiegand (1):
+  distro_features_check.bbclass: fix searching whole list
+
+Tim Orling (4):
+  mirrors.bbclass: add ${CPAN_MIRROR} option
+  bitbake.conf: add default ${CPAN_MIRROR}
+  wayland: upgrade to 1.5.0
+  weston: upgrade to 1.5.0
+
+Valentin Popa (4):
+  dri3proto: add it to oe-core
+  libxshmfence: add it to oe-core
+  mesa: upgrade to 10.1.3
+  eglinfo: updated to compile with mesa10+
+
+yanjun.zhu (1):
+  perl: fix for CVE-2010-4777
+
+ meta/classes/distro_features_check.bbclass         |   6 +-
+ meta/classes/mirrors.bbclass                       |   2 +
+ meta/conf/bitbake.conf                             |   1 +
+ meta/recipes-connectivity/bluez5/bluez5_5.18.bb    |   3 -
+ meta/recipes-connectivity/bluez5/bluez5_5.19.bb    |   3 +
+ .../initrdscripts/files/init-install.sh            |  15 ++-
+ .../perl-5.14.3-fix-CVE-2010-4777.patch            |  45 +++++++++
+ meta/recipes-devtools/perl/perl-native_5.14.3.bb   |   3 +-
+ meta/recipes-devtools/perl/perl_5.14.3.bb          |  10 +-
+ .../pseudo/files/pseudo-fchmodat-permissions.patch | 107 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |   3 +-
+ .../recipes-devtools/python/python-native_2.7.3.bb |   1 +
+ meta/recipes-graphics/eglinfo/eglinfo.inc          |   2 +-
+ .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |   0
+ meta/recipes-graphics/mesa/mesa.inc                |  36 ++++---
+ .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |   4 +-
+ meta/recipes-graphics/mesa/mesa_git.bb             |   4 +-
+ ...disable-macro-checks-not-used-for-scanner.patch |   2 +-
+ .../wayland/wayland/just-scanner.patch             |  49 ----------
+ .../wayland/{wayland_1.4.0.bb => wayland_1.5.0.bb} |   7 +-
+ ...emove-dependence-on-wayland-scanner-flags.patch |  30 ------
+ .../weston/disable-wayland-scanner-pkg-check.patch |  13 +++
+ .../wayland/weston/make-lcms-configurable.patch    |  22 +++++
+ .../wayland/{weston_1.4.0.bb => weston_1.5.0.bb}   |  13 ++-
+ meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb |  17 ++++
+ meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb  |  14 +++
+ ...uffers-from-objstack_alloc-on-sizeof-void.patch |  54 +++++++++++
+ meta/recipes-kernel/lttng/babeltrace_1.2.1.bb      |   4 +-
+ ...nt-problems-on-targets-not-supporting-una.patch |  47 +++++++++
+ meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb     |   1 +
+ meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     |   1 +
+ meta/recipes-support/taglib/taglib_1.9.1.bb        |   2 +
+ 32 files changed, 396 insertions(+), 125 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.18.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.19.bb
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/perl-5.14.3-fix-CVE-2010-4777.patch
+ create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/just-scanner.patch
+ rename meta/recipes-graphics/wayland/{wayland_1.4.0.bb => wayland_1.5.0.bb} (89%)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
+ rename meta/recipes-graphics/wayland/{weston_1.4.0.bb => weston_1.5.0.bb} (88%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb
+ create mode 100644 meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace/Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+
+-- 
+1.8.3.1
+
 
