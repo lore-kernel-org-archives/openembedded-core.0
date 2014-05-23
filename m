@@ -1,25 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AB1F56116C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id D26FC65EDC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 14:58:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 May 2014 07:58:15 -0700
+	Fri, 23 May 2014 16:19:06 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 23 May 2014 09:19:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,894,1392192000"; d="scan'208";a="543964035"
-Received: from bidesilv-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.159])
-	by fmsmga002.fm.intel.com with ESMTP; 23 May 2014 07:58:10 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.98,894,1392192000"; d="scan'208";a="436123029"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.174])
+	by azsmga001.ch.intel.com with ESMTP; 23 May 2014 09:19:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 May 2014 15:57:54 +0100
-Message-Id: <3386444beeeda6e9987e00a783c2677337d189a1.1400856941.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <cover.1400856941.git.paul.eggleton@linux.intel.com>
-References: <cover.1400856941.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1400856941.git.paul.eggleton@linux.intel.com>
-References: <cover.1400856941.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] qt4: upgrade to version 4.8.6
+Date: Fri, 23 May 2014 09:19:05 -0700
+Message-Id: <cover.1400861586.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [Daisy - Initial Pull 000/111] Please Review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,657 +28,413 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 14:58:14 -0000
+X-List-Received-Date: Fri, 23 May 2014 16:19:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Remove patches merged upstream
-* Add a qtscript translation package for an additional .qm file added in
-  this release
+Richard,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- ...tools_4.8.5.bb => nativesdk-qt4-tools_4.8.6.bb} |   4 +-
- ...0020-webkit-disable-the-fuse-ld-gold-flag.patch |  41 ------
- ...-of-0-width-polylines-from-outside-the-de.patch | 148 ---------------------
- ...art-fix-data-corruption-in-readData-metho.patch |  43 ------
- ...Pixel.y-is-also-initalized-to-1-when-nece.patch |  48 -------
- ...ned-selection-region-with-text-when-cente.patch |  75 -----------
- .../qt4/{qt4-4.8.5.inc => qt4-4.8.6.inc}           |   9 +-
- ...o-allow-to-set-qt.conf-from-the-outside-u.patch |   0
- ...tty_qws-fix-build-with-old-kernel-headers.patch |   0
- ...003-webkit2-set-OUTPUT_DIR-value-if-empty.patch |   0
- ...make-is-already-built-in-qt4-tools-native.patch |   0
- ...e-set-LFLAGS-to-pick-up-zlib-from-staging.patch |   0
- ...se-OE_QMAKE_-values-to-specify-Qt-utility.patch |   0
- ...-const-usage-that-causes-compile-failure-.patch |   0
- ...llow-building-a-separate-qmake-for-the-ta.patch |   0
- ...e-fix-source-file-references-in-qmake.pri.patch |   0
- ...ack-to-not-use-the-pg_config-of-the-host-.patch |   0
- .../0011-freetype-host-includes.patch              |   0
- .../0012-Add-2bpp-support.patch                    |   0
- .../0013-configure-add-crossarch-option.patch      |   0
- ...tions-fix-phony-translation-linking-error.patch |   0
- ...-configure-add-nostrip-for-debug-packages.patch |   0
- .../0016-configure-eval-QMAKE_CXX.patch            |   0
- ...nsure-we-identify-the-compiler-as-g-in-co.patch |   0
- ...ure-make-pulseaudio-a-configurable-option.patch |   0
- ...xes-for-gcc-4.7.0-particularly-on-qemux86.patch |   0
- ...ake-qt4-native-work-with-long-building-pa.patch |   0
- ...ls.pro-disable-qmeegographicssystemhelper.patch |   0
- .../qt4/{qt4-4.8.5 => qt4-4.8.6}/g++.conf          |   0
- .../qt4/{qt4-4.8.5 => qt4-4.8.6}/linux.conf        |   0
- .../recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/qte.sh |   0
- ...qt4-embedded_4.8.5.bb => qt4-embedded_4.8.6.bb} |   0
- meta/recipes-qt/qt4/qt4-native_4.8.5.bb            |   6 -
- meta/recipes-qt/qt4/qt4-native_4.8.6.bb            |   6 +
- ...qt4-x11-free_4.8.5.bb => qt4-x11-free_4.8.6.bb} |   0
- meta/recipes-qt/qt4/qt4.inc                        |   2 +-
- 36 files changed, 11 insertions(+), 371 deletions(-)
- rename meta/recipes-qt/qt4/{nativesdk-qt4-tools_4.8.5.bb => nativesdk-qt4-tools_4.8.6.bb} (44%)
- delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0020-webkit-disable-the-fuse-ld-gold-flag.patch
- delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch
- delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
- delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0024-Ensure-lastPixel.y-is-also-initalized-to-1-when-nece.patch
- delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch
- rename meta/recipes-qt/qt4/{qt4-4.8.5.inc => qt4-4.8.6.inc} (82%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0009-qmake-fix-source-file-references-in-qmake.pri.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0011-freetype-host-includes.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0012-Add-2bpp-support.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0013-configure-add-crossarch-option.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0014-translations-fix-phony-translation-linking-error.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0015-configure-add-nostrip-for-debug-packages.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0016-configure-eval-QMAKE_CXX.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0018-configure-make-pulseaudio-a-configurable-option.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0021-configure-make-qt4-native-work-with-long-building-pa.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/0027-tools.pro-disable-qmeegographicssystemhelper.patch (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/g++.conf (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/linux.conf (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.5 => qt4-4.8.6}/qte.sh (100%)
- rename meta/recipes-qt/qt4/{qt4-embedded_4.8.5.bb => qt4-embedded_4.8.6.bb} (100%)
- delete mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.5.bb
- create mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.6.bb
- rename meta/recipes-qt/qt4/{qt4-x11-free_4.8.5.bb => qt4-x11-free_4.8.6.bb} (100%)
+Here is the first pass at fixes, a number of these are requests
+from the list, along with the 29 CVE Fixes.
 
-diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.5.bb b/meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.6.bb
-similarity index 44%
-rename from meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.5.bb
-rename to meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.6.bb
-index 9e5743b..00526b8 100644
---- a/meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.5.bb
-+++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.6.bb
-@@ -2,5 +2,5 @@ require nativesdk-qt4-tools.inc
- 
- SRC_URI += "file://0009-qmake-fix-source-file-references-in-qmake.pri.patch"
- 
--SRC_URI[md5sum] = "1864987bdbb2f58f8ae8b350dfdbe133"
--SRC_URI[sha256sum] = "eb728f8268831dc4373be6403b7dd5d5dde03c169ad6882f9a8cb560df6aa138"
-+SRC_URI[md5sum] = "2edbe4d6c2eff33ef91732602f3518eb"
-+SRC_URI[sha256sum] = "8b14dd91b52862e09b8e6a963507b74bc2580787d171feda197badfa7034032c"
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0020-webkit-disable-the-fuse-ld-gold-flag.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0020-webkit-disable-the-fuse-ld-gold-flag.patch
-deleted file mode 100644
-index 92eddeb..0000000
---- a/meta/recipes-qt/qt4/qt4-4.8.5/0020-webkit-disable-the-fuse-ld-gold-flag.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From d90b496f9ffdc828928ef84afad43260ea67ec1f Mon Sep 17 00:00:00 2001
--From: Ken Werner <ken.werner@linaro.org>
--Date: Wed, 26 Sep 2012 20:55:21 +0200
--Subject: [PATCH 20/21] webkit: disable the -fuse-ld=gold flag
--
--This option is a Debian/Ubuntu specific extension to the g++ and causes upstream GCC to throw an error.
--
--Upstream-Status: Pending
--
--Signed-off-by: Ken Werner <ken.werner@linaro.org>
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- src/3rdparty/webkit/Source/common.pri | 12 ++++++------
-- 1 file changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/src/3rdparty/webkit/Source/common.pri b/src/3rdparty/webkit/Source/common.pri
--index 0f62e14..d81a1f0 100644
----- a/src/3rdparty/webkit/Source/common.pri
--+++ b/src/3rdparty/webkit/Source/common.pri
--@@ -3,12 +3,12 @@
-- contains(JAVASCRIPTCORE_JIT,yes): DEFINES+=ENABLE_JIT=1
-- contains(JAVASCRIPTCORE_JIT,no): DEFINES+=ENABLE_JIT=0
-- 
---linux-g++ {
---isEmpty($$(SBOX_DPKG_INST_ARCH)):exists(/usr/bin/ld.gold) {
---    message(Using gold linker)
---    QMAKE_LFLAGS+=-fuse-ld=gold
---}
---}
--+#linux-g++ {
--+#isEmpty($$(SBOX_DPKG_INST_ARCH)):exists(/usr/bin/ld.gold) {
--+#    message(Using gold linker)
--+#    QMAKE_LFLAGS+=-fuse-ld=gold
--+#}
--+#}
-- 
-- # We use this flag on production branches
-- # See https://bugs.webkit.org/show_bug.cgi?id=60824
---- 
--1.8.0
--
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch
-deleted file mode 100644
-index ad45dd0..0000000
---- a/meta/recipes-qt/qt4/qt4-4.8.5/0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch
-+++ /dev/null
-@@ -1,148 +0,0 @@
--From b7029fbd12c32e851ed7d81b692197176eb71d9e Mon Sep 17 00:00:00 2001
--From: Gunnar Sletta <gunnar.sletta@digia.com>
--Date: Thu, 4 Jul 2013 16:20:40 +1000
--Subject: [PATCH] Fix drawing of 0-width polylines from outside the devicerect.
--
--This was broken by a previous fix which aimed to fix gaps in
--polylines with tiny line segments. The result was that we
--skipped updating the origin point when stroke() didn't produce
--pixels which accidentally included the case of the line
--being completely outside the deviceRect. I fixed this
--by returning the value of clipLine in drawLine to the caller
--so we could still update the origin for this case.
--
--Upstream-Status: Accepted [https://codereview.qt-project.org/#change,60427]
--Signed-off-by: Jonathan Liu <net147@gmail.com>
--
--Task-number: QTBUG-31579
--Change-Id: Iac29436f042da7658bbeaf9370351dc6f2c95065
--(cherry picked from qtbase/900cccfd459fcbdbc4aa3d313afe12cfbf68fd87)
-----
-- src/gui/painting/qcosmeticstroker.cpp | 42 ++++++++++++++++++++++-------------
-- src/gui/painting/qcosmeticstroker_p.h |  2 +-
-- 2 files changed, 27 insertions(+), 17 deletions(-)
--
--diff --git a/src/gui/painting/qcosmeticstroker.cpp b/src/gui/painting/qcosmeticstroker.cpp
--index 0061ecb..4413170 100644
----- a/src/gui/painting/qcosmeticstroker.cpp
--+++ b/src/gui/painting/qcosmeticstroker.cpp
--@@ -133,10 +133,15 @@ struct NoDasher {
-- 
-- };
-- 
--+/*
--+ * The return value is the result of the clipLine() call performed at the start
--+ * of each of the two functions, aka "false" means completely outside the devices
--+ * rect.
--+ */
-- template<DrawPixel drawPixel, class Dasher>
---static void drawLine(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal x2, qreal y2, int caps);
--+static bool drawLine(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal x2, qreal y2, int caps);
-- template<DrawPixel drawPixel, class Dasher>
---static void drawLineAA(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal x2, qreal y2, int caps);
--+static bool drawLineAA(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal x2, qreal y2, int caps);
-- 
-- inline void drawPixel(QCosmeticStroker *stroker, int x, int y, int coverage)
-- {
--@@ -602,17 +607,20 @@ void QCosmeticStroker::drawPath(const QVectorPath &path)
--                 caps |= CapEnd;
-- 
--             QCosmeticStroker::Point last = this->lastPixel;
---            stroke(this, p.x(), p.y(), p2.x(), p2.y(), caps);
--+            bool unclipped = stroke(this, p.x(), p.y(), p2.x(), p2.y(), caps);
-- 
--             /* fix for gaps in polylines with fastpen and aliased in a sequence
--                of points with small distances: if current point p2 has been dropped
---               out, keep last non dropped point p. */
---            if (fastPenAliased) {
---                if (last.x != lastPixel.x || last.y != lastPixel.y ||
---                    points == begin + 2 || points == end - 2 ) {
---                    {
---                        p = p2;
---                    }
--+               out, keep last non dropped point p.
--+
--+               However, if the line was completely outside the devicerect, we
--+               still need to update p to avoid drawing the line after this one from
--+               a bad starting position.
--+            */
--+            if (fastPenAliased && unclipped) {
--+                if (last.x != lastPixel.x || last.y != lastPixel.y
--+                    || points == begin + 2 || points == end - 2) {
--+                    p = p2;
--                 }
--             } else {
--                 p = p2;
--@@ -720,10 +728,10 @@ static inline void capAdjust(int caps, int &x1, int &x2, int &y, int yinc)
--   the drawing shifts from horizontal to vertical or back.
--   */
-- template<DrawPixel drawPixel, class Dasher>
---static void drawLine(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx2, qreal ry2, int caps)
--+static bool drawLine(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx2, qreal ry2, int caps)
-- {
--     if (stroker->clipLine(rx1, ry1, rx2, ry2))
---        return;
--+        return false;
-- 
--     static const int half = 31;
--     int x1 = toF26Dot6(rx1) + half;
--@@ -813,7 +821,7 @@ static void drawLine(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx2,
--     } else {
--         // horizontal
--         if (!dx)
---            return;
--+            return true;
-- 
--         QCosmeticStroker::Direction dir = QCosmeticStroker::LeftToRight;
-- 
--@@ -886,14 +894,15 @@ static void drawLine(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx2,
--         }
--     }
--     stroker->lastPixel = last;
--+    return true;
-- }
-- 
-- 
-- template<DrawPixel drawPixel, class Dasher>
---static void drawLineAA(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx2, qreal ry2, int caps)
--+static bool drawLineAA(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx2, qreal ry2, int caps)
-- {
--     if (stroker->clipLine(rx1, ry1, rx2, ry2))
---        return;
--+        return false;
-- 
--     int x1 = toF26Dot6(rx1);
--     int y1 = toF26Dot6(ry1);
--@@ -967,7 +976,7 @@ static void drawLineAA(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx
--     } else {
--         // horizontal
--         if (!dx)
---            return;
--+            return true;
-- 
--         int yinc = F16Dot16FixedDiv(dy, dx);
-- 
--@@ -1029,6 +1038,7 @@ static void drawLineAA(QCosmeticStroker *stroker, qreal rx1, qreal ry1, qreal rx
--             drawPixel(stroker, x, (y>>16) + 1, alpha * alphaEnd >> 6);
--         }
--     }
--+    return true;
-- }
-- 
-- QT_END_NAMESPACE
--diff --git a/src/gui/painting/qcosmeticstroker_p.h b/src/gui/painting/qcosmeticstroker_p.h
--index 870738b..3216856 100644
----- a/src/gui/painting/qcosmeticstroker_p.h
--+++ b/src/gui/painting/qcosmeticstroker_p.h
--@@ -56,7 +56,7 @@ QT_MODULE(Gui)
-- class QCosmeticStroker;
-- 
-- 
---typedef void (*StrokeLine)(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal x2, qreal y2, int caps);
--+typedef bool (*StrokeLine)(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal x2, qreal y2, int caps);
-- 
-- class QCosmeticStroker
-- {
---- 
--1.8.3.2
--
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
-deleted file mode 100644
-index c3c002e..0000000
---- a/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 1f40ed553e618c3b0511c7db4b4fd26c2d2b65bf Mon Sep 17 00:00:00 2001
--From: Peter Hartmann <phartmann@blackberry.com>
--Date: Thu, 25 Jul 2013 12:05:29 -0400
--Subject: [PATCH] QHttpMultiPart: fix data corruption in readData method
--
--When readData() is called repeatedly, we need to keep track which
--part of the multipart message we are currently reading from.
--Hereby we also need to take the boundary size into account, and not
--only the size of the multipart; otherwise we would skip a not
--completely read part. This would then later lead to advancing the
--read pointer by negative indexes and data loss.
--
--Upstream-Status: Accepted [https://codereview.qt-project.org/#change,61861]
--Signed-off-by: Jonathan Liu <net147@gmail.com>
--
--Task-number: QTBUG-32534
--Change-Id: Ibb6dff16adaf4ea67181d23d1d0c8459e33a0ed0
--Reviewed-by: Jonathan Liu <net147@gmail.com>
--Reviewed-by: Shane Kearns <shane.kearns@accenture.com>
--(cherry picked from qtbase/af96c6fed931564c95037539f07e9c8e33c69529)
--Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
-----
-- src/network/access/qhttpmultipart.cpp          |  3 +-
-- tests/auto/qnetworkreply/tst_qnetworkreply.cpp | 44 ++++++++++++++++++++++++++
-- 2 files changed, 46 insertions(+), 1 deletion(-)
--
--diff --git a/src/network/access/qhttpmultipart.cpp b/src/network/access/qhttpmultipart.cpp
--index 635129a..b25e917 100644
----- a/src/network/access/qhttpmultipart.cpp
--+++ b/src/network/access/qhttpmultipart.cpp
--@@ -488,7 +488,8 @@ qint64 QHttpMultiPartIODevice::readData(char *data, qint64 maxSize)
-- 
--     // skip the parts we have already read
--     while (index < multiPart->parts.count() &&
---           readPointer >= partOffsets.at(index) + multiPart->parts.at(index).d->size())
--+           readPointer >= partOffsets.at(index) + multiPart->parts.at(index).d->size()
--+           + multiPart->boundary.count() + 6) // 6 == 2 boundary dashes, \r\n after boundary, \r\n after multipart
--         index++;
-- 
--     // read the data
---- 
--1.8.3.4
--
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0024-Ensure-lastPixel.y-is-also-initalized-to-1-when-nece.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0024-Ensure-lastPixel.y-is-also-initalized-to-1-when-nece.patch
-deleted file mode 100644
-index 7825205..0000000
---- a/meta/recipes-qt/qt4/qt4-4.8.5/0024-Ensure-lastPixel.y-is-also-initalized-to-1-when-nece.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 0726127285413829f58618b5b82fb3e2da0c3a74 Mon Sep 17 00:00:00 2001
--From: Andy Shaw <andy.shaw@digia.com>
--Date: Tue, 8 Oct 2013 15:45:42 +0200
--Subject: [PATCH] Ensure lastPixel.y is also initalized to -1 when necessary
--
--Task-number: QTBUG-31579
--
--Upstream-Status: Accepted [https://codereview.qt-project.org/#change,67624]
--Signed-off-by: Jonathan Liu <net147@gmail.com>
--
--Change-Id: Ia4916ac0d384ea523bbfad0dafbc90044da7ec3e
--Reviewed-by: Gunnar Sletta <gunnar.sletta@digia.com>
--(cherry picked from qtbase/f0b950144dde85b65df0c3cf83f7c8df0e94bbbf)
-----
-- src/gui/painting/qcosmeticstroker.cpp | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/src/gui/painting/qcosmeticstroker.cpp b/src/gui/painting/qcosmeticstroker.cpp
--index 4413170..36616d4 100644
----- a/src/gui/painting/qcosmeticstroker.cpp
--+++ b/src/gui/painting/qcosmeticstroker.cpp
--@@ -305,6 +305,7 @@ void QCosmeticStroker::setup()
--     ymax = deviceRect.bottom() + 2;
-- 
--     lastPixel.x = -1;
--+    lastPixel.y = -1;
-- }
-- 
-- // returns true if the whole line gets clipped away
--@@ -533,6 +534,7 @@ void QCosmeticStroker::drawPath(const QVectorPath &path)
--             QPointF p = QPointF(points[0], points[1]) * state->matrix;
--             patternOffset = state->lastPen.dashOffset()*64;
--             lastPixel.x = -1;
--+            lastPixel.y = -1;
-- 
--             bool closed;
--             const QPainterPath::ElementType *e = subPath(type, end, points, &closed);
--@@ -587,6 +589,7 @@ void QCosmeticStroker::drawPath(const QVectorPath &path)
--         QPointF movedTo = p;
--         patternOffset = state->lastPen.dashOffset()*64;
--         lastPixel.x = -1;
--+        lastPixel.y = -1;
-- 
--         const qreal *begin = points;
--         const qreal *end = points + 2*path.elementCount();
---- 
--1.8.4
--
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch
-deleted file mode 100644
-index 964bcf8..0000000
---- a/meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch
-+++ /dev/null
-@@ -1,75 +0,0 @@
--From c368cbad3a505d44894ff150dc25c74d0174ca15 Mon Sep 17 00:00:00 2001
--From: Jonathan Liu <net147@gmail.com>
--Date: Wed, 23 Oct 2013 00:28:17 +1100
--Subject: [PATCH] Fix misaligned selection region with text when centered
--
--If the text is centered, the x/y position in the selection QRectF may
--be a multiple of 0.5 which is rounded up. This rounding causes
--misalignment of the selection region with the text.
--
--The alignment is fixed by using qFloor on the x and y components.
--
--Upstream-Status: Accepted [https://codereview.qt-project.org/#change,68935]
--Signed-off-by: Jonathan Liu <net147@gmail.com>
--
--Task-number: QTBUG-34218
--Task-number: QTBUG-34234
--Change-Id: I4f2fadeb38602f62a93773c6e5faecf03b28069f
--Reviewed-by: Gunnar Sletta <gunnar.sletta@digia.com>
--(cherry picked from qtbase/5d8a882c11201a29475c5ea71cfb76c9de6573f5)
-----
-- src/gui/text/qtextlayout.cpp | 19 ++++++++++++++-----
-- 1 file changed, 14 insertions(+), 5 deletions(-)
--
--diff --git a/src/gui/text/qtextlayout.cpp b/src/gui/text/qtextlayout.cpp
--index 3d340cb..8d652ea 100644
----- a/src/gui/text/qtextlayout.cpp
--+++ b/src/gui/text/qtextlayout.cpp
--@@ -44,6 +44,7 @@
-- 
-- #include <qfont.h>
-- #include <qapplication.h>
--+#include <qmath.h>
-- #include <qpainter.h>
-- #include <qvarlengtharray.h>
-- #include <qtextformat.h>
--@@ -979,15 +980,23 @@ static void addSelectedRegionsToPath(QTextEngine *eng, int lineNumber, const QPo
--                 continue;
--             }
-- 
---            if (lastSelectionWidth > 0)
---                region->addRect(boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight));
--+            if (lastSelectionWidth > 0) {
--+                QRectF rect = boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight);
--+                rect.moveLeft(qFloor(rect.left()));
--+                rect.moveTop(qFloor(rect.top()));
--+                region->addRect(rect);
--+            }
-- 
--             lastSelectionX = selectionX;
--             lastSelectionWidth = selectionWidth;
--         }
--     }
---    if (lastSelectionWidth > 0)
---        region->addRect(boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight));
--+    if (lastSelectionWidth > 0) {
--+        QRectF rect = boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight);
--+        rect.moveLeft(qFloor(rect.left()));
--+        rect.moveTop(qFloor(rect.top()));
--+        region->addRect(rect);
--+    }
-- }
-- 
-- static inline QRectF clipIfValid(const QRectF &rect, const QRectF &clip)
--@@ -2081,7 +2090,7 @@ static void setPenAndDrawBackground(QPainter *p, const QPen &defaultPen, const Q
-- 
--     QBrush bg = chf.background();
--     if (bg.style() != Qt::NoBrush && !chf.property(SuppressBackground).toBool())
---        p->fillRect(r, bg);
--+        p->fillRect(QRectF(qFloor(r.x()), qFloor(r.y()), r.width(), r.height()), bg);
--     if (c.style() != Qt::NoBrush) {
--         p->setPen(QPen(c, 0));
--     }
---- 
--1.8.4
--
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
-similarity index 82%
-rename from meta/recipes-qt/qt4/qt4-4.8.5.inc
-rename to meta/recipes-qt/qt4/qt4-4.8.6.inc
-index dcbf26f..c4dd36f 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.5.inc
-+++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
-@@ -20,18 +20,13 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch \
-            file://0018-configure-make-pulseaudio-a-configurable-option.patch \
-            file://0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch \
--           file://0020-webkit-disable-the-fuse-ld-gold-flag.patch \
--           file://0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch \
--           file://0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch \
--           file://0024-Ensure-lastPixel.y-is-also-initalized-to-1-when-nece.patch \
--           file://0025-Fix-misaligned-selection-region-with-text-when-cente.patch \
-            file://0027-tools.pro-disable-qmeegographicssystemhelper.patch \
-            file://g++.conf \
-            file://linux.conf \
-            "
- 
--SRC_URI[md5sum] = "1864987bdbb2f58f8ae8b350dfdbe133"
--SRC_URI[sha256sum] = "eb728f8268831dc4373be6403b7dd5d5dde03c169ad6882f9a8cb560df6aa138"
-+SRC_URI[md5sum] = "2edbe4d6c2eff33ef91732602f3518eb"
-+SRC_URI[sha256sum] = "8b14dd91b52862e09b8e6a963507b74bc2580787d171feda197badfa7034032c"
- 
- S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
- 
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0009-qmake-fix-source-file-references-in-qmake.pri.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0009-qmake-fix-source-file-references-in-qmake.pri.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0009-qmake-fix-source-file-references-in-qmake.pri.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0009-qmake-fix-source-file-references-in-qmake.pri.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0011-freetype-host-includes.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0011-freetype-host-includes.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0011-freetype-host-includes.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0011-freetype-host-includes.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0012-Add-2bpp-support.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0012-Add-2bpp-support.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0012-Add-2bpp-support.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0012-Add-2bpp-support.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0013-configure-add-crossarch-option.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0013-configure-add-crossarch-option.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0013-configure-add-crossarch-option.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0013-configure-add-crossarch-option.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0014-translations-fix-phony-translation-linking-error.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0014-translations-fix-phony-translation-linking-error.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0014-translations-fix-phony-translation-linking-error.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0014-translations-fix-phony-translation-linking-error.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0015-configure-add-nostrip-for-debug-packages.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0015-configure-add-nostrip-for-debug-packages.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0015-configure-add-nostrip-for-debug-packages.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0015-configure-add-nostrip-for-debug-packages.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0016-configure-eval-QMAKE_CXX.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0016-configure-eval-QMAKE_CXX.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0016-configure-eval-QMAKE_CXX.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0016-configure-eval-QMAKE_CXX.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0018-configure-make-pulseaudio-a-configurable-option.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0018-configure-make-pulseaudio-a-configurable-option.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0018-configure-make-pulseaudio-a-configurable-option.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0018-configure-make-pulseaudio-a-configurable-option.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0021-configure-make-qt4-native-work-with-long-building-pa.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0021-configure-make-qt4-native-work-with-long-building-pa.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0021-configure-make-qt4-native-work-with-long-building-pa.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0021-configure-make-qt4-native-work-with-long-building-pa.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0027-tools.pro-disable-qmeegographicssystemhelper.patch b/meta/recipes-qt/qt4/qt4-4.8.6/0027-tools.pro-disable-qmeegographicssystemhelper.patch
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/0027-tools.pro-disable-qmeegographicssystemhelper.patch
-rename to meta/recipes-qt/qt4/qt4-4.8.6/0027-tools.pro-disable-qmeegographicssystemhelper.patch
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/g++.conf b/meta/recipes-qt/qt4/qt4-4.8.6/g++.conf
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/g++.conf
-rename to meta/recipes-qt/qt4/qt4-4.8.6/g++.conf
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/linux.conf b/meta/recipes-qt/qt4/qt4-4.8.6/linux.conf
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/linux.conf
-rename to meta/recipes-qt/qt4/qt4-4.8.6/linux.conf
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/qte.sh b/meta/recipes-qt/qt4/qt4-4.8.6/qte.sh
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-4.8.5/qte.sh
-rename to meta/recipes-qt/qt4/qt4-4.8.6/qte.sh
-diff --git a/meta/recipes-qt/qt4/qt4-embedded_4.8.5.bb b/meta/recipes-qt/qt4/qt4-embedded_4.8.6.bb
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-embedded_4.8.5.bb
-rename to meta/recipes-qt/qt4/qt4-embedded_4.8.6.bb
-diff --git a/meta/recipes-qt/qt4/qt4-native_4.8.5.bb b/meta/recipes-qt/qt4/qt4-native_4.8.5.bb
-deleted file mode 100644
-index 2443cc4..0000000
---- a/meta/recipes-qt/qt4/qt4-native_4.8.5.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require qt4-native.inc
--
--TOBUILD := "src/tools/bootstrap ${TOBUILD}"
--
--SRC_URI[md5sum] = "1864987bdbb2f58f8ae8b350dfdbe133"
--SRC_URI[sha256sum] = "eb728f8268831dc4373be6403b7dd5d5dde03c169ad6882f9a8cb560df6aa138"
-diff --git a/meta/recipes-qt/qt4/qt4-native_4.8.6.bb b/meta/recipes-qt/qt4/qt4-native_4.8.6.bb
-new file mode 100644
-index 0000000..d874d32
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt4-native_4.8.6.bb
-@@ -0,0 +1,6 @@
-+require qt4-native.inc
-+
-+TOBUILD := "src/tools/bootstrap ${TOBUILD}"
-+
-+SRC_URI[md5sum] = "2edbe4d6c2eff33ef91732602f3518eb"
-+SRC_URI[sha256sum] = "8b14dd91b52862e09b8e6a963507b74bc2580787d171feda197badfa7034032c"
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free_4.8.5.bb b/meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb
-similarity index 100%
-rename from meta/recipes-qt/qt4/qt4-x11-free_4.8.5.bb
-rename to meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb
-diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-index 6de0202..75a580c 100644
---- a/meta/recipes-qt/qt4/qt4.inc
-+++ b/meta/recipes-qt/qt4/qt4.inc
-@@ -275,7 +275,7 @@ do_compile() {
- python populate_packages_prepend() {
-     translation_dir = d.expand('${datadir}/${QT_DIR_NAME}/translations/')
-     translation_name = d.expand('${QT_BASE_NAME}-translation-%s')
--    do_split_packages(d, translation_dir, '^(assistant|designer|linguist|qt|qtconfig|qvfb)_(.*)\.qm$', translation_name, '${PN} translation for %s', extra_depends='' )
-+    do_split_packages(d, translation_dir, '^(assistant|designer|linguist|qt|qtconfig|qvfb|qtscript)_(.*)\.qm$', translation_name, '${PN} translation for %s', extra_depends='' )
-  
-     phrasebook_dir = d.expand('${datadir}/${QT_DIR_NAME}/phrasebooks/')
-     phrasebook_name = d.expand('${QT_BASE_NAME}-phrasebook-%s')
+I also have a bitbake patch set, which I will send to bitbake-devel.
+
+Sau!
+
+
+The following changes since commit 20625df0f88b1948bfc05be0d2cbdaa201c3b2f0:
+
+  linux-yocto/3.10: intel BSP configuration updates (2014-04-10 17:33:54 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/daisy
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Adrian Calianu (1):
+  oprofileui-server_git: add avahi-daemon to RDEPENDS list
+
+Alexandru DAMIAN (2):
+  toaster.bbclass: read list of files in image
+  toaster.bbclass: do not fail on non-existent files
+
+Andreas Müller (2):
+  shadow: fix building systemd with useradd-staticids.bbclass enabled
+  make menuconfig work for recent xfce environment
+
+Andreas Oberritter (1):
+  recipe_sanity.bbclass: avoid error when running 'bitbake -e'
+
+Bruce Ashfield (1):
+  linux-yocto/3.14: aufs, edgerouter config and -rt
+
+Chen Qi (7):
+  bind: add support for read-only rootfs
+  mmc-utils: fix compilation failure for mips64 target.
+  tcf-agent: add systemd support
+  runqemu-internal: add "console=ttyS0" to ramfs image kernel parameters
+  gdb: add PACKAGECONFIG for babeltrace
+  openssh: fix for CVE-2014-2532
+  openssh: fix for CVE-2014-2653
+
+Chong Lu (1):
+  syslinux-native: fix parallel building issue
+
+Denys Dmytriyenko (5):
+  u-boot: fix beaglebone boot issue with large kernel images
+  cryptodev-linux: move to recipes-kernel to be shared with module and
+    tests
+  cryptodev-linux: create common .inc file to be shared by module and
+    tests
+  cryptodev-module: recipe for out-of-tree cryptodev device driver
+  cryptodev-tests: recipe for cryptodev test suite based on OpenSSL
+
+Drew Moseley (3):
+  systemd: Check for HAVE_POSIX_FALLOCATE
+  mesa-demos: Specify the lib dir to locate glut libraries
+  mesa-demos: Specify the lib dir properly.
+
+Hongxu Jia (1):
+  apr: remove the use of ${SHELL} to avoid bash/dash confliction
+
+Irina Patru (1):
+  distrodata.bbclass: Fix checkpkg functionality
+
+Jacob Kroon (2):
+  console-tools: Remove floating runtime dependency on flex
+  sstate-cache-management: Minor cleanup of help text
+
+Joe Slater (2):
+  pixbufcache: add error exit in pixbufcache_sstate_postinst
+  qemu: define PACKAGECONFIG[] for ssh2
+
+Joel Fernandes (1):
+  serial-getty service: Add xterm as default TERM
+
+Khem Raj (4):
+  libav: Add libsdl to DEPENDS only when x11 is enabled
+  uclibc: Add libgcc-initial to DEPENDS
+  procps: Do not detect 32/64 bit compiler options
+  lttng-modules_2.3.3.bb: Fix build on ARM/gcc-4.9
+
+Koen Kooi (5):
+  grub git: workaround debugedit problems
+  xdg-utils: reinstall xdg-terminal
+  xinput-calibrator: fix XDG launch
+  curl: make PACKAGES match with FILES/RRECOMMENDS
+  ca-certificates: generate CAfile for -native in do_install
+
+Laurentiu Palcu (1):
+  adt_installer: run autoreconf before configuring opkg
+
+Li Wang (2):
+  nss: CVE-2014-1492
+  nss: CVE-2013-1740
+
+Mark Hatle (1):
+  rpm: Fix rpm -V usage
+
+Martin Jansa (11):
+  libnotify: add dbus-glib dependency
+  icecc: don't create unnecessary 'ice' dirs in sysroots when disabled
+  gsettings-desktop-schemas: add missing dependency on intltool-native
+  qt4: Explicitly disable sqlite2
+  gstreamer1.0-plugins-good: add libxfixes and libxdamange to x11
+    depends
+  gst-plugins-bad: add PACKAGECONFIG for schro, dc1394 and faac
+  gst-plugins-good: add PACKAGECONFIG for x11
+  package.bbclass: add SHLIBSSEARCHDIRS to define where to search for
+    shlib providers
+  gtk+: Add PACKAGECONFIG for directfb
+  defaultsetup: enable blacklist by default
+  lttng-modules: Fix build with older kernels for 2.3.3 as 2.4.0
+
+Matthieu Crapet (1):
+  openssh-sshd: host contamination fix
+
+Maxin B. John (3):
+  openssl: fix CVE-2014-0198
+  libxml2: fix CVE-2014-0191
+  bzip2: fix ptest execution failure
+
+Mike Crowe (1):
+  native.bbclass: Override TARGET_ flags too
+
+Ming Liu (2):
+  kernel: don't populate source symbolic link
+  ldconfig-native: also default to lib32 and lib64 directories
+
+Philip Tricca (1):
+  grub-efi: Use a variable to specify built-in grub modules.
+
+Radek Dostal (1):
+  distutils.bbclass: only modify *.py file if it contains path to be
+    removed
+
+Ricardo Ribalda Delgado (2):
+  package_manager: Fix Argument list too long
+  package_manager: Fix NoneType Object on do_populate_sdk
+
+Richard Purdie (12):
+  build-appliance-image: Update to head revision
+  build-appliance-image: Set branch to daisy for release
+  build-appliance-image: Update to  head revision
+  lib/oe/sdk: Ensure target directory exists before creating the link
+  initscripts: Fix PR reversal
+  base.bbclass: Fix multilib PREFERRED_VERSION handling
+  libiconv: Fix B != S with uclibc builds
+  uclibc: Set MULTILIB_DIR based on baselib
+  gcc: Handle uclibc linker relocation for multilib support
+  attr: Fix uclibc builds
+  git: Fix various makefile flags
+  rt-tests: Fix warning flag typo
+
+Ross Burton (1):
+  freetype: disable harfbuzz
+
+Saul Wold (2):
+  report-error: Add posting in the public note
+  openssh: add /var/log/lastlog to volatile list
+
+Sebastian Wiegand (1):
+  distro_features_check.bbclass: fix wrong indentation
+
+Stefan Stanacar (2):
+  scripts/send-error-report: use a real server as the default
+  scripts/send-error-report: simple hack to use proxy from the
+    enviroment
+
+Tim Orling (1):
+  perl: fix missing Module::Metadata
+
+Tudor Florea (2):
+  curl: Backport a fix for a build issue
+  curl: remove inapporpriate file from curl release
+
+Tyler Hall (2):
+  python3: Substitute correct python version in shebang
+  python3: Revert python-config to distutils.sysconfig
+
+Valentin Popa (1):
+  wpa-supplicant: add libgcrypt as a dependencie
+
+Yue Tao (22):
+  Screen: fix for Security Advisory CVE-2009-1214
+  screen: fix for Security Advisory CVE-2009-1215
+  subversion: fix for Security Advisory CVE-2013-1849
+  subversion: fix for Security Advisory CVE-2013-4505
+  subversion: fix for Security Advisory CVE-2013-4131
+  subversion: fix for Security Advisory CVE-2013-1845
+  subversion: fix for Security Advisory CVE-2013-1847 and CVE-2013-1846
+  subversion: fix for Security Advisory CVE-2013-4277
+  tiff: fix for Security Advisory CVE-2013-4231
+  openssl: fix for CVE-2010-5298
+  gst-ffmpeg: fix for Security Advisory CVE-2014-2263
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0865
+  gst-ffmpeg: fix for Security Advisory CVE-2014-2099
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0868
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0845
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0852
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0858
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0851
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0854
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0856
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0850
+  gst-ffmpeg: fix for Security Advisory CVE-2013-0849
+
+ meta/classes/base.bbclass                          |    6 +-
+ meta/classes/distro_features_check.bbclass         |    4 +-
+ meta/classes/distrodata.bbclass                    |   40 +-
+ meta/classes/distutils.bbclass                     |    5 +-
+ meta/classes/icecc.bbclass                         |   12 +-
+ meta/classes/kernel.bbclass                        |    2 +-
+ meta/classes/native.bbclass                        |    4 +
+ meta/classes/package.bbclass                       |   26 +-
+ meta/classes/pixbufcache.bbclass                   |    6 +-
+ meta/classes/recipe_sanity.bbclass                 |    1 -
+ meta/classes/report-error.bbclass                  |    1 +
+ meta/classes/toaster.bbclass                       |   31 +-
+ meta/conf/distro/defaultsetup.conf                 |    3 +-
+ meta/lib/oe/package_manager.py                     |   14 +-
+ meta/lib/oe/sdk.py                                 |    1 +
+ meta/lib/oe/terminal.py                            |   12 +-
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |    4 +-
+ meta/recipes-bsp/grub/grub_git.bb                  |    4 +
+ ...h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch |   74 +
+ meta/recipes-bsp/u-boot/u-boot_2013.07.bb          |    4 +-
+ .../init.d-add-support-for-read-only-rootfs.patch  |   65 +
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |    2 +
+ .../openssh/openssh/openssh-CVE-2014-2532.patch    |   22 +
+ .../openssh/openssh/openssh-CVE-2014-2653.patch    |  114 +
+ .../openssh/openssh/volatiles.99_sshd              |    1 +
+ meta/recipes-connectivity/openssh/openssh_6.5p1.bb |   16 +-
+ .../openssl-1.0.1e/openssl-CVE-2010-5298.patch     |   24 +
+ .../openssl/openssl-CVE-2014-0198-fix.patch        |   23 +
+ .../recipes-connectivity/openssl/openssl_1.0.1g.bb |    1 +
+ .../wpa-supplicant/wpa-supplicant.inc              |    2 +-
+ .../console-tools-0.3.2/no-dep-on-libfl.patch      |   19 +
+ .../console-tools/console-tools_0.3.2.bb           |    1 +
+ .../ldconfig-default-to-all-multilib-dirs.patch    |   37 +
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |    4 +-
+ .../images/build-appliance-image_8.0.bb            |    4 +-
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+ meta/recipes-core/libxml/libxml2.inc               |    1 +
+ .../libxml/libxml2/libxml2-CVE-2014-0191-fix.patch |   37 +
+ .../systemd-serialgetty/serial-getty@.service      |    3 +-
+ .../systemd/systemd-pam-fix-fallocate.patch        |    4 +-
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |    1 +
+ meta/recipes-core/uclibc/uclibc-initial_git.bb     |    2 +-
+ meta/recipes-core/uclibc/uclibc.inc                |    1 +
+ meta/recipes-core/uclibc/uclibc_git.bb             |    2 +-
+ ...C_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |  128 +-
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc  |   11 +-
+ meta/recipes-devtools/gdb/gdb_7.6.2.bb             |    1 +
+ meta/recipes-devtools/git/git.inc                  |    3 +-
+ .../installer/adt-installer/adt_installer          |    1 +
+ ...mc.h-don-t-include-asm-generic-int-ll64.h.patch |   28 +
+ meta/recipes-devtools/mmc/mmc-utils_git.bb         |    4 +-
+ meta/recipes-devtools/perl/perl-5.14.3/config.sh   |    2 +-
+ .../recipes-devtools/perl/perl-rdepends_5.14.3.inc |    1 +
+ .../python/python3-native_3.3.3.bb                 |    3 +-
+ .../python/python3/python-config.patch             |   46 +
+ meta/recipes-devtools/python/python3_3.3.3.bb      |    1 +
+ meta/recipes-devtools/qemu/qemu.inc                |    1 +
+ .../rpm/rpm/rpm-verify-files.patch                 |   22 +
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+ .../subversion-CVE-2013-4131.patch                 |   42 +
+ .../subversion-CVE-2013-4277.patch                 |   15 +
+ .../subversion-CVE-2013-4505.patch                 |  130 +
+ .../subversion/subversion-CVE-2013-1845.patch      |  171 +
+ .../subversion-CVE-2013-1847-CVE-2013-1846.patch   |   53 +
+ .../subversion/subversion-CVE-2013-1849.patch      |   25 +
+ .../subversion/subversion-CVE-2013-4277.patch      |   15 +
+ .../subversion/subversion-CVE-2013-4505.patch      |  127 +
+ .../subversion/subversion_1.6.15.bb                |    6 +-
+ .../subversion/subversion_1.7.10.bb                |    3 +
+ .../syslinux-fix-parallel-building-issue.patch     |   38 +
+ meta/recipes-devtools/syslinux/syslinux_6.01.bb    |    3 +-
+ .../tcf-agent/tcf-agent/tcf-agent.service          |   10 +
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    8 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |    3 +-
+ .../procps/procps-3.2.8/detect_bitness.patch       |   26 +
+ meta/recipes-extended/procps/procps_3.2.8.bb       |    1 +
+ .../screen-4.0.3/screen-4.0.2-CVE-2009-1215.patch  |   27 +
+ .../screen-4.0.3/screen-4.0.3-CVE-2009-1214.patch  |   86 +
+ meta/recipes-extended/screen/screen_4.0.3.bb       |    2 +
+ meta/recipes-extended/shadow/shadow.inc            |    1 +
+ .../xdg-utils/0001-Reinstate-xdg-terminal.patch    |  672 ++
+ .../xdg-utils/xdg-utils_1.1.0-rc1.bb               |    5 +-
+ .../gnome/gsettings-desktop-schemas_3.10.1.bb      |    2 +-
+ meta/recipes-gnome/gtk+/gtk+.inc                   |    6 +-
+ meta/recipes-gnome/libnotify/libnotify_0.6.0.bb    |    2 +-
+ meta/recipes-graphics/freetype/freetype_2.5.2.bb   |    2 +
+ meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb     |    2 +-
+ .../xinput-calibrator/xinput-calibrator_git.bb     |    4 +
+ .../cryptodev/cryptodev-linux_1.6.bb               |   15 +
+ .../cryptodev/cryptodev-module_1.6.bb              |   18 +
+ .../cryptodev/cryptodev-tests_1.6.bb               |   23 +
+ .../cryptodev/cryptodev_1.6.inc}                   |   15 +-
+ ...pile-and-install-rules-for-cryptodev-test.patch |   69 +
+ ...talling-header-file-provided-by-another-p.patch |   28 +
+ ...ests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch |   29 +
+ ...-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch |   86 +
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |   27 +
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |    4 +-
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |   16 +-
+ meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb   |    4 +-
+ .../oprofile/oprofileui-server_git.bb              |    2 +-
+ .../0001-alac-fix-nb_samples-order-case.patch      |   30 +
+ .../0001-alsdec-check-block-length.patch           |   61 +
+ ...ac3dec-Check-coding-mode-against-channels.patch |   37 +
+ ...le-use-av_image_get_linesize-to-calculate.patch |   50 +
+ ...egtsenc-Check-data-array-size-in-mpegts_w.patch |   69 +
+ .../0001-eamad-fix-out-of-array-accesses.patch     |   29 +
+ ...t-ref-count-check-and-limit-fix-out-of-ar.patch |   29 +
+ ...01-huffyuvdec-Check-init_vlc-return-codes.patch |   87 +
+ .../0001-huffyuvdec-Skip-len-0-cases.patch         |   61 +
+ .../0001-mjpegdec-check-SE.patch                   |   32 +
+ ...heck-RLE-size-before-copying.-Fix-out-of-.patch |   34 +
+ ...001-roqvideodec-check-dimensions-validity.patch |   36 +
+ ...o-check-chunk-sizes-before-reading-chunks.patch |   51 +
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |   13 +
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           |    3 +
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |    6 +-
+ .../gstreamer/gstreamer1.0-plugins-good.inc        |    2 +-
+ meta/recipes-multimedia/libav/libav.inc            |    4 +-
+ .../libtiff/files/libtiff-CVE-2013-4231.patch      |   44 +
+ meta/recipes-multimedia/libtiff/tiff_4.0.3.bb      |    3 +-
+ meta/recipes-qt/qt4/qt4.inc                        |    2 +-
+ meta/recipes-rt/rt-tests/rt-tests.inc              |    2 +-
+ meta/recipes-support/apr/apr_1.4.8.bb              |    2 +-
+ meta/recipes-support/attr/attr.inc                 |    2 +-
+ meta/recipes-support/attr/ea-acl.inc               |    4 +-
+ .../ca-certificates/ca-certificates_20130610.bb    |    4 +
+ .../curl/generate_code_for_disable_manual.patch    |   38 +
+ .../curl/remove_inappropriate_file_from_rel.patch  | 8148 ++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.35.0.bb           |    4 +-
+ meta/recipes-support/libiconv/libiconv_1.14.bb     |    2 +-
+ .../nss/files/nss-CVE-2013-1740.patch              |  916 +++
+ .../nss/files/nss-CVE-2014-1492.patch              |   68 +
+ meta/recipes-support/nss/nss.inc                   |    2 +
+ scripts/runqemu-internal                           |    2 +-
+ scripts/send-error-report                          |   48 +-
+ scripts/sstate-cache-management.sh                 |    6 +-
+ 137 files changed, 12448 insertions(+), 201 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-am335x_evm.h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2653.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-0198-fix.patch
+ create mode 100644 meta/recipes-core/console-tools/console-tools-0.3.2/no-dep-on-libfl.patch
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-default-to-all-multilib-dirs.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-0191-fix.patch
+ create mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch
+ create mode 100644 meta/recipes-devtools/python/python3/python-config.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-verify-files.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4131.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4277.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/subversion-CVE-2013-4505.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1845.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1847-CVE-2013-1846.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-1849.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4277.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2013-4505.patch
+ create mode 100644 meta/recipes-devtools/syslinux/files/syslinux-fix-parallel-building-issue.patch
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.service
+ create mode 100644 meta/recipes-extended/procps/procps-3.2.8/detect_bitness.patch
+ create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen-4.0.2-CVE-2009-1215.patch
+ create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen-4.0.3-CVE-2009-1214.patch
+ create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/0001-Reinstate-xdg-terminal.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/cryptodev-linux_1.6.bb
+ create mode 100644 meta/recipes-kernel/cryptodev/cryptodev-module_1.6.bb
+ create mode 100644 meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
+ rename meta/{recipes-connectivity/openssl/cryptodev-linux_1.6.bb => recipes-kernel/cryptodev/cryptodev_1.6.inc} (43%)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0002-In-the-3.13-rc1-Linux-kernel-the-INIT_COMPLETION-mac.patch
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alac-fix-nb_samples-order-case.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-alsdec-check-block-length.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-atrac3dec-Check-coding-mode-against-channels.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-msrle-use-av_image_get_linesize-to-calculate.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avformat-mpegtsenc-Check-data-array-size-in-mpegts_w.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-eamad-fix-out-of-array-accesses.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-correct-ref-count-check-and-limit-fix-out-of-ar.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Check-init_vlc-return-codes.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-huffyuvdec-Skip-len-0-cases.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-mjpegdec-check-SE.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-pgssubdec-check-RLE-size-before-copying.-Fix-out-of-.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-roqvideodec-check-dimensions-validity.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-vqavideo-check-chunk-sizes-before-reading-chunks.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+ create mode 100644 meta/recipes-support/curl/curl/generate_code_for_disable_manual.patch
+ create mode 100644 meta/recipes-support/curl/curl/remove_inappropriate_file_from_rel.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-CVE-2013-1740.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-CVE-2014-1492.patch
+
 -- 
-1.9.0
+1.8.3.1
 
 
