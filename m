@@ -1,50 +1,36 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (unknown [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id BCC766A362
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (unknown [209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id ACC6F65F09
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 10:38:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 0E7C72E2BA
+	Fri, 23 May 2014 13:49:58 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id 63so8064685qgz.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 12:38:28 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id pjMsbxItR0JQ
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 12:38:22 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id E24152E333
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 12:38:16 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id CAF11FAC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 12:38:14 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id BFADC9B2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 12:38:14 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id BDF9C3E048
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 12:38:14 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
-	([10.0.5.74]) with mapi; Fri, 23 May 2014 12:38:14 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 23 May 2014 12:38:10 +0200
-Thread-Topic: [OE-core] Using users/groups from another recipe than the one
-	creating them
-Thread-Index: Ac92cxfFMHWSvh+eSJeWOV3pn8Snlg==
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC7A7A21EFE0D@xmail3.se.axis.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Fri, 23 May 2014 06:50:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nyCdLPIP+tkc3bP2QfSgOWoQmo/uT1il9/dg5bBDvXI=;
+	b=RJfhHWLpMz2E/aF0uVExiJ1X0GSus9PPViJDlC8c4LFejHHODsrgzZLQGBkdAa9FAg
+	2t2YZBIWdZYowUI7qKI05xqMlxsHBf/0paeyKSv1tE6BM+Wcv9+bWt0qG5uXKEs3jNm2
+	+raTA5gpM1heNHKAzD+7e7JZgV+v9fNbJnx9bQopOsslZj/FDqetNjaOBISnCUDdUpFW
+	T1f3NOr3RhI3hmf0cCzg+vxCC9fB9+4evmOgHsjQSSspvBB1XYE7WxT+8HVpuDpklcZ/
+	UR90FSWyDdekxedYq5xptcoJz9EDT0L+OscUYNsHKU+yvAedCWrXbQMo5jZY2XXuAoh3
+	JQyQ==
+X-Gm-Message-State: ALoCoQmP8ku6r3ME7dZtMmlCVOqGMX+eTUYqb6O2Rbb//c3k4OObeqS1+3E0NPV3uqYcky/kOrI8
+X-Received: by 10.229.72.10 with SMTP id k10mr7018181qcj.2.1400852999956; Fri,
+	23 May 2014 06:49:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: Using users/groups from another recipe than the one creating them
+Received: by 10.140.101.77 with HTTP; Fri, 23 May 2014 06:49:38 -0700 (PDT)
+In-Reply-To: <1400825337-3955-1-git-send-email-b40527@freescale.com>
+References: <1400825337-3955-1-git-send-email-b40527@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 23 May 2014 14:49:38 +0100
+Message-ID: <CAJTo0LbMGfDFMre2dNJXZ73R2NNzjtHyso_4orZT4yv0oc_OpA@mail.gmail.com>
+To: "b40527@freescale.com" <b40527@freescale.com>
+Cc: Zongchun Yu <Zongchun.Yu@freescale.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2][v2] doxygen-native: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 10:38:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 May 2014 13:50:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Peter Kjellerstedt
-> Sent: den 19 maj 2014 10:15
-> To: OE Core (openembedded-core@lists.openembedded.org)
-> Subject: [OE-core] Using users/groups from another recipe than the one
-> creating them
->=20
-> Which assumption is correct: "a recipe A that depends on another
-> recipe B can use users/groups that B creates" or "all recipes must
-> create the users/groups they require themselves"?
->=20
-> The problem for us is that we have a lot of recipes that create
-> users and groups, and subsequently a number of other related recipes
-> that need to use those users and groups.
->=20
-> If the first assumption is correct then the useradd.bbclass needs to
-> be corrected so that it adds a dependency from do_install to
-> base-passwd:do_populate_sysroot and
-> base-passwd:do_populate_sysroot_setscene, because if either of those
-> tasks execute they will overwrite /etc/passwd and /etc/group,
-> effectively removing any users/groups that were created earlier...
->=20
-> On the other hand, if it is the second assumption that is correct,
-> then there should be QA tests in place to make sure all recipes
-> create the users/groups they use.
->=20
-> //Peter
+Whilst this recipe works, I wonder if it would be more useful if it
+were cross-compilable and used BBCLASSEXTEND to become native.
 
-*ping*=20
+Ross
 
-Doesn't anyone know how users and groups are supposed to work?
-
-//Peter
-
+On 23 May 2014 07:08,  <b40527@freescale.com> wrote:
+> From: Zongchun Yu <Zongchun.Yu@freescale.com>
+>
+> Signed-off-by: Zongchun Yu <Zongchun.Yu@freescale.com>
+> ---
+>  .../doxygen/doxygen-native_1.8.6.bb                |   23 ++++++++++++++++++++
+>  1 files changed, 23 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb
+>
+> diff --git a/meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb b/meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb
+> new file mode 100644
+> index 0000000..eac4c9b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/doxygen/doxygen-native_1.8.6.bb
+> @@ -0,0 +1,23 @@
+> +DESCRIPTION = "Utilities for generating documentation from source code"
+> +HOMEPAGE = "http://www.stack.nl/~dimitri/doxygen/index.html"
+> +SECTION = "console/utils"
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=b380c86cea229fa42b9e543fc491f5eb"
+> +DEPENDS = "flex-native bison-native"
+> +
+> +SRC_URI = "http://ftp.stack.nl/pub/users/dimitri/doxygen-${PV}.src.tar.gz"
+> +
+> +SRC_URI[md5sum] = "9385dc52f0627875f8fa758e754ec674"
+> +SRC_URI[sha256sum] = "6a718625f0c0c1eb3dee78ec1f83409b49e790f4c6c47fd44cd51cb92695535f"
+> +
+> +inherit native
+> +
+> +EXTRA_OECONF = "--prefix ${prefix}"
+> +
+> +do_configure () {
+> +    ./configure ${EXTRA_OECONF}
+> +}
+> +
+> +do_install() {
+> +    oe_runmake install DESTDIR=${D} MAN1DIR=share/man/man1
+> +}
+> --
+> 1.7.0.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
