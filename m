@@ -1,47 +1,39 @@
-Return-Path: <Zongchun.Yu@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com (unknown
-	[207.46.163.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FF1E65E58
+Return-Path: <henning@itconsulting-heinold.de>
+X-Greylist: delayed 440 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 23 May 2014 07:12:49 UTC
+Received: from mail.familie-heinold.de (unknown [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E38B6AFBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 06:08:30 +0000 (UTC)
-Received: from CH1PR03CA006.namprd03.prod.outlook.com (10.255.156.151) by
-	BL2PR03MB290.namprd03.prod.outlook.com (10.141.68.19) with Microsoft
-	SMTP Server (TLS) id 15.0.949.11; Fri, 23 May 2014 06:08:31 +0000
-Received: from BL2FFO11FD057.protection.gbl (10.255.156.132) by
-	CH1PR03CA006.outlook.office365.com (10.255.156.151) with Microsoft SMTP
-	Server (TLS) id 15.0.944.11 via Frontend Transport;
-	Fri, 23 May 2014 06:08:30 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.1) by
-	BL2FFO11FD057.mail.protection.outlook.com (10.173.161.185) with
-	Microsoft
-	SMTP Server (TLS) id 15.0.949.9 via Frontend Transport; Fri, 23 May 2014
-	06:08:30 +0000
-Received: from localhost.localdomain (b40527-01.ap.freescale.net
-	[10.193.20.90])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	s4N68Mie012592; Thu, 22 May 2014 23:08:23 -0700
-From: <b40527@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 May 2014 14:09:10 +0800
-Message-ID: <1400825350-3995-1-git-send-email-b40527@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.168.1; CTRY:US; IPV:CAL; IPV:NLI;
-	EFV:NLI; SFV:NSPM;
-	SFS:(6009001)(189002)(199002)(49486002)(4396001)(89996001)(6806004)(99396002)(88136002)(48376002)(81542001)(86152002)(44976005)(33646001)(21056001)(77982001)(50466002)(50986999)(76482001)(87936001)(87286001)(26826002)(77096999)(93916002)(92566001)(64706001)(92726001)(102836001)(85852003)(19580395003)(36756003)(19580405001)(50226001)(83322001)(31966008)(74662001)(74502001)(47776003)(62966002)(77156001)(81342001)(80022001)(46102001)(20776003)(83072002)(79102001);
-	DIR:OUT; SFP:; SCL:1; SRVR:BL2PR03MB290;
-	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
-	PTR:gate-tx3.freescale.com; MX:1; A:1; LANG:en; 
+	Fri, 23 May 2014 07:12:49 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id D8ECD223202F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 May 2014 09:05:29 +0200 (CEST)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id C5E4B223202E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 May 2014 09:05:28 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.3 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	MISSING_HEADERS autolearn=no version=3.3.2
+Received: from mail.itconsulting-heinold.de
+	(fb-n15-11.unbelievable-machine.net [94.198.62.204])
+	by mail.familie-heinold.de (Postfix) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 May 2014 09:05:28 +0200 (CEST)
+Date: Fri, 23 May 2014 09:05:19 +0200
+From: Henning Heinold <henning@itconsulting-heinold.de>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <20140523070519.GC12820@mail.itconsulting-heinold.de>
+References: <1400774540-4405-1-git-send-email-ticotimo@gmail.com>
+	<1400774540-4405-3-git-send-email-ticotimo@gmail.com>
 MIME-Version: 1.0
-X-Forefront-PRVS: 0220D4B98D
-Received-SPF: Fail (: domain of freescale.com does not designate 192.88.168.1
-	as permitted sender) receiver=; client-ip=192.88.168.1;
-	helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.1)
-	smtp.mailfrom=Zongchun.Yu@freescale.com; 
-X-OriginatorOrg: freescale.com
-Cc: Zongchun Yu <Zongchun.Yu@freescale.com>
-Subject: [PATCH 2/2][v2] add doxygen class
+In-Reply-To: <1400774540-4405-3-git-send-email-ticotimo@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: [RFC/RFT 2/2] weston: upgrade to 1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +46,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 06:08:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 May 2014 07:12:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Zongchun Yu <Zongchun.Yu@freescale.com>
+On Thu, May 22, 2014 at 09:02:20AM -0700, Tim Orling wrote:
+> From: Tim Orling <TicoTimo@gmail.com>
+> 
+> * replace 0001-remove-dependence-on-wayland-scanner-flags.patch with
+>   disable-wayland-scanner-pkg-check.patch
+> * add make-lcms-configureable.patch (WIP... needs work)
+>   = fix for JaMa test-dependencies
+> 
+> Signed-off-by: Tim Orling <TicoTimo@gmail.com>
+> ---
+>  ...emove-dependence-on-wayland-scanner-flags.patch | 30 ----------------------
+>  .../weston/disable-wayland-scanner-pkg-check.patch | 13 ++++++++++
+>  .../wayland/weston/make-lcms-configurable.patch    | 22 ++++++++++++++++
+>  .../wayland/{weston_1.4.0.bb => weston_1.5.0.bb}   | 13 ++++++----
+>  4 files changed, 43 insertions(+), 35 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
+>  create mode 100644 meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
+>  create mode 100644 meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
+>  rename meta/recipes-graphics/wayland/{weston_1.4.0.bb => weston_1.5.0.bb} (88%)
+> 
+> diff --git a/meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch b/meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
+> deleted file mode 100644
+> index 14606c8..0000000
+> --- a/meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -From a0335393ddde2228c84eda1081b5d7b175f78a94 Mon Sep 17 00:00:00 2001
+> -From: Valentin Popa <valentin.popa@intel.com>
+> -Date: Fri, 7 Feb 2014 16:59:58 +0200
+> -Subject: [PATCH] remove dependence on wayland-scanner flags
+> -
+> -weston doesn't make use of wayland-scanner flags,
+> -it only uses the -native- wayland-scanner for protocol.
+> -
+> -Upstream-Status: Pending
+> -Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> ----
+> - configure.ac | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index cce1850..8775eb9 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -482,7 +482,7 @@ if test x$wayland_scanner = x; then
+> - 	AC_MSG_ERROR([wayland-scanner is needed to compile weston])
+> - fi
+> - 
+> --PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
+> -+#PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
+> - AC_PATH_PROG(XMLLINT, xmllint)
+> - AC_ARG_WITH([dtddir],
+> - 	    AS_HELP_STRING([--with-dtddir],
+> --- 
+> -1.8.3.2
+> -
+> diff --git a/meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch b/meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
+> new file mode 100644
+> index 0000000..062da5c
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
+> @@ -0,0 +1,13 @@
+> +Index: weston-1.5.0/configure.ac
+> +===================================================================
+> +--- weston-1.5.0.orig/configure.ac
+> ++++ weston-1.5.0/configure.ac
+> +@@ -503,7 +503,7 @@ if test x$wayland_scanner = x; then
+> + 	AC_MSG_ERROR([wayland-scanner is needed to compile weston])
+> + fi
+> + 
+> +-PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
+> ++#PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
+> + 
+> + AC_CONFIG_FILES([Makefile src/version.h src/weston.pc])
+> + 
+> diff --git a/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch b/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
+> new file mode 100644
+> index 0000000..817ac70
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
+> @@ -0,0 +1,22 @@
+> +Index: weston-1.5.0/configure.ac
+> +===================================================================
+> +--- weston-1.5.0.orig/configure.ac
+> ++++ weston-1.5.0/configure.ac
+> +@@ -491,8 +491,16 @@ AC_ARG_ENABLE(demo-clients-install,
+> + 			     enable_demo_clients_install=no)
+> + AM_CONDITIONAL(INSTALL_DEMO_CLIENTS, [test "x$enable_demo_clients_install" = "xyes"])
+> + 
+> ++AC_ARG_ENABLE(lcms,
+> ++              AS_HELP_STRING([--disable-lcms],
+> ++                             [disable lcms support]),,
+> ++              enable_lcms=yes)
+> ++
+> ++AS_IF([test "x$enable_lcms" != "no"], [
+> + PKG_CHECK_MODULES(LCMS, lcms2,
+> +-                  [have_lcms=yes], [have_lcms=no])
+> ++                  [have_lcms=yes], [have_lcms=no])],
+> ++                  [have_lcms=no])
+> ++
+> + if test "x$have_lcms" = xyes; then
+> +        AC_DEFINE(HAVE_LCMS, 1, [Have lcms support])
+> + fi
+> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.5.0.bb
+> similarity index 88%
+> rename from meta/recipes-graphics/wayland/weston_1.4.0.bb
+> rename to meta/recipes-graphics/wayland/weston_1.5.0.bb
+> index afdc49c..f6ae8c4 100644
+> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
+> +++ b/meta/recipes-graphics/wayland/weston_1.5.0.bb
+> @@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
+>  SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+>             file://weston.png \
+>             file://weston.desktop \
+> -           file://0001-remove-dependence-on-wayland-scanner-flags.patch"
+> -SRC_URI[md5sum] = "4438d2b1f3c9ba9a4a2b10d89fac6fd0"
+> -SRC_URI[sha256sum] = "74a2319d98e9cdb1acf24659699719aa89ac268cf549759271e326edc5f9ed64"
+> -
+> +           file://disable-wayland-scanner-pkg-check.patch \
+> +           file://make-lcms-configurable.patch"
+> +SRC_URI[md5sum] = "8eb40d230efc2411f083c20656534780"
+> +SRC_URI[sha256sum] = "06388ba04ac79aa72d685cc1a8e646ddb2b8cfe11fcc742294f9addac48b7684"
+>  
+>  inherit autotools pkgconfig useradd
+>  
+> @@ -25,7 +25,8 @@ EXTRA_OECONF = "--enable-setuid-install \
+>                  --enable-demo-clients-install \
+>                  --disable-libunwind \
+>                  --disable-rpi-compositor \
+> -                --disable-rdp-compositor"
+> +                --disable-rdp-compositor \
+> +                --disable-lcms"
+                   ^^^^^^^^^^^^^^^
+Is this needed when you use PACKAGECONFIG later on?
+>  
+>  
+>  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
+> @@ -53,6 +54,8 @@ PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
+>  PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
+>  # Weston with cairo glesv2 support
+>  PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
+> +# Weston with lcms support
+> +PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
+>  
+>  do_install_append() {
+>  	# Weston doesn't need the .la files to load modules, so wipe them
 
-Signed-off-by: Zongchun Yu <Zongchun.Yu@freescale.com>
----
- meta/classes/doxygen.bbclass |   16 ++++++++++++++++
- 1 files changed, 16 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/doxygen.bbclass
-
-diff --git a/meta/classes/doxygen.bbclass b/meta/classes/doxygen.bbclass
-new file mode 100644
-index 0000000..13b9f79
---- /dev/null
-+++ b/meta/classes/doxygen.bbclass
-@@ -0,0 +1,16 @@
-+# Helper class to pull in the right dependencies and generate
-+# api documentation from sources code
-+
-+DEPENDS += "doxygen-native"
-+
-+# Doxygen configuration file
-+DOXYGEN_CFG ?= "Doxyfile"
-+
-+do_generate_doc () {
-+    if [ -e ${S}/${DOXYGEN_CFG} ]; then
-+        doxygen ${S}/${DOXYGEN_CFG}
-+    else
-+        bbfatal "no doxygen configuration file found"
-+    fi
-+}
-+addtask generate_doc before do_compile after do_patch
--- 
-1.7.0.4
-
+Bye Henning
 
