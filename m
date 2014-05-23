@@ -1,25 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B15786ABDB
+	by mail.openembedded.org (Postfix) with ESMTP id EECB06ABDB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 18:13:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 23 May 2014 11:13:11 -0700
+	Fri, 23 May 2014 18:16:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 May 2014 11:16:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,895,1392192000"; d="scan'208";a="536721488"
-Received: from bidesilv-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.159])
-	by fmsmga001.fm.intel.com with ESMTP; 23 May 2014 11:13:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.98,895,1392192000"; d="scan'208";a="544050651"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.174])
+	by fmsmga002.fm.intel.com with ESMTP; 23 May 2014 11:16:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 May 2014 19:12:59 +0100
-Message-Id: <dcefb21fc324c7f0e3e146df7200e43156fd2468.1400868743.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <cover.1400868743.git.paul.eggleton@linux.intel.com>
-References: <cover.1400868743.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1400868743.git.paul.eggleton@linux.intel.com>
-References: <cover.1400868743.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] oe-pkgdata-util: fix help text
+Date: Fri, 23 May 2014 11:16:05 -0700
+Message-Id: <1400868965-6748-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] poky-tiny: ensure that both poky and poky-tiny distro overrides are used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 18:13:09 -0000
+X-List-Received-Date: Fri, 23 May 2014 18:16:24 -0000
 
-This was copy/pasted from another script and not corrected.
+[YOCTO #6353]
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- scripts/oe-pkgdata-util | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-yocto/conf/distro/poky-tiny.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index a373116..bf87547 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -303,7 +303,7 @@ Available commands:
-         packages''')
+diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+index 2548d79..5b67e32 100644
+--- a/meta-yocto/conf/distro/poky-tiny.conf
++++ b/meta-yocto/conf/distro/poky-tiny.conf
+@@ -30,6 +30,8 @@
  
-     parser.add_option("-d", "--debug",
--            help = "Report all SRCREV values, not just ones where AUTOREV has been used",
-+            help = "Enable debug output",
-             action="store_true", dest="debug", default=False)
+ require conf/distro/poky.conf
+ DISTRO = "poky-tiny"
++DISTROOVERRIDES = "poky:poky-tiny"
++
  
-     options, args = parser.parse_args(sys.argv)
+ # FIXME: consider adding a new "tiny" feature
+ #DISTRO_FEATURES_append = " tiny"
 -- 
-1.9.0
+1.8.3.1
 
 
