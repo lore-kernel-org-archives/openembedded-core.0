@@ -1,39 +1,24 @@
-Return-Path: <henning@itconsulting-heinold.de>
-X-Greylist: delayed 440 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 23 May 2014 07:12:49 UTC
-Received: from mail.familie-heinold.de (unknown [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E38B6AFBD
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7014865D1A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 07:12:49 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id D8ECD223202F
+	Fri, 23 May 2014 08:31:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4N8VZIf009812
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 09:05:29 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id C5E4B223202E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 09:05:28 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.3 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	MISSING_HEADERS autolearn=no version=3.3.2
-Received: from mail.itconsulting-heinold.de
-	(fb-n15-11.unbelievable-machine.net [94.198.62.204])
-	by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 09:05:28 +0200 (CEST)
-Date: Fri, 23 May 2014 09:05:19 +0200
-From: Henning Heinold <henning@itconsulting-heinold.de>
-Cc: openembedded-core@lists.openembedded.org
-Message-ID: <20140523070519.GC12820@mail.itconsulting-heinold.de>
-References: <1400774540-4405-1-git-send-email-ticotimo@gmail.com>
-	<1400774540-4405-3-git-send-email-ticotimo@gmail.com>
+	Fri, 23 May 2014 01:31:35 -0700 (PDT)
+Received: from PEK-WKANG-D1.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 23 May 2014 01:31:35 -0700
+From: Wenlin Kang <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 May 2014 16:31:08 +0800
+Message-ID: <1400833868-27473-1-git-send-email-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <1400774540-4405-3-git-send-email-ticotimo@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: [RFC/RFT 2/2] weston: upgrade to 1.5.0
+Subject: [PATCH] bash: fixed bash build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,156 +31,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 07:12:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 23 May 2014 08:31:38 -0000
+Content-Type: text/plain
 
-On Thu, May 22, 2014 at 09:02:20AM -0700, Tim Orling wrote:
-> From: Tim Orling <TicoTimo@gmail.com>
-> 
-> * replace 0001-remove-dependence-on-wayland-scanner-flags.patch with
->   disable-wayland-scanner-pkg-check.patch
-> * add make-lcms-configureable.patch (WIP... needs work)
->   = fix for JaMa test-dependencies
-> 
-> Signed-off-by: Tim Orling <TicoTimo@gmail.com>
-> ---
->  ...emove-dependence-on-wayland-scanner-flags.patch | 30 ----------------------
->  .../weston/disable-wayland-scanner-pkg-check.patch | 13 ++++++++++
->  .../wayland/weston/make-lcms-configurable.patch    | 22 ++++++++++++++++
->  .../wayland/{weston_1.4.0.bb => weston_1.5.0.bb}   | 13 ++++++----
->  4 files changed, 43 insertions(+), 35 deletions(-)
->  delete mode 100644 meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
->  create mode 100644 meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
->  create mode 100644 meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
->  rename meta/recipes-graphics/wayland/{weston_1.4.0.bb => weston_1.5.0.bb} (88%)
-> 
-> diff --git a/meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch b/meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
-> deleted file mode 100644
-> index 14606c8..0000000
-> --- a/meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -From a0335393ddde2228c84eda1081b5d7b175f78a94 Mon Sep 17 00:00:00 2001
-> -From: Valentin Popa <valentin.popa@intel.com>
-> -Date: Fri, 7 Feb 2014 16:59:58 +0200
-> -Subject: [PATCH] remove dependence on wayland-scanner flags
-> -
-> -weston doesn't make use of wayland-scanner flags,
-> -it only uses the -native- wayland-scanner for protocol.
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-> ----
-> - configure.ac | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index cce1850..8775eb9 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -482,7 +482,7 @@ if test x$wayland_scanner = x; then
-> - 	AC_MSG_ERROR([wayland-scanner is needed to compile weston])
-> - fi
-> - 
-> --PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
-> -+#PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
-> - AC_PATH_PROG(XMLLINT, xmllint)
-> - AC_ARG_WITH([dtddir],
-> - 	    AS_HELP_STRING([--with-dtddir],
-> --- 
-> -1.8.3.2
-> -
-> diff --git a/meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch b/meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
-> new file mode 100644
-> index 0000000..062da5c
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
-> @@ -0,0 +1,13 @@
-> +Index: weston-1.5.0/configure.ac
-> +===================================================================
-> +--- weston-1.5.0.orig/configure.ac
-> ++++ weston-1.5.0/configure.ac
-> +@@ -503,7 +503,7 @@ if test x$wayland_scanner = x; then
-> + 	AC_MSG_ERROR([wayland-scanner is needed to compile weston])
-> + fi
-> + 
-> +-PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
-> ++#PKG_CHECK_MODULES(WAYLAND_SCANNER, wayland-scanner)
-> + 
-> + AC_CONFIG_FILES([Makefile src/version.h src/weston.pc])
-> + 
-> diff --git a/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch b/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
-> new file mode 100644
-> index 0000000..817ac70
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
-> @@ -0,0 +1,22 @@
-> +Index: weston-1.5.0/configure.ac
-> +===================================================================
-> +--- weston-1.5.0.orig/configure.ac
-> ++++ weston-1.5.0/configure.ac
-> +@@ -491,8 +491,16 @@ AC_ARG_ENABLE(demo-clients-install,
-> + 			     enable_demo_clients_install=no)
-> + AM_CONDITIONAL(INSTALL_DEMO_CLIENTS, [test "x$enable_demo_clients_install" = "xyes"])
-> + 
-> ++AC_ARG_ENABLE(lcms,
-> ++              AS_HELP_STRING([--disable-lcms],
-> ++                             [disable lcms support]),,
-> ++              enable_lcms=yes)
-> ++
-> ++AS_IF([test "x$enable_lcms" != "no"], [
-> + PKG_CHECK_MODULES(LCMS, lcms2,
-> +-                  [have_lcms=yes], [have_lcms=no])
-> ++                  [have_lcms=yes], [have_lcms=no])],
-> ++                  [have_lcms=no])
-> ++
-> + if test "x$have_lcms" = xyes; then
-> +        AC_DEFINE(HAVE_LCMS, 1, [Have lcms support])
-> + fi
-> diff --git a/meta/recipes-graphics/wayland/weston_1.4.0.bb b/meta/recipes-graphics/wayland/weston_1.5.0.bb
-> similarity index 88%
-> rename from meta/recipes-graphics/wayland/weston_1.4.0.bb
-> rename to meta/recipes-graphics/wayland/weston_1.5.0.bb
-> index afdc49c..f6ae8c4 100644
-> --- a/meta/recipes-graphics/wayland/weston_1.4.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_1.5.0.bb
-> @@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
->  SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->             file://weston.png \
->             file://weston.desktop \
-> -           file://0001-remove-dependence-on-wayland-scanner-flags.patch"
-> -SRC_URI[md5sum] = "4438d2b1f3c9ba9a4a2b10d89fac6fd0"
-> -SRC_URI[sha256sum] = "74a2319d98e9cdb1acf24659699719aa89ac268cf549759271e326edc5f9ed64"
-> -
-> +           file://disable-wayland-scanner-pkg-check.patch \
-> +           file://make-lcms-configurable.patch"
-> +SRC_URI[md5sum] = "8eb40d230efc2411f083c20656534780"
-> +SRC_URI[sha256sum] = "06388ba04ac79aa72d685cc1a8e646ddb2b8cfe11fcc742294f9addac48b7684"
->  
->  inherit autotools pkgconfig useradd
->  
-> @@ -25,7 +25,8 @@ EXTRA_OECONF = "--enable-setuid-install \
->                  --enable-demo-clients-install \
->                  --disable-libunwind \
->                  --disable-rpi-compositor \
-> -                --disable-rdp-compositor"
-> +                --disable-rdp-compositor \
-> +                --disable-lcms"
-                   ^^^^^^^^^^^^^^^
-Is this needed when you use PACKAGECONFIG later on?
->  
->  
->  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-> @@ -53,6 +54,8 @@ PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
->  PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
->  # Weston with cairo glesv2 support
->  PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
-> +# Weston with lcms support
-> +PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
->  
->  do_install_append() {
->  	# Weston doesn't need the .la files to load modules, so wipe them
+When build bash, a error occurs, the log follow:
+make[1]: *** No rule to make target `/config.status',
+needed by `Makefile'. Stop.
+make: [installdirs] Error 2 (ignored)
 
-Bye Henning
+The cause is that some variable,PACKAGE and VERSION don't be defined,
+and others don't get correct value, eg, top_builddir in po/Makevar,
+GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
+
+The patch fixed above problem.
+
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+---
+ .../bash/bash/fix-build-error.patch                |   83 ++++++++++++++++++++
+ meta/recipes-extended/bash/bash_4.3.bb             |    1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/fix-build-error.patch
+
+diff --git a/meta/recipes-extended/bash/bash/fix-build-error.patch b/meta/recipes-extended/bash/bash/fix-build-error.patch
+new file mode 100644
+index 0000000..9db6fe2
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/fix-build-error.patch
+@@ -0,0 +1,83 @@
++diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
++--- bash-4.3-org/aclocal.m4	2014-05-23 15:28:54.252565146 +0800
+++++ bash-4.3/aclocal.m4	2014-05-23 15:33:19.924570133 +0800
++@@ -3710,6 +3710,14 @@
++   AC_REQUIRE([AC_PROG_INSTALL])dnl
++   AC_REQUIRE([AM_MKINSTALLDIRS])dnl
++   AC_REQUIRE([AM_NLS])dnl
+++  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+++  AC_REQUIRE([AC_PROG_SED])dnl
+++
+++  AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
+++
+++  dnl Release version of the gettext macros. This is used to ensure that
+++  dnl the gettext macros and po/Makefile.in.in are in sync.
+++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
++ 
++   dnl Perform the following tests also if --disable-nls has been given,
++   dnl because they are needed for "make dist" to work.
++@@ -3723,6 +3731,22 @@
++     :)
++   AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
++ 
+++ dnl Test whether it is GNU msgfmt >= 0.15.
+++changequote(,)dnl
+++  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
+++    *) MSGFMT_015=$MSGFMT ;;
+++  esac
+++changequote([,])dnl
+++  AC_SUBST([MSGFMT_015])
+++changequote(,)dnl
+++  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
+++    *) GMSGFMT_015=$GMSGFMT ;;
+++  esac
+++changequote([,])dnl
+++  AC_SUBST([GMSGFMT_015])
+++
++   dnl Search for GNU xgettext 0.12 or newer in the PATH.
++   dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
++   dnl The second test excludes FreeBSD xgettext.
++@@ -3733,6 +3757,15 @@
++   dnl Remove leftover from FreeBSD xgettext call.
++   rm -f messages.po
++ 
+++  dnl Test whether it is GNU xgettext >= 0.15.
+++changequote(,)dnl
+++  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
+++    *) XGETTEXT_015=$XGETTEXT ;;
+++  esac
+++changequote([,])dnl
+++  AC_SUBST([XGETTEXT_015])
+++
++   dnl Search for GNU msgmerge 0.11 or newer in the PATH.
++   AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
++     [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
++diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
++--- bash-4.3-org/configure.ac	2014-05-23 15:28:54.208565145 +0800
+++++ bash-4.3/configure.ac	2014-05-23 15:29:35.640565923 +0800
++@@ -1201,6 +1201,10 @@
++ #AC_SUBST(ALLOCA_SOURCE)
++ #AC_SUBST(ALLOCA_OBJECT)
++ 
+++# Define the identity of the package.
+++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
+++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
+++
++ AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile lib/glob/Makefile \
++ 	  lib/intl/Makefile \
++ 	  lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
++diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
++--- bash-4.3-org/po/Makevars	2014-05-23 15:28:54.204565145 +0800
+++++ bash-4.3/po/Makevars	2014-05-23 15:30:04.772566469 +0800
++@@ -5,7 +5,7 @@
++ 
++ # These two variables depend on the location of this directory.
++ subdir = po
++-top_builddir = $(BUILD_DIR)
+++top_builddir = ..
++ 
++ # These options get passed to xgettext.
++ XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
+diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
+index 25b7410..3ddf145 100644
+--- a/meta/recipes-extended/bash/bash_4.3.bb
++++ b/meta/recipes-extended/bash/bash_4.3.bb
+@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            file://build-tests.patch \
+            file://test-output.patch \
+            file://run-ptest \
++           file://fix-build-error.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
+-- 
+1.7.9.5
+
 
