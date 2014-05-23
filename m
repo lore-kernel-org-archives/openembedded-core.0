@@ -1,29 +1,26 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F4C266078
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (unknown [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D7B565E37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 May 2014 09:45:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4N9jo39019710
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 23 May 2014 02:45:50 -0700 (PDT)
-Received: from [128.224.162.182] (128.224.162.182) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Fri, 23 May 2014 02:45:49 -0700
-Message-ID: <537F18B0.6060009@windriver.com>
-Date: Fri, 23 May 2014 17:45:20 +0800
-From: Wenlin Kang <wenlin.kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Fri, 23 May 2014 09:53:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4N9reH9019264
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 May 2014 02:53:40 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 23 May 2014 02:53:39 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 May 2014 17:54:16 +0800
+Message-ID: <0b765ce48ce12f1b0222ef2e769c7644aa4df9eb.1400838768.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1400838768.git.Qi.Chen@windriver.com>
+References: <cover.1400838768.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1400833868-27473-1-git-send-email-wenlin.kang@windriver.com>
-	<CAJTo0LYb9vqXFTLwEczYzafcAPv8yuo8isK00ViPvOF=YsFPsw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYb9vqXFTLwEczYzafcAPv8yuo8isK00ViPvOF=YsFPsw@mail.gmail.com>
-X-Originating-IP: [128.224.162.182]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: fixed bash build error
+Subject: [dora][PATCH 1/1] populate-extfs.sh: keep file timestamps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,103 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 May 2014 09:45:51 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020000060103000601040303"
+X-List-Received-Date: Fri, 23 May 2014 09:53:41 -0000
+Content-Type: text/plain
 
---------------020000060103000601040303
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Fix populate-extfs.sh to keep file timestamps while generating the
+ext file systems.
 
-On 2014年05月23日 17:29, Burton, Ross wrote:
-> First, bash builds fine for me, so can you elaborate on what the
-> situation that causes the failure is.
-  build bash, then check temp/log.do_install, we can see error , this 
-trigger when builds in bash/po/
-> The patch is missing upstream-status and signed-off-by.  For build
-> fixes I'd hope that there would be communication with upstream.
->
-> On 23 May 2014 09:31, Wenlin Kang <wenlin.kang@windriver.com> wrote:
->> +--- bash-4.3-org/aclocal.m4    2014-05-23 15:28:54.252565146 +0800
->> ++++ bash-4.3/aclocal.m4        2014-05-23 15:33:19.924570133 +0800
-> aclocal.m4 is overwritten in do_configure when we run autoreconf so
-> anything changed in that file will be lost.
-    in bash, I have  double checking,  original a clocal.m4 will be 
-"cat" to acinclude.m4 at begin of do_configure not changed,
-    and  after regenerated acloacl.m4 will include acinclude.m4, so the 
-changing in  original aclocal.m4 will be not lost.
->
-> Ross
->
->
+[YOCTO #6348]
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |   10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
+index 7de720b..76c4d6f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
+@@ -35,7 +35,7 @@ DEBUGFS="debugfs"
+ 		fi
+ 
+ 		# Only stat once since stat is a time consuming command
+-		STAT=$(stat -c "TYPE=\"%F\";DEVNO=\"0x%t 0x%T\";MODE=\"%f\";U=\"%u\";G=\"%g\"" "$FILE")
++		STAT=$(stat -c "TYPE=\"%F\";DEVNO=\"0x%t 0x%T\";MODE=\"%f\";U=\"%u\";G=\"%g\";AT=\"%x\";MT=\"%y\";CT=\"%z\"" "$FILE")
+ 		eval $STAT
+ 
+ 		case $TYPE in
+@@ -69,6 +69,14 @@ DEBUGFS="debugfs"
+ 		# Set uid and gid
+ 		echo "sif \"$TGT\" uid $U"
+ 		echo "sif \"$TGT\" gid $G"
++
++		# Set atime, mtime and ctime
++		AT=`echo $AT | cut -d'.' -f1 | sed -e 's#[- :]##g'`
++		MT=`echo $MT | cut -d'.' -f1 | sed -e 's#[- :]##g'`
++		CT=`echo $CT | cut -d'.' -f1 | sed -e 's#[- :]##g'`
++		echo "sif \"$TGT\" atime $AT"
++		echo "sif \"$TGT\" mtime $MT"
++		echo "sif \"$TGT\" ctime $CT"
+ 	done
+ 
+ 	# Handle the hard links.
 -- 
-Thanks,
-Wenlin Kang
+1.7.9.5
 
 
---------------020000060103000601040303
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2014年05月23日 17:29, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYb9vqXFTLwEczYzafcAPv8yuo8isK00ViPvOF=YsFPsw@mail.gmail.com"
-      type="cite">
-      <pre wrap="">First, bash builds fine for me, so can you elaborate on what the
-situation that causes the failure is.
-</pre>
-    </blockquote>
-     build bash, then check temp/log.do_install, we can see error , this
-    trigger when builds in bash/po/<br>
-    <blockquote
-cite="mid:CAJTo0LYb9vqXFTLwEczYzafcAPv8yuo8isK00ViPvOF=YsFPsw@mail.gmail.com"
-      type="cite">
-      <pre wrap="">
-The patch is missing upstream-status and signed-off-by.  For build
-fixes I'd hope that there would be communication with upstream.
-
-On 23 May 2014 09:31, Wenlin Kang <a class="moz-txt-link-rfc2396E" href="mailto:wenlin.kang@windriver.com">&lt;wenlin.kang@windriver.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+--- bash-4.3-org/aclocal.m4    2014-05-23 15:28:54.252565146 +0800
-++++ bash-4.3/aclocal.m4        2014-05-23 15:33:19.924570133 +0800
-</pre>
-      </blockquote>
-      <pre wrap="">
-aclocal.m4 is overwritten in do_configure when we run autoreconf so
-anything changed in that file will be lost.</pre>
-    </blockquote>
-       in bash, I have  double checking,  original a
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    clocal.m4 will be "cat" to acinclude.m4 at begin of do_configure not
-    changed,<br>
-       and  after regenerated acloacl.m4 will include acinclude.m4, so
-    the changing in  original aclocal.m4 will be not lost.<br>
-    <blockquote
-cite="mid:CAJTo0LYb9vqXFTLwEczYzafcAPv8yuo8isK00ViPvOF=YsFPsw@mail.gmail.com"
-      type="cite">
-      <pre wrap="">
-
-Ross
-
-
-</pre>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Thanks,
-Wenlin Kang</pre>
-  </body>
-</html>
-
---------------020000060103000601040303--
