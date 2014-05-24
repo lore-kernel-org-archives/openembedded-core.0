@@ -1,44 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pa0-f43.google.com (unknown [209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B8FC565FC8
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f48.google.com (unknown [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 87C366B3A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 May 2014 08:42:13 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hz1so5150408pad.16
+	Sat, 24 May 2014 14:44:34 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id k14so1814853wgh.19
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 May 2014 01:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=HYjvztDswzFa6CfPpllPuP6xAIRr9G/g0mLTg6NCOwc=;
-	b=YUDYYcDpaP7qMKmt0qj9FKLEaa7pw3mVqmx+1hMY4ssNXNBsVlrqW07oEzFL+La9gd
-	yLBBDx/LWJdUd82KtwOSiDS/N71Fyh0a35+2WmvI3xjMLR3QHBvAaeyPva0hmwRrDeqF
-	wfyNh3vSU+cTK+KsSiuA8y9rSAGnLV+Kre0t4XEzuC1BipbNDX/F3Ox/aR7LbYYBoiln
-	QjF0DTNXLBuRbmeentGnCxYyMCl/0Pbo1Oc3tz+hXV7bhRtS8Wg9LiBfwBK5F6D6pWTx
-	BxtpHsKp0NwVSRj8ZXmUZAKQyt7w/l+oe3568JRKBLy0llC8aRQcHIMRip9d+6pJQdeu
-	dwTA==
-X-Received: by 10.66.226.145 with SMTP id rs17mr12410094pac.144.1400920934986; 
-	Sat, 24 May 2014 01:42:14 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	Sat, 24 May 2014 07:44:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=HRwZDTHWxg9XXE5wfUfY/TW+0PytwiQ4ynzmWIhtKeA=;
+	b=dBJ/TintlLDzO7kRAO+j+TAKAIipoHw70pFQdXmBvgl3P0Ad29d3iAUNwlKkPqN71x
+	QrKZWdstkWbZqyfphV+aE8Wy0eQZehs+uLEq5fmTJSXWdxzOobgLqGJ7AvB4LBYtZSzi
+	AJgWfgAwitFf5pS7v8BvYI7k2wIfSeK9FfjbyS7FPqtpp9c1ISHRl89RCEHn3+ebVLWY
+	Uu0v0YmZshwcXUa5aQsMQPXkvfnrKZhq+ExMkrDgyjsgh95PovDW5BdiFUDJ1zuB2WQr
+	k5MoslSk8bfRTOK5BZPjulP8C7pdXRfuMoPcdaOf0usLkNo6C6ayxOqVpPOPGEndIidh
+	KpYw==
+X-Gm-Message-State: ALoCoQk/kkjDRioTBaGatB5/WUSSDPrcojX9RVtmsPvHjQUU7/xwedyolzeyUKi7T4Cn3b9zyQeZ
+X-Received: by 10.180.211.243 with SMTP id nf19mr11521441wic.58.1400942675444; 
+	Sat, 24 May 2014 07:44:35 -0700 (PDT)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
 	by mx.google.com with ESMTPSA id
-	jq6sm8232078pbb.76.2014.05.24.01.42.11 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 24 May 2014 01:42:13 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 24 May 2014 10:42:13 +0200
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140524084213.GC2715@jama>
-References: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<1400672277-7181-4-git-send-email-Matthieu.Crapet@ingenico.com>
-	<1423131.I8v84STvfF@peggleto-mobl5.ger.corp.intel.com>
-	<CAMKF1srVR0u6OLL_6ZAFLjcbvf2iHNRbTRbZGX5yGtGgX1CUwQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1srVR0u6OLL_6ZAFLjcbvf2iHNRbTRbZGX5yGtGgX1CUwQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] libav (9.13): remove DEFAULT_PREFERENCE
+	lo18sm10705254wic.1.2014.05.24.07.44.34 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 24 May 2014 07:44:34 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <113fcfb0c3c5533605e87538cd873c4ff90abcfc.1400815619.git.dvhart@linux.intel.com>
+Date: Sat, 24 May 2014 16:44:31 +0200
+Message-Id: <353D7623-F316-46C6-9F83-3D59DF30F7AD@dominion.thruhere.net>
+References: <cover.1400815619.git.dvhart@linux.intel.com>
+	<113fcfb0c3c5533605e87538cd873c4ff90abcfc.1400815619.git.dvhart@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ddimage: Support Mac OS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,45 +48,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 May 2014 08:42:17 -0000
-X-Groupsio-MsgNum: 53515
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FsscpQKzF/jJk6ya"
-Content-Disposition: inline
-
---FsscpQKzF/jJk6ya
+X-List-Received-Date: Sat, 24 May 2014 14:44:39 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 23, 2014 at 07:36:42PM -0700, Khem Raj wrote:
-> On Wed, May 21, 2014 at 4:57 AM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> >> Use PREFERRED_VERSION_libav in your distro definition instead.
-> >
-> > Why? PREFERRED_VERSION_libav will override this in any case...
+
+Op 23 mei 2014, om 06:28 heeft Darren Hart <dvhart@linux.intel.com> het =
+volgende geschreven:
+
+> Update the ddimage script to allow it to work on Mac OS too. The =
+biggest
+> difference is sysfs vs diskutil and in the syntax of the stat command
+> between Mac OS and Linux, unfortunately. Workarounds using ls, cut, =
+and
+> columns got really fragile really quickly. Relying on stat and =
+switching
+> on uname seemed the more robust solution.
 >=20
-> I would rather ask why not ? we are pinning to older version is there
-> a reason for that ?
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> ---
+> scripts/contrib/ddimage | 25 ++++++++++++++++++++-----
+> 1 file changed, 20 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
+> index 93ebeaf..b66d0dd 100755
+> --- a/scripts/contrib/ddimage
+> +++ b/scripts/contrib/ddimage
+> @@ -1,7 +1,8 @@
+> #!/bin/sh
+>=20
+> -#BLACKLIST_DEVICES=3D"/dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde"
+> -BLACKLIST_DEVICES=3D"/dev/sda"
+> +# Default to avoiding the first two disks on typical Linux and Mac OS =
+installs
+> +# Better safe than sorry :-)
+> +BLACKLIST_DEVICES=3D"/dev/sda /dev/sdb /dev/disk1 /dev/disk3"
 
-Current openal-soft, gst-ffmpeg and xbmc fail with libav-9, mplayer2
-fails with old libav-8, we need someone to work on making them
-compatible with the same version of libav (preferably newer one - 9 or
-10) and then we should switch.
+s/disk3/disk2/
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---FsscpQKzF/jJk6ya
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlOAW2UACgkQN1Ujt2V2gByRQQCfd84ZIGmcCi1TCJ7cfUsYpx52
-uDQAn0R/VzK/+nMWG8t1i3R0n2MkXZ05
-=UvnJ
------END PGP SIGNATURE-----
-
---FsscpQKzF/jJk6ya--
