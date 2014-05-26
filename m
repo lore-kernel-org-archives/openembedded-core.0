@@ -1,41 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f48.google.com (unknown [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 87C366B3A4
+Return-Path: <wills.wang.open@gmail.com>
+X-Greylist: delayed 455 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 26 May 2014 03:47:36 UTC
+Received: from mail-pa0-f53.google.com (unknown [209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id ADEBC65FFC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 May 2014 14:44:34 +0000 (UTC)
-Received: by mail-wg0-f48.google.com with SMTP id k14so1814853wgh.19
+	Mon, 26 May 2014 03:47:36 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id kp14so6928474pab.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 May 2014 07:44:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=HRwZDTHWxg9XXE5wfUfY/TW+0PytwiQ4ynzmWIhtKeA=;
-	b=dBJ/TintlLDzO7kRAO+j+TAKAIipoHw70pFQdXmBvgl3P0Ad29d3iAUNwlKkPqN71x
-	QrKZWdstkWbZqyfphV+aE8Wy0eQZehs+uLEq5fmTJSXWdxzOobgLqGJ7AvB4LBYtZSzi
-	AJgWfgAwitFf5pS7v8BvYI7k2wIfSeK9FfjbyS7FPqtpp9c1ISHRl89RCEHn3+ebVLWY
-	Uu0v0YmZshwcXUa5aQsMQPXkvfnrKZhq+ExMkrDgyjsgh95PovDW5BdiFUDJ1zuB2WQr
-	k5MoslSk8bfRTOK5BZPjulP8C7pdXRfuMoPcdaOf0usLkNo6C6ayxOqVpPOPGEndIidh
-	KpYw==
-X-Gm-Message-State: ALoCoQk/kkjDRioTBaGatB5/WUSSDPrcojX9RVtmsPvHjQUU7/xwedyolzeyUKi7T4Cn3b9zyQeZ
-X-Received: by 10.180.211.243 with SMTP id nf19mr11521441wic.58.1400942675444; 
-	Sat, 24 May 2014 07:44:35 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	Sun, 25 May 2014 20:47:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type; bh=HiizQIXNCDJ6OzC+xwyysNNUFWSFzsFGA11ZhQjrYoQ=;
+	b=r50AJEkvDX73rqqeHhYt221E3boE5oMNagxr8zM+pyc/duaD6MMqnur75l+nzxErLy
+	20jK1Au3deukCR1nycqaDSvTEY2/v8aDdZ9lgbBlYlemMqPuy0Bte0DNahGP0/9uMTTz
+	Bc245MvVfQ8AiX3jrVBQlCsCvEHISYS7t8Z50i5Vv9J3oI3SKxR2Hs8BslL2JSFExiTs
+	nBdl4GSglxclmfbHAE/0Yu16tcvF61eivuSNkDSXqFVCGHTvf2vUbXyIJGOBcmTbiAsp
+	4LPlmTDdjhQ4lfC6noFVNDJqjYdFNLHkMIyiKwCzdB+1zM4Cy/D+AQopOasR02NB1is+
+	aPGg==
+X-Received: by 10.68.164.229 with SMTP id yt5mr24691505pbb.28.1401075603129;
+	Sun, 25 May 2014 20:40:03 -0700 (PDT)
+Received: from [192.168.10.16] ([183.16.38.82])
 	by mx.google.com with ESMTPSA id
-	lo18sm10705254wic.1.2014.05.24.07.44.34 for <multiple recipients>
+	io6sm51593591pac.44.2014.05.25.20.40.00
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 24 May 2014 07:44:34 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <113fcfb0c3c5533605e87538cd873c4ff90abcfc.1400815619.git.dvhart@linux.intel.com>
-Date: Sat, 24 May 2014 16:44:31 +0200
-Message-Id: <353D7623-F316-46C6-9F83-3D59DF30F7AD@dominion.thruhere.net>
-References: <cover.1400815619.git.dvhart@linux.intel.com>
-	<113fcfb0c3c5533605e87538cd873c4ff90abcfc.1400815619.git.dvhart@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
-X-Mailer: Apple Mail (2.1874)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ddimage: Support Mac OS
+	Sun, 25 May 2014 20:40:02 -0700 (PDT)
+Message-ID: <5382B78B.8020200@gmail.com>
+Date: Mon, 26 May 2014 11:39:55 +0800
+From: Wills Wang <wills.wang.open@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: How to use SDK/ADT to generate the ipk/rpm/deb file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,42 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 May 2014 14:44:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 May 2014 03:47:36 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050809020507000203000603"
 
+--------------050809020507000203000603
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Op 23 mei 2014, om 06:28 heeft Darren Hart <dvhart@linux.intel.com> het =
-volgende geschreven:
+Hi,
 
-> Update the ddimage script to allow it to work on Mac OS too. The =
-biggest
-> difference is sysfs vs diskutil and in the syntax of the stat command
-> between Mac OS and Linux, unfortunately. Workarounds using ls, cut, =
-and
-> columns got really fragile really quickly. Relying on stat and =
-switching
-> on uname seemed the more robust solution.
->=20
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> ---
-> scripts/contrib/ddimage | 25 ++++++++++++++++++++-----
-> 1 file changed, 20 insertions(+), 5 deletions(-)
->=20
-> diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
-> index 93ebeaf..b66d0dd 100755
-> --- a/scripts/contrib/ddimage
-> +++ b/scripts/contrib/ddimage
-> @@ -1,7 +1,8 @@
-> #!/bin/sh
->=20
-> -#BLACKLIST_DEVICES=3D"/dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde"
-> -BLACKLIST_DEVICES=3D"/dev/sda"
-> +# Default to avoiding the first two disks on typical Linux and Mac OS =
-installs
-> +# Better safe than sorry :-)
-> +BLACKLIST_DEVICES=3D"/dev/sda /dev/sdb /dev/disk1 /dev/disk3"
+I want to use SDK/ADT to develop application, but i don't find anything 
+about how to generate the ipk/rpm/deb file after compiling.
+Is there any way to do this?
 
-s/disk3/disk2/
+Best Regards
+Wills
 
+--------------050809020507000203000603
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Hi,<br>
+    <br>
+    I want to use SDK/ADT to
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    <span style="color: rgb(51, 51, 51); font-family: Verdana, Sans,
+      sans-serif; font-size: medium; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      24px; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">develop application, but i don't find anything about
+    </span>how to generate the ipk/rpm/deb file after compiling.<br>
+    Is there any way to do this?<br>
+    <br>
+    Best Regards<br>
+    Wills<br>
+  </body>
+</html>
+
+--------------050809020507000203000603--
