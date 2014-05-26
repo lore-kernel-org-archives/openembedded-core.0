@@ -1,28 +1,26 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 5D6F96F509
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EA93F65D70
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 16:02:26 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0158.001; Mon, 26 May 2014 18:02:26 +0200
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: Chong Lu <Chong.Lu@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] ethtool: fix ptest execution failure
-Thread-Index: AQHPeMQiunfYV0IvckKjVN6PesQC5ptTBLeQ
-Date: Mon, 26 May 2014 16:02:26 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428A495A1@SESTOEX04.enea.se>
-References: <cover.1401096040.git.Chong.Lu@windriver.com>
-	<b381184d550cfdb6f044e9fde7660a69877708cc.1401096040.git.Chong.Lu@windriver.com>
-In-Reply-To: <b381184d550cfdb6f044e9fde7660a69877708cc.1401096040.git.Chong.Lu@windriver.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.14.201]
+	Mon, 26 May 2014 17:40:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4QHeDM2026778
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 26 May 2014 10:40:13 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 26 May 2014 10:40:12 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 26 May 2014 13:40:07 -0400
+Message-ID: <965e5d2ac53177f2290b0feabc2abece16daaea9.1401124899.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1401124899.git.bruce.ashfield@windriver.com>
+References: <cover.1401124899.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] ethtool: fix ptest execution failure
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] linux-yocto/3.14: update to v3.14.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +33,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 May 2014 16:02:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 May 2014 17:40:14 -0000
+Content-Type: text/plain
 
+Bumping the 3.14 recipes to the latest korg -stable release.
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Chong Lu
-> Sent: Monday, May 26, 2014 12:22
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/1] ethtool: fix ptest execution failure
->=20
-> Modify ptest suite to make it enabled on new version.
->=20
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->  meta/recipes-extended/ethtool/ethtool/run-ptest |  2 +-
->  meta/recipes-extended/ethtool/ethtool_3.14.bb   | 16 ++++++++++------
->  2 files changed, 11 insertions(+), 7 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/ethtool/ethtool/run-ptest
-> b/meta/recipes-extended/ethtool/ethtool/run-ptest
-> index 1e245da..a359387 100644
-> --- a/meta/recipes-extended/ethtool/ethtool/run-ptest
-> +++ b/meta/recipes-extended/ethtool/ethtool/run-ptest
-> @@ -1,2 +1,2 @@
->  #!/bin/sh
-> -make -k runtest-TESTS
-> +make -k check-TESTS
-> diff --git a/meta/recipes-extended/ethtool/ethtool_3.14.bb
-> b/meta/recipes-extended/ethtool/ethtool_3.14.bb
-> index 2a3ca70..9729f65 100644
-> --- a/meta/recipes-extended/ethtool/ethtool_3.14.bb
-> +++ b/meta/recipes-extended/ethtool/ethtool_3.14.bb
-> @@ -13,16 +13,20 @@ SRC_URI[md5sum] =3D
-> "997e20c25c43ad5800f8ae3204455a8a"
->  SRC_URI[sha256sum] =3D
-> "b1a988d6e397bd9d5d73cfd64329f85121936a050174bbfe90f8701fd893a1df"
->=20
->  inherit autotools ptest
-> -RDEPENDS_${PN}-ptest +=3D "make"
-> +RDEPENDS_${PN}-ptest +=3D "make bash gawk"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+index c7b74d661d33..a8e344728d8d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+@@ -3,13 +3,13 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+ 
+-SRCREV_machine ?= "c88f5ec9b328da501be970b814fbc9cc4a09fa4f"
+-SRCREV_machine_qemuppc ?= "05629993752031b9de3f4792cfbd98caf60593da"
+-SRCREV_meta ?= "4df1e2ed992adeac4da60ad5118d0237e8cb88df"
++SRCREV_machine ?= "00343b1573f3392688ddceac0b3da0d307ab81b9"
++SRCREV_machine_qemuppc ?= "c7eae6cfd7bbe69d2340c6fd6bf35fbca88706c4"
++SRCREV_meta ?= "6fe191e807c9f6f3df57a72c5fc2ffb147f3129a"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.14.2"
++LINUX_VERSION ?= "3.14.4"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+index 2110e8a45ec0..626add9dc303 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+@@ -4,12 +4,12 @@ KBRANCH = "standard/tiny/base"
+ LINUX_KERNEL_TYPE = "tiny"
+ KCONFIG_MODE = "--allnoconfig"
+ 
+-LINUX_VERSION ?= "3.14.2"
++LINUX_VERSION ?= "3.14.4"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "b0b9c962ea01f9356fc1542b9696ebe4a38e196a"
+-SRCREV_meta ?= "4df1e2ed992adeac4da60ad5118d0237e8cb88df"
++SRCREV_machine ?= "cb22733185cd9db3e8945dadb899d9eb3831b9ad"
++SRCREV_meta ?= "6fe191e807c9f6f3df57a72c5fc2ffb147f3129a"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index 5271bb016356..1179640b005a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -10,18 +10,18 @@ KBRANCH_qemux86  = "standard/common-pc/base"
+ KBRANCH_qemux86-64  = "standard/common-pc-64/base"
+ KBRANCH_qemumips64 = "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "54ecc26cb84e939753eee811395435f8a4377c86"
+-SRCREV_machine_qemumips ?= "cc7b8670680fcd794dba0b21a1db1dbbda432924"
+-SRCREV_machine_qemuppc ?= "5ac4b714c656323b6099e8ab435fc05903d69874"
+-SRCREV_machine_qemux86 ?= "3904476fb890e014a244e1fc48342683d7ff7e0e"
+-SRCREV_machine_qemux86-64 ?= "b0b9c962ea01f9356fc1542b9696ebe4a38e196a"
+-SRCREV_machine_qemumips64 ?= "a9c251d64f5df58c41473ccb1d52143cc5247911"
+-SRCREV_machine ?= "b0b9c962ea01f9356fc1542b9696ebe4a38e196a"
+-SRCREV_meta ?= "4df1e2ed992adeac4da60ad5118d0237e8cb88df"
++SRCREV_machine_qemuarm ?= "9882294294f307dc52c29e5dbb24d7f9a2f5a635"
++SRCREV_machine_qemumips ?= "94e2f8429bcc953cb0df499446b847ba67a0f334"
++SRCREV_machine_qemuppc ?= "2795a4d16724b41fbcd62c2f9f56c427d1ce3797"
++SRCREV_machine_qemux86 ?= "4aa41764bf8dba2044ff9fae806d61cac7cdd9de"
++SRCREV_machine_qemux86-64 ?= "cb22733185cd9db3e8945dadb899d9eb3831b9ad"
++SRCREV_machine_qemumips64 ?= "342ccacd4e28d1cc7e30277ee4ac6caa3086ff2f"
++SRCREV_machine ?= "cb22733185cd9db3e8945dadb899d9eb3831b9ad"
++SRCREV_meta ?= "6fe191e807c9f6f3df57a72c5fc2ffb147f3129a"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.14.2"
++LINUX_VERSION ?= "3.14.4"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+-- 
+1.8.1.2
 
-Isn't possible to avoid bash and gawk dependency here?
-Regards,
-  Tudor
-
->=20
->  do_compile_ptest() {
->     oe_runmake test-cmdline test-features
->  }
->=20
->  do_install_ptest () {
-> -   cp ${B}/Makefile                 ${D}${PTEST_PATH}
-> -   install ${B}/test-cmdline        ${D}${PTEST_PATH}
-> -   install ${B}/test-features       ${D}${PTEST_PATH}
-> -   install ${B}/ethtool             ${D}${PTEST_PATH}/ethtool
-> -   sed -i 's/^Makefile/_Makefile/'  ${D}${PTEST_PATH}/Makefile
-> +   for i in Makefile test-cmdline test-features; do \
-> +       install ${B}/$i ${D}${PTEST_PATH}; done
-> +   install ${S}/test-driver ${D}${PTEST_PATH}
-> +   sed -e 's/^Makefile/_Makefile/' \
-> +       -e 's/^test_cmdline_OBJECTS/#test_cmdline_OBJECTS/' \
-> +       -e 's/^test_features_OBJECTS/#test_features_OBJECTS/' \
-> +       -e 's/^top_srcdir =3D \(.*\)/top_srcdir =3D ./' \
-> +       -e '/^all:/,+1d' \
-> +       -i ${D}${PTEST_PATH}/Makefile
->  }
-> --
-> 1.8.1.2
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
