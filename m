@@ -1,23 +1,28 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga11.intel.com (unknown [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A9365D69
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 5D6F96F509
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 13:22:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 26 May 2014 06:22:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,913,1392192000"; d="scan'208";a="537707467"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 26 May 2014 06:22:24 -0700
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 1C96D6A4007;
-	Mon, 26 May 2014 06:21:58 -0700 (PDT)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 May 2014 18:26:32 +0300
-Message-Id: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] oeqa/controllers/beaglebonetarget.py: add conditions for files copied to /boot
+	Mon, 26 May 2014 16:02:26 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0158.001; Mon, 26 May 2014 18:02:26 +0200
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: Chong Lu <Chong.Lu@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] ethtool: fix ptest execution failure
+Thread-Index: AQHPeMQiunfYV0IvckKjVN6PesQC5ptTBLeQ
+Date: Mon, 26 May 2014 16:02:26 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428A495A1@SESTOEX04.enea.se>
+References: <cover.1401096040.git.Chong.Lu@windriver.com>
+	<b381184d550cfdb6f044e9fde7660a69877708cc.1401096040.git.Chong.Lu@windriver.com>
+In-Reply-To: <b381184d550cfdb6f044e9fde7660a69877708cc.1401096040.git.Chong.Lu@windriver.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.14.201]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] ethtool: fix ptest execution failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 May 2014 13:22:47 -0000
+X-List-Received-Date: Mon, 26 May 2014 16:02:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Sometimes the rootfs archive contains the kernel file (core-image-full-cmdline) or the dtbs files (core-image-sato). Adding verification to add them if they don't allready exist.
 
-Without this, the first condition would fail and the image deploy task would stop.
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Chong Lu
+> Sent: Monday, May 26, 2014 12:22
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/1] ethtool: fix ptest execution failure
+>=20
+> Modify ptest suite to make it enabled on new version.
+>=20
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>  meta/recipes-extended/ethtool/ethtool/run-ptest |  2 +-
+>  meta/recipes-extended/ethtool/ethtool_3.14.bb   | 16 ++++++++++------
+>  2 files changed, 11 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/ethtool/ethtool/run-ptest
+> b/meta/recipes-extended/ethtool/ethtool/run-ptest
+> index 1e245da..a359387 100644
+> --- a/meta/recipes-extended/ethtool/ethtool/run-ptest
+> +++ b/meta/recipes-extended/ethtool/ethtool/run-ptest
+> @@ -1,2 +1,2 @@
+>  #!/bin/sh
+> -make -k runtest-TESTS
+> +make -k check-TESTS
+> diff --git a/meta/recipes-extended/ethtool/ethtool_3.14.bb
+> b/meta/recipes-extended/ethtool/ethtool_3.14.bb
+> index 2a3ca70..9729f65 100644
+> --- a/meta/recipes-extended/ethtool/ethtool_3.14.bb
+> +++ b/meta/recipes-extended/ethtool/ethtool_3.14.bb
+> @@ -13,16 +13,20 @@ SRC_URI[md5sum] =3D
+> "997e20c25c43ad5800f8ae3204455a8a"
+>  SRC_URI[sha256sum] =3D
+> "b1a988d6e397bd9d5d73cfd64329f85121936a050174bbfe90f8701fd893a1df"
+>=20
+>  inherit autotools ptest
+> -RDEPENDS_${PN}-ptest +=3D "make"
+> +RDEPENDS_${PN}-ptest +=3D "make bash gawk"
 
-diff --git a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
-index 53f454b..af56bda 100644
---- a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
-+++ b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
-@@ -41,12 +41,12 @@ class BeagleBoneTarget(MasterImageHardwareTarget):
-                 'mount -L testrootfs /mnt/testrootfs',
-                 'rm -rf /mnt/testrootfs/*',
-                 'tar xzvf ~/test-rootfs.tar.gz -C /mnt/testrootfs',
--                '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-kernel /mnt/testrootfs/boot/uImage',
-+                'if [ ! -e /mnt/testrootfs/boot/uImage ]; then cp ~/test-kernel /mnt/testrootfs/boot/uImage; fi',
-                 ]
- 
-         for _, dtbfn in self.dtbs:
-             # Kernel and dtb files may not be in the image, so copy them if not
--            self.deploy_cmds.append('[ ! -e /mnt/testrootfs/boot/{0} ] && cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn))
-+            self.deploy_cmds.append('if [ ! -e /mnt/testrootfs/boot/{0} ]; then cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn) + '; fi')
- 
-         if not self.serialcontrol_cmd:
-             bb.fatal("This TEST_TARGET needs a TEST_SERIALCONTROL_CMD defined in local.conf.")
--- 
-1.8.3.2
+Isn't possible to avoid bash and gawk dependency here?
+Regards,
+  Tudor
 
+>=20
+>  do_compile_ptest() {
+>     oe_runmake test-cmdline test-features
+>  }
+>=20
+>  do_install_ptest () {
+> -   cp ${B}/Makefile                 ${D}${PTEST_PATH}
+> -   install ${B}/test-cmdline        ${D}${PTEST_PATH}
+> -   install ${B}/test-features       ${D}${PTEST_PATH}
+> -   install ${B}/ethtool             ${D}${PTEST_PATH}/ethtool
+> -   sed -i 's/^Makefile/_Makefile/'  ${D}${PTEST_PATH}/Makefile
+> +   for i in Makefile test-cmdline test-features; do \
+> +       install ${B}/$i ${D}${PTEST_PATH}; done
+> +   install ${S}/test-driver ${D}${PTEST_PATH}
+> +   sed -e 's/^Makefile/_Makefile/' \
+> +       -e 's/^test_cmdline_OBJECTS/#test_cmdline_OBJECTS/' \
+> +       -e 's/^test_features_OBJECTS/#test_features_OBJECTS/' \
+> +       -e 's/^top_srcdir =3D \(.*\)/top_srcdir =3D ./' \
+> +       -e '/^all:/,+1d' \
+> +       -i ${D}${PTEST_PATH}/Makefile
+>  }
+> --
+> 1.8.1.2
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
