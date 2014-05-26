@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 778DB6FA2F
+	by mail.openembedded.org (Postfix) with ESMTP id 4C47E6F509
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 17:40:14 +0000 (UTC)
+	Mon, 26 May 2014 17:40:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4QHeDRN018895
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4QHeCXe018892
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 May 2014 10:40:13 -0700 (PDT)
+	Mon, 26 May 2014 10:40:12 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 26 May 2014 10:40:13 -0700
+	14.3.169.1; Mon, 26 May 2014 10:40:12 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 26 May 2014 13:40:08 -0400
-Message-ID: <3795d1e5a108cf3b01199d674348d96feea21cea.1401124899.git.bruce.ashfield@windriver.com>
+Date: Mon, 26 May 2014 13:40:06 -0400
+Message-ID: <cover.1401124899.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1401124899.git.bruce.ashfield@windriver.com>
-References: <cover.1401124899.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] linux-yocto-rt/3.14: update to 3.14-rt5
+Subject: [PATCH 0/4] linux-yocto: consolidated kernel update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 May 2014 17:40:15 -0000
+X-List-Received-Date: Mon, 26 May 2014 17:40:16 -0000
 Content-Type: text/plain
 
-Updating the the latest 3.14-rt release.
+Richard/Saul,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Sending a pull request for 3.10 and 3.14 kernel updates. Nothing particularly
+fancy here, just -stable, rt and config changes.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index a8e344728d8d..2e224307544d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,9 +3,9 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--SRCREV_machine ?= "00343b1573f3392688ddceac0b3da0d307ab81b9"
--SRCREV_machine_qemuppc ?= "c7eae6cfd7bbe69d2340c6fd6bf35fbca88706c4"
--SRCREV_meta ?= "6fe191e807c9f6f3df57a72c5fc2ffb147f3129a"
-+SRCREV_machine ?= "08229402523bdb153dceed0a7260180837396e7f"
-+SRCREV_machine_qemuppc ?= "08229402523bdb153dceed0a7260180837396e7f"
-+SRCREV_meta ?= "62f236c734996f240d91daee2cb6a05669c7326c"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
+Bruce
+
+The following changes since commit 894df445fa71a170397c6e0b4960a89ef20a4230:
+
+  guile: Update to 2.0.11 version (2014-05-21 19:50:21 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto/3.14: update to v3.14.4
+  linux-yocto-rt/3.14: update to 3.14-rt5
+  beaglebone: enable the nowayout option for the watchdog
+  linux-yocto/3.10: bump kver to v3.10.40
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
+ 6 files changed, 32 insertions(+), 32 deletions(-)
+
 -- 
 1.8.1.2
 
