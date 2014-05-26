@@ -1,26 +1,23 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C62636B7A6
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 1EDC36B7CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 09:21:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4Q9LscX013524
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 02:21:54 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 26 May 2014 02:21:54 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 May 2014 17:21:51 +0800
-Message-ID: <b381184d550cfdb6f044e9fde7660a69877708cc.1401096040.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1401096040.git.Chong.Lu@windriver.com>
-References: <cover.1401096040.git.Chong.Lu@windriver.com>
+	Mon, 26 May 2014 11:10:57 +0000 (UTC)
+Received: from [172.16.141.140] (172.16.141.140) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Mon, 26 May 2014 13:10:57 +0200
+Message-ID: <5383212E.1030203@enea.com>
+Date: Mon, 26 May 2014 13:10:38 +0200
+From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ethtool: fix ptest execution failure
+To: Wills Wang <wills.wang.open@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <5382B78B.8020200@gmail.com>
+In-Reply-To: <5382B78B.8020200@gmail.com>
+X-Originating-IP: [172.16.141.140]
+Subject: Re: How to use SDK/ADT to generate the ipk/rpm/deb file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 May 2014 09:21:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 26 May 2014 11:11:06 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Modify ptest suite to make it enabled on new version.
+On 2014-05-26 05:39, Wills Wang wrote:
+> Hi,
+>
+> I want to use SDK/ADT to develop application, but i don't find anything
+> about how to generate the ipk/rpm/deb file after compiling.
+> Is there any way to do this?
+>
+> Best Regards
+> Wills
+>
+>
+>
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-extended/ethtool/ethtool/run-ptest |  2 +-
- meta/recipes-extended/ethtool/ethtool_3.14.bb   | 16 ++++++++++------
- 2 files changed, 11 insertions(+), 7 deletions(-)
+Hi,
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/run-ptest b/meta/recipes-extended/ethtool/ethtool/run-ptest
-index 1e245da..a359387 100644
---- a/meta/recipes-extended/ethtool/ethtool/run-ptest
-+++ b/meta/recipes-extended/ethtool/ethtool/run-ptest
-@@ -1,2 +1,2 @@
- #!/bin/sh
--make -k runtest-TESTS
-+make -k check-TESTS
-diff --git a/meta/recipes-extended/ethtool/ethtool_3.14.bb b/meta/recipes-extended/ethtool/ethtool_3.14.bb
-index 2a3ca70..9729f65 100644
---- a/meta/recipes-extended/ethtool/ethtool_3.14.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_3.14.bb
-@@ -13,16 +13,20 @@ SRC_URI[md5sum] = "997e20c25c43ad5800f8ae3204455a8a"
- SRC_URI[sha256sum] = "b1a988d6e397bd9d5d73cfd64329f85121936a050174bbfe90f8701fd893a1df"
- 
- inherit autotools ptest
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make bash gawk"
- 
- do_compile_ptest() {
-    oe_runmake test-cmdline test-features
- }
- 
- do_install_ptest () {
--   cp ${B}/Makefile                 ${D}${PTEST_PATH}
--   install ${B}/test-cmdline        ${D}${PTEST_PATH}
--   install ${B}/test-features       ${D}${PTEST_PATH}
--   install ${B}/ethtool             ${D}${PTEST_PATH}/ethtool
--   sed -i 's/^Makefile/_Makefile/'  ${D}${PTEST_PATH}/Makefile
-+   for i in Makefile test-cmdline test-features; do \
-+       install ${B}/$i ${D}${PTEST_PATH}; done
-+   install ${S}/test-driver ${D}${PTEST_PATH}
-+   sed -e 's/^Makefile/_Makefile/' \
-+       -e 's/^test_cmdline_OBJECTS/#test_cmdline_OBJECTS/' \
-+       -e 's/^test_features_OBJECTS/#test_features_OBJECTS/' \
-+       -e 's/^top_srcdir = \(.*\)/top_srcdir = ./' \
-+       -e '/^all:/,+1d' \
-+       -i ${D}${PTEST_PATH}/Makefile
- }
--- 
-1.8.1.2
+There is no common workflow to do this with the OE SDK, across package 
+managers.
+Each different package manager has a different setup.
+
+For ipk, http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/ might be 
+helpful.
+
+Br,
+David
 
 
