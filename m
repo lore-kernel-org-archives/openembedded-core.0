@@ -1,23 +1,23 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 1EDC36B7CB
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 63A9365D69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 11:10:57 +0000 (UTC)
-Received: from [172.16.141.140] (172.16.141.140) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Mon, 26 May 2014 13:10:57 +0200
-Message-ID: <5383212E.1030203@enea.com>
-Date: Mon, 26 May 2014 13:10:38 +0200
-From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Wills Wang <wills.wang.open@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <5382B78B.8020200@gmail.com>
-In-Reply-To: <5382B78B.8020200@gmail.com>
-X-Originating-IP: [172.16.141.140]
-Subject: Re: How to use SDK/ADT to generate the ipk/rpm/deb file?
+	Mon, 26 May 2014 13:22:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 26 May 2014 06:22:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,913,1392192000"; d="scan'208";a="537707467"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 26 May 2014 06:22:24 -0700
+Received: from localhost.localdomain (unknown [10.237.112.162])
+	by linux.intel.com (Postfix) with ESMTP id 1C96D6A4007;
+	Mon, 26 May 2014 06:21:58 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 May 2014 18:26:32 +0300
+Message-Id: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] oeqa/controllers/beaglebonetarget.py: add conditions for files copied to /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 May 2014 11:11:06 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 May 2014 13:22:47 -0000
 
-On 2014-05-26 05:39, Wills Wang wrote:
-> Hi,
->
-> I want to use SDK/ADT to develop application, but i don't find anything
-> about how to generate the ipk/rpm/deb file after compiling.
-> Is there any way to do this?
->
-> Best Regards
-> Wills
->
->
->
+Sometimes the rootfs archive contains the kernel file (core-image-full-cmdline) or the dtbs files (core-image-sato). Adding verification to add them if they don't allready exist.
 
-Hi,
+Without this, the first condition would fail and the image deploy task would stop.
 
-There is no common workflow to do this with the OE SDK, across package 
-managers.
-Each different package manager has a different setup.
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+---
+ meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-For ipk, http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/ might be 
-helpful.
-
-Br,
-David
+diff --git a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
+index 53f454b..af56bda 100644
+--- a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
++++ b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
+@@ -41,12 +41,12 @@ class BeagleBoneTarget(MasterImageHardwareTarget):
+                 'mount -L testrootfs /mnt/testrootfs',
+                 'rm -rf /mnt/testrootfs/*',
+                 'tar xzvf ~/test-rootfs.tar.gz -C /mnt/testrootfs',
+-                '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-kernel /mnt/testrootfs/boot/uImage',
++                'if [ ! -e /mnt/testrootfs/boot/uImage ]; then cp ~/test-kernel /mnt/testrootfs/boot/uImage; fi',
+                 ]
+ 
+         for _, dtbfn in self.dtbs:
+             # Kernel and dtb files may not be in the image, so copy them if not
+-            self.deploy_cmds.append('[ ! -e /mnt/testrootfs/boot/{0} ] && cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn))
++            self.deploy_cmds.append('if [ ! -e /mnt/testrootfs/boot/{0} ]; then cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn) + '; fi')
+ 
+         if not self.serialcontrol_cmd:
+             bb.fatal("This TEST_TARGET needs a TEST_SERIALCONTROL_CMD defined in local.conf.")
+-- 
+1.8.3.2
 
 
