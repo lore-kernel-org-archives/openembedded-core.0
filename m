@@ -1,38 +1,41 @@
-Return-Path: <wills.wang.open@gmail.com>
-X-Greylist: delayed 455 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 26 May 2014 03:47:36 UTC
-Received: from mail-pa0-f53.google.com (unknown [209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id ADEBC65FFC
+Return-Path: <ticotimo@gmail.com>
+X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 26 May 2014 05:34:17 UTC
+Received: from mail-ob0-f182.google.com (unknown [209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A58165E87
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 03:47:36 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id kp14so6928474pab.12
+	Mon, 26 May 2014 05:34:17 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wn1so7638159obc.41
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 May 2014 20:47:37 -0700 (PDT)
+	Sun, 25 May 2014 22:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type; bh=HiizQIXNCDJ6OzC+xwyysNNUFWSFzsFGA11ZhQjrYoQ=;
-	b=r50AJEkvDX73rqqeHhYt221E3boE5oMNagxr8zM+pyc/duaD6MMqnur75l+nzxErLy
-	20jK1Au3deukCR1nycqaDSvTEY2/v8aDdZ9lgbBlYlemMqPuy0Bte0DNahGP0/9uMTTz
-	Bc245MvVfQ8AiX3jrVBQlCsCvEHISYS7t8Z50i5Vv9J3oI3SKxR2Hs8BslL2JSFExiTs
-	nBdl4GSglxclmfbHAE/0Yu16tcvF61eivuSNkDSXqFVCGHTvf2vUbXyIJGOBcmTbiAsp
-	4LPlmTDdjhQ4lfC6noFVNDJqjYdFNLHkMIyiKwCzdB+1zM4Cy/D+AQopOasR02NB1is+
-	aPGg==
-X-Received: by 10.68.164.229 with SMTP id yt5mr24691505pbb.28.1401075603129;
-	Sun, 25 May 2014 20:40:03 -0700 (PDT)
-Received: from [192.168.10.16] ([183.16.38.82])
-	by mx.google.com with ESMTPSA id
-	io6sm51593591pac.44.2014.05.25.20.40.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 25 May 2014 20:40:02 -0700 (PDT)
-Message-ID: <5382B78B.8020200@gmail.com>
-Date: Mon, 26 May 2014 11:39:55 +0800
-From: Wills Wang <wills.wang.open@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=5v/24C+cjhzBLF6o5MUVUiFpYxj2/0ArEFamTs2WxZs=;
+	b=NVdZ0iGFcD79GErTS3to4punZtA3MePJ89t438Zs9Ot2GInh0/U23DnB5/fh+l2S59
+	x7gvwBV4cCL3MR6cdx4WYEuNcc6QeIny3k6nND0GQ4aZ2SgQs2uqE18jalvBb3G++l3T
+	jEeaIl/bGd4MEkSzbfaWMaZpNC26OXSG42MMJG53V8SHus8DBOylH0XK5xrBBy2A7K6/
+	EBSn01OI8wK/tvZG7QTBsq4k4JliVurFDXowdlRHpUK17sV/o7HMYKK0R8h0ub16SpBQ
+	ZKuBTt7fJ7TrlExQdhPbnQG7+1AFMpXUmj+6uN/jSSGTDCJ/GY6KSYbU2EcUw3T6QSBP
+	hysg==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: How to use SDK/ADT to generate the ipk/rpm/deb file?
+X-Received: by 10.60.134.109 with SMTP id pj13mr22294297oeb.63.1401082154266; 
+	Sun, 25 May 2014 22:29:14 -0700 (PDT)
+Received: by 10.182.240.136 with HTTP; Sun, 25 May 2014 22:29:14 -0700 (PDT)
+In-Reply-To: <20140524084213.GC2715@jama>
+References: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<1400672277-7181-4-git-send-email-Matthieu.Crapet@ingenico.com>
+	<1423131.I8v84STvfF@peggleto-mobl5.ger.corp.intel.com>
+	<CAMKF1srVR0u6OLL_6ZAFLjcbvf2iHNRbTRbZGX5yGtGgX1CUwQ@mail.gmail.com>
+	<20140524084213.GC2715@jama>
+Date: Sun, 25 May 2014 22:29:14 -0700
+Message-ID: <CANx9H-AGGrh-3zVOoaq9GZ60gtknNGAyZ7BGJD5s2w-GYH3e7A@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] libav (9.13): remove DEFAULT_PREFERENCE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,52 +48,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 May 2014 03:47:36 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050809020507000203000603"
+X-List-Received-Date: Mon, 26 May 2014 05:34:20 -0000
+Content-Type: multipart/alternative; boundary=047d7b471f381b34ed04fa46dc3e
 
---------------050809020507000203000603
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--047d7b471f381b34ed04fa46dc3e
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On Sat, May 24, 2014 at 1:42 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
 
-I want to use SDK/ADT to develop application, but i don't find anything 
-about how to generate the ipk/rpm/deb file after compiling.
-Is there any way to do this?
+> On Fri, May 23, 2014 at 07:36:42PM -0700, Khem Raj wrote:
+> > On Wed, May 21, 2014 at 4:57 AM, Paul Eggleton
+> > <paul.eggleton@linux.intel.com> wrote:
+> > >> Use PREFERRED_VERSION_libav in your distro definition instead.
+> > >
+> > > Why? PREFERRED_VERSION_libav will override this in any case...
+> >
+> > I would rather ask why not ? we are pinning to older version is there
+> > a reason for that ?
+>
+> Current openal-soft, gst-ffmpeg and xbmc fail with libav-9, mplayer2
+> fails with old libav-8, we need someone to work on making them
+> compatible with the same version of libav (preferably newer one - 9 or
+> 10) and then we should switch.
+>
+> The problem--at least for gst-ffmpeg and xbmc--is that libav-9 drops
+libpostproc.
+http://git.libav.org/?p=libav.git;a=commit;h=b315042c8ce984bec431c5965120853a843cbfa5
 
-Best Regards
-Wills
+I'll see if I can get http://git.videolan.org/?p=libpostproc.git to play
+nice.
 
---------------050809020507000203000603
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Otherwise we could build the internal versions of ffmpeg in gst-ffmpeg and
+xbmc, but that seems dumb and wasteful.
 
-<html>
-  <head>
+--Tim
 
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Hi,<br>
-    <br>
-    I want to use SDK/ADT to
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    <span style="color: rgb(51, 51, 51); font-family: Verdana, Sans,
-      sans-serif; font-size: medium; font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      24px; orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px;
-      background-color: rgb(255, 255, 255); display: inline !important;
-      float: none;">develop application, but i don't find anything about
-    </span>how to generate the ipk/rpm/deb file after compiling.<br>
-    Is there any way to do this?<br>
-    <br>
-    Best Regards<br>
-    Wills<br>
-  </body>
-</html>
+--047d7b471f381b34ed04fa46dc3e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------050809020507000203000603--
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
+On Sat, May 24, 2014 at 1:42 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div class=3D"">On Fri, May 23, 2014 at 07:36:42PM -0700, =
+Khem Raj wrote:<br>
+
+&gt; On Wed, May 21, 2014 at 4:57 AM, Paul Eggleton<br>
+&gt; &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@lin=
+ux.intel.com</a>&gt; wrote:<br>
+&gt; &gt;&gt; Use PREFERRED_VERSION_libav in your distro definition instead=
+.<br>
+&gt; &gt;<br>
+&gt; &gt; Why? PREFERRED_VERSION_libav will override this in any case...<br=
+>
+&gt;<br>
+&gt; I would rather ask why not ? we are pinning to older version is there<=
+br>
+&gt; a reason for that ?<br>
+<br>
+</div>Current openal-soft, gst-ffmpeg and xbmc fail with libav-9, mplayer2<=
+br>
+fails with old libav-8, we need someone to work on making them<br>
+compatible with the same version of libav (preferably newer one - 9 or<br>
+10) and then we should switch.<br>
+<br></blockquote><div>The problem--at least for gst-ffmpeg and xbmc--is tha=
+t libav-9 drops libpostproc.=C2=A0</div><div><a href=3D"http://git.libav.or=
+g/?p=3Dlibav.git;a=3Dcommit;h=3Db315042c8ce984bec431c5965120853a843cbfa5">h=
+ttp://git.libav.org/?p=3Dlibav.git;a=3Dcommit;h=3Db315042c8ce984bec431c5965=
+120853a843cbfa5</a></div>
+<div><br></div><div>I&#39;ll see if I can get <a href=3D"http://git.videola=
+n.org/?p=3Dlibpostproc.git">http://git.videolan.org/?p=3Dlibpostproc.git</a=
+> to play nice.</div><div><br></div><div>Otherwise we could build the inter=
+nal versions of ffmpeg in gst-ffmpeg and xbmc, but that seems dumb and wast=
+eful.<br>
+</div><div><br></div><div>--Tim</div></div><br></div></div>
+
+--047d7b471f381b34ed04fa46dc3e--
