@@ -1,28 +1,24 @@
 Return-Path: <Peter.Seebach@windriver.com>
 Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 35A4F6FAC7
+	by mail.openembedded.org (Postfix) with ESMTP id 78ED76FA9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 19:01:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4RJ1uUC001284
+	Tue, 27 May 2014 19:30:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4RJV0wg001591
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 12:01:56 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 27 May 2014 12:01:55 -0700
-Date: Tue, 27 May 2014 14:01:27 -0500
+	Tue, 27 May 2014 12:31:00 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 27 May 2014 12:31:00 -0700
 From: Peter Seebach <peter.seebach@windriver.com>
-To: Peter Seebach <peter.seebach@windriver.com>
-Message-ID: <20140527140127.229d766e@e6410-2>
-In-Reply-To: <9f01f929ce7aa2344836e9360a832899217626bb.1400713858.git.peter.seebach@windriver.com>
-References: <cover.1400713858.git.peter.seebach@windriver.com>
-	<9f01f929ce7aa2344836e9360a832899217626bb.1400713858.git.peter.seebach@windriver.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 May 2014 14:35:25 -0500
+Message-ID: <cover.1401219091.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: WARNING: FILES GETTING MARKED WORLD-WRITEABLE. (Was: Re: [PATCH 1/1] pseudo: handle fchmodat better, mask out unwanted write bits)
+Subject: [PATCH 0/1] pseudo: honor umask again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 19:02:00 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 May 2014 19:31:02 -0000
+Content-Type: text/plain
 
-On Wed, 21 May 2014 18:12:33 -0500
-Peter Seebach <peter.seebach@windriver.com> wrote:
+The fchmodat patch subtly broke umask support. The key here is that
+since I was thinking about chmod, chmod is what I tested, and chmod
+ignores umask. But the patch had the side effect of masking in 022
+bits if they were set in the requested mode for an open/mkdir/mknod,
+even if umask would have removed them from the filesystem.
 
-> +-#define PSEUDO_FS_MODE(mode, isdir) ((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0))
-> +-#define PSEUDO_DB_MODE(fs_mode, user_mode) (((fs_mode) & ~0700) | ((user_mode & 0700)))
-> ++#define PSEUDO_FS_MODE(mode, isdir) ((((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0)) & ~(S_IWGRP | S_IWOTH)) & ~(S_IWOTH | S_IWGRP))
-> ++#define PSEUDO_DB_MODE(fs_mode, user_mode) (((fs_mode) & ~0722) | ((user_mode & 0722)))
+This patch corrects that, and also in passing removes a completely
+spurious double-mask-out of extra bits. It turns out that
+	((x) & ~y)
+is just as good as
+	(((x) & ~y) & ~y)
 
-So, someone just spotted a bug this introduces.
+The patch looks larger than it really is, just because diffs-of-diffs;
+the substance is that each of the mknod/mkdir/open functions which
+actually works with the mode flag now masks out pseudo_umask, which
+is set during the initial pseudo client setup, and updated whenever
+umask is called.
 
-In the case where you're calling chmod, this produces exactly the results you
-probably expect: Files end up with the specified mode in the database, and
-with 022 masked out and 0700 masked in on the filesystem.
+Many thanks to kroon in #yocto for bringing this to my attention.
 
-If you're using open or mkdir, though, the old code was picking up changes to
-the mode from umask in the 077 bits (typically, 022), and the new code
-doesn't because I ignore the 022 bits in the filesystem since I know I masked
-them out.
+The following changes since commit 9948e4239b88026804c33d84830dbfe6b0ed3e59:
 
-I don't know how to solve this correctly yet, but basically I should be
-taking umask into account.
+  eglinfo: updated to compile with mesa10+ (2014-05-27 16:10:25 +0100)
 
-I'll try to get a patch out for this ASAP.
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/umask
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/umask
 
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Peter Seebach (1):
+  pseudo: Honor umask again
+
+ .../pseudo/files/pseudo-fchmodat-permissions.patch |  163 +++++++++++++++++++-
+ 1 files changed, 157 insertions(+), 6 deletions(-)
+
 
