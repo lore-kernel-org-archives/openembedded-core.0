@@ -1,26 +1,23 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A7536FB30
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga03.intel.com (unknown [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id F16066FB30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 19:31:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4RJV1FV007679
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 12:31:01 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 27 May 2014 12:31:00 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 May 2014 14:35:26 -0500
-Message-ID: <c834d904ae81813b3b317173edb1fdadd46d7ad4.1401219091.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1401219091.git.peter.seebach@windriver.com>
-References: <cover.1401219091.git.peter.seebach@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo: Honor umask again
+	Tue, 27 May 2014 19:47:07 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 May 2014 12:47:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,921,1392192000"; d="scan'208";a="437547008"
+Received: from msegurah-mobl4.amr.corp.intel.com (HELO localhost)
+	([10.254.42.19])
+	by azsmga001.ch.intel.com with ESMTP; 27 May 2014 12:46:39 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 May 2014 12:47:45 -0700
+Message-Id: <b110eea050b0524b54ed277cc3824851c2064f61.1401220020.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH v2] ddimage: Support Mac OS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,229 +30,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 19:31:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 May 2014 19:47:10 -0000
 
-The fchmodat-permissions patch was fine for the fchmod case, but
-had the unintended side effect of disregarding umask settings for
-open, mknod, mkdir, and their close relatives. Start tracking umask
-and masking the umask bits out where appropriate.
+Update the ddimage script to allow it to work on Mac OS too. The biggest
+difference is sysfs vs diskutil and in the syntax of the stat command
+between Mac OS and Linux, unfortunately. Workarounds using ls, cut, and
+columns got really fragile really quickly. Relying on stat and switching
+on uname seemed the more robust solution.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../pseudo/files/pseudo-fchmodat-permissions.patch |  163 +++++++++++++++++++-
- 1 files changed, 157 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch b/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
-index 2bd2289..1f56403 100644
---- a/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
-+++ b/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
-@@ -1,4 +1,4 @@
--commit 5a6f2896ed44029ced2a33ac64c962737c5171a0
-+commit 7e67d082737b3df4788caf85fedd607b3acd9786
- Author: Peter Seebach <peter.seebach@windriver.com>
- Date:   Fri May 16 15:53:06 2014 -0500
+v2: Correct disk3 to disk2 in the default blacklist per Koen's feedback
+
+ scripts/contrib/ddimage | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
+index 93ebeaf..a503f11 100755
+--- a/scripts/contrib/ddimage
++++ b/scripts/contrib/ddimage
+@@ -1,7 +1,8 @@
+ #!/bin/sh
  
-@@ -11,18 +11,26 @@ Date:   Fri May 16 15:53:06 2014 -0500
-     AT_SYMLINK_NOFOLLOW by rejecting it if the host system does,
-     to make GNU tar happier), also mask out write bits from filesystem
-     modes to avoid security problems.
-+    
-+    Also start tracking umask so we can use the right modes for
-+    open, mkdir, and mknod.
+-#BLACKLIST_DEVICES="/dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde"
+-BLACKLIST_DEVICES="/dev/sda"
++# Default to avoiding the first two disks on typical Linux and Mac OS installs
++# Better safe than sorry :-)
++BLACKLIST_DEVICES="/dev/sda /dev/sdb /dev/disk1 /dev/disk2"
  
-     The 1.6 patches are:
+ # 1MB blocksize
+ BLOCKSIZE=1048576
+@@ -14,9 +15,15 @@ image_details() {
+ 	IMG=$1
+ 	echo "Image details"
+ 	echo "============="
+-	echo "    image: $(stat --printf '%N\n' $IMG)"
+-	echo "     size: $(stat -L --printf '%s bytes\n' $IMG)"
+-	echo " modified: $(stat -L --printf '%y\n' $IMG)"
++	echo "    image: $(basename $IMG)"
++	# stat format is different on Mac OS and Linux
++	if [ "$(uname)" = "Darwin" ]; then
++		echo "     size: $(stat -L -f '%z bytes' $IMG)"
++		echo " modified: $(stat -L -f '%Sm' $IMG)"
++	else
++		echo "     size: $(stat -L -c '%s bytes' $IMG)"
++		echo " modified: $(stat -L -c '%y' $IMG)"
++	fi
+ 	echo "     type: $(file -L -b $IMG)"
+ 	echo ""
+ }
+@@ -27,6 +34,14 @@ device_details() {
  
-     87c53ea58befef48677846693aab445df1850e16
-     3c716e0bab4f0cfe4be84caa9ce5fd5e3f5e2a23
-     c98e4f43b5d6499748a5057134408f4ba4854fb4
-+    2f71a021b725c1aa415439209a89327f0b997d02
- 
- diff --git a/ChangeLog.txt b/ChangeLog.txt
--index 113f675..fab1033 100644
-+index 113f675..cc966ce 100644
- --- a/ChangeLog.txt
- +++ b/ChangeLog.txt
--@@ -1,3 +1,14 @@
-+@@ -1,3 +1,18 @@
-++2014-05-27:
-++	* (seebs) start noticing umask, mask it out from open or mkdir
-++	  calls rather than relying on underlying open/mkdir to do it.
-++
- +2014-05-16:
- +	* (seebs) fchmodat: don't drop flags, report failures, to improve
- +	  compatibility/consistency. Cache the knowledge that
-@@ -37,6 +45,60 @@ index 113f675..fab1033 100644
-  2013-02-27:
-  	* (seebs) Oh, hey, what if I took out my debug messages?
-  	* (seebs) update docs a bit to reduce bitrot
-+diff --git a/makewrappers b/makewrappers
-+index e87cc56..0127766 100755
-+--- a/makewrappers
-++++ b/makewrappers
-+@@ -204,6 +204,7 @@ class Function:
-+             'uid_t': '0',
-+             'int': '-1',
-+             'long': '-1',
-++            'mode_t': '0',
-+             'ssize_t': '-1'
-+         }
-+     
-+diff --git a/ports/darwin/guts/open.c b/ports/darwin/guts/open.c
-+index c66cc15..520bb70 100644
-+--- a/ports/darwin/guts/open.c
-++++ b/ports/darwin/guts/open.c
-+@@ -9,6 +9,9 @@
-+ 	struct stat buf = { };
-+ 	int existed = 1;
-+ 	int save_errno;
-++
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-+ #ifdef PSEUDO_FORCE_ASYNCH
-+         flags &= ~O_SYNC;
-+ #endif
-+diff --git a/ports/linux/guts/__xmknodat.c b/ports/linux/guts/__xmknodat.c
-+index 59b4f2f..0888b8a 100644
-+--- a/ports/linux/guts/__xmknodat.c
-++++ b/ports/linux/guts/__xmknodat.c
-+@@ -9,6 +9,9 @@
-+  	pseudo_msg_t *msg;
-+ 	struct stat64 buf;
-+ 
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ 	/* we don't use underlying call, so _ver is irrelevant to us */
-+ 	(void) ver;
-+ 
-+diff --git a/ports/linux/guts/openat.c b/ports/linux/guts/openat.c
-+index 8460073..4053549 100644
-+--- a/ports/linux/guts/openat.c
-++++ b/ports/linux/guts/openat.c
-+@@ -10,6 +10,9 @@
-+ 	int existed = 1;
-+ 	int save_errno;
-+ 
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+ 	if (dirfd != AT_FDCWD) {
-+ 		errno = ENOSYS;
- diff --git a/ports/unix/guts/fchmodat.c b/ports/unix/guts/fchmodat.c
- index 59a92ce..69a953c 100644
- --- a/ports/unix/guts/fchmodat.c
-@@ -92,16 +154,105 @@ index 59a92ce..69a953c 100644
-  	 * may believe you are permitted to change modes that the filesystem
-  	 * doesn't. Note that we also don't need to know whether the
-           * file might be a (pseudo) block device or some such; pseudo
-+diff --git a/ports/unix/guts/mkdirat.c b/ports/unix/guts/mkdirat.c
-+index e846b70..0268e49 100644
-+--- a/ports/unix/guts/mkdirat.c
-++++ b/ports/unix/guts/mkdirat.c
-+@@ -11,6 +11,9 @@
-+ 		errno = ENOSYS;
-+ 		return -1;
-+ 	}
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ 	rc = real_mkdir(path, PSEUDO_FS_MODE(mode, 1));
-+ #else
-+ 	rc = real_mkdirat(dirfd, path, PSEUDO_FS_MODE(mode, 1));
-+diff --git a/ports/unix/guts/mknodat.c b/ports/unix/guts/mknodat.c
-+index 6fd5b42..5d8d47c 100644
-+--- a/ports/unix/guts/mknodat.c
-++++ b/ports/unix/guts/mknodat.c
-+@@ -10,6 +10,9 @@
-+ 	PSEUDO_STATBUF buf;
-+         int save_errno = errno;
-+ 
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+ 	if (dirfd != AT_FDCWD) {
-+ 		errno = ENOSYS;
-+diff --git a/ports/unix/guts/umask.c b/ports/unix/guts/umask.c
-+new file mode 100644
-+index 0000000..6b060d3
-+--- /dev/null
-++++ b/ports/unix/guts/umask.c
-+@@ -0,0 +1,14 @@
-++/*
-++ * Copyright (c) 2014 Wind River Systems; see
-++ * guts/COPYRIGHT for information.
-++ *
-++ * mode_t umask(mode_t mask)
-++ *	mode_t rc = 0;
-++ */
-++
-++	pseudo_umask = mask;
-++	rc = real_umask(mask);
-++
-++/*	return rc;
-++ * }
-++ */
-+diff --git a/ports/unix/wrapfuncs.in b/ports/unix/wrapfuncs.in
-+index 8460a65..e0e9739 100644
-+--- a/ports/unix/wrapfuncs.in
-++++ b/ports/unix/wrapfuncs.in
-+@@ -67,3 +67,4 @@ void sync(void); /* async_skip= */
-+ int syncfs(int fd); /* async_skip=0 */
-+ int sync_file_range(int fd, off64_t offset, off64_t nbytes, unsigned int flags); /* async_skip=0 */
-+ int msync(void *addr, size_t length, int flags); /* async_skip=0 */
-++mode_t umask(mode_t mask);
-+diff --git a/pseudo_client.c b/pseudo_client.c
-+index b6d11a6..535c810 100644
-+--- a/pseudo_client.c
-++++ b/pseudo_client.c
-+@@ -71,6 +71,8 @@ int pseudo_disabled = 0;
-+ int pseudo_allow_fsync = 0;
-+ static int pseudo_local_only = 0;
-+ 
-++int pseudo_umask = 022;
-++
-+ static char **fd_paths = NULL;
-+ static int nfds = 0;
-+ static int messages = 0;
-+@@ -219,6 +221,9 @@ pseudo_init_client(void) {
-+ 	if (!pseudo_disabled && !pseudo_inited) {
-+ 		char *pseudo_path = 0;
-+ 
-++		pseudo_umask = umask(022);
-++		umask(pseudo_umask);
-++
-+ 		pseudo_path = pseudo_prefix_path(NULL);
-+ 		if (pseudo_prefix_dir_fd == -1) {
-+ 			if (pseudo_path) {
- diff --git a/pseudo_client.h b/pseudo_client.h
--index f36a772..ecb13a6 100644
-+index f36a772..5bf820e 100644
- --- a/pseudo_client.h
- +++ b/pseudo_client.h
--@@ -85,6 +85,6 @@ extern int pseudo_nosymlinkexp;
-+@@ -72,6 +72,8 @@ extern char *pseudo_passwd;
-+ extern size_t pseudo_chroot_len;
-+ extern int pseudo_nosymlinkexp;
-+ 
-++extern int pseudo_umask;
-++
-+ /* Root can read and write files, and enter directories which have no
-+  * read, write, or execute permissions.  (But can't execute files without
-+  * execute permissions!)
-+@@ -85,6 +87,6 @@ extern int pseudo_nosymlinkexp;
-   * None of this will behave very sensibly if umask has 0700 bits in it;
-   * this is a known limitation.
-   */
- -#define PSEUDO_FS_MODE(mode, isdir) ((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0))
- -#define PSEUDO_DB_MODE(fs_mode, user_mode) (((fs_mode) & ~0700) | ((user_mode & 0700)))
--+#define PSEUDO_FS_MODE(mode, isdir) ((((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0)) & ~(S_IWGRP | S_IWOTH)) & ~(S_IWOTH | S_IWGRP))
-++#define PSEUDO_FS_MODE(mode, isdir) (((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0)) & ~(S_IWGRP | S_IWOTH))
- +#define PSEUDO_DB_MODE(fs_mode, user_mode) (((fs_mode) & ~0722) | ((user_mode & 0722)))
-  
+ 	echo "Device details"
+ 	echo "=============="
++
++	# Collect disk info using diskutil on Mac OS
++	if [ "$(uname)" = "Darwin" ]; then
++		diskutil info $DEVICE | egrep "(Device Node|Media Name|Total Size)"
++		return
++	fi
++
++	# Default / Linux information collection
+ 	echo "  device: $DEVICE"
+ 	if [ -f "/sys/class/block/$DEV/device/vendor" ]; then
+ 		echo "  vendor: $(cat /sys/class/block/$DEV/device/vendor)"
 -- 
-1.7.1
+1.9.1
 
 
