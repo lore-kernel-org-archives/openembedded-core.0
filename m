@@ -1,52 +1,37 @@
-Return-Path: <mike.looijmans@topic.nl>
-X-Greylist: delayed 360 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 27 May 2014 07:04:30 UTC
-Received: from retry101.mer-nm.internl.net (unknown [217.149.192.107])
-	by mail.openembedded.org (Postfix) with ESMTP id 036696FA5F
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga02.intel.com (unknown [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E6206FA80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 07:04:30 +0000 (UTC)
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[IPv6:2a01:3a8:100:2::8a:25])
-	by retry101.mer-nm.internl.net (Postfix) with ESMTP id 0971B4003F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 08:58:36 +0200 (CEST)
-Received: from amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.128])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id B2EC93F4D9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 08:58:30 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -0.001
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.001 tagged_above=-999 required=4.5
-	tests=[BAYES_20=-0.001] autolearn=no
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 08:58:28 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 08:58:28 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Tue, 27 May 2014 08:58:32 +0200
-Message-ID: <53843793.3030309@topic.nl>
-Date: Tue, 27 May 2014 08:58:27 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Tue, 27 May 2014 07:12:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 27 May 2014 00:12:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,917,1392192000"; d="scan'208";a="518165043"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by orsmga001.jf.intel.com with ESMTP; 27 May 2014 00:12:29 -0700
+Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Tue, 27 May 2014 08:12:27 +0100
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.58]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.14]) with mapi id
+	14.03.0123.003; Tue, 27 May 2014 08:12:27 +0100
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: Anders Darander <anders@chargestorm.se>
+Thread-Topic: [OE-core] [PATCH] oeqa/controllers/beaglebonetarget.py: add
+	conditions for files copied to /boot
+Thread-Index: AQHPeOWMVDmFi1dc5k2VAoXUcCMnmptT7DeAgAAUOFCAAAJ30A==
+Date: Tue, 27 May 2014 07:12:26 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B0A272EFA@IRSMSX103.ger.corp.intel.com>
+References: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
+	<20140527064629.GA7185@ad.chargestorm.se> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-To: "OE Core (openembedded-core@lists.openembedded.org)"
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: How to find out why shared sstate is not being used for a recipe
+Subject: Re: [PATCH] oeqa/controllers/beaglebonetarget.py: add conditions for files copied to /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,52 +44,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 07:04:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 27 May 2014 07:12:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFI have a deja-vu feeling about this question.
-
-I have this recipe:
-
-https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-b=
-sp/fpga/fpga-image-miami.bb
-
-Which includes this one:
-https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-b=
-sp/fpga/fpga-image.inc
-
-I have a build server that exports its sstate-cache directory through HTTP,=
-=20
-and a local host that attempts to use that sstate-cache. This works fine,=20
-except for the recipe above. Building this recipe takes about 1 hour, so i=
-=20
-really really really want to share that state at any cost. As you can see,=
-=20
-I've done a big shotgun blast of "vardepdsexclude" to get the recipe to be =
-as=20
-common as possible. Still any host wants to build its own version.
-
-How can I diagnose the REASON that my machine thinks it isn't building the=
-=20
-exact same thing as the build server?
 
 
-Met vriendelijke groet / kind regards,
+> -----Original Message-----
+> From: Stoicescu, CorneliuX
+> Sent: Tuesday, May 27, 2014 10:02 AM
+> To: 'Anders Darander'
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: RE: [OE-core] [PATCH] oeqa/controllers/beaglebonetarget.py: add
+> conditions for files copied to /boot
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: Anders Darander [mailto:anders@chargestorm.se]
+> > Sent: Tuesday, May 27, 2014 9:46 AM
+> > To: Stoicescu, CorneliuX
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] oeqa/controllers/beaglebonetarget.py:
+> > add conditions for files copied to /boot
+> >
+> > * Corneliu Stoicescu <corneliux.stoicescu@intel.com> [140526 15:23]:
+> >
+> > > Sometimes the rootfs archive contains the kernel file
+> > > (core-image-full-cmdline) or the dtbs files (core-image-sato).
+> > > Adding verification to add them if they don't allready exist.
+> >
 
-Mike Looijmans
+My explanation of the patch was kind of wrong, there was a check already bu=
+t I interpreted it as more like an "association" of circumstances in my hea=
+d, but this time not because of lack of coffee but because it was late :D. =
+I can change that if necessary.
 
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
-http://medteceurope.com/index.php?page=3Dhome-en
-
+> > > Without this, the first condition would fail and the image deploy
+> > > task would
+> > stop.
+> >
+> > What failure and errors are you seeing?
+> >
+>=20
+> '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-
+> kernel/mnt/testrootfs/boot/uImage' returns exit code 1 if the first condi=
+tion
+> is not met, and thus the deploy task fails. My version would return exit =
+code
+> 0 weather or not the first condition is met.
+>=20
+> We could also modify the way the commands are run to ignore that exit
+> code but that would involve more changes, many of them not needed or
+> expected by other commands and/or target controllers.
+>=20
+> > > -                '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-k=
+ernel
+> > /mnt/testrootfs/boot/uImage',
+> > > +                'if [ ! -e /mnt/testrootfs/boot/uImage ]; then cp
+> > > + ~/test-kernel /mnt/testrootfs/boot/uImage; fi',
+> >
+> > It might be that I've had no coffee yet, but I can't see what
+> > difference your change is making (apart from being more verbose)?
+> >
+> > The original code checks for the existance of
+> > /mnt/testrootfs/boot/uImage, negates the result and copies the test-
+> kernel if the negated result is true, i.e.
+> > if /mnt/testrootfs/boot/uImage doesn't exist, copy the test-kernel.
+> >
+> > > -            self.deploy_cmds.append('[ ! -e /mnt/testrootfs/boot/{0}=
+ ] && cp
+> > ~/{0} /mnt/testrootfs/boot/'.format(dtbfn))
+> > > +            self.deploy_cmds.append('if [ ! -e
+> > > + /mnt/testrootfs/boot/{0} ]; then cp ~/{0}
+> > > + /mnt/testrootfs/boot/'.format(dtbfn) + '; fi')
+> >
+> > See above...
+> >
+> > Cheers,
+> > Anders
+> >
+> > --
+> > Anders Darander
+> > ChargeStorm AB / eStorm AB
 
