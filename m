@@ -1,24 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ECD86B70A
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21BB86FA92
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 07:02:54 +0000 (UTC)
+	Tue, 27 May 2014 07:02:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4R72t2i022063
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4R72uuB021428
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 00:02:55 -0700 (PDT)
+	Tue, 27 May 2014 00:02:57 -0700 (PDT)
 Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 27 May 2014 00:02:55 -0700
+	14.3.169.1; Tue, 27 May 2014 00:02:56 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 May 2014 15:02:52 +0800
-Message-ID: <cover.1401174102.git.Chong.Lu@windriver.com>
+Date: Tue, 27 May 2014 15:02:53 +0800
+Message-ID: <c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1401174102.git.Chong.Lu@windriver.com>
+References: <cover.1401174102.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] strace: fix ptest execution failure
+Subject: [PATCH 1/1] strace: fix ptest execution failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 07:02:57 -0000
+X-List-Received-Date: Tue, 27 May 2014 07:02:59 -0000
 Content-Type: text/plain
 
-The following changes since commit 894df445fa71a170397c6e0b4960a89ef20a4230:
+Modify ptest suite to make it execute successfully.
 
-  guile: Update to 2.0.11 version (2014-05-21 19:50:21 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/strace
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/strace
-
-Chong Lu (1):
-  strace: fix ptest execution failure
-
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
  meta/recipes-devtools/strace/strace-4.8/run-ptest | 2 +-
  meta/recipes-devtools/strace/strace_4.8.bb        | 6 ++++++
  2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+index 133cf92..66639fb 100755
+--- a/meta/recipes-devtools/strace/strace-4.8/run-ptest
++++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+@@ -1,2 +1,2 @@
+ #!/bin/sh
+-make -C tests -k runtest-TESTS
++make -C tests -k check-TESTS
+diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
+index 71563d4..9769cd4 100644
+--- a/meta/recipes-devtools/strace/strace_4.8.bb
++++ b/meta/recipes-devtools/strace/strace_4.8.bb
+@@ -41,6 +41,12 @@ do_compile_ptest() {
+ 
+ do_install_ptest() {
+ 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
++	install ${S}/test-driver ${D}${PTEST_PATH}
++	sed -e 's/bash/sh/' \
++	    -e 's/gawk/awk/' \
++	    -e 's/^top_srcdir = \(.*\)/top_srcdir = ../' \
++	    -e '/^all:/a\\t@:' \
++	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
+ }
+ 
+ BBCLASSEXTEND = "native"
 -- 
 1.8.1.2
 
