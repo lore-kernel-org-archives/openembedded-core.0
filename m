@@ -1,24 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 45EEF6FA74
+Return-Path: <anders@chargestorm.se>
+X-Greylist: delayed 328 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 27 May 2014 06:52:03 UTC
+Received: from stoexhubfe02.domain01.net (unknown [83.145.59.141])
+	by mail.openembedded.org (Postfix) with ESMTP id D596C6FA6A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 02:39:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4R2dR9G020733
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 19:39:27 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 26 May 2014 19:39:26 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 May 2014 22:15:13 -0400
-Message-ID: <cover.1401154976.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 27 May 2014 06:52:03 +0000 (UTC)
+Received: from ad.chargestorm.se (213.114.64.43) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Tue, 27 May 2014 08:46:36 +0200
+Date: Tue, 27 May 2014 08:46:29 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+Message-ID: <20140527064629.GA7185@ad.chargestorm.se>
+Mail-Followup-To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
 MIME-Version: 1.0
-Subject: [dora] [PATCH 0/3] 3 fixes for dora
+In-Reply-To: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-GFI-SMTP-Submission: 1
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa/controllers/beaglebonetarget.py: add conditions for files copied to /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 02:39:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 May 2014 06:52:05 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-The following changes since commit 4c58fe468790822fe48e0a570779979c831d0f10:
+* Corneliu Stoicescu <corneliux.stoicescu@intel.com> [140526 15:23]:
 
-  openssl: fix CVE-2014-0198 (2014-05-21 09:32:38 +0100)
+> Sometimes the rootfs archive contains the kernel file
+> (core-image-full-cmdline) or the dtbs files (core-image-sato). Adding
+> verification to add them if they don't allready exist.
 
-are available in the git repository at:
+> Without this, the first condition would fail and the image deploy task would stop.
 
-  git://git.openembedded.org/openembedded-core-contrib robert/dora-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=robert/dora-next
+What failure and errors are you seeing?
 
-Chen Qi (1):
-  populate-extfs.sh: keep file timestamps
+> -                '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-kernel /mnt/testrootfs/boot/uImage',
+> +                'if [ ! -e /mnt/testrootfs/boot/uImage ]; then cp ~/test-kernel /mnt/testrootfs/boot/uImage; fi',
 
-Jonathan Liu (1):
-  consolekit: fix console-kit-log-system-start.service startup
+It might be that I've had no coffee yet, but I can't see what difference
+your change is making (apart from being more verbose)?
 
-Mark Hatle (1):
-  rpm: Fix rpm -V usage
+The original code checks for the existance of
+/mnt/testrootfs/boot/uImage, negates the result and copies the
+test-kernel if the negated result is true, i.e. if
+/mnt/testrootfs/boot/uImage doesn't exist, copy the test-kernel.
 
- .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |   10 ++++++++-
- .../rpm/rpm/rpm-verify-files.patch                 |   22 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
- .../recipes-support/consolekit/consolekit_0.4.6.bb |    6 ++++++
- 4 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-verify-files.patch
+> -            self.deploy_cmds.append('[ ! -e /mnt/testrootfs/boot/{0} ] && cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn))
+> +            self.deploy_cmds.append('if [ ! -e /mnt/testrootfs/boot/{0} ]; then cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn) + '; fi')
+
+See above...
+
+Cheers,
+Anders
 
 -- 
-1.7.10.4
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
