@@ -1,24 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E9466FA52
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E40E6FA5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 01:43:36 +0000 (UTC)
+	Tue, 27 May 2014 01:43:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4R1hbW6020447
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4R1hdvD025838
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 May 2014 18:43:37 -0700 (PDT)
+	Mon, 26 May 2014 18:43:39 -0700 (PDT)
 Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 26 May 2014 18:43:37 -0700
+	14.3.169.1; Mon, 26 May 2014 18:43:38 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 May 2014 09:43:35 +0800
-Message-ID: <cover.1401154906.git.Chong.Lu@windriver.com>
+Date: Tue, 27 May 2014 09:43:36 +0800
+Message-ID: <1b730d155fa4bc1c464fa84ea934ed40391ddafa.1401154906.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1401154906.git.Chong.Lu@windriver.com>
+References: <cover.1401154906.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1][V2] ethtool: fix ptest execution failure
+Subject: [PATCH 1/1][V2] ethtool: fix ptest execution failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +36,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 27 May 2014 01:43:39 -0000
 Content-Type: text/plain
 
-Change since v1:
-Remove bash and gawk dependency.
+Modify ptest suite to make it enabled on new version.
 
-The following changes since commit 894df445fa71a170397c6e0b4960a89ef20a4230:
-
-  guile: Update to 2.0.11 version (2014-05-21 19:50:21 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/ethtool
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/ethtool
-
-Chong Lu (1):
-  ethtool: fix ptest execution failure
-
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
  meta/recipes-extended/ethtool/ethtool/run-ptest |  2 +-
  meta/recipes-extended/ethtool/ethtool_3.14.bb   | 16 +++++++++++-----
  2 files changed, 12 insertions(+), 6 deletions(-)
 
+diff --git a/meta/recipes-extended/ethtool/ethtool/run-ptest b/meta/recipes-extended/ethtool/ethtool/run-ptest
+index 1e245da..a359387 100644
+--- a/meta/recipes-extended/ethtool/ethtool/run-ptest
++++ b/meta/recipes-extended/ethtool/ethtool/run-ptest
+@@ -1,2 +1,2 @@
+ #!/bin/sh
+-make -k runtest-TESTS
++make -k check-TESTS
+diff --git a/meta/recipes-extended/ethtool/ethtool_3.14.bb b/meta/recipes-extended/ethtool/ethtool_3.14.bb
+index 2a3ca70..4f4e389 100644
+--- a/meta/recipes-extended/ethtool/ethtool_3.14.bb
++++ b/meta/recipes-extended/ethtool/ethtool_3.14.bb
+@@ -20,9 +20,15 @@ do_compile_ptest() {
+ }
+ 
+ do_install_ptest () {
+-   cp ${B}/Makefile                 ${D}${PTEST_PATH}
+-   install ${B}/test-cmdline        ${D}${PTEST_PATH}
+-   install ${B}/test-features       ${D}${PTEST_PATH}
+-   install ${B}/ethtool             ${D}${PTEST_PATH}/ethtool
+-   sed -i 's/^Makefile/_Makefile/'  ${D}${PTEST_PATH}/Makefile
++   for i in Makefile test-cmdline test-features; do \
++       install ${B}/$i ${D}${PTEST_PATH}; done
++   install ${S}/test-driver ${D}${PTEST_PATH}
++   sed -e 's/^Makefile/_Makefile/' \
++       -e 's/^test_cmdline_OBJECTS/#test_cmdline_OBJECTS/' \
++       -e 's/^test_features_OBJECTS/#test_features_OBJECTS/' \
++       -e 's/^top_srcdir = \(.*\)/top_srcdir = ./' \
++       -e '/^all:/,+1d' \
++       -e 's/bash/sh/' \
++       -e 's/gawk/awk/' \
++       -i ${D}${PTEST_PATH}/Makefile
+ }
 -- 
 1.8.1.2
 
