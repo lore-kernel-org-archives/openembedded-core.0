@@ -1,33 +1,50 @@
-Return-Path: <anders@chargestorm.se>
-Received: from stoexhubfe02.domain01.net (unknown [83.145.59.141])
-	by mail.openembedded.org (Postfix) with ESMTP id 215876FA81
+Return-Path: <Zongchun.Yu@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com (unknown
+	[207.46.163.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 37A4B6FA68
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 07:16:10 +0000 (UTC)
-Received: from ad.chargestorm.se (213.114.64.43) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Tue, 27 May 2014 09:15:59 +0200
-Date: Tue, 27 May 2014 09:15:52 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Message-ID: <20140527071552.GB7185@ad.chargestorm.se>
-Mail-Followup-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
-	<20140527064629.GA7185@ad.chargestorm.se>
-	<33115ABC4887814E8A92A08FBC93416B0A271EBD@IRSMSX103.ger.corp.intel.com>
+	Tue, 27 May 2014 07:37:49 +0000 (UTC)
+Received: from BLUPR03CA037.namprd03.prod.outlook.com (10.141.30.30) by
+	BLUPR03MB247.namprd03.prod.outlook.com (10.255.213.21) with Microsoft
+	SMTP Server (TLS) id 15.0.949.11; Tue, 27 May 2014 07:37:49 +0000
+Received: from BN1AFFO11FD016.protection.gbl (2a01:111:f400:7c10::190) by
+	BLUPR03CA037.outlook.office365.com (2a01:111:e400:879::30) with
+	Microsoft SMTP Server (TLS) id 15.0.949.11 via Frontend Transport;
+	Tue, 27 May 2014 07:37:49 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.1) by
+	BN1AFFO11FD016.mail.protection.outlook.com (10.58.52.76) with Microsoft
+	SMTP Server (TLS) id 15.0.949.9 via Frontend Transport;
+	Tue, 27 May 2014 07:37:49 +0000
+Received: from b4052702 (b40527-02.ap.freescale.net [10.193.20.88])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	s4R7bjCa001047; Tue, 27 May 2014 00:37:47 -0700
+From: Zongchun YU <b40527@freescale.com>
+To: "'Burton, Ross'" <ross.burton@intel.com>
+References: <1400825337-3955-1-git-send-email-b40527@freescale.com>
+	<CAJTo0LbMGfDFMre2dNJXZ73R2NNzjtHyso_4orZT4yv0oc_OpA@mail.gmail.com>
+	<CAJTo0Laqj7cauEEEor5Us3TonSfeiPkOC=f3V5PvS2dEMCrW2g@mail.gmail.com>
+In-Reply-To: <CAJTo0Laqj7cauEEEor5Us3TonSfeiPkOC=f3V5PvS2dEMCrW2g@mail.gmail.com>
+Date: Tue, 27 May 2014 15:38:52 +0800
+Message-ID: <00d601cf797e$b8663560$2932a020$@com>
 MIME-Version: 1.0
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A271EBD@IRSMSX103.ger.corp.intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-GFI-SMTP-Submission: 1
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/controllers/beaglebonetarget.py: add conditions for files copied to /boot
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: Ac92pMR4reLUU5gkR4mSWLpUwsbhWwC2bRHg
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.1; CTRY:US; IPV:CAL; IPV:NLI;
+	EFV:NLI; SFV:NSPM;
+	SFS:(6009001)(54094003)(199002)(189002)(104016001)(83322001)(558084003)(4396001)(76482001)(64706001)(50226001)(44976005)(6806004)(14726001)(80022001)(21056001)(46102001)(92726001)(92566001)(99396002)(23676002)(93916002)(20776003)(79102001)(47776003)(59696002)(50986999)(76176999)(77156001)(87936001)(2656002)(87286001)(77096999)(74502001)(74662001)(84116002)(31966008)(96836002)(33716001)(26826002)(77982001)(85852003)(33646001)(50466002)(81342001)(61296002)(62966002)(81542001)(89996001)(83072002)(88136002);
+	DIR:OUT; SFP:; SCL:1; SRVR:BLUPR03MB247;
+	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
+	PTR:gate-tx3.freescale.com; A:1; MX:1; LANG:en; 
+X-Forefront-PRVS: 02243C58C6
+Received-SPF: Fail (: domain of freescale.com does not designate 192.88.168.1
+	as permitted sender) receiver=; client-ip=192.88.168.1;
+	helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.1)
+	smtp.mailfrom=Zongchun.Yu@freescale.com; 
+X-OriginatorOrg: freescale.com
+Cc: 'OE-core' <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2][v2] doxygen-native: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,52 +57,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 07:16:11 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 27 May 2014 07:37:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: zh-cn
 
-* Stoicescu, CorneliuX <corneliux.stoicescu@intel.com> [140527 09:02]:
-> > -----Original Message-----
-> > From: Anders Darander [mailto:anders@chargestorm.se]
-> > * Corneliu Stoicescu <corneliux.stoicescu@intel.com> [140526 15:23]:
+> Whilst this recipe works, I wonder if it would be more useful if it 
+> were cross-compilable and used BBCLASSEXTEND to become native.
+Yes. I agree. it would be more useful.
 
-> > > Sometimes the rootfs archive contains the kernel file
-> > > (core-image-full-cmdline) or the dtbs files (core-image-sato). Adding
-> > > verification to add them if they don't allready exist.
-
-> > > Without this, the first condition would fail and the image deploy task would
-> > stop.
-
-> > What failure and errors are you seeing?
-
-
-> '[ ! -e /mnt/testrootfs/boot/uImage ] && cp
-> ~/test-kernel/mnt/testrootfs/boot/uImage' returns exit code 1 if the
-> first condition is not met, and thus the deploy task fails. My version
-> would return exit code 0 weather or not the first condition is met. 
-
-Oh, that's right. If /mnt/testrootfs/boot/uImage do exist, we'll have an
-exit code of 1... -ENOCOFFE like I said!
-
-However, then I think that the commit message ought to be changed.
-Reading the message, it sounds as you're adding a check to add uImage if
-it doesn't exist. Rather, you're modifying the existing check to
-gracefully handle the case where uImage already exists.
-
-Could you update the commit message to better reflect the intention with
-the change?
-
-> We could also modify the way the commands are run to ignore that exit
-> code but that would involve more changes, many of them not needed or
-> expected by other commands and/or target controllers.
-
-No, the above change is fine. We should error out if something goes
-wrong, so I'd be against changing the way to run commands.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
