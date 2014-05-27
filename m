@@ -1,27 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (unknown [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EE5086B8B2
+Return-Path: <Sean_Hudson@mentor.com>
+Received: from relay1.mentorg.com (unknown [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ED596FA84
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 15:23:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 May 2014 08:23:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,920,1392192000"; d="scan'208";a="545560740"
-Received: from unknown (HELO [10.255.12.174]) ([10.255.12.174])
-	by fmsmga002.fm.intel.com with ESMTP; 27 May 2014 08:23:19 -0700
-Message-ID: <5384ADE7.6090307@linux.intel.com>
-Date: Tue, 27 May 2014 08:23:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 27 May 2014 16:16:55 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1WpK3c-0001yH-AV from Sean_Hudson@mentor.com ;
+	Tue, 27 May 2014 09:16:56 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Tue, 27 May 2014 09:16:56 -0700
+Received: from [172.30.4.225] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.2.247.3;
+	Tue, 27 May 2014 09:16:49 -0700
+Message-ID: <5384BA76.4080700@mentor.com>
+Date: Tue, 27 May 2014 11:16:54 -0500
+From: Sean Hudson <sean_hudson@mentor.com>
+Organization: Mentor Graphics - Embedded Software Division
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: Tudor Florea <Tudor.Florea@enea.com>, Chong Lu <Chong.Lu@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1401174102.git.Chong.Lu@windriver.com>	<c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
-	<26724FB0BFCB3D4C91BDE184751AA3A428A49EA5@SESTOEX04.enea.se>
-In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A428A49EA5@SESTOEX04.enea.se>
-Subject: Re: [PATCH 1/1] strace: fix ptest execution failure
+To: "Burton, Ross" <ross.burton@intel.com>, Valentin Popa
+	<valentin.popa@intel.com>
+References: <cover.1400690725.git.valentin.popa@intel.com>	<537E25A9.9080106@intel.com>
+	<CAJTo0Lb6Wa8tdyjB7yPK7w_PLuaKq9OKZAU8W+cXds+nt4PbeA@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb6Wa8tdyjB7yPK7w_PLuaKq9OKZAU8W+cXds+nt4PbeA@mail.gmail.com>
+X-Enigmail-Version: 1.5.2
+X-OriginalArrivalTime: 27 May 2014 16:16:56.0170 (UTC)
+	FILETIME=[1437FCA0:01CF79C7]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] [V3]mesa: upgrade to 10.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 15:23:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 27 May 2014 16:16:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 05/27/2014 08:16 AM, Tudor Florea wrote:
->
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->> Of Chong Lu
->> Sent: Tuesday, May 27, 2014 10:03
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
->>
->> Modify ptest suite to make it execute successfully.
->>
->> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->> ---
->>   meta/recipes-devtools/strace/strace-4.8/run-ptest | 2 +-
->>   meta/recipes-devtools/strace/strace_4.8.bb        | 6 ++++++
->>   2 files changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest
->> b/meta/recipes-devtools/strace/strace-4.8/run-ptest
->> index 133cf92..66639fb 100755
->> --- a/meta/recipes-devtools/strace/strace-4.8/run-ptest
->> +++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
->> @@ -1,2 +1,2 @@
->>   #!/bin/sh
->> -make -C tests -k runtest-TESTS
->> +make -C tests -k check-TESTS
-> I have the same comment as in the previous patch. I'd rather use serial-tests in configure.ac file instead of this change.
->
-You mentioned a past patch not merged, can you rebase against master and 
-resent if it's still appropriate?
+On 05/22/2014 11:58 AM, Burton, Ross wrote:
+> For these three patches:
+> 
+> On 22 May 2014 17:28, Valentin Popa <valentin.popa@intel.com> wrote:
+>>>    dri3proto: add it to oe-core
+>>>    libxshmfence: add it to oe-core
+>>>    eglinfo: patched to compile with mesa10+
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> 
+> Mesa needs more testing, but these pieces are good to merge.
+> 
+> Ross
+> 
 
-Thanks
-	Sau!
+  I don't have a specific need to preserve MESA 9.x (that I know of
+right now), but it seems like we might consider keeping it around a bit
+longer in parallel with MESA 10.x and then formally deprecate it in the
+next release.
 
->> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-
->> devtools/strace/strace_4.8.bb
->> index 71563d4..9769cd4 100644
->> --- a/meta/recipes-devtools/strace/strace_4.8.bb
->> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
->> @@ -41,6 +41,12 @@ do_compile_ptest() {
->>
->>   do_install_ptest() {
->>   	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B}
->> DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
->> +	install ${S}/test-driver ${D}${PTEST_PATH}
->> +	sed -e 's/bash/sh/' \
->> +	    -e 's/gawk/awk/' \
->> +	    -e 's/^top_srcdir = \(.*\)/top_srcdir = ../' \
->> +	    -e '/^all:/a\\t@:' \
->> +	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
->>   }
->>
->>   BBCLASSEXTEND = "native"
->> --
->> 1.8.1.2
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Regards,
+     Sean
+
 
