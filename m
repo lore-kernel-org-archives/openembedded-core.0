@@ -1,28 +1,28 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2361D6FAC6
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id CCBF36FAC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 15:14:25 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 May 2014 08:14:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,919,1392192000"; d="scan'208";a="547166907"
-Received: from msegurah-mobl4.amr.corp.intel.com (HELO [10.254.42.19])
-	([10.254.42.19])
-	by orsmga002.jf.intel.com with ESMTP; 27 May 2014 08:14:15 -0700
-User-Agent: Microsoft-MacOutlook/14.4.1.140326
-Date: Tue, 27 May 2014 08:15:25 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Message-ID: <CFA9F9E5.93CF3%dvhart@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] ddimage: Support Mac OS
-References: <cover.1400815619.git.dvhart@linux.intel.com>
-	<113fcfb0c3c5533605e87538cd873c4ff90abcfc.1400815619.git.dvhart@linux.intel.com>
-	<353D7623-F316-46C6-9F83-3D59DF30F7AD@dominion.thruhere.net>
-In-Reply-To: <353D7623-F316-46C6-9F83-3D59DF30F7AD@dominion.thruhere.net>
-Mime-version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ddimage: Support Mac OS
+	Tue, 27 May 2014 15:16:02 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Tue, 27 May 2014 17:16:02 +0200
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: Chong Lu <Chong.Lu@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
+Thread-Index: AQHPeXm//tzGTJWrQk2OPiyJgJbcPZtUiWZw
+Date: Tue, 27 May 2014 15:16:02 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428A49EA5@SESTOEX04.enea.se>
+References: <cover.1401174102.git.Chong.Lu@windriver.com>
+	<c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
+In-Reply-To: <c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.14.201]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] strace: fix ptest execution failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +35,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 15:14:26 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
-
-On 5/24/14, 7:44, "Koen Kooi" <koen@dominion.thruhere.net> wrote:
-
->
->Op 23 mei 2014, om 06:28 heeft Darren Hart <dvhart@linux.intel.com> het
->volgende geschreven:
->
->> Update the ddimage script to allow it to work on Mac OS too. The biggest
->> difference is sysfs vs diskutil and in the syntax of the stat command
->> between Mac OS and Linux, unfortunately. Workarounds using ls, cut, and
->> columns got really fragile really quickly. Relying on stat and switching
->> on uname seemed the more robust solution.
->> 
->> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->> ---
->> scripts/contrib/ddimage | 25 ++++++++++++++++++++-----
->> 1 file changed, 20 insertions(+), 5 deletions(-)
->> 
->> diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
->> index 93ebeaf..b66d0dd 100755
->> --- a/scripts/contrib/ddimage
->> +++ b/scripts/contrib/ddimage
->> @@ -1,7 +1,8 @@
->> #!/bin/sh
->> 
->> -#BLACKLIST_DEVICES="/dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde"
->> -BLACKLIST_DEVICES="/dev/sda"
->> +# Default to avoiding the first two disks on typical Linux and Mac OS
->>installs
->> +# Better safe than sorry :-)
->> +BLACKLIST_DEVICES="/dev/sda /dev/sdb /dev/disk1 /dev/disk3"
->
->s/disk3/disk2/
-
-Bah, indeed. Local change snuck through in my patch. Thanks. Will correct.
-
-
--- 
-Darren Hart					Open Source Technology Center
-darren.hart@intel.com				            Intel Corporation
+X-List-Received-Date: Tue, 27 May 2014 15:16:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Chong Lu
+> Sent: Tuesday, May 27, 2014 10:03
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
+>=20
+> Modify ptest suite to make it execute successfully.
+>=20
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>  meta/recipes-devtools/strace/strace-4.8/run-ptest | 2 +-
+>  meta/recipes-devtools/strace/strace_4.8.bb        | 6 ++++++
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest
+> b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+> index 133cf92..66639fb 100755
+> --- a/meta/recipes-devtools/strace/strace-4.8/run-ptest
+> +++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+> @@ -1,2 +1,2 @@
+>  #!/bin/sh
+> -make -C tests -k runtest-TESTS
+> +make -C tests -k check-TESTS
+I have the same comment as in the previous patch. I'd rather use serial-tes=
+ts in configure.ac file instead of this change.
+
+> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-
+> devtools/strace/strace_4.8.bb
+> index 71563d4..9769cd4 100644
+> --- a/meta/recipes-devtools/strace/strace_4.8.bb
+> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
+> @@ -41,6 +41,12 @@ do_compile_ptest() {
+>=20
+>  do_install_ptest() {
+>  	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=3D${B}
+> DESTDIR=3D${D}${PTEST_PATH} TESTDIR=3D${TESTDIR}
+> +	install ${S}/test-driver ${D}${PTEST_PATH}
+> +	sed -e 's/bash/sh/' \
+> +	    -e 's/gawk/awk/' \
+> +	    -e 's/^top_srcdir =3D \(.*\)/top_srcdir =3D ../' \
+> +	    -e '/^all:/a\\t@:' \
+> +	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
+>  }
+>=20
+>  BBCLASSEXTEND =3D "native"
+> --
+> 1.8.1.2
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
