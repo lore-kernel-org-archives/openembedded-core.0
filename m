@@ -1,26 +1,52 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 21BB86FA92
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 360 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 27 May 2014 07:04:30 UTC
+Received: from retry101.mer-nm.internl.net (unknown [217.149.192.107])
+	by mail.openembedded.org (Postfix) with ESMTP id 036696FA5F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 07:02:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4R72uuB021428
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 27 May 2014 07:04:30 +0000 (UTC)
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[IPv6:2a01:3a8:100:2::8a:25])
+	by retry101.mer-nm.internl.net (Postfix) with ESMTP id 0971B4003F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 00:02:57 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 27 May 2014 00:02:56 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 May 2014 15:02:53 +0800
-Message-ID: <c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1401174102.git.Chong.Lu@windriver.com>
-References: <cover.1401174102.git.Chong.Lu@windriver.com>
+	Tue, 27 May 2014 08:58:36 +0200 (CEST)
+Received: from amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.128])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id B2EC93F4D9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 May 2014 08:58:30 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -0.001
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.001 tagged_above=-999 required=4.5
+	tests=[BAYES_20=-0.001] autolearn=no
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 May 2014 08:58:28 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 May 2014 08:58:28 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Tue, 27 May 2014 08:58:32 +0200
+Message-ID: <53843793.3030309@topic.nl>
+Date: Tue, 27 May 2014 08:58:27 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] strace: fix ptest execution failure
+To: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: How to find out why shared sstate is not being used for a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 07:02:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 May 2014 07:04:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Modify ptest suite to make it execute successfully.
+=EF=BB=BFI have a deja-vu feeling about this question.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-devtools/strace/strace-4.8/run-ptest | 2 +-
- meta/recipes-devtools/strace/strace_4.8.bb        | 6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+I have this recipe:
 
-diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-index 133cf92..66639fb 100755
---- a/meta/recipes-devtools/strace/strace-4.8/run-ptest
-+++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-@@ -1,2 +1,2 @@
- #!/bin/sh
--make -C tests -k runtest-TESTS
-+make -C tests -k check-TESTS
-diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
-index 71563d4..9769cd4 100644
---- a/meta/recipes-devtools/strace/strace_4.8.bb
-+++ b/meta/recipes-devtools/strace/strace_4.8.bb
-@@ -41,6 +41,12 @@ do_compile_ptest() {
- 
- do_install_ptest() {
- 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
-+	install ${S}/test-driver ${D}${PTEST_PATH}
-+	sed -e 's/bash/sh/' \
-+	    -e 's/gawk/awk/' \
-+	    -e 's/^top_srcdir = \(.*\)/top_srcdir = ../' \
-+	    -e '/^all:/a\\t@:' \
-+	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
- }
- 
- BBCLASSEXTEND = "native"
--- 
-1.8.1.2
+https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-b=
+sp/fpga/fpga-image-miami.bb
+
+Which includes this one:
+https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-b=
+sp/fpga/fpga-image.inc
+
+I have a build server that exports its sstate-cache directory through HTTP,=
+=20
+and a local host that attempts to use that sstate-cache. This works fine,=20
+except for the recipe above. Building this recipe takes about 1 hour, so i=
+=20
+really really really want to share that state at any cost. As you can see,=
+=20
+I've done a big shotgun blast of "vardepdsexclude" to get the recipe to be =
+as=20
+common as possible. Still any host wants to build its own version.
+
+How can I diagnose the REASON that my machine thinks it isn't building the=
+=20
+exact same thing as the build server?
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
+http://medteceurope.com/index.php?page=3Dhome-en
 
 
