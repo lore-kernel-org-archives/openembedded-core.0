@@ -1,34 +1,30 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga02.intel.com (unknown [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6206FA80
+Return-Path: <anders@chargestorm.se>
+Received: from stoexhubfe02.domain01.net (unknown [83.145.59.141])
+	by mail.openembedded.org (Postfix) with ESMTP id 215876FA81
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 07:12:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 May 2014 00:12:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,917,1392192000"; d="scan'208";a="518165043"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by orsmga001.jf.intel.com with ESMTP; 27 May 2014 00:12:29 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 27 May 2014 08:12:27 +0100
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.58]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.14]) with mapi id
-	14.03.0123.003; Tue, 27 May 2014 08:12:27 +0100
-From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-To: Anders Darander <anders@chargestorm.se>
-Thread-Topic: [OE-core] [PATCH] oeqa/controllers/beaglebonetarget.py: add
-	conditions for files copied to /boot
-Thread-Index: AQHPeOWMVDmFi1dc5k2VAoXUcCMnmptT7DeAgAAUOFCAAAJ30A==
-Date: Tue, 27 May 2014 07:12:26 +0000
-Message-ID: <33115ABC4887814E8A92A08FBC93416B0A272EFA@IRSMSX103.ger.corp.intel.com>
+	Tue, 27 May 2014 07:16:10 +0000 (UTC)
+Received: from ad.chargestorm.se (213.114.64.43) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Tue, 27 May 2014 09:15:59 +0200
+Date: Tue, 27 May 2014 09:15:52 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+Message-ID: <20140527071552.GB7185@ad.chargestorm.se>
+Mail-Followup-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 References: <1401117992-30582-1-git-send-email-corneliux.stoicescu@intel.com>
-	<20140527064629.GA7185@ad.chargestorm.se> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	<20140527064629.GA7185@ad.chargestorm.se>
+	<33115ABC4887814E8A92A08FBC93416B0A271EBD@IRSMSX103.ger.corp.intel.com>
 MIME-Version: 1.0
+In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A271EBD@IRSMSX103.ger.corp.intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-GFI-SMTP-Submission: 1
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] oeqa/controllers/beaglebonetarget.py: add conditions for files copied to /boot
@@ -44,88 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 07:12:32 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 27 May 2014 07:16:11 -0000
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-
-
-> -----Original Message-----
-> From: Stoicescu, CorneliuX
-> Sent: Tuesday, May 27, 2014 10:02 AM
-> To: 'Anders Darander'
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: RE: [OE-core] [PATCH] oeqa/controllers/beaglebonetarget.py: add
-> conditions for files copied to /boot
->=20
->=20
->=20
+* Stoicescu, CorneliuX <corneliux.stoicescu@intel.com> [140527 09:02]:
 > > -----Original Message-----
 > > From: Anders Darander [mailto:anders@chargestorm.se]
-> > Sent: Tuesday, May 27, 2014 9:46 AM
-> > To: Stoicescu, CorneliuX
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] oeqa/controllers/beaglebonetarget.py:
-> > add conditions for files copied to /boot
-> >
 > > * Corneliu Stoicescu <corneliux.stoicescu@intel.com> [140526 15:23]:
-> >
+
 > > > Sometimes the rootfs archive contains the kernel file
-> > > (core-image-full-cmdline) or the dtbs files (core-image-sato).
-> > > Adding verification to add them if they don't allready exist.
-> >
+> > > (core-image-full-cmdline) or the dtbs files (core-image-sato). Adding
+> > > verification to add them if they don't allready exist.
 
-My explanation of the patch was kind of wrong, there was a check already bu=
-t I interpreted it as more like an "association" of circumstances in my hea=
-d, but this time not because of lack of coffee but because it was late :D. =
-I can change that if necessary.
-
-> > > Without this, the first condition would fail and the image deploy
-> > > task would
+> > > Without this, the first condition would fail and the image deploy task would
 > > stop.
-> >
+
 > > What failure and errors are you seeing?
-> >
->=20
-> '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-
-> kernel/mnt/testrootfs/boot/uImage' returns exit code 1 if the first condi=
-tion
-> is not met, and thus the deploy task fails. My version would return exit =
-code
-> 0 weather or not the first condition is met.
->=20
+
+
+> '[ ! -e /mnt/testrootfs/boot/uImage ] && cp
+> ~/test-kernel/mnt/testrootfs/boot/uImage' returns exit code 1 if the
+> first condition is not met, and thus the deploy task fails. My version
+> would return exit code 0 weather or not the first condition is met. 
+
+Oh, that's right. If /mnt/testrootfs/boot/uImage do exist, we'll have an
+exit code of 1... -ENOCOFFE like I said!
+
+However, then I think that the commit message ought to be changed.
+Reading the message, it sounds as you're adding a check to add uImage if
+it doesn't exist. Rather, you're modifying the existing check to
+gracefully handle the case where uImage already exists.
+
+Could you update the commit message to better reflect the intention with
+the change?
+
 > We could also modify the way the commands are run to ignore that exit
 > code but that would involve more changes, many of them not needed or
 > expected by other commands and/or target controllers.
->=20
-> > > -                '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-k=
-ernel
-> > /mnt/testrootfs/boot/uImage',
-> > > +                'if [ ! -e /mnt/testrootfs/boot/uImage ]; then cp
-> > > + ~/test-kernel /mnt/testrootfs/boot/uImage; fi',
-> >
-> > It might be that I've had no coffee yet, but I can't see what
-> > difference your change is making (apart from being more verbose)?
-> >
-> > The original code checks for the existance of
-> > /mnt/testrootfs/boot/uImage, negates the result and copies the test-
-> kernel if the negated result is true, i.e.
-> > if /mnt/testrootfs/boot/uImage doesn't exist, copy the test-kernel.
-> >
-> > > -            self.deploy_cmds.append('[ ! -e /mnt/testrootfs/boot/{0}=
- ] && cp
-> > ~/{0} /mnt/testrootfs/boot/'.format(dtbfn))
-> > > +            self.deploy_cmds.append('if [ ! -e
-> > > + /mnt/testrootfs/boot/{0} ]; then cp ~/{0}
-> > > + /mnt/testrootfs/boot/'.format(dtbfn) + '; fi')
-> >
-> > See above...
-> >
-> > Cheers,
-> > Anders
-> >
-> > --
-> > Anders Darander
-> > ChargeStorm AB / eStorm AB
+
+No, the above change is fine. We should error out if something goes
+wrong, so I'd be against changing the way to run commands.
+
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
