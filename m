@@ -1,35 +1,27 @@
-Return-Path: <Sean_Hudson@mentor.com>
-Received: from relay1.mentorg.com (unknown [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED596FA84
+Return-Path: <mcrowe@brightsign.biz>
+X-Greylist: delayed 902 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 27 May 2014 16:44:20 UTC
+Received: from relay.appriver.com (unknown [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D2F46FB29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 16:16:55 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1WpK3c-0001yH-AV from Sean_Hudson@mentor.com ;
-	Tue, 27 May 2014 09:16:56 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 27 May 2014 09:16:56 -0700
-Received: from [172.30.4.225] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.2.247.3;
-	Tue, 27 May 2014 09:16:49 -0700
-Message-ID: <5384BA76.4080700@mentor.com>
-Date: Tue, 27 May 2014 11:16:54 -0500
-From: Sean Hudson <sean_hudson@mentor.com>
-Organization: Mentor Graphics - Embedded Software Division
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Valentin Popa
-	<valentin.popa@intel.com>
-References: <cover.1400690725.git.valentin.popa@intel.com>	<537E25A9.9080106@intel.com>
-	<CAJTo0Lb6Wa8tdyjB7yPK7w_PLuaKq9OKZAU8W+cXds+nt4PbeA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb6Wa8tdyjB7yPK7w_PLuaKq9OKZAU8W+cXds+nt4PbeA@mail.gmail.com>
-X-Enigmail-Version: 1.5.2
-X-OriginalArrivalTime: 27 May 2014 16:16:56.0170 (UTC)
-	FILETIME=[1437FCA0:01CF79C7]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] [V3]mesa: upgrade to 10.1.3
+	Tue, 27 May 2014 16:44:20 +0000 (UTC)
+Received: from [86.30.57.232] (HELO elite.brightsigndigital.co.uk)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.0.8)
+	with ESMTPS id 396260280; Tue, 27 May 2014 12:29:19 -0400
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WpKFT-0001fL-VY; Tue, 27 May 2014 17:29:12 +0100
+Received: from mac by chuckie.brightsign with local (Exim 4.82)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WpKFT-0005e5-Ua; Tue, 27 May 2014 17:29:11 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 May 2014 17:28:43 +0100
+Message-Id: <1401208123-21656-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.0.0.rc2
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [RESEND PATCH] cmake: Avoid accidentally including libacl.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 16:16:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 May 2014 16:44:21 -0000
 
-On 05/22/2014 11:58 AM, Burton, Ross wrote:
-> For these three patches:
-> 
-> On 22 May 2014 17:28, Valentin Popa <valentin.popa@intel.com> wrote:
->>>    dri3proto: add it to oe-core
->>>    libxshmfence: add it to oe-core
->>>    eglinfo: patched to compile with mesa10+
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> 
-> Mesa needs more testing, but these pieces are good to merge.
-> 
-> Ross
-> 
+The cmake recipe doesn't depend on libacl yet cmake will detect libacl.h
+and use it by default. This risks build failures if libacl.h is unstaged
+during the build and it also means that the build cmake will sometimes
+support ACLs and sometimes not.
 
-  I don't have a specific need to preserve MESA 9.x (that I know of
-right now), but it seems like we might consider keeping it around a bit
-longer in parallel with MESA 10.x and then formally deprecate it in the
-next release.
+This can be avoided by setting ENABLE_ACL=0 but until the fix for
+http://cmake.org/Bug/view.php?id=14866 is released we also need to set
+HAVE_ACL_LIBACL_H=0.
 
-Regards,
-     Sean
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+(Originally submitted in http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091619.html )
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+index 638c074..cd6b1d8 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+@@ -14,4 +14,5 @@ SRC_URI[sha256sum] = "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37fccf067eb1a44a
+ # Disable ccmake since we don't depend on ncurses
+ CMAKE_EXTRACONF = "\
+     -DBUILD_CursesDialog=0 \
++    -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
+ "
+-- 
+2.0.0.rc2
 
 
