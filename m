@@ -1,39 +1,27 @@
-Return-Path: <ticotimo@gmail.com>
-X-Greylist: delayed 337 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 27 May 2014 14:06:24 UTC
-Received: from mail-oa0-f43.google.com (unknown [209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2559C6FAB8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (unknown [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 290F96FA51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 14:06:24 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id l6so9644670oag.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 07:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TCRRcvV9VuV3fv52p7I2+JN/F/ZQ+U5OVsKsRF+MsZI=;
-	b=M3i7btLzO71hjvAo108SyKOAdEwOUcsvdr7Yqw5GWEo6pf5+dVHCKySnebUrk3bRA0
-	aswp2p1Ymfj2F4xWB6NhYEbE7gDZiB6woPDgBJPaqIlBbMIhRaePW4Il89rBzA1Pdvah
-	rPoSL19TLybs2JTA5XDagr3uZcvj8my63OV6tVt8/dNEh3VXEDCBhgOr+ZEdFk0aeZbP
-	T52aG5/pNDejefbSJmuG5vH5FZeQgAw9abu+1NfWJBPudz7AOJJA6WgUlLp68qWpkvIj
-	jFfHBqnsTgFNh+RXEc2/4EMgnvsyPCKmr/3eD4hyIRmeu/yKJWORbwOos9Kj26qzfEH5
-	ZOVQ==
+	Tue, 27 May 2014 14:24:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 May 2014 07:24:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,919,1392192000"; d="scan'208";a="545519656"
+Received: from unknown (HELO [10.255.12.174]) ([10.255.12.174])
+	by fmsmga002.fm.intel.com with ESMTP; 27 May 2014 07:24:06 -0700
+Message-ID: <5384A006.8080908@linux.intel.com>
+Date: Tue, 27 May 2014 07:24:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-Received: by 10.182.29.195 with SMTP id m3mr33253262obh.33.1401199248206;
-	Tue, 27 May 2014 07:00:48 -0700 (PDT)
-Received: by 10.182.240.136 with HTTP; Tue, 27 May 2014 07:00:48 -0700 (PDT)
-In-Reply-To: <6373193.eVtsr7fQSg@peggleto-mobl5.ger.corp.intel.com>
-References: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<20140524084213.GC2715@jama>
-	<CANx9H-AGGrh-3zVOoaq9GZ60gtknNGAyZ7BGJD5s2w-GYH3e7A@mail.gmail.com>
-	<6373193.eVtsr7fQSg@peggleto-mobl5.ger.corp.intel.com>
-Date: Tue, 27 May 2014 07:00:48 -0700
-Message-ID: <CANx9H-Ax=ZTOavtP6Aq47to3Vd8LdDHBexA7jjXkBZAdaLrP7Q@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] libav (9.13): remove DEFAULT_PREFERENCE
+To: Stefan Stanacar <sstncr@gmail.com>, 
+	Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+References: <1401184227-1138-1-git-send-email-corneliux.stoicescu@intel.com>
+	<CANr+NRtXiKzXK2aBS6e1vrt-HNRMYqQ5StH-neSsFLZQAbLPtQ@mail.gmail.com>
+In-Reply-To: <CANr+NRtXiKzXK2aBS6e1vrt-HNRMYqQ5StH-neSsFLZQAbLPtQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] oeqa/controllers/beaglebonetarget.py: fix conditions for files copied to /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,113 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 May 2014 14:06:28 -0000
-Content-Type: multipart/alternative; boundary=001a11c2dca672f56d04fa621f67
+X-List-Received-Date: Tue, 27 May 2014 14:24:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c2dca672f56d04fa621f67
-Content-Type: text/plain; charset=UTF-8
-
-On Tue, May 27, 2014 at 5:28 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
-
-> Hi Tim,
+On 05/27/2014 04:14 AM, Stefan Stanacar wrote:
+> On Tue, May 27, 2014 at 12:50 PM, Corneliu Stoicescu
+> <corneliux.stoicescu@intel.com> wrote:
 >
-> On Sunday 25 May 2014 22:29:14 Tim Orling wrote:
-> > On Sat, May 24, 2014 at 1:42 AM, Martin Jansa <martin.jansa@gmail.com
-> >wrote:
-> > > On Fri, May 23, 2014 at 07:36:42PM -0700, Khem Raj wrote:
-> > > > On Wed, May 21, 2014 at 4:57 AM, Paul Eggleton
-> > > >
-> > > > <paul.eggleton@linux.intel.com> wrote:
-> > > > >> Use PREFERRED_VERSION_libav in your distro definition instead.
-> > > > >
-> > > > > Why? PREFERRED_VERSION_libav will override this in any case...
-> > > >
-> > > > I would rather ask why not ? we are pinning to older version is there
-> > > > a reason for that ?
-> > >
-> > > Current openal-soft, gst-ffmpeg and xbmc fail with libav-9, mplayer2
-> > > fails with old libav-8, we need someone to work on making them
-> > > compatible with the same version of libav (preferably newer one - 9 or
-> > > 10) and then we should switch.
-> > >
-> > > The problem--at least for gst-ffmpeg and xbmc--is that libav-9 drops
-> >
-> > libpostproc.
-> >
-> http://git.libav.org/?p=libav.git;a=commit;h=b315042c8ce984bec431c5965120853
-> > a843cbfa5
-> >
-> > I'll see if I can get http://git.videolan.org/?p=libpostproc.git to play
-> > nice.
+>> ---
+>>   meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
 >
-> Maybe you already saw it, but we do have a libpostproc recipe in meta-oe...
+> As this patch is for meta-yocto-bsp this should be sent to
+> poky@yoctoproject.org list...
 >
-> :) I found that recipe shortly after I sent the above email. I am working
-with that recipe now to see if I can get several multimedia packages to
-build with libav-9+. IMHO, gst-ffmpeg-0.10 needs to go away and this will
-help.
-
---Tim
-
---001a11c2dca672f56d04fa621f67
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
-On Tue, May 27, 2014 at 5:28 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
-linux.intel.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Hi Tim,<br>
-<div class=3D""><br>
-On Sunday 25 May 2014 22:29:14 Tim Orling wrote:<br>
-&gt; On Sat, May 24, 2014 at 1:42 AM, Martin Jansa &lt;<a href=3D"mailto:ma=
-rtin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt;wrote:<br>
-&gt; &gt; On Fri, May 23, 2014 at 07:36:42PM -0700, Khem Raj wrote:<br>
-&gt; &gt; &gt; On Wed, May 21, 2014 at 4:57 AM, Paul Eggleton<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eg=
-gleton@linux.intel.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt;&gt; Use PREFERRED_VERSION_libav in your distro definiti=
-on instead.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Why? PREFERRED_VERSION_libav will override this in any =
-case...<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I would rather ask why not ? we are pinning to older version=
- is there<br>
-&gt; &gt; &gt; a reason for that ?<br>
-&gt; &gt;<br>
-&gt; &gt; Current openal-soft, gst-ffmpeg and xbmc fail with libav-9, mplay=
-er2<br>
-&gt; &gt; fails with old libav-8, we need someone to work on making them<br=
+>> diff --git a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
+>> index 53f454b..af56bda 100644
+>> --- a/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
+>> +++ b/meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py
+>> @@ -41,12 +41,12 @@ class BeagleBoneTarget(MasterImageHardwareTarget):
+>>                   'mount -L testrootfs /mnt/testrootfs',
+>>                   'rm -rf /mnt/testrootfs/*',
+>>                   'tar xzvf ~/test-rootfs.tar.gz -C /mnt/testrootfs',
+>> -                '[ ! -e /mnt/testrootfs/boot/uImage ] && cp ~/test-kernel /mnt/testrootfs/boot/uImage',
+>> +                'if [ ! -e /mnt/testrootfs/boot/uImage ]; then cp ~/test-kernel /mnt/testrootfs/boot/uImage; fi',
 >
-&gt; &gt; compatible with the same version of libav (preferably newer one -=
- 9 or<br>
-&gt; &gt; 10) and then we should switch.<br>
-&gt; &gt;<br>
-&gt; &gt; The problem--at least for gst-ffmpeg and xbmc--is that libav-9 dr=
-ops<br>
-&gt;<br>
-&gt; libpostproc.<br>
-&gt; <a href=3D"http://git.libav.org/?p=3Dlibav.git;a=3Dcommit;h=3Db315042c=
-8ce984bec431c5965120853" target=3D"_blank">http://git.libav.org/?p=3Dlibav.=
-git;a=3Dcommit;h=3Db315042c8ce984bec431c5965120853</a><br>
-&gt; a843cbfa5<br>
-&gt;<br>
-&gt; I&#39;ll see if I can get <a href=3D"http://git.videolan.org/?p=3Dlibp=
-ostproc.git" target=3D"_blank">http://git.videolan.org/?p=3Dlibpostproc.git=
-</a> to play<br>
-&gt; nice.<br>
-<br>
-</div>Maybe you already saw it, but we do have a libpostproc recipe in meta=
--oe...<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote><div>:=
-) I found that recipe shortly after I sent the above email. I am working wi=
-th that recipe now to see if I can get several multimedia packages to build=
- with libav-9+. IMHO, gst-ffmpeg-0.10 needs to go away and this will help.<=
-/div>
-<div><br></div><div>--Tim=C2=A0</div></div><br></div></div>
+> How about reversing the check: [ -e /mnt/testrootfs/boot/uImage] || cp
+> ~/test-kernel /mnt/testrootfs/boot/uImage
+> That would work in both cases, if it exists it won't copy the kernel
+> and returns 0, if it doesn't it will copy and returns the result of
+> cp.
+>
+>>                   ]
+>>
+>>           for _, dtbfn in self.dtbs:
+>>               # Kernel and dtb files may not be in the image, so copy them if not
+>> -            self.deploy_cmds.append('[ ! -e /mnt/testrootfs/boot/{0} ] && cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn))
+>> +            self.deploy_cmds.append('if [ ! -e /mnt/testrootfs/boot/{0} ]; then cp ~/{0} /mnt/testrootfs/boot/'.format(dtbfn) + '; fi')
+>>
+>
+> Same here.
+>
 
---001a11c2dca672f56d04fa621f67--
+I agree with Stephan here along with Anders comments and this should 
+really be on poky@ list, so a v3 to the poky@yoctoproject would be best.
+
+Thanks
+	Sau!
+
+>
+> Cheers,
+> Stefan
+>
+>>           if not self.serialcontrol_cmd:
+>>               bb.fatal("This TEST_TARGET needs a TEST_SERIALCONTROL_CMD defined in local.conf.")
+>> --
+>> 1.8.3.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
