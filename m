@@ -1,26 +1,31 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 097D96FB75
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 965D16FB75
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 00:10:22 +0000 (UTC)
+	Wed, 28 May 2014 01:25:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4S0AO4P003903
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 17:10:24 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 27 May 2014 17:10:20 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 May 2014 19:14:46 -0500
-Message-ID: <fb8f9e91a4729882ec0222ba5e2ed8d894a75b82.1401235888.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1401235888.git.peter.seebach@windriver.com>
-References: <cover.1401235888.git.peter.seebach@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4S1PDk3018484
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 May 2014 18:25:13 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Tue, 27 May 2014 18:25:13 -0700
+Message-ID: <53853AF6.9020001@windriver.com>
+Date: Wed, 28 May 2014 09:25:10 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo: Honor umask again
+To: Tudor Florea <Tudor.Florea@enea.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1401174102.git.Chong.Lu@windriver.com>
+	<c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
+	<26724FB0BFCB3D4C91BDE184751AA3A428A49EA5@SESTOEX04.enea.se>
+In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A428A49EA5@SESTOEX04.enea.se>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 1/1] strace: fix ptest execution failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,235 +38,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 00:10:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 May 2014 01:25:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The fchmodat-permissions patch was fine for the fchmod case, but
-had the unintended side effect of disregarding umask settings for
-open, mknod, mkdir, and their close relatives. Start tracking umask
-and masking the umask bits out where appropriate.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- .../pseudo/files/pseudo-fchmodat-permissions.patch |  169 +++++++++++++++++++-
- 1 files changed, 163 insertions(+), 6 deletions(-)
+On 05/27/2014 11:16 PM, Tudor Florea wrote:
+>
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+>> Of Chong Lu
+>> Sent: Tuesday, May 27, 2014 10:03
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
+>>
+>> Modify ptest suite to make it execute successfully.
+>>
+>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+>> ---
+>>   meta/recipes-devtools/strace/strace-4.8/run-ptest | 2 +-
+>>   meta/recipes-devtools/strace/strace_4.8.bb        | 6 ++++++
+>>   2 files changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest
+>> b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+>> index 133cf92..66639fb 100755
+>> --- a/meta/recipes-devtools/strace/strace-4.8/run-ptest
+>> +++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+>> @@ -1,2 +1,2 @@
+>>   #!/bin/sh
+>> -make -C tests -k runtest-TESTS
+>> +make -C tests -k check-TESTS
+> I have the same comment as in the previous patch. I'd rather use serial-tests in configure.ac file instead of this change.
+Ok. Thanks for your suggestion.
 
-diff --git a/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch b/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
-index 2bd2289..7b1f82d 100644
---- a/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
-+++ b/meta/recipes-devtools/pseudo/files/pseudo-fchmodat-permissions.patch
-@@ -1,4 +1,4 @@
--commit 5a6f2896ed44029ced2a33ac64c962737c5171a0
-+commit 7e67d082737b3df4788caf85fedd607b3acd9786
- Author: Peter Seebach <peter.seebach@windriver.com>
- Date:   Fri May 16 15:53:06 2014 -0500
- 
-@@ -11,18 +11,27 @@ Date:   Fri May 16 15:53:06 2014 -0500
-     AT_SYMLINK_NOFOLLOW by rejecting it if the host system does,
-     to make GNU tar happier), also mask out write bits from filesystem
-     modes to avoid security problems.
-+    
-+    Also start tracking umask so we can use the right modes for
-+    open, mkdir, and mknod.
- 
-     The 1.6 patches are:
- 
-     87c53ea58befef48677846693aab445df1850e16
-     3c716e0bab4f0cfe4be84caa9ce5fd5e3f5e2a23
-     c98e4f43b5d6499748a5057134408f4ba4854fb4
-+    2f71a021b725c1aa415439209a89327f0b997d02
-+    14925786b55202d8147b0af719038e8a23ef73c0
- 
- diff --git a/ChangeLog.txt b/ChangeLog.txt
--index 113f675..fab1033 100644
-+index 113f675..cc966ce 100644
- --- a/ChangeLog.txt
- +++ b/ChangeLog.txt
--@@ -1,3 +1,14 @@
-+@@ -1,3 +1,18 @@
-++2014-05-27:
-++	* (seebs) start noticing umask, mask it out from open or mkdir
-++	  calls rather than relying on underlying open/mkdir to do it.
-++
- +2014-05-16:
- +	* (seebs) fchmodat: don't drop flags, report failures, to improve
- +	  compatibility/consistency. Cache the knowledge that
-@@ -37,6 +46,60 @@ index 113f675..fab1033 100644
-  2013-02-27:
-  	* (seebs) Oh, hey, what if I took out my debug messages?
-  	* (seebs) update docs a bit to reduce bitrot
-+diff --git a/makewrappers b/makewrappers
-+index e87cc56..0127766 100755
-+--- a/makewrappers
-++++ b/makewrappers
-+@@ -204,6 +204,7 @@ class Function:
-+             'uid_t': '0',
-+             'int': '-1',
-+             'long': '-1',
-++            'mode_t': '0',
-+             'ssize_t': '-1'
-+         }
-+     
-+diff --git a/ports/darwin/guts/open.c b/ports/darwin/guts/open.c
-+index c66cc15..520bb70 100644
-+--- a/ports/darwin/guts/open.c
-++++ b/ports/darwin/guts/open.c
-+@@ -9,6 +9,9 @@
-+ 	struct stat buf = { };
-+ 	int existed = 1;
-+ 	int save_errno;
-++
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-+ #ifdef PSEUDO_FORCE_ASYNCH
-+         flags &= ~O_SYNC;
-+ #endif
-+diff --git a/ports/linux/guts/__xmknodat.c b/ports/linux/guts/__xmknodat.c
-+index 59b4f2f..0888b8a 100644
-+--- a/ports/linux/guts/__xmknodat.c
-++++ b/ports/linux/guts/__xmknodat.c
-+@@ -9,6 +9,9 @@
-+  	pseudo_msg_t *msg;
-+ 	struct stat64 buf;
-+ 
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ 	/* we don't use underlying call, so _ver is irrelevant to us */
-+ 	(void) ver;
-+ 
-+diff --git a/ports/linux/guts/openat.c b/ports/linux/guts/openat.c
-+index 8460073..4053549 100644
-+--- a/ports/linux/guts/openat.c
-++++ b/ports/linux/guts/openat.c
-+@@ -10,6 +10,9 @@
-+ 	int existed = 1;
-+ 	int save_errno;
-+ 
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+ 	if (dirfd != AT_FDCWD) {
-+ 		errno = ENOSYS;
- diff --git a/ports/unix/guts/fchmodat.c b/ports/unix/guts/fchmodat.c
- index 59a92ce..69a953c 100644
- --- a/ports/unix/guts/fchmodat.c
-@@ -92,16 +155,110 @@ index 59a92ce..69a953c 100644
-  	 * may believe you are permitted to change modes that the filesystem
-  	 * doesn't. Note that we also don't need to know whether the
-           * file might be a (pseudo) block device or some such; pseudo
-+diff --git a/ports/unix/guts/mkdirat.c b/ports/unix/guts/mkdirat.c
-+index e846b70..e0b6af9 100644
-+--- a/ports/unix/guts/mkdirat.c
-++++ b/ports/unix/guts/mkdirat.c
-+@@ -6,11 +6,14 @@
-+  * wrap_mkdirat(int dirfd, const char *path, mode_t mode) {
-+  *	int rc = -1;
-+  */
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+ 	if (dirfd != AT_FDCWD) {
-+ 		errno = ENOSYS;
-+ 		return -1;
-+ 	}
-++
-+ 	rc = real_mkdir(path, PSEUDO_FS_MODE(mode, 1));
-+ #else
-+ 	rc = real_mkdirat(dirfd, path, PSEUDO_FS_MODE(mode, 1));
-+diff --git a/ports/unix/guts/mknodat.c b/ports/unix/guts/mknodat.c
-+index 6fd5b42..5d8d47c 100644
-+--- a/ports/unix/guts/mknodat.c
-++++ b/ports/unix/guts/mknodat.c
-+@@ -10,6 +10,9 @@
-+ 	PSEUDO_STATBUF buf;
-+         int save_errno = errno;
-+ 
-++	/* mask out mode bits appropriately */
-++	mode = mode & ~pseudo_umask;
-++
-+ #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-+ 	if (dirfd != AT_FDCWD) {
-+ 		errno = ENOSYS;
-+diff --git a/ports/unix/guts/umask.c b/ports/unix/guts/umask.c
-+new file mode 100644
-+index 0000000..6b060d3
-+--- /dev/null
-++++ b/ports/unix/guts/umask.c
-+@@ -0,0 +1,14 @@
-++/*
-++ * Copyright (c) 2014 Wind River Systems; see
-++ * guts/COPYRIGHT for information.
-++ *
-++ * mode_t umask(mode_t mask)
-++ *	mode_t rc = 0;
-++ */
-++
-++	pseudo_umask = mask;
-++	rc = real_umask(mask);
-++
-++/*	return rc;
-++ * }
-++ */
-+diff --git a/ports/unix/wrapfuncs.in b/ports/unix/wrapfuncs.in
-+index 8460a65..e0e9739 100644
-+--- a/ports/unix/wrapfuncs.in
-++++ b/ports/unix/wrapfuncs.in
-+@@ -67,3 +67,4 @@ void sync(void); /* async_skip= */
-+ int syncfs(int fd); /* async_skip=0 */
-+ int sync_file_range(int fd, off64_t offset, off64_t nbytes, unsigned int flags); /* async_skip=0 */
-+ int msync(void *addr, size_t length, int flags); /* async_skip=0 */
-++mode_t umask(mode_t mask);
-+diff --git a/pseudo_client.c b/pseudo_client.c
-+index b6d11a6..535c810 100644
-+--- a/pseudo_client.c
-++++ b/pseudo_client.c
-+@@ -71,6 +71,8 @@ int pseudo_disabled = 0;
-+ int pseudo_allow_fsync = 0;
-+ static int pseudo_local_only = 0;
-+ 
-++int pseudo_umask = 022;
-++
-+ static char **fd_paths = NULL;
-+ static int nfds = 0;
-+ static int messages = 0;
-+@@ -219,6 +221,9 @@ pseudo_init_client(void) {
-+ 	if (!pseudo_disabled && !pseudo_inited) {
-+ 		char *pseudo_path = 0;
-+ 
-++		pseudo_umask = umask(022);
-++		umask(pseudo_umask);
-++
-+ 		pseudo_path = pseudo_prefix_path(NULL);
-+ 		if (pseudo_prefix_dir_fd == -1) {
-+ 			if (pseudo_path) {
- diff --git a/pseudo_client.h b/pseudo_client.h
--index f36a772..ecb13a6 100644
-+index f36a772..5bf820e 100644
- --- a/pseudo_client.h
- +++ b/pseudo_client.h
--@@ -85,6 +85,6 @@ extern int pseudo_nosymlinkexp;
-+@@ -72,6 +72,8 @@ extern char *pseudo_passwd;
-+ extern size_t pseudo_chroot_len;
-+ extern int pseudo_nosymlinkexp;
-+ 
-++extern int pseudo_umask;
-++
-+ /* Root can read and write files, and enter directories which have no
-+  * read, write, or execute permissions.  (But can't execute files without
-+  * execute permissions!)
-+@@ -85,6 +87,6 @@ extern int pseudo_nosymlinkexp;
-   * None of this will behave very sensibly if umask has 0700 bits in it;
-   * this is a known limitation.
-   */
- -#define PSEUDO_FS_MODE(mode, isdir) ((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0))
- -#define PSEUDO_DB_MODE(fs_mode, user_mode) (((fs_mode) & ~0700) | ((user_mode & 0700)))
--+#define PSEUDO_FS_MODE(mode, isdir) ((((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0)) & ~(S_IWGRP | S_IWOTH)) & ~(S_IWOTH | S_IWGRP))
-++#define PSEUDO_FS_MODE(mode, isdir) (((mode) | S_IRUSR | S_IWUSR | ((isdir) ? S_IXUSR : 0)) & ~(S_IWGRP | S_IWOTH))
- +#define PSEUDO_DB_MODE(fs_mode, user_mode) (((fs_mode) & ~0722) | ((user_mode & 0722)))
-  
--- 
-1.7.1
+Best Regards
+Chong
+>
+>> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-
+>> devtools/strace/strace_4.8.bb
+>> index 71563d4..9769cd4 100644
+>> --- a/meta/recipes-devtools/strace/strace_4.8.bb
+>> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
+>> @@ -41,6 +41,12 @@ do_compile_ptest() {
+>>
+>>   do_install_ptest() {
+>>   	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B}
+>> DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
+>> +	install ${S}/test-driver ${D}${PTEST_PATH}
+>> +	sed -e 's/bash/sh/' \
+>> +	    -e 's/gawk/awk/' \
+>> +	    -e 's/^top_srcdir = \(.*\)/top_srcdir = ../' \
+>> +	    -e '/^all:/a\\t@:' \
+>> +	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
+>>   }
+>>
+>>   BBCLASSEXTEND = "native"
+>> --
+>> 1.8.1.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
