@@ -1,44 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-X-Greylist: delayed 149276 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 28 May 2014 14:41:11 UTC
-Received: from mail-pa0-f51.google.com (unknown [209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 438CC6FA47
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga01.intel.com (unknown [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C0FA06FA9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 14:41:11 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id kq14so11157909pab.38
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 07:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=UJp0rKCGVLtIkwT8XXfE0gVHi4ZDEVggPmP963JZkYc=;
-	b=bNOz870RhO6eR/Rq9VTotl5P3qomGr6iZqyi0PYfHiUiBv/+C6mLMQmzSjPLrrROuf
-	gMPQ2MjO7HoFeTkxpQyQAIfj4LXmehxY7i/kHW2mk5sYnP0zBxZH8OzY7+tSR2U5Rd2L
-	4F+rolIq/MuJpxW5e3zuI6MeJ0mvpP+pJvBuL/JUUH3VeJ11B+TKo8ZkPb+bjQeerQe3
-	OmZWfWGVGFgHG8ZSe1fWXg/v1sWshk5OoeGtFLo+yit3hvgpG668KuOMb7SUDE6dFvLf
-	HAjO7scQH78G0UjdnbKVDziF289il6M+8mvqFJElljFwstASwKjm3pRzgEGt3scnBHUW
-	GHYQ==
-X-Received: by 10.68.224.101 with SMTP id rb5mr46550092pbc.135.1401288073009; 
-	Wed, 28 May 2014 07:41:13 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	cj1sm89720423pac.40.2014.05.28.07.41.10 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 28 May 2014 07:41:12 -0700 (PDT)
-Message-ID: <5385F585.8030809@gmail.com>
-Date: Wed, 28 May 2014 07:41:09 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1401138331-31087-1-git-send-email-akuster@mvista.com>	
-	<CAJTo0LaB94-s02ng6CXdFNLGYEasN4chZFdJXEaWnpMZ2nsWEA@mail.gmail.com>
-	<1401278830.2607.45.camel@ted>
-In-Reply-To: <1401278830.2607.45.camel@ted>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Update timezone files to 2014c
+	Wed, 28 May 2014 14:42:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 May 2014 07:42:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,928,1392192000"; d="scan'208";a="546193490"
+Received: from cbwilker-mobl2.amr.corp.intel.com (HELO [10.254.9.144])
+	([10.254.9.144])
+	by fmsmga002.fm.intel.com with ESMTP; 28 May 2014 07:42:46 -0700
+User-Agent: Microsoft-MacOutlook/14.4.1.140326
+Date: Wed, 28 May 2014 07:44:00 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <CFAB4426.94179%dvhart@linux.intel.com>
+Thread-Topic: [PATCH 0/1] i2c-tools: Add i2c-tools to the core
+References: <cover.1401223100.git.dvhart@linux.intel.com>
+	<1401266574.2607.17.camel@ted>
+In-Reply-To: <1401266574.2607.17.camel@ted>
+Mime-version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] i2c-tools: Add i2c-tools to the core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,26 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 14:41:12 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 28 May 2014 14:42:48 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
+
+On 5/28/14, 1:42, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
+
+>On Tue, 2014-05-27 at 13:38 -0700, Darren Hart wrote:
+>> The following changes since commit
+>>f3d62a9eb9c47356e6150fdd55f790c159e620c7:
+>> 
+>>   eglinfo: updated to compile with mesa10+ (2014-05-27 16:11:55 +0100)
+>> 
+>> are available in the git repository at:
+>> 
+>>   git://git.yoctoproject.org/poky-contrib dvhart/i2c-tools
+>>   
+>>http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/i2c-tools
+>> 
+>> Darren Hart (1):
+>>   i2c-tools: Add i2c-tools to the core
+>> 
+>>  meta/recipes-devtools/i2c-tools/files/Module.mk    |   72
+>>++++++++++++++++++++
+>>  .../i2c-tools/i2c-tools-3.1.0/Module.mk            |   72
+>>++++++++++++++++++++
+>>  meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb |   26 +++++++
+>>  3 files changed, 170 insertions(+)
+>>  create mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
+>>  create mode 100644
+>>meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk
+>>  create mode 100644 meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
+>
+>I merged this, I've said I wanted this patch for long enough to multiple
+>people, thanks! :)
+>
+>I removed the duplicate Module.mk file...
+
+Oops, thanks.
+
+What follow-up is necessary/appropriate with meta-oe?
+
+-- 
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
 
 
-On 05/28/2014 05:07 AM, Richard Purdie wrote:
-> On Wed, 2014-05-28 at 11:40 +0100, Burton, Ross wrote:
->> On 26 May 2014 22:05, Armin Kuster <akuster808@gmail.com> wrote:
->>> This updates both tzcode and tzdate to latest
->> Please send patches using -M so they're easier to review.  Also you
->> put "solaris" instead of "solar" in the commit message.
-> How did the license change from PD & BSD to PD?
-Hmm, it shouldn’t. will correct with v2.
-
-regards,
-Armin
->
-> Cheers,
->
-> Richard
->
 
 
