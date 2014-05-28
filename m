@@ -1,46 +1,36 @@
-Return-Path: <akuster@mvista.com>
-X-Greylist: delayed 1335 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 28 May 2014 15:10:26 UTC
-Received: from mail-pb0-f47.google.com (unknown [209.85.160.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 67A816FB74
+Return-Path: <paul.betafive@gmail.com>
+X-Greylist: delayed 363 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 28 May 2014 15:26:06 UTC
+Received: from mail-we0-f170.google.com (unknown [74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4414365D1A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 15:10:26 +0000 (UTC)
-Received: by mail-pb0-f47.google.com with SMTP id rp16so11314530pbb.20
+	Wed, 28 May 2014 15:26:06 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id u57so11658336wes.29
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 08:10:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=TJO1x6lNjUMlmUj0w9ycRZJ/Cw3Q64tNEowPX6k4lQk=;
-	b=RRtC+Dj4f34sQW2M/F2FM17MRCgtV6v94PodNHmAZfVmMTn0fxdVQDMYU3/EebQDpD
-	8n43dBP1f/qdSyTbt2F/ofAz5Orhd57rjaS2X0OxGDAmneYXiYpY+XsWcy/mVJPiUm4l
-	aYBlPraY0yJYiOFSCeNcEOds63ZgV8x79rWe1ao2SmcBwjeZnWYJyKZiML9+HOzpm051
-	YVPxozimXLfjVXDc6Har9/zjlSzZwokm1Uo2VKu4x5ZlwOQ5zzmnkSYUO7tb27bCWBMe
-	HYf/Msfg9gmG1Hk99tjp+EzNbK2QRAEE01Dvz+/F1jCalU1BZDgZXJaaSxbseGAYZDje
-	6HBQ==
-X-Gm-Message-State: ALoCoQms5rok7yPA3Ve2Z0nSootKhHaj++SbUwYH35yGvZ4eGSq5NMzEhoTEq54MFcShBfxXlySs
-X-Received: by 10.66.149.102 with SMTP id tz6mr48585pab.76.1401288001710;
-	Wed, 28 May 2014 07:40:01 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	tf10sm28750609pbc.70.2014.05.28.07.40.00 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 28 May 2014 07:40:01 -0700 (PDT)
-Message-ID: <5385F53F.6040700@mvista.com>
-Date: Wed, 28 May 2014 07:39:59 -0700
-From: "akuster@mvista" <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	Armin Kuster <akuster808@gmail.com>
-References: <1401138331-31087-1-git-send-email-akuster@mvista.com>
-	<CAJTo0LaB94-s02ng6CXdFNLGYEasN4chZFdJXEaWnpMZ2nsWEA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaB94-s02ng6CXdFNLGYEasN4chZFdJXEaWnpMZ2nsWEA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Update timezone files to 2014c
+	Wed, 28 May 2014 08:26:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=kt3ySsUelxT9nIyKLb8KNGzxQd1j5VJSWyybxIDbwfo=;
+	b=oguUv6KPlWgwOnb5nR+2pikoDKF/3CVvDGbJKM3Co4o+6oiBstMQXX3VTtg9r0o4lM
+	xgwGWBhQkkn1YKx0TzuoVhPcijhn4m5t9juPw7F5sRYs8vyauTjZ4Q6/hAvgI+s5to9D
+	ENWul+G4jSrXZXm6A3rQsIYWq4iJed6UDb1M/eLISqPBr/KrQ2C+MJFUBKJnC8tVan5+
+	RmjzAJEBCh4wXuEXoJM+OwNU9LZQjLfsNrlx6aNjQK05XP8Ke31zzKCZ9PKPX65j3v4P
+	BdOCvdchsVqlRbI3WTMjfa8FiS9qr+6q+I4sCPBm8l2kDqDuN+bxezbxDnXrq7HbCgYu
+	zXaQ==
+X-Received: by 10.180.78.225 with SMTP id e1mr50251704wix.17.1401290402675;
+	Wed, 28 May 2014 08:20:02 -0700 (PDT)
+Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id
+	r15sm17617729wiw.17.2014.05.28.08.20.01 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 28 May 2014 08:20:01 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 May 2014 15:19:48 +0000
+Message-Id: <1401290390-5959-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 0/2] IPK_HIERARCHICAL_FEED support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,26 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 15:10:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 May 2014 15:26:15 -0000
 
+This is a follow up to the RFC patches I sent out a few weeks ago. I've finally
+had time to finish up the work and give it another round of testing. Everything
+looks good both with and without IPK_HIERARCHICAL_FEED set. I've tested that it
+is possible to install from a hierarchical feed using opkg on qemuarm.
 
-On 05/28/2014 03:40 AM, Burton, Ross wrote:
-> On 26 May 2014 22:05, Armin Kuster <akuster808@gmail.com> wrote:
->> This updates both tzcode and tzdate to latest
-> Please send patches using -M so they're easier to review.
+Paul Barker (2):
+  opkg-utils: Update SRCREV
+  package_ipk.bbclass: Support hierarchical feed
 
-Will do.
-> Also you
-> put "solaris" instead of "solar" in the commit message.
+ meta/classes/package_ipk.bbclass                   | 27 +++++++++++++++++++++-
+ meta/conf/local.conf.sample.extended               | 23 ++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  2 +-
+ 3 files changed, 50 insertions(+), 2 deletions(-)
 
-I will fix
-
-thanks
-Armin
->
-> Ross
-
+-- 
+1.9.3
 
 
