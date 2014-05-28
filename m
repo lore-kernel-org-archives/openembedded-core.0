@@ -1,39 +1,31 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f45.google.com (unknown [209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6D36FB98
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D4BA6FB70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 21:38:34 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id ey11so11665697pad.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 14:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=LTT419eNJ6cXferBJNc3G35ggeZMCyQubUFx53bSepc=;
-	b=bOAfp1j+H0ifjmTXZ8o5SWy/ta5+SH740zaiqx2ld/pB4BuPc+oQ2O18QPmJnJKB8K
-	VViK45v67yPOMfxEHr3XIqSftSAVWRgPm4Vc6+6lelAjpHNI+8J104/nBFYujHpGV3s3
-	pNoiRyVxjZbx/w2ECJeQuriTKSjYd7z538iChj1Lg5EmlmNjVfq6eTcne8wfOdujklM4
-	wjuuwq6lNIa2JnktGQTPgNbY9GcXPj5Tfh5B5LfFyNkZgR7BfJ+I/Ggob0P0zLEsHdaX
-	znsElP6NsYAoDfh48T6gd8oI/NhixMGJDvOao5yKhP/33h4BoFR/ZFQycv8FwxyG0gxU
-	r9lA==
-X-Received: by 10.68.110.65 with SMTP id hy1mr2898864pbb.67.1401313115643;
-	Wed, 28 May 2014 14:38:35 -0700 (PDT)
-Received: from [10.7.100.231] (64.2.3.195.ptr.us.xo.net. [64.2.3.195])
-	by mx.google.com with ESMTPSA id
-	dz4sm49683406pab.47.2014.05.28.14.38.33 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 28 May 2014 14:38:34 -0700 (PDT)
-Message-ID: <53865758.206@gmail.com>
-Date: Wed, 28 May 2014 14:38:32 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Gary Thomas <gary@mlbassoc.com>, openembedded-core@lists.openembedded.org
-References: <1401312099-4247-1-git-send-email-akuster@mvista.com>
-	<538654AE.2020400@mlbassoc.com>
-In-Reply-To: <538654AE.2020400@mlbassoc.com>
-Subject: Re: [PATCH 0/2 V2] Update timezone files to 2014c
+	Wed, 28 May 2014 23:09:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4SN9fut030606; Thu, 29 May 2014 00:09:41 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CqGvERYflth1; Thu, 29 May 2014 00:09:41 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4SN9aLe030601
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 29 May 2014 00:09:37 +0100
+Message-ID: <1401318568.2607.69.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Dan McGregor <danismostlikely@gmail.com>
+Date: Thu, 29 May 2014 00:09:28 +0100
+In-Reply-To: <CACS+7ZSGKFG06F_jFOJZu7FJqLh2F+FgkW30PSMRQ8Xdio51Qw@mail.gmail.com>
+References: <CACS+7ZSGKFG06F_jFOJZu7FJqLh2F+FgkW30PSMRQ8Xdio51Qw@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gzip: Avoid host contamination during build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,44 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 21:38:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 28 May 2014 23:09:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Tue, 2014-05-27 at 17:38 -0600, Dan McGregor wrote:
+> From: Dan McGregor <dan.mcgregor@usask.ca>
+> 
+> On systems with /bin and /usr/bin merged the gzip recipe may find grep
+> in /usr/bin, while OE puts it in /bin. Force the recipe to find grep in
+> the correct place.
+> 
+> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+> ---
+>  meta/recipes-extended/gzip/gzip.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-extended/gzip/gzip.inc
+> b/meta/recipes-extended/gzip/gzip.inc
+> index 920b256..57873cb 100644
+> --- a/meta/recipes-extended/gzip/gzip.inc
+> +++ b/meta/recipes-extended/gzip/gzip.inc
+> @@ -12,6 +12,8 @@ SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz"
+> 
+>  inherit autotools texinfo
+> 
+> +EXTRA_OEMAKE = "GREP=${base_bindir}/grep"
+> +
+>  do_install_append () {
+>   # Rename and move files into /bin (FHS), which is typical place for gzip
+>   install -d ${D}${base_bindir}
 
-On 05/28/2014 02:27 PM, Gary Thomas wrote:
-> On 2014-05-28 15:21, Armin Kuster wrote:
->> This updates both tzcode and tzdate to latest
->>
->> V2: License correction
->>      Solar type correction
->>
->> Armin Kuster (2):
->>    Update tzdata to 2014c
->>    Update tzcode to 2014c
->>
->>   .../recipes-extended/tzcode/tzcode-native_2013i.bb |  26 ---
->>   .../recipes-extended/tzcode/tzcode-native_2014c.bb |  25 +++
->>   meta/recipes-extended/tzdata/tzdata_2013i.bb       | 206 
->> ---------------------
->>   meta/recipes-extended/tzdata/tzdata_2014c.bb       | 205 
->> ++++++++++++++++++++
->>   4 files changed, 230 insertions(+), 232 deletions(-)
->>   delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2013i.bb
->>   create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014c.bb
->>   delete mode 100644 meta/recipes-extended/tzdata/tzdata_2013i.bb
->>   create mode 100644 meta/recipes-extended/tzdata/tzdata_2014c.bb
->>
->
-> These changes would probably be much easier to read/understand
-> if you use the -M option since the actual differences are pretty
-> minor.
->
+My worry is what happens to gzip-native. Do we have to encode a path?
 
-I did.. or I thought I did. hmm...
+Cheers,
 
-thanks,
-
-Armin
+Richard
 
 
