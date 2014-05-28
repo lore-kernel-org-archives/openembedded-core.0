@@ -1,28 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 501786FB80
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (unknown [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C52506FB80
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 08:32:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4S8Wfxb001539
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 May 2014 01:32:41 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 28 May 2014 01:32:40 -0700
-Message-ID: <53859F25.3010905@windriver.com>
-Date: Wed, 28 May 2014 16:32:37 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1401265145.git.hongxu.jia@windriver.com>
-	<9e30cf78bf731ad1eb0da5e84f86d87b09dc617f.1401265145.git.hongxu.jia@windriver.com>
-In-Reply-To: <9e30cf78bf731ad1eb0da5e84f86d87b09dc617f.1401265145.git.hongxu.jia@windriver.com>
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 2/3] elfutils: upgrade to 0.158
+	Wed, 28 May 2014 08:36:58 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4S8arFt024260; Wed, 28 May 2014 09:36:53 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0t1f3J_cHeHB; Wed, 28 May 2014 09:36:53 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4S8amLo024255
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 28 May 2014 09:36:50 +0100
+Message-ID: <1401266199.2607.15.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Wed, 28 May 2014 09:36:39 +0100
+In-Reply-To: <81e37d5db466c157a8ca0069c60102eb12616532.1401124899.git.bruce.ashfield@windriver.com>
+References: <cover.1401124899.git.bruce.ashfield@windriver.com>
+	<81e37d5db466c157a8ca0069c60102eb12616532.1401124899.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] linux-yocto/3.10: bump kver to v3.10.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 08:32:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 28 May 2014 08:37:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/28/2014 04:27 PM, Hongxu Jia wrote:
-> Add 'm4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch' to fix cross compiling failure;
->
-> Rebase 'elf_additions.diff' for 0.158;
-I am sorry to missing 
-'m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch'
-and 'elf_additions.diff' in this patch.
+On Mon, 2014-05-26 at 13:40 -0400, Bruce Ashfield wrote:
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+> index 7081cd18aa57..b1b80341d6d2 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+> @@ -5,12 +5,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
+>  LINUX_KERNEL_TYPE = "tiny"
+>  KCONFIG_MODE = "--allnoconfig"
+>  
+> -LINUX_VERSION ?= "3.10.38"
+> +LINUX_VERSION ?= "3.10.40"
+>  
+>  KMETA = "meta"
+>  
+> -SRCREV_machine ?= "02f7e63e56c061617957388c23bd5cf9b05c5388"
+> -SRCREV_meta ?= "617c6158c3d5b931f0d6131e0b0a7b374c792599"
+> +SRCREV_machine ?= "f53a6114b3a6e8c03ca4752de829887015f4c942"
+> +SRCREV_meta ?= "13ae75f4a26fcd65abe526ef5f1dcde0583f453d"
 
-V2 incoming.
+We're seeing failures since "13ae75f4a26fcd65abe526ef5f1dcde0583f453d"
+doesn't appear to exist in the 3.10 tree meta branch. "bitbake -b
+linux-yocto-tiny_3.10 -c fetch" reproduces.
 
-//Hongxu
+Did you miss pushing something?
 
+We're seeing failures on the autobuilder as I've merged this :/.
 
-> Drop obsolete patches:
-> - nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
-> - elfutils-ar-c-fix-num-passed-to-memset.patch
-> - fix-build-gcc-4.8.patch
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   .../{elfutils_0.155.bb => elfutils_0.158.bb}        | 21 +++++++--------------
->   1 file changed, 7 insertions(+), 14 deletions(-)
->   rename meta/recipes-devtools/elfutils/{elfutils_0.155.bb => elfutils_0.158.bb} (81%)
->
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.155.bb b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
-> similarity index 81%
-> rename from meta/recipes-devtools/elfutils/elfutils_0.155.bb
-> rename to meta/recipes-devtools/elfutils/elfutils_0.158.bb
-> index b1f410c..c97be74 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.155.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
-> @@ -7,23 +7,16 @@ DEPENDS = "libtool bzip2 zlib virtual/libintl"
->   
->   SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/${PV}/elfutils-${PV}.tar.bz2"
->   
-> -SRC_URI[md5sum] = "163a5712b86f6bdfebdf233cc6e2192d"
-> -SRC_URI[sha256sum] = "68444a4526416ffd68852ec3c6a40ceddcca46538297322405319884c5d30ed8"
-> +SRC_URI[md5sum] = "050a4909e452d01ab4747fd69d4036e0"
-> +SRC_URI[sha256sum] = "be27af5c21352f53e010342bf1c68e0b9e18232dbf3adec7e2f9b41f6bbe397d"
->   
-> -SRC_URI += "\
-> -        file://redhat-portability.diff \
-> -        file://redhat-robustify.diff \
-> -        file://hppa_backend.diff \
-> -        file://arm_backend.diff \
-> -        file://mips_backend.diff \
-> -        file://m68k_backend.diff \
-> -        file://elf_additions.diff \
-> -        file://mempcpy.patch \
-> +SRC_URI += " \
-> +	file://elf_additions.diff \
-> +	file://mempcpy.patch \
->   	file://dso-link-change.patch \
-> -	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
-> -	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
-> -	file://fix-build-gcc-4.8.patch \
-> +	file://m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch \
->   "
-> +
->   # Only apply when building uclibc based target recipe
->   SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
->   
+Cheers,
+
+Richard
 
 
