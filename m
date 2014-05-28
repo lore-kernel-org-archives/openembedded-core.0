@@ -1,26 +1,35 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 61F566FBCD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (unknown [209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E2336ABDB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 09:05:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4S95kev007369
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 May 2014 02:05:46 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 28 May 2014 02:05:43 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 May 2014 17:05:33 +0800
-Message-ID: <06b17eae80d0bef4a4858281d7cf2f5859f043f2.1401267658.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1401267658.git.hongxu.jia@windriver.com>
-References: <cover.1401267658.git.hongxu.jia@windriver.com>
+	Wed, 28 May 2014 10:40:32 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id q108so17209612qgd.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 May 2014 03:40:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=k2gVjfT8eeAqKoGl3IL737xv0pWfJ99Y//ZlZWLg1gw=;
+	b=do8nCkgREh7cSWFtjEx0GMnRySl3NUb6MC5dSVdhIEmPs0xM+Zva11DCFbVcYmV/6h
+	kRFHn+E/YrGxoykBQ+BdouC6bpoif+nV+Gy5YtACrNw3gxfzTBOQwBtuFZlV6rk2iwwA
+	63wGnfZMn3v+qC8DJJnf6Ivp/H9hRAV9NakeE3yyiWC/ViCtOeeVwYjrDOT7LwzlJ4Kf
+	5St4rSNz/QWjb4PABng/Y3NAX7H4EA//oihL35fwkjtsRY80gCOxG0WPMjP1u/6rSZQk
+	p8g6zdzGSt0Sn0b6CY7hp8wTB8keVZyEGt0p0SVzPUCVQrTz4b/+HOe4QTWJorX4TEop
+	+iAA==
+X-Gm-Message-State: ALoCoQk80RBrLaNyueQOJ14bn1wykDmvqNj8kiYiNShWXo9jxEKb7wwlL/JlHSKs1mdIxpVNYtPI
+X-Received: by 10.140.91.161 with SMTP id z30mr49139927qgd.65.1401273633688;
+	Wed, 28 May 2014 03:40:33 -0700 (PDT)
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 3/3] apr-util: upgrade to 1.5.3
+Received: by 10.140.101.77 with HTTP; Wed, 28 May 2014 03:40:13 -0700 (PDT)
+In-Reply-To: <1401138331-31087-1-git-send-email-akuster@mvista.com>
+References: <1401138331-31087-1-git-send-email-akuster@mvista.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 28 May 2014 11:40:13 +0100
+Message-ID: <CAJTo0LaB94-s02ng6CXdFNLGYEasN4chZFdJXEaWnpMZ2nsWEA@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Update timezone files to 2014c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 09:05:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 May 2014 10:40:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-support/apr/{apr-util_1.5.2.bb => apr-util_1.5.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/apr/{apr-util_1.5.2.bb => apr-util_1.5.3.bb} (93%)
+On 26 May 2014 22:05, Armin Kuster <akuster808@gmail.com> wrote:
+> This updates both tzcode and tzdate to latest
 
-diff --git a/meta/recipes-support/apr/apr-util_1.5.2.bb b/meta/recipes-support/apr/apr-util_1.5.3.bb
-similarity index 93%
-rename from meta/recipes-support/apr/apr-util_1.5.2.bb
-rename to meta/recipes-support/apr/apr-util_1.5.3.bb
-index 4546b97..063a787 100644
---- a/meta/recipes-support/apr/apr-util_1.5.2.bb
-+++ b/meta/recipes-support/apr/apr-util_1.5.3.bb
-@@ -15,8 +15,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
-            file://run-ptest \
- "
- 
--SRC_URI[md5sum] = "eb682cfb8642babba427a4fb391b15e8"
--SRC_URI[sha256sum] = "a1ec5025373815795d2fa5bfac40c0984675feffc88e049be9a162c408c2f613"
-+SRC_URI[md5sum] = "71a11d037240b292f824ba1eb537b4e3"
-+SRC_URI[sha256sum] = "76db34cb508e346e3bf69347c29ed1500bf0b71bcc48d54271ad9d1c25703743"
- 
- EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \ 
- 		--without-odbc \
--- 
-1.8.1.2
+Please send patches using -M so they're easier to review.  Also you
+put "solaris" instead of "solar" in the commit message.
 
+Ross
 
