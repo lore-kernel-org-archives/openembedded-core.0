@@ -1,30 +1,44 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id B7C226AD16
+Return-Path: <akuster808@gmail.com>
+X-Greylist: delayed 149276 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 28 May 2014 14:41:11 UTC
+Received: from mail-pa0-f51.google.com (unknown [209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 438CC6FA47
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 14:38:07 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Wed, 28 May 2014 16:38:07 +0200
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: Saul Wold <sgw@linux.intel.com>, Chong Lu <Chong.Lu@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
-Thread-Index: AQHPeXm//tzGTJWrQk2OPiyJgJbcPZtUiWZw///hTICAAabq8A==
-Date: Wed, 28 May 2014 14:38:07 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428A4A59D@SESTOEX04.enea.se>
-References: <cover.1401174102.git.Chong.Lu@windriver.com>
-	<c1e7421f8317b0dfb0988044e511dc95e5265af1.1401174102.git.Chong.Lu@windriver.com>
-	<26724FB0BFCB3D4C91BDE184751AA3A428A49EA5@SESTOEX04.enea.se>
-	<5384ADE7.6090307@linux.intel.com>
-In-Reply-To: <5384ADE7.6090307@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.15.171]
+	Wed, 28 May 2014 14:41:11 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id kq14so11157909pab.38
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 May 2014 07:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=UJp0rKCGVLtIkwT8XXfE0gVHi4ZDEVggPmP963JZkYc=;
+	b=bNOz870RhO6eR/Rq9VTotl5P3qomGr6iZqyi0PYfHiUiBv/+C6mLMQmzSjPLrrROuf
+	gMPQ2MjO7HoFeTkxpQyQAIfj4LXmehxY7i/kHW2mk5sYnP0zBxZH8OzY7+tSR2U5Rd2L
+	4F+rolIq/MuJpxW5e3zuI6MeJ0mvpP+pJvBuL/JUUH3VeJ11B+TKo8ZkPb+bjQeerQe3
+	OmZWfWGVGFgHG8ZSe1fWXg/v1sWshk5OoeGtFLo+yit3hvgpG668KuOMb7SUDE6dFvLf
+	HAjO7scQH78G0UjdnbKVDziF289il6M+8mvqFJElljFwstASwKjm3pRzgEGt3scnBHUW
+	GHYQ==
+X-Received: by 10.68.224.101 with SMTP id rb5mr46550092pbc.135.1401288073009; 
+	Wed, 28 May 2014 07:41:13 -0700 (PDT)
+Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55]) by mx.google.com with ESMTPSA id
+	cj1sm89720423pac.40.2014.05.28.07.41.10 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 28 May 2014 07:41:12 -0700 (PDT)
+Message-ID: <5385F585.8030809@gmail.com>
+Date: Wed, 28 May 2014 07:41:09 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] strace: fix ptest execution failure
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"Burton, Ross" <ross.burton@intel.com>
+References: <1401138331-31087-1-git-send-email-akuster@mvista.com>	
+	<CAJTo0LaB94-s02ng6CXdFNLGYEasN4chZFdJXEaWnpMZ2nsWEA@mail.gmail.com>
+	<1401278830.2607.45.camel@ted>
+In-Reply-To: <1401278830.2607.45.camel@ted>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Update timezone files to 2014c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,87 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 14:38:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 28 May 2014 14:41:12 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+On 05/28/2014 05:07 AM, Richard Purdie wrote:
+> On Wed, 2014-05-28 at 11:40 +0100, Burton, Ross wrote:
+>> On 26 May 2014 22:05, Armin Kuster <akuster808@gmail.com> wrote:
+>>> This updates both tzcode and tzdate to latest
+>> Please send patches using -M so they're easier to review.  Also you
+>> put "solaris" instead of "solar" in the commit message.
+> How did the license change from PD & BSD to PD?
+Hmm, it shouldn’t. will correct with v2.
 
-> -----Original Message-----
-> From: Saul Wold [mailto:sgw@linux.intel.com]
-> Sent: Tuesday, May 27, 2014 18:23
-> To: Tudor Florea; Chong Lu; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
->=20
-> On 05/27/2014 08:16 AM, Tudor Florea wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: openembedded-core-bounces@lists.openembedded.org
-> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On
-> Behalf
-> >> Of Chong Lu
-> >> Sent: Tuesday, May 27, 2014 10:03
-> >> To: openembedded-core@lists.openembedded.org
-> >> Subject: [OE-core] [PATCH 1/1] strace: fix ptest execution failure
-> >>
-> >> Modify ptest suite to make it execute successfully.
-> >>
-> >> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> >> ---
-> >>   meta/recipes-devtools/strace/strace-4.8/run-ptest | 2 +-
-> >>   meta/recipes-devtools/strace/strace_4.8.bb        | 6 ++++++
-> >>   2 files changed, 7 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest
-> >> b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-> >> index 133cf92..66639fb 100755
-> >> --- a/meta/recipes-devtools/strace/strace-4.8/run-ptest
-> >> +++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-> >> @@ -1,2 +1,2 @@
-> >>   #!/bin/sh
-> >> -make -C tests -k runtest-TESTS
-> >> +make -C tests -k check-TESTS
-> > I have the same comment as in the previous patch. I'd rather use serial=
--
-> tests in configure.ac file instead of this change.
-> >
-> You mentioned a past patch not merged, can you rebase against master and
-> resent if it's still appropriate?
->=20
-> Thanks
-> 	Sau!
->=20
-I'll review and resend the patch I a couple of days.
-Regards,
-Tudor.
-> >> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes=
--
-> >> devtools/strace/strace_4.8.bb
-> >> index 71563d4..9769cd4 100644
-> >> --- a/meta/recipes-devtools/strace/strace_4.8.bb
-> >> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
-> >> @@ -41,6 +41,12 @@ do_compile_ptest() {
-> >>
-> >>   do_install_ptest() {
-> >>   	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=3D${B}
-> >> DESTDIR=3D${D}${PTEST_PATH} TESTDIR=3D${TESTDIR}
-> >> +	install ${S}/test-driver ${D}${PTEST_PATH}
-> >> +	sed -e 's/bash/sh/' \
-> >> +	    -e 's/gawk/awk/' \
-> >> +	    -e 's/^top_srcdir =3D \(.*\)/top_srcdir =3D ../' \
-> >> +	    -e '/^all:/a\\t@:' \
-> >> +	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
-> >>   }
-> >>
-> >>   BBCLASSEXTEND =3D "native"
-> >> --
-> >> 1.8.1.2
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+regards,
+Armin
+>
+> Cheers,
+>
+> Richard
+>
+
 
