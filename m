@@ -1,29 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Peter.Seebach@windriver.com>
 Received: from mail.windriver.com (unknown [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 70C9A6FAE9
+	by mail.openembedded.org (Postfix) with ESMTP id B41866FB73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 00:04:27 +0000 (UTC)
+	Wed, 28 May 2014 00:10:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4S04SOr010334
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4S0AKoe010875
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 May 2014 17:04:28 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 27 May 2014 17:04:28 -0700
-Message-ID: <5385280B.80203@windriver.com>
-Date: Tue, 27 May 2014 19:04:27 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Tue, 27 May 2014 17:10:20 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 27 May 2014 17:10:20 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 May 2014 19:14:45 -0500
+Message-ID: <cover.1401235888.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <5384DAE6.1030407@linux.intel.com>
-	<CFAA456E.93E2C%dvhart@linux.intel.com>
-In-Reply-To: <CFAA456E.93E2C%dvhart@linux.intel.com>
-Subject: Re: Creating a machine specific recipe for config file
+Subject: [PATCH 0/1] pseudo fchmodat, this time for sure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,95 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 00:04:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 May 2014 00:10:20 -0000
+Content-Type: text/plain
 
-On 5/27/14, 3:39 PM, Darren Hart wrote:
-> On 5/27/14, 11:35, "Saul Wold" <sgw@linux.intel.com> wrote:
->
->>
->> Folks,
->>
->> We have had an open enhancement in the form of bugzilla #4011
->> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=4011).
->>
->> I am currently working on this and want to get some feedback regarding
->> the design, the below list of config files would move to one recipe in
->> recipes-bsp, which will reduce the number of .bbappends that a BSP
->> writer might need to create in order to customize the configuration of
->> the BSP.
->>
->> Overall, my proposal is to move all the BSP related config files into
->> one recipe directory tree. Create a recipe that can have a package or
->> packages that are RRECOMMENDS on.
->>
->> We have 2 choices on the packaging side:
->>
->> 1) 1 Package to rule them all (conffiles)
->>    - RPROVIDES PN-conf
->>    - conffile.bbclass
->>        RRECOMMENDS = "${PN}-conf"
->>        # Can be overriden in recipe
->>        CONFFILES_conffiles ?= "${PN}.conf"
->>    - Will provide files not needed on final image, small
->>      amount of extra space used.
->>
->> 2) 1 package / conf file (${PN}-conf)
->>    - exactly what's needed will be installed
->>    - no needs for additional RPROVIDES
->>    - More packaging overhead, package data might be bigger than actual
->> contents!
->
-> The status quo would suggest that Option 2 is more consistent with what
-> people expect of the build system. However, if we were to do this, one
-> might question why we should bother at all and not just leave it in the
-> hands of MACHINE-specific overrides for the packages we're configuring, as
-> is done today with alsa-state/asound.conf (for example).
->
-> What was your idea here - to replace the MACHINE-specific config for these
-> packages - or to augment it with an optional mega-config package?
+This improves on the previous patch by moving the umask clearing
+in mkdirat() outside of a rarely-used #ifdef block.
 
-The reason to get away from MACHINE-specific config changes to the regular 
-package is from a re-use standpoint.
+It improves on the original submission by masking out umasks at all,
+which turns out to be necessary for mkdir, open, etcetera in order to
+get the right database mode.
 
-If BSP_A and BSP_B both need different configurations of the FOO recipe, the 
-"right" way today is for two machine specific versions of the FOO recipe/package 
-to be generated.
+Originally, pseudo assumed that the "correct" mode for
+a file would be the mode returned by creating the file with the
+requested mode. Over time, that's been fixed up to include
+masking in 0600 bits, and 0100 for directories, and masking out
+022 bits, then restoring these bits from the specified mode...
+Which doesn't produce the right results if umask has any of 0722
+in it. Which it often does.
 
-foo-ver-rel.BSP_A.rpm
-foo-ver-rel.BSP_B.rpm
+The patch sent out earlier today got this right for plain files and
+special nodes, but not for directories, unless you were building on
+RHEL4 or another system which doesn't actually have the *at() functions.
 
-This eliminates a lot of potential re-use, and if it's a large package could add 
-a lot of unnecessary space (and build time) to the system.
+The following changes since commit 9948e4239b88026804c33d84830dbfe6b0ed3e59:
 
-Instead what we want is:
+  eglinfo: updated to compile with mesa10+ (2014-05-27 16:10:25 +0100)
 
-foo-ver-rel.armv7.rpm
-foo-conf-ver-rel.armv7.rpm
-foo-conf-ver-rel.BSP_A.rpm
-foo-conf-ver-rel.BSP_B.rpm
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/umask
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/umask
 
-So the package management system will select the best package to meet the 
-requirement automatically.  You get to re-use the one foo package on all 
-compatible system.  And then you can choose from a default (not-configured), or 
-a BSP configuration.  Much quicker to package, install and takes (potentially) 
-less space.  (On a trivial hello-world example, it'll actually take more space, 
-but get outside the trivial and it will be helpful.)
+Peter Seebach (1):
+  pseudo: Honor umask again
 
-> I think it would help to provide a bit of background/motivation regarding
-> what exactly we're trying to accomplish with this. That would help me form
-> an opinion on 1 vs 2 anyway.
-
-So when talking with Saul I suggested that we do either #1 or #2.. and the base 
-recipe (not configure) had a require or recommend of the configure file.
-
-The more I think about this, the more I think multiple small configuration 
-files/packages makes sense.. due to various system configuration possibilities 
--- but using appropriate RPROVIDES we shouldn't prevent the system from allowing 
-a single monolitic configuration for a BSP.
-
---Mark
-
+ .../pseudo/files/pseudo-fchmodat-permissions.patch |  169 +++++++++++++++++++-
+ 1 files changed, 163 insertions(+), 6 deletions(-)
 
 
