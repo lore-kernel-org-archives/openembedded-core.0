@@ -1,35 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (unknown [209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id F018D6B711
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f173.google.com (unknown [209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 98D0B6FAA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 17:35:28 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id z60so18929294qgd.9
+	Wed, 28 May 2014 19:57:48 +0000 (UTC)
+Received: by mail-ie0-f173.google.com with SMTP id lx4so10741392iec.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 10:35:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IBONaPjm9ppQqERsvmabAx5p8jITOiftwquQM3e/c5c=;
-	b=CYWt9seLeNvvKh74UP8L4C3v1HQve5S8CSpCyM5uFlBeyoI7GgUcrycXTAlzBlf6q6
-	UaejAm0xaj9490BfDG4QtppMjV1MvGi3rUeg80AV/TntIkXbJ3ejtd1xaT9uUVKpgrUH
-	mEVEPGv28ZK3wrJRmzR/bXkjilKztJ9goDU5cEtpbYGe2pULcHgg1h7+K9BitRLmT4FG
-	MueFskCU4aC6fQv12bFKHOB8zC5zN7ErcIsu2X9xHnFk0F/WI2gLki3yCFumVQPiVHbf
-	m7NGT26/BjGzwTQbHHGjuwtWQRJ2buFnlQg7aZi6cNi2W9Nwi7SrltuicybUKnhI0Voe
-	7rLA==
-X-Gm-Message-State: ALoCoQnaCvAaiaXxFOsroPKABGK02/YI8OqoBCWdBUh2ZV/qS7lmRg7/V2IOSFM59POn5dyf1lJ4
-X-Received: by 10.224.121.72 with SMTP id g8mr1338497qar.79.1401298528844;
-	Wed, 28 May 2014 10:35:28 -0700 (PDT)
+	Wed, 28 May 2014 12:57:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=CzEp/S8c7jGPOxqhhrO3xsoE6ubuzReGI2RbjvI+KfU=;
+	b=MkdVOzrdZ/G2MG/YmcLbDeA/G1Rpuk2GBptMZNR9EOhYG5AZevxsKOG4/HJaMwNSrI
+	A3nF1MFp+9WyRkEDLUXy5ThFUhgYZJ21/ePSLla064nflbj1s0vlSuOxRyvTvAV6SpQN
+	iEHYIEziWQY6IT2AWmTN4huB0yRss2UMxP0Ojg7RN6Af8bc3CT6pNQPVnjo0plkW3CkS
+	KNoYnyFGjl8NcOfBSItF00UBavxNi+DSExQiNzApUf5Bazo7yXJhHfpS+h2PxU045xd+
+	1/TyX6DFy9L+wFLCLxU4OGcpE3OCsE120wayGzFvsRzzBVRrENvmy5qMpc6cGjc7yfON
+	EflQ==
+X-Received: by 10.42.211.205 with SMTP id gp13mr2094452icb.29.1401307068617;
+	Wed, 28 May 2014 12:57:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Wed, 28 May 2014 10:35:08 -0700 (PDT)
-In-Reply-To: <1401295116.2607.51.camel@ted>
-References: <1401295116.2607.51.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 May 2014 18:35:08 +0100
-Message-ID: <CAJTo0LagoxEMZ=HpppS1OhY8U26zQZ7LAqwCsprAwvugcypfQg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstatesig: Move saferecipedeps handling to be earlier
+Received: by 10.50.117.33 with HTTP; Wed, 28 May 2014 12:57:18 -0700 (PDT)
+In-Reply-To: <1401283598-9136-1-git-send-email-trevor.woerner@linaro.org>
+References: <1401283598-9136-1-git-send-email-trevor.woerner@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 28 May 2014 12:57:18 -0700
+Message-ID: <CAMKF1spP_HOCbJOC19LVzqwX6oZwVC+qRRrjAhoe9oBv82BYAw@mail.gmail.com>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Cc: "patches@linaro.org" <patches@linaro.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] grub_git: fix warning->error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,14 +42,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 17:35:31 -0000
+X-List-Received-Date: Wed, 28 May 2014 19:57:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 28 May 2014 17:38, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> This change has no effect on existing uses but makes gcc-cross become
-> shared as desired.
+On Wed, May 28, 2014 at 6:26 AM, Trevor Woerner
+<trevor.woerner@linaro.org> wrote:
+> This patch fixes a grub build error which is promoted to an error via -Werror.
+>
+> Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
+> Upstream-status: submitted
+> -
 
-As the reporter of the problem to Richard I confirm that this fixes the problem.
-
-Ross
+Upstream-status should appear in component source patch header not
+overall OE patch header.
 
