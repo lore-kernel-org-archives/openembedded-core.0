@@ -1,35 +1,30 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qg0-f47.google.com (unknown [209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BE8DE6FA85
+Return-Path: <gary@mlbassoc.com>
+X-Greylist: delayed 495 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 28 May 2014 21:34:49 UTC
+Received: from mail.chez-thomas.org (unknown [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id ACE106FBDF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 21:23:36 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id j107so19698687qga.34
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 14:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=e8y0WCDPIFS3vKFfnZBUczdOrv1EA7ka8XoXyHSTWBA=;
-	b=ilyV30gnvBrOmIFli5kK6L2LyPlaEnueW6FK1ia07veq/3qIy/61BzQjpOtRbLH1M6
-	+9bfLhePBfn6oW+3+jqF37f2kTG6+QRvmJ2fXeBfO4yfdMGsXAw/s9Y3MrDQlp0vf7nL
-	wulRGEwRV1Et/JvOiYPuqRQaEaDVuTBCcJCGCNgNvdfVkuSNDFjrgs/W2lQMsoL3aFC2
-	Xn4ZAPJwZ4NEvUV3UqVkdXixWDj5pYgBWq1/tlN5Wuce1hbn2cJ+8pir5UlgNyhKVu5W
-	dGBr/evJ8BwSLl3Pv2rJ0aN78/tS9afqxtP/ZGSfxZze4gJ7LZ2GyfW/SyhmI1J2bGGc
-	yF9A==
+	Wed, 28 May 2014 21:34:49 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id B2900F811F3; Wed, 28 May 2014 15:26:35 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 5D9EBF811F2;
+	Wed, 28 May 2014 15:26:34 -0600 (MDT)
+Message-ID: <538654AE.2020400@mlbassoc.com>
+Date: Wed, 28 May 2014 15:27:10 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-Received: by 10.224.56.5 with SMTP id w5mr3754174qag.60.1401312216940; Wed,
-	28 May 2014 14:23:36 -0700 (PDT)
-Received: by 10.96.84.232 with HTTP; Wed, 28 May 2014 14:23:36 -0700 (PDT)
-In-Reply-To: <CAMKF1soJxRchiG2YCNs8oiQZEmeD8Xx7JBFEb0RVxEtwKCaeHA@mail.gmail.com>
-References: <CACS+7ZSGKFG06F_jFOJZu7FJqLh2F+FgkW30PSMRQ8Xdio51Qw@mail.gmail.com>
-	<CAMKF1soJxRchiG2YCNs8oiQZEmeD8Xx7JBFEb0RVxEtwKCaeHA@mail.gmail.com>
-Date: Wed, 28 May 2014 15:23:36 -0600
-Message-ID: <CACS+7ZQD0m-toLMkk30gH-n+H40GRSCey=krt9QhHsC7mbTjxg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gzip: Avoid host contamination during build
+To: openembedded-core@lists.openembedded.org
+References: <1401312099-4247-1-git-send-email-akuster@mvista.com>
+In-Reply-To: <1401312099-4247-1-git-send-email-akuster@mvista.com>
+Subject: Re: [PATCH 0/2 V2] Update timezone files to 2014c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,14 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 21:23:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 28 May 2014 21:34:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It's encoded in zgrep, which is part of the gzip package.
-
-On 28 May 2014 14:29, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, May 27, 2014 at 4:38 PM, Dan McGregor <danismostlikely@gmail.com> wrote:
->> +EXTRA_OEMAKE = "GREP=${base_bindir}/grep"
+On 2014-05-28 15:21, Armin Kuster wrote:
+> This updates both tzcode and tzdate to latest
 >
-> is this grep path encoded into gzip and then referred when running ?
+> V2: License correction
+>      Solar type correction
+>
+> Armin Kuster (2):
+>    Update tzdata to 2014c
+>    Update tzcode to 2014c
+>
+>   .../recipes-extended/tzcode/tzcode-native_2013i.bb |  26 ---
+>   .../recipes-extended/tzcode/tzcode-native_2014c.bb |  25 +++
+>   meta/recipes-extended/tzdata/tzdata_2013i.bb       | 206 ---------------------
+>   meta/recipes-extended/tzdata/tzdata_2014c.bb       | 205 ++++++++++++++++++++
+>   4 files changed, 230 insertions(+), 232 deletions(-)
+>   delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2013i.bb
+>   create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014c.bb
+>   delete mode 100644 meta/recipes-extended/tzdata/tzdata_2013i.bb
+>   create mode 100644 meta/recipes-extended/tzdata/tzdata_2014c.bb
+>
+
+These changes would probably be much easier to read/understand
+if you use the -M option since the actual differences are pretty
+minor.
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
