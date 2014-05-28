@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (unknown [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C52506FB80
+	by mail.openembedded.org (Postfix) with ESMTP id 0E8DE6FB9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 08:36:58 +0000 (UTC)
+	Wed, 28 May 2014 08:43:34 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s4S8arFt024260; Wed, 28 May 2014 09:36:53 +0100
+	s4S8h7i5024434; Wed, 28 May 2014 09:43:07 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0t1f3J_cHeHB; Wed, 28 May 2014 09:36:53 +0100 (BST)
+	with LMTP id oQ4pJxmIsCvV; Wed, 28 May 2014 09:43:06 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s4S8amLo024255
+	s4S8h2Mb024426
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 28 May 2014 09:36:50 +0100
-Message-ID: <1401266199.2607.15.camel@ted>
+	Wed, 28 May 2014 09:43:04 +0100
+Message-ID: <1401266574.2607.17.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Wed, 28 May 2014 09:36:39 +0100
-In-Reply-To: <81e37d5db466c157a8ca0069c60102eb12616532.1401124899.git.bruce.ashfield@windriver.com>
-References: <cover.1401124899.git.bruce.ashfield@windriver.com>
-	<81e37d5db466c157a8ca0069c60102eb12616532.1401124899.git.bruce.ashfield@windriver.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Wed, 28 May 2014 09:42:54 +0100
+In-Reply-To: <cover.1401223100.git.dvhart@linux.intel.com>
+References: <cover.1401223100.git.dvhart@linux.intel.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] linux-yocto/3.10: bump kver to v3.10.40
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] i2c-tools: Add i2c-tools to the core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,36 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 08:37:00 -0000
+X-List-Received-Date: Wed, 28 May 2014 08:43:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-05-26 at 13:40 -0400, Bruce Ashfield wrote:
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-> index 7081cd18aa57..b1b80341d6d2 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-> @@ -5,12 +5,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
->  LINUX_KERNEL_TYPE = "tiny"
->  KCONFIG_MODE = "--allnoconfig"
->  
-> -LINUX_VERSION ?= "3.10.38"
-> +LINUX_VERSION ?= "3.10.40"
->  
->  KMETA = "meta"
->  
-> -SRCREV_machine ?= "02f7e63e56c061617957388c23bd5cf9b05c5388"
-> -SRCREV_meta ?= "617c6158c3d5b931f0d6131e0b0a7b374c792599"
-> +SRCREV_machine ?= "f53a6114b3a6e8c03ca4752de829887015f4c942"
-> +SRCREV_meta ?= "13ae75f4a26fcd65abe526ef5f1dcde0583f453d"
+On Tue, 2014-05-27 at 13:38 -0700, Darren Hart wrote:
+> The following changes since commit f3d62a9eb9c47356e6150fdd55f790c159e620c7:
+> 
+>   eglinfo: updated to compile with mesa10+ (2014-05-27 16:11:55 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib dvhart/i2c-tools
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/i2c-tools
+> 
+> Darren Hart (1):
+>   i2c-tools: Add i2c-tools to the core
+> 
+>  meta/recipes-devtools/i2c-tools/files/Module.mk    |   72 ++++++++++++++++++++
+>  .../i2c-tools/i2c-tools-3.1.0/Module.mk            |   72 ++++++++++++++++++++
+>  meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb |   26 +++++++
+>  3 files changed, 170 insertions(+)
+>  create mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
+>  create mode 100644 meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk
+>  create mode 100644 meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
 
-We're seeing failures since "13ae75f4a26fcd65abe526ef5f1dcde0583f453d"
-doesn't appear to exist in the 3.10 tree meta branch. "bitbake -b
-linux-yocto-tiny_3.10 -c fetch" reproduces.
+I merged this, I've said I wanted this patch for long enough to multiple
+people, thanks! :)
 
-Did you miss pushing something?
-
-We're seeing failures on the autobuilder as I've merged this :/.
+I removed the duplicate Module.mk file...
 
 Cheers,
 
