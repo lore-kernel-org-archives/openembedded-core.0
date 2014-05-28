@@ -1,27 +1,36 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga01.intel.com (unknown [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C0FA06FA9D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f170.google.com (unknown [209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 199056FB95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 14:42:48 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 May 2014 07:42:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,928,1392192000"; d="scan'208";a="546193490"
-Received: from cbwilker-mobl2.amr.corp.intel.com (HELO [10.254.9.144])
-	([10.254.9.144])
-	by fmsmga002.fm.intel.com with ESMTP; 28 May 2014 07:42:46 -0700
-User-Agent: Microsoft-MacOutlook/14.4.1.140326
-Date: Wed, 28 May 2014 07:44:00 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <CFAB4426.94179%dvhart@linux.intel.com>
-Thread-Topic: [PATCH 0/1] i2c-tools: Add i2c-tools to the core
+	Wed, 28 May 2014 15:03:14 +0000 (UTC)
+Received: by mail-ie0-f170.google.com with SMTP id at1so10488750iec.29
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 May 2014 08:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=T9piWXN1/NwtBje6Mk5W41S6lMkz1ghKV7b7CgG5FMY=;
+	b=gCaY+0zvdcbIDg//4+dQTKftIIY3/+OAxGW4+ShYCJPZ/+dl2nfYJ5sXwGduROA7It
+	2EDpRvO68n6LjCRycQMC4MUMm7voDZ8IQFx4Nu+RFcHlnJIu1PW01RJ/9mttZ7PiZXWO
+	T943KS6cQSiURpEQdJo0LC6UjeC28oReJT6YCQ/t4YgB0FLz4/3VxVPaNW7lTn26Jho0
+	oQNbcZPbuGPAzPMT/h1/psu6d+YIY4dahB5OoFy1cgjS5yCPr+kOjDODGsIzwinD2YNw
+	w/u3IntD7568l8whqV6DHjaTryHaWaam5XQ7xUsPgtzaNzeDijzF3jrPltzf36OyGPia
+	eUvA==
+X-Received: by 10.42.50.68 with SMTP id z4mr174928icf.70.1401289395052; Wed,
+	28 May 2014 08:03:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.117.33 with HTTP; Wed, 28 May 2014 08:02:44 -0700 (PDT)
+In-Reply-To: <CFAB4426.94179%dvhart@linux.intel.com>
 References: <cover.1401223100.git.dvhart@linux.intel.com>
 	<1401266574.2607.17.camel@ted>
-In-Reply-To: <1401266574.2607.17.camel@ted>
-Mime-version: 1.0
+	<CFAB4426.94179%dvhart@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 28 May 2014 08:02:44 -0700
+Message-ID: <CAMKF1srxV0Etkbebeyt3SZUmkczLm8ea0nWWYyxt2O1SappvtA@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
 Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/1] i2c-tools: Add i2c-tools to the core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,53 +44,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 14:42:48 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Wed, 28 May 2014 15:03:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 5/28/14, 1:42, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-wrote:
-
->On Tue, 2014-05-27 at 13:38 -0700, Darren Hart wrote:
->> The following changes since commit
->>f3d62a9eb9c47356e6150fdd55f790c159e620c7:
->> 
->>   eglinfo: updated to compile with mesa10+ (2014-05-27 16:11:55 +0100)
->> 
->> are available in the git repository at:
->> 
->>   git://git.yoctoproject.org/poky-contrib dvhart/i2c-tools
->>   
->>http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/i2c-tools
->> 
->> Darren Hart (1):
->>   i2c-tools: Add i2c-tools to the core
->> 
->>  meta/recipes-devtools/i2c-tools/files/Module.mk    |   72
->>++++++++++++++++++++
->>  .../i2c-tools/i2c-tools-3.1.0/Module.mk            |   72
->>++++++++++++++++++++
->>  meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb |   26 +++++++
->>  3 files changed, 170 insertions(+)
->>  create mode 100644 meta/recipes-devtools/i2c-tools/files/Module.mk
->>  create mode 100644
->>meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk
->>  create mode 100644 meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
+On Wed, May 28, 2014 at 7:44 AM, Darren Hart <dvhart@linux.intel.com> wrote:
 >
->I merged this, I've said I wanted this patch for long enough to multiple
->people, thanks! :)
->
->I removed the duplicate Module.mk file...
+> What follow-up is necessary/appropriate with meta-oe?
 
-Oops, thanks.
-
-What follow-up is necessary/appropriate with meta-oe?
-
--- 
-Darren Hart					Open Source Technology Center
-darren.hart@intel.com				            Intel Corporation
-
-
-
+send a patch to delete the recipe from meta-openembedded
 
