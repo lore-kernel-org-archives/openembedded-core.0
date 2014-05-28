@@ -1,30 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (unknown [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F42B6FBD5
+	by mail.openembedded.org (Postfix) with ESMTP id A5BAC6FAC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 07:28:27 +0000 (UTC)
+	Wed, 28 May 2014 07:59:44 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4S7SRhd006433
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4S7xfCR006718
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 May 2014 00:28:27 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 28 May 2014 00:28:27 -0700
-Message-ID: <53859017.4020502@windriver.com>
-Date: Wed, 28 May 2014 15:28:23 +0800
+	Wed, 28 May 2014 00:59:43 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 28 May 2014 00:59:41 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 May 2014 15:59:35 +0800
+Message-ID: <cover.1401263535.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1401155797.git.hongxu.jia@windriver.com>
-	<48d8fbe3035f151a5a98061d507414fbf75f2f23.1401155797.git.hongxu.jia@windriver.com>
-	<CAJTo0LY5MeXQFm0_N5uqLGm_f_ZXTZmX9_DtJicjeYhu=4iQ+w@mail.gmail.com>
-In-Reply-To: <CAJTo0LY5MeXQFm0_N5uqLGm_f_ZXTZmX9_DtJicjeYhu=4iQ+w@mail.gmail.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] socat: upgrade to 1.7.2.4
+Cc: saul.wold@intel.com
+Subject: [PATCH V3 0/2] socat: upgrade to 1.7.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,76 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 May 2014 07:28:28 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 May 2014 07:59:44 -0000
+Content-Type: text/plain
 
-On 05/27/2014 07:37 PM, Burton, Ross wrote:
-> On 27 May 2014 02:59, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   .../recipes-connectivity/socat/socat/compile.patch | 163 +++++++++++----------
-> Oh wow this patch is ... special.
->
-> 99% of it is adding the extra arguments to AC_DEFINE so that recent
-> autoheader actually works.  This is essential upstream and I'm
-> surprised they still don't have it.
+Change in V3:
 
-I will add the explanation of 'AC_DEFINE' in the patch header.
+Tweak compile.patch:
+- add the explanation of 'AC_DEFINE' in the patch header;
+- remove the t.c_ispeed assinged line for AC_TRY_COMPILE;
+- remove the SHIFT_NAME line;
 
-> Remove all of these and we'll left with these two chunks:
->
->   [AC_TRY_COMPILE([#include <termios.h>],
-> -[struct termios t; t.c_ispeed=0;],
-> +[struct termios t; t.c_ispeed=ISPEED_OFFSET; t.c_ospeed=OSPEED_OFFSET;],
->
-> I can't see a reason why that is obviously wrong but if it's right, it
-> needs to be explained in the patch header and pushed upstream.
+Drop fix-xxx-SHIFT-autoheader.patch, and add socat-enable-termios.patch to
+instead;
 
-This 'AC_TRY_COMPILE'  was Okay with 't.c_ispeed=0', so it is no
-need to assigned with ISPEED_OFFSET/OSPEED_OFFSET
+Remove 'do_configure_prepend' task, use socat-enable-termios.patch to instead.
 
-
-> -AC_DEFINE_UNQUOTED($1_SHIFT, ${$2})
-> +SHIFT_NAME="$1"_SHIFT
-> +AC_DEFINE_UNQUOTED($SHIFT_NAME, ${$2}, [foo])
->
-> This introduces a change that is subsequently removed by
-> fix-xxx-SHIFT-autoheader.patch, which again is basically fixing the
-> AC_DEFINE autoheader use, should be merged with the majority of
-> compile.patch, and submitted upstream.
-
-Okay, I will merged these to compile.path.
-
-> Finally there's a do_configure_prepend that does yet more alternations
-> to the configure script.  This needs to be a patch instead of a sed.
-
-The 'do_configure_prepend' task was used for 'enable termios',
-I will add a new patch to instead of the sed.
-
->> --- a/meta/recipes-connectivity/socat/socat_1.7.2.3.bb
->> +++ b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
->> @@ -8,16 +8,18 @@ SECTION = "console/network"
->>   DEPENDS = "openssl readline"
->>
->>   LICENSE = "GPL-2.0+-with-OpenSSL-exception"
->> -LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760 \
->> -                    file://README;beginline=252;endline=282;md5=79246f11a1db0b6ccec54d1fb711c01e"
->> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->> +                    file://README;beginline=257;endline=287;md5=79246f11a1db0b6ccec54d1fb711c01e"
-> Please explain why the license checksum changed.
-
-In COPYING, the company address changed:
-s/675 Mass Ave, Cambridge, MA 02139/51 Franklin Street, Fifth Floor, 
-Boston, MA 02110-1301/
-
-In README, the license has no change, just ajustment the beginline.
-
-It is still GPLV2.
+Change in V2:
+- Add descriptions about what was the problem that was encountered
+  while upgrading to 1.7.2.4.
 
 //Hongxu
 
->
-> Ross
+The following changes since commit 894df445fa71a170397c6e0b4960a89ef20a4230:
+
+  guile: Update to 2.0.11 version (2014-05-21 19:50:21 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/socat
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/socat
+
+Hongxu Jia (2):
+  socat: upgrade to 1.7.2.4
+  socat: fix supporting cross compiling
+
+ .../recipes-connectivity/socat/socat/compile.patch | 191 +++++++++++----------
+ .../socat/socat/fix-cross-compiling-failed.patch   |  34 ++++
+ .../socat/socat/socat-enable-termios.patch         |  39 +++++
+ .../socat/{socat_1.7.2.3.bb => socat_1.7.2.4.bb}   |  18 +-
+ 4 files changed, 184 insertions(+), 98 deletions(-)
+ create mode 100644 meta/recipes-connectivity/socat/socat/fix-cross-compiling-failed.patch
+ create mode 100644 meta/recipes-connectivity/socat/socat/socat-enable-termios.patch
+ rename meta/recipes-connectivity/socat/{socat_1.7.2.3.bb => socat_1.7.2.4.bb} (63%)
+
+-- 
+1.8.1.2
 
 
