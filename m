@@ -1,35 +1,32 @@
-Return-Path: <sstncr@gmail.com>
-Received: from mail-wg0-f50.google.com (unknown [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CAD1E60E07
+Return-Path: <diego.sueiro@gmail.com>
+X-Greylist: delayed 415 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 29 May 2014 13:24:16 UTC
+Received: from mail-qg0-f52.google.com (unknown [209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E3096FC7A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 12:10:25 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id x12so278921wgg.33
+	Thu, 29 May 2014 13:24:16 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id a108so898195qge.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 05:10:26 -0700 (PDT)
+	Thu, 29 May 2014 06:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=IvJCscT6/Rz2kRLNqf9lg161D7bkiVb5hSdN0lWpkMI=;
-	b=LD3MxnZxIqLyTt35l3rNPFF9h8vb+K8vOMgn7cyP8vmvB+6yq+IZ3FnQpyi01wHdwO
-	z2P7cX9eU866UyBtbF5myjmtYCNHkS/oug3mzkvZWK+7HBmY7WYWj4f7WX+3jKlBJCjp
-	nkLpRl/ik5mtjCSu3i32KBlmCpxTutFGpUIGWcrlUM0fi1fkZh6dt2opEakhFh4Are3K
-	Bsw25m0gy17TUMBacwNj2DNvNFAHAl6oSj2aH6uefqnKfuBfs1J/xPsvUr/DeBriGt4O
-	Z3N1vJSnBr4KbMeEZ+XAnjFZuPnNTxp+BYOpOC9ZZPeLl5Ij2vZHm1ir9mcQCZgt/NCo
-	TAzw==
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=88/GN6jnJueL+TdynqlD6QewyPAChr6eTx96mKk46Lw=;
+	b=qavm72uUTxvVGbfMeCSu8RmiZjSmZiui4uE6Z5o1fPIR/2puB3G5PkK2ryzxlVnpar
+	xXbPerFX4xoHieMeFqW0OzPFR4wjXH265Ttozf/ogXhWYPypqpmkgkrq5lIdd/ojqMpz
+	Firijl6cVOXEXf1STokOovsHZ3MkRGJMYny5SK8gnsF1aQQKkblT2i2S/NuneubplB22
+	fvAKwe3eCbIZo8jLrsrDWGvgLwhYXzug0m3w48kYJT85NCVT+CY9tdT+oFnT+EPNqZsD
+	OqKzVsEItwa2qH/yVzhpAC8rdEDqNLBtbrdPdYMv9aTyDWJLPh23ogyWuMH1p0QzRhin
+	/N1Q==
+X-Received: by 10.224.37.130 with SMTP id x2mr10215972qad.36.1401369442507;
+	Thu, 29 May 2014 06:17:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.180.19.201 with SMTP id h9mr10957650wie.17.1401364965103;
-	Thu, 29 May 2014 05:02:45 -0700 (PDT)
-Received: by 10.216.48.6 with HTTP; Thu, 29 May 2014 05:02:45 -0700 (PDT)
-Received: by 10.216.48.6 with HTTP; Thu, 29 May 2014 05:02:45 -0700 (PDT)
-In-Reply-To: <1401362158.2607.85.camel@ted>
-References: <1634957.0tvEDlpPGg@chl500346>
-	<1401362158.2607.85.camel@ted>
-Date: Thu, 29 May 2014 15:02:45 +0300
-Message-ID: <CANr+NRtFmykyNBBnT_gMG1ueDi3-b1X0K_RPbe=bzk2trFS_Wg@mail.gmail.com>
-From: Stefan Stanacar <sstncr@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] runqemu-internal: add NIC to kernel parameters
+Received: by 10.140.48.112 with HTTP; Thu, 29 May 2014 06:17:02 -0700 (PDT)
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Thu, 29 May 2014 10:17:02 -0300
+Message-ID: <CAMCfZKEnyyR9ADx1H2X7=9kdCRPU14DRHFgMuhu9gzFnHxP1ag@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: intltool version check errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,134 +39,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 12:10:32 -0000
-Content-Type: multipart/alternative; boundary=bcaec53f37e3f2252404fa88b486
+X-List-Received-Date: Thu, 29 May 2014 13:24:18 -0000
+Content-Type: multipart/alternative; boundary=001a11c2b282d1e20604fa89bf9c
 
---bcaec53f37e3f2252404fa88b486
-Content-Type: text/plain; charset=UTF-8
+--001a11c2b282d1e20604fa89bf9c
+Content-Type: text/plain; charset=ISO-8859-1
 
-On May 29, 2014 2:16 PM, "Richard Purdie" <
-richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2014-05-27 at 12:22 +0200, Adrian Freihofer wrote:
-> > Fixes [YOCTO #6356]
-> >
-> > Problem: If QEMU parameters are extended to emulate additional
-> > network interfaces, NFS boot does not work. Example:
-> > runqemu ... qemuparams="-net nic,model=virtio... -net tap, ..."
-> > This is solved by extending the kernel parameters by "::eth0:on"
-> > ---
-> >  scripts/runqemu-internal | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> > index d317dfd..30d6514 100755
-> > --- a/scripts/runqemu-internal
-> > +++ b/scripts/runqemu-internal
-> > @@ -249,7 +249,7 @@ else
-> >          n1=$(($n0 * 2 + 1))
-> >          n2=$(($n1 + 1))
-> >
-> > -
- KERNEL_NETWORK_CMD="ip=192.168.7.$n2::192.168.7.$n1:255.255.255.0"
-> > +
- KERNEL_NETWORK_CMD="ip=192.168.7.$n2::192.168.7.$n1:255.255.255.0::eth0:on"
-> >          QEMU_TAP_CMD="-net
-tap,vlan=0,ifname=$TAP,script=no,downscript=no"
-> >          if [ "$KVM_ACTIVE" = "yes" ]; then
-> >              QEMU_NETWORK_CMD="-net nic,model=virtio
-$QEMU_TAP_CMD,vhost=on"
->
-> Unfortunately this results in failures in all our automated sanity
-> tests:
->
+Folks,
 
-It should be noted that minimal images do have network so this might upset
-connman...
+I'm facing with a strange error on daisy branch.
+Some native recipes are failing on do_configure step with this message:
 
-Cheers,
-Stefan
->
-https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/94/steps/Running%20Sanity%20Tests_1/logs/stdio
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+checking for intltool >= 0.35.0...
+/<snip>/tmp/sysroots/x86_64-linux/usr/bin/nativeperl found
+configure: error: Your intltool is too old.  You need intltool 0.35.0 or
+later.
+Configure failed. The contents of all config.log files follows to aid
+debugging
 
---bcaec53f37e3f2252404fa88b486
-Content-Type: text/html; charset=UTF-8
+
+But intltool-native version is 0.50.2.
+What am I missing?
+
+
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+
+/*long live rock 'n roll*/
+
+--001a11c2b282d1e20604fa89bf9c
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"><br>
-On May 29, 2014 2:16 PM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&g=
-t; wrote:<br>
-&gt;<br>
-&gt; On Tue, 2014-05-27 at 12:22 +0200, Adrian Freihofer wrote:<br>
-&gt; &gt; Fixes [YOCTO #6356]<br>
-&gt; &gt;<br>
-&gt; &gt; Problem: If QEMU parameters are extended to emulate additional<br=
->
-&gt; &gt; network interfaces, NFS boot does not work. Example:<br>
-&gt; &gt; runqemu ... qemuparams=3D&quot;-net nic,model=3Dvirtio... -net ta=
-p, ...&quot;<br>
-&gt; &gt; This is solved by extending the kernel parameters by &quot;::eth0=
-:on&quot;<br>
-&gt; &gt; ---<br>
-&gt; &gt; =C2=A0scripts/runqemu-internal | 2 +-<br>
-&gt; &gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal<=
-br>
-&gt; &gt; index d317dfd..30d6514 100755<br>
-&gt; &gt; --- a/scripts/runqemu-internal<br>
-&gt; &gt; +++ b/scripts/runqemu-internal<br>
-&gt; &gt; @@ -249,7 +249,7 @@ else<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0n1=3D$(($n0 * 2 + 1))<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0n2=3D$(($n1 + 1))<br>
-&gt; &gt;<br>
-&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0KERNEL_NETWORK_CMD=3D&quot;ip=3D192.=
-168.7.$n2::192.168.7.$n1:255.255.255.0&quot;<br>
-&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0KERNEL_NETWORK_CMD=3D&quot;ip=3D192.=
-168.7.$n2::192.168.7.$n1:255.255.255.0::eth0:on&quot;<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QEMU_TAP_CMD=3D&quot;-net tap,v=
-lan=3D0,ifname=3D$TAP,script=3Dno,downscript=3Dno&quot;<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$KVM_ACTIVE&quot; =
-=3D &quot;yes&quot; ]; then<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QEMU_NETWORK_CMD=
-=3D&quot;-net nic,model=3Dvirtio $QEMU_TAP_CMD,vhost=3Don&quot;<br>
-&gt;<br>
-&gt; Unfortunately this results in failures in all our automated sanity<br>
-&gt; tests:<br>
-&gt;<br></p>
-<p dir=3D"ltr">It should be noted that minimal images do have network so th=
-is might upset connman...</p>
-<p dir=3D"ltr">Cheers,<br>
-Stefan<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-=
-ipk/builds/94/steps/Running%20Sanity%20Tests_1/logs/stdio">https://autobuil=
-der.yoctoproject.org/main/builders/nightly-ipk/builds/94/steps/Running%20Sa=
-nity%20Tests_1/logs/stdio</a><br>
+<div dir=3D"ltr"><div>Folks,</div><div><br></div><div>I&#39;m facing with a=
+ strange error on daisy branch.</div><div>Some native recipes are failing o=
+n do_configure step with this message:</div><div><blockquote style=3D"margi=
+n:0px 0px 0px 40px;border:none;padding:0px">
 
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
+<div><div>checking for intltool &gt;=3D 0.35.0... /&lt;snip&gt;/tmp/sysroot=
+s/x86_64-linux/usr/bin/nativeperl found</div><div>configure: error: Your in=
+tltool is too old. =A0You need intltool 0.35.0 or later.</div><div>Configur=
+e failed. The contents of all config.log files follows to aid debugging</di=
+v>
 
---bcaec53f37e3f2252404fa88b486--
+</div></blockquote></div><div><br></div><div>But intltool-native version is=
+ 0.50.2.<br></div><div>What am I missing?</div><div><br></div><br clear=3D"=
+all"><div><div dir=3D"ltr"><div>Regards,</div><div><br></div>--<br>*dS<br>
+Diego Sueiro<br>
+<br>Administrador do Embarcados<br><a href=3D"http://www.embarcados.com.br/=
+?utm_source=3Dassinatura_diego&amp;utm_medium=3De-mail&amp;utm_campaign=3DA=
+ssinatura%20Email%20Diego" target=3D"_blank">www.embarcados.com.br</a><br><=
+br>/*long live rock &#39;n roll*/<br>
+
+</div></div>
+</div>
+
+--001a11c2b282d1e20604fa89bf9c--
