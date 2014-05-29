@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga03.intel.com (unknown [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 50E2E6FC83
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (unknown [209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 35CA76FC83
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 09:48:58 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 29 May 2014 02:48:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,933,1392192000"; d="scan'208";a="438475597"
-Received: from acdivito-mobl2.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.240])
-	by azsmga001.ch.intel.com with ESMTP; 29 May 2014 02:48:55 -0700
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
-Date: Thu, 29 May 2014 10:48:52 +0100
-Message-ID: <2040568.SAJy5ZGrOb@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.4-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <1401332031-23133-2-git-send-email-joaohf@gmail.com>
-References: <1401332031-23133-1-git-send-email-joaohf@gmail.com>
-	<1401332031-23133-2-git-send-email-joaohf@gmail.com>
+	Thu, 29 May 2014 10:16:10 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id q108so280097qgd.19
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 May 2014 03:16:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HElaUu7hR9tVbwwJlQi4RFlNJmKN97F4P2GpVVsgmN0=;
+	b=ChF33FU2BMgRBqvfx6BzlPeJmrhy0E9js4bs0Dg0ql9Ds2rUKA0KlDmMtlmAAQdMgN
+	+tN3nzeo6q/44kcoWpiqdh0WIc9PqZ1DKU9P/1RlmHKPpAc0R3A37HQ6ktT9QlrzZxld
+	y5t1s6SecqcrQ6lRuscyegpDT7swdIWEnm6ROaj7+LNkVOVcdxPlnqf5r+QU+3msDarY
+	jvaD5RkH49/C0Ni7irotqwa7JF6WiKmzxzRBwuXnBtZuGlxJaNmPTXjiKF+NKQxs7P0Y
+	yNAu1qKnS8pkEMCtgNYo5rQYD+IaZSSCOUF0+5AJDIqQw4fvVxpPC75HiUvfSbpHSeaW
+	birg==
+X-Gm-Message-State: ALoCoQnzRJuEKVhPv8ZZ6Fa2nP3UJTETqbP0HjsIwYBTEUsLBNbZ144IO67fuOlL7yr1tJCNFf5H
+X-Received: by 10.140.48.161 with SMTP id o30mr8137804qga.68.1401358571244;
+	Thu, 29 May 2014 03:16:11 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] combo-layer: fix revlist taking into account file_filter
+Received: by 10.140.101.77 with HTTP; Thu, 29 May 2014 03:15:51 -0700 (PDT)
+In-Reply-To: <e6a039546ac6da09a55950978189b3bc3b75fb8d.1401354584.git.Chong.Lu@windriver.com>
+References: <cover.1401354584.git.Chong.Lu@windriver.com>
+	<e6a039546ac6da09a55950978189b3bc3b75fb8d.1401354584.git.Chong.Lu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 29 May 2014 11:15:51 +0100
+Message-ID: <CAJTo0LZWqFB89AhgZtGOLmHGaZ-N=SVxLORsq-gK_Qhnfpib5w@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] nfs-utils: use cross toolchain to compile testlk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 09:49:00 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 May 2014 10:16:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 28 May 2014 23:53:51 Jo=E3o Henrique Ferreira de Freitas wrote:
-> If file_filter is set, git format-patch takes account but git rev-list
-> does not. So revlist is going to get with wrong revisions. And last_revis=
-ion
-> will be updated with wrong revision. The next time that user run
-> combo-layer it complain about applying patches.
-> =
+On 29 May 2014 10:10, Chong Lu <Chong.Lu@windriver.com> wrote:
+> testlk is built with host gcc at do_compile stage, which leads to unrecognized
+> some flags for special architecture. Using cross toolchain instead.
 
-> So ensure that 'git rev-list' are using file_filter as 'git format-patch'.
-> =
+The makefile explicitly uses the host compiler, so presumably there's
+a good reason for this.  If the problem is that the host compiler is
+being passed target CFLAGS, then you should set AM_CFLAGS to
+CFLAGS_FOR_BUILD and so on.
 
-> Signed-off-by: Jo=E3o Henrique Ferreira de Freitas <joaohf@gmail.com>
-> ---
->  scripts/combo-layer | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
-
-> diff --git a/scripts/combo-layer b/scripts/combo-layer
-> index 9da1d3a..19d64e6 100755
-> --- a/scripts/combo-layer
-> +++ b/scripts/combo-layer
-> @@ -395,7 +395,7 @@ def action_update(conf, args):
->          logger.debug("generated patch set:\n%s" % output)
->          patchlist =3D output.splitlines()
-> =
-
-> -        rev_cmd =3D 'git rev-list --no-merges ' + rev_cmd_range
-> +        rev_cmd =3D "git rev-list --no-merges %s -- %s" % (rev_cmd_range,
-> file_filter) revlist =3D runcmd(rev_cmd, ldir).splitlines()
-> =
-
->          # Step 3: Call repo specific hook to adjust patch
-
-You're right, I'm not sure how we didn't pick up on this earlier. Thanks!
-
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Cheers,
-Paul
----------------------------------------------------------------------
-Intel Corporation (UK) Limited
-Registered No. 1134945 (England)
-Registered Office: Pipers Way, Swindon SN3 1RJ
-VAT No: 860 2173 47
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+Ross
 
