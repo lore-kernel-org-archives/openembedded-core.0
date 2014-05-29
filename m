@@ -1,35 +1,20 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-oa0-f54.google.com (mail-oa0-f54.google.com
-	[209.85.219.54])
-	by mail.openembedded.org (Postfix) with ESMTP id ED6A66FD36;
-	Thu, 29 May 2014 21:37:47 +0000 (UTC)
-Received: by mail-oa0-f54.google.com with SMTP id j17so1014077oag.27
-	for <multiple recipients>; Thu, 29 May 2014 14:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5QAu2B+9+U5QwjV89IBolkGs4VCJ7J9YJpISOId/M7Q=;
-	b=y3Modx6ZnSl3RrZ63s42T541d7MkCSiTZrWwG9onnb04QGi5Fjb/Gh5cHaAxqJ5q9/
-	V+ffRsHpBM/YXOOewZvEFJ/M+zU+vz+f1GR6L0NNgaN7fNL1Lft+1rPwheQuo/Ws5Vqj
-	7FLnQUkNOx9csKXQ3+y3/xwpIybo35XeJl1lWD8y/MK1UDOHjCR/hMCQghHiM8/8L7Em
-	l5JN/gkVH+rdYTe6yqBvaoy/6tiusDVJWL5QvR9pKbw0eHlTQs8Wgx4L4mPigJMa9EWV
-	fX65X+ndFANwzkeNftxN8rfBkcmTeCnvbeKV09okJWWB4CN5pVprRGPBkxOaDGToylw2
-	lWsg==
-MIME-Version: 1.0
-X-Received: by 10.60.146.167 with SMTP id td7mr12154957oeb.6.1401399468072;
-	Thu, 29 May 2014 14:37:48 -0700 (PDT)
-Received: by 10.182.240.136 with HTTP; Thu, 29 May 2014 14:37:48 -0700 (PDT)
-In-Reply-To: <20140529204641.GG2426@jama>
-References: <20140529204641.GG2426@jama>
-Date: Thu, 29 May 2014 14:37:48 -0700
-Message-ID: <CANx9H-CqcZvRKkCSzh6Aa1TGpuaYbBzdWD=Td+rEQmgPBWsEBg@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, test-dependencies 2014-05-29
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C17F6FD23
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 May 2014 22:00:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 29 May 2014 14:55:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,936,1392192000"; d="scan'208";a="519913385"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.174])
+	by orsmga001.jf.intel.com with ESMTP; 29 May 2014 15:00:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 May 2014 15:00:54 -0700
+Message-Id: <1401400854-21736-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] util-linux: add sulogin to alternatives list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,78 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 21:37:54 -0000
-Content-Type: multipart/alternative; boundary=047d7b5d376c7ba47a04fa90bd7f
+X-List-Received-Date: Thu, 29 May 2014 22:00:58 -0000
 
---047d7b5d376c7ba47a04fa90bd7f
-Content-Type: text/plain; charset=UTF-8
+sulogin is provided by both busybox in /sbin/sulogin and util-linux provides one
+in /usr/sbin/sulogin, so move util-linux's to sbin and setup ALTERNATIVE_LINK.
 
-On Thu, May 29, 2014 at 1:46 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
+[YOCTO #6384]
 
-> This time it wasn't "incremental" build so it took 14 days.
->
-> Complete logs:
->
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.dependencies.20140515_124327.log/
->
-> ...
->
-> Found differences:
-> ...
-> weston/weston/latest lost dependency on  lcms
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-This is fixed in patch to v1.5.0 submitted today.
-http://patches.openembedded.org/patch/72963/
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index c2a3cf7..83bb4a6 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -132,7 +132,7 @@ do_install () {
+ 	mkdir -p ${D}${base_bindir}
+ 
+         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
+-        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim"
++        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin"
+         usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
+         binprogs_a="dmesg kill more umount mount login reset su"
+ 
+@@ -166,7 +166,7 @@ ALTERNATIVE_PRIORITY = "100"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
+-ALTERNATIVE_${PN} += "setsid chrt flock hwclock utmpdump eject getopt"
++ALTERNATIVE_${PN} += "setsid chrt flock hwclock utmpdump eject getopt sulogin"
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+@@ -177,6 +177,7 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
++ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+ ALTERNATIVE_TARGET[getopt] = "${bindir}/getopt"
+ 
+ ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1 reset.1"
+-- 
+1.8.3.1
 
-weston/weston-examples/latest lost dependency on  libpoppler-glib
->
 
-I will look at this. Might be fixed in v1.5.0 upgrade.
-http://git.openembedded.org/openembedded-core/commit/?id=7c40efb62f34f866c98a0b2df50d66c60d76143a
-
-
->
-> --Tim
-
---047d7b5d376c7ba47a04fa90bd7f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div><div class=3D"gmail_extra"><br><br><div class=3D"=
-gmail_quote">On Thu, May 29, 2014 at 1:46 PM, Martin Jansa <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.ja=
-nsa@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">This time it wasn&#39;t &=
-quot;incremental&quot; build so it took 14 days.<br>
-<br>
-Complete logs:<br>
-<a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/lo=
-g.dependencies.20140515_124327.log/" target=3D"_blank">http://logs.nslu2-li=
-nux.org/buildlogs/oe/oe-shr-core-branches/log.dependencies.20140515_124327.=
-log/</a><br>
-
-<br>
-...<br>
-<br>
-Found differences:<br>
-...<br>
-weston/weston/latest lost dependency on =C2=A0lcms<br></blockquote><div>=C2=
-=A0</div><div>This is fixed in patch to v1.5.0 submitted today. <br><a href=
-=3D"http://patches.openembedded.org/patch/72963/">http://patches.openembedd=
-ed.org/patch/72963/</a><br>
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-weston/weston-examples/latest lost dependency on =C2=A0libpoppler-glib<br><=
-/blockquote><div>=C2=A0</div><div>I will look at this. Might be fixed in v1=
-.5.0 upgrade.<br><a href=3D"http://git.openembedded.org/openembedded-core/c=
-ommit/?id=3D7c40efb62f34f866c98a0b2df50d66c60d76143a">http://git.openembedd=
-ed.org/openembedded-core/commit/?id=3D7c40efb62f34f866c98a0b2df50d66c60d761=
-43a</a><br>
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<br></blockquote></div>--Tim<br></div></div></div>
-
---047d7b5d376c7ba47a04fa90bd7f--
