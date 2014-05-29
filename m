@@ -1,38 +1,33 @@
-Return-Path: <trevor.woerner@linaro.org>
-X-Greylist: delayed 52669 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 29 May 2014 04:06:07 UTC
-Received: from mail-ig0-f172.google.com (unknown [209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 72C486FBD1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f54.google.com (unknown [209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FD746FC31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 04:06:07 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id uy17so3329416igb.17
+	Thu, 29 May 2014 05:20:20 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id bj1so12273866pad.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 May 2014 21:06:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5c/PLpgf0Lkl/OpSNTMYA0i1pBcklKbfRJtumd9NV7Q=;
-	b=Xmp03zviDLm5lr34YDlHruM8WtrdAvFeNBbFzwukngbgJsQt5uIQf3kPCVkvIxL46O
-	kymwMd66Epeow61bi9qcDHcYHOYRvBbIIM7d4byt5NxIrsevHlZ8UuxyitJHW8s7Kaue
-	h85b9S8MBO3FvmVPKe5q0bp0U6kc2YmPGaY2UOpAWDqUIPUf3vb4hLqbqEBtDCzsUxMi
-	kqpCRNTAt+KMmqyZ0oeBb/1i2cwLEiKPozRP3EaCrVoNhZHEIi4qwx/3IcfkfiT666Ev
-	0iwoXA2wFGBB5VRN4exHxrQrHfP+eSzFGUw4xwuCLMR0fMUgoYyIX2kZlj/QhxXNL0D2
-	1Vhw==
-X-Gm-Message-State: ALoCoQnhFDNcygh9u09l5PhFqH28HuNzZt56w5oXhNVVS/scDtiNpl8nIVaUefAosSGbYUSdMeE3
-X-Received: by 10.50.18.80 with SMTP id u16mr6864431igd.30.1401336368794;
-	Wed, 28 May 2014 21:06:08 -0700 (PDT)
-Received: from openSUSE-i7.site (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158]) by mx.google.com with ESMTPSA id
-	ql7sm20911956igc.19.2014.05.28.21.06.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 May 2014 21:06:08 -0700 (PDT)
-From: Trevor Woerner <trevor.woerner@linaro.org>
+	Wed, 28 May 2014 22:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=v1Xa9Sd3zAZPZ7EJXZTW7voLsazBvNGuqVmnRAmpxB4=;
+	b=teKH9N7HYtzaGsgncskUOSVsXuFJ8mEw4k7i4Xl4CWJWELZCpTNRXcOLA+0PRPpbZb
+	sApStmdEnRcQIzKQX7NZ2pCOBMo68Q8qVmnO8UsZpb3uwcU4N4N/r0356qt6o1Xjzjh2
+	RvI+Xp7MIhLqgG4WQVXNK5uY1x9ShtzPfqZJ5Qf6UgGacEfW/BXlgNfc+y9GydPANWVr
+	Oy4Poro3CsJf+mMG8Gb08Q/frC8gdlwfBsRS4fpJEYvmvORI/pIcSio7mWYVBRDWHx4g
+	ygfdvsDF/k/t4inRJyb8Yqmhngr4onG31UhQYnTzBDDaOZrnJKTZev4UfM00fUSHCxcm
+	nQYg==
+X-Received: by 10.68.163.100 with SMTP id yh4mr5666741pbb.122.1401340821716;
+	Wed, 28 May 2014 22:20:21 -0700 (PDT)
+Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
+	[98.207.177.218]) by mx.google.com with ESMTPSA id
+	jd5sm31260756pbb.18.2014.05.28.22.20.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 28 May 2014 22:20:20 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 May 2014 00:05:54 -0400
-Message-Id: <1401336354-19745-1-git-send-email-trevor.woerner@linaro.org>
-X-Mailer: git-send-email 1.9.0
-Cc: patches@linaro.org
-Subject: [PATCH v2] grub_git: fix build warning->error
+Date: Wed, 28 May 2014 22:22:54 -0700
+Message-Id: <1401340974-23302-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [daisy][PATCH] x264: Update SRCREV to match commit in upstream git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,74 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 04:06:11 -0000
+X-List-Received-Date: Thu, 29 May 2014 05:20:22 -0000
 
-This patch fixes a build warning which is promoted to an error via -Werror.
+It seems that 585324fee380109acd9986388f857f413a60b896 is no
+longer there in git and it has been rewritten to
+ffc3ad4945da69f3caa2b40e4eed715a9a8d9526
 
-changes from v1:
- * put "Upstream-Status" in patch itself, not in OE patch header
- * fix commit wording
-
-Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
+Change-Id: I9ffe8bd9bcef0d2dc5e6f6d3a6e4317bada8f4be
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../grub/grub/asciih-fix-build-warning-error.patch | 34 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub_git.bb                  |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
+ meta/recipes-multimedia/x264/x264_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch b/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
-new file mode 100644
-index 0000000..48ace56
---- /dev/null
-+++ b/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
-@@ -0,0 +1,34 @@
-+util/grub-gen-asciih.c: fix build warning->error
-+
-+A potential problem is flagged by the compiler and generates a warning. This
-+warning is promoted to an error via -Werror. This patch fixes the original
-+issue, avoids the warning, and therefore avoids the build error.
-+
-+Upstream-Status: Pending
-+
-+Index: git/util/grub-gen-asciih.c
-+===================================================================
-+--- git.orig/util/grub-gen-asciih.c
-++++ git/util/grub-gen-asciih.c
-+@@ -131,6 +131,8 @@ write_font_ascii_bitmap (FILE *file, FT_
-+   struct grub_glyph_info glyph;
-+   int char_code;
-+ 
-++  memset (&glyph, 0, sizeof(glyph));
-++
-+   fprintf (file, "/* THIS CHUNK OF BYTES IS AUTOMATICALLY GENERATED */\n");
-+   fprintf (file, "unsigned char ascii_bitmaps[] =\n");
-+   fprintf (file, "{\n");
-+@@ -144,6 +146,12 @@ write_font_ascii_bitmap (FILE *file, FT_
-+ 	return;
-+       add_glyph (glyph_idx, face, char_code, &glyph);
-+ 
-++      if (glyph.bitmap == 0)
-++        {
-++          fprintf (stderr, "grub-gen-asciih: add_glyph not successful");
-++          exit (1);
-++        }
-++
-+       if (glyph.width == 8 && glyph.height == 16
-+ 	  && glyph.x_ofs == 0 && glyph.y_ofs == 0)
-+ 	{
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 1b9497c..3edc20a 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -22,6 +22,7 @@ SRC_URI = "git://git.savannah.gnu.org/grub.git \
-            file://40_custom \
-            file://autogen.sh-exclude-pc.patch \
-            file://grub-2.00-add-oe-kernel.patch \
-+           file://asciih-fix-build-warning-error.patch \
-           "
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index d192c30..0e856b3 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://git.videolan.org/x264.git \
+            file://don-t-default-to-cortex-a9-with-neon.patch \
+            "
  
- S = "${WORKDIR}/git"
+-SRCREV = "585324fee380109acd9986388f857f413a60b896"
++SRCREV = "ffc3ad4945da69f3caa2b40e4eed715a9a8d9526"
+ 
+ PV = "r2265+git${SRCPV}"
+ 
 -- 
-1.9.0
+1.9.3
 
 
