@@ -1,36 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 840AC6FD07
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B77B56FD29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 17:48:54 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id hl10so3804340igb.2
+	Thu, 29 May 2014 17:51:00 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id a108so2000996qge.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 10:48:56 -0700 (PDT)
+	Thu, 29 May 2014 10:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=cRFfTK38EO/+hYYEiA4BITwSgkjo7ke46DOzYkeSWkw=;
-	b=Qp719oLTlsVnWng3Qf3oix7619nZLRlNdfG5Svy3/0EGpP2dM10vj2ea8B3rYRiQgA
-	KqUOguw5AlSYGlLKStUP8UWn5diRTYWHTznjWDLkUa2b7Ev2GCBihTpeslIVGmkLvbxc
-	HvX1nHar4wvOL01yHQCqjRNpyKJ47W8tNSdNqrgLBfXwyF7Vs9MdzuJUw/q3AUpwOiDc
-	vSZTxmxGfFcbbS1/lSb3l9kPLayXWNAgXTKBflp3GWm+m6sawdVdFigbReiR669SRAB3
-	VTwU/S6UY2IhzL7BSASJAxCxff2+XlhypuRAiYDiY3CRtd040rnQpbSnIl/Fy5U5d0As
-	PvyQ==
-X-Received: by 10.50.65.3 with SMTP id t3mr55175579igs.20.1401385735910; Thu,
-	29 May 2014 10:48:55 -0700 (PDT)
+	bh=7nAf4vwIstZuKYjpGmrVRL7VBqg7CZEkBdDPPtJUbTo=;
+	b=x0Kj9FBB6XOE0rEpaHNKPGt9HWRN7OnMdM9GNz4XimdOz9ch9a5K8rbcDN1cbcD44b
+	ObWPKCajPC6t0Qq+jlvlUk7Xo69QflHtCYYqFmUHLRyldozTIoUU64Cs/Lf6xkaFKQKX
+	L4ijDkVz/1II+qpgxdwIi+fDVi/7yMwGQDkHnIbC+yY1HZnUCBDkhAiLBze+zZ/IpW4E
+	6T0P1snLGDa2VWkHlvoRJ8RTTGpYRmQGcQAXkQSvBvy36jLkwIxULCVu8s1oV44OOG+I
+	c4YNFscoP4MRAx327j0/ZRl0Tgso5JKZFxkoFy0XQSkkjiOQX0PxMa6uj3pCV5zYWdZm
+	Y0RA==
+X-Received: by 10.229.239.4 with SMTP id ku4mr12723757qcb.17.1401385861309;
+	Thu, 29 May 2014 10:51:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.117.33 with HTTP; Thu, 29 May 2014 10:48:25 -0700 (PDT)
-In-Reply-To: <CAMCfZKGm8UnqaDS38vqqqri2EGnKLhPZcQmoO1SdBWfOcurwDQ@mail.gmail.com>
+Received: by 10.140.48.112 with HTTP; Thu, 29 May 2014 10:50:40 -0700 (PDT)
+In-Reply-To: <CAMKF1sqy9DQ+zwMA_HHijYXF9Ltk-Nm6U4i0C6yDuxndfWx34w@mail.gmail.com>
 References: <CAMCfZKEnyyR9ADx1H2X7=9kdCRPU14DRHFgMuhu9gzFnHxP1ag@mail.gmail.com>
 	<53875026.60107@linux.intel.com>
 	<CAMCfZKGHKjGrNLbumUXCex8=mc3RmamOu-uRv3Rc2R=7Sq+r6w@mail.gmail.com>
 	<5387654C.5090309@linux.intel.com>
 	<CAMCfZKGm8UnqaDS38vqqqri2EGnKLhPZcQmoO1SdBWfOcurwDQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 May 2014 10:48:25 -0700
-Message-ID: <CAMKF1sqy9DQ+zwMA_HHijYXF9Ltk-Nm6U4i0C6yDuxndfWx34w@mail.gmail.com>
-To: Diego Sueiro <diego.sueiro@gmail.com>
+	<CAMKF1sqy9DQ+zwMA_HHijYXF9Ltk-Nm6U4i0C6yDuxndfWx34w@mail.gmail.com>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Thu, 29 May 2014 14:50:40 -0300
+Message-ID: <CAMCfZKHFGk2myN0R9LXNY1ZoWFd+WQLx5r98BpnC7-0R3XrASg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: intltool version check errors
@@ -46,30 +47,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 17:48:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 29 May 2014 17:51:00 -0000
+Content-Type: multipart/alternative; boundary=001a11346b5474ebc204fa8d9281
 
-On Thu, May 29, 2014 at 10:23 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
-> For now these are the recipes:
->
-> shared-mime-info_1.2.bb
-> gconf_3.2.6.bb
-> libsoup-2.4_2.45.3.bb
-> gconf_3.2.6.bb
-> avahi_0.6.31.bb
-> xkeyboard-config_2.11.bb
-> libfm_1.1.2.2.bb
-> glib-networking_2.38.0.bb
-> connman-gnome_0.7.bb
->
->
-> Find attached the config.log for shared-mime-info-native.
->
-> I had recently update my Ubuntu from 12.10 to 14.04. Do you think it can
-> cause this error?
->
+--001a11346b5474ebc204fa8d9281
+Content-Type: text/plain; charset=ISO-8859-1
 
-Do you have intltool-update binary on your host ? outside sys root ?
+Khem,
 
-and if yes then whats the version of it.
+On Thu, May 29, 2014 at 2:48 PM, Khem Raj <raj.khem@gmail.com> wrote:
 
+> On Thu, May 29, 2014 at 10:23 AM, Diego Sueiro <diego.sueiro@gmail.com>
+> wrote:
+> > For now these are the recipes:
+> >
+> > shared-mime-info_1.2.bb
+> > gconf_3.2.6.bb
+> > libsoup-2.4_2.45.3.bb
+> > gconf_3.2.6.bb
+> > avahi_0.6.31.bb
+> > xkeyboard-config_2.11.bb
+> > libfm_1.1.2.2.bb
+> > glib-networking_2.38.0.bb
+> > connman-gnome_0.7.bb
+> >
+> >
+> > Find attached the config.log for shared-mime-info-native.
+> >
+> > I had recently update my Ubuntu from 12.10 to 14.04. Do you think it can
+> > cause this error?
+> >
+>
+> Do you have intltool-update binary on your host ? outside sys root ?
+>
+> and if yes then whats the version of it.
+
+
+$ intltool-update --version
+intltool-update (intltool) 0.50.2
+Written by Kenneth Christiansen, Maciej Stachowiak, and Darin Adler.
+
+Copyright (C) 2000-2003 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+
+/*long live rock 'n roll*/
+
+--001a11346b5474ebc204fa8d9281
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Khem,</div><div class=3D"gmail_=
+extra"><br><div class=3D"gmail_quote">On Thu, May 29, 2014 at 2:48 PM, Khem=
+ Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"=
+_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div class=3D"">On Thu, May 29, 2014 at 10:23 AM, Diego Su=
+eiro &lt;<a href=3D"mailto:diego.sueiro@gmail.com">diego.sueiro@gmail.com</=
+a>&gt; wrote:<br>
+
+
+&gt; For now these are the recipes:<br>
+&gt;<br>
+&gt; <a href=3D"http://shared-mime-info_1.2.bb" target=3D"_blank">shared-mi=
+me-info_1.2.bb</a><br>
+&gt; <a href=3D"http://gconf_3.2.6.bb" target=3D"_blank">gconf_3.2.6.bb</a>=
+<br>
+&gt; <a href=3D"http://libsoup-2.4_2.45.3.bb" target=3D"_blank">libsoup-2.4=
+_2.45.3.bb</a><br>
+&gt; <a href=3D"http://gconf_3.2.6.bb" target=3D"_blank">gconf_3.2.6.bb</a>=
+<br>
+&gt; <a href=3D"http://avahi_0.6.31.bb" target=3D"_blank">avahi_0.6.31.bb</=
+a><br>
+&gt; <a href=3D"http://xkeyboard-config_2.11.bb" target=3D"_blank">xkeyboar=
+d-config_2.11.bb</a><br>
+&gt; <a href=3D"http://libfm_1.1.2.2.bb" target=3D"_blank">libfm_1.1.2.2.bb=
+</a><br>
+&gt; <a href=3D"http://glib-networking_2.38.0.bb" target=3D"_blank">glib-ne=
+tworking_2.38.0.bb</a><br>
+&gt; <a href=3D"http://connman-gnome_0.7.bb" target=3D"_blank">connman-gnom=
+e_0.7.bb</a><br>
+&gt;<br>
+&gt;<br>
+&gt; Find attached the config.log for shared-mime-info-native.<br>
+&gt;<br>
+&gt; I had recently update my Ubuntu from 12.10 to 14.04. Do you think it c=
+an<br>
+&gt; cause this error?<br>
+&gt;<br>
+<br>
+</div>Do you have intltool-update binary on your host ? outside sys root ?<=
+br>
+<br>
+and if yes then whats the version of it.</blockquote></div><br><div class=
+=3D"gmail_extra">$ intltool-update --version</div><div class=3D"gmail_extra=
+">intltool-update (intltool) 0.50.2</div><div class=3D"gmail_extra">Written=
+ by Kenneth Christiansen, Maciej Stachowiak, and Darin Adler.</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Copyright (=
+C) 2000-2003 Free Software Foundation, Inc.</div><div class=3D"gmail_extra"=
+>This is free software; see the source for copying conditions. =A0There is =
+NO</div>
+
+<div class=3D"gmail_extra">warranty; not even for MERCHANTABILITY or FITNES=
+S FOR A PARTICULAR PURPOSE.</div><div><br></div><br><br clear=3D"all"><div>=
+<div dir=3D"ltr"><div>Regards,</div><div><br></div>--<br>*dS<br>Diego Sueir=
+o<br>
+
+<br>Administrador do Embarcados<br><a href=3D"http://www.embarcados.com.br/=
+?utm_source=3Dassinatura_diego&amp;utm_medium=3De-mail&amp;utm_campaign=3DA=
+ssinatura%20Email%20Diego" target=3D"_blank">www.embarcados.com.br</a><br><=
+br>/*long live rock &#39;n roll*/<br>
+
+</div></div>
+</div></div>
+
+--001a11346b5474ebc204fa8d9281--
