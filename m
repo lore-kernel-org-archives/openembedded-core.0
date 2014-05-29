@@ -1,36 +1,26 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-pa0-f46.google.com (unknown [209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB576FC7A
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (unknown [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C84D76FC6E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 14:27:30 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id kq14so448625pab.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 07:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=esmOZgWyOqhnXQTZIlT9paecC2NCAVwCc6NlL7I5Pno=;
-	b=XA48o3VwW3qGFCLqpWfn3aT8BTHj1LQ4xOOqWfZbYtLHar4O3wwuMfkvJWPDv/ecS1
-	h+v8d29TIjmxCKxipwoYjESkZGT3XAsFbQBVleSJux+oYoknuPdNEki9KDO4SiDaNTao
-	2mQVkmy/KyYsnwqDAbW4SWr/bUqehDUe60f/b1s3BDJ5FX5tLg9547CPm8D2s+uhWSgK
-	Jo+7AELOGfTVwQ6Vde7ELX8iRex41pW0bpkYi0W0cy6p0GQn9smCgMouS9Zs2ALH/imH
-	EJisoKRW30uWRzXVeKFIbGMqUmLRL2wVEW9Usj0Hb526v9RFr7FKI2xehtSqLwpvX73A
-	vb6w==
-X-Received: by 10.68.191.138 with SMTP id gy10mr231525pbc.169.1401373652150;
-	Thu, 29 May 2014 07:27:32 -0700 (PDT)
-Received: from gentoo.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
-	[75.128.22.150])
-	by mx.google.com with ESMTPSA id gg3sm1548710pbc.34.2014.05.29.07.27.31
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 May 2014 07:27:31 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 May 2014 07:30:08 -0700
-Message-Id: <1401373808-24609-2-git-send-email-ticotimo@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1401373808-24609-1-git-send-email-ticotimo@gmail.com>
-References: <1401373808-24609-1-git-send-email-ticotimo@gmail.com>
-Subject: [PATCH 2/2] weston: fix make-lcms-configurable.patch
+	Thu, 29 May 2014 15:20:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 May 2014 08:20:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,934,1392192000"; d="scan'208";a="546791263"
+Received: from unknown (HELO [10.255.12.174]) ([10.255.12.174])
+	by fmsmga002.fm.intel.com with ESMTP; 29 May 2014 08:20:06 -0700
+Message-ID: <53875026.60107@linux.intel.com>
+Date: Thu, 29 May 2014 08:20:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Diego Sueiro <diego.sueiro@gmail.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAMCfZKEnyyR9ADx1H2X7=9kdCRPU14DRHFgMuhu9gzFnHxP1ag@mail.gmail.com>
+In-Reply-To: <CAMCfZKEnyyR9ADx1H2X7=9kdCRPU14DRHFgMuhu9gzFnHxP1ag@mail.gmail.com>
+Subject: Re: intltool version check errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 14:27:32 -0000
+X-List-Received-Date: Thu, 29 May 2014 15:20:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Tim Orling <TicoTimo@gmail.com>
+On 05/29/2014 06:17 AM, Diego Sueiro wrote:
+> Folks,
+>
+> I'm facing with a strange error on daisy branch.
+> Some native recipes are failing on do_configure step with this message:
+>
+> checking for intltool >= 0.35.0...
+> /<snip>/tmp/sysroots/x86_64-linux/usr/bin/nativeperl found
+> configure: error: Your intltool is too old.  You need intltool 0.35.0 or
+> later.
+> Configure failed. The contents of all config.log files follows to aid
+> debugging
+>
+>
+> But intltool-native version is 0.50.2.
+> What am I missing?
+>
+>
+What is your Host OS in this case, it seems like you might be having 
+somekind of host contamination issue.
 
-In AS_IF([test "x$enable_lcms" != "no"],
-"no" should have been "xno"
+Can you also look at your config.log and see what it was actually 
+testing for.
 
-Signed-off-by: Tim Orling <TicoTimo@gmail.com>
----
- meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Or attach your config.log for us to review
 
-diff --git a/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch b/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
-index 817ac70..ef145b8 100644
---- a/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
-+++ b/meta/recipes-graphics/wayland/weston/make-lcms-configurable.patch
-@@ -11,7 +11,7 @@ Index: weston-1.5.0/configure.ac
- +                             [disable lcms support]),,
- +              enable_lcms=yes)
- +
--+AS_IF([test "x$enable_lcms" != "no"], [
-++AS_IF([test "x$enable_lcms" != "xno"], [
-  PKG_CHECK_MODULES(LCMS, lcms2,
- -                  [have_lcms=yes], [have_lcms=no])
- +                  [have_lcms=yes], [have_lcms=no])],
--- 
-1.8.3.2
+Thanks
 
+Sau!
+
+> Regards,
+>
+> --
+> *dS
+> Diego Sueiro
+>
+> Administrador do Embarcados
+> www.embarcados.com.br<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+>
+> /*long live rock 'n roll*/
+>
+>
+>
 
