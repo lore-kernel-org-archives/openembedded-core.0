@@ -1,37 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 072436FD5B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C3B276FD56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 22:50:05 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id j107so3047912qga.20
+	Thu, 29 May 2014 22:52:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s4TMqv1o000447
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 May 2014 15:50:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=cPpEloP5B51nBFmahbXnhsdCuH4h3V6+guGaHtc1lc4=;
-	b=LBj5/7APuERJZZtVdzu2zpuzn6UJh2DVQtVO87m/YxUu5qDrDFdnzqBjngYWNsPORa
-	cu5OIIPJ/WuFHLGp93ttSriLTaEn3XK3dAIdgQKqI19Is6N+YTQfr9MUj6kmaP2ZyCtB
-	azM1FJer3dLP7EQyohFWKEEudJPq5pZpk9e9PIQj4jCFkdLfDerpgmffKgsABzaGu883
-	K0qK/DeXPsF80Pyh5G0KBIT2UBrkUpqSuHU9LXnKakUdVUFJ8Vlozp8rSyAGDKxv/OPi
-	m6Wteoq7CKz1JQ61k5CpGIe96vyXKY5aMWqLcSn1sy5zco/YLnRYoRaIxqhwUHDe+DKU
-	CdEg==
-X-Gm-Message-State: ALoCoQlcENrMGig2xCvfbZ/vsZ8ZqyxyrRiYKQsvY7L9kAutso+8aVzI6VkhOyzdRy9idJe/PXht
-X-Received: by 10.140.48.161 with SMTP id o30mr14596568qga.68.1401403806426;
-	Thu, 29 May 2014 15:50:06 -0700 (PDT)
+	Thu, 29 May 2014 15:52:57 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 29 May 2014 15:52:57 -0700
+Message-ID: <5387BA48.4030109@windriver.com>
+Date: Thu, 29 May 2014 17:52:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Thu, 29 May 2014 15:49:46 -0700 (PDT)
-In-Reply-To: <1401373808-24609-2-git-send-email-ticotimo@gmail.com>
-References: <1401373808-24609-1-git-send-email-ticotimo@gmail.com>
-	<1401373808-24609-2-git-send-email-ticotimo@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 29 May 2014 23:49:46 +0100
-Message-ID: <CAJTo0LZ=jrroBnDG272i7TaZ3zkoZsoQJRHVi0QN7ixF77EE+Q@mail.gmail.com>
-To: Tim Orling <ticotimo@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] weston: fix make-lcms-configurable.patch
+To: <openembedded-core@lists.openembedded.org>
+References: <1401400854-21736-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1401400854-21736-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH] util-linux: add sulogin to alternatives list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 May 2014 22:50:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 29 May 2014 22:53:00 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 29 May 2014 15:30, Tim Orling <ticotimo@gmail.com> wrote:
-> In AS_IF([test "x$enable_lcms" != "no"],
-> "no" should have been "xno"
+On 5/29/14, 5:00 PM, Saul Wold wrote:
+> sulogin is provided by both busybox in /sbin/sulogin and util-linux provides one
+> in /usr/sbin/sulogin, so move util-linux's to sbin and setup ALTERNATIVE_LINK.
+>
+> [YOCTO #6384]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-This patch doesn't quite satisfy the general goal we have of being
-fully deterministic: if --enable-lcms is specified but the lcms
-dependency isn't satisfied (i.e. it gained a version requirement and
-we didn't have it) then configure would happily and silently disable
-lcms.
+I verified that the util-linux sulogin is now the default if available.
 
-A small tweak so that it's a fatal error if lcms is specified but the
-deps are not present would be good.  Also have you approached upstream
-about this patch?
+I did not boot the resulting filesystem
 
-Ross
+(build) tested-by: Mark Hatle <mark.hatle@windriver.com>
+
+> ---
+>   meta/recipes-core/util-linux/util-linux.inc | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index c2a3cf7..83bb4a6 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -132,7 +132,7 @@ do_install () {
+>   	mkdir -p ${D}${base_bindir}
+>
+>           sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
+> -        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim"
+> +        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin"
+>           usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
+>           binprogs_a="dmesg kill more umount mount login reset su"
+>
+> @@ -166,7 +166,7 @@ ALTERNATIVE_PRIORITY = "100"
+>
+>   ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
+>   ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
+> -ALTERNATIVE_${PN} += "setsid chrt flock hwclock utmpdump eject getopt"
+> +ALTERNATIVE_${PN} += "setsid chrt flock hwclock utmpdump eject getopt sulogin"
+>
+>   ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+>   ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+> @@ -177,6 +177,7 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+>   ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+>   ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+>   ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
+> +ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+>   ALTERNATIVE_TARGET[getopt] = "${bindir}/getopt"
+>
+>   ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1 reset.1"
+>
+
 
