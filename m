@@ -1,26 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58AFF6FD74
+Return-Path: <hui.qing.chong@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 29FE06FA7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 03:27:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4U3RG86009112
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 May 2014 20:27:16 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 29 May 2014 20:27:15 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Fri, 30 May 2014 11:27:05 +0800
-Message-ID: <c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1401420117.git.hongxu.jia@windriver.com>
-References: <cover.1401420117.git.hongxu.jia@windriver.com>
+	Fri, 30 May 2014 09:44:32 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 May 2014 02:44:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,940,1392192000"; d="scan'208";a="438939925"
+Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
+	by azsmga001.ch.intel.com with ESMTP; 30 May 2014 02:44:33 -0700
+Received: from pgsmsx104.gar.corp.intel.com ([169.254.3.123]) by
+	PGSMSX103.gar.corp.intel.com ([169.254.2.137]) with mapi id
+	14.03.0123.003; Fri, 30 May 2014 17:44:32 +0800
+From: "Chong, Hui Qing" <hui.qing.chong@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [Repo Issue] x264: Unable to find revision
+Thread-Index: Ac9768FBpew9lhsRQAKr3WglFQX35g==
+Date: Fri, 30 May 2014 09:44:31 +0000
+Message-ID: <4D2B74E594FF4C4A97424079247E473A17DC8288@PGSMSX104.gar.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/3] apr: upgrade to 1.5.1
+Subject: [Repo Issue] x264: Unable to find revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 May 2014 03:27:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 May 2014 09:44:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The LICENSE has no change, except a newline added.
+Hi, I am working on Yocto Project 1.6, Daisy branch. Previously I am able t=
+o build the image successfully, but now I have errors as follow:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} (91%)
+ERROR: Fetcher failure: Unable to find revision 585324fee380109acd9986388f8=
+57f413a60b896 in branch master even from upstream
+ERROR: Function failed: Fetcher failure for URL: 'git://git.videolan.org/x2=
+64.git'. Unable to fetch URL from any source.
 
-diff --git a/meta/recipes-support/apr/apr_1.4.8.bb b/meta/recipes-support/apr/apr_1.5.1.bb
-similarity index 91%
-rename from meta/recipes-support/apr/apr_1.4.8.bb
-rename to meta/recipes-support/apr/apr_1.5.1.bb
-index 0a77ad7..7f2d2ca 100644
---- a/meta/recipes-support/apr/apr_1.4.8.bb
-+++ b/meta/recipes-support/apr/apr_1.5.1.bb
-@@ -4,7 +4,7 @@ SECTION = "libs"
- DEPENDS = "util-linux"
- 
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
-                     file://include/apr_lib.h;endline=17;md5=ee42fa7575dc40580a9e01c1b75fae96"
- 
- BBCLASSEXTEND = "native"
-@@ -16,8 +16,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://run-ptest \
- "
- 
--SRC_URI[md5sum] = "ce2ab01a0c3cdb71cf0a6326b8654f41"
--SRC_URI[sha256sum] = "61b8d2f8d321c6365ee3d71d0bb41f3a89c44da6124cc5b407a3b8319d660421"
-+SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
-+SRC_URI[sha256sum] = "e94abe431d4da48425fcccdb27b469bd0f8151488f82e5630a56f26590e198ac"
- 
- inherit autotools-brokensep lib_package binconfig multilib_header ptest
- 
--- 
-1.8.1.2
+In the x264_git.bb file, the SRC_URI and SRCREV are:
 
+SRC_URI =3D "git://git.videolan.org/x264.git \
+	        file://don-t-default-to-cortex-a9-with-neon.patch \
+	        "
+SRCREV =3D "585324fee380109acd9986388f857f413a60b896"
+
+Does anyone notice this and is there any solution for this error? Thank you=
+.
+
+Regards,
+Hui Qing
 
