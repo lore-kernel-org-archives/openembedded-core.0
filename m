@@ -1,39 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 47F526FD5E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 627236FD9D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 12:23:00 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id j5so5066249qga.0
+	Fri, 30 May 2014 12:31:35 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s4UCVVHK006531 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 May 2014 13:31:31 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zPeuypb9okHo
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 05:23:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ayjz7hx1TlrV1DtEe3WZ+3UUXFcTnM3MM0wZ5RprkQA=;
-	b=DwkqIfBisk7/7FBUl35ZEQXtLiGl+q1c0ZGUyB3j3++TvuCIu8yxfOe27Wv2unxsd4
-	N/vXmz5w1/1GsA7SDAjIa10Lh/D2oJcmR1hoRQTyf5g4YZJBMmi7NYYk/qMtYaeo7Q6z
-	Mm9j6Gdol3hX79xQhxW5Se5HzqRRv9EGD57Xei1Sc16uDeHGwPGMJFYGgjGwGDZU4xVo
-	qU+y8rBdk15dgFnDnDBifAPaN2eqkqkz98BDky2aoP+A/L1PA201oouJdYPXwGEqVUfP
-	Q+day03JcxE5S1YuvMCSvmtbc01MGb+O/YC8pqr7o6lk4TUicnd23C1F0LltGVk7zY1L
-	+E9w==
-X-Gm-Message-State: ALoCoQkTOpOjrIUsqVfN2pXVMA+qJlYlZNwlO5gDqu2jTHzktmA31rDMQElx8AwbdT1SdHUD3l2m
-X-Received: by 10.140.48.161 with SMTP id o30mr19711393qga.68.1401452581417;
-	Fri, 30 May 2014 05:23:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Fri, 30 May 2014 05:22:40 -0700 (PDT)
-In-Reply-To: <5387E8C0.3090300@windriver.com>
-References: <cover.1401354584.git.Chong.Lu@windriver.com>
-	<e6a039546ac6da09a55950978189b3bc3b75fb8d.1401354584.git.Chong.Lu@windriver.com>
-	<CAJTo0LZWqFB89AhgZtGOLmHGaZ-N=SVxLORsq-gK_Qhnfpib5w@mail.gmail.com>
-	<5387E8C0.3090300@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 30 May 2014 13:22:40 +0100
-Message-ID: <CAJTo0LZH5E0bbLTGwA8dXS8nWPPSZf6qu=9Xvc_O2C+FzY2P6Q@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] nfs-utils: use cross toolchain to compile testlk
+	Fri, 30 May 2014 13:31:31 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s4UCVTVn006528
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 May 2014 13:31:30 +0100
+Message-ID: <1401453081.31309.26.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 May 2014 13:31:21 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] multilib: Set PN correctly on cross-canadian extension cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,20 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 May 2014 12:23:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 May 2014 12:31:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 30 May 2014 03:11, Chong Lu <Chong.Lu@windriver.com> wrote:
-> I remove "CC=$(CC_FOR_BUILD)" in order to inherit compiler.
-> Do you mean that I should reset CFLAGS in makefile rather than inherit
-> compiler?
-> If I reset CFLAGS, this makefile will use host compiler.
-> Moreover, testlk can't execute in target.
+When we extended cross-canadian recipes with multilib, we were seeing failures
+since PN was unchanged.
 
-I just had a proper look and it *should* be working as they're also
-overriding CFLAGS.  Then again this is a test program that isn't
-installed so instead of changing the makefile, why not just stop
-recursing into testlock?
+"""
+ERROR: Multiple versions of gcc-cross-canadian-i586 are due to be built
+(/media/build1/poky/meta/recipes-devtools/gcc/gcc-cross-canadian_4.9.bb
+virtual:multilib:lib32:/media/build1/poky/meta/recipes-devtools/gcc/gcc-cross-canadian_4.9.bb).
+Only one version of a given PN should be built in any given build.
+You likely need to set PREFERRED_VERSION_gcc-cross-canadian-i586 to
+select the correct version or don't depend on multiple versions.
+"""
 
-Ross
+This change avoids that error.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 9a1cb1d..abefc79 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -26,6 +26,7 @@ python multilib_virtclass_handler () {
+     if bb.data.inherits_class('cross-canadian', e.data):
+         e.data.setVar("MLPREFIX", variant + "-")
+         override = ":virtclass-multilib-" + variant
++        e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+         e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
+         bb.data.update_data(e.data)
+         return
+
+
 
