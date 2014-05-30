@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2027D6FA94
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E29B6FDFC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 14:55:20 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s4UEtGo7012246 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 15:55:16 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xeZVYkyhqMbO
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 15:55:16 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s4UEtADI012227
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 15:55:11 +0100
-Message-ID: <1401461702.31309.51.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 May 2014 15:55:02 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] bitbake.conf: Set a dafault value for TUNE_PKGARCH
+	Fri, 30 May 2014 15:12:24 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 May 2014 08:11:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,941,1392192000"; d="scan'208";a="439037673"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by azsmga001.ch.intel.com with ESMTP; 30 May 2014 08:11:57 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 May 2014 18:15:31 +0300
+Message-Id: <cover.1401462904.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] libogg: upgrade to 1.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,33 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 May 2014 14:55:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 May 2014 15:12:31 -0000
 
-If we don't do this, we see an exception:
+The following changes since commit c2852ea835a54ee967fd1e8cf3717844c338d2a1:
 
-ERROR: Failure expanding variable MACHINE_ARCH, expression was ${@[d.getVar('TUNE_PKGARCH', True),
-d.getVar('MACHINE', True)][bool(d.getVar('MACHINE', True))].replace('-', '_')} which triggered
-exception AttributeError: 'NoneType' object has no attribute 'replace'
+  bitbake: utils: avoid printing traceback on ExpansionError during parsing (2014-05-30 10:20:25 +0100)
 
-Setting a default value avoids this error and allows the sanity checker
-to trigger instead.
+are available in the git repository at:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 0b9e490..3dc5cb0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -132,6 +132,7 @@ SDK_PACKAGE_ARCHS = "all any noarch ${SDK_ARCH}-${SDKPKGSUFFIX}"
- SDK_LD_ARCH = "${BUILD_LD_ARCH}"
- SDK_AS_ARCH = "${BUILD_AS_ARCH}"
- 
-+TUNE_PKGARCH ??= ""
- PACKAGE_ARCH = "${TUNE_PKGARCH}"
- MACHINE_ARCH = "${@[d.getVar('TUNE_PKGARCH', True), d.getVar('MACHINE', True)][bool(d.getVar('MACHINE', True))].replace('-', '_')}"
- PACKAGE_EXTRA_ARCHS ??= "${PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE}}"
+Cristian Iorga (1):
+  libogg: upgrade to 1.3.2
 
+ meta/recipes-multimedia/libogg/{libogg_1.3.1.bb => libogg_1.3.2.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/libogg/{libogg_1.3.1.bb => libogg_1.3.2.bb} (71%)
+
+-- 
+1.9.1
 
 
