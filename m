@@ -1,26 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D9EC16AF35
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B4236AD68
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 10:53:31 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 May 2014 03:53:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,940,1392192000"; d="scan'208";a="547232172"
-Received: from acdivito-mobl2.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.223])
-	by fmsmga002.fm.intel.com with ESMTP; 30 May 2014 03:53:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Chong, Hui Qing" <hui.qing.chong@intel.com>
-Date: Fri, 30 May 2014 11:53:30 +0100
-Message-ID: <11490945.qXYNrDcr0g@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.4-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <4D2B74E594FF4C4A97424079247E473A17DC8288@PGSMSX104.gar.corp.intel.com>
-References: <4D2B74E594FF4C4A97424079247E473A17DC8288@PGSMSX104.gar.corp.intel.com>
+	Fri, 30 May 2014 11:23:17 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id j107so4834367qga.34
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 May 2014 04:23:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Fd3xcpBZ8WTD91Fa1fZXlzvpLM189grWVSAoDEOeS/A=;
+	b=MGXmwCUicd6daHe2agwJcJMC8MRS6iuVnhwcmW6ISFHMgPO4xptoeccxfrWycTj9VL
+	Fo3xPAGEQ+idUDcNOSOvbz616GVrZn9IpkWlEXL3NBKaE8IlUBBwBVSXXswohjGOqNIu
+	rJsgYN0aJhdk/WsofX4c8Ozn1ik7pt/teoAq/i4T1aP5QXX/kINj5Mq779Mj9a3OlEGq
+	Ud1j+hop2FvPRUuDAe/kg1RYRFx1VsPlzj23J64TbsNNJOqDwJ+PUH8Wq43x7gYOYR2J
+	D2XDP04WKIqIpsrmw0wX2AphvfJydT+o11BV1nN02/oyFbaOEIdD6d4Loa6emsZAlCP+
+	uLgw==
+X-Gm-Message-State: ALoCoQlJqSOnW4uXMAE1a2ThsXdJ66QtAFRovr73h7o7idWuOyL4S0A6N3fnvge7RqLcTs9s58z4
+X-Received: by 10.224.166.73 with SMTP id l9mr20039849qay.34.1401448998867;
+	Fri, 30 May 2014 04:23:18 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Repo Issue] x264: Unable to find revision
+Received: by 10.140.101.77 with HTTP; Fri, 30 May 2014 04:22:57 -0700 (PDT)
+In-Reply-To: <ee6d9dd0ee2502eda9964a5249d7ee438383344d.1401420117.git.hongxu.jia@windriver.com>
+References: <cover.1401420117.git.hongxu.jia@windriver.com>
+	<ee6d9dd0ee2502eda9964a5249d7ee438383344d.1401420117.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 30 May 2014 12:22:57 +0100
+Message-ID: <CAJTo0LaSYQ6u7PBL5P2gMECXWuKJ6OLdVFtc2TVeJMjmR6EReQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] apr: fix cross compiling failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +45,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 May 2014 10:53:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 30 May 2014 11:23:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Hui Qing,
+To help future bisecting this should be merged with the upgrade patch
+into a single upgrade-and-fix patch.
 
-On Friday 30 May 2014 09:44:31 Chong, Hui Qing wrote:
-> Hi, I am working on Yocto Project 1.6, Daisy branch. Previously I am able to
-> build the image successfully, but now I have errors as follow:
-> 
-> ERROR: Fetcher failure: Unable to find revision
-> 585324fee380109acd9986388f857f413a60b896 in branch master even from
-> upstream ERROR: Function failed: Fetcher failure for URL:
-> 'git://git.videolan.org/x264.git'. Unable to fetch URL from any source.
-> 
-> In the x264_git.bb file, the SRC_URI and SRCREV are:
-> 
-> SRC_URI = "git://git.videolan.org/x264.git \
-> 	        file://don-t-default-to-cortex-a9-with-neon.patch \
-> 	        "
-> SRCREV = "585324fee380109acd9986388f857f413a60b896"
-> 
-> Does anyone notice this and is there any solution for this error? Thank you.
+Apart from that the patch looks good, thanks.
 
-Yes, there is a patch here:
+Ross
 
-http://patchwork.openembedded.org/patch/72933/
-
-It should be merged fairly soon I would think, but in the mean time you can 
-apply it locally.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+On 30 May 2014 04:27, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> The do_compile failed:
+> | tools/gen_test_char > include/private/apr_escape_test_char.h
+> | /bin/sh: tools/gen_test_char: No such file or directory
+> | make[1]: *** [include/private/apr_escape_test_char.h] Error 127
+>
+> The tools/gen_test_char was invoked at build time, and it didn't
+> work for the cross compiling, so we built it with $BUILD_CC.
+>
+> To make sure there was no side effect on the change, not adding this
+> patch, I did the test:
+>
+> 1. Built the native tools/gen_test_char on x86-64 host, and invoke
+>    it on that host;
+>
+> 2. Built the target tools/gen_test_char which arch was arm, and invoke
+>    it on the qemuarm;
+>
+> 3. Comparing the results, they were total the same;
+> ...
+> /* this file is automatically generated by gen_test_char, do not edit. "make include/private/apr_escape_test_char.h" to regenerate. */
+>
+> static const unsigned char test_char_table[256] = {
+>     32,30,30,30,30,30,30,30,30,30,31,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,6,16,63,22,17,22,49,17,
+>     17,17,1,16,16,0,0,18,0,0,0,0,0,0,0,0,0,0,16,23,
+>     55,16,55,23,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+>     0,0,0,0,0,0,0,0,0,0,0,23,31,23,23,0,23,0,0,0,
+>     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+>     0,0,0,23,23,23,17,30,30,30,30,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
+>     30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
+> };
+> ...
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../apr/apr/fix-cross-compiling-failed.patch       | 41 ++++++++++++++++++++++
+>  meta/recipes-support/apr/apr_1.5.1.bb              |  1 +
+>  2 files changed, 42 insertions(+)
+>  create mode 100644 meta/recipes-support/apr/apr/fix-cross-compiling-failed.patch
+>
+> diff --git a/meta/recipes-support/apr/apr/fix-cross-compiling-failed.patch b/meta/recipes-support/apr/apr/fix-cross-compiling-failed.patch
+> new file mode 100644
+> index 0000000..9c909ec
+> --- /dev/null
+> +++ b/meta/recipes-support/apr/apr/fix-cross-compiling-failed.patch
+> @@ -0,0 +1,41 @@
+> +Makefile.in: fix cross compiling failed
+> +
+> +The tools/gen_test_char was invoked at build time,
+> +and it didn't work for the cross compiling, so we
+> +compile it with $BUILD_CC.
+> +
+> +Upstream-Status: inappropriate [oe specific]
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + Makefile.in | 8 +++-----
+> + 1 file changed, 3 insertions(+), 5 deletions(-)
+> +
+> +diff --git a/Makefile.in b/Makefile.in
+> +--- a/Makefile.in
+> ++++ b/Makefile.in
+> +@@ -46,7 +46,6 @@ LT_VERSION = @LT_VERSION@
+> +
+> + CLEAN_TARGETS = apr-config.out apr.exp exports.c export_vars.c .make.dirs \
+> +       build/apr_rules.out tools/gen_test_char@EXEEXT@ \
+> +-      tools/gen_test_char.o tools/gen_test_char.lo \
+> +       include/private/apr_escape_test_char.h
+> + DISTCLEAN_TARGETS = config.cache config.log config.status \
+> +       include/apr.h include/arch/unix/apr_private.h \
+> +@@ -132,10 +131,9 @@ etags:
+> + make_tools_dir:
+> +       $(APR_MKDIR) tools
+> +
+> +-OBJECTS_gen_test_char = tools/gen_test_char.lo $(LOCAL_LIBS)
+> +-tools/gen_test_char.lo: make_tools_dir
+> +-tools/gen_test_char@EXEEXT@: $(OBJECTS_gen_test_char)
+> +-      $(LINK_PROG) $(OBJECTS_gen_test_char) $(ALL_LIBS)
+> ++tools/gen_test_char@EXEEXT@: make_tools_dir
+> ++tools/gen_test_char@EXEEXT@: tools/gen_test_char.c
+> ++      $(BUILD_CC) $(CFLAGS_FOR_BUILD) $< -o $@
+> +
+> + include/private/apr_escape_test_char.h: tools/gen_test_char@EXEEXT@
+> +       $(APR_MKDIR) include/private
+> +--
+> +1.8.1.2
+> +
+> diff --git a/meta/recipes-support/apr/apr_1.5.1.bb b/meta/recipes-support/apr/apr_1.5.1.bb
+> index 7f2d2ca..95c11d5 100644
+> --- a/meta/recipes-support/apr/apr_1.5.1.bb
+> +++ b/meta/recipes-support/apr/apr_1.5.1.bb
+> @@ -14,6 +14,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+>             file://cleanup.patch \
+>             file://configfix.patch \
+>             file://run-ptest \
+> +           file://fix-cross-compiling-failed.patch \
+>  "
+>
+>  SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
+> --
+> 1.8.1.2
+>
 
