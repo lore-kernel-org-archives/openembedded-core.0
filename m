@@ -1,30 +1,26 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 615A76FD1B
+	by mail.openembedded.org (Postfix) with ESMTP id 69D4D6FD6E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 May 2014 02:11:16 +0000 (UTC)
+	Fri, 30 May 2014 02:20:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4U2BFKE003745
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4U2KRXA004556
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 May 2014 19:11:15 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 29 May 2014 19:11:15 -0700
-Message-ID: <5387E8C0.3090300@windriver.com>
-Date: Fri, 30 May 2014 10:11:12 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 29 May 2014 19:20:27 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 29 May 2014 19:20:27 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 May 2014 10:20:19 +0800
+Message-ID: <e6d02fd4b7b74e2208bbbaeb0ab602e165cbe89f.1401416249.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1401416249.git.hongxu.jia@windriver.com>
+References: <cover.1401416249.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1401354584.git.Chong.Lu@windriver.com>
-	<e6a039546ac6da09a55950978189b3bc3b75fb8d.1401354584.git.Chong.Lu@windriver.com>
-	<CAJTo0LZWqFB89AhgZtGOLmHGaZ-N=SVxLORsq-gK_Qhnfpib5w@mail.gmail.com>
-In-Reply-To: <CAJTo0LZWqFB89AhgZtGOLmHGaZ-N=SVxLORsq-gK_Qhnfpib5w@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] nfs-utils: use cross toolchain to compile testlk
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/1] libgcrypt: workaround ICE failure on mips with '-O -g'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +33,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 May 2014 02:11:18 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 May 2014 02:20:27 -0000
+Content-Type: text/plain
 
+Hit a ICE and could reduce it to the following minimal example:
 
-On 05/29/2014 06:15 PM, Burton, Ross wrote:
-> On 29 May 2014 10:10, Chong Lu <Chong.Lu@windriver.com> wrote:
->> testlk is built with host gcc at do_compile stage, which leads to unrecognized
->> some flags for special architecture. Using cross toolchain instead.
-> The makefile explicitly uses the host compiler, so presumably there's
-> a good reason for this.  If the problem is that the host compiler is
-> being passed target CFLAGS, then you should set AM_CFLAGS to
-> CFLAGS_FOR_BUILD and so on.
->
-> Ross
->
->
-Hi Ross,
+1. Only the size of array assigned with 2 caused the issue:
+$ cat > mipgcc-test.c << END
 
-I remove "CC=$(CC_FOR_BUILD)" in order to inherit compiler.
-Do you mean that I should reset CFLAGS in makefile rather than inherit 
-compiler?
-If I reset CFLAGS, this makefile will use host compiler.
-Moreover, testlk can't execute in target.
+int main (int argc, char **argv)
+{
+        char *pStrArry[ARRAY_SIZE_MAX] = {"hello"};
+        int i = 0;
 
-Best Regards
-Chong
+        while(pStrArry[i] && i<ARRAY_SIZE_MAX)
+        {
+                printf("%s\n", pStrArry[i]);
+                i++;
+        }
+
+        return 0;
+}
+
+END
+
+2. Only -O1 and -g on mips caused the issue:
+$ mips-poky-linux-gcc -O1 -g -o mipgcc-test mipgcc-test.c
+mipgcc-test.c: In function 'main':
+mipgcc-test.c:18:1: internal compiler error: in dwarf2out_var_location, at dwarf2out.c:20810
+ }
+ ^
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <http://gcc.gnu.org/bugs.html> for instructions
+
+[YOCTO #6034]
+
+3. The quick workround is trying to enlarge the size of array with larger
+than 2.
+
+4. File a bug to GNU, but it could not be reproduced on there environment.
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=60643
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...x-ICE-failure-on-mips-with-option-O-and-g.patch | 71 ++++++++++++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |  4 +-
+ 2 files changed, 74 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch
+
+diff --git a/meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch b/meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch
+new file mode 100644
+index 0000000..56c591f
+--- /dev/null
++++ b/meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch
+@@ -0,0 +1,71 @@
++tests/bench-slope.c: workaround ICE failure on mips with '-O -g'
++
++Hit a ICE and could reduce it to the following minimal example:
++
++1. Only the size of array assigned with 2 caused the issue:
++$ cat > mipgcc-test.c << END
++
++int main (int argc, char **argv)
++{
++        char *pStrArry[ARRAY_SIZE_MAX] = {"hello"};
++        int i = 0;
++
++        while(pStrArry[i] && i<ARRAY_SIZE_MAX)
++        {
++                printf("%s\n", pStrArry[i]);
++                i++;
++        }
++
++        return 0;
++}
++
++END
++
++2. Only -O1 and -g on mips caused the issue:
++$ mips-poky-linux-gcc -O1 -g -o mipgcc-test mipgcc-test.c
++mipgcc-test.c: In function 'main':
++mipgcc-test.c:18:1: internal compiler error: in dwarf2out_var_location, at dwarf2out.c:20810
++ }
++ ^
++Please submit a full bug report,
++with preprocessed source if appropriate.
++See <http://gcc.gnu.org/bugs.html> for instructions
++
++3. The quick workround is trying to enlarge the size of array with larger
++than 2.
++
++4. File a bug to GNU, but it could not be reproduced on there environment.
++http://gcc.gnu.org/bugzilla/show_bug.cgi?id=60643
++
++Upstream-Status: [oe specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ tests/bench-slope.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/tests/bench-slope.c b/tests/bench-slope.c
++index bd05064..28c2438 100644
++--- a/tests/bench-slope.c
+++++ b/tests/bench-slope.c
++@@ -1197,7 +1197,7 @@ static struct bench_ops hash_ops = {
++ };
++ 
++ 
++-static struct bench_hash_mode hash_modes[] = {
+++static struct bench_hash_mode hash_modes[3] = {
++   {"", &hash_ops},
++   {0},
++ };
++@@ -1349,7 +1349,7 @@ static struct bench_ops mac_ops = {
++ };
++ 
++ 
++-static struct bench_mac_mode mac_modes[] = {
+++static struct bench_mac_mode mac_modes[3] = {
++   {"", &mac_ops},
++   {0},
++ };
++-- 
++1.8.1.2
++
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
+index 724bf3d..0f143a6 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt.inc
++++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+@@ -12,7 +12,9 @@ DEPENDS = "libgpg-error libcap"
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
+            file://add-pkgconfig-support.patch \
+-           file://libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch"
++           file://libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
++           file://fix-ICE-failure-on-mips-with-option-O-and-g.patch \
++"
+ 
+ inherit autotools-brokensep texinfo binconfig pkgconfig
+ 
+-- 
+1.8.1.2
+
 
