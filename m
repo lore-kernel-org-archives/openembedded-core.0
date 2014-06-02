@@ -1,37 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CF1965D70
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F6760196
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jun 2014 11:10:33 +0000 (UTC)
-Received: by mail-yh0-f53.google.com with SMTP id i57so3611623yha.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jun 2014 04:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=WIk9mD8f4iLk/SmGp/wN3R+/AQ53dlWrqdVx/zBIdeQ=;
-	b=x7AMSbzs2CDvCp7CkrorBHyfpAyBR/r92rxH4BAaMbVlTBx0KVeG2JkgiYP829cDBg
-	r4CQ+kD3tjEUN1x6r5uXBLjylCSOM6X2k43+UCr1uOZiTFMwY6uRZ+W68rX0TKcreY+u
-	2eMm9d0K+hMZGKpVyd2G2eL9kiuyvT1BCEWcGeH8+DblDAcxI+Shq/ee6Me/eLxOQujq
-	bSN8eawgWmokGJwXP9DMLLcnR84aC3ROa5Ne9wOMTbBr1VfUrOKa1o+0yKohpZHYVspO
-	GSPxzMcdlHoDNURe4NnZkK7E1cTnQXFwkEP2fCl83qcp/TskF+qEdVaXkiZ7aD3jG4BR
-	nslg==
-MIME-Version: 1.0
-X-Received: by 10.236.180.169 with SMTP id j29mr50951093yhm.47.1401707434341; 
-	Mon, 02 Jun 2014 04:10:34 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.166.213 with HTTP; Mon, 2 Jun 2014 04:10:34 -0700 (PDT)
-In-Reply-To: <CACS+7ZSNrb+Q7NkPpd3rz17ky6=DAuQY2mo0iF-2Mc9cUUxgeQ@mail.gmail.com>
-References: <CACS+7ZSNrb+Q7NkPpd3rz17ky6=DAuQY2mo0iF-2Mc9cUUxgeQ@mail.gmail.com>
-Date: Mon, 2 Jun 2014 08:10:34 -0300
-X-Google-Sender-Auth: WN0fp03qqfnA4tO535tPSIeAUEw
-Message-ID: <CAP9ODKrppsS9pUWDEeYNygtQOq7ZBxVLag-aV_1Vov=uOqC10Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Dan McGregor <danismostlikely@gmail.com>, Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] gzip: Avoid host contamination during build
+	Mon,  2 Jun 2014 13:29:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Jun 2014 06:29:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,957,1392192000"; d="scan'208";a="521453509"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2014 06:29:34 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Jun 2014 16:33:07 +0300
+Message-Id: <cover.1401715767.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/2] qemu: upgrade to 2.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jun 2014 11:10:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Jun 2014 13:29:36 -0000
 
-On Fri, May 30, 2014 at 6:39 PM, Dan McGregor <danismostlikely@gmail.com> wrote:
-> From: Dan McGregor <dan.mcgregor@usask.ca>
->
-> On systems with /bin and /usr/bin merged the gzip recipe may find grep
-> in /usr/bin, while OE puts it in /bin. Force the recipe to find grep in
-> the correct place.
->
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+QEmu upgrade to 2.0.0
 
-Great fix. It seems like a good patch to backport to Daisy  (adding Saul in Cc).
+Tested with all qemu machines.
+
+Due to updated SeaBIOS, for x86* architectures, 
+a fix for v86d is also needed.
+
+The following changes since commit ae642d3fadb83f641034148d833a5c1deb3a1f10:
+
+  socat: upgrade to 1.7.2.4 (2014-06-01 14:30:40 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/qemu_upg_20
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/qemu_upg_20
+
+Cristian Iorga (2):
+  v86d: fix for SeaBIOS VGA BIOS compatibility
+  qemu: upgrade to 2.0.0
+
+ .../v86d/v86d/Update-x86emu-from-X.org.patch       | 21766 +++++++++++++++++++
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb               |     3 +-
+ .../recipes-devtools/qemu/qemu/fxrstorssefix.patch |    31 -
+ .../qemu/{qemu_1.7.0.bb => qemu_2.0.0.bb}          |     9 +-
+ 4 files changed, 21772 insertions(+), 37 deletions(-)
+ create mode 100644 meta/recipes-bsp/v86d/v86d/Update-x86emu-from-X.org.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/fxrstorssefix.patch
+ rename meta/recipes-devtools/qemu/{qemu_1.7.0.bb => qemu_2.0.0.bb} (70%)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.1
+
 
