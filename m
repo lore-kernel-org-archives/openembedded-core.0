@@ -1,40 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id DFEE16F50C
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CF1965D70
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jun 2014 10:03:27 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id f8so4291952wiw.4
+	Mon,  2 Jun 2014 11:10:33 +0000 (UTC)
+Received: by mail-yh0-f53.google.com with SMTP id i57so3611623yha.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jun 2014 03:03:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=aXby63PfNYWY7LUp03JE23sDIBP390pz7161wJ211ok=;
-	b=Tg7ec112SZPJJ7vbI7nkUxGmMkDSMwYruEfmJB6z+d9dYY+pynzhjFRbHeYWaj7qWt
-	87I2ueZcPf7CPMmv1hUNqSALnwTPSrijawBBUl0dk6O23GAzZwzlIqvrDgp4SgGsIA3T
-	5EGH9vjZ7tMnQBhjma2UhW4GYsk8Hnt2XZh4s9ZTkUH9o/MtW97noHR6PxtxAbPVH4uy
-	6r2mKOufZxoLfmRc5PZ471xmfcre7nggtjrqfMRczj1MhyXOH6BWgZMNZKqoB/91irEO
-	0aBuvqlZneMSqssCx7fquiCGKXhZg8SIU9m5bmIh1HT9NfGPX3VMTQpDCx6cs/LCvmeQ
-	w67A==
-X-Gm-Message-State: ALoCoQmsK/MkyJZ7BWOcktvtQIIA4bdd8xXU5iAFNXC5vgKpR19E8SSGM/Hp2h39TwMlhNL6JgdR
-X-Received: by 10.194.1.164 with SMTP id 4mr47321161wjn.17.1401703408111;
-	Mon, 02 Jun 2014 03:03:28 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	en6sm31215003wib.11.2014.06.02.03.03.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Jun 2014 03:03:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jun 2014 11:03:20 +0100
-Message-Id: <1401703400-31541-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1401703400-31541-1-git-send-email-ross.burton@intel.com>
-References: <1401703400-31541-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] diffstat: patches have now been submitted upstream
+	Mon, 02 Jun 2014 04:10:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=WIk9mD8f4iLk/SmGp/wN3R+/AQ53dlWrqdVx/zBIdeQ=;
+	b=x7AMSbzs2CDvCp7CkrorBHyfpAyBR/r92rxH4BAaMbVlTBx0KVeG2JkgiYP829cDBg
+	r4CQ+kD3tjEUN1x6r5uXBLjylCSOM6X2k43+UCr1uOZiTFMwY6uRZ+W68rX0TKcreY+u
+	2eMm9d0K+hMZGKpVyd2G2eL9kiuyvT1BCEWcGeH8+DblDAcxI+Shq/ee6Me/eLxOQujq
+	bSN8eawgWmokGJwXP9DMLLcnR84aC3ROa5Ne9wOMTbBr1VfUrOKa1o+0yKohpZHYVspO
+	GSPxzMcdlHoDNURe4NnZkK7E1cTnQXFwkEP2fCl83qcp/TskF+qEdVaXkiZ7aD3jG4BR
+	nslg==
+MIME-Version: 1.0
+X-Received: by 10.236.180.169 with SMTP id j29mr50951093yhm.47.1401707434341; 
+	Mon, 02 Jun 2014 04:10:34 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.166.213 with HTTP; Mon, 2 Jun 2014 04:10:34 -0700 (PDT)
+In-Reply-To: <CACS+7ZSNrb+Q7NkPpd3rz17ky6=DAuQY2mo0iF-2Mc9cUUxgeQ@mail.gmail.com>
+References: <CACS+7ZSNrb+Q7NkPpd3rz17ky6=DAuQY2mo0iF-2Mc9cUUxgeQ@mail.gmail.com>
+Date: Mon, 2 Jun 2014 08:10:34 -0300
+X-Google-Sender-Auth: WN0fp03qqfnA4tO535tPSIeAUEw
+Message-ID: <CAP9ODKrppsS9pUWDEeYNygtQOq7ZBxVLag-aV_1Vov=uOqC10Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Dan McGregor <danismostlikely@gmail.com>, Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] gzip: Avoid host contamination during build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,41 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jun 2014 10:03:34 -0000
+X-List-Received-Date: Mon, 02 Jun 2014 11:10:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/diffstat/diffstat/aclocal.patch |    2 +-
- meta/recipes-devtools/diffstat/diffstat/dirfix.patch  |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, May 30, 2014 at 6:39 PM, Dan McGregor <danismostlikely@gmail.com> wrote:
+> From: Dan McGregor <dan.mcgregor@usask.ca>
+>
+> On systems with /bin and /usr/bin merged the gzip recipe may find grep
+> in /usr/bin, while OE puts it in /bin. Force the recipe to find grep in
+> the correct place.
+>
+> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 
-diff --git a/meta/recipes-devtools/diffstat/diffstat/aclocal.patch b/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
-index ff18f1b..cde4a40 100644
---- a/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
-+++ b/meta/recipes-devtools/diffstat/diffstat/aclocal.patch
-@@ -8,7 +8,7 @@ The original macro name (AC_ACVERSION) leads to this error:
- | configure.in:9: the top level
- | autom4te: m4 failed with exit status: 1
- 
--Upstream-Status: Inappropriate [embedded specific]
-+Upstream-Status: Submitted (via email)
- Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
- 
- Index: diffstat-1.58/aclocal.m4
-diff --git a/meta/recipes-devtools/diffstat/diffstat/dirfix.patch b/meta/recipes-devtools/diffstat/diffstat/dirfix.patch
-index 6685056..15dbf2b 100644
---- a/meta/recipes-devtools/diffstat/diffstat/dirfix.patch
-+++ b/meta/recipes-devtools/diffstat/diffstat/dirfix.patch
-@@ -8,7 +8,7 @@ Results in "mkdir: cannot create directory `/usr/lib64': Permission denied"
- 
- Since the directory is never used, we can just remove the mkdir.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted (via email)
- 
- RP 23/9/2011
- 
+Great fix. It seems like a good patch to backport to Daisy  (adding Saul in Cc).
+
 -- 
-1.7.10.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
