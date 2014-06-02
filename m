@@ -1,33 +1,36 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 799B46FA85
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jun 2014 07:03:14 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.98,955,1392159600"; d="scan'208";a="52111475"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 02 Jun 2014 09:03:13 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Mon, 2 Jun 2014 09:03:13 +0200
-Received: from COSNADEXC23.usr.ingenico.loc ([169.254.3.176]) by
-	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
-	14.02.0328.009; Mon, 2 Jun 2014 09:03:13 +0200
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/4] libav: add PACKAGECONFIG for theora,
-	libvorbis,	speex and openssl
-Thread-Index: AQHPdOkuc0O8JO5+H0y2wc7qOF6715tddshg
-Date: Mon, 2 Jun 2014 07:03:13 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050BA1C947B6@COSNADEXC23.usr.ingenico.loc>
-References: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
-In-Reply-To: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EC4F65E35;
+	Mon,  2 Jun 2014 08:49:40 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id l4so2351289lbv.17
+	for <multiple recipients>; Mon, 02 Jun 2014 01:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=KG3cX7o1bPbwsvtqkk6lWy1AacFX5K3Lc4Tn47QgIyY=;
+	b=sLiryeGBDBOo3ZB4Yz9uPI8vyfJxVPkgn+DfURZVKwwafzF+Q01dPOnHHv+Xq2MkQr
+	66CGifC4Cwzju13ONaxbpR7YjJaYjg3D5Q54t0TzNNuJ1DCrFRFgIK13uNdrwSGE9Udd
+	JWVPPOkivAKOgxLAo6ZrELYt2LyzsUAqh7LhrtgSn4XJhNT2BwXG1Pjg2AXbF+jsDJI/
+	Za1h6oDGmmDZleE+QbuSps4RofLGDp19MuBqPBeT7wD30It2mlzoqG0ihvMve1d/K+XS
+	YfTFXeqqPrGz/Ls2L8hobX6HoUL//7GXKcCqy9YGQCIEYhzRlERplVBe+m/NAzWHqKxV
+	Mi6A==
+X-Received: by 10.112.185.105 with SMTP id fb9mr710126lbc.72.1401698980408;
+	Mon, 02 Jun 2014 01:49:40 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	bq6sm12253558lbb.34.2014.06.02.01.49.37 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Jun 2014 01:49:38 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 2 Jun 2014 10:49:50 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140602084950.GL2426@jama>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, Failed tasks 2014-06-02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,45 +43,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jun 2014 07:03:16 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Mon, 02 Jun 2014 08:49:42 -0000
+X-Groupsio-MsgNum: 53727
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="nRwNdQxTdQ7rZk9A"
+Content-Disposition: inline
+
+--nRwNdQxTdQ7rZk9A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+This build still contains huge patch setting B =3D S or inherit for
+autotools-brokensep for all recipes which were failing in earlier
+master builds.
 
-Should I rebase/repost this? Aside libav versions/pinning preferences, this=
- single patch deserves to be commited.
+abiword and few other recipes issues are now hidden by libgsf failure
+most efl recipes are hidden by efl failure (testing 1.10.0 version which I =
+haven't sent to ML yet)
+qt5 is broken because it's testing new 5.3.0
+firefox broken probably by freetype upgrade
 
-Regards,
-Matthieu
+grub.do_package failing again for some reason
 
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
------Message d'origine-----
-De=A0: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
-d-core-bounces@lists.openembedded.org] De la part de Matthieu Crapet
-Envoy=E9=A0: mercredi 21 mai 2014 13:38
-=C0=A0: openembedded-core@lists.openembedded.org
-Objet=A0: [OE-core] [PATCH 1/4] libav: add PACKAGECONFIG for theora, libvor=
-bis, speex and openssl
+=3D=3D Failed tasks 2014-06-02 =3D=3D
 
-Dropped libvorvis dependency because there is already a (better) builtin vo=
-rbis codec.
-Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using extern=
-al library).
+=3D=3D=3D common (9) =3D=3D=3D
+    * meta-openembedded/meta-gnome/recipes-gnome/libgsf/libgsf_1.14.26.bb, =
+do_compile
+    * meta-openembedded/meta-networking/recipes-support/curlpp/curlpp_0.7.3=
+=2Ebb, do_compile
+    * meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_c=
+ompile
+    * meta-openembedded/meta-oe/recipes-support/eject/eject_2.1.5.bb, do_co=
+mpile
+    * meta-openembedded/meta-xfce/recipes-apps/xfce4-notifyd/xfce4-notifyd_=
+0.2.2.bb, do_compile
+    * meta-openembedded/meta-xfce/recipes-apps/xfce4-screenshooter/xfce4-sc=
+reenshooter_1.8.1.bb, do_compile
+    * meta-qt5/recipes-qt/qt5/qtbase_5.3.0.bb, do_compile
+    * meta-qt5/recipes-qt/qt5/qtwayland-native_git.bb, do_fetch
+    * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_fetch
 
-Changes:
-- add --enable-nonfree when faac or openssl are used
-- add DESCRIPTION
-- sort PACKAGECONFIG entries
+=3D=3D=3D common-x86 (3) =3D=3D=3D
+    * meta-browser/recipes-browser/chromium/chromium_35.0.1883.0.bb, do_com=
+pile
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 
-Tested with libav-0.8.11 & libav-9.13.
+=3D=3D=3D qemuarm (1) =3D=3D=3D
+    * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_compile
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/recipes-multimedia/libav/libav.inc | 39 ++++++++++++++++++++++++++---=
-----
- 1 file changed, 31 insertions(+), 8 deletions(-)
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_install
 
-[...]
+=3D=3D=3D qemux86_64 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
+_git.bb, do_compile
 
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||10    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140530_174007.log/
+|-
+||qemux86       ||13    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140531_061843.log/
+|-
+||qemux86_64    ||14    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140531_204145.log/
+|}
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--nRwNdQxTdQ7rZk9A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlOMOq4ACgkQN1Ujt2V2gBzZ/wCeNo7uMtYp/Zf/K4PGJhCJ72ZB
+beAAn2QjTkoy5NjRhPTNiTb2BfNoeWkL
+=uuOK
+-----END PGP SIGNATURE-----
+
+--nRwNdQxTdQ7rZk9A--
