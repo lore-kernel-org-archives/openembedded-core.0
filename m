@@ -1,22 +1,33 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id CD9966FCA6
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 799B46FA85
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Jun 2014 13:35:26 +0000 (UTC)
-Received: from [192.168.178.14] (chello080108088242.14.11.vie.surfer.at
-	[80.108.88.242]) by ptmx.org (Postfix) with ESMTPSA id 3E96827F40
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Jun 2014 15:35:27 +0200 (CEST)
-Message-ID: <538B2C1F.9080209@pseudoterminal.org>
-Date: Sun, 01 Jun 2014 15:35:27 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Mon,  2 Jun 2014 07:03:14 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.98,955,1392159600"; d="scan'208";a="52111475"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 02 Jun 2014 09:03:13 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.2.328.9; Mon, 2 Jun 2014 09:03:13 +0200
+Received: from COSNADEXC23.usr.ingenico.loc ([169.254.3.176]) by
+	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
+	14.02.0328.009; Mon, 2 Jun 2014 09:03:13 +0200
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] libav: add PACKAGECONFIG for theora,
+	libvorbis,	speex and openssl
+Thread-Index: AQHPdOkuc0O8JO5+H0y2wc7qOF6715tddshg
+Date: Mon, 2 Jun 2014 07:03:13 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050BA1C947B6@COSNADEXC23.usr.ingenico.loc>
+References: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
+In-Reply-To: <1400672277-7181-1-git-send-email-Matthieu.Crapet@ingenico.com>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1401629621-6635-1-git-send-email-dv@pseudoterminal.org>
-In-Reply-To: <1401629621-6635-1-git-send-email-dv@pseudoterminal.org>
-Subject: Re: [meta-efl][PATCH] e-wm: Add patch to fix crash caused by type error
+Subject: Re: [PATCH 1/4] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,66 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Jun 2014 13:35:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Jun 2014 07:03:16 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, typo in the git-send-email call. I now re-sent it to the correct 
-email address.
+Hi,
+
+Should I rebase/repost this? Aside libav versions/pinning preferences, this=
+ single patch deserves to be commited.
+
+Regards,
+Matthieu
 
 
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-> ---
->   .../e17/e-wm/0001-Fix-incorrect-message-type.patch | 28 ++++++++++++++++++++++
->   meta-efl/recipes-efl/e17/e-wm_0.18.7.bb            |  1 +
->   2 files changed, 29 insertions(+)
->   create mode 100644 meta-efl/recipes-efl/e17/e-wm/0001-Fix-incorrect-message-type.patch
->
-> diff --git a/meta-efl/recipes-efl/e17/e-wm/0001-Fix-incorrect-message-type.patch b/meta-efl/recipes-efl/e17/e-wm/0001-Fix-incorrect-message-type.patch
-> new file mode 100644
-> index 0000000..e718ef3
-> --- /dev/null
-> +++ b/meta-efl/recipes-efl/e17/e-wm/0001-Fix-incorrect-message-type.patch
-> @@ -0,0 +1,28 @@
-> +From 0aef43c9cd1656413cf2eb3dc7c19b355ee7ed52 Mon Sep 17 00:00:00 2001
-> +From: Carlos Rafael Giani <dv@pseudoterminal.org>
-> +Date: Sun, 1 Jun 2014 14:45:49 +0200
-> +Subject: [PATCH] Fix incorrect message type
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-> +---
-> + src/bin/e_desk.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/src/bin/e_desk.c b/src/bin/e_desk.c
-> +index b156e19..77d7520 100644
-> +--- a/src/bin/e_desk.c
-> ++++ b/src/bin/e_desk.c
-> +@@ -221,7 +221,7 @@ e_desk_show(E_Desk *desk)
-> +    E_Event_Desk_Show *ev;
-> +    E_Event_Desk_Before_Show *eev;
-> +    E_Event_Desk_After_Show *eeev;
-> +-   Edje_Message_Float_Set *msg;
-> ++   Edje_Message_Int_Set *msg;
-> +    Eina_List *l;
-> +    E_Shelf *es;
-> +    int was_zone = 0, x, y, dx = 0, dy = 0;
-> +--
-> +1.8.3.2
-> +
-> diff --git a/meta-efl/recipes-efl/e17/e-wm_0.18.7.bb b/meta-efl/recipes-efl/e17/e-wm_0.18.7.bb
-> index 0e39727..929abf6 100644
-> --- a/meta-efl/recipes-efl/e17/e-wm_0.18.7.bb
-> +++ b/meta-efl/recipes-efl/e17/e-wm_0.18.7.bb
-> @@ -8,6 +8,7 @@ SRC_URI = "\
->       ${E_RELEASES}/apps/${SRCNAME}/${SRCNAME}-${SRCVER}.tar.gz \
->       file://enlightenment_start.oe \
->       file://applications.menu \
-> +    file://0001-Fix-incorrect-message-type.patch \
->   "
->   
->   SRC_URI[md5sum] = "499b92ef38347881c72729f1e066eb20"
+-----Message d'origine-----
+De=A0: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
+d-core-bounces@lists.openembedded.org] De la part de Matthieu Crapet
+Envoy=E9=A0: mercredi 21 mai 2014 13:38
+=C0=A0: openembedded-core@lists.openembedded.org
+Objet=A0: [OE-core] [PATCH 1/4] libav: add PACKAGECONFIG for theora, libvor=
+bis, speex and openssl
 
+Dropped libvorvis dependency because there is already a (better) builtin vo=
+rbis codec.
+Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using extern=
+al library).
+
+Changes:
+- add --enable-nonfree when faac or openssl are used
+- add DESCRIPTION
+- sort PACKAGECONFIG entries
+
+Tested with libav-0.8.11 & libav-9.13.
+
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/recipes-multimedia/libav/libav.inc | 39 ++++++++++++++++++++++++++---=
+----
+ 1 file changed, 31 insertions(+), 8 deletions(-)
+
+[...]
 
