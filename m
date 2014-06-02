@@ -1,36 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EC4F65E35;
-	Mon,  2 Jun 2014 08:49:40 +0000 (UTC)
-Received: by mail-lb0-f172.google.com with SMTP id l4so2351289lbv.17
-	for <multiple recipients>; Mon, 02 Jun 2014 01:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=KG3cX7o1bPbwsvtqkk6lWy1AacFX5K3Lc4Tn47QgIyY=;
-	b=sLiryeGBDBOo3ZB4Yz9uPI8vyfJxVPkgn+DfURZVKwwafzF+Q01dPOnHHv+Xq2MkQr
-	66CGifC4Cwzju13ONaxbpR7YjJaYjg3D5Q54t0TzNNuJ1DCrFRFgIK13uNdrwSGE9Udd
-	JWVPPOkivAKOgxLAo6ZrELYt2LyzsUAqh7LhrtgSn4XJhNT2BwXG1Pjg2AXbF+jsDJI/
-	Za1h6oDGmmDZleE+QbuSps4RofLGDp19MuBqPBeT7wD30It2mlzoqG0ihvMve1d/K+XS
-	YfTFXeqqPrGz/Ls2L8hobX6HoUL//7GXKcCqy9YGQCIEYhzRlERplVBe+m/NAzWHqKxV
-	Mi6A==
-X-Received: by 10.112.185.105 with SMTP id fb9mr710126lbc.72.1401698980408;
-	Mon, 02 Jun 2014 01:49:40 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	bq6sm12253558lbb.34.2014.06.02.01.49.37 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Jun 2014 01:49:38 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 2 Jun 2014 10:49:50 +0200
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140602084950.GL2426@jama>
+Return-Path: <Adrian.Calianu@enea.com>
+X-Greylist: delayed 337 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 02 Jun 2014 09:31:30 UTC
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 3440A65F1E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Jun 2014 09:31:30 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Mon, 2 Jun 2014 11:25:47 +0200
+From: Adrian Calianu <Adrian.Calianu@enea.com>
+To: =?utf-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
+	<joaohf@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/2] wic: add support to look in all layers
+	and	get plugins
+Thread-Index: AQHPb98qfLnBuUFALkSgp7fROBzEN5tdppnQ
+Date: Mon, 2 Jun 2014 09:25:47 +0000
+Message-ID: <A1661D2DDD942248A02617DE63569A0125CB32DA@SESTOEX04.enea.se>
+References: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
+	<1400117848-4350-3-git-send-email-joaohf@gmail.com>
+In-Reply-To: <1400117848-4350-3-git-send-email-joaohf@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.14.142]
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-06-02
+Cc: "tom.zanussi@linux.intel.com" <tom.zanussi@linux.intel.com>
+Subject: Re: [PATCH 2/2] wic: add support to look in all layers and	get plugins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,92 +39,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jun 2014 08:49:42 -0000
-X-Groupsio-MsgNum: 53727
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nRwNdQxTdQ7rZk9A"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Jun 2014 09:31:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---nRwNdQxTdQ7rZk9A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+SGksDQoNCglBIGxhdGUgcmV2aWV3IGJ1dCBJIGhvcGUgdG8gYmUgYSBwZXJ0aW5lbnQgb25lLg0K
+CQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5lbWJlZGRlZC1j
+b3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBbbWFpbHRvOm9wZW5lbWJlZGRl
+ZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmDQo+IE9mIEpv
+YW8gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw0KPiBTZW50OiBUaHVyc2RheSwgTWF5IDE1
+LCAyMDE0IDQ6MzcgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcNCj4gQ2M6IHRvbS56YW51c3NpQGxpbnV4LmludGVsLmNvbQ0KPiBTdWJqZWN0OiBbT0Ut
+Y29yZV0gW1BBVENIIDIvMl0gd2ljOiBhZGQgc3VwcG9ydCB0byBsb29rIGluIGFsbCBsYXllcnMg
+YW5kIGdldA0KPiBwbHVnaW5zDQo+IA0KPiBQbHVnaW5zIGFyZSBsb29rZWQgaW4gJ3NjcmlwdHMv
+bGliL21pYy9wbHVnaW5zL1t0eXBlXS8nIGRpcmVjdG9yeSBvbiBhbGwNCj4gQkJMQVlFUlMgdmFy
+aWFibGUgcmV0dXJuZWQgYnkgYml0YmFrZSBlbnZpcm9ubWVudC4gSWYgZm91bmQsIGl0IHdpbGwg
+YmUgbG9hZA0KPiBhdCBydW50aW1lLg0KPiANCj4gVGhlIHVzZXIgY291bGQgY3JlYXRlIHlvdXIg
+b3duIHBsdWdpbiBhbmQga2VlcCBpdCBpbnNpZGUgaXRzIGxheWVycy4gRm9yIG5vdw0KPiB0aGUg
+cGF0aCBtdXN0IGJlIDxsYXllci1kaXI+L3NjcmlwdHMvbGliL21pYy9wbHVnaW5zL1t0eXBlXS8u
+IFdoZXJlICd0eXBlJw0KPiBjb3VsZCBiZSAnaW1hZ2VyJyBvciAnc291cmNlJy4NCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IEpvw6NvIEhlbnJpcXVlIEZlcnJlaXJhIGRlIEZyZWl0YXMgPGpvYW9oZkBn
+bWFpbC5jb20+DQo+IC0tLQ0KPiAgc2NyaXB0cy9saWIvbWljL3BsdWdpbi5weSB8IDI4ICsrKysr
+KysrKysrKysrKysrKysrKysrLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25z
+KCspLCA1IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGliL21pYy9w
+bHVnaW4ucHkgYi9zY3JpcHRzL2xpYi9taWMvcGx1Z2luLnB5IGluZGV4DQo+IGRmMDNjMTUuLmJl
+YzMzZDYgMTAwNjQ0DQo+IC0tLSBhL3NjcmlwdHMvbGliL21pYy9wbHVnaW4ucHkNCj4gKysrIGIv
+c2NyaXB0cy9saWIvbWljL3BsdWdpbi5weQ0KPiBAQCAtMjAsMTIgKzIwLDE0IEBAIGltcG9ydCBv
+cywgc3lzDQo+ICBmcm9tIG1pYyBpbXBvcnQgbXNnZXINCj4gIGZyb20gbWljIGltcG9ydCBwbHVn
+aW5iYXNlDQo+ICBmcm9tIG1pYy51dGlscyBpbXBvcnQgZXJyb3JzDQo+IC0NCj4gK2Zyb20gbWlj
+LnV0aWxzLm9lLm1pc2MgaW1wb3J0ICoNCj4gDQo+ICBfX0FMTF9fID0gWydQbHVnaW5NZ3InLCAn
+cGx1Z2lubWdyJ10NCj4gDQo+ICBQTFVHSU5fVFlQRVMgPSBbImltYWdlciIsICJzb3VyY2UiXSAj
+IFRPRE8gICJob29rIg0KPiANCj4gK1BMVUdJTl9ESVIgPSAiL2xpYi9taWMvcGx1Z2lucyIgIyBy
+ZWxhdGl2ZSB0byBzY3JpcHRzDQo+ICtTQ1JJUFRTX1BMVUdJTl9ESVIgPSAic2NyaXB0cyIgKyBQ
+TFVHSU5fRElSDQo+IA0KPiAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6DQo+ICAgICAgcGx1Z2lu
+X2RpcnMgPSB7fQ0KPiBAQCAtNDIsOCArNDQsMjMgQEAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6
+DQo+ICAgICAgICAgIG1pY19wYXRoID0gb3MucGF0aC5kaXJuYW1lKF9fZmlsZV9fKQ0KPiAgICAg
+ICAgICBlb3MgPSBtaWNfcGF0aC5maW5kKCdzY3JpcHRzJykgKyBsZW4oJ3NjcmlwdHMnKQ0KPiAg
+ICAgICAgICBzY3JpcHRzX3BhdGggPSBtaWNfcGF0aFs6ZW9zXQ0KPiArICAgICAgICBzZWxmLnNj
+cmlwdHNfcGF0aCA9IHNjcmlwdHNfcGF0aA0KPiArICAgICAgICBzZWxmLnBsdWdpbl9kaXIgPSBz
+Y3JpcHRzX3BhdGggKyBQTFVHSU5fRElSDQo+ICsgICAgICAgIHNlbGYubGF5ZXJzX3BhdGggPSBO
+b25lDQo+ICsNCj4gKyAgICBkZWYgX2J1aWxkX3BsdWdpbl9kaXJfbGlzdChzZWxmLCBkbCwgcHR5
+cGUpOg0KPiArICAgICAgICBpZiBzZWxmLmxheWVyc19wYXRoIGlzIE5vbmU6DQo+ICsgICAgICAg
+ICAgICBzZWxmLmxheWVyc19wYXRoID0gZ2V0X2JpdGJha2VfdmFyKCJCQkxBWUVSUyIpDQo+ICsg
+ICAgICAgIGxheWVyX2RpcnMgPSBbXQ0KPiArDQo+ICsgICAgICAgIGZvciBsYXllcl9wYXRoIGlu
+IHNlbGYubGF5ZXJzX3BhdGguc3BsaXQoKToNCj4gKyAgICAgICAgICAgIHBhdGggPSBvcy5wYXRo
+LmpvaW4obGF5ZXJfcGF0aCwgU0NSSVBUU19QTFVHSU5fRElSLCBwdHlwZSkNCj4gKyAgICAgICAg
+ICAgIGxheWVyX2RpcnMuYXBwZW5kKHBhdGgpDQo+IA0KPiAtICAgICAgICBzZWxmLnBsdWdpbl9k
+aXIgPSBzY3JpcHRzX3BhdGggKyAiL2xpYi9taWMvcGx1Z2lucyINCj4gKyAgICAgICAgICAgIHBh
+dGggPSBvcy5wYXRoLmpvaW4oZGwsIHB0eXBlKQ0KPiArICAgICAgICAgICAgbGF5ZXJfZGlycy5h
+cHBlbmQocGF0aCkNCltBZHJpYW4gQ2FsaWFudV0gDQoxKSBJdCBsb29rcyBsaWtlIGEgYmFkIGlu
+ZGVudGF0aW9uLCBoZXJlLCBhZGRpbmcgJ2RsJyBwYXRoIGZvciBlYWNoIGZvdW5kIEJCTEFZRVIu
+IFByb2JhYmx5IHRob3NlIHR3byBsaW5lcyBmcm9tIGFib3ZlIHNob3VsZCBub3QgYmUgcGFydCBv
+ZiAnZm9yJyBzdGF0ZW1lbnQuDQoyKSBJZiBCQkxBWUVSUyB2YXJpYWJsZSBpcyBlbXB0eS9Ob25l
+IHRoZW4gdGhlICJzZWxmLmxheWVyc19wYXRoLnNwbGl0KCkiIHdpbGwgZ2VuZXJhdGUgYW4gZXJy
+b3I6DQpBdHRyaWJ1dGVFcnJvcjogJ05vbmVUeXBlJyBvYmplY3QgaGFzIG5vIGF0dHJpYnV0ZSAn
+c3BsaXQnDQoNCkkgZG9uJ3QgdGhpbmsgaXMgZ29vZCBpZGVhIHRvIGZvcmNlIHVzZXJzIHRvIGhh
+dmUgQkJMQVlFUiB2YXJpYWJsZSBzZXQgc2luY2Ugd2lsbCBicm9rZSB0aGUgcmF3IG1vZGUgb2Yg
+dGhlIHdpYy4NCg0KPiArDQo+ICsgICAgICAgIHJldHVybiBsYXllcl9kaXJzDQo+IA0KPiAgICAg
+IGRlZiBhcHBlbmRfZGlycyhzZWxmLCBkaXJzKToNCj4gICAgICAgICAgZm9yIHBhdGggaW4gZGly
+czoNCj4gQEAgLTU2LDcgKzczLDcgQEAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6DQo+ICAgICAg
+ICAgIHBhdGggPSBvcy5wYXRoLmFic3BhdGgob3MucGF0aC5leHBhbmR1c2VyKHBhdGgpKQ0KPiAN
+Cj4gICAgICAgICAgaWYgbm90IG9zLnBhdGguaXNkaXIocGF0aCk6DQo+IC0gICAgICAgICAgICBt
+c2dlci53YXJuaW5nKCJQbHVnaW4gZGlyIGlzIG5vdCBhIGRpcmVjdG9yeSBvciBkb2VzIG5vdCBl
+eGlzdDogJXMiXA0KPiArICAgICAgICAgICAgbXNnZXIuZGVidWcoIlBsdWdpbiBkaXIgaXMgbm90
+IGEgZGlyZWN0b3J5IG9yIGRvZXMgbm90DQo+ICsgZXhpc3Q6ICVzIlwNCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgJSBwYXRoKQ0KPiAgICAgICAgICAgICAgcmV0dXJuDQo+IA0KPiBAQCAt
+OTMsOCArMTEwLDkgQEAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6DQo+ICAgICAgICAgIGlmIHB0
+eXBlIG5vdCBpbiBQTFVHSU5fVFlQRVM6DQo+ICAgICAgICAgICAgICByYWlzZSBlcnJvcnMuQ3Jl
+YXRvckVycm9yKCclcyBpcyBub3QgdmFsaWQgcGx1Z2luIHR5cGUnICUgcHR5cGUpDQo+IA0KPiAt
+ICAgICAgICBzZWxmLl9hZGRfcGx1Z2luZGlyKG9zLnBhdGguam9pbihzZWxmLnBsdWdpbl9kaXIs
+IHB0eXBlKSkNCj4gLSAgICAgICAgc2VsZi5fbG9hZF9hbGwoKQ0KPiArICAgICAgICBwbHVnaW5z
+X2RpciA9IHNlbGYuX2J1aWxkX3BsdWdpbl9kaXJfbGlzdChzZWxmLnBsdWdpbl9kaXIsDQo+ICsg
+cHR5cGUpDQo+ICsNCj4gKyAgICAgICAgc2VsZi5hcHBlbmRfZGlycyhwbHVnaW5zX2RpcikNCj4g
+DQo+ICAgICAgICAgIHJldHVybiBwbHVnaW5iYXNlLmdldF9wbHVnaW5zKHB0eXBlKQ0KPiANCj4g
+LS0NCj4gMS44LjMuMg0KPiANCj4gLS0NCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+IE9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
 
-This build still contains huge patch setting B =3D S or inherit for
-autotools-brokensep for all recipes which were failing in earlier
-master builds.
-
-abiword and few other recipes issues are now hidden by libgsf failure
-most efl recipes are hidden by efl failure (testing 1.10.0 version which I =
-haven't sent to ML yet)
-qt5 is broken because it's testing new 5.3.0
-firefox broken probably by freetype upgrade
-
-grub.do_package failing again for some reason
-
-http://www.openembedded.org/wiki/Bitbake_World_Status
-
-=3D=3D Failed tasks 2014-06-02 =3D=3D
-
-=3D=3D=3D common (9) =3D=3D=3D
-    * meta-openembedded/meta-gnome/recipes-gnome/libgsf/libgsf_1.14.26.bb, =
-do_compile
-    * meta-openembedded/meta-networking/recipes-support/curlpp/curlpp_0.7.3=
-=2Ebb, do_compile
-    * meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_c=
-ompile
-    * meta-openembedded/meta-oe/recipes-support/eject/eject_2.1.5.bb, do_co=
-mpile
-    * meta-openembedded/meta-xfce/recipes-apps/xfce4-notifyd/xfce4-notifyd_=
-0.2.2.bb, do_compile
-    * meta-openembedded/meta-xfce/recipes-apps/xfce4-screenshooter/xfce4-sc=
-reenshooter_1.8.1.bb, do_compile
-    * meta-qt5/recipes-qt/qt5/qtbase_5.3.0.bb, do_compile
-    * meta-qt5/recipes-qt/qt5/qtwayland-native_git.bb, do_fetch
-    * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_fetch
-
-=3D=3D=3D common-x86 (3) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium_35.0.1883.0.bb, do_com=
-pile
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_compile
-
-=3D=3D=3D qemux86 (1) =3D=3D=3D
-    * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_install
-
-=3D=3D=3D qemux86_64 (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
-_git.bb, do_compile
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||10    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140530_174007.log/
-|-
-||qemux86       ||13    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140531_061843.log/
-|-
-||qemux86_64    ||14    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140531_204145.log/
-|}
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---nRwNdQxTdQ7rZk9A
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlOMOq4ACgkQN1Ujt2V2gBzZ/wCeNo7uMtYp/Zf/K4PGJhCJ72ZB
-beAAn2QjTkoy5NjRhPTNiTb2BfNoeWkL
-=uuOK
------END PGP SIGNATURE-----
-
---nRwNdQxTdQ7rZk9A--
