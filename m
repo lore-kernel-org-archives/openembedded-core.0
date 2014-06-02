@@ -1,32 +1,37 @@
-Return-Path: <Adrian.Calianu@enea.com>
-X-Greylist: delayed 337 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 02 Jun 2014 09:31:30 UTC
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3440A65F1E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 12A2B609AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jun 2014 09:31:30 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Mon, 2 Jun 2014 11:25:47 +0200
-From: Adrian Calianu <Adrian.Calianu@enea.com>
-To: =?utf-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
-	<joaohf@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 2/2] wic: add support to look in all layers
-	and	get plugins
-Thread-Index: AQHPb98qfLnBuUFALkSgp7fROBzEN5tdppnQ
-Date: Mon, 2 Jun 2014 09:25:47 +0000
-Message-ID: <A1661D2DDD942248A02617DE63569A0125CB32DA@SESTOEX04.enea.se>
-References: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
-	<1400117848-4350-3-git-send-email-joaohf@gmail.com>
-In-Reply-To: <1400117848-4350-3-git-send-email-joaohf@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.14.142]
-MIME-Version: 1.0
-Cc: "tom.zanussi@linux.intel.com" <tom.zanussi@linux.intel.com>
-Subject: Re: [PATCH 2/2] wic: add support to look in all layers and	get plugins
+	Mon,  2 Jun 2014 10:03:26 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id w62so4908061wes.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Jun 2014 03:03:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=vF3EHsM/BrkgOVVK/mSnAb1NVx4sVIyIdUyc353jg64=;
+	b=TC1CgVMD9xQH7KMjXdtWlNCmyDW8GaFRFhOS11CXb5mupF/XrXN9T85RRbmSCt+3xp
+	yX3NMOWLrqEWcrzrtH1UepXB/QfQwR74TI9JkwZRFNNg7iqDzcdbNSfgKl+bFLahuF8N
+	P02fxSnGerXg3bYYslDWkTdWWLQoFPzhXHoCaVcxsJHuXKNjG8IDllBIDE3I8uG2Qkg/
+	BWrtfRcVo/JY2yDvJRGqCIBzDWvLTOZE2rgrMFUV50o++IBpkX+k9nJaV143pOM6w0BL
+	3zZFa2q0UJ1DjkzAkJslPDOFUobqX5zBtU3mRjBIAG4zN2E/Ke5w2unBdzyLFGclKa48
+	Ds8g==
+X-Gm-Message-State: ALoCoQmLGOdkhJnPyPRbNIjysTwtpmvFPnAgRMw1apdEU6m5KZ7gdnIJ7TkOL6nUqNP/JBDg7f+0
+X-Received: by 10.194.60.49 with SMTP id e17mr15099375wjr.7.1401703406838;
+	Mon, 02 Jun 2014 03:03:26 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	en6sm31215003wib.11.2014.06.02.03.03.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Jun 2014 03:03:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Jun 2014 11:03:19 +0100
+Message-Id: <1401703400-31541-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] diffstat: fix autoheader warning due to missing AC_DEFINE template
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,82 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jun 2014 09:31:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 02 Jun 2014 10:03:34 -0000
 
-SGksDQoNCglBIGxhdGUgcmV2aWV3IGJ1dCBJIGhvcGUgdG8gYmUgYSBwZXJ0aW5lbnQgb25lLg0K
-CQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5lbWJlZGRlZC1j
-b3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBbbWFpbHRvOm9wZW5lbWJlZGRl
-ZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmDQo+IE9mIEpv
-YW8gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw0KPiBTZW50OiBUaHVyc2RheSwgTWF5IDE1
-LCAyMDE0IDQ6MzcgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcNCj4gQ2M6IHRvbS56YW51c3NpQGxpbnV4LmludGVsLmNvbQ0KPiBTdWJqZWN0OiBbT0Ut
-Y29yZV0gW1BBVENIIDIvMl0gd2ljOiBhZGQgc3VwcG9ydCB0byBsb29rIGluIGFsbCBsYXllcnMg
-YW5kIGdldA0KPiBwbHVnaW5zDQo+IA0KPiBQbHVnaW5zIGFyZSBsb29rZWQgaW4gJ3NjcmlwdHMv
-bGliL21pYy9wbHVnaW5zL1t0eXBlXS8nIGRpcmVjdG9yeSBvbiBhbGwNCj4gQkJMQVlFUlMgdmFy
-aWFibGUgcmV0dXJuZWQgYnkgYml0YmFrZSBlbnZpcm9ubWVudC4gSWYgZm91bmQsIGl0IHdpbGwg
-YmUgbG9hZA0KPiBhdCBydW50aW1lLg0KPiANCj4gVGhlIHVzZXIgY291bGQgY3JlYXRlIHlvdXIg
-b3duIHBsdWdpbiBhbmQga2VlcCBpdCBpbnNpZGUgaXRzIGxheWVycy4gRm9yIG5vdw0KPiB0aGUg
-cGF0aCBtdXN0IGJlIDxsYXllci1kaXI+L3NjcmlwdHMvbGliL21pYy9wbHVnaW5zL1t0eXBlXS8u
-IFdoZXJlICd0eXBlJw0KPiBjb3VsZCBiZSAnaW1hZ2VyJyBvciAnc291cmNlJy4NCj4gDQo+IFNp
-Z25lZC1vZmYtYnk6IEpvw6NvIEhlbnJpcXVlIEZlcnJlaXJhIGRlIEZyZWl0YXMgPGpvYW9oZkBn
-bWFpbC5jb20+DQo+IC0tLQ0KPiAgc2NyaXB0cy9saWIvbWljL3BsdWdpbi5weSB8IDI4ICsrKysr
-KysrKysrKysrKysrKysrKysrLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25z
-KCspLCA1IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGliL21pYy9w
-bHVnaW4ucHkgYi9zY3JpcHRzL2xpYi9taWMvcGx1Z2luLnB5IGluZGV4DQo+IGRmMDNjMTUuLmJl
-YzMzZDYgMTAwNjQ0DQo+IC0tLSBhL3NjcmlwdHMvbGliL21pYy9wbHVnaW4ucHkNCj4gKysrIGIv
-c2NyaXB0cy9saWIvbWljL3BsdWdpbi5weQ0KPiBAQCAtMjAsMTIgKzIwLDE0IEBAIGltcG9ydCBv
-cywgc3lzDQo+ICBmcm9tIG1pYyBpbXBvcnQgbXNnZXINCj4gIGZyb20gbWljIGltcG9ydCBwbHVn
-aW5iYXNlDQo+ICBmcm9tIG1pYy51dGlscyBpbXBvcnQgZXJyb3JzDQo+IC0NCj4gK2Zyb20gbWlj
-LnV0aWxzLm9lLm1pc2MgaW1wb3J0ICoNCj4gDQo+ICBfX0FMTF9fID0gWydQbHVnaW5NZ3InLCAn
-cGx1Z2lubWdyJ10NCj4gDQo+ICBQTFVHSU5fVFlQRVMgPSBbImltYWdlciIsICJzb3VyY2UiXSAj
-IFRPRE8gICJob29rIg0KPiANCj4gK1BMVUdJTl9ESVIgPSAiL2xpYi9taWMvcGx1Z2lucyIgIyBy
-ZWxhdGl2ZSB0byBzY3JpcHRzDQo+ICtTQ1JJUFRTX1BMVUdJTl9ESVIgPSAic2NyaXB0cyIgKyBQ
-TFVHSU5fRElSDQo+IA0KPiAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6DQo+ICAgICAgcGx1Z2lu
-X2RpcnMgPSB7fQ0KPiBAQCAtNDIsOCArNDQsMjMgQEAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6
-DQo+ICAgICAgICAgIG1pY19wYXRoID0gb3MucGF0aC5kaXJuYW1lKF9fZmlsZV9fKQ0KPiAgICAg
-ICAgICBlb3MgPSBtaWNfcGF0aC5maW5kKCdzY3JpcHRzJykgKyBsZW4oJ3NjcmlwdHMnKQ0KPiAg
-ICAgICAgICBzY3JpcHRzX3BhdGggPSBtaWNfcGF0aFs6ZW9zXQ0KPiArICAgICAgICBzZWxmLnNj
-cmlwdHNfcGF0aCA9IHNjcmlwdHNfcGF0aA0KPiArICAgICAgICBzZWxmLnBsdWdpbl9kaXIgPSBz
-Y3JpcHRzX3BhdGggKyBQTFVHSU5fRElSDQo+ICsgICAgICAgIHNlbGYubGF5ZXJzX3BhdGggPSBO
-b25lDQo+ICsNCj4gKyAgICBkZWYgX2J1aWxkX3BsdWdpbl9kaXJfbGlzdChzZWxmLCBkbCwgcHR5
-cGUpOg0KPiArICAgICAgICBpZiBzZWxmLmxheWVyc19wYXRoIGlzIE5vbmU6DQo+ICsgICAgICAg
-ICAgICBzZWxmLmxheWVyc19wYXRoID0gZ2V0X2JpdGJha2VfdmFyKCJCQkxBWUVSUyIpDQo+ICsg
-ICAgICAgIGxheWVyX2RpcnMgPSBbXQ0KPiArDQo+ICsgICAgICAgIGZvciBsYXllcl9wYXRoIGlu
-IHNlbGYubGF5ZXJzX3BhdGguc3BsaXQoKToNCj4gKyAgICAgICAgICAgIHBhdGggPSBvcy5wYXRo
-LmpvaW4obGF5ZXJfcGF0aCwgU0NSSVBUU19QTFVHSU5fRElSLCBwdHlwZSkNCj4gKyAgICAgICAg
-ICAgIGxheWVyX2RpcnMuYXBwZW5kKHBhdGgpDQo+IA0KPiAtICAgICAgICBzZWxmLnBsdWdpbl9k
-aXIgPSBzY3JpcHRzX3BhdGggKyAiL2xpYi9taWMvcGx1Z2lucyINCj4gKyAgICAgICAgICAgIHBh
-dGggPSBvcy5wYXRoLmpvaW4oZGwsIHB0eXBlKQ0KPiArICAgICAgICAgICAgbGF5ZXJfZGlycy5h
-cHBlbmQocGF0aCkNCltBZHJpYW4gQ2FsaWFudV0gDQoxKSBJdCBsb29rcyBsaWtlIGEgYmFkIGlu
-ZGVudGF0aW9uLCBoZXJlLCBhZGRpbmcgJ2RsJyBwYXRoIGZvciBlYWNoIGZvdW5kIEJCTEFZRVIu
-IFByb2JhYmx5IHRob3NlIHR3byBsaW5lcyBmcm9tIGFib3ZlIHNob3VsZCBub3QgYmUgcGFydCBv
-ZiAnZm9yJyBzdGF0ZW1lbnQuDQoyKSBJZiBCQkxBWUVSUyB2YXJpYWJsZSBpcyBlbXB0eS9Ob25l
-IHRoZW4gdGhlICJzZWxmLmxheWVyc19wYXRoLnNwbGl0KCkiIHdpbGwgZ2VuZXJhdGUgYW4gZXJy
-b3I6DQpBdHRyaWJ1dGVFcnJvcjogJ05vbmVUeXBlJyBvYmplY3QgaGFzIG5vIGF0dHJpYnV0ZSAn
-c3BsaXQnDQoNCkkgZG9uJ3QgdGhpbmsgaXMgZ29vZCBpZGVhIHRvIGZvcmNlIHVzZXJzIHRvIGhh
-dmUgQkJMQVlFUiB2YXJpYWJsZSBzZXQgc2luY2Ugd2lsbCBicm9rZSB0aGUgcmF3IG1vZGUgb2Yg
-dGhlIHdpYy4NCg0KPiArDQo+ICsgICAgICAgIHJldHVybiBsYXllcl9kaXJzDQo+IA0KPiAgICAg
-IGRlZiBhcHBlbmRfZGlycyhzZWxmLCBkaXJzKToNCj4gICAgICAgICAgZm9yIHBhdGggaW4gZGly
-czoNCj4gQEAgLTU2LDcgKzczLDcgQEAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6DQo+ICAgICAg
-ICAgIHBhdGggPSBvcy5wYXRoLmFic3BhdGgob3MucGF0aC5leHBhbmR1c2VyKHBhdGgpKQ0KPiAN
-Cj4gICAgICAgICAgaWYgbm90IG9zLnBhdGguaXNkaXIocGF0aCk6DQo+IC0gICAgICAgICAgICBt
-c2dlci53YXJuaW5nKCJQbHVnaW4gZGlyIGlzIG5vdCBhIGRpcmVjdG9yeSBvciBkb2VzIG5vdCBl
-eGlzdDogJXMiXA0KPiArICAgICAgICAgICAgbXNnZXIuZGVidWcoIlBsdWdpbiBkaXIgaXMgbm90
-IGEgZGlyZWN0b3J5IG9yIGRvZXMgbm90DQo+ICsgZXhpc3Q6ICVzIlwNCj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgJSBwYXRoKQ0KPiAgICAgICAgICAgICAgcmV0dXJuDQo+IA0KPiBAQCAt
-OTMsOCArMTEwLDkgQEAgY2xhc3MgUGx1Z2luTWdyKG9iamVjdCk6DQo+ICAgICAgICAgIGlmIHB0
-eXBlIG5vdCBpbiBQTFVHSU5fVFlQRVM6DQo+ICAgICAgICAgICAgICByYWlzZSBlcnJvcnMuQ3Jl
-YXRvckVycm9yKCclcyBpcyBub3QgdmFsaWQgcGx1Z2luIHR5cGUnICUgcHR5cGUpDQo+IA0KPiAt
-ICAgICAgICBzZWxmLl9hZGRfcGx1Z2luZGlyKG9zLnBhdGguam9pbihzZWxmLnBsdWdpbl9kaXIs
-IHB0eXBlKSkNCj4gLSAgICAgICAgc2VsZi5fbG9hZF9hbGwoKQ0KPiArICAgICAgICBwbHVnaW5z
-X2RpciA9IHNlbGYuX2J1aWxkX3BsdWdpbl9kaXJfbGlzdChzZWxmLnBsdWdpbl9kaXIsDQo+ICsg
-cHR5cGUpDQo+ICsNCj4gKyAgICAgICAgc2VsZi5hcHBlbmRfZGlycyhwbHVnaW5zX2RpcikNCj4g
-DQo+ICAgICAgICAgIHJldHVybiBwbHVnaW5iYXNlLmdldF9wbHVnaW5zKHB0eXBlKQ0KPiANCj4g
-LS0NCj4gMS44LjMuMg0KPiANCj4gLS0NCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+IE9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../diffstat/diffstat/aclocal-popen.patch          |   20 ++++++++++++++++++++
+ meta/recipes-devtools/diffstat/diffstat_1.58.bb    |    1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-devtools/diffstat/diffstat/aclocal-popen.patch
+
+diff --git a/meta/recipes-devtools/diffstat/diffstat/aclocal-popen.patch b/meta/recipes-devtools/diffstat/diffstat/aclocal-popen.patch
+new file mode 100644
+index 0000000..d95561b
+--- /dev/null
++++ b/meta/recipes-devtools/diffstat/diffstat/aclocal-popen.patch
+@@ -0,0 +1,20 @@
++Add a description to the HAVE_POPEN_PROTOTYPE AC_DEFINE so that this define is
++included in config.h.
++
++Upstream-Status: Submitted (via email)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++
++diff --git a/aclocal.m4 b/aclocal.m4
++index 3f20573..ec5ca51 100644
++--- a/aclocal.m4
+++++ b/aclocal.m4
++@@ -931,7 +931,7 @@ ac_cv_td_popen=no,
++ ac_cv_td_popen=yes))
++ AC_MSG_RESULT($ac_cv_td_popen)
++ if test $ac_cv_td_popen = yes; then
++-	AC_DEFINE(HAVE_POPEN_PROTOTYPE)
+++	AC_DEFINE(HAVE_POPEN_PROTOTYPE,[1],[Conflicting popen prototype])
++ fi
++ ])dnl
++ dnl ---------------------------------------------------------------------------
+diff --git a/meta/recipes-devtools/diffstat/diffstat_1.58.bb b/meta/recipes-devtools/diffstat/diffstat_1.58.bb
+index 204473a..15fb423 100644
+--- a/meta/recipes-devtools/diffstat/diffstat_1.58.bb
++++ b/meta/recipes-devtools/diffstat/diffstat_1.58.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://install-sh;endline=42;md5=b3549726c1022bee09c174c72a0
+ SRC_URI = "ftp://invisible-island.net/diffstat/diffstat-${PV}.tgz \
+            file://dirfix.patch \
+            file://aclocal.patch \
++           file://aclocal-popen.patch \
+            file://run-ptest \
+ "
+ 
+-- 
+1.7.10.4
+
 
