@@ -1,45 +1,29 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CD7460E23
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 703BE60E23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 06:33:13 +0000 (UTC)
-Received: by mail-pd0-f174.google.com with SMTP id r10so4235944pdi.19
+	Tue,  3 Jun 2014 06:57:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s536vaCW023938
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jun 2014 23:33:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:organization:user-agent
-	:mime-version:to:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=AFLZeneRSE0N9pJtvxkFPBkb+w+OAkacuDeqVzvuyqA=;
-	b=QLn7N69cvUNOaxEFmV5gliJAmrPjunU+9CFtE8dehbgah/KeBMV1Pbt6TmgDxDSGGu
-	Ru5i6WTFhmWJ1FECT7QWKU0GW4Dq3Dc9tW7B0HPJSZ9BP586pUtTItukB53hjR+aAIOt
-	6AA6DKETTWs704p1wRrBQNhEmDfwIEtkcjLGbR/0kbfLo5nIWo56PD7qOamRUyxeocvX
-	BXrbOH0L2oq5nmWnboXMhAEUAhtgCyaC6Ibo87Ec9JjJrx073yQilU5EqEcscJn4FK6l
-	0bCWaIVjsYd93azyYRGYD47sThXrl18rjs0dKLG8X2XEvzzTtlb7SLYyx2ey+12/zlzL
-	/+dQ==
-X-Gm-Message-State: ALoCoQn2uyhNqEOAhg3wPxAzB2baDMyzVA0ZOamsAsfu8DUty+cKkLxcUaCRJomgpSE1U0aIriYy
-X-Received: by 10.68.172.193 with SMTP id be1mr47204952pbc.31.1401777194079;
-	Mon, 02 Jun 2014 23:33:14 -0700 (PDT)
-Received: from [10.6.18.24] (c-50-186-0-160.hsd1.or.comcast.net.
-	[50.186.0.160]) by mx.google.com with ESMTPSA id
-	jt7sm23823520pbc.46.2014.06.02.23.33.13 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 02 Jun 2014 23:33:13 -0700 (PDT)
-Message-ID: <538D6C23.9060405@intel.com>
-Date: Mon, 02 Jun 2014 23:33:07 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
+	Mon, 2 Jun 2014 23:57:38 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Mon, 2 Jun 2014 23:57:36 -0700
+Message-ID: <538D7214.6060805@windriver.com>
+Date: Tue, 3 Jun 2014 14:58:28 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org, ross.burton@intel.com
-References: <cover.1401420117.git.hongxu.jia@windriver.com>
-	<c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
-In-Reply-To: <c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 1/3] apr: upgrade to 1.5.1
+To: <openembedded-core@lists.openembedded.org>
+References: <1391432329-1046-1-git-send-email-david.nystrom@enea.com>	<1391435033.14769.5.camel@phil-desktop.brightsign>
+	<52EFA146.5010405@gmail.com>
+In-Reply-To: <52EFA146.5010405@gmail.com>
+X-Originating-IP: [128.224.162.187]
+Subject: Re: [RFC][PATCH] udev: add udev-utils to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,52 +36,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 06:33:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jun 2014 06:57:44 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 05/29/2014 08:27 PM, Hongxu Jia wrote:
-> The LICENSE has no change, except a newline added.
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} (91%)
->
-> diff --git a/meta/recipes-support/apr/apr_1.4.8.bb b/meta/recipes-support/apr/apr_1.5.1.bb
-> similarity index 91%
-> rename from meta/recipes-support/apr/apr_1.4.8.bb
-> rename to meta/recipes-support/apr/apr_1.5.1.bb
-> index 0a77ad7..7f2d2ca 100644
-> --- a/meta/recipes-support/apr/apr_1.4.8.bb
-> +++ b/meta/recipes-support/apr/apr_1.5.1.bb
-> @@ -4,7 +4,7 @@ SECTION = "libs"
->   DEPENDS = "util-linux"
->
->   LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
->                       file://include/apr_lib.h;endline=17;md5=ee42fa7575dc40580a9e01c1b75fae96"
->
->   BBCLASSEXTEND = "native"
-> @@ -16,8 +16,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
->              file://run-ptest \
->   "
->
-> -SRC_URI[md5sum] = "ce2ab01a0c3cdb71cf0a6326b8654f41"
-> -SRC_URI[sha256sum] = "61b8d2f8d321c6365ee3d71d0bb41f3a89c44da6124cc5b407a3b8319d660421"
-> +SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
-> +SRC_URI[sha256sum] = "e94abe431d4da48425fcccdb27b469bd0f8151488f82e5630a56f26590e198ac"
->
->   inherit autotools-brokensep lib_package binconfig multilib_header ptest
+On 02/03/2014 10:01 PM, David Nyström wrote:
+> On mån  3 feb 2014 14:43:53, Phil Blundell wrote:
+>> On Mon, 2014-02-03 at 13:58 +0100, David Nyström wrote:
+>>> An intended fix for below error message with core-image-lsb,
+>>> Sending this as an RFC since I dont really know what constitutes
+>>> a RRECOMMENDS vs. RDEPENDS.
+>>> Is this clearly defined somewhere ?
+>>> Below should be an RDEPENDS, no ?
+>>>
+>>> INIT: version 2.88 booting
+>>> Starting udev
+>>> udevd[59]: starting version 182
+>>> /etc/rcS.d/S04udev: line 108: udevadm: command not found
+>>> /etc/rcS.d/S04udev: line 113: udevadm: command not found
+>>> /etc/rcS.d/S04udev: line 114: udevadm: command not found
+>>
+>> That depends (ha ha) on what the udevadm call in question is actually
+>> doing.  If udev is so badly broken without it as to be unusable then
+>> yes, it should be an RDEPENDS.  If udev will still work without then
+>> RRECOMMENDS is appropriate and the initscript should be tweaked to deal
+>> with it.
+>>
+>> p.
+>>
+>>
 >
 >
-There may be an issue with your apr udpate:
+> SNIP
+> -- 
+>    udevadm control --env=STARTUP=1
+>    if [ "$not_first_boot" != "" ];then
+>            udevadm trigger --action=add --subsystem-nomatch=tty 
+> --subsystem-nomatch=mem --subsystem-nomatch=vc 
+> --subsystem-nomatch=vtconsole --subsystem-nomatch=misc 
+> --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus 
+> --subsystem-nomatch=graphics        --subsystem-nomatch=backlight 
+> --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
+>            (udevadm settle --timeout=10; udevadm control --env=STARTUP=)&
+>    else
+>            udevadm trigger --action=add
+>            udevadm settle
+>    fi
+> -- 
+> SNIP
+>
+> Does this classify as essential ?
+>
+> If essential, we either need to move udev-utils to RDEPENDS.
+> If not essential, fix the script to detect if udevadm is available.
+>
+> Br,
+> David
 
-https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/122/steps/BuildImages/logs/stdio
+Hi All,
 
+I think it's essential.
+Without 'udevadm trigger --action=add', the system start-up process may 
+have some problem. I can recall that once I removed this line from the 
+init scripts in my live image, the image could not boot up correctly.
 
-Sau!
+I think this patch is reasonable and I'd like to acknowledge it.
+
+Best Regards,
+Chen Qi
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
