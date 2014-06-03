@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Wenlin.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E7C9D60E23
+	by mail.openembedded.org (Postfix) with ESMTP id 404766FA51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 01:40:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s531eUJu010286
+	Tue,  3 Jun 2014 01:56:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s531u3jZ010397
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jun 2014 18:40:30 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 2 Jun 2014 18:40:30 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 2 Jun 2014 18:56:03 -0700 (PDT)
+Received: from PEK-WKANG-D1.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 2 Jun 2014 18:56:03 -0700
+From: Wenlin Kang <wenlin.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Jun 2014 09:41:20 +0800
-Message-ID: <0470b7fe09d62d6fcd631652bbae4a529eea5e24.1401419076.git.Qi.Chen@windriver.com>
+Date: Tue, 3 Jun 2014 09:55:25 +0800
+Message-ID: <1401760525-17167-1-git-send-email-wenlin.kang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1401419076.git.Qi.Chen@windriver.com>
-References: <cover.1401419076.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] grep: upgrade 2.18 to 2.19
+Subject: [PATCH] fetch2/svn.py: fix Unable to fetch URL bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 01:40:36 -0000
+X-List-Received-Date: Tue, 03 Jun 2014 01:56:09 -0000
 Content-Type: text/plain
 
-Upgrade grep from 2.18 to 2.19.
+For svn source, when download a revsion on branches, if the download
+revsion < the branch created time revsion, then it will fail.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+The detail description reference the Yocto Project bugzilla, please see:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6258
+
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
 ---
- .../grep/{grep_2.18.bb => grep_2.19.bb}            |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/grep/{grep_2.18.bb => grep_2.19.bb} (86%)
+ lib/bb/fetch2/svn.py |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/grep/grep_2.18.bb b/meta/recipes-extended/grep/grep_2.19.bb
-similarity index 86%
-rename from meta/recipes-extended/grep/grep_2.18.bb
-rename to meta/recipes-extended/grep/grep_2.19.bb
-index 99337f7..f38a9a6 100644
---- a/meta/recipes-extended/grep/grep_2.18.bb
-+++ b/meta/recipes-extended/grep/grep_2.19.bb
-@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8006d9c814277c1bfc4ca22af94b59ee"
+diff --git a/lib/bb/fetch2/svn.py b/lib/bb/fetch2/svn.py
+index 8847461..75e21df 100644
+--- a/lib/bb/fetch2/svn.py
++++ b/lib/bb/fetch2/svn.py
+@@ -98,7 +98,8 @@ class Svn(FetchMethod):
+             suffix = ""
+             if ud.revision:
+                 options.append("-r %s" % ud.revision)
+-                suffix = "@%s" % (ud.revision)
++                #follow this line can make the fetch fail when download a revsion on branches if the download revsion < the branch created time revsion.
++                #suffix = "@%s" % (ud.revision)
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "7439f8266f50844b56cc3e2721606541"
--SRC_URI[sha256sum] = "e6436e5077fa1497feccc8feaabd3f507b172369bf120fbc9e4874bba81be720"
-+SRC_URI[md5sum] = "ac732142227d9fe9567d71301e127979"
-+SRC_URI[sha256sum] = "6388295be48cfcaf7665d9cd3914e6625ea000e9414132bfefd45cf1d8eec34d"
- 
- inherit autotools gettext texinfo
- 
+             if command == "fetch":
+                 svncmd = "%s co %s %s://%s/%s%s %s" % (ud.basecmd, " ".join(options), proto, svnroot, ud.module, suffix, ud.module)
 -- 
 1.7.9.5
 
