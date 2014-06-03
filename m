@@ -1,21 +1,38 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E1BD65F99
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5709C60E23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 18:32:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jun 2014 11:27:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,967,1392192000"; d="scan'208";a="551017818"
-Received: from kmaligas-mobl1.gar.corp.intel.com (HELO swold-linux.bigsur.com)
-	([10.255.12.167])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jun 2014 11:32:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue,  3 Jun 2014 20:07:18 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id m15so7227240wgh.28
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Jun 2014 13:07:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=UIIT5O/uxD0Su49/rLv+XfosvcmfUz6TlpwMpVpJpg0=;
+	b=fZeDVEdwFP3ETOED5jFKqqxHmPfPVOuCbxoK9MxqRSQJs5yqDBMJU5JjwiOS7Nlkzj
+	ZqqnAe1Xs0YGr7bWZ4sJ5ibplFTcrdybn+P0LVKNEnkq3My3dxkVXIe89R9KbCi5FDsd
+	KCpj0IiWP5DAOwhMgq7CKHJpps2SnaRL/FybK257jZ0kwjlI2KiJu4lA2XS0uWV7tinB
+	buBBXY0CRqTRjzKOjEVhME/Q06E6Rp8fCRdiEHezevyga7BwkWwlGlqdWttYyd+4HVfQ
+	6TxmfwAyLp/syZvJx6jw9rGVRIcizyseuLmxQWkDAWwY2niuWuwIrOxInsRJjXuJEJlK
+	n5fg==
+X-Gm-Message-State: ALoCoQnc8DnhmqFdrNM4TQ5dYqLdeQnEBFIdqpoO8mshVcLdNv0egSxTTf4WVHSZhKBNfZOdAEFS
+X-Received: by 10.194.71.19 with SMTP id q19mr45504256wju.21.1401826039369;
+	Tue, 03 Jun 2014 13:07:19 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id z14sm5610835wiu.6.2014.06.03.13.07.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Jun 2014 13:07:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jun 2014 11:32:30 -0700
-Message-Id: <1401820350-306-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] busybox: put udhcpc in background
+Date: Tue,  3 Jun 2014 21:07:10 +0100
+Message-Id: <1401826030-4161-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1401826030-4161-1-git-send-email-ross.burton@intel.com>
+References: <1401826030-4161-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] readline-5.2: exclude autoheader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,30 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 18:32:37 -0000
+X-List-Received-Date: Tue, 03 Jun 2014 20:07:26 -0000
 
-If the interface is slow to come up udhcpc will continue in the background
+readline hand-maintains config.h.in so exclude autoheader and re-use a patch
+from readline-6.3 to fix a typo in variable names.
 
-[YOCTO #6339]
+See oe-core 8c37d32d6133c6ad2b9142e7a42775e7a979b570 against readline-6.3 for
+further rationale.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../readline/{readline-6.3 => files}/config-dirent-symbols.patch    |    0
+ meta/recipes-core/readline/readline_5.2.bb                          |    3 +++
+ 2 files changed, 3 insertions(+)
+ rename meta/recipes-core/readline/{readline-6.3 => files}/config-dirent-symbols.patch (100%)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 0c1969c..f6cb039 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -119,6 +119,7 @@ do_prepare_config () {
- 	  {if(net==2&&$0 !~ /^#/&&$1){print("# "$1" is not set")}else{print}}' \
- 		  ${S}/.config.oe-tmp > ${S}/.config
- 	fi
-+	sed -i 's/CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -n"/CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -b"/' ${S}/.config
- }
+diff --git a/meta/recipes-core/readline/readline-6.3/config-dirent-symbols.patch b/meta/recipes-core/readline/files/config-dirent-symbols.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-6.3/config-dirent-symbols.patch
+rename to meta/recipes-core/readline/files/config-dirent-symbols.patch
+diff --git a/meta/recipes-core/readline/readline_5.2.bb b/meta/recipes-core/readline/readline_5.2.bb
+index 6a37849..fe610e3 100644
+--- a/meta/recipes-core/readline/readline_5.2.bb
++++ b/meta/recipes-core/readline/readline_5.2.bb
+@@ -28,6 +28,7 @@ SRC_URI = "${GNU_MIRROR}/readline/${BPN}-${PV}.tar.gz;name=archive \
+            ${GNU_MIRROR}/readline/readline-5.2-patches/readline52-013;name=patch13;apply=yes;striplevel=0 \
+            ${GNU_MIRROR}/readline/readline-5.2-patches/readline52-014;name=patch14;apply=yes;striplevel=0 \
+            file://configure-fix.patch \
++           file://config-dirent-symbols.patch \
+            file://fix-redundant-rpath.patch"
  
- # returns all the elements from the src uri that are .cfg files
+ SRC_URI[archive.md5sum] = "e39331f32ad14009b9ff49cc10c5e751"
+@@ -66,6 +67,8 @@ S = "${WORKDIR}/${BPN}-${PV}"
+ 
+ inherit autotools
+ 
++EXTRA_AUTORECONF += "--exclude=autoheader"
++
+ LEAD_SONAME = "libreadline.so"
+ 
+ do_configure_prepend () {
 -- 
-1.8.3.1
+1.7.10.4
 
 
