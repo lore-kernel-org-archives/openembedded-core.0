@@ -1,36 +1,26 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E278C6F509
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id EC1B56FA85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 03:29:57 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id p10so4086117pdj.35
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jun 2014 20:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kGqO/j7p6G6OUw8TP5nDqvd2Bk4h+IMh/BGevsuTPBM=;
-	b=mhhUwBhfyXnps5yZZ+MmFG//X29GJ4QzIwdWTShqFgKs9lEt7VLdRNsQtiUP5I5vp0
-	S3CeZall//gUIXfzW+higOZ104TjAyxHXiMKXWcdFUt/ojxSg/1Pqr9f7SpiWeQOXo+J
-	xDEna73R61+7Wvet6AlCu9wzxZIOPe4DhSgwQJr6cs32Vt6C4wHEfgIP5uto5r4mFv+l
-	mqk2p6fRLPCfzaE3UVSbqbDprU0shwEs21U+DMDViLn0/94LFYzyk1TQWJ0JJ8XrC9Xb
-	gEzlRr609inK+KV1RJfwgyAAhSnYB1Db1esjQ+3OEPN0euY1CmIY73CMvS8/Z/nwJCkz
-	RYZQ==
-X-Received: by 10.68.163.100 with SMTP id yh4mr45636951pbb.122.1401766198730; 
-	Mon, 02 Jun 2014 20:29:58 -0700 (PDT)
-Received: from gentoo.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
-	[75.128.22.150]) by mx.google.com with ESMTPSA id
-	py7sm22947478pbb.78.2014.06.02.20.29.57 for <multiple recipients>
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Jun 2014 20:29:58 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jun 2014 20:33:14 -0700
-Message-Id: <1401766394-8680-3-git-send-email-ticotimo@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1401766394-8680-1-git-send-email-ticotimo@gmail.com>
-References: <1401766394-8680-1-git-send-email-ticotimo@gmail.com>
-Subject: [PATCH 2/2] clutter: update to 1.18.2
+	Tue,  3 Jun 2014 03:30:26 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Jun 2014 20:30:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,962,1392192000"; d="scan'208";a="521787689"
+Received: from kmaligas-mobl1.gar.corp.intel.com (HELO [10.255.12.167])
+	([10.255.12.167])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2014 20:30:27 -0700
+Message-ID: <538D4152.5030308@linux.intel.com>
+Date: Mon, 02 Jun 2014 20:30:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Wenlin Kang <wenlin.kang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1401760525-17167-1-git-send-email-wenlin.kang@windriver.com>
+In-Reply-To: <1401760525-17167-1-git-send-email-wenlin.kang@windriver.com>
+Subject: Re: [PATCH] fetch2/svn.py: fix Unable to fetch URL bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,82 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 03:30:00 -0000
+X-List-Received-Date: Tue, 03 Jun 2014 03:30:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Tim Orling <TicoTimo@gmail.com>
+On 06/02/2014 06:55 PM, Wenlin Kang wrote:
+> For svn source, when download a revsion on branches, if the download
+> revsion < the branch created time revsion, then it will fail.
+>
 
-* Updated Ross's install-examples.patch to current
-  ** AM_CPPFLAGS changes no longer needed
-  ** example_DATA = ... redhand.png no longer needed
-  ** minor line # changes
+> The detail description reference the Yocto Project bugzilla, please see:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6258
+>
+> Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+> ---
+>   lib/bb/fetch2/svn.py |    3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/lib/bb/fetch2/svn.py b/lib/bb/fetch2/svn.py
+> index 8847461..75e21df 100644
+> --- a/lib/bb/fetch2/svn.py
+> +++ b/lib/bb/fetch2/svn.py
+> @@ -98,7 +98,8 @@ class Svn(FetchMethod):
+>               suffix = ""
+>               if ud.revision:
+>                   options.append("-r %s" % ud.revision)
+> -                suffix = "@%s" % (ud.revision)
+> +                #follow this line can make the fetch fail when download a revsion on branches if the download revsion < the branch created time revsion.
+> +                #suffix = "@%s" % (ud.revision)
+>
+Will this cause other failures if there versions requests at a specific 
+revision?  can you detail how you tested this?
 
-Signed-off-by: Tim Orling <TicoTimo@gmail.com>
----
- .../clutter/clutter-1.0/install-examples.patch             | 14 ++------------
- meta/recipes-graphics/clutter/clutter-1.0_1.16.2.bb        |  8 --------
- meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb        |  8 ++++++++
- 3 files changed, 10 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-graphics/clutter/clutter-1.0_1.16.2.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch b/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch
-index d96b038..3b6a70e 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch
-+++ b/meta/recipes-graphics/clutter/clutter-1.0/install-examples.patch
-@@ -7,22 +7,12 @@ diff --git a/examples/Makefile.am b/examples/Makefile.am
- index 4b9b449..232cd19 100644
- --- a/examples/Makefile.am
- +++ b/examples/Makefile.am
--@@ -31,7 +31,7 @@ LDADD = \
-- AM_CFLAGS = $(CLUTTER_CFLAGS) $(GDK_PIXBUF_CFLAGS) $(MAINTAINER_CFLAGS)
-- 
-- AM_CPPFLAGS = \
---	-DTESTS_DATADIR=\""$(abs_top_srcdir)/tests/data"\" \
--+	-DTESTS_DATADIR=\""$(exampledir)"\" \
-- 	-DG_DISABLE_SINGLE_INCLUDES \
-- 	-DGLIB_DISABLE_DEPRECATION_WARNINGS \
-- 	-I$(top_srcdir)	\
--@@ -39,6 +39,8 @@ AM_CPPFLAGS = \
-+@@ -38,6 +38,7 @@ AM_CPPFLAGS = \
-  	-I$(top_srcdir)/clutter \
-  	-I$(top_builddir)/clutter
-  
- -noinst_PROGRAMS = $(all_examples)
- +exampledir = $(pkglibdir)/examples
- +example_PROGRAMS = $(all_examples)
--+example_DATA = $(top_srcdir)/tests/data/redhand.png
-  
-- -include $(top_srcdir)/build/autotools/Makefile.am.gitignore
-+ EXTRA_DIST = redhand.png
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.16.2.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.16.2.bb
-deleted file mode 100644
-index 584f9d0..0000000
---- a/meta/recipes-graphics/clutter/clutter-1.0_1.16.2.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require clutter-1.0.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
--
--SRC_URI[archive.md5sum] = "976614a2f7e60af088a0a460fe9d267e"
--SRC_URI[archive.sha256sum] = "0cb7e88c80f43fc7fb869fc6d34c42e98aa1a0ef7aa02e6aeef1b099ad33df42"
--
--SRC_URI += "file://install-examples.patch"
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb
-new file mode 100644
-index 0000000..452e7ee
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb
-@@ -0,0 +1,8 @@
-+require clutter-1.0.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-+
-+SRC_URI[archive.md5sum] = "471f5ea423e20d4140c7771873daef29"
-+SRC_URI[archive.sha256sum] = "f9fe12e6148426063c90e67dfaeb56013bf1aea224ef502223d13eab6c1add63"
-+
-+SRC_URI += "file://install-examples.patch"
--- 
-1.8.3.2
-
+>               if command == "fetch":
+>                   svncmd = "%s co %s %s://%s/%s%s %s" % (ud.basecmd, " ".join(options), proto, svnroot, ud.module, suffix, ud.module)
+>
 
