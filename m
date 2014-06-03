@@ -1,27 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DDBE6FA49
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B9665EB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 04:51:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s534pMsb014474
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 2 Jun 2014 21:51:22 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 2 Jun 2014 21:51:22 -0700
-Message-ID: <538D5448.2040308@windriver.com>
-Date: Tue, 3 Jun 2014 12:51:20 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Tue,  3 Jun 2014 05:25:12 +0000 (UTC)
+Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id C63C53F918
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Jun 2014 07:25:11 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9] autolearn=no
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Jun 2014 07:25:09 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Jun 2014 07:25:09 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Tue, 3 Jun 2014 07:25:13 +0200
+Message-ID: <538D5C34.4060905@topic.nl>
+Date: Tue, 3 Jun 2014 07:25:08 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Tim Orling <ticotimo@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1400774540-4405-1-git-send-email-ticotimo@gmail.com>
-	<1400774540-4405-2-git-send-email-ticotimo@gmail.com>
-In-Reply-To: <1400774540-4405-2-git-send-email-ticotimo@gmail.com>
-Subject: Re: [RFC/RFT 1/2] wayland: upgrade to 1.5.0
+To: <openembedded-core@lists.openembedded.org>
+References: <53843793.3030309@topic.nl>	<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>	<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>
+	<1401318733.2607.71.camel@ted>
+In-Reply-To: <1401318733.2607.71.camel@ted>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: How to find out why shared sstate is not being used for a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,146 +55,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 04:51:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jun 2014 05:25:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+=EF=BB=BFOn 05/29/2014 01:12 AM, Richard Purdie wrote:
+> On Wed, 2014-05-28 at 13:46 -0700, Christopher Larson wrote:
+>>
+>> On Wed, May 28, 2014 at 1:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>          On Mon, May 26, 2014 at 11:58 PM, Mike Looijmans
+>>          <mike.looijmans@topic.nl> wrote:
+>>          > I have a deja-vu feeling about this question.
+>>          >
+>>          > I have this recipe:
+>>          >
+>>          >
+>>          https://github.com/topic-embedded-products/meta-topic/blob/mast=
+er/recipes-bsp/fpga/fpga-image-miami.bb
+>>          >
+>>          > Which includes this one:
+>>          >
+>>          https://github.com/topic-embedded-products/meta-topic/blob/mast=
+er/recipes-bsp/fpga/fpga-image.inc
+>>          >
+>>          > I have a build server that exports its sstate-cache
+>>          directory through HTTP,
+>>          > and a local host that attempts to use that sstate-cache.
+>>          This works fine,
+>>          > except for the recipe above. Building this recipe takes
+>>          about 1 hour, so i
+>>          > really really really want to share that state at any cost.
+>>          As you can see,
+>>          > I've done a big shotgun blast of "vardepdsexclude" to get
+>>          the recipe to be
+>>          > as common as possible. Still any host wants to build its own
+>>          version.
+>>          >
+>>          > How can I diagnose the REASON that my machine thinks it
+>>          isn't building the
+>>          > exact same thing as the build server?
+>>
+>>
+>>          see https://wiki.yoctoproject.org/wiki/Enable_sstate_cache
+>>          towards the end it talks about verifying sstate sigs
+>>
+>>
+>> If the sstate is local at least, you can use bitbake -S printdiff
+>> <target>. There's also bitbake-whatchanged, but the bitbake one is
+>> superior.
+
+It's on two different machines, so I think that does not qualify as "local"=
+.
+
+> Worst case, you can pull the siginfo files from one build and the
+> siginfo files from the sstate mirror and then see which ones are
+> different, then run bitbake-diffsigs X Y to compare the two files.
+
+How do I find what to pull? I have (ssh) access to both machines. The=20
+sstate-cache dir contains a bunch of two-digit directories and a gazillion =
+files.
+
+I could just copy the whole thing to one machine, there's gigabit between=20
+them, but then what do I do with these files?
 
 
-
-On 05/23/2014 12:02 AM, Tim Orling wrote:
-> From: Tim Orling <TicoTimo@gmail.com>
 >
-> * update disable-macro-checks-not-used-for-scanner.patch
->    = trivial change to non-patched text (+ posix_fallocate)
-> * drop just-scanner.patch, no longer needed
-
-I'm afraid that we can't drop this patch, I met the same error on
-CentOS 5.10 again, as described in the original patch:
-
- From f674544d4f6f5f763e449207da77a561b22eff97 Mon Sep 17 00:00:00 2001
-From: Valentin Popa <valentin.popa@intel.com>
-Date: Fri, 7 Feb 2014 16:36:47 +0200
-Subject: [PATCH] just scanner
-
-We only build wayland-native for the scanner, so disable the bits we don't
-actually need.  This gives us a small speed up but importantly should allow
-wayland-native to compile on older hosts such as CentOS 5 which currently fails:
-
-| wayland-1.0.6/src/wayland-server.c:1245: error: 'O_CLOEXEC' undeclared (first 
-use in this function)
-| wayland-1.0.6/src/event-loop.c:34:25: error: sys/timerfd.h: No such file or 
-directory
-| wayland-1.0.6/src/event-loop.c:199: error: 'CLOCK_MONOTONIC' undeclared (first 
-use in this function)
-| wayland-1.0.6/src/event-loop.c:199: error: 'TFD_CLOEXEC' undeclared (first use 
-in this function)
-| wayland-1.0.6/src/event-loop.c:268: error: 'SFD_CLOEXEC' undeclared (first use 
-in this function)
-
-Upstream-Status: Inappropriate
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-
-// Robert
-
+> bitbake -S just tries to automate that process if it can.
 >
-> Signed-off-by: Tim Orling <TicoTimo@gmail.com>
-> ---
->   ...disable-macro-checks-not-used-for-scanner.patch |  2 +-
->   .../wayland/wayland/just-scanner.patch             | 49 ----------------------
->   .../wayland/{wayland_1.4.0.bb => wayland_1.5.0.bb} |  7 ++--
->   3 files changed, 4 insertions(+), 54 deletions(-)
->   delete mode 100644 meta/recipes-graphics/wayland/wayland/just-scanner.patch
->   rename meta/recipes-graphics/wayland/{wayland_1.4.0.bb => wayland_1.5.0.bb} (89%)
->
-> diff --git a/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch b/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
-> index bf499bb..cd8bc55 100644
-> --- a/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
-> +++ b/meta/recipes-graphics/wayland/wayland/disable-macro-checks-not-used-for-scanner.patch
-> @@ -20,7 +20,7 @@ diff --git a/configure.ac b/configure.ac
->   +++ b/configure.ac
->   @@ -41,16 +41,16 @@ AC_SUBST(GCC_CFLAGS)
->
-> - AC_CHECK_FUNCS([accept4 mkostemp])
-> + AC_CHECK_FUNCS([accept4 mkostemp posix_fallocate])
->
->   -AC_CHECK_DECL(SFD_CLOEXEC,[],
->   -	      [AC_MSG_ERROR("SFD_CLOEXEC is needed to compile wayland")],
-> diff --git a/meta/recipes-graphics/wayland/wayland/just-scanner.patch b/meta/recipes-graphics/wayland/wayland/just-scanner.patch
-> deleted file mode 100644
-> index ae9935e..0000000
-> --- a/meta/recipes-graphics/wayland/wayland/just-scanner.patch
-> +++ /dev/null
-> @@ -1,49 +0,0 @@
-> -From f674544d4f6f5f763e449207da77a561b22eff97 Mon Sep 17 00:00:00 2001
-> -From: Valentin Popa <valentin.popa@intel.com>
-> -Date: Fri, 7 Feb 2014 16:36:47 +0200
-> -Subject: [PATCH] just scanner
-> -
-> -We only build wayland-native for the scanner, so disable the bits we don't
-> -actually need.  This gives us a small speed up but importantly should allow
-> -wayland-native to compile on older hosts such as CentOS 5 which currently fails:
-> -
-> -| wayland-1.0.6/src/wayland-server.c:1245: error: 'O_CLOEXEC' undeclared (first use in this function)
-> -| wayland-1.0.6/src/event-loop.c:34:25: error: sys/timerfd.h: No such file or directory
-> -| wayland-1.0.6/src/event-loop.c:199: error: 'CLOCK_MONOTONIC' undeclared (first use in this function)
-> -| wayland-1.0.6/src/event-loop.c:199: error: 'TFD_CLOEXEC' undeclared (first use in this function)
-> -| wayland-1.0.6/src/event-loop.c:268: error: 'SFD_CLOEXEC' undeclared (first use in this function)
-> -
-> -Upstream-Status: Inappropriate
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-> ----
-> - Makefile.am     | 2 +-
-> - src/Makefile.am | 2 +-
-> - 2 files changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/Makefile.am b/Makefile.am
-> -index 99607b0..ecce1f1 100644
-> ---- a/Makefile.am
-> -+++ b/Makefile.am
-> -@@ -2,7 +2,7 @@ if BUILD_DOCS
-> - doc_subdir = doc
-> - endif
-> -
-> --SUBDIRS = protocol src $(doc_subdir) tests cursor
-> -+SUBDIRS = protocol src $(doc_subdir)
-> -
-> - ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-> -
-> -diff --git a/src/Makefile.am b/src/Makefile.am
-> -index 15f44a5..b938d17 100644
-> ---- a/src/Makefile.am
-> -+++ b/src/Makefile.am
-> -@@ -1,4 +1,4 @@
-> --lib_LTLIBRARIES = libwayland-server.la libwayland-client.la
-> -+#lib_LTLIBRARIES = libwayland-server.la libwayland-client.la
-> - noinst_LTLIBRARIES = libwayland-util.la
-> -
-> - include_HEADERS =				\
-> ---
-> -1.8.3.2
-> -
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.4.0.bb b/meta/recipes-graphics/wayland/wayland_1.5.0.bb
-> similarity index 89%
-> rename from meta/recipes-graphics/wayland/wayland_1.4.0.bb
-> rename to meta/recipes-graphics/wayland/wayland_1.5.0.bb
-> index 9f6419d..b1ae59e 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.4.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.5.0.bb
-> @@ -11,10 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
->                       file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
->
->   SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
-> -SRC_URI[md5sum] = "332cf9191837be12638a29265ed7cf46"
-> -SRC_URI[sha256sum] = "18f33b9f15b4c8b662fb1968e7636e7926b419dfc48de8a164b3a3d7095c5a58"
-> -
-> -SRC_URI_append_class-native = " file://just-scanner.patch \
-> +SRC_URI[md5sum] = "1d882776b27329b91d2d500b6d66dd1d"
-> +SRC_URI[sha256sum] = "0069e1e9af888b3e05384380ad8cc6c976ea3e81d08ba19b7675ce1d693a41b5"
-> +SRC_URI_append_class-native = " \
->       file://disable-macro-checks-not-used-for-scanner.patch \
->       "
->   EXTRA_OECONF_class-native = "--disable-documentation --enable-scanner"
->
+
+bitbake -S usually crashes here.
+
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
+http://medteceurope.com/index.php?page=3Dhome-en
+
 
