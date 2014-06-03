@@ -1,25 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EF296FAA8
+	by mail.openembedded.org (Postfix) with ESMTP id 60A8A6FAAD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Jun 2014 03:26:34 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Jun 2014 20:26:30 -0700
+	by orsmga101.jf.intel.com with ESMTP; 02 Jun 2014 20:26:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,962,1392192000"; d="scan'208";a="521786729"
+X-IronPort-AV: E=Sophos;i="4.98,962,1392192000"; d="scan'208";a="521786742"
 Received: from kmaligas-mobl1.gar.corp.intel.com (HELO swold-linux.bigsur.com)
 	([10.255.12.167])
-	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2014 20:26:14 -0700
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2014 20:26:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jun 2014 20:26:07 -0700
-Message-Id: <720bfd3c1a0f0d7dad6f7e613951ded302f495e8.1401765630.git.sgw@linux.intel.com>
+Date: Mon,  2 Jun 2014 20:26:12 -0700
+Message-Id: <e747959cfa210ec470fc1c37b253649a6dbab10e.1401765630.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1401765630.git.sgw@linux.intel.com>
 References: <cover.1401765630.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1401765630.git.sgw@linux.intel.com>
 References: <cover.1401765630.git.sgw@linux.intel.com>
-Subject: [PATCH 2/7] libcheck: Update to 0.9.13
+Subject: [PATCH 7/7] update-rc.d/useradd: Add additional dependecies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +34,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jun 2014 03:26:35 -0000
 
+These dependcies are needed to ensure that thier packages are created
+correctly since these classes have runtime dependiences in their packages
+but they are not actually created yet at rootfs time.
+
+[YOCTO #6072]
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libcheck/{libcheck_0.9.12.bb => libcheck_0.9.13.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libcheck/{libcheck_0.9.12.bb => libcheck_0.9.13.bb} (79%)
+ meta/classes/update-rc.d.bbclass | 2 ++
+ meta/classes/useradd.bbclass     | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libcheck/libcheck_0.9.12.bb b/meta/recipes-support/libcheck/libcheck_0.9.13.bb
-similarity index 79%
-rename from meta/recipes-support/libcheck/libcheck_0.9.12.bb
-rename to meta/recipes-support/libcheck/libcheck_0.9.13.bb
-index 2a83031..8c063d4 100644
---- a/meta/recipes-support/libcheck/libcheck_0.9.12.bb
-+++ b/meta/recipes-support/libcheck/libcheck_0.9.13.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
- SRC_URI = "${SOURCEFORGE_MIRROR}/check/check-${PV}.tar.gz \
-           "
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 56eef4e..ca9486b 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -1,6 +1,7 @@
+ UPDATERCPN ?= "${PN}"
  
--SRC_URI[md5sum] = "46fe540d1a03714c7a1967dbc6d484e7"
--SRC_URI[sha256sum] = "c7d47e55e133a0ca19a52e08a99333ac55cb22618b53719b7f4117a1875b1ea3"
-+SRC_URI[md5sum] = "95530868f81a9496b2518fd2b713008a"
-+SRC_URI[sha256sum] = "ca6589c34f9c60ffd4c3e198ce581e944a9f040ca9352ed54068dd61bebb5cb7"
+ DEPENDS_append = " update-rc.d-native"
++DEPENDS_append_class-target = " initscripts"
+ UPDATERCD = "update-rc.d"
+ UPDATERCD_class-cross = ""
+ UPDATERCD_class-native = ""
+@@ -67,6 +68,7 @@ python __anonymous() {
+ }
  
- S = "${WORKDIR}/check-${PV}"
+ PACKAGESPLITFUNCS_prepend = "populate_packages_updatercd "
++PACKAGESPLITFUNCS_remove_class-nativesdk = "populate_packages_updatercd "
  
+ populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
+ 
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 3dd7a61..ea15dab 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -4,7 +4,7 @@ inherit useradd_base
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+ DEPENDS_append = "${USERADDDEPENDS}"
+-USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot shadow"
++USERADDDEPENDS = " base-files base-passwd shadow-native shadow-sysroot shadow"
+ USERADDDEPENDS_class-cross = ""
+ USERADDDEPENDS_class-native = ""
+ USERADDDEPENDS_class-nativesdk = ""
 -- 
 1.8.3.1
 
