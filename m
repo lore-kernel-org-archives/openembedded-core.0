@@ -1,25 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 60A8A6FAAD
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 626206FAB1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 03:26:34 +0000 (UTC)
+	Tue,  3 Jun 2014 03:26:29 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Jun 2014 20:26:31 -0700
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2014 20:21:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,962,1392192000"; d="scan'208";a="521786742"
+X-IronPort-AV: E=Sophos;i="4.98,962,1392192000"; d="scan'208";a="521786731"
 Received: from kmaligas-mobl1.gar.corp.intel.com (HELO swold-linux.bigsur.com)
 	([10.255.12.167])
-	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2014 20:26:15 -0700
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2014 20:26:14 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jun 2014 20:26:12 -0700
-Message-Id: <e747959cfa210ec470fc1c37b253649a6dbab10e.1401765630.git.sgw@linux.intel.com>
+Date: Mon,  2 Jun 2014 20:26:08 -0700
+Message-Id: <8ecde9b243308546b77455bfd8391509657445e9.1401765630.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1401765630.git.sgw@linux.intel.com>
 References: <cover.1401765630.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1401765630.git.sgw@linux.intel.com>
 References: <cover.1401765630.git.sgw@linux.intel.com>
-Subject: [PATCH 7/7] update-rc.d/useradd: Add additional dependecies
+Subject: [PATCH 3/7] libffi: Update to 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +34,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jun 2014 03:26:35 -0000
 
-These dependcies are needed to ensure that thier packages are created
-correctly since these classes have runtime dependiences in their packages
-but they are not actually created yet at rootfs time.
-
-[YOCTO #6072]
+LICENSE file has updated year
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/update-rc.d.bbclass | 2 ++
- meta/classes/useradd.bbclass     | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-gnome/libffi/{libffi_3.0.13.bb => libffi_3.1.bb} | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/libffi/{libffi_3.0.13.bb => libffi_3.1.bb} (77%)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 56eef4e..ca9486b 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -1,6 +1,7 @@
- UPDATERCPN ?= "${PN}"
+diff --git a/meta/recipes-gnome/libffi/libffi_3.0.13.bb b/meta/recipes-gnome/libffi/libffi_3.1.bb
+similarity index 77%
+rename from meta/recipes-gnome/libffi/libffi_3.0.13.bb
+rename to meta/recipes-gnome/libffi/libffi_3.1.bb
+index 9897ca8..bc97aba 100644
+--- a/meta/recipes-gnome/libffi/libffi_3.0.13.bb
++++ b/meta/recipes-gnome/libffi/libffi_3.1.bb
+@@ -7,13 +7,13 @@ library really only provides the lowest, machine dependent layer of a fully feat
+ A layer must exist above `libffi' that handles type conversions for values passed between the two languages."
  
- DEPENDS_append = " update-rc.d-native"
-+DEPENDS_append_class-target = " initscripts"
- UPDATERCD = "update-rc.d"
- UPDATERCD_class-cross = ""
- UPDATERCD_class-native = ""
-@@ -67,6 +68,7 @@ python __anonymous() {
- }
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e54c573c49435ccbbd3f6dc9e49a065e"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3610bb17683a0089ed64055416b2ae1b"
  
- PACKAGESPLITFUNCS_prepend = "populate_packages_updatercd "
-+PACKAGESPLITFUNCS_remove_class-nativesdk = "populate_packages_updatercd "
+-SRC_URI = "ftp://sourceware.org/pub/libffi/${BPN}-${PV}.tar.gz \
++SRC_URI = "ftp://sourceware.org/pub/libffi/${BP}.tar.gz \
+            file://fix-libffi.la-location.patch"
  
- populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
+-SRC_URI[md5sum] = "45f3b6dbc9ee7c7dfbbbc5feba571529"
+-SRC_URI[sha256sum] = "1dddde1400c3bcb7749d398071af88c3e4754058d2d4c0b3696c2f82dc5cf11c"
++SRC_URI[md5sum] = "f5898b29bbfd70502831a212d9249d10"
++SRC_URI[sha256sum] = "97feeeadca5e21870fa4433bc953d1b3af3f698d5df8a428f68b73cd60aef6eb"
  
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 3dd7a61..ea15dab 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -4,7 +4,7 @@ inherit useradd_base
- # target sysroot, and shadow -native and -sysroot provide the utilities
- # and support files needed to add and modify user and group accounts
- DEPENDS_append = "${USERADDDEPENDS}"
--USERADDDEPENDS = " base-passwd shadow-native shadow-sysroot shadow"
-+USERADDDEPENDS = " base-files base-passwd shadow-native shadow-sysroot shadow"
- USERADDDEPENDS_class-cross = ""
- USERADDDEPENDS_class-native = ""
- USERADDDEPENDS_class-nativesdk = ""
+ EXTRA_OECONF += "--disable-builddir"
+ 
 -- 
 1.8.3.1
 
