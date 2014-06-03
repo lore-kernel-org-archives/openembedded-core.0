@@ -1,35 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 00E5660424
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 0973E6B7D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 14:10:32 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s53EARBh026087; Tue, 3 Jun 2014 15:10:27 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MvrZzNWpBT5M; Tue,  3 Jun 2014 15:10:27 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s53EANf6026082
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 3 Jun 2014 15:10:24 +0100
-Message-ID: <1401804615.12440.98.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Tue, 03 Jun 2014 15:10:15 +0100
-In-Reply-To: <538DD39F.1080701@topic.nl>
-References: <53843793.3030309@topic.nl>
-	<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>
-	<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>
-	<1401318733.2607.71.camel@ted> <538D5C34.4060905@topic.nl>
-	<538D5E8C.1090008@topic.nl> <1401785145.12440.51.camel@ted>
-	<538DD39F.1080701@topic.nl>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to find out why shared sstate is not being used for a recipe
+	Tue,  3 Jun 2014 15:16:15 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id k14so6961429wgh.19
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Jun 2014 08:16:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zirIK5SOqzGbZmsEU1eQHKJrJOSvvvLGD4XWIt00fJM=;
+	b=VIPaZdc45lcnmbdfrNwbl4zlOpoyci+5cg/zfY/9d3fckNhJtLdUQqFVKGbGQ1VjEQ
+	SALvjGRSKpRbtxjKdJW1qmU8sriuVpnWBI1ToS1y4dPszz5aTEkykkcGB62aa7kv84nM
+	Hu7ZSp8haU+JiZzioBL+Ecc1vld0y1C6bfBXlFLEKE42rHpDBTjHkMwlhOGclwPRLwPs
+	N6W+/A9i1sEeQ8tYrvkxSRrDXauUdKDfGuLV/sBM9QiQgD5EHVpYkzdPPlY+rRk/CZlQ
+	sLGaALpFlAOiyxYAQp0h3uFXfkMZfx8aESFpI9aEGjVdRu+7hcX4GO8jmiLi8KQvW0Zh
+	ZAVg==
+X-Gm-Message-State: ALoCoQkPrShkQsXVEzA2YoTE/eKVjZvtm4SDLQDIYuYFW6HnR0PT3K+eN+jWwxqCljc/gwu4hRVd
+X-Received: by 10.194.62.176 with SMTP id z16mr62074127wjr.76.1401808575535;
+	Tue, 03 Jun 2014 08:16:15 -0700 (PDT)
+Received: from adamian-desk.corp.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id fh5sm42313148wic.9.2014.06.03.08.16.14
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Jun 2014 08:16:14 -0700 (PDT)
+Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
+	id D878B560496; Tue,  3 Jun 2014 16:16:16 +0100 (BST)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jun 2014 16:16:15 +0100
+Message-Id: <1401808575-2417-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH 01/13] toaster.bbclass: exclude variable dependency on toaster postfunc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,57 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 14:10:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Jun 2014 15:16:23 -0000
 
-On Tue, 2014-06-03 at 15:54 +0200, Mike Looijmans wrote:
-> ﻿On 06/03/2014 10:45 AM, Richard Purdie wrote:
-> > the next steps depend upon how clear the differences are. Basically
-> > there should be some degree of commonality between the two builds and at
-> > some point there will be divergence. We need to pinpoint the point of
-> > divergence. The divergence will be in fpga-image-miami itself or in one
-> > of its dependencies.
-> 
-> ALL stamps for ALL tasks for fpga-image-miami are different. There's a few 
-> thousand lines in these files, with very few similarities.
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Ok, this gives a very strong pointer then, see below.
+This patch fixes an issue where the toaster postfuncs were
+added to the task signature, making impossible the reuse
+of sstate caches from builds outside toaster control.
 
-> I'll just go for the "do_fetch" task then, since that's about the first to 
-> execute.
+Now the signatures do not differ between toaster and toaster-less
+builds.
 
-This is a good move.
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/classes/toaster.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> So far, on one project (that is, NOT the fpga-image-miami) the SRC_URI is 
-> slightly different. The machines are on various sides of a router/firewall, so 
-> SRC_URI="git://${MY_SERVER}/blabla" evaluates differently.
-> 
-> How can I tell the system that the value of "MY_SERVER" is irrelevant to each 
-> and every build step in each and every recipe?
-
-The SRC_URI changing would indeed cause the tasks build separately since
-bitbake thinks they're different things.
-
-You have two ways of addressing this. Firstly, you could setup PREMIRROR
-entries for these git urls which remaps them to the correct thing in
-each case. There would then be one "canonical" url in the recipe and
-you'd not need to change the hash generation.
-
-The other way would be to either exclude the variable from the checksum
-generation or give it a specific value. This would be something like:
-
-do_fetch[vardepsexclude] += "SRC_URI"
-
-you may also have to do this with other tasks that use SRC_URI such as
-do_unpack and do_patch. The other option is:
-
-SRC_URI[vardepvalue] = "git://canonical/url/for/recipe"
-
-which gives it a specific value to use for checksum purposes.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 4244b2c..95499a5 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -326,6 +326,8 @@ toaster_collect_task_stats[eventmask] = "bb.event.BuildCompleted bb.build.TaskSu
+ addhandler toaster_buildhistory_dump
+ toaster_buildhistory_dump[eventmask] = "bb.event.BuildCompleted"
+ do_package[postfuncs] += "toaster_package_dumpdata "
++do_package[vardepsexclude] += "toaster_package_dumpdata "
+ 
+ do_rootfs[postfuncs] += "toaster_image_dumpdata "
+ do_rootfs[postfuncs] += "toaster_licensemanifest_dump "
++do_rootfs[vardepsexclude] += "toaster_image_dumpdata toaster_licensemanifest_dump"
+-- 
+1.9.1
 
 
