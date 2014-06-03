@@ -1,24 +1,45 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 518766F50C
+Return-Path: <saul.wold@intel.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CD7460E23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 05:59:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s535xuOj019290
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  3 Jun 2014 06:33:13 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id r10so4235944pdi.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jun 2014 22:59:57 -0700 (PDT)
-Received: from PEK-WKANG-D1.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 2 Jun 2014 22:59:55 -0700
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Jun 2014 13:59:17 +0800
-Message-ID: <1401775157-20965-1-git-send-email-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon, 02 Jun 2014 23:33:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:organization:user-agent
+	:mime-version:to:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=AFLZeneRSE0N9pJtvxkFPBkb+w+OAkacuDeqVzvuyqA=;
+	b=QLn7N69cvUNOaxEFmV5gliJAmrPjunU+9CFtE8dehbgah/KeBMV1Pbt6TmgDxDSGGu
+	Ru5i6WTFhmWJ1FECT7QWKU0GW4Dq3Dc9tW7B0HPJSZ9BP586pUtTItukB53hjR+aAIOt
+	6AA6DKETTWs704p1wRrBQNhEmDfwIEtkcjLGbR/0kbfLo5nIWo56PD7qOamRUyxeocvX
+	BXrbOH0L2oq5nmWnboXMhAEUAhtgCyaC6Ibo87Ec9JjJrx073yQilU5EqEcscJn4FK6l
+	0bCWaIVjsYd93azyYRGYD47sThXrl18rjs0dKLG8X2XEvzzTtlb7SLYyx2ey+12/zlzL
+	/+dQ==
+X-Gm-Message-State: ALoCoQn2uyhNqEOAhg3wPxAzB2baDMyzVA0ZOamsAsfu8DUty+cKkLxcUaCRJomgpSE1U0aIriYy
+X-Received: by 10.68.172.193 with SMTP id be1mr47204952pbc.31.1401777194079;
+	Mon, 02 Jun 2014 23:33:14 -0700 (PDT)
+Received: from [10.6.18.24] (c-50-186-0-160.hsd1.or.comcast.net.
+	[50.186.0.160]) by mx.google.com with ESMTPSA id
+	jt7sm23823520pbc.46.2014.06.02.23.33.13 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 02 Jun 2014 23:33:13 -0700 (PDT)
+Message-ID: <538D6C23.9060405@intel.com>
+Date: Mon, 02 Jun 2014 23:33:07 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Subject: [PATCH] bash: fixed bash build error
+To: Hongxu Jia <hongxu.jia@windriver.com>, 
+	openembedded-core@lists.openembedded.org, ross.burton@intel.com
+References: <cover.1401420117.git.hongxu.jia@windriver.com>
+	<c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
+In-Reply-To: <c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 1/3] apr: upgrade to 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,133 +52,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 06:00:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Jun 2014 06:33:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When build bash, a error occurs, the log follow:
-make[1]: *** No rule to make target `/config.status',
-needed by `Makefile'. Stop.
-make: [installdirs] Error 2 (ignored)
+On 05/29/2014 08:27 PM, Hongxu Jia wrote:
+> The LICENSE has no change, except a newline added.
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} (91%)
+>
+> diff --git a/meta/recipes-support/apr/apr_1.4.8.bb b/meta/recipes-support/apr/apr_1.5.1.bb
+> similarity index 91%
+> rename from meta/recipes-support/apr/apr_1.4.8.bb
+> rename to meta/recipes-support/apr/apr_1.5.1.bb
+> index 0a77ad7..7f2d2ca 100644
+> --- a/meta/recipes-support/apr/apr_1.4.8.bb
+> +++ b/meta/recipes-support/apr/apr_1.5.1.bb
+> @@ -4,7 +4,7 @@ SECTION = "libs"
+>   DEPENDS = "util-linux"
+>
+>   LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
+>                       file://include/apr_lib.h;endline=17;md5=ee42fa7575dc40580a9e01c1b75fae96"
+>
+>   BBCLASSEXTEND = "native"
+> @@ -16,8 +16,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+>              file://run-ptest \
+>   "
+>
+> -SRC_URI[md5sum] = "ce2ab01a0c3cdb71cf0a6326b8654f41"
+> -SRC_URI[sha256sum] = "61b8d2f8d321c6365ee3d71d0bb41f3a89c44da6124cc5b407a3b8319d660421"
+> +SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
+> +SRC_URI[sha256sum] = "e94abe431d4da48425fcccdb27b469bd0f8151488f82e5630a56f26590e198ac"
+>
+>   inherit autotools-brokensep lib_package binconfig multilib_header ptest
+>
+>
+There may be an issue with your apr udpate:
 
-The cause is that some variable,PACKAGE and VERSION don't be defined,
-and others don't get correct value, eg, top_builddir in po/Makevar,
-GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/122/steps/BuildImages/logs/stdio
 
-The patch fixed above problem.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
----
- .../bash/bash/fix-build-error.patch                |   83 ++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.3.bb             |    1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/fix-build-error.patch
-
-diff --git a/meta/recipes-extended/bash/bash/fix-build-error.patch b/meta/recipes-extended/bash/bash/fix-build-error.patch
-new file mode 100644
-index 0000000..9db6fe2
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/fix-build-error.patch
-@@ -0,0 +1,83 @@
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+
-+diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
-+--- bash-4.3-org/aclocal.m4	2014-05-23 15:28:54.252565146 +0800
-++++ bash-4.3/aclocal.m4	2014-05-23 15:33:19.924570133 +0800
-+@@ -3710,6 +3710,14 @@
-+   AC_REQUIRE([AC_PROG_INSTALL])dnl
-+   AC_REQUIRE([AM_MKINSTALLDIRS])dnl
-+   AC_REQUIRE([AM_NLS])dnl
-++  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
-++  AC_REQUIRE([AC_PROG_SED])dnl
-++
-++  AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
-++
-++  dnl Release version of the gettext macros. This is used to ensure that
-++  dnl the gettext macros and po/Makefile.in.in are in sync.
-++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
-+ 
-+   dnl Perform the following tests also if --disable-nls has been given,
-+   dnl because they are needed for "make dist" to work.
-+@@ -3723,6 +3731,22 @@
-+     :)
-+   AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
-+ 
-++ dnl Test whether it is GNU msgfmt >= 0.15.
-++changequote(,)dnl
-++  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
-++    *) MSGFMT_015=$MSGFMT ;;
-++  esac
-++changequote([,])dnl
-++  AC_SUBST([MSGFMT_015])
-++changequote(,)dnl
-++  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
-++    *) GMSGFMT_015=$GMSGFMT ;;
-++  esac
-++changequote([,])dnl
-++  AC_SUBST([GMSGFMT_015])
-++
-+   dnl Search for GNU xgettext 0.12 or newer in the PATH.
-+   dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
-+   dnl The second test excludes FreeBSD xgettext.
-+@@ -3733,6 +3757,15 @@
-+   dnl Remove leftover from FreeBSD xgettext call.
-+   rm -f messages.po
-+ 
-++  dnl Test whether it is GNU xgettext >= 0.15.
-++changequote(,)dnl
-++  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
-++    *) XGETTEXT_015=$XGETTEXT ;;
-++  esac
-++changequote([,])dnl
-++  AC_SUBST([XGETTEXT_015])
-++
-+   dnl Search for GNU msgmerge 0.11 or newer in the PATH.
-+   AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
-+     [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
-+diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
-+--- bash-4.3-org/configure.ac	2014-05-23 15:28:54.208565145 +0800
-++++ bash-4.3/configure.ac	2014-05-23 15:29:35.640565923 +0800
-+@@ -1201,6 +1201,10 @@
-+ #AC_SUBST(ALLOCA_SOURCE)
-+ #AC_SUBST(ALLOCA_OBJECT)
-+ 
-++# Define the identity of the package.
-++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
-++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
-++
-+ AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile lib/glob/Makefile \
-+ 	  lib/intl/Makefile \
-+ 	  lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
-+diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
-+--- bash-4.3-org/po/Makevars	2014-05-23 15:28:54.204565145 +0800
-++++ bash-4.3/po/Makevars	2014-05-23 15:30:04.772566469 +0800
-+@@ -5,7 +5,7 @@
-+ 
-+ # These two variables depend on the location of this directory.
-+ subdir = po
-+-top_builddir = $(BUILD_DIR)
-++top_builddir = ..
-+ 
-+ # These options get passed to xgettext.
-+ XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
-diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
-index 25b7410..3ddf145 100644
---- a/meta/recipes-extended/bash/bash_4.3.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.bb
-@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            file://build-tests.patch \
-            file://test-output.patch \
-            file://run-ptest \
-+           file://fix-build-error.patch \
-            "
- 
- SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
--- 
-1.7.9.5
+Sau!
 
 
