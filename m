@@ -1,41 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CEDCF6B711
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 966956FA48
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 08:31:54 +0000 (UTC)
-Received: by mail-pb0-f50.google.com with SMTP id ma3so5188221pbc.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jun 2014 01:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=fqDiJAi5Pbjhzoti1q9rnU777retOwiA03Y6+F7Pnoo=;
-	b=H1DNv0JwYL4iMXhPDYQ/vJ7mAaP/Mly5sBqIYCEIbGw2D8N4v0mjG9hY1dvXfybFtQ
-	ASAwvdJg9BjqxDBoT9oCQ1yPpjSgsMgwVRqSRSzmNq/QSj1qmzUoQczDMZemqQYWtBpA
-	F9LhCzZPjd3IBghUwCFin2Ec4Rp4PSeTyvXD4q5JawMguviZKaIjhES32CZ9uRxO2zWN
-	igXPKiGVdLjoiCrOEH9v+ubWJXlI4hYhMXrXhlw6a+XwW0ST+vENQvF1A0LH6ku+ZHJj
-	uW6uj6TImVCgGn7ndMZ5ke5kXgjXrwFvoiSdobGScWX7fLPiQ/YyIFtM5KfyJ6RkJvoJ
-	NHOA==
-X-Received: by 10.68.164.4 with SMTP id ym4mr47495078pbb.53.1401784315436;
-	Tue, 03 Jun 2014 01:31:55 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	wp3sm24950379pbc.67.2014.06.03.01.31.52 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Jun 2014 01:31:54 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 3 Jun 2014 10:32:04 +0200
+	Tue,  3 Jun 2014 08:46:04 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s538jxDf008687; Tue, 3 Jun 2014 09:45:59 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Cs8GO4G2MyhW; Tue,  3 Jun 2014 09:45:58 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s538jsEi008659
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 3 Jun 2014 09:45:56 +0100
+Message-ID: <1401785145.12440.51.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20140603083204.GN2426@jama>
+Date: Tue, 03 Jun 2014 09:45:45 +0100
+In-Reply-To: <538D5E8C.1090008@topic.nl>
 References: <53843793.3030309@topic.nl>
 	<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>
 	<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>
 	<1401318733.2607.71.camel@ted> <538D5C34.4060905@topic.nl>
-MIME-Version: 1.0
-In-Reply-To: <538D5C34.4060905@topic.nl>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<538D5E8C.1090008@topic.nl>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: How to find out why shared sstate is not being used for a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,127 +41,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 08:32:02 -0000
-X-Groupsio-MsgNum: 53776
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uQ3BaAlxDi9XKvis"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 03 Jun 2014 08:46:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---uQ3BaAlxDi9XKvis
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 03, 2014 at 07:25:08AM +0200, Mike Looijmans wrote:
-> =EF=BB=BFOn 05/29/2014 01:12 AM, Richard Purdie wrote:
-> > On Wed, 2014-05-28 at 13:46 -0700, Christopher Larson wrote:
-> >>
-> >> On Wed, May 28, 2014 at 1:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> >>          On Mon, May 26, 2014 at 11:58 PM, Mike Looijmans
-> >>          <mike.looijmans@topic.nl> wrote:
-> >>          > I have a deja-vu feeling about this question.
-> >>          >
-> >>          > I have this recipe:
-> >>          >
-> >>          >
-> >>          https://github.com/topic-embedded-products/meta-topic/blob/ma=
-ster/recipes-bsp/fpga/fpga-image-miami.bb
-> >>          >
-> >>          > Which includes this one:
-> >>          >
-> >>          https://github.com/topic-embedded-products/meta-topic/blob/ma=
-ster/recipes-bsp/fpga/fpga-image.inc
-> >>          >
-> >>          > I have a build server that exports its sstate-cache
-> >>          directory through HTTP,
-> >>          > and a local host that attempts to use that sstate-cache.
-> >>          This works fine,
-> >>          > except for the recipe above. Building this recipe takes
-> >>          about 1 hour, so i
-> >>          > really really really want to share that state at any cost.
-> >>          As you can see,
-> >>          > I've done a big shotgun blast of "vardepdsexclude" to get
-> >>          the recipe to be
-> >>          > as common as possible. Still any host wants to build its own
-> >>          version.
-> >>          >
-> >>          > How can I diagnose the REASON that my machine thinks it
-> >>          isn't building the
-> >>          > exact same thing as the build server?
-> >>
-> >>
-> >>          see https://wiki.yoctoproject.org/wiki/Enable_sstate_cache
-> >>          towards the end it talks about verifying sstate sigs
-> >>
-> >>
-> >> If the sstate is local at least, you can use bitbake -S printdiff
-> >> <target>. There's also bitbake-whatchanged, but the bitbake one is
-> >> superior.
->=20
-> It's on two different machines, so I think that does not qualify as "loca=
-l".
->=20
-> > Worst case, you can pull the siginfo files from one build and the
-> > siginfo files from the sstate mirror and then see which ones are
-> > different, then run bitbake-diffsigs X Y to compare the two files.
->=20
-> How do I find what to pull? I have (ssh) access to both machines. The=20
-> sstate-cache dir contains a bunch of two-digit directories and a gazillio=
-n files.
->=20
-> I could just copy the whole thing to one machine, there's gigabit between=
-=20
-> them, but then what do I do with these files?
-
-You can also use openembedded-core/scripts/sstate-diff-machines.sh
-script to create just .sigdata files on both machines and then copy just
-this sstate-diff directory, see header of that script for very short
-readme.
-
-> > bitbake -S just tries to automate that process if it can.
+On Tue, 2014-06-03 at 07:35 +0200, Mike Looijmans wrote:
+> ﻿On 06/03/2014 07:25 AM, Mike Looijmans wrote:
+> >> Worst case, you can pull the siginfo files from one build and the
+> >> siginfo files from the sstate mirror and then see which ones are
+> >> different, then run bitbake-diffsigs X Y to compare the two files.
 > >
->=20
-> bitbake -S usually crashes here.
+> > How do I find what to pull? I have (ssh) access to both machines. The
+> > sstate-cache dir contains a bunch of two-digit directories and a gazillion files.
+> >
+> > I could just copy the whole thing to one machine, there's gigabit between
+> > them, but then what do I do with these files?
+> 
+> mike:~/zynq_platform/build$ find sstate-cache -name 
+> '*fpga-image-miami*.siginfo' | wc -l
+> 480
+> 
+> Suppose I copy them. Where do I copy them to, and what do I do with these 480 
+> files to tell me why the system insists on rebuilding this package?
+> 
+> Mike.
+> 
+> PS: I really really want to find out. Several of these FPGA recipes take 3.5 
+> hours to build on the fastest i5 we could buy. So you can imagine we really 
+> want to prevent having to build it more than once.
 
-Are you using latest bitbake? There was fix for that in newer bitbake alrea=
-dy/
+Let me explain the manual process you can follow for this. Its a pain to
+walk through and its what -S attempts to automate but you should be able
+to get an answer manually this way.
 
-> Met vriendelijke groet / kind regards,
->=20
-> Mike Looijmans
->=20
-> TOPIC Embedded Systems
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: (+31) (0) 499 33 69 79
-> Telefax:  (+31) (0) 499 33 69 70
-> E-mail: mike.looijmans@topic.nl
-> Website: www.topic.nl
->=20
-> Please consider the environment before printing this e-mail
->=20
-> Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
-> http://medteceurope.com/index.php?page=3Dhome-en
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+You have BUILDA and BUILDB, the two builds which should be reusing
+sstate but are not. The fact they're on different machines is irrelevant
+to this procedure. It would help if these two builds are just the result
+of "bitbake fpga-image-miami" but that isn't essential, it will just
+introduce more noise. It will also help if they are either both built
+from an existing sstate cache or both not.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+The first thing I'd do in each build:
 
---uQ3BaAlxDi9XKvis
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+"find tmp/stamps/ -type f | sort > stamplistA.txt"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+I'd then so something like:
 
-iEYEARECAAYFAlONiAQACgkQN1Ujt2V2gBwhUACeJGLYIJ8Ir6ROb8FF2vOyFiPU
-FHMAn0O7ejZiCbf4nRNB2VHsvGa8r9KH
-=2VPH
------END PGP SIGNATURE-----
+"meld stamplistA stamplistB"
 
---uQ3BaAlxDi9XKvis--
+the next steps depend upon how clear the differences are. Basically
+there should be some degree of commonality between the two builds and at
+some point there will be divergence. We need to pinpoint the point of
+divergence. The divergence will be in fpga-image-miami itself or in one
+of its dependencies.
+
+The one thing which can confuse this view is if some things were reused
+from sstate. You can tell since a task which runs looks like:
+
+tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.d90d4404368125acd109a2ac64ca688f.qemux86
+
+and a task which is from sstate looks like:
+
+tmp/stamps/all-poky-linux/gstreamer1.0-meta-base/1.0-r0.do_populate_sysroot_setscene.a49fa811727c557c14ab6ce6f2973587.qemux86
+
+The "_setscene" part tells you this. Machine specific tasks have the
+machine name appended to them ".qemux86" in this case. The hash
+representing the task is clear in the filename
+("a49fa811727c557c14ab6ce6f2973587" in this case").
+
+You'll have to filter out any "noise" from these changes you're not
+interested in. If a task is "_setscene" its dependencies may be missing
+from the list of files entirely (no install/compile/configure etc.).
+
+So you take a guess at the divergence point and take note of the two
+different hashes. You can then find the corresponding siginfo files in
+sstate:
+
+find sstate-cache/ -name *d90d4404368125acd109a2ac64ca688f* 
+sstate-cache/d9/sstate:x11-common:i586-poky-linux:0.1:r47:i586:3:d90d4404368125acd109a2ac64ca688f_populate_sysroot.tgz
+sstate-cache/d9/sstate:x11-common:i586-poky-linux:0.1:r47:i586:3:d90d4404368125acd109a2ac64ca688f_populate_sysroot.tgz.siginfo
+
+which are the sstate files corresponding to my above x11-common task.
+You will note that the first two letters of the hash are used as a
+directory prefix. You can also find sigdata files in the stamp
+directory:
+
+$ find tmp/stamps/ -type f | grep d90d440
+tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.d90d4404368125acd109a2ac64ca688f.qemux86
+tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.sigdata.d90d4404368125acd109a2ac64ca688f
+
+The sigdata and siginfo files are identical and equivalent. Once you
+have the two sstate files, you can run:
+
+bitbake-diffsigs A.siginfo B.siginfo
+
+and this will tell you why their hashes are different. If you need help
+deciphering that output, link to it and I can help.
+
+If you didn't guess the divergence point correctly, it will tell you
+that some prior task is actually different. In that case you would then
+go and fetch the siginfo tasks for the previous task and compare those.
+Either you find the difference or again, you have to trace it further
+back.
+
+Its a pain of a process to go through but it is deterministic and you
+will eventually find the difference. Have a go and if you have any
+issues let me know and I'll do what I can to help.
+
+Cheers,
+
+Richard
+
+
