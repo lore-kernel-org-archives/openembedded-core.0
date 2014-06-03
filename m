@@ -1,28 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E2EE065E21
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 89D6365F11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 12:58:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s53Cwaa6022833; Tue, 3 Jun 2014 13:58:36 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UO5PGJlhWsxv; Tue,  3 Jun 2014 13:58:36 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s53CwU4S022829
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 3 Jun 2014 13:58:31 +0100
-Message-ID: <1401800302.12440.89.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 03 Jun 2014 13:58:22 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: mark.roszko@gmail.com
-Subject: [PATCH] image_types: Fix ubi filesystem return codes
+	Tue,  3 Jun 2014 13:41:26 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 03 Jun 2014 06:41:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,965,1392192000"; d="scan'208";a="440291654"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by azsmga001.ch.intel.com with ESMTP; 03 Jun 2014 06:41:16 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jun 2014 16:44:50 +0300
+Message-Id: <f62ff18463dc8745512d04d1360c7a5ab7d0a931.1401803047.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1401803047.git.cristian.iorga@intel.com>
+References: <cover.1401803047.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1401803047.git.cristian.iorga@intel.com>
+References: <cover.1401803047.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] neard: fix for parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 12:58:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jun 2014 13:41:33 -0000
 
-If the first command returns an error, it will not cause the image generation
-step to fail. Simply split up the statement into multiple lines to avoid
-this issue, they no longer need to be one line expressions.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-[YOCTO #6391]
+for neard tools/snep-send object might cause a
+parallel build failure,due to undetected
+dependency on dbus.h header file.
 
+Patch will be submitted upstream.
+
+Fixes [YOCTO #6389].
+
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/neard/neard/parallelmake.patch | 16 ++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.14.bb            |  1 +
+ 2 files changed, 17 insertions(+)
+ create mode 100644 meta/recipes-connectivity/neard/neard/parallelmake.patch
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index f38e3b6..99a07da 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -93,7 +93,8 @@ IMAGE_CMD_ubi () {
- 	echo vol_type=dynamic >> ubinize.cfg 
- 	echo vol_name=${UBI_VOLNAME} >> ubinize.cfg 
- 	echo vol_flags=autoresize >> ubinize.cfg
--	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS} && ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} ubinize.cfg
-+	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}
-+	ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} ubinize.cfg
- }
- IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
+diff --git a/meta/recipes-connectivity/neard/neard/parallelmake.patch b/meta/recipes-connectivity/neard/neard/parallelmake.patch
+new file mode 100644
+index 0000000..0eda4b2
+--- /dev/null
++++ b/meta/recipes-connectivity/neard/neard/parallelmake.patch
+@@ -0,0 +1,16 @@
++Index: neard-0.14/Makefile.am
++
++Upstream-Status: Pending
++
++===================================================================
++--- neard-0.14.orig/Makefile.am
+++++ neard-0.14/Makefile.am
++@@ -99,6 +99,8 @@ tools_snep_send_SOURCES = $(gdbus_source
++ 					src/agent.c
++ tools_snep_send_LDADD = @GLIB_LIBS@ @DBUS_LIBS@
++ 
+++tools/snep-send.$(OBJEXT): include/near/dbus.h
+++
++ tools_nfctool_nfctool_SOURCES = tools/nfctool/main.c \
++ 					tools/nfctool/nfctool.h \
++ 					tools/nfctool/adapter.h \
+diff --git a/meta/recipes-connectivity/neard/neard_0.14.bb b/meta/recipes-connectivity/neard/neard_0.14.bb
+index ac9aaf1..e875729 100644
+--- a/meta/recipes-connectivity/neard/neard_0.14.bb
++++ b/meta/recipes-connectivity/neard/neard_0.14.bb
+@@ -1,6 +1,7 @@
+ require neard.inc
  
-
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BPN}-${PV}.tar.xz \
++           file://parallelmake.patch \
+            file://neard.in \
+            file://neard.service.in \
+           "
+-- 
+1.9.1
 
 
