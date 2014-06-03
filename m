@@ -1,37 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B9096059A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D7E41605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jun 2014 10:40:10 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id q107so12924398qgd.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jun 2014 03:40:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=q8LeUlZyTVMrFRmghxMX9WiuDL4vCu1CiQOY5TS8OL4=;
-	b=cf0Yw6UwXTPa0PTyBb8FeBBzS3UNiAjv6wiRqjJEOjwfO4rsfnWg7eyphCWrI/bGN6
-	3ldZdLpyrqsQl8eiI/OjhExfeTiqBq/l7rRcL47NkKYK5TPjmKsLdXvb5mQEq4NDHlNv
-	AhcQR3fv3v/7y1KZBZmoIrc+NfGc1KUxdNg8VsPqsTTSVbCA81nbMOSQDAoxc31aIVz6
-	X/0KgN1eRAXt6IkS0KOYn6ZQcrxAiCtK9Ar/B6gGHKK6aqHU2xqT/nts8VNLNSr6w2Gs
-	+5YHcjxtNInMWo2Ej0bM0Zq4Oh3m+YnUavwK5jKmVDpD1NXf9fWbMhY6BK8uAAA3hpFj
-	Kg4w==
-X-Gm-Message-State: ALoCoQl69w5T8IqDW1T+J3H1ojOHctGKas1YmB6N+SsBUImxWqYlepePs0pBy0Bp38NCTuzoLSa7
-X-Received: by 10.140.91.161 with SMTP id z30mr53777914qgd.65.1401792011172;
-	Tue, 03 Jun 2014 03:40:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Tue, 3 Jun 2014 03:39:51 -0700 (PDT)
-In-Reply-To: <71fd18d530e8470d0a3bc4289469976ee5f8989f.1401765630.git.sgw@linux.intel.com>
-References: <cover.1401765630.git.sgw@linux.intel.com>
-	<71fd18d530e8470d0a3bc4289469976ee5f8989f.1401765630.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Jun 2014 11:39:51 +0100
-Message-ID: <CAJTo0LbewCWEhs=+ObRZ0WAWYbCUV3x7VnSd8KnoOXVguA40SQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] man-pages: Update to 3.68
+	Tue,  3 Jun 2014 10:58:36 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s53AwUte016916; Tue, 3 Jun 2014 11:58:30 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rD5n8YXlDoCg; Tue,  3 Jun 2014 11:58:30 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s53AwNO3016908
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 3 Jun 2014 11:58:25 +0100
+Message-ID: <1401793095.12440.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ChenQi <Qi.Chen@windriver.com>
+Date: Tue, 03 Jun 2014 11:58:15 +0100
+In-Reply-To: <538D9363.2020006@windriver.com>
+References: <cover.1401781206.git.Qi.Chen@windriver.com>
+	<cd4a352b664c2c15c0ad9ff7bc4e5870f2e0c941.1401781206.git.Qi.Chen@windriver.com>
+	<1401786411.12440.54.camel@ted> <538D9363.2020006@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: matt.cowell@nsn.com, openembedded-core@lists.openembedded.org
+Subject: Re: [daisy][PATCH 1/1] systemd: do not use alloca() function in case of uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 10:40:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Jun 2014 10:58:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 3 June 2014 04:26, Saul Wold <sgw@linux.intel.com> wrote:
-> -LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
-> +LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
+On Tue, 2014-06-03 at 17:20 +0800, ChenQi wrote:
+> The use of alloca() was introduced by an oe-specific patch from Khem Raj.
+> 
+> The patch is 
+> meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch.
+> The upstream status of the above patch is as following.
+>         Upstream-Status: Denied [no desire for uclibc support]
+> 
+> That's why I use 'Inappropriate [oe specific]' in the Upstream-Status 
+> field of my patch.
+> 
+> And I just realized I forgot to also patch the journald-kmsg.c file. 
+> I'll send out a V2.
 
-Would it be easy to just checksum the license statement instead of the
-entire file?
+Please just update that patch then rather than patching code that we've
+ready patched. Is this issue uclibc specific?
 
-Ross
+At the very least information like this needs to be put into the commit
+message/patch header.
+
+Cheers,
+
+Richard
+
 
