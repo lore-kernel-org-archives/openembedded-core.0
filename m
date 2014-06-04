@@ -1,26 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 447326FBF9
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 78F4C65E39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 09:46:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s549kUEF027223
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jun 2014 02:46:31 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 4 Jun 2014 02:46:30 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Jun 2014 17:47:25 +0800
-Message-ID: <d195d6b6ea5c6262b2def2d67513a55c3e9c80ff.1401861580.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1401861580.git.Qi.Chen@windriver.com>
-References: <cover.1401861580.git.Qi.Chen@windriver.com>
+	Wed,  4 Jun 2014 10:44:39 +0000 (UTC)
+Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id C55763F8C5;
+	Wed,  4 Jun 2014 12:44:39 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9] autolearn=no
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Wed,  4 Jun 2014 12:44:39 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Wed,  4 Jun 2014 12:44:38 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Wed, 4 Jun 2014 12:44:42 +0200
+Message-ID: <538EF894.4000809@topic.nl>
+Date: Wed, 4 Jun 2014 12:44:36 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: update a uclibc specific patch to avoid segment fault error
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <53843793.3030309@topic.nl>		<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>		<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>		<1401318733.2607.71.camel@ted>
+	<538D5C34.4060905@topic.nl>	 <538D5E8C.1090008@topic.nl>
+	<1401785145.12440.51.camel@ted>
+In-Reply-To: <1401785145.12440.51.camel@ted>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: How to find out why shared sstate is not being used for a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,127 +54,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 09:46:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Jun 2014 10:44:42 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The alloca() function allocates space in the stack frame of the caller,
-so using alloca(new_size - old_size) would possibly crash the stack,
-causing a segment fault error.
+=EF=BB=BFOn 06/03/2014 10:45 AM, Richard Purdie wrote:
+> On Tue, 2014-06-03 at 07:35 +0200, Mike Looijmans wrote:
+>> =EF=BB=BFOn 06/03/2014 07:25 AM, Mike Looijmans wrote:
+>>>> Worst case, you can pull the siginfo files from one build and the
+>>>> siginfo files from the sstate mirror and then see which ones are
+>>>> different, then run bitbake-diffsigs X Y to compare the two files.
+>>>
+>>> How do I find what to pull? I have (ssh) access to both machines. The
+>>> sstate-cache dir contains a bunch of two-digit directories and a gazill=
+ion files.
+>>>
+>>> I could just copy the whole thing to one machine, there's gigabit betwe=
+en
+>>> them, but then what do I do with these files?
+>>
+>> mike:~/zynq_platform/build$ find sstate-cache -name
+>> '*fpga-image-miami*.siginfo' | wc -l
+>> 480
+>>
+>> Suppose I copy them. Where do I copy them to, and what do I do with thes=
+e 480
+>> files to tell me why the system insists on rebuilding this package?
+>>
+>> Mike.
+>>
+>> PS: I really really want to find out. Several of these FPGA recipes take=
+ 3.5
+>> hours to build on the fastest i5 we could buy. So you can imagine we rea=
+lly
+>> want to prevent having to build it more than once.
+>
+> Let me explain the manual process you can follow for this. Its a pain to
+> walk through and its what -S attempts to automate but you should be able
+> to get an answer manually this way.
+>
+> You have BUILDA and BUILDB, the two builds which should be reusing
+> sstate but are not. The fact they're on different machines is irrelevant
+> to this procedure. It would help if these two builds are just the result
+> of "bitbake fpga-image-miami" but that isn't essential, it will just
+> introduce more noise. It will also help if they are either both built
+> from an existing sstate cache or both not.
+>
+> The first thing I'd do in each build:
+>
+> "find tmp/stamps/ -type f | sort > stamplistA.txt"
+>
+> I'd then so something like:
+>
+> "meld stamplistA stamplistB"
+>
+> the next steps depend upon how clear the differences are. Basically
+> there should be some degree of commonality between the two builds and at
+> some point there will be divergence. We need to pinpoint the point of
+> divergence. The divergence will be in fpga-image-miami itself or in one
+> of its dependencies.
+>
+> The one thing which can confuse this view is if some things were reused
+> from sstate. You can tell since a task which runs looks like:
+>
+> tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.d90d440=
+4368125acd109a2ac64ca688f.qemux86
+>
+> and a task which is from sstate looks like:
+>
+> tmp/stamps/all-poky-linux/gstreamer1.0-meta-base/1.0-r0.do_populate_sysro=
+ot_setscene.a49fa811727c557c14ab6ce6f2973587.qemux86
+>
+> The "_setscene" part tells you this. Machine specific tasks have the
+> machine name appended to them ".qemux86" in this case. The hash
+> representing the task is clear in the filename
+> ("a49fa811727c557c14ab6ce6f2973587" in this case").
+>
+> You'll have to filter out any "noise" from these changes you're not
+> interested in. If a task is "_setscene" its dependencies may be missing
+> from the list of files entirely (no install/compile/configure etc.).
+>
+> So you take a guess at the divergence point and take note of the two
+> different hashes. You can then find the corresponding siginfo files in
+> sstate:
+>
+> find sstate-cache/ -name *d90d4404368125acd109a2ac64ca688f*
+> sstate-cache/d9/sstate:x11-common:i586-poky-linux:0.1:r47:i586:3:d90d4404=
+368125acd109a2ac64ca688f_populate_sysroot.tgz
+> sstate-cache/d9/sstate:x11-common:i586-poky-linux:0.1:r47:i586:3:d90d4404=
+368125acd109a2ac64ca688f_populate_sysroot.tgz.siginfo
+>
+> which are the sstate files corresponding to my above x11-common task.
+> You will note that the first two letters of the hash are used as a
+> directory prefix. You can also find sigdata files in the stamp
+> directory:
+>
+> $ find tmp/stamps/ -type f | grep d90d440
+> tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.d90d440=
+4368125acd109a2ac64ca688f.qemux86
+> tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.sigdata=
+.d90d4404368125acd109a2ac64ca688f
+>
+> The sigdata and siginfo files are identical and equivalent. Once you
+> have the two sstate files, you can run:
+>
+> bitbake-diffsigs A.siginfo B.siginfo
+>
+> and this will tell you why their hashes are different. If you need help
+> deciphering that output, link to it and I can help.
 
-This patch fixes the above problem by avoiding using this function in
-journal-file.c.
+Dependency on task fpga-image-medical-demo.bb.do_patch was added with hash=
+=20
+8fbb54a572a402e28d05daae0a238f8b
+Dependency on task fpga-image-medical-demo.bb.do_patch was removed with has=
+h=20
+44a252a24b20321e8dbec6d9d8b54c67
 
-[YOCTO #6201]
+Now this means that I have to look at the "unpack" task now, right?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../systemd/systemd-pam-fix-fallocate.patch        |   56 +++++++++++---------
- 1 file changed, 32 insertions(+), 24 deletions(-)
+The weird thing is, both machines have identical do_patch hashes:
+tmp-eglibc/stamps/zynq_miami_7030-oe-linux-gnueabi/fpga-image-medical-demo/=
+0.AUTOINC-06349d0386-r0.do_patch.sigdata.44a252a24b20321e8dbec6d9d8b54c67
 
-diff --git a/meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch b/meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
-index cfca0b9..f8e19ce 100644
---- a/meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
-+++ b/meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
-@@ -1,10 +1,18 @@
- Upstream-Status: Denied [no desire for uclibc support]
-+
-+This patch is uclibc specific, thus not suitable for upstream.
-+
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/journal/journal-file.c  |   16 +++++++++++++++-
-+ src/journal/journald-kmsg.c |   16 ++++++++++++++--
-+ 2 files changed, 29 insertions(+), 3 deletions(-)
- 
--Index: git/src/journal/journal-file.c
--===================================================================
----- git.orig/src/journal/journal-file.c	2014-04-22 22:53:05.000000000 -0700
--+++ git/src/journal/journal-file.c	2014-04-22 22:53:51.130236707 -0700
-+diff --git a/src/journal/journal-file.c b/src/journal/journal-file.c
-+index f2f1f35..092f87b 100644
-+--- a/src/journal/journal-file.c
-++++ b/src/journal/journal-file.c
- @@ -38,6 +38,8 @@
-  #include "compress.h"
-  #include "fsprg.h"
-@@ -14,7 +22,7 @@ Index: git/src/journal/journal-file.c
-  #define DEFAULT_DATA_HASH_TABLE_SIZE (2047ULL*sizeof(HashItem))
-  #define DEFAULT_FIELD_HASH_TABLE_SIZE (333ULL*sizeof(HashItem))
-  
--@@ -314,7 +316,7 @@
-+@@ -314,7 +316,7 @@ static int journal_file_verify_header(JournalFile *f) {
-  
-  static int journal_file_allocate(JournalFile *f, uint64_t offset, uint64_t size) {
-          uint64_t old_size, new_size;
-@@ -23,7 +31,7 @@ Index: git/src/journal/journal-file.c
-  
-          assert(f);
-  
--@@ -362,9 +364,24 @@
-+@@ -362,9 +364,21 @@ static int journal_file_allocate(JournalFile *f, uint64_t offset, uint64_t size)
-          /* Note that the glibc fallocate() fallback is very
-             inefficient, hence we try to minimize the allocation area
-             as we can. */
-@@ -32,27 +40,24 @@ Index: git/src/journal/journal-file.c
-          if (r != 0)
-                  return -r;
- +#else
--+       /* Use good old method to write zeros into the journal file
--+          perhaps very inefficient yet working. */
--+       if(new_size > old_size) {
--+               char *buf = alloca(new_size - old_size);
--+               off_t oldpos = lseek(f->fd, 0, SEEK_CUR);
--+               bzero(buf, new_size - old_size);
--+               lseek(f->fd, old_size, SEEK_SET);
--+               r = write(f->fd, buf, new_size - old_size);
--+               lseek(f->fd, oldpos, SEEK_SET);
--+       }
--+       if (r < 0)
--+               return -errno;
-++        /* Write something every 512 bytes to make sure the block is allocated */
-++        uint64_t len = new_size - old_size;
-++        uint64_t offset = old_size;
-++        for (offset += (len-1) % 512; len > 0; offset += 512) {
-++                len -= 512;
-++                if (pwrite(f->fd, "", 1, offset) != 1)
-++                        return -errno;
-++        }
-++
- +#endif /* HAVE_POSIX_FALLOCATE */
-  
-          if (fstat(f->fd, &f->last_stat) < 0)
-                  return -errno;
--Index: git/src/journal/journald-kmsg.c
--===================================================================
----- git.orig/src/journal/journald-kmsg.c	2014-04-22 22:53:05.000000000 -0700
--+++ git/src/journal/journald-kmsg.c	2014-04-22 22:54:27.830236809 -0700
--@@ -437,6 +437,7 @@
-+diff --git a/src/journal/journald-kmsg.c b/src/journal/journald-kmsg.c
-+index 12992e7..dc4fa93 100644
-+--- a/src/journal/journald-kmsg.c
-++++ b/src/journal/journald-kmsg.c
-+@@ -437,6 +437,7 @@ fail:
-  int server_open_kernel_seqnum(Server *s) {
-          _cleanup_close_ int fd;
-          uint64_t *p;
-@@ -60,7 +65,7 @@ Index: git/src/journal/journald-kmsg.c
-  
-          assert(s);
-  
--@@ -449,8 +450,19 @@
-+@@ -449,8 +450,19 @@ int server_open_kernel_seqnum(Server *s) {
-                  log_error("Failed to open /run/systemd/journal/kernel-seqnum, ignoring: %m");
-                  return 0;
-          }
-@@ -82,3 +87,6 @@ Index: git/src/journal/journald-kmsg.c
-                  log_error("Failed to allocate sequential number file, ignoring: %m");
-                  return 0;
-          }
-+-- 
-+1.7.9.5
-+
--- 
-1.7.9.5
+I cannot find that "8fbb54a572a402e28d05daae0a238f8b" hash anywhere.
+
+
+
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
+http://medteceurope.com/index.php?page=3Dhome-en
 
 
