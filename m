@@ -1,48 +1,24 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C4F26FA6A
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C44C65D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 06:19:37 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id F1B7A4022E;
-	Wed,  4 Jun 2014 08:19:36 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9] autolearn=no
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Wed,  4 Jun 2014 08:19:36 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
-	Wed,  4 Jun 2014 08:19:35 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Wed, 4 Jun 2014 08:19:40 +0200
-Message-ID: <538EBA77.8050900@topic.nl>
-Date: Wed, 4 Jun 2014 08:19:35 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Wed,  4 Jun 2014 07:46:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s547kAoU026256
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Jun 2014 00:46:10 -0700 (PDT)
+Received: from PEK-WKANG-D1.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 4 Jun 2014 00:46:09 -0700
+From: Wenlin Kang <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Jun 2014 15:45:30 +0800
+Message-ID: <1401867930-28172-1-git-send-email-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <53843793.3030309@topic.nl>	<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>	<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>	<1401318733.2607.71.camel@ted>
-	<538D5C34.4060905@topic.nl>	<538D5E8C.1090008@topic.nl>
-	<1401785145.12440.51.camel@ted>	<538DD39F.1080701@topic.nl>
-	<1401804615.12440.98.camel@ted>
-In-Reply-To: <1401804615.12440.98.camel@ted>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to find out why shared sstate is not being used for a recipe
+Subject: [PATCH] bash: fix to build bash/po/ correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,98 +31,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 06:19:39 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 04 Jun 2014 07:46:12 -0000
+Content-Type: text/plain
 
-=EF=BB=BFOn 06/03/2014 04:10 PM, Richard Purdie wrote:
-> On Tue, 2014-06-03 at 15:54 +0200, Mike Looijmans wrote:
->> =EF=BB=BFOn 06/03/2014 10:45 AM, Richard Purdie wrote:
->>> the next steps depend upon how clear the differences are. Basically
->>> there should be some degree of commonality between the two builds and a=
-t
->>> some point there will be divergence. We need to pinpoint the point of
->>> divergence. The divergence will be in fpga-image-miami itself or in one
->>> of its dependencies.
->>
->> ALL stamps for ALL tasks for fpga-image-miami are different. There's a f=
-ew
->> thousand lines in these files, with very few similarities.
->
-> Ok, this gives a very strong pointer then, see below.
->
->> I'll just go for the "do_fetch" task then, since that's about the first =
-to
->> execute.
->
-> This is a good move.
->
->> So far, on one project (that is, NOT the fpga-image-miami) the SRC_URI i=
-s
->> slightly different. The machines are on various sides of a router/firewa=
-ll, so
->> SRC_URI=3D"git://${MY_SERVER}/blabla" evaluates differently.
->>
->> How can I tell the system that the value of "MY_SERVER" is irrelevant to=
- each
->> and every build step in each and every recipe?
->
-> The SRC_URI changing would indeed cause the tasks build separately since
-> bitbake thinks they're different things.
->
-> You have two ways of addressing this. Firstly, you could setup PREMIRROR
-> entries for these git urls which remaps them to the correct thing in
-> each case. There would then be one "canonical" url in the recipe and
-> you'd not need to change the hash generation.
->
-> The other way would be to either exclude the variable from the checksum
-> generation or give it a specific value. This would be something like:
->
-> do_fetch[vardepsexclude] +=3D "SRC_URI"
->
-> you may also have to do this with other tasks that use SRC_URI such as
-> do_unpack and do_patch. The other option is:
->
-> SRC_URI[vardepvalue] =3D "git://canonical/url/for/recipe"
->
-> which gives it a specific value to use for checksum purposes.
+There was an ignored error while building bash, causing the po/
+directory not built out correctly, the log follow:
+make[1]: *** No rule to make target `/config.status',
+needed by `Makefile'. Stop.
+make: [installdirs] Error 2 (ignored)
 
-In this case, a very useful syntax. The machines have different MY_SERVER=20
-values in their local.conf, so I've changed one into:
+The cause is that some variable,PACKAGE and VERSION don't be defined,
+and others don't get correct value, eg, top_builddir in po/Makevar,
+GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
 
-MY_SERVER =3D "git://some/local/path"
-MY_SERVER[vardepvalue] =3D "git://common.server/path"
+The patch fixed above problem.
+---
+ .../bash/bash/fix-to-build-po-correctly.patch      |   83 ++++++++++++++++++++
+ meta/recipes-extended/bash/bash_4.3.bb             |    1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
 
-This generates the same SRC_URI signatures for the locations that look=20
-different but actually refer to the same location.
-
-The PREMIRROR sounds like a generic solution to the underlying problem of=20
-accessing servers from different locations. I'll keep that in mind for the=
-=20
-next project.
-
-Next, I'll need to investigate why the fpga-image-miami generates different=
-=20
-signatures, as both machines fetch it from the same URI.
-
-Mike.
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
-http://medteceurope.com/index.php?page=3Dhome-en
+diff --git a/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+new file mode 100644
+index 0000000..9db6fe2
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+@@ -0,0 +1,83 @@
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++
++diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
++--- bash-4.3-org/aclocal.m4	2014-05-23 15:28:54.252565146 +0800
+++++ bash-4.3/aclocal.m4	2014-05-23 15:33:19.924570133 +0800
++@@ -3710,6 +3710,14 @@
++   AC_REQUIRE([AC_PROG_INSTALL])dnl
++   AC_REQUIRE([AM_MKINSTALLDIRS])dnl
++   AC_REQUIRE([AM_NLS])dnl
+++  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+++  AC_REQUIRE([AC_PROG_SED])dnl
+++
+++  AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
+++
+++  dnl Release version of the gettext macros. This is used to ensure that
+++  dnl the gettext macros and po/Makefile.in.in are in sync.
+++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
++ 
++   dnl Perform the following tests also if --disable-nls has been given,
++   dnl because they are needed for "make dist" to work.
++@@ -3723,6 +3731,22 @@
++     :)
++   AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
++ 
+++ dnl Test whether it is GNU msgfmt >= 0.15.
+++changequote(,)dnl
+++  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
+++    *) MSGFMT_015=$MSGFMT ;;
+++  esac
+++changequote([,])dnl
+++  AC_SUBST([MSGFMT_015])
+++changequote(,)dnl
+++  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
+++    *) GMSGFMT_015=$GMSGFMT ;;
+++  esac
+++changequote([,])dnl
+++  AC_SUBST([GMSGFMT_015])
+++
++   dnl Search for GNU xgettext 0.12 or newer in the PATH.
++   dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
++   dnl The second test excludes FreeBSD xgettext.
++@@ -3733,6 +3757,15 @@
++   dnl Remove leftover from FreeBSD xgettext call.
++   rm -f messages.po
++ 
+++  dnl Test whether it is GNU xgettext >= 0.15.
+++changequote(,)dnl
+++  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
+++    *) XGETTEXT_015=$XGETTEXT ;;
+++  esac
+++changequote([,])dnl
+++  AC_SUBST([XGETTEXT_015])
+++
++   dnl Search for GNU msgmerge 0.11 or newer in the PATH.
++   AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
++     [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
++diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
++--- bash-4.3-org/configure.ac	2014-05-23 15:28:54.208565145 +0800
+++++ bash-4.3/configure.ac	2014-05-23 15:29:35.640565923 +0800
++@@ -1201,6 +1201,10 @@
++ #AC_SUBST(ALLOCA_SOURCE)
++ #AC_SUBST(ALLOCA_OBJECT)
++ 
+++# Define the identity of the package.
+++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
+++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
+++
++ AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile lib/glob/Makefile \
++ 	  lib/intl/Makefile \
++ 	  lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
++diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
++--- bash-4.3-org/po/Makevars	2014-05-23 15:28:54.204565145 +0800
+++++ bash-4.3/po/Makevars	2014-05-23 15:30:04.772566469 +0800
++@@ -5,7 +5,7 @@
++ 
++ # These two variables depend on the location of this directory.
++ subdir = po
++-top_builddir = $(BUILD_DIR)
+++top_builddir = ..
++ 
++ # These options get passed to xgettext.
++ XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
+diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
+index 25b7410..a6d7d40 100644
+--- a/meta/recipes-extended/bash/bash_4.3.bb
++++ b/meta/recipes-extended/bash/bash_4.3.bb
+@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            file://build-tests.patch \
+            file://test-output.patch \
+            file://run-ptest \
++           file://fix-to-build-po-correctly.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
+-- 
+1.7.9.5
 
 
