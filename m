@@ -1,38 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4A465E58
+Return-Path: <georgex.l.musat@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BD2C565ED7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 14:24:54 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id w8so7039785qac.38
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jun 2014 07:24:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zSvbDLMdFT0xr4qJSvRCt9EMIS3f+kdbRChGoIeEWck=;
-	b=lNNdeBGOLcQr/8rVCjUhM5y842Nm3uctpHISD8odpiZ8Ftxstdbd9xUCnrgSmtPhFc
-	qkinCm2VikdFkjwNTKrpxMZgzBJ7Cletp5ptr1atKLihbfCG3h+/yla7c4GwEBxUdCm4
-	li2cMMT2bFhQDRdRQlUbR/0UgDoVVU2JdKi0SFD++HrFG8hWeENRorMpx+tXwFBXVet3
-	UfUKXZ4xwG7m4t4UQT6iv0xOCYMIq8PzXfq5Qm+bycxk8s0HrbZ6fLY9vXsDEoheCRHm
-	0StOmYw4DccTra8WtHNlpFxls3b2AHk2PxctWJ8cqxi8JIJJffU8E664Tdz2tQLdau+o
-	1Hzg==
-X-Gm-Message-State: ALoCoQmgvxhoOZ3ojuUyPm2VkMYqQfl7eqmUHHy62bm3RUnMcEy9XDS57edpkUPX2cBZhXnrLbkQ
-X-Received: by 10.140.25.37 with SMTP id 34mr68414744qgs.60.1401891895017;
-	Wed, 04 Jun 2014 07:24:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Wed, 4 Jun 2014 07:24:34 -0700 (PDT)
-In-Reply-To: <20140604125205.GS2426@jama>
-References: <cover.1399993010.git.valentin.popa@intel.com>
-	<CAJTo0LaNVqizccFhw8E_Bp8WXX07ZB9Mu+_DoQ0tmjcLf8f=Fg@mail.gmail.com>
-	<20140604125205.GS2426@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 Jun 2014 15:24:34 +0100
-Message-ID: <CAJTo0Lab7wwV2NN=NSMqLYTxeW=_CfeGwvETkDCh4emwVRLxFg@mail.gmail.com>
-To: OE-devel <openembedded-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [PATCH 0/3] mesa upgrade
+	Wed,  4 Jun 2014 15:29:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Jun 2014 08:29:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,973,1392192000"; d="scan'208";a="542422278"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2014 08:29:04 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 522466A4087;
+	Wed,  4 Jun 2014 08:28:37 -0700 (PDT)
+From: Lucian Musat <georgex.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jun 2014 18:26:30 +0300
+Message-Id: <1401895590-12538-1-git-send-email-georgex.l.musat@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] Added new test cases for bitbake modes (-e -n -p -r -R -c -k)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,25 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 14:24:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Jun 2014 15:29:24 -0000
 
-On 4 June 2014 13:52, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Sorry for hi-jacking the thread, but since today even the older 9.2.5 is
-> failing to find native python-libxml2
->
-> config.log:
-> configure:8059: checking for python2
-> configure:8075: found
-> /OE/build/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/python-native/python2
-> configure:8086: result: python2
-> configure:8103: checking python2 module: libxml2
-> configure:8112: result: no
-> configure:8118: error: failed to find required module libxml2
->
-> Any idea why it started to fail now?
+Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
+---
+ meta/lib/oeqa/selftest/bbtests.py | 52 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-Great.  Can you share the config.log?
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 6815ecf..d730bfd 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -102,3 +102,55 @@ class BitbakeTests(oeSelfTest):
+         self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz')))
+         self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz.done')))
+         bitbake('-ccleanall aspell')
++
++    def test_environment(self):
++	self.append_config("TEST_ENV=\"localconf\"")
++	result = runCmd('bitbake -e | grep TEST_ENV=')
++	self.assertTrue('localconf' in result.output)
++	self.remove_config("TEST_ENV=\"localconf\"")
++
++    def test_dry_run(self):
++	result = runCmd('bitbake -n m4-native')
++	self.assertEqual(0, result.status)
++
++    def test_just_parse(self):
++	result = runCmd('bitbake -p')
++	self.assertEqual(0, result.status)
++
++    def test_version(self):
++	result = runCmd('bitbake -s | grep wget')
++	find = re.search("wget *:([0-9a-zA-Z\.\-]+)", result.output)
++	self.assertTrue(find) 
++
++    def test_prefile(self):
++	preconf = os.path.join(self.builddir, 'conf/prefile.conf')
++	self.track_for_cleanup(preconf)
++	ftools.write_file(preconf ,"TEST_PREFILE=\"prefile\"")
++	result = runCmd('bitbake -r conf/prefile.conf -e | grep TEST_PREFILE=')
++	self.assertTrue('prefile' in result.output)
++	self.append_config("TEST_PREFILE=\"localconf\"")
++	result = runCmd('bitbake -r conf/prefile.conf -e | grep TEST_PREFILE=')
++	self.assertTrue('localconf' in result.output)
++	self.remove_config("TEST_PREFILE=\"localconf\"")
++
++    def test_postfile(self):
++	postconf = os.path.join(self.builddir, 'conf/postfile.conf')
++	self.track_for_cleanup(postconf)
++	ftools.write_file(postconf , "TEST_POSTFILE=\"postfile\"")
++	self.append_config("TEST_POSTFILE=\"localconf\"")
++	result = runCmd('bitbake -R conf/postfile.conf -e | grep TEST_POSTFILE=')
++	self.assertTrue('postfile' in result.output)
++	self.remove_config("TEST_POSTFILE=\"localconf\"")
++
++    def test_checkuri(self):
++	result = runCmd('bitbake -c checkuri m4')
++	self.assertEqual(0, result.status)
++
++    def test_continue(self):
++	self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
++	runCmd('bitbake -c cleanall man xcursor-transparent-theme')
++	result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
++	errorpos = result.output.find('ERROR: Function failed: do_fail_task')
++	manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
++	continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
++	self.assertLess(errorpos,continuepos)
+-- 
+1.9.1
 
-Ross
 
