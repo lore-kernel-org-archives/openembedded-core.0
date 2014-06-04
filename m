@@ -1,28 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 416BC6FB5D
+	by mail.openembedded.org (Postfix) with ESMTP id 870176FB37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 01:28:43 +0000 (UTC)
+	Wed,  4 Jun 2014 03:27:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s541SgOl024161
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s543RfFC024757
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Jun 2014 18:28:43 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 3 Jun 2014 18:28:42 -0700
-Message-ID: <538E763F.60600@windriver.com>
-Date: Wed, 4 Jun 2014 09:28:31 +0800
+	Tue, 3 Jun 2014 20:27:41 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 3 Jun 2014 20:27:41 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 4 Jun 2014 11:27:25 +0800
+Message-ID: <b1950475abca2368f4c9d1272705aab8dde2d642.1401852113.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1401852113.git.hongxu.jia@windriver.com>
+References: <cover.1401852113.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-To: Saul Wold <saul.wold@intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1401420117.git.hongxu.jia@windriver.com>
-	<c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
-	<538D6C23.9060405@intel.com>
-In-Reply-To: <538D6C23.9060405@intel.com>
-Subject: Re: [PATCH 1/3] apr: upgrade to 1.5.1
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/3] apr-util: upgrade to 1.5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 01:28:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jun 2014 03:27:45 -0000
+Content-Type: text/plain
 
-Got it, I am working on it.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-support/apr/{apr-util_1.5.2.bb => apr-util_1.5.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/apr/{apr-util_1.5.2.bb => apr-util_1.5.3.bb} (93%)
 
-//Hongxu
-
-On 06/03/2014 02:33 PM, Saul Wold wrote:
-> On 05/29/2014 08:27 PM, Hongxu Jia wrote:
->> The LICENSE has no change, except a newline added.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>   rename meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} (91%)
->>
->> diff --git a/meta/recipes-support/apr/apr_1.4.8.bb 
->> b/meta/recipes-support/apr/apr_1.5.1.bb
->> similarity index 91%
->> rename from meta/recipes-support/apr/apr_1.4.8.bb
->> rename to meta/recipes-support/apr/apr_1.5.1.bb
->> index 0a77ad7..7f2d2ca 100644
->> --- a/meta/recipes-support/apr/apr_1.4.8.bb
->> +++ b/meta/recipes-support/apr/apr_1.5.1.bb
->> @@ -4,7 +4,7 @@ SECTION = "libs"
->>   DEPENDS = "util-linux"
->>
->>   LICENSE = "Apache-2.0"
->> -LIC_FILES_CHKSUM = 
->> "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
->> +LIC_FILES_CHKSUM = 
->> "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
->> file://include/apr_lib.h;endline=17;md5=ee42fa7575dc40580a9e01c1b75fae96"
->>
->>   BBCLASSEXTEND = "native"
->> @@ -16,8 +16,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
->>              file://run-ptest \
->>   "
->>
->> -SRC_URI[md5sum] = "ce2ab01a0c3cdb71cf0a6326b8654f41"
->> -SRC_URI[sha256sum] = 
->> "61b8d2f8d321c6365ee3d71d0bb41f3a89c44da6124cc5b407a3b8319d660421"
->> +SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
->> +SRC_URI[sha256sum] = 
->> "e94abe431d4da48425fcccdb27b469bd0f8151488f82e5630a56f26590e198ac"
->>
->>   inherit autotools-brokensep lib_package binconfig multilib_header 
->> ptest
->>
->>
-> There may be an issue with your apr udpate:
->
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/122/steps/BuildImages/logs/stdio 
->
->
->
-> Sau!
->
+diff --git a/meta/recipes-support/apr/apr-util_1.5.2.bb b/meta/recipes-support/apr/apr-util_1.5.3.bb
+similarity index 93%
+rename from meta/recipes-support/apr/apr-util_1.5.2.bb
+rename to meta/recipes-support/apr/apr-util_1.5.3.bb
+index 4546b97..063a787 100644
+--- a/meta/recipes-support/apr/apr-util_1.5.2.bb
++++ b/meta/recipes-support/apr/apr-util_1.5.3.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://run-ptest \
+ "
+ 
+-SRC_URI[md5sum] = "eb682cfb8642babba427a4fb391b15e8"
+-SRC_URI[sha256sum] = "a1ec5025373815795d2fa5bfac40c0984675feffc88e049be9a162c408c2f613"
++SRC_URI[md5sum] = "71a11d037240b292f824ba1eb537b4e3"
++SRC_URI[sha256sum] = "76db34cb508e346e3bf69347c29ed1500bf0b71bcc48d54271ad9d1c25703743"
+ 
+ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \ 
+ 		--without-odbc \
+-- 
+1.8.1.2
 
 
