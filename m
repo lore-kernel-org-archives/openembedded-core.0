@@ -1,45 +1,28 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A87276FAFA
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 416BC6FB5D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 01:28:40 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 142so5559704ykq.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jun 2014 18:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=Clh4N1K8qGcWM0EaJmpsRn69+c8PmEyfJInlZhhrMHc=;
-	b=gBnHnX/Ov/5zwCnRsyyrdZ0cWBX8iJJE06yV5JSrHH+2cReTMZDTHbpoUNcRCKVSuo
-	kUTjy+yZgFDlDKv5HJnX/SbyMiLTHn9xDMqsejjOxPRCk1D5aVdvRgd5MI0H2FvVf7EV
-	UhBFIXb+ovdcbQxuBJyhi0/Yiwz6cCd43QjuXdM9m1ixTjbQKOU0WvOzfoHV3QYmG+Ob
-	xLJFodb2cs7qJh+HvuTwWQwWvyDxA77Hv5n+XIgByc7mcrYaFMbGsFQVNeTXvHSJR79D
-	xguH+/60FGl6kT17+dMq6WtL4b9ZS8aFXgfL6PhMel0cDmiczUbIACVBzpMgjfzyCstM
-	5xag==
-X-Received: by 10.236.157.40 with SMTP id n28mr68664781yhk.29.1401845321502;
-	Tue, 03 Jun 2014 18:28:41 -0700 (PDT)
-Received: from [192.168.0.12] ([201.53.220.23])
-	by mx.google.com with ESMTPSA id k65sm1526064yhl.43.2014.06.03.18.28.40
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 03 Jun 2014 18:28:41 -0700 (PDT)
-Message-ID: <538E7647.2000803@gmail.com>
-Date: Tue, 03 Jun 2014 22:28:39 -0300
-From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
-	<joaohf@gmail.com>
+	Wed,  4 Jun 2014 01:28:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s541SgOl024161
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Jun 2014 18:28:43 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 3 Jun 2014 18:28:42 -0700
+Message-ID: <538E763F.60600@windriver.com>
+Date: Wed, 4 Jun 2014 09:28:31 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Adrian Calianu <Adrian.Calianu@enea.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1400117848-4350-1-git-send-email-joaohf@gmail.com>
-	<1400117848-4350-3-git-send-email-joaohf@gmail.com>
-	<A1661D2DDD942248A02617DE63569A0125CB32DA@SESTOEX04.enea.se>
-In-Reply-To: <A1661D2DDD942248A02617DE63569A0125CB32DA@SESTOEX04.enea.se>
-Cc: "tom.zanussi@linux.intel.com" <tom.zanussi@linux.intel.com>
-Subject: Re: [PATCH 2/2] wic: add support to look in all layers and get plugins
+To: Saul Wold <saul.wold@intel.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1401420117.git.hongxu.jia@windriver.com>
+	<c836c1495fcc4bbac269ecfda6db3dfdbb7779be.1401420117.git.hongxu.jia@windriver.com>
+	<538D6C23.9060405@intel.com>
+In-Reply-To: <538D6C23.9060405@intel.com>
+Subject: Re: [PATCH 1/3] apr: upgrade to 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,27 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 01:28:41 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Jun 2014 01:28:44 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Got it, I am working on it.
 
-Thanks to point this.
+//Hongxu
 
-> [Adrian Calianu]
-> 1) It looks like a bad indentation, here, adding 'dl' path for each found BBLAYER. Probably those two lines from above should not be part of 'for' statement.
-
-Yes, it is.
-
-> 2) If BBLAYERS variable is empty/None then the "self.layers_path.split()" will generate an error:
-> AttributeError: 'NoneType' object has no attribute 'split'
-
-I will protect it. So if BBLAYERS is empty/None the default will be 
-used. Then the raw mode of the wic works too.
-
--- 
-João Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
+On 06/03/2014 02:33 PM, Saul Wold wrote:
+> On 05/29/2014 08:27 PM, Hongxu Jia wrote:
+>> The LICENSE has no change, except a newline added.
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-support/apr/{apr_1.4.8.bb => apr_1.5.1.bb} (91%)
+>>
+>> diff --git a/meta/recipes-support/apr/apr_1.4.8.bb 
+>> b/meta/recipes-support/apr/apr_1.5.1.bb
+>> similarity index 91%
+>> rename from meta/recipes-support/apr/apr_1.4.8.bb
+>> rename to meta/recipes-support/apr/apr_1.5.1.bb
+>> index 0a77ad7..7f2d2ca 100644
+>> --- a/meta/recipes-support/apr/apr_1.4.8.bb
+>> +++ b/meta/recipes-support/apr/apr_1.5.1.bb
+>> @@ -4,7 +4,7 @@ SECTION = "libs"
+>>   DEPENDS = "util-linux"
+>>
+>>   LICENSE = "Apache-2.0"
+>> -LIC_FILES_CHKSUM = 
+>> "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
+>> +LIC_FILES_CHKSUM = 
+>> "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
+>> file://include/apr_lib.h;endline=17;md5=ee42fa7575dc40580a9e01c1b75fae96"
+>>
+>>   BBCLASSEXTEND = "native"
+>> @@ -16,8 +16,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+>>              file://run-ptest \
+>>   "
+>>
+>> -SRC_URI[md5sum] = "ce2ab01a0c3cdb71cf0a6326b8654f41"
+>> -SRC_URI[sha256sum] = 
+>> "61b8d2f8d321c6365ee3d71d0bb41f3a89c44da6124cc5b407a3b8319d660421"
+>> +SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
+>> +SRC_URI[sha256sum] = 
+>> "e94abe431d4da48425fcccdb27b469bd0f8151488f82e5630a56f26590e198ac"
+>>
+>>   inherit autotools-brokensep lib_package binconfig multilib_header 
+>> ptest
+>>
+>>
+> There may be an issue with your apr udpate:
+>
+> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/122/steps/BuildImages/logs/stdio 
+>
+>
+>
+> Sau!
+>
 
 
