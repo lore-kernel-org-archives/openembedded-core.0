@@ -1,47 +1,39 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 78F4C65E39
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 10:44:39 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id C55763F8C5;
-	Wed,  4 Jun 2014 12:44:39 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9] autolearn=no
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Wed,  4 Jun 2014 12:44:39 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
-	Wed,  4 Jun 2014 12:44:38 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Wed, 4 Jun 2014 12:44:42 +0200
-Message-ID: <538EF894.4000809@topic.nl>
-Date: Wed, 4 Jun 2014 12:44:36 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-pb0-f43.google.com (mail-pb0-f43.google.com
+	[209.85.160.43])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD986B70A;
+	Wed,  4 Jun 2014 12:51:53 +0000 (UTC)
+Received: by mail-pb0-f43.google.com with SMTP id up15so6982622pbc.2
+	for <multiple recipients>; Wed, 04 Jun 2014 05:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=odtQolbGAUMta27cvXgDoEZl547AtAlItFjx0Vt9tq4=;
+	b=q9VQ+dTjCOFSA97ScYT0YKIvvqiUEPfD30iR9Dr7pa44YT+J8I65zq+OO4yKHOModb
+	ENjd2fdUXrNPbv2uPG2Zvgk1Xyt6XfSCQatuxRfc0EK5Pb/3sZp8+bFGBxZl1dENzJie
+	UtumvD0skyX/r2V1KnlyUKy0F7/SNZCtQlFr+0KS3ENIV1jAU50TPc+B2PdaYLpqmUnX
+	XhGe7OpoXJ5YjhqGYe4Es36h9x5pbuiLzEVQ38Yy6RxK+8JpKLRFm4wKYOs0In/kBpPY
+	JCZ6cuB6/Pse6SuTxCt47w3f+AonAeiWZ2rZxXY43zAy43pwILvry28r5dX85+bFV1d4
+	HHvg==
+X-Received: by 10.68.233.37 with SMTP id tt5mr63384717pbc.154.1401886314463;
+	Wed, 04 Jun 2014 05:51:54 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ox3sm9722557pbb.88.2014.06.04.05.51.51 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Jun 2014 05:51:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 4 Jun 2014 14:52:05 +0200
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20140604125205.GS2426@jama>
+References: <cover.1399993010.git.valentin.popa@intel.com>
+	<CAJTo0LaNVqizccFhw8E_Bp8WXX07ZB9Mu+_DoQ0tmjcLf8f=Fg@mail.gmail.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <53843793.3030309@topic.nl>		<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>		<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>		<1401318733.2607.71.camel@ted>
-	<538D5C34.4060905@topic.nl>	 <538D5E8C.1090008@topic.nl>
-	<1401785145.12440.51.camel@ted>
-In-Reply-To: <1401785145.12440.51.camel@ted>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to find out why shared sstate is not being used for a recipe
+In-Reply-To: <CAJTo0LaNVqizccFhw8E_Bp8WXX07ZB9Mu+_DoQ0tmjcLf8f=Fg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH 0/3] mesa upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,149 +46,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 10:44:42 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 04 Jun 2014 12:51:57 -0000
+X-Groupsio-MsgNum: 53824
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3pZQ0wszfDg7ZRO+"
+Content-Disposition: inline
+
+--3pZQ0wszfDg7ZRO+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 06/03/2014 10:45 AM, Richard Purdie wrote:
-> On Tue, 2014-06-03 at 07:35 +0200, Mike Looijmans wrote:
->> =EF=BB=BFOn 06/03/2014 07:25 AM, Mike Looijmans wrote:
->>>> Worst case, you can pull the siginfo files from one build and the
->>>> siginfo files from the sstate mirror and then see which ones are
->>>> different, then run bitbake-diffsigs X Y to compare the two files.
->>>
->>> How do I find what to pull? I have (ssh) access to both machines. The
->>> sstate-cache dir contains a bunch of two-digit directories and a gazill=
-ion files.
->>>
->>> I could just copy the whole thing to one machine, there's gigabit betwe=
-en
->>> them, but then what do I do with these files?
->>
->> mike:~/zynq_platform/build$ find sstate-cache -name
->> '*fpga-image-miami*.siginfo' | wc -l
->> 480
->>
->> Suppose I copy them. Where do I copy them to, and what do I do with thes=
-e 480
->> files to tell me why the system insists on rebuilding this package?
->>
->> Mike.
->>
->> PS: I really really want to find out. Several of these FPGA recipes take=
- 3.5
->> hours to build on the fastest i5 we could buy. So you can imagine we rea=
-lly
->> want to prevent having to build it more than once.
->
-> Let me explain the manual process you can follow for this. Its a pain to
-> walk through and its what -S attempts to automate but you should be able
-> to get an answer manually this way.
->
-> You have BUILDA and BUILDB, the two builds which should be reusing
-> sstate but are not. The fact they're on different machines is irrelevant
-> to this procedure. It would help if these two builds are just the result
-> of "bitbake fpga-image-miami" but that isn't essential, it will just
-> introduce more noise. It will also help if they are either both built
-> from an existing sstate cache or both not.
->
-> The first thing I'd do in each build:
->
-> "find tmp/stamps/ -type f | sort > stamplistA.txt"
->
-> I'd then so something like:
->
-> "meld stamplistA stamplistB"
->
-> the next steps depend upon how clear the differences are. Basically
-> there should be some degree of commonality between the two builds and at
-> some point there will be divergence. We need to pinpoint the point of
-> divergence. The divergence will be in fpga-image-miami itself or in one
-> of its dependencies.
->
-> The one thing which can confuse this view is if some things were reused
-> from sstate. You can tell since a task which runs looks like:
->
-> tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.d90d440=
-4368125acd109a2ac64ca688f.qemux86
->
-> and a task which is from sstate looks like:
->
-> tmp/stamps/all-poky-linux/gstreamer1.0-meta-base/1.0-r0.do_populate_sysro=
-ot_setscene.a49fa811727c557c14ab6ce6f2973587.qemux86
->
-> The "_setscene" part tells you this. Machine specific tasks have the
-> machine name appended to them ".qemux86" in this case. The hash
-> representing the task is clear in the filename
-> ("a49fa811727c557c14ab6ce6f2973587" in this case").
->
-> You'll have to filter out any "noise" from these changes you're not
-> interested in. If a task is "_setscene" its dependencies may be missing
-> from the list of files entirely (no install/compile/configure etc.).
->
-> So you take a guess at the divergence point and take note of the two
-> different hashes. You can then find the corresponding siginfo files in
-> sstate:
->
-> find sstate-cache/ -name *d90d4404368125acd109a2ac64ca688f*
-> sstate-cache/d9/sstate:x11-common:i586-poky-linux:0.1:r47:i586:3:d90d4404=
-368125acd109a2ac64ca688f_populate_sysroot.tgz
-> sstate-cache/d9/sstate:x11-common:i586-poky-linux:0.1:r47:i586:3:d90d4404=
-368125acd109a2ac64ca688f_populate_sysroot.tgz.siginfo
->
-> which are the sstate files corresponding to my above x11-common task.
-> You will note that the first two letters of the hash are used as a
-> directory prefix. You can also find sigdata files in the stamp
-> directory:
->
-> $ find tmp/stamps/ -type f | grep d90d440
-> tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.d90d440=
-4368125acd109a2ac64ca688f.qemux86
-> tmp/stamps/i586-poky-linux/x11-common/0.1-r47.do_populate_sysroot.sigdata=
-.d90d4404368125acd109a2ac64ca688f
->
-> The sigdata and siginfo files are identical and equivalent. Once you
-> have the two sstate files, you can run:
->
-> bitbake-diffsigs A.siginfo B.siginfo
->
-> and this will tell you why their hashes are different. If you need help
-> deciphering that output, link to it and I can help.
+On Tue, May 13, 2014 at 04:28:42PM +0100, Burton, Ross wrote:
+> Hi all,
 
-Dependency on task fpga-image-medical-demo.bb.do_patch was added with hash=
-=20
-8fbb54a572a402e28d05daae0a238f8b
-Dependency on task fpga-image-medical-demo.bb.do_patch was removed with has=
-h=20
-44a252a24b20321e8dbec6d9d8b54c67
+Sorry for hi-jacking the thread, but since today even the older 9.2.5 is
+failing to find native python-libxml2
 
-Now this means that I have to look at the "unpack" task now, right?
+config.log:
+configure:8059: checking for python2
+configure:8075: found
+/OE/build/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/python-native/py=
+thon2
+configure:8086: result: python2
+configure:8103: checking python2 module: libxml2
+configure:8112: result: no
+configure:8118: error: failed to find required module libxml2
 
-The weird thing is, both machines have identical do_patch hashes:
-tmp-eglibc/stamps/zynq_miami_7030-oe-linux-gnueabi/fpga-image-medical-demo/=
-0.AUTOINC-06349d0386-r0.do_patch.sigdata.44a252a24b20321e8dbec6d9d8b54c67
+Any idea why it started to fail now?
 
-I cannot find that "8fbb54a572a402e28d05daae0a238f8b" hash anywhere.
+> As this is a major release of Mesa I'm expecting breakage somewhere...
+>  Can BSP maintainers please test these patches if their machines build
+> Mesa?  I'm expecting machines that use mesa-gl to break if they don't
+> just use the pure software drivers (so that's at least EMGD and if I
+> recall correctly some ARM drivers).
+>=20
+> Ross
+>=20
+> On 13 May 2014 15:59, Valentin Popa <valentin.popa@intel.com> wrote:
+> > mesa upgrade to 10.1.3
+> >
+> > The following changes since commit 40551859671a1c9da26cfdcda34da952c66a=
+c8c2:
+> >
+> >   qemu/local.conf.sample: Add sdl PACKAGECONFIG (2014-05-13 08:02:04 +0=
+100)
+> >
+> > are available in the git repository at:
+> >
+> >   git://git.yoctoproject.org/poky-contrib vpopa/mesa
+> >   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dvpopa/mesa
+> >
+> > Valentin Popa (3):
+> >   dri3proto: add it to oe-core
+> >   libxshmfence: add it to oe-core
+> >   mesa: upgrade to 10.1.3
+> >
+> >  .../mesa/{mesa-gl_9.2.5.bb =3D> mesa-gl_10.1.3.bb}   |  0
+> >  meta/recipes-graphics/mesa/mesa.inc                | 35 +++++++++++++-=
+--------
+> >  .../mesa/{mesa_9.2.5.bb =3D> mesa_10.1.3.bb}         |  4 +--
+> >  meta/recipes-graphics/mesa/mesa_git.bb             |  4 +--
+> >  meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb | 17 +++++++++++
+> >  meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb  | 14 +++++++++
+> >  6 files changed, 56 insertions(+), 18 deletions(-)
+> >  rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb =3D> mesa-gl_10.1.=
+3.bb} (100%)
+> >  rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb =3D> mesa_10.1.3.bb} =
+(82%)
+> >  create mode 100644 meta/recipes-graphics/xorg-lib/libxshmfence_1.1.bb
+> >  create mode 100644 meta/recipes-graphics/xorg-proto/dri3proto_1.0.bb
+> >
+> > --
+> > 1.9.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --=20
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--3pZQ0wszfDg7ZRO+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iEYEARECAAYFAlOPFnUACgkQN1Ujt2V2gBzhaACgibSbcuhLQUWmAid8RgEidXa7
+WgwAn3rYZh6HtmDwszGSxU31dhFMn1Oe
+=GMDR
+-----END PGP SIGNATURE-----
 
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
-http://medteceurope.com/index.php?page=3Dhome-en
-
-
+--3pZQ0wszfDg7ZRO+--
