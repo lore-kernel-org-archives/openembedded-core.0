@@ -1,29 +1,48 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C13E86FA6A
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C4F26FA6A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 06:00:08 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s54609SV025395
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Jun 2014 23:00:09 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 3 Jun 2014 23:00:08 -0700
-Message-ID: <538EB5DD.6020203@windriver.com>
-Date: Wed, 4 Jun 2014 13:59:57 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	Wed,  4 Jun 2014 06:19:37 +0000 (UTC)
+Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id F1B7A4022E;
+	Wed,  4 Jun 2014 08:19:36 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9] autolearn=no
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Wed,  4 Jun 2014 08:19:36 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Wed,  4 Jun 2014 08:19:35 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Wed, 4 Jun 2014 08:19:40 +0200
+Message-ID: <538EBA77.8050900@topic.nl>
+Date: Wed, 4 Jun 2014 08:19:35 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Saul Wold <saul.wold@intel.com>,
-	<openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-References: <cover.1401852113.git.hongxu.jia@windriver.com>
-	<4eddf85a278e98ef2752445a9f4ce961b69a416d.1401852113.git.hongxu.jia@windriver.com>
-	<538EB35A.3060608@intel.com>
-In-Reply-To: <538EB35A.3060608@intel.com>
-Subject: Re: [PATCH 3/3] apr: fix cross compiling failed
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <53843793.3030309@topic.nl>	<CAMKF1sr1vGQf8WSvbeXE5SufAaDivpn7czr5EL-VWKhw9_drBg@mail.gmail.com>	<CABcZANm0dkCh1zFysD6VjDLS-ijHGqNat=FRVTYf03SeUF4XDQ@mail.gmail.com>	<1401318733.2607.71.camel@ted>
+	<538D5C34.4060905@topic.nl>	<538D5E8C.1090008@topic.nl>
+	<1401785145.12440.51.camel@ted>	<538DD39F.1080701@topic.nl>
+	<1401804615.12440.98.camel@ted>
+In-Reply-To: <1401804615.12440.98.camel@ted>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: How to find out why shared sstate is not being used for a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,515 +55,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 06:00:15 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050107070906000602000705"
+X-List-Received-Date: Wed, 04 Jun 2014 06:19:39 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
---------------050107070906000602000705
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 06/04/2014 01:49 PM, Saul Wold wrote:
-> On 06/03/2014 08:27 PM, Hongxu Jia wrote:
->> The do_compile failed:
->> | tools/gen_test_char > include/private/apr_escape_test_char.h
->> | /bin/sh: tools/gen_test_char: No such file or directory
->> | make[1]: *** [include/private/apr_escape_test_char.h] Error 127
+=EF=BB=BFOn 06/03/2014 04:10 PM, Richard Purdie wrote:
+> On Tue, 2014-06-03 at 15:54 +0200, Mike Looijmans wrote:
+>> =EF=BB=BFOn 06/03/2014 10:45 AM, Richard Purdie wrote:
+>>> the next steps depend upon how clear the differences are. Basically
+>>> there should be some degree of commonality between the two builds and a=
+t
+>>> some point there will be divergence. We need to pinpoint the point of
+>>> divergence. The divergence will be in fpga-image-miami itself or in one
+>>> of its dependencies.
 >>
->> The tools/gen_test_char was invoked at build time, and it didn't
->> work for the cross compiling, so we built it with $BUILD_CC.
->>
->> To make sure there was no side effect on the change, not adding this
->> patch, I did the test:
->>
->> 1. Built the native tools/gen_test_char on x86-64 host, and invoke
->>     it on that host;
->>
->> 2. Built the target tools/gen_test_char which arch was arm, and invoke
->>     it on the qemuarm;
->>
->> 3. Comparing the results, they were total the same;
->> ...
->> /* this file is automatically generated by gen_test_char, do not 
->> edit. "make include/private/apr_escape_test_char.h" to regenerate. */
->>
->> static const unsigned char test_char_table[256] = {
->> 32,30,30,30,30,30,30,30,30,30,31,30,30,30,30,30,30,30,30,30,
->>      30,30,30,30,30,30,30,30,30,30,30,30,6,16,63,22,17,22,49,17,
->>      17,17,1,16,16,0,0,18,0,0,0,0,0,0,0,0,0,0,16,23,
->>      55,16,55,23,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
->>      0,0,0,0,0,0,0,0,0,0,0,23,31,23,23,0,23,0,0,0,
->>      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
->>      0,0,0,23,23,23,17,30,30,30,30,30,30,30,30,30,30,30,30,30,
->> 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
->> 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
->> 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
->> 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
->> 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
->>      30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
->> };
->> ...
->>
->> The do_install failed:
->> | DEBUG: Executing shell function do_install
->> | NOTE: make -j 16 
->> DESTDIR=tmp/work/x86_64-linux/apr-native/1.5.1-r0/image
->>   install
->> | tmp/work/x86_64-linux/apr-native/1.5.1-r0/apr-1.5.1/build/mkdir.sh 
->> tools
->> | gcc 
->> -isystem/home/pokybuild/yocto-autobuilder/yocto-slave/build-appliance/
->> build/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
->> tools/gen_test_char.c -o tools/gen_test_char
->> | make[1]: Entering directory 
->> `tmp/work/x86_64-linux/apr-native/1.5.1-r0/
->> apr-1.5.1'
->> | tmp/work/x86_64-linux/apr-native/1.5.1-r0/apr-1.5.1/build/mkdir.sh 
->> tools
->> | gcc 
->> -isystem/home/pokybuild/yocto-autobuilder/yocto-slave/build-appliance/
->> build/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
->> tools/gen_test_char.c -o tools/gen_test_char
->> | tmp/work/x86_64-linux/apr-native/1.5.1-r0/apr-1.5.1/build/mkdir.sh
->> include/private
->> | tools/gen_test_char > include/private/apr_escape_test_char.h
->> | /bin/sh: tools/gen_test_char: Permission denied
->>
->> Remove the 'tools' dir creation, it always existed. And it caused
->> gen_test_char unexpected rebuilt at do_install time.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-support/apr/apr/upgrade-and-fix.patch | 48 
->> ++++++++++++++++++++++
->>   meta/recipes-support/apr/apr_1.5.1.bb              |  1 +
->>   2 files changed, 49 insertions(+)
->>   create mode 100644 meta/recipes-support/apr/apr/upgrade-and-fix.patch
->>
+>> ALL stamps for ALL tasks for fpga-image-miami are different. There's a f=
+ew
+>> thousand lines in these files, with very few similarities.
 >
-> Why not combine this with the 1.5.1 update so they are together?
+> Ok, this gives a very strong pointer then, see below.
 >
-> Sau!
+>> I'll just go for the "do_fetch" task then, since that's about the first =
+to
+>> execute.
 >
-
-Update:
-
-   git://git.pokylinux.org/poky-contrib hongxu/upgrade-apr
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/upgrade-apr
-
--rw-r--r-- meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch    48
--rw-r--r--    meta/recipes-support/apr/apr_1.5.1.bb    1
-
-//Hongxu
-
-
->> diff --git a/meta/recipes-support/apr/apr/upgrade-and-fix.patch 
->> b/meta/recipes-support/apr/apr/upgrade-and-fix.patch
->> new file mode 100644
->> index 0000000..4bca384
->> --- /dev/null
->> +++ b/meta/recipes-support/apr/apr/upgrade-and-fix.patch
->> @@ -0,0 +1,48 @@
->> +Makefile.in: fix cross compiling failed
->> +
->> +The tools/gen_test_char was invoked at build time,
->> +and it didn't work for the cross compiling, so we
->> +compile it with $BUILD_CC.
->> +
->> +Remove the 'tools' dir creation, it always existed.
->> +And it caused gen_test_char unexpected rebuilt at
->> +do_install time.
->> +
->> +Upstream-Status: inappropriate [oe specific]
->> +
->> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> +---
->> + Makefile.in | 10 ++--------
->> + 1 file changed, 2 insertions(+), 8 deletions(-)
->> +
->> +diff --git a/Makefile.in b/Makefile.in
->> +index 6f99733..5fe028f 100644
->> +--- a/Makefile.in
->> ++++ b/Makefile.in
->> +@@ -46,7 +46,6 @@ LT_VERSION = @LT_VERSION@
->> +
->> + CLEAN_TARGETS = apr-config.out apr.exp exports.c export_vars.c 
->> .make.dirs \
->> +     build/apr_rules.out tools/gen_test_char@EXEEXT@ \
->> +-    tools/gen_test_char.o tools/gen_test_char.lo \
->> +     include/private/apr_escape_test_char.h
->> + DISTCLEAN_TARGETS = config.cache config.log config.status \
->> +     include/apr.h include/arch/unix/apr_private.h \
->> +@@ -129,13 +128,8 @@ check: $(TARGET_LIB)
->> + etags:
->> +     etags `find . -name '*.[ch]'`
->> +
->> +-make_tools_dir:
->> +-    $(APR_MKDIR) tools
->> +-
->> +-OBJECTS_gen_test_char = tools/gen_test_char.lo $(LOCAL_LIBS)
->> +-tools/gen_test_char.lo: make_tools_dir
->> +-tools/gen_test_char@EXEEXT@: $(OBJECTS_gen_test_char)
->> +-    $(LINK_PROG) $(OBJECTS_gen_test_char) $(ALL_LIBS)
->> ++tools/gen_test_char@EXEEXT@: tools/gen_test_char.c
->> ++    $(BUILD_CC) $(CFLAGS_FOR_BUILD) $< -o $@
->> +
->> + include/private/apr_escape_test_char.h: tools/gen_test_char@EXEEXT@
->> +     $(APR_MKDIR) include/private
->> +--
->> +1.8.1.2
->> +
->> diff --git a/meta/recipes-support/apr/apr_1.5.1.bb 
->> b/meta/recipes-support/apr/apr_1.5.1.bb
->> index 7f2d2ca..8c77af2 100644
->> --- a/meta/recipes-support/apr/apr_1.5.1.bb
->> +++ b/meta/recipes-support/apr/apr_1.5.1.bb
->> @@ -14,6 +14,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
->>              file://cleanup.patch \
->>              file://configfix.patch \
->>              file://run-ptest \
->> +           file://upgrade-and-fix.patch \
->>   "
+> This is a good move.
+>
+>> So far, on one project (that is, NOT the fpga-image-miami) the SRC_URI i=
+s
+>> slightly different. The machines are on various sides of a router/firewa=
+ll, so
+>> SRC_URI=3D"git://${MY_SERVER}/blabla" evaluates differently.
 >>
->>   SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
->>
+>> How can I tell the system that the value of "MY_SERVER" is irrelevant to=
+ each
+>> and every build step in each and every recipe?
 >
+> The SRC_URI changing would indeed cause the tasks build separately since
+> bitbake thinks they're different things.
+>
+> You have two ways of addressing this. Firstly, you could setup PREMIRROR
+> entries for these git urls which remaps them to the correct thing in
+> each case. There would then be one "canonical" url in the recipe and
+> you'd not need to change the hash generation.
+>
+> The other way would be to either exclude the variable from the checksum
+> generation or give it a specific value. This would be something like:
+>
+> do_fetch[vardepsexclude] +=3D "SRC_URI"
+>
+> you may also have to do this with other tasks that use SRC_URI such as
+> do_unpack and do_patch. The other option is:
+>
+> SRC_URI[vardepvalue] =3D "git://canonical/url/for/recipe"
+>
+> which gives it a specific value to use for checksum purposes.
+
+In this case, a very useful syntax. The machines have different MY_SERVER=20
+values in their local.conf, so I've changed one into:
+
+MY_SERVER =3D "git://some/local/path"
+MY_SERVER[vardepvalue] =3D "git://common.server/path"
+
+This generates the same SRC_URI signatures for the locations that look=20
+different but actually refer to the same location.
+
+The PREMIRROR sounds like a generic solution to the underlying problem of=20
+accessing servers from different locations. I'll keep that in mind for the=
+=20
+next project.
+
+Next, I'll need to investigate why the fpga-image-miami generates different=
+=20
+signatures, as both machines fetch it from the same URI.
+
+Mike.
 
 
---------------050107070906000602000705
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+Met vriendelijke groet / kind regards,
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 06/04/2014 01:49 PM, Saul Wold
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:538EB35A.3060608@intel.com" type="cite">On
-      06/03/2014 08:27 PM, Hongxu Jia wrote:
-      <br>
-      <blockquote type="cite">The do_compile failed:
-        <br>
-        | tools/gen_test_char &gt;
-        include/private/apr_escape_test_char.h
-        <br>
-        | /bin/sh: tools/gen_test_char: No such file or directory
-        <br>
-        | make[1]: *** [include/private/apr_escape_test_char.h] Error
-        127
-        <br>
-        <br>
-        The tools/gen_test_char was invoked at build time, and it didn't
-        <br>
-        work for the cross compiling, so we built it with $BUILD_CC.
-        <br>
-        <br>
-        To make sure there was no side effect on the change, not adding
-        this
-        <br>
-        patch, I did the test:
-        <br>
-        <br>
-        1. Built the native tools/gen_test_char on x86-64 host, and
-        invoke
-        <br>
-        &nbsp;&nbsp;&nbsp; it on that host;
-        <br>
-        <br>
-        2. Built the target tools/gen_test_char which arch was arm, and
-        invoke
-        <br>
-        &nbsp;&nbsp;&nbsp; it on the qemuarm;
-        <br>
-        <br>
-        3. Comparing the results, they were total the same;
-        <br>
-        ...
-        <br>
-        /* this file is automatically generated by gen_test_char, do not
-        edit. "make include/private/apr_escape_test_char.h" to
-        regenerate. */
-        <br>
-        <br>
-        static const unsigned char test_char_table[256] = {
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        32,30,30,30,30,30,30,30,30,30,31,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 30,30,30,30,30,30,30,30,30,30,30,30,6,16,63,22,17,22,49,17,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 17,17,1,16,16,0,0,18,0,0,0,0,0,0,0,0,0,0,16,23,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 55,16,55,23,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 0,0,0,0,0,0,0,0,0,0,0,23,31,23,23,0,23,0,0,0,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 0,0,0,23,23,23,17,30,30,30,30,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp; 30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
-        <br>
-        };
-        <br>
-        ...
-        <br>
-        <br>
-        The do_install failed:
-        <br>
-        | DEBUG: Executing shell function do_install
-        <br>
-        | NOTE: make -j 16
-        DESTDIR=tmp/work/x86_64-linux/apr-native/1.5.1-r0/image
-        <br>
-        &nbsp; install
-        <br>
-        |
-        tmp/work/x86_64-linux/apr-native/1.5.1-r0/apr-1.5.1/build/mkdir.sh
-        tools
-        <br>
-        | gcc&nbsp;
-        -isystem/home/pokybuild/yocto-autobuilder/yocto-slave/build-appliance/
-        <br>
-        build/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
-        <br>
-        tools/gen_test_char.c -o tools/gen_test_char
-        <br>
-        | make[1]: Entering directory
-        `tmp/work/x86_64-linux/apr-native/1.5.1-r0/
-        <br>
-        apr-1.5.1'
-        <br>
-        |
-        tmp/work/x86_64-linux/apr-native/1.5.1-r0/apr-1.5.1/build/mkdir.sh
-        tools
-        <br>
-        | gcc&nbsp;
-        -isystem/home/pokybuild/yocto-autobuilder/yocto-slave/build-appliance/
-        <br>
-        build/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
-        <br>
-        tools/gen_test_char.c -o tools/gen_test_char
-        <br>
-        |
-        tmp/work/x86_64-linux/apr-native/1.5.1-r0/apr-1.5.1/build/mkdir.sh
-        <br>
-        include/private
-        <br>
-        | tools/gen_test_char &gt;
-        include/private/apr_escape_test_char.h
-        <br>
-        | /bin/sh: tools/gen_test_char: Permission denied
-        <br>
-        <br>
-        Remove the 'tools' dir creation, it always existed. And it
-        caused
-        <br>
-        gen_test_char unexpected rebuilt at do_install time.
-        <br>
-        <br>
-        Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
-        <br>
-        ---
-        <br>
-        &nbsp; meta/recipes-support/apr/apr/upgrade-and-fix.patch | 48
-        ++++++++++++++++++++++
-        <br>
-        &nbsp; meta/recipes-support/apr/apr_1.5.1.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +
-        <br>
-        &nbsp; 2 files changed, 49 insertions(+)
-        <br>
-        &nbsp; create mode 100644
-        meta/recipes-support/apr/apr/upgrade-and-fix.patch
-        <br>
-        <br>
-      </blockquote>
-      <br>
-      Why not combine this with the 1.5.1 update so they are together?
-      <br>
-      <br>
-      Sau!
-      <br>
-      <br>
-    </blockquote>
-    <br>
-    Update:<br>
-    <pre wrap="">  git://git.pokylinux.org/poky-contrib hongxu/upgrade-apr
-  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/upgrade-apr">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/upgrade-apr</a>
+Mike Looijmans
 
-</pre>
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    -rw-r--r--&nbsp;&nbsp;&nbsp;
-    meta/recipes-support/apr/apr/upgrade-and-fix-1.5.1.patch&nbsp;&nbsp;&nbsp; 48&nbsp;&nbsp;&nbsp; <br>
-    -rw-r--r--&nbsp;&nbsp;&nbsp; meta/recipes-support/apr/apr_1.5.1.bb&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; <br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <br>
-    <blockquote cite="mid:538EB35A.3060608@intel.com" type="cite">
-      <blockquote type="cite">diff --git
-        a/meta/recipes-support/apr/apr/upgrade-and-fix.patch
-        b/meta/recipes-support/apr/apr/upgrade-and-fix.patch
-        <br>
-        new file mode 100644
-        <br>
-        index 0000000..4bca384
-        <br>
-        --- /dev/null
-        <br>
-        +++ b/meta/recipes-support/apr/apr/upgrade-and-fix.patch
-        <br>
-        @@ -0,0 +1,48 @@
-        <br>
-        +Makefile.in: fix cross compiling failed
-        <br>
-        +
-        <br>
-        +The tools/gen_test_char was invoked at build time,
-        <br>
-        +and it didn't work for the cross compiling, so we
-        <br>
-        +compile it with $BUILD_CC.
-        <br>
-        +
-        <br>
-        +Remove the 'tools' dir creation, it always existed.
-        <br>
-        +And it caused gen_test_char unexpected rebuilt at
-        <br>
-        +do_install time.
-        <br>
-        +
-        <br>
-        +Upstream-Status: inappropriate [oe specific]
-        <br>
-        +
-        <br>
-        +Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
-        <br>
-        +---
-        <br>
-        + Makefile.in | 10 ++--------
-        <br>
-        + 1 file changed, 2 insertions(+), 8 deletions(-)
-        <br>
-        +
-        <br>
-        +diff --git a/Makefile.in b/Makefile.in
-        <br>
-        +index 6f99733..5fe028f 100644
-        <br>
-        +--- a/Makefile.in
-        <br>
-        ++++ b/Makefile.in
-        <br>
-        +@@ -46,7 +46,6 @@ LT_VERSION = @LT_VERSION@
-        <br>
-        +
-        <br>
-        + CLEAN_TARGETS = apr-config.out apr.exp exports.c export_vars.c
-        .make.dirs \
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp; build/apr_rules.out tools/gen_test_char@EXEEXT@ \
-        <br>
-        +-&nbsp;&nbsp;&nbsp; tools/gen_test_char.o tools/gen_test_char.lo \
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp; include/private/apr_escape_test_char.h
-        <br>
-        + DISTCLEAN_TARGETS = config.cache config.log config.status \
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp; include/apr.h include/arch/unix/apr_private.h \
-        <br>
-        +@@ -129,13 +128,8 @@ check: $(TARGET_LIB)
-        <br>
-        + etags:
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp; etags `find . -name '*.[ch]'`
-        <br>
-        +
-        <br>
-        +-make_tools_dir:
-        <br>
-        +-&nbsp;&nbsp;&nbsp; $(APR_MKDIR) tools
-        <br>
-        +-
-        <br>
-        +-OBJECTS_gen_test_char = tools/gen_test_char.lo $(LOCAL_LIBS)
-        <br>
-        +-tools/gen_test_char.lo: make_tools_dir
-        <br>
-        +-tools/gen_test_char@EXEEXT@: $(OBJECTS_gen_test_char)
-        <br>
-        +-&nbsp;&nbsp;&nbsp; $(LINK_PROG) $(OBJECTS_gen_test_char) $(ALL_LIBS)
-        <br>
-        ++tools/gen_test_char@EXEEXT@: tools/gen_test_char.c
-        <br>
-        ++&nbsp;&nbsp;&nbsp; $(BUILD_CC) $(CFLAGS_FOR_BUILD) $&lt; -o $@
-        <br>
-        +
-        <br>
-        + include/private/apr_escape_test_char.h:
-        tools/gen_test_char@EXEEXT@
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp; $(APR_MKDIR) include/private
-        <br>
-        +--
-        <br>
-        +1.8.1.2
-        <br>
-        +
-        <br>
-        diff --git a/meta/recipes-support/apr/apr_1.5.1.bb
-        b/meta/recipes-support/apr/apr_1.5.1.bb
-        <br>
-        index 7f2d2ca..8c77af2 100644
-        <br>
-        --- a/meta/recipes-support/apr/apr_1.5.1.bb
-        <br>
-        +++ b/meta/recipes-support/apr/apr_1.5.1.bb
-        <br>
-        @@ -14,6 +14,7 @@ SRC_URI =
-        "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class="moz-txt-link-freetext" href="file://cleanup.patch">file://cleanup.patch</a> \
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class="moz-txt-link-freetext" href="file://configfix.patch">file://configfix.patch</a> \
-        <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class="moz-txt-link-freetext" href="file://run-ptest">file://run-ptest</a> \
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class="moz-txt-link-freetext" href="file://upgrade-and-fix.patch">file://upgrade-and-fix.patch</a> \
-        <br>
-        &nbsp; "
-        <br>
-        <br>
-        &nbsp; SRC_URI[md5sum] = "5486180ec5a23efb5cae6d4292b300ab"
-        <br>
-        <br>
-      </blockquote>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
 
---------------050107070906000602000705--
+Please consider the environment before printing this e-mail
+
+Visit us at MEDTEC Europe 3-5 June, Messe Stuttgart, stand number 5D20
+http://medteceurope.com/index.php?page=3Dhome-en
+
+
