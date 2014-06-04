@@ -1,30 +1,36 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B949B6FB3B
+Return-Path: <ajlennon@gmail.com>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id DF5CC6B7A6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jun 2014 20:52:57 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id m1so65160oag.26
+	Wed,  4 Jun 2014 21:54:35 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id t60so129446wes.27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jun 2014 13:52:58 -0700 (PDT)
+	Wed, 04 Jun 2014 14:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=rc6qzPY+BShrW0Fd0fw4frE1kF+cwUA3QCRPzwnpr58=;
-	b=gXV44J4vZ2AHYghnJ+Ir6x06TupC/ocaAiY6pwTuTBGDFOya4x0DxNSR3aE7ALkmub
-	2hLyfdKtdDvXri5RXSuSoXCsfJPBAL51DjSZlBrjaQyCOxJBUvu+OTMrLF8wiJi403pT
-	+yM/GgBqEC3GhkoRdFncYxuI5uS0zqeMUWF6xVcenaamEWifKgNucH5CSCtz5sDbKMRw
-	Yq3+q2nKvpf1c1TP/PsxwVeC1hSN0xGwDOPaq7muadZuMKE9oqaaAODqYTDeCFPSnVCz
-	PcuQ86VfeT9pa9X3HTlGIOOQEXhMsOGD2wdpf9dGbjSMKR02nwZVbN5Ys+Up9Ot1TyLj
-	mbFQ==
-X-Received: by 10.182.229.101 with SMTP id sp5mr61929346obc.52.1401915178423; 
-	Wed, 04 Jun 2014 13:52:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.111.133 with HTTP; Wed, 4 Jun 2014 13:52:38 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 4 Jun 2014 22:52:38 +0200
-Message-ID: <CAPybu_3Jz=KNmYjE+crCFBuxpmJGmS7DfOM9fmDXFGOADmwyFg@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: PR_Service. Sync database only on clean stop?
+	h=sender:from:to:subject:date:message-id;
+	bh=m3cvPMAt1yfMoxZOl/Y9TmGJtomWfRZkngJ7EATMPo0=;
+	b=taxJ75/nCd/ZtiY4267lF3khjxIrMXRQ0eaMjC5RGoXtHPnmVY3Nsak+okyEfbMsjR
+	QueaKeGN0NFKGy+5LiPAXrDCDGrihNgCfG0B+/v0y2GY0cA6NYJgmy8I0sqeIDyFWuny
+	kD4q/NHCOOECWRjgFVM5npzq82pC4PGYz2IEGCQGFgHqkC/Pbx2ndEPUfb4Z5UQfykM9
+	iUqDmpvYlVYNdU8R00PTS7ZnXeDAEhf/0ivnG/RHhl4Fjz6igBNQSmC4N/yKpmf+DRu8
+	ac44eoId3juI2bc+P7EJcnLGtLtHj/LkQrc5l13UQMBrUrS8xAiBz29F3TFwZNdb+Nkg
+	WNPA==
+X-Received: by 10.180.37.144 with SMTP id y16mr9307388wij.55.1401918876014;
+	Wed, 04 Jun 2014 14:54:36 -0700 (PDT)
+Received: from localhost.localdomain
+	(cpc32-live22-2-0-cust59.17-2.cable.virginm.net. [82.36.253.60])
+	by mx.google.com with ESMTPSA id oy4sm5298921wjb.41.2014.06.04.14.54.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 04 Jun 2014 14:54:35 -0700 (PDT)
+Sender: Alex Lennon <ajlennon@gmail.com>
+From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jun 2014 22:53:45 +0100
+Message-Id: <cover.1401918455.git.ajlennon@dynamicdevices.co.uk>
+X-Mailer: git-send-email 2.0.0
+Subject: [PATCH 0/1] gstreamer1.0-rtsp-server: Add recipe to support gst-rtsp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jun 2014 20:53:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Jun 2014 21:54:36 -0000
 
-Hello
+Please see following patch for details
 
-I have been running happily with pr_service for two months.
-Unfortunately, due to a power down the computer running the pr server
-has stopped.
-When I have started the server I have discovered that all the
-information about PR was lost :S. I assumed this was due to a db
-corruption, but I have later discovered that the database is not
-synced after every insert.
+Alex J Lennon (1):
+  gstreamer1.0-rtsp-server: Add recipe to support gst-rtsp-server
 
-I guess this is to improve the performance, but I don't think that
-everybody prefer this behaviour, right now I have to remake and
-distribute only 10 flashes, something reasonable, but it would have a
-disaster later in our development cycle.
-
-Is somebody working on a parameter for the db to be persistent? Would
-a patch to implement this be considered?
-
-Regards
+ .../gstreamer/gstreamer1.0-rtsp-server.inc                 | 14 ++++++++++++++
+ .../gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb            |  9 +++++++++
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb
 
 -- 
-Ricardo Ribalda
+2.0.0
+
 
