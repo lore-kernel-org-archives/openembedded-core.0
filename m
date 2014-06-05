@@ -1,26 +1,37 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43A0A6B7D2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 990E565EDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 08:44:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s558iB8r009486
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  5 Jun 2014 09:42:51 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id k15so705746qaq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Jun 2014 01:44:11 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 5 Jun 2014 01:44:10 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jun 2014 16:44:05 +0800
-Message-ID: <fbfff76fb2674ded5922ab7d2d68b6975b5705d6.1401957639.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1401957639.git.Chong.Lu@windriver.com>
-References: <cover.1401957639.git.Chong.Lu@windriver.com>
+	Thu, 05 Jun 2014 02:42:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WwcTo/BABnhv9DZXF1eyclxyiqM3D/ExUeVHLAvYpFE=;
+	b=aFrfiSdpyY10+ESAP8sbhNNkq4diRKS1x6EQz4iZkJTfai7QeFXcyYNJOZ03A6P7y1
+	kr/uCYIr7/pqTl9OgpdtVo4HVkx0YuvE1PNhx/rxKiA/KMjcY/XBxC1Klkb7YZnN0gAA
+	ZMv/0JIIbthb0lgNWnNmYAOumKsMfC3+ijlHknSb1mWj0ec4MFVOOOQZ8PR4RhQNPuDH
+	Npn/DCSiqv4s59XxgFlHfvN/60OyYfhilqqW9Giq7+ZoVLVOlAMsO404ARwiijUSombS
+	IGWpeIhV+ifvsx9P44nGOrCA20r7uqJmwOkLXKbeoMYplHrr67hMaNNaTdhCNVnvSekC
+	JV5g==
+X-Gm-Message-State: ALoCoQnBW1tYzPPIlaxVCREYLuCmmphxTXLxh+jGTjTVR7+e4duRUWMwx5T4L+AgNpuOhvw7rZwt
+X-Received: by 10.224.151.206 with SMTP id d14mr15304150qaw.35.1401961372815; 
+	Thu, 05 Jun 2014 02:42:52 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oprofile: Determine the root home directory dynamically
+Received: by 10.140.101.77 with HTTP; Thu, 5 Jun 2014 02:42:32 -0700 (PDT)
+In-Reply-To: <e495f3e49d33bd3b855c8eb91206622e0f2e3d14.1401945914.git.Qi.Chen@windriver.com>
+References: <cover.1401945914.git.Qi.Chen@windriver.com>
+	<e495f3e49d33bd3b855c8eb91206622e0f2e3d14.1401945914.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Jun 2014 10:42:32 +0100
+Message-ID: <CAJTo0LbN9V7f29md9LNEA5aG9NaLHG6ZiKt8m_72wO=E9hkWpw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/3] gawk: upgrade from 4.0.2 to 4.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,229 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 08:44:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jun 2014 09:42:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This commit detects the root home directory dynamically with changes to
-the opcontrol script and the oprofile gui app source.
+On 5 June 2014 06:29, Chen Qi <Qi.Chen@windriver.com> wrote:
+> +FILES_gawk-common += "${datadir}/awk/* ${libexecdir}/awk/* ${libexecdir}/*.so"
 
-The commit replaces an earlier fix that detected and adjusted a
-'non-standard' root home directory at build time.  The advantage of this
-patch is that the oprofile tools are adjusted to the current run-time
-path to ~root, not the build time path.
+Gawk doesn't install extensions into libexecdir, but $libdir/gawk:
 
-Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-kernel/oprofile/oprofile.inc          |   5 +-
- .../{oprofile-root.patch => root-home-dir.patch}   | 111 +++++++++++----------
- 2 files changed, 61 insertions(+), 55 deletions(-)
- rename meta/recipes-kernel/oprofile/oprofile/{oprofile-root.patch => root-home-dir.patch} (43%)
+AC_SUBST([pkgextensiondir], ['${pkglibdir}'])
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
-index 0a7f7fd..b088737 100644
---- a/meta/recipes-kernel/oprofile/oprofile.inc
-+++ b/meta/recipes-kernel/oprofile/oprofile.inc
-@@ -19,16 +19,15 @@ FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
- FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
- 
- SRC_URI = "file://opstart.patch \
--           file://oprofile-root.patch \
-            file://acinclude.m4 \
-            file://oprofile-cross-compile-tests.patch \
--           file://run-ptest"
-+           file://run-ptest \
-+           file://root-home-dir.patch"
- 
- inherit autotools-brokensep ptest
- 
- EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x"
- do_configure () {
--	find ${S} -wholename '${S}/.pc' -prune -o -type f -print | xargs sed -i 's#ROOTHOME#${ROOT_HOME}#'
- 	cp ${WORKDIR}/acinclude.m4 ${S}/
- 	autotools_do_configure
- }
-diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
-similarity index 43%
-rename from meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
-rename to meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
-index f3fe4c9..45cab7d 100644
---- a/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
-+++ b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
-@@ -1,113 +1,120 @@
--Change hardcoded /root to /home/root
-+oprofile: Determine the root home directory dynamically
- 
--Upstream-Status: inappropriate [OE specific]
-+This commit detects the root home directory dynamically with changes to
-+the opcontrol script and the oprofile gui app source.
- 
--Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+The commit replaces an earlier fix that detected and adjusted a
-+'non-standard' root home directory at build time.  The advantage of this
-+patch is that the oprofile tools are adjusted to the current run-time
-+path to ~root, not the build time path.
- 
--Replace "/home/root" with stub "ROOTHOME", then substitute it with
--real root home directory which is configured dymanically.
-+Upstream-Status: inappropriate [OE specific]
- 
--Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
- 
--diff -ur oprofile-0.9.7.orig/doc/opcontrol.1.in oprofile-0.9.7/doc/opcontrol.1.in
----- oprofile-0.9.7.orig/doc/opcontrol.1.in	2011-07-04 21:25:04.000000000 -0500
--+++ oprofile-0.9.7/doc/opcontrol.1.in	2012-07-02 14:02:16.358865420 -0500
--@@ -171,7 +171,7 @@
-+diff --git a/doc/opcontrol.1.in b/doc/opcontrol.1.in
-+index c434704..f57eb76 100644
-+--- a/doc/opcontrol.1.in
-++++ b/doc/opcontrol.1.in
-+@@ -171,7 +171,7 @@ No special environment variables are recognised by opcontrol.
-  
-  .SH FILES
-  .TP
- -.I /root/.oprofile/daemonrc
--+.I ROOTHOME/.oprofile/daemonrc
-++.I ~root/.oprofile/daemonrc
-  Configuration file for opcontrol
-  .TP
-  .I /var/lib/oprofile/samples/
--diff -ur oprofile-0.9.7.orig/doc/oprofile.1 oprofile-0.9.7/doc/oprofile.1
----- oprofile-0.9.7.orig/doc/oprofile.1	2011-08-12 10:23:27.000000000 -0500
--+++ oprofile-0.9.7/doc/oprofile.1	2012-07-02 14:02:29.295862358 -0500
--@@ -150,7 +150,7 @@
-+diff --git a/doc/oprofile.1.in b/doc/oprofile.1.in
-+index 3d0f0ed..5c623e1 100644
-+--- a/doc/oprofile.1.in
-++++ b/doc/oprofile.1.in
-+@@ -150,7 +150,7 @@ No special environment variables are recognised by oprofile.
-  .I $HOME/.oprofile/
-  Configuration files
-  .TP
- -.I /root/.oprofile/daemonrc
--+.I ROOTHOME/.oprofile/daemonrc
-- Configuration file for opcontrol
-- .TP
-- .I /opt/oprofile-0.9.7-rc3/share/oprofile/
--diff -ur oprofile-0.9.7.orig/doc/oprofile.1.in oprofile-0.9.7/doc/oprofile.1.in
----- oprofile-0.9.7.orig/doc/oprofile.1.in	2011-07-04 21:25:04.000000000 -0500
--+++ oprofile-0.9.7/doc/oprofile.1.in	2012-07-02 14:01:35.812004623 -0500
--@@ -150,7 +150,7 @@
-- .I $HOME/.oprofile/
-- Configuration files
-- .TP
---.I /root/.oprofile/daemonrc
--+.I ROOTHOME/.oprofile/daemonrc
-++.I ~root/.oprofile/daemonrc
-  Configuration file for opcontrol
-  .TP
-  .I @prefix@/share/oprofile/
--diff -ur oprofile-0.9.7.orig/doc/oprofile.html oprofile-0.9.7/doc/oprofile.html
----- oprofile-0.9.7.orig/doc/oprofile.html	2011-07-04 21:32:35.000000000 -0500
--+++ oprofile-0.9.7/doc/oprofile.html	2012-07-02 14:04:59.804018961 -0500
--@@ -1394,7 +1394,7 @@
-+diff --git a/doc/oprofile.html b/doc/oprofile.html
-+index 128d9f7..d7e4dea 100644
-+--- a/doc/oprofile.html
-++++ b/doc/oprofile.html
-+@@ -1394,7 +1394,7 @@ The <span class="command"><strong>opcontrol</strong></span> script provides the
-                <dd>
-                  <p>
-  		    Followed by list arguments for profiling set up. List of arguments
- -		    saved in <code class="filename">/root/.oprofile/daemonrc</code>.
--+		    saved in <code class="filename">ROOTHOME/.oprofile/daemonrc</code>.
-++		    saved in <code class="filename">~root/.oprofile/daemonrc</code>.
-  		    Giving this option is not necessary; you can just directly pass one
-  		    of the setup options, e.g. <span class="command"><strong>opcontrol --no-vmlinux</strong></span>.
-  		  </p>
--@@ -1430,7 +1430,7 @@
-+@@ -1430,7 +1430,7 @@ The <span class="command"><strong>opcontrol</strong></span> script provides the
-                <dd>
-                  <p>
-  		    Start data collection with either arguments provided by <code class="option">--setup</code>
- -		or information saved in <code class="filename">/root/.oprofile/daemonrc</code>. Specifying
--+		or information saved in <code class="filename">ROOTHOME/.oprofile/daemonrc</code>. Specifying
-++		or information saved in <code class="filename">~root/.oprofile/daemonrc</code>. Specifying
-  		the addition <code class="option">--verbose</code> makes the daemon generate lots of debug data
-  		whilst it is running.
-  		</p>
--diff -ur oprofile-0.9.7.orig/doc/oprofile.xml oprofile-0.9.7/doc/oprofile.xml
----- oprofile-0.9.7.orig/doc/oprofile.xml	2011-07-04 21:25:04.000000000 -0500
--+++ oprofile-0.9.7/doc/oprofile.xml	2012-07-02 14:02:03.543019283 -0500
--@@ -568,7 +568,7 @@
-+diff --git a/doc/oprofile.xml b/doc/oprofile.xml
-+index 6a17c6d..0968d76 100644
-+--- a/doc/oprofile.xml
-++++ b/doc/oprofile.xml
-+@@ -568,7 +568,7 @@ The <command>opcontrol</command> script provides the following actions :
-  		<term><option>--setup</option></term>
-  		<listitem><para>
-  		    Followed by list arguments for profiling set up. List of arguments
- -		    saved in <filename>/root/.oprofile/daemonrc</filename>.
--+		    saved in <filename>ROOTHOME/.oprofile/daemonrc</filename>.
-++		    saved in <filename>~root/.oprofile/daemonrc</filename>.
-  		    Giving this option is not necessary; you can just directly pass one
-  		    of the setup options, e.g. <command>opcontrol --no-vmlinux</command>.
-  		  </para></listitem>
--@@ -592,7 +592,7 @@
-+@@ -592,7 +592,7 @@ The <command>opcontrol</command> script provides the following actions :
-  		<term><option>--start</option></term>
-  		<listitem><para>
-  		    Start data collection with either arguments provided by <option>--setup</option>
- -		or information saved in <filename>/root/.oprofile/daemonrc</filename>. Specifying
--+		or information saved in <filename>ROOTHOME/.oprofile/daemonrc</filename>. Specifying
-++		or information saved in <filename>~root/.oprofile/daemonrc</filename>. Specifying
-  		the addition <option>--verbose</option> makes the daemon generate lots of debug data
-  		whilst it is running.
-  		</para></listitem>
--diff -ur oprofile-0.9.7.orig/gui/oprof_start_util.cpp oprofile-0.9.7/gui/oprof_start_util.cpp
----- oprofile-0.9.7.orig/gui/oprof_start_util.cpp	2011-07-04 21:25:04.000000000 -0500
--+++ oprofile-0.9.7/gui/oprof_start_util.cpp	2012-07-02 13:55:21.041876096 -0500
--@@ -39,7 +39,7 @@
-+diff --git a/gui/oprof_start_util.cpp b/gui/oprof_start_util.cpp
-+index d293431..d13fa8f 100644
-+--- a/gui/oprof_start_util.cpp
-++++ b/gui/oprof_start_util.cpp
-+@@ -20,6 +20,8 @@
-+ #include <iostream>
-+ #include <fstream>
-+ #include <cstdlib>
-++#include <sys/types.h>
-++#include <pwd.h>
-+ 
-+ #include <qfiledialog.h>
-+ #include <qmessagebox.h>
-+@@ -39,7 +41,8 @@ namespace {
-  // return the ~ expansion suffixed with a '/'
-  string const get_config_dir()
-  {
- -	return "/root";
--+	return "ROOTHOME";
-++	struct *pw = getpwnam("root");
-++	return pw->pw_dir;
-  }
-  
-  string daemon_pid;
--diff -ur oprofile-0.9.7.orig/utils/opcontrol oprofile-0.9.7/utils/opcontrol
----- oprofile-0.9.7.orig/utils/opcontrol	2011-07-20 14:36:48.000000000 -0500
--+++ oprofile-0.9.7/utils/opcontrol	2012-07-02 13:55:06.232872688 -0500
--@@ -384,7 +384,7 @@
-+diff --git a/utils/opcontrol b/utils/opcontrol
-+index 09fa5a7..a8acdae 100644
-+--- a/utils/opcontrol
-++++ b/utils/opcontrol
-+@@ -385,7 +385,7 @@ do_init()
-  	OPROFILED="$OPDIR/oprofiled"
-  
-  	# location for daemon setup information
- -	SETUP_DIR="/root/.oprofile"
--+	SETUP_DIR="ROOTHOME/.oprofile"
-++	SETUP_DIR="`grep root /etc/passwd | cut -d: -f6`/.oprofile"
-  	SETUP_FILE="$SETUP_DIR/daemonrc"
-  	SEC_SETUP_FILE="$SETUP_DIR/daemonrc_new"
-  
--- 
-1.8.1.2
+They may end up in the same location but that can't be guaranteed for
+all time (especially when I have a series that changes libexecdir).
 
+Ross
 
