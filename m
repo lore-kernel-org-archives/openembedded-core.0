@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3444A6FA61
+	by mail.openembedded.org (Postfix) with ESMTP id 527C66FAB1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 09:46:24 +0000 (UTC)
+	Thu,  5 Jun 2014 09:46:25 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2014 02:46:25 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2014 02:46:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,980,1392192000"; d="scan'208";a="542814625"
+X-IronPort-AV: E=Sophos;i="4.98,980,1392192000"; d="scan'208";a="542814633"
 Received: from smoffitt-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.113])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2014 02:46:24 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2014 02:46:25 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jun 2014 10:46:16 +0100
-Message-Id: <7f201e4112bf82e8a8efc4a609b65cff8da540b0.1401961481.git.paul.eggleton@linux.intel.com>
+Date: Thu,  5 Jun 2014 10:46:17 +0100
+Message-Id: <dd2066377ea36f362e8ef279155bb2982c9b4dbb.1401961481.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1401961481.git.paul.eggleton@linux.intel.com>
 References: <cover.1401961481.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1401961481.git.paul.eggleton@linux.intel.com>
 References: <cover.1401961481.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] libarchive: avoid dependency on e2fsprogs
+Subject: [PATCH 2/2] libxml2: fix python packaging for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +34,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Jun 2014 09:46:25 -0000
 
-libarchive's configure script looks for ext2fs/ext2_fs.h in order to use
-some defines for file attributes support if present (but doesn't link to
-any additional libraries.) There is no configure option to disable this,
-and if e2fsprogs is rebuilding between do_configure and do_compile you
-can currently get a failure. Because it doesn't need anything else from
-e2fsprogs, and e2fsprogs isn't currently buildable for nativesdk anyway,
-copy the headers in from e2fsprogs-native which we're likely to have
-built already (and add it to DEPENDS just to be sure we have.)
-
-Fixes [YOCTO #6268].
+We enable the python module in nativesdk-libxml2, but the python binary
+used is in the native sysroot and thus you get the module installed in
+the wrong path. Even with that fixed the python files are still
+unpackaged, so create an ${PN}-python package and add them to it. (This
+does not affect the libxml target build at all since python is disabled
+for that.)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-extended/libarchive/libarchive_3.1.2.bb | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/recipes-core/libxml/libxml2.inc                | 11 ++++++++++-
+ .../libxml/libxml2/python-sitepackages-dir.patch    | 21 +++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-index 3e6cdb4..2a2d0f9 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-@@ -5,6 +5,8 @@ SECTION = "devel"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b4e3ffd607d6686c6cb2f63394370841"
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 60bb6b8..1401c73 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -19,6 +19,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://runtest.patch \
+            file://run-ptest \
+            file://libxml2-CVE-2014-0191-fix.patch \
++           file://python-sitepackages-dir.patch \
+           "
  
-+DEPENDS = "e2fsprogs-native"
-+
- PACKAGECONFIG ?= "libxml2 zlib bz2"
+ inherit autotools pkgconfig binconfig pythonnative ptest
+@@ -30,6 +31,11 @@ do_configure_prepend () {
+ 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
+ }
  
- PACKAGECONFIG_append_class-target = "\
-@@ -36,4 +38,13 @@ SRC_URI[sha256sum] = "eb87eacd8fe49e8d90c8fdc189813023ccc319c5e752b01fb6ad0cc7b2
- 
- inherit autotools-brokensep lib_package pkgconfig
- 
-+CPPFLAGS += "-I${WORKDIR}/extra-includes"
-+
-+do_configure[cleandirs] += "${WORKDIR}/extra-includes"
-+do_configure_prepend() {
-+	# We just need the headers for some type constants, so no need to
-+	# build all of e2fsprogs for the target
-+	cp -R ${STAGING_INCDIR_NATIVE}/ext2fs ${WORKDIR}/extra-includes/
++do_configure_prepend_class-nativesdk () {
++	# Ensure we get the correct site-packages path
++	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
 +}
 +
- BBCLASSEXTEND = "native nativesdk"
+ EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+ EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+ EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+@@ -49,10 +55,13 @@ python populate_packages_prepend () {
+         d.setVar('PKG_libxml2', '${MLPREFIX}libxml2')
+ }
+ 
+-PACKAGES += "${PN}-utils"
++PACKAGES += "${PN}-utils ${PN}-python"
+ 
++FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug"
++FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/*.a"
+ FILES_${PN}-dev += "${libdir}/xml2Conf.sh"
+ FILES_${PN}-utils += "${bindir}/*"
++FILES_${PN}-python += "${PYTHON_SITEPACKAGES_DIR}"
+ 
+ do_install_ptest () {
+   cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
+diff --git a/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
+new file mode 100644
+index 0000000..a697ddf
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
+@@ -0,0 +1,21 @@
++Allow us to pass in PYTHON_SITE_PACKAGES
++
++The python binary used when building for nativesdk doesn't give us the
++correct path here so we need to be able to specify it ourselves.
++
++Upstream-Status: Inappropriate [config]
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++
++--- a/configure.in
+++++ b/configure.in
++@@ -743,7 +743,8 @@ dnl
++ 
++ PYTHON_VERSION=
++ PYTHON_INCLUDES=
++-PYTHON_SITE_PACKAGES=
+++# Allow this to be set externally
+++#PYTHON_SITE_PACKAGES=
++ PYTHON_TESTS=
++ pythondir=
++ if test "$with_python" != "no" ; then
 -- 
 1.9.3
 
