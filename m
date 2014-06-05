@@ -1,23 +1,24 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C6356B7A6
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B22C96A87C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 07:25:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2014 00:25:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,979,1392192000"; d="scan'208";a="542761877"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2014 00:25:31 -0700
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id B61EC6A4087;
-	Thu,  5 Jun 2014 00:25:04 -0700 (PDT)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jun 2014 12:29:44 +0300
-Message-Id: <1401960584-23974-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] oeqa/utils/commands.py: add support for postconfig option
+	Thu,  5 Jun 2014 08:44:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s558i7tM009480
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jun 2014 01:44:07 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 5 Jun 2014 01:44:06 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Jun 2014 16:44:03 +0800
+Message-ID: <cover.1401957639.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/2] oprofile: Add PTEST and Determine the root home directory dynamically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,82 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 07:25:51 -0000
+X-List-Received-Date: Thu, 05 Jun 2014 08:44:10 -0000
+Content-Type: text/plain
 
-Adding support for postconfig option to the bitbake() and related methods.
+root@qemux86:/usr/lib/oprofile/ptest# ./run-ptest 
+PASS: libdb/tests db_test
+PASS: libop/tests alloc_counter_tests
+PASS: libop/tests cpu_type_tests
+PASS: libop/tests load_events_files_tests
+PASS: libop/tests mangle_tests
+PASS: libop/tests parse_event_tests
+PASS: libop/tests utf8_checker.sh
+PASS: libregex/tests java_test
+PASS: libregex/tests regex_test
+PASS: libutil++/tests cached_value_tests
+PASS: libutil++/tests comma_list_tests
+PASS: libutil++/tests file_manip_tests
+PASS: libutil++/tests glob_filter_tests
+PASS: libutil++/tests path_filter_tests
+PASS: libutil++/tests string_filter_tests
+PASS: libutil++/tests string_manip_tests
+PASS: libutil++/tests utility_tests
+PASS: libutil/tests file_tests
+PASS: libutil/tests string_tests
 
-This enables us to use 'bitbake -R postconfig_file <command>'.
+The following changes since commit e7114046be6e71fb326477dc882adb814ef6a751:
 
-Usage: bitbake(cmd, postconfig="some confguration")
+  busybox: fix meta-yocto's bbappend's FILESEXTRAPATH (2014-06-03 17:53:13 +0100)
 
-'postconfig_file' would contain what we add in 'postconfig'
+are available in the git repository at:
 
-Other methods affected: get_bb_env(), get_bb_var()
+  git://git.pokylinux.org/poky-contrib chonglu/oprofile
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/oprofile
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/utils/commands.py | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+Chong Lu (2):
+  oprofile: Add PTEST regression testing to oprofile
+  oprofile: Determine the root home directory dynamically
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 7637b9d..802bc2f 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -15,6 +15,7 @@ import subprocess
- import threading
- import logging
- from oeqa.utils import CommandError
-+from oeqa.utils import ftools
- 
- class Command(object):
-     def __init__(self, command, bg=False, timeout=None, data=None, **options):
-@@ -106,24 +107,36 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, **opti
-     return result
- 
- 
--def bitbake(command, ignore_status=False, timeout=None, **options):
-+def bitbake(command, ignore_status=False, timeout=None, postconfig=None, **options):
-+
-+    if postconfig:
-+	postconfig_file = os.path.join(os.environ.get('BUILDDIR'), 'oeqa-post.conf')
-+	ftools.write_file(postconfig_file, postconfig)
-+	extra_args = "-R %s" % postconfig_file
-+    else:
-+	extra_args = ""
-+
-     if isinstance(command, basestring):
--        cmd = "bitbake " + command
-+        cmd = "bitbake " + extra_args + " " + command
-     else:
--        cmd = [ "bitbake" ] + command
-+        cmd = [ "bitbake" ] + [a for a in (command + extra_args.split(" ")) if a not in [""]]
- 
--    return runCmd(cmd, ignore_status, timeout, **options)
-+    try:
-+	return runCmd(cmd, ignore_status, timeout, **options)
-+    finally:
-+        if postconfig:
-+            os.remove(postconfig_file)
- 
- 
--def get_bb_env(target=None):
-+def get_bb_env(target=None, postconfig=None):
-     if target:
--        return runCmd("bitbake -e %s" % target).output
-+        return bitbake("-e %s" % target, postconfig=postconfig).output
-     else:
--        return runCmd("bitbake -e").output
-+        return bitbake("-e", postconfig=postconfig).output
- 
--def get_bb_var(var, target=None):
-+def get_bb_var(var, target=None, postconfig=None):
-     val = None
--    bbenv = get_bb_env(target)
-+    bbenv = get_bb_env(target, postconfig=postconfig)
-     for line in bbenv.splitlines():
-         if line.startswith(var + "="):
-             val = line.split('=')[1]
+ meta/recipes-kernel/oprofile/oprofile.inc          |  34 ++++++-
+ .../oprofile/oprofile-cross-compile-tests.patch    |  98 ++++++++++++++++++
+ .../{oprofile-root.patch => root-home-dir.patch}   | 111 +++++++++++----------
+ meta/recipes-kernel/oprofile/oprofile/run-ptest    |  18 ++++
+ 4 files changed, 205 insertions(+), 56 deletions(-)
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
+ rename meta/recipes-kernel/oprofile/oprofile/{oprofile-root.patch => root-home-dir.patch} (43%)
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/run-ptest
+
 -- 
-1.8.3.2
+1.8.1.2
 
 
