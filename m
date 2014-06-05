@@ -1,26 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 072FA6FAEF
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6356B7A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 05:28:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s555St01009231
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jun 2014 22:28:55 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 4 Jun 2014 22:28:55 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jun 2014 13:29:48 +0800
-Message-ID: <fcaa668ccafbb476843a728902ba2b6adf6e1492.1401945914.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1401945914.git.Qi.Chen@windriver.com>
-References: <cover.1401945914.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 2/3] grep: upgrade 2.18 to 2.19
+	Thu,  5 Jun 2014 07:25:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2014 00:25:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,979,1392192000"; d="scan'208";a="542761877"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2014 00:25:31 -0700
+Received: from localhost.localdomain (unknown [10.237.112.162])
+	by linux.intel.com (Postfix) with ESMTP id B61EC6A4087;
+	Thu,  5 Jun 2014 00:25:04 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jun 2014 12:29:44 +0300
+Message-Id: <1401960584-23974-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] oeqa/utils/commands.py: add support for postconfig option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +30,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 05:28:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jun 2014 07:25:51 -0000
 
-Upgrade grep from 2.18 to 2.19.
+Adding support for postconfig option to the bitbake() and related methods.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+This enables us to use 'bitbake -R postconfig_file <command>'.
+
+Usage: bitbake(cmd, postconfig="some confguration")
+
+'postconfig_file' would contain what we add in 'postconfig'
+
+Other methods affected: get_bb_env(), get_bb_var()
+
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- .../grep/{grep_2.18.bb => grep_2.19.bb}            |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/grep/{grep_2.18.bb => grep_2.19.bb} (86%)
+ meta/lib/oeqa/utils/commands.py | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-extended/grep/grep_2.18.bb b/meta/recipes-extended/grep/grep_2.19.bb
-similarity index 86%
-rename from meta/recipes-extended/grep/grep_2.18.bb
-rename to meta/recipes-extended/grep/grep_2.19.bb
-index 99337f7..f38a9a6 100644
---- a/meta/recipes-extended/grep/grep_2.18.bb
-+++ b/meta/recipes-extended/grep/grep_2.19.bb
-@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8006d9c814277c1bfc4ca22af94b59ee"
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 7637b9d..802bc2f 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -15,6 +15,7 @@ import subprocess
+ import threading
+ import logging
+ from oeqa.utils import CommandError
++from oeqa.utils import ftools
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
+ class Command(object):
+     def __init__(self, command, bg=False, timeout=None, data=None, **options):
+@@ -106,24 +107,36 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, **opti
+     return result
  
--SRC_URI[md5sum] = "7439f8266f50844b56cc3e2721606541"
--SRC_URI[sha256sum] = "e6436e5077fa1497feccc8feaabd3f507b172369bf120fbc9e4874bba81be720"
-+SRC_URI[md5sum] = "ac732142227d9fe9567d71301e127979"
-+SRC_URI[sha256sum] = "6388295be48cfcaf7665d9cd3914e6625ea000e9414132bfefd45cf1d8eec34d"
  
- inherit autotools gettext texinfo
+-def bitbake(command, ignore_status=False, timeout=None, **options):
++def bitbake(command, ignore_status=False, timeout=None, postconfig=None, **options):
++
++    if postconfig:
++	postconfig_file = os.path.join(os.environ.get('BUILDDIR'), 'oeqa-post.conf')
++	ftools.write_file(postconfig_file, postconfig)
++	extra_args = "-R %s" % postconfig_file
++    else:
++	extra_args = ""
++
+     if isinstance(command, basestring):
+-        cmd = "bitbake " + command
++        cmd = "bitbake " + extra_args + " " + command
+     else:
+-        cmd = [ "bitbake" ] + command
++        cmd = [ "bitbake" ] + [a for a in (command + extra_args.split(" ")) if a not in [""]]
  
+-    return runCmd(cmd, ignore_status, timeout, **options)
++    try:
++	return runCmd(cmd, ignore_status, timeout, **options)
++    finally:
++        if postconfig:
++            os.remove(postconfig_file)
+ 
+ 
+-def get_bb_env(target=None):
++def get_bb_env(target=None, postconfig=None):
+     if target:
+-        return runCmd("bitbake -e %s" % target).output
++        return bitbake("-e %s" % target, postconfig=postconfig).output
+     else:
+-        return runCmd("bitbake -e").output
++        return bitbake("-e", postconfig=postconfig).output
+ 
+-def get_bb_var(var, target=None):
++def get_bb_var(var, target=None, postconfig=None):
+     val = None
+-    bbenv = get_bb_env(target)
++    bbenv = get_bb_env(target, postconfig=postconfig)
+     for line in bbenv.splitlines():
+         if line.startswith(var + "="):
+             val = line.split('=')[1]
 -- 
-1.7.9.5
+1.8.3.2
 
 
