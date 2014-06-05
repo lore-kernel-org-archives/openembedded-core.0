@@ -1,24 +1,26 @@
 Return-Path: <Shan.Hai@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ADC8465F09
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B9D176BAA1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 02:12:16 +0000 (UTC)
+	Thu,  5 Jun 2014 02:12:17 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s552CH3a004459
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s552CIYe008368
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jun 2014 19:12:17 -0700 (PDT)
+	Wed, 4 Jun 2014 19:12:18 -0700 (PDT)
 Received: from localhost.localdomain (128.224.153.43) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 4 Jun 2014 19:12:16 -0700
+	14.3.174.1; Wed, 4 Jun 2014 19:12:18 -0700
 From: Shan Hai <shan.hai@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jun 2014 10:12:11 +0800
-Message-ID: <1401934332-1714-1-git-send-email-shan.hai@windriver.com>
+Date: Thu, 5 Jun 2014 10:12:12 +0800
+Message-ID: <1401934332-1714-2-git-send-email-shan.hai@windriver.com>
 X-Mailer: git-send-email 1.7.0.5
+In-Reply-To: <1401934332-1714-1-git-send-email-shan.hai@windriver.com>
+References: <1401934332-1714-1-git-send-email-shan.hai@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] overwrite /etc/mtab conditionally
+Subject: [PATCH 1/1] oe-core/init-install.sh: do not overwrite /etc/mtab if the link already exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,11 +36,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 05 Jun 2014 02:12:18 -0000
 Content-Type: text/plain
 
+JIRAID: LIN6-7329
 
-The installation fails with message "cat: /proc/mounts input file is
-output file", the root cause is a failure of overwriting existing
-symbol link in installer script.
+Overwriting of /etc/mtab would fail as below if the /etc/mtab link already
+exist during installation phase, this patch fix this problem by checking
+existance of the link before try to overwrite it.
 
-Fix it by conditionally overwrit of the link.
+Error message during installation if the /etc/mtab exists:
+"cat: /proc/mounts: input file is output file
+
+(LOCAL REV: NOT UPSTREAM) -- Sent to oe-core on 20140605
+
+Signed-off-by: Shan Hai <shan.hai@windriver.com>
+---
+ .../initrdscripts/files/init-install.sh            |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 0ede928..d7d3439 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -90,7 +90,9 @@ if [ ! -b /dev/loop0 ] ; then
+ fi
  
+ mkdir -p /tmp
+-cat /proc/mounts > /etc/mtab
++if [ ! -L /etc/mtab ]; then
++	cat /proc/mounts > /etc/mtab
++fi
+ 
+ disk_size=$(parted /dev/${device} unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
+ 
+-- 
+1.7.0.5
+
 
