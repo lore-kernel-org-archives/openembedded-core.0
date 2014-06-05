@@ -1,28 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B25726FC29
+Return-Path: <blloyd@familyhonor.net>
+X-Greylist: delayed 2993 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 06 Jun 2014 00:02:43 UTC
+Received: from mho-02-ewr.mailhop.org (mho-02-ewr.mailhop.org [204.13.248.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2D56FBE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 23:47:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 05 Jun 2014 16:42:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,984,1392192000"; d="scan'208";a="523459678"
-Received: from kmaligas-mobl1.gar.corp.intel.com (HELO [10.255.12.167])
-	([10.255.12.167])
-	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2014 16:47:34 -0700
-Message-ID: <53910196.8080401@linux.intel.com>
-Date: Thu, 05 Jun 2014 16:47:34 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Fri,  6 Jun 2014 00:02:43 +0000 (UTC)
+Received: from [98.142.68.106] (helo=lloydserv.home.familyhonor.net)
+	by mho-02-ewr.mailhop.org with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.72) (envelope-from <blloyd@familyhonor.net>)
+	id 1Wsgq3-0002hR-Gn for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jun 2014 23:12:51 +0000
+Received: from mail.familyhonor.net (lloydserv.home.familyhonor.net
+	[127.0.0.1]) (authenticated bits=0)
+	by lloydserv.home.familyhonor.net (8.14.7/8.14.6) with ESMTP id
+	s55NCmRY001018
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jun 2014 18:12:48 -0500
+X-Mail-Handler: Dyn Standard SMTP by Dyn
+X-Originating-IP: 98.142.68.106
+X-Report-Abuse-To: abuse@dyndns.com (see
+	http://www.dyndns.com/services/sendlabs/outbound_abuse.html for
+	abuse reporting information)
+X-MHO-User: U2FsdGVkX183jzcMhiAIEsDNw2ggrv8zPxWThNShT7s=
 MIME-Version: 1.0
-To: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>, 
-	"Chen, Qi" <Qi.Chen@windriver.com>
-References: <1391432329-1046-1-git-send-email-david.nystrom@enea.com>	<1391435033.14769.5.camel@phil-desktop.brightsign>	<52EFA146.5010405@gmail.com>
-	<538D7214.6060805@windriver.com>
-In-Reply-To: <538D7214.6060805@windriver.com>
-Subject: Re: [RFC][PATCH] udev: add udev-utils to RDEPENDS
+Date: Thu, 05 Jun 2014 18:12:48 -0500
+From: blloyd <blloyd@familyhonor.net>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <efd4c1886482685c5e6fc720dddc7305@mail.familyhonor.net>
+X-Sender: blloyd@familyhonor.net
+User-Agent: Roundcube Webmail/0.9.5
+Subject: multi-threaded core dump issues when libc symbols missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,88 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 23:47:43 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Jun 2014 00:02:44 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 06/02/2014 11:58 PM, ChenQi wrote:
-> On 02/03/2014 10:01 PM, David Nyström wrote:
->> On mån  3 feb 2014 14:43:53, Phil Blundell wrote:
->>> On Mon, 2014-02-03 at 13:58 +0100, David Nyström wrote:
->>>> An intended fix for below error message with core-image-lsb,
->>>> Sending this as an RFC since I dont really know what constitutes
->>>> a RRECOMMENDS vs. RDEPENDS.
->>>> Is this clearly defined somewhere ?
->>>> Below should be an RDEPENDS, no ?
->>>>
->>>> INIT: version 2.88 booting
->>>> Starting udev
->>>> udevd[59]: starting version 182
->>>> /etc/rcS.d/S04udev: line 108: udevadm: command not found
->>>> /etc/rcS.d/S04udev: line 113: udevadm: command not found
->>>> /etc/rcS.d/S04udev: line 114: udevadm: command not found
->>>
->>> That depends (ha ha) on what the udevadm call in question is actually
->>> doing.  If udev is so badly broken without it as to be unusable then
->>> yes, it should be an RDEPENDS.  If udev will still work without then
->>> RRECOMMENDS is appropriate and the initscript should be tweaked to deal
->>> with it.
->>>
->>> p.
->>>
->>>
->>
->>
->> SNIP
->> --
->>    udevadm control --env=STARTUP=1
->>    if [ "$not_first_boot" != "" ];then
->>            udevadm trigger --action=add --subsystem-nomatch=tty
->> --subsystem-nomatch=mem --subsystem-nomatch=vc
->> --subsystem-nomatch=vtconsole --subsystem-nomatch=misc
->> --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus
->> --subsystem-nomatch=graphics        --subsystem-nomatch=backlight
->> --subsystem-nomatch=video4linux  --subsystem-nomatch=platform
->>            (udevadm settle --timeout=10; udevadm control --env=STARTUP=)&
->>    else
->>            udevadm trigger --action=add
->>            udevadm settle
->>    fi
->> --
->> SNIP
->>
->> Does this classify as essential ?
->>
->> If essential, we either need to move udev-utils to RDEPENDS.
->> If not essential, fix the script to detect if udevadm is available.
->>
->> Br,
->> David
->
-> Hi All,
->
-> I think it's essential.
-> Without 'udevadm trigger --action=add', the system start-up process may
-> have some problem. I can recall that once I removed this line from the
-> init scripts in my live image, the image could not boot up correctly.
->
-> I think this patch is reasonable and I'd like to acknowledge it.
->
+I originally tried to solve this problem a long time ago by changing the 
+gdb package to depend on the selected libc debug packages.  That never 
+did get to a state that was accepted for commit.
 
-If it's that essential, then we should incude udevadm in the udev 
-package directly and not have a 1 file package for udev-utils at all.
+However, even if it did, I've come to realize that it wouldn't really 
+fix the problem.
 
-v2 patch welcome
+Basically, core dumps do not generate valid dumps for multiple threads 
+when the threading debug symbols are not available.  This includes 
+automatically generated core dumps when an application segfaults while 
+running (kernel generated dumps).
 
-Sau!
+Two possible solutions for the problem which will ensure core dumps work 
+when enabled is to:
+1.  not strip the libc packages.  Since this would mean more loaded into 
+memory all the time, I can understand why this may not be desirable.
+2.  Include the debug symbols for either all of libc or just the 
+specific libc debug symbols needed for a valid core dump so that core 
+dumps work.
+      a.  Just have eglibc depend on eglibc-dbg and uclibc depend on 
+uclibc-dbg.  Easy.  For eglibc, this adds @35mb to a system
+      b.  Split the required *.so.debug out from the rest of the dbg, and 
+have the -dbg package and base package depend on the new package.  I 
+believe the minimal required is libpthread-*.so.debug, which for the 
+eglibc case adds less than 1MB to the image.
 
-> Best Regards,
-> Chen Qi
->
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Testing would be required to ensure the right subset is selected for 
+2.b, but when I originally did this just adding that one debug file 
+caused the generated images to become fully readable.
 
+Are either of the above possible solutions likely to get approved?  I 
+don't mnd implementing either, but as they effectively affect every 
+image made, I would like to discuss before implementing one of the 
+solutions.
+
+Without this change, a debug dump will have only one viewable thread.  
+It is not usually the crashing thread.  With the required debug symbols 
+in place, crash dump debugging (including on a development box with the 
+device SDK installed) appears to function properly.
+
+
+Any suggestions about what can be done that could be accepted for 
+inclusion into the mainline after completion would be accepted.
+
+Is 1MB worth worrying about?  I know some images that are generated are 
+very small, but I don't usually get things smaller than 200MB where 500K 
+is just noise.
+
+
+Brian A. Lloyd
+
+
+
+Brian A. Lloyd
 
