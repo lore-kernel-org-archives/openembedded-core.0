@@ -1,30 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E06B6B5E0
+Return-Path: <valentin.popa@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 07EA16B7A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 11:33:32 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s55BXQMM021376; Thu, 5 Jun 2014 12:33:26 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hRDQOmjhvPG9; Thu,  5 Jun 2014 12:33:26 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s55BXOuW021373
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 5 Jun 2014 12:33:25 +0100
-Message-ID: <1401967996.12440.185.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Thu, 05 Jun 2014 12:33:16 +0100
-In-Reply-To: <CAPybu_3Jz=KNmYjE+crCFBuxpmJGmS7DfOM9fmDXFGOADmwyFg@mail.gmail.com>
-References: <CAPybu_3Jz=KNmYjE+crCFBuxpmJGmS7DfOM9fmDXFGOADmwyFg@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: PR_Service. Sync database only on clean stop?
+	Thu,  5 Jun 2014 13:09:30 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Jun 2014 06:09:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,981,1392192000"; d="scan'208";a="523166210"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
+	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2014 06:09:10 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jun 2014 16:08:30 +0300
+Message-Id: <1401973712-6149-2-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1401973712-6149-1-git-send-email-valentin.popa@intel.com>
+References: <1401973712-6149-1-git-send-email-valentin.popa@intel.com>
+Subject: [daisy][PATCH] gnutls: patch for CVE-2014-3466 backported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +29,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 11:33:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jun 2014 13:09:34 -0000
 
-On Wed, 2014-06-04 at 22:52 +0200, Ricardo Ribalda Delgado wrote:
-> Hello
-> 
-> I have been running happily with pr_service for two months.
-> Unfortunately, due to a power down the computer running the pr server
-> has stopped.
-> When I have started the server I have discovered that all the
-> information about PR was lost :S. I assumed this was due to a db
-> corruption, but I have later discovered that the database is not
-> synced after every insert.
-> 
-> I guess this is to improve the performance, but I don't think that
-> everybody prefer this behaviour, right now I have to remake and
-> distribute only 10 flashes, something reasonable, but it would have a
-> disaster later in our development cycle.
-> 
-> Is somebody working on a parameter for the db to be persistent? Would
-> a patch to implement this be considered?
+Backported patch for CVE-2014-3466.
+This patch is for daisy.
 
-The trouble if I remember rightly is that the way the queries work in
-there, you can't tell if an update was made the database during the read
-or not. The older code therefore synced on *every* read and this was a
-significant bottleneck.
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ .../gnutls/gnutls/CVE-2014-3466.patch              | 30 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_2.12.23.bb      |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch
 
-So patches would be considered and I agree the current behaviour is bad
-but we need to be mindful of performance too. Some kind of idle sync on
-a timer might be better than specific numbers for example, particularly
-if we can query whether the data is "dirty" before running the sync
-commands.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch b/meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch
+new file mode 100644
+index 0000000..dd118f5
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch
+@@ -0,0 +1,30 @@
++From fcf3745f1d03c4a97e87ef4341269c645fdda787 Mon Sep 17 00:00:00 2001
++From: Valentin Popa <valentin.popa@intel.com>
++Date: Thu, 5 Jun 2014 11:50:11 +0300
++Subject: [PATCH] CVE-2014-3466
++
++Prevent memory corruption due to server hello parsing.
++
++Upstream-Status: Backport
++
++Signed-off-by: Valentin Popa <valentin.popa@intel.com>
++---
++ lib/gnutls_handshake.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/gnutls_handshake.c b/lib/gnutls_handshake.c
++index e4a63e4..e652528 100644
++--- a/lib/gnutls_handshake.c
+++++ b/lib/gnutls_handshake.c
++@@ -1797,7 +1797,7 @@ _gnutls_read_server_hello (gnutls_session_t session,
++   DECR_LEN (len, 1);
++   session_id_len = data[pos++];
++ 
++-  if (len < session_id_len)
+++  if (len < session_id_len || session_id_len > TLS_MAX_SESSION_ID_SIZE)
++     {
++       gnutls_assert ();
++       return GNUTLS_E_UNSUPPORTED_VERSION_PACKET;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls_2.12.23.bb b/meta/recipes-support/gnutls/gnutls_2.12.23.bb
+index 2218242..efe9e04 100644
+--- a/meta/recipes-support/gnutls/gnutls_2.12.23.bb
++++ b/meta/recipes-support/gnutls/gnutls_2.12.23.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://gnutls-openssl.patch \
+             file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
+             file://CVE-2014-1959-rejection-of-v1-intermediate-cert.patch \
+             file://CVE-2014-0092-corrected-return-codes.patch \
++            file://CVE-2014-3466.patch \
+             file://25_updatedgdocfrommaster.diff \
+             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
+            "
+-- 
+1.9.1
 
 
