@@ -1,26 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BDBCC6B7A6
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43A0A6B7D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 08:44:09 +0000 (UTC)
+	Thu,  5 Jun 2014 08:44:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s558iAMb010659
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s558iB8r009486
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Jun 2014 01:44:10 -0700 (PDT)
+	Thu, 5 Jun 2014 01:44:11 -0700 (PDT)
 Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 5 Jun 2014 01:44:09 -0700
+	14.3.169.1; Thu, 5 Jun 2014 01:44:10 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jun 2014 16:44:04 +0800
-Message-ID: <456ee4334cd0294c3605845d4fceb9c163c86d48.1401957639.git.Chong.Lu@windriver.com>
+Date: Thu, 5 Jun 2014 16:44:05 +0800
+Message-ID: <fbfff76fb2674ded5922ab7d2d68b6975b5705d6.1401957639.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1401957639.git.Chong.Lu@windriver.com>
 References: <cover.1401957639.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] oprofile: Add PTEST regression testing to oprofile
+Subject: [PATCH 2/2] oprofile: Determine the root home directory dynamically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,203 +36,225 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 05 Jun 2014 08:44:10 -0000
 Content-Type: text/plain
 
-The commit changes the oe-core oprofile recipe by adding the PTEST
-interface, implementing do_compile_ptest() and do_install_ptest().
+This commit detects the root home directory dynamically with changes to
+the opcontrol script and the oprofile gui app source.
 
-The install routine adds several files that only the regression tests
-require. Also, a patch is necessary to inhibit executing the tests on
-the build host and to point to the correct target directory for the
-libutil++ test 'file-manip-tests'.
-
-That test requires the recipe to set SRCDIR in the build environment
-instead of determining the value from build-time host paths as for a
-self-hosted build.
+The commit replaces an earlier fix that detected and adjusted a
+'non-standard' root home directory at build time.  The advantage of this
+patch is that the oprofile tools are adjusted to the current run-time
+path to ~root, not the build time path.
 
 Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
 Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 ---
- meta/recipes-kernel/oprofile/oprofile.inc          | 31 ++++++-
- .../oprofile/oprofile-cross-compile-tests.patch    | 98 ++++++++++++++++++++++
- meta/recipes-kernel/oprofile/oprofile/run-ptest    | 18 ++++
- 3 files changed, 145 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/run-ptest
+ meta/recipes-kernel/oprofile/oprofile.inc          |   5 +-
+ .../{oprofile-root.patch => root-home-dir.patch}   | 111 +++++++++++----------
+ 2 files changed, 61 insertions(+), 55 deletions(-)
+ rename meta/recipes-kernel/oprofile/oprofile/{oprofile-root.patch => root-home-dir.patch} (43%)
 
 diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
-index ccf9f9f..0a7f7fd 100644
+index 0a7f7fd..b088737 100644
 --- a/meta/recipes-kernel/oprofile/oprofile.inc
 +++ b/meta/recipes-kernel/oprofile/oprofile.inc
-@@ -20,9 +20,11 @@ FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
+@@ -19,16 +19,15 @@ FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
+ FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
  
  SRC_URI = "file://opstart.patch \
-            file://oprofile-root.patch \
--           file://acinclude.m4"
-+           file://acinclude.m4 \
-+           file://oprofile-cross-compile-tests.patch \
-+           file://run-ptest"
+-           file://oprofile-root.patch \
+            file://acinclude.m4 \
+            file://oprofile-cross-compile-tests.patch \
+-           file://run-ptest"
++           file://run-ptest \
++           file://root-home-dir.patch"
  
--inherit autotools-brokensep pkgconfig
-+inherit autotools-brokensep ptest
+ inherit autotools-brokensep ptest
  
  EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x"
  do_configure () {
-@@ -30,3 +32,28 @@ do_configure () {
+-	find ${S} -wholename '${S}/.pc' -prune -o -type f -print | xargs sed -i 's#ROOTHOME#${ROOT_HOME}#'
  	cp ${WORKDIR}/acinclude.m4 ${S}/
  	autotools_do_configure
  }
-+
-+EXTRA_OEMAKE = "SRCDIR=${PTEST_PATH}/libutil++/tests"
-+do_compile_ptest() {
-+	oe_runmake check
-+}
-+
-+do_install_ptest() {
-+	subdirs="libdb/tests libutil++/tests libregex/tests libutil/tests libop/tests libdb/tests "
-+	cd ${S}
-+	for tooltest in ${subdirs}
-+	do
-+		find ${tooltest} -perm /u=x -type f| cpio -pvdu ${D}${PTEST_PATH}
-+	done
-+
-+	# needed by some libop tests
-+	cp -r events ${D}${PTEST_PATH}
-+
-+	# needed by libregex regex_test
-+	cp libregex/stl.pat ${D}${PTEST_PATH}/libregex
-+	cp libregex/tests/mangled-name ${D}${PTEST_PATH}/libregex/tests
-+
-+	# needed by litutil++ file_manip_tests
-+	cp libutil++/tests/file_manip_tests.cpp \
-+		libutil++/tests/file_manip_tests.o ${D}${PTEST_PATH}/libutil++/tests
-+}
-diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch b/meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
-new file mode 100644
-index 0000000..aefa954
---- /dev/null
-+++ b/meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
-@@ -0,0 +1,98 @@
-+Prevent running check tests on host if cross compiling
-+
-+This patch enables running the 'make check' tests on the target
-+in a cross-compiled environment. If not cross-compiling, then 'make
-+ check' builds and executes the tests; no change from this patch.
-+In a cross-compiling environment, the make variable CROSS_COMPILE is
-+set which bypasses assiging tests to the makekfile variable TESTS.
-+Since TESTS is empty, the 'make check' process never tries to run the
-+tests on the hosts.  On the target, the tests must be run manually.
-+
-+Also, in the libutil++ tests, a makefile variable SRCDIR is passed into
-+the compilation phase, pointing to the runtime location of the test
-+'file-manip-tests'.  The mechanism used for a host test, based on
-+'topdir' doesn't work.  Instead, if CROSS_COMPILE is set, the
-+makefile takes the path of SRCDIR from the build environment and not
-+from an expression based on the host path 'topdir'.
-+
-+Upstream-Status: Pending
-+
+diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
+similarity index 43%
+rename from meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
+rename to meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
+index f3fe4c9..45cab7d 100644
+--- a/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
++++ b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
+@@ -1,113 +1,120 @@
+-Change hardcoded /root to /home/root
++oprofile: Determine the root home directory dynamically
+ 
+-Upstream-Status: inappropriate [OE specific]
++This commit detects the root home directory dynamically with changes to
++the opcontrol script and the oprofile gui app source.
+ 
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++The commit replaces an earlier fix that detected and adjusted a
++'non-standard' root home directory at build time.  The advantage of this
++patch is that the oprofile tools are adjusted to the current run-time
++path to ~root, not the build time path.
+ 
+-Replace "/home/root" with stub "ROOTHOME", then substitute it with
+-real root home directory which is configured dymanically.
++Upstream-Status: inappropriate [OE specific]
+ 
+-Signed-off-by: Kang Kai <kai.kang@windriver.com>
 +Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
-+
-+diff --git a/configure.ac b/configure.ac
-+index 41ece64..ce5a16f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -392,6 +392,7 @@ AC_ARG_ENABLE(account-check,
-+ 	enable_account_check=$enableval, enable_account_check=yes)
+ 
+-diff -ur oprofile-0.9.7.orig/doc/opcontrol.1.in oprofile-0.9.7/doc/opcontrol.1.in
+---- oprofile-0.9.7.orig/doc/opcontrol.1.in	2011-07-04 21:25:04.000000000 -0500
+-+++ oprofile-0.9.7/doc/opcontrol.1.in	2012-07-02 14:02:16.358865420 -0500
+-@@ -171,7 +171,7 @@
++diff --git a/doc/opcontrol.1.in b/doc/opcontrol.1.in
++index c434704..f57eb76 100644
++--- a/doc/opcontrol.1.in
+++++ b/doc/opcontrol.1.in
++@@ -171,7 +171,7 @@ No special environment variables are recognised by opcontrol.
+  
+  .SH FILES
+  .TP
+ -.I /root/.oprofile/daemonrc
+-+.I ROOTHOME/.oprofile/daemonrc
+++.I ~root/.oprofile/daemonrc
+  Configuration file for opcontrol
+  .TP
+  .I /var/lib/oprofile/samples/
+-diff -ur oprofile-0.9.7.orig/doc/oprofile.1 oprofile-0.9.7/doc/oprofile.1
+---- oprofile-0.9.7.orig/doc/oprofile.1	2011-08-12 10:23:27.000000000 -0500
+-+++ oprofile-0.9.7/doc/oprofile.1	2012-07-02 14:02:29.295862358 -0500
+-@@ -150,7 +150,7 @@
++diff --git a/doc/oprofile.1.in b/doc/oprofile.1.in
++index 3d0f0ed..5c623e1 100644
++--- a/doc/oprofile.1.in
+++++ b/doc/oprofile.1.in
++@@ -150,7 +150,7 @@ No special environment variables are recognised by oprofile.
+  .I $HOME/.oprofile/
+  Configuration files
+  .TP
+ -.I /root/.oprofile/daemonrc
+-+.I ROOTHOME/.oprofile/daemonrc
+- Configuration file for opcontrol
+- .TP
+- .I /opt/oprofile-0.9.7-rc3/share/oprofile/
+-diff -ur oprofile-0.9.7.orig/doc/oprofile.1.in oprofile-0.9.7/doc/oprofile.1.in
+---- oprofile-0.9.7.orig/doc/oprofile.1.in	2011-07-04 21:25:04.000000000 -0500
+-+++ oprofile-0.9.7/doc/oprofile.1.in	2012-07-02 14:01:35.812004623 -0500
+-@@ -150,7 +150,7 @@
+- .I $HOME/.oprofile/
+- Configuration files
+- .TP
+--.I /root/.oprofile/daemonrc
+-+.I ROOTHOME/.oprofile/daemonrc
+++.I ~root/.oprofile/daemonrc
+  Configuration file for opcontrol
+  .TP
+  .I @prefix@/share/oprofile/
+-diff -ur oprofile-0.9.7.orig/doc/oprofile.html oprofile-0.9.7/doc/oprofile.html
+---- oprofile-0.9.7.orig/doc/oprofile.html	2011-07-04 21:32:35.000000000 -0500
+-+++ oprofile-0.9.7/doc/oprofile.html	2012-07-02 14:04:59.804018961 -0500
+-@@ -1394,7 +1394,7 @@
++diff --git a/doc/oprofile.html b/doc/oprofile.html
++index 128d9f7..d7e4dea 100644
++--- a/doc/oprofile.html
+++++ b/doc/oprofile.html
++@@ -1394,7 +1394,7 @@ The <span class="command"><strong>opcontrol</strong></span> script provides the
+                <dd>
+                  <p>
+  		    Followed by list arguments for profiling set up. List of arguments
+ -		    saved in <code class="filename">/root/.oprofile/daemonrc</code>.
+-+		    saved in <code class="filename">ROOTHOME/.oprofile/daemonrc</code>.
+++		    saved in <code class="filename">~root/.oprofile/daemonrc</code>.
+  		    Giving this option is not necessary; you can just directly pass one
+  		    of the setup options, e.g. <span class="command"><strong>opcontrol --no-vmlinux</strong></span>.
+  		  </p>
+-@@ -1430,7 +1430,7 @@
++@@ -1430,7 +1430,7 @@ The <span class="command"><strong>opcontrol</strong></span> script provides the
+                <dd>
+                  <p>
+  		    Start data collection with either arguments provided by <code class="option">--setup</code>
+ -		or information saved in <code class="filename">/root/.oprofile/daemonrc</code>. Specifying
+-+		or information saved in <code class="filename">ROOTHOME/.oprofile/daemonrc</code>. Specifying
+++		or information saved in <code class="filename">~root/.oprofile/daemonrc</code>. Specifying
+  		the addition <code class="option">--verbose</code> makes the daemon generate lots of debug data
+  		whilst it is running.
+  		</p>
+-diff -ur oprofile-0.9.7.orig/doc/oprofile.xml oprofile-0.9.7/doc/oprofile.xml
+---- oprofile-0.9.7.orig/doc/oprofile.xml	2011-07-04 21:25:04.000000000 -0500
+-+++ oprofile-0.9.7/doc/oprofile.xml	2012-07-02 14:02:03.543019283 -0500
+-@@ -568,7 +568,7 @@
++diff --git a/doc/oprofile.xml b/doc/oprofile.xml
++index 6a17c6d..0968d76 100644
++--- a/doc/oprofile.xml
+++++ b/doc/oprofile.xml
++@@ -568,7 +568,7 @@ The <command>opcontrol</command> script provides the following actions :
+  		<term><option>--setup</option></term>
+  		<listitem><para>
+  		    Followed by list arguments for profiling set up. List of arguments
+ -		    saved in <filename>/root/.oprofile/daemonrc</filename>.
+-+		    saved in <filename>ROOTHOME/.oprofile/daemonrc</filename>.
+++		    saved in <filename>~root/.oprofile/daemonrc</filename>.
+  		    Giving this option is not necessary; you can just directly pass one
+  		    of the setup options, e.g. <command>opcontrol --no-vmlinux</command>.
+  		  </para></listitem>
+-@@ -592,7 +592,7 @@
++@@ -592,7 +592,7 @@ The <command>opcontrol</command> script provides the following actions :
+  		<term><option>--start</option></term>
+  		<listitem><para>
+  		    Start data collection with either arguments provided by <option>--setup</option>
+ -		or information saved in <filename>/root/.oprofile/daemonrc</filename>. Specifying
+-+		or information saved in <filename>ROOTHOME/.oprofile/daemonrc</filename>. Specifying
+++		or information saved in <filename>~root/.oprofile/daemonrc</filename>. Specifying
+  		the addition <option>--verbose</option> makes the daemon generate lots of debug data
+  		whilst it is running.
+  		</para></listitem>
+-diff -ur oprofile-0.9.7.orig/gui/oprof_start_util.cpp oprofile-0.9.7/gui/oprof_start_util.cpp
+---- oprofile-0.9.7.orig/gui/oprof_start_util.cpp	2011-07-04 21:25:04.000000000 -0500
+-+++ oprofile-0.9.7/gui/oprof_start_util.cpp	2012-07-02 13:55:21.041876096 -0500
+-@@ -39,7 +39,7 @@
++diff --git a/gui/oprof_start_util.cpp b/gui/oprof_start_util.cpp
++index d293431..d13fa8f 100644
++--- a/gui/oprof_start_util.cpp
+++++ b/gui/oprof_start_util.cpp
++@@ -20,6 +20,8 @@
++ #include <iostream>
++ #include <fstream>
++ #include <cstdlib>
+++#include <sys/types.h>
+++#include <pwd.h>
 + 
-+ AM_CONDITIONAL(CHECK_ACCOUNT, test "x$enable_account_check" = "xyes")
-++AM_CONDITIONAL(CROSS_COMPILE, test "x$cross_compiling" = "xyes")
-+ 
-+ AC_SUBST(OP_CFLAGS)
-+ AC_SUBST(OP_CXXFLAGS)
-+diff --git a/libdb/tests/Makefile.am b/libdb/tests/Makefile.am
-+index 8a69003..d820090 100644
-+--- a/libdb/tests/Makefile.am
-++++ b/libdb/tests/Makefile.am
-+@@ -13,4 +13,6 @@ check_PROGRAMS = db_test
-+ db_test_SOURCES = db_test.c
-+ db_test_LDADD = ../libodb.a ../../libutil/libutil.a
-+ 
-++if ! CROSS_COMPILE
-+ TESTS = ${check_PROGRAMS}
-++endif
-+diff --git a/libop/tests/Makefile.am b/libop/tests/Makefile.am
-+index 8a79eb5..6d417c4 100644
-+--- a/libop/tests/Makefile.am
-++++ b/libop/tests/Makefile.am
-+@@ -33,4 +33,6 @@ load_events_files_tests_LDADD = ${COMMON_LIBS}
-+ mangle_tests_SOURCES = mangle_tests.c
-+ mangle_tests_LDADD = ${COMMON_LIBS}
-+ 
-++if ! CROSS_COMPILE
-+ TESTS = ${check_PROGRAMS} utf8_checker.sh
-++endif
-+diff --git a/libregex/tests/Makefile.am b/libregex/tests/Makefile.am
-+index 6f19838..1d176f9 100644
-+--- a/libregex/tests/Makefile.am
-++++ b/libregex/tests/Makefile.am
-+@@ -18,4 +18,6 @@ java_test_LDADD = \
-+ 
-+ EXTRA_DIST = mangled-name.in
-+ 
-++if ! CROSS_COMPILE
-+ TESTS = ${check_PROGRAMS}
-++endif
-+diff --git a/libutil++/tests/Makefile.am b/libutil++/tests/Makefile.am
-+index 51af031..a01ea2d 100644
-+--- a/libutil++/tests/Makefile.am
-++++ b/libutil++/tests/Makefile.am
-+@@ -1,7 +1,9 @@
-+ 
-+ REALPATH= readlink -f
-+ 
-++if ! CROSS_COMPILE
-+ SRCDIR := $(shell $(REALPATH) $(topdir)/libutil++/tests/ )
-++endif
-+ 
-+ AM_CPPFLAGS = \
-+ 	-I ${top_srcdir}/libutil++ -D SRCDIR="\"$(SRCDIR)/\"" @OP_CPPFLAGS@
-+@@ -46,4 +48,6 @@ cached_value_tests_LDADD = ${COMMON_LIBS}
-+ utility_tests_SOURCES = utility_tests.cpp
-+ utility_tests_LDADD = ${COMMON_LIBS}
-+ 
-++if ! CROSS_COMPILE
-+ TESTS = ${check_PROGRAMS}
-++endif
-+diff --git a/libutil/tests/Makefile.am b/libutil/tests/Makefile.am
-+index dfcd6ec..e8831b5 100644
-+--- a/libutil/tests/Makefile.am
-++++ b/libutil/tests/Makefile.am
-+@@ -12,4 +12,6 @@ file_tests_LDADD = ../libutil.a
-+ string_tests_SOURCES = string_tests.c
-+ string_tests_LDADD = ../libutil.a
-+ 
-++if ! CROSS_COMPILE
-+ TESTS = ${check_PROGRAMS}
-++endif
-diff --git a/meta/recipes-kernel/oprofile/oprofile/run-ptest b/meta/recipes-kernel/oprofile/oprofile/run-ptest
-new file mode 100644
-index 0000000..583ee1b
---- /dev/null
-+++ b/meta/recipes-kernel/oprofile/oprofile/run-ptest
-@@ -0,0 +1,18 @@
-+#!/bin/bash
-+saved_dir=$PWD
-+for dir in */tests ; do
-+	cd $dir
-+	for atest in * ; do
-+		if [ \( -x $atest \) -a \( -f $atest \) ] ; then
-+			./$atest > ${atest}.stdout 2> ${atest}.stderr
-+			if [ $? = 0 ] ; then
-+				echo "PASS: $dir $atest"
-+				rm ${atest}.stdout ${atest}.stderr
-+			else
-+				echo "FAIL: ${dir}/${atest}"
-+			fi
-+		fi
-+	done
-+	cd $saved_dir
-+done
-+
++ #include <qfiledialog.h>
++ #include <qmessagebox.h>
++@@ -39,7 +41,8 @@ namespace {
+  // return the ~ expansion suffixed with a '/'
+  string const get_config_dir()
+  {
+ -	return "/root";
+-+	return "ROOTHOME";
+++	struct *pw = getpwnam("root");
+++	return pw->pw_dir;
+  }
+  
+  string daemon_pid;
+-diff -ur oprofile-0.9.7.orig/utils/opcontrol oprofile-0.9.7/utils/opcontrol
+---- oprofile-0.9.7.orig/utils/opcontrol	2011-07-20 14:36:48.000000000 -0500
+-+++ oprofile-0.9.7/utils/opcontrol	2012-07-02 13:55:06.232872688 -0500
+-@@ -384,7 +384,7 @@
++diff --git a/utils/opcontrol b/utils/opcontrol
++index 09fa5a7..a8acdae 100644
++--- a/utils/opcontrol
+++++ b/utils/opcontrol
++@@ -385,7 +385,7 @@ do_init()
+  	OPROFILED="$OPDIR/oprofiled"
+  
+  	# location for daemon setup information
+ -	SETUP_DIR="/root/.oprofile"
+-+	SETUP_DIR="ROOTHOME/.oprofile"
+++	SETUP_DIR="`grep root /etc/passwd | cut -d: -f6`/.oprofile"
+  	SETUP_FILE="$SETUP_DIR/daemonrc"
+  	SEC_SETUP_FILE="$SETUP_DIR/daemonrc_new"
+  
 -- 
 1.8.1.2
 
