@@ -1,25 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 527C66FAB1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E06B6B5E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 09:46:25 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2014 02:46:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,980,1392192000"; d="scan'208";a="542814633"
-Received: from smoffitt-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.113])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2014 02:46:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jun 2014 10:46:17 +0100
-Message-Id: <dd2066377ea36f362e8ef279155bb2982c9b4dbb.1401961481.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1401961481.git.paul.eggleton@linux.intel.com>
-References: <cover.1401961481.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1401961481.git.paul.eggleton@linux.intel.com>
-References: <cover.1401961481.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] libxml2: fix python packaging for nativesdk
+	Thu,  5 Jun 2014 11:33:32 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s55BXQMM021376; Thu, 5 Jun 2014 12:33:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hRDQOmjhvPG9; Thu,  5 Jun 2014 12:33:26 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s55BXOuW021373
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 5 Jun 2014 12:33:25 +0100
+Message-ID: <1401967996.12440.185.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Thu, 05 Jun 2014 12:33:16 +0100
+In-Reply-To: <CAPybu_3Jz=KNmYjE+crCFBuxpmJGmS7DfOM9fmDXFGOADmwyFg@mail.gmail.com>
+References: <CAPybu_3Jz=KNmYjE+crCFBuxpmJGmS7DfOM9fmDXFGOADmwyFg@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: PR_Service. Sync database only on clean stop?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 09:46:25 -0000
+X-List-Received-Date: Thu, 05 Jun 2014 11:33:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We enable the python module in nativesdk-libxml2, but the python binary
-used is in the native sysroot and thus you get the module installed in
-the wrong path. Even with that fixed the python files are still
-unpackaged, so create an ${PN}-python package and add them to it. (This
-does not affect the libxml target build at all since python is disabled
-for that.)
+On Wed, 2014-06-04 at 22:52 +0200, Ricardo Ribalda Delgado wrote:
+> Hello
+> 
+> I have been running happily with pr_service for two months.
+> Unfortunately, due to a power down the computer running the pr server
+> has stopped.
+> When I have started the server I have discovered that all the
+> information about PR was lost :S. I assumed this was due to a db
+> corruption, but I have later discovered that the database is not
+> synced after every insert.
+> 
+> I guess this is to improve the performance, but I don't think that
+> everybody prefer this behaviour, right now I have to remake and
+> distribute only 10 flashes, something reasonable, but it would have a
+> disaster later in our development cycle.
+> 
+> Is somebody working on a parameter for the db to be persistent? Would
+> a patch to implement this be considered?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/libxml/libxml2.inc                | 11 ++++++++++-
- .../libxml/libxml2/python-sitepackages-dir.patch    | 21 +++++++++++++++++++++
- 2 files changed, 31 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
+The trouble if I remember rightly is that the way the queries work in
+there, you can't tell if an update was made the database during the read
+or not. The older code therefore synced on *every* read and this was a
+significant bottleneck.
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 60bb6b8..1401c73 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -19,6 +19,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://runtest.patch \
-            file://run-ptest \
-            file://libxml2-CVE-2014-0191-fix.patch \
-+           file://python-sitepackages-dir.patch \
-           "
- 
- inherit autotools pkgconfig binconfig pythonnative ptest
-@@ -30,6 +31,11 @@ do_configure_prepend () {
- 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
- }
- 
-+do_configure_prepend_class-nativesdk () {
-+	# Ensure we get the correct site-packages path
-+	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-+}
-+
- EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
- EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
- EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
-@@ -49,10 +55,13 @@ python populate_packages_prepend () {
-         d.setVar('PKG_libxml2', '${MLPREFIX}libxml2')
- }
- 
--PACKAGES += "${PN}-utils"
-+PACKAGES += "${PN}-utils ${PN}-python"
- 
-+FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug"
-+FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/*.a"
- FILES_${PN}-dev += "${libdir}/xml2Conf.sh"
- FILES_${PN}-utils += "${bindir}/*"
-+FILES_${PN}-python += "${PYTHON_SITEPACKAGES_DIR}"
- 
- do_install_ptest () {
-   cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
-diff --git a/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-new file mode 100644
-index 0000000..a697ddf
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-@@ -0,0 +1,21 @@
-+Allow us to pass in PYTHON_SITE_PACKAGES
-+
-+The python binary used when building for nativesdk doesn't give us the
-+correct path here so we need to be able to specify it ourselves.
-+
-+Upstream-Status: Inappropriate [config]
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+--- a/configure.in
-++++ b/configure.in
-+@@ -743,7 +743,8 @@ dnl
-+ 
-+ PYTHON_VERSION=
-+ PYTHON_INCLUDES=
-+-PYTHON_SITE_PACKAGES=
-++# Allow this to be set externally
-++#PYTHON_SITE_PACKAGES=
-+ PYTHON_TESTS=
-+ pythondir=
-+ if test "$with_python" != "no" ; then
--- 
-1.9.3
+So patches would be considered and I agree the current behaviour is bad
+but we need to be mindful of performance too. Some kind of idle sync on
+a timer might be better than specific numbers for example, particularly
+if we can query whether the data is "dirty" before running the sync
+commands.
+
+Cheers,
+
+Richard
+
+
 
 
