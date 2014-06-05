@@ -1,22 +1,22 @@
 Return-Path: <valentin.popa@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 197EE6B89F
+	by mail.openembedded.org (Postfix) with ESMTP id 195096B7F9
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Jun 2014 13:09:34 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Jun 2014 06:09:15 -0700
+	by orsmga101.jf.intel.com with ESMTP; 05 Jun 2014 06:09:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,981,1392192000"; d="scan'208";a="523166228"
+X-IronPort-AV: E=Sophos;i="4.98,981,1392192000"; d="scan'208";a="523166219"
 Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2014 06:09:13 -0700
+	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2014 06:09:12 -0700
 From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jun 2014 16:08:32 +0300
-Message-Id: <1401973712-6149-4-git-send-email-valentin.popa@intel.com>
+Date: Thu,  5 Jun 2014 16:08:31 +0300
+Message-Id: <1401973712-6149-3-git-send-email-valentin.popa@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1401973712-6149-1-git-send-email-valentin.popa@intel.com>
 References: <1401973712-6149-1-git-send-email-valentin.popa@intel.com>
-Subject: [dylan][PATCH] gnutls: patch for CVE-2014-3466 backported
+Subject: [dora][PATCH] gnutls: patch for CVE-2014-3466 backported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 05 Jun 2014 13:09:34 -0000
 
 Backported patch for CVE-2014-3466.
-This patch is for dylan.
+This patch is for dora.
 
 Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
