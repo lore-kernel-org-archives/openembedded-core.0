@@ -1,22 +1,38 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 195096B7F9
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f49.google.com (mail-yh0-f49.google.com
+	[209.85.213.49])
+	by mail.openembedded.org (Postfix) with ESMTP id F13526B7F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jun 2014 13:09:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Jun 2014 06:09:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,981,1392192000"; d="scan'208";a="523166219"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2014 06:09:12 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jun 2014 16:08:31 +0300
-Message-Id: <1401973712-6149-3-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1401973712-6149-1-git-send-email-valentin.popa@intel.com>
-References: <1401973712-6149-1-git-send-email-valentin.popa@intel.com>
-Subject: [dora][PATCH] gnutls: patch for CVE-2014-3466 backported
+	Thu,  5 Jun 2014 15:17:20 +0000 (UTC)
+Received: by mail-yh0-f49.google.com with SMTP id c41so952395yho.36
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jun 2014 08:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=oPUDiseX6C6pBY4dI5OevmIK757tko0EAzrChi0U5fg=;
+	b=gBz0lGXLdVSYpx+gFmHQWWC2n8scpNnFnz4G67YJRCGu3XsQBhH12ES/olaywHgiF9
+	BIVMXJY2lDuK55QMwHXjLbtvhxmnF+/iZe0Kn5b3FgE00VqeOsGgP/nqM+1rt4/aJXHi
+	zg2qfeR5kTLS1zVJmzozjbGp9fE+lgGTGlZ1jRWw5wk1SEwIjVZYpwj88X+OU9X8kSQ7
+	BE0ugQFtqsN3phAxUDmcFgj6VG8v4jiFWGyg7w8WFKJYK9bDQuYtP4INs+uaj/bcQm2L
+	Vi/DtchgETiBLjzondOKtS4Gh1RGRNcnf6XACDoAdD39FAI6HOp1E60Kusk8JXZLEn+C
+	VT/w==
+MIME-Version: 1.0
+X-Received: by 10.236.230.6 with SMTP id i6mr85438802yhq.14.1401981441458;
+	Thu, 05 Jun 2014 08:17:21 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.166.213 with HTTP; Thu, 5 Jun 2014 08:17:21 -0700 (PDT)
+In-Reply-To: <14f9de6c3225fa8a8ae8faab4c65a1253ce34ed0.1401918455.git.ajlennon@dynamicdevices.co.uk>
+References: <cover.1401918455.git.ajlennon@dynamicdevices.co.uk>
+	<14f9de6c3225fa8a8ae8faab4c65a1253ce34ed0.1401918455.git.ajlennon@dynamicdevices.co.uk>
+Date: Thu, 5 Jun 2014 12:17:21 -0300
+X-Google-Sender-Auth: a83jo_1tmi3PHLCHmrMDNvELipM
+Message-ID: <CAP9ODKoNJ+_j5R+SS1qtSugnuUTORBd_3ahcfe6O2CDog1cq8Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gstreamer1.0-rtsp-server: Add recipe to support gst-rtsp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,67 +45,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jun 2014 13:09:34 -0000
+X-List-Received-Date: Thu, 05 Jun 2014 15:17:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Backported patch for CVE-2014-3466.
-This patch is for dora.
+On Wed, Jun 4, 2014 at 6:53 PM, Alex J Lennon
+<ajlennon@dynamicdevices.co.uk> wrote:
+> A Gstreamer library which provides an API to create an RTSP server (e.g. to stream RTP to VLC clients and similar).
+>
+> Tested, works with GStreamer 1.2.3 + videotestsrc based pipeline on RPi.
+>
+> Signed-off-by: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+> ---
+>  .../gstreamer/gstreamer1.0-rtsp-server.inc                 | 14 ++++++++++++++
+>  .../gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb            |  9 +++++++++
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+> new file mode 100644
+> index 0000000..6917d41
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+> @@ -0,0 +1,14 @@
+> +SUMMARY = "A library on top of GStreamer for building an RTSP server"
+> +SECTION = "multimedia"
+> +LICENSE = "LGPLv2"
+> +HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
+> +DEPENDS = "gstreamer1.0"
+> +
+> +PNREAL = "gst-rtsp-server"
+> +
+> +SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+> +
+> +S = "${WORKDIR}/${PNREAL}-${PV}"
+> +
+> +inherit autotools pkgconfig
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb
+> new file mode 100644
+> index 0000000..78d35f3
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.2.3.bb
+> @@ -0,0 +1,9 @@
+> +include gstreamer1.0-rtsp-server.inc
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+> +
+> +SRC_URI[md5sum] = "239f805e755deb388162e957fcffff1d"
+> +SRC_URI[sha256sum] = "c12befa5ec63818842c150725d3e9e38bf9948366317b67dc2536dfd00765da1"
+> +
+> +
+> +
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- .../gnutls/gnutls/CVE-2014-3466.patch              | 30 ++++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_2.12.23.bb      |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch
+Useless newlines.
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch b/meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch
-new file mode 100644
-index 0000000..dd118f5
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2014-3466.patch
-@@ -0,0 +1,30 @@
-+From fcf3745f1d03c4a97e87ef4341269c645fdda787 Mon Sep 17 00:00:00 2001
-+From: Valentin Popa <valentin.popa@intel.com>
-+Date: Thu, 5 Jun 2014 11:50:11 +0300
-+Subject: [PATCH] CVE-2014-3466
-+
-+Prevent memory corruption due to server hello parsing.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-+---
-+ lib/gnutls_handshake.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/gnutls_handshake.c b/lib/gnutls_handshake.c
-+index e4a63e4..e652528 100644
-+--- a/lib/gnutls_handshake.c
-++++ b/lib/gnutls_handshake.c
-+@@ -1797,7 +1797,7 @@ _gnutls_read_server_hello (gnutls_session_t session,
-+   DECR_LEN (len, 1);
-+   session_id_len = data[pos++];
-+ 
-+-  if (len < session_id_len)
-++  if (len < session_id_len || session_id_len > TLS_MAX_SESSION_ID_SIZE)
-+     {
-+       gnutls_assert ();
-+       return GNUTLS_E_UNSUPPORTED_VERSION_PACKET;
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.23.bb b/meta/recipes-support/gnutls/gnutls_2.12.23.bb
-index 2218242..efe9e04 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.23.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.23.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://gnutls-openssl.patch \
-             file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
-             file://CVE-2014-1959-rejection-of-v1-intermediate-cert.patch \
-             file://CVE-2014-0092-corrected-return-codes.patch \
-+            file://CVE-2014-3466.patch \
-             file://25_updatedgdocfrommaster.diff \
-             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
-            "
+> --
+> 2.0.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
