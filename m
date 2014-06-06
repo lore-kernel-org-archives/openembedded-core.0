@@ -1,35 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D7996FC92
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 82EB06FC2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 16:57:21 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id u57so3134061wes.18
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jun 2014 09:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=X/nIht/rKYLr+S8tOu8y91W8A53zcZe/lxn2MX5QwlU=;
-	b=LbQlAUlXdT2JJamyP6c/AKs7QRbYjml5gP9bUjRLPEOQaImeodMR02jVm9eqgEhrvh
-	8rFt8QMRTvRHhfiQd3IuM033eHl8gIDMJZ4koRhOnBsE+IM75t4vvPdN7YvhTIBe0JWR
-	7hTgSsLetWnemcZB6tpqgT1QZOZz466F9oI6ZV7ML82aJ7eoRcDeSn24gKS8pWVAk+RN
-	5AFhGP2BwtCY94WldvSKiKjnRcY3w3fnXEbJ+XrYwXZhOITTrB+H42sMvI8vgPEu3lso
-	kJrBShfFeGfqKkhe0vBuQPivhHRook5ZWLg0HSJY/AQP/+3PXbs4aPa4LkDlER8D+Eec
-	NOVA==
-X-Received: by 10.14.183.196 with SMTP id q44mr455309eem.83.1402073842334;
-	Fri, 06 Jun 2014 09:57:22 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	m44sm23979464eep.6.2014.06.06.09.57.21 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Jun 2014 09:57:21 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Fri,  6 Jun 2014 17:10:41 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Jun 2014 10:10:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="551054936"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2014 10:10:33 -0700
+Received: from localhost.localdomain (unknown [10.237.112.162])
+	by linux.intel.com (Postfix) with ESMTP id 875AA6A4087;
+	Fri,  6 Jun 2014 10:10:05 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 18:57:34 +0200
-Message-Id: <1402073854-10723-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.0
-Subject: [PATCH] update-rc.d: Allow to use different initscripts provider
+Date: Fri,  6 Jun 2014 22:14:32 +0300
+Message-Id: <1402082078-10826-2-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
+References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
+Subject: [PATCH V2 1/7] targetcontrol.py: make possible dynamical determination of rootfs type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 16:57:23 -0000
+X-List-Received-Date: Fri, 06 Jun 2014 17:10:44 -0000
 
-* until now all recipes were respecting VIRTUAL-RUNTIME_initscripts
-  variable but commit bba835fed88c3bd5bb5bd58962034aef57c408d8
-  hardcoded "initscripts" runtime dependency
+YB: #6375
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Added a new method get_image_fstype() that autodetermines what fstype to use for the rootfs file.
+This method uses a new list variable 'supported_image_fstypes' that contains image fstypes supported by the target controller.
+
+This method is also a classmethod which means outside scripts can get the image fstype.
+
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- meta/classes/update-rc.d.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/targetcontrol.py | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index ca9486b..19b081d 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -1,7 +1,8 @@
- UPDATERCPN ?= "${PN}"
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index ff1bb89..866c414 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -44,6 +44,8 @@ class BaseTarget(object):
  
- DEPENDS_append = " update-rc.d-native"
--DEPENDS_append_class-target = " initscripts"
-+VIRTUAL-RUNTIME_initscripts ?= "initscripts"
-+DEPENDS_append_class-target = " ${VIRTUAL-RUNTIME_initscripts}"
- UPDATERCD = "update-rc.d"
- UPDATERCD_class-cross = ""
- UPDATERCD_class-native = ""
+     __metaclass__ = ABCMeta
+ 
++    supported_image_fstypes = []
++
+     def __init__(self, d):
+         self.connection = None
+         self.ip = None
+@@ -70,6 +72,16 @@ class BaseTarget(object):
+     def stop(self):
+         pass
+ 
++    @classmethod
++    def get_image_fstype(self, d, image_fstypes=None):
++        if not image_fstypes:
++            image_fstypes = d.getVar('IMAGE_FSTYPES', True).split(' ')
++        possible_image_fstypes = [fstype for fstype in self.supported_image_fstypes if fstype in image_fstypes]
++        if possible_image_fstypes:
++            return possible_image_fstypes[0]
++        else:
++            bb.fatal("no possible image_fstype could not be determined. IMAGE_FSTYPES=\"%s\" and supported_image_fstypes=\"%s\": " % (', '.join(map(str, image_fstypes)), ', '.join(map(str, self.supported_image_fstypes))))
++
+     def restart(self, params=None):
+         self.stop()
+         self.start(params)
+@@ -87,13 +99,16 @@ class BaseTarget(object):
+ 
+ class QemuTarget(BaseTarget):
+ 
++    supported_image_fstypes = ['ext3']
++
+     def __init__(self, d):
+ 
+         super(QemuTarget, self).__init__(d)
+ 
++        self.image_fstype = self.get_image_fstype(d)
+         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
+-        self.origrootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME", True) + '.ext3')
+-        self.rootfs = os.path.join(self.testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.ext3')
++        self.origrootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME", True) + '.' + self.image_fstype)
++        self.rootfs = os.path.join(self.testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.' + self.image_fstype)
+ 
+         self.runner = QemuRunner(machine=d.getVar("MACHINE", True),
+                         rootfs=self.rootfs,
 -- 
-2.0.0
+1.8.3.2
 
 
