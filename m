@@ -1,38 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 61F346FC2D
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BBB36FC05
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 16:15:49 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id q108so4769602qgd.19
+	Fri,  6 Jun 2014 16:43:06 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id cc10so1338649wib.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jun 2014 09:15:50 -0700 (PDT)
+	Fri, 06 Jun 2014 09:43:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4lGflFGJ2PCTe9pFi2ZSvpnhTFo4tuokwv+BRsfXt8c=;
-	b=XZRRmR6201ShGqqw54hicfBWg3F+8NaBjkQL4LaghehdtxK+/rqgvVT0WetL1gMhZE
-	rkxLARDATBS0/S/9P/6BfE/4Y5r6cw5FUWLnGQVS8O6Z+E1Vc6o9P+anWLQ0l0A9VMaV
-	TM9PgozwR3etBfpxqvzLz4VQKO6Q6tUEOrEiFzZi/ZXET9DfC6joUlsIditF0pn4yZVN
-	zmRaXG5PwW5p4zt8DxkSx7fCWOiFdHNMwFsbfcG6oVfRogAWyXRXh9sbXig5xctQVudX
-	Hz24ipNVUAMzvsxEHWVM071EjmdHTBrVeedxCguG5AU3IHatqptNfqP+wVSG4S7DltKi
-	DmgQ==
-X-Gm-Message-State: ALoCoQm5jLgxNM5xqS9ZrlCHkzawGdtWQZwWyMSQ1lXYaRcjsbHTNeGIlxLwIUgGPQrLo+jL+FcO
-X-Received: by 10.140.48.161 with SMTP id o30mr9886234qga.68.1402071350374;
-	Fri, 06 Jun 2014 09:15:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Fri, 6 Jun 2014 09:15:30 -0700 (PDT)
-In-Reply-To: <20140604125205.GS2426@jama>
-References: <cover.1399993010.git.valentin.popa@intel.com>
-	<CAJTo0LaNVqizccFhw8E_Bp8WXX07ZB9Mu+_DoQ0tmjcLf8f=Fg@mail.gmail.com>
-	<20140604125205.GS2426@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Jun 2014 17:15:30 +0100
-Message-ID: <CAJTo0Lb8zgZN=1Xb-=L7J3EydTXOd9SCvTfHnL4p7FKV8msA3g@mail.gmail.com>
-To: OE-devel <openembedded-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [PATCH 0/3] mesa upgrade
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=bbKK7KL3Im0lXX0ZTQ3M1V9LPtRi222VWZ80jhnckHo=;
+	b=KilfN053NgtrZQzV6o2rJwWCSdnzjNDmDHy7M2IQp+1wDl2gYppzVv/9YuRs+K/+cr
+	kMgE49HmElt3C5tKBL89k7eWyqiKhcDvt2dBcaHA/3m1RMrfoo7j9fL9KmaVanRNHYe8
+	vLxkVomWmzXDtP6R4x0PM7RKpy9MFuAaP3ee3j2kW8prhwSD6C24HrGVV0Vv3u5qu770
+	dzsPismcLbAzmrdiagWjJuiRuqGPy58iQXf/I9UGjVi61+rFQ3ZjUA47+z0do7fi/iUH
+	1/N1wcNVdIf1yVe1XUTN/bIF3qPvSl3qOPQxftqoeYw6pNsbjTWMC75rDyKmisBgcX3l
+	Ai4w==
+X-Gm-Message-State: ALoCoQl0N08gerGK/0wzpFhUtjS9UoL3JaU7+eldukait8mabkZB1IkPMJM4CnJHKbyq7N9pBIPn
+X-Received: by 10.194.2.75 with SMTP id 11mr8886991wjs.48.1402072986859;
+	Fri, 06 Jun 2014 09:43:06 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id l2sm22248091wix.13.2014.06.06.09.43.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Jun 2014 09:43:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jun 2014 17:43:04 +0100
+Message-Id: <1402072984-2180-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] mesa: add build-dependency on libxml2-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 16:15:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 Jun 2014 16:43:08 -0000
 
-On 4 June 2014 13:52, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Sorry for hi-jacking the thread, but since today even the older 9.2.5 is
-> failing to find native python-libxml2
->
-> config.log:
-> configure:8059: checking for python2
-> configure:8075: found
-> /OE/build/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/python-native/python2
-> configure:8086: result: python2
-> configure:8103: checking python2 module: libxml2
-> configure:8112: result: no
-> configure:8118: error: failed to find required module libxml2
->
-> Any idea why it started to fail now?
+glapi/gen needs the libxml2 Python module, but this isn't listed as a build
+dependency.
 
-Something else must have lost a python-libxml2 dependency recently
-because Mesa needs it but doesn't have a declared dependency.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index a33b7b5..6503c2d 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eac
+ INC_PR = "r9"
+ PE = "2"
+ 
+-DEPENDS = "expat makedepend-native flex-native bison-native udev"
++DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native udev"
+ 
+ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
+ 
+-- 
+1.7.10.4
+
 
