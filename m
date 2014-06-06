@@ -1,20 +1,37 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E55FA6FC92
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id ACA4F6B5E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 15:32:30 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Jun 2014 08:32:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,989,1392192000"; d="scan'208";a="552901515"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
-	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2014 08:32:29 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 18:31:51 +0300
-Message-Id: <1402068711-10161-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] xorg-xserver: enable dri3 by default
+	Fri,  6 Jun 2014 15:37:19 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id k15so3761796qaq.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jun 2014 08:37:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7ty/n/JtHK9IlI82B4yiJrKuvhap0N+fvSiPto0U04k=;
+	b=MITeuxXgk4nnzMVD6dJuv9Qs2t3AoPL23z1+/a3kb/tBp/LR9VXGyTWrDetTDZ8Pl+
+	z620HUgRTCsHCFkEx9NrFhVM4sHfDX4vvfRTXyk3wyX8chkTCDIERHzcBxmAw0vPr0N6
+	qX5sN+VyxL0dWuEA4I8VLACjlfDARdpk/Nj0gRg/YK7ozgssNER6wFdyWQB5SlRRWQJ/
+	x6Xc54+oJ2Seks2wZN5zJxaVe+nBACa6iTb6EZiZOCBR4LLIHi47/Qa/rHx/MS7ZWQxl
+	H0QgRf2SvfzGftIXzYrfvERVdbtyIbHv/ytGFYGPYTie1xZBUxQ1EgPVN20lKZIpa4vW
+	Jf2g==
+X-Gm-Message-State: ALoCoQmRG65E2S29OxHGFt80w8T16IRJHW+qiPs/8BkJCIv0OEezRyE4XGgE9euAPyMSfe1aTWp7
+X-Received: by 10.224.165.70 with SMTP id h6mr10025947qay.78.1402069040120;
+	Fri, 06 Jun 2014 08:37:20 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.101.77 with HTTP; Fri, 6 Jun 2014 08:37:00 -0700 (PDT)
+In-Reply-To: <6d4c4b72f95fa7b7a4bced0e7747ae341b9af71a.1402021350.git.Qi.Chen@windriver.com>
+References: <cover.1402021350.git.Qi.Chen@windriver.com>
+	<6d4c4b72f95fa7b7a4bced0e7747ae341b9af71a.1402021350.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Jun 2014 16:37:00 +0100
+Message-ID: <CAJTo0LZom5K2eeOdVbrBhWsQbKrCo=mCaMbbt4ExAwtFNLmn+w@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/4] gawk: upgrade from 4.0.2 to 4.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,36 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 15:32:41 -0000
+X-List-Received-Date: Fri, 06 Jun 2014 15:37:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Don't let xorg-xserver to automatically enable/disable
-dri3.
+On 6 June 2014 03:28, Chen Qi <Qi.Chen@windriver.com> wrote:
+> -FILES_gawk-common += "${datadir}/awk/* ${libexecdir}/awk/*"
+> +FILES_gawk-common += "${datadir}/awk/* ${libdir}/gawk/awk/* ${libdir}/gawk/*.so"
 
-[YOCTO #6402]
+grcat and pwcat are installed into $libexecdir, so this patch is wrong too.
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 2e83d53..e4eaaa6 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -116,10 +116,11 @@ EXTRA_OECONF += "--with-fop=no \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
- "
- 
--PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
-+PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 dri3 glx', '', d)}"
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
- PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
- PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
-+PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
- PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
- 
- do_install_append () {
--- 
-1.9.1
-
+Ross
 
