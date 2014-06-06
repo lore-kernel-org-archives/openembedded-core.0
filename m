@@ -1,25 +1,25 @@
 Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B72BB6FCB3
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C80576FCE4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 17:10:35 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jun 2014 10:10:36 -0700
+	Fri,  6 Jun 2014 17:10:36 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2014 10:05:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="543692582"
+X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="552947207"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2014 10:10:35 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2014 10:10:34 -0700
 Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 8E9186A4087;
-	Fri,  6 Jun 2014 10:10:08 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 8F9A86A4087;
+	Fri,  6 Jun 2014 10:10:07 -0700 (PDT)
 From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 22:14:35 +0300
-Message-Id: <1402082078-10826-5-git-send-email-corneliux.stoicescu@intel.com>
+Date: Fri,  6 Jun 2014 22:14:34 +0300
+Message-Id: <1402082078-10826-4-git-send-email-corneliux.stoicescu@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
 References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH V2 4/7] targetcontrol.py: Add a classmethod to get extra files needed by the target controllers
+Subject: [PATCH V2 3/7] core-image-testmaster.bb: add bzip2 to image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +34,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 06 Jun 2014 17:10:44 -0000
 
-YB: #6254
+YB: #6375
 
-Add a new classmethod that can be used by outside scripts to get the extra files needed by the target controllers.
-An outside script can predict rootfs, manifest and kernel files needed by a target controller, but sometimes there are other files needed.
+Some test image fstypes require bzip2 decompression.
 
 Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- meta/lib/oeqa/targetcontrol.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-extended/images/core-image-testmaster.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 866c414..1464bf4 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -73,6 +73,10 @@ class BaseTarget(object):
-         pass
- 
-     @classmethod
-+    def get_extra_files(self):
-+        return None
-+
-+    @classmethod
-     def get_image_fstype(self, d, image_fstypes=None):
-         if not image_fstypes:
-             image_fstypes = d.getVar('IMAGE_FSTYPES', True).split(' ')
+diff --git a/meta/recipes-extended/images/core-image-testmaster.bb b/meta/recipes-extended/images/core-image-testmaster.bb
+index ac2fdbe..78295c5 100644
+--- a/meta/recipes-extended/images/core-image-testmaster.bb
++++ b/meta/recipes-extended/images/core-image-testmaster.bb
+@@ -7,7 +7,7 @@ inherit core-image
+ # the deploy code requires bash and
+ # normal linux utilities not busybox ones
+ IMAGE_INSTALL += "\
+-    bash coreutils util-linux tar gzip kmod \
++    bash coreutils util-linux tar gzip bzip2 kmod \
+     python-modules python-misc \
+     e2fsprogs e2fsprogs-mke2fs parted \
+     "
 -- 
 1.8.3.2
 
