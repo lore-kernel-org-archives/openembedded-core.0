@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B47146FC2F
+	by mail.openembedded.org (Postfix) with ESMTP id C7BF76FA4D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 02:06:55 +0000 (UTC)
+	Fri,  6 Jun 2014 02:27:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5626taA022225
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Jun 2014 19:06:55 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 5 Jun 2014 19:06:55 -0700
-Message-ID: <53912277.4080107@windriver.com>
-Date: Fri, 6 Jun 2014 10:07:51 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s562RNTB022324
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jun 2014 19:27:25 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 5 Jun 2014 19:27:23 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jun 2014 10:28:17 +0800
+Message-ID: <cover.1402021350.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1401945914.git.Qi.Chen@windriver.com>
-	<e495f3e49d33bd3b855c8eb91206622e0f2e3d14.1401945914.git.Qi.Chen@windriver.com>
-	<CAJTo0LbN9V7f29md9LNEA5aG9NaLHG6ZiKt8m_72wO=E9hkWpw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbN9V7f29md9LNEA5aG9NaLHG6ZiKt8m_72wO=E9hkWpw@mail.gmail.com>
-X-Originating-IP: [128.224.162.187]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/3] gawk: upgrade from 4.0.2 to 4.1.1
+Subject: [PATCH V3 0/4] Package Upgrades: gawk, grep and shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 02:07:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jun 2014 02:27:28 -0000
+Content-Type: text/plain
 
-On 06/05/2014 05:42 PM, Burton, Ross wrote:
-> On 5 June 2014 06:29, Chen Qi <Qi.Chen@windriver.com> wrote:
->> +FILES_gawk-common += "${datadir}/awk/* ${libexecdir}/awk/* ${libexecdir}/*.so"
-> Gawk doesn't install extensions into libexecdir, but $libdir/gawk:
->
-> AC_SUBST([pkgextensiondir], ['${pkglibdir}'])
->
-> They may end up in the same location but that can't be guaranteed for
-> all time (especially when I have a series that changes libexecdir).
->
-> Ross
->
->
+This patchset upgrades three packages, gawk, grep and shadow.
 
-Hi Ross,
-
-I checked out your branch and saw your changes.
-
--export libexecdir = "${libdir}/${BPN}"
-+export libexecdir = "${exec_prefix}/libexec"
-
-I'll update my patch and send out a V3.
-I think this time, I'll also have to modify the gawk recipe of the old 
-3.1.5 version.
-
-(P.S. I grepped in the project, and it seems that there are also other 
-recipes that may need some changes about the libexec.)
+There's a remaining problem here.
+After upgrading the shadow package, the 'pwconv' and 'grpconv' commands cannot
+run successfully in pkg_postinst.
+I tried to run them in the devshell environment, they succeeded.
+I digged into the codes but still had no idea.
+Hope somebody could help me out here.
 
 Best Regards,
 Chen Qi
+
+The following changes since commit f8125a1e9b6893a12355d55d4df584a8d97f0bff:
+
+  image_types: Fix ubi filesystem return codes (2014-06-03 16:45:18 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/package-upgrades
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/package-upgrades
+
+Chen Qi (4):
+  gawk: upgrade from 4.0.2 to 4.1.1
+  gawk: fix libexec of the old 3.1.5 version
+  grep: upgrade 2.18 to 2.19
+  shadow: upgrade from 4.1.4.3 to 4.2.1
+
+ .../gawk/{gawk-4.0.2 => gawk-4.1.1}/run-ptest      |    0
+ meta/recipes-extended/gawk/gawk_3.1.5.bb           |    4 +-
+ .../gawk/{gawk_4.0.2.bb => gawk_4.1.1.bb}          |    9 +-
+ .../grep/{grep_2.18.bb => grep_2.19.bb}            |    4 +-
+ .../shadow/files/add_root_cmd_groupmems.patch      |   75 --
+ .../shadow/files/add_root_cmd_options.patch        | 1384 --------------------
+ .../allow-for-setting-password-in-clear-text.patch |  215 ++-
+ ...fix-unexpected-open-failure-in-chroot-env.patch |   46 +
+ .../shadow/files/fix-etc-gshadow-reading.patch     |   36 -
+ ...installation-failure-with-subids-disabled.patch |   28 +
+ .../shadow-4.1.4.2-env-reset-keep-locale.patch     |   31 -
+ .../files/shadow-4.1.4.2-groupmod-pam-check.patch  |   36 -
+ .../files/shadow-4.1.4.2-su_no_sanitize_env.patch  |   31 -
+ .../shadow/files/shadow.automake-1.11.patch        |  106 --
+ .../files/shadow_fix_for_automake-1.12.patch       |   23 -
+ .../files/slackware_fix_for_glib-2.17_crypt.patch  |   63 -
+ meta/recipes-extended/shadow/files/useradd.patch   |   17 -
+ ...-compilation-failure-with-subids-disabled.patch |   33 +
+ ...uretty_4.1.4.3.bb => shadow-securetty_4.2.1.bb} |    0
+ ...-sysroot_4.1.4.3.bb => shadow-sysroot_4.2.1.bb} |    0
+ meta/recipes-extended/shadow/shadow.inc            |   33 +-
+ .../shadow/{shadow_4.1.4.3.bb => shadow_4.2.1.bb}  |    0
+ 22 files changed, 231 insertions(+), 1943 deletions(-)
+ rename meta/recipes-extended/gawk/{gawk-4.0.2 => gawk-4.1.1}/run-ptest (100%)
+ rename meta/recipes-extended/gawk/{gawk_4.0.2.bb => gawk_4.1.1.bb} (80%)
+ rename meta/recipes-extended/grep/{grep_2.18.bb => grep_2.19.bb} (86%)
+ delete mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+ create mode 100644 meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+ create mode 100644 meta/recipes-extended/shadow/files/fix-installation-failure-with-subids-disabled.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-env-reset-keep-locale.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-groupmod-pam-check.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-su_no_sanitize_env.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow.automake-1.11.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/useradd.patch
+ create mode 100644 meta/recipes-extended/shadow/files/usermod-fix-compilation-failure-with-subids-disabled.patch
+ rename meta/recipes-extended/shadow/{shadow-securetty_4.1.4.3.bb => shadow-securetty_4.2.1.bb} (100%)
+ rename meta/recipes-extended/shadow/{shadow-sysroot_4.1.4.3.bb => shadow-sysroot_4.2.1.bb} (100%)
+ rename meta/recipes-extended/shadow/{shadow_4.1.4.3.bb => shadow_4.2.1.bb} (100%)
+
+-- 
+1.7.9.5
+
 
