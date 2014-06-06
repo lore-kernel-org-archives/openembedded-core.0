@@ -1,38 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 254F46BAA1
+Return-Path: <matt@console-pimps.org>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 415286FD3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 08:29:45 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id s7so3168136qap.6
+	Fri,  6 Jun 2014 08:52:30 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id bs8so618345wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jun 2014 01:29:46 -0700 (PDT)
+	Fri, 06 Jun 2014 01:52:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=9ttW/arG4GyD4aoDzN9UNqgyyrtNKIv658/aCkwjlDs=;
-	b=PS3RYAC3mfVg5wW2YXi/CM6+OU+xTVBlr0O4ePqH/Df2rKWBCtY384yDM1GPpNAGRd
-	w3iazcESWr3hqmsvCyKxSu1zrNi6Ww33wjiq9AXsTGz7DdhEYk4+6bb2jLcL423SqqAo
-	zRONyDuSKzoEdN/fmaWX/TSKhSHLGYJoUGYdXjH+2mPOgl5IfKWqux4HpD1i6p5B8stE
-	+cq/gYVWEAYjVnxec2lKO4zpoPlR4xDKkG/0UEzZEcPjM0MYBLmbdR4VKsMpRJaZr8C5
-	hWU0SaIyuhFRGfBAlMsRtT1HngYWprrmVNi0WkpG61jZ6/gwlRz0CvFNneZEtj51801Z
-	Yjag==
-X-Gm-Message-State: ALoCoQnG2CeQUAmygRFSjacV8eJc9m/WT4kiT0eYmjYZviSuq9VOnUrPnHedaXR/XLKDW7etZwi2
-MIME-Version: 1.0
-X-Received: by 10.140.91.161 with SMTP id z30mr5335671qgd.65.1402043386299;
-	Fri, 06 Jun 2014 01:29:46 -0700 (PDT)
-Received: by 10.140.101.77 with HTTP; Fri, 6 Jun 2014 01:29:46 -0700 (PDT)
-In-Reply-To: <d04b9d9275126daf15d538362b046e93ed45c99d.1402042902.git.Qi.Chen@windriver.com>
-References: <cover.1402042902.git.Qi.Chen@windriver.com>
-	<d04b9d9275126daf15d538362b046e93ed45c99d.1402042902.git.Qi.Chen@windriver.com>
-Date: Fri, 6 Jun 2014 09:29:46 +0100
-Message-ID: <CAJTo0LZi1G+qv=P-n9knxugf2aH2y2_uMPyfBO0aiVOVbBOqVw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] glib-2.0: upgrade from 2.40.0 to 2.41.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=O1qOZ5kZgn1j8FVKH8MklsHZth8Te0dvDqOWBQf3SAw=;
+	b=jsgwQrOysOLrwHUjuWlvb0In+H62fdQfw3Awn6To76jJ3H147WW3CduF9zJMlj+dHe
+	6+EKXtNp8z3z5JOa/m1sPSRlp3gQetSIiSvgOXvXsoBQ4NGmxzHwvkCDaJW426arNt3r
+	ThoozpuuapUdlTfF6zIW9CQnjzKbDhPHiSjkz/xZgb2GigpGDoMwcIGdc+18l00jV6RQ
+	Jg2PKCUTPsfLYvCJX+FZYNrK+Dc/8xswQUuYbZ/lcRD4vlZEbD9XrGlEGmp9dnXUBRGl
+	foB8y6NLm/pHpWKhCtCEWShNnF9miSOVvROPvQmF606s5x1MFmzWSbnmbyXN12JGhLt4
+	Owng==
+X-Gm-Message-State: ALoCoQmCEvcI7xvXAYbKYDq6zY4HfzBoP4vUaveptfGIr5DtLMoVM45dvWsy8DpYd1XklTYU62q1
+X-Received: by 10.180.19.233 with SMTP id i9mr3323692wie.38.1402044751445;
+	Fri, 06 Jun 2014 01:52:31 -0700 (PDT)
+Received: from localhost ([90.207.204.193])
+	by mx.google.com with ESMTPSA id f6sm58758010wiy.19.2014.06.06.01.52.30
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Jun 2014 01:52:30 -0700 (PDT)
+From: Matt Fleming <matt@console-pimps.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jun 2014 09:52:29 +0100
+Message-Id: <1402044749-16342-1-git-send-email-matt@console-pimps.org>
+X-Mailer: git-send-email 1.9.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Matt Fleming <matt.fleming@intel.com>
+Subject: [PATCH] generate-manifest-2.7.py: Add importlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,118 +45,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 08:29:47 -0000
-Content-Type: multipart/alternative; boundary=001a113a84d200221304fb26aa59
+X-List-Received-Date: Fri, 06 Jun 2014 08:52:37 -0000
 
---001a113a84d200221304fb26aa59
-Content-Type: text/plain; charset=UTF-8
+From: Matt Fleming <matt.fleming@intel.com>
 
-Odd versions are development releases so a big no to this.
+importlib isn't currently included in any of the python packages, so
+create a new one for recipes that require it.
 
-Ross
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Matt Fleming <matt.fleming@intel.com>
+---
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 13 ++++++++-----
+ scripts/contrib/python/generate-manifest-2.7.py      |  3 +++
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-On Friday, 6 June 2014, Chen Qi <Qi.Chen@windriver.com> wrote:
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index a557cdc..a8afe13 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -5,9 +5,9 @@
+ 
+  
+ 
+-PROVIDES+="${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
++PROVIDES+="${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
+ 
+-PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
++PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
+ 
+ SUMMARY_${PN}-2to3="Python automated Python 2 to 3 code translator"
+ RDEPENDS_${PN}-2to3="${PN}-core"
+@@ -39,8 +39,7 @@ FILES_${PN}-compression="${libdir}/python2.7/gzip.* ${libdir}/python2.7/zipfile.
+ 
+ SUMMARY_${PN}-core="Python interpreter and core modules"
+ RDEPENDS_${PN}-core="${PN}-lang ${PN}-re"
+-FILES_${PN}-core="${libdir}/python2.7/__future__.* ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.* ${libdir}/python2.7/copy.* ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParser.* ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.* ${libdir}/python2.7/linecache.* ${libdir}/python2.7/new.* ${libdir}/python2.7/os.* ${libdir}/python2.7/posixpath.* ${libdir}/python2.7/struct.* ${libdir}/python2.7/warnings.* ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.* ${libdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.* ${libdir}/python2.7/UserString.* ${libdir}/python2.7/lib-dynload/binascii.so ${libdir}/python2.7/lib-dynload/_struct.so ${libdir}/python2.7/lib-dynload/time.so ${libdir}/python2.7/lib-dynload/xreadlines.so \
+-${libdir}/python2.7/types.* ${libdir}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* ${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
++FILES_${PN}-core="${libdir}/python2.7/__future__.* ${libdir}/python2.7/_abcoll.* ${libdir}/python2.7/abc.* ${libdir}/python2.7/copy.* ${libdir}/python2.7/copy_reg.* ${libdir}/python2.7/ConfigParser.* ${libdir}/python2.7/genericpath.* ${libdir}/python2.7/getopt.* ${libdir}/python2.7/linecache.* ${libdir}/python2.7/new.* ${libdir}/python2.7/os.* ${libdir}/python2.7/posixpath.* ${libdir}/python2.7/struct.* ${libdir}/python2.7/warnings.* ${libdir}/python2.7/site.* ${libdir}/python2.7/stat.* ${libdir}/python2.7/UserDict.* ${libdir}/python2.7/UserList.* ${libdir}/python2.7/UserString.* ${libdir}/python2.7/lib-dynload/binascii.so ${libdir}/python2.7/lib-dynload/_struct.so ${libdir}/python2.7/lib-dynload/time.so ${libdir}/python2.7/lib-dynload/xreadlines.so ${libdir}/python2.7/types.* ${libdir}/python2.7/platform.* ${bindir}/python* ${libdir}/python2.7/_weakrefset.* ${libdir}/python2.7/sysconfig.* ${libdir}/python2.7/config/Makefile ${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
+ 
+ SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+ RDEPENDS_${PN}-crypt="${PN}-core"
+@@ -118,6 +117,10 @@ SUMMARY_${PN}-image="Python graphical image handling"
+ RDEPENDS_${PN}-image="${PN}-core"
+ FILES_${PN}-image="${libdir}/python2.7/colorsys.* ${libdir}/python2.7/imghdr.* ${libdir}/python2.7/lib-dynload/imageop.so ${libdir}/python2.7/lib-dynload/rgbimg.so "
+ 
++SUMMARY_${PN}-importlib="Python import implementation library"
++RDEPENDS_${PN}-importlib="${PN}-core"
++FILES_${PN}-importlib="${libdir}/python2.7/importlib "
++
+ SUMMARY_${PN}-io="Python low-level I/O"
+ RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
+ FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
+@@ -271,7 +274,7 @@ RDEPENDS_${PN}-zlib="${PN}-core"
+ FILES_${PN}-zlib="${libdir}/python2.7/lib-dynload/zlib.so "
+ 
+ SUMMARY_${PN}-modules="All Python modules"
+-RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
++RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
+ ALLOW_EMPTY_${PN}-modules = "1"
+ 
+ 
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index 4356ad0..65486d8 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -266,6 +266,9 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-html", "Python HTML processing support", "${PN}-core",
+     "formatter.* htmlentitydefs.* htmllib.* markupbase.* sgmllib.* HTMLParser.* " )
+ 
++    m.addPackage( "${PN}-importlib", "Python import implementation library", "${PN}-core",
++    "importlib" )
++
+     m.addPackage( "${PN}-gdbm", "Python GNU database support", "${PN}-core",
+     "lib-dynload/gdbm.so" )
+ 
+-- 
+1.9.0
 
-> Upgrade glib-2.0 from 2.40.0 to 2.41.0
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com <javascript:;>>
-> ---
->  .../{glib-2.0_2.40.0.bb => glib-2.0_2.41.0.bb}     |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-core/glib-2.0/{glib-2.0_2.40.0.bb =>
-> glib-2.0_2.41.0.bb} (81%)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-> b/meta/recipes-core/glib-2.0/glib-2.0_2.41.0.bb
-> similarity index 81%
-> rename from meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-> rename to meta/recipes-core/glib-2.0/glib-2.0_2.41.0.bb
-> index ff1fb87..252d306 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.41.0.bb
-> @@ -17,5 +17,5 @@ SRC_URI =
-> "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->
->  SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
->
-> -SRC_URI[md5sum] = "05fb7cb17eacbc718e90366a1eae60d9"
-> -SRC_URI[sha256sum] =
-> "0d27f195966ecb1995dcce0754129fd66ebe820c7cd29200d264b02af1aa28b5"
-> +SRC_URI[md5sum] = "65a0d3fa1e79b7d21bbc09579a0f3cf3"
-> +SRC_URI[sha256sum] =
-> "e85e2714147928e3f6410a3f9a5c11ebfcfc7b3b11706e3374636b091dc7c3f7"
-> --
-> 1.7.9.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org <javascript:;>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a113a84d200221304fb26aa59
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Odd versions are development releases so a big no to this.<div><br></div><d=
-iv>Ross<span></span><br><br>On Friday, 6 June 2014, Chen Qi &lt;<a href=3D"=
-mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">
-Upgrade glib-2.0 from 2.40.0 to 2.41.0<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"javascript:;" onclick=3D"_e(event, &#=
-39;cvml&#39;, &#39;Qi.Chen@windriver.com&#39;)">Qi.Chen@windriver.com</a>&g=
-t;<br>
----<br>
-=C2=A0.../{<a href=3D"http://glib-2.0_2.40.0.bb" target=3D"_blank">glib-2.0=
-_2.40.0.bb</a> =3D&gt; <a href=3D"http://glib-2.0_2.41.0.bb" target=3D"_bla=
-nk">glib-2.0_2.41.0.bb</a>} =C2=A0 =C2=A0 | =C2=A0 =C2=A04 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-core/glib-2.0/{<a href=3D"http://glib-2.0_2.40.0.=
-bb" target=3D"_blank">glib-2.0_2.40.0.bb</a> =3D&gt; <a href=3D"http://glib=
--2.0_2.41.0.bb" target=3D"_blank">glib-2.0_2.41.0.bb</a>} (81%)<br>
-<br>
-diff --git a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.40.0.b=
-b" target=3D"_blank">glib-2.0_2.40.0.bb</a> b/meta/recipes-core/glib-2.0/<a=
- href=3D"http://glib-2.0_2.41.0.bb" target=3D"_blank">glib-2.0_2.41.0.bb</a=
-><br>
-
-similarity index 81%<br>
-rename from meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.40.0.bb=
-" target=3D"_blank">glib-2.0_2.40.0.bb</a><br>
-rename to meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.41.0.bb" =
-target=3D"_blank">glib-2.0_2.41.0.bb</a><br>
-index ff1fb87..252d306 100644<br>
---- a/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.40.0.bb" targ=
-et=3D"_blank">glib-2.0_2.40.0.bb</a><br>
-+++ b/meta/recipes-core/glib-2.0/<a href=3D"http://glib-2.0_2.41.0.bb" targ=
-et=3D"_blank">glib-2.0_2.41.0.bb</a><br>
-@@ -17,5 +17,5 @@ SRC_URI =3D &quot;${GNOME_MIRROR}/glib/${SHRT_VER}/glib-$=
-{PV}.tar.xz \<br>
-<br>
-=C2=A0SRC_URI_append_class-native =3D &quot; file://glib-gettextize-dir.pat=
-ch&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;05fb7cb17eacbc718e90366a1eae60d9&quot;<br>
--SRC_URI[sha256sum] =3D &quot;0d27f195966ecb1995dcce0754129fd66ebe820c7cd29=
-200d264b02af1aa28b5&quot;<br>
-+SRC_URI[md5sum] =3D &quot;65a0d3fa1e79b7d21bbc09579a0f3cf3&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;e85e2714147928e3f6410a3f9a5c11ebfcfc7b3b11706=
-e3374636b091dc7c3f7&quot;<br>
---<br>
-1.7.9.5<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Openembe=
-dded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openembedde=
-d.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</blockquote></div>
-
---001a113a84d200221304fb26aa59--
