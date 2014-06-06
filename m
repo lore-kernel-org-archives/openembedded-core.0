@@ -1,20 +1,20 @@
-Return-Path: <tklauser@distanz.ch>
-Received: from mail.zhinst.com (mail.zhinst.com [212.126.164.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 01B7C60438
+Return-Path: <valentin.popa@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E55FA6FC92
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 12:33:56 +0000 (UTC)
-X-Spam-Status: No, hits=0.0 required=5.0
-	tests=AWL: 0.000,BAYES_00: -1.665,TOTAL_SCORE: -1.665,autolearn=ham
-X-Spam-Level: 
-Received: from ziws06.zhinst.com ([10.42.0.71])
-	by mail.zhinst.com (Kerio Connect 8.3.0);
-	Fri, 6 Jun 2014 14:33:55 +0200
-From: Tobias Klauser <tklauser@distanz.ch>
+	Fri,  6 Jun 2014 15:32:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 Jun 2014 08:32:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,989,1392192000"; d="scan'208";a="552901515"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.76])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2014 08:32:29 -0700
+From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 14:33:55 +0200
-Message-Id: <1402058035-11177-1-git-send-email-tklauser@distanz.ch>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] powertop: upgrade from 2.5 to 2.6.1
+Date: Fri,  6 Jun 2014 18:31:51 +0300
+Message-Id: <1402068711-10161-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] xorg-xserver: enable dri3 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,40 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 12:33:58 -0000
+X-List-Received-Date: Fri, 06 Jun 2014 15:32:41 -0000
 
-Upgrade powertop from 2.5 to 2.6.1. Also adjust to the new upstream
-download URL.
+Don't let xorg-xserver to automatically enable/disable
+dri3.
 
-Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
+[YOCTO #6402]
+
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- .../{powertop_2.5.bb => powertop_2.6.1.bb}         |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/powertop/{powertop_2.5.bb => powertop_2.6.1.bb} (81%)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/powertop/powertop_2.5.bb b/meta/recipes-kernel/powertop/powertop_2.6.1.bb
-similarity index 81%
-rename from meta/recipes-kernel/powertop/powertop_2.5.bb
-rename to meta/recipes-kernel/powertop/powertop_2.6.1.bb
-index 86a7f60..6a293bc 100644
---- a/meta/recipes-kernel/powertop/powertop_2.5.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.6.1.bb
-@@ -6,10 +6,10 @@ DEPENDS = "ncurses libnl pciutils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 2e83d53..e4eaaa6 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -116,10 +116,11 @@ EXTRA_OECONF += "--with-fop=no \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+ "
  
--SRC_URI = "http://01.org/powertop/sites/default/files/downloads/powertop-${PV}.tar.gz"
-+SRC_URI = "http://01.org/sites/default/files/downloads/powertop/powertop-${PV}.tar.gz"
+-PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
++PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 dri3 glx', '', d)}"
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
+ PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
++PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
+ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
  
--SRC_URI[md5sum] = "806bbcbd44fcea1f807c9582fc1f7d3e"
--SRC_URI[sha256sum] = "8b2c08a555d79e1c428863470c41cb023971d74ba4801d80a05e35adeec23c0b"
-+SRC_URI[md5sum] = "4391e7b0af854ecf722cdf712f24b631"
-+SRC_URI[sha256sum] = "034cde6d5bb433fe0d29251d5cde5d4c2948abf05fe29ef10966b659331b20e4"
- 
- inherit autotools gettext pkgconfig
- 
+ do_install_append () {
 -- 
-1.7.9.5
-
+1.9.1
 
 
