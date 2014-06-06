@@ -1,26 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D2DA96FC4F
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F6206FC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 18:11:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2014 11:06:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="524146470"
-Received: from kmaligas-mobl1.gar.corp.intel.com (HELO [10.255.12.167])
-	([10.255.12.167])
-	by orsmga001.jf.intel.com with ESMTP; 06 Jun 2014 11:11:04 -0700
-Message-ID: <53920437.1070908@linux.intel.com>
-Date: Fri, 06 Jun 2014 11:11:03 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Fri,  6 Jun 2014 18:41:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s56IfUfW001620
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 6 Jun 2014 11:41:31 -0700 (PDT)
+Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 6 Jun 2014 11:41:30 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jun 2014 14:41:04 -0400
+Message-ID: <1402080064-16450-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Wenlin Kang <wenlin.kang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1401867930-28172-1-git-send-email-wenlin.kang@windriver.com>
-In-Reply-To: <1401867930-28172-1-git-send-email-wenlin.kang@windriver.com>
-Subject: Re: [PATCH] bash: fix to build bash/po/ correctly
+Subject: [PATCH] sysvinit: Add ability to add default line for ctrl-alt-del
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,142 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 18:11:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jun 2014 18:41:35 -0000
+Content-Type: text/plain
 
-On 06/04/2014 12:45 AM, Wenlin Kang wrote:
-> There was an ignored error while building bash, causing the po/
-> directory not built out correctly, the log follow:
-> make[1]: *** No rule to make target `/config.status',
-> needed by `Makefile'. Stop.
-> make: [installdirs] Error 2 (ignored)
->
-> The cause is that some variable,PACKAGE and VERSION don't be defined,
-> and others don't get correct value, eg, top_builddir in po/Makevar,
-> GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
->
-> The patch fixed above problem.
+Currently the generated inittab doesn't have a line for the three
+finger salute, and hence no action is taken on ctrl-alt-del, even
+when a normal PC-style target is used with VTs enabled and a real
+keyboard connected.
 
-No Signed-off-by: tag for this patch for OE-Core, I see one in the patch 
-below.
+If someone enables USE_VT then lets assume they might actually
+intend to use the VTs and connect a keyboard and want ctrl-alt-del
+support.  In keeping with the SYSVINIT_ENABLED_GETTYS option, we
+make it optional, since for some situations (kiosk etc.) it may
+not be desired to be enabled.
 
-The patch does not seem to apply correctly, did you verify this against 
-master?
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+---
+ meta/conf/documentation.conf                           | 1 +
+ meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-Sau!
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 7fa3f318b959..ba5505790a9e 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -396,6 +396,7 @@ SYSROOT_PREPROCESS_FUNCS[doc] = "A list of functions to execute after files are
+ SYSTEMD_AUTO_ENABLE[doc] = "For recipes that inherit the systemd class, this variable specifies whether the service you have specified in SYSTEMD_SERVICE should be started automatically or not."
+ SYSTEMD_PACKAGES[doc] = "For recipes that inherit the systemd class, this variable locates the systemd unit files when they are not found in the main recipe's package."
+ SYSTEMD_SERVICE[doc] = "For recipes that inherit the systemd class, this variable specifies the systemd service name for a package."
++SYSVINIT_ENABLED_CTRLALTDEL[doc] = "Specifies if virtual terminals should trap on ctrl-alt-del and reboot, the default is '0'."
+ SYSVINIT_ENABLED_GETTYS[doc] = "Specifies which virtual terminals should be running a getty, the default is '1'."
+ 
+ #T
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index c3244b46021e..334f9f1ad4b0 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -38,6 +38,12 @@ do_install() {
+ #
+ 
+ EOF
++        if [ "${SYSVINIT_ENABLED_CTRLALTDEL}" = "1" ]; then
++            cat <<EOF >>${D}${sysconfdir}/inittab
++ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
++
++EOF
++        fi
+ 
+         for n in ${SYSVINIT_ENABLED_GETTYS}
+         do
+@@ -77,6 +83,7 @@ CONFFILES_${PN} = "${sysconfdir}/inittab"
+ 
+ USE_VT ?= "1"
+ SYSVINIT_ENABLED_GETTYS ?= "1"
++SYSVINIT_ENABLED_CTRLALTDEL ?= "0"
+ 
+ 
+ 
+-- 
+1.9.1
 
-
-> ---
->   .../bash/bash/fix-to-build-po-correctly.patch      |   83 ++++++++++++++++++++
->   meta/recipes-extended/bash/bash_4.3.bb             |    1 +
->   2 files changed, 84 insertions(+)
->   create mode 100644 meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
->
-> diff --git a/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
-> new file mode 100644
-> index 0000000..9db6fe2
-> --- /dev/null
-> +++ b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
-> @@ -0,0 +1,83 @@
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-> +
-> +diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
-> +--- bash-4.3-org/aclocal.m4	2014-05-23 15:28:54.252565146 +0800
-> ++++ bash-4.3/aclocal.m4	2014-05-23 15:33:19.924570133 +0800
-> +@@ -3710,6 +3710,14 @@
-> +   AC_REQUIRE([AC_PROG_INSTALL])dnl
-> +   AC_REQUIRE([AM_MKINSTALLDIRS])dnl
-> +   AC_REQUIRE([AM_NLS])dnl
-> ++  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
-> ++  AC_REQUIRE([AC_PROG_SED])dnl
-> ++
-> ++  AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
-> ++
-> ++  dnl Release version of the gettext macros. This is used to ensure that
-> ++  dnl the gettext macros and po/Makefile.in.in are in sync.
-> ++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
-> +
-> +   dnl Perform the following tests also if --disable-nls has been given,
-> +   dnl because they are needed for "make dist" to work.
-> +@@ -3723,6 +3731,22 @@
-> +     :)
-> +   AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
-> +
-> ++ dnl Test whether it is GNU msgfmt >= 0.15.
-> ++changequote(,)dnl
-> ++  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-> ++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
-> ++    *) MSGFMT_015=$MSGFMT ;;
-> ++  esac
-> ++changequote([,])dnl
-> ++  AC_SUBST([MSGFMT_015])
-> ++changequote(,)dnl
-> ++  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-> ++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
-> ++    *) GMSGFMT_015=$GMSGFMT ;;
-> ++  esac
-> ++changequote([,])dnl
-> ++  AC_SUBST([GMSGFMT_015])
-> ++
-> +   dnl Search for GNU xgettext 0.12 or newer in the PATH.
-> +   dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
-> +   dnl The second test excludes FreeBSD xgettext.
-> +@@ -3733,6 +3757,15 @@
-> +   dnl Remove leftover from FreeBSD xgettext call.
-> +   rm -f messages.po
-> +
-> ++  dnl Test whether it is GNU xgettext >= 0.15.
-> ++changequote(,)dnl
-> ++  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-> ++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
-> ++    *) XGETTEXT_015=$XGETTEXT ;;
-> ++  esac
-> ++changequote([,])dnl
-> ++  AC_SUBST([XGETTEXT_015])
-> ++
-> +   dnl Search for GNU msgmerge 0.11 or newer in the PATH.
-> +   AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
-> +     [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
-> +diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
-> +--- bash-4.3-org/configure.ac	2014-05-23 15:28:54.208565145 +0800
-> ++++ bash-4.3/configure.ac	2014-05-23 15:29:35.640565923 +0800
-> +@@ -1201,6 +1201,10 @@
-> + #AC_SUBST(ALLOCA_SOURCE)
-> + #AC_SUBST(ALLOCA_OBJECT)
-> +
-> ++# Define the identity of the package.
-> ++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
-> ++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
-> ++
-> + AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile lib/glob/Makefile \
-> + 	  lib/intl/Makefile \
-> + 	  lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
-> +diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
-> +--- bash-4.3-org/po/Makevars	2014-05-23 15:28:54.204565145 +0800
-> ++++ bash-4.3/po/Makevars	2014-05-23 15:30:04.772566469 +0800
-> +@@ -5,7 +5,7 @@
-> +
-> + # These two variables depend on the location of this directory.
-> + subdir = po
-> +-top_builddir = $(BUILD_DIR)
-> ++top_builddir = ..
-> +
-> + # These options get passed to xgettext.
-> + XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
-> diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
-> index 25b7410..a6d7d40 100644
-> --- a/meta/recipes-extended/bash/bash_4.3.bb
-> +++ b/meta/recipes-extended/bash/bash_4.3.bb
-> @@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
->              file://build-tests.patch \
->              file://test-output.patch \
->              file://run-ptest \
-> +           file://fix-to-build-po-correctly.patch \
->              "
->
->   SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
->
 
