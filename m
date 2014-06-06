@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BBB36FC05
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D7996FC92
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 16:43:06 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id cc10so1338649wib.11
+	Fri,  6 Jun 2014 16:57:21 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id u57so3134061wes.18
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jun 2014 09:43:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bbKK7KL3Im0lXX0ZTQ3M1V9LPtRi222VWZ80jhnckHo=;
-	b=KilfN053NgtrZQzV6o2rJwWCSdnzjNDmDHy7M2IQp+1wDl2gYppzVv/9YuRs+K/+cr
-	kMgE49HmElt3C5tKBL89k7eWyqiKhcDvt2dBcaHA/3m1RMrfoo7j9fL9KmaVanRNHYe8
-	vLxkVomWmzXDtP6R4x0PM7RKpy9MFuAaP3ee3j2kW8prhwSD6C24HrGVV0Vv3u5qu770
-	dzsPismcLbAzmrdiagWjJuiRuqGPy58iQXf/I9UGjVi61+rFQ3ZjUA47+z0do7fi/iUH
-	1/N1wcNVdIf1yVe1XUTN/bIF3qPvSl3qOPQxftqoeYw6pNsbjTWMC75rDyKmisBgcX3l
-	Ai4w==
-X-Gm-Message-State: ALoCoQl0N08gerGK/0wzpFhUtjS9UoL3JaU7+eldukait8mabkZB1IkPMJM4CnJHKbyq7N9pBIPn
-X-Received: by 10.194.2.75 with SMTP id 11mr8886991wjs.48.1402072986859;
-	Fri, 06 Jun 2014 09:43:06 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id l2sm22248091wix.13.2014.06.06.09.43.05
-	for <openembedded-core@lists.openembedded.org>
+	Fri, 06 Jun 2014 09:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=X/nIht/rKYLr+S8tOu8y91W8A53zcZe/lxn2MX5QwlU=;
+	b=LbQlAUlXdT2JJamyP6c/AKs7QRbYjml5gP9bUjRLPEOQaImeodMR02jVm9eqgEhrvh
+	8rFt8QMRTvRHhfiQd3IuM033eHl8gIDMJZ4koRhOnBsE+IM75t4vvPdN7YvhTIBe0JWR
+	7hTgSsLetWnemcZB6tpqgT1QZOZz466F9oI6ZV7ML82aJ7eoRcDeSn24gKS8pWVAk+RN
+	5AFhGP2BwtCY94WldvSKiKjnRcY3w3fnXEbJ+XrYwXZhOITTrB+H42sMvI8vgPEu3lso
+	kJrBShfFeGfqKkhe0vBuQPivhHRook5ZWLg0HSJY/AQP/+3PXbs4aPa4LkDlER8D+Eec
+	NOVA==
+X-Received: by 10.14.183.196 with SMTP id q44mr455309eem.83.1402073842334;
+	Fri, 06 Jun 2014 09:57:22 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	m44sm23979464eep.6.2014.06.06.09.57.21 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Jun 2014 09:43:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 06 Jun 2014 09:57:21 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 17:43:04 +0100
-Message-Id: <1402072984-2180-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] mesa: add build-dependency on libxml2-native
+Date: Fri,  6 Jun 2014 18:57:34 +0200
+Message-Id: <1402073854-10723-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.0.0
+Subject: [PATCH] update-rc.d: Allow to use different initscripts provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 16:43:08 -0000
+X-List-Received-Date: Fri, 06 Jun 2014 16:57:23 -0000
 
-glapi/gen needs the libxml2 Python module, but this isn't listed as a build
-dependency.
+* until now all recipes were respecting VIRTUAL-RUNTIME_initscripts
+  variable but commit bba835fed88c3bd5bb5bd58962034aef57c408d8
+  hardcoded "initscripts" runtime dependency
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/update-rc.d.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a33b7b5..6503c2d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eac
- INC_PR = "r9"
- PE = "2"
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index ca9486b..19b081d 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -1,7 +1,8 @@
+ UPDATERCPN ?= "${PN}"
  
--DEPENDS = "expat makedepend-native flex-native bison-native udev"
-+DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native udev"
- 
- PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
- 
+ DEPENDS_append = " update-rc.d-native"
+-DEPENDS_append_class-target = " initscripts"
++VIRTUAL-RUNTIME_initscripts ?= "initscripts"
++DEPENDS_append_class-target = " ${VIRTUAL-RUNTIME_initscripts}"
+ UPDATERCD = "update-rc.d"
+ UPDATERCD_class-cross = ""
+ UPDATERCD_class-native = ""
 -- 
-1.7.10.4
+2.0.0
 
 
