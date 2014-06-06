@@ -1,24 +1,35 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F6206FC3E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 407226FC3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 18:41:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s56IfUfW001620
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  6 Jun 2014 19:27:41 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id f8so1563739wiw.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jun 2014 11:41:31 -0700 (PDT)
-Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 6 Jun 2014 11:41:30 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Jun 2014 14:41:04 -0400
-Message-ID: <1402080064-16450-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] sysvinit: Add ability to add default line for ctrl-alt-del
+	Fri, 06 Jun 2014 12:27:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=sS3BIGB6z8iQxhCm0rduei+ZjFyhmvuR5fom9VCP/5g=;
+	b=krWn0rVxmq2BPANcdBEDdXkgHCx9Stf1Cr7pjvMUjeG6VUlPIHSbR1R715RQl1U0yy
+	WuxffoYCAK4Vmv09jiRWVBNvFK7ocLy5xO5OfkeHvZ7vsawCXHSedVW2NG8guzhNm1qq
+	ZdGL7mvdsSFHwuyAVFb72HaClX9kMDr3iXVhLm97F/oMG9tfEWyHqcpF8WV7dieRrGhy
+	QvLw/MTEMdDnnfxwTP71RDnobCLaJ2LXiQSGeBHVPxKuXl01vzIMaEKRSrn+Qycn5j+6
+	dbknl8GX9Psj/zOztNbiq8uM90PBUXgcnLx1UaFtrd3BPzg3G77XmYr++hk0MReFHy4r
+	O2YQ==
+X-Received: by 10.15.36.8 with SMTP id h8mr1668147eev.12.1402082861970;
+	Fri, 06 Jun 2014 12:27:41 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	cj41sm24815081eeb.34.2014.06.06.12.27.41 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Jun 2014 12:27:41 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jun 2014 21:27:54 +0200
+Message-Id: <1402082874-12187-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.0.0
+Subject: [PATCH] buildstats-summary.bbclass: Import useful bbclass from meta-mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 18:41:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Jun 2014 19:27:49 -0000
 
-Currently the generated inittab doesn't have a line for the three
-finger salute, and hence no action is taken on ctrl-alt-del, even
-when a normal PC-style target is used with VTs enabled and a real
-keyboard connected.
-
-If someone enables USE_VT then lets assume they might actually
-intend to use the VTs and connect a keyboard and want ctrl-alt-del
-support.  In keeping with the SYSVINIT_ENABLED_GETTYS option, we
-make it optional, since for some situations (kiosk etc.) it may
-not be desired to be enabled.
-
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/documentation.conf                           | 1 +
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 7 +++++++
- 2 files changed, 8 insertions(+)
+ meta/classes/buildstats-summary.bbclass | 43 +++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/classes/buildstats-summary.bbclass
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 7fa3f318b959..ba5505790a9e 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -396,6 +396,7 @@ SYSROOT_PREPROCESS_FUNCS[doc] = "A list of functions to execute after files are
- SYSTEMD_AUTO_ENABLE[doc] = "For recipes that inherit the systemd class, this variable specifies whether the service you have specified in SYSTEMD_SERVICE should be started automatically or not."
- SYSTEMD_PACKAGES[doc] = "For recipes that inherit the systemd class, this variable locates the systemd unit files when they are not found in the main recipe's package."
- SYSTEMD_SERVICE[doc] = "For recipes that inherit the systemd class, this variable specifies the systemd service name for a package."
-+SYSVINIT_ENABLED_CTRLALTDEL[doc] = "Specifies if virtual terminals should trap on ctrl-alt-del and reboot, the default is '0'."
- SYSVINIT_ENABLED_GETTYS[doc] = "Specifies which virtual terminals should be running a getty, the default is '1'."
- 
- #T
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index c3244b46021e..334f9f1ad4b0 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -38,6 +38,12 @@ do_install() {
- #
- 
- EOF
-+        if [ "${SYSVINIT_ENABLED_CTRLALTDEL}" = "1" ]; then
-+            cat <<EOF >>${D}${sysconfdir}/inittab
-+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
+diff --git a/meta/classes/buildstats-summary.bbclass b/meta/classes/buildstats-summary.bbclass
+new file mode 100644
+index 0000000..3c02724
+--- /dev/null
++++ b/meta/classes/buildstats-summary.bbclass
+@@ -0,0 +1,43 @@
++# Imported from meta-mentor
++# http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/log/classes/buildstats-summary.bbclass
++# with following modifications
++# 1) when both setscene and normal tasks were executed, count it as no_sstate
++# 2) count do_populate_sysroot and do_packagedata tasks, because often we invalidate only runtime deps
 +
-+EOF
-+        fi
- 
-         for n in ${SYSVINIT_ENABLED_GETTYS}
-         do
-@@ -77,6 +83,7 @@ CONFFILES_${PN} = "${sysconfdir}/inittab"
- 
- USE_VT ?= "1"
- SYSVINIT_ENABLED_GETTYS ?= "1"
-+SYSVINIT_ENABLED_CTRLALTDEL ?= "0"
- 
- 
- 
++python buildstats_summary () {
++    if not isinstance(e, bb.event.BuildCompleted):
++        return
++
++    import os.path
++
++    bn = get_bn(e)
++    bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
++    if not os.path.exists(bsdir):
++        return
++
++    sstate_ps, no_sstate_ps, sstate_pd, no_sstate_pd = set(), set(), set(), set()
++    for pf in os.listdir(bsdir):
++        taskdir = os.path.join(bsdir, pf)
++        if not os.path.isdir(taskdir):
++            continue
++
++        tasks = os.listdir(taskdir)
++        if 'do_populate_sysroot' in tasks:
++            no_sstate_ps.add(pf)
++        elif 'do_populate_sysroot_setscene' in tasks:
++            sstate_ps.add(pf)
++        if 'do_packagedata' in tasks:
++            no_sstate_pd.add(pf)
++        elif 'do_packagedata_setscene' in tasks:
++            sstate_pd.add(pf)
++
++    if not sstate_ps and not no_sstate_ps and not sstate_pd and not no_sstate_pd:
++        return
++
++    bb.note("Build completion summary:")
++    if (len(sstate_ps)+len(no_sstate_ps)) > 0:
++        bb.note("  populate_sysroot reused from sstate in %d%% (%d setscene, %d scratch)" % (100*len(sstate_ps)/(len(sstate_ps)+len(no_sstate_ps)), len(sstate_ps), len(no_sstate_ps)))
++    if (len(sstate_pd)+len(no_sstate_pd)) > 0:
++        bb.note("  packagedata reused from sstate in %d%% (%d setscene, %d scratch)" % (100*len(sstate_pd)/(len(sstate_pd)+len(no_sstate_pd)), len(sstate_ps), len(no_sstate_ps)))
++}
++addhandler buildstats_summary
 -- 
-1.9.1
+2.0.0
 
 
