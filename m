@@ -1,28 +1,31 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C7F96FAD2
+Return-Path: <sledz@dresearch-fe.de>
+Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C7406FAD2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 05:45:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s565jXlC023175
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Jun 2014 22:45:33 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Thu, 5 Jun 2014 22:45:32 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Jun 2014 13:45:20 +0800
-Message-ID: <1402033520-15324-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  6 Jun 2014 06:49:36 +0000 (UTC)
+Received: from fensuse.internal.dresearch-fe.de
+	(fensuse.internal.dresearch-fe.de [172.29.23.6])
+	by zk223.dresearch-fe.de (Postfix) with ESMTP id 9A816E0061;
+	Fri,  6 Jun 2014 08:49:36 +0200 (CEST)
+Received: from [IPv6:::1] (localhost [IPv6:::1])
+	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id 2AAEB70132B;
+	Fri,  6 Jun 2014 08:49:36 +0200 (CEST)
+Message-ID: <5391647F.5070003@dresearch-fe.de>
+Date: Fri, 06 Jun 2014 08:49:35 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH] xorg-font-common.inc: remove shell debug option
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.6
+Cc: Koen Kooi <koen@openembedded.org>,
+	angstrom-distro-devel <angstrom-distro-devel@linuxtogo.org>
+Subject: No recipe for recipes-tweaks/qt5/qtbase_5.2.1.bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Steffen Sledz <sledz@dresearch-fe.de>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -32,32 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 05:45:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Jun 2014 06:49:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-'set -x' is added to package postinstall scripts. It causes trace
-information are printed when image first time boots such as core-image-sato.
+We're currently switching to th daisy branches.
 
-Remove it.
+According to [1] meta-angstrom depends on openembedded-core, meta-oe, and meta-systemd layers.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-graphics/xorg-font/xorg-font-common.inc | 1 -
- 1 file changed, 1 deletion(-)
+The angstrom-v2014.06-yocto1.6 branch of meta-angstrom contains recipes-tweaks/qt5/qtbase_5.2.1.bbappend. But there's no qtbase recipe in the required layers. So we get
 
-diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-index d93b4ee..55adde3 100644
---- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-+++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-@@ -33,7 +33,6 @@ do_install_append() {
- FILES_${PN} += " ${libdir}/X11/fonts ${datadir}"
- 
- pkg_postinst_${PN} () {
--        set -x
-         for fontdir in `find $D/usr/lib/X11/fonts -type d`; do
-                 mkfontdir $fontdir
-                 mkfontscale $fontdir
+---------------> snip <-------------------
+ERROR: No recipes available for:
+  /pm/sledz/hipos-dfe/meta-angstrom/recipes-tweaks/qt5/qtbase_5.2.1.bbappend
+ERROR: Command execution failed: Exited with 1
+---------------> snip <-------------------
+
+A bug in the daisy branch of meta-angstrom?
+An incomplete dependency list in [1]?
+
+[1] <http://layers.openembedded.org/layerindex/branch/master/layer/meta-angstrom/>
+
+Regards,
+Steffen
+
 -- 
-1.9.1
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
