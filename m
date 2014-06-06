@@ -1,25 +1,25 @@
 Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B0DAF6FCA5
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B72BB6FCB3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 17:10:43 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jun 2014 10:10:44 -0700
+	Fri,  6 Jun 2014 17:10:35 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jun 2014 10:10:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="551054963"
+X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="543692582"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2014 10:10:37 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2014 10:10:35 -0700
 Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 8FAC16A408D;
-	Fri,  6 Jun 2014 10:10:09 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 8E9186A4087;
+	Fri,  6 Jun 2014 10:10:08 -0700 (PDT)
 From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 22:14:36 +0300
-Message-Id: <1402082078-10826-6-git-send-email-corneliux.stoicescu@intel.com>
+Date: Fri,  6 Jun 2014 22:14:35 +0300
+Message-Id: <1402082078-10826-5-git-send-email-corneliux.stoicescu@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
 References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH V2 5/7] oeqa/controllers/testtargetloader.py: add 'import os'
+Subject: [PATCH V2 4/7] targetcontrol.py: Add a classmethod to get extra files needed by the target controllers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +36,29 @@ X-List-Received-Date: Fri, 06 Jun 2014 17:10:44 -0000
 
 YB: #6254
 
-This module uses os but relies on other modules to import it. Adding 'import os' in order to be self-sustained.
+Add a new classmethod that can be used by outside scripts to get the extra files needed by the target controllers.
+An outside script can predict rootfs, manifest and kernel files needed by a target controller, but sometimes there are other files needed.
 
 Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- meta/lib/oeqa/controllers/testtargetloader.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/targetcontrol.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oeqa/controllers/testtargetloader.py b/meta/lib/oeqa/controllers/testtargetloader.py
-index 019bbfd..a1b7b1d 100644
---- a/meta/lib/oeqa/controllers/testtargetloader.py
-+++ b/meta/lib/oeqa/controllers/testtargetloader.py
-@@ -1,5 +1,6 @@
- import types
- import bb
-+import os
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 866c414..1464bf4 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -73,6 +73,10 @@ class BaseTarget(object):
+         pass
  
- # This class is responsible for loading a test target controller
- class TestTargetLoader:
+     @classmethod
++    def get_extra_files(self):
++        return None
++
++    @classmethod
+     def get_image_fstype(self, d, image_fstypes=None):
+         if not image_fstypes:
+             image_fstypes = d.getVar('IMAGE_FSTYPES', True).split(' ')
 -- 
 1.8.3.2
 
