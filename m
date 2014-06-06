@@ -1,25 +1,23 @@
 Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E4FF96FCEA
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BFE56FCA3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jun 2014 17:10:43 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jun 2014 10:10:45 -0700
+	Fri,  6 Jun 2014 17:10:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2014 10:05:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="551054969"
+X-IronPort-AV: E=Sophos;i="4.98,990,1392192000"; d="scan'208";a="524111825"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2014 10:10:38 -0700
+	by orsmga001.jf.intel.com with ESMTP; 06 Jun 2014 10:10:31 -0700
 Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id C89DE6A4087;
-	Fri,  6 Jun 2014 10:10:10 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 86F826A4087;
+	Fri,  6 Jun 2014 10:10:04 -0700 (PDT)
 From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jun 2014 22:14:37 +0300
-Message-Id: <1402082078-10826-7-git-send-email-corneliux.stoicescu@intel.com>
+Date: Fri,  6 Jun 2014 22:14:31 +0300
+Message-Id: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH V2 6/7] controllers/masterimage.py: Make testimage kernel naming pattern universal
+Subject: [PATCH V2 0/7] YB #6375 #6254
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jun 2014 17:10:45 -0000
+X-List-Received-Date: Fri, 06 Jun 2014 17:10:53 -0000
 
-YB: #6254
+This series of patches affects the automated runtime tests and introduces the following changes/features:
 
-The QemuTargetControl class does not specify any kernel naming but the runqemu script it uses uses the " KERNEL_IMAGETYPE + MACHINE + '.bin' " naming scheme.
-Modifying the other major target controller class, MasterImageHardwareTarget, to use the same kernel naming scheme.
+YB #6375: Add support for more rootfs compression formats
+- The target controller dynamically determines what IMAGE_FSTYPES to use based on the value of supported_image_fstypes that each target controller defines or inherits. This is needed for:
+    * givint the targer controllers the possibility to choose an image fstype that is actually built instead of relying on a hard-coded value
+    * enable external scripts to predict the name of the rootfs file.
+- Added bzip2 to the core-image-testmaster that decompresses the test roofs files. This is needed ATM for BSPs like beaglebone and edgeruter.
 
-This is usefull also to outside scripts that want to anticipate the kernel file name for all target controllers.
+YB #6254: Set up automated testing of autobuilder images on real hardware
+We need a script that fetches images from a remote http server(for now) and uses them to conduct runtime tests. For this we needed:
+- to be able to import and use the testargetloader.py module to find the target controller beying used
+- create and access classmethods from the target controllers that would give information about the images needed for download (like rootfs type and extra files)
+- unify the kernel file naming scheme used throughout testimage(qemu use bzImage-qemux86.bin and the others use just bzImage for example).
+- a script that could use the above, run the runtime tests and return the results
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/controllers/masterimage.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+NOTE: This script relies on the merge of "[PATCH] oeqa/utils/commands.py: add support for postconfig option" allready on the mailing list.
 
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index b03c5bf..311f0cf 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -52,7 +52,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget):
-         # test rootfs + kernel
-         self.image_fstype = self.get_image_fstype(d)
-         self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("IMAGE_LINK_NAME", True) + '.' + self.image_fstype)
--        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE"))
-+        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE") + '-' + d.getVar('MACHINE') + '.bin')
-         if not os.path.isfile(self.rootfs):
-             # we could've checked that IMAGE_FSTYPES contains tar.gz but the config for running testimage might not be
-             # the same as the config with which the image was build, ie
+
+*** BLURB HERE ***
+
+Corneliu Stoicescu (7):
+  targetcontrol.py: make possible dynamical determination of rootfs type
+  masterimage.py: enable dynamical determination of rootfs type
+  core-image-testmaster.bb: add bzip2 to image
+  targetcontrol.py: Add a classmethod to get extra files needed by the
+    target controllers
+  oeqa/controllers/testtargetloader.py: add 'import os'
+  controllers/masterimage.py: Make testimage kernel naming pattern
+    universal
+  scripts/test-remote-image: Add script for running runtime tests on
+    remotely built images
+
+ meta/lib/oeqa/controllers/masterimage.py           |  11 +-
+ meta/lib/oeqa/controllers/testtargetloader.py      |   1 +
+ meta/lib/oeqa/targetcontrol.py                     |  23 +-
+ .../images/core-image-testmaster.bb                |   2 +-
+ scripts/test-remote-image                          | 340 +++++++++++++++++++++
+ 5 files changed, 370 insertions(+), 7 deletions(-)
+ create mode 100755 scripts/test-remote-image
+
 -- 
 1.8.3.2
 
