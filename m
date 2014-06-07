@@ -1,35 +1,35 @@
 Return-Path: <sstncr@gmail.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id F187A60CFC
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C16C6FA6A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Jun 2014 12:39:10 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id b13so3672937wgh.17
+	Sat,  7 Jun 2014 14:08:48 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id bs8so2326442wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Jun 2014 05:39:11 -0700 (PDT)
+	Sat, 07 Jun 2014 07:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=dXGIwSNZocGYCdzq0IvBqbnZgJnCwdFU637LPTUrK7Y=;
-	b=iKA4Y7grc9Alad1S1yNcReVBKiuL7vewI5gI134FjExoijEqG6wCnarD+o4ZhzEXg/
-	7i1Z5TOxeG229khhqhtPbzG8rvslMTIcwp9f23Y3MwAbwX4pa9pOwng6UDpaosyli7S8
-	MRtHCQri4tlL0fIahS4InYJK29nOQ/P/Zn45P/XOmj8lhp7ASX24bXAiKNWbZQdyDWIX
-	8wN+1DSgeT5x/RcV6yohqBzIspGHZ7HFewZUw0nBcW2EsGqjb/AfBXW7Fpoj1T+t0RKA
-	OyAWZmhCtWLMsxEOlGAqdeJXPLS3N/VwNiyddzxLEkaOvWAZ1Y7bWr1eNKeOAAlCQU/C
-	HmnA==
+	bh=qiqxiP3em/mTtMyg2gRO9cT/QpXnXIsIo7p16KC+bmo=;
+	b=xrbw5aZG3UjIZqqBeYqTr1HwsIfRXgnOplzw5G65kfJz9qmq+4zwg9oDtREeYOylmu
+	8l/On4WuJYzFugnGdOPcnCZnGOO9h9H1PCUaKxKvREeD6cZdHa4tPk/X52HaaCVJsQey
+	sDAZCDbHYEdpoOaUY4yFterP3rA4URn2drD2xrX6/ZuLpYF7Wv5vfn9tO6SlvjwXChOh
+	xTynI1/Z1bUrj4zi28fXKQpbPHbETTODPvWN3u8xm+/slYpzBzanAtqoRwJGlK19aSQA
+	gCedcw8oZFzD0Jx/2+AaBpTHvec7VBfd1IFDZM0hhAeiLbN1FZw6jOkDGwt6+1kLLPaB
+	cMOQ==
 MIME-Version: 1.0
-X-Received: by 10.180.184.198 with SMTP id ew6mr5183271wic.13.1402144751030;
-	Sat, 07 Jun 2014 05:39:11 -0700 (PDT)
-Received: by 10.216.48.6 with HTTP; Sat, 7 Jun 2014 05:39:10 -0700 (PDT)
-In-Reply-To: <CANr+NRtrdE5Rn7LEkPTUrJxRXmYRazcZzzscCawu8r=ERbxLyA@mail.gmail.com>
+X-Received: by 10.180.160.205 with SMTP id xm13mr16769827wib.13.1402150129069; 
+	Sat, 07 Jun 2014 07:08:49 -0700 (PDT)
+Received: by 10.216.48.6 with HTTP; Sat, 7 Jun 2014 07:08:49 -0700 (PDT)
+In-Reply-To: <1402082078-10826-8-git-send-email-corneliux.stoicescu@intel.com>
 References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1402082078-10826-7-git-send-email-corneliux.stoicescu@intel.com>
-	<CANr+NRtrdE5Rn7LEkPTUrJxRXmYRazcZzzscCawu8r=ERbxLyA@mail.gmail.com>
-Date: Sat, 7 Jun 2014 15:39:10 +0300
-Message-ID: <CANr+NRvJd=vo=BOA+iXimFqeLb6_aarniLMA8ciZ38BxZ0rGVg@mail.gmail.com>
+	<1402082078-10826-8-git-send-email-corneliux.stoicescu@intel.com>
+Date: Sat, 7 Jun 2014 17:08:49 +0300
+Message-ID: <CANr+NRuQS6He3qmawsEp2qTWA4ho_0EQDVzrPoBTcb2QqjHM1w@mail.gmail.com>
 From: Stefan Stanacar <sstncr@gmail.com>
 To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 6/7] controllers/masterimage.py: Make testimage kernel naming pattern universal
+Subject: Re: [PATCH V2 7/7] scripts/test-remote-image: Add script for running runtime tests on remotely built images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,68 +42,444 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jun 2014 12:39:19 -0000
+X-List-Received-Date: Sat, 07 Jun 2014 14:08:49 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sat, Jun 7, 2014 at 1:54 PM, Stefan Stanacar <sstncr@gmail.com> wrote:
->
-> On Jun 6, 2014 8:11 PM, "Corneliu Stoicescu" <corneliux.stoicescu@intel.com>
-> wrote:
->>
->> YB: #6254
->>
->> The QemuTargetControl class does not specify any kernel naming but the
->> runqemu script it uses uses the " KERNEL_IMAGETYPE + MACHINE + '.bin' "
->> naming scheme.
->> Modifying the other major target controller class,
->> MasterImageHardwareTarget, to use the same kernel naming scheme.
->>
->
-> You can't do that because not all targets (bbb, nuc, etc) use a bin
-> kernel...
->
-Ah, misunderstood... right, there is .bin link too
+Hi Corneliu,
 
->> This is usefull also to outside scripts that want to anticipate the kernel
->> file name for all target controllers.
+I haven't carefully reviewed this series so if I didn't quite got the
+point of some things, sorry...
+At a first look, here are my thoughts (this is actually a reply to the
+entire series, I seem to have lost the cover letter):
+
+- It seems wierd that you instantiate the target controllers classes
+here... You do that so you can get the extra files, but that has
+nothing to do with testimage anyway. Let bitbake/testimage do it's
+part and it's configuration. Similar for image fs types (see my other
+reply)
+- I wouldn't mix the download stuff with the test/deploy stuff
+(bitbake's job). You already have command line configuration knobs,
+I'm sure you could add one for extra files... Surely the user know
+it's testing BBB and core-image-minimal and it needs to download the
+dtbs (because you need the dtbs only for minimal).
+- the support for other fs types should be separate from the "test
+external built image". E.g bbb uses tar.bz2, so even at this point you
+can still test external images only with tar.gz (adding IMAGE_FSTYPES
++= "tar.gz"  to the Autobuilder config is a easy task). What I'm
+trying to say is that this is a user/build config option and this
+script shouldn't deal with every little thing
+- What's with the postconfig stuff? QA_MACHINE = MACHINE? Same for
+distro.. I really don't get that part...
+- I'm missing the bigger picture here with all the profiles stuff
+(plus some classes are unnecessarily abstract ).
+
+So the whole point of this was to replace (assume default local.conf
+and MACHINE="beaglebone" here)
+this:
+---
+$ vi conf/local.conf
+INHERIT += "testimage"
+TEST_TARGET_IP = "10.11.12.2"
+TEST_TARGET = "BeagleBoneTarget"
+TEST_SERIALCONTROL_CMD = "picocom /dev/ttyUSB0 -b 115200"
+$ bitbake core-image-minimal # (or  sato / sato-sdk)
+$ bitbake <image> -c testimage
+---
+with this (except the local.conf part which should already be there,
+it is not the job of this script to add that):
+----
+$ bitbake rpm psplash # rpm/smart tests require these, else skip
+$ bitbake package-index
+$ wget -r -l0 -nd -np -P "tmp/deploy/images"
+http://autobuilder.yoctoproject.org/pub/nightly/20140606-3/machines/beaglebone/
+$ bitbake <image> -c testimage
+---
+#yes, I cheated there, getting all the files, but you get the point..
+alternatively:
+wget -r -l0 -nd -np -P "tmp/deploy/images" -A "*boneblack*.dtb"
+http://autobuilder.yoctoproject.org/pub/nightly/20140606-3/machines/beaglebone/
+wget -P "tmp/deploy/images"
+http://autobuilder.yoctoproject.org/pub/nightly/20140606-3/machines/beaglebone/core-image-minimal-beaglebone.manifest
+wget -P "tmp/deploy/images"
+http://autobuilder.yoctoproject.org/pub/nightly/20140606-3/machines/beaglebone/core-image-minimal-beaglebone.tar.gz
+wget -P "tmp/deploy/images"
+http://autobuilder.yoctoproject.org/pub/nightly/20140606-3/machines/beaglebone/uImage
+
+It seems to me that you are doing a lot more with this series and
+adding unnecessary complications. I guess I'm missing some pieces
+here...
+
+Cheers,
+Stefan
+
+
+On Fri, Jun 6, 2014 at 10:14 PM, Corneliu Stoicescu
+<corneliux.stoicescu@intel.com> wrote:
+> YB: #6254
 >
-> And what's wrong with the link? Bitbake will always take care of that and
-> point to the real file why can't the script dereference that?
+> Adding a new script that will fetch image files from a remote images repository.
+> These images will then be used for local runtime testing.
 >
-> Cheers,
-> Stefan
+> Use the '-h' option for more details on usage.
 >
->>
->> Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
->> ---
->>  meta/lib/oeqa/controllers/masterimage.py | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/lib/oeqa/controllers/masterimage.py
->> b/meta/lib/oeqa/controllers/masterimage.py
->> index b03c5bf..311f0cf 100644
->> --- a/meta/lib/oeqa/controllers/masterimage.py
->> +++ b/meta/lib/oeqa/controllers/masterimage.py
->> @@ -52,7 +52,7 @@ class
->> MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget):
->>          # test rootfs + kernel
->>          self.image_fstype = self.get_image_fstype(d)
->>          self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),
->> d.getVar("IMAGE_LINK_NAME", True) + '.' + self.image_fstype)
->> -        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),
->> d.getVar("KERNEL_IMAGETYPE"))
->> +        self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),
->> d.getVar("KERNEL_IMAGETYPE") + '-' + d.getVar('MACHINE') + '.bin')
->>          if not os.path.isfile(self.rootfs):
->>              # we could've checked that IMAGE_FSTYPES contains tar.gz but
->> the config for running testimage might not be
->>              # the same as the config with which the image was build, ie
->> --
->> 1.8.3.2
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+> ---
+>  scripts/test-remote-image | 340 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 340 insertions(+)
+>  create mode 100755 scripts/test-remote-image
+>
+> diff --git a/scripts/test-remote-image b/scripts/test-remote-image
+> new file mode 100755
+> index 0000000..6da6672
+> --- /dev/null
+> +++ b/scripts/test-remote-image
+> @@ -0,0 +1,340 @@
+> +#!/usr/bin/env python
+> +
+> +# Copyright (c) 2014 Intel Corporation
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License version 2 as
+> +# published by the Free Software Foundation.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License along
+> +# with this program; if not, write to the Free Software Foundation, Inc.,
+> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+> +
+> +# DESCRIPTION
+> +# This script is used to test public autobuilder images on remote hardware.
+> +# The script is called from a machine that is able download the images from the remote images repository and to connect to the test hardware.
+> +#
+> +# test-remote-image --image-type core-image-sato --repo-link http://192.168.10.2/images --required-packages rpm psplash
+> +#
+> +# Translation: Build the 'rpm' and 'pslash' packages and test a remote core-image-sato image using the http://192.168.10.2/images repository.
+> +#
+> +# You can also use the '-h' option to see some help information.
+> +
+> +import os
+> +import sys
+> +import argparse
+> +import logging
+> +import shutil
+> +from abc import ABCMeta, abstractmethod
+> +
+> +# Add meta/lib to sys.path
+> +sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'meta/lib')))
+> +
+> +import oeqa.utils.ftools as ftools
+> +from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+> +
+> +# Add all lib paths relative to BBPATH to sys.path; this is used to find and import the target controllers.
+> +for path in get_bb_var('BBPATH').split(":"):
+> +    sys.path.insert(0, os.path.abspath(os.path.join(path, 'lib')))
+> +
+> +# In order to import modules that contain target controllers, we need the bitbake libraries in sys.path .
+> +sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bitbake/lib')))
+> +
+> +# create a logger
+> +def logger_create():
+> +    log = logging.getLogger('hwauto')
+> +    log.setLevel(logging.DEBUG)
+> +
+> +    fh = logging.FileHandler(filename='hwauto.log', mode='w')
+> +    fh.setLevel(logging.DEBUG)
+> +
+> +    ch = logging.StreamHandler(sys.stdout)
+> +    ch.setLevel(logging.INFO)
+> +
+> +    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+> +    fh.setFormatter(formatter)
+> +    ch.setFormatter(formatter)
+> +
+> +    log.addHandler(fh)
+> +    log.addHandler(ch)
+> +
+> +    return log
+> +
+> +# instantiate the logger
+> +log = logger_create()
+> +
+> +
+> +# Define and return the arguments parser for the script
+> +def get_args_parser():
+> +    description = "This script is used to run automated runtime tests using remotely published image files. You should prepare the build environment just like building local images and running the tests."
+> +    parser = argparse.ArgumentParser(description=description)
+> +    parser.add_argument('--image-types', required=True, action="store", nargs='*', dest="image_types", default=None, help='The image types to test(ex: core-image-minimal).')
+> +    parser.add_argument('--repo-link', required=True, action="store", type=str, dest="repo_link", default=None, help='The link to the remote images repository.')
+> +    parser.add_argument('--required-packages', required=False, action="store", nargs='*', dest="required_packages", default=None, help='Required packages for the tests. They will be built before the testing begins.')
+> +    parser.add_argument('--targetprofile', required=False, action="store", nargs=1, dest="targetprofile", default='AutoTargetProfile', help='The target profile to be used.')
+> +    parser.add_argument('--repoprofile', required=False, action="store", nargs=1, dest="repoprofile", default='PublicAB', help='The repo profile to be used.')
+> +    return parser
+> +
+> +class BaseTargetProfile(object):
+> +    """
+> +    This class defines the meta profile for a specific target (MACHINE type + image type).
+> +    """
+> +
+> +    __metaclass__ = ABCMeta
+> +
+> +    def __init__(self, image_type):
+> +        self.image_type = image_type
+> +
+> +        self.kernel_file = None
+> +        self.rootfs_file = None
+> +        self.manifest_file = None
+> +        self.extra_download_files = []          # Extra files (full name) to be downloaded. They should be situated in repo_link
+> +
+> +    # This method is used as the standard interface with the target profile classes.
+> +    # It returns a dictionary containing a list of files and their meaning/description.
+> +    def get_files_dict(self):
+> +        files_dict = {}
+> +
+> +        if self.kernel_file:
+> +            files_dict['kernel_file'] = self.kernel_file
+> +        else:
+> +            log.error('The target profile did not set a kernel file.')
+> +            sys.exit(1)
+> +
+> +        if self.rootfs_file:
+> +            files_dict['rootfs_file'] = self.rootfs_file
+> +        else:
+> +            log.error('The target profile did not set a rootfs file.')
+> +            sys.exit(1)
+> +
+> +        if self.manifest_file:
+> +            files_dict['manifest_file'] = self.manifest_file
+> +        else:
+> +            log.error('The target profile did not set a manifest file.')
+> +            sys.exit(1)
+> +
+> +        for idx, f in enumerate(self.extra_download_files):
+> +            files_dict['extra_download_file' + str(idx)] = f
+> +
+> +        return files_dict
+> +
+> +class AutoTargetProfile(BaseTargetProfile):
+> +
+> +    def __init__(self, image_type):
+> +        super(AutoTargetProfile, self).__init__(image_type)
+> +        self.image_name = get_bb_var('IMAGE_LINK_NAME', target=image_type)
+> +        self.kernel_type = get_bb_var('KERNEL_IMAGETYPE', target=image_type)
+> +        self.controller = self.get_controller()
+> +
+> +        self.set_kernel_file()
+> +        self.set_rootfs_file()
+> +        self.set_manifest_file()
+> +        self.set_extra_download_files()
+> +
+> +
+> +    def get_controller(self):
+> +        from oeqa.controllers.testtargetloader import TestTargetLoader
+> +
+> +        target_controller = get_bb_var('TEST_TARGET')
+> +        bbpath = get_bb_var('BBPATH').split(':')
+> +
+> +        if target_controller == "qemu":
+> +            from oeqa.targetcontrol import QemuTarget
+> +            controller = QemuTarget
+> +        else:
+> +            testtargetloader = TestTargetLoader()
+> +            controller = testtargetloader.get_controller_module(target_controller, bbpath)
+> +        return controller
+> +
+> +    def set_kernel_file(self):
+> +        postconfig = "QA_GET_MACHINE = \"${MACHINE}\""
+> +        machine = get_bb_var('QA_GET_MACHINE', postconfig=postconfig)
+> +        self.kernel_file = self.kernel_type + '-' + machine + '.bin'
+> +
+> +    def set_rootfs_file(self):
+> +        image_fstypes = get_bb_var('IMAGE_FSTYPES').split(' ')
+> +        fstype = self.controller.get_image_fstype(d=None, image_fstypes=image_fstypes)
+> +        self.rootfs_file = self.image_name + '.' + fstype
+> +
+> +    def set_manifest_file(self):
+> +        self.manifest_file = self.image_name + ".manifest"
+> +
+> +    def set_extra_download_files(self):
+> +        self.extra_download_files = self.get_controller_extra_files()
+> +        if not self.extra_download_files:
+> +            self.extra_download_files = []
+> +
+> +    def get_controller_extra_files(self):
+> +        controller = self.get_controller()
+> +        return controller.get_extra_files()
+> +
+> +
+> +class BaseRepoProfile(object):
+> +    """
+> +    This class defines the meta profile for an images repository.
+> +    """
+> +
+> +    __metaclass__ = ABCMeta
+> +
+> +    def __init__(self, repolink, localdir):
+> +        self.localdir = localdir
+> +        self.repolink = repolink
+> +
+> +    # The following abstract methods are the interfaces to the repository profile classes derived from this abstract class.
+> +
+> +    # This method should check the file named 'file_name' if it is different than the upstream one.
+> +    # Should return False if the image is the same as the upstream and True if it differs.
+> +    @abstractmethod
+> +    def check_old_file(self, file_name):
+> +        pass
+> +
+> +    # This method should fetch file_name and create a symlink to localname if set.
+> +    @abstractmethod
+> +    def fetch(self, file_name, localname=None):
+> +        pass
+> +
+> +class PublicAB(BaseRepoProfile):
+> +
+> +    def __init__(self, repolink, localdir=None):
+> +        super(PublicAB, self).__init__(repolink, localdir)
+> +        if localdir is None:
+> +            self.localdir = os.path.join(os.environ['BUILDDIR'], 'PublicABMirror')
+> +
+> +    # Not yet implemented. Always returning True.
+> +    def check_old_file(self, file_name):
+> +        return True
+> +
+> +    def get_repo_path(self):
+> +        path = '/machines/'
+> +
+> +        postconfig = "QA_GET_MACHINE = \"${MACHINE}\""
+> +        machine = get_bb_var('QA_GET_MACHINE', postconfig=postconfig)
+> +        if 'qemu' in machine:
+> +            path += 'qemu/'
+> +
+> +        postconfig = "QA_GET_DISTRO = \"${DISTRO}\""
+> +        distro = get_bb_var('QA_GET_DISTRO', postconfig=postconfig)
+> +        path += distro.replace('poky', machine) + '/'
+> +        return path
+> +
+> +
+> +    def fetch(self, file_name, localname=None):
+> +        repo_path = self.get_repo_path()
+> +        link = self.repolink + repo_path + file_name
+> +
+> +        self.wget(link, self.localdir, localname)
+> +
+> +    def wget(self, link, localdir, localname=None, extraargs=None):
+> +        wget_cmd = '/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no-check-certificate '
+> +
+> +        if localname:
+> +            wget_cmd += ' -O ' + localname + ' '
+> +
+> +        if extraargs:
+> +            wget_cmd += ' ' + extraargs + ' '
+> +
+> +        wget_cmd += " -P %s '%s'" % (localdir, link)
+> +        runCmd(wget_cmd)
+> +
+> +class HwAuto():
+> +
+> +    def __init__(self, image_types, repolink, required_packages, targetprofile, repoprofile):
+> +        log.info('Initializing..')
+> +        self.image_types = image_types
+> +        self.repolink = repolink
+> +        self.required_packages = required_packages
+> +        self.targetprofile = targetprofile
+> +        self.repoprofile = repoprofile
+> +        self.repo = self.get_repo_profile(self.repolink)
+> +
+> +    # Get the repository profile; for now we only look inside this module.
+> +    def get_repo_profile(self, *args, **kwargs):
+> +        repo = getattr(sys.modules[__name__], self.repoprofile)(*args, **kwargs)
+> +        log.info("Using repo profile: %s" % repo.__class__.__name__)
+> +        return repo
+> +
+> +    # Get the target profile; for now we only look inside this module.
+> +    def get_target_profile(self, *args, **kwargs):
+> +        target = getattr(sys.modules[__name__], self.targetprofile)(*args, **kwargs)
+> +        log.info("Using target profile: %s" % target.__class__.__name__)
+> +        return target
+> +
+> +    # Run the testimage task on a build while redirecting DEPLOY_DIR_IMAGE to repo.localdir, where the images are downloaded.
+> +    def runTestimageBuild(self, image_type):
+> +        log.info("Running the runtime tests for %s.." % image_type)
+> +        postconfig = "DEPLOY_DIR_IMAGE = \"%s\"" % self.repo.localdir
+> +        result = bitbake("%s -c testimage" % image_type, ignore_status=True, postconfig=postconfig)
+> +        testimage_results = ftools.read_file(os.path.join(get_bb_var("T", image_type), "log.do_testimage"))
+> +        log.info('Runtime tests results for %s:' % image_type)
+> +        print testimage_results
+> +        return result
+> +
+> +    # Start the procedure!
+> +    def run(self):
+> +        if self.required_packages:
+> +            # Build the required packages for the tests
+> +            log.info("Building the required packages: %s ." % ', '.join(map(str, self.required_packages)))
+> +            result = bitbake(self.required_packages, ignore_status=True)
+> +            if result.status != 0:
+> +                log.error("Could not build required packages: %s. Output: %s" % (self.required_packages, result.output))
+> +                sys.exit(1)
+> +
+> +            # Build the package repository meta data.
+> +            log.info("Building the package index.")
+> +            result = bitbake("package-index", ignore_status=True)
+> +            if result.status != 0:
+> +                log.error("Could not build 'package-index'. Output: %s" % result.output)
+> +                sys.exit(1)
+> +
+> +        # Create the directory structure for the images to be downloaded
+> +        log.info("Creating directory structure %s" % self.repo.localdir)
+> +        if not os.path.exists(self.repo.localdir):
+> +            os.makedirs(self.repo.localdir)
+> +
+> +        # For each image type, download the needed files and run the tests.
+> +        noissuesfound = True
+> +        for image_type in self.image_types:
+> +            target = self.get_target_profile(image_type)
+> +            files_dict = target.get_files_dict()
+> +            log.info("Downloading files for %s" % image_type)
+> +            for f in files_dict:
+> +                if self.repo.check_old_file(files_dict[f]):
+> +                    filepath = os.path.join(self.repo.localdir, files_dict[f])
+> +                    if os.path.exists(filepath):
+> +                        os.remove(filepath)
+> +                    self.repo.fetch(files_dict[f])
+> +
+> +            result = self.runTestimageBuild(image_type)
+> +            if result.status != 0:
+> +                noissuesfound = False
+> +
+> +        if noissuesfound:
+> +            log.info('Finished. No issues found.')
+> +        else:
+> +            log.error('Finished. Some runtime tests have failed. Returning non-0 status code.')
+> +            sys.exit(1)
+> +
+> +
+> +
+> +def main():
+> +
+> +    parser = get_args_parser()
+> +    args = parser.parse_args()
+> +
+> +    hwauto = HwAuto(image_types=args.image_types, repolink=args.repo_link, required_packages=args.required_packages, targetprofile=args.targetprofile, repoprofile=args.repoprofile)
+> +
+> +    hwauto.run()
+> +
+> +if __name__ == "__main__":
+> +    try:
+> +        ret = main()
+> +    except Exception:
+> +        ret = 1
+> +        import traceback
+> +        traceback.print_exc(5)
+> +    sys.exit(ret)
+> --
+> 1.8.3.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
