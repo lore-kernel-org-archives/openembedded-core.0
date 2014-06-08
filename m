@@ -1,25 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 60F4F6FA7F
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
+	[209.85.217.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 274246A87C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jun 2014 04:02:26 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jun 2014 21:02:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,997,1392192000"; d="scan'208";a="544468846"
-Received: from unknown (HELO [10.255.12.194]) ([10.255.12.194])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jun 2014 21:02:27 -0700
-Message-ID: <5393E053.6080006@linux.intel.com>
-Date: Sat, 07 Jun 2014 21:02:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Armin Kuster <akuster@mvista.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1402151406-14527-1-git-send-email-akuster@mvista.com>
-In-Reply-To: <1402151406-14527-1-git-send-email-akuster@mvista.com>
-Subject: Re: [PATCH] cups: Fix build failure
+	Sun,  8 Jun 2014 11:54:30 +0000 (UTC)
+Received: by mail-lb0-f174.google.com with SMTP id n15so2446760lbi.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Jun 2014 04:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=57x/SBG3D86Oq9p4U8fKAivuk1FsAOmkzKWMIeaMFFo=;
+	b=eEMd932h4A/127OSfp8R9uBlXqrdqpxne8ssoP0j3adUVOu17yV6wrzUDks6DHDgCw
+	C5s22KtEbKu6N/epzX+3Hv2vVyr6eyfpzGH5V6Zd7+IyCWiBLQ1t7sx8sXtdAlMme8Mu
+	LcE0VWxOJ3j9OZPRw0fAmgNBc9TPR8aWO0h2e8t2ibZ1ZKBSv1AMvEpy5FZi9yljU843
+	VnNniVvqEiF8MpbDVxuklHMqPW9Zub8YFZjQRCL/s7JOXKVIpYRvWzHvcfhha2Ay1f6U
+	0MhQYN0gDlaf7k26p5natf3lWmFErL+SgTfxnA+5bfmJ/JD3vNmlrp2/bBeLBTvtnRqY
+	80mQ==
+X-Received: by 10.152.207.74 with SMTP id lu10mr12982716lac.28.1402228470958; 
+	Sun, 08 Jun 2014 04:54:30 -0700 (PDT)
+Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
+	[89.253.118.72]) by mx.google.com with ESMTPSA id
+	aa1sm14795924lbd.12.2014.06.08.04.54.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 08 Jun 2014 04:54:30 -0700 (PDT)
+Sender: Jacob Kroon <jacob.kroon@gmail.com>
+From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Jun 2014 13:52:56 +0200
+Message-Id: <1402228376-17520-1-git-send-email-jacob.kroon@mikrodidakt.se>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] default-distrovars.inc: Remove unused variable 'LIMIT_BUILT_LOCALES'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,45 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jun 2014 04:02:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 08 Jun 2014 11:54:39 -0000
 
-On 06/07/2014 07:30 AM, Armin Kuster wrote:
-> The follwing error was seen when no crypt dependency was included.
->
-> In file included from cups-private.h:29:0,
-> |                  from attr.c:26:
-> | http-private.h:83:24: fatal error: gcrypt.h: No such file or directory
-> |  #    include <gcrypt.h>
-> |                         ^
->
-> Add bcrypt to DEPENDS
->
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->   meta/recipes-extended/cups/cups.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-> index fd88552..249eac4 100644
-> --- a/meta/recipes-extended/cups/cups.inc
-> +++ b/meta/recipes-extended/cups/cups.inc
-> @@ -1,7 +1,7 @@
->   SUMMARY = "An Internet printing system for Unix"
->   SECTION = "console/utils"
->   LICENSE = "GPLv2 & LGPLv2"
-> -DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb"
-> +DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb bcrypt"
+This variable is a left-over from early glibc recipes.
+It is not referenced anymore in oe-core, and its functionality
+has been replaced with 'GLIBC_GENERATE_LOCALES'.
 
-Do we really want to enable crypt here or make it optional?  If we set 
-ac_cv_search_crypt=no on the EXTRA_OECONF line, then we can remove this 
-floating dependency or make it a PACKAGECONFIG setting
+Also remove the reference to it in local.conf.sample.extended.
 
-Sau!
+Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+---
+ meta/conf/distro/include/default-distrovars.inc | 1 -
+ meta/conf/local.conf.sample.extended            | 4 +---
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
->   PROVIDES = "cups14"
->
->   SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
->
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 0bc3adc..1bc8e46 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -5,7 +5,6 @@ KERNEL_CONSOLE ?= "ttyS0"
+ KEEPUIMAGE ??= "yes"
+ 
+ IMAGE_LINGUAS ?= "en-us en-gb"
+-LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
+ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+ LOCALE_UTF8_ONLY ?= "0"
+ 
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index a1f2464..1032bde 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -27,12 +27,10 @@
+ # Set GLIBC_GENERATE_LOCALES to the locales you wish to generate should you not
+ # wish to perform the time-consuming step of generating all LIBC locales.
+ # NOTE: If removing en_US.UTF-8 you will also need to uncomment, and set
+-# appropriate values for IMAGE_LINGUAS and LIMIT_BUILT_LOCALES
++# appropriate value for IMAGE_LINGUAS.
+ # WARNING: this may break localisation!
+ #GLIBC_GENERATE_LOCALES = "en_GB.UTF-8 en_US.UTF-8"
+-# See message above as to whether setting these is required
+ #IMAGE_LINGUAS ?= "en-gb"
+-#LIMIT_BUILT_LOCALES ?= "POSIX en_GB"
+ 
+ # The following are used to control options related to debugging.
+ #
+-- 
+1.9.3
+
 
