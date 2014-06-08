@@ -1,39 +1,43 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 34DDD6ABDA
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id CFEA960E68
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jun 2014 19:19:04 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 08 Jun 2014 12:19:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,999,1392192000"; d="scan'208";a="442986094"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by azsmga001.ch.intel.com with ESMTP; 08 Jun 2014 12:19:04 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Sun, 8 Jun 2014 20:19:03 +0100
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.58]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.152]) with mapi id
-	14.03.0123.003; Sun, 8 Jun 2014 20:19:03 +0100
-From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-To: Stefan Stanacar <sstncr@gmail.com>
-Thread-Topic: [OE-core] [PATCH V2 1/7] targetcontrol.py: make possible
-	dynamical determination of rootfs type
-Thread-Index: AQHPgapGc5wvXtPxekSzC68wp8f6nptldeiAgAIhmaA=
-Date: Sun, 8 Jun 2014 19:19:02 +0000
-Message-ID: <33115ABC4887814E8A92A08FBC93416B0A27ACD2@IRSMSX103.ger.corp.intel.com>
-References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1402082078-10826-2-git-send-email-corneliux.stoicescu@intel.com>
-	<CANr+NRuOHL7MBQZ3LgkjE3TLZ+62DCOgoO7bAyeV6aeQkK3-HQ@mail.gmail.com>
-In-Reply-To: <CANr+NRuOHL7MBQZ3LgkjE3TLZ+62DCOgoO7bAyeV6aeQkK3-HQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Sun,  8 Jun 2014 19:50:34 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id bj1so20166pad.31
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Jun 2014 12:50:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=kONfDIix56bU5XQzkvOHtNuZqGFpa+LIK+YPbThXqn4=;
+	b=ckO9/6REFNM0qWbbLkq6m6Onf/Bawi46IpIDbIKv6CaJk1E7ydcx8DOHV5675dj2ye
+	PrP1wUZDIuTKMSDME5Kxpnh0m5QTxj/dXlBwdPCsiGHweOam8D+pldI+KMnFsOZTfN9m
+	L8xtAlOi5OoFv1c+seu+wdnx0+briWdcVDKJ/wWqsH6zojdzbM//yPGpTZiTjJBXMlfP
+	7uE+un5O5UDhr8U2kNpXHyR5pqjd4F2GhNvFPQpFz2XBbZyfZakq5BRsz/35Go64Z6G8
+	M81eQiLwF7vyjLPb11cKsYs2719NFuAO+0Xc0LcyawVRz4dfkj8ZkLiKtQfAD6VnsLuH
+	9ihg==
+X-Gm-Message-State: ALoCoQkwMTaxrg/AhETs5tnt6Ewz7R8GVoLxkM+JKwTfiXRN8eCitLfconuWB+FvwyahTK/0hoo9
+X-Received: by 10.68.160.163 with SMTP id xl3mr74664pbb.39.1402257035498;
+	Sun, 08 Jun 2014 12:50:35 -0700 (PDT)
+Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55]) by mx.google.com with ESMTPSA id
+	sh5sm60147380pbc.21.2014.06.08.12.50.34 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 08 Jun 2014 12:50:34 -0700 (PDT)
+Message-ID: <5394BE87.5000804@mvista.com>
+Date: Sun, 08 Jun 2014 12:50:31 -0700
+From: "akuster@mvista" <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/7] targetcontrol.py: make possible dynamical determination of rootfs type
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1402151406-14527-1-git-send-email-akuster@mvista.com>
+	<5393E053.6080006@linux.intel.com>
+In-Reply-To: <5393E053.6080006@linux.intel.com>
+Subject: Re: [PATCH] cups: Fix build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,58 +50,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jun 2014 19:19:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sun, 08 Jun 2014 19:50:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlZmFuIFN0YW5hY2Fy
-IFttYWlsdG86c3N0bmNyQGdtYWlsLmNvbV0NCj4gU2VudDogU2F0dXJkYXksIEp1bmUgMDcsIDIw
-MTQgMjozOCBQTQ0KPiBUbzogU3RvaWNlc2N1LCBDb3JuZWxpdVgNCj4gQ2M6IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-UEFUQ0ggVjIgMS83XSB0YXJnZXRjb250cm9sLnB5OiBtYWtlIHBvc3NpYmxlDQo+IGR5bmFtaWNh
-bCBkZXRlcm1pbmF0aW9uIG9mIHJvb3RmcyB0eXBlDQo+IA0KPiBIaSBDb3JuZWxpdSwNCj4gDQo+
-IE9uIEZyaSwgSnVuIDYsIDIwMTQgYXQgMTA6MTQgUE0sIENvcm5lbGl1IFN0b2ljZXNjdQ0KPiA8
-Y29ybmVsaXV4LnN0b2ljZXNjdUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IFlCOiAjNjM3NQ0KPiA+
-DQo+ID4gQWRkZWQgYSBuZXcgbWV0aG9kIGdldF9pbWFnZV9mc3R5cGUoKSB0aGF0IGF1dG9kZXRl
-cm1pbmVzIHdoYXQgZnN0eXBlDQo+IHRvIHVzZSBmb3IgdGhlIHJvb3RmcyBmaWxlLg0KPiA+IFRo
-aXMgbWV0aG9kIHVzZXMgYSBuZXcgbGlzdCB2YXJpYWJsZSAnc3VwcG9ydGVkX2ltYWdlX2ZzdHlw
-ZXMnIHRoYXQNCj4gY29udGFpbnMgaW1hZ2UgZnN0eXBlcyBzdXBwb3J0ZWQgYnkgdGhlIHRhcmdl
-dCBjb250cm9sbGVyLg0KPiA+DQo+ID4gVGhpcyBtZXRob2QgaXMgYWxzbyBhIGNsYXNzbWV0aG9k
-IHdoaWNoIG1lYW5zIG91dHNpZGUgc2NyaXB0cyBjYW4gZ2V0IHRoZQ0KPiBpbWFnZSBmc3R5cGUu
-DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBDb3JuZWxpdSBTdG9pY2VzY3UgPGNvcm5lbGl1eC5z
-dG9pY2VzY3VAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL2xpYi9vZXFhL3RhcmdldGNv
-bnRyb2wucHkgfCAxOSArKysrKysrKysrKysrKysrKy0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAx
-NyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21l
-dGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5weQ0KPiA+IGIvbWV0YS9saWIvb2VxYS90YXJnZXRj
-b250cm9sLnB5IGluZGV4IGZmMWJiODkuLjg2NmM0MTQgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9s
-aWIvb2VxYS90YXJnZXRjb250cm9sLnB5DQo+ID4gKysrIGIvbWV0YS9saWIvb2VxYS90YXJnZXRj
-b250cm9sLnB5DQo+ID4gQEAgLTQ0LDYgKzQ0LDggQEAgY2xhc3MgQmFzZVRhcmdldChvYmplY3Qp
-Og0KPiA+DQo+ID4gICAgICBfX21ldGFjbGFzc19fID0gQUJDTWV0YQ0KPiA+DQo+ID4gKyAgICBz
-dXBwb3J0ZWRfaW1hZ2VfZnN0eXBlcyA9IFtdDQo+ID4gKw0KPiA+ICAgICAgZGVmIF9faW5pdF9f
-KHNlbGYsIGQpOg0KPiA+ICAgICAgICAgIHNlbGYuY29ubmVjdGlvbiA9IE5vbmUNCj4gPiAgICAg
-ICAgICBzZWxmLmlwID0gTm9uZQ0KPiA+IEBAIC03MCw2ICs3MiwxNiBAQCBjbGFzcyBCYXNlVGFy
-Z2V0KG9iamVjdCk6DQo+ID4gICAgICBkZWYgc3RvcChzZWxmKToNCj4gPiAgICAgICAgICBwYXNz
-DQo+ID4NCj4gPiArICAgIEBjbGFzc21ldGhvZA0KPiA+ICsgICAgZGVmIGdldF9pbWFnZV9mc3R5
-cGUoc2VsZiwgZCwgaW1hZ2VfZnN0eXBlcz1Ob25lKToNCj4gDQo+IFlvdSBtYWRlIHRoaXMgYSBz
-dGF0aWMgbWV0aG9kIHNvIHlvdSBjYW4gY2FsbCBpdCBmcm9tIGFuIGV4dGVybmFsIHNjcmlwdD8N
-Cj4gSG1tLi4gQnV0IHRoZW4geW91IHdvdWxkbid0IGJlIGFibGUgdG8gcGFzcyBkLCBzbyB3aGF0
-J3MgdGhlIHBvaW50PyBBZGRpbmcNCj4gc3VwcG9ydCBmb3IgbW9yZSBmcyBpcyBuaWNlLCBidXQg
-eW91IHNob3VsZCBkbyB0aGF0IGZvciB0ZXN0aW1hZ2UsIGllIG1ha2UgaXQNCj4gY29uZmlndXJh
-YmxlIGFuZCBsZXQgdGhlIHVzZSBjaG9vc2UgZnJvbSBsb2NhbC5jb25mICh3aXRoIGEgcmVhc29u
-YWJsZQ0KPiBkZWZhdWx0KS4gUmlnaHQgbm93IHlvdSBhcmUgY29uZmlndXJpbmcgdGhlIHRlc3Qg
-Yml0cyBmcm9tIG91dHNpZGUuLi4NCj4gDQo+IENoZWVycywNCj4gU3RlZmFuDQoNClRoaXMgbWV0
-aG9kIGNhbiB1c2UgZCB0byBnZXQgdGhlIElNQUdFX0ZTVFlQRVMgdmFsdWUgb3IgaXQgY2FuIGJl
-IGRpcmVjdGx5IGdpdmVuIHRoYXQgdmFsdWUgYW5kIGJ5cGFzcyBkLiBTZWUgaW4gdGhlIHRlc3Qt
-cmVtb3RlLWltYWdlIHNjcmlwdCBob3cgd2UgdXNlZCBpdC4NCkFnYWluLCB0aGVzZSBwYXRjaGVz
-IGFyZSBtYWRlIHdpdGggdGhlIHBvc3NpYmlsaXR5IG9mIHVzaW5nIHRoZSB0YXJnZXQgY29udHJv
-bGxlcnMgdG8gZ2V0IGFzIG11Y2ggaW5mb3JtYXRpb24sIGJvdGggaW50ZXJuYWxseSBhbmQgZXh0
-ZXJuYWxseSwgaW4gbWluZC4gV2UgdHJ5IHRvIHByb2Nlc3MgdGhlIGluZm9ybWF0aW9uIChsaWtl
-IGltYWdlIGZzdHlwZSB1c2VkKSBpbiBvbmUgcGxhY2UgYW5kIGdldCBpZiByb20gdGhlcmUgd2hl
-cmV2ZXIgd2UgbmVlZCBpdC4NCkFsc28gd2Ugd291bGQgbGlrZSB0byBrZWVwIHRoZSB1c2VyIGNv
-bmZpZ3VyYWJsZSB2YXJpYWJsZXMgdG8gYSBtaW5pbXVtIGFuZCBhdXRvbWF0aWNhbGx5IGRldGVy
-bWluZSBhcyBtdWNoIGFzIHdlIGNhbihJIHNob3VsZCBoYXZlIGluY2x1ZGVkIHRoaXMgaW4gdGhl
-IGNvdmVyIGxldHRlcikuIEFuZCB3aGVyZSBjYW4gd2UgZG8gdGhpcyBiZXR0ZXIgdGhhbiBpbiB0
-aGUgdGFyZ2V0IGNvbnRyb2xsZXJzIHRoZW1zZWx2ZXM/DQoNCkkgaG9wZSBJIHRoaXMgaXMgYSBs
-aXR0bGUgbW9yZSBjbGVhciBub3cuIA0KDQpSZWdhcmRzLA0KQ29ybmVsaXUNCg==
+
+On 06/07/2014 09:02 PM, Saul Wold wrote:
+> On 06/07/2014 07:30 AM, Armin Kuster wrote:
+>> The follwing error was seen when no crypt dependency was included.
+>>
+>> In file included from cups-private.h:29:0,
+>> |                  from attr.c:26:
+>> | http-private.h:83:24: fatal error: gcrypt.h: No such file or directory
+>> |  #    include <gcrypt.h>
+>> |                         ^
+>>
+>> Add bcrypt to DEPENDS
+>>
+>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>> ---
+>>   meta/recipes-extended/cups/cups.inc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/cups/cups.inc 
+>> b/meta/recipes-extended/cups/cups.inc
+>> index fd88552..249eac4 100644
+>> --- a/meta/recipes-extended/cups/cups.inc
+>> +++ b/meta/recipes-extended/cups/cups.inc
+>> @@ -1,7 +1,7 @@
+>>   SUMMARY = "An Internet printing system for Unix"
+>>   SECTION = "console/utils"
+>>   LICENSE = "GPLv2 & LGPLv2"
+>> -DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb"
+>> +DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb bcrypt"
+>
+> Do we really want to enable crypt here or make it optional?
+
+Good question.
+> If we set ac_cv_search_crypt=no on the EXTRA_OECONF line, then we can 
+> remove this floating dependency or make it a PACKAGECONFIG setting
+Ok.  let me work on this a bit more.
+
+- Armin
+
+>
+> Sau!
+>
+>>   PROVIDES = "cups14"
+>>
+>>   SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
+>>
+
 
