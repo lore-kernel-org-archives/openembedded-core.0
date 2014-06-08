@@ -1,36 +1,39 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 274246A87C
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 34DDD6ABDA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jun 2014 11:54:30 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id n15so2446760lbi.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jun 2014 04:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id;
-	bh=57x/SBG3D86Oq9p4U8fKAivuk1FsAOmkzKWMIeaMFFo=;
-	b=eEMd932h4A/127OSfp8R9uBlXqrdqpxne8ssoP0j3adUVOu17yV6wrzUDks6DHDgCw
-	C5s22KtEbKu6N/epzX+3Hv2vVyr6eyfpzGH5V6Zd7+IyCWiBLQ1t7sx8sXtdAlMme8Mu
-	LcE0VWxOJ3j9OZPRw0fAmgNBc9TPR8aWO0h2e8t2ibZ1ZKBSv1AMvEpy5FZi9yljU843
-	VnNniVvqEiF8MpbDVxuklHMqPW9Zub8YFZjQRCL/s7JOXKVIpYRvWzHvcfhha2Ay1f6U
-	0MhQYN0gDlaf7k26p5natf3lWmFErL+SgTfxnA+5bfmJ/JD3vNmlrp2/bBeLBTvtnRqY
-	80mQ==
-X-Received: by 10.152.207.74 with SMTP id lu10mr12982716lac.28.1402228470958; 
-	Sun, 08 Jun 2014 04:54:30 -0700 (PDT)
-Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
-	[89.253.118.72]) by mx.google.com with ESMTPSA id
-	aa1sm14795924lbd.12.2014.06.08.04.54.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 08 Jun 2014 04:54:30 -0700 (PDT)
-Sender: Jacob Kroon <jacob.kroon@gmail.com>
-From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jun 2014 13:52:56 +0200
-Message-Id: <1402228376-17520-1-git-send-email-jacob.kroon@mikrodidakt.se>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] default-distrovars.inc: Remove unused variable 'LIMIT_BUILT_LOCALES'
+	Sun,  8 Jun 2014 19:19:04 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Jun 2014 12:19:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,999,1392192000"; d="scan'208";a="442986094"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by azsmga001.ch.intel.com with ESMTP; 08 Jun 2014 12:19:04 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Sun, 8 Jun 2014 20:19:03 +0100
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.58]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.152]) with mapi id
+	14.03.0123.003; Sun, 8 Jun 2014 20:19:03 +0100
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: Stefan Stanacar <sstncr@gmail.com>
+Thread-Topic: [OE-core] [PATCH V2 1/7] targetcontrol.py: make possible
+	dynamical determination of rootfs type
+Thread-Index: AQHPgapGc5wvXtPxekSzC68wp8f6nptldeiAgAIhmaA=
+Date: Sun, 8 Jun 2014 19:19:02 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B0A27ACD2@IRSMSX103.ger.corp.intel.com>
+References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
+	<1402082078-10826-2-git-send-email-corneliux.stoicescu@intel.com>
+	<CANr+NRuOHL7MBQZ3LgkjE3TLZ+62DCOgoO7bAyeV6aeQkK3-HQ@mail.gmail.com>
+In-Reply-To: <CANr+NRuOHL7MBQZ3LgkjE3TLZ+62DCOgoO7bAyeV6aeQkK3-HQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/7] targetcontrol.py: make possible dynamical determination of rootfs type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,51 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jun 2014 11:54:39 -0000
+X-List-Received-Date: Sun, 08 Jun 2014 19:19:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This variable is a left-over from early glibc recipes.
-It is not referenced anymore in oe-core, and its functionality
-has been replaced with 'GLIBC_GENERATE_LOCALES'.
-
-Also remove the reference to it in local.conf.sample.extended.
-
-Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
----
- meta/conf/distro/include/default-distrovars.inc | 1 -
- meta/conf/local.conf.sample.extended            | 4 +---
- 2 files changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 0bc3adc..1bc8e46 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -5,7 +5,6 @@ KERNEL_CONSOLE ?= "ttyS0"
- KEEPUIMAGE ??= "yes"
- 
- IMAGE_LINGUAS ?= "en-us en-gb"
--LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
- ENABLE_BINARY_LOCALE_GENERATION ?= "1"
- LOCALE_UTF8_ONLY ?= "0"
- 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index a1f2464..1032bde 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -27,12 +27,10 @@
- # Set GLIBC_GENERATE_LOCALES to the locales you wish to generate should you not
- # wish to perform the time-consuming step of generating all LIBC locales.
- # NOTE: If removing en_US.UTF-8 you will also need to uncomment, and set
--# appropriate values for IMAGE_LINGUAS and LIMIT_BUILT_LOCALES
-+# appropriate value for IMAGE_LINGUAS.
- # WARNING: this may break localisation!
- #GLIBC_GENERATE_LOCALES = "en_GB.UTF-8 en_US.UTF-8"
--# See message above as to whether setting these is required
- #IMAGE_LINGUAS ?= "en-gb"
--#LIMIT_BUILT_LOCALES ?= "POSIX en_GB"
- 
- # The following are used to control options related to debugging.
- #
--- 
-1.9.3
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlZmFuIFN0YW5hY2Fy
+IFttYWlsdG86c3N0bmNyQGdtYWlsLmNvbV0NCj4gU2VudDogU2F0dXJkYXksIEp1bmUgMDcsIDIw
+MTQgMjozOCBQTQ0KPiBUbzogU3RvaWNlc2N1LCBDb3JuZWxpdVgNCj4gQ2M6IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UEFUQ0ggVjIgMS83XSB0YXJnZXRjb250cm9sLnB5OiBtYWtlIHBvc3NpYmxlDQo+IGR5bmFtaWNh
+bCBkZXRlcm1pbmF0aW9uIG9mIHJvb3RmcyB0eXBlDQo+IA0KPiBIaSBDb3JuZWxpdSwNCj4gDQo+
+IE9uIEZyaSwgSnVuIDYsIDIwMTQgYXQgMTA6MTQgUE0sIENvcm5lbGl1IFN0b2ljZXNjdQ0KPiA8
+Y29ybmVsaXV4LnN0b2ljZXNjdUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IFlCOiAjNjM3NQ0KPiA+
+DQo+ID4gQWRkZWQgYSBuZXcgbWV0aG9kIGdldF9pbWFnZV9mc3R5cGUoKSB0aGF0IGF1dG9kZXRl
+cm1pbmVzIHdoYXQgZnN0eXBlDQo+IHRvIHVzZSBmb3IgdGhlIHJvb3RmcyBmaWxlLg0KPiA+IFRo
+aXMgbWV0aG9kIHVzZXMgYSBuZXcgbGlzdCB2YXJpYWJsZSAnc3VwcG9ydGVkX2ltYWdlX2ZzdHlw
+ZXMnIHRoYXQNCj4gY29udGFpbnMgaW1hZ2UgZnN0eXBlcyBzdXBwb3J0ZWQgYnkgdGhlIHRhcmdl
+dCBjb250cm9sbGVyLg0KPiA+DQo+ID4gVGhpcyBtZXRob2QgaXMgYWxzbyBhIGNsYXNzbWV0aG9k
+IHdoaWNoIG1lYW5zIG91dHNpZGUgc2NyaXB0cyBjYW4gZ2V0IHRoZQ0KPiBpbWFnZSBmc3R5cGUu
+DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBDb3JuZWxpdSBTdG9pY2VzY3UgPGNvcm5lbGl1eC5z
+dG9pY2VzY3VAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL2xpYi9vZXFhL3RhcmdldGNv
+bnRyb2wucHkgfCAxOSArKysrKysrKysrKysrKysrKy0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAx
+NyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21l
+dGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5weQ0KPiA+IGIvbWV0YS9saWIvb2VxYS90YXJnZXRj
+b250cm9sLnB5IGluZGV4IGZmMWJiODkuLjg2NmM0MTQgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9s
+aWIvb2VxYS90YXJnZXRjb250cm9sLnB5DQo+ID4gKysrIGIvbWV0YS9saWIvb2VxYS90YXJnZXRj
+b250cm9sLnB5DQo+ID4gQEAgLTQ0LDYgKzQ0LDggQEAgY2xhc3MgQmFzZVRhcmdldChvYmplY3Qp
+Og0KPiA+DQo+ID4gICAgICBfX21ldGFjbGFzc19fID0gQUJDTWV0YQ0KPiA+DQo+ID4gKyAgICBz
+dXBwb3J0ZWRfaW1hZ2VfZnN0eXBlcyA9IFtdDQo+ID4gKw0KPiA+ICAgICAgZGVmIF9faW5pdF9f
+KHNlbGYsIGQpOg0KPiA+ICAgICAgICAgIHNlbGYuY29ubmVjdGlvbiA9IE5vbmUNCj4gPiAgICAg
+ICAgICBzZWxmLmlwID0gTm9uZQ0KPiA+IEBAIC03MCw2ICs3MiwxNiBAQCBjbGFzcyBCYXNlVGFy
+Z2V0KG9iamVjdCk6DQo+ID4gICAgICBkZWYgc3RvcChzZWxmKToNCj4gPiAgICAgICAgICBwYXNz
+DQo+ID4NCj4gPiArICAgIEBjbGFzc21ldGhvZA0KPiA+ICsgICAgZGVmIGdldF9pbWFnZV9mc3R5
+cGUoc2VsZiwgZCwgaW1hZ2VfZnN0eXBlcz1Ob25lKToNCj4gDQo+IFlvdSBtYWRlIHRoaXMgYSBz
+dGF0aWMgbWV0aG9kIHNvIHlvdSBjYW4gY2FsbCBpdCBmcm9tIGFuIGV4dGVybmFsIHNjcmlwdD8N
+Cj4gSG1tLi4gQnV0IHRoZW4geW91IHdvdWxkbid0IGJlIGFibGUgdG8gcGFzcyBkLCBzbyB3aGF0
+J3MgdGhlIHBvaW50PyBBZGRpbmcNCj4gc3VwcG9ydCBmb3IgbW9yZSBmcyBpcyBuaWNlLCBidXQg
+eW91IHNob3VsZCBkbyB0aGF0IGZvciB0ZXN0aW1hZ2UsIGllIG1ha2UgaXQNCj4gY29uZmlndXJh
+YmxlIGFuZCBsZXQgdGhlIHVzZSBjaG9vc2UgZnJvbSBsb2NhbC5jb25mICh3aXRoIGEgcmVhc29u
+YWJsZQ0KPiBkZWZhdWx0KS4gUmlnaHQgbm93IHlvdSBhcmUgY29uZmlndXJpbmcgdGhlIHRlc3Qg
+Yml0cyBmcm9tIG91dHNpZGUuLi4NCj4gDQo+IENoZWVycywNCj4gU3RlZmFuDQoNClRoaXMgbWV0
+aG9kIGNhbiB1c2UgZCB0byBnZXQgdGhlIElNQUdFX0ZTVFlQRVMgdmFsdWUgb3IgaXQgY2FuIGJl
+IGRpcmVjdGx5IGdpdmVuIHRoYXQgdmFsdWUgYW5kIGJ5cGFzcyBkLiBTZWUgaW4gdGhlIHRlc3Qt
+cmVtb3RlLWltYWdlIHNjcmlwdCBob3cgd2UgdXNlZCBpdC4NCkFnYWluLCB0aGVzZSBwYXRjaGVz
+IGFyZSBtYWRlIHdpdGggdGhlIHBvc3NpYmlsaXR5IG9mIHVzaW5nIHRoZSB0YXJnZXQgY29udHJv
+bGxlcnMgdG8gZ2V0IGFzIG11Y2ggaW5mb3JtYXRpb24sIGJvdGggaW50ZXJuYWxseSBhbmQgZXh0
+ZXJuYWxseSwgaW4gbWluZC4gV2UgdHJ5IHRvIHByb2Nlc3MgdGhlIGluZm9ybWF0aW9uIChsaWtl
+IGltYWdlIGZzdHlwZSB1c2VkKSBpbiBvbmUgcGxhY2UgYW5kIGdldCBpZiByb20gdGhlcmUgd2hl
+cmV2ZXIgd2UgbmVlZCBpdC4NCkFsc28gd2Ugd291bGQgbGlrZSB0byBrZWVwIHRoZSB1c2VyIGNv
+bmZpZ3VyYWJsZSB2YXJpYWJsZXMgdG8gYSBtaW5pbXVtIGFuZCBhdXRvbWF0aWNhbGx5IGRldGVy
+bWluZSBhcyBtdWNoIGFzIHdlIGNhbihJIHNob3VsZCBoYXZlIGluY2x1ZGVkIHRoaXMgaW4gdGhl
+IGNvdmVyIGxldHRlcikuIEFuZCB3aGVyZSBjYW4gd2UgZG8gdGhpcyBiZXR0ZXIgdGhhbiBpbiB0
+aGUgdGFyZ2V0IGNvbnRyb2xsZXJzIHRoZW1zZWx2ZXM/DQoNCkkgaG9wZSBJIHRoaXMgaXMgYSBs
+aXR0bGUgbW9yZSBjbGVhciBub3cuIA0KDQpSZWdhcmRzLA0KQ29ybmVsaXUNCg==
 
