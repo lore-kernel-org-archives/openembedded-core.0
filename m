@@ -1,21 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 458EC65EB4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F22761F16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 15:57:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jun 2014 08:57:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,1003,1392192000"; d="scan'208";a="525679869"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.49])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2014 08:57:08 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Mon,  9 Jun 2014 15:59:02 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id u57so6124663wes.29
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jun 2014 08:59:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HP9eYkvGmM3IsrxtMBirbX0cMRtJ4k1gTc38o9ovH8Y=;
+	b=dD/g2wamaU9WvMHQ6IgpW0JcoTqD5ukttnnGUuM90WxyOlT1j7+tv0TUrzlYL0yhrC
+	aLwh4+VOFJkqk+Kna+BdV+mXWapK/diIQo69D+vUGXeg5f6IjV0RfbAXSz+1sepfyaRw
+	HUN0uIs60hAHG+4mImVePQBcd51EG4FloYkl4eOAJyF7W2piMSFzY6RdI/kttfvUB6oL
+	Iyo9ZR6IbGHc8w43kPsiswmIIe7KO5Wao21l3dx6+otoEvJy4tL1o8I4WM36sf9dYgPq
+	bjjn2Qk3JmJ/Er9BarJHQs67UTk7i7vC0BVX46ChUnbiQ4zCUDgJuN9jYl+LDG+kf514
+	NZFQ==
+X-Gm-Message-State: ALoCoQnwcHBvDrIy8Ha9ao6XlMNna2g+ACwR72Sobfd+vbD6pIJ5pZIkxM37ouD97qOxr7SSCJp9
+X-Received: by 10.180.99.40 with SMTP id en8mr30040857wib.24.1402329543618;
+	Mon, 09 Jun 2014 08:59:03 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id wv9sm9131812wjc.28.2014.06.09.08.59.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Jun 2014 08:59:02 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jun 2014 16:56:52 +0100
-Message-Id: <cover.1402329276.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [dylan][PATCH 0/6] OpenSSL CVE fixes for the dylan branch (cover letter only)
+Date: Mon,  9 Jun 2014 16:58:58 +0100
+Message-Id: <1402329538-7650-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] Revert "fontconfig: enable 64 bit file support"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,49 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 15:57:14 -0000
+X-List-Received-Date: Mon, 09 Jun 2014 15:59:05 -0000
 
-These are the exact same patches as in the dora series, so for the sake
-of people's inboxes I won't repeat them.
+Fontconfig doesn't need to be passed large file flags through CPPFLAGS because
+it's configure script uses AC_SYS_LARGEFILE.
 
+This reverts commit 5a49a24d35794fcf9e3895469a67db992a52305e.
 
-The following changes since commit 7ff1924674871d604f9656f3928b91dc417c7246:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb |    2 --
+ 1 file changed, 2 deletions(-)
 
-  gnutls: patch for CVE-2014-3466 backported (2014-06-06 10:27:23 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/openssl-dylan
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/openssl-dylan
-
-Paul Eggleton (5):
-  openssl: fix CVE-2014-0195
-  openssl: use upstream fix for CVE-2014-0198
-  openssl: fix CVE-2014-0221
-  openssl: fix CVE-2014-0224
-  openssl: fix CVE-2014-3470
-
-Yue Tao (1):
-  openssl: fix for CVE-2010-5298
-
- .../openssl-1.0.1e-cve-2014-0195.patch             |  40 ++++++++
- .../openssl-1.0.1e-cve-2014-0198.patch             |  38 ++++++++
- .../openssl-1.0.1e-cve-2014-0221.patch             |  38 ++++++++
- .../openssl-1.0.1e-cve-2014-0224.patch             | 103 +++++++++++++++++++++
- .../openssl-1.0.1e-cve-2014-3470.patch             |  31 +++++++
- .../openssl-1.0.1e/openssl-CVE-2010-5298.patch     |  24 +++++
- .../openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch |  23 -----
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |   7 +-
- 8 files changed, 280 insertions(+), 24 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-1.0.1e-cve-2014-0195.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-1.0.1e-cve-2014-0198.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-1.0.1e-cve-2014-0221.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-1.0.1e-cve-2014-0224.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-1.0.1e-cve-2014-3470.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2010-5298.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-CVE-2014-0198-fix.patch
-
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
+index 4fa58ab..797b321 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.11.1.bb
+@@ -38,7 +38,5 @@ DEBIAN_NOAUTONAME_fontconfig-utils = "1"
+ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = " --disable-docs --with-default-fonts=${datadir}/fonts"
+-TARGET_CPPFLAGS += "-D_FILE_OFFSET_BITS=64"
+-
+ 
+ BBCLASSEXTEND = "native"
 -- 
-1.9.3
+1.7.10.4
 
 
