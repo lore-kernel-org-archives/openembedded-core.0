@@ -1,20 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E1F3B6B4F6
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C1B6165F09
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 06:19:14 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Jun 2014 23:18:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,1001,1392192000"; d="scan'208";a="552449958"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.194])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2014 23:18:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jun 2014 23:18:55 -0700
-Message-Id: <cover.1402294655.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [Consolidated Pull 00/15] Patches & updates
+	Mon,  9 Jun 2014 06:28:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s596S6Tr017485
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 8 Jun 2014 23:28:08 -0700 (PDT)
+Received: from [128.224.162.182] (128.224.162.182) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sun, 8 Jun 2014 23:28:06 -0700
+Message-ID: <539553C8.5090803@windriver.com>
+Date: Mon, 9 Jun 2014 14:27:20 +0800
+From: Wenlin Kang <wenlin.kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
+References: <1401867930-28172-1-git-send-email-wenlin.kang@windriver.com>
+	<53920437.1070908@linux.intel.com>
+In-Reply-To: <53920437.1070908@linux.intel.com>
+X-Originating-IP: [128.224.162.182]
+Subject: Re: [PATCH] bash: fix to build bash/po/ correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,94 +35,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 06:19:17 -0000
+X-List-Received-Date: Mon, 09 Jun 2014 06:28:20 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Richard,
+On 2014年06月07日 02:11, Saul Wold wrote:
+> On 06/04/2014 12:45 AM, Wenlin Kang wrote:
+>> There was an ignored error while building bash, causing the po/
+>> directory not built out correctly, the log follow:
+>> make[1]: *** No rule to make target `/config.status',
+>> needed by `Makefile'. Stop.
+>> make: [installdirs] Error 2 (ignored)
+>>
+>> The cause is that some variable,PACKAGE and VERSION don't be defined,
+>> and others don't get correct value, eg, top_builddir in po/Makevar,
+>> GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
+>>
+>> The patch fixed above problem.
+>
+> No Signed-off-by: tag for this patch for OE-Core, I see one in the 
+> patch below.
 
-Here is a set up patches and updates that have been run through
-the AB and tested locally.
+Oh, yes, I miss it, I will add it.
 
-Please merge as you see fit.
+>
+> The patch does not seem to apply correctly, did you verify this 
+> against master?
+>
 
-Thanks
-	Sau!
+Got it, thank your test, I will remake it.
+
+//Wenlin
 
 
-The following changes since commit a3ee9cc7aebaecfa2223552a2c1865a9337de664:
+> Sau!
+>
+>
+>> ---
+>> .../bash/bash/fix-to-build-po-correctly.patch | 83 ++++++++++++++++++++
+>> meta/recipes-extended/bash/bash_4.3.bb | 1 +
+>> 2 files changed, 84 insertions(+)
+>> create mode 100644 
+>> meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+>>
+>> diff --git 
+>> a/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch 
+>> b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+>> new file mode 100644
+>> index 0000000..9db6fe2
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+>> @@ -0,0 +1,83 @@
+>> +
+>> +Upstream-Status: Inappropriate [OE specific]
+>> +Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+>> +
+>> +diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
+>> +--- bash-4.3-org/aclocal.m4 2014-05-23 15:28:54.252565146 +0800
+>> ++++ bash-4.3/aclocal.m4 2014-05-23 15:33:19.924570133 +0800
+>> +@@ -3710,6 +3710,14 @@
+>> + AC_REQUIRE([AC_PROG_INSTALL])dnl
+>> + AC_REQUIRE([AM_MKINSTALLDIRS])dnl
+>> + AC_REQUIRE([AM_NLS])dnl
+>> ++ AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+>> ++ AC_REQUIRE([AC_PROG_SED])dnl
+>> ++
+>> ++ AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
+>> ++
+>> ++ dnl Release version of the gettext macros. This is used to ensure 
+>> that
+>> ++ dnl the gettext macros and po/Makefile.in.in are in sync.
+>> ++ AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
+>> +
+>> + dnl Perform the following tests also if --disable-nls has been given,
+>> + dnl because they are needed for "make dist" to work.
+>> +@@ -3723,6 +3731,22 @@
+>> + :)
+>> + AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
+>> +
+>> ++ dnl Test whether it is GNU msgfmt >= 0.15.
+>> ++changequote(,)dnl
+>> ++ case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+>> ++ '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
+>> ++ *) MSGFMT_015=$MSGFMT ;;
+>> ++ esac
+>> ++changequote([,])dnl
+>> ++ AC_SUBST([MSGFMT_015])
+>> ++changequote(,)dnl
+>> ++ case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+>> ++ '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
+>> ++ *) GMSGFMT_015=$GMSGFMT ;;
+>> ++ esac
+>> ++changequote([,])dnl
+>> ++ AC_SUBST([GMSGFMT_015])
+>> ++
+>> + dnl Search for GNU xgettext 0.12 or newer in the PATH.
+>> + dnl The first test excludes Solaris xgettext and early GNU xgettext 
+>> versions.
+>> + dnl The second test excludes FreeBSD xgettext.
+>> +@@ -3733,6 +3757,15 @@
+>> + dnl Remove leftover from FreeBSD xgettext call.
+>> + rm -f messages.po
+>> +
+>> ++ dnl Test whether it is GNU xgettext >= 0.15.
+>> ++changequote(,)dnl
+>> ++ case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+>> ++ '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
+>> ++ *) XGETTEXT_015=$XGETTEXT ;;
+>> ++ esac
+>> ++changequote([,])dnl
+>> ++ AC_SUBST([XGETTEXT_015])
+>> ++
+>> + dnl Search for GNU msgmerge 0.11 or newer in the PATH.
+>> + AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
+>> + [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
+>> +diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
+>> +--- bash-4.3-org/configure.ac 2014-05-23 15:28:54.208565145 +0800
+>> ++++ bash-4.3/configure.ac 2014-05-23 15:29:35.640565923 +0800
+>> +@@ -1201,6 +1201,10 @@
+>> + #AC_SUBST(ALLOCA_SOURCE)
+>> + #AC_SUBST(ALLOCA_OBJECT)
+>> +
+>> ++# Define the identity of the package.
+>> ++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
+>> ++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
+>> ++
+>> + AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile 
+>> lib/glob/Makefile \
+>> + lib/intl/Makefile \
+>> + lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
+>> +diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
+>> +--- bash-4.3-org/po/Makevars 2014-05-23 15:28:54.204565145 +0800
+>> ++++ bash-4.3/po/Makevars 2014-05-23 15:30:04.772566469 +0800
+>> +@@ -5,7 +5,7 @@
+>> +
+>> + # These two variables depend on the location of this directory.
+>> + subdir = po
+>> +-top_builddir = $(BUILD_DIR)
+>> ++top_builddir = ..
+>> +
+>> + # These options get passed to xgettext.
+>> + XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
+>> diff --git a/meta/recipes-extended/bash/bash_4.3.bb 
+>> b/meta/recipes-extended/bash/bash_4.3.bb
+>> index 25b7410..a6d7d40 100644
+>> --- a/meta/recipes-extended/bash/bash_4.3.bb
+>> +++ b/meta/recipes-extended/bash/bash_4.3.bb
+>> @@ -10,6 +10,7 @@ SRC_URI = 
+>> "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+>> file://build-tests.patch \
+>> file://test-output.patch \
+>> file://run-ptest \
+>> + file://fix-to-build-po-correctly.patch \
+>> "
+>>
+>> SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
+>>
+>
+>
 
-  wic: check if BBLAYERS is valid before use (2014-06-06 10:29:22 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Chen Qi (1):
-  gawk: fix libexec of the old 3.1.5 version
-
-Chong Lu (2):
-  oprofile: Add PTEST regression testing to oprofile
-  nfs-utils: unset CFLAGS for testlk build
-
-Corneliu Stoicescu (1):
-  oeqa/utils/commands.py: add support for postconfig option
-
-Hongxu Jia (1):
-  libgcrypt: workaround ICE failure on mips with '-O -g'
-
-Kai Kang (1):
-  xorg-font-common.inc: remove shell debug option
-
-Martin Jansa (1):
-  update-rc.d: Allow to use different initscripts provider
-
-Robert Yang (1):
-  libgcrypt: fix do_configure failed
-
-Ross Burton (3):
-  gawk: fix module paths
-  gawk: remove dgawk and pgawk packages, merge gawk-common into gawk
-  mesa: add build-dependency on libxml2-native
-
-Shan Hai (1):
-  oe-core/init-install.sh: do not overwrite /etc/mtab if the link
-    already exist
-
-Valentin Popa (2):
-  mesa: upgrade to 10.1.3
-  xorg-xserver: enable dri3 by default
-
-yanjun.zhu (1):
-  python-gst: link python shared library to config directory
-
- meta/classes/update-rc.d.bbclass                   |  3 +-
- meta/lib/oeqa/utils/commands.py                    | 31 +++++--
- .../nfs-utils-unset-CFLAGS-for-testlk-build.patch  | 31 +++++++
- .../nfs-utils/nfs-utils_1.3.0.bb                   |  4 +-
- .../initrdscripts/files/init-install.sh            |  4 +-
- meta/recipes-devtools/python/python-gst_0.10.22.bb |  6 ++
- meta/recipes-extended/gawk/gawk_3.1.5.bb           |  4 +-
- meta/recipes-extended/gawk/gawk_4.1.1.bb           | 12 +--
- .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |  0
- meta/recipes-graphics/mesa/mesa.inc                | 38 ++++++---
- .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |  4 +-
- meta/recipes-graphics/mesa/mesa_git.bb             |  4 +-
- .../xorg-font/xorg-font-common.inc                 |  1 -
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  3 +-
- meta/recipes-kernel/oprofile/oprofile.inc          | 31 ++++++-
- .../oprofile/oprofile-cross-compile-tests.patch    | 98 ++++++++++++++++++++++
- meta/recipes-kernel/oprofile/oprofile/run-ptest    | 18 ++++
- ...x-ICE-failure-on-mips-with-option-O-and-g.patch | 71 ++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt.inc       |  6 +-
- 19 files changed, 322 insertions(+), 47 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-unset-CFLAGS-for-testlk-build.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/run-ptest
- create mode 100644 meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch
 
 -- 
-1.8.3.1
+Thanks,
+Wenlin Kang
 
 
