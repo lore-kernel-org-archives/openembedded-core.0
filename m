@@ -1,20 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C0C1365EB4
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A69AC65E87
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 14:33:06 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Jun 2014 07:28:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="352497456"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.194])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2014 07:29:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jun 2014 07:33:05 -0700
-Message-Id: <1402324385-13568-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH RFC - WIP] conf-files: New recipe to create single recipe for config files
+	Mon,  9 Jun 2014 14:47:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s59ElGFM029599
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Jun 2014 07:47:16 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 9 Jun 2014 07:47:16 -0700
+Message-ID: <5395C8F2.7040600@windriver.com>
+Date: Mon, 9 Jun 2014 09:47:14 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "OE Core
+	(openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+References: <A612847CFE53224C91B23E3A5B48BAC7A7A21EFE0D@xmail3.se.axis.com>
+	<A612847CFE53224C91B23E3A5B48BAC7A7A2BE80C7@xmail3.se.axis.com>
+In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7A7A2BE80C7@xmail3.se.axis.com>
+Subject: Re: Using users/groups from another recipe than the one creating them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,112 +37,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 14:33:13 -0000
+X-List-Received-Date: Mon, 09 Jun 2014 14:47:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This recipe will create 1 package for config files, we could optionally add
-a bbclass file to ensure consistency with RRECOMMENDS_ = =conf
+On 6/9/14, 8:39 AM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Peter Kjellerstedt
+>> Sent: den 23 maj 2014 12:38
+>> To: OE Core (openembedded-core@lists.openembedded.org)
+>> Subject: Re: [OE-core] Using users/groups from another recipe than the
+>> one creating them
+>>
+>>> -----Original Message-----
+>>> From: openembedded-core-bounces@lists.openembedded.org
+>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+>>> Of Peter Kjellerstedt
+>>> Sent: den 19 maj 2014 10:15
+>>> To: OE Core (openembedded-core@lists.openembedded.org)
+>>> Subject: [OE-core] Using users/groups from another recipe than the
+>>> one creating them
+>>>
+>>> Which assumption is correct: "a recipe A that depends on another
+>>> recipe B can use users/groups that B creates" or "all recipes must
+>>> create the users/groups they require themselves"?
+>>>
+>>> The problem for us is that we have a lot of recipes that create
+>>> users and groups, and subsequently a number of other related recipes
+>>> that need to use those users and groups.
+>>>
+>>> If the first assumption is correct then the useradd.bbclass needs to
+>>> be corrected so that it adds a dependency from do_install to
+>>> base-passwd:do_populate_sysroot and
+>>> base-passwd:do_populate_sysroot_setscene, because if either of those
+>>> tasks execute they will overwrite /etc/passwd and /etc/group,
+>>> effectively removing any users/groups that were created earlier...
+>>>
+>>> On the other hand, if it is the second assumption that is correct,
+>>> then there should be QA tests in place to make sure all recipes
+>>> create the users/groups they use.
+>>>
+>>> //Peter
+>>
+>> *ping*
+>>
+>> Doesn't anyone know how users and groups are supposed to work?
+>>
+>> //Peter
+>
+> *ping again*
 
-This is a work in progress, the do_install might even beable to automagically
-generated.  We don't want to create a bbclass for these since it will cause
-the actual recipe/packaging to become machine specific, using this recipe will
-ioslate that.
+I never saw the original emails, either of them.
 
-[YOCTO #4011]
+> Well, this is somewhat discouraging. Three weeks and not a single
+> response. Are we really the only ones that care about users and
+> groups and how they are created? Doesn't anyone know which of my
+> two assumptions above are correct?
+>
+> Personally I would prefer that all recipes create the users and
+> groups they require themselves as this keeps them more self
+> contained. I have no idea how to write a QA test to verify this,
+> but I assume it should be possible...
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-bsp/conf-files/conf-files_1.0.bb | 81 +++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
- create mode 100644 meta/recipes-bsp/conf-files/conf-files_1.0.bb
+The rule is:
 
-diff --git a/meta/recipes-bsp/conf-files/conf-files_1.0.bb b/meta/recipes-bsp/conf-files/conf-files_1.0.bb
-new file mode 100644
-index 0000000..c6f6000
---- /dev/null
-+++ b/meta/recipes-bsp/conf-files/conf-files_1.0.bb
-@@ -0,0 +1,81 @@
-+SUMMARY = "Configuartion files master recipe"
-+DESCRIPTION = "This package provides Configuration files for different packages that may need some kind of customization on a BSP level"
-+
-+LICENSE = "BSD || MIT || GPLv2"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
-+
-+SRC_URI = ""
-+S = "${WORKDIR}"
-+
-+PACKAGES = ""
-+
-+CONF_PACKAGES = "formfactor apmd alsa-state"
-+#                 apmd \
-+#                 alsa-state \
-+#                 bluez5 \
-+#                 connman \
-+#                 formfactor \
-+#                 init-ifupdown \
-+#                 keymap \
-+#                 pointercal \
-+#                 tslib \
-+#                 xinput-calibrator \
-+#                 xorg-xf86-config \
-+#                "
-+
-+FILESEXTRAPATH =. "${FILE_DIRNAME}/default"
-+
-+CONF_PACKAGES[apmd] = "${datadir/apmd apmd_proxy.conf"
-+CONF_PACKAGES[alsa-state] = "${sysconfdir} asound.conf"
-+CONF_PACKAGES[bluez4] = "bluetooth.conf"
-+CONF_PACKAGES[bluez5] = "bluetooth.conf"
-+CONF_PACKAGES[connman] = "connman.conf"
-+CONF_PACKAGES[formfactor] = "${sysconfdir}/formfactor machconfig"
-+CONF_PACKAGES[init-ifupdown] = "interfaces"
-+CONF_PACKAGES[keymap] = "keymap"
-+CONF_PACKAGES[pointercal] = "pointercal"
-+CONF_PACKAGES[tslib] = "tslib.conf"
-+CONF_PACKAGES[xinput-calibrator] = "pointercal.xinput"
-+CONF_PACKAGES[xorg-xf86-config] = "xorg.conf"
-+CONF_PACKAGES_NOAPPEND[xorg-xf86-config] = "1"
-+
-+python __anonymous() {
-+
-+    packages = (d.getVar('CONF_PACKAGES', True) or "").split()
-+    for pn in packages:
-+        if not d.getVarFlag('CONF_PACKAGES_NOAPPEND', pn):
-+            pn_conf = pn + "-conf"
-+        else:
-+            pn_conf = pn
-+
-+        d.appendVar('PACKAGES', pn_conf + " ")
-+        conf_file = d.getVarFlag('CONF_PACKAGES', pn, True).split()
-+        conf_path = conf_file[0] + "/" + conf_file[1]
-+        d.setVar('FILES_' + pn_conf, conf_path)
-+        d.appendVar('SRC_URI', 'file://' + conf_file[1] + " ")
-+        d.setVar('CONFFILES_' + pn_conf, conf_path)
-+
-+}
-+
-+do_install() {
-+
-+	install -d ${D}${sysconfdir}
-+
-+        # apmd_proxy.conf
-+	if [ -s "${S}/apmd_proxy.conf" ]; then
-+		install -d ${D}${datadir}/apmd
-+		install -m 0644 ${S}/apmd_proxy.conf ${D}${datadir}/apmd
-+	fi
-+
-+        # asound.conf
-+	if [ -s "${S}/asound.conf" ]; then
-+		install -m 0644 ${WORKDIR}/asound.conf ${D}${sysconfdir}
-+	fi
-+
-+        # machconfig
-+	if [ -s "${S}/machconfig" ]; then
-+		install -d ${D}${sysconfdir}/formfactor/
-+		install -m 0644 ${S}/machconfig ${D}${sysconfdir}/formfactor/
-+	fi
-+}
-+
--- 
-1.8.3.2
+There is a limited number of base users and groups, if your package uses a 
+user/group in that base set nothing else is needed.
+
+If your package needs an additional user/group, then it must either:
+
+*) Add the user/group itself.  Multiple packages are allowed to add the same 
+users/groups, with the understanding that the options -must- be identical!
+
+*) Must -require- (not recommend) a package that adds the group that they 
+require.  It's a good idea in the recipe to comment that the 'require' adds the 
+user/group as well.
+
+This is pretty common where a single recipe provides multiple packages.  If a 
+common package creates the user/group, then all of the other packages [that need 
+that user/group] should then require the common package.
+
+
+As far as the QA resources go.  There are actually two sides to the QA.  The 
+first is in the do_install step, if the users/groups are being used there -- and 
+don't exist -- a failure should be generated.  That exists just by the nature of 
+the system build processes.
+
+The second is that once a package has been generated (the package directory that 
+is), it should be verified that all files are owned by in the base set of 
+users/groups, the user/group has been added, or a dependency on the package that 
+added them exist.  This is difficult to do though.  There is currently no 
+tracking mechanism in the system to say which recipes added which users/groups 
+to the system.  A mechanism similar to the sysroot file population would be 
+required to capture the user and group changes and by which package(s).  This of 
+course would also have to work with the sstate-cache mechanism.
+
+The first step in implementing this would be to capture the user/group changes 
+and record them in a database.  (again, I think similar to the populate sysroot 
+file).  Then during the QA process, you can iterate over the files and find out 
+where each user/group in use comes from.  If the provider is not in the 
+'required' set of packages generate a QA -warning- (since this is new and 
+unproven code).. We can upgrade it to an error once it's stable.
+
+--Mark
+
+
+> //Peter
+>
 
 
