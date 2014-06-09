@@ -1,42 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C747C65E75
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id DCDAF65EB1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 13:51:42 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id q59so640553wes.41
+	Mon,  9 Jun 2014 14:18:26 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id hi2so2019892wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jun 2014 06:51:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=jw9UrvmoE8ole/CJ0EPblL3/Wb8XalSAkD402spzEs4=;
-	b=cFp6eMaHebrz+77Tv0MdqPmQzDACB0lUr2MqGZ8xqrh4WaK42e0eaBjquYuHFAge/O
-	rohFt65eKhJ4PKKyg81pwJpzauEk5KqCTH/hsaI4iRtmgrF5FglNFQ2efcwfv/IREsiC
-	z/UXvfTW/uohMYgeqAt/JLmBSZ5JkGndacLRyhlAeWY7Xj9SUE3NJ10QJOb4x4FYRO9T
-	+VG3woOB9MAFGwEHw90ELiHmfICW2eXkr9UTn/Cp8UdkSOgzM5ZalSKU6OJKr3sm//Gy
-	Rjv3kAM5gVVT1A5trudbjG0VOGpoSMsCylEzrhCyQ0n9pJZLr8Vq2gt94qE56vZYBqLF
-	2ZpA==
-X-Received: by 10.15.36.136 with SMTP id i8mr111116eev.74.1402321903435;
-	Mon, 09 Jun 2014 06:51:43 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	f3sm45160894eep.40.2014.06.09.06.51.42 for <multiple recipients>
+	Mon, 09 Jun 2014 07:18:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=8aDOa2KwpYEdQRPn1jepf3uQPwdEbXEszZ4N7g6sfeA=;
+	b=ZPayl31QxgKrg5TWCuX1tv2YA4Dgo2YS69EfsfNuRMBNSPskFRB6NC7pSPnPufpzaP
+	0l8gDiDWVWncklJv73kjNdYG2UKY5ZI+UgdbPjerSoQaLvmkS+C9pJ05r6wAgqV38zqw
+	RYRSmmzB4scSRrdX2V0VUwfQxiv89lQwlas9oh6WcSghr0t0GDMPEpdwbg6rNqi5HH1C
+	i3KRf80immvaCevqpNWsZdXCTjb+w9Wt92SzFEACcRPFTUJta2/MFrL+5YS9Je6vskK+
+	HEsk6ohKNpltC1OCc+tw2wPL9muzxRzpLgvsFQX44NUbuow4ivEdndq17nHpGpI1QRes
+	zNwQ==
+X-Gm-Message-State: ALoCoQluofGLGWqOBHAjgjH4CGxdeZGJTzZR9S3Ryg2wLWAL0j1Pbs7kZ6JZEdo/xAYXSLhFdJb3
+X-Received: by 10.180.126.8 with SMTP id mu8mr29636337wib.10.1402323506817;
+	Mon, 09 Jun 2014 07:18:26 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id g9sm25200969wja.39.2014.06.09.07.18.25
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Jun 2014 06:51:42 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 9 Jun 2014 15:52:02 +0200
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Message-ID: <20140609135202.GA2433@jama>
-References: <A612847CFE53224C91B23E3A5B48BAC7A7A21EFE0D@xmail3.se.axis.com>
-	<A612847CFE53224C91B23E3A5B48BAC7A7A2BE80C7@xmail3.se.axis.com>
-MIME-Version: 1.0
-In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7A7A2BE80C7@xmail3.se.axis.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Using users/groups from another recipe than the one creating them
+	Mon, 09 Jun 2014 07:18:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jun 2014 15:18:16 +0100
+Message-Id: <cover.1402323355.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/3] Mesa and DRI fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,93 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 13:51:47 -0000
-X-Groupsio-MsgNum: 53952
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jI8keyz6grp/JLjh"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 Jun 2014 14:18:34 -0000
 
---jI8keyz6grp/JLjh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Mon, Jun 09, 2014 at 03:39:46PM +0200, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Peter Kjellerstedt
-> > Sent: den 23 maj 2014 12:38
-> > To: OE Core (openembedded-core@lists.openembedded.org)
-> > Subject: Re: [OE-core] Using users/groups from another recipe than the
-> > one creating them
-> >=20
-> > > -----Original Message-----
-> > > From: openembedded-core-bounces@lists.openembedded.org
-> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > > Of Peter Kjellerstedt
-> > > Sent: den 19 maj 2014 10:15
-> > > To: OE Core (openembedded-core@lists.openembedded.org)
-> > > Subject: [OE-core] Using users/groups from another recipe than the
-> > > one creating them
-> > >
-> > > Which assumption is correct: "a recipe A that depends on another
-> > > recipe B can use users/groups that B creates" or "all recipes must
-> > > create the users/groups they require themselves"?
-> > >
-> > > The problem for us is that we have a lot of recipes that create
-> > > users and groups, and subsequently a number of other related recipes
-> > > that need to use those users and groups.
-> > >
-> > > If the first assumption is correct then the useradd.bbclass needs to
-> > > be corrected so that it adds a dependency from do_install to
-> > > base-passwd:do_populate_sysroot and
-> > > base-passwd:do_populate_sysroot_setscene, because if either of those
-> > > tasks execute they will overwrite /etc/passwd and /etc/group,
-> > > effectively removing any users/groups that were created earlier...
-> > >
-> > > On the other hand, if it is the second assumption that is correct,
-> > > then there should be QA tests in place to make sure all recipes
-> > > create the users/groups they use.
-> > >
-> > > //Peter
-> >=20
-> > *ping*
-> >=20
-> > Doesn't anyone know how users and groups are supposed to work?
-> >=20
-> > //Peter
->=20
-> *ping again*
->=20
-> Well, this is somewhat discouraging. Three weeks and not a single=20
-> response. Are we really the only ones that care about users and=20
-> groups and how they are created? Doesn't anyone know which of my=20
-> two assumptions above are correct?
->=20
-> Personally I would prefer that all recipes create the users and=20
-> groups they require themselves as this keeps them more self=20
-> contained. I have no idea how to write a QA test to verify this,=20
-> but I assume it should be possible...
+This series is mostly based on Valentin's Mesa upgrade with some tweaks to the
+Python, a build fix, and changing DRI3 to be disabled rather than enabled.  I
+spoke to a few colleagues who work on the graphics system and the conclusion was
+that DRI3 isn't ready to replace DRI2 just yet.
 
-My experience from Dylan release is that only users/groups created in
-base-passwd work reliably, with useradd.bbclass we were seeing random
-files getting random user/group owners (comparing buildhistory report
-files-in-image.txt from multiple builds which weren't using sstate).
+Ross
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+The following changes since commit 66d5be204fd339cc84a0ae92d3923a8c1e6f1389:
 
---jI8keyz6grp/JLjh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  bitbake: bitbake: show wildcard appends for bitbake-layers (2014-06-06 10:33:19 +0100)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+are available in the git repository at:
 
-iEYEARECAAYFAlOVvAIACgkQN1Ujt2V2gBztLwCfXmaCHGdFzaQD+RsZx0/gLb83
-HTgAoKzK2OunmlG0Un0dB+f6A9wvnSbI
-=ySQk
------END PGP SIGNATURE-----
+  git://git.yoctoproject.org/poky-contrib ross/mesa
 
---jI8keyz6grp/JLjh--
+for you to fetch changes up to 521c60cab274b7833562f18907efe4bf51bd5d42:
+
+  xorg-xserver: disable DRI3 by default (2014-06-09 13:49:38 +0100)
+
+----------------------------------------------------------------
+Ross Burton (2):
+      mesa: add build-dependency on libxml2-native
+      xorg-xserver: disable DRI3 by default
+
+Valentin Popa (1):
+      mesa: upgrade to 10.1.3
+
+ .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |    0
+ meta/recipes-graphics/mesa/mesa.inc                |   30 +++++++++++++-------
+ .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |    4 +--
+ meta/recipes-graphics/mesa/mesa_git.bb             |    4 +--
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
+ 5 files changed, 24 insertions(+), 15 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
+
+Ross Burton (2):
+  mesa: add build-dependency on libxml2-native
+  xorg-xserver: disable DRI3 by default
+
+Valentin Popa (1):
+  mesa: upgrade to 10.1.3
+
+ .../mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb}   |    0
+ meta/recipes-graphics/mesa/mesa.inc                |   30 +++++++++++++-------
+ .../mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb}         |    4 +--
+ meta/recipes-graphics/mesa/mesa_git.bb             |    4 +--
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
+ 5 files changed, 24 insertions(+), 15 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_9.2.5.bb => mesa-gl_10.1.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_9.2.5.bb => mesa_10.1.3.bb} (82%)
+
+-- 
+1.7.10.4
+
+
