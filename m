@@ -1,26 +1,35 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C0AF26ABDA
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
+	[209.85.217.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B47596A87C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 06:30:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s596UJSr025237
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  9 Jun 2014 07:19:57 +0000 (UTC)
+Received: by mail-lb0-f174.google.com with SMTP id n15so2831342lbi.33
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 8 Jun 2014 23:30:19 -0700 (PDT)
-Received: from PEK-WKANG-D1.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 8 Jun 2014 23:30:18 -0700
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jun 2014 14:29:33 +0800
-Message-ID: <1402295373-27606-2-git-send-email-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1402295373-27606-1-git-send-email-wenlin.kang@windriver.com>
-References: <1402295373-27606-1-git-send-email-wenlin.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH] bash: fix to build bash/po/ correctly
+	Mon, 09 Jun 2014 00:19:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=lEy+cplD+aivjCHpWBtI/koLqrTu5HeJtJp1rDfPf8A=;
+	b=fqftLia7Dli+Tk6WSj5MlAtuEdp37+bi2tbLO5KFzYO1kLiVxyi40XW66pBJi3z067
+	SAbiY5n0k14G7anmwD8g2n0lOYwN2o8Ky4aN70UV1vqg8UoI7aDx7+sQeqAnDiCR6bcs
+	h5TJy+MKVoEbuL8xVPRIvc5Loo0zv4/BM/7nRD4irrGnoL7mSAAAMV9Ub20Fl7MBuEQJ
+	7YCfB4Fj0pGnmbi/BS+3n7JDDcMlTcnOYUSlCVdr9/vwXWbvFjiWDskYqZBZOdqpWjYI
+	VKjqJub4Pv1G0EqJ3/DmUWnM+sxCLPR5VtAQ6OVj1Iovc3qqKO7Z9RDCsvNDjEal+jyM
+	Fk+w==
+X-Received: by 10.112.146.234 with SMTP id tf10mr15223264lbb.1.1402298397640; 
+	Mon, 09 Jun 2014 00:19:57 -0700 (PDT)
+Received: from localhost.localdomain (fw.mikrodidakt.se. [213.185.29.22])
+	by mx.google.com with ESMTPSA id b3sm17298368lbi.15.2014.06.09.00.19.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Jun 2014 00:19:57 -0700 (PDT)
+Sender: Jacob Kroon <jacob.kroon@gmail.com>
+From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jun 2014 09:19:44 +0200
+Message-Id: <1402298384-23611-1-git-send-email-jacob.kroon@mikrodidakt.se>
+X-Mailer: git-send-email 1.9.3
+Subject: [RFC][PATCH] libc-package.bbclass: Improve handling of GLIBC_GENERATE_LOCALES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,134 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 06:30:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Jun 2014 07:20:00 -0000
 
-There was an ignored error while building bash, causing the po/
-directory not built out correctly, the log follow:
-make[1]: *** No rule to make target `/config.status',
-needed by `Makefile'. Stop.
-make: [installdirs] Error 2 (ignored)
+Currently, setting GLIBC_GENERATE_LOCALES to the empty string means that
+all supported binary locales are generated.
 
-The cause is that some variable,PACKAGE and VERSION don't be defined,
-and others don't get correct value, eg, top_builddir in po/Makevar,
-GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
+Improve the situation by adding a weak assignment to "all",
+in order to keep current default behaviour when GLIBC_GENERATE_LOCALES
+is not set by the user, and change the code to do no special handling of
+the empty string value. This makes it possible to skip generating
+binary locales altogether by setting GLIBC_GENERATE_LOCALES = "".
 
-The patch fixed above problem.
+Since locales directory can now be empty, make sure it is not packaged
+in this situation.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
 ---
- .../bash/bash/fix-to-build-po-correctly.patch      |   87 ++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.3.bb             |    1 +
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+ meta/classes/libc-package.bbclass | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
-new file mode 100644
-index 0000000..ae3c86a
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
-@@ -0,0 +1,87 @@
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+
-+diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
-+--- bash-4.3-org/aclocal.m4	2014-05-23 15:28:54.252565146 +0800
-++++ bash-4.3/aclocal.m4	2014-05-23 15:33:19.924570133 +0800
-+@@ -3710,6 +3710,14 @@
-+   AC_REQUIRE([AC_PROG_INSTALL])dnl
-+   AC_REQUIRE([AM_MKINSTALLDIRS])dnl
-+   AC_REQUIRE([AM_NLS])dnl
-++  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
-++  AC_REQUIRE([AC_PROG_SED])dnl
-++
-++  AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
-++
-++  dnl Release version of the gettext macros. This is used to ensure that
-++  dnl the gettext macros and po/Makefile.in.in are in sync.
-++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
-+ 
-+   dnl Perform the following tests also if --disable-nls has been given,
-+   dnl because they are needed for "make dist" to work.
-+@@ -3723,6 +3731,22 @@
-+     :)
-+   AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
-+ 
-++ dnl Test whether it is GNU msgfmt >= 0.15.
-++changequote(,)dnl
-++  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
-++    *) MSGFMT_015=$MSGFMT ;;
-++  esac
-++changequote([,])dnl
-++  AC_SUBST([MSGFMT_015])
-++changequote(,)dnl
-++  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
-++    *) GMSGFMT_015=$GMSGFMT ;;
-++  esac
-++changequote([,])dnl
-++  AC_SUBST([GMSGFMT_015])
-++
-+   dnl Search for GNU xgettext 0.12 or newer in the PATH.
-+   dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
-+   dnl The second test excludes FreeBSD xgettext.
-+@@ -3733,6 +3757,15 @@
-+   dnl Remove leftover from FreeBSD xgettext call.
-+   rm -f messages.po
-+ 
-++  dnl Test whether it is GNU xgettext >= 0.15.
-++changequote(,)dnl
-++  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
-++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
-++    *) XGETTEXT_015=$XGETTEXT ;;
-++  esac
-++changequote([,])dnl
-++  AC_SUBST([XGETTEXT_015])
-++
-+   dnl Search for GNU msgmerge 0.11 or newer in the PATH.
-+   AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
-+     [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
-+diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
-+--- bash-4.3-org/configure.ac	2014-05-23 15:28:54.208565145 +0800
-++++ bash-4.3/configure.ac	2014-05-23 15:29:35.640565923 +0800
-+@@ -1201,6 +1201,10 @@
-+ #AC_SUBST(ALLOCA_SOURCE)
-+ #AC_SUBST(ALLOCA_OBJECT)
-+ 
-++# Define the identity of the package.
-++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
-++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
-++
-+ AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile lib/glob/Makefile \
-+ 	  lib/intl/Makefile \
-+ 	  lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
-+diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
-+--- bash-4.3-org/po/Makevars	2014-05-23 15:28:54.204565145 +0800
-++++ bash-4.3/po/Makevars	2014-05-23 15:30:04.772566469 +0800
-+@@ -5,7 +5,7 @@
-+ 
-+ # These two variables depend on the location of this directory.
-+ subdir = po
-+-top_builddir = $(BUILD_DIR)
-++top_builddir = ..
-+ 
-+ # These options get passed to xgettext.
-+ XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
-diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
-index 25b7410..a6d7d40 100644
---- a/meta/recipes-extended/bash/bash_4.3.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.bb
-@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            file://build-tests.patch \
-            file://test-output.patch \
-            file://run-ptest \
-+           file://fix-to-build-po-correctly.patch \
-            "
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index c1bc399..c2f7f2f 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -2,11 +2,15 @@
+ # This class knows how to package up [e]glibc. Its shared since prebuild binary toolchains
+ # may need packaging and its pointless to duplicate this code.
+ #
++# Caller should set GLIBC_GENERATE_LOCALES to a space-separated list of
++# locales to generate. "all" will generate all supported locales
++#
+ # Caller should set GLIBC_INTERNAL_USE_BINARY_LOCALE to one of:
+ #  "compile" - Use QEMU to generate the binary locale files
+ #  "precompiled" - The binary locale files are pregenerated and already present
+ #  "ondevice" - The device will build the locale files upon first boot through the postinst
  
- SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
++GLIBC_GENERATE_LOCALES ?= "all"
+ GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "ondevice"
+ 
+ python __anonymous () {
+@@ -111,6 +115,12 @@ do_prep_locale_tree() {
+ do_collect_bins_from_locale_tree() {
+ 	treedir=${WORKDIR}/locale-tree
+ 
++	# When no binary locales are generated we return early in order
++	# to skip creating empty directories that QA will warn about.
++	if [ -z "$(ls $treedir/${localedir})" ]; then
++		return
++	fi
++
+ 	parent=$(dirname ${localedir})
+ 	mkdir -p ${PKGD}/$parent
+ 	tar -cf - -C $treedir/$parent -p $(basename ${localedir}) | tar -xf - -C ${PKGD}$parent
+@@ -220,9 +230,8 @@ python package_do_split_gconvs () {
+                 continue
+             supported[locale] = charset
+ 
+-    # GLIBC_GENERATE_LOCALES var specifies which locales to be generated. empty or "all" means all locales
+     to_generate = d.getVar('GLIBC_GENERATE_LOCALES', True)
+-    if not to_generate or to_generate == 'all':
++    if to_generate == 'all':
+         to_generate = supported.keys()
+     else:
+         to_generate = to_generate.split()
 -- 
-1.7.9.5
+1.9.3
 
 
