@@ -1,41 +1,36 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BDD4605B3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9237E65EB1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 12:06:46 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jun 2014 05:06:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="352428371"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2014 05:02:59 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 9 Jun 2014 13:06:44 +0100
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.58]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.152]) with mapi id
-	14.03.0123.003; Mon, 9 Jun 2014 13:06:44 +0100
-From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-To: Stefan Stanacar <sstncr@gmail.com>
-Thread-Topic: [OE-core] [PATCH V2 7/7] scripts/test-remote-image: Add script
-	for running runtime tests on remotely built images
-Thread-Index: AQHPgapCCfvjwvZdnUmfPly4Fz3STZtln+mAgAMFN+A=
-Date: Mon, 9 Jun 2014 12:06:44 +0000
-Message-ID: <33115ABC4887814E8A92A08FBC93416B0A27B15F@IRSMSX103.ger.corp.intel.com>
-References: <1402082078-10826-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1402082078-10826-8-git-send-email-corneliux.stoicescu@intel.com>
-	<CANr+NRuQS6He3qmawsEp2qTWA4ho_0EQDVzrPoBTcb2QqjHM1w@mail.gmail.com>
-In-Reply-To: <CANr+NRuQS6He3qmawsEp2qTWA4ho_0EQDVzrPoBTcb2QqjHM1w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Mon,  9 Jun 2014 12:45:59 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id j5so8906756qga.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jun 2014 05:46:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=PAR8EHzOgKA0WB5x+rkBLtGRoKHTly4L8SWImgvhC2s=;
+	b=GnznlcTrRNmhbsmnrha7+Kp/UWep7ie+2Kxpf/sSpdH5NGdJpQUT3v3y4iX/nkbMrp
+	YpKVAxMXCi2aj5fgipW3b494wRCvAlmLJ9FLONektzXK2sgI8/Z0gLR2X5FyQmk2SyxA
+	Uz4Ang4G8iIc+P3w5UQsfZBktiJJeenMRdXqFpQtK4jemJV/auesQSp7Nza/rLJcC+dZ
+	QByxvbnZPmQfkRIWB4hMuxsrlu4JGT0ptusRrC+4OTtdwYT1fsr9u5m7yWo+tS9ABuxw
+	9YX7En7HlSb5pbqs8QaRlZrTCNHFmvpvURpVHS9KbaiTHnuymwgDylnFfxsL9dfuC2Gw
+	Nx2Q==
+X-Gm-Message-State: ALoCoQmRbp0Ey8o1Rz/KVNDxQc0sDGeDnbEttZQ6iWTpsOlPvdBfUpY6Nl3sIB/KQ+5oksrDQYm+
+X-Received: by 10.140.109.70 with SMTP id k64mr30486233qgf.92.1402317960202;
+	Mon, 09 Jun 2014 05:46:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "Paul Eggleton
-	\(paul.eggleton@linux.intel.com\)" <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 7/7] scripts/test-remote-image: Add script for running runtime tests on remotely built images
+Received: by 10.140.101.77 with HTTP; Mon, 9 Jun 2014 05:45:38 -0700 (PDT)
+In-Reply-To: <1402068711-10161-1-git-send-email-valentin.popa@intel.com>
+References: <1402068711-10161-1-git-send-email-valentin.popa@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Jun 2014 13:45:38 +0100
+Message-ID: <CAJTo0LYO1cuV0db7fkunTGBTMTGp2Hx11EHQj+V7ie4kOPxu8w@mail.gmail.com>
+To: Valentin Popa <valentin.popa@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xorg-xserver: enable dri3 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,147 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 12:06:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 09 Jun 2014 12:46:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlZmFuIFN0YW5hY2Fy
-IFttYWlsdG86c3N0bmNyQGdtYWlsLmNvbV0NCj4gU2VudDogU2F0dXJkYXksIEp1bmUgMDcsIDIw
-MTQgNTowOSBQTQ0KPiBUbzogU3RvaWNlc2N1LCBDb3JuZWxpdVgNCj4gQ2M6IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-UEFUQ0ggVjIgNy83XSBzY3JpcHRzL3Rlc3QtcmVtb3RlLWltYWdlOiBBZGQgc2NyaXB0DQo+IGZv
-ciBydW5uaW5nIHJ1bnRpbWUgdGVzdHMgb24gcmVtb3RlbHkgYnVpbHQgaW1hZ2VzDQo+IA0KPiBI
-aSBDb3JuZWxpdSwNCj4gDQo+IEkgaGF2ZW4ndCBjYXJlZnVsbHkgcmV2aWV3ZWQgdGhpcyBzZXJp
-ZXMgc28gaWYgSSBkaWRuJ3QgcXVpdGUgZ290IHRoZSBwb2ludCBvZg0KPiBzb21lIHRoaW5ncywg
-c29ycnkuLi4NCj4gQXQgYSBmaXJzdCBsb29rLCBoZXJlIGFyZSBteSB0aG91Z2h0cyAodGhpcyBp
-cyBhY3R1YWxseSBhIHJlcGx5IHRvIHRoZSBlbnRpcmUNCj4gc2VyaWVzLCBJIHNlZW0gdG8gaGF2
-ZSBsb3N0IHRoZSBjb3ZlciBsZXR0ZXIpOg0KPiANCj4gLSBJdCBzZWVtcyB3aWVyZCB0aGF0IHlv
-dSBpbnN0YW50aWF0ZSB0aGUgdGFyZ2V0IGNvbnRyb2xsZXJzIGNsYXNzZXMgaGVyZS4uLiBZb3UN
-Cj4gZG8gdGhhdCBzbyB5b3UgY2FuIGdldCB0aGUgZXh0cmEgZmlsZXMsIGJ1dCB0aGF0IGhhcyBu
-b3RoaW5nIHRvIGRvIHdpdGgNCj4gdGVzdGltYWdlIGFueXdheS4gTGV0IGJpdGJha2UvdGVzdGlt
-YWdlIGRvIGl0J3MgcGFydCBhbmQgaXQncyBjb25maWd1cmF0aW9uLg0KPiBTaW1pbGFyIGZvciBp
-bWFnZSBmcyB0eXBlcyAoc2VlIG15IG90aGVyDQo+IHJlcGx5KQ0KDQotIEkgYmVsaWV2ZSBpdCdz
-IGEgZ29vZCBpZGVhIHRvIHVzZSB0aGUgdGFyZ2V0IGNvbnRyb2xsZXJzIHRvIGdldCBpbmZvcm1h
-dGlvbiBmcm9tIHRoZW0gdXNpbmcgY2xhc3MgbWV0aG9kcy4gVGhpcyB3YXkgd2UgdXNlIHRoZSBz
-YW1lIHNvdXJjZSB0byBnZXQgdGhlIGluZm9ybWF0aW9uIHdlIG5lZWQgYm90aCBpbnRlcm5hbGx5
-IGFuZCBleHRlcm5hbGx5LiANCg0KPiAtIEkgd291bGRuJ3QgbWl4IHRoZSBkb3dubG9hZCBzdHVm
-ZiB3aXRoIHRoZSB0ZXN0L2RlcGxveSBzdHVmZiAoYml0YmFrZSdzIGpvYikuDQo+IFlvdSBhbHJl
-YWR5IGhhdmUgY29tbWFuZCBsaW5lIGNvbmZpZ3VyYXRpb24ga25vYnMsIEknbSBzdXJlIHlvdSBj
-b3VsZCBhZGQNCj4gb25lIGZvciBleHRyYSBmaWxlcy4uLiBTdXJlbHkgdGhlIHVzZXIga25vdyBp
-dCdzIHRlc3RpbmcgQkJCIGFuZCBjb3JlLWltYWdlLQ0KPiBtaW5pbWFsIGFuZCBpdCBuZWVkcyB0
-byBkb3dubG9hZCB0aGUgZHRicyAoYmVjYXVzZSB5b3UgbmVlZCB0aGUgZHRicyBvbmx5DQo+IGZv
-ciBtaW5pbWFsKS4NCg0KLSBUaGlzIGZlYXR1cmUgcmVxdWlyZWQga2VlcGluZyB0aGUgdXNlciBj
-b25maWd1cmF0aW9uIHRvIGEgbWluaW11bSh3ZSBkaWQgbm90IHdhbnQgdG8gaW50cm9kdWNlIGFu
-eSBtb3JlIFRFU1RfIHZhcmlhYmxlcyBhbmQgaGF2ZSBhcyBmZXcgcmVxdWlyZWQgY29tbWFuZCBs
-aW5lIG9wdGlvbnMgZm9yIHRoZSBzY3JpcHQgYXMgcG9zc2libGUpLiBUaGUgd2F5IGl0IGlzLCBh
-bGwgdGFyZ2V0IGNvbnRyb2xsZXJzIHVzZSBwcmVkaWN0YWJsZSBpbWFnZSBmaWxlcyBhbmQgdGhl
-IG1pc3NpbmcgcGllY2Ugd2FzIHRoZSBzbyBjYWxsZWQgImV4dHJhIGZpbGVzIiB0aGF0IHNvbWUg
-c3BlY2lhbCB0YXJnZXQgY29udHJvbGxlcnMgbmVlZC4gVGhpcyBtZXRob2QsIGFsb25nIHdpdGgg
-dGhlIG90aGVyIG5ldyBjbGFzcyBtZXRob2RzLCBjYW4gYmUgdXNlZCBieSBhbnkga2luZCBvZiBl
-eHRlcm5hbCBzY3JpcHQgbmVlZGluZyBpbmZvcm1hdGlvbiBvbiB3aGF0IHRlc3RpbWFnZSBuZWVk
-cy91c2VzLiANCg0KPiAtIHRoZSBzdXBwb3J0IGZvciBvdGhlciBmcyB0eXBlcyBzaG91bGQgYmUg
-c2VwYXJhdGUgZnJvbSB0aGUgInRlc3QgZXh0ZXJuYWwNCj4gYnVpbHQgaW1hZ2UiLiBFLmcgYmJi
-IHVzZXMgdGFyLmJ6Miwgc28gZXZlbiBhdCB0aGlzIHBvaW50IHlvdSBjYW4gc3RpbGwgdGVzdA0K
-PiBleHRlcm5hbCBpbWFnZXMgb25seSB3aXRoIHRhci5neiAoYWRkaW5nIElNQUdFX0ZTVFlQRVMN
-Cj4gKz0gInRhci5neiIgIHRvIHRoZSBBdXRvYnVpbGRlciBjb25maWcgaXMgYSBlYXN5IHRhc2sp
-LiBXaGF0IEknbQ0KPiB0cnlpbmcgdG8gc2F5IGlzIHRoYXQgdGhpcyBpcyBhIHVzZXIvYnVpbGQg
-Y29uZmlnIG9wdGlvbiBhbmQgdGhpcyBzY3JpcHQgc2hvdWxkbid0DQo+IGRlYWwgd2l0aCBldmVy
-eSBsaXR0bGUgdGhpbmcNCg0KLSBXZSB3YW50ZWQgdG8gdXNlIHRoZSBjdXJyZW50IGRlZmF1bHQg
-SU1BR0VfRlNUWVBFUyBhcyBtdWNoIGFzIHBvc3NpYmxlKHRoaXMgaXMgd2h5IHRoZSBidWcgd2Fz
-IG9wZW5lZCkuIEZvciB0aGlzIHdlIGhhZCB0byBlbmFibGUgdGhlIG1hc3RlciBpbWFnZSB0byBk
-ZWNvbXByZXNzIHRhci5iejIgYW5kIG1ha2UgdGhlIHRhcmdldCBjb250cm9sbGVycyB1c2UgdGhl
-bS4gSGF2aW5nIElNQUdFX0ZUWVBFUyArPSAidGFyLmd6IiBmb3IgYWxsIHRlc3QgaW1hZ2VzIHdh
-cyBub3QgZGVzaXJlZC4gDQotIFdlIHdhbnRlZCB0byBtYWtlIHRoZSB3YXkgdGhlIHJvb3RmcyBp
-bWFnZSBmc3R5cGUgd2FzIGNob3NlbiBuZWVkIGFzIGxpdHRsZSBtYWludGVuYW5jZSBhcyBwb3Nz
-aWJsZS4gRm9yIHRoaXMgd2UganVzdCBkZWZpbmUgd2hhdCBpbWFnZV9mc3R5cGVzIGEgdGFyZ2V0
-IGNvbnRyb2xsZXIgY2FuIGhhbmRsZSBhbmQgdGhlIGNob29zZSBvbmUgZnJvbSB0aGUgYXZhaWxh
-YmxlIElNQUdFX0ZTVFlQRVMuIEFsc28gaGF2aW5nIGEgY2xhc3NtZXRob2QgZGVjaWRlIHRoaXMg
-bWFrZXMgaXQgZWFzeSB0byBnZXQgdGhpcyBpbmZvcm1hdGlvbiBmcm9tIGV4dGVybmFsIHNvdXJj
-ZXMsIHdpdGggaGlnaGVyIGFjY3VyYWN5LiANCg0KPiAtIFdoYXQncyB3aXRoIHRoZSBwb3N0Y29u
-ZmlnIHN0dWZmPyBRQV9NQUNISU5FID0gTUFDSElORT8gU2FtZSBmb3INCj4gZGlzdHJvLi4gSSBy
-ZWFsbHkgZG9uJ3QgZ2V0IHRoYXQgcGFydC4uLg0KDQpCaXRiYWtlIGRvZXMgbm90IGV4cG9ydCB0
-aGUgTUFDSElORSB2YXJpYWJsZSBzbyBpbiBvcmRlciB0byBnZXQgdGhpcyBpbmZvcm1hdGlvbiB3
-ZSBoYWQgdG8gdXNlIHRoaXMgdHJpY2sgKHRoZSBydW5xZW11IHNjcmlwdCBhbHNvIHVzZXMgaXQs
-IGlmIEkgcmVtZW1iZXIgcmlnaHQpLiBXZSBkbyBRQV9NQUNISU5FID0gTUFDSElORSBhbmQgdGhl
-biB0aGUgUUFfTUFDSElORSB2YXJpYWJsZSBpcyBleHBvcnRlZCBieSBiaXRiYWtlIGFuZCB3ZSBj
-YW4gZ2V0IGl0IGZyb20gJ2JpdGJha2UgLWUnLiA6RA0KDQo+IC0gSSdtIG1pc3NpbmcgdGhlIGJp
-Z2dlciBwaWN0dXJlIGhlcmUgd2l0aCBhbGwgdGhlIHByb2ZpbGVzIHN0dWZmIChwbHVzIHNvbWUN
-Cj4gY2xhc3NlcyBhcmUgdW5uZWNlc3NhcmlseSBhYnN0cmFjdCApLg0KDQpUaGUgc2FtZSB3YXkg
-d2UgaGF2ZSBhIEJhc2VUYXJnZXQgY2xhc3MgZm9yIHRoZSB0YXJnZXQgY29udHJvbGxlcnMsIHdl
-IGFsc28gaGF2ZSBiYXNlIHRhcmdldC9yZXBvIHByb2ZpbGVzLiBUaGVzZSBjbGFzc2VzIGFyZSBh
-YnN0cmFjdCBhbmQgZGVmaW5lIHRoZSBiaXRzIGFuZCBwaWVjZXMgdGhhdCB0aGUgc2NyaXB0IHdp
-bGwgYWN0dWFsbHkgdXNlLiBXZSBkb24ndCBjYXJlIGhvdyB0aGV5IGFyZSBpbXBsZW1lbnRlZC4g
-WW91IGNhbiBzZWUgdGhlbSBhcyBpbnRlcmZhY2VzIHRvIHRoZSB0YXJnZXQgYW5kIGltYWdlcyBy
-ZXBvLg0KDQpBbHNvIHdlIHdhbnRlZCBjbGFzc2VzIHNvIHRoZXkgY2FuIGJlIGV4dGVuZGVkL21v
-ZGlmaWVkIGVhc2lseSBieSBuZXcgb25lcy4gRm9yIGV4YW1wbGUgd2UgaGF2ZSBhbiBBdXRvVGFy
-Z2V0UHJvZmlsZSBjbGFzcyB0aGF0IGF1dG8gZGV0ZXJtaW5lcyB0aGUgaW1hZ2VzIG5lZWRlZCwg
-YnV0IHNheSBhIHRhcmdldCBjb250cm9sbGVyIGNhbm5vdCBiZSBwcmVkaWN0ZWQgYXQgYWxsIHdp
-dGggdGhlIGluZm9ybWF0aW9uIHdlIGNhbiBhY2Nlc3MuIFdlIGp1c3QgY3JlYXRlIGEgbmV3IHRh
-cmdldCBwcm9maWxlIGV4dGVuZGluZyB0aGUgYmFzZSB0YXJnZXQgcHJvZmlsZSBhbmQgYWRkIG5l
-dyBmdW5jdGlvbmFsaXR5IGFuZCBpbmZvcm1hdGlvbiBzb3VyY2VzIGJ1dCBzdGlsbCB1c2UgdGhl
-ICdpbnRlcmZhY2VzJyBkZWZpbmVkLiANCg0KPiANCj4gU28gdGhlIHdob2xlIHBvaW50IG9mIHRo
-aXMgd2FzIHRvIHJlcGxhY2UgKGFzc3VtZSBkZWZhdWx0IGxvY2FsLmNvbmYgYW5kDQo+IE1BQ0hJ
-TkU9ImJlYWdsZWJvbmUiIGhlcmUpDQo+IHRoaXM6DQo+IC0tLQ0KPiAkIHZpIGNvbmYvbG9jYWwu
-Y29uZg0KPiBJTkhFUklUICs9ICJ0ZXN0aW1hZ2UiDQo+IFRFU1RfVEFSR0VUX0lQID0gIjEwLjEx
-LjEyLjIiDQo+IFRFU1RfVEFSR0VUID0gIkJlYWdsZUJvbmVUYXJnZXQiDQo+IFRFU1RfU0VSSUFM
-Q09OVFJPTF9DTUQgPSAicGljb2NvbSAvZGV2L3R0eVVTQjAgLWIgMTE1MjAwIg0KPiAkIGJpdGJh
-a2UgY29yZS1pbWFnZS1taW5pbWFsICMgKG9yICBzYXRvIC8gc2F0by1zZGspICQgYml0YmFrZSA8
-aW1hZ2U+IC1jDQo+IHRlc3RpbWFnZQ0KPiAtLS0NCj4gd2l0aCB0aGlzIChleGNlcHQgdGhlIGxv
-Y2FsLmNvbmYgcGFydCB3aGljaCBzaG91bGQgYWxyZWFkeSBiZSB0aGVyZSwgaXQgaXMgbm90DQo+
-IHRoZSBqb2Igb2YgdGhpcyBzY3JpcHQgdG8gYWRkIHRoYXQpOg0KPiAtLS0tDQo+ICQgYml0YmFr
-ZSBycG0gcHNwbGFzaCAjIHJwbS9zbWFydCB0ZXN0cyByZXF1aXJlIHRoZXNlLCBlbHNlIHNraXAg
-JCBiaXRiYWtlDQo+IHBhY2thZ2UtaW5kZXggJCB3Z2V0IC1yIC1sMCAtbmQgLW5wIC1QICJ0bXAv
-ZGVwbG95L2ltYWdlcyINCj4gaHR0cDovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvcHVi
-L25pZ2h0bHkvMjAxNDA2MDYtDQo+IDMvbWFjaGluZXMvYmVhZ2xlYm9uZS8NCj4gJCBiaXRiYWtl
-IDxpbWFnZT4gLWMgdGVzdGltYWdlDQo+IC0tLQ0KPiAjeWVzLCBJIGNoZWF0ZWQgdGhlcmUsIGdl
-dHRpbmcgYWxsIHRoZSBmaWxlcywgYnV0IHlvdSBnZXQgdGhlIHBvaW50Li4NCj4gYWx0ZXJuYXRp
-dmVseToNCg0KPiB3Z2V0IC1yIC1sMCAtbmQgLW5wIC1QICJ0bXAvZGVwbG95L2ltYWdlcyIgLUEg
-Iipib25lYmxhY2sqLmR0YiINCj4gaHR0cDovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcv
-cHViL25pZ2h0bHkvMjAxNDA2MDYtDQo+IDMvbWFjaGluZXMvYmVhZ2xlYm9uZS8NCj4gd2dldCAt
-UCAidG1wL2RlcGxveS9pbWFnZXMiDQo+IGh0dHA6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qu
-b3JnL3B1Yi9uaWdodGx5LzIwMTQwNjA2LQ0KPiAzL21hY2hpbmVzL2JlYWdsZWJvbmUvY29yZS1p
-bWFnZS1taW5pbWFsLWJlYWdsZWJvbmUubWFuaWZlc3QNCj4gd2dldCAtUCAidG1wL2RlcGxveS9p
-bWFnZXMiDQo+IGh0dHA6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3B1Yi9uaWdodGx5
-LzIwMTQwNjA2LQ0KPiAzL21hY2hpbmVzL2JlYWdsZWJvbmUvY29yZS1pbWFnZS1taW5pbWFsLWJl
-YWdsZWJvbmUudGFyLmd6DQo+IHdnZXQgLVAgInRtcC9kZXBsb3kvaW1hZ2VzIg0KPiBodHRwOi8v
-YXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy9wdWIvbmlnaHRseS8yMDE0MDYwNi0NCj4gMy9t
-YWNoaW5lcy9iZWFnbGVib25lL3VJbWFnZQ0KPiANCj4gSXQgc2VlbXMgdG8gbWUgdGhhdCB5b3Ug
-YXJlIGRvaW5nIGEgbG90IG1vcmUgd2l0aCB0aGlzIHNlcmllcyBhbmQgYWRkaW5nDQo+IHVubmVj
-ZXNzYXJ5IGNvbXBsaWNhdGlvbnMuIEkgZ3Vlc3MgSSdtIG1pc3Npbmcgc29tZSBwaWVjZXMgaGVy
-ZS4uLg0KPiANCg0KVEhCIHRoZSBmaXJzdCB2ZXJzaW9uIG9mIHRoaXMgc2NyaXB0IGRpZCBtYWlu
-bHkgd2hhdCB5b3UgcG9pbnRlZCBvdXQgaXQgc2hvdWxkIGRvLiBCdXQgYWZ0ZXIgYSBmZXcgdGFs
-a3MgYW1vbmcgdGhlIHRlYW0gKGhlcmUgaW4gUk8gUUEgYW5kIFBhdWwpLCB3ZSBkZWNpZGVkIHdl
-IG5lZWQgdG8gYXV0b21hdGUgc29tZSBjb25maWd1cmF0aW9uIChsaWtlIGRlY2lkaW5nIHdoYXQg
-aW1hZ2VzIHdlIG5lZWQsIGRvd25sb2FkaW5nIHRoZW0sIGNoZWNraW5nIGlmIHRoZXkgYXJlIGRp
-ZmZlcmVudCB0aGFuIHVwc3RyZWFtLCBldGMuKSBhbmQgYWxzbyB3ZSBuZWVkIHRvIG1ha2UgdGhp
-cyBlYXNpbHkgZXh0ZW5kYWJsZSBhbmQgdGh1cyB0aGUgYWJzdHJhY3QgY2xhc3NlcyBhbmQgaW50
-ZXJmYWNlcy4NCiAgDQpUaGlzIHNlcmllcywgYXBhcnQgZnJvbSBhZGRpbmcgdGhpcyBzY3JpcHQs
-IGFkZHJlc3NlcyBvdGhlciBpc3N1ZXMgdG9vLiBOb3QgZXZlcnl0aGluZyBpcyBmb3IgdGhlIHNj
-cmlwdCwgeW91IGNhbiBzZWUgdGhlbSBhcyBpc3N1ZXMgZm91bmQgYWxvbmcgdGhlIHdheSAobGlr
-ZSBoYXJkIGNvZGVkIGltYWdlIGZzdHlwZXMsIG11bHRpcGxlIGtlcm5lbCBmaWxlcyBuYW1pbmcp
-LiBUaGVzZSBzaG91bGQgaGF2ZSBiZWVuIGZpeGVkIGluZGVwZW5kZW50bHkgYnV0IEkgYWRkZWQg
-dGhlbSBoZXJlIGJlY2F1c2Ugb2YgbGFjayBvZiB0aW1lKHNlZSBiZWxvdykgYW5kIHRoZXkgYXJl
-IHJlbGF0ZWQgc29tZWhvdyhlc3BlY2lhbGx5IHRvIHRoZSBzY3JpcHQpLiBUaGUgb25seSBjaGFu
-Z2UgaW50cm9kdWNlZCB0aGF0IG9ubHkgaGVscHMgdGhlIHNjcmlwdCAoYW5kIG90aGVyIG91dHNp
-ZGUgc2NyaXB0IHRoYXQgd2lsbCB3YW50IHRoaXMgaW5mb3JtYXRpb24pIGlzIHRoZSBnZXRfZXh0
-cmFfZmlsZXMgbWV0aG9kLiBJZiB0aGUgb25seSB1c2UgY2FzZSB3YXMgdG8gYnVpbGQgdGhlIGlt
-YWdlcyBsb2NhbGx5IGFuZCBydW4gdGhlIHRlc3RzIGxvY2FsbHksIHRoaXMgd291bGQgaGF2ZSBi
-ZWVuIGVhc2lseSBhdm9pZGVkIGJ1dCB1bmZvcnR1bmF0ZWx5IHdlIG5lZWQgdG8gdXNlIHRoZSBB
-QiBpbWFnZXMgb24gcmVtb3RlIGhhcmR3YXJlIHRlc3RpbmcgcmFja3MuIA0KDQpGaW5hbGx5LCB3
-aHkgdGhpcyBzZXJpZXMgb2YgcGF0Y2hlcyB3YXMgbmVlZGVkIGluc3RlYWQgb2Ygc3RhbmRhbG9u
-ZSBzbWFsbCBwYXRjaGVzLiBUaGVzZSBidWdzIGhhdmUgYmVlbiBtYXJrZWQgZm9yIDEuNyBNMSBh
-bmQgZXZlbiB0aG91Z2ggd2UgdHJpZWQgdG8gZmluaXNoIGVhcmxpZXIgc29tZSBjaGFuZ2VzIGFm
-ZmVjdGVkIHRoZSBvdGhlcnMgYW5kIHRoZXJlIHdhcyBubyBwb2ludCB0byBzZW5kIHNvbWV0aGlu
-ZyBhbmQgdGhlbiByZXBhaXIvY2hhbmdlIGl0LiBJIHdpbGwgYmUgT09PIHRoaXMgd2VlayBhbmQg
-dGhlIGN1dG9mZiBmb3IgTTEgaXMgb24gdGhlIDEzLXRoLiBJIGFtIHNvcnJ5IGZvciB0aGUgbGFy
-Z2Ugc2V0IGFuZCBJIGhvcGUsIHRocm91Z2ggdGhlIGNvdmVyIGxldHRlciBhbmQgdGhlc2UgYW5z
-d2VycywgSSBtYW5hZ2VkIHRvIHBvaW50IG91dCB3aGF0IHdlIGludGVuZCB0byBhZGQgYW5kIGNo
-YW5nZS4NCg0KSSB3aWxsIG5vdCBiZSBhYmxlIHRvIGFuc3dlciBhbnkgbW9yZSBtYWlscyB1bnRp
-bCB0aGUgMTctdGggYnV0IEkgaG9wZSBQYXVsIGNhbiBoZWxwIHdpdGggYW55IG1vcmUgcXVlc3Rp
-b25zL2lzc3VlcyB0aGF0IGFwcGVhci4gSWYgd2UgZGlkIGV4dGVuZCB0b28gbXVjaCB3aXRoIHRo
-aXMgYW5kIHNvbWUgY2hhbmdlcyBwcm9wb3NlZCBhcmUgbm90IGluZGVlZCBuZWVkZWQsIEkgd2ls
-bCByZXZpc2UgdGhlIHNjcmlwdCBhbmQgbWFrZSBpdCB3b3JrIHdpdGhvdXQgdGhlbSB3aGVuIEkg
-Z2V0IGJhY2ssIHRob3VnaCB0aGUgZmVhdHVyZXMgc2hvdWxkIGJlIG1vdmVkIHRvIE0yLg0KDQpS
-ZWdhcmRzLA0KQ29ybmVsaXUNCg==
+After chatting with some colleagues in the graphics team I've decided
+that we should have support for DRI3, but not enable it by default
+(there's presently regressions compared to DRI2).
+
+Ross
+
+On 6 June 2014 16:31, Valentin Popa <valentin.popa@intel.com> wrote:
+> Don't let xorg-xserver to automatically enable/disable
+> dri3.
+>
+> [YOCTO #6402]
+>
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> ---
+>  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> index 2e83d53..e4eaaa6 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> @@ -116,10 +116,11 @@ EXTRA_OECONF += "--with-fop=no \
+>                   ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+>  "
+>
+> -PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
+> +PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 dri3 glx', '', d)}"
+>  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+>  PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
+>  PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
+> +PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
+>  PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
+>
+>  do_install_append () {
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
