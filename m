@@ -1,36 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 9237E65EB1
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E30365E61
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 12:45:59 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id j5so8906756qga.0
+	Mon,  9 Jun 2014 13:39:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 6C264180A6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jun 2014 05:46:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=PAR8EHzOgKA0WB5x+rkBLtGRoKHTly4L8SWImgvhC2s=;
-	b=GnznlcTrRNmhbsmnrha7+Kp/UWep7ie+2Kxpf/sSpdH5NGdJpQUT3v3y4iX/nkbMrp
-	YpKVAxMXCi2aj5fgipW3b494wRCvAlmLJ9FLONektzXK2sgI8/Z0gLR2X5FyQmk2SyxA
-	Uz4Ang4G8iIc+P3w5UQsfZBktiJJeenMRdXqFpQtK4jemJV/auesQSp7Nza/rLJcC+dZ
-	QByxvbnZPmQfkRIWB4hMuxsrlu4JGT0ptusRrC+4OTtdwYT1fsr9u5m7yWo+tS9ABuxw
-	9YX7En7HlSb5pbqs8QaRlZrTCNHFmvpvURpVHS9KbaiTHnuymwgDylnFfxsL9dfuC2Gw
-	Nx2Q==
-X-Gm-Message-State: ALoCoQmRbp0Ey8o1Rz/KVNDxQc0sDGeDnbEttZQ6iWTpsOlPvdBfUpY6Nl3sIB/KQ+5oksrDQYm+
-X-Received: by 10.140.109.70 with SMTP id k64mr30486233qgf.92.1402317960202;
-	Mon, 09 Jun 2014 05:46:00 -0700 (PDT)
+	Mon,  9 Jun 2014 15:39:52 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id NBHzha+GkHKo
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jun 2014 15:39:50 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id D236D180A8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jun 2014 15:39:49 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id B15C7C94
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jun 2014 15:39:49 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id A2C24A31
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jun 2014 15:39:49 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id A0F1A34005
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jun 2014 15:39:49 +0200 (CEST)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
+	([10.0.5.74]) with mapi; Mon, 9 Jun 2014 15:39:49 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Jun 2014 15:39:46 +0200
+Thread-Topic: [OE-core] Using users/groups from another recipe than the one
+	creating them
+Thread-Index: Ac92cxfFMHWSvh+eSJeWOV3pn8SnlgNYQMjQ
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7A7A2BE80C7@xmail3.se.axis.com>
+References: <A612847CFE53224C91B23E3A5B48BAC7A7A21EFE0D@xmail3.se.axis.com>
+In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7A7A21EFE0D@xmail3.se.axis.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-Received: by 10.140.101.77 with HTTP; Mon, 9 Jun 2014 05:45:38 -0700 (PDT)
-In-Reply-To: <1402068711-10161-1-git-send-email-valentin.popa@intel.com>
-References: <1402068711-10161-1-git-send-email-valentin.popa@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Jun 2014 13:45:38 +0100
-Message-ID: <CAJTo0LYO1cuV0db7fkunTGBTMTGp2Hx11EHQj+V7ie4kOPxu8w@mail.gmail.com>
-To: Valentin Popa <valentin.popa@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorg-xserver: enable dri3 by default
+Subject: Re: Using users/groups from another recipe than the one creating them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 12:46:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 09 Jun 2014 13:39:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-After chatting with some colleagues in the graphics team I've decided
-that we should have support for DRI3, but not enable it by default
-(there's presently regressions compared to DRI2).
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Peter Kjellerstedt
+> Sent: den 23 maj 2014 12:38
+> To: OE Core (openembedded-core@lists.openembedded.org)
+> Subject: Re: [OE-core] Using users/groups from another recipe than the
+> one creating them
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of Peter Kjellerstedt
+> > Sent: den 19 maj 2014 10:15
+> > To: OE Core (openembedded-core@lists.openembedded.org)
+> > Subject: [OE-core] Using users/groups from another recipe than the
+> > one creating them
+> >
+> > Which assumption is correct: "a recipe A that depends on another
+> > recipe B can use users/groups that B creates" or "all recipes must
+> > create the users/groups they require themselves"?
+> >
+> > The problem for us is that we have a lot of recipes that create
+> > users and groups, and subsequently a number of other related recipes
+> > that need to use those users and groups.
+> >
+> > If the first assumption is correct then the useradd.bbclass needs to
+> > be corrected so that it adds a dependency from do_install to
+> > base-passwd:do_populate_sysroot and
+> > base-passwd:do_populate_sysroot_setscene, because if either of those
+> > tasks execute they will overwrite /etc/passwd and /etc/group,
+> > effectively removing any users/groups that were created earlier...
+> >
+> > On the other hand, if it is the second assumption that is correct,
+> > then there should be QA tests in place to make sure all recipes
+> > create the users/groups they use.
+> >
+> > //Peter
+>=20
+> *ping*
+>=20
+> Doesn't anyone know how users and groups are supposed to work?
+>=20
+> //Peter
 
-Ross
+*ping again*
 
-On 6 June 2014 16:31, Valentin Popa <valentin.popa@intel.com> wrote:
-> Don't let xorg-xserver to automatically enable/disable
-> dri3.
->
-> [YOCTO #6402]
->
-> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-> ---
->  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> index 2e83d53..e4eaaa6 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> @@ -116,10 +116,11 @@ EXTRA_OECONF += "--with-fop=no \
->                   ac_cv_file__usr_share_sgml_X11_defs_ent=no \
->  "
->
-> -PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
-> +PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 dri3 glx', '', d)}"
->  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
->  PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
->  PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
-> +PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
->  PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
->
->  do_install_append () {
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Well, this is somewhat discouraging. Three weeks and not a single=20
+response. Are we really the only ones that care about users and=20
+groups and how they are created? Doesn't anyone know which of my=20
+two assumptions above are correct?
+
+Personally I would prefer that all recipes create the users and=20
+groups they require themselves as this keeps them more self=20
+contained. I have no idea how to write a QA test to verify this,=20
+but I assume it should be possible...
+
+//Peter
+
 
