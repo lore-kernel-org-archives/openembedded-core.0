@@ -1,25 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EAD065D63
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A73ED65D63
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 10:44:57 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 Jun 2014 03:44:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,1001,1392192000"; d="scan'208";a="443259964"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.49])
-	by azsmga001.ch.intel.com with ESMTP; 09 Jun 2014 03:44:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Yao Xinpan <yaoxp@cn.fujitsu.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 09 Jun 2014 11:44:55 +0100
-Message-ID: <1499388.mvWjClFzB5@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.5-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <1402122422-4056-1-git-send-email-yaoxp@cn.fujitsu.com>
-References: <1402122422-4056-1-git-send-email-yaoxp@cn.fujitsu.com>
+	Mon,  9 Jun 2014 10:50:49 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id 63so8641513qgz.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jun 2014 03:50:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=YBQWJIzgy2vzfuJZutwjMhKGY+D/pIsAyuPOZyxY4nA=;
+	b=dGG6TlO/5z+QPG8QVEH/6GcvvVCuVvvLpMy97zXv+S0fAo/JN3pHHeRnGV58dtARI1
+	X6lsM8/aWCO2HzQgDrkBZHWR7153MVcyy0QZjQHUWMGSslr8x4Pbwb73SgunZ7C+QBe5
+	gip4AP4EMrCoS8EhEhq+sUGCQrlwqXfXY3JapOPRqTUIYf7vAdrhzDdDiu0R2P8OfKkN
+	Mnw3cyOzX6nVs9Ie04I7kL5fAXaO7Spvd0/PLKeEvcQQoaAd8MQ4ITK7PFKh9fgsV8x+
+	8X61iMLRzwfBNi/Ou7AYMV58iM8GzARCT6wpRXaJOjyy6LFkKRJFkbTtFI/Qhe9qUkT2
+	aOWw==
+X-Gm-Message-State: ALoCoQlHlZrMvdySdgYigmJ3nW0lyD2bYO2cBFXx+2WR4QOuT0iRhDGqsD14Z3Bk2OxrAWeL5QcX
+X-Received: by 10.140.28.3 with SMTP id 3mr30269964qgy.71.1402311050004; Mon,
+	09 Jun 2014 03:50:50 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] openssl: upgrade from 1.0.1g to 1.0.1h
+Received: by 10.140.101.77 with HTTP; Mon, 9 Jun 2014 03:50:29 -0700 (PDT)
+In-Reply-To: <CAMKF1spMhvvf-WgEKHo+0FXCVbqY0dym4+HPLWSZiBFuvhRCNg@mail.gmail.com>
+References: <1402069681-17929-1-git-send-email-ross.burton@intel.com>
+	<1402069681-17929-2-git-send-email-ross.burton@intel.com>
+	<CAMKF1spMhvvf-WgEKHo+0FXCVbqY0dym4+HPLWSZiBFuvhRCNg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Jun 2014 11:50:29 +0100
+Message-ID: <CAJTo0LZ4S7zRCzXyrSsPTwXYYhcGP-V7vuX7OzO5FbrHVEnkjw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gawk: remove dgawk and pgawk packages, merge gawk-common into gawk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,70 +46,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 10:44:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 09 Jun 2014 10:50:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi there,
+On 7 June 2014 11:50, Khem Raj <raj.khem@gmail.com> wrote:
+> On Fri, Jun 6, 2014 at 8:48 AM, Ross Burton <ross.burton@intel.com> wrote:
+>> -PACKAGES += "gawk-common pgawk dgawk"
+>
+> would it make sense to have RPROVIDES
 
-On Saturday 07 June 2014 14:27:02 Yao Xinpan wrote:
-> The following bugs had been fixed in 1.0.1h:
-> CVE-2014-0224, CVE-2014-0221, CVE-2014-3470
-> CVE-2014-0198, CVE-2010-5298.
-> 
-> Signed-off-by: Yao Xinpan <yaoxp@cn.fujitsu.com>
-> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-> ---
->  .../0001-add-functions-into-openssl.ld.patch       |  35 ++
->  .../openssl/openssl/openssl-CVE-2010-5298.patch    |  24 --
->  .../openssl/openssl-CVE-2014-0198-fix.patch        |  23 --
->  .../openssl/openssl/openssl-fix-doc.patch          | 401
-> --------------------- .../{openssl_1.0.1g.bb => openssl_1.0.1h.bb}       | 
->  8 +-
->  5 files changed, 38 insertions(+), 453 deletions(-)
->  create mode 100644
-> meta/recipes-connectivity/openssl/openssl/0001-add-functions-into-openssl.l
-> d.patch delete mode 100644
-> meta/recipes-connectivity/openssl/openssl/openssl-CVE-2010-5298.patch
-> delete mode 100644
-> meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-0198-fix.patch
-> delete mode 100644
-> meta/recipes-connectivity/openssl/openssl/openssl-fix-doc.patch rename
-> meta/recipes-connectivity/openssl/{openssl_1.0.1g.bb => openssl_1.0.1h.bb}
-> (86%)
-> 
-> diff --git
-> a/meta/recipes-connectivity/openssl/openssl/0001-add-functions-into-openssl
-> .ld.patch
-> b/meta/recipes-connectivity/openssl/openssl/0001-add-functions-into-openssl
-> .ld.patch new file mode 100644
-> index 0000000..2bd261d
-> --- /dev/null
-> +++
-> b/meta/recipes-connectivity/openssl/openssl/0001-add-functions-into-openssl
-> .ld.patch @@ -0,0 +1,35 @@
-> +From 7d41b2ae4dff7a4caffb06e0d6dd533f77be8437 Mon Sep 17 00:00:00 2001
-> +From: Yao Xinpan <yaoxp@cn.fujitsu.com>
-> +Date: Sat, 7 Jun 2014 04:59:23 +0900
-> +Subject: [PATCH] add functions into openssl.ld
-> +
-> +add ssl_init_wbio_buffer ssl3_setup_buffers dtls1_process_heartbeat and
-> +tls1_process_heartbeat into openssl.ld
+dgawk and pgawk were debugging and profiling gawk frontends, and
+whilst the new gawk binary has the same functionality it doesn't have
+compatibility binaries.  So no, I don't think it's sensible to have
+RPROVIDES in this case.
 
-So it turns out I've been working on this as well; however the preferred fix 
-discussed upstream for the heartbeat_test failure (that the above patch 
-attempts to fix) instead links heartbeat_test against the static version of the 
-library. Also, patches included in recipes need to have signed-off-by and 
-Upstream-Status.
-
-Since this is a critical fix I'll be sending out my version shortly, however I 
-will include your names in the commit message.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
