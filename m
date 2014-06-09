@@ -1,43 +1,21 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CFEA960E68
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 984666ABDA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jun 2014 19:50:34 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id bj1so20166pad.31
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jun 2014 12:50:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=kONfDIix56bU5XQzkvOHtNuZqGFpa+LIK+YPbThXqn4=;
-	b=ckO9/6REFNM0qWbbLkq6m6Onf/Bawi46IpIDbIKv6CaJk1E7ydcx8DOHV5675dj2ye
-	PrP1wUZDIuTKMSDME5Kxpnh0m5QTxj/dXlBwdPCsiGHweOam8D+pldI+KMnFsOZTfN9m
-	L8xtAlOi5OoFv1c+seu+wdnx0+briWdcVDKJ/wWqsH6zojdzbM//yPGpTZiTjJBXMlfP
-	7uE+un5O5UDhr8U2kNpXHyR5pqjd4F2GhNvFPQpFz2XBbZyfZakq5BRsz/35Go64Z6G8
-	M81eQiLwF7vyjLPb11cKsYs2719NFuAO+0Xc0LcyawVRz4dfkj8ZkLiKtQfAD6VnsLuH
-	9ihg==
-X-Gm-Message-State: ALoCoQkwMTaxrg/AhETs5tnt6Ewz7R8GVoLxkM+JKwTfiXRN8eCitLfconuWB+FvwyahTK/0hoo9
-X-Received: by 10.68.160.163 with SMTP id xl3mr74664pbb.39.1402257035498;
-	Sun, 08 Jun 2014 12:50:35 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	sh5sm60147380pbc.21.2014.06.08.12.50.34 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 08 Jun 2014 12:50:34 -0700 (PDT)
-Message-ID: <5394BE87.5000804@mvista.com>
-Date: Sun, 08 Jun 2014 12:50:31 -0700
-From: "akuster@mvista" <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Mon,  9 Jun 2014 06:11:53 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jun 2014 23:11:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="352278455"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.194])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2014 23:08:08 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Jun 2014 23:11:53 -0700
+Message-Id: <cover.1402294153.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
-References: <1402151406-14527-1-git-send-email-akuster@mvista.com>
-	<5393E053.6080006@linux.intel.com>
-In-Reply-To: <5393E053.6080006@linux.intel.com>
-Subject: Re: [PATCH] cups: Fix build failure
+Subject: [Daisy - Update 00/15] Updates and CVEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,55 +28,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jun 2014 19:50:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jun 2014 06:12:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-On 06/07/2014 09:02 PM, Saul Wold wrote:
-> On 06/07/2014 07:30 AM, Armin Kuster wrote:
->> The follwing error was seen when no crypt dependency was included.
->>
->> In file included from cups-private.h:29:0,
->> |                  from attr.c:26:
->> | http-private.h:83:24: fatal error: gcrypt.h: No such file or directory
->> |  #    include <gcrypt.h>
->> |                         ^
->>
->> Add bcrypt to DEPENDS
->>
->> Signed-off-by: Armin Kuster <akuster@mvista.com>
->> ---
->>   meta/recipes-extended/cups/cups.inc | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-extended/cups/cups.inc 
->> b/meta/recipes-extended/cups/cups.inc
->> index fd88552..249eac4 100644
->> --- a/meta/recipes-extended/cups/cups.inc
->> +++ b/meta/recipes-extended/cups/cups.inc
->> @@ -1,7 +1,7 @@
->>   SUMMARY = "An Internet printing system for Unix"
->>   SECTION = "console/utils"
->>   LICENSE = "GPLv2 & LGPLv2"
->> -DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb"
->> +DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb bcrypt"
->
-> Do we really want to enable crypt here or make it optional?
+Richard,
 
-Good question.
-> If we set ac_cv_search_crypt=no on the EXTRA_OECONF line, then we can 
-> remove this floating dependency or make it a PACKAGECONFIG setting
-Ok.  let me work on this a bit more.
+This is a set of patches that has been through the AB and tested locally
 
-- Armin
+Please review and update the daisy branch.
 
->
-> Sau!
->
->>   PROVIDES = "cups14"
->>
->>   SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
->>
+Thanks
+	Sau!
+
+
+The following changes since commit ca2773b19db4881abe5244c373d94ff05cd2684f:
+
+  gnutls: patch for CVE-2014-3466 backported (2014-06-06 10:26:56 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/daisy
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/daisy
+
+Chen Qi (2):
+  update-rc.d: fix to handle priority numbers correctly
+  systemd: update a uclibc specific patch to avoid segment fault
+
+Cristian Iorga (1):
+  v86d: fix for SeaBIOS VGA BIOS compatibility
+
+Dan McGregor (1):
+  gzip: Avoid host contamination during build
+
+João Henrique Ferreira de Freitas (1):
+  combo-layer: fix revlist taking into account file_filter
+
+Khem Raj (2):
+  eglibc: Fix configure when re-building with gold
+  x264: Update SRCREV to match commit in upstream git repo
+
+Richard Purdie (4):
+  classextend: Fix crosssdk remapping for multilib
+  libfm: Ensure m4 directory exists
+  sanity.bbclass: Add libsdl-native check
+  image_types: Fix ubi filesystem return codes
+
+Roy Li (1):
+  openssl: add openssl-CVE-2010-5298.patch SRC_URI
+
+Saul Wold (2):
+  util-linux: add sulogin to alternatives list
+  update-rc.d/useradd: Add additional dependecies
+
+Trevor Woerner (1):
+  grub_git: fix build warning->error
+
+ meta/classes/image_types.bbclass                   |     3 +-
+ meta/classes/sanity.bbclass                        |     4 +
+ meta/classes/update-rc.d.bbclass                   |     2 +
+ meta/classes/useradd.bbclass                       |     2 +-
+ meta/lib/oe/classextend.py                         |     2 +
+ .../grub/grub/asciih-fix-build-warning-error.patch |    34 +
+ meta/recipes-bsp/grub/grub_git.bb                  |     1 +
+ .../v86d/v86d/Update-x86emu-from-X.org.patch       | 21766 +++++++++++++++++++
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb               |     3 +-
+ .../openssl-CVE-2010-5298.patch                    |     0
+ .../recipes-connectivity/openssl/openssl_1.0.1g.bb |     1 +
+ .../eglibc/eglibc-2.19/grok_gold.patch             |    34 +
+ meta/recipes-core/eglibc/eglibc_2.19.bb            |     3 +-
+ .../systemd/systemd-pam-fix-fallocate.patch        |    57 +-
+ .../fix-to-handle-priority-numbers-correctly.patch |    28 +
+ meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |     1 +
+ meta/recipes-core/util-linux/util-linux.inc        |     5 +-
+ meta/recipes-extended/gzip/gzip.inc                |     2 +
+ meta/recipes-multimedia/x264/x264_git.bb           |     2 +-
+ meta/recipes-support/libfm/libfm_1.1.2.2.bb        |     2 +
+ scripts/combo-layer                                |     2 +-
+ 21 files changed, 21922 insertions(+), 32 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
+ create mode 100644 meta/recipes-bsp/v86d/v86d/Update-x86emu-from-X.org.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.1e => openssl}/openssl-CVE-2010-5298.patch (100%)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/grok_gold.patch
+ create mode 100644 meta/recipes-core/update-rc.d/update-rc.d/fix-to-handle-priority-numbers-correctly.patch
+
+-- 
+1.8.3.1
 
 
