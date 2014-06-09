@@ -1,35 +1,24 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B47596A87C
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 70FE5660EF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 07:19:57 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id n15so2831342lbi.33
+	Mon,  9 Jun 2014 07:45:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s597jsFU003550
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jun 2014 00:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id;
-	bh=lEy+cplD+aivjCHpWBtI/koLqrTu5HeJtJp1rDfPf8A=;
-	b=fqftLia7Dli+Tk6WSj5MlAtuEdp37+bi2tbLO5KFzYO1kLiVxyi40XW66pBJi3z067
-	SAbiY5n0k14G7anmwD8g2n0lOYwN2o8Ky4aN70UV1vqg8UoI7aDx7+sQeqAnDiCR6bcs
-	h5TJy+MKVoEbuL8xVPRIvc5Loo0zv4/BM/7nRD4irrGnoL7mSAAAMV9Ub20Fl7MBuEQJ
-	7YCfB4Fj0pGnmbi/BS+3n7JDDcMlTcnOYUSlCVdr9/vwXWbvFjiWDskYqZBZOdqpWjYI
-	VKjqJub4Pv1G0EqJ3/DmUWnM+sxCLPR5VtAQ6OVj1Iovc3qqKO7Z9RDCsvNDjEal+jyM
-	Fk+w==
-X-Received: by 10.112.146.234 with SMTP id tf10mr15223264lbb.1.1402298397640; 
-	Mon, 09 Jun 2014 00:19:57 -0700 (PDT)
-Received: from localhost.localdomain (fw.mikrodidakt.se. [213.185.29.22])
-	by mx.google.com with ESMTPSA id b3sm17298368lbi.15.2014.06.09.00.19.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Jun 2014 00:19:57 -0700 (PDT)
-Sender: Jacob Kroon <jacob.kroon@gmail.com>
-From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jun 2014 09:19:44 +0200
-Message-Id: <1402298384-23611-1-git-send-email-jacob.kroon@mikrodidakt.se>
-X-Mailer: git-send-email 1.9.3
-Subject: [RFC][PATCH] libc-package.bbclass: Improve handling of GLIBC_GENERATE_LOCALES
+	Mon, 9 Jun 2014 00:45:54 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 9 Jun 2014 00:45:53 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Jun 2014 15:45:51 +0800
+Message-ID: <cover.1402299786.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/1] sed: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,70 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 07:20:00 -0000
+X-List-Received-Date: Mon, 09 Jun 2014 07:45:56 -0000
+Content-Type: text/plain
 
-Currently, setting GLIBC_GENERATE_LOCALES to the empty string means that
-all supported binary locales are generated.
+root@qemuarm:/usr/lib/sed/ptest# ./run-ptest 
+make: Entering directory '/usr/lib/sed/ptest/testsuite'
+PASS: bug-regex7
+PASS: bug-regex8
+PASS: bug-regex9
+PASS: bug-regex10
+PASS: bug-regex11
+PASS: bug-regex12
+PASS: bug-regex13
+......
+PASS: file
+PASS: quiet
+PASS: factor
+PASS: binary3
+PASS: binary2
+PASS: binary
+PASS: dc
+===================
+All 86 tests passed
+===================
+make: Leaving directory '/usr/lib/sed/ptest/testsuite'
 
-Improve the situation by adding a weak assignment to "all",
-in order to keep current default behaviour when GLIBC_GENERATE_LOCALES
-is not set by the user, and change the code to do no special handling of
-the empty string value. This makes it possible to skip generating
-binary locales altogether by setting GLIBC_GENERATE_LOCALES = "".
+The following changes since commit 66d5be204fd339cc84a0ae92d3923a8c1e6f1389:
 
-Since locales directory can now be empty, make sure it is not packaged
-in this situation.
+  bitbake: bitbake: show wildcard appends for bitbake-layers (2014-06-06 10:33:19 +0100)
 
-Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
----
- meta/classes/libc-package.bbclass | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index c1bc399..c2f7f2f 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -2,11 +2,15 @@
- # This class knows how to package up [e]glibc. Its shared since prebuild binary toolchains
- # may need packaging and its pointless to duplicate this code.
- #
-+# Caller should set GLIBC_GENERATE_LOCALES to a space-separated list of
-+# locales to generate. "all" will generate all supported locales
-+#
- # Caller should set GLIBC_INTERNAL_USE_BINARY_LOCALE to one of:
- #  "compile" - Use QEMU to generate the binary locale files
- #  "precompiled" - The binary locale files are pregenerated and already present
- #  "ondevice" - The device will build the locale files upon first boot through the postinst
- 
-+GLIBC_GENERATE_LOCALES ?= "all"
- GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "ondevice"
- 
- python __anonymous () {
-@@ -111,6 +115,12 @@ do_prep_locale_tree() {
- do_collect_bins_from_locale_tree() {
- 	treedir=${WORKDIR}/locale-tree
- 
-+	# When no binary locales are generated we return early in order
-+	# to skip creating empty directories that QA will warn about.
-+	if [ -z "$(ls $treedir/${localedir})" ]; then
-+		return
-+	fi
-+
- 	parent=$(dirname ${localedir})
- 	mkdir -p ${PKGD}/$parent
- 	tar -cf - -C $treedir/$parent -p $(basename ${localedir}) | tar -xf - -C ${PKGD}$parent
-@@ -220,9 +230,8 @@ python package_do_split_gconvs () {
-                 continue
-             supported[locale] = charset
- 
--    # GLIBC_GENERATE_LOCALES var specifies which locales to be generated. empty or "all" means all locales
-     to_generate = d.getVar('GLIBC_GENERATE_LOCALES', True)
--    if not to_generate or to_generate == 'all':
-+    if to_generate == 'all':
-         to_generate = supported.keys()
-     else:
-         to_generate = to_generate.split()
+  git://git.pokylinux.org/poky-contrib chonglu/sed
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/sed
+
+Chong Lu (1):
+  sed: enable ptest support
+
+ meta/recipes-extended/sed/sed-4.2.2/run-ptest      |  3 +
+ .../sed/sed-4.2.2/sed-add-ptest.patch              | 66 ++++++++++++++++++++++
+ meta/recipes-extended/sed/sed_4.2.2.bb             | 21 ++++++-
+ 3 files changed, 87 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/sed/sed-4.2.2/run-ptest
+ create mode 100644 meta/recipes-extended/sed/sed-4.2.2/sed-add-ptest.patch
+
 -- 
-1.9.3
+1.8.1.2
 
 
