@@ -1,41 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id EFB4765EB4
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C70765FC8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 14:18:27 +0000 (UTC)
-Received: by mail-wi0-f171.google.com with SMTP id n15so1326655wiw.16
+	Mon,  9 Jun 2014 14:18:30 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id u57so5823218wes.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jun 2014 07:18:28 -0700 (PDT)
+	Mon, 09 Jun 2014 07:18:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=bbKK7KL3Im0lXX0ZTQ3M1V9LPtRi222VWZ80jhnckHo=;
-	b=cGcVHQ0ZEOH+yPs13g7C2yFiE+bE/X60KdvzDlHRP+Q5bLfJs93ugO4H/+czV/Oa2/
-	/bZ2Fvv8w5BoU1E4Vcwk3U3YQvmUp7fjUPSDyL8DlBBdCRQDHHbrEcr35mXp7hmasxJs
-	sLd31NKCtMTIkajfXJKDAUf0yPWTckcWQ1m4lcB2/s1bUspCVGqvaUgBtl7++qbdpHEG
-	VxQl/jtL2AnDueIKGY642mq+ca6Ma2Cu6ZTK5pGmoN3KUcnJcrGPI3TqrHbn/TTf5247
-	kts2Wkl7s2nLOEn+8vhYXeDniSTHI2dd3LxwSrrvCsnOjXa57HIYvoxes+8cmnLU0f7F
-	0jQA==
-X-Gm-Message-State: ALoCoQml0qd49alUw6vsFNF0ex8DgJh+DC8dn0OvtPoL3/XvE3RbZBC6L9+9OwS0/3x629LVDFGh
-X-Received: by 10.180.228.6 with SMTP id se6mr29156936wic.52.1402323508241;
-	Mon, 09 Jun 2014 07:18:28 -0700 (PDT)
+	bh=FHfdKJqdF4uFWmTJjHddyx7l4HlqPMSmNwpG4t6Z3Ps=;
+	b=HaoFi/ciZnii5cmLfZViHsPqWIW04FVDsAxTSGoqS/YeWyvDRXAwHO+BA8uZMVaKQG
+	f2avZZc3ODvrQauQI2xe9nhDg0/kN4Qjw8pmf5ngEnov3iAm3/QmfkvTLbQ2epa+G1UR
+	S2kjIXnW9z0qYR6TcrNiTW/ipCWVeQSL6YAwr77Vx6MnN+RC9WgzQxPXHIjYP+iDO6nu
+	uxY5uO7lMYisaeu3FH5uVDhfUrJ/8qo5u4aoW35JVU6h6GkDkNCp/NjqBvrTK7ndK5pn
+	HFg2nHyQdjrMLRS+xk/f4gJ53KPgM/rzlKst4WioHs07CXX6EDsqcp+18KN2OEcHiT27
+	PdEQ==
+X-Gm-Message-State: ALoCoQm5jAJWBZfgoOufjmcoQ6Isz5cN8wgQKLFzlg9P72gkacNGEJyQNH1dem/UhEpQArKfBade
+X-Received: by 10.180.13.239 with SMTP id k15mr29551093wic.4.1402323511016;
+	Mon, 09 Jun 2014 07:18:31 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id g9sm25200969wja.39.2014.06.09.07.18.26
+	by mx.google.com with ESMTPSA id g9sm25200969wja.39.2014.06.09.07.18.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Jun 2014 07:18:27 -0700 (PDT)
+	Mon, 09 Jun 2014 07:18:30 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jun 2014 15:18:17 +0100
-Message-Id: <f292054974936b7da5ef38aa07c6be6e2b4fb615.1402323355.git.ross.burton@intel.com>
+Date: Mon,  9 Jun 2014 15:18:19 +0100
+Message-Id: <521c60cab274b7833562f18907efe4bf51bd5d42.1402323356.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1402323355.git.ross.burton@intel.com>
 References: <cover.1402323355.git.ross.burton@intel.com>
 In-Reply-To: <cover.1402323355.git.ross.burton@intel.com>
 References: <cover.1402323355.git.ross.burton@intel.com>
-Subject: [PATCH 1/3] mesa: add build-dependency on libxml2-native
+Subject: [PATCH 3/3] xorg-xserver: disable DRI3 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,27 +50,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Jun 2014 14:18:34 -0000
 
-glapi/gen needs the libxml2 Python module, but this isn't listed as a build
-dependency.
+Add a PACKAGECONFIG for DRI3 but don't enable it yet.
+
+Based on a patch by Valentin Popa <valentin.popa@intel.com>.
+
+[YOCTO #6402]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a33b7b5..6503c2d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eac
- INC_PR = "r9"
- PE = "2"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 2e83d53..b9b9ac4 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -120,6 +120,7 @@ PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri d
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
+ PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
++PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
+ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
  
--DEPENDS = "expat makedepend-native flex-native bison-native udev"
-+DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native udev"
- 
- PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
- 
+ do_install_append () {
 -- 
 1.7.10.4
 
