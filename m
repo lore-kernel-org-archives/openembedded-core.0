@@ -1,25 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D3E666099
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 50B3F66099
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jun 2014 21:17:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Jun 2014 14:13:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,1004,1392192000"; d="scan'208";a="545392447"
-Received: from unknown (HELO [10.255.12.194]) ([10.255.12.194])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2014 14:17:52 -0700
-Message-ID: <53962480.2070604@linux.intel.com>
-Date: Mon, 09 Jun 2014 14:17:52 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Armin Kuster <akuster@mvista.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1402347661-28746-1-git-send-email-akuster@mvista.com>
-In-Reply-To: <1402347661-28746-1-git-send-email-akuster@mvista.com>
-Subject: Re: [PATCH] v3 cups: Shouldn't link against libgcrypt without using gcrypt functions
+	Mon,  9 Jun 2014 21:21:40 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id D51852232CC2;
+	Mon,  9 Jun 2014 23:21:40 +0200 (CEST)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id C70CC2232CBE;
+	Mon,  9 Jun 2014 23:21:39 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.2
+Received: from localhost.localdomain (e178184227.adsl.alicedsl.de
+	[85.178.184.227]) by mail.familie-heinold.de (Postfix) with ESMTPSA;
+	Mon,  9 Jun 2014 23:21:39 +0200 (CEST)
+From: Henning Heinold <henning@itconsulting-heinold.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jun 2014 23:21:29 +0200
+Message-Id: <1402348889-26065-4-git-send-email-henning@itconsulting-heinold.de>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1402348889-26065-1-git-send-email-henning@itconsulting-heinold.de>
+References: <1402348889-26065-1-git-send-email-henning@itconsulting-heinold.de>
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: [PATCH 3/3] perf: split packging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,96 +38,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jun 2014 21:17:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jun 2014 21:21:47 -0000
 
-On 06/09/2014 02:01 PM, Armin Kuster wrote:
-> [CUPS Ticket #4399] -- http://www.cups.org/str.php?L4399
->
-> Upstream-Status: Backport
->
-Sorry, I was not clear, this should be in the .patch file itself, not in 
-the commit message.  Also the .patch file needs your Signed-off-by (so 
-its in 2 places, commit message and .patch file comment area.
+* some fundamental perf commands can work
+  without the dependency on perl, python or bash
+  make them separate packages and RSUGGEST them
 
-Take a look at the wiki:
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+* bump PR
 
-for details.
+The patch was sponsored by sysmocom
 
+Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
+---
+ meta/recipes-kernel/perf/perf.bb | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-Thanks
-Sau!
-
-> Backported from http://www.cups.org/strfiles.php/3308/cups-no-gcrypt.patch
->
-> This addresses the cryto dependency seen during build.
->
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->   meta/recipes-extended/cups/cups.inc                |  1 +
->   .../cups/cups/cups-no-gcrypt.patch                 | 40 ++++++++++++++++++++++
->   2 files changed, 41 insertions(+)
->   create mode 100644 meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
->
-> diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-> index fd88552..3b8027b 100644
-> --- a/meta/recipes-extended/cups/cups.inc
-> +++ b/meta/recipes-extended/cups/cups.inc
-> @@ -8,6 +8,7 @@ SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
->              file://use_echo_only_in_init.patch \
->              file://0001-don-t-try-to-run-generated-binaries.patch \
->              file://cups_serverbin.patch \
-> +           file://cups-no-gcrypt.patch \
->   	  "
->
->   LEAD_SONAME = "libcupsdriver.so"
-> diff --git a/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch b/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
-> new file mode 100644
-> index 0000000..465d353
-> --- /dev/null
-> +++ b/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
-> @@ -0,0 +1,40 @@
-> +Description: Don't build-depend on libgcrypt, as nothing is used from it
-> +Author: Didier Raboud <odyx@debian.org>
-> +Bug-Debian: https://bugs.debian.org/638416
-> +Bug: http://www.cups.org/str.php?L????
-> +Last-Update: 2014-04-07
-> +--- a/config-scripts/cups-ssl.m4
-> ++++ b/config-scripts/cups-ssl.m4
-> +@@ -66,7 +66,6 @@
-> +     dnl Then look for GNU TLS...
-> +     if test $have_ssl = 0 -a "x$enable_gnutls" != "xno" -a "x$PKGCONFIG" != x; then
-> +     	AC_PATH_PROG(LIBGNUTLSCONFIG,libgnutls-config)
-> +-    	AC_PATH_PROG(LIBGCRYPTCONFIG,libgcrypt-config)
-> + 	if $PKGCONFIG --exists gnutls; then
-> + 	    have_ssl=1
-> + 	    SSLLIBS=`$PKGCONFIG --libs gnutls`
-> +@@ -84,14 +83,6 @@
-> + 	if test $have_ssl = 1; then
-> + 	    CUPS_SERVERCERT="ssl/server.crt"
-> + 	    CUPS_SERVERKEY="ssl/server.key"
-> +-
-> +-            if $PKGCONFIG --exists gcrypt; then
-> +-	        SSLLIBS="$SSLLIBS `$PKGCONFIG --libs gcrypt`"
-> +-	        SSLFLAGS="$SSLFLAGS `$PKGCONFIG --cflags gcrypt`"
-> +-	    elif test "x$LIBGCRYPTCONFIG" != x; then
-> +-	        SSLLIBS="$SSLLIBS `$LIBGCRYPTCONFIG --libs`"
-> +-	        SSLFLAGS="$SSLFLAGS `$LIBGCRYPTCONFIG --cflags`"
-> +-	    fi
-> + 	fi
-> +     fi
-> +
-> +--- a/cups/http-private.h
-> ++++ b/cups/http-private.h
-> +@@ -80,7 +80,6 @@
-> + #  elif defined HAVE_GNUTLS
-> + #    include <gnutls/gnutls.h>
-> + #    include <gnutls/x509.h>
-> +-#    include <gcrypt.h>
-> + #  elif defined(HAVE_CDSASSL)
-> + #    include <CoreFoundation/CoreFoundation.h>
-> + #    include <Security/Security.h>
->
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 74686ca..daa7c3f 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -9,7 +9,7 @@ as well."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+-PR = "r8"
++PR = "r9"
+ 
+ require perf-features.inc
+ 
+@@ -27,9 +27,6 @@ DEPENDS = "virtual/kernel \
+            bison flex \
+           "
+ 
+-SCRIPTING_RDEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl perl-modules python', '',d)}"
+-RDEPENDS_${PN} += "elfutils bash ${SCRIPTING_RDEPENDS}"
+-
+ PROVIDES = "virtual/perf"
+ 
+ inherit linux-kernel-base kernel-arch pythonnative
+@@ -153,8 +150,23 @@ python do_package_prepend() {
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
++
++PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
++
++RDEPENDS_${PN} += "elfutils"
++RDEPENDS_${PN}-archive =+ "bash"
++RDEPENDS_${PN}-python =+ "bash python"
++RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
++
++RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
++RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
++
+ FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
+ FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
+-FILES_${PN} += "${libdir}/python*/site-packages"
++FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
++FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
++FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
++FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
++
+ 
+ INHIBIT_PACKAGE_DEBUG_SPLIT="1"
+-- 
+1.9.1
 
