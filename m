@@ -1,26 +1,39 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A58FD65ED7
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 61AA765D32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 10:13:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5AADggx004886
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 10 Jun 2014 11:07:01 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 61D5E2232CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 03:13:42 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 10 Jun 2014 03:13:41 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jun 2014 18:13:39 +0800
-Message-ID: <5b7dd12e087a0e3b89f2fdaa8a5c3242bbe69cdd.1402395182.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1402395182.git.Chong.Lu@windriver.com>
-References: <cover.1402395182.git.Chong.Lu@windriver.com>
+	Tue, 10 Jun 2014 13:06:59 +0200 (CEST)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id BC0632232CBE
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jun 2014 13:06:58 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from mail.itconsulting-heinold.de
+	(fb-n15-11.unbelievable-machine.net [94.198.62.204])
+	by mail.familie-heinold.de (Postfix) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jun 2014 13:06:58 +0200 (CEST)
+Date: Tue, 10 Jun 2014 13:06:53 +0200
+From: Henning Heinold <henning@itconsulting-heinold.de>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20140610110646.GB28607@mail.itconsulting-heinold.de>
+References: <1402348889-26065-1-git-send-email-henning@itconsulting-heinold.de>
+	<1402348889-26065-3-git-send-email-henning@itconsulting-heinold.de>
+	<CADkTA4NZ5gepMbUgTf1F8isyCkd0FMTVWyq11HVUZWrY=V5F5Q@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] kexec-tools: Refine kdump device_tree sort
+In-Reply-To: <CADkTA4NZ5gepMbUgTf1F8isyCkd0FMTVWyq11HVUZWrY=V5F5Q@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: [PATCH 2/3] perf: fix broken shell comparsion in do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,126 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jun 2014 10:13:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Jun 2014 11:07:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The commit b02d735bf was to rearrange the device-tree entries, and
-assumed that these entries are sorted in the ascending order. but
-acctually when I was validating kexec and kdump, the order of
-serial node still is changed. So the patch is to sort these entries
-by the directory name in ascending order.
+On Mon, Jun 09, 2014 at 08:35:06PM -0400, Bruce Ashfield wrote:
+> When describing something as broken in the short log, it's typically a good
+> idea to also include the symptoms, and the fix. That way the log will tell
+> someone experience a particular problem that this change indeed addresses
+> their problem.
+> 
+> Bruce
 
-Signed-off-by: Yang Wei <Wei.Yang@windriver.com>
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-kernel/kexec/kexec-tools.inc          |  3 +-
- ...kexec-tools-Refine-kdump-device_tree-sort.patch | 82 ++++++++++++++++++++++
- 2 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-tools-Refine-kdump-device_tree-sort.patch
+Hi Bruce,
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
-index 50b448c..6a690c6 100644
---- a/meta/recipes-kernel/kexec/kexec-tools.inc
-+++ b/meta/recipes-kernel/kexec/kexec-tools.inc
-@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a \
-                     file://kexec/kexec.c;beginline=1;endline=20;md5=af10f6ae4a8715965e648aa687ad3e09"
- DEPENDS = "zlib xz"
- 
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
-+           file://kexec-tools-Refine-kdump-device_tree-sort.patch"
- 
- inherit autotools-brokensep
- 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/kexec-tools-Refine-kdump-device_tree-sort.patch b/meta/recipes-kernel/kexec/kexec-tools/kexec-tools-Refine-kdump-device_tree-sort.patch
-new file mode 100644
-index 0000000..ab1fe96
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/kexec-tools-Refine-kdump-device_tree-sort.patch
-@@ -0,0 +1,82 @@
-+kexec-tools: Refine kdump device_tree sort
-+
-+The commit b02d735bf was to rearrange the device-tree entries, and
-+assumed that these entries are sorted in the ascending order. but
-+acctually when I was validating kexec and kdump, the order of
-+serial node still is changed. So the patch is to sort these entries
-+by the directory name in ascending order.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Yang Wei <Wei.Yang@windriver.com>
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ kexec/arch/ppc/fs2dt.c |   13 ++++++++++---
-+ kexec/fs2dt.c          |   13 ++++++++++---
-+ 2 files changed, 20 insertions(+), 6 deletions(-)
-+
-+diff --git a/kexec/arch/ppc/fs2dt.c b/kexec/arch/ppc/fs2dt.c
-+index 4121c7d..cc04b04 100644
-+--- a/kexec/arch/ppc/fs2dt.c
-++++ b/kexec/arch/ppc/fs2dt.c
-+@@ -296,6 +296,9 @@ static int comparefunc(const void *dentry1, const void *dentry2)
-+ {
-+ 	char *str1 = (*(struct dirent **)dentry1)->d_name;
-+ 	char *str2 = (*(struct dirent **)dentry2)->d_name;
-++	char* ptr1 = strchr(str1, '@');
-++	char* ptr2 = strchr(str2, '@');
-++	int len1, len2;
-+ 
-+ 	/*
-+ 	 * strcmp scans from left to right and fails to idetify for some
-+@@ -303,9 +306,13 @@ static int comparefunc(const void *dentry1, const void *dentry2)
-+ 	 * Therefore, we get the wrong sorted order like memory@10000000 and
-+ 	 * memory@f000000.
-+ 	 */
-+-	if (strchr(str1, '@') && strchr(str2, '@') &&
-+-		(strlen(str1) > strlen(str2)))
-+-		return 1;
-++	if (ptr1 && ptr2) {
-++		len1 = ptr1 - str1;
-++		len2 = ptr2 - str2;
-++		if (!strncmp(str1, str2, len1 >len2 ? len1: len2) &&
-++					(strlen(str1) > strlen(str2)))
-++				return 1;
-++	}
-+ 
-+ 	return strcmp(str1, str2);
-+ }
-+diff --git a/kexec/fs2dt.c b/kexec/fs2dt.c
-+index 5e6b98d..1c0345b 100644
-+--- a/kexec/fs2dt.c
-++++ b/kexec/fs2dt.c
-+@@ -475,6 +475,9 @@ static int comparefunc(const struct dirent **dentry1,
-+ {
-+ 	char *str1 = (*(struct dirent **)dentry1)->d_name;
-+ 	char *str2 = (*(struct dirent **)dentry2)->d_name;
-++	char* ptr1 = strchr(str1, '@');
-++	char* ptr2 = strchr(str2, '@');
-++	int len1, len2;
-+ 
-+ 	/*
-+ 	 * strcmp scans from left to right and fails to idetify for some
-+@@ -482,9 +485,13 @@ static int comparefunc(const struct dirent **dentry1,
-+ 	 * Therefore, we get the wrong sorted order like memory@10000000 and
-+ 	 * memory@f000000.
-+ 	 */
-+-	if (strchr(str1, '@') && strchr(str2, '@') &&
-+-		(strlen(str1) > strlen(str2)))
-+-		return 1;
-++	if (ptr1 && ptr2) {
-++		len1 = ptr1 - str1;
-++		len2 = ptr2 - str2;
-++		if (!strncmp(str1, str2, len1 >len2 ? len1: len2) &&
-++					(strlen(str1) > strlen(str2)))
-++				return 1;
-++	}
-+ 
-+ 	return strcmp(str1, str2);
-+ }
-+-- 
-+1.7.9.5
-+
--- 
-1.8.1.2
+there was no error shown, the build succeeded always. I stumbled over it
+by reading the bb file.
 
+Bye Henning
 
