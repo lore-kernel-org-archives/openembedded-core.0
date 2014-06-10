@@ -1,24 +1,28 @@
-Return-Path: <max.eliaser@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A40565D0E
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 458DB65D6B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 20:26:04 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Jun 2014 13:20:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.98,1011,1392192000"; d="scan'208";a="526412441"
-Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.65])
-	by orsmga001.jf.intel.com with ESMTP; 10 Jun 2014 13:26:03 -0700
-From: Max Eliaser <max.eliaser@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jun 2014 13:24:15 -0700
-Message-Id: <e0d598d09d7c7d260cf37498899ff4d147d4d6cf.1402431641.git.max.eliaser@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <b97d1bf2c6f7e8d73245d24c8a2bad9d47b54e20.1402431641.git.max.eliaser@intel.com>
-References: <b97d1bf2c6f7e8d73245d24c8a2bad9d47b54e20.1402431641.git.max.eliaser@intel.com>
-In-Reply-To: <cover.1402431641.git.max.eliaser@intel.com>
+	Tue, 10 Jun 2014 21:06:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5AL6qFL011817
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jun 2014 14:06:52 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 10 Jun 2014 14:06:52 -0700
+Message-ID: <5397736B.5000301@windriver.com>
+Date: Tue, 10 Jun 2014 16:06:51 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1402431641.git.max.eliaser@intel.com>
-Subject: [PATCH 2/3] texinfo-dummy-native: Create recipe w/ scripts to stand in for Texinfo utils.
+In-Reply-To: <cover.1402431641.git.max.eliaser@intel.com>
+Subject: Re: [PATCH 0/3] Suppress Texinfo utilities invoked at build time for -cross & native recipes (revised)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,222 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jun 2014 20:26:10 -0000
+X-List-Received-Date: Tue, 10 Jun 2014 21:06:59 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-More work toward eliminating the dependency on the host system's Texinfo--
-Python scripts that understand the same command-line options as the Texinfo
-utilities, and create blank output files if appropriate, but don't actually
-do any of the work done by those utilities.
+On 6/10/14, 3:24 PM, Max Eliaser wrote:
+> Hello list,
+>
+> As per discussion with Richard Purdie and others, I'm submitting a patch to
+> suppress some unnecessary invocations of utilities from the Texinfo suite during
+> Yocto builds. Specifically, it targets -native and -cross recipes that inherit
+> texinfo.bbclass. This series is revised to fix issues that came up on the
+> autobuilder when I first tried submitting it.
+>
+> The Texinfo utilities are suppressed by supplying doppelgänger executables which
+> understand the same command-line options as the genuine Texinfo utilites, and
+> which can create blank output files where expected, but which do no actual
+> processing, formatting, or markup. To see how this is done, look in the
+> texinfo-dummy-native recipe (under meta/recipes-extended,) added in this patch
+> series, as well as the modifications to texinfo.bbclass, also in this patch
+> series.
+>
+> Suppressing the Texinfo utilities for -native and -cross recipes does provide a
+> noticable performance gain, as documented in bug 2421. [1] You could make the
+> case that this patch series still does not completely address bug 2421, as there
+> are other utilities not from the Texinfo suite (groff, pod2man, etc) which are
+> not suppressed by these changes.
 
-This will be necessary to avoid circular dependencies when we start explicitly
-tracking dependencies on texinfo-native; i.e. texinfo-native ->
-autoconf-native -> texinfo-native. If we have all native recipes that inherit
-texinfo.bbclass depend on texinfo-dummy-native instead of texinfo-native, the
-cycle is broken.
+There are a few cases, where I've wanted texinfo processed files to be shipped 
+as part of an SDK.  Specifically nativesdk and the SDK cross compiler packages. 
+  Will this affect either of those cases?
 
-It may also provide a performance gain by skipping the actual work of
-formatting and generating documentation files.
+(Looking at the code, I don't think it will, but I wanted to check.)
 
-Signed-off-by: Max Eliaser <max.eliaser@intel.com>
----
- .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
- .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
- .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
- 3 files changed, 171 insertions(+)
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
- create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+> Target-architecture recipes continue to use the host system's Texinfo utilities
+> as before, so that dependency is not eliminated by this patch series.
 
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-new file mode 100644
-index 0000000..b5420a3
---- /dev/null
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-@@ -0,0 +1,30 @@
-+DESCRIPTION = "Fake version of the texinfo utility suite"
-+SECTION = "console/utils"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d6bb62e73ca8b901d3f2e9d71542f4bb"
-+DEPENDS = ""
-+PV = "1.0"
-+
-+SRC_URI = "file://template.py file://COPYING"
-+
-+S = "${WORKDIR}"
-+
-+NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
-+
-+inherit native
-+
-+do_install_name() {
-+    FILENAME="${D}${bindir}/$1"
-+    # Using ln causes problems with rm_work
-+    cp -T "${S}/template.py" "$FILENAME"
-+    chmod +x $FILENAME
-+}
-+
-+do_install() {
-+    mkdir -p "${D}${bindir}"
-+    for i in makeinfo pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-+             txixml2texi texi2any install-info ginstall-info \
-+             update-info-dir; do
-+        do_install_name $i
-+    done
-+}
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
-new file mode 100644
-index 0000000..531cbe7
---- /dev/null
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
-@@ -0,0 +1,19 @@
-+Copyright (c) 2014 Intel Corp.
-+
-+Permission is hereby granted, free of charge, to any person obtaining a copy
-+of this software and associated documentation files (the "Software"), to deal
-+in the Software without restriction, including without limitation the rights
-+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+copies of the Software, and to permit persons to whom the Software is
-+furnished to do so, subject to the following conditions:
-+
-+The above copyright notice and this permission notice shall be included in
-+all copies or substantial portions of the Software.
-+
-+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+THE SOFTWARE.
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-new file mode 100644
-index 0000000..4dc31a9
---- /dev/null
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-@@ -0,0 +1,122 @@
-+#! /usr/bin/env python2.7
-+
-+# template.py (and other filenames)
-+# By Max Eliaser (max.eliaser@intel.com)
-+
-+# Copyright (c) 2014 Intel Corp.
-+
-+# Permission is hereby granted, free of charge, to any person obtaining a copy
-+# of this software and associated documentation files (the "Software"), to deal
-+# in the Software without restriction, including without limitation the rights
-+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+# copies of the Software, and to permit persons to whom the Software is
-+# furnished to do so, subject to the following conditions:
-+
-+# The above copyright notice and this permission notice shall be included in
-+# all copies or substantial portions of the Software.
-+
-+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+# THE SOFTWARE.
-+
-+# This program acts like a dummy version of the texinfo utilities, creating
-+# the right output files but leaving them blank. It will parse out the name
-+# of the executable from argv[0] and emulate the corresponding program, so
-+# multiple copies of this script will exist under different names.
-+
-+import sys, os
-+
-+olong = "--output="
-+Elong = "--macro-expand="
-+
-+
-+this_binary = sys.argv[0].split ("/")[-1]
-+
-+# To be outputted if functionality that hasn't been stubbed yet is invoked.
-+stub_msg = """
-+This stand-in version of %s is not yet fully capable of emulating the real
-+version from the GNU texinfo suite. If you see this message, file a bug report
-+with details on the recipe that failed.
-+""" % this_binary
-+
-+# Autotools setups query the version, so this is actually necessary. Some of
-+# them (lookin' at you, eglibc) actually look for the substring "GNU texinfo,"
-+# so we put that substring in there without actually telling a lie.
-+version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
-+ 
-+Super amazing version which is totally not fake in any way whatsoever.
-+Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
-+license.
-+""" % this_binary
-+
-+simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-+                   txixml2texi install-info ginstall-info \
-+                   update-info-dir".split ()
-+
-+# These utilities use a slightly different set of options and flags.
-+complex_binaries = "makeinfo texi2any".split ()
-+
-+valid_binaries = simple_binaries + complex_binaries
-+
-+# For generating blank output files.
-+def touch_file (path):
-+    f = open (path, "w")
-+    f.close ()
-+
-+assert this_binary in valid_binaries, \
-+       this_binary + " is not one of " + ', '.join (valid_binaries)
-+
-+if "--version" in sys.argv:
-+    print version_str
-+    sys.exit (0)
-+
-+# For debugging
-+log_interceptions = False
-+if log_interceptions:
-+    f = open ("/tmp/intercepted_" + this_binary, "a")
-+    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
-+    f.close ()
-+
-+# Look through the options and flags, and if necessary, touch any output
-+# files.
-+arg_idx = 1
-+while arg_idx < len (sys.argv):
-+    arg = sys.argv [arg_idx]
-+    
-+    if arg == "--":
-+        break
-+    
-+    # Something like -I . can result in a need for this (specifically the .)
-+    elif len (arg) < 2:
-+        pass
-+    
-+    # Check if -o or --output is specified. These can be used at most once.
-+    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
-+        touch_file (sys.argv[arg_idx + 1])
-+        sys.exit (0)
-+    elif arg.startswith (olong):
-+        touch_file (arg.split ("=")[1])
-+        sys.exit (0)
-+    
-+    # Check for functionality that isn't implemented yet.
-+    else:
-+        assert arg[1] == '-' or 'E' not in arg or \
-+               this_binary in simple_binaries, \
-+               "-E option not yet supported" + stub_msg
-+        
-+        assert not arg.startswith (Elong), \
-+               Elong[:-1] + " option not yet supported" + stub_msg
-+    
-+    arg_idx += 1
-+
-+# The -o/--output option overrides the default. For makeinfo and texi2any,
-+# that default is to look for a @setfilename command in the input file.
-+# Otherwise, printing nothing to stdout and then exiting should suffice.
-+assert this_binary in simple_binaries, \
-+       "Don't know how to get default output file name from input file!" + \
-+       stub_msg
-+
--- 
-1.8.3.2
+--Mark
+
+> Regards,
+> -Max Eliaser
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2421
+> The following changes since commit e7114046be6e71fb326477dc882adb814ef6a751:
+>
+>    busybox: fix meta-yocto's bbappend's FILESEXTRAPATH (2014-06-03 17:53:13 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib meliaser/texinfo-build-2
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/texinfo-build-2
+>
+> Max Eliaser (3):
+>    texinfo: Use texinfo-replacement-native as an alias for
+>      texinfo-native.
+>    texinfo-dummy-native: Create recipe w/ scripts to stand in for Texinfo
+>      utils.
+>    texinfo.bbclass: native/cross uses dummy texinfo; target uses host's
+>      Texinfo.
+>
+>   meta/classes/texinfo.bbclass                       |  15 ++-
+>   meta/conf/bitbake.conf                             |   1 +
+>   .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
+>   .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
+>   .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
+>   meta/recipes-extended/texinfo/texinfo_5.2.bb       |   4 +-
+>   6 files changed, 189 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
+>   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
+>   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+>
 
 
