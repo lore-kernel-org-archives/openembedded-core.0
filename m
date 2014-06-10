@@ -1,27 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 458DB65D6B
+Return-Path: <max.eliaser@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 943AB65D5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 21:06:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5AL6qFL011817
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 14:06:52 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 10 Jun 2014 14:06:52 -0700
-Message-ID: <5397736B.5000301@windriver.com>
-Date: Tue, 10 Jun 2014 16:06:51 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Tue, 10 Jun 2014 21:53:15 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 Jun 2014 14:52:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.98,1011,1392192000"; d="scan'208";a="444005610"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+	by azsmga001.ch.intel.com with ESMTP; 10 Jun 2014 14:52:53 -0700
+Received: from orsmsx157.amr.corp.intel.com (10.22.240.23) by
+	ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Tue, 10 Jun 2014 14:52:52 -0700
+Received: from orsmsx110.amr.corp.intel.com ([169.254.3.160]) by
+	ORSMSX157.amr.corp.intel.com ([169.254.9.165]) with mapi id
+	14.03.0123.003; Tue, 10 Jun 2014 14:52:52 -0700
+From: "Eliaser, MaX" <max.eliaser@intel.com>
+To: "Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/3] Suppress Texinfo utilities invoked at
+	build time for -cross & native recipes (revised)
+Thread-Index: AQHPhOovuyS7H+bjAUGy3vbAq2GAaJtrS1CA//+WldI=
+Date: Tue, 10 Jun 2014 21:52:52 +0000
+Message-ID: <E88D0531F83F3744B03D1A909A2B070F5C4D39@ORSMSX110.amr.corp.intel.com>
+References: <cover.1402431641.git.max.eliaser@intel.com>,
+	<5397736B.5000301@windriver.com>
+In-Reply-To: <5397736B.5000301@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.19.9.41]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1402431641.git.max.eliaser@intel.com>
-In-Reply-To: <cover.1402431641.git.max.eliaser@intel.com>
 Subject: Re: [PATCH 0/3] Suppress Texinfo utilities invoked at build time for -cross & native recipes (revised)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,75 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jun 2014 21:06:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Jun 2014 21:53:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/10/14, 3:24 PM, Max Eliaser wrote:
-> Hello list,
->
-> As per discussion with Richard Purdie and others, I'm submitting a patch to
-> suppress some unnecessary invocations of utilities from the Texinfo suite during
-> Yocto builds. Specifically, it targets -native and -cross recipes that inherit
-> texinfo.bbclass. This series is revised to fix issues that came up on the
-> autobuilder when I first tried submitting it.
->
-> The Texinfo utilities are suppressed by supplying doppelgänger executables which
-> understand the same command-line options as the genuine Texinfo utilites, and
-> which can create blank output files where expected, but which do no actual
-> processing, formatting, or markup. To see how this is done, look in the
-> texinfo-dummy-native recipe (under meta/recipes-extended,) added in this patch
-> series, as well as the modifications to texinfo.bbclass, also in this patch
-> series.
->
-> Suppressing the Texinfo utilities for -native and -cross recipes does provide a
-> noticable performance gain, as documented in bug 2421. [1] You could make the
-> case that this patch series still does not completely address bug 2421, as there
-> are other utilities not from the Texinfo suite (groff, pod2man, etc) which are
-> not suppressed by these changes.
+Shouldn't be a problem. It's only if the class is "native" or "cross" that =
+the impostor texinfo utils get used. I believe "nativesdk" and "crosssdk" a=
+re separate from "native" and "cross".=20
 
-There are a few cases, where I've wanted texinfo processed files to be shipped 
-as part of an SDK.  Specifically nativesdk and the SDK cross compiler packages. 
+-Max
+________________________________________
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Mark Hatle [mark.hatle@windrive=
+r.com]
+Sent: Tuesday, June 10, 2014 2:06 PM
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 0/3] Suppress Texinfo utilities invoked at bu=
+ild time for -cross & native recipes (revised)
+
+There are a few cases, where I've wanted texinfo processed files to be ship=
+ped
+as part of an SDK.  Specifically nativesdk and the SDK cross compiler packa=
+ges.
   Will this affect either of those cases?
 
 (Looking at the code, I don't think it will, but I wanted to check.)
 
-> Target-architecture recipes continue to use the host system's Texinfo utilities
-> as before, so that dependency is not eliminated by this patch series.
-
---Mark
-
-> Regards,
-> -Max Eliaser
->
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2421
-> The following changes since commit e7114046be6e71fb326477dc882adb814ef6a751:
->
->    busybox: fix meta-yocto's bbappend's FILESEXTRAPATH (2014-06-03 17:53:13 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib meliaser/texinfo-build-2
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/texinfo-build-2
->
-> Max Eliaser (3):
->    texinfo: Use texinfo-replacement-native as an alias for
->      texinfo-native.
->    texinfo-dummy-native: Create recipe w/ scripts to stand in for Texinfo
->      utils.
->    texinfo.bbclass: native/cross uses dummy texinfo; target uses host's
->      Texinfo.
->
->   meta/classes/texinfo.bbclass                       |  15 ++-
->   meta/conf/bitbake.conf                             |   1 +
->   .../texinfo-dummy-native/texinfo-dummy-native.bb   |  30 +++++
->   .../texinfo-dummy-native/texinfo-dummy/COPYING     |  19 ++++
->   .../texinfo-dummy-native/texinfo-dummy/template.py | 122 +++++++++++++++++++++
->   meta/recipes-extended/texinfo/texinfo_5.2.bb       |   4 +-
->   6 files changed, 189 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/COPYING
->   create mode 100644 meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
->
-
+--Mark=
 
