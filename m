@@ -1,36 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B0CF6B49F
+Return-Path: <akuster@mvista.com>
+Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
+	[209.85.160.51])
+	by mail.openembedded.org (Postfix) with ESMTP id F39CC60CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 00:35:06 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id s7so3546313lbd.28
+	Tue, 10 Jun 2014 01:12:00 +0000 (UTC)
+Received: by mail-pb0-f51.google.com with SMTP id rp16so206693pbb.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jun 2014 17:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=GBm0rX4oYp3ZAOHivqHOyRguukKrOZTQ+xyWXEol1x4=;
-	b=pOc2Z223qDLQjWzp/JKplhBnvy1LYsLp2F/6PAfu80Ct6pa6fBwMK9VbAGcWjGMAAW
-	0kAhdSix39daTPkLMt8WAZS/rEJc1/GTvHJZfLKWkG3wqAa8Wl3MOQMrFtoD9gIddkJ3
-	ZKFyW9UIaO/Ic+6CdRVM+xltcInVhN/GOSMuuiHApg8vHvTbaR0FF6EkO/vzC3e5b1kY
-	ILmWk2W/nLuZb+cCM5uZxRivsHHmz5aBM2fWCCr4Q2+sfwYFVijY3QQW9WtV4ZlEEv9G
-	SYk74gEyFlzoYv7LlKeBTGYW6rmoWhafudBkMOEzT0Xc9wqJmpMtoj9g6pIHnBdYE9pK
-	ly8Q==
-MIME-Version: 1.0
-X-Received: by 10.152.207.74 with SMTP id lu10mr20169763lac.28.1402360506584; 
-	Mon, 09 Jun 2014 17:35:06 -0700 (PDT)
-Received: by 10.112.124.146 with HTTP; Mon, 9 Jun 2014 17:35:06 -0700 (PDT)
-In-Reply-To: <1402348889-26065-3-git-send-email-henning@itconsulting-heinold.de>
-References: <1402348889-26065-1-git-send-email-henning@itconsulting-heinold.de>
-	<1402348889-26065-3-git-send-email-henning@itconsulting-heinold.de>
-Date: Mon, 9 Jun 2014 20:35:06 -0400
-Message-ID: <CADkTA4NZ5gepMbUgTf1F8isyCkd0FMTVWyq11HVUZWrY=V5F5Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Henning Heinold <henning@itconsulting-heinold.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] perf: fix broken shell comparsion in do_install
+	Mon, 09 Jun 2014 18:12:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=1Rfv10BdNPkWbm5oDlqCe5jkWvPPoChxCegc3R70dCQ=;
+	b=LdAQ4ItcQLvyMcFu0fQVRryTx0Jm6H8OFDnWHwpEE1aVFUFsRkVUqsNsM7/5K7d+d7
+	pXjjSm1cQP/YFOvlR45alUY8QjbHDBkLjkjwjE5TAi3p193l+egTEtEetBbYmTgaAtHR
+	XgCrlkt8mZu3/K1Bi/AlxxfhffuWJJqYro8bHhPUgt6QaNk8zJCzwkjGnP3cgJjX2/UM
+	5eh11to3fPP2VLGpAjtVgfrbwBd0tqTb+UfhtpwFj0D5am7UZQGdKFoVvjbIWk5Z9sP4
+	eiY6hpfihU5doTOsqaIujBTxTUIAb+gNoS/mlm9d5KyUuuo3Hq7Ah28m9NrCuRP7kT7W
+	+rpw==
+X-Gm-Message-State: ALoCoQnELxWgcA/c2bDfkPRd08GkEBaDOa4Dma1RxIuxHVuPPjofdNaBXCQLVguoLZDMaX8bW/cS
+X-Received: by 10.68.137.193 with SMTP id qk1mr7114695pbb.155.1402362720887;
+	Mon, 09 Jun 2014 18:12:00 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55])
+	by mx.google.com with ESMTPSA id be7sm4477672pad.9.2014.06.09.18.11.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 09 Jun 2014 18:12:00 -0700 (PDT)
+From: Armin Kuster <akuster@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jun 2014 18:11:55 -0700
+Message-Id: <1402362715-16218-1-git-send-email-akuster@mvista.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] v4 cups: Shouldn't link against libgcrypt without using gcrypt functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +44,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jun 2014 00:35:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Jun 2014 01:12:05 -0000
 
-When describing something as broken in the short log, it's typically a good
-idea to also include the symptoms, and the fix. That way the log will tell
-someone experience a particular problem that this change indeed addresses
-their problem.
+Backported from http://www.cups.org/strfiles.php/3308/cups-no-gcrypt.patch
 
-Bruce
+This addresses the cryto dependency seen during build.
 
-On Mon, Jun 9, 2014 at 5:21 PM, Henning Heinold
-<henning@itconsulting-heinold.de> wrote:
-> The patch was sponsored by sysmocom
->
-> Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
-> ---
->  meta/recipes-kernel/perf/perf.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index adbecfd..74686ca 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -112,7 +112,7 @@ do_install() {
->         unset CFLAGS
->         oe_runmake DESTDIR=${D} install
->         # we are checking for this make target to be compatible with older perf versions
-> -       if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0"]; then
-> +       if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0" ]; then
->                 oe_runmake DESTDIR=${D} install-python_ext
->         fi
->  }
-> --
-> 1.9.1
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-extended/cups/cups.inc                |  1 +
+ .../cups/cups/cups-no-gcrypt.patch                 | 49 ++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
 
-
-
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index fd88552..3b8027b 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -8,6 +8,7 @@ SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
+            file://use_echo_only_in_init.patch \
+            file://0001-don-t-try-to-run-generated-binaries.patch \
+            file://cups_serverbin.patch \
++           file://cups-no-gcrypt.patch \
+ 	  "
+ 
+ LEAD_SONAME = "libcupsdriver.so"
+diff --git a/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch b/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
+new file mode 100644
+index 0000000..8bbcf39
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
+@@ -0,0 +1,49 @@
++Description: Don't build-depend on libgcrypt, as nothing is used from it
++Author: Didier Raboud <odyx@debian.org>
++Bug-Debian: https://bugs.debian.org/638416
++Bug: http://www.cups.org/str.php?L????
++
++[CUPS Ticket #4399] -- http://www.cups.org/str.php?L4399
++
++Backported from http://www.cups.org/strfiles.php/3308/cups-no-gcrypt.patch
++
++Upstream-Status: Backport 
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Last-Update: 2014-04-07
++--- a/config-scripts/cups-ssl.m4
+++++ b/config-scripts/cups-ssl.m4
++@@ -66,7 +66,6 @@
++     dnl Then look for GNU TLS...
++     if test $have_ssl = 0 -a "x$enable_gnutls" != "xno" -a "x$PKGCONFIG" != x; then
++     	AC_PATH_PROG(LIBGNUTLSCONFIG,libgnutls-config)
++-    	AC_PATH_PROG(LIBGCRYPTCONFIG,libgcrypt-config)
++ 	if $PKGCONFIG --exists gnutls; then
++ 	    have_ssl=1
++ 	    SSLLIBS=`$PKGCONFIG --libs gnutls`
++@@ -84,14 +83,6 @@
++ 	if test $have_ssl = 1; then
++ 	    CUPS_SERVERCERT="ssl/server.crt"
++ 	    CUPS_SERVERKEY="ssl/server.key"
++-
++-            if $PKGCONFIG --exists gcrypt; then
++-	        SSLLIBS="$SSLLIBS `$PKGCONFIG --libs gcrypt`"
++-	        SSLFLAGS="$SSLFLAGS `$PKGCONFIG --cflags gcrypt`"
++-	    elif test "x$LIBGCRYPTCONFIG" != x; then
++-	        SSLLIBS="$SSLLIBS `$LIBGCRYPTCONFIG --libs`"
++-	        SSLFLAGS="$SSLFLAGS `$LIBGCRYPTCONFIG --cflags`"
++-	    fi
++ 	fi
++     fi
++ 
++--- a/cups/http-private.h
+++++ b/cups/http-private.h
++@@ -80,7 +80,6 @@
++ #  elif defined HAVE_GNUTLS
++ #    include <gnutls/gnutls.h>
++ #    include <gnutls/x509.h>
++-#    include <gcrypt.h>
++ #  elif defined(HAVE_CDSASSL)
++ #    include <CoreFoundation/CoreFoundation.h>
++ #    include <Security/Security.h>
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.1
+
 
