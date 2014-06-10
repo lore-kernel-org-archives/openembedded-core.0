@@ -1,61 +1,43 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C7E460703
+Return-Path: <akuster@mvista.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4560665D5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jun 2014 14:53:19 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1WuNQO-0001e0-3Z; Tue, 10 Jun 2014 16:53:20 +0200
-Message-ID: <1402411999.28622.3.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 10 Jun 2014 15:53:19 +0100
-In-Reply-To: <53971878.5090300@linux.intel.com>
-References: <1402013345-24930-1-git-send-email-sgw@linux.intel.com>
-	<1402013345-24930-2-git-send-email-sgw@linux.intel.com>
-	<1402401428.10715.132.camel@phil-desktop.brightsign>
-	<53971878.5090300@linux.intel.com>
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Tue, 2014-06-10 at 07:38 -0700,
-	Saul Wold wrote: > On 06/10/2014
-	04:57 AM, Phil Blundell wrote: > > On Thu, 2014-06-05 at 17:09 -0700,
-	Saul
-	Wold wrote: > >> These dependcies are needed to ensure that thier
-	packages
-	are created > >> correctly since these classes have runtime
-	dependiences
-	in their packages > >> but they are not actually created yet at rootfs
-	time. > > > > Can you be more specific about why these > >
-	dependecies/dependcies/dependiences
-	are required? I can't, offhand,
-	> > think of any reason why update-rc.d requires
-	initscripts for example. > > > It's more about having
-	initscripts-funtions
-	package built so that it's > available for the dynamic addition to the
-	RDEPENDS
-	later in > populate_pacakges_updatercd(). If initscripts is not built
-	and we add > initscripts-functions to the RDEPENDS,
-	the final rootfs will fail
-	with > an unsatisfied dependency. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] update-rc.d/useradd: Add additional dependecies
+	Tue, 10 Jun 2014 15:40:42 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id y13so336727pdi.27
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jun 2014 08:40:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type;
+	bh=uCz/8b62JvQYRQKYoJg9/N67BiIvylsoLGWyUJ4yC6A=;
+	b=CZHAnWNYraGvR6fjO4F+8T3NfaGX7+LjTEJSY5LCHv+CQ7iBOn7vAg5GPTPje4/fUZ
+	5TlAX3eC7hlloruZEJynQmOfubgMK4lb0lrWP2/YZl11fAfNhLmqgdP31upyjiSVV+uW
+	KaKOwkn1H+AL2+JOWjXvQjq2FmCokUud+hKx/FUHtaifDhahsztptNyoBdIr94CxKZVP
+	KfEWl66pKL17DkGZU5Y2aEe0uPumaqmMVbScuQCYg60x6agaW4aGsxZbyrfT5/LRUsBh
+	w3j0hL+PlzO3acX0lBWyIqLzKHHDroyBKCfTIlp9kbUQGYQ9o5U0uVItLUpkOP3qytYe
+	c0DQ==
+X-Gm-Message-State: ALoCoQkDMH6US/EX3+cOawJGZMnSURItxUS8klM0P7kBEwltCDCukH4r872yizF0KPQfzDJB5x79
+X-Received: by 10.67.30.163 with SMTP id kf3mr751591pad.144.1402414843385;
+	Tue, 10 Jun 2014 08:40:43 -0700 (PDT)
+Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55]) by mx.google.com with ESMTPSA id
+	av2sm70187941pbc.16.2014.06.10.08.40.41 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 10 Jun 2014 08:40:42 -0700 (PDT)
+Message-ID: <539726F8.3010109@mvista.com>
+Date: Tue, 10 Jun 2014 08:40:40 -0700
+From: "akuster@mvista" <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+References: <20140610100722.GC2433@jama>
+In-Reply-To: <20140610100722.GC2433@jama>
+Subject: Re: State of bitbake world, Failed tasks 2014-06-02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,42 +50,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jun 2014 14:53:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Jun 2014 15:40:48 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010300010107040904060707"
+
+--------------010300010107040904060707
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-06-10 at 07:38 -0700, Saul Wold wrote:
-> On 06/10/2014 04:57 AM, Phil Blundell wrote:
-> > On Thu, 2014-06-05 at 17:09 -0700, Saul Wold wrote:
-> >> These dependcies are needed to ensure that thier packages are created
-> >> correctly since these classes have runtime dependiences in their packages
-> >> but they are not actually created yet at rootfs time.
-> >
-> > Can you be more specific about why these
-> > dependecies/dependcies/dependiences are required?  I can't, offhand,
-> > think of any reason why update-rc.d requires initscripts for example.
-> >
-> It's more about having initscripts-funtions package built so that it's 
-> available for the dynamic addition to the RDEPENDS later in 
-> populate_pacakges_updatercd().  If initscripts is not built and we add 
-> initscripts-functions to the RDEPENDS, the final rootfs will fail with 
-> an unsatisfied dependency.
 
-It seems to me that, if a given package ships an initscript which
-requires /etc/init.d/functions, it ought to be the responsibility of
-that package to rdepend on initscripts itself.  I'm not sure it's
-entirely desirable for update-rc.d to drag that dependency in.
+On 06/10/2014 03:07 AM, Martin Jansa wrote:
+> On Mon, Jun 02, 2014 at 10:49:50AM +0200, Martin Jansa wrote:
+>> This build still contains huge patch setting B = S or inherit for
+>> autotools-brokensep for all recipes which were failing in earlier
+>> master builds.
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+>
+> == Failed tasks 2014-06-10 ==
+>
+> === common (17) ===
+>      * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_compile
+>      * meta-openembedded/meta-gnome/recipes-gnome/libgsf/libgsf_1.14.26.bb, do_compile
 
-> > Also, what's going on with the PACKAGESPLITFUNCS_remove_class-nativesdk?
-> >
-> We don't need to run that funtion to create the nativesdk sysroot, so 
-> don't run it.
+>      * meta-openembedded/meta-networking/recipes-support/curlpp/curlpp_0.7.3.bb, do_compile
+>      * meta-openembedded/meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.16.bb, do_compile
+>      * meta-openembedded/meta-oe/recipes-connectivity/libnet/libnet_1.1.6.bb, do_configure
+I can look into curlpp, lksctp-tools and libnet
 
-Fair enough, but this seems like an unrelated change (and one which
-isn't covered by the patch summary or description).  Shouldn't that be
-in a separate commit?
+- armin
 
-p.
+>      * meta-openembedded/meta-oe/recipes-devtools/python/python-cython_0.20.1.bb, do_package
+>      * meta-openembedded/meta-oe/recipes-devtools/python/python-pyyaml_3.10.bb, do_compile
+>      * meta-openembedded/meta-oe/recipes-multimedia/id3lib/id3lib_3.8.3.bb, do_configure
+>      * meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_compile
+>      * meta-openembedded/meta-oe/recipes-support/daemonize/daemonize_git.bb, do_configure
+>      * meta-openembedded/meta-oe/recipes-support/eject/eject_2.1.5.bb, do_compile
+>      * meta-openembedded/meta-xfce/recipes-apps/xfce4-notifyd/xfce4-notifyd_0.2.2.bb, do_compile
+>      * meta-openembedded/meta-xfce/recipes-apps/xfce4-screenshooter/xfce4-screenshooter_1.8.1.bb, do_compile
+>      * meta-qt5/recipes-qt/maliit/maliit-framework-qt5_git.bb, do_compile
+>      * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_install
+>      * meta-smartphone/meta-fso/recipes-freesmartphone/python/python-pyrtc_git.bb, do_compile
+>      * meta-smartphone/meta-shr/recipes-shr/shr/python-phoneutils_git.bb, do_compile
+>
+> === common-x86 (3) ===
+>      * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_compile
+>      * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+>      * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+>
+> === qemuarm (0) ===
+>
+> === qemux86 (0) ===
+>
+> === qemux86_64 (1) ===
+>      * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb, do_compile
+>
+> === Number of failed tasks ===
+> {| class=wikitable
+> |-
+> ||qemuarm       ||17    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140606_153039.log/
+> |-
+> ||qemux86       ||20    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140609_094000.log/
+> |-
+> ||qemux86_64    ||21    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140610_021320.log/
+> |}
+>
+>
+>
 
 
+--------------010300010107040904060707
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <div class="moz-cite-prefix">On 06/10/2014 03:07 AM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20140610100722.GC2433@jama" type="cite">
+      <pre wrap="">On Mon, Jun 02, 2014 at 10:49:50AM +0200, Martin Jansa wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">This build still contains huge patch setting B = S or inherit for
+autotools-brokensep for all recipes which were failing in earlier
+master builds.
+</pre>
+      </blockquote>
+      <pre wrap="">
+<a class="moz-txt-link-freetext" href="http://www.openembedded.org/wiki/Bitbake_World_Status">http://www.openembedded.org/wiki/Bitbake_World_Status</a>
+
+== Failed tasks 2014-06-10 ==
+
+=== common (17) ===
+    * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_compile
+    * meta-openembedded/meta-gnome/recipes-gnome/libgsf/libgsf_1.14.26.bb, do_compile</pre>
+    </blockquote>
+    <br>
+    <blockquote cite="mid:20140610100722.GC2433@jama" type="cite">
+      <pre wrap="">
+    * meta-openembedded/meta-networking/recipes-support/curlpp/curlpp_0.7.3.bb, do_compile
+    * meta-openembedded/meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.16.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-connectivity/libnet/libnet_1.1.6.bb, do_configure</pre>
+    </blockquote>
+    I can look into curlpp, lksctp-tools and libnet<br>
+    <br>
+    - armin<br>
+    <br>
+    <blockquote cite="mid:20140610100722.GC2433@jama" type="cite">
+      <pre wrap="">
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-cython_0.20.1.bb, do_package
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-pyyaml_3.10.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-multimedia/id3lib/id3lib_3.8.3.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-support/daemonize/daemonize_git.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-support/eject/eject_2.1.5.bb, do_compile
+    * meta-openembedded/meta-xfce/recipes-apps/xfce4-notifyd/xfce4-notifyd_0.2.2.bb, do_compile
+    * meta-openembedded/meta-xfce/recipes-apps/xfce4-screenshooter/xfce4-screenshooter_1.8.1.bb, do_compile
+    * meta-qt5/recipes-qt/maliit/maliit-framework-qt5_git.bb, do_compile
+    * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_install
+    * meta-smartphone/meta-fso/recipes-freesmartphone/python/python-pyrtc_git.bb, do_compile
+    * meta-smartphone/meta-shr/recipes-shr/shr/python-phoneutils_git.bb, do_compile
+
+=== common-x86 (3) ===
+    * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_compile
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+
+=== qemuarm (0) ===
+
+=== qemux86 (0) ===
+
+=== qemux86_64 (1) ===
+    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb, do_compile
+
+=== Number of failed tasks ===
+{| class=wikitable
+|-
+||qemuarm       ||17    ||<a class="moz-txt-link-freetext" href="http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140606_153039.log/">http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140606_153039.log/</a>
+|-
+||qemux86       ||20    ||<a class="moz-txt-link-freetext" href="http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140609_094000.log/">http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140609_094000.log/</a>
+|-
+||qemux86_64    ||21    ||<a class="moz-txt-link-freetext" href="http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140610_021320.log/">http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140610_021320.log/</a>
+|}
+
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------010300010107040904060707--
