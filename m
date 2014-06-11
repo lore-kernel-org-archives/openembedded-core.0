@@ -1,34 +1,37 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BB3706BCB3;
-	Wed, 11 Jun 2014 19:24:56 +0000 (UTC)
-Received: by mail-la0-f53.google.com with SMTP id ty20so115410lab.40
-	for <multiple recipients>; Wed, 11 Jun 2014 12:24:56 -0700 (PDT)
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id CF7C465D34
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jun 2014 20:54:58 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id gl10so178208lab.35
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jun 2014 13:54:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=08OQ65u/73VAW1w45dPHF9Wmm+G9NdxgDQxzgeyvXdk=;
-	b=LCU99cQSZe67kMRwNuo3YIqC+Q/FmiTHs/0HddhEFVuCYCj9f554s78WOYEcZ8nUMa
-	5Zg8s2tYZHyIL4c4eqgBLQz0DmTHNTCzU02vS9+Qy/whtMeboKQ7KjMkvqlrmV0PLJ1X
-	h3PzbhRMqlwEYOHWQjmW4SSBEqHaNNaskeJrmnR0x8n/Iijys0EloxYrAf+h5FBxmDwa
-	+vdv44hZaGJ7H3MhNmQgqxj7eFMCjS9mXdByctWNAYqmA63pa4OFO04KTK/Amp82V+XU
-	MHM0c2Q3Br0KOaylMTzJpqviji3igXynXYeJdL+CuVR4qT+qY9tcL7kQ4/iELmMYuKFI
-	7vdQ==
-X-Received: by 10.152.45.37 with SMTP id j5mr3174128lam.58.1402514696740; Wed,
-	11 Jun 2014 12:24:56 -0700 (PDT)
+	bh=35lMfzhbKpGfV5ddWhhyAVYN3JTsZlBQV6kUCeKkZT0=;
+	b=WPZj2W8naUgkaZFBtmNgkT9qVuzITH5BtouR6npLShdVYaPzyIR13ei2GxlKmGSKx5
+	ljqPireil2GDoi5eQONULqJYgsx17GKdaGUffUzPJpWSggVDCdJSPCHUfZOOW5McEJ5k
+	4NkoIZyAi8iG27DAiGSIrChoe1FcuGAkqnF6gT/niBx7JyV/6QxqTI7eqTH7Q16WEseb
+	qlgMkPajuTxk0Huxad6pCD6kEvunTjv0GYLICNLO4ROlbWUY5MIJji6A3qn70k+eG1R9
+	0w/lr69J2Hc4O5rIG7CVHUx0iKnJycMEOOl6yJ0tThzPDZ1AaR7kicyWHHPpn9CxKe89
+	XEpw==
+X-Received: by 10.152.4.137 with SMTP id k9mr8907036lak.46.1402520098530; Wed,
+	11 Jun 2014 13:54:58 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.112.148.170 with HTTP; Wed, 11 Jun 2014 12:24:36 -0700 (PDT)
-In-Reply-To: <CAJTo0LacXy5_wf39pX9z078RD0vU0BpvWsNTdZqcr6dMobpXWw@mail.gmail.com>
-References: <CAJTo0LacXy5_wf39pX9z078RD0vU0BpvWsNTdZqcr6dMobpXWw@mail.gmail.com>
+Received: by 10.112.148.170 with HTTP; Wed, 11 Jun 2014 13:54:38 -0700 (PDT)
+In-Reply-To: <1402082874-12187-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1402082874-12187-1-git-send-email-Martin.Jansa@gmail.com>
 From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 11 Jun 2014 12:24:36 -0700
-X-Google-Sender-Auth: YQNv8eMEzH2zGYV-MeANHrdg8UI
-Message-ID: <CABcZANnZQJuXq_umM5SYZ+Z665PEjO+jdwwVV9Nz50pcWa1DOg@mail.gmail.com>
-To: Openembedded Discussion <openembedded-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] RFC: automatic -dbg splitting
+Date: Wed, 11 Jun 2014 13:54:38 -0700
+X-Google-Sender-Auth: RCZXzLmNCo7aBfThhlvNYr5fSTo
+Message-ID: <CABcZANnJG8eMJu__kPstQXajFzHDVkBrRSVLfCqPfOEj5omeKw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] buildstats-summary.bbclass: Import useful bbclass from meta-mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,50 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jun 2014 19:24:58 -0000
-Content-Type: multipart/alternative; boundary=001a11c28c104aa63504fb946658
+X-List-Received-Date: Wed, 11 Jun 2014 20:55:06 -0000
+Content-Type: multipart/alternative; boundary=089e013d1cf8436b2f04fb95a8e4
 
---001a11c28c104aa63504fb946658
+--089e013d1cf8436b2f04fb95a8e4
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jun 11, 2014 at 12:10 PM, Burton, Ross <ross.burton@intel.com>
+On Fri, Jun 6, 2014 at 12:27 PM, Martin Jansa <martin.jansa@gmail.com>
 wrote:
 
-> So yet again I was wrestling PACKAGES and FILES in an attempt to get
-> everything in the right place, the latest complication being ptest and
-> where they are in the PACKAGES chain making correct splitting tricky.
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/buildstats-summary.bbclass | 43
+> +++++++++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 meta/classes/buildstats-summary.bbclass
 >
-> Again I wondered why debug packages need explicit FILES, and did a
-> quick hack as a proof of concept to put split debug objects and source
-> code into PN-dbg automatically, instead of through explicit FILES.
-> This hack is at best: it clears FILES_PN-dbg in bitbake.conf and as it
-> executes do_package FILES is set for each file it handles.  As PN-dbg
-> is at the beginning of PACKAGES it takes the right files before other
-> packages, apart from when other =+ is used as in ptest... so my
-> original reason for looking at this is still a problem.  This is in
-> ross/debug in poky-contrib, fwiw.
->
-> Before I look at this again and avoid FILES entirely, I should check
-> that my assumptions are valid in the greater community.  My big
-> assumptions here are that 1) every recipe has a single -dbg package,
-> 2) every debug object belongs in that -dbg package, 3) only debug
-> objects and sources belong in that -dbg package.
->
-> I know there are recipes floating around that have multiple -dbg
-> packages, but I can't see a great rationale for that.  I also can't
-> see a reason why you'd want debug objects/sources outside of the -dbg
-> package, or something that wasn't a debug object or source inside the
-> -dbg package.
+> diff --git a/meta/classes/buildstats-summary.bbclass b/meta/classes/
+> buildstats-summary.bbclass
+> new file mode 100644
+> index 0000000..3c02724
+> --- /dev/null
+> +++ b/meta/classes/buildstats-summary.bbclass
+> @@ -0,0 +1,43 @@
+> +# Imported from meta-mentor
+> +# http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/log/classes/
+> buildstats-summary.bbclass
+> +# with following modifications
+> +# 1) when both setscene and normal tasks were executed, count it as
+> no_sstate
+> +# 2) count do_populate_sysroot and do_packagedata tasks, because often we
+> invalidate only runtime deps
 >
 
-This seems like a step in the right direction to me.
-
-I do think we should also pursue going a step further, adding the ability
-to automatically emit a per-binary-package -dbg package, rather than a
-single monolithic recipe-wide one. This would mean that adding dbg-pkgs to
-an image is cleaner and doesn't result in installing every sub-package of
-the recipe. This change you're proposing would make it easier to extend to
-potentially do this, possibly optionally.
+Looks like useful improvements, nicely done. Have you thought about not
+hardcoding the task list, if we're going to display it this way? See
+https://gist.github.com/kergoth/2519927f59712282e9e8 for a version which
+obeys SSTATETASKS.
 -- 
 Christopher Larson
 clarson at kergoth dot com
@@ -92,61 +88,56 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---001a11c28c104aa63504fb946658
+--089e013d1cf8436b2f04fb95a8e4
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jun 11, 2014 at 12:10 PM, Burton, Ross <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com<=
-/a>&gt;</span> wrote:<br>
+On Fri, Jun 6, 2014 at 12:27 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":e6" class=3D"a3s" style=3D"overf=
-low:hidden">So yet again I was wrestling PACKAGES and FILES in an attempt t=
-o get<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex"><div id=3D":se" class=3D"=
+" style=3D"overflow:hidden">Signed-off-by: Martin Jansa &lt;<a href=3D"mail=
+to:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt;<br>
 
 
-everything in the right place, the latest complication being ptest and<br>
-where they are in the PACKAGES chain making correct splitting tricky.<br>
+---<br>
+=C2=A0meta/classes/<span class=3D"">buildstats</span>-summary.bbclass | 43 =
++++++++++++++++++++++++++++++++++<br>
+=C2=A01 file changed, 43 insertions(+)<br>
+=C2=A0create mode 100644 meta/classes/<span class=3D"">buildstats</span>-su=
+mmary.bbclass<br>
 <br>
-Again I wondered why debug packages need explicit FILES, and did a<br>
-quick hack as a proof of concept to put split debug objects and source<br>
-code into PN-dbg automatically, instead of through explicit FILES.<br>
-This hack is at best: it clears FILES_PN-dbg in bitbake.conf and as it<br>
-executes do_package FILES is set for each file it handles. =C2=A0As PN-dbg<=
-br>
-is at the beginning of PACKAGES it takes the right files before other<br>
-packages, apart from when other =3D+ is used as in ptest... so my<br>
-original reason for looking at this is still a problem. =C2=A0This is in<br=
->
-ross/debug in poky-contrib, fwiw.<br>
-<br>
-Before I look at this again and avoid FILES entirely, I should check<br>
-that my assumptions are valid in the greater community. =C2=A0My big<br>
-assumptions here are that 1) every recipe has a single -dbg package,<br>
-2) every debug object belongs in that -dbg package, 3) only debug<br>
-objects and sources belong in that -dbg package.<br>
-<br>
-I know there are recipes floating around that have multiple -dbg<br>
-packages, but I can&#39;t see a great rationale for that. =C2=A0I also can&=
-#39;t<br>
-see a reason why you&#39;d want debug objects/sources outside of the -dbg<b=
-r>
-package, or something that wasn&#39;t a debug object or source inside the<b=
-r>
--dbg package.</div></blockquote></div><br></div><div class=3D"gmail_extra">=
-This seems like a step in the right direction to me.<br><br>I do think we s=
-hould also pursue going a step further, adding the ability to automatically=
- emit a per-binary-package -dbg package, rather than a single monolithic re=
-cipe-wide one. This would mean that adding dbg-pkgs to an image is cleaner =
-and doesn&#39;t result in installing every sub-package of the recipe. This =
-change you&#39;re proposing would make it easier to extend to potentially d=
-o this, possibly optionally.<br>
+diff --git a/meta/classes/<span class=3D"">buildstats</span>-summary.bbclas=
+s b/meta/classes/<span class=3D"">buildstats</span>-summary.bbclass<br>
+new file mode 100644<br>
+index 0000000..3c02724<br>
+--- /dev/null<br>
++++ b/meta/classes/<span class=3D"">buildstats</span>-summary.bbclass<br>
+@@ -0,0 +1,43 @@<br>
++# Imported from meta-mentor<br>
++# <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/log/cla=
+sses/buildstats-summary.bbclass" target=3D"_blank">http://git.yoctoproject.=
+org/cgit/cgit.cgi/meta-mentor/log/classes/<span class=3D"">buildstats</span=
+>-summary.bbclass</a><br>
+
+
++# with following modifications<br>
++# 1) when both setscene and normal tasks were executed, count it as no_sst=
+ate<br>
++# 2) count do_populate_sysroot and do_packagedata tasks, because often we =
+invalidate only runtime deps</div></blockquote></div><br></div><div class=
+=3D"gmail_extra">Looks like useful improvements, nicely done. Have you thou=
+ght about not hardcoding the task list, if we&#39;re going to display it th=
+is way? See <a href=3D"https://gist.github.com/kergoth/2519927f59712282e9e8=
+">https://gist.github.com/kergoth/2519927f59712282e9e8</a> for a version wh=
+ich obeys SSTATETASKS.<br>
 
 -- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
 e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
 er, Mentor Graphics
 </div></div>
 
---001a11c28c104aa63504fb946658--
+--089e013d1cf8436b2f04fb95a8e4--
