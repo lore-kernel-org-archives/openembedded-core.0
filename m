@@ -1,30 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6292F65E39;
-	Thu, 12 Jun 2014 11:07:14 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5CB796u028796; Thu, 12 Jun 2014 12:07:09 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ll73KD24uPvK; Thu, 12 Jun 2014 12:07:09 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5CB72gL028781
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 12 Jun 2014 12:07:04 +0100
-Message-ID: <1402571217.12440.385.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 12 Jun 2014 12:06:57 +0100
-In-Reply-To: <20140610114030.GG2433@jama>
-References: <20140610100722.GC2433@jama> <20140610114030.GG2433@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world, Failed tasks 2014-06-02
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1606165D6D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jun 2014 12:07:01 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jun 2014 05:07:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,464,1400050800"; d="scan'208";a="527396164"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jun 2014 05:07:01 -0700
+Date: Thu, 12 Jun 2014 15:07:00 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: yzhu1 <Yanjun.Zhu@windriver.com>
+Message-ID: <20140612120700.GA23988@lpalcu-linux>
+References: <1402039028-17192-1-git-send-email-rongqing.li@windriver.com>
+	<CAMKF1sp27ENENTNh6B0woVgh9AmY6zfpLX6Q19y1NciY8QUzKQ@mail.gmail.com>
+	<53997D96.5040906@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <53997D96.5040906@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] relocate_sdk.py: fix lib path error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,100 +34,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jun 2014 11:07:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jun 2014 12:07:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2014-06-10 at 13:40 +0200, Martin Jansa wrote:
-> On Tue, Jun 10, 2014 at 12:07:22PM +0200, Martin Jansa wrote:
-> > On Mon, Jun 02, 2014 at 10:49:50AM +0200, Martin Jansa wrote:
-> > > This build still contains huge patch setting B = S or inherit for
-> > > autotools-brokensep for all recipes which were failing in earlier
-> > > master builds.
-> > 
-> > http://www.openembedded.org/wiki/Bitbake_World_Status
-> > 
-> > == Failed tasks 2014-06-10 ==
-> > 
-> > === common (17) ===
-> >     * meta-openembedded/meta-efl/recipes-efl/efl/efl_1.10.0.bb, do_compile
+On Thu, Jun 12, 2014 at 06:14:46PM +0800, yzhu1 wrote:
+> On 06/06/2014 08:22 PM, Khem Raj wrote:
 > 
-> I'll look into this one (as it's caused by my pending commit and doesn't fail on my local machine)
 > 
-> >     * meta-openembedded/meta-gnome/recipes-gnome/libgsf/libgsf_1.14.26.bb, do_compile
-> >     * meta-openembedded/meta-networking/recipes-support/curlpp/curlpp_0.7.3.bb, do_compile
-> >     * meta-openembedded/meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.16.bb, do_compile
-> >     * meta-openembedded/meta-oe/recipes-connectivity/libnet/libnet_1.1.6.bb, do_configure
-> >     * meta-openembedded/meta-oe/recipes-devtools/python/python-cython_0.20.1.bb, do_package
-> >     * meta-openembedded/meta-oe/recipes-devtools/python/python-pyyaml_3.10.bb, do_compile
-> >     * meta-openembedded/meta-oe/recipes-multimedia/id3lib/id3lib_3.8.3.bb, do_configure
-> >     * meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_compile
-> >     * meta-openembedded/meta-oe/recipes-support/daemonize/daemonize_git.bb, do_configure
-> >     * meta-openembedded/meta-oe/recipes-support/eject/eject_2.1.5.bb, do_compile
-> >     * meta-openembedded/meta-xfce/recipes-apps/xfce4-notifyd/xfce4-notifyd_0.2.2.bb, do_compile
-> >     * meta-openembedded/meta-xfce/recipes-apps/xfce4-screenshooter/xfce4-screenshooter_1.8.1.bb, do_compile
-> >     * meta-qt5/recipes-qt/maliit/maliit-framework-qt5_git.bb, do_compile
 > 
-> Fixed in master-next and jansa/master branches (I forgot to push it
-> before starting new build).
+>     On Friday, June 6, 2014, <rongqing.li@windriver.com> wrote:
 > 
-> >     * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_install
+>         From: yzhu1 <yanjun.zhu@windriver.com>
 > 
-> Fixed in master-next and jansa/master branches (I forgot to push it
-> before starting new build).
+>         In centos 5.9 32bit, ld lib does not contain some flags, so ld
+>         lib is not parsed. So correct lib path is not got from ld lib.
 > 
-> >     * meta-smartphone/meta-fso/recipes-freesmartphone/python/python-pyrtc_git.bb, do_compile
-> >     * meta-smartphone/meta-shr/recipes-shr/shr/python-phoneutils_git.bb, do_compile
-> > 
-> > === common-x86 (3) ===
-> >     * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_compile
-> >     * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-> >     * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 > 
-> RP asked for more details about this one (and volunteered to look into
-> it - thanks!)
+>     Can you explain with examples what's going on here ?
 > 
-> OE qemux86-64@ ~/oe/shr-core-branches/shr-core $ '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit' -b '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/core2-64-oe-linux' -d '/usr/src/debug' -i -l '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/core2-64-oe-linux/grub/2.00-r1/debugsources.list' '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/core2-64-oe-linux/grub/2.00-r1/package/usr/lib/grub/i386-pc/uhci.module'
-> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit: elf_update: invalid section alignment
+> Hi,
 > 
-> workdir, rpm-sstate and few more logs included in 58MB 
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches//log.world.20140610_021320.log/grub.tar.bz2
+> Before relocate_sdk.sh is executed, it needs the parameters: path/
+> ld-linux-x86-64.so.2 path/dmesg.util-linux path/kill.util-linux path/
+> reset.util-linux .....
+> The file list (path/dmesg.util-linux path/kill.util-linux path/reset.util-linux
+> .....) is collected by "grep '\(executable\|dynamically linked\)'".
+> 
+> So "dynamically linked" is very import to the file ld-linux-x86-64.so.2. But in
+> redhat 5.9(32 bit)
+> 
+> This file is as below:
+> 
+> ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), stripped
+> 
+> In Ubuntu 12.04 (64bit)
+> 
+> This file is as below:
+> 
+> ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically
+> linked, BuildID[sha1]=0xbb8c5184d8d41f31093193a2ec8d3f6f10964cd2, stripped
+> 
+> In this case, we can find in Ubuntu 12.04(64 bit), the flag "dynamically
+> linked" is present, so ld-linux-x86-64.so.2 can be included in the file list.
+> relocate_sdk.py can work according to the information from
+> ld-linux-x86-64.so.2. But in redhat 5.9(32bit), the flag does not exist.
+> relocate_sdk.py can not get the information from ld-linux-x86-64.so.2 since
+> this file is not included in the file list.
+> 
+> The same error occurs on redhat6.0(32 bit).
+> 
+> So the direct solution to this defect is to force this file
+> ld-linux-x86-64.so.2 exist in file list.
+> 
+> If any problem, please feel free to let me know.
 
-To update on this, "readelf -e uhci.module" shows:
+This looks like a 'file' display issue. It has nothing to do with the
+dynamic loader itself. However, the dynamic loader is the reason you
+spotted the problem because it wasn't relocated and all the other
+dynamically linked binaries depend on it...
 
-Section Headers:
-  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
-  [12] .note.GNU-stack   PROGBITS        00000000 0010ce 000000 00      0   0  1
+Originally, all executable files were selected no matter if they were
+scripts or other non-elf files. The relocation script checked for the
+ELF magic number anyway and it moved on if the file was not ELF
+format.
 
-in a good build and:
+But, the following commit added this 'file' dependency for detecting
+executables:
 
-Section Headers:
-  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
-  [24] .note.GNU-stack   PROGBITS        00000000 009180 000000 00      0   0  0
+commit 65535bff09afd21b6d9f129651df6c70570c3aa0
+Author: yzhu1 <yanjun.zhu@windriver.com>
+Date:   Tue Nov 26 08:38:28 2013 +0000
 
-in a bad build. The problem is the "Al" (alignment) change from 1 to 0.
-If its 0, debugedit complains.
+    populate_sdk: verify executable or dynamically linked library
 
-It comes down to the linker. The command you can use is:
+My guess is that this commit was not the right fix for the problem it
+describes. In fact, I just had a better look, and I spotted the problem
+you were experiencing with empty files:
 
-ld --build-id --eh-frame-hdr --hash-style=gnu -m elf_i386 -o uhci.module -O1 --as-needed --build-id=none -N -r -d uhci_module-uhci.o
+in scripts/relocate_sdk.py, in get_arch(), we check for the ELF magic
+number and we do a read(16). Hence, if the file was zero sized, this
+read would fail...
 
-and with bfd, it works, with gold it does not.
+I suggest you add a check in relocate_sdk.py and make sure the file size is
+bigger than the e_ident size (which is 16). Then, you can safely revert
+65535bff09afd21b6d9f129651df6c70570c3aa0. Also, the current patch would no
+longer be needed.
 
-I haven't had a chance to dig into what gold is doing differently as yet.
-
-I did change the libelf check to ignore the alignment if the section
-size was zero and that let things build successfully. That probably
-isn't the real issue though.
-
-So the workaround could be to disable gold for grub and we need to look
-further into what gold is doing here. Someone with some idea about elf
-formant and linkers would probably be better than me at this point but
-I'll try and have a look in due course if nobody beats me to it.
-
-Cheers,
-
-Richard
-
-
+laurentiu
 
