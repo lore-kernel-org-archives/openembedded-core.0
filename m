@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B2BDE6AD68
+	by mail.openembedded.org (Postfix) with ESMTP id B211F66010
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Jun 2014 05:56:34 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2014 22:51:18 -0700
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2014 22:51:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,462,1400050800"; d="scan'208";a="556147352"
+X-IronPort-AV: E=Sophos;i="5.01,462,1400050800"; d="scan'208";a="556147349"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.166])
 	by orsmga002.jf.intel.com with ESMTP; 11 Jun 2014 22:56:34 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jun 2014 22:56:27 -0700
-Message-Id: <c664df81298278ecb3fa2eae5573bbbeded75782.1402552609.git.sgw@linux.intel.com>
+Date: Wed, 11 Jun 2014 22:56:26 -0700
+Message-Id: <97e4ffe1ba0564a850d320b0a66a803c6427a2b6.1402552609.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1402552609.git.sgw@linux.intel.com>
 References: <cover.1402552609.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1402552609.git.sgw@linux.intel.com>
 References: <cover.1402552609.git.sgw@linux.intel.com>
-Subject: [RFC - WIP v2 08/10] xserver-xf86-config: convert to use conf-files and remove
+Subject: [RFC - WIP v2 07/10] pointer: convert to conf-files and remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +35,97 @@ X-List-Received-Date: Thu, 12 Jun 2014 05:56:35 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../conf-files/conf-files}/qemuarm/xorg.conf         |  0
- .../conf-files/conf-files}/qemumips/xorg.conf        |  0
- .../conf-files/conf-files}/qemumips64/xorg.conf      |  0
- .../conf-files/conf-files}/qemuppc/xorg.conf         |  0
- .../conf-files/conf-files}/qemush4/xorg.conf         |  0
- .../conf-files/conf-files}/qemux86-64/xorg.conf      |  0
- .../conf-files/conf-files}/qemux86/xorg.conf         |  0
- .../conf-files/conf-files}/xorg.conf                 |  0
- .../xorg-xserver/xserver-xf86-config_0.1.bb          | 20 --------------------
- 9 files changed, 20 deletions(-)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemuarm/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemumips/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemumips64/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemuppc/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemush4/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemux86-64/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/qemux86/xorg.conf (100%)
- rename meta/{recipes-graphics/xorg-xserver/xserver-xf86-config => recipes-bsp/conf-files/conf-files}/xorg.conf (100%)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+ .../conf-files}/pointercal                         |   0
+ .../conf-files}/qemuarm/pointercal                 |   0
+ .../conf-files}/qemuarmv6/pointercal               |   0
+ .../conf-files}/qemuarmv7/pointercal               |   0
+ .../conf-files}/qemumips/pointercal                |   0
+ .../conf-files}/qemuppc/pointercal                 | Bin
+ .../conf-files}/qemux86-64/pointercal              |   0
+ .../conf-files}/qemux86/pointercal                 |   0
+ meta/recipes-bsp/pointercal/pointercal/COPYING     |   2 --
+ meta/recipes-bsp/pointercal/pointercal_0.0.bb      |  22 ---------------------
+ 10 files changed, 24 deletions(-)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemuarm/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemuarmv6/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemuarmv7/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemumips/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemuppc/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemux86-64/pointercal (100%)
+ rename meta/recipes-bsp/{pointercal/pointercal => conf-files/conf-files}/qemux86/pointercal (100%)
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/COPYING
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal_0.0.bb
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemuarm/xorg.conf
+diff --git a/meta/recipes-bsp/pointercal/pointercal/pointercal b/meta/recipes-bsp/conf-files/conf-files/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemuarm/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemumips/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemuarm/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemumips/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemumips64/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemuarm/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemuarmv6/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemumips64/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemuppc/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemuarmv6/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemuarmv7/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemuppc/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemush4/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemuarmv7/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemumips/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemush4/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemux86-64/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemumips/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemuppc/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemux86-64/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/qemux86/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemuppc/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemux86-64/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/qemux86/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/xorg.conf b/meta/recipes-bsp/conf-files/conf-files/xorg.conf
+rename from meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemux86-64/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal b/meta/recipes-bsp/conf-files/conf-files/qemux86/pointercal
 similarity index 100%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xf86-config/xorg.conf
-rename to meta/recipes-bsp/conf-files/conf-files/xorg.conf
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+rename from meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal
+rename to meta/recipes-bsp/conf-files/conf-files/qemux86/pointercal
+diff --git a/meta/recipes-bsp/pointercal/pointercal/COPYING b/meta/recipes-bsp/pointercal/pointercal/COPYING
 deleted file mode 100644
-index 549c7c8..0000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+index 63f5293..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/COPYING
 +++ /dev/null
-@@ -1,20 +0,0 @@
--SUMMARY = "X.Org X server configuration file"
--HOMEPAGE = "http://www.x.org"
--SECTION = "x11/base"
--LICENSE = "MIT-X"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r33"
+@@ -1,2 +0,0 @@
+-This is a blank COPYING file, and should be filled in by original author in future.
 -
--SRC_URI = "file://xorg.conf"
+diff --git a/meta/recipes-bsp/pointercal/pointercal_0.0.bb b/meta/recipes-bsp/pointercal/pointercal_0.0.bb
+deleted file mode 100644
+index 5029c4a..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal_0.0.bb
++++ /dev/null
+@@ -1,22 +0,0 @@
+-SUMMARY = "Touchscreen calibration data"
+-SECTION = "base"
+-PR = "r11"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4b5fcfc87fb615860d398b5e38685edf"
 -
--CONFFILES_${PN} = "${sysconfdir}/X11/xorg.conf"
+-SRC_URI = "file://pointercal \
+-           file://COPYING"
 -
--PACKAGE_ARCH = "${MACHINE_ARCH}"
--ALLOW_EMPTY_${PN} = "1"
+-S = "${WORKDIR}"
 -
--do_install () {
--	if test -s ${WORKDIR}/xorg.conf; then
--		install -d ${D}/${sysconfdir}/X11
--		install -m 0644 ${WORKDIR}/xorg.conf ${D}/${sysconfdir}/X11/
+-do_install() {
+-	# Only install file if it has a contents
+-	if [ -s ${S}/pointercal ]; then
+-	        install -d ${D}${sysconfdir}/
+-	        install -m 0644 ${S}/pointercal ${D}${sysconfdir}/
 -	fi
 -}
+-
+-ALLOW_EMPTY_${PN} = "1"
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
+-INHIBIT_DEFAULT_DEPS = "1"
+\ No newline at end of file
 -- 
 1.8.3.2
 
