@@ -1,28 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7904765D6D
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+X-Greylist: delayed 613 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 12 Jun 2014 13:42:44 UTC
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id E259265E0F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jun 2014 13:36:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5CDag9g005409
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Jun 2014 13:42:44 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s5CDaDGN028992
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jun 2014 06:36:42 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 12 Jun 2014 06:36:42 -0700
-Message-ID: <5399ACE8.9090809@windriver.com>
-Date: Thu, 12 Jun 2014 21:36:40 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1402564829.git.liezhi.yang@windriver.com>
-	<d34c8b5769080274b7202919e450d42c69a5450d.1402564829.git.liezhi.yang@windriver.com>
-In-Reply-To: <d34c8b5769080274b7202919e450d42c69a5450d.1402564829.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] gstreamer1.0-rtsp-server: depends on libcgroup
+	Thu, 12 Jun 2014 15:36:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1402580176;
+	bh=Q7Mreiyycclh6H3VjwqGmO7aXTh73I/otBHZ3ksGyIE=;
+	h=From:To:Cc:Subject:Date:Message-Id:Sender;
+	b=jbYTASB4BRasxPVKoSpy/qU6tQMk/M9kO0g0mH2ucUk1hcEl1L0K0RTUzS7wKaRT/
+	Zw0i+Grrzw/+XY6IMSg1o3Kztjf+57DE98XaqRH0+pxE6uXRGmJdDVTzA5ZMlDGGqm
+	5j8hpV865vkIYRz2TjGdE3bTBtvhfkRhUhRWQ1Z8=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s5CDa6rO027624
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 12 Jun 2014 15:36:08 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Wv5Ak-00085q-Qp; Thu, 12 Jun 2014 15:36:06 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jun 2014 15:36:06 +0200
+Message-Id: <1402580166-30993-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.9.3
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] openssl: install files in ${libdir}, not in ${base_libdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jun 2014 13:36:49 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jun 2014 13:42:54 -0000
 
+${base_libdir} is not in the search path of -native binaries and they
+will try to pick the wrong openssl libraries.
 
-Updated it a little, it also needs depend on gstreamer1.0-plugins-base:
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/recipes-connectivity/openssl/openssl.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-   git://git.pokylinux.org/poky-contrib rbt/gst
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index b839c00..f17f829 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -32,6 +32,10 @@ export AS = "${CC} -c"
+ 
+ inherit pkgconfig siteinfo multilib_header ptest
+ 
++# natives don't generally look in base_libdir
++base_libdir_class-native = "${libdir}"
++base_libdir_class-nativesdk = "${libdir}"
++
+ PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+ FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl.so.*"
+-- 
+1.9.3
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc 
-b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-index 6917d41..28a9420 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-@@ -2,7 +2,7 @@ SUMMARY = "A library on top of GStreamer for building an RTSP 
-server"
-  SECTION = "multimedia"
-  LICENSE = "LGPLv2"
-  HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
--DEPENDS = "gstreamer1.0"
-+DEPENDS = "gstreamer1.0 libcgroup gstreamer1.0-plugins-base"
-
-  PNREAL = "gst-rtsp-server"
-
-
-On 06/12/2014 05:21 PM, Robert Yang wrote:
-> Otherwise may do_compile error:
-> test-cgroups.c:43:23:: fatal error: libcgroup.h: No such file or directory
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   .../gstreamer/gstreamer1.0-rtsp-server.inc         |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-> index 6917d41..e4bf7b0 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-> @@ -2,7 +2,7 @@ SUMMARY = "A library on top of GStreamer for building an RTSP server"
->   SECTION = "multimedia"
->   LICENSE = "LGPLv2"
->   HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
-> -DEPENDS = "gstreamer1.0"
-> +DEPENDS = "gstreamer1.0 libcgroup"
->
->   PNREAL = "gst-rtsp-server"
->
->
 
