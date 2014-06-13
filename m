@@ -1,34 +1,20 @@
 Return-Path: <max.eliaser@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id DAD016FE97
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7349D6FE24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 21:48:11 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jun 2014 14:47:49 -0700
+	Fri, 13 Jun 2014 22:09:08 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jun 2014 15:09:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,473,1400050800"; d="scan'208";a="445368977"
-Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
-	by azsmga001.ch.intel.com with ESMTP; 13 Jun 2014 14:47:48 -0700
-Received: from orsmsx110.amr.corp.intel.com ([169.254.3.160]) by
-	ORSMSX105.amr.corp.intel.com ([169.254.4.10]) with mapi id
-	14.03.0123.003; Fri, 13 Jun 2014 14:47:48 -0700
-From: "Eliaser, MaX" <max.eliaser@intel.com>
-To: Denys Dmytriyenko <denis@denix.org>, Gary Thomas <gary@mlbassoc.com>
-Thread-Topic: [OE-core] textinfo failure
-Thread-Index: AQHPhy2ai+tCaB1WYkqOW+vA1jvzUptvyYoAgAAT74D//7ZIsg==
-Date: Fri, 13 Jun 2014 21:47:47 +0000
-Message-ID: <E88D0531F83F3744B03D1A909A2B070F5C534E@ORSMSX110.amr.corp.intel.com>
-References: <20140613163159.GO27324@denix.org>
-	<539B3C18.1090701@mlbassoc.com>,<20140613191113.GQ27324@denix.org>
-In-Reply-To: <20140613191113.GQ27324@denix.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.19.9.41]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: textinfo failure
+X-IronPort-AV: E=Sophos;i="5.01,473,1400050800"; d="scan'208";a="528328030"
+Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.155])
+	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2014 15:09:09 -0700
+From: Max Eliaser <max.eliaser@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jun 2014 15:07:40 -0700
+Message-Id: <cover.1402697205.git.max.eliaser@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/1] Fix texinfo-dummy-native bug causing false-positive assertion errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,78 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 21:48:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jun 2014 22:09:10 -0000
 
-A fix for this should be forthcoming.=20
+Hello list,
 
--Max.
-________________________________________
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Denys Dmytriyenko [denis@denix.=
-org]
-Sent: Friday, June 13, 2014 12:11 PM
-To: Gary Thomas
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] textinfo failure
+This is a simple one-line fix for Denys Dmytriyenko's bug. 
 
-On Fri, Jun 13, 2014 at 11:59:52AM -0600, Gary Thomas wrote:
-> On 2014-06-13 10:32, Denys Dmytriyenko wrote:
-> >Hi,
-> >
-> >The recent texinfo change now breaks at least bison-native for me:
-> >
-> >| Traceback (most recent call last):
-> >|   File "/OE/tmp-eglibc/sysroots/x86_64-linux/usr/bin/texinfo-dummy-nat=
-ive/makeinfo", line 109, in <module>
-> >|     "-E option not yet supported" + stub_msg
-> >| AssertionError: -E option not yet supported
-> >| This stand-in version of makeinfo is not yet fully capable of emulatin=
-g the real
-> >| version from the GNU texinfo suite. If you see this message, file a bu=
-g report
-> >| with details on the recipe that failed.
-> >|
-> >| mv: cannot move `.am14993/bison.info' to `.//OE/tmp-eglibc/work/x86_64=
--linux/bison-native/2.7.1-r0/bison-2.7.1/doc/': No such file or directory
-> >| make[2]: *** [/OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/b=
-ison-2.7.1/doc/bison.info] Error 1
-> >| make[2]: Leaving directory `/OE/tmp-eglibc/work/x86_64-linux/bison-nat=
-ive/2.7.1-r0/build/doc'
-> >| make[1]: *** [install-recursive] Error 1
-> >| make[1]: Leaving directory `/OE/tmp-eglibc/work/x86_64-linux/bison-nat=
-ive/2.7.1-r0/build'
-> >| make: *** [install] Error 2
-> >| ERROR: oe_runmake failed
-> >| WARNING: /OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/temp/r=
-un.do_install.13309:1 exit 1 from
-> >|   exit 1
-> >| ERROR: Function failed: do_install (log file is located at /OE/tmp-egl=
-ibc/work/x86_64-linux/bison-native/2.7.1-r0/temp/log.do_install.13309)
-> >NOTE: recipe bison-native-2.7.1-r0: task do_install: Failed
-> >ERROR: Task 770 (virtual:native:/home/jenkins/distroless-build/sources/o=
-e-core/meta/recipes-devtools/bison/bison_2.7.1.bb, do_install)
-> >
->
-> Odd - I just built it in a clean tree with Poky/Yocto master
-> rev 8e0c54cd0e82ffe120f84f495101cd29e6fd06bf.
->
-> What did you do to get that 'texinfo-dummy-native' version installed?
-> None of my builds end up with makeinfo in sysroots.
+Regards,
+-Max Eliaser
+The following changes since commit 5452824960e8e77005a25ac11fd069d927523d3e:
 
-That was a very recent change in oe-core (at the time of my failure it was
-about 4 hours old commit):
+  default-distrovars.inc: Remove unused variable 'LIMIT_BUILT_LOCALES' (2014-06-13 13:08:44 +0100)
 
-http://cgit.openembedded.org/openembedded-core/commit/?id=3D0d8d5a2d44988d3=
-2a5c8b995202a12ac106ba93c
+are available in the git repository at:
 
---
-Denys
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  git://git.yoctoproject.org/poky-contrib meliaser/fix-texinfo-dummy-capital-E
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/fix-texinfo-dummy-capital-E
+
+Max Eliaser (1):
+  texinfo-dummy-native: Fix dummy scripts failing when paths contain
+    capital Es
+
+ meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.8.3.2
+
 
