@@ -1,33 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 211CA65E3C
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 977436B8D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 08:07:00 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5D86nif003226; Fri, 13 Jun 2014 09:06:49 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id D45rr8ssA-99; Fri, 13 Jun 2014 09:06:48 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5D86gaR003222
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 13 Jun 2014 09:06:44 +0100
-Message-ID: <1402646797.12440.477.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 13 Jun 2014 09:06:37 +0100
-In-Reply-To: <CAP9ODKobCoJiCmLZ+-JwoZB8hBZdTSn0jX0bbmgFtosWXVJ2WQ@mail.gmail.com>
-References: <cover.1402552609.git.sgw@linux.intel.com>
-	<37280175766b34129a22d2602f057511e90263b1.1402552609.git.sgw@linux.intel.com>
-	<CAP9ODKobCoJiCmLZ+-JwoZB8hBZdTSn0jX0bbmgFtosWXVJ2WQ@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC - WIP v2 01/10] conf-files: New recipe to create single recipe for config files
+	Fri, 13 Jun 2014 10:03:49 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s5DA3j0t019582
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 12:03:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1402653828;
+	bh=xqF8K+RY2zw5NJMQB4LjM99jMVBrCsR8d7z/wQ7OAlI=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=jWEC/z0yRywQ+gVZyRpYmO7KMfKlIf1tfCDJMQxChxataEZBs39XQepNXTXpbRkb1
+	BNg5a6VQDEPBwer8IccegpGIJRB0qK5pWa9ndevnWo2Eoz6A00MlyIlza8hQJohkHv
+	ZHqXuKMxRouRLfHUVch2VIB4CXEl/ZMbGKmBD6m8=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s5DA3dYf002841
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 12:03:41 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1WvOKc-0002Oq-2Y
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jun 2014 12:03:35 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1402580166-30993-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<5399CB3A.3020506@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 13 Jun 2014 12:03:33 +0200
+In-Reply-To: <5399CB3A.3020506@windriver.com> (Robert Yang's message of "Thu, 
+	12 Jun 2014 23:46:02 +0800")
+Message-ID: <lya99h86tm.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Subject: Re: [PATCH] openssl: install files in ${libdir}, not in ${base_libdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,57 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 08:07:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jun 2014 10:03:55 -0000
+Content-Type: text/plain
 
-On Thu, 2014-06-12 at 10:57 -0300, Otavio Salvador wrote:
-> On Thu, Jun 12, 2014 at 2:56 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> > This recipe will create 1 package for config files, we could optionally add
-> > a bbclass file to ensure consistency with RRECOMMENDS_ = =conf
-> >
-> > This is a work in progress, the do_install might even beable to automagically
-> > generated.  We don't want to create a bbclass for these since it will cause
-> > the actual recipe/packaging to become machine specific, using this recipe will
-> > ioslate that.
-> >
-> > [YOCTO #4011]
-> >
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> 
-> I think the configuration file, nowadays, already made those machine
-> specific in every BSP which has those overriden so I don't see why use
-> a single recipe to provide several configuration files.
-> 
-> I think it will be confusing and this recipe will fast grow.
+Robert Yang <liezhi.yang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
+writes:
 
-There are a few good reasons to do this. 
+>> ${base_libdir} is not in the search path of -native binaries and they
+>> will try to pick the wrong openssl libraries.
+>
+> Hello, I don't quite understand this, why it doesn't search
+> ${base_libdir}, please ?
 
-Machine customisation is spread around a whole load of different recipes
-at the moment and its hard to obtain a good view of what files are
-available and which ones a BSP author may need to provide.
+good question... When I wrote the patch a month ago or so, git-native (the
+http fetcher afair) failed to run because it did not find libcrypto.so.1.0.1g
+(system has ...1e version only).
 
-Its rather ugly to have to provide and maintain multiple bbappend files
-with rather ugly syntax within them. Its also rather inefficient from a
-build process standpoint to have 15-20 recipes just packaging
-configuration files.
+I cherry-picked idea from dd05e06b89906002f68d616a6326c962e725bc54 for
+openssl then and things worked.
 
-The intent isn't to mandate *every* config file should be in this
-recipe, you will as now be able to add additional ones. Where we see the
-same files being added in many layers, adding something common and
-shared makes sense though.
+But I can not reproduce the problem anymore when building from scratch
+so this might be a temporary or local problem only.
 
-It should in some cases also allow the "core" recipe to stop being
-machine specific and shared, improving build efficiency. There is little
-point in a recipe becomming machine specific over a config file.
-
-So I'd consider this move a consolation which we can improve over time.
-For new users I'd suggest that one more common place for the majority of
-machine specific files would be more understandable too.
-
-Cheers,
-
-Richard
+So, this patch can be dropped.
 
 
+Enrico
 
