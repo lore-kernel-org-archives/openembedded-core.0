@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F2DB65EAD
+Return-Path: <kergoth@gmail.com>
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id A6EC16AD68
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 16:44:03 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5DGhqAr022461; Fri, 13 Jun 2014 17:43:52 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xnduQaMYo5K9; Fri, 13 Jun 2014 17:43:52 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5DGhlBQ022455
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 13 Jun 2014 17:43:49 +0100
-Message-ID: <1402677822.562.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Henning Heinold <henning@itconsulting-heinold.de>
-Date: Fri, 13 Jun 2014 17:43:42 +0100
-In-Reply-To: <1402348889-26065-2-git-send-email-henning@itconsulting-heinold.de>
-References: <1402348889-26065-1-git-send-email-henning@itconsulting-heinold.de>
-	<1402348889-26065-2-git-send-email-henning@itconsulting-heinold.de>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] perf: add slang to the dependencies
+	Fri, 13 Jun 2014 16:45:03 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id u57so3129671wes.17
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 09:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=OtDSlGv7riFvCQ8ReP37tdO+WPf6ZAzymCjnOO64sPo=;
+	b=DeOBWIf396bcqlakBh828GrTSMGWol/Km6onxXrmsS4kUTXLTcIvDz6r05usBVUMYk
+	CIvzNYFrdc9q/c2rvbjW59IMJAX4zDm1P8p+MugtXSzm05equqSe/HB7EzLFK730NLYp
+	nEO6phd0M8QlfkO/6nK3S5LBkFyqhcqW18DyObm59Gv1pAb7Yjj9o3d7zd7FBOn5jbrx
+	v6B6UE73fyeORwqpyIhPzVHYDw77Vn7tVj4OGXb53LBEul3efNfexxK6UNzKp4rxqETM
+	qcWEeopKH0M44ZipEe8uucFg8eHL54mGGecRqCvzpM+eXLyAtZT+ppJ7d2ns1fN7FZle
+	+Rkw==
+X-Received: by 10.194.190.42 with SMTP id gn10mr6102439wjc.9.1402677904754;
+	Fri, 13 Jun 2014 09:45:04 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id 19sm6525759wjz.3.2014.06.13.09.45.02
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 13 Jun 2014 09:45:04 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jun 2014 09:45:05 -0700
+Message-Id: <1402677905-15569-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1402082874-12187-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1402082874-12187-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH v2] buildstats-summary.bbclass: Import useful bbclass from meta-mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 16:44:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jun 2014 16:45:05 -0000
 
-On Mon, 2014-06-09 at 23:21 +0200, Henning Heinold wrote:
-> * some kernels depends on newt, some on slang and some on boths
-> * changing TUI_DEFINES is not necessary, because NO_NEWT is
->   compatible with all kernels
-> 
-> The patch was sponsored by sysmocom
-> 
-> Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
-> ---
->  meta/recipes-kernel/perf/perf.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index ef21b6c..adbecfd 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -15,7 +15,7 @@ require perf-features.inc
->  
->  BUILDPERF_libc-uclibc = "no"
->  
-> -TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt', '',d)}"
-> +TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
->  SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Can we put a comment in the recipe about the problem here so that we
-remember why we have the dependencies when looking back in the future
-please?
+This class summarizes sstate reuse at the end of the build, so you know how
+much of your build was done from scratch.
 
-Cheers,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+v2 changes: obey SSTATETASKS, add file comment -CL
 
-Richard
+ meta/classes/buildstats-summary.bbclass |   39 +++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 meta/classes/buildstats-summary.bbclass
+
+diff --git a/meta/classes/buildstats-summary.bbclass b/meta/classes/buildstats-summary.bbclass
+new file mode 100644
+index 0000000..c8fbb2f
+--- /dev/null
++++ b/meta/classes/buildstats-summary.bbclass
+@@ -0,0 +1,39 @@
++# Summarize sstate usage at the end of the build
++python buildstats_summary () {
++    if not isinstance(e, bb.event.BuildCompleted):
++        return
++
++    import collections
++    import os.path
++
++    bn = get_bn(e)
++    bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
++    if not os.path.exists(bsdir):
++        return
++
++    sstatetasks = (e.data.getVar('SSTATETASKS', True) or '').split()
++    built = collections.defaultdict(lambda: [set(), set()])
++    for pf in os.listdir(bsdir):
++        taskdir = os.path.join(bsdir, pf)
++        if not os.path.isdir(taskdir):
++            continue
++
++        tasks = os.listdir(taskdir)
++        for t in sstatetasks:
++            no_sstate, sstate = built[t]
++            if t in tasks:
++                no_sstate.add(pf)
++            elif t + '_setscene' in tasks:
++                sstate.add(pf)
++
++    header_printed = False
++    for t in sstatetasks:
++        no_sstate, sstate = built[t]
++        if no_sstate | sstate:
++            if not header_printed:
++                header_printed = True
++                bb.note("Build completion summary:")
++
++            bb.note("  {0}: {1}% sstate reuse ({2} setscene, {3} scratch)".format(t, 100*len(sstate)/(len(sstate)+len(no_sstate)), len(sstate), len(no_sstate)))
++}
++addhandler buildstats_summary
+-- 
+1.7.9.5
 
 
