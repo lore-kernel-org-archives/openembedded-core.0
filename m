@@ -1,27 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5785C65EB1
+Return-Path: <miroslav.kes@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E6E36FC89
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 16:46:59 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5DGko6b022554; Fri, 13 Jun 2014 17:46:51 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6QekWDC_8mdG; Fri, 13 Jun 2014 17:46:50 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5DGklVh022550
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 13 Jun 2014 17:46:48 +0100
-Message-ID: <1402678001.562.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jun 2014 17:46:41 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] git: revert to wrapper based relocation
+	Fri, 13 Jun 2014 16:51:52 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id bs8so1229790wib.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 09:51:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=txtzC9xl/gSbwI3AtpxujsHn1UC3q1Ffc6jDtPzt6Tk=;
+	b=uwzoNROTncveh1eL0Ku2SIJ1pUS8eeVK66p7S15enbvol0BhLQYG4VJLRvjG11AIJW
+	6MP+xY1BBxnGYsWcx2RNfKaOybyAlQ4aZktzHoZqo7LvKtgQkA3wI1H0Obu3M5tredHo
+	CcUJ39qa9Ot29ZgApM/2i9ZUwNKod62Pvfp1zDELUR7Binnwlts39DrnOoKdpSdy4Rfv
+	dSpaI1OaN+BXGHZlOoZ7LsRDmaXILskRJT3GYjEbSllo7KivJZbKr7dYZc0/tznU1UJL
+	c3O2/29rRPkb/o1Qjg0MTxjf3COTxBAI2xK7zVUoIgSzyw76uQyyDiHRJAx5/slOzKKU
+	sbPg==
+X-Received: by 10.194.77.39 with SMTP id p7mr6087654wjw.85.1402678313505;
+	Fri, 13 Jun 2014 09:51:53 -0700 (PDT)
+Received: from [192.168.1.100] ([188.175.125.133])
+	by mx.google.com with ESMTPSA id l4sm3444352wiy.0.2014.06.13.09.51.52
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 13 Jun 2014 09:51:52 -0700 (PDT)
+Message-ID: <539B2C27.4070803@gmail.com>
+Date: Fri, 13 Jun 2014 18:51:51 +0200
+From: =?UTF-8?B?TWlyb3NsYXYgS2XFoQ==?= <miroslav.kes@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <539B27F0.90109@gmail.com>
+	<CAJTo0Lauenh9=Mep+4ZUVPnjf0yJDdaCxbrNcB5vXEmtjn5-iA@mail.gmail.com>
+In-Reply-To: <CAJTo0Lauenh9=Mep+4ZUVPnjf0yJDdaCxbrNcB5vXEmtjn5-iA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: cmake: respect ${S} and ${B} patch problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 16:47:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jun 2014 16:52:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 06/13/14 18:38, Burton, Ross wrote:
+> On 13 June 2014 17:33, Miroslav Keš <miroslav.kes@gmail.com> wrote:
+>> +    if [ -z "${OECMAKE_SOURCEPATH}" ]; then
+>> +        OECMAKE_SOURCEPATH="${S}"
+>>      fi
+>>
+>>      if [ "${S}" != "${B}" ]; then
+>> @@ -84,7 +88,7 @@ cmake_do_configure() {
+>>
+>>      cmake \
+>>        ${OECMAKE_SITEFILE} \
+>> -      ${S} \
+>> +      ${OECMAKE_SOURCEPATH} \
+> A better idiom that's more self-documenting would be to set
+> OECMAKE_SOURCEPATH ?= "${S}" at the top-level.
 
-From: Christopher Larson <kergoth@gmail.com>
+You are right.
 
-It seems that there are multiple problems with the upstream RUNTIME_PREFIX
-mechanism at this time. It doesn't canonicalize argv[0] to an absolute path,
-breaking calls via the PATH, for example. In addition, it doesn't seem to
-locate template_dir via the runtime prefix even when specified as relative.
+> Would it be sensible to give that variable a different name as it
+> refers specifically to the location of the cmake file, and not the
+> rest of the source?
 
-Revert this for now to the previous wrapper-based mechanism, but tweaked
-slightly to avoid hardcoding the sysroot path into the wrapper (based on the
-bits in the rpm recipe).
+I was thinking about a better name too.
+The reason why I stayed with the OECMAKE_SOURCEPATH is that the cmake
+man page says:
 
-[YOCTO #6211]
+USAGE
 
-[Pulled from meta-mentor by RP]
+  cmake [options] <path-to-source>
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+And that's the directory that I want to set. So I thought that it would
+be understandable for people familiar with cmake.
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index ad0ad1b..96254f0 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -15,7 +15,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- 
- inherit autotools-brokensep perlnative
- 
--EXTRA_OEMAKE = "NO_PYTHON=1 RUNTIME_PREFIX=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
-+EXTRA_OEMAKE = "NO_PYTHON=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
- EXTRA_OEMAKE_append_class-native = " NO_CROSS_DIRECTORY_HARDLINKS=1"
- 
- do_compile_prepend () {
-@@ -41,11 +41,23 @@ PERLSEDFIXUP = " \
- 	    ${@d.getVar("PERLTOOLS", True).replace(' /',d.getVar('D', True) + '/')} \
- "
- 
-+REL_GIT_EXEC_PATH = "${@os.path.relpath(libexecdir, bindir)}/git-core"
-+REL_GIT_TEMPLATE_DIR = "${@os.path.relpath(datadir, bindir)}/git-core/templates"
-+
- do_install_append_class-target () {
- 	${PERLSEDFIXUP}
- }
- 
--do_install_append_class-nativesdk () {
-+do_install_append_class-native() {
-+	create_wrapper ${D}${bindir}/git \
-+		GIT_EXEC_PATH='`dirname $''realpath`'/${REL_GIT_EXEC_PATH} \
-+		GIT_TEMPLATE_DIR='`dirname $''realpath`'/${REL_GIT_TEMPLATE_DIR}
-+}
-+
-+do_install_append_class-nativesdk() {
-+	create_wrapper ${D}${bindir}/git \
-+		GIT_EXEC_PATH='`dirname $''realpath`'/${REL_GIT_EXEC_PATH} \
-+		GIT_TEMPLATE_DIR='`dirname $''realpath`'/${REL_GIT_TEMPLATE_DIR}
- 	${PERLSEDFIXUP}
- }
- 
-
-
+Mira
+> Ross
 
 
