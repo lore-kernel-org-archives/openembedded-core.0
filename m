@@ -1,29 +1,29 @@
 Return-Path: <denis@denix.org>
-Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
-	[206.46.173.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A79C609C2
+X-Greylist: delayed 3606 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 13 Jun 2014 20:11:48 UTC
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F436FE92
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 19:13:57 +0000 (UTC)
+	Fri, 13 Jun 2014 20:11:48 +0000 (UTC)
 Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173023.mailsrvcs.net
+	by vms173019.mailsrvcs.net
 	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N7400MG0G38ZI70@vms173023.mailsrvcs.net> for
+	2009)) with ESMTPA id <0N74000AIFYQ95C0@vms173019.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Fri, 13 Jun 2014 14:13:57 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id A8E7A202AA; Fri,
-	13 Jun 2014 15:13:56 -0400 (EDT)
-Date: Fri, 13 Jun 2014 15:13:56 -0400
+	Fri, 13 Jun 2014 14:11:24 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 6EA4B202AA; Fri,
+	13 Jun 2014 15:11:13 -0400 (EDT)
+Date: Fri, 13 Jun 2014 15:11:13 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Message-id: <20140613191356.GR27324@denix.org>
-References: <1402674385.29913.6.camel@ted>
-	<CADkTA4MtGT145NMXzwfL9z6HDnrLzbvcDdeGeCjC5AJuN-Ad+g@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Message-id: <20140613191113.GQ27324@denix.org>
+References: <20140613163159.GO27324@denix.org> <539B3C18.1090701@mlbassoc.com>
 MIME-version: 1.0
-In-reply-to: <CADkTA4MtGT145NMXzwfL9z6HDnrLzbvcDdeGeCjC5AJuN-Ad+g@mail.gmail.com>
+In-reply-to: <539B3C18.1090701@mlbassoc.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "Hart, Darren" <darren.hart@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-module-split: Add support for KERNEL_MODULE_AUTOLOAD and KERNEL_MODULE_PROBECONF
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: textinfo failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,96 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 19:14:04 -0000
+X-List-Received-Date: Fri, 13 Jun 2014 20:12:01 -0000
 Content-type: text/plain; charset=us-ascii
 Content-disposition: inline
 
-On Fri, Jun 13, 2014 at 03:02:05PM -0400, Bruce Ashfield wrote:
-> On Fri, Jun 13, 2014 at 11:46 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > The current module_autoload_* and module_conf_* variables are error
-> > both ugly and error prone. They aren't registered in the task checksums
-> > so changes to them aren't reflected in the build. This turns out to
-> > be near impossible to fix with the current variable format in any
-> > sensible way :(.
+On Fri, Jun 13, 2014 at 11:59:52AM -0600, Gary Thomas wrote:
+> On 2014-06-13 10:32, Denys Dmytriyenko wrote:
+> >Hi,
 > >
-> > This patch replace module_autoload with the list of variables in
-> > KERNEL_MODULE_AUTOLOAD which is a much simpler and usable API. An
-> > error is printed if an old style variable is encountered. It should
-> > be simple to convert to this.
+> >The recent texinfo change now breaks at least bison-native for me:
 > >
-> > module_conf_* are harder to deal with since there is data associated
-> > with it, it isn't simply a flag. We need a list of variables that are set
-> > in order to be able to correctly handle the task checksum so we add
-> > KERNEL_MODULE_PROBECONF for this purpose and error if the user hasn't
-> > added a module to it when they should have.
+> >| Traceback (most recent call last):
+> >|   File "/OE/tmp-eglibc/sysroots/x86_64-linux/usr/bin/texinfo-dummy-native/makeinfo", line 109, in <module>
+> >|     "-E option not yet supported" + stub_msg
+> >| AssertionError: -E option not yet supported
+> >| This stand-in version of makeinfo is not yet fully capable of emulating the real
+> >| version from the GNU texinfo suite. If you see this message, file a bug report
+> >| with details on the recipe that failed.
+> >|
+> >| mv: cannot move `.am14993/bison.info' to `.//OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/bison-2.7.1/doc/': No such file or directory
+> >| make[2]: *** [/OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/bison-2.7.1/doc/bison.info] Error 1
+> >| make[2]: Leaving directory `/OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/build/doc'
+> >| make[1]: *** [install-recursive] Error 1
+> >| make[1]: Leaving directory `/OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/build'
+> >| make: *** [install] Error 2
+> >| ERROR: oe_runmake failed
+> >| WARNING: /OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/temp/run.do_install.13309:1 exit 1 from
+> >|   exit 1
+> >| ERROR: Function failed: do_install (log file is located at /OE/tmp-eglibc/work/x86_64-linux/bison-native/2.7.1-r0/temp/log.do_install.13309)
+> >NOTE: recipe bison-native-2.7.1-r0: task do_install: Failed
+> >ERROR: Task 770 (virtual:native:/home/jenkins/distroless-build/sources/oe-core/meta/recipes-devtools/bison/bison_2.7.1.bb, do_install)
+> >
 > 
-> Looks reasonable to me. In my experience, there aren't a lot of users of
-> the module_* variables, so the transition to the new names and semantics
-> shouldn't be a big issue.
+> Odd - I just built it in a clean tree with Poky/Yocto master
+> rev 8e0c54cd0e82ffe120f84f495101cd29e6fd06bf.
+> 
+> What did you do to get that 'texinfo-dummy-native' version installed?
+> None of my builds end up with makeinfo in sysroots.
 
-Right, only BSP/Distro maintainers should care... :)
+That was a very recent change in oe-core (at the time of my failure it was 
+about 4 hours old commit):
 
-BTW, how about a documentation patch? :)
+http://cgit.openembedded.org/openembedded-core/commit/?id=0d8d5a2d44988d32a5c8b995202a12ac106ba93c
 
 -- 
 Denys
-
-
-> > [YOCTO #5786]
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> > diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-> > index d43f743..e38a6f6 100644
-> > --- a/meta/classes/kernel-module-split.bbclass
-> > +++ b/meta/classes/kernel-module-split.bbclass
-> > @@ -130,8 +130,11 @@ python split_kernel_module_packages () {
-> >
-> >          # If autoloading is requested, output /etc/modules-load.d/<name>.conf and append
-> >          # appropriate modprobe commands to the postinst
-> > +        autoloadlist = (d.getVar("KERNEL_MODULE_AUTOLOAD", True) or "").split()
-> >          autoload = d.getVar('module_autoload_%s' % basename, True)
-> >          if autoload:
-> > +            bb.error("KERNEL_MODULE_AUTOLOAD has replaced module_autoload_%s, please replace it!" % basename)
-> > +        if basename in autoloadlist:
-> >              name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
-> >              f = open(name, 'w')
-> >              for m in autoload.split():
-> > @@ -144,12 +147,15 @@ python split_kernel_module_packages () {
-> >              d.setVar('pkg_postinst_%s' % pkg, postinst)
-> >
-> >          # Write out any modconf fragment
-> > +        modconflist = (d.getVar("KERNEL_MODULE_PROBECONF", True) or "").split()
-> >          modconf = d.getVar('module_conf_%s' % basename, True)
-> > -        if modconf:
-> > +        if modconf and basename in modconflist:
-> >              name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
-> >              f = open(name, 'w')
-> >              f.write("%s\n" % modconf)
-> >              f.close()
-> > +        elif modconf:
-> > +            bb.error("Please ensure module %s is listed in KERNEL_MODULE_PROBECONF since module_conf_%s is set" % (basename, basename))
-> >
-> >          files = d.getVar('FILES_%s' % pkg, True)
-> >          files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
-> > @@ -185,3 +191,5 @@ python split_kernel_module_packages () {
-> >          if len(os.listdir(dir)) == 0:
-> >              os.rmdir(dir)
-> >  }
-> > +
-> > +do_package[vardeps] += '${@" ".join(map(lambda s: "module_conf_" + s, (d.getVar("KERNEL_MODULE_PROBECONF", True) or "").split()))}'
-> >
-> >
-> 
-> 
-> 
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
