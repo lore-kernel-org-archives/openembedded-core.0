@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 78C6E6FDF3
+Return-Path: <miroslav.kes@gmail.com>
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B1F2A6FC3D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 16:10:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5DGAY64027992
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 13 Jun 2014 16:34:03 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id u57so3100633wes.31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 09:10:34 -0700 (PDT)
-Received: from msp-dhcp39.wrs.com (172.25.34.39) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 13 Jun 2014 09:10:34 -0700
-Message-ID: <539B2279.6090205@windriver.com>
-Date: Fri, 13 Jun 2014 11:10:33 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Fri, 13 Jun 2014 09:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=QJL8p1gulp388Tb2Ug7lfgidItNBNGwPGdwYlae8qo4=;
+	b=bQ7RTFKp4Z5mH0ORyF3NH+hZpWbvt8WjuTfzGIqdeBaXa0utj6vYTOS9qH8fWZncGQ
+	6I9m6KyisfJM+1W4p75N/6emMFISF6JkjdRXAdK+RBuchW7f4WbY7PmgvYFOGNofCmsw
+	57Q5zkQ8rM7MYXGblMfQzkeAsnFSe7Vu/0BHJUziQbqbfvcf/4rh7BBjyoXvBO7nlu/W
+	+rRA9dlgvBLn03oTt/I98RNqQS1/FF6XFlWdthWkRzkUEYky709ceWmmxX2TxLgDmDXF
+	ZY1Zpa/LqevD6iH5kMQKPIlQOGnsaVbc9+lYFMMWK/YKirPOcGjrmD74vzJS1Zztinj3
+	mkoA==
+X-Received: by 10.194.1.164 with SMTP id 4mr5841187wjn.17.1402677243944;
+	Fri, 13 Jun 2014 09:34:03 -0700 (PDT)
+Received: from [192.168.1.100] ([188.175.125.133])
+	by mx.google.com with ESMTPSA id na4sm3335385wic.21.2014.06.13.09.34.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 13 Jun 2014 09:34:03 -0700 (PDT)
+Message-ID: <539B27F0.90109@gmail.com>
+Date: Fri, 13 Jun 2014 18:33:52 +0200
+From: =?windows-1252?Q?Miroslav_Ke=9A?= <miroslav.kes@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1402552609.git.sgw@linux.intel.com>	<37280175766b34129a22d2602f057511e90263b1.1402552609.git.sgw@linux.intel.com>	<CAP9ODKobCoJiCmLZ+-JwoZB8hBZdTSn0jX0bbmgFtosWXVJ2WQ@mail.gmail.com>	<1402646797.12440.477.camel@ted>	<CAP9ODKr_oLKick6wKscWpzq7r88G4ekB1CURxiJ_Oxqe5AJHnA@mail.gmail.com>
-	<1402674044.29913.2.camel@ted>
-In-Reply-To: <1402674044.29913.2.camel@ted>
-Subject: Re: [RFC - WIP v2 01/10] conf-files: New recipe to create single recipe for config files
+To: openembedded-core@lists.openembedded.org
+Subject: cmake: respect ${S} and ${B} patch problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,85 +44,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 16:10:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 13 Jun 2014 16:34:04 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On 6/13/14, 10:40 AM, Richard Purdie wrote:
-> On Fri, 2014-06-13 at 12:30 -0300, Otavio Salvador wrote:
->> On Fri, Jun 13, 2014 at 5:06 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> On Thu, 2014-06-12 at 10:57 -0300, Otavio Salvador wrote:
->>>> On Thu, Jun 12, 2014 at 2:56 AM, Saul Wold <sgw@linux.intel.com> wrote:
->>>>> This recipe will create 1 package for config files, we could optionally add
->>>>> a bbclass file to ensure consistency with RRECOMMENDS_ = =conf
->>>>>
->>>>> This is a work in progress, the do_install might even beable to automagically
->>>>> generated.  We don't want to create a bbclass for these since it will cause
->>>>> the actual recipe/packaging to become machine specific, using this recipe will
->>>>> ioslate that.
->>>>>
->>>>> [YOCTO #4011]
->>>>>
->>>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->>>>
->>>> I think the configuration file, nowadays, already made those machine
->>>> specific in every BSP which has those overriden so I don't see why use
->>>> a single recipe to provide several configuration files.
->>>>
->>>> I think it will be confusing and this recipe will fast grow.
->>>
->>> There are a few good reasons to do this.
->>>
->>> Machine customisation is spread around a whole load of different recipes
->>> at the moment and its hard to obtain a good view of what files are
->>> available and which ones a BSP author may need to provide.
->>>
->>> Its rather ugly to have to provide and maintain multiple bbappend files
->>> with rather ugly syntax within them. Its also rather inefficient from a
->>> build process standpoint to have 15-20 recipes just packaging
->>> configuration files.
->>>
->>> The intent isn't to mandate *every* config file should be in this
->>> recipe, you will as now be able to add additional ones. Where we see the
->>> same files being added in many layers, adding something common and
->>> shared makes sense though.
->>>
->>> It should in some cases also allow the "core" recipe to stop being
->>> machine specific and shared, improving build efficiency. There is little
->>> point in a recipe becomming machine specific over a config file.
->>>
->>> So I'd consider this move a consolation which we can improve over time.
->>> For new users I'd suggest that one more common place for the majority of
->>> machine specific files would be more understandable too.
->>
->> I understand and mostly agree. However I don't want to have a recipe
->> with 20 configuration files where I'd need just two.
->>
->> So I think we'd need to have a way to 'enable/disable' each
->> configuration override. Does it makes sense?
->
-> I'd have thought our standard inheritance would apply so that if you
-> didn't append a machine specific version, the default would be used?
+Hi!
 
-That was my expectation as well.  We know a certain set of things -could-, and 
-are commonly configured by a BSP.  So we have a configuration 'recipe' that can 
-use either the default file (provided by the non-machine specific version), or 
-the machine specific configuration as a replacement due to the package 
-management system(s).
+I have found a problem related to the patch "respect ${S} and ${B}" on the
+cmake.bbclass (commit 43073569cb67d98c11aa71211d77b566b64f9145)
 
-The inheritance mechanism should work that if you add a configuration it is 
-enabled, otherwise it's not and the default version is used instead.  (That's 
-what I thought the anonymous python is doing within the 1/10 patch.)
+The cmake.bbclass now generates the cmake command using the ${S}
+variable as the path where the top most CMakeLists.txt should be found.
+This works OK as along as the CMakeLists.txt is in the top level
+directory of the package source tree.
+But CMake doesn't require the directory tree to be structured that way.
+If the top level CMakeLists.txt is in a subdirectory of the package
+source tree AND the recipe needs to patch a file which is at a higher
+level the OE build is broken.
 
---Mark
+Example:
+
+${WORKDIR}
+    - cmake
+        - Modules
+            - FindSomePackage.cmake
+    - Src
+        - CMakeLists.txt  <- top level CMake file
+
+For the cmake.bbclass to work correctly after the patch the S must be
+set to the ${WORKDIR}/Src.
+But the ${S} is also used as the base directory for patching.
+In the example, the patch task creates directory  ${S}/patches (i.e.
+${WORKDIR}/Src/patches) and creates symbolic links to all relevant
+patches in that directory.
+But those patches can only patch files under the ${S} subtree.
+The ${WORKDIR}/cmake/Modules/FindSomePackage.cmake becomes invisible for
+patches and the patch task ends up with error "No file to patch."
+
+I would propose to return the OECMAKE_SOURCEPATH variable to the
+cmake.bbclass, pass it to the cmake command as the "path to the CMake
+file", and set its default value to ${S}
+
+Regards
+
+Mira
 
 
+Signed-off-by: Mira Kes <miroslav.kes@gmail.com>
 
-> Cheers,
->
-> Richard
->
->
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index c9c15f3..95a1cbf 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -65,8 +65,12 @@ EOF
+ addtask generate_toolchain_file after do_patch before do_configure
+ 
+ cmake_do_configure() {
+-    if [ "${OECMAKE_BUILDPATH}" -o "${OECMAKE_SOURCEPATH}" ]; then
+-        bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and
+OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with
+B=WORKDIR/build."
++    if [ "${OECMAKE_BUILDPATH}" ]; then
++        bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The
+default behaviour is now out-of-tree builds with B=WORKDIR/build."
++    fi
++
++    if [ -z "${OECMAKE_SOURCEPATH}" ]; then
++        OECMAKE_SOURCEPATH="${S}"
+     fi
+ 
+     if [ "${S}" != "${B}" ]; then
+@@ -84,7 +88,7 @@ cmake_do_configure() {
+ 
+     cmake \
+       ${OECMAKE_SITEFILE} \
+-      ${S} \
++      ${OECMAKE_SOURCEPATH} \
+       -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
+       -DCMAKE_INSTALL_BINDIR:PATH=${bindir} \
+       -DCMAKE_INSTALL_SBINDIR:PATH=${sbindir} \
 
 
