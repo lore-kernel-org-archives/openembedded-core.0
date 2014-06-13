@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B9026FDA6
+	by mail.openembedded.org (Postfix) with ESMTP id 819946FDEC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 13:07:31 +0000 (UTC)
+	Fri, 13 Jun 2014 13:09:50 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5DD7RcM013392 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 14:07:27 +0100
+	s5DD9kxD013499 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 14:09:46 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nMvkFfwlUWKg
+	with LMTP id nwuEKX3Rk9y5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 14:07:27 +0100 (BST)
+	Fri, 13 Jun 2014 14:09:46 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5DD7KGP013382
+	s5DD9hri013486
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 14:07:22 +0100
-Message-ID: <1402664835.12440.480.camel@ted>
+	Fri, 13 Jun 2014 14:09:44 +0100
+Message-ID: <1402664977.12440.481.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jun 2014 14:07:15 +0100
+Date: Fri, 13 Jun 2014 14:09:37 +0100
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] qemuwrapper-cross: Use QEMU_OPTIONS
+Subject: [PATCH] bitbake.conf/qemu: Move QEMU_OPTIONS to qemu.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 13:07:32 -0000
+X-List-Received-Date: Fri, 13 Jun 2014 13:09:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The correct cpu options are needed in order to correctly run some CPU
-types. This information is available in QEMU_OPTIONS, use it. This
-avoids architectures like qemuppc failing postinstalls.
+The QEMU_OPTIONS variables belong in qemu.bbclass so move them there. The
+only users of them inherit qemu.bbclass. There is no point in pushing
+these into every recipe.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index 3bfb5bd..d2981b5 100644
---- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -9,7 +9,8 @@ do_install () {
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 3d437b0..abee8aa 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -33,3 +33,15 @@ def qemu_run_binary(data, rootfs_path, binary):
+     return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
+             + " -E LD_LIBRARY_PATH=" + libdir + ":" + base_libdir + " "\
+             + rootfs_path + binary
++
++QEMU_OPTIONS = ""
++QEMU_OPTIONS_iwmmxt    = "-cpu pxa270-c5"
++QEMU_OPTIONS_armv6     = "-cpu arm1136"
++QEMU_OPTIONS_armv7a    = "-cpu cortex-a8"
++QEMU_OPTIONS_e500v2    = "-cpu e500v2"
++QEMU_OPTIONS_e500mc    = "-cpu e500mc"
++QEMU_OPTIONS_e5500     = "-cpu e5500"
++QEMU_OPTIONS_e5500-64b = "-cpu e5500"
++QEMU_OPTIONS_e6500     = "-cpu e6500"
++QEMU_OPTIONS_e6500-64b = "-cpu e6500"
++QEMU_OPTIONS_ppc7400   = "-cpu 7400"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1d0e00c..6c1e097 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -144,19 +144,6 @@ PACKAGE_ARCHS[vardepsexclude] = "MACHINE_ARCH"
+ MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ MULTIMACH_HOST_SYS = "${PACKAGE_ARCH}${HOST_VENDOR}-${HOST_OS}"
  
- 	echo "#!/bin/sh" > ${D}${bindir_crossscripts}/qemuwrapper
- 	qemu_binary=${@qemu_target_binary(d)}
--	echo "$qemu_binary \"\$@\"" >> ${D}${bindir_crossscripts}/qemuwrapper
-+	qemu_options='${@d.getVar("QEMU_OPTIONS_%s" % d.getVar('PACKAGE_ARCH', True), True) or d.getVar('QEMU_OPTIONS', True) or ""}'
-+	echo "$qemu_binary $qemu_options \"\$@\"" >> ${D}${bindir_crossscripts}/qemuwrapper
- 	fallback_qemu_bin=
- 	case $qemu_binary in
- 		"qemu-i386")
+-# select proper CPU to get binary locales generated
+-QEMU_OPTIONS = ""
+-QEMU_OPTIONS_iwmmxt  = "-cpu pxa270-c5"
+-QEMU_OPTIONS_armv6   = "-cpu arm1136"
+-QEMU_OPTIONS_armv7a   = "-cpu cortex-a8"
+-QEMU_OPTIONS_e500v2    = "-cpu e500v2"
+-QEMU_OPTIONS_e500mc    = "-cpu e500mc"
+-QEMU_OPTIONS_e5500     = "-cpu e5500"
+-QEMU_OPTIONS_e5500-64b = "-cpu e5500"
+-QEMU_OPTIONS_e6500     = "-cpu e6500"
+-QEMU_OPTIONS_e6500-64b = "-cpu e6500"
+-QEMU_OPTIONS_ppc7400 = "-cpu 7400"
+-
+ ##################################################################
+ # Date/time variables.
+ ##################################################################
 
 
 
