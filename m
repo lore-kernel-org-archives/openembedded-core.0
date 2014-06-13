@@ -1,31 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C97A96FCAD
+	by mail.openembedded.org (Postfix) with ESMTP id 211CA65E3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 07:58:43 +0000 (UTC)
+	Fri, 13 Jun 2014 08:07:00 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5D7wcqB002945 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 08:58:38 +0100
+	s5D86nif003226; Fri, 13 Jun 2014 09:06:49 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tJ2nYbR8G2MS
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 08:58:38 +0100 (BST)
+	with LMTP id D45rr8ssA-99; Fri, 13 Jun 2014 09:06:48 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5D7wZXY002942
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 08:58:37 +0100
-Message-ID: <1402646310.12440.471.camel@ted>
+	s5D86gaR003222
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 13 Jun 2014 09:06:44 +0100
+Message-ID: <1402646797.12440.477.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jun 2014 08:58:30 +0100
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 13 Jun 2014 09:06:37 +0100
+In-Reply-To: <CAP9ODKobCoJiCmLZ+-JwoZB8hBZdTSn0jX0bbmgFtosWXVJ2WQ@mail.gmail.com>
+References: <cover.1402552609.git.sgw@linux.intel.com>
+	<37280175766b34129a22d2602f057511e90263b1.1402552609.git.sgw@linux.intel.com>
+	<CAP9ODKobCoJiCmLZ+-JwoZB8hBZdTSn0jX0bbmgFtosWXVJ2WQ@mail.gmail.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] elfutils: Fix debugedit failure in grub
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC - WIP v2 01/10] conf-files: New recipe to create single recipe for config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,88 +40,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 07:58:44 -0000
+X-List-Received-Date: Fri, 13 Jun 2014 08:07:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-We've seeing occasional debugedit failures in grub during do_package
-which in turn are coming from section alignment failures from libelf.
-The failures occur when gold is used to link grub instead of ld.bfd.
+On Thu, 2014-06-12 at 10:57 -0300, Otavio Salvador wrote:
+> On Thu, Jun 12, 2014 at 2:56 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> > This recipe will create 1 package for config files, we could optionally add
+> > a bbclass file to ensure consistency with RRECOMMENDS_ = =conf
+> >
+> > This is a work in progress, the do_install might even beable to automagically
+> > generated.  We don't want to create a bbclass for these since it will cause
+> > the actual recipe/packaging to become machine specific, using this recipe will
+> > ioslate that.
+> >
+> > [YOCTO #4011]
+> >
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> 
+> I think the configuration file, nowadays, already made those machine
+> specific in every BSP which has those overriden so I don't see why use
+> a single recipe to provide several configuration files.
+> 
+> I think it will be confusing and this recipe will fast grow.
 
-"readelf -e uhci.module" shows:
+There are a few good reasons to do this. 
 
-Section Headers:
-  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
-  [12] .note.GNU-stack   PROGBITS        00000000 0010ce 000000 00      0   0  1
+Machine customisation is spread around a whole load of different recipes
+at the moment and its hard to obtain a good view of what files are
+available and which ones a BSP author may need to provide.
 
-in a good build and:
+Its rather ugly to have to provide and maintain multiple bbappend files
+with rather ugly syntax within them. Its also rather inefficient from a
+build process standpoint to have 15-20 recipes just packaging
+configuration files.
 
-Section Headers:
-  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
-  [24] .note.GNU-stack   PROGBITS        00000000 009180 000000 00      0   0  0
+The intent isn't to mandate *every* config file should be in this
+recipe, you will as now be able to add additional ones. Where we see the
+same files being added in many layers, adding something common and
+shared makes sense though.
 
-in a bad build. The problem is the "Al" (alignment) change from 1 to 0.
-If its 0, debugedit complains.
+It should in some cases also allow the "core" recipe to stop being
+machine specific and shared, improving build efficiency. There is little
+point in a recipe becomming machine specific over a config file.
 
-As far as I can tell, the alignment of a zero length section is not
-an issue and the check in libelf should check the section size and only
-give alignment errors if there is some data to align.
+So I'd consider this move a consolation which we can improve over time.
+For new users I'd suggest that one more common place for the majority of
+machine specific files would be more understandable too.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.158/fixheadercheck.patch b/meta/recipes-devtools/elfutils/elfutils-0.158/fixheadercheck.patch
-new file mode 100644
-index 0000000..8796e9a
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.158/fixheadercheck.patch
-@@ -0,0 +1,24 @@
-+For some binaries we can get a invalid section alignment, for example if 
-+sh_align = 1 and sh_addralign is 0. In the case of a zero size section like 
-+".note.GNU-stack", this is irrelavent as far as I can tell and we shouldn't
-+error in this case.
-+
-+RP 2014/6/11
-+
-+Upstream-Status: Pending
-+
-+Index: elfutils-0.158/libelf/elf32_updatenull.c
-+===================================================================
-+--- elfutils-0.158.orig/libelf/elf32_updatenull.c	2012-12-14 22:40:48.000000000 +0000
-++++ elfutils-0.158/libelf/elf32_updatenull.c	2014-06-11 16:35:43.417386291 +0000
-+@@ -327,8 +327,8 @@
-+ 		     we test for the alignment of the section being large
-+ 		     enough for the largest alignment required by a data
-+ 		     block.  */
-+-		  if (unlikely (! powerof2 (shdr->sh_addralign))
-+-		      || unlikely (shdr->sh_addralign < sh_align))
-++		  if (shdr->sh_size && (unlikely (! powerof2 (shdr->sh_addralign))
-++		      || unlikely (shdr->sh_addralign < sh_align)))
-+ 		    {
-+ 		      __libelf_seterrno (ELF_E_INVALID_ALIGN);
-+ 		      return -1;
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.158.bb b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
-index e425364..ef3dd0b 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.158.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
-@@ -25,13 +25,11 @@ SRC_URI += "\
-         file://core_filename.patch \
-         file://CVE-2014-0172.patch \
-         file://unwind_non_linux.patch \
--"
--
--SRC_URI += " \
--	file://elf_additions.diff \
--	file://mempcpy.patch \
--	file://dso-link-change.patch \
--	file://m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch \
-+        file://elf_additions.diff \
-+        file://mempcpy.patch \
-+        file://dso-link-change.patch \
-+        file://m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch \
-+        file://fixheadercheck.patch \
- "
- 
- # Only apply when building uclibc based target recipe
+Richard
 
 
 
