@@ -1,27 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F5546FD72
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id DD6A96FE24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 16:38:04 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5DGbwXG022091; Fri, 13 Jun 2014 17:37:58 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ILaIpY4YJSSE; Fri, 13 Jun 2014 17:37:58 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5DGbo4K022076
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 13 Jun 2014 17:37:52 +0100
-Message-ID: <1402677465.29913.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jun 2014 17:37:45 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] git: don't hardcode the full path to perl
+	Fri, 13 Jun 2014 16:38:28 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id r5so747918qcx.22
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 09:38:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=Tcn9/MLcgoUtAFx5CLGPBF3Jvjo6AK80dPSX712zwok=;
+	b=M35sjeWzaT6aIC5UAMJvYItpiEV6w6rUPFMgF/YnNxUxrd2O+aBB7jV3Ut18z0YTMg
+	n37KFQJCuTp+tkAatxicOKmtRWioSrePMgkxgLzzTW1ydFJgjbD2Pw+Cv3gmDtDnOuoY
+	B3PIiB9atbGZm9TTD9XF6wug3VfER642PBHOgNUQSGuRDQvXQYQV7bqD3cLPY8xAE/pU
+	KuxGaTIuU4kc3oDtIPfsozjPqkncrcfxUU5KfWu5iGcZacXezO0gZb2ykXIGIc4ccZhY
+	+XZCq5yv2BMR6aK5YfAL4v5D5Ro0ooU1HTZGSL/icQf+mwKVCI5/uKVKwO4ba0PIJPsH
+	IMeg==
+X-Gm-Message-State: ALoCoQkUXTEhoa3hzW9MLyawsndP/xSlJ+hjiOQFA/s3uwc2x5epH7a5qII+TJlyC8JJEEZ+HGrr
+X-Received: by 10.224.43.211 with SMTP id x19mr5451108qae.17.1402677509699;
+	Fri, 13 Jun 2014 09:38:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.91.138 with HTTP; Fri, 13 Jun 2014 09:38:09 -0700 (PDT)
+In-Reply-To: <539B27F0.90109@gmail.com>
+References: <539B27F0.90109@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 13 Jun 2014 17:38:09 +0100
+Message-ID: <CAJTo0Lauenh9=Mep+4ZUVPnjf0yJDdaCxbrNcB5vXEmtjn5-iA@mail.gmail.com>
+To: =?UTF-8?Q?Miroslav_Ke=C5=A1?= <miroslav.kes@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: cmake: respect ${S} and ${B} patch problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 16:38:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jun 2014 16:38:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Christopher Larson <kergoth@gmail.com>
+On 13 June 2014 17:33, Miroslav Ke=C5=A1 <miroslav.kes@gmail.com> wrote:
+> +    if [ -z "${OECMAKE_SOURCEPATH}" ]; then
+> +        OECMAKE_SOURCEPATH=3D"${S}"
+>      fi
+>
+>      if [ "${S}" !=3D "${B}" ]; then
+> @@ -84,7 +88,7 @@ cmake_do_configure() {
+>
+>      cmake \
+>        ${OECMAKE_SITEFILE} \
+> -      ${S} \
+> +      ${OECMAKE_SOURCEPATH} \
 
-Hardcoded paths to perl don't make sense, use from the environment instead.
+A better idiom that's more self-documenting would be to set
+OECMAKE_SOURCEPATH ?=3D "${S}" at the top-level.
 
-[Patch taken from meta-mentor by RP]
+Would it be sensible to give that variable a different name as it
+refers specifically to the location of the cmake file, and not the
+rest of the source?
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 96254f0..0b3807b 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -16,6 +16,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- inherit autotools-brokensep perlnative
- 
- EXTRA_OEMAKE = "NO_PYTHON=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
-+EXTRA_OEMAKE += "'PERL_PATH=/usr/bin/env perl'"
- EXTRA_OEMAKE_append_class-native = " NO_CROSS_DIRECTORY_HARDLINKS=1"
- 
- do_compile_prepend () {
-
-
+Ross
 
