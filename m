@@ -1,37 +1,27 @@
-Return-Path: <miroslav.kes@gmail.com>
-Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
-	[74.125.82.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B1F2A6FC3D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F5546FD72
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 16:34:03 +0000 (UTC)
-Received: by mail-we0-f172.google.com with SMTP id u57so3100633wes.31
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 09:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=QJL8p1gulp388Tb2Ug7lfgidItNBNGwPGdwYlae8qo4=;
-	b=bQ7RTFKp4Z5mH0ORyF3NH+hZpWbvt8WjuTfzGIqdeBaXa0utj6vYTOS9qH8fWZncGQ
-	6I9m6KyisfJM+1W4p75N/6emMFISF6JkjdRXAdK+RBuchW7f4WbY7PmgvYFOGNofCmsw
-	57Q5zkQ8rM7MYXGblMfQzkeAsnFSe7Vu/0BHJUziQbqbfvcf/4rh7BBjyoXvBO7nlu/W
-	+rRA9dlgvBLn03oTt/I98RNqQS1/FF6XFlWdthWkRzkUEYky709ceWmmxX2TxLgDmDXF
-	ZY1Zpa/LqevD6iH5kMQKPIlQOGnsaVbc9+lYFMMWK/YKirPOcGjrmD74vzJS1Zztinj3
-	mkoA==
-X-Received: by 10.194.1.164 with SMTP id 4mr5841187wjn.17.1402677243944;
-	Fri, 13 Jun 2014 09:34:03 -0700 (PDT)
-Received: from [192.168.1.100] ([188.175.125.133])
-	by mx.google.com with ESMTPSA id na4sm3335385wic.21.2014.06.13.09.34.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Jun 2014 09:34:03 -0700 (PDT)
-Message-ID: <539B27F0.90109@gmail.com>
-Date: Fri, 13 Jun 2014 18:33:52 +0200
-From: =?windows-1252?Q?Miroslav_Ke=9A?= <miroslav.kes@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: cmake: respect ${S} and ${B} patch problem
+	Fri, 13 Jun 2014 16:38:04 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5DGbwXG022091; Fri, 13 Jun 2014 17:37:58 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ILaIpY4YJSSE; Fri, 13 Jun 2014 17:37:58 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5DGbo4K022076
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 13 Jun 2014 17:37:52 +0100
+Message-ID: <1402677465.29913.12.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jun 2014 17:37:45 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] git: don't hardcode the full path to perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,84 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 16:34:04 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 13 Jun 2014 16:38:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi!
+From: Christopher Larson <kergoth@gmail.com>
 
-I have found a problem related to the patch "respect ${S} and ${B}" on the
-cmake.bbclass (commit 43073569cb67d98c11aa71211d77b566b64f9145)
+Hardcoded paths to perl don't make sense, use from the environment instead.
 
-The cmake.bbclass now generates the cmake command using the ${S}
-variable as the path where the top most CMakeLists.txt should be found.
-This works OK as along as the CMakeLists.txt is in the top level
-directory of the package source tree.
-But CMake doesn't require the directory tree to be structured that way.
-If the top level CMakeLists.txt is in a subdirectory of the package
-source tree AND the recipe needs to patch a file which is at a higher
-level the OE build is broken.
+[Patch taken from meta-mentor by RP]
 
-Example:
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-${WORKDIR}
-    - cmake
-        - Modules
-            - FindSomePackage.cmake
-    - Src
-        - CMakeLists.txt  <- top level CMake file
-
-For the cmake.bbclass to work correctly after the patch the S must be
-set to the ${WORKDIR}/Src.
-But the ${S} is also used as the base directory for patching.
-In the example, the patch task creates directory  ${S}/patches (i.e.
-${WORKDIR}/Src/patches) and creates symbolic links to all relevant
-patches in that directory.
-But those patches can only patch files under the ${S} subtree.
-The ${WORKDIR}/cmake/Modules/FindSomePackage.cmake becomes invisible for
-patches and the patch task ends up with error "No file to patch."
-
-I would propose to return the OECMAKE_SOURCEPATH variable to the
-cmake.bbclass, pass it to the cmake command as the "path to the CMake
-file", and set its default value to ${S}
-
-Regards
-
-Mira
-
-
-Signed-off-by: Mira Kes <miroslav.kes@gmail.com>
-
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index c9c15f3..95a1cbf 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -65,8 +65,12 @@ EOF
- addtask generate_toolchain_file after do_patch before do_configure
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 96254f0..0b3807b 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -16,6 +16,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
+ inherit autotools-brokensep perlnative
  
- cmake_do_configure() {
--    if [ "${OECMAKE_BUILDPATH}" -o "${OECMAKE_SOURCEPATH}" ]; then
--        bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and
-OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with
-B=WORKDIR/build."
-+    if [ "${OECMAKE_BUILDPATH}" ]; then
-+        bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The
-default behaviour is now out-of-tree builds with B=WORKDIR/build."
-+    fi
-+
-+    if [ -z "${OECMAKE_SOURCEPATH}" ]; then
-+        OECMAKE_SOURCEPATH="${S}"
-     fi
+ EXTRA_OEMAKE = "NO_PYTHON=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
++EXTRA_OEMAKE += "'PERL_PATH=/usr/bin/env perl'"
+ EXTRA_OEMAKE_append_class-native = " NO_CROSS_DIRECTORY_HARDLINKS=1"
  
-     if [ "${S}" != "${B}" ]; then
-@@ -84,7 +88,7 @@ cmake_do_configure() {
- 
-     cmake \
-       ${OECMAKE_SITEFILE} \
--      ${S} \
-+      ${OECMAKE_SOURCEPATH} \
-       -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
-       -DCMAKE_INSTALL_BINDIR:PATH=${bindir} \
-       -DCMAKE_INSTALL_SBINDIR:PATH=${sbindir} \
+ do_compile_prepend () {
+
 
 
