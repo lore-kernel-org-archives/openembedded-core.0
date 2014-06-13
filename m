@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 819946FDEC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 410D66A451
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 13:09:50 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5DD9kxD013499 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 14:09:46 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nwuEKX3Rk9y5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 14:09:46 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5DD9hri013486
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 14:09:44 +0100
-Message-ID: <1402664977.12440.481.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jun 2014 14:09:37 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] bitbake.conf/qemu: Move QEMU_OPTIONS to qemu.bbclass
+	Fri, 13 Jun 2014 13:30:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jun 2014 06:30:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,471,1400050800"; d="scan'208";a="556995564"
+Received: from pskulath-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.252])
+	by orsmga002.jf.intel.com with ESMTP; 13 Jun 2014 06:30:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jun 2014 14:30:38 +0100
+Message-ID: <1621519.vTJ1eh8nMH@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.6-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <cover.1402552609.git.sgw@linux.intel.com>
+References: <cover.1402552609.git.sgw@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [RFC - WIP v2 00/10] conf-files: New recipe to consolidate config file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,60 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 13:09:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jun 2014 13:31:06 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The QEMU_OPTIONS variables belong in qemu.bbclass so move them there. The
-only users of them inherit qemu.bbclass. There is no point in pushing
-these into every recipe.
+On Wednesday 11 June 2014 22:56:19 Saul Wold wrote:
+> This is a little further along, I would really like to get some
+> feedback on the direction I am taking this.
+> 
+> The idea is that a block of anonymous code will generate all the
+> metadata and do_install() function for the existing config files
+> such that a .bbappend can be created to override specific files
+> from a single recipe instead of from 10-12 different .bbappends.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+I have some reservations about this change as-is. I certainly accept that 
+currently the placement of typical BSP config files is a bit of a mess, and new 
+users definitely find it difficult to know where to go to change a particular file; 
+however there will always be config files this recipe doesn't cover. Most 
+significantly, it also requires everyone with existing BSP and distro layers to 
+go and migrate their bbappends over to the new structure, for not that much 
+gain. If we are going to go down this route, we absolutely must have a script 
+which migrates existing bbappends to this new layout. We'll also need to 
+ensure runtime upgrades work, i.e. PR values will have to increase from the 
+old packages to the new ones provided by the single recipe.
 
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index 3d437b0..abee8aa 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -33,3 +33,15 @@ def qemu_run_binary(data, rootfs_path, binary):
-     return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
-             + " -E LD_LIBRARY_PATH=" + libdir + ":" + base_libdir + " "\
-             + rootfs_path + binary
-+
-+QEMU_OPTIONS = ""
-+QEMU_OPTIONS_iwmmxt    = "-cpu pxa270-c5"
-+QEMU_OPTIONS_armv6     = "-cpu arm1136"
-+QEMU_OPTIONS_armv7a    = "-cpu cortex-a8"
-+QEMU_OPTIONS_e500v2    = "-cpu e500v2"
-+QEMU_OPTIONS_e500mc    = "-cpu e500mc"
-+QEMU_OPTIONS_e5500     = "-cpu e5500"
-+QEMU_OPTIONS_e5500-64b = "-cpu e5500"
-+QEMU_OPTIONS_e6500     = "-cpu e6500"
-+QEMU_OPTIONS_e6500-64b = "-cpu e6500"
-+QEMU_OPTIONS_ppc7400   = "-cpu 7400"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1d0e00c..6c1e097 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -144,19 +144,6 @@ PACKAGE_ARCHS[vardepsexclude] = "MACHINE_ARCH"
- MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
- MULTIMACH_HOST_SYS = "${PACKAGE_ARCH}${HOST_VENDOR}-${HOST_OS}"
- 
--# select proper CPU to get binary locales generated
--QEMU_OPTIONS = ""
--QEMU_OPTIONS_iwmmxt  = "-cpu pxa270-c5"
--QEMU_OPTIONS_armv6   = "-cpu arm1136"
--QEMU_OPTIONS_armv7a   = "-cpu cortex-a8"
--QEMU_OPTIONS_e500v2    = "-cpu e500v2"
--QEMU_OPTIONS_e500mc    = "-cpu e500mc"
--QEMU_OPTIONS_e5500     = "-cpu e5500"
--QEMU_OPTIONS_e5500-64b = "-cpu e5500"
--QEMU_OPTIONS_e6500     = "-cpu e6500"
--QEMU_OPTIONS_e6500-64b = "-cpu e6500"
--QEMU_OPTIONS_ppc7400 = "-cpu 7400"
--
- ##################################################################
- # Date/time variables.
- ##################################################################
+As a more general improvement in this area, I'd really like to see us have 
+some tooling around finding where a particular config file (or other file I want 
+to replace) comes from and then creating the bbappend to substitute my 
+version. We have the part that tracks down the recipe from a file - albeit in a 
+not-very-easy-to-use form - in scripts/oe-pkgdata-util (with its "find-path" 
+command); Toaster has the functionality to do this as well. This solution has 
+the benefit of being able to work for any configuration file (or other file) that 
+any recipe in any layer introduces. In fact this will be of benefit even if we 
+decide to go ahead with the conf-files move, so I've entered an enhancement 
+request to cover it separately:
 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6447
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
