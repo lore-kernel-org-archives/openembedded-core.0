@@ -1,31 +1,31 @@
-Return-Path: <Adrian.Calianu@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 2B3F26FC99
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C97A96FCAD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 06:43:25 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Fri, 13 Jun 2014 08:43:21 +0200
-From: Adrian Calianu <Adrian.Calianu@enea.com>
-To: Otavio Salvador <otavio@ossystems.com.br>, Adrian Calianu
-	<Adrian.Calianu@enea.com>
-Thread-Topic: [OE-core] [PATCHv2 1/2] Add wic support to generate rootfs
-	image for uboot
-Thread-Index: AQHPhkbyxgZGPOuHKEqPIBeQFtAIHJtulkvQ
-Date: Fri, 13 Jun 2014 06:43:21 +0000
-Message-ID: <A1661D2DDD942248A02617DE63569A0125CBC134@SESTOEX04.enea.se>
-References: <5399151E.3050306@linux.intel.com>
-	<53996893.88fd440a.0627.25d6SMTPIN_ADDED_BROKEN@mx.google.com>
-	<CAP9ODKrZ9qdGooL3YFBayfsURfaXJm513dX67V49ESidSyzRdg@mail.gmail.com>
-In-Reply-To: <CAP9ODKrZ9qdGooL3YFBayfsURfaXJm513dX67V49ESidSyzRdg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.14.142]
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2] Add wic support to generate rootfs image for uboot
+	Fri, 13 Jun 2014 07:58:43 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5D7wcqB002945 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 08:58:38 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tJ2nYbR8G2MS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 08:58:38 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5D7wZXY002942
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jun 2014 08:58:37 +0100
+Message-ID: <1402646310.12440.471.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jun 2014 08:58:30 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] elfutils: Fix debugedit failure in grub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,95 +38,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 06:43:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jun 2014 07:58:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Otavio,
+We've seeing occasional debugedit failures in grub during do_package
+which in turn are coming from section alignment failures from libelf.
+The failures occur when gold is used to link grub instead of ld.bfd.
 
-	First step was to add support in wic to generate rootfs images only from p=
-ackages out of bitbake environment.
-	To test this functionality was chosen to generate ramdisk images for now. =
-We have plans to extend the U-Boot plugin in order to generate other types =
-of rootfs images.
+"readelf -e uhci.module" shows:
 
-Thanks,
-Adrian
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [12] .note.GNU-stack   PROGBITS        00000000 0010ce 000000 00      0   0  1
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Otavio Salvador
-> Sent: Thursday, June 12, 2014 5:02 PM
-> To: y@enea.se
-> Cc: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCHv2 1/2] Add wic support to generate rootfs
-> image for uboot
->=20
-> Hello,
->=20
-> On Thu, Jun 12, 2014 at 5:43 AM,  <y@enea.se> wrote:
-> > From: Adrian Calianu <adrian.calianu@enea.com>
-> >
-> > Add support in wic to build ramdisk uboot images from list of packages
-> > or from an existing rootfs folder.
-> >
-> > Providing the list of packages starting with XXX-core-boot
-> > package(into wks file) will generate an rootfs image for uboot out of
-> bitbake.
-> > There is also possible to combine an existing/application rootfs with
-> > a list of packages that can be installed but the user must take care
-> > to provide a basic core boot rootfs or XXX-core-boot package and
-> reporul(wic.conf).
-> >
-> > Some prerequisites are required for this new build setup:
-> > ../poky/scripts/lib/image/config/wic.conf
-> > [create]
-> > arch=3Dtarget_arch (example: powerpc, arm, x86) pkgmgr=3Dopkg
-> > repourl=3Dhttp://example.distro/p2020rdb/ipk/all
-> > http://example.distro/p2020rdb/ipk/p2020rdb
-> > http://example.distro/p2020rdb/ipk/ppce500v2
-> >
-> >     1) Build an rootfs image from an existing bitbake build:
-> >        wic create ../poky/scripts/lib/image/canned-wks/uboot.wks -e
-> > core-image-minimal -o .../output
-> >
-> >     2) Build an rootfs image from an existing rootfs and native_sysroot=
-:
-> >        wic create ../poky/scripts/lib/image/canned-wks/uboot.wks -r
-> > .../path_to_rootfs -n .../path_to_native_sysroot -o .../output
-> >
-> >     3) Build an rootfs image only from a package list (on wks file):
-> >
-> >        Add the package list to be installed as rootfs on
-> ../poky/scripts/lib/image/canned-wks/uboot.wks:
-> >        %packages
-> >        packagegroup-core-boot
-> >        pramfs-init
-> >        run-postinsts
-> >        packagegroup-core-ssh-dropbear
-> >        %end
-> >
-> >        Generate rootfs image:
-> >        wic create ../poky/scripts/lib/image/canned-wks/uboot.wks  -n
-> > .../path_to_native_sysroot -o .../output
-> >
-> > Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
->=20
-> I really liked the idea and it is a nice step further but it is not clear=
- to me how
-> we'll "tell" wic about platform specific U-Boot installation like i.MX vs=
- MXS
-> where the layout of the uSD image is very different.
->=20
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+in a good build and:
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [24] .note.GNU-stack   PROGBITS        00000000 009180 000000 00      0   0  0
+
+in a bad build. The problem is the "Al" (alignment) change from 1 to 0.
+If its 0, debugedit complains.
+
+As far as I can tell, the alignment of a zero length section is not
+an issue and the check in libelf should check the section size and only
+give alignment errors if there is some data to align.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.158/fixheadercheck.patch b/meta/recipes-devtools/elfutils/elfutils-0.158/fixheadercheck.patch
+new file mode 100644
+index 0000000..8796e9a
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.158/fixheadercheck.patch
+@@ -0,0 +1,24 @@
++For some binaries we can get a invalid section alignment, for example if 
++sh_align = 1 and sh_addralign is 0. In the case of a zero size section like 
++".note.GNU-stack", this is irrelavent as far as I can tell and we shouldn't
++error in this case.
++
++RP 2014/6/11
++
++Upstream-Status: Pending
++
++Index: elfutils-0.158/libelf/elf32_updatenull.c
++===================================================================
++--- elfutils-0.158.orig/libelf/elf32_updatenull.c	2012-12-14 22:40:48.000000000 +0000
+++++ elfutils-0.158/libelf/elf32_updatenull.c	2014-06-11 16:35:43.417386291 +0000
++@@ -327,8 +327,8 @@
++ 		     we test for the alignment of the section being large
++ 		     enough for the largest alignment required by a data
++ 		     block.  */
++-		  if (unlikely (! powerof2 (shdr->sh_addralign))
++-		      || unlikely (shdr->sh_addralign < sh_align))
+++		  if (shdr->sh_size && (unlikely (! powerof2 (shdr->sh_addralign))
+++		      || unlikely (shdr->sh_addralign < sh_align)))
++ 		    {
++ 		      __libelf_seterrno (ELF_E_INVALID_ALIGN);
++ 		      return -1;
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.158.bb b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
+index e425364..ef3dd0b 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.158.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
+@@ -25,13 +25,11 @@ SRC_URI += "\
+         file://core_filename.patch \
+         file://CVE-2014-0172.patch \
+         file://unwind_non_linux.patch \
+-"
+-
+-SRC_URI += " \
+-	file://elf_additions.diff \
+-	file://mempcpy.patch \
+-	file://dso-link-change.patch \
+-	file://m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch \
++        file://elf_additions.diff \
++        file://mempcpy.patch \
++        file://dso-link-change.patch \
++        file://m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch \
++        file://fixheadercheck.patch \
+ "
+ 
+ # Only apply when building uclibc based target recipe
+
+
 
