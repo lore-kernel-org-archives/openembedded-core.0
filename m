@@ -1,39 +1,34 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 147E46FE98
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 068916FD12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 22:38:02 +0000 (UTC)
-Received: by mail-la0-f43.google.com with SMTP id e16so1830283lan.30
+	Sat, 14 Jun 2014 10:32:53 +0000 (UTC)
+Received: by mail-pb0-f48.google.com with SMTP id rq2so850199pbb.21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jun 2014 15:38:02 -0700 (PDT)
+	Sat, 14 Jun 2014 03:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=MDyfdF2HSEJ/rXd+aBAysmo1BD2qlcSJBg/54JGph6I=;
-	b=RsFdzLlWmR/2futh0gaqWozqo5tu3n9qLqBF6hgIC1Nc8lGaJgNqAKYPNPfs8vm4C/
-	4PKy5zDf3yUi36W/3es5eVbAB1Qv9SQLqPHQK9dnksJv71JygaLi+LitMdDRxY4JXJKG
-	iozjduY9uaZOr4X+c5FwVfTHniwlqqZ8WD/9S96C1IeuBITpGbT2R9zCxnDtIFXOY1YU
-	CIfcKkIgVPittUz0jcC3JX1K2Y+ftAoQgwMG90Q1pOb7K/d4XxjnURh8hJ7KX43cQ6m5
-	BPHqLHVpW2b0xwLgL/vg+VWCFhFeMetZ6fQymE94RXKN0DyS9SeFBiTLsOB8ZI58mEI8
-	oI3Q==
-X-Received: by 10.112.217.10 with SMTP id ou10mr3330887lbc.20.1402699082907;
-	Fri, 13 Jun 2014 15:38:02 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.173.197 with HTTP; Fri, 13 Jun 2014 15:37:42 -0700 (PDT)
-In-Reply-To: <CAOLEWZV87Ld5ek1mAGBpC57UpUSBT+VkJK0QBqoLhfbquGY=0g@mail.gmail.com>
-References: <530697CC.5050402@balister.org> <20140507231808.GM11339@denix.org>
-	<CA+YB3raM8kDp_K259c-ao=nSgfvgXTmi5vpju5wAnA0WwGHH3A@mail.gmail.com>
-	<CAOLEWZV87Ld5ek1mAGBpC57UpUSBT+VkJK0QBqoLhfbquGY=0g@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Fri, 13 Jun 2014 15:37:42 -0700
-X-Google-Sender-Auth: 6lx4r54qm07qXWWUw7R6cDPWUgA
-Message-ID: <CA+YB3rbNui9jMKQov2km_Zt2=DTZF5UZzcS3O9ct_7oF4gXjzg@mail.gmail.com>
-To: Stephen Arnold <stephen.arnold42@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OEDAM: OpenEmbedded Developers (Americas) Meeting
+	h=from:to:cc:subject:date:message-id;
+	bh=tQww1Hapzou3jLrXNWKA8m5rVtjDJQEm9prEqkBAKp8=;
+	b=MimJ3OzC8mp0Gc7+bw2oIjFM2ls0knSkSMBo9AwE5mMovFRAJK627Ojr+C+2dhBSyw
+	SK+jrpw1n6YHKLIQ1RRuuiHHhwKybPIasndHmNoAjArlvzGlPLrmym4k5wA4SxbitiM4
+	xk86PmKvWOld99aJJAZVAVzcviENlzwBKn58ZgsALfuE+Nn1dt+7Zi8Pj0Ae1e1eaiKH
+	kvb7JMjP0ll0WQ+ogn3tX4EVwX1IoSMlGoG7lD5p1Zb7EyxGT+j2qAWYW7STGII2XUcr
+	quJOlLN1kKAaVDQqfhmqpqN1NfKVq9KjNT7JQ4UgO1846KfpHOIImQVKxoUAQ5el/o2r
+	xcVQ==
+X-Received: by 10.66.242.171 with SMTP id wr11mr9653297pac.111.1402741974052; 
+	Sat, 14 Jun 2014 03:32:54 -0700 (PDT)
+Received: from t420s.gateway.sonic.net (173-228-90-200.dsl.dynamic.sonic.net.
+	[173.228.90.200]) by mx.google.com with ESMTPSA id
+	i10sm35376977pat.36.2014.06.14.03.32.53 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 14 Jun 2014 03:32:53 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 14 Jun 2014 03:32:04 -0700
+Message-Id: <1402741924-15665-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] directfb: fix-compilation-with-zlib.patch merged upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,116 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jun 2014 22:38:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 14 Jun 2014 10:32:55 -0000
 
-On Mon, May 19, 2014 at 5:57 PM, Stephen Arnold
-<stephen.arnold42@gmail.com> wrote:
-> And a special thanks to everyone for letting the Gentoo dev crash the
-> meeting.  The meeting *was* fun and educational (especially for me).  So far
-> both the community and technology have been a lot of fun getting custom
-> builds for various machines, as well as educational (is there an echo in
-> here? ;)
+Compilation with zlib is fixed in DirectFB 1.7.1.
 
-We were glad to have you there, Steve. Thanks for coming!
+Upstream commit:
 
->
-> Thanks again, Steve  (aka mr_science)
->
->
-> On Mon, May 12, 2014 at 4:19 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
->>
->> Meeting notes have been published on the OEDAM page:
->>
->> http://openembedded.org/wiki/OEDAM#Minutes
->>
->> Jefro takes the blame for typos and other reporting errors.
->>
->> On Wed, May 7, 2014 at 4:18 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> > The OpenEmbedded Board of Directors would like to thank everyone who was
->> > able
->> > to participate (either in person in Santa Clara or online) in our first
->> > OEDAM
->> > OpenEmbedded Developers (Americas) Meeting on May 2nd and 3rd! The
->> > meeting was
->> > a huge success and a lot of fun!
->> >
->> > We would also like to thank Ettus Research/NI for providing the
->> > premises, as
->> > well as Jefro and the Yocto Project for sponsoring the event and
->> > providing
->> > food!
->> >
->> > The meeting minutes should be published shortly.
->> >
->> > --
->> > Denys
->> >
->> >
->> > On Thu, Feb 20, 2014 at 07:03:24PM -0500, Philip Balister wrote:
->> >> The OpenEmbedded Project is holding a developers meeting May 2-3,
->> >> 2014, in Santa Clara, CA. This meeting is immediately after the
->> >> Embedded
->> >> Linux Conference North America. All active OpenEmbedded and Yocto
->> >> Project developers are invited to attend.
->> >>
->> >> NOTE: this is a development meeting for the project itself, not a
->> >> training session.
->> >>
->> >> May 2-3, 2014
->> >> time TBD
->> >>
->> >> Ettus Research/National Instruments
->> >> 4600 Patrick Henry Drive
->> >> Santa Clara, CA 95054 USA
->> >>
->> >> Lunch will be provided on both days.
->> >>
->> >> For more information and to add yourself to the list of attendees, see
->> >> the wiki page at
->> >> http://openembedded.org/wiki/OEDAM
->> >>
->> >> Here are a couple of photos from 2009:
->> >>
->> >> http://www.flickr.com/photos/32615155@N00/sets/72157622653686647/
->> >>
->> >> I'd like to thank Jefro for help with this announcement. Any errors are
->> >> mine though.
->> >>
->> >> Philip, OpenEmbedded eV Chair.
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> Jeff Osier-Mixon @Intel
->> Yocto Project Community Manager http://yoctoproject.org
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+  commit 40779160de4d57bad973af9674df51ad281fdb8f
+  Author: Denis Oliver Kropp <dok@directfb.org>
+  Date:   Tue Sep 18 21:10:25 2012 +0200
 
+    Core: Include zlib.h where it was missing.
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../directfb/fix-compilation-with-zlib.patch       | 29 ----------------------
+ meta/recipes-graphics/directfb/directfb_1.7.1.bb   |  3 +--
+ 2 files changed, 1 insertion(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-graphics/directfb/directfb/fix-compilation-with-zlib.patch
 
+diff --git a/meta/recipes-graphics/directfb/directfb/fix-compilation-with-zlib.patch b/meta/recipes-graphics/directfb/directfb/fix-compilation-with-zlib.patch
+deleted file mode 100644
+index 8b99b4e..0000000
+--- a/meta/recipes-graphics/directfb/directfb/fix-compilation-with-zlib.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Upstream-Status: Pending
+-
+-From 1d6d597050fc24769e9df2693f754bdc824a8b78 Mon Sep 17 00:00:00 2001
+-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+-Date: Tue, 3 Jul 2012 16:06:10 +0300
+-Subject: [PATCH] fix compilation with zlib
+-
+-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+----
+- src/core/surface.c |    3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/src/core/surface.c b/src/core/surface.c
+-index 50434a2..52f50ab 100644
+---- a/src/core/surface.c
+-+++ b/src/core/surface.c
+-@@ -49,6 +49,9 @@
+- #include <gfx/convert.h>
+- #include <gfx/util.h>
+- 
+-+#ifdef USE_ZLIB
+-+#include <zlib.h>
+-+#endif
+- 
+- D_DEBUG_DOMAIN( Core_Surface, "Core/Surface", "DirectFB Core Surface" );
+- 
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-graphics/directfb/directfb_1.7.1.bb b/meta/recipes-graphics/directfb/directfb_1.7.1.bb
+index 15f38ac..aff9633 100644
+--- a/meta/recipes-graphics/directfb/directfb_1.7.1.bb
++++ b/meta/recipes-graphics/directfb/directfb_1.7.1.bb
+@@ -4,8 +4,7 @@ RV = "1.7-1"
+ 
+ DEPENDS += "sysfsutils"
+ 
+-SRC_URI += "file://fix-compilation-with-zlib.patch \
+-            file://fixsepbuild.patch"
++SRC_URI += "file://fixsepbuild.patch"
+ 
+ EXTRA_OECONF = "\
+   --enable-freetype=yes \
 -- 
-Jeff Osier-Mixon @Intel
-Yocto Project Community Manager http://yoctoproject.org
+1.8.1.2
+
 
