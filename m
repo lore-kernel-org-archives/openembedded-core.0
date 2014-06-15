@@ -1,40 +1,37 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 306F96FD3D
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C2F9C6FC70
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Jun 2014 10:48:17 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id u57so3721366wes.5
+	Sun, 15 Jun 2014 01:40:10 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id et14so2031964pad.21
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Jun 2014 03:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=DNU5Bg9fFAkA2BmxiJBvBvq/vByR4D599yxRf0N3nnY=;
-	b=nRFOVGBj5Xa31tvUAPQF2FPV++ijsAaaQhVxAucgCBcTGEMBUN54ZzSeNLCB8SlZjX
-	8j1H9V7+eplu7a8dGa1Wjv+9quHAoUV6XqV/jFpGTzulzUli7AvkbNftc2xe9/P34g26
-	14glGwSkNOwHrbLPLEP2RPLfQ+nwjWMbg9pvV0EhY+HnBF05YsGYGu6Ygp/JV2rN4dqt
-	zYF5sc0iUw+6g4+ivwu+yuJPv1xvpEwyf7FShea4HbJ5fAn3mjDPbMd5ut7AEIpYriWH
-	7LrOIUPlZ6+PQRlxD9u1xWCaUUoo0a9LXo7q2OG42tBPj+P7cVm+ml7d5mt/0BBU9ZEg
-	lUtg==
-X-Received: by 10.180.149.240 with SMTP id ud16mr11983331wib.3.1402742898241; 
-	Sat, 14 Jun 2014 03:48:18 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id 47sm10255294eed.35.2014.06.14.03.48.15
+	Sat, 14 Jun 2014 18:40:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=S6XNTvRx9I+QXbQwtfY4WsRRMil1TKBH5inARYhcZc4=;
+	b=ZzqJ2UON/1ZSnaRnePZpiJwP3x43kLQenio+2RXAJj8HUnMHqhFnKTSe/7bDBt6LJp
+	tKY3zeD7pufrxf3S9YBtOqWxvyFlBXdQznN3t7kAzIOEPtGZahPGQql4NE4IqZRRF1yB
+	vugUVLxFu23jZdxZf2teLMq/lCNeGEpoQgJYYq2/sffb92dUvydBxF/NOMlmmVKPOcfb
+	yGjC59w1SdF4Vyj6cX/BvCFjJg+nZuJXRTfvXaH/GVtLKWUYzRUUTbs4S22tBd3Rxf8+
+	s2O6T0k8AKB1fQ+tNWvsAeirBDhvZGTQoP/O0DmsGyjSlcxYA6Ov/tPwrBccLE8cCerA
+	axhQ==
+X-Gm-Message-State: ALoCoQlqkjUqcJslW2OQgOj7eqH52Y8sUPtYDKrsN1VtWuJ15DRK98ACXeYjcJZbMLUWVKSxiiND
+X-Received: by 10.68.94.66 with SMTP id da2mr14075310pbb.106.1402796411884;
+	Sat, 14 Jun 2014 18:40:11 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55]) by mx.google.com with ESMTPSA id
+	qq5sm11021999pbb.24.2014.06.14.18.40.10
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 14 Jun 2014 03:48:16 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Sat, 14 Jun 2014 10:48:14 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 14 Jun 2014 18:40:11 -0700 (PDT)
+From: Armin Kuster <akuster@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20140614104814.GI24880@gmail.com>
-References: <1401290390-5959-1-git-send-email-paul@paulbarker.me.uk>
-	<1401290390-5959-3-git-send-email-paul@paulbarker.me.uk>
-MIME-Version: 1.0
-In-Reply-To: <1401290390-5959-3-git-send-email-paul@paulbarker.me.uk>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH 2/2] package_ipk.bbclass: Support hierarchical feed
+Date: Sat, 14 Jun 2014 18:40:02 -0700
+Message-Id: <1402796404-12726-1-git-send-email-akuster@mvista.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [Patch 0/2] Timezone update to 2014e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,53 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Jun 2014 10:48:19 -0000
-X-Groupsio-MsgNum: 54113
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ijf6z65S790CMqo8"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 15 Jun 2014 01:40:18 -0000
 
---ijf6z65S790CMqo8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes affecting near-future time stamps
 
-On Wed, May 28, 2014 at 03:19:50PM +0000, Paul Barker wrote:
-> This patch allows for an optional new layout for ipk feed directories whi=
-ch I've
-> called a 'hierarchical feed' and is based on how Debian pools package fil=
-es. It
-> is disabled by default and is enabled by setting IPK_HIERARCHICAL_FEED to=
- "1".
->=20
+Egypt's 2014 Ramadan-based transitions are June 26 and July 31 at 24:00.
+(Thanks to Imed Chihi.)  Guess that from 2015 on Egypt will temporarily
+switch to standard time at 24:00 the last Thursday before Ramadan, and
+back to DST at 00:00 the first Friday after Ramadan.
 
-Has anyone had chance to look at this and see if they think it's a good ide=
-a?
-The other patch in the series has been merged but I haven't had any feedbac=
-k on
-this one to say why it hasn't been merged.
+Similarly, Morocco's are June 28 at 03:00 and August 2 at 02:00. (Thanks
+to Milamber Space Network.)  Guess that from 2015 on Morocco will
+temporarily switch to standard time at 03:00 the last Saturday before
+Ramadan, and back to DST at 02:00 the first Saturday after Ramadan.
 
-Thanks,
+Changes affecting past time stamps
 
---=20
-Paul Barker
+The abbreviation "MSM" (Moscow Midsummer Time) is now used instead of
+"MSD" for Moscow's double daylight time in summer 1921.  Also, a typo
+"VLASST" has been repaired to be "VLAST" for Vladivostok summer time
+in 1991.  (Thanks to Hank W. for reporting the problems.)
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Changes affecting commentary
 
---ijf6z65S790CMqo8
-Content-Type: application/pgp-signature
+tz-link.htm now cites RFC 7265 for jCal, mentions PTP and the
+draft CalDAV extension, updates URLs for TSP, TZInfo, IATA, and
+removes stale pointers to World Time Explorer and WORLDTIME.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iQEcBAEBAgAGBQJTnChuAAoJEBwoJlo7UPQDVqkH/i/GJISjjIOJy/x/1Rs3S0OX
-ZEmhKuLQL/74P0RFfNy8mtDC/wwTbh79EBFoxzn2lETACXXZHdmayJq0RsEZz8na
-tqqNcRxcV2d/ezQozD5G/4vvMUdPDtZHhypDMWQCQKUZ/Vtz2EfoiF1TYP4pqoZF
-vd82kq17F/MTtdk8jWCt6J9McONGXsVsr+3rXySEJotEnNkWC44nSy6UCXypi+Zm
-xHZCdMUYvfC51aJLyuUkFcpHNtSRx2sv0U/yy/wVgBLsMygNC//PWa38J/6wE23y
-akrHj/bTQmL683fuTg+z1nr0XbPWA/O9x6oa3l5NB7f63eqa1teiPe9QRrExf+g=
-=nAul
------END PGP SIGNATURE-----
-
---ijf6z65S790CMqo8--
