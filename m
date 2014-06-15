@@ -1,37 +1,40 @@
 Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C2F9C6FC70
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C3D616FDA0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jun 2014 01:40:10 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id et14so2031964pad.21
+	Sun, 15 Jun 2014 01:40:12 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id y10so3250363pdj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Jun 2014 18:40:12 -0700 (PDT)
+	Sat, 14 Jun 2014 18:40:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=S6XNTvRx9I+QXbQwtfY4WsRRMil1TKBH5inARYhcZc4=;
-	b=ZzqJ2UON/1ZSnaRnePZpiJwP3x43kLQenio+2RXAJj8HUnMHqhFnKTSe/7bDBt6LJp
-	tKY3zeD7pufrxf3S9YBtOqWxvyFlBXdQznN3t7kAzIOEPtGZahPGQql4NE4IqZRRF1yB
-	vugUVLxFu23jZdxZf2teLMq/lCNeGEpoQgJYYq2/sffb92dUvydBxF/NOMlmmVKPOcfb
-	yGjC59w1SdF4Vyj6cX/BvCFjJg+nZuJXRTfvXaH/GVtLKWUYzRUUTbs4S22tBd3Rxf8+
-	s2O6T0k8AKB1fQ+tNWvsAeirBDhvZGTQoP/O0DmsGyjSlcxYA6Ov/tPwrBccLE8cCerA
-	axhQ==
-X-Gm-Message-State: ALoCoQlqkjUqcJslW2OQgOj7eqH52Y8sUPtYDKrsN1VtWuJ15DRK98ACXeYjcJZbMLUWVKSxiiND
-X-Received: by 10.68.94.66 with SMTP id da2mr14075310pbb.106.1402796411884;
-	Sat, 14 Jun 2014 18:40:11 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=L2loyfqfRPPC8AebxAcoVDHjVtEGOocWHKvX8WuW2i4=;
+	b=BwwHXSmPT3++/jyYuKU2Ju++BNbeh0SEOzJ8FI0gWYs8fqbrLtaylbg0rHsRI6yeiv
+	Fv3xRk37FUcPM07vrsq9oc8qh+Qzjg3JepFIXo8BoYP63mWUuEZ51zkOTCcYP75nqr/W
+	GX5AnsYgxd2pyRxAiADlK7zV+HOQ5lZDW0T8LKL8BavICrdsrS5+CXXUP083jMxATf5J
+	TJcScc5hmxm9Gqcv5I3i3VS2JGg7h6r8JkPdSmH04xs5umAmC3l3ULyupEbvzVbwBAI8
+	nlaakti9WIYFMN8/N1c1Ion0VLc6Q6LeQzwprVeNtyt1jhtQZodQAZbuV2huxX+4k/fz
+	we1Q==
+X-Gm-Message-State: ALoCoQn71pwCKKxZkOFAhGW0nRFuJOBvYijuqPdSd1VtAsI6PIgOA57TJlKIybWcRmu+fjUO6VQE
+X-Received: by 10.68.226.105 with SMTP id rr9mr340843pbc.161.1402796413446;
+	Sat, 14 Jun 2014 18:40:13 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
 	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	qq5sm11021999pbb.24.2014.06.14.18.40.10
+	qq5sm11021999pbb.24.2014.06.14.18.40.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 14 Jun 2014 18:40:11 -0700 (PDT)
+	Sat, 14 Jun 2014 18:40:12 -0700 (PDT)
 From: Armin Kuster <akuster@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Jun 2014 18:40:02 -0700
-Message-Id: <1402796404-12726-1-git-send-email-akuster@mvista.com>
+Date: Sat, 14 Jun 2014 18:40:03 -0700
+Message-Id: <1402796404-12726-2-git-send-email-akuster@mvista.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [Patch 0/2] Timezone update to 2014e
+In-Reply-To: <1402796404-12726-1-git-send-email-akuster@mvista.com>
+References: <1402796404-12726-1-git-send-email-akuster@mvista.com>
+Subject: [PATCH 1/2] tzdata: update to version 2014e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +49,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 15 Jun 2014 01:40:18 -0000
 
-Changes affecting near-future time stamps
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2014d.bb | 6 ------
+ meta/recipes-extended/tzdata/tzdata_2014e.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-extended/tzdata/tzdata_2014d.bb
+ create mode 100644 meta/recipes-extended/tzdata/tzdata_2014e.bb
 
-Egypt's 2014 Ramadan-based transitions are June 26 and July 31 at 24:00.
-(Thanks to Imed Chihi.)  Guess that from 2015 on Egypt will temporarily
-switch to standard time at 24:00 the last Thursday before Ramadan, and
-back to DST at 00:00 the first Friday after Ramadan.
-
-Similarly, Morocco's are June 28 at 03:00 and August 2 at 02:00. (Thanks
-to Milamber Space Network.)  Guess that from 2015 on Morocco will
-temporarily switch to standard time at 03:00 the last Saturday before
-Ramadan, and back to DST at 02:00 the first Saturday after Ramadan.
-
-Changes affecting past time stamps
-
-The abbreviation "MSM" (Moscow Midsummer Time) is now used instead of
-"MSD" for Moscow's double daylight time in summer 1921.  Also, a typo
-"VLASST" has been repaired to be "VLAST" for Vladivostok summer time
-in 1991.  (Thanks to Hank W. for reporting the problems.)
-
-Changes affecting commentary
-
-tz-link.htm now cites RFC 7265 for jCal, mentions PTP and the
-draft CalDAV extension, updates URLs for TSP, TZInfo, IATA, and
-removes stale pointers to World Time Explorer and WORLDTIME.
+diff --git a/meta/recipes-extended/tzdata/tzdata_2014d.bb b/meta/recipes-extended/tzdata/tzdata_2014d.bb
+deleted file mode 100644
+index 984c665..0000000
+--- a/meta/recipes-extended/tzdata/tzdata_2014d.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+-
+-SRC_URI[tzdata.md5sum] = "299b86c0368ecfb321f15d5c408a1d9b"
+-SRC_URI[tzdata.sha256sum] = "4b4966912f5d4a299b0bdf47e6f3103d82dc6a0b5a6b321e2b9d5662597a62f0"
+-
+-require tzdata.inc
+diff --git a/meta/recipes-extended/tzdata/tzdata_2014e.bb b/meta/recipes-extended/tzdata/tzdata_2014e.bb
+new file mode 100644
+index 0000000..b53d323
+--- /dev/null
++++ b/meta/recipes-extended/tzdata/tzdata_2014e.bb
+@@ -0,0 +1,6 @@
++SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
++
++SRC_URI[tzdata.md5sum] = "8a49fdedd4e832da8e85f7f9bcaedc33"
++SRC_URI[tzdata.sha256sum] = "08e243a79051f838d86ac1311a78b74047951302d448024e823b5b7aa71f86c5"
++
++require tzdata.inc
+-- 
+1.9.1
 
 
