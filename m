@@ -1,43 +1,31 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 377 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 16 Jun 2014 12:10:53 UTC
-Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
-	[216.82.243.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C406FD46
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B8DA6FEB0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 12:10:53 +0000 (UTC)
-Received: from [216.82.241.196:58105] by server-13.bemta-8.messagelabs.com id
-	1E/44-14006-45DDE935; Mon, 16 Jun 2014 12:04:36 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-3.tower-46.messagelabs.com!1402920275!35154491!1
-X-Originating-IP: [66.77.174.13]
-X-StarScan-Received: 
-X-StarScan-Version: 6.11.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 26084 invoked from network); 16 Jun 2014 12:04:36 -0000
-Received: from mail.mx1.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
-	by server-3.tower-46.messagelabs.com with RC4-SHA encrypted SMTP;
-	16 Jun 2014 12:04:36 -0000
-Received: from mcl-sms-exch01.digi.com (10.5.8.50) by mail.mx1.digi.com
-	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Mon, 16 Jun 2014 07:04:27 -0500
-Received: from dor-sms-exch01.digi.com (10.49.8.100) by
-	mcl-sms-exch01.digi.com (10.5.8.50) with Microsoft SMTP Server (TLS) id
-	8.3.342.0; Mon, 16 Jun 2014 07:04:35 -0500
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-exch01.digi.com
-	(10.49.8.100) with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Mon, 16 Jun 2014 14:04:33 +0200
-Message-ID: <539EDD51.9060508@digi.com>
-Date: Mon, 16 Jun 2014 14:04:33 +0200
-From: Javier Viguera <javier.viguera@digi.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1396927648.git.Chong.Lu@windriver.com>
-In-Reply-To: <cover.1396927648.git.Chong.Lu@windriver.com>
-Subject: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
+	Mon, 16 Jun 2014 12:13:55 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5GCDA4V006497 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 13:13:51 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Z2-XsspR3sFK
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 13:13:50 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5GCDiFJ006518
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 13:13:45 +0100
+Message-ID: <1402920818.562.64.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jun 2014 13:13:38 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] gcc-configure-common: Address problems with gengtype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,27 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 12:11:02 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Jun 2014 12:13:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+The gengtype patch we apply to gcc aims to ensure that the build and host
+config headers don't get confused. We're seeing build failures where
+both headers have been included, likely due to a race over the configuration
+files.
 
-I see this was finally included in oe-core *master*, but the problem is 
-still affecting Daisy.
+It seems the gengtype-lex.c file isn't being regenerated when it should
+and the unconditional inclusion of bconfig.h is resulting in these issues.
 
-Creating a basic command-line image with dbus pulls in the 
-dbus-ptest-ptest package (37MB installed):
+The fix is therefore to remove the file, forcing its regeneration.
 
-# du -sh /usr/lib/dbus-ptest/ptest
-37.6M   /usr/lib/dbus-ptest/ptest
+[YOCTO #6393]
 
-Could the fix be backported to Daisy?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
--
-Thanks,
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 4a10554..75fb379 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -91,6 +91,8 @@ python do_preconfigure () {
+     import subprocess
+     cmd = d.expand('PATH=${PATH} cd ${S} && gnu-configize')
+     subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++    # See 0044-gengtypes.patch, we need to regenerate this file
++    bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.c"))
+ }
+ addtask do_preconfigure after do_patch before do_configure
+ do_preconfigure[depends] += "gnu-config-native:do_populate_sysroot autoconf-native:do_populate_sysroot"
 
-Javier Viguera
-Software Engineer
-Digi International® Spain S.A.U.
+
 
