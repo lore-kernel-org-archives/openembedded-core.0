@@ -1,30 +1,26 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
-	by mail.openembedded.org (Postfix) with ESMTP id AD99A6FADB;
-	Mon, 16 Jun 2014 09:45:16 +0000 (UTC)
-Received: from fensuse.internal.dresearch-fe.de
-	(fensuse.internal.dresearch-fe.de [172.29.23.6])
-	by zk223.dresearch-fe.de (Postfix) with ESMTP id E45D8E012A;
-	Mon, 16 Jun 2014 11:45:16 +0200 (CEST)
-Received: from [IPv6:::1] (localhost [IPv6:::1])
-	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id D9E95700D67;
-	Mon, 16 Jun 2014 11:45:15 +0200 (CEST)
-Message-ID: <539EBCA8.3000709@dresearch-fe.de>
-Date: Mon, 16 Jun 2014 11:45:12 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 38E6B6FAEC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 10:24:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5GAOEMX000736
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 03:24:14 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 16 Jun 2014 03:24:13 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jun 2014 03:24:13 -0700
+Message-ID: <abf83874839486fb9f0031b088d838dcc0a6febd.1402910550.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1402910550.git.liezhi.yang@windriver.com>
+References: <cover.1402910550.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	openembedded-devel@lists.openembedded.org
-References: <1402775049-3165-1-git-send-email-sledz@dresearch-fe.de>
-	<539E8F97.3070508@dresearch-fe.de>
-	<6076930.voh3DpIb8j@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <6076930.voh3DpIb8j@peggleto-mobl5.ger.corp.intel.com>
-X-Enigmail-Version: 1.6
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][daisy][PATCH] live555: fix fetch problem
+Subject: [PATCH 1/1] image-vmdk.bbclass: set timeout to 1 second
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 09:45:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Jun 2014 10:24:19 -0000
+Content-Type: text/plain
 
-On 16.06.2014 10:48, Paul Eggleton wrote:
-> On Monday 16 June 2014 08:32:55 Steffen Sledz wrote:
->> What is the right ML address for patches in this area?
->>
->> The meta-multimedia/README in git://git.openembedded.org/meta-openembedded
->> (daisy branch) says:
->>
->>   "Send pull requests to openembedded-devel@lists.openembedded.org"
->>
->> But i believe this should be openembedded-core@lists.openembedded.org.
-> 
-> No, for all layers in the meta-openembedded repository it should be 
-> openembedded-devel as listed.
+The SYSLINUX_TIMEOUT ?= "1" means 0.1 second which is too short, set to
+1 second as mage-live.bbclass and boot-directdisk.bbclass does.
 
-OK, thx for this info.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/image-vmdk.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So i hope the patch will make it into the daisy branch in the next time, because our build is broken meanwhile (OK, we have a workaround, but this is unendearing).
-
+diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
+index fac5f71..703c00e 100644
+--- a/meta/classes/image-vmdk.bbclass
++++ b/meta/classes/image-vmdk.bbclass
+@@ -3,7 +3,7 @@
+ 
+ SYSLINUX_ROOT = "root=/dev/hda2 "
+ SYSLINUX_PROMPT ?= "0"
+-SYSLINUX_TIMEOUT ?= "1"
++SYSLINUX_TIMEOUT ?= "10"
+ SYSLINUX_LABELS = "boot"
+ LABELS_append = " ${SYSLINUX_LABELS} "
+ 
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.7.9.5
+
 
