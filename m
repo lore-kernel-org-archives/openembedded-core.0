@@ -1,27 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB4C6AF35
+	by mail.openembedded.org (Postfix) with ESMTP id 28A8D65FE7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 13:43:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5GDhbUL014472
+	Mon, 16 Jun 2014 13:49:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5GDnLpb014520
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 06:43:37 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 16 Jun 2014 06:43:37 -0700
-Message-ID: <539EF487.9030601@windriver.com>
-Date: Mon, 16 Jun 2014 21:43:35 +0800
+	Mon, 16 Jun 2014 06:49:21 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 16 Jun 2014 06:49:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1401154373.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1401154373.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/2] meta: fixes dbus-native and cups
+Date: Mon, 16 Jun 2014 06:49:19 -0700
+Message-ID: <f304fb8b27c04e7099b22978c44e30346fb25dea.1402926503.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1402926503.git.liezhi.yang@windriver.com>
+References: <cover.1402926503.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/3] libpcap: Avoid libpcap build error when libnl1 is involved
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 13:43:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jun 2014 13:49:20 -0000
+Content-Type: text/plain
 
+From: Hu Yadi <Yadi.hu@windriver.com>
 
-Ping.
+Add --with-libnl autoconfig parameter and dependency between libpcap and libnl1
 
-// Robert
+Signed-off-by: Hu Yadi <Yadi.hu@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-connectivity/libpcap/libpcap.inc |    3 +++
+ 1 file changed, 3 insertions(+)
 
-On 05/27/2014 09:39 AM, Robert Yang wrote:
-> The following changes since commit 894df445fa71a170397c6e0b4960a89ef20a4230:
->
->    guile: Update to 2.0.11 version (2014-05-21 19:50:21 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib rbt/twofixes
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/twofixes
->
-> Robert Yang (2):
->    dbus-native: dbus-native: do_compile failed on selinux.c on CentOS 5.10
->    cups: enable cups-str4402.patch
->
->   meta/recipes-core/dbus/dbus.inc     |    2 ++
->   meta/recipes-extended/cups/cups.inc |    1 +
->   2 files changed, 3 insertions(+)
->
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index 177b70f..6f76cb5 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -23,6 +23,9 @@ inherit autotools binconfig
+ 
+ EXTRA_OECONF = "--with-pcap=linux"
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[libnl1] = "--with-libnl,--without-libnl,libnl1,libnl1"
++
+ CPPFLAGS_prepend = "-I${S} "
+ CFLAGS_prepend = "-I${S} "
+ CXXFLAGS_prepend = "-I${S} "
+-- 
+1.7.9.5
+
 
