@@ -1,25 +1,26 @@
 Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 781756FD72
+	by mail.openembedded.org (Postfix) with ESMTP id 80CF865F99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 03:29:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5G3Toqi008816
+	Mon, 16 Jun 2014 05:20:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5G5KeC5016011
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jun 2014 20:29:51 -0700 (PDT)
+	Sun, 15 Jun 2014 22:20:40 -0700 (PDT)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Sun, 15 Jun 2014 20:29:50 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 15 Jun 2014 22:20:39 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Jun 2014 23:29:48 -0400
-Message-ID: <1402889389-835-1-git-send-email-wenzong.fan@windriver.com>
+Date: Mon, 16 Jun 2014 01:20:35 -0400
+Message-ID: <0c9ae168604c96d3333810b5fc0ae70af832ff88.1402895653.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1402895653.git.wenzong.fan@windriver.com>
+References: <cover.1402895653.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Cc: Yue.Tao@windriver.com
-Subject: [PATCH] Security Advisory - pam - CVE-2014-2583
+Subject: [PATCH 1/2] Dpkg::Source::Patch: Correctly parse C-style diff filenames
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,103 +33,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 03:29:51 -0000
+X-List-Received-Date: Mon, 16 Jun 2014 05:20:46 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Guillem Jover <guillem@debian.org>
 
-Multiple directory traversal vulnerabilities in pam_timestamp.c in the
-pam_timestamp module for Linux-PAM (aka pam) 1.1.8 allow local users to
-create aribitrary files or possibly bypass authentication via a .. (dot
-dot) in the (1) PAM_RUSER value to the get_ruser function or (2) PAM_TTY
-value to the check_tty funtion, which is used by the
-format_timestamp_name function.
+based on: commit a82651188476841d190c58693f95827d61959b51
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2583
+We need to strip the surrounding quotes, and unescape any escape
+sequence, so that we check the same files that the patch program will
+be using, otherwise a malicious package could overpass those checks,
+and perform directory traversal attacks on source package unpacking.
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Fixes: CVE-2014-0471
+
+Reported-by: Jakub Wilk <jwilk@debian.org>
+[drop the text for debian/changelog,because it's not suitable
+ for the veriosn]
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- ...mp-fix-potential-directory-traversal-issu.patch |   58 ++++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.1.6.bb          |    1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/0001-pam_timestamp-fix-potential-directory-traversal-issu.patch
+ .../dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch      |   83 ++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |    1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/0001-pam_timestamp-fix-potential-directory-traversal-issu.patch b/meta/recipes-extended/pam/libpam/0001-pam_timestamp-fix-potential-directory-traversal-issu.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch
 new file mode 100644
-index 0000000..e9e9990
+index 0000000..f5a023a
 --- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/0001-pam_timestamp-fix-potential-directory-traversal-issu.patch
-@@ -0,0 +1,58 @@
-+From 9dcead87e6d7f66d34e7a56d11a30daca367dffb Mon Sep 17 00:00:00 2001
-+From: "Dmitry V. Levin" <ldv@altlinux.org>
-+Date: Wed, 26 Mar 2014 22:17:23 +0000
-+Subject: [PATCH] pam_timestamp: fix potential directory traversal issue
-+ (ticket #27)
-+
-+commit 9dcead87e6d7f66d34e7a56d11a30daca367dffb upstream
-+
-+pam_timestamp uses values of PAM_RUSER and PAM_TTY as components of
-+the timestamp pathname it creates, so extra care should be taken to
-+avoid potential directory traversal issues.
-+
-+* modules/pam_timestamp/pam_timestamp.c (check_tty): Treat
-+"." and ".." tty values as invalid.
-+(get_ruser): Treat "." and ".." ruser values, as well as any ruser
-+value containing '/', as invalid.
-+
-+Fixes CVE-2014-2583.
-+
-+Reported-by: Sebastian Krahmer <krahmer@suse.de>
-+---
-+ modules/pam_timestamp/pam_timestamp.c |   13 ++++++++++++-
-+ 1 files changed, 12 insertions(+), 1 deletions(-)
-+
-+diff --git a/modules/pam_timestamp/pam_timestamp.c b/modules/pam_timestamp/pam_timestamp.c
-+index 5193733..b3f08b1 100644
-+--- a/modules/pam_timestamp/pam_timestamp.c
-++++ b/modules/pam_timestamp/pam_timestamp.c
-+@@ -158,7 +158,7 @@ check_tty(const char *tty)
-+ 		tty = strrchr(tty, '/') + 1;
++++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch
+@@ -0,0 +1,83 @@
++diff -uarN dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm
++--- dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm	2014-06-05 15:24:07.422446284 +0800
+++++ dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm	2014-06-05 15:41:37.746446314 +0800
++@@ -324,14 +324,53 @@
++     return $line;
++ }
++ 
++-# Strip timestamp
++-sub _strip_ts {
++-    my $header = shift;
++-
++-    # Tab is the official separator, it's always used when
++-    # filename contain spaces. Try it first, otherwise strip on space
++-    # if there's no tab
++-    $header =~ s/\s.*// unless ($header =~ s/\t.*//);
+++my %ESCAPE = ((
+++    'a' => "\a",
+++    'b' => "\b",
+++    'f' => "\f",
+++    'n' => "\n",
+++    'r' => "\r",
+++    't' => "\t",
+++    'v' => "\cK",
+++    '\\' => '\\',
+++    '"' => '"',
+++), (
+++    map { sprintf('%03o', $_) => chr($_) } (0..255)
+++));
+++
+++sub _unescape {
+++    my ($diff, $str) = @_;
+++
+++    if (exists $ESCAPE{$str}) {
+++        return $ESCAPE{$str};
+++    } else {
+++        error(_g('diff %s patches file with unknown escape sequence \\%s'),
+++              $diff, $str);
+++    }
+++}
+++
+++# Fetch the header filename ignoring the optional timestamp
+++sub _fetch_filename {
+++    my ($diff, $header) = @_;
+++
+++    # Strip any leading spaces.
+++    $header =~ s/^\s+//;
+++
+++    # Is it a C-style string?
+++    if ($header =~ m/^"/) {
+++        $header =~ m/^"((?:[^\\"]|\\.)*)"/;
+++        error(_g('diff %s patches file with unbalanced quote'), $diff)
+++            unless defined $1;
+++
+++        $header = $1;
+++        $header =~ s/\\([0-3][0-7]{2}|.)/_unescape($diff, $1)/eg;
+++    } else {
+++        # Tab is the official separator, it's always used when
+++        # filename contain spaces. Try it first, otherwise strip on space
+++        # if there's no tab
+++        $header =~ s/\s.*// unless $header =~ s/\t.*//;
+++    }
+++
++     return $header;
++ }
++ 
++@@ -400,7 +439,7 @@
++ 	unless(s/^--- //) {
++ 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
 + 	}
-+ 	/* Make sure the tty wasn't actually a directory (no basename). */
-+-	if (strlen(tty) == 0) {
-++	if (!strlen(tty) || !strcmp(tty, ".") || !strcmp(tty, "..")) {
-+ 		return NULL;
++-        $path{old} = $_ = _strip_ts($_);
+++	$path{old} = $_ = _fetch_filename($diff, $_);
++ 	$fn{old} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
++ 	if (/\.dpkg-orig$/) {
++ 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
++@@ -412,7 +451,7 @@
++ 	unless (s/^\+\+\+ //) {
++ 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
 + 	}
-+ 	return tty;
-+@@ -243,6 +243,17 @@ get_ruser(pam_handle_t *pamh, char *ruserbuf, size_t ruserbuflen)
-+ 		if (pwd != NULL) {
-+ 			ruser = pwd->pw_name;
-+ 		}
-++	} else {
-++		/*
-++		 * This ruser is used by format_timestamp_name as a component
-++		 * of constructed timestamp pathname, so ".", "..", and '/'
-++		 * are disallowed to avoid potential path traversal issues.
-++		 */
-++		if (!strcmp(ruser, ".") ||
-++		    !strcmp(ruser, "..") ||
-++		    strchr(ruser, '/')) {
-++			ruser = NULL;
-++		}
-+ 	}
-+ 	if (ruser == NULL || strlen(ruser) >= ruserbuflen) {
-+ 		*ruserbuf = '\0';
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index 7e55adf..4ca6063 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
-            file://libpam-fix-for-CVE-2010-4708.patch \
-            file://pam-security-abstract-securetty-handling.patch \
-            file://pam-unix-nullok-secure.patch \
-+           file://0001-pam_timestamp-fix-potential-directory-traversal-issu.patch \
-           "
- SRC_URI[md5sum] = "7b73e58b7ce79ffa321d408de06db2c4"
- SRC_URI[sha256sum] = "bab887d6280f47fc3963df3b95735a27a16f0f663636163ddf3acab5f1149fc2"
++-        $path{new} = $_ = _strip_ts($_);
+++	$path{new} = $_ = _fetch_filename($diff, $_);
++ 	$fn{new} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
++ 
++ 	unless (defined $fn{old} or defined $fn{new}) {
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
+index 5507352..48e1394 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
+@@ -12,6 +12,7 @@ SRC_URI += "file://noman.patch \
+             file://dpkg-configure.service \
+             file://glibc2.5-sync_file_range.patch \
+             file://no-vla-warning.patch \
++            file://dpkg-1.17.4-CVE-2014-0471.patch \
+            "
+ 
+ SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
 -- 
 1.7.9.5
 
