@@ -1,40 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
-	[209.85.216.45])
-	by mail.openembedded.org (Postfix) with ESMTP id D57636B3A4
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 703A96FF52
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 15:12:57 +0000 (UTC)
-Received: by mail-qa0-f45.google.com with SMTP id v10so7584743qac.32
+	Mon, 16 Jun 2014 15:13:26 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id v10so7645070qac.27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 08:12:58 -0700 (PDT)
+	Mon, 16 Jun 2014 08:13:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=KdQ8wzK9EvP8ykN/DbFImFJ5F4gkLobhi3hraVga2oU=;
-	b=IMxuGpeDbOGdbeNwEe6jBdtxzLVtKMKWTDSrPkUIXUVXf5Og5OPJmfZuhJ9ACeGCfr
-	MFo42dQSScurUZQRRAT5YzO2EXx+K84Q9F5wy0VYYcAVtzSKNzZCNU79uTrfMMwBT8Pi
-	jHizSw9tswZvJFmw+nNyD+HofV5fnHhi9ny1CkPmySrEiXKoam7SI6374AlhgkAhdrc0
-	LROmZ8fUWEfF9CsywfzxCr2/WRmvA2bZwbmecsQqHRMpFx3mTMxVt8Ot4nCiKMkFjp47
-	HfWTFQqKSLGnFEz+g+0SYvgwphNHv2XHSeNe7WUquAnPiEy9iYX/TxSQQ0yuZCMm4h+K
-	nRwA==
-X-Gm-Message-State: ALoCoQnY6ZnPBIakvZlLy+k1MmPVhQqTI7+afSd5k8JDLJe1pAOtJ2QVwEeCpJgv01U0MffGFyr1
-X-Received: by 10.224.165.70 with SMTP id h6mr27384050qay.78.1402931578055;
-	Mon, 16 Jun 2014 08:12:58 -0700 (PDT)
+	bh=tlRwBN0AIvBNE8Pc8K8JvR5EVdRdwcsWvSLiU1U5NSg=;
+	b=IZvCGFIXMJ2eTfcWzp4TnXhRVnB54voju6Z9F8690Jo4CPIiAulW/VkwQAgHlESBCh
+	lX/30IzRR8TDgblhSz5a7YOLAEEfSZZNmDF+2GF/fcjsEaq6G+YqAwYuBCvJSQBb8hPS
+	E3z7xstVSl47sOtUu7ONHMAc1XuaubbblBnykmqKL7wvXlNmhAQ45UMCjLDdbkFNTJ1v
+	Yuq9awoTok0+n9BUoBFhrQboNu71p0gq5rkyFE3SPkcCB2BcrOYvThYiYEqWdlvdjs89
+	tKhuHHc1SIdJ4H7oQ3cG5J+fzFtkyzqX263pV96eukU2+UEvkzILueDfCV0iRLU9bAzQ
+	B6WA==
+X-Gm-Message-State: ALoCoQlGuUr61bM/epdMwycgpL+F2YLdltWP03tjtFA9fnqm0UgmUW5ljY8KiddmN4CSKNyLtdJJ
+X-Received: by 10.224.151.206 with SMTP id d14mr26918394qaw.35.1402931607078; 
+	Mon, 16 Jun 2014 08:13:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.91.138 with HTTP; Mon, 16 Jun 2014 08:12:37 -0700 (PDT)
-In-Reply-To: <539F08D0.7060602@digi.com>
-References: <cover.1396927648.git.Chong.Lu@windriver.com>
-	<539EDD51.9060508@digi.com>
-	<CAJTo0LbcPqL+E78x1jUX6JH_BBc-uuEV8KDjELap9OJidPtYqA@mail.gmail.com>
-	<539F08D0.7060602@digi.com>
+Received: by 10.140.91.138 with HTTP; Mon, 16 Jun 2014 08:13:06 -0700 (PDT)
+In-Reply-To: <f304fb8b27c04e7099b22978c44e30346fb25dea.1402926503.git.liezhi.yang@windriver.com>
+References: <cover.1402926503.git.liezhi.yang@windriver.com>
+	<f304fb8b27c04e7099b22978c44e30346fb25dea.1402926503.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Jun 2014 16:12:37 +0100
-Message-ID: <CAJTo0Lby+ctMeFe8_NhgpCAuazw4OHkNvPEo=53h5hhJfMuKRg@mail.gmail.com>
-To: Javier Viguera <javier.viguera@digi.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
+Date: Mon, 16 Jun 2014 16:13:06 +0100
+Message-ID: <CAJTo0LbGfC9+VNjOHQiN1z3KUD0c8ynbxbzSmE-htLsRbEKe6A@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] libpcap: Avoid libpcap build error when libnl1 is involved
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +44,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 15:13:04 -0000
+X-List-Received-Date: Mon, 16 Jun 2014 15:13:26 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 16 June 2014 16:10, Javier Viguera <javier.viguera@digi.com> wrote:
-> Attached the obvious cherry-pick of the commit from *master* with a basic
-> conflict solved. But I don't think this is acceptable in an already-released
-> stable branch "Daisy" as it involves a recipe rename (dbus-ptest_1.6.18.bb
-> => dbus-test_1.6.18.bb) that probably will break the projects of current
-> users of yocto Daisy.
->
-> Instead, would a basic change like the following be enough?:
->
->
-> -RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest',
-> 'dbus-ptest-ptest', '', d)}"
-> +RDEPENDS_dbus = "${@base_contains('PTEST_ENABLED', '1', 'dbus-ptest-ptest',
-> '', d)}"
->
-> This does not change any recipe name so it seems suitable for a bug-fix only
-> branch but unfortunately this goes beyond my skills in Yocto and ptest
-> framework so any advise would be appreciated.
+On 16 June 2014 14:49, Robert Yang <liezhi.yang@windriver.com> wrote:
+> +PACKAGECONFIG[libnl1] = "--with-libnl,--without-libnl,libnl1,libnl1"
 
-That change doesn't solve your problem, so no.  I'm not the daisy
-maintainer but I can see a good argument for merging the change even
-with the rename.
+Why did you need to specify a runtime dependency?
 
 Ross
 
