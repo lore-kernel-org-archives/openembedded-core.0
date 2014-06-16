@@ -1,24 +1,28 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2615D6FDF7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 08:17:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5G8H3Yi009315
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 16 Jun 2014 01:17:03 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 16 Jun 2014 01:17:02 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jun 2014 16:16:48 +0800
-Message-ID: <cover.1402901435.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 1005560889;
+	Mon, 16 Jun 2014 08:49:02 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 Jun 2014 01:49:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,485,1400050800"; d="scan'208";a="445934955"
+Received: from lakaruna-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.8])
+	by azsmga001.ch.intel.com with ESMTP; 16 Jun 2014 01:48:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Date: Mon, 16 Jun 2014 09:48:58 +0100
+Message-ID: <6076930.voh3DpIb8j@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.6-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <539E8F97.3070508@dresearch-fe.de>
+References: <1402775049-3165-1-git-send-email-sledz@dresearch-fe.de>
+	<539E8F97.3070508@dresearch-fe.de>
 MIME-Version: 1.0
-Cc: saul.wold@intel.com, kang.kai@windriver.com
-Subject: [PATCH 0/1] ghostscript: upgrade to 9.14
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][daisy][PATCH] live555: fix fetch problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 08:17:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Jun 2014 08:49:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The following changes since commit 3a88df915831f2fd5e46ed71b21190398d1de0f1:
+Hi Steffen,
 
-  alsa-tools: Add missing pkgconfg dependency (2014-06-14 08:46:02 +0100)
+On Monday 16 June 2014 08:32:55 Steffen Sledz wrote:
+> What is the right ML address for patches in this area?
+> 
+> The meta-multimedia/README in git://git.openembedded.org/meta-openembedded
+> (daisy branch) says:
+> 
+>   "Send pull requests to openembedded-devel@lists.openembedded.org"
+> 
+> But i believe this should be openembedded-core@lists.openembedded.org.
 
-are available in the git repository at:
+No, for all layers in the meta-openembedded repository it should be 
+openembedded-devel as listed.
 
-  git://git.pokylinux.org/poky-contrib hongxu/upgrade-ghostscript
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/upgrade-ghostscript
-
-Hongxu Jia (1):
-  ghostscript: upgrade to 9.14
-
- ...c-add-a-preprocessor-define-to-allow-fope.patch |  36 ++++++
- .../ghostscript-9.02-parallel-make.patch           | 144 ++++++++++-----------
- .../ghostscript-9.05-NOT-check-endian.patch        |  44 -------
- ...tscript-native-fix-disable-system-libtiff.patch |  45 +++----
- .../{ghostscript_9.07.bb => ghostscript_9.14.bb}   |  42 ++----
- 5 files changed, 132 insertions(+), 179 deletions(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/base-genht.c-add-a-preprocessor-define-to-allow-fope.patch
- delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.05-NOT-check-endian.patch
- rename meta/recipes-extended/ghostscript/{ghostscript_9.07.bb => ghostscript_9.14.bb} (70%)
+Cheers,
+Paul
 
 -- 
-1.8.1.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
