@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B8DA6FEB0
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C13C6FC0E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 12:13:55 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5GCDA4V006497 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 13:13:51 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Z2-XsspR3sFK
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 13:13:50 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5GCDiFJ006518
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 13:13:45 +0100
-Message-ID: <1402920818.562.64.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jun 2014 13:13:38 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] gcc-configure-common: Address problems with gengtype
+	Mon, 16 Jun 2014 12:50:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Jun 2014 05:50:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,486,1400050800"; d="scan'208";a="556190339"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2014 05:50:32 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Jun 2014 15:54:10 +0300
+Message-Id: <42576a77eb0351498982a78b4b28c51dcef5631f.1402923181.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1402923181.git.cristian.iorga@intel.com>
+References: <cover.1402923181.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1402923181.git.cristian.iorga@intel.com>
+References: <cover.1402923181.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/2] connman: upgrade to 1.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 12:13:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jun 2014 12:50:40 -0000
 
-The gengtype patch we apply to gcc aims to ensure that the build and host
-config headers don't get confused. We're seeing build failures where
-both headers have been included, likely due to a race over the configuration
-files.
+Bug fix release
 
-It seems the gengtype-lex.c file isn't being regenerated when it should
-and the unconditional inclusion of bconfig.h is resulting in these issues.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../recipes-connectivity/connman/{connman_1.23.bb => connman_1.24.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.23.bb => connman_1.24.bb} (68%)
 
-The fix is therefore to remove the file, forcing its regeneration.
-
-[YOCTO #6393]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 4a10554..75fb379 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -91,6 +91,8 @@ python do_preconfigure () {
-     import subprocess
-     cmd = d.expand('PATH=${PATH} cd ${S} && gnu-configize')
-     subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+    # See 0044-gengtypes.patch, we need to regenerate this file
-+    bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.c"))
- }
- addtask do_preconfigure after do_patch before do_configure
- do_preconfigure[depends] += "gnu-config-native:do_populate_sysroot autoconf-native:do_populate_sysroot"
-
+diff --git a/meta/recipes-connectivity/connman/connman_1.23.bb b/meta/recipes-connectivity/connman/connman_1.24.bb
+similarity index 68%
+rename from meta/recipes-connectivity/connman/connman_1.23.bb
+rename to meta/recipes-connectivity/connman/connman_1.24.bb
+index 43501af..66a8c58 100644
+--- a/meta/recipes-connectivity/connman/connman_1.23.bb
++++ b/meta/recipes-connectivity/connman/connman_1.24.bb
+@@ -5,7 +5,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
+             "
+-SRC_URI[md5sum] = "f835b8137ab198e0af5deab043e2890a"
+-SRC_URI[sha256sum] = "1dcac1d059d5303343e544fca0d0e76837cfb32f36e4a607a71c1b65ccf007c5"
++SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
++SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
+ 
+ RRECOMMENDS_${PN} = "connman-conf"
+-- 
+1.9.1
 
 
