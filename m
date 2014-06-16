@@ -1,26 +1,25 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F32BF6FB6D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C74D565F09
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 05:20:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5G5KfuK007909
+	Mon, 16 Jun 2014 05:25:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5G5PHPH016289
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jun 2014 22:20:41 -0700 (PDT)
+	Sun, 15 Jun 2014 22:25:17 -0700 (PDT)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 15 Jun 2014 22:20:40 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 15 Jun 2014 22:25:16 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jun 2014 01:20:36 -0400
-Message-ID: <24fee997c2aeda1aa68d3a0fc191f13d4c88962b.1402895653.git.wenzong.fan@windriver.com>
+Date: Mon, 16 Jun 2014 01:25:15 -0400
+Message-ID: <1402896315-15385-1-git-send-email-wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1402895653.git.wenzong.fan@windriver.com>
-References: <cover.1402895653.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] Dpkg::Source::Patch: Outright reject C-style filenames in patches
+Cc: Yue.Tao@windriver.com
+Subject: [PATCH] Security Advisory - libtiff - CVE-2012-4564
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,102 +32,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 05:20:46 -0000
+X-List-Received-Date: Mon, 16 Jun 2014 05:25:17 -0000
 Content-Type: text/plain
 
-From: Guillem Jover <guillem@debian.org>
+From: Yue Tao <Yue.Tao@windriver.com>
 
-based on: commit a12eb58959d0a10584a428f4a3103a49204c410f
+ppm2tiff does not check the return value of the TIFFScanlineSize
+function, which allows remote attackers to cause a denial of service
+(crash) and possibly execute arbitrary code via a crafted PPM image that
+triggers an integer overflow, a zero-memory allocation, and a heap-based
+buffer overflow.
 
-Because patch only started recognizing C-style filenames in diffs
-in version 2.7, it's not safe to assume one behaviour or the other,
-as the system might or might not have a recent enough version, or
-a GNU patch program at all. There's also no reason we should be
-supporting this kind of strange encoded filenames in patches, when
-we have not done so up to now.
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564
 
-Let's just ban these types of diffs and be done with it.
-
-Fixes: CVE-2014-0471
-Closes: #746306
-
-[drop the text for debian/changelog,because it's not suitable
-for the veriosn]
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 ---
- .../dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch  |   49 ++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |    1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
+ .../libtiff/files/tiff-CVE-2012-4564.patch         |   94 ++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.3.bb      |    3 +-
+ 2 files changed, 96 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
 new file mode 100644
-index 0000000..d49b073
+index 0000000..f4efd7f
 --- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
-@@ -0,0 +1,49 @@
-+diff -uarN dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm
-+--- dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm	2014-06-05 16:32:41.765446564 +0800
-++++ dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm	2014-06-05 16:37:21.461446359 +0800
-+@@ -324,31 +324,6 @@
-+     return $line;
++++ b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+@@ -0,0 +1,94 @@
++Index: tools/ppm2tiff.c
++===================================================================
++RCS file: /cvs/maptools/cvsroot/libtiff/tools/ppm2tiff.c,v
++retrieving revision 1.16
++retrieving revision 1.18
++diff -u -r1.16 -r1.18
++--- a/tools/ppm2tiff.c	10 Apr 2010 19:22:34 -0000	1.16
+++++ b/tools/ppm2tiff.c	10 Dec 2012 18:19:11 -0000	1.18
++@@ -1,4 +1,4 @@
++-/* $Id: ppm2tiff.c,v 1.16 2010-04-10 19:22:34 bfriesen Exp $ */
+++/* $Id: ppm2tiff.c,v 1.18 2012-12-10 18:19:11 tgl Exp $ */
++ 
++ /*
++  * Copyright (c) 1991-1997 Sam Leffler
++@@ -72,6 +72,17 @@
++ 	exit(-2);
 + }
 + 
-+-my %ESCAPE = ((
-+-    'a' => "\a",
-+-    'b' => "\b",
-+-    'f' => "\f",
-+-    'n' => "\n",
-+-    'r' => "\r",
-+-    't' => "\t",
-+-    'v' => "\cK",
-+-    '\\' => '\\',
-+-    '"' => '"',
-+-), (
-+-    map { sprintf('%03o', $_) => chr($_) } (0..255)
-+-));
-+-
-+-sub _unescape {
-+-    my ($diff, $str) = @_;
-+-
-+-    if (exists $ESCAPE{$str}) {
-+-        return $ESCAPE{$str};
-+-    } else {
-+-        error(_g('diff %s patches file with unknown escape sequence \\%s'),
-+-              $diff, $str);
-+-    }
-+-}
-+-
-+ # Fetch the header filename ignoring the optional timestamp
-+ sub _fetch_filename {
-+     my ($diff, $header) = @_;
-+@@ -358,12 +333,7 @@
+++static tmsize_t
+++multiply_ms(tmsize_t m1, tmsize_t m2)
+++{
+++	tmsize_t bytes = m1 * m2;
+++
+++	if (m1 && bytes / m1 != m2)
+++		bytes = 0;
+++
+++	return bytes;
+++}
+++
++ int
++ main(int argc, char* argv[])
++ {
++@@ -79,7 +90,7 @@
++ 	uint32 rowsperstrip = (uint32) -1;
++ 	double resolution = -1;
++ 	unsigned char *buf = NULL;
++-	tsize_t linebytes = 0;
+++	tmsize_t linebytes = 0;
++ 	uint16 spp = 1;
++ 	uint16 bpp = 8;
++ 	TIFF *out;
++@@ -89,6 +100,7 @@
++ 	int c;
++ 	extern int optind;
++ 	extern char* optarg;
+++	tmsize_t scanline_size;
 + 
-+     # Is it a C-style string?
-+     if ($header =~ m/^"/) {
-+-        $header =~ m/^"((?:[^\\"]|\\.)*)"/;
-+-        error(_g('diff %s patches file with unbalanced quote'), $diff)
-+-            unless defined $1;
-+-
-+-        $header = $1;
-+-        $header =~ s/\\([0-3][0-7]{2}|.)/_unescape($diff, $1)/eg;
-++	error(_g('diff %s patches file with C-style encoded filename'), $diff);
-+     } else {
-+         # Tab is the official separator, it's always used when
-+         # filename contain spaces. Try it first, otherwise strip on space
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-index 48e1394..83526f3 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-@@ -13,6 +13,7 @@ SRC_URI += "file://noman.patch \
-             file://glibc2.5-sync_file_range.patch \
-             file://no-vla-warning.patch \
-             file://dpkg-1.17.4-CVE-2014-0471.patch \
-+            file://dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch \
-            "
++ 	if (argc < 2) {
++ 	    fprintf(stderr, "%s: Too few arguments\n", argv[0]);
++@@ -221,7 +233,8 @@
++ 	}
++ 	switch (bpp) {
++ 		case 1:
++-			linebytes = (spp * w + (8 - 1)) / 8;
+++			/* if round-up overflows, result will be zero, OK */
+++			linebytes = (multiply_ms(spp, w) + (8 - 1)) / 8;
++ 			if (rowsperstrip == (uint32) -1) {
++ 				TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, h);
++ 			} else {
++@@ -230,15 +243,31 @@
++ 			}
++ 			break;
++ 		case 8:
++-			linebytes = spp * w;
+++			linebytes = multiply_ms(spp, w);
++ 			TIFFSetField(out, TIFFTAG_ROWSPERSTRIP,
++ 			    TIFFDefaultStripSize(out, rowsperstrip));
++ 			break;
++ 	}
++-	if (TIFFScanlineSize(out) > linebytes)
+++	if (linebytes == 0) {
+++		fprintf(stderr, "%s: scanline size overflow\n", infile);
+++		(void) TIFFClose(out);
+++		exit(-2);					
+++	}
+++	scanline_size = TIFFScanlineSize(out);
+++	if (scanline_size == 0) {
+++		/* overflow - TIFFScanlineSize already printed a message */
+++		(void) TIFFClose(out);
+++		exit(-2);					
+++	}
+++	if (scanline_size < linebytes)
++ 		buf = (unsigned char *)_TIFFmalloc(linebytes);
++ 	else
++-		buf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+++		buf = (unsigned char *)_TIFFmalloc(scanline_size);
+++	if (buf == NULL) {
+++		fprintf(stderr, "%s: Not enough memory\n", infile);
+++		(void) TIFFClose(out);
+++		exit(-2);
+++	}
++ 	if (resolution > 0) {
++ 		TIFFSetField(out, TIFFTAG_XRESOLUTION, resolution);
++ 		TIFFSetField(out, TIFFTAG_YRESOLUTION, resolution);
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+index 6483655..af1f2b6 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+@@ -9,7 +9,8 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
+            file://libtiff-CVE-2013-4232.patch \
+            file://libtiff-CVE-2013-4243.patch \
+            file://libtiff-CVE-2013-4244.patch \
+-           file://libtiff-CVE-2013-4231.patch "
++           file://libtiff-CVE-2013-4231.patch \
++           file://tiff-CVE-2012-4564.patch "
  
- SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
+ SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
+ SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
 -- 
 1.7.9.5
 
