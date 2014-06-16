@@ -1,24 +1,29 @@
-Return-Path: <philip@balister.org>
-X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 16 Jun 2014 18:23:08 UTC
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id 460E26FEEF
-	for <openembedded-core@openembedded.org>;
-	Mon, 16 Jun 2014 18:23:08 +0000 (UTC)
-Received: (qmail 1992 invoked by uid 1003); 16 Jun 2014 18:16:28 -0000
-Received: from unknown (HELO ?10.16.32.86?) (philip@opensdr.com@64.186.172.226)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	16 Jun 2014 18:16:28 -0000
-Message-ID: <539F347B.70604@balister.org>
-Date: Mon, 16 Jun 2014 11:16:27 -0700
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: openembedded-core@openembedded.org, Saul Wold <sgw@linux.intel.com>
-X-Enigmail-Version: 1.6
-Subject: [daisy]Update python-native recipe
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 232FD6FD0A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 20:02:58 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id B9E4F2232CC0;
+	Mon, 16 Jun 2014 22:02:56 +0200 (CEST)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id D8F352232CBF;
+	Mon, 16 Jun 2014 22:02:55 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.2
+Received: from localhost.localdomain (g225127230.adsl.alicedsl.de
+	[92.225.127.230]) by mail.familie-heinold.de (Postfix) with ESMTPSA;
+	Mon, 16 Jun 2014 22:02:55 +0200 (CEST)
+From: Henning Heinold <henning@itconsulting-heinold.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Jun 2014 22:02:45 +0200
+Message-Id: <1402948965-21977-1-git-send-email-henning@itconsulting-heinold.de>
+X-Mailer: git-send-email 1.9.1
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: [PATCH]v2 perf: add slang to the dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,19 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 18:23:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jun 2014 20:03:00 -0000
 
-Can you add 2335a8ed3748e687e7f34f21f27f8e4029d1e26b to daisy?
+* TUI/GUI support was added in 2.6.35 based on libnewt
+* since 3.10 slang replaced libnewt completly
+* changing TUI_DEFINES is not necessary, because NO_NEWT is
+  still respected with newer kernels
+* add comment about the gui history to the recipe
 
-https://github.com/openembedded/openembedded-core/commit/2335a8ed3748e687e7f34f21f27f8e4029d1e26b
+The patch was sponsored by sysmocom
 
-This should help anyone building packages that need to include Python.h
-from the native sysroot.
+Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
+---
+ meta/recipes-kernel/perf/perf.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-I need this in oe-core/daisy before I can ask for zeroc-ice in
-meta-oe/daisy.
-
-Philip
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 92d37e2..20968f9 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -15,7 +15,10 @@ require perf-features.inc
+ 
+ BUILDPERF_libc-uclibc = "no"
+ 
+-TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt', '',d)}"
++# gui support was added with kernel 3.6.35
++# since 3.10 libnewt was replaced by slang
++# to cover a wide range of kernel we add both dependencies
++TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
+ SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
+ 
+ DEPENDS = "virtual/kernel \
+-- 
+1.9.1
 
