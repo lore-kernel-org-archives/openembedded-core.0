@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 28B616FED0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C7D86FEFB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 13:49:19 +0000 (UTC)
+	Mon, 16 Jun 2014 13:49:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5GDnKpG014517
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5GDnL8s009153
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 06:49:20 -0700 (PDT)
+	Mon, 16 Jun 2014 06:49:21 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 16 Jun 2014 06:49:20 -0700
+	Mon, 16 Jun 2014 06:49:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jun 2014 06:49:17 -0700
-Message-ID: <cover.1402926503.git.liezhi.yang@windriver.com>
+Date: Mon, 16 Jun 2014 06:49:20 -0700
+Message-ID: <e79079ad10954af18bad63ad1ab8939ceda7fbac.1402926503.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1402926503.git.liezhi.yang@windriver.com>
+References: <cover.1402926503.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] fix libpcap/systemd/guile
+Subject: [PATCH 3/3] guile: depends on texinfo-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 13:49:20 -0000
+X-List-Received-Date: Mon, 16 Jun 2014 13:49:22 -0000
 Content-Type: text/plain
 
-The following changes since commit 3a88df915831f2fd5e46ed71b21190398d1de0f1:
+From: Yue Tao <Yue.Tao@windriver.com>
 
-  alsa-tools: Add missing pkgconfg dependency (2014-06-14 08:46:02 +0100)
+Fixed this error on Fedora19-x86_64:
 
-are available in the git repository at:
+[snip]
+| ./api-control.texi:1616: must be after `@deftypefn' to use `@deftypefnx'
+| ./api-utility.texi:518: warning: node `C Hooks' is next for `Hook Reference' in menu but not in sectioning
+| ./api-utility.texi:626: warning: node `Hook Reference' is prev for `C Hooks' in menu but not in sectioning
+[snip]
 
-  git://git.pokylinux.org/poky-contrib rbt/3fixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/3fixes
+We can use the texinfo-native to fix this error.
 
-Hu Yadi (1):
-  libpcap: Avoid libpcap build error when libnl1 is involved
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/guile/guile_2.0.11.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Robert Yang (1):
-  systemd: check IFLA_VLAN_PROTOCOL
-
-Yue Tao (1):
-  guile: depends on texinfo-native
-
- meta/recipes-connectivity/libpcap/libpcap.inc      |    3 ++
- .../systemd/systemd/systemd-older-kernel.patch     |   56 ++++++++++++++++++++
- meta/recipes-core/systemd/systemd_213.bb           |    2 +-
- meta/recipes-devtools/guile/guile_2.0.11.bb        |    2 +-
- 4 files changed, 61 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
-
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index d19460a..8a3bf28 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -31,7 +31,7 @@ SRC_URI[sha256sum] = "aed0a4a6db4e310cbdfeb3613fa6f86fddc91ef624c1e3f8937a6304c6
+ inherit autotools gettext pkgconfig texinfo
+ BBCLASSEXTEND = "native"
+ 
+-DEPENDS = "libunistring bdwgc gmp libtool libffi"
++DEPENDS = "libunistring bdwgc gmp libtool libffi texinfo-native"
+ # add guile-native only to the target recipe's DEPENDS
+ DEPENDS_append_class-target = " guile-native libatomics-ops"
+ 
 -- 
 1.7.9.5
 
