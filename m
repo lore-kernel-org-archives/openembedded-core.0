@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38E6B6FAEC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 463346FC3D
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Jun 2014 10:24:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5GAOEMX000736
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5GAOD0O012967
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 03:24:14 -0700 (PDT)
+	Mon, 16 Jun 2014 03:24:13 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
 	Mon, 16 Jun 2014 03:24:13 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jun 2014 03:24:13 -0700
-Message-ID: <abf83874839486fb9f0031b088d838dcc0a6febd.1402910550.git.liezhi.yang@windriver.com>
+Date: Mon, 16 Jun 2014 03:24:12 -0700
+Message-ID: <cover.1402910550.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1402910550.git.liezhi.yang@windriver.com>
-References: <cover.1402910550.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image-vmdk.bbclass: set timeout to 1 second
+Subject: [PATCH 0/1] image-vmdk.bbclass: set timeout to 1 second
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 16 Jun 2014 10:24:19 -0000
 Content-Type: text/plain
 
-The SYSLINUX_TIMEOUT ?= "1" means 0.1 second which is too short, set to
-1 second as mage-live.bbclass and boot-directdisk.bbclass does.
+The following changes since commit 3a88df915831f2fd5e46ed71b21190398d1de0f1:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+  alsa-tools: Add missing pkgconfg dependency (2014-06-14 08:46:02 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib rbt/vmdk
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/vmdk
+
+Robert Yang (1):
+  image-vmdk.bbclass: set timeout to 1 second
+
  meta/classes/image-vmdk.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
-index fac5f71..703c00e 100644
---- a/meta/classes/image-vmdk.bbclass
-+++ b/meta/classes/image-vmdk.bbclass
-@@ -3,7 +3,7 @@
- 
- SYSLINUX_ROOT = "root=/dev/hda2 "
- SYSLINUX_PROMPT ?= "0"
--SYSLINUX_TIMEOUT ?= "1"
-+SYSLINUX_TIMEOUT ?= "10"
- SYSLINUX_LABELS = "boot"
- LABELS_append = " ${SYSLINUX_LABELS} "
- 
 -- 
 1.7.9.5
 
