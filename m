@@ -1,27 +1,24 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
-	by mail.openembedded.org (Postfix) with ESMTP id 9223765D5B;
-	Mon, 16 Jun 2014 06:32:55 +0000 (UTC)
-Received: from fensuse.internal.dresearch-fe.de
-	(fensuse.internal.dresearch-fe.de [172.29.23.6])
-	by zk223.dresearch-fe.de (Postfix) with ESMTP id 58EA4E012A;
-	Mon, 16 Jun 2014 08:32:56 +0200 (CEST)
-Received: from [IPv6:::1] (localhost [IPv6:::1])
-	by fensuse.internal.dresearch-fe.de (Postfix) with ESMTP id 2E8EC700D50;
-	Mon, 16 Jun 2014 08:32:56 +0200 (CEST)
-Message-ID: <539E8F97.3070508@dresearch-fe.de>
-Date: Mon, 16 Jun 2014 08:32:55 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6972B6FD52
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 06:45:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5G6jwhw008339
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 15 Jun 2014 23:45:58 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.137) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 15 Jun 2014 23:45:58 -0700
+From: <rongqing.li@windriver.com>
+To: <laurentiu.palcu@intel.com>, <Yanjun.Zhu@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jun 2014 14:46:10 +0800
+Message-ID: <1402901171-14424-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: openembedded-devel@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <1402775049-3165-1-git-send-email-sledz@dresearch-fe.de>
-In-Reply-To: <1402775049-3165-1-git-send-email-sledz@dresearch-fe.de>
-X-Enigmail-Version: 1.6
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [meta-oe][daisy][PATCH] live555: fix fetch problem
+Subject: [PATCH 1/2] relocating the elf file only if the file size is larger than 64 byte
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 06:33:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Jun 2014 06:46:00 -0000
+Content-Type: text/plain
 
-What is the right ML address for patches in this area?
+From: Roy Li <rongqing.li@windriver.com>
 
-The meta-multimedia/README in git://git.openembedded.org/meta-openembedded (daisy branch) says:
+When toolchain directory is changed to execute mode, some non-executable
+files or empty files are sorted. This will lead to the below error:
 
-  "Send pull requests to openembedded-devel@lists.openembedded.org"
+	Extracting SDK...done
+	Setting it up...Traceback (most recent call last):
+	  File "..._SDK/relocate_sdk.py", line 208, in <module>
+	    arch = get_arch()
+	  File "..._SDK/relocate_sdk.py", line 39, in get_arch
+	    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
+	struct.error: unpack requires a string argument of length 16
 
-But i believe this should be openembedded-core@lists.openembedded.org.
+To call get_arch and parse_elf_header, we should ensure the sorted file
+is bigger than 64 byte.
 
-Steffen
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ scripts/relocate_sdk.py |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index 05d9fd6..b2dd258 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -224,12 +224,12 @@ for e in executables_list:
+ 
+     # Save old size and do a size check at the end. Just a safety measure.
+     old_size = os.path.getsize(e)
+-
+-    arch = get_arch()
+-    if arch:
+-        parse_elf_header()
+-        change_interpreter(e)
+-        change_dl_sysdirs()
++    if old_size >= 64:
++        arch = get_arch()
++        if arch:
++            parse_elf_header()
++            change_interpreter(e)
++            change_dl_sysdirs()
+ 
+     """ change permissions back """
+     if perms:
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.7.10.4
+
 
