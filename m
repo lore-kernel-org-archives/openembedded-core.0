@@ -1,38 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A9E06FED1
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EB4C6AF35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 13:31:58 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id hw13so6210328qab.34
+	Mon, 16 Jun 2014 13:43:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5GDhbUL014472
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 06:31:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=n1Wovrh2DNgXtIS/kiu8cYETDqCS9D9lwG3d0IGwkkc=;
-	b=Gp5W/Lj5iyfwZ+5H3e+0qMAc5hx/BelAFccMtRXglyNusaE3HzrmzUr46IoOUrr03I
-	JWfReDr0YPhfa8XtZnNxyTahLFda7Alu+a5CYURtE0doJjv1NRWkBkTDcm4Zsgzfl4uY
-	v+RvHHHcFF89+Xr+Rok+6LidoOB6Wf8LJ1xsCIr71nv7rgRODmxhHgkGrAACo8dQ87zD
-	PL3iaM0QeGsJ5wX8ToRWPnYPwgvlYMcDqrJKMzsREfnEbqDnRmoj+c88NiCrgizezcJ3
-	QYD3f0D8qFnR4wj7IDlfmbixV1tiPh4DZ21YgxtAojQEAW6rjQOJkt15Ie1oi7mVXdTY
-	aBWQ==
-X-Gm-Message-State: ALoCoQljQc29cU6G2tmwet3hlcTfuoSiUkYcC4umVANATcGoc8tI3Ii2ciWCCJLcFv0i3t1VarQG
-X-Received: by 10.140.89.201 with SMTP id v67mr25469937qgd.71.1402925519303;
-	Mon, 16 Jun 2014 06:31:59 -0700 (PDT)
+	Mon, 16 Jun 2014 06:43:37 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 16 Jun 2014 06:43:37 -0700
+Message-ID: <539EF487.9030601@windriver.com>
+Date: Mon, 16 Jun 2014 21:43:35 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.140.91.138 with HTTP; Mon, 16 Jun 2014 06:31:39 -0700 (PDT)
-In-Reply-To: <539EDD51.9060508@digi.com>
-References: <cover.1396927648.git.Chong.Lu@windriver.com>
-	<539EDD51.9060508@digi.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Jun 2014 14:31:39 +0100
-Message-ID: <CAJTo0LbcPqL+E78x1jUX6JH_BBc-uuEV8KDjELap9OJidPtYqA@mail.gmail.com>
-To: Javier Viguera <javier.viguera@digi.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1401154373.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1401154373.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/2] meta: fixes dbus-native and cups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 13:32:04 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 16 Jun 2014 13:43:44 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If you'd be willing to backport the patch, verify that it works, and
-send it to the list, then that would be much appreciated and speed
-integration.
 
-Ross
+Ping.
 
-On 16 June 2014 13:04, Javier Viguera <javier.viguera@digi.com> wrote:
-> Hi all,
+// Robert
+
+On 05/27/2014 09:39 AM, Robert Yang wrote:
+> The following changes since commit 894df445fa71a170397c6e0b4960a89ef20a4230:
 >
-> I see this was finally included in oe-core *master*, but the problem is
-> still affecting Daisy.
+>    guile: Update to 2.0.11 version (2014-05-21 19:50:21 +0100)
 >
-> Creating a basic command-line image with dbus pulls in the dbus-ptest-pte=
-st
-> package (37MB installed):
+> are available in the git repository at:
 >
-> # du -sh /usr/lib/dbus-ptest/ptest
-> 37.6M   /usr/lib/dbus-ptest/ptest
+>    git://git.pokylinux.org/poky-contrib rbt/twofixes
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/twofixes
 >
-> Could the fix be backported to Daisy?
+> Robert Yang (2):
+>    dbus-native: dbus-native: do_compile failed on selinux.c on CentOS 5.10
+>    cups: enable cups-str4402.patch
 >
-> -
-> Thanks,
+>   meta/recipes-core/dbus/dbus.inc     |    2 ++
+>   meta/recipes-extended/cups/cups.inc |    1 +
+>   2 files changed, 3 insertions(+)
 >
-> Javier Viguera
-> Software Engineer
-> Digi International=C2=AE Spain S.A.U.
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
