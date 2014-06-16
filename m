@@ -1,28 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 94DCD6FB6D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
+	[209.85.216.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D57636B3A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 14:47:12 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 Jun 2014 07:47:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,487,1400050800"; d="scan'208";a="446052790"
-Received: from lakaruna-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.8])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jun 2014 07:47:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Mon, 16 Jun 2014 15:47:05 +0100
-Message-ID: <5258152.VaR4PfleNb@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.5 (Linux/3.14.6-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
-In-Reply-To: <1402411999.28622.3.camel@phil-desktop.brightsign>
-References: <1402013345-24930-1-git-send-email-sgw@linux.intel.com>
-	<53971878.5090300@linux.intel.com>
-	<1402411999.28622.3.camel@phil-desktop.brightsign>
+	Mon, 16 Jun 2014 15:12:57 +0000 (UTC)
+Received: by mail-qa0-f45.google.com with SMTP id v10so7584743qac.32
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 08:12:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=KdQ8wzK9EvP8ykN/DbFImFJ5F4gkLobhi3hraVga2oU=;
+	b=IMxuGpeDbOGdbeNwEe6jBdtxzLVtKMKWTDSrPkUIXUVXf5Og5OPJmfZuhJ9ACeGCfr
+	MFo42dQSScurUZQRRAT5YzO2EXx+K84Q9F5wy0VYYcAVtzSKNzZCNU79uTrfMMwBT8Pi
+	jHizSw9tswZvJFmw+nNyD+HofV5fnHhi9ny1CkPmySrEiXKoam7SI6374AlhgkAhdrc0
+	LROmZ8fUWEfF9CsywfzxCr2/WRmvA2bZwbmecsQqHRMpFx3mTMxVt8Ot4nCiKMkFjp47
+	HfWTFQqKSLGnFEz+g+0SYvgwphNHv2XHSeNe7WUquAnPiEy9iYX/TxSQQ0yuZCMm4h+K
+	nRwA==
+X-Gm-Message-State: ALoCoQnY6ZnPBIakvZlLy+k1MmPVhQqTI7+afSd5k8JDLJe1pAOtJ2QVwEeCpJgv01U0MffGFyr1
+X-Received: by 10.224.165.70 with SMTP id h6mr27384050qay.78.1402931578055;
+	Mon, 16 Jun 2014 08:12:58 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] update-rc.d/useradd: Add additional dependecies
+Received: by 10.140.91.138 with HTTP; Mon, 16 Jun 2014 08:12:37 -0700 (PDT)
+In-Reply-To: <539F08D0.7060602@digi.com>
+References: <cover.1396927648.git.Chong.Lu@windriver.com>
+	<539EDD51.9060508@digi.com>
+	<CAJTo0LbcPqL+E78x1jUX6JH_BBc-uuEV8KDjELap9OJidPtYqA@mail.gmail.com>
+	<539F08D0.7060602@digi.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Jun 2014 16:12:37 +0100
+Message-ID: <CAJTo0Lby+ctMeFe8_NhgpCAuazw4OHkNvPEo=53h5hhJfMuKRg@mail.gmail.com>
+To: Javier Viguera <javier.viguera@digi.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 14:47:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 16 Jun 2014 15:13:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 10 June 2014 15:53:19 Phil Blundell wrote:
-> On Tue, 2014-06-10 at 07:38 -0700, Saul Wold wrote:
-> > On 06/10/2014 04:57 AM, Phil Blundell wrote:
-> > > On Thu, 2014-06-05 at 17:09 -0700, Saul Wold wrote:
-> > >> These dependcies are needed to ensure that thier packages are created
-> > >> correctly since these classes have runtime dependiences in their
-> > >> packages
-> > >> but they are not actually created yet at rootfs time.
-> > > 
-> > > Can you be more specific about why these
-> > > dependecies/dependcies/dependiences are required?  I can't, offhand,
-> > > think of any reason why update-rc.d requires initscripts for example.
-> > 
-> > It's more about having initscripts-funtions package built so that it's
-> > available for the dynamic addition to the RDEPENDS later in
-> > populate_pacakges_updatercd().  If initscripts is not built and we add
-> > initscripts-functions to the RDEPENDS, the final rootfs will fail with
-> > an unsatisfied dependency.
-> 
-> It seems to me that, if a given package ships an initscript which
-> requires /etc/init.d/functions, it ought to be the responsibility of
-> that package to rdepend on initscripts itself.  I'm not sure it's
-> entirely desirable for update-rc.d to drag that dependency in.
+On 16 June 2014 16:10, Javier Viguera <javier.viguera@digi.com> wrote:
+> Attached the obvious cherry-pick of the commit from *master* with a basic
+> conflict solved. But I don't think this is acceptable in an already-released
+> stable branch "Daisy" as it involves a recipe rename (dbus-ptest_1.6.18.bb
+> => dbus-test_1.6.18.bb) that probably will break the projects of current
+> users of yocto Daisy.
+>
+> Instead, would a basic change like the following be enough?:
+>
+>
+> -RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest',
+> 'dbus-ptest-ptest', '', d)}"
+> +RDEPENDS_dbus = "${@base_contains('PTEST_ENABLED', '1', 'dbus-ptest-ptest',
+> '', d)}"
+>
+> This does not change any recipe name so it seems suitable for a bug-fix only
+> branch but unfortunately this goes beyond my skills in Yocto and ptest
+> framework so any advise would be appreciated.
 
-It should be, however:
+That change doesn't solve your problem, so no.  I'm not the daisy
+maintainer but I can see a good argument for merging the change even
+with the rename.
 
-a) There are a bunch of recipes that don't currently do that, and you'll only 
-find out there's a problem at do_rootfs time (or worse, if we went a step 
-further and didn't even dynamically add the RDEPENDS, at runtime when the 
-service fails to start).
-
-b) Saul's patch adds a build-time dependency, not a runtime one, and the 
-initscripts recipe only packages files so the impact is fairly trivial even if 
-it's not going to be built through other dependencies anyway.
-
-> > > Also, what's going on with the PACKAGESPLITFUNCS_remove_class-nativesdk?
-> > 
-> > We don't need to run that funtion to create the nativesdk sysroot, so
-> > don't run it.
-> 
-> Fair enough, but this seems like an unrelated change (and one which
-> isn't covered by the patch summary or description).  Shouldn't that be
-> in a separate commit?
-
-The patch has been merged now, but FWIW it seems like it probably should have 
-been a separate one.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
