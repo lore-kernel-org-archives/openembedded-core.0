@@ -1,24 +1,24 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 477F76FEE3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B98EE6FF7D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 08:24:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5H8O1BL023896
+	Tue, 17 Jun 2014 08:25:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H8PMEd001271
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 01:24:01 -0700 (PDT)
+	Tue, 17 Jun 2014 01:25:22 -0700 (PDT)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 17 Jun 2014 01:24:00 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 17 Jun 2014 01:25:22 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jun 2014 04:23:59 -0400
-Message-ID: <1402993439-21965-1-git-send-email-wenzong.fan@windriver.com>
+Date: Tue, 17 Jun 2014 04:25:20 -0400
+Message-ID: <1402993520-22013-1-git-send-email-wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1 v2] libpam: Security Advisory - CVE-2014-2583
+Subject: [PATCH 1/1 v2] libtiff: Security Advisory - CVE-2012-4564
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 08:24:05 -0000
+X-List-Received-Date: Tue, 17 Jun 2014 08:25:29 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
@@ -40,104 +40,141 @@ v2 changes:
 * update format for commit log
 * add Upstream-Status for patch
 
-Multiple directory traversal vulnerabilities in pam_timestamp.c in the
-pam_timestamp module for Linux-PAM (aka pam) 1.1.8 allow local users to
-create aribitrary files or possibly bypass authentication via a .. (dot
-dot) in the (1) PAM_RUSER value to the get_ruser function or (2) PAM_TTY
-value to the check_tty funtion, which is used by the
-format_timestamp_name function.
+ppm2tiff does not check the return value of the TIFFScanlineSize
+function, which allows remote attackers to cause a denial of service
+(crash) and possibly execute arbitrary code via a crafted PPM image that
+triggers an integer overflow, a zero-memory allocation, and a heap-based
+buffer overflow.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2583
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- ...mp-fix-potential-directory-traversal-issu.patch |   63 ++++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.1.6.bb          |    1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch
+ .../libtiff/files/tiff-CVE-2012-4564.patch         |   99 ++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.3.bb      |    3 +-
+ 2 files changed, 101 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch b/meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
 new file mode 100644
-index 0000000..06cca13
+index 0000000..2364979
 --- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch
-@@ -0,0 +1,63 @@
-+From 9dcead87e6d7f66d34e7a56d11a30daca367dffb Mon Sep 17 00:00:00 2001
-+From: "Dmitry V. Levin" <ldv@altlinux.org>
-+Date: Wed, 26 Mar 2014 22:17:23 +0000
-+Subject: [PATCH] pam_timestamp: fix potential directory traversal issue
-+ (ticket #27)
-+
-+commit 9dcead87e6d7f66d34e7a56d11a30daca367dffb upstream
-+
-+pam_timestamp uses values of PAM_RUSER and PAM_TTY as components of
-+the timestamp pathname it creates, so extra care should be taken to
-+avoid potential directory traversal issues.
-+
-+* modules/pam_timestamp/pam_timestamp.c (check_tty): Treat
-+"." and ".." tty values as invalid.
-+(get_ruser): Treat "." and ".." ruser values, as well as any ruser
-+value containing '/', as invalid.
-+
-+Fixes CVE-2014-2583.
-+
-+Reported-by: Sebastian Krahmer <krahmer@suse.de>
-+
++++ b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+@@ -0,0 +1,99 @@
 +Upstream-Status: Backport
 +
 +Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+---
-+ modules/pam_timestamp/pam_timestamp.c |   13 ++++++++++++-
-+ 1 files changed, 12 insertions(+), 1 deletions(-)
 +
-+diff --git a/modules/pam_timestamp/pam_timestamp.c b/modules/pam_timestamp/pam_timestamp.c
-+index 5193733..b3f08b1 100644
-+--- a/modules/pam_timestamp/pam_timestamp.c
-++++ b/modules/pam_timestamp/pam_timestamp.c
-+@@ -158,7 +158,7 @@ check_tty(const char *tty)
-+ 		tty = strrchr(tty, '/') + 1;
++Index: tools/ppm2tiff.c
++===================================================================
++RCS file: /cvs/maptools/cvsroot/libtiff/tools/ppm2tiff.c,v
++retrieving revision 1.16
++retrieving revision 1.18
++diff -u -r1.16 -r1.18
++--- a/tools/ppm2tiff.c	10 Apr 2010 19:22:34 -0000	1.16
+++++ b/tools/ppm2tiff.c	10 Dec 2012 18:19:11 -0000	1.18
++@@ -1,4 +1,4 @@
++-/* $Id: ppm2tiff.c,v 1.16 2010-04-10 19:22:34 bfriesen Exp $ */
+++/* $Id: ppm2tiff.c,v 1.18 2012-12-10 18:19:11 tgl Exp $ */
++ 
++ /*
++  * Copyright (c) 1991-1997 Sam Leffler
++@@ -72,6 +72,17 @@
++ 	exit(-2);
++ }
++ 
+++static tmsize_t
+++multiply_ms(tmsize_t m1, tmsize_t m2)
+++{
+++	tmsize_t bytes = m1 * m2;
+++
+++	if (m1 && bytes / m1 != m2)
+++		bytes = 0;
+++
+++	return bytes;
+++}
+++
++ int
++ main(int argc, char* argv[])
++ {
++@@ -79,7 +90,7 @@
++ 	uint32 rowsperstrip = (uint32) -1;
++ 	double resolution = -1;
++ 	unsigned char *buf = NULL;
++-	tsize_t linebytes = 0;
+++	tmsize_t linebytes = 0;
++ 	uint16 spp = 1;
++ 	uint16 bpp = 8;
++ 	TIFF *out;
++@@ -89,6 +100,7 @@
++ 	int c;
++ 	extern int optind;
++ 	extern char* optarg;
+++	tmsize_t scanline_size;
++ 
++ 	if (argc < 2) {
++ 	    fprintf(stderr, "%s: Too few arguments\n", argv[0]);
++@@ -221,7 +233,8 @@
 + 	}
-+ 	/* Make sure the tty wasn't actually a directory (no basename). */
-+-	if (strlen(tty) == 0) {
-++	if (!strlen(tty) || !strcmp(tty, ".") || !strcmp(tty, "..")) {
-+ 		return NULL;
++ 	switch (bpp) {
++ 		case 1:
++-			linebytes = (spp * w + (8 - 1)) / 8;
+++			/* if round-up overflows, result will be zero, OK */
+++			linebytes = (multiply_ms(spp, w) + (8 - 1)) / 8;
++ 			if (rowsperstrip == (uint32) -1) {
++ 				TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, h);
++ 			} else {
++@@ -230,15 +243,31 @@
++ 			}
++ 			break;
++ 		case 8:
++-			linebytes = spp * w;
+++			linebytes = multiply_ms(spp, w);
++ 			TIFFSetField(out, TIFFTAG_ROWSPERSTRIP,
++ 			    TIFFDefaultStripSize(out, rowsperstrip));
++ 			break;
 + 	}
-+ 	return tty;
-+@@ -243,6 +243,17 @@ get_ruser(pam_handle_t *pamh, char *ruserbuf, size_t ruserbuflen)
-+ 		if (pwd != NULL) {
-+ 			ruser = pwd->pw_name;
-+ 		}
-++	} else {
-++		/*
-++		 * This ruser is used by format_timestamp_name as a component
-++		 * of constructed timestamp pathname, so ".", "..", and '/'
-++		 * are disallowed to avoid potential path traversal issues.
-++		 */
-++		if (!strcmp(ruser, ".") ||
-++		    !strcmp(ruser, "..") ||
-++		    strchr(ruser, '/')) {
-++			ruser = NULL;
-++		}
-+ 	}
-+ 	if (ruser == NULL || strlen(ruser) >= ruserbuflen) {
-+ 		*ruserbuf = '\0';
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index 7e55adf..3190aaf 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
-            file://libpam-fix-for-CVE-2010-4708.patch \
-            file://pam-security-abstract-securetty-handling.patch \
-            file://pam-unix-nullok-secure.patch \
-+           file://pam_timestamp-fix-potential-directory-traversal-issu.patch \
-           "
- SRC_URI[md5sum] = "7b73e58b7ce79ffa321d408de06db2c4"
- SRC_URI[sha256sum] = "bab887d6280f47fc3963df3b95735a27a16f0f663636163ddf3acab5f1149fc2"
++-	if (TIFFScanlineSize(out) > linebytes)
+++	if (linebytes == 0) {
+++		fprintf(stderr, "%s: scanline size overflow\n", infile);
+++		(void) TIFFClose(out);
+++		exit(-2);					
+++	}
+++	scanline_size = TIFFScanlineSize(out);
+++	if (scanline_size == 0) {
+++		/* overflow - TIFFScanlineSize already printed a message */
+++		(void) TIFFClose(out);
+++		exit(-2);					
+++	}
+++	if (scanline_size < linebytes)
++ 		buf = (unsigned char *)_TIFFmalloc(linebytes);
++ 	else
++-		buf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+++		buf = (unsigned char *)_TIFFmalloc(scanline_size);
+++	if (buf == NULL) {
+++		fprintf(stderr, "%s: Not enough memory\n", infile);
+++		(void) TIFFClose(out);
+++		exit(-2);
+++	}
++ 	if (resolution > 0) {
++ 		TIFFSetField(out, TIFFTAG_XRESOLUTION, resolution);
++ 		TIFFSetField(out, TIFFTAG_YRESOLUTION, resolution);
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+index 6483655..af1f2b6 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+@@ -9,7 +9,8 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
+            file://libtiff-CVE-2013-4232.patch \
+            file://libtiff-CVE-2013-4243.patch \
+            file://libtiff-CVE-2013-4244.patch \
+-           file://libtiff-CVE-2013-4231.patch "
++           file://libtiff-CVE-2013-4231.patch \
++           file://tiff-CVE-2012-4564.patch "
+ 
+ SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
+ SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
 -- 
 1.7.9.5
 
