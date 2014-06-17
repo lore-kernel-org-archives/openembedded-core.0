@@ -1,26 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A9FF6FF6E
+Return-Path: <Yue.Tao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BEC286FF6F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 07:01:43 +0000 (UTC)
+	Tue, 17 Jun 2014 07:28:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H71i7Z020949
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Jun 2014 00:01:44 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 17 Jun 2014 00:01:43 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jun 2014 15:01:08 +0800
-Message-ID: <45405f1917454af21dac37bdc6850b61e1d0a562.1402988295.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1402988295.git.hongxu.jia@windriver.com>
-References: <cover.1402988295.git.hongxu.jia@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5H7SGv4023453
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 00:28:16 -0700 (PDT)
+Received: from [128.224.162.151] (128.224.162.151) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 17 Jun 2014 00:28:15 -0700
+Message-ID: <539FEED6.80404@windriver.com>
+Date: Tue, 17 Jun 2014 15:31:34 +0800
+From: ytao <yue.tao@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:16.0) Gecko/20121028 Thunderbird/16.0.2
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 4/4] maintainers: Update directfb/ghostscript/libnewt/qmmp ownership
+To: <openembedded-core@lists.openembedded.org>
+References: <1402988571-6730-1-git-send-email-Yue.Tao@windriver.com>
+In-Reply-To: <1402988571-6730-1-git-send-email-Yue.Tao@windriver.com>
+Subject: Re: [PATCH] tzcode: Update to 2014e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 07:01:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Jun 2014 07:28:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta-yocto/conf/distro/include/maintainers.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Please ignore the patch, I know someone already sent the patch.
 
-diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
-index 17412ca..4d2f46b 100644
---- a/meta-yocto/conf/distro/include/maintainers.inc
-+++ b/meta-yocto/conf/distro/include/maintainers.inc
-@@ -130,8 +130,8 @@ RECIPE_MAINTAINER_pn-desktop-file-utils-native = "Saul Wold <sgw@linux.intel.com
- RECIPE_MAINTAINER_pn-dhcp = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_MAINTAINER_pn-diffstat = "Chong Lu <Chong.Lu@windriver.com>"
- RECIPE_MAINTAINER_pn-diffutils = "Chong Lu <Chong.Lu@windriver.com>"
--RECIPE_MAINTAINER_pn-directfb-examples = "Kai Kang <kai.kang@windriver.com>"
--RECIPE_MAINTAINER_pn-directfb = "Kai Kang <kai.kang@windriver.com>"
-+RECIPE_MAINTAINER_pn-directfb-examples = "Hongxu Jia <hongxu.jia@windriver.com>"
-+RECIPE_MAINTAINER_pn-directfb = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-distcc = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-distcc-config = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- RECIPE_MAINTAINER_pn-dmxproto = "Ross Burton <ross.burton@intel.com>"
-@@ -186,7 +186,7 @@ RECIPE_MAINTAINER_pn-gdk-pixbuf = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-genext2fs = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-gettext-minimal-native = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_MAINTAINER_pn-gettext = "Wenzong Fan <wenzong.fan@windriver.com>"
--RECIPE_MAINTAINER_pn-ghostscript = "Kai Kang <kai.kang@windriver.com>"
-+RECIPE_MAINTAINER_pn-ghostscript = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-git = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-glew = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_MAINTAINER_pn-glib-2.0 = "Robert Yang <liezhi.yang@windriver.com>"
-@@ -319,7 +319,7 @@ RECIPE_MAINTAINER_pn-libksba = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libmad = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libmatchbox = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-libmpc = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-libnewt = "Kai Kang <kai.kang@windriver.com>"
-+RECIPE_MAINTAINER_pn-libnewt = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libnfsidmap = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libnl = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libnotify = "Ross Burton <ross.burton@intel.com>"
-@@ -568,7 +568,7 @@ RECIPE_MAINTAINER_pn-python-smartpm = "Paul Eggleton <paul.eggleton@linux.intel.
- RECIPE_MAINTAINER_pn-python3 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-qemu-helper-native = "Cristian Iorga <cristian.iorga@intel.com>"
- RECIPE_MAINTAINER_pn-qemu = "Cristian Iorga <cristian.iorga@intel.com>"
--RECIPE_MAINTAINER_pn-qmmp = "Kai Kang <kai.kang@windriver.com>"
-+RECIPE_MAINTAINER_pn-qmmp = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-qt4e-demo-image = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- RECIPE_MAINTAINER_pn-qt4-embedded = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- RECIPE_MAINTAINER_pn-qt4-graphics-system = "Paul Eggleton <paul.eggleton@linux.intel.com>"
--- 
-1.8.1.2
+yue.tao
+
+On 06/17/2014 03:02 PM, Yue Tao wrote:
+> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> ---
+>   .../recipes-extended/tzcode/tzcode-native_2014d.bb |   11 -----------
+>   .../recipes-extended/tzcode/tzcode-native_2014e.bb |   11 +++++++++++
+>   meta/recipes-extended/tzdata/tzdata_2014d.bb       |    6 ------
+>   meta/recipes-extended/tzdata/tzdata_2014e.bb       |    6 ++++++
+>   4 files changed, 17 insertions(+), 17 deletions(-)
+>   delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014d.bb
+>   create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014e.bb
+>   delete mode 100644 meta/recipes-extended/tzdata/tzdata_2014d.bb
+>   create mode 100644 meta/recipes-extended/tzdata/tzdata_2014e.bb
+>
+> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2014d.bb b/meta/recipes-extended/tzcode/tzcode-native_2014d.bb
+> deleted file mode 100644
+> index 8d20158..0000000
+> --- a/meta/recipes-extended/tzcode/tzcode-native_2014d.bb
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -# note that we allow for us to use data later than our code version
+> -#
+> -SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
+> -           ftp://ftp.iana.org/tz/releases/tzdata2014d.tar.gz;name=tzdata"
+> -
+> -SRC_URI[tzcode.md5sum] = "4a0f5f259ba8a2b826fffb1fa26d0134"
+> -SRC_URI[tzcode.sha256sum] = "e9c775bb76c9700521ada77776277c25f8650a22b56d46c9f00f4147970ef13e"
+> -SRC_URI[tzdata.md5sum] = "299b86c0368ecfb321f15d5c408a1d9b"
+> -SRC_URI[tzdata.sha256sum] = "4b4966912f5d4a299b0bdf47e6f3103d82dc6a0b5a6b321e2b9d5662597a62f0"
+> -
+> -require tzcode-native.inc
+> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2014e.bb b/meta/recipes-extended/tzcode/tzcode-native_2014e.bb
+> new file mode 100644
+> index 0000000..405ed60
+> --- /dev/null
+> +++ b/meta/recipes-extended/tzcode/tzcode-native_2014e.bb
+> @@ -0,0 +1,11 @@
+> +# note that we allow for us to use data later than our code version
+> +#
+> +SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
+> +           ftp://ftp.iana.org/tz/releases/tzdata2014e.tar.gz;name=tzdata"
+> +
+> +SRC_URI[tzcode.md5sum] = "552251600ee3571c244d33c7196ec2ed"
+> +SRC_URI[tzcode.sha256sum] = "43ebc426ab4911e222a4487f24289adfd2bc5eb09363a5e77cdabf56374a8c1c"
+> +SRC_URI[tzdata.md5sum] = "8a49fdedd4e832da8e85f7f9bcaedc33"
+> +SRC_URI[tzdata.sha256sum] = "08e243a79051f838d86ac1311a78b74047951302d448024e823b5b7aa71f86c5"
+> +
+> +require tzcode-native.inc
+> diff --git a/meta/recipes-extended/tzdata/tzdata_2014d.bb b/meta/recipes-extended/tzdata/tzdata_2014d.bb
+> deleted file mode 100644
+> index 984c665..0000000
+> --- a/meta/recipes-extended/tzdata/tzdata_2014d.bb
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+> -
+> -SRC_URI[tzdata.md5sum] = "299b86c0368ecfb321f15d5c408a1d9b"
+> -SRC_URI[tzdata.sha256sum] = "4b4966912f5d4a299b0bdf47e6f3103d82dc6a0b5a6b321e2b9d5662597a62f0"
+> -
+> -require tzdata.inc
+> diff --git a/meta/recipes-extended/tzdata/tzdata_2014e.bb b/meta/recipes-extended/tzdata/tzdata_2014e.bb
+> new file mode 100644
+> index 0000000..b53d323
+> --- /dev/null
+> +++ b/meta/recipes-extended/tzdata/tzdata_2014e.bb
+> @@ -0,0 +1,6 @@
+> +SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+> +
+> +SRC_URI[tzdata.md5sum] = "8a49fdedd4e832da8e85f7f9bcaedc33"
+> +SRC_URI[tzdata.sha256sum] = "08e243a79051f838d86ac1311a78b74047951302d448024e823b5b7aa71f86c5"
+> +
+> +require tzdata.inc
 
 
