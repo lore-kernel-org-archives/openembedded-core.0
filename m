@@ -1,24 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 157FC6FD0A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AFC2E6FD0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 06:00:13 +0000 (UTC)
+	Tue, 17 Jun 2014 06:00:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H60EM9013913
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5H60FJt022651
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 23:00:14 -0700 (PDT)
+	Mon, 16 Jun 2014 23:00:16 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.137) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 16 Jun 2014 23:00:13 -0700
+	14.3.169.1; Mon, 16 Jun 2014 23:00:15 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jun 2014 14:00:26 +0800
-Message-ID: <1402984827-3372-1-git-send-email-rongqing.li@windriver.com>
+Date: Tue, 17 Jun 2014 14:00:27 +0800
+Message-ID: <1402984827-3372-2-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1402984827-3372-1-git-send-email-rongqing.li@windriver.com>
+References: <1402984827-3372-1-git-send-email-rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2 v2] relocate_sdk: Skip to do relocation if the file size is less than 64 byte
+Subject: [PATCH 2/2 v2] Revert "populate_sdk: verify executable or dynamically linked library"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +38,28 @@ Content-Type: text/plain
 
 From: Roy Li <rongqing.li@windriver.com>
 
-When toolchain directory is changed to execute mode, some non-executable
-files or empty files are sorted. This will lead to the below error:
-
-	Extracting SDK...done
-	Setting it up...Traceback (most recent call last):
-	  File "..._SDK/relocate_sdk.py", line 208, in <module>
-	    arch = get_arch()
-	  File "..._SDK/relocate_sdk.py", line 39, in get_arch
-	    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
-	struct.error: unpack requires a string argument of length 16
-
-To call get_arch and parse_elf_header, we should ensure the sorted file
-is bigger than 64 byte.
+It is introduced a bug, since The return of "file ld-linux-x86-64.so.*"
+does not include "dynamically linked" in redhat 5.9/6.0(32 bit), and lead
+to that ld-linux-x86-64.so.* is not in executable file list.
 
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- scripts/relocate_sdk.py |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/populate_sdk_base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 05d9fd6..b2dd258 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -224,12 +224,12 @@ for e in executables_list:
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 10d04ed..35d837d 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -254,7 +254,7 @@ if [ "$dl_path" = "" ] ; then
+ 	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
+ 	exit 1
+ fi
+-executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 -exec file '{}' \;| grep "\(executable\|dynamically linked\)" | cut -f 1 -d ':') 
++executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111)
  
-     # Save old size and do a size check at the end. Just a safety measure.
-     old_size = os.path.getsize(e)
--
--    arch = get_arch()
--    if arch:
--        parse_elf_header()
--        change_interpreter(e)
--        change_dl_sysdirs()
-+    if old_size >= 64:
-+        arch = get_arch()
-+        if arch:
-+            parse_elf_header()
-+            change_interpreter(e)
-+            change_dl_sysdirs()
- 
-     """ change permissions back """
-     if perms:
+ tdir=`mktemp -d`
+ if [ x$tdir = x ] ; then
 -- 
 1.7.10.4
 
