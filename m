@@ -1,26 +1,29 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 880916FFA0
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ABAE46FF2A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 08:25:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5H8Ptx1023914
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 01:25:55 -0700 (PDT)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 17 Jun 2014 01:25:55 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jun 2014 04:25:52 -0400
-Message-ID: <1402993552-22054-2-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1402993552-22054-1-git-send-email-wenzong.fan@windriver.com>
-References: <1402993552-22054-1-git-send-email-wenzong.fan@windriver.com>
+	Tue, 17 Jun 2014 08:32:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H8WCvj002015
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Jun 2014 01:32:12 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 17 Jun 2014 01:32:11 -0700
+Message-ID: <539FFCFE.3020209@windriver.com>
+Date: Tue, 17 Jun 2014 16:31:58 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2 v2] dpkg: Security Advisory - CVE-2014-3127
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1402901435.git.hongxu.jia@windriver.com>	
+	<5eefad6f95c56a863ec21422837f03899ea8931d.1402901435.git.hongxu.jia@windriver.com>
+	<1402991144.562.83.camel@ted>
+In-Reply-To: <1402991144.562.83.camel@ted>
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ghostscript: upgrade to 9.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,128 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 08:25:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Jun 2014 08:32:21 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Guillem Jover <guillem@debian.org>
+Got it, I am working on it
 
-v2 changes:
-* update format for commit log
-* add Upstream-Status for patch
+//Hongxu
 
-commit a12eb58959d0a10584a428f4a3103a49204c410f upstream
-
-Dpkg::Source::Patch: Outright reject C-style filenames in patches
-
-Because patch only started recognizing C-style filenames in diffs
-in version 2.7, it's not safe to assume one behaviour or the other,
-as the system might or might not have a recent enough version, or
-a GNU patch program at all. There's also no reason we should be
-supporting this kind of strange encoded filenames in patches, when
-we have not done so up to now.
-
-Let's just ban these types of diffs and be done with it.
-
-Fixes: CVE-2014-0471, CVE-2014-3127
-Closes: #746306
-
-[drop the text for debian/changelog,because it's not suitable
-for the veriosn]
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- .../dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch  |   68 ++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |    1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
-new file mode 100644
-index 0000000..e59c666
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
-@@ -0,0 +1,68 @@
-+dpkg: Security Advisory - CVE-2014-3127
-+
-+commit a12eb58959d0a10584a428f4a3103a49204c410f upstream
-+
-+dpkg 1.15.9 on Debian squeeze introduces support for the "C-style
-+encoded filenames" feature without recognizing that the squeeze patch
-+program lacks this feature, which triggers an interaction error that
-+allows remote attackers to conduct directory traversal attacks and
-+modify files outside of the intended directories via a crafted source
-+package.
-+
-+NOTE: this can be considered a release engineering problem in the
-+effort to fix CVE-2014-0471.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+=====================================================
-+diff -uarN dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm
-+--- dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm	2014-06-05 16:32:41.765446564 +0800
-++++ dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm	2014-06-05 16:37:21.461446359 +0800
-+@@ -324,31 +324,6 @@
-+     return $line;
-+ }
-+ 
-+-my %ESCAPE = ((
-+-    'a' => "\a",
-+-    'b' => "\b",
-+-    'f' => "\f",
-+-    'n' => "\n",
-+-    'r' => "\r",
-+-    't' => "\t",
-+-    'v' => "\cK",
-+-    '\\' => '\\',
-+-    '"' => '"',
-+-), (
-+-    map { sprintf('%03o', $_) => chr($_) } (0..255)
-+-));
-+-
-+-sub _unescape {
-+-    my ($diff, $str) = @_;
-+-
-+-    if (exists $ESCAPE{$str}) {
-+-        return $ESCAPE{$str};
-+-    } else {
-+-        error(_g('diff %s patches file with unknown escape sequence \\%s'),
-+-              $diff, $str);
-+-    }
-+-}
-+-
-+ # Fetch the header filename ignoring the optional timestamp
-+ sub _fetch_filename {
-+     my ($diff, $header) = @_;
-+@@ -358,12 +333,7 @@
-+ 
-+     # Is it a C-style string?
-+     if ($header =~ m/^"/) {
-+-        $header =~ m/^"((?:[^\\"]|\\.)*)"/;
-+-        error(_g('diff %s patches file with unbalanced quote'), $diff)
-+-            unless defined $1;
-+-
-+-        $header = $1;
-+-        $header =~ s/\\([0-3][0-7]{2}|.)/_unescape($diff, $1)/eg;
-++	error(_g('diff %s patches file with C-style encoded filename'), $diff);
-+     } else {
-+         # Tab is the official separator, it's always used when
-+         # filename contain spaces. Try it first, otherwise strip on space
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-index 48e1394..83526f3 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-@@ -13,6 +13,7 @@ SRC_URI += "file://noman.patch \
-             file://glibc2.5-sync_file_range.patch \
-             file://no-vla-warning.patch \
-             file://dpkg-1.17.4-CVE-2014-0471.patch \
-+            file://dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch \
-            "
- 
- SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
--- 
-1.7.9.5
+On 06/17/2014 03:45 PM, Richard Purdie wrote:
+> On Mon, 2014-06-16 at 16:16 +0800, Hongxu Jia wrote:
+>> - The LICENSE added AGPL for the font files (in Resource/Font);
+>>
+>> - Rebase ghostscript-9.02-parallel-make.patch to 9.14
+>>
+>> - Rebase ghostscript-native-fix-disable-system-libtiff.patch
+>>    since base/configure.ac has been moved to configure.ac.
+>>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=f1488c5aff54f37ee67759827d4298592af5dbc8
+>>
+>> - Obsolete ghostscript-9.05-NOT-check-endian.patch, and add option
+>>    '--enable-little-endian'/'--enable-big-endian' conditionally to
+>>    intead.
+>>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=e76dc46756e89a14a3348bce12a633d32e4fa831
+>>
+>> - Add base-genht.c-add-a-preprocessor-define-to-allow-fope.patch
+>>    for native, since the upstream replace all fopen calls with
+>>    gp_fopen and add a preprocessor define so that any unintential
+>>    calls directly to fopen will cause an error. This patch add a
+>>    preprocessor define to allow fopen calling in base/genht.c as
+>>    exceptions.
+>>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=773c69e46e70bdd5482676437dafd2ca83397643
+>>
+>> - Remove package ghostscript-cups, since CUPS filters
+>>    gstoraster and gstopxl has been moved to cups-filters
+>>    which is a free software package hosted by OpenPrinting.
+>>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=9304a21699a6c17579fae32f44f5c92a37c13e2d
+>>    http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   ...c-add-a-preprocessor-define-to-allow-fope.patch |  36 ++++++
+>>   .../ghostscript-9.02-parallel-make.patch           | 144 ++++++++++-----------
+>>   .../ghostscript-9.05-NOT-check-endian.patch        |  44 -------
+>>   ...tscript-native-fix-disable-system-libtiff.patch |  45 +++----
+>>   .../{ghostscript_9.07.bb => ghostscript_9.14.bb}   |  42 ++----
+>>   5 files changed, 132 insertions(+), 179 deletions(-)
+>>   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/base-genht.c-add-a-preprocessor-define-to-allow-fope.patch
+>>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.05-NOT-check-endian.patch
+>>   rename meta/recipes-extended/ghostscript/{ghostscript_9.07.bb => ghostscript_9.14.bb} (70%)
+> This triggered a build failure:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/134/steps/BuildImages/logs/stdio
+>
+> Cheers,
+>
+> Richard
+>
 
 
