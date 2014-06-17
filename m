@@ -1,41 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 73F966FD1A
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D6436FFD0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 12:53:04 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id bs8so5769136wib.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 05:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=y67n0MVnMePWuhKzIJSvKIF9iPe8h2wKxKkPaPidMas=;
-	b=ZOnduglW9T6GDO+WzkpXkj16Y0szFOmvCNxNRSyD1AsRcD1pJpq0xnq8Y/VxQ5mdoG
-	P3M8mc1QIcjJ0jIzrR2/yRDRYYLumxgOajqweSuBZ5LidwOEO3nPKK6P2Sm5li1BWM0R
-	3xtzf6sNVzy91mgEAByHRAHy/lC0VFHbejfKP9WkRQEWR3xqV82Gm4rcK1zMZhKUL0G4
-	aPqAxPW0FKL3+Qsg3jYBc+10wdWg9xqmfqu1a36eVP1KjCdMFc1rMV577mYIjZ772t6s
-	6LmD2m9B9VU6EWdN03dOcC8shzYXjsNLONbD2HU46tmh+nxj82d9pPo6ENUCFWOfPhlX
-	cshQ==
-X-Received: by 10.194.80.161 with SMTP id s1mr38399039wjx.47.1403009584768;
-	Tue, 17 Jun 2014 05:53:04 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	o46sm41020508eef.31.2014.06.17.05.53.03 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jun 2014 05:53:03 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 17 Jun 2014 14:53:03 +0200
+	Tue, 17 Jun 2014 13:18:43 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WwtHf-0001Vl-AH; Tue, 17 Jun 2014 15:18:43 +0200
+Message-ID: <1403011121.15037.82.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140617125303.GA2117@jama>
-References: <1402073854-10723-1-git-send-email-Martin.Jansa@gmail.com>
-	<3393068.dWaMXD2vQY@peggleto-mobl5.ger.corp.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <3393068.dWaMXD2vQY@peggleto-mobl5.ger.corp.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Date: Tue, 17 Jun 2014 14:18:41 +0100
+In-Reply-To: <5258152.VaR4PfleNb@peggleto-mobl5.ger.corp.intel.com>
+References: <1402013345-24930-1-git-send-email-sgw@linux.intel.com>
+	<53971878.5090300@linux.intel.com>
+	<1402411999.28622.3.camel@phil-desktop.brightsign>
+	<5258152.VaR4PfleNb@peggleto-mobl5.ger.corp.intel.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Mon, 2014-06-16 at 15:47 +0100,
+	Paul Eggleton wrote: >
+	a) There are a bunch of recipes that don't currently do that,
+	and you'll only
+	> find out there's a problem at do_rootfs time (or worse,
+	if we went a step
+	> further and didn't even dynamically add the RDEPENDS,
+	at runtime when the > service fails to start). [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] update-rc.d: Allow to use different initscripts provider
+Subject: Re: [PATCH 1/4] update-rc.d/useradd: Add additional dependecies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,67 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 12:53:07 -0000
-X-Groupsio-MsgNum: 54202
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Jun 2014 13:18:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---VS++wcV0S1rZb1Fb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2014-06-16 at 15:47 +0100, Paul Eggleton wrote:
+> a) There are a bunch of recipes that don't currently do that, and you'll only 
+> find out there's a problem at do_rootfs time (or worse, if we went a step 
+> further and didn't even dynamically add the RDEPENDS, at runtime when the 
+> service fails to start).
 
-On Tue, Jun 17, 2014 at 01:33:17PM +0100, Paul Eggleton wrote:
-> Hi Martin,
->=20
-> On Friday 06 June 2014 18:57:34 Martin Jansa wrote:
-> > * until now all recipes were respecting VIRTUAL-RUNTIME_initscripts
-> >   variable but commit bba835fed88c3bd5bb5bd58962034aef57c408d8
-> >   hardcoded "initscripts" runtime dependency
-> >=20
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/classes/update-rc.d.bbclass | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes/update-rc.d.bbclass
-> > b/meta/classes/update-rc.d.bbclass index ca9486b..19b081d 100644
-> > --- a/meta/classes/update-rc.d.bbclass
-> > +++ b/meta/classes/update-rc.d.bbclass
-> > @@ -1,7 +1,8 @@
-> >  UPDATERCPN ?=3D "${PN}"
-> >=20
-> >  DEPENDS_append =3D " update-rc.d-native"
-> > -DEPENDS_append_class-target =3D " initscripts"
-> > +VIRTUAL-RUNTIME_initscripts ?=3D "initscripts"
-> > +DEPENDS_append_class-target =3D " ${VIRTUAL-RUNTIME_initscripts}"
-> >  UPDATERCD =3D "update-rc.d"
-> >  UPDATERCD_class-cross =3D ""
-> >  UPDATERCD_class-native =3D ""
->=20
-> Technically this isn't right either though - VIRTUAL-RUNTIME_initscripts =
-is=20
-> for the runtime package name not the recipe as is being added here. It ju=
-st so=20
-> happens that they are the same thing for initscripts.
+Ah, true.  It doesn't seem that it should be beyond the wit of man to
+add a QA check for that, though.
 
-Ah, you're right, I was blind when reading DEPENDS (I've even mentioned
-runtime dependency in commit message :/), sorry.
+p.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---VS++wcV0S1rZb1Fb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlOgOi8ACgkQN1Ujt2V2gBy0qACgmYX2OtYo6axupjSc32dvqG4m
-4DAAn0fCYY6kH7TDkeDYkdosM8NnBRAP
-=0c9e
------END PGP SIGNATURE-----
-
---VS++wcV0S1rZb1Fb--
