@@ -1,23 +1,36 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D9C0F6FC0D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E9DDD6FF70
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 14:04:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2014 06:58:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,494,1400050800"; d="scan'208";a="558882302"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 17 Jun 2014 07:03:49 -0700
-Date: Tue, 17 Jun 2014 17:03:48 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Dennis Meier <meier.dennis@siemens.com>
-Message-ID: <20140617140348.GD26745@lpalcu-linux>
-References: <1403011013-29977-1-git-send-email-meier.dennis@siemens.com>
+	Tue, 17 Jun 2014 14:39:31 +0000 (UTC)
+Received: by mail-yk0-f176.google.com with SMTP id 131so5286305ykp.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 07:39:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=llBKVSh6Zj1quwUADChCvsFdPNLxJ/dRuYlTiyvfgmU=;
+	b=nsRwgQ62tlwU1Rfd8WRhJQAJFOQIqzCkjtkH3Ys1qxVLTFL4oo43xP3nv2pb1B7ud/
+	s/oqh1Sppp8cGKWAzW8kHaGBxxuKDXDnYCGaid1uZJtZ3g4bWv2R4YZzUoLEAZ5K1Gjy
+	vrqmfmK6+yhOD+sDUBSQa2nAR/bqg79zKagN3oflZ8JxucVRH+YC5M4tzVAZR30zKTtB
+	U/vrHhTdohesOWrW44URdzyt22x+FDvyCDyRhHPfletqs9Kf1nkLmwvU95EJKqmbmDpD
+	mGDZnOiPsUt6O3COVQJQ7/rlpT1adzrMOQWSYREXVzJ3nIlT7WtcxZbxFugH8FkMqEMT
+	PIhg==
 MIME-Version: 1.0
+X-Received: by 10.236.207.225 with SMTP id n61mr4633236yho.148.1403015972701; 
+	Tue, 17 Jun 2014 07:39:32 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.209.68 with HTTP; Tue, 17 Jun 2014 07:39:32 -0700 (PDT)
 In-Reply-To: <1403011013-29977-1-git-send-email-meier.dennis@siemens.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
+References: <1403011013-29977-1-git-send-email-meier.dennis@siemens.com>
+Date: Tue, 17 Jun 2014 11:39:32 -0300
+X-Google-Sender-Auth: iVi9Cd6RJTTR1WsITK5vlajc9E4
+Message-ID: <CAP9ODKo_tNpKNkOpr9mwFGosmuXiKfXQuNnTURaZzptsamSyzA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Dennis Meier <meier.dennis@siemens.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] populate_sdk_base: add auto-completion in setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -31,44 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 14:04:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Jun 2014 14:39:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jun 17, 2014 at 03:16:53PM +0200, Dennis Meier wrote:
+On Tue, Jun 17, 2014 at 10:16 AM, Dennis Meier <meier.dennis@siemens.com> wrote:
 > Signed-off-by: Dennis Meier <meier.dennis@siemens.com>
-> ---
->  meta/classes/populate_sdk_base.bbclass |    3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index 35d837d..1182425 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -173,9 +173,8 @@ if [ $verbose = 1 ] ; then
->  	set -x
->  fi
->  
-> -printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
->  if [ "$target_sdk_dir" = "" ]; then
-> -	read target_sdk_dir
-> +	read -e -p "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): " target_sdk_dir
->  	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
->  else
->  	echo "$target_sdk_dir"
-Moving the above printf in the 'if' branch will make this 'echo' look
-strange when the target directory is provided with the -d option... I
-believe you can remove this 'echo' completely though. There is another
-message, later, informing the user where the SDK gets installed.
 
-laurentiu
+I do like the idea but how portable is it?
 
-> -- 
-> 1.7.10.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+For example in my envinronment it does not work as I use zsh.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
