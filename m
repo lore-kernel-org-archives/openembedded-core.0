@@ -1,29 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ABAE46FF2A
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B17A6A680
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 08:32:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H8WCvj002015
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Jun 2014 01:32:12 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 17 Jun 2014 01:32:11 -0700
-Message-ID: <539FFCFE.3020209@windriver.com>
-Date: Tue, 17 Jun 2014 16:31:58 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1402901435.git.hongxu.jia@windriver.com>	
-	<5eefad6f95c56a863ec21422837f03899ea8931d.1402901435.git.hongxu.jia@windriver.com>
-	<1402991144.562.83.camel@ted>
-In-Reply-To: <1402991144.562.83.camel@ted>
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ghostscript: upgrade to 9.14
+	Tue, 17 Jun 2014 09:01:37 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id y10so6792654wgg.20
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 02:01:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3uutmcwvscY/kEIh0NM46itDU1BeLVzn/WKdtgzCypY=;
+	b=hIACV5kBWYG0oBh9QcQBbzvjgEr+dpm0wHPeZzbqejW3WM08hozfqNZmgoQqvQVXOi
+	fQvdkeS8Jwn3JXEPlNkuhnSOtE30YAxnAdJ0j3gRFxVHvJlPH4xItX9B/tR8Xj7Uwygs
+	ABI/+UEkoC3vFiOPLD9Uwh3aMgsVOfguSwr95qG0lnALBvVQjmzGM7bTULU2TKFD92cT
+	9sfDQ+TPJmlHKkauzfPzp+ynCr9Q9RYEsEwUjBFrxCzUNPGJ3WmygAVQG9t6dczHkwGZ
+	0h5O62H4lWxbehsAnY+njoleiMdhWh0AIPdPbwpht3YienOhrqqYiAIQ4lCBkIAdof/Q
+	Iakw==
+X-Gm-Message-State: ALoCoQkeoWvJQj7KyQkUUUt5MxIvPopBjH5YTM1HdTQMsfHoybfuZvkEpq6g/GzDQYg1m6w0EDDN
+X-Received: by 10.180.101.98 with SMTP id ff2mr34929871wib.40.1402995698480;
+	Tue, 17 Jun 2014 02:01:38 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id
+	fn1sm19009474wib.18.2014.06.17.02.01.37 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 17 Jun 2014 02:01:37 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jun 2014 11:01:27 +0200
+Message-Id: <1402995688-21105-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH 1/2] hwlatdetect 0.85: fix variable ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 08:32:21 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jun 2014 09:01:46 -0000
 
-Got it, I am working on it
+The OE styleguide says to group R* variables below do_install.
 
-//Hongxu
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 06/17/2014 03:45 PM, Richard Purdie wrote:
-> On Mon, 2014-06-16 at 16:16 +0800, Hongxu Jia wrote:
->> - The LICENSE added AGPL for the font files (in Resource/Font);
->>
->> - Rebase ghostscript-9.02-parallel-make.patch to 9.14
->>
->> - Rebase ghostscript-native-fix-disable-system-libtiff.patch
->>    since base/configure.ac has been moved to configure.ac.
->>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=f1488c5aff54f37ee67759827d4298592af5dbc8
->>
->> - Obsolete ghostscript-9.05-NOT-check-endian.patch, and add option
->>    '--enable-little-endian'/'--enable-big-endian' conditionally to
->>    intead.
->>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=e76dc46756e89a14a3348bce12a633d32e4fa831
->>
->> - Add base-genht.c-add-a-preprocessor-define-to-allow-fope.patch
->>    for native, since the upstream replace all fopen calls with
->>    gp_fopen and add a preprocessor define so that any unintential
->>    calls directly to fopen will cause an error. This patch add a
->>    preprocessor define to allow fopen calling in base/genht.c as
->>    exceptions.
->>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=773c69e46e70bdd5482676437dafd2ca83397643
->>
->> - Remove package ghostscript-cups, since CUPS filters
->>    gstoraster and gstopxl has been moved to cups-filters
->>    which is a free software package hosted by OpenPrinting.
->>    http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=9304a21699a6c17579fae32f44f5c92a37c13e2d
->>    http://www.linuxfoundation.org/collaborate/workgroups/openprinting/cups-filters
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   ...c-add-a-preprocessor-define-to-allow-fope.patch |  36 ++++++
->>   .../ghostscript-9.02-parallel-make.patch           | 144 ++++++++++-----------
->>   .../ghostscript-9.05-NOT-check-endian.patch        |  44 -------
->>   ...tscript-native-fix-disable-system-libtiff.patch |  45 +++----
->>   .../{ghostscript_9.07.bb => ghostscript_9.14.bb}   |  42 ++----
->>   5 files changed, 132 insertions(+), 179 deletions(-)
->>   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/base-genht.c-add-a-preprocessor-define-to-allow-fope.patch
->>   delete mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.05-NOT-check-endian.patch
->>   rename meta/recipes-extended/ghostscript/{ghostscript_9.07.bb => ghostscript_9.14.bb} (70%)
-> This triggered a build failure:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/134/steps/BuildImages/logs/stdio
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb b/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
+index a5d2eac..8319eb9 100644
+--- a/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
++++ b/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
+@@ -4,8 +4,6 @@ HOMEPAGE = "http://git.kernel.org/?p=linux/kernel/git/clrkwllms/rt-tests.git"
+ SECTION = "tests"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-RDEPENDS_${PN} = "python python-subprocess python-textutils"
+-RRECOMMENDS_${PN} = "kernel-module-hwlat-detector"
+ 
+ require rt-tests.inc
+ 
+@@ -21,3 +19,5 @@ do_install() {
+ }
+ 
+ FILES_${PN} += "${libdir}/python${PYTHON_BASEVERSION}/dist-packages/hwlatdetect.py"
++RDEPENDS_${PN} = "python python-subprocess python-textutils"
++RRECOMMENDS_${PN} = "kernel-module-hwlat-detector"
+-- 
+1.9.3
 
 
