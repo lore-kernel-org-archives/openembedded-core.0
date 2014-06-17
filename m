@@ -1,40 +1,32 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F1866FEE1
+Return-Path: <anders@chargestorm.se>
+Received: from stoexhubfe02.domain01.net (STOEXHUBFE02.domain01.net
+	[83.145.59.141])
+	by mail.openembedded.org (Postfix) with ESMTP id E271C6FFC4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 09:01:39 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id q59so6754471wes.41
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 02:01:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=4QIWMnjvGcouP0woOfyeS4yWsbaNotr0ySk6m46WCcU=;
-	b=iwjNdYVxy8ntT3P/QFi+NZMU2jLImRtIY4WkiPZpqMUXkTJ5Jz2uut8XByaJ/B1XvO
-	88rf06F8h941zHi7zt6E/BChWElpvwftvfIdIwpqbQCJqNPvujXnxa6BXyGvJQLrxDxD
-	PsTZp5DccjY1Y26vbkAjqqmU8URalO+hbHHBpXDH1ecQbyzJQBfxhQ/AlBr3w0SVtn6O
-	WRIJZu0M6pCWk/MjH7DyuiIIjhAaTWDoX1b2BMP9+RNIgx5qjM8Z3FkIqd4FR6AR1qNC
-	DVZhTmMOslo5obuyRf6/f1TDyrUPKP4MqqcMLU2KvPfAe8U9UzjorTJdooUjZJLczwD/
-	GSOQ==
-X-Gm-Message-State: ALoCoQnBIa7YeAOjryRSKFL0sTWtyvSr3DOd9wwIVF1xh8QpAICKYK0Dy4hmfWQCEdzKpy7CS4x8
-X-Received: by 10.180.94.37 with SMTP id cz5mr34407064wib.19.1402995700244;
-	Tue, 17 Jun 2014 02:01:40 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id
-	rw4sm22354280wjb.44.2014.06.17.02.01.38 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jun 2014 02:01:39 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jun 2014 11:01:28 +0200
-Message-Id: <1402995688-21105-2-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1402995688-21105-1-git-send-email-koen.kooi@linaro.org>
-References: <1402995688-21105-1-git-send-email-koen.kooi@linaro.org>
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH 2/2] hwlatdetect: fix PV
+	Tue, 17 Jun 2014 09:35:18 +0000 (UTC)
+Received: from ad.chargestorm.se (213.114.64.43) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Tue, 17 Jun 2014 11:35:16 +0200
+Date: Tue, 17 Jun 2014 11:35:04 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20140617093504.GC6479@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <5399151E.3050306@linux.intel.com>
+	<1402562639-60930-1-git-send-email-y>
+	<1402562639-60930-2-git-send-email-y>
+	<1402690716.11584.62.camel@empanada>
+	<A1661D2DDD942248A02617DE63569A0125CBF373@SESTOEX04.enea.se>
+MIME-Version: 1.0
+In-Reply-To: <A1661D2DDD942248A02617DE63569A0125CBF373@SESTOEX04.enea.se>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCHv2 1/2] Add wic support to generate rootfs image for uboot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 09:01:46 -0000
+X-List-Received-Date: Tue, 17 Jun 2014 09:35:23 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-As an extra safety measure set PV in the same place as SRCREV.
+* Adrian Calianu <Adrian.Calianu@enea.com> [140616 15:19]:
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-rt/rt-tests/{hwlatdetect_0.85.bb => hwlatdetect_0.89.bb} | 0
- meta/recipes-rt/rt-tests/rt-tests.inc                                 | 1 +
- 2 files changed, 1 insertion(+)
- rename meta/recipes-rt/rt-tests/{hwlatdetect_0.85.bb => hwlatdetect_0.89.bb} (100%)
+> > As for the patch itself, it's huge and needs to be broken up into
+> > smaller pieces.  In fact, it seems to be a combination of two
+> > completely separate things at least - a new mechanism for creating a
+> > rootfs from packages, and a new plugin for creating uboot partitions
+> > (which just happens to use the output from the new packaging step.
+> > So at minimum I think you need to break it up along the lines of
+> > that functionality, and it would be good to break it up even further
+> > e.g. 'Add a new do_pkg interface hook', 'Add an implementation of
+> > do_pkg for ipk', 'Add a new source plugin for uboot partitions',
+> > 'Add a new canned wks for a default uboot image', etc.  The more you
+> > can break it up into logical chunks without going overboard, the
+> > easier it is to review and apply/revert.
+> [Adrian Calianu] I agree that there are two main features but the
+> reason of not break it in small pieces now was to provide a fully
+> functional patch for community to test it and be able to provide a
+> feedback for this patch, since those features cannot be tested
+> independently now.  So, is it acceptable to provide patches that
+> cannot be tested?
 
-diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb b/meta/recipes-rt/rt-tests/hwlatdetect_0.89.bb
-similarity index 100%
-rename from meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
-rename to meta/recipes-rt/rt-tests/hwlatdetect_0.89.bb
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index ee5a1af..7fbe6d4 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,4 +1,5 @@
- # Version v0.89
-+PV = "0.89"
- SRCREV = "9164ec4db2645f52ffdd20e6d1b72bb0411ab40e"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
+Well, if you split this into two or more patches, and you then submit
+this as a patch series, then I don't see how they couldn't be tested?
+
+Remember, no one forces you to send single patches.
+
+So I'd say, try to split them up. That'll make them easier to review,
+comment on, and to test.
+
+Cheers,
+Anders
+
 -- 
-1.9.3
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
