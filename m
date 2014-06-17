@@ -1,32 +1,57 @@
-Return-Path: <anders@chargestorm.se>
-Received: from stoexhubfe02.domain01.net (STOEXHUBFE02.domain01.net
-	[83.145.59.141])
-	by mail.openembedded.org (Postfix) with ESMTP id E271C6FFC4
+Return-Path: <Javier.Viguera@digi.com>
+X-Greylist: delayed 406 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 17 Jun 2014 09:50:24 UTC
+Received: from mail1.bemta7.messagelabs.com (mail1.bemta7.messagelabs.com
+	[216.82.254.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 841496FF2A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 09:35:18 +0000 (UTC)
-Received: from ad.chargestorm.se (213.114.64.43) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Tue, 17 Jun 2014 11:35:16 +0200
-Date: Tue, 17 Jun 2014 11:35:04 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20140617093504.GC6479@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <5399151E.3050306@linux.intel.com>
-	<1402562639-60930-1-git-send-email-y>
-	<1402562639-60930-2-git-send-email-y>
-	<1402690716.11584.62.camel@empanada>
-	<A1661D2DDD942248A02617DE63569A0125CBF373@SESTOEX04.enea.se>
+	Tue, 17 Jun 2014 09:50:24 +0000 (UTC)
+Received: from [216.82.254.211:43450] by server-2.bemta-7.messagelabs.com id
+	69/84-17838-8CD00A35; Tue, 17 Jun 2014 09:43:36 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-9.tower-201.messagelabs.com!1402998216!13989945!1
+X-Originating-IP: [66.77.174.13]
+X-StarScan-Received: 
+X-StarScan-Version: 6.11.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 9430 invoked from network); 17 Jun 2014 09:43:36 -0000
+Received: from mail.mx3.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
+	by server-9.tower-201.messagelabs.com with RC4-SHA encrypted SMTP;
+	17 Jun 2014 09:43:36 -0000
+Received: from mcl-sms-exch01.digi.com (10.5.8.50) by mail.mx1.digi.com
+	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Tue, 17 Jun 2014 04:43:25 -0500
+Received: from DOR-VMS-XCH01.digi.com (10.49.8.98) by mcl-sms-exch01.digi.com
+	(10.5.8.50) with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Tue, 17 Jun 2014 04:43:35 -0500
+Received: from DOR-SMS-XCH01.digi.com ([fe80::894b:3bdc:74ae:6efc]) by
+	DOR-VMS-XCH01.digi.com ([::1]) with mapi id 14.03.0174.001;
+	Tue, 17 Jun 2014 04:43:34 -0500
+From: "Viguera, Javier" <Javier.Viguera@digi.com>
+To: 'Richard Purdie' <richard.purdie@linuxfoundation.org>, "'Burton, Ross'"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [backport to Daisy] dbus: fix a hard dependency
+	about dbus-ptest
+Thread-Index: AQHPiXUQRjt6WUzRlk6lUSopOHrzG5t0QxWAgAD/8QD//8o6QA==
+Date: Tue, 17 Jun 2014 09:43:32 +0000
+Message-ID: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0207E3@dor-sms-xch01.digi.com>
+References: <cover.1396927648.git.Chong.Lu@windriver.com>
+	<539EDD51.9060508@digi.com>
+	<CAJTo0LbcPqL+E78x1jUX6JH_BBc-uuEV8KDjELap9OJidPtYqA@mail.gmail.com>
+	<539F08D0.7060602@digi.com>
+	<CAJTo0LZXUh1giimTFpdQYBpVJ640wCgr6j6vELaa9h3L+_huyw@mail.gmail.com>
+	<1402991538.562.84.camel@ted>
+In-Reply-To: <1402991538.562.84.camel@ted>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.101.2.163]
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean
 MIME-Version: 1.0
-In-Reply-To: <A1661D2DDD942248A02617DE63569A0125CBF373@SESTOEX04.enea.se>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCHv2 1/2] Add wic support to generate rootfs image for uboot
+Cc: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,43 +64,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 09:35:23 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Jun 2014 09:50:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-* Adrian Calianu <Adrian.Calianu@enea.com> [140616 15:19]:
-
-> > As for the patch itself, it's huge and needs to be broken up into
-> > smaller pieces.  In fact, it seems to be a combination of two
-> > completely separate things at least - a new mechanism for creating a
-> > rootfs from packages, and a new plugin for creating uboot partitions
-> > (which just happens to use the output from the new packaging step.
-> > So at minimum I think you need to break it up along the lines of
-> > that functionality, and it would be good to break it up even further
-> > e.g. 'Add a new do_pkg interface hook', 'Add an implementation of
-> > do_pkg for ipk', 'Add a new source plugin for uboot partitions',
-> > 'Add a new canned wks for a default uboot image', etc.  The more you
-> > can break it up into logical chunks without going overboard, the
-> > easier it is to review and apply/revert.
-> [Adrian Calianu] I agree that there are two main features but the
-> reason of not break it in small pieces now was to provide a fully
-> functional patch for community to test it and be able to provide a
-> feedback for this patch, since those features cannot be tested
-> independently now.  So, is it acceptable to provide patches that
-> cannot be tested?
-
-Well, if you split this into two or more patches, and you then submit
-this as a patch series, then I don't see how they couldn't be tested?
-
-Remember, no one forces you to send single patches.
-
-So I'd say, try to split them up. That'll make them easier to review,
-comment on, and to test.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+SGkgUmljaGFyZCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNo
+YXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+
+IA0KPiBGb3Igd2hhdCBpdHMgd29ydGggSSd2ZSBwdWxsZWQgdGhlIHR3byBwYXRjaGVzIHdlIG5l
+ZWQgaW50byB0aGUgZGFpc3kNCj4gYnJhbmNoIGZvciB0aGlzLiBJJ2QgYXBwcmVjaWF0ZSBzb21l
+b25lIGNvbmZpcm1pbmcgaXQgZG9lcyB0aGUgcmlnaHQNCj4gdGhpbmcgdGhvdWdoLg0KDQpJJ3Zl
+IGp1c3QgbWFkZSBhIGJhc2ljIHRlc3QgYW5kIGF0IGxlYXN0IHRoZSBkYnVzLXB0ZXN0IGlzc3Vl
+IGlzIHNvbHZlZCBmb3IgbWUuIFRoZSBwYWNrYWdlIHdhcyByZW1vdmVkIGZyb20gdGhlIHJvb3Rm
+cyBpbWFnZSBhbmQgdGhlIG92ZXJhbGwgc2l6ZSB3ZW50IGRvd24gaW4gYWJvdXQgfjM4TUIsIHNv
+IHllYWggSSdtIGhhcHB5IHdpdGggdGhhdC4NCg0KVGhhbmtzLA0KDQpKYXZpZXIgVmlndWVyYQ0K
+DQo=
 
