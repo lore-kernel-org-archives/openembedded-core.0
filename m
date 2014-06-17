@@ -1,45 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E091A6FDA6;
-	Tue, 17 Jun 2014 17:42:31 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id x48so6937342wes.9
-	for <multiple recipients>; Tue, 17 Jun 2014 10:42:31 -0700 (PDT)
+Return-Path: <miroslav.kes@gmail.com>
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CFCAB6FDEB
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 20:20:09 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id u56so7650120wes.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 13:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=aViEQTzNs4T3dS1L+LNemL3V0mRs0+VdYjmDJHu6WVQ=;
-	b=zEM/vFmZ6+F9sQiDvd3WOLrQ/41CFCL6RmR42HAKWZXTdXfIRfRjK68j9ufpaJ5Ekh
-	q3YvoPvQ4WyfWU93RboYh6F6yijguTMhkwiMJX+bbwz6dboU86Q26WmHwlHaqfBBcRL+
-	89AU00vts6Y+U1WRyF91AHwbTpoyVNvVJk8cRxUJpOgKvnLiqvdAnt4CBWhDFPFLFw//
-	f5thpdM1gEn8d8+uT2snIp1cO7zl+lFTpLmHICdt78FMXZC2MduXp1FZ//9iNck4lCSu
-	+eczAnUsJaM3apu3JGhmXsmiLbJp+o2nOnpdp++2BGhgGNEl6yd8sWPKYt/qlHOKn5ic
-	7iWw==
-X-Received: by 10.194.61.193 with SMTP id s1mr40818170wjr.36.1403026951930;
-	Tue, 17 Jun 2014 10:42:31 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=1w9nw9FEIKMYXJ2aV9sX8ulSrwvtkjm6Rxz+TWH14iM=;
+	b=FC+Eld7PUUxD6xfks+9vlyF6GhX8RdUiPEvUGAa7J5sXWRaZZF8dJ/1pXbRctaU1sY
+	x6/cWljYKlyeb2JsUVUeuO5T4Z0dHAoA3mKZtc1UgmxM5isdJl3GPfsLP/jfE5KyuYfM
+	MlaPA6ez/Y0goJhB5CObKofNlVhsweZ9zMPXNweTf4CJlEsRpKcv67Acutd/+Ny/Nqxj
+	df3xBKiL+40mQ24XoLDQqOlznJlGKcSbR4NUBFVtoiuEA4mtBcwwivE7HeN0ebhKHloL
+	OFzF6fTKp65V2nIA141x6vOW4RVo7f3g9/nGdZ49Rm/6NAzsbtAfK+4O1yBT+ZhzCrIY
+	FXmg==
+X-Received: by 10.180.91.234 with SMTP id ch10mr40035094wib.37.1403036409533; 
+	Tue, 17 Jun 2014 13:20:09 -0700 (PDT)
+Received: from [192.168.1.100] ([188.175.125.133])
 	by mx.google.com with ESMTPSA id
-	d43sm42450030eep.0.2014.06.17.10.42.28 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jun 2014 10:42:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 17 Jun 2014 19:42:28 +0200
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Message-ID: <20140617174228.GB2117@jama>
-References: <1402775049-3165-1-git-send-email-sledz@dresearch-fe.de>
-	<539E8F97.3070508@dresearch-fe.de>
-	<6076930.voh3DpIb8j@peggleto-mobl5.ger.corp.intel.com>
-	<539EBCA8.3000709@dresearch-fe.de> <20140616105942.GO2428@jama>
-	<539EDD0F.8020505@dresearch-fe.de>
+	v15sm24823570wjq.17.2014.06.17.13.20.08 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Jun 2014 13:20:08 -0700 (PDT)
+Message-ID: <53A0A2F0.2020701@gmail.com>
+Date: Tue, 17 Jun 2014 22:20:00 +0200
+From: =?UTF-8?B?TWlyb3NsYXYgS2XFoQ==?= <miroslav.kes@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-In-Reply-To: <539EDD0F.8020505@dresearch-fe.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][daisy][PATCH] live555: fix fetch problem
+To: OE-core <openembedded-core@lists.openembedded.org>
+References: <539B27F0.90109@gmail.com>
+	<CAJTo0Lauenh9=Mep+4ZUVPnjf0yJDdaCxbrNcB5vXEmtjn5-iA@mail.gmail.com>
+In-Reply-To: <CAJTo0Lauenh9=Mep+4ZUVPnjf0yJDdaCxbrNcB5vXEmtjn5-iA@mail.gmail.com>
+Subject: Re: cmake: respect ${S} and ${B} patch problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,87 +47,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 17:42:39 -0000
-X-Groupsio-MsgNum: 54218
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Jun 2014 20:20:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---LyciRD1jyfeSSjG0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/13/14 18:38, Burton, Ross wrote:
+> On 13 June 2014 17:33, Miroslav Keš <miroslav.kes@gmail.com> wrote:
+>> +    if [ -z "${OECMAKE_SOURCEPATH}" ]; then
+>> +        OECMAKE_SOURCEPATH="${S}"
+>>      fi
+>>
+>>      if [ "${S}" != "${B}" ]; then
+>> @@ -84,7 +88,7 @@ cmake_do_configure() {
+>>
+>>      cmake \
+>>        ${OECMAKE_SITEFILE} \
+>> -      ${S} \
+>> +      ${OECMAKE_SOURCEPATH} \
+> A better idiom that's more self-documenting would be to set
+> OECMAKE_SOURCEPATH ?= "${S}" at the top-level.
+>
+> Would it be sensible to give that variable a different name as it
+> refers specifically to the location of the cmake file, and not the
+> rest of the source?
+>
+> Ross
 
-On Mon, Jun 16, 2014 at 02:03:27PM +0200, Steffen Sledz wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->=20
-> On 16.06.2014 12:59, Martin Jansa wrote:
-> > On Mon, Jun 16, 2014 at 11:45:12AM +0200, Steffen Sledz wrote:
-> >> On 16.06.2014 10:48, Paul Eggleton wrote:
-> >>> On Monday 16 June 2014 08:32:55 Steffen Sledz wrote:
-> >>>> What is the right ML address for patches in this area?
-> >>>>=20
-> >>>> The meta-multimedia/README in git://git.openembedded.org/meta-openem=
-bedded (daisy branch) says:
-> >>>>=20
-> >>>> "Send pull requests to openembedded-devel@lists.openembedded.org"
-> >>>>=20
-> >>>> But i believe this should be openembedded-core@lists.openembedded.or=
-g.
-> >>>=20
-> >>> No, for all layers in the meta-openembedded repository it should be o=
-penembedded-devel as listed.
-> >>=20
-> >> OK, thx for this info.
-> >>=20
-> >> So i hope the patch will make it into the daisy branch in the next tim=
-e, because our build is broken meanwhile (OK, we have a workaround, but thi=
-s is unendearing).
-> >=20
-> > We still don't have meta-oe daisy maintainer :/ (and update to READMEs =
-in daisy branch)..
->=20
-> How should i interpret this answer?
->=20
-> There is nobody who can push my patch (about the live555 fetch problem, n=
-othing about READMEs) to the daisy branch?
+Here is the updated patch:
 
-That there can be longer delay, before we find daisy maintainer which
-will ACK your patch (and include it in consolidated pull request) to get
-it merged. (README update just should be first change in daisy branch
-which isn't included in master)
+Signed-off-by: Mira Kes <miroslav.kes@gmail.com>
 
-> - --=20
-> DResearch Fahrzeugelektronik GmbH
-> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-> Fax: +49 30 515932-299
-> Gesch=E4ftsf=FChrer: Dr. Michael Weber, Werner M=F6gle;
-> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-> Ust.-IDNr. DE273952058
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v2.0.22 (GNU/Linux)
-> Comment: Using GnuPG with Thunderbird - http://www.enigmail.net/
->=20
-> iEYEARECAAYFAlOe3Q8ACgkQlSfCk8EgCzhdlQCgjMhmzGAk6sacNllCwiP/+Gd2
-> jxIAoONeZ+a1EwuBT8Dfg0cbmfXM0Lte
-> =3DTnT1
-> -----END PGP SIGNATURE-----
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index c9c15f3..f762792 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -23,6 +23,9 @@ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
+ OECMAKE_EXTRA_ROOT_PATH ?= ""
+ 
++# Path to the CMake file to process.
++OECMAKE_SOURCEPATH ?= "${S}"
++
+ cmake_do_generate_toolchain_file() {
+        cat > ${WORKDIR}/toolchain.cmake <<EOF
+ # CMake system name must be something like "Linux".
+@@ -65,8 +68,8 @@ EOF
+ addtask generate_toolchain_file after do_patch before do_configure
+ 
+ cmake_do_configure() {
+-       if [ "${OECMAKE_BUILDPATH}" -o "${OECMAKE_SOURCEPATH}" ]; then
+-               bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
++       if [ "${OECMAKE_BUILDPATH}" ]; then
++               bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
+        fi
+ 
+        if [ "${S}" != "${B}" ]; then
+@@ -84,7 +87,7 @@ cmake_do_configure() {
+ 
+        cmake \
+          ${OECMAKE_SITEFILE} \
+-         ${S} \
++         ${OECMAKE_SOURCEPATH} \
+          -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
+          -DCMAKE_INSTALL_BINDIR:PATH=${bindir} \
+          -DCMAKE_INSTALL_SBINDIR:PATH=${sbindir} \
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---LyciRD1jyfeSSjG0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlOgfgQACgkQN1Ujt2V2gBwqvgCghs/aDf1Z2YLx3kSS/4DCFmSc
-Iz4An2zSOKi8qARi3Hxv7So+tpsTKqn6
-=LfCf
------END PGP SIGNATURE-----
-
---LyciRD1jyfeSSjG0--
