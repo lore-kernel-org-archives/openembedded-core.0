@@ -1,29 +1,24 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 232FD6FD0A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DA58F6FD80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jun 2014 20:02:58 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id B9E4F2232CC0;
-	Mon, 16 Jun 2014 22:02:56 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id D8F352232CBF;
-	Mon, 16 Jun 2014 22:02:55 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.2
-Received: from localhost.localdomain (g225127230.adsl.alicedsl.de
-	[92.225.127.230]) by mail.familie-heinold.de (Postfix) with ESMTPSA;
-	Mon, 16 Jun 2014 22:02:55 +0200 (CEST)
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jun 2014 22:02:45 +0200
-Message-Id: <1402948965-21977-1-git-send-email-henning@itconsulting-heinold.de>
-X-Mailer: git-send-email 1.9.1
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH]v2 perf: add slang to the dependencies
+	Tue, 17 Jun 2014 05:37:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H5bpUP012116
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jun 2014 22:37:51 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 16 Jun 2014 22:37:50 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Jun 2014 13:39:04 +0800
+Message-ID: <cover.1402983481.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [daisy][PATCH 0/1] rootfs.py: change the logic in _uninstall_unneeded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jun 2014 20:03:00 -0000
+X-List-Received-Date: Tue, 17 Jun 2014 05:37:52 -0000
+Content-Type: text/plain
 
-* TUI/GUI support was added in 2.6.35 based on libnewt
-* since 3.10 slang replaced libnewt completly
-* changing TUI_DEFINES is not necessary, because NO_NEWT is
-  still respected with newer kernels
-* add comment about the gui history to the recipe
+The following changes since commit c19bb1db2eb728899e10a28d10567e9e026ee694:
 
-The patch was sponsored by sysmocom
+  gcc: Clean up configure_prepend and fix for mingw (2014-06-16 14:51:24 +0100)
 
-Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
----
- meta/recipes-kernel/perf/perf.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 92d37e2..20968f9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -15,7 +15,10 @@ require perf-features.inc
- 
- BUILDPERF_libc-uclibc = "no"
- 
--TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt', '',d)}"
-+# gui support was added with kernel 3.6.35
-+# since 3.10 libnewt was replaced by slang
-+# to cover a wide range of kernel we add both dependencies
-+TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
- SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
- 
- DEPENDS = "virtual/kernel \
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/daisy-rootfs-postinsts
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/daisy-rootfs-postinsts
+
+Chen Qi (1):
+  rootfs.py: change the logic in _uninstall_unneeded
+
+ meta/lib/oe/rootfs.py |   14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
 -- 
-1.9.1
+1.7.9.5
+
 
