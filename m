@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A393C6FF6D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A9FF6FF6E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 07:01:41 +0000 (UTC)
+	Tue, 17 Jun 2014 07:01:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5H71gPG023277
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5H71i7Z020949
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Jun 2014 00:01:42 -0700 (PDT)
+	Tue, 17 Jun 2014 00:01:44 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 17 Jun 2014 00:01:41 -0700
+	14.3.169.1; Tue, 17 Jun 2014 00:01:43 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jun 2014 15:01:07 +0800
-Message-ID: <ff2af98362701eb3174c4d6fc27dd689384e56e2.1402988295.git.hongxu.jia@windriver.com>
+Date: Tue, 17 Jun 2014 15:01:08 +0800
+Message-ID: <45405f1917454af21dac37bdc6850b61e1d0a562.1402988295.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1402988295.git.hongxu.jia@windriver.com>
 References: <cover.1402988295.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 3/4] qmmp: upgrade to 0.7.7
+Subject: [PATCH 4/4] maintainers: Update directfb/ghostscript/libnewt/qmmp ownership
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 07:01:41 -0000
+X-List-Received-Date: Tue, 17 Jun 2014 07:01:44 -0000
 Content-Type: text/plain
-
-Build:
-1) Add LICENSE_FLAGS_WHITELIST += "commercial" to local.conf
-
-2) bitbake qmmp
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-qt/qt-apps/{qmmp_0.7.5.bb => qmmp_0.7.7.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-qt/qt-apps/{qmmp_0.7.5.bb => qmmp_0.7.7.bb} (95%)
+ meta-yocto/conf/distro/include/maintainers.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-qt/qt-apps/qmmp_0.7.5.bb b/meta/recipes-qt/qt-apps/qmmp_0.7.7.bb
-similarity index 95%
-rename from meta/recipes-qt/qt-apps/qmmp_0.7.5.bb
-rename to meta/recipes-qt/qt-apps/qmmp_0.7.7.bb
-index 910e7c2..9725b42 100644
---- a/meta/recipes-qt/qt-apps/qmmp_0.7.5.bb
-+++ b/meta/recipes-qt/qt-apps/qmmp_0.7.7.bb
-@@ -12,8 +12,8 @@ SRC_URI = "http://qmmp.ylsoftware.com/files/${BPN}-${PV}.tar.bz2 \
-            file://no-host-paths.patch \
-           "
- 
--SRC_URI[md5sum] = "dcc3c9ecd4dfbf0ced91c59cb894d460"
--SRC_URI[sha256sum] = "6066aea939813667dae7cf32ff1d6eb9913894977d132c2cd729fea22d24cf67"
-+SRC_URI[md5sum] = "9376b5d535ed540e97bdff79b42607ae"
-+SRC_URI[sha256sum] = "dda66bf60121a8a2cb7175b16b3b948099f8c119ee9a11c671555e8c38caa387"
- 
- inherit cmake qt4x11
- 
+diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
+index 17412ca..4d2f46b 100644
+--- a/meta-yocto/conf/distro/include/maintainers.inc
++++ b/meta-yocto/conf/distro/include/maintainers.inc
+@@ -130,8 +130,8 @@ RECIPE_MAINTAINER_pn-desktop-file-utils-native = "Saul Wold <sgw@linux.intel.com
+ RECIPE_MAINTAINER_pn-dhcp = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-diffstat = "Chong Lu <Chong.Lu@windriver.com>"
+ RECIPE_MAINTAINER_pn-diffutils = "Chong Lu <Chong.Lu@windriver.com>"
+-RECIPE_MAINTAINER_pn-directfb-examples = "Kai Kang <kai.kang@windriver.com>"
+-RECIPE_MAINTAINER_pn-directfb = "Kai Kang <kai.kang@windriver.com>"
++RECIPE_MAINTAINER_pn-directfb-examples = "Hongxu Jia <hongxu.jia@windriver.com>"
++RECIPE_MAINTAINER_pn-directfb = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-distcc = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-distcc-config = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-dmxproto = "Ross Burton <ross.burton@intel.com>"
+@@ -186,7 +186,7 @@ RECIPE_MAINTAINER_pn-gdk-pixbuf = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-genext2fs = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-gettext-minimal-native = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-gettext = "Wenzong Fan <wenzong.fan@windriver.com>"
+-RECIPE_MAINTAINER_pn-ghostscript = "Kai Kang <kai.kang@windriver.com>"
++RECIPE_MAINTAINER_pn-ghostscript = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-git = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-glew = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-glib-2.0 = "Robert Yang <liezhi.yang@windriver.com>"
+@@ -319,7 +319,7 @@ RECIPE_MAINTAINER_pn-libksba = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libmad = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libmatchbox = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-libmpc = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+-RECIPE_MAINTAINER_pn-libnewt = "Kai Kang <kai.kang@windriver.com>"
++RECIPE_MAINTAINER_pn-libnewt = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-libnfsidmap = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libnl = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libnotify = "Ross Burton <ross.burton@intel.com>"
+@@ -568,7 +568,7 @@ RECIPE_MAINTAINER_pn-python-smartpm = "Paul Eggleton <paul.eggleton@linux.intel.
+ RECIPE_MAINTAINER_pn-python3 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-qemu-helper-native = "Cristian Iorga <cristian.iorga@intel.com>"
+ RECIPE_MAINTAINER_pn-qemu = "Cristian Iorga <cristian.iorga@intel.com>"
+-RECIPE_MAINTAINER_pn-qmmp = "Kai Kang <kai.kang@windriver.com>"
++RECIPE_MAINTAINER_pn-qmmp = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-qt4e-demo-image = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-qt4-embedded = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-qt4-graphics-system = "Paul Eggleton <paul.eggleton@linux.intel.com>"
 -- 
 1.8.1.2
 
