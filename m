@@ -1,57 +1,26 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 406 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 17 Jun 2014 09:50:24 UTC
-Received: from mail1.bemta7.messagelabs.com (mail1.bemta7.messagelabs.com
-	[216.82.254.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 841496FF2A
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BC1C6FF79
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 09:50:24 +0000 (UTC)
-Received: from [216.82.254.211:43450] by server-2.bemta-7.messagelabs.com id
-	69/84-17838-8CD00A35; Tue, 17 Jun 2014 09:43:36 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-9.tower-201.messagelabs.com!1402998216!13989945!1
-X-Originating-IP: [66.77.174.13]
-X-StarScan-Received: 
-X-StarScan-Version: 6.11.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 9430 invoked from network); 17 Jun 2014 09:43:36 -0000
-Received: from mail.mx3.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
-	by server-9.tower-201.messagelabs.com with RC4-SHA encrypted SMTP;
-	17 Jun 2014 09:43:36 -0000
-Received: from mcl-sms-exch01.digi.com (10.5.8.50) by mail.mx1.digi.com
-	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Tue, 17 Jun 2014 04:43:25 -0500
-Received: from DOR-VMS-XCH01.digi.com (10.49.8.98) by mcl-sms-exch01.digi.com
-	(10.5.8.50) with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Tue, 17 Jun 2014 04:43:35 -0500
-Received: from DOR-SMS-XCH01.digi.com ([fe80::894b:3bdc:74ae:6efc]) by
-	DOR-VMS-XCH01.digi.com ([::1]) with mapi id 14.03.0174.001;
-	Tue, 17 Jun 2014 04:43:34 -0500
-From: "Viguera, Javier" <Javier.Viguera@digi.com>
-To: 'Richard Purdie' <richard.purdie@linuxfoundation.org>, "'Burton, Ross'"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [backport to Daisy] dbus: fix a hard dependency
-	about dbus-ptest
-Thread-Index: AQHPiXUQRjt6WUzRlk6lUSopOHrzG5t0QxWAgAD/8QD//8o6QA==
-Date: Tue, 17 Jun 2014 09:43:32 +0000
-Message-ID: <DA8287CC96892A4EB4FCF4FB3FBDA1AB0207E3@dor-sms-xch01.digi.com>
-References: <cover.1396927648.git.Chong.Lu@windriver.com>
-	<539EDD51.9060508@digi.com>
-	<CAJTo0LbcPqL+E78x1jUX6JH_BBc-uuEV8KDjELap9OJidPtYqA@mail.gmail.com>
-	<539F08D0.7060602@digi.com>
-	<CAJTo0LZXUh1giimTFpdQYBpVJ640wCgr6j6vELaa9h3L+_huyw@mail.gmail.com>
-	<1402991538.562.84.camel@ted>
-In-Reply-To: <1402991538.562.84.camel@ted>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.101.2.163]
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean
+	Tue, 17 Jun 2014 11:03:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5HB3MTK027624
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Jun 2014 04:03:22 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 17 Jun 2014 04:03:21 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Jun 2014 19:03:03 +0800
+Message-ID: <f60b841e5e40ecea0d77438831f6617cf68a0dc0.1403000537.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1403000534.git.hongxu.jia@windriver.com>
+References: <cover.1403000534.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Cc: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
+Cc: saul.wold@intel.com
+Subject: [PATCH 2/2] ghostscript: fix sizeof(GX_COLOR_INDEX_TYPE) not equal to ARCH_SIZEOF_GX_COLOR_INDEX on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,19 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 09:50:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 17 Jun 2014 11:03:27 -0000
+Content-Type: text/plain
 
-SGkgUmljaGFyZCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNo
-YXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+
-IA0KPiBGb3Igd2hhdCBpdHMgd29ydGggSSd2ZSBwdWxsZWQgdGhlIHR3byBwYXRjaGVzIHdlIG5l
-ZWQgaW50byB0aGUgZGFpc3kNCj4gYnJhbmNoIGZvciB0aGlzLiBJJ2QgYXBwcmVjaWF0ZSBzb21l
-b25lIGNvbmZpcm1pbmcgaXQgZG9lcyB0aGUgcmlnaHQNCj4gdGhpbmcgdGhvdWdoLg0KDQpJJ3Zl
-IGp1c3QgbWFkZSBhIGJhc2ljIHRlc3QgYW5kIGF0IGxlYXN0IHRoZSBkYnVzLXB0ZXN0IGlzc3Vl
-IGlzIHNvbHZlZCBmb3IgbWUuIFRoZSBwYWNrYWdlIHdhcyByZW1vdmVkIGZyb20gdGhlIHJvb3Rm
-cyBpbWFnZSBhbmQgdGhlIG92ZXJhbGwgc2l6ZSB3ZW50IGRvd24gaW4gYWJvdXQgfjM4TUIsIHNv
-IHllYWggSSdtIGhhcHB5IHdpdGggdGhhdC4NCg0KVGhhbmtzLA0KDQpKYXZpZXIgVmlndWVyYQ0K
-DQo=
+The commit: http://ghostscript.com/pipermail/gs-cvs/2014-February/017271.html
+newly added a 'compile time assert' on 9.14 that causes the build to fail if
+the sizeof(GX_COLOR_INDEX_TYPE) is not equal to ARCH_SIZEOF_GX_COLOR_INDEX.
+
+Disscuss on IRC:
+http://ghostscript.com/irclogs/2014/02/06.html
+
+The commit from OE-Core rev: 78a13ba170c1de6d7ef077854e3e34e18d17099f
+...
+ghostscript: add pregenerated objarch for mipsel/mips64/mips64el
+...
+has defined ARCH_SIZEOF_GX_COLOR_INDEX according to the type of archs,
+and assigned 4 for mips/mipsel (8 for others).
+
+The GX_COLOR_INDEX_TYPE was defined at do_configure time, which used
+large color index (with 8) by default. We should manually choose the
+opposite one (with 4) for mips/mipsel.
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-extended/ghostscript/ghostscript_9.14.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.14.bb b/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
+index 73cebbc..e14e656 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
+@@ -42,6 +42,9 @@ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 ${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--enable-little-endian', '--enable-big-endian', d)} \
+                 "
+ 
++EXTRA_OECONF_append_mips = " --with-large_color_index=0"
++EXTRA_OECONF_append_mipsel = " --with-large_color_index=0"
++
+ # Explicity disable libtiff, fontconfig,
+ # freetype, cups for ghostscript-native
+ EXTRA_OECONF_class-native = "--without-x --with-system-libtiff=no \
+-- 
+1.8.1.2
+
 
