@@ -1,36 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 493EE6FEB0
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 477F76FEE3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 07:52:48 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5H7pjex009607; Tue, 17 Jun 2014 08:52:27 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HXgrqqJG0SbD; Tue, 17 Jun 2014 08:52:27 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5H7qNfU009642
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 17 Jun 2014 08:52:25 +0100
-Message-ID: <1402991538.562.84.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Jun 2014 08:52:18 +0100
-In-Reply-To: <CAJTo0LZXUh1giimTFpdQYBpVJ640wCgr6j6vELaa9h3L+_huyw@mail.gmail.com>
-References: <cover.1396927648.git.Chong.Lu@windriver.com>
-	<539EDD51.9060508@digi.com>
-	<CAJTo0LbcPqL+E78x1jUX6JH_BBc-uuEV8KDjELap9OJidPtYqA@mail.gmail.com>
-	<539F08D0.7060602@digi.com>
-	<CAJTo0LZXUh1giimTFpdQYBpVJ640wCgr6j6vELaa9h3L+_huyw@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Javier Viguera <javier.viguera@digi.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [backport to Daisy] dbus: fix a hard dependency about dbus-ptest
+	Tue, 17 Jun 2014 08:24:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5H8O1BL023896
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 01:24:01 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 17 Jun 2014 01:24:00 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Jun 2014 04:23:59 -0400
+Message-ID: <1402993439-21965-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 1/1 v2] libpam: Security Advisory - CVE-2014-2583
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +31,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 07:52:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jun 2014 08:24:05 -0000
+Content-Type: text/plain
 
-On Mon, 2014-06-16 at 17:36 +0100, Burton, Ross wrote:
-> On 16 June 2014 16:10, Javier Viguera <javier.viguera@digi.com> wrote:
-> > Attached the obvious cherry-pick of the commit from *master* with a basic
-> > conflict solved. But I don't think this is acceptable in an already-released
-> > stable branch "Daisy" as it involves a recipe rename (dbus-ptest_1.6.18.bb
-> > => dbus-test_1.6.18.bb) that probably will break the projects of current
-> > users of yocto Daisy.
-> 
-> +PACKAGES += "${@base_contains('DISTRO_FEATURES', 'ptest',
-> 'dbus-ptest', '', d)}"
-> 
-> This was changed in master to use PTEST_ENABLED:
-> 
-> PACKAGES += "${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus-ptest', '', d)}"
-> 
-> If you could compare dbus.inc in this patch with master to ensure that
-> there's nothing else that should be merged that would be great.  Also
-> remove the Conflicts line from the message.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-For what its worth I've pulled the two patches we need into the daisy
-branch for this. I'd appreciate someone confirming it does the right
-thing though.
+v2 changes:
+* update format for commit log
+* add Upstream-Status for patch
 
-Cheers,
+Multiple directory traversal vulnerabilities in pam_timestamp.c in the
+pam_timestamp module for Linux-PAM (aka pam) 1.1.8 allow local users to
+create aribitrary files or possibly bypass authentication via a .. (dot
+dot) in the (1) PAM_RUSER value to the get_ruser function or (2) PAM_TTY
+value to the check_tty funtion, which is used by the
+format_timestamp_name function.
 
-Richard
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2583
+
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ ...mp-fix-potential-directory-traversal-issu.patch |   63 ++++++++++++++++++++
+ meta/recipes-extended/pam/libpam_1.1.6.bb          |    1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch
+
+diff --git a/meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch b/meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch
+new file mode 100644
+index 0000000..06cca13
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/pam_timestamp-fix-potential-directory-traversal-issu.patch
+@@ -0,0 +1,63 @@
++From 9dcead87e6d7f66d34e7a56d11a30daca367dffb Mon Sep 17 00:00:00 2001
++From: "Dmitry V. Levin" <ldv@altlinux.org>
++Date: Wed, 26 Mar 2014 22:17:23 +0000
++Subject: [PATCH] pam_timestamp: fix potential directory traversal issue
++ (ticket #27)
++
++commit 9dcead87e6d7f66d34e7a56d11a30daca367dffb upstream
++
++pam_timestamp uses values of PAM_RUSER and PAM_TTY as components of
++the timestamp pathname it creates, so extra care should be taken to
++avoid potential directory traversal issues.
++
++* modules/pam_timestamp/pam_timestamp.c (check_tty): Treat
++"." and ".." tty values as invalid.
++(get_ruser): Treat "." and ".." ruser values, as well as any ruser
++value containing '/', as invalid.
++
++Fixes CVE-2014-2583.
++
++Reported-by: Sebastian Krahmer <krahmer@suse.de>
++
++Upstream-Status: Backport
++
++Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ modules/pam_timestamp/pam_timestamp.c |   13 ++++++++++++-
++ 1 files changed, 12 insertions(+), 1 deletions(-)
++
++diff --git a/modules/pam_timestamp/pam_timestamp.c b/modules/pam_timestamp/pam_timestamp.c
++index 5193733..b3f08b1 100644
++--- a/modules/pam_timestamp/pam_timestamp.c
+++++ b/modules/pam_timestamp/pam_timestamp.c
++@@ -158,7 +158,7 @@ check_tty(const char *tty)
++ 		tty = strrchr(tty, '/') + 1;
++ 	}
++ 	/* Make sure the tty wasn't actually a directory (no basename). */
++-	if (strlen(tty) == 0) {
+++	if (!strlen(tty) || !strcmp(tty, ".") || !strcmp(tty, "..")) {
++ 		return NULL;
++ 	}
++ 	return tty;
++@@ -243,6 +243,17 @@ get_ruser(pam_handle_t *pamh, char *ruserbuf, size_t ruserbuflen)
++ 		if (pwd != NULL) {
++ 			ruser = pwd->pw_name;
++ 		}
+++	} else {
+++		/*
+++		 * This ruser is used by format_timestamp_name as a component
+++		 * of constructed timestamp pathname, so ".", "..", and '/'
+++		 * are disallowed to avoid potential path traversal issues.
+++		 */
+++		if (!strcmp(ruser, ".") ||
+++		    !strcmp(ruser, "..") ||
+++		    strchr(ruser, '/')) {
+++			ruser = NULL;
+++		}
++ 	}
++ 	if (ruser == NULL || strlen(ruser) >= ruserbuflen) {
++ 		*ruserbuf = '\0';
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+index 7e55adf..3190aaf 100644
+--- a/meta/recipes-extended/pam/libpam_1.1.6.bb
++++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+@@ -25,6 +25,7 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
+            file://libpam-fix-for-CVE-2010-4708.patch \
+            file://pam-security-abstract-securetty-handling.patch \
+            file://pam-unix-nullok-secure.patch \
++           file://pam_timestamp-fix-potential-directory-traversal-issu.patch \
+           "
+ SRC_URI[md5sum] = "7b73e58b7ce79ffa321d408de06db2c4"
+ SRC_URI[sha256sum] = "bab887d6280f47fc3963df3b95735a27a16f0f663636163ddf3acab5f1149fc2"
+-- 
+1.7.9.5
 
 
