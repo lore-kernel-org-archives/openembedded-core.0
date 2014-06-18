@@ -1,23 +1,39 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DDE9E6FEB0
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 06:01:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2014 23:01:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,499,1400050800"; d="scan'208";a="557204756"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2014 23:01:44 -0700
-From: nitin.a.kamble@intel.com
-To: richard.purdie@linuxfoundation.org,
-	Openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jun 2014 23:04:56 -0700
-Message-Id: <d85fc19225f111f9fbb686f58f8bb7814ba683af.1403071319.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1403071319.git.nitin.a.kamble@intel.com>
-References: <cover.1403071319.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] kernel-module-split.bbclass: fix a typo in var name
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 61A556FD62;
+	Wed, 18 Jun 2014 08:03:42 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id w61so440583wes.1
+	for <multiple recipients>; Wed, 18 Jun 2014 01:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=d0g3kkXgi55ERlkWUGbg6dXn1rVjwmyWuZ8+2pEfueE=;
+	b=NTQrd9iAqdt/IieGu69tei6lm/7EJLUdRDd0pyJoKEpf16eq5tGZeIky9GIqxQyD0N
+	jNlJG6NIk67FhZTQu8OaDO+vywRaZsqtwWNGLCRog2YxsAKQGSdfbMmDotMeXrWqW3a9
+	XAzX49y05cwOONWTrZPvisnmixjgG6PJeNqChDemRpYlLbx2AC4StDAbzLcODjWGvhob
+	J/1MEv5PqOB+rBbPyNJJmvHWzW39y0KBYBZakVSbmHqmdeEGEPWQsBmzJFXVxyYEybBl
+	kg4nb1zBywM1vVXKP6QF0UYp0Q9jeeBDLKDNrYtfhDVISz2y+EG/FoyG8aSw0+rKTbzN
+	gFSQ==
+X-Received: by 10.180.83.105 with SMTP id p9mr3010101wiy.8.1403078623567;
+	Wed, 18 Jun 2014 01:03:43 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	h6sm3717689eew.38.2014.06.18.01.03.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 Jun 2014 01:03:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 18 Jun 2014 10:03:42 +0200
+To: openembedded-core@lists.openembedded.org,
+	Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140618080342.GF2117@jama>
+References: <20140617075959.D3DE350478@opal.openembedded.org>
+MIME-Version: 1.0
+In-Reply-To: <20140617075959.D3DE350478@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : dbus-native: dbus-native: do_compile failed on selinux.c on CentOS 5.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,72 +46,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jun 2014 06:01:55 -0000
+X-List-Received-Date: Wed, 18 Jun 2014 08:03:53 -0000
+X-Groupsio-MsgNum: 54235
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="V4b9U9vrdWczvw78"
+Content-Disposition: inline
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+--V4b9U9vrdWczvw78
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The recently added kernel-module-split.bbclass had a bug in processing of
-the KERNEL_MODULE_AUTOLOAD variable. It was using the older autload variable
-in place of the newer autoloadlist variable, which was causing build failure
-as seen below.
+On Tue, Jun 17, 2014 at 07:59:59AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 7a2d2d81d8694806060f7bccfbdba42dc356d477
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D7a2d2d81d8694806060f7bccfbdba42dc356d477
+>=20
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Mon May 26 21:39:46 2014 -0400
+>=20
+> dbus-native: dbus-native: do_compile failed on selinux.c on CentOS 5.10
+>=20
+> Found this error on CentOS 5.10, other distros may also has this
+> problem, I think that we can disable the selinux for dbus-native:
+>=20
+> bus/selinux.c:327: error: array type has incomplete element type
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'split_kernel_module_packages', lineno: 164, function: <module>
-     0160:        if len(os.listdir(dir)) == 0:
-     0161:            os.rmdir(dir)
-     0162:
-     0163:
- *** 0164:split_kernel_module_packages(d)
-     0165:
-File: 'split_kernel_module_packages', lineno: 150, function: split_kernel_module_packages
-     0146:
-     0147:    postinst = d.getVar('pkg_postinst_modules', True)
-     0148:    postrm = d.getVar('pkg_postrm_modules', True)
-     0149:
- *** 0150:    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION", True)))
-     0151:    if modules:
-     0152:        metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
-     0153:        d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
-     0154:
-File: 'package.bbclass', lineno: 148, function: do_split_packages
-     0144:                d.setVar('pkg_postrm_' + pkg, postrm)
-     0145:        else:
-     0146:            d.setVar('FILES_' + pkg, oldfiles + " " + newfile)
-     0147:        if callable(hook):
- *** 0148:            hook(f, pkg, file_regex, output_pattern, m.group(1))
-     0149:
-     0150:    d.setVar('PACKAGES', ' '.join(packages))
-     0151:    return split_packages
-     0152:
-File: 'split_kernel_module_packages', lineno: 109, function: frob_metadata
-  File "split_kernel_module_packages", line 109, in frob_metadata
+This actually breaks dbus-native compilation for others, because it enables=
+ docs
 
-Exception: AttributeError: 'NoneType' object has no attribute 'split'
-
-ERROR: Function failed: split_kernel_module_packages
-
-Fixes bug:
-[Yocto #6461]
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/classes/kernel-module-split.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index e38a6f6..088de5f 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -137,7 +137,7 @@ python split_kernel_module_packages () {
-         if basename in autoloadlist:
-             name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
-             f = open(name, 'w')
--            for m in autoload.split():
-+            for m in autoloadlist:
-                 f.write('%s\n' % m)
-             f.close()
-             postinst = d.getVar('pkg_postinst_%s' % pkg, True)
--- 
-1.8.1.4
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| make[2]: *** [dbus-monitor.1] Error 3
+| make[2]: *** Waiting for unfinished jobs....
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| make[2]: *** [dbus-faq.html] Error 3
+| make[2]: *** [dbus-uuidgen.1] Error 3
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| make[2]: *** [dbus-daemon.1] Error 3
+| make[2]: *** [dbus-launch.1] Error 3
+| make[2]: *** [dbus-send.1] Error 3
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| xmlto: xmllint validation tool not found or not executable.
+| xmlto: Skipping validation...  Please make sure xmllint is installed.
+| xmlto: Can't continue, xsltproc tool not found or not executable.
+| make[2]: *** [dbus-cleanup-sockets.1] Error 3
+| make[2]: *** [dbus-run-session.1] Error 3
+| make[2]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/x86_64-linux/dbus-native/1.8.2-r0/build/doc'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/x86_64-linux/dbus-native/1.8.2-r0/build'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at /home/jenkins/=
+oe/shr-core-branches/shr-core/tmp-eglibc/work/x86_64-linux/dbus-native/1.8.=
+2-r0/temp/log.do_compile.2550)
+NOTE: recipe dbus-native-1.8.2-r0: task do_compile: Failed
 
 
+>=20
+> [YOCTO #6374]
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-core/dbus/dbus.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
+s.inc
+> index 5b2a056..01108c9 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -86,6 +86,8 @@ EXTRA_OECONF =3D "--disable-tests \
+>                  --disable-systemd \
+>                  --without-dbus-glib"
+> =20
+> +EXTRA_OECONF_class-native =3D "--disable-selinux"
+> +
+>  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'systemd', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
+ '', d)}"
+>  PACKAGECONFIG_class-native =3D ""
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--V4b9U9vrdWczvw78
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlOhR94ACgkQN1Ujt2V2gBwpSwCeLHdxv9NZWTzELgXSmh4nbCyx
+H5UAn0kXxuHWrj3UH5lG4h2j8ndGMt39
+=x2Fj
+-----END PGP SIGNATURE-----
+
+--V4b9U9vrdWczvw78--
