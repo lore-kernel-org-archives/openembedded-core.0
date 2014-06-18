@@ -1,24 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DF5D86FDF7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 03:11:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5I3B748029558
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 20:11:08 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 17 Jun 2014 20:11:07 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jun 2014 11:12:23 +0800
-Message-ID: <cover.1403061073.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH 0/1] sudo: upgrade from 1.8.10p2 to 1.8.10p3
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EF096FDE6
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jun 2014 06:01:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2014 22:56:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,499,1400050800"; d="scan'208";a="559359389"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
+	by orsmga002.jf.intel.com with ESMTP; 17 Jun 2014 23:01:42 -0700
+From: nitin.a.kamble@intel.com
+To: richard.purdie@linuxfoundation.org,
+	Openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jun 2014 23:04:47 -0700
+Message-Id: <cover.1403071319.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/1] A fix for kernel-module-split.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jun 2014 03:11:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Jun 2014 06:01:49 -0000
 
-The following changes since commit f506d0660c9949485268a92724ac770b5457b0ca:
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-  linux-yocto/3.10: update to v3.10.43 (2014-06-17 17:56:42 +0100)
+Here is a build fix for the build breakage of a meta-intel BSP.
+
+Thanks,
+Nitin
+
+The following changes since commit f3394914fd209ac186ef6806794dcbd915ef4fed:
+
+  linux-yocto/3.10: update to v3.10.43 (2014-06-17 17:56:57 +0100)
 
 are available in the git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/sudo-1.8.10p3
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/sudo-1.8.10p3
+  git://git.yoctoproject.org/poky-contrib nitin/misc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
 
-Chen Qi (1):
-  sudo: upgrade from 1.8.10p2 to 1.8.10p3
+Nitin A Kamble (1):
+  kernel-module-split.bbclass: fix a typo in var name
 
- .../sudo/{sudo_1.8.10p2.bb => sudo_1.8.10p3.bb}    |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.10p2.bb => sudo_1.8.10p3.bb} (88%)
+ meta/classes/kernel-module-split.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-1.7.9.5
+1.8.1.4
 
 
