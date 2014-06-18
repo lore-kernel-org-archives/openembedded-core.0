@@ -1,18 +1,18 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 350616FDA6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 24C536FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jun 2014 23:57:31 +0000 (UTC)
+	Wed, 18 Jun 2014 00:16:52 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5HNvT5a012195
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5I0GqRu005014
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Jun 2014 16:57:30 -0700 (PDT)
+	Tue, 17 Jun 2014 17:16:52 -0700 (PDT)
 Received: from server.local (128.224.23.62) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 17 Jun 2014 16:57:29 -0700
-Message-ID: <53A0D6C5.3030204@windriver.com>
-Date: Tue, 17 Jun 2014 20:01:09 -0400
+	Tue, 17 Jun 2014 17:16:51 -0700
+Message-ID: <53A0DB50.7020402@windriver.com>
+Date: Tue, 17 Jun 2014 20:20:32 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
@@ -35,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jun 2014 23:57:32 -0000
+X-List-Received-Date: Wed, 18 Jun 2014 00:17:00 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -59,14 +59,10 @@ On 2014-06-17, 6:18 PM, Richard Purdie wrote:
 >
 > Are we missing an update to lttng?
 
-Nothing that should have been required. lttng is completely separate
-from the kernel .. and being an out of tree module (which I really,
-really don't like), it can be broken from time to time.
+I reproduced the breakage with a fresh tree. I'll fire off a patch tonight
+with any amount of luck :)
 
-The real fix is to do like Greg does for LTSI, and merge the support
-into the tree itself.
-
-I'll have a look at this ASAP.
+Cheers,
 
 Bruce
 
