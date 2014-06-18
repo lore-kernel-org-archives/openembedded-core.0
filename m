@@ -1,26 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 551ED6FD27
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AD9086FFA1
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Jun 2014 09:41:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5I9fYuZ008809
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5I9fXfh016709
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 02:41:35 -0700 (PDT)
+	Wed, 18 Jun 2014 02:41:33 -0700 (PDT)
 Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 18 Jun 2014 02:41:34 -0700
+	14.3.169.1; Wed, 18 Jun 2014 02:41:33 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jun 2014 05:41:31 -0400
-Message-ID: <1403084491-1614-2-git-send-email-jackie.huang@windriver.com>
+Date: Wed, 18 Jun 2014 05:41:30 -0400
+Message-ID: <1403084491-1614-1-git-send-email-jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.0.0
-In-Reply-To: <1403084491-1614-1-git-send-email-jackie.huang@windriver.com>
-References: <1403084491-1614-1-git-send-email-jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] qt4-4.8.6: fix CVE-2014-0190
+Subject: [PATCH 1/2] nss-3.15.1: fix CVE-2013-1739
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,71 +36,120 @@ Content-Type: text/plain
 
 From: yzhu1 <yanjun.zhu@windriver.com>
 
-The GIF decoder in QtGui in Qt before 5.3 allows remote attackers
-to cause a denial of service (NULL pointer dereference) via
-invalid width and height values in a GIF image.
-Per: http://cwe.mitre.org/data/definitions/476.html
+Mozilla Network Security Services (NSS) before 3.15.2 does
+not ensure that data structures are initialized before
+read operations, which allows remote attackers to cause a
+denial of service or possibly have unspecified other
+impact via vectors that trigger a decryption failure.
 
-CWE-476: NULL Pointer Dereference
-
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-0190
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-1739
 Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-qt/qt4/qt4-4.8.6.inc                  |  1 +
- .../qt4-4.8.6/qt4-4.8.6-fix-CVE-2014-0190.patch    | 31 ++++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/qt4-4.8.6-fix-CVE-2014-0190.patch
+ .../nss/files/nss-3.15.1-fix-CVE-2013-1739.patch   | 81 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss.inc                   |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1739.patch
 
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.6.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
-index ae6692b..9db77c9 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.6.inc
-+++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
-@@ -24,6 +24,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://0028-Don-t-crash-on-broken-GIF-images.patch \
-            file://g++.conf \
-            file://linux.conf \
-+           file://qt4-4.8.6-fix-CVE-2014-0190.patch \
-            "
- 
- SRC_URI[md5sum] = "2edbe4d6c2eff33ef91732602f3518eb"
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.6/qt4-4.8.6-fix-CVE-2014-0190.patch b/meta/recipes-qt/qt4/qt4-4.8.6/qt4-4.8.6-fix-CVE-2014-0190.patch
+diff --git a/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1739.patch b/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1739.patch
 new file mode 100644
-index 0000000..b8baea8
+index 0000000..1a159c3
 --- /dev/null
-+++ b/meta/recipes-qt/qt4/qt4-4.8.6/qt4-4.8.6-fix-CVE-2014-0190.patch
-@@ -0,0 +1,31 @@
-+Upstream-status: Pending
-+Don't crash on broken GIF images
++++ b/meta/recipes-support/nss/files/nss-3.15.1-fix-CVE-2013-1739.patch
+@@ -0,0 +1,81 @@
++Upstream-Status: Backport
++Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
 +
-+Broken GIF images could set invalid width and height
-+values inside the image, leading to Qt creating a null
-+QImage for it. In that case we need to abort decoding
-+the image and return an error.
-+
-+Initial patch by Rich Moore.
-+
-+Task-number: QTBUG-38367
-+Change-Id: Id82a4036f478bd6e49c402d6598f57e7e5bb5e1e
-+Security-advisory: CVE-2014-0190
-+Reviewed-by: Richard J. Moore <rich@kde.org>
-+
-+--- a/src/gui/image/qgifhandler.cpp
-++++ b/src/gui/image/qgifhandler.cpp
-+@@ -359,6 +359,13 @@ int QGIFFormat::decode(QImage *image, co
-+                     memset(bits, 0, image->byteCount());
-+                 }
++--- a/nss/lib/ssl/ssl3con.c
+++++ b/nss/lib/ssl/ssl3con.c
++@@ -10509,7 +10509,7 @@ ssl_RemoveSSLv3CBCPadding(sslBuffer *pla
++     /* SSLv3 padding bytes are random and cannot be checked. */
++     t = plaintext->len;
++     t -= paddingLength+overhead;
++-    /* If len >= padding_length+overhead then the MSB of t is zero. */
+++    /* If len >= paddingLength+overhead then the MSB of t is zero. */
++     good = DUPLICATE_MSB_TO_ALL(~t);
++     /* SSLv3 requires that the padding is minimal. */
++     t = blockSize - (paddingLength+1);
++@@ -10742,7 +10742,7 @@ ssl3_HandleRecord(sslSocket *ss, SSL3Cip
++ 	}
++     }
 + 
-++                // Check if the previous attempt to create the image failed. If it
-++                // did then the image is broken and we should give up.
-++                if (image->isNull()) {
-++                    state = Error;
-++                    return -1;
-++                }
++-    good = (unsigned)-1;
+++    good = ~0U;
++     minLength = crSpec->mac_size;
++     if (cipher_def->type == type_block) {
++ 	/* CBC records have a padding length byte at the end. */
++@@ -10756,14 +10756,7 @@ ssl3_HandleRecord(sslSocket *ss, SSL3Cip
++     /* We can perform this test in variable time because the record's total
++      * length and the ciphersuite are both public knowledge. */
++     if (cText->buf->len < minLength) {
++-	SSL_DBG(("%d: SSL3[%d]: HandleRecord, record too small.",
++-		 SSL_GETPID(), ss->fd));
++-	/* must not hold spec lock when calling SSL3_SendAlert. */
++-	ssl_ReleaseSpecReadLock(ss);
++-	SSL3_SendAlert(ss, alert_fatal, bad_record_mac);
++-	/* always log mac error, in case attacker can read server logs. */
++-	PORT_SetError(SSL_ERROR_BAD_MAC_READ);
++-	return SECFailure;
+++	goto decrypt_loser;
++     }
++ 
++     if (cipher_def->type == type_block &&
++@@ -10831,11 +10824,18 @@ ssl3_HandleRecord(sslSocket *ss, SSL3Cip
++ 	return SECFailure;
++     }
++ 
+++    if (cipher_def->type == type_block &&
+++	((cText->buf->len - ivLen) % cipher_def->block_size) != 0) {
+++	goto decrypt_loser;
+++    }
 ++
-+                 disposePrevious(image);
-+                 disposed = false;
++     /* decrypt from cText buf to plaintext. */
++     rv = crSpec->decode(
++ 	crSpec->decodeContext, plaintext->buf, (int *)&plaintext->len,
++ 	plaintext->space, cText->buf->buf + ivLen, cText->buf->len - ivLen);
++-    good &= SECStatusToMask(rv);
+++    if (rv != SECSuccess) {
+++	goto decrypt_loser;
+++    }
 + 
++     PRINT_BUF(80, (ss, "cleartext:", plaintext->buf, plaintext->len));
++ 
++@@ -10843,7 +10843,7 @@ ssl3_HandleRecord(sslSocket *ss, SSL3Cip
++ 
++     /* If it's a block cipher, check and strip the padding. */
++     if (cipher_def->type == type_block) {
++-	const unsigned int blockSize = cipher_def->iv_size;
+++	const unsigned int blockSize = cipher_def->block_size;
++ 	const unsigned int macSize = crSpec->mac_size;
++ 
++ 	if (crSpec->version <= SSL_LIBRARY_VERSION_3_0) {
++@@ -10899,10 +10899,11 @@ ssl3_HandleRecord(sslSocket *ss, SSL3Cip
++     }
++ 
++     if (good == 0) {
+++decrypt_loser:
++ 	/* must not hold spec lock when calling SSL3_SendAlert. */
++ 	ssl_ReleaseSpecReadLock(ss);
++ 
++-	SSL_DBG(("%d: SSL3[%d]: mac check failed", SSL_GETPID(), ss->fd));
+++	SSL_DBG(("%d: SSL3[%d]: decryption failed", SSL_GETPID(), ss->fd));
++ 
++ 	if (!IS_DTLS(ss)) {
++ 	    SSL3_SendAlert(ss, alert_fatal, bad_record_mac);
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index 5afd639..cc9e7b9 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -20,6 +20,7 @@ SRC_URI = "\
+     file://nss-3.15.1-fix-CVE-2013-5605.patch \
+     file://nss-CVE-2014-1492.patch \
+     file://nss-CVE-2013-1740.patch \
++    file://nss-3.15.1-fix-CVE-2013-1739.patch \
+ "
+ SRC_URI_append_class-target = "\
+     file://nss.pc.in \
 -- 
 2.0.0
 
