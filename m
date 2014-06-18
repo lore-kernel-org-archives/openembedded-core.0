@@ -1,24 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 79C766FD07
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 99AF96FE01
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 01:30:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5I1U0nt021096
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Jun 2014 18:30:00 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 17 Jun 2014 18:30:00 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 17 Jun 2014 21:29:51 -0400
-Message-ID: <1403054991-19506-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Wed, 18 Jun 2014 02:36:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5I2axn1005836
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jun 2014 19:36:59 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 17 Jun 2014 19:36:59 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Jun 2014 10:38:12 +0800
+Message-ID: <cover.1403059033.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lttng-modules: update to 2.4.1-stable latest
+Subject: [PATCH 0/3] Remove udev-utils and add 'udevadm' to udev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jun 2014 01:30:04 -0000
+X-List-Received-Date: Wed, 18 Jun 2014 02:37:06 -0000
 Content-Type: text/plain
 
-The 3.15, and 3.14.5+ kernels introduced a change to trace_block_rq_complete,
-which triggers the following build error:
+The following changes since commit f506d0660c9949485268a92724ac770b5457b0ca:
 
-    probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
-    error: conflicting types for 'trace_block_rq_complete'
-    |  void trace_##_name(_proto);
-    |       ^
-    |
-    probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
-    note: in expansion of macro 'DEFINE_EVENT_MAP'
-    |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto), PARAMS(args))
-    |   ^
-    |
-    probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
-    note: in expansion of macro 'DEFINE_EVENT'
-    |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
+  linux-yocto/3.10: update to v3.10.43 (2014-06-17 17:56:42 +0100)
 
-The lttng 2.4.x-stable branch contains the fix (and several other small fixes), so
-we bump the SRCREV to import the change.
+are available in the git repository at:
 
-Build tested against 3.14 and 3.10.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/remove-udev-utils
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/remove-udev-utils
 
-[YOCTO #6459]
+Chen Qi (3):
+  udev: remove udev-utils, add 'udevadm' to udev package
+  systemd: remove udev-utils, move 'udevadm' to udev package
+  initramfs-framework: get rid of udev-utils
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../initrdscripts/initramfs-framework_1.0.bb       |    2 +-
+ meta/recipes-core/systemd/systemd_213.bb           |    9 +++------
+ meta/recipes-core/udev/udev.inc                    |    8 +++-----
+ 3 files changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
-index 4ef74dd1cb33..5e05ffc69853 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
-@@ -10,7 +10,7 @@ DEPENDS = "virtual/kernel"
- 
- inherit module
- 
--SRCREV = "afdc6b155161f209fcfadc5288dc017ceab56353"
-+SRCREV = "a0383def517e3aebbbcebae61fe2bcfb50d31e71"
- PV = "2.4.1"
- 
- # lttng currently blacklists arm with gcc-4.8
 -- 
-1.8.1.2
+1.7.9.5
 
 
