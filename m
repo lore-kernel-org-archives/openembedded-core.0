@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CED46FD5D
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A8EAC6FD5D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 16:59:09 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5IGx5ra025663 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 17:59:05 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SHWu4EyUVuNp
+	Wed, 18 Jun 2014 22:48:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5IMmfLJ029911
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 17:59:05 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5IGx2uM025660
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 17:59:03 +0100
-Message-ID: <1403110736.2104.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jun 2014 17:58:56 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sstatesig: Add try/except around the stat calls
+	Wed, 18 Jun 2014 15:48:42 -0700 (PDT)
+Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 18 Jun 2014 15:48:41 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Jun 2014 18:48:03 -0400
+Message-ID: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,44 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jun 2014 16:59:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jun 2014 22:48:48 -0000
+Content-Type: text/plain
 
-Its possible sstate symlinks to other sstate mirrors which then my get
-removed/cleaned. If we find invalid symlinks, skip over them rather
-than error with a backtrace.
+To fix:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ERROR: QA Issue: package libxml-parser-perl contains bad RPATH /home/paul/poky/build/tmp/sysroots/intel-corei7-64/usr/lib64 in file /home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.41-r3/packages-split/libxml-parser-perl/usr/lib64/perl/vendor_perl/5.14.3/auto/XML/Parser/Expat/Expat.so
+ERROR: QA run found fatal errors. Please consider fixing them.
+ERROR: Function failed: do_package_qa
+ERROR: Logfile of failure stored in: /home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.41-r3/temp/log.do_package.28544
+ERROR: Task 4102 (/home/paul/poky/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb, do_package) failed with exit code '1'
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index acff2a0..d58147f 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -125,7 +125,10 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-                         foundall = True
-                         break
-         else:
--            filedates[fullpath] = os.stat(fullpath).st_mtime
-+            try:
-+                filedates[fullpath] = os.stat(fullpath).st_mtime
-+            except OSError:
-+                continue
+...which showed up when enabling a multilib build.
+
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+index 43a8a84518d3..2488aacb682c 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+@@ -27,6 +27,7 @@ do_configure_append() {
+ do_compile() {
+ 	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
+ 	cpan_do_compile
++	chrpath -d ${S}/blib/arch/auto/XML/Parser/Expat/Expat.so
+ }
  
-     if not taskhashlist or (len(filedates) < 2 and not foundall):
-         # That didn't work, look in sstate-cache
-@@ -156,7 +159,10 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-                         if taskhashlist:
-                             hashfiles[hashval] = fullpath
-                         else:
--                            filedates[fullpath] = os.stat(fullpath).st_mtime
-+                            try:
-+                                filedates[fullpath] = os.stat(fullpath).st_mtime
-+                            except:
-+                                continue
- 
-     if taskhashlist:
-         return hashfiles
-
+ do_compile_class-native() {
+-- 
+1.9.1
 
 
