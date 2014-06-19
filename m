@@ -1,33 +1,41 @@
-Return-Path: <ka6sox@gmail.com>
-Received: from mail-oa0-f44.google.com (mail-oa0-f44.google.com
-	[209.85.219.44])
-	by mail.openembedded.org (Postfix) with ESMTP id ADB8870181;
-	Thu, 19 Jun 2014 16:09:33 +0000 (UTC)
-Received: by mail-oa0-f44.google.com with SMTP id i7so5636622oag.17
-	for <multiple recipients>; Thu, 19 Jun 2014 09:09:33 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id A2985601A8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jun 2014 16:39:21 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id q59so2582511wes.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jun 2014 09:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=/yW8EgHuHTIqHxao7iagCuYCwhTBs1HApw2zNGSqkG4=;
-	b=Mfxf57sYQluGqwLPKDWW30pYlt8KZR2arC1SJfrZet+8cxo0wSvrDfqSwe57fsRjLL
-	V32drZ3bxD80Q9ZatfwO2XJaMe+u/yubaGKdKg6wu/36JNt4IKINYcEcatT8kZZ10uLo
-	zv89Pxe/Q/QvQ2LM4+AGbl5wUROgKKdUOqUP7NA6fV3J9DtWGVNypy0lqc1e0hNYgykY
-	s5CPTF2oUfHFuIyIyAdhe5aBApZyktO5RpmmIluZLA/z0oPzRVLr5rJfcP4hXRVJGzEc
-	IC19dkUmNDSDigLHMKvy/1nIrwyECMe0ceMGuwqfS5pTHWW8SBISWk53dg/jh5w7GPiV
-	tXsg==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=p7/BhNNRXNrVYk/4Q2EwUS4hg2cOiLoU8kYLPUaVeMY=;
+	b=xtC8OMUX2M3PHA4MM7EJkM8jLJs7QqPaMNFx2NmORqQb0Dws5b3/BPRkezd3GbORaA
+	UzN9GxUmPlx1gOM1EKdqaquVS0y6QbKvKZ7Pa9+DIfcSnlvHtfMFd0dAoqtMXiUwsx3q
+	1H4IaUP7Fwu9hlAJnHOV9by/eoBwws2+7+jA4MlJHLkB5UVgPpqaNq4dWVpdNdyy2uG6
+	reNOL6x5QFMHuxNuBJ+622tC+fD1e5aWqLeQIpoT+Wxy9TBdXj9RfTG2m0QpuQ5AjBN/
+	A3kpZMzdH/IuTMp9mtKAX0lZXWqrnu17BuLno1JBJHD2QqJEC0966GLKjSSjIhXravUE
+	2SZw==
+X-Received: by 10.194.83.39 with SMTP id n7mr6318028wjy.58.1403195961892;
+	Thu, 19 Jun 2014 09:39:21 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ej4sm34789499wib.4.2014.06.19.09.39.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 19 Jun 2014 09:39:20 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 19 Jun 2014 18:39:22 +0200
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20140619163922.GR2117@jama>
+References: <1403177022-19086-1-git-send-email-Martin.Jansa@gmail.com>
+	<3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.60.178.243 with SMTP id db19mr5419984oec.11.1403194173639;
-	Thu, 19 Jun 2014 09:09:33 -0700 (PDT)
-Received: by 10.76.128.201 with HTTP; Thu, 19 Jun 2014 09:09:33 -0700 (PDT)
-In-Reply-To: <20140619113451.GO2117@jama>
-References: <20140619113451.GO2117@jama>
-Date: Thu, 19 Jun 2014 09:09:33 -0700
-Message-ID: <CAHQecY7HffEF4TJ5Bmbmq0kSgm_p6Ei2JD=s7Jy924fTs0PKbQ@mail.gmail.com>
-From: Tom King <ka6sox@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Few archives to add on sources.oe.org
+In-Reply-To: <3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] usbinit, weston-init, run-postinsts, qt-demo-init: Drop allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,56 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jun 2014 16:09:40 -0000
-Content-Type: multipart/alternative; boundary=089e01176ac5455ab704fc329aaa
+X-List-Received-Date: Thu, 19 Jun 2014 16:39:28 -0000
+X-Groupsio-MsgNum: 54271
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="foM9DbudB2CcldhH"
+Content-Disposition: inline
 
---089e01176ac5455ab704fc329aaa
-Content-Type: text/plain; charset=UTF-8
+--foM9DbudB2CcldhH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Done
+On Thu, Jun 19, 2014 at 02:54:59PM +0100, Paul Eggleton wrote:
+> Hi Martin,
+>=20
+> On Thursday 19 June 2014 13:23:42 Martin Jansa wrote:
+> > * update-rc.d.bbclass now adds dependency on TUNE_PKGARCH initscripts, =
+so
+> > these cannot be allarch
+>=20
+> As I've said before, I really dislike this change. The system should be m=
+ade=20
+> to handle the situation properly instead of working around the issue.
 
+This one is new :) (I think) I had clean state (with my unmerged
+changes) with dylan (now I'm testing dora, daisy, master as well), these
+are "new" as the initscripts dependency was added recently.
 
-On Thu, Jun 19, 2014 at 4:34 AM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> Hi Tom,
->
-> can you please add:
-> IO-Tty-1.10.tar.gz
-> SQLAlchemy-0.7.9.tar.gz
-> fetchmail-6.3.26.tar.xz
-> usb-modeswitch-2.0.1.tar.bz2
-> usb-modeswitch-data-20130807.tar.bz2
->
-> to sources.oe.org? I can send you tarballs (or fetch them from
-> /home/jenkins/oe/shr-core-branches/downloads-missing/ on aruba)
->
-> The most annoying is fetchmail which is now fetching HTML page from
-> berlios (so checksum check fails instead of showing 404) :/. And user
-> needs to download it manually or use sources.oe.org as PREMIRROR, but
-> still better than nothing.
->
+--foM9DbudB2CcldhH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---089e01176ac5455ab704fc329aaa
-Content-Type: text/html; charset=UTF-8
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-<div dir="ltr">Done</div><div class="gmail_extra"><br><br><div class="gmail_quote">On Thu, Jun 19, 2014 at 4:34 AM, Martin Jansa <span dir="ltr">&lt;<a href="mailto:martin.jansa@gmail.com" target="_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Tom,<br>
-<br>
-can you please add:<br>
-IO-Tty-1.10.tar.gz<br>
-SQLAlchemy-0.7.9.tar.gz<br>
-fetchmail-6.3.26.tar.xz<br>
-usb-modeswitch-2.0.1.tar.bz2<br>
-usb-modeswitch-data-20130807.tar.bz2<br>
-<br>
-to <a href="http://sources.oe.org" target="_blank">sources.oe.org</a>? I can send you tarballs (or fetch them from<br>
-/home/jenkins/oe/shr-core-branches/downloads-missing/ on aruba)<br>
-<br>
-The most annoying is fetchmail which is now fetching HTML page from<br>
-berlios (so checksum check fails instead of showing 404) :/. And user<br>
-needs to download it manually or use <a href="http://sources.oe.org" target="_blank">sources.oe.org</a> as PREMIRROR, but<br>
-still better than nothing.<br>
-</blockquote></div><br></div>
+iEYEARECAAYFAlOjEjoACgkQN1Ujt2V2gBwvxgCeNXAtIqZMG+9XvWUOrj9ms7cJ
+91oAoLd5PzcDMjLE0RlkHHETVrjg44OR
+=BXEM
+-----END PGP SIGNATURE-----
 
---089e01176ac5455ab704fc329aaa--
+--foM9DbudB2CcldhH--
