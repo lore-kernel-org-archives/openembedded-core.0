@@ -1,36 +1,42 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CC7760144;
-	Thu, 19 Jun 2014 11:34:50 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id hi2so9192767wib.5
-	for <multiple recipients>; Thu, 19 Jun 2014 04:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=GYdZ37wsi9a9ixzztOmzMGadYgEIoSTq9Yt0eI7n68k=;
-	b=PEXRp2B+V7aEgYOzyE9dEII29ovCT7Waf3u80elx9Q2KkY7XG7/7IvDT+CrYFLuWpB
-	IkDPS/nj+fqTFx3U1dOyjg4AFcvQA/FKv6z+76XBKvXKyAcdpHjGTmcinh7PnbJYsBd1
-	D4K34Wa+xMTCslPMHQiTfQf2B/Kmit5wf/43hZEeDFjrGeXSH/MM+LAMihCbIX9vO5Tx
-	+3NKbXxvhaL3yaf7rjn1uQdCH7/zWVS4ZDAgOfR8eMOBzm3L+8IyObu6SjW1cG7k7rMR
-	AUlMI4pmavWfJTUva3FHpZrvr/Gsr8/RXuHhXAYKSSmNn759eaaRjwKHoOVsEolRoG0Q
-	4omg==
-X-Received: by 10.180.105.72 with SMTP id gk8mr5869218wib.32.1403177691077;
-	Thu, 19 Jun 2014 04:34:51 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	l9sm10754488wic.21.2014.06.19.04.34.49 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 19 Jun 2014 04:34:50 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 19 Jun 2014 13:34:51 +0200
-To: Tom King <ka6sox@gmail.com>, openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20140619113451.GO2117@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Few archives to add on sources.oe.org
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 274F36FCDD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jun 2014 13:26:35 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id r20so2846879wiv.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jun 2014 06:26:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=gQQisN0iKcIuSrECxs3BPO4TNYih9q86f3ZN5bXTcDI=;
+	b=YqKPePHbRS7qQIY8fefQjryDDxrvTHIcEYCqP1JmwLgbuDZYlEcP+atILaMz68Oj7I
+	Hp59PJ3HYphx8gUiXmvoyipJoNCE76Ct6Hojkhu7APNMbY2g7r0G4U8/PcsuZTmxB6aK
+	9eSaJdEsgYquYeaTtx7hiskZ/9k0IDeoKk+A2VKJ2uYeNGGBWUsAB+0oAT1M4wSSYq/r
+	24sj+DvwoxQKw4lMnChjV6VFF/cheKATjz8HWn4IW5IJO6Vjq2+KActyfJMgAgTPVCOK
+	xrF3be1wD8CR4uh85dWK6l6Dmw9GvlDuh6+0tgzJaUqjJSZsb7TjUqc2pphKuVnRDpeH
+	kiAg==
+X-Gm-Message-State: ALoCoQkZeOZ/x9YJUPhhL/4QYOrVc1H4Shlf641Hbv2+zpuHiiYaKRWKLX/BLyvcVzN+pjtBLpho
+X-Received: by 10.194.142.205 with SMTP id ry13mr4787061wjb.69.1403184395297; 
+	Thu, 19 Jun 2014 06:26:35 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::4147:f49d:8cb6:6e25?
+	([2001:610:612:0:4147:f49d:8cb6:6e25])
+	by mx.google.com with ESMTPSA id fb7sm4170026wib.15.2014.06.19.06.26.33
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 19 Jun 2014 06:26:34 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
+Date: Thu, 19 Jun 2014 15:26:30 +0200
+Message-Id: <7909347D-FFDD-4F4D-B08A-79E0AD69F4F8@dominion.thruhere.net>
+References: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+X-Mailer: Apple Mail (2.1874)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +49,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jun 2014 11:34:51 -0000
-X-Groupsio-MsgNum: 54267
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nljfjKcp9HDtPSOP"
-Content-Disposition: inline
-
---nljfjKcp9HDtPSOP
+X-List-Received-Date: Thu, 19 Jun 2014 13:26:39 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tom,
 
-can you please add:
-IO-Tty-1.10.tar.gz
-SQLAlchemy-0.7.9.tar.gz
-fetchmail-6.3.26.tar.xz
-usb-modeswitch-2.0.1.tar.bz2
-usb-modeswitch-data-20130807.tar.bz2
+Op 19 jun. 2014, om 00:48 heeft Paul Gortmaker =
+<paul.gortmaker@windriver.com> het volgende geschreven:
 
-to sources.oe.org? I can send you tarballs (or fetch them from
-/home/jenkins/oe/shr-core-branches/downloads-missing/ on aruba)
+> To fix:
+>=20
+> ERROR: QA Issue: package libxml-parser-perl contains bad RPATH =
+/home/paul/poky/build/tmp/sysroots/intel-corei7-64/usr/lib64 in file =
+/home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.4=
+1-r3/packages-split/libxml-parser-perl/usr/lib64/perl/vendor_perl/5.14.3/a=
+uto/XML/Parser/Expat/Expat.so
+> ERROR: QA run found fatal errors. Please consider fixing them.
+> ERROR: Function failed: do_package_qa
+> ERROR: Logfile of failure stored in: =
+/home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.4=
+1-r3/temp/log.do_package.28544
+> ERROR: Task 4102 =
+(/home/paul/poky/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb, =
+do_package) failed with exit code '1'
+>=20
+> ...which showed up when enabling a multilib build.
+>=20
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>=20
+> diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb =
+b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+> index 43a8a84518d3..2488aacb682c 100644
+> --- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+> +++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+> @@ -27,6 +27,7 @@ do_configure_append() {
+> do_compile() {
+> 	export LIBC=3D"$(find ${STAGING_DIR_TARGET}/${base_libdir}/ =
+-name 'libc-*.so')"
+> 	cpan_do_compile
+> +	chrpath -d ${S}/blib/arch/auto/XML/Parser/Expat/Expat.so
 
-The most annoying is fetchmail which is now fetching HTML page from
-berlios (so checksum check fails instead of showing 404) :/. And user
-needs to download it manually or use sources.oe.org as PREMIRROR, but
-still better than nothing.
+That only works for x86 builds.=
 
---nljfjKcp9HDtPSOP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEUEARECAAYFAlOiytsACgkQN1Ujt2V2gBzzSACfa+lTejjXgM9phUHfT1/7O2bB
-PAMAlRQV9iJQ4XMOKwjItIG+SvzDV/c=
-=Y1Rv
------END PGP SIGNATURE-----
-
---nljfjKcp9HDtPSOP--
