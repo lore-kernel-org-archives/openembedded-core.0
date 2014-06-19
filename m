@@ -1,20 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B16FF6FC0F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E04A6FD8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jun 2014 00:36:23 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Jun 2014 17:31:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,503,1400050800"; d="scan'208";a="530722137"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.166])
-	by orsmga001.jf.intel.com with ESMTP; 18 Jun 2014 17:36:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jun 2014 17:36:17 -0700
-Message-Id: <1403138177-11400-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] local.conf.sample: Add sdl to nativesdk qemu PACKAGECONFIG
+	Thu, 19 Jun 2014 02:10:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5J2AHud027312
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jun 2014 19:10:17 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 18 Jun 2014 19:10:17 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Jun 2014 10:11:32 +0800
+Message-ID: <c94a169e23f798b8cb640471079f670290bea8b7.1403143738.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1403143738.git.Qi.Chen@windriver.com>
+References: <cover.1403143738.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [dora][PATCH 1/2] populate-extfs.sh: fix to handle /var/lib/opkg/alternatives/[[ correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jun 2014 00:36:30 -0000
+X-List-Received-Date: Thu, 19 Jun 2014 02:10:17 -0000
+Content-Type: text/plain
 
-Enable SDL by default for nativesdk as we do with natve, this will
-allow qemu with ADT to use graphics no vnc by default.
+There was a patch trying to fix this problem by using 'dirname', but it
+caused some build failures, thus got reverted.
 
-[YOCTO #6446]
+The problem is that $DIR might be empty and we should first do the check
+before trying to use $(dirname $DIR).
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+[YOCTO #5712]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/conf/local.conf.sample | 1 +
- 1 file changed, 1 insertion(+)
+ .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 1d893af..d64ba7f 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -221,6 +221,7 @@ BB_DISKMON_DIRS = "\
- # seen. The two lines below enable the SDL backend too. This assumes there is a
- # libsdl library available on your build system.
- PACKAGECONFIG_pn-qemu-native = "sdl"
-+PACKAGECONFIG_pn-nativesdk-qemu = "sdl"
- ASSUME_PROVIDED += "libsdl-native"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
+index 7de720b..da3954e 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
+@@ -23,12 +23,13 @@ DEBUGFS="debugfs"
+ 	find $SRCDIR | while read FILE; do
+                 TGT="${FILE##*/}"
+                 DIR="${FILE#$SRCDIR}"
+-                DIR="${DIR%$TGT}"
  
+ 		# Skip the root dir
+ 		[ ! -z "$DIR" ] || continue
+ 		[ ! -z "$TGT" ] || continue
  
++                DIR="$(dirname $DIR)"
++
+ 		if [ "$DIR" != "$CWD" ]; then
+ 			echo "cd $DIR"
+ 			CWD="$DIR"
 -- 
-1.8.3.1
+1.7.9.5
 
 
