@@ -1,42 +1,26 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 274F36FCDD
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F6FF6B5A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jun 2014 13:26:35 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id r20so2846879wiv.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jun 2014 06:26:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=gQQisN0iKcIuSrECxs3BPO4TNYih9q86f3ZN5bXTcDI=;
-	b=YqKPePHbRS7qQIY8fefQjryDDxrvTHIcEYCqP1JmwLgbuDZYlEcP+atILaMz68Oj7I
-	Hp59PJ3HYphx8gUiXmvoyipJoNCE76Ct6Hojkhu7APNMbY2g7r0G4U8/PcsuZTmxB6aK
-	9eSaJdEsgYquYeaTtx7hiskZ/9k0IDeoKk+A2VKJ2uYeNGGBWUsAB+0oAT1M4wSSYq/r
-	24sj+DvwoxQKw4lMnChjV6VFF/cheKATjz8HWn4IW5IJO6Vjq2+KActyfJMgAgTPVCOK
-	xrF3be1wD8CR4uh85dWK6l6Dmw9GvlDuh6+0tgzJaUqjJSZsb7TjUqc2pphKuVnRDpeH
-	kiAg==
-X-Gm-Message-State: ALoCoQkZeOZ/x9YJUPhhL/4QYOrVc1H4Shlf641Hbv2+zpuHiiYaKRWKLX/BLyvcVzN+pjtBLpho
-X-Received: by 10.194.142.205 with SMTP id ry13mr4787061wjb.69.1403184395297; 
-	Thu, 19 Jun 2014 06:26:35 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::4147:f49d:8cb6:6e25?
-	([2001:610:612:0:4147:f49d:8cb6:6e25])
-	by mx.google.com with ESMTPSA id fb7sm4170026wib.15.2014.06.19.06.26.33
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Jun 2014 06:26:34 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.2 \(1874\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
-Date: Thu, 19 Jun 2014 15:26:30 +0200
-Message-Id: <7909347D-FFDD-4F4D-B08A-79E0AD69F4F8@dominion.thruhere.net>
-References: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-X-Mailer: Apple Mail (2.1874)
+	Thu, 19 Jun 2014 13:55:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 19 Jun 2014 06:49:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,507,1400050800"; d="scan'208";a="550392203"
+Received: from akagikob-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.96])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2014 06:55:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 19 Jun 2014 14:54:59 +0100
+Message-ID: <3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.7-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <1403177022-19086-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1403177022-19086-1-git-send-email-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
+Subject: Re: [PATCH] usbinit, weston-init, run-postinsts, qt-demo-init: Drop allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jun 2014 13:26:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 19 Jun 2014 13:55:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+Hi Martin,
 
-Op 19 jun. 2014, om 00:48 heeft Paul Gortmaker =
-<paul.gortmaker@windriver.com> het volgende geschreven:
+On Thursday 19 June 2014 13:23:42 Martin Jansa wrote:
+> * update-rc.d.bbclass now adds dependency on TUNE_PKGARCH initscripts, so
+> these cannot be allarch
 
-> To fix:
->=20
-> ERROR: QA Issue: package libxml-parser-perl contains bad RPATH =
-/home/paul/poky/build/tmp/sysroots/intel-corei7-64/usr/lib64 in file =
-/home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.4=
-1-r3/packages-split/libxml-parser-perl/usr/lib64/perl/vendor_perl/5.14.3/a=
-uto/XML/Parser/Expat/Expat.so
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
-> ERROR: Logfile of failure stored in: =
-/home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.4=
-1-r3/temp/log.do_package.28544
-> ERROR: Task 4102 =
-(/home/paul/poky/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb, =
-do_package) failed with exit code '1'
->=20
-> ...which showed up when enabling a multilib build.
->=20
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
->=20
-> diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb =
-b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-> index 43a8a84518d3..2488aacb682c 100644
-> --- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-> +++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-> @@ -27,6 +27,7 @@ do_configure_append() {
-> do_compile() {
-> 	export LIBC=3D"$(find ${STAGING_DIR_TARGET}/${base_libdir}/ =
--name 'libc-*.so')"
-> 	cpan_do_compile
-> +	chrpath -d ${S}/blib/arch/auto/XML/Parser/Expat/Expat.so
+As I've said before, I really dislike this change. The system should be made 
+to handle the situation properly instead of working around the issue.
 
-That only works for x86 builds.=
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
