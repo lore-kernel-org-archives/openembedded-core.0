@@ -1,24 +1,20 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A8EAC6FD5D
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B16FF6FC0F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 22:48:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5IMmfLJ029911
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jun 2014 15:48:42 -0700 (PDT)
-Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 18 Jun 2014 15:48:41 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jun 2014 18:48:03 -0400
-Message-ID: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
+	Thu, 19 Jun 2014 00:36:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Jun 2014 17:31:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,503,1400050800"; d="scan'208";a="530722137"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.166])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jun 2014 17:36:18 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jun 2014 17:36:17 -0700
+Message-Id: <1403138177-11400-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] local.conf.sample: Add sdl to nativesdk qemu PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jun 2014 22:48:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Jun 2014 00:36:30 -0000
 
-To fix:
+Enable SDL by default for nativesdk as we do with natve, this will
+allow qemu with ADT to use graphics no vnc by default.
 
-ERROR: QA Issue: package libxml-parser-perl contains bad RPATH /home/paul/poky/build/tmp/sysroots/intel-corei7-64/usr/lib64 in file /home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.41-r3/packages-split/libxml-parser-perl/usr/lib64/perl/vendor_perl/5.14.3/auto/XML/Parser/Expat/Expat.so
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
-ERROR: Logfile of failure stored in: /home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.41-r3/temp/log.do_package.28544
-ERROR: Task 4102 (/home/paul/poky/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb, do_package) failed with exit code '1'
+[YOCTO #6446]
 
-...which showed up when enabling a multilib build.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/local.conf.sample | 1 +
+ 1 file changed, 1 insertion(+)
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-index 43a8a84518d3..2488aacb682c 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-@@ -27,6 +27,7 @@ do_configure_append() {
- do_compile() {
- 	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
- 	cpan_do_compile
-+	chrpath -d ${S}/blib/arch/auto/XML/Parser/Expat/Expat.so
- }
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 1d893af..d64ba7f 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -221,6 +221,7 @@ BB_DISKMON_DIRS = "\
+ # seen. The two lines below enable the SDL backend too. This assumes there is a
+ # libsdl library available on your build system.
+ PACKAGECONFIG_pn-qemu-native = "sdl"
++PACKAGECONFIG_pn-nativesdk-qemu = "sdl"
+ ASSUME_PROVIDED += "libsdl-native"
  
- do_compile_class-native() {
+ 
 -- 
-1.9.1
+1.8.3.1
 
 
