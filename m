@@ -1,37 +1,28 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A3176B438
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E11C7020E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 00:37:49 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id ey11so2451311pad.40
+	Fri, 20 Jun 2014 01:33:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5K1XR48001916
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jun 2014 17:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=N3j99s38tF74RnFlqtV31haH1D12OmOcjPfeCzNqrAg=;
-	b=UW6LcCXRKwN1lyi/Ld9i4b4RDgPyHWCLrtkoqsyuiqW34TNbZ/z3hWDXd0uxQkNIyh
-	My5BBVRu0IhV9a2pbOSQtxf774m9CV53bX0qvdUvalxx2chFGe1cJtw0b+clPHrccHNe
-	4RfnBTeydr80EuOGl8LHVWxWo//k9ThwQPiWumRrVfycig51i5QejKgcEShNkUc7Sd/J
-	SpjFch7b3R0PPDHsYNxcIwkMBdpVy3rjQ4Yyc7m2ciLzW802LPeIS9kTT+9YIAiqc7Bl
-	MX7GxYEyr8HxPfGzXeSAENzfEUWAgvcc8OgvdT9VLC6kajCCNSxl20YyN8juDrNrVAnt
-	gTBg==
-X-Received: by 10.66.102.102 with SMTP id fn6mr32984pab.6.1403224670639;
-	Thu, 19 Jun 2014 17:37:50 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([180.109.86.141])
-	by mx.google.com with ESMTPSA id
-	dd5sm10487332pbc.85.2014.06.19.17.37.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Jun 2014 17:37:49 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jun 2014 08:35:12 +0800
-Message-ID: <12874293.qmlQjDjeXe@yiqingliang-pc>
-User-Agent: KMail/4.13.1 (Linux/3.14.5-1-ARCH; KDE/4.13.1; x86_64; ; )
+	Thu, 19 Jun 2014 18:33:27 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 19 Jun 2014 18:33:26 -0700
+Message-ID: <53A38F65.4060005@windriver.com>
+Date: Thu, 19 Jun 2014 20:33:25 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: eglib is dead?
+To: <openembedded-core@lists.openembedded.org>
+References: <12874293.qmlQjDjeXe@yiqingliang-pc>
+In-Reply-To: <12874293.qmlQjDjeXe@yiqingliang-pc>
+Subject: Re: eglib is dead?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jun 2014 00:37:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 20 Jun 2014 01:33:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 6/19/14, 7:35 PM, Yi Qingliang wrote:
+> Hello,
+>
+> 	this morning I have seen that:
+> http://www.phoronix.com/scan.php?page=news_item&px=MTcyNDY
+>
+> 	it said that the "eglibc" is a "dead project", and most feature had
+> been merged into "glibc" at version 2.19.
+>
+> 	so maybe we should drop "eglibc", and switch back to "glibc"?
 
-	this morning I have seen that:
-http://www.phoronix.com/scan.php?page=news_item&px=MTcyNDY
+eglibc and glibc have been in sync since the beginning.  The only remaining 
+difference between glibc and eglibc is the configurable libc interface. 
+(Ability to change the configuration.)  Last time we discussed this, we were 
+still trying to determine if we (OE) were going to try to keep that 
+configuration active, or if were were going to go to a different libc for 'tiny' 
+systems.
 
-	it said that the "eglibc" is a "dead project", and most feature had 
-been merged into "glibc" at version 2.19.
+I don't believe a final decision has been made, but one way or another we will 
+be moving to 'glibc' in the future.
 
-	so maybe we should drop "eglibc", and switch back to "glibc"?
+My understanding is that eglibc 2.19 is still 'alive' and maintained, but will 
+be the last version.
 
-Yi Qingliang
-20140620
+--Mark
+
+> Yi Qingliang
+> 20140620
+>
+
 
