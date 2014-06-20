@@ -1,24 +1,27 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F8B70271
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id BDD7C701D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 15:38:57 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Jun 2014 08:38:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,514,1400050800"; d="scan'208";a="447997190"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jun 2014 08:38:42 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Fri, 20 Jun 2014 17:13:38 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173023.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N7H007Q296QVME0@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 20 Jun 2014 12:13:39 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 5E3C820184; Fri,
+	20 Jun 2014 13:13:38 -0400 (EDT)
+Date: Fri, 20 Jun 2014 13:13:38 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jun 2014 18:42:19 +0300
-Message-Id: <177fbfb9c3466ddf63716d959b33fc18b71ae195.1403277454.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1403277454.git.cristian.iorga@intel.com>
-References: <cover.1403277454.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1403277454.git.cristian.iorga@intel.com>
-References: <cover.1403277454.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/5] init-install-testfs: create signature file for master image
+Message-id: <20140620171338.GX27324@denix.org>
+References: <1403218403-3303-1-git-send-email-denis@denix.org>
+MIME-version: 1.0
+In-reply-to: <1403218403-3303-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jun 2014 15:38:58 -0000
+X-List-Received-Date: Fri, 20 Jun 2014 17:13:40 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Also small cosmetic changes.
+On Thu, Jun 19, 2014 at 06:53:22PM -0400, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+> 
+> Make probing of "platform" bus conditional based on PROBE_PLATFORM_BUS
+> variable from /etc/default/udev-cache on subsequent boots when udev
+> cache is used. PROBE_PLATFORM_BUS has to be set to "yes" in order to
+> force probing on every boot, otherwise it uses the old default behaviour
+> of probing it just the first time.
+> 
+> This is helpful on modern SoCs where most of the low level peripheral
+> drivers are registered on the platform bus and need to be probed to load
+> the necessary modules and enable the connected buses and subsystems.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-install-testfs.sh | 4 ++++
- 1 file changed, 4 insertions(+)
+Any questions, comments? I would like to keep a dialog open on this one. 
+Thanks.
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-index cf290a5..618a53d 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-@@ -154,8 +154,12 @@ mkdir -p /boot
- # Handling of the target root partition
- mount $rootfs /tgt_root
- mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
-+
- echo "Copying rootfs files..."
- cp -a /src_root/* /tgt_root
-+
-+touch /tgt_root/etc/masterimage
-+
- if [ -d /tgt_root/etc/ ] ; then
-     echo "$bootfs              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
-     # We dont want udev to mount our root device while we're booting...
--- 
-1.9.1
 
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/recipes-core/udev/udev/init | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+> index 410a650..f2c84d5 100644
+> --- a/meta/recipes-core/udev/udev/init
+> +++ b/meta/recipes-core/udev/udev/init
+> @@ -102,7 +102,12 @@ case "$1" in
+>  
+>      udevadm control --env=STARTUP=1
+>      if [ "$not_first_boot" != "" ];then
+> -            udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
+> +            if [ "$PROBE_PLATFORM_BUS" != "yes" ]; then
+> +                PLATFORM_BUS_NOMATCH="--subsystem-nomatch=platform"
+> +            else
+> +                PLATFORM_BUS_NOMATCH=""
+> +            fi
+> +            udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus --subsystem-nomatch=graphics --subsystem-nomatch=backlight --subsystem-nomatch=video4linux $PLATFORM_BUS_NOMATCH
+>              (udevadm settle --timeout=3; udevadm control --env=STARTUP=)&
+>      else
+>              udevadm trigger --action=add
+> -- 
+> 2.0.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
