@@ -1,25 +1,27 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0470260889
+Return-Path: <yaoxp@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 099B26FC99
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 06:06:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5K66evX003952
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 20 Jun 2014 06:47:37 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.00,743,1396972800"; d="scan'208";a="32186104"
+Received: from localhost (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Jun 2014 14:44:52 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id s5K6lUY0001180
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jun 2014 23:06:41 -0700 (PDT)
-Received: from pek-kkang-d1.corp.ad.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Thu, 19 Jun 2014 23:06:40 -0700
-From: Kai Kang <kai.kang@windriver.com>
+	Fri, 20 Jun 2014 14:47:30 +0800
+Received: from FEDORA20.fnst.cn.fujitsu.com (10.167.226.101) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 20 Jun 2014 14:47:37 +0800
+From: Yao Xinpan <yaoxp@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jun 2014 14:06:30 +0800
-Message-ID: <1403244390-5074-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Fri, 20 Jun 2014 14:47:02 +0800
+Message-ID: <1403246822-19267-1-git-send-email-yaoxp@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.4.2
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH] syslinux: fix isohybird overflows on 32 bit system
+X-Originating-IP: [10.167.226.101]
+Subject: [PATCH] nfs-utils: fix the --with-statdpath= flag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,87 +34,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jun 2014 06:06:49 -0000
+X-List-Received-Date: Fri, 20 Jun 2014 06:47:40 -0000
 Content-Type: text/plain
 
-When call isohybrid with option '-u', it overflows on a 32 bits host. It
-seeks to 512 bytes before the end of the image to install gpt header. If
-the size of image is larger than LONG_MAX, it overflows fseek() and
-cause error:
+if --with-statdpath= is not the default value, will happen the following questions:
+'Failed to open directory sm: No such file or directory'.
 
-isohybrid: wrlinux-image-x86-64-20140505110100.iso: seek error - 8: Invalid argument
+Submitted to nfs-utils mailing list here:
 
-Replace fseek with fseeko to fix this issue.
+    http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commitdiff;h=3b1457d219ceb1058d44bacc657581f13437ae40#patch1
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+This has been accepted into upstream nfs-utils so it will not be needed
+for future versions.
+
+Signed-off-by: Yao Xinpan <yaoxp@cn.fujitsu.com>
 ---
- .../isohybrid-fix-overflow-on-32-bit-system.patch  | 40 ++++++++++++++++++++++
- meta/recipes-devtools/syslinux/syslinux_6.01.bb    |  4 ++-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/syslinux/files/isohybrid-fix-overflow-on-32-bit-system.patch
+ .../0001-statd-fixed-the-with-statdpath-flag.patch | 40 ++++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.3.0.bb                   |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch
 
-diff --git a/meta/recipes-devtools/syslinux/files/isohybrid-fix-overflow-on-32-bit-system.patch b/meta/recipes-devtools/syslinux/files/isohybrid-fix-overflow-on-32-bit-system.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch
 new file mode 100644
-index 0000000..09a6945
+index 0000000..59a0935
 --- /dev/null
-+++ b/meta/recipes-devtools/syslinux/files/isohybrid-fix-overflow-on-32-bit-system.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch
 @@ -0,0 +1,40 @@
-+Upstream-Status: Backport
++From 3b1457d219ceb1058d44bacc657581f13437ae40 Mon Sep 17 00:00:00 2001
++From: Steve Dickson <steved@redhat.com>
++Date: Tue, 17 Jun 2014 13:28:53 -0400
++Subject: [PATCH] statd: fixed the --with-statdpath= flag
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
++Create the given path set with --with-statdpath
 +
-+From bc360f8dbdf27bff07bb5db8d0ea9a7b10d8e3d1 Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Fri, 20 Jun 2014 11:32:11 +0800
-+Subject: [PATCH 1/2] isohybrid: fix overflow on 32 bit system
-+
-+When call isohybrid with option '-u', it overflows on a 32 bits host. It
-+seeks to 512 bytes before the end of the image to install gpt header. If
-+the size of image is larger than LONG_MAX, it overflows fseek() and
-+cause error:
-+
-+isohybrid: image-x86-64-20140505110100.iso: seek error - 8: Invalid argument
-+
-+Replace fseek with fseeko to fix this issue.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+Signed-off-by: H. Peter Anvin <hpa@zytor.com>
++Signed-off-by: chendt.fnst@cn.fujitsu.com
++Reported-by: yaoxp@cn.fujitsu.com
++Signed-off-by: Steve Dickson <steved@redhat.com>
 +---
-+ utils/isohybrid.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Makefile.am | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
 +
-+diff --git a/utils/isohybrid.c b/utils/isohybrid.c
-+index 410bb60..23fc6c0 100644
-+--- a/utils/isohybrid.c
-++++ b/utils/isohybrid.c
-+@@ -1126,7 +1126,7 @@ main(int argc, char *argv[])
-+ 	 * end of the image
-+ 	 */
++diff --git a/Makefile.am b/Makefile.am
++index ae7cd16..5824adc 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -54,13 +54,13 @@ install-data-hook:
++ 	touch $(DESTDIR)$(statedir)/xtab; chmod 644 $(DESTDIR)$(statedir)/xtab
++ 	touch $(DESTDIR)$(statedir)/etab; chmod 644 $(DESTDIR)$(statedir)/etab
++ 	touch $(DESTDIR)$(statedir)/rmtab; chmod 644 $(DESTDIR)$(statedir)/rmtab
++-	mkdir -p $(DESTDIR)$(statedir)/sm $(DESTDIR)$(statedir)/sm.bak
++-	touch $(DESTDIR)$(statedir)/state
++-	chmod go-rwx $(DESTDIR)$(statedir)/sm $(DESTDIR)$(statedir)/sm.bak $(DESTDIR)$(statedir)/state
++-	-chown $(statduser) $(DESTDIR)$(statedir)/sm $(DESTDIR)$(statedir)/sm.bak $(DESTDIR)$(statedir)/state
+++	mkdir -p $(DESTDIR)$(statdpath)/sm $(DESTDIR)$(statdpath)/sm.bak
+++	touch $(DESTDIR)$(statdpath)/state
+++	chmod go-rwx $(DESTDIR)$(statdpath)/sm $(DESTDIR)$(statdpath)/sm.bak $(DESTDIR)$(statdpath)/state
+++	-chown $(statduser) $(DESTDIR)$(statdpath)/sm $(DESTDIR)$(statdpath)/sm.bak $(DESTDIR)$(statdpath)/state
 + 
-+-	if (fseek(fp, (isostat.st_size + padding) - orig_gpt_size - 512,
-++	if (fseeko(fp, (isostat.st_size + padding) - orig_gpt_size - 512,
-+ 		  SEEK_SET))
-+ 	    err(1, "%s: seek error - 8", argv[0]);
-+ 
++ uninstall-hook:
++ 	rm $(DESTDIR)$(statedir)/xtab
++ 	rm $(DESTDIR)$(statedir)/etab
++ 	rm $(DESTDIR)$(statedir)/rmtab
++-	rm $(DESTDIR)$(statedir)/state
+++	rm $(DESTDIR)$(statdpath)/state
 +-- 
-+1.9.1
++1.8.4.2
 +
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-index 89204b0..e8a1fd4 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-@@ -13,7 +13,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar
-            file://0002-memscan-build-a-linked-list-of-memory-scanners.patch \
-            file://0003-PXELINUX-Add-bios-memscan-function.patch \
-            file://0004-pxe-use-bios_fbm-and-real_base_mem-to-calculate-free.patch \
--           file://syslinux-fix-parallel-building-issue.patch"
-+           file://syslinux-fix-parallel-building-issue.patch \
-+           file://isohybrid-fix-overflow-on-32-bit-system.patch \
-+           "
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+index 8575647..c813d7f 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-mountd.service \
+            file://nfs-statd.service \
+            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
++           file://0001-statd-fixed-the-with-statdpath-flag.patch \
+ "
  
- SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
- SRC_URI[sha256sum] = "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
+ SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
 -- 
-1.9.1
+1.8.4.2
 
 
