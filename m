@@ -1,35 +1,24 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 2769E65F1F
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A36C17023D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 10:24:13 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1WxvzR-0006Ww-2T for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jun 2014 12:24:13 +0200
-Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 12:24:13 +0200
-Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	Fri, 20 Jun 2014 10:28:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5KAS42o025699
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 12:24:13 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 20 Jun 2014 12:24:01 +0200
-Message-ID: <lo1242$195$1@ger.gmane.org>
-References: <20140610100722.GC2433@jama> <1403258272.2104.87.camel@ted>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-In-Reply-To: <1403258272.2104.87.camel@ted>
-X-Enigmail-Version: 1.6
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] State of bitbake world, Failed tasks 2014-06-02
+	Fri, 20 Jun 2014 03:28:04 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 20 Jun 2014 03:28:03 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jun 2014 18:28:00 +0800
+Message-ID: <1403260081-669-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] mesa.inc: add MLPREFIX in RPROVIDES/RREPLACES/RCONFLICTS processing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,71 +31,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jun 2014 10:24:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jun 2014 10:28:10 -0000
+Content-Type: text/plain
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+It also avoids following QA warnings:
+......
+WARNING: Multilib QA Issue: lib32-mesa package lib32-mesa-megadriver -
+suspicious values 'mesa-driver-nouveau-vieux mesa-driver-r200
+mesa-driver-i965 mesa-driver-radeon mesa-driver-swrast mesa-driver-i915'
+in RPROVIDES
+WARNING: Multilib QA Issue: lib32-mesa package lib32-mesa-megadriver -
+suspicious values 'mesa-driver-nouveau-vieux mesa-driver-r200
+mesa-driver-i965 mesa-driver-radeon mesa-driver-swrast mesa-driver-i915'
+in RREPLACES
+WARNING: Multilib QA Issue: lib32-mesa package lib32-mesa-megadriver -
+suspicious values 'mesa-driver-nouveau-vieux mesa-driver-r200
+mesa-driver-i965 mesa-driver-radeon mesa-driver-swrast mesa-driver-i915'
+in RCONFLICTS
 
-Richard Purdie schreef op 20-06-14 11:57:
-> I know that with some of the changes in oe-core, meta-oe is suffering a 
-> little. I've been working on fixing up some of a world build of meta-oe 
-> with patches including the problematic autoconf one applied.
-> 
-> My WIP is:
-> 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rpurdie/meta-oe&id=9ece5e493b7844a7282eb883effa9d9a5b56d20e
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-Thanks!
-
->
-> 
-I appreciate its a huge patch and needs splitting up but there are only
-> so many hours in the day.
-> 
-> Of note are a few sepbuild fixes in there and one for the binconfig pcre 
-> issue that apache2 has, introduced by the binconfig change in OE-Core. I 
-> took the opportunity to clean up the -native recipe a bit, it should be 
-> closer to the main recipe and allow it to be converted to BBCLASSEXTEND 
-> in due course.
-
-Looks like we did similar things: http://patches.openembedded.org/patch/73919/
-
-I noticed that the LAMP recipes are really, really ugly for historical
-reasons. With the autotools updates in oe-core and a few years of upstream
-development most hacks aren't needed anymore. Any volunteers for cleaning up
-those recipes?
-
-regards,
-
-Koen
-
-> 
-> There are some fixes for talloc which I know has caused some headaches 
-> too.
-> 
-> I will try and find the time to clean this up and submit it piece by 
-> piece but if anyone beats me to it, great and hopefully nobody will 
-> duplicate the work.
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
-> 
-> 
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
-
-iD8DBQFTpAvBMkyGM64RGpERApouAKCavK3jHaxDCXx8XVGAgoYniV5GFwCfSw7C
-DmtUiAcJng1kxC/EBMWaY+k=
-=o518
------END PGP SIGNATURE-----
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 453510a..ad3b741 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -105,6 +105,7 @@ do_install_append () {
+ # they don't get Debian-renamed (which would remove the -mesa suffix), and
+ # RPROVIDEs/RCONFLICTs on the generic libgl name.
+ python __anonymous() {
++    ml = d.getVar('MLPREFIX', True)
+     pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
+     for p in (("egl", "libegl", "libegl1"),
+               ("dri", "libgl", "libgl1"),
+@@ -113,8 +114,8 @@ python __anonymous() {
+               ("gles", "libgles3",)):
+         if not p[0] in pkgconfig:
+             continue
+-        fullp = p[1] + "-mesa"
+-        pkgs = " ".join(p[1:])
++        fullp = ml + p[1] + "-mesa"
++        pkgs = ml + (" " + ml).join(p[1:])
+         d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
+         d.appendVar("RREPLACES_" + fullp, pkgs)
+         d.appendVar("RPROVIDES_" + fullp, pkgs)
+@@ -122,15 +123,16 @@ python __anonymous() {
+         
+         # For -dev, the first element is both the Debian and original name
+         fullp += "-dev"
+-        pkgs = p[1] + "-dev"
++        pkgs = ml + p[1] + "-dev"
+         d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
+         d.appendVar("RREPLACES_" + fullp, pkgs)
+         d.appendVar("RPROVIDES_" + fullp, pkgs)
+         d.appendVar("RCONFLICTS_" + fullp, pkgs)
+ }
+ 
+-python mesa_populate_packages() {
+-    pkgs = ['mesa', 'mesa-dev', 'mesa-dbg']
++python mesa_populate_packages() { 
++    ml = d.getVar('MLPREFIX', True)
++    pkgs = [ml + 'mesa', ml + 'mesa-dev', ml + 'mesa-dbg']
+     for pkg in pkgs:
+         d.setVar("RPROVIDES_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+         d.setVar("RCONFLICTS_%s" % pkg, pkg.replace("mesa-", "mesa-dri-"))
+@@ -139,11 +141,11 @@ python mesa_populate_packages() {
+     import re
+     dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
+     dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
+-    lib_name = d.expand("${MLPREFIX}mesa-megadriver")
++    lib_name = ml + 'mesa-megadriver'
+     for p in dri_pkgs:
+         m = re.match('^(.*)_dri\.so$', p)
+         if m:
+-            pkg_name = " mesa-driver-%s" % legitimize_package_name(m.group(1))
++            pkg_name = " %smesa-driver-%s" % (ml, legitimize_package_name(m.group(1)))
+             d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
+             d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
+             d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
+-- 
+1.8.4.1
 
 
