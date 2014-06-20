@@ -1,24 +1,20 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A84A701F1
+	by mail.openembedded.org (Postfix) with ESMTP id A113670268
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jun 2014 15:38:55 +0000 (UTC)
+	Fri, 20 Jun 2014 15:38:57 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Jun 2014 08:38:42 -0700
+	by azsmga101.ch.intel.com with ESMTP; 20 Jun 2014 08:38:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,514,1400050800"; d="scan'208";a="447997186"
+X-IronPort-AV: E=Sophos;i="5.01,514,1400050800"; d="scan'208";a="447997166"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jun 2014 08:38:41 -0700
+	by azsmga001.ch.intel.com with ESMTP; 20 Jun 2014 08:38:38 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jun 2014 18:42:18 +0300
-Message-Id: <0b24f6773948eed297daa260d831bba7ab58e06f.1403277454.git.cristian.iorga@intel.com>
+Date: Fri, 20 Jun 2014 18:42:15 +0300
+Message-Id: <cover.1403277454.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1403277454.git.cristian.iorga@intel.com>
-References: <cover.1403277454.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1403277454.git.cristian.iorga@intel.com>
-References: <cover.1403277454.git.cristian.iorga@intel.com>
-Subject: [PATCH 3/5] init-install-testfs: fix typo
+Subject: [PATCH 0/5] Automated hardware testing bugfixes and grub target controller feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +29,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 20 Jun 2014 15:38:57 -0000
 
-_EOF marker was not used properly
-(space left before end of line).
+Various fixes related to master image install script and
+GRUB targets controller implemented.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-install-testfs.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 7c1a975a1c2fd884aa9f6f4736656d854a6c5edb:
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-index d2cc6ac..cf290a5 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-@@ -183,7 +183,7 @@ menuentry "Linux" {
-     set root=(hd0,1)
-     linux /vmlinuz root=$rootfs $rootwait rw $5 $3 $4 quiet
- }
--_EOF 
-+_EOF
-     # Add the test label
-     echo -ne "\nmenuentry 'test' {\nlinux /test-kernel root=$testfs rw $rootwait quiet\n}\n" >> $GRUBCFG
- 
+  bitbake: toaster: Fix spacing and layout in no image files notification (2014-06-20 14:03:58 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/YB5615
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB5615
+
+Cristian Iorga (5):
+  init-install-testfs: add grub serial line support
+  oe-core/init-install-testfs.sh: do not overwrite /etc/mtab if the link
+    already exist
+  init-install-testfs: fix typo
+  init-install-testfs: create signature file for master image
+  meta-yocto-bsp: oeqa/controllers: add GrubTarget
+
+ meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py  | 71 ++++++++++++++++++++++
+ .../initrdscripts/files/init-install-testfs.sh     | 15 ++++-
+ 2 files changed, 84 insertions(+), 2 deletions(-)
+ create mode 100644 meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py
+
 -- 
 1.9.1
 
