@@ -1,28 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3895A6FD34
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B37356FEBE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jun 2014 13:13:08 +0000 (UTC)
+	Sun, 22 Jun 2014 02:01:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5LDD9nQ019471
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 21 Jun 2014 06:13:09 -0700 (PDT)
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5M21xtD016194
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Jun 2014 19:01:59 -0700 (PDT)
 Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Sat, 21 Jun 2014 06:13:08 -0700
-Message-ID: <53A584E3.3010508@windriver.com>
-Date: Sat, 21 Jun 2014 21:13:07 +0800
+	Sat, 21 Jun 2014 19:01:58 -0700
+Message-ID: <53A63915.4080900@windriver.com>
+Date: Sun, 22 Jun 2014 10:01:57 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: Himanshu Pandey <pandey_himanshu80@rediffmail.com>, Patches and
-	discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <20140621122616.19509.qmail@f4mail-235-223.rediffmail.com>
-In-Reply-To: <20140621122616.19509.qmail@f4mail-235-223.rediffmail.com>
-Subject: Re: [bitbake-devel] Hi
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1401154976.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1401154976.git.liezhi.yang@windriver.com>
+Subject: Re: [dora] [PATCH 0/3] 3 fixes for dora
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jun 2014 13:13:09 -0000
+X-List-Received-Date: Sun, 22 Jun 2014 02:02:00 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hello,
-
-I think that this email should go into oe-core mailing list (see
-the CC). You can refer to:
-
-oe-core/meta/classes/image_types.bbclass:
-
-IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C 
-${IMAGE_ROOTFS} ."
-COMPRESS_CMD_bz2 = "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
-
-I think that you can add something like the following to your recipe:
-
-COMPRESS_CMD_bz2_append () {
-	<your shell script>
-}
-
-Then the script would run after the .tar.bz2 is created.
+Ping.
 
 // Robert
 
-On 06/21/2014 08:26 PM, Himanshu Pandey wrote:
-> Hi,
+On 05/27/2014 10:15 AM, Robert Yang wrote:
+> The following changes since commit 4c58fe468790822fe48e0a570779979c831d0f10:
 >
-> I have a requirement that once the .tar.bz2 is created I want my shell script to
-> be executed finally.
+>    openssl: fix CVE-2014-0198 (2014-05-21 09:32:38 +0100)
 >
-> So where do I have to add this?
+> are available in the git repository at:
 >
-> So what I have to do in order to achieve this.
+>    git://git.openembedded.org/openembedded-core-contrib robert/dora-next
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=robert/dora-next
 >
-> Regards,
-> Himanshu Pandey
+> Chen Qi (1):
+>    populate-extfs.sh: keep file timestamps
 >
-> <http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.rediffmail.com/signatureline.htm@Middle?>
-> Get your own *FREE* website, *FREE* domain & *FREE* mobile app with Company email.
-> 	*Know More >*
-> <http://track.rediff.com/click?url=___http://businessemail.rediff.com/email-ids-for-companies-with-less-than-50-employees?sc_cid=sign-1-10-13___&cmp=host&lnk=sign-1-10-13&nsrv1=host>
+> Jonathan Liu (1):
+>    consolekit: fix console-kit-log-system-start.service startup
 >
+> Mark Hatle (1):
+>    rpm: Fix rpm -V usage
 >
+>   .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |   10 ++++++++-
+>   .../rpm/rpm/rpm-verify-files.patch                 |   22 ++++++++++++++++++++
+>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+>   .../recipes-support/consolekit/consolekit_0.4.6.bb |    6 ++++++
+>   4 files changed, 38 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-verify-files.patch
 >
 
