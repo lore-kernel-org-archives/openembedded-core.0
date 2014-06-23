@@ -1,24 +1,24 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A50666B7D2
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 42ADE6A680
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 13:15:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2014 06:15:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,530,1400050800"; d="scan'208";a="532678513"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jun 2014 06:15:08 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jun 2014 16:18:44 +0300
-Message-Id: <cbe0406b193683144f15d7c9d80798a4baaab2f0.1403529482.git.cristian.iorga@intel.com>
+	Mon, 23 Jun 2014 15:02:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5NF2O4A006326
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jun 2014 08:02:24 -0700 (PDT)
+Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 23 Jun 2014 08:02:23 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jun 2014 11:01:39 -0400
+Message-ID: <1403535699-41618-1-git-send-email-paul.gortmaker@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1403529482.git.cristian.iorga@intel.com>
-References: <cover.1403529482.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1403529482.git.cristian.iorga@intel.com>
-References: <cover.1403529482.git.cristian.iorga@intel.com>
-Subject: [PATCH 3/3] iproute2: upgrade to 3.15.0
+MIME-Version: 1.0
+Subject: [PATCH] recipes-devtools: fix segfault in lib32-gcc with "." multilib_dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +31,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jun 2014 13:15:11 -0000
+X-List-Received-Date: Mon, 23 Jun 2014 15:02:26 -0000
+Content-Type: text/plain
 
-The main new features are:
-  * ss gets more attention
-  * Support for HHF qdisc
-  * Updates to bridge command
-  * Lots of vxlan related changes
-  * Lots of little corrections and build fixes.
+When enabling a lib32-gcc in a 64 bit build, without doing any
+other configuration, the mutilib dir is unspecified, which is
+represented internally in gcc as "." and as such uncovers an
+invalid free on a non-malloc'd pointer, triggered by that code
+path which erroneously checks for equality with "." rather than
+inequality.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../iproute2/{iproute2_3.14.0.bb => iproute2_3.15.0.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_3.14.0.bb => iproute2_3.15.0.bb} (68%)
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.14.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.15.0.bb
-similarity index 68%
-rename from meta/recipes-connectivity/iproute2/iproute2_3.14.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_3.15.0.bb
-index ed40648..7cf9115 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_3.14.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_3.15.0.bb
-@@ -4,8 +4,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
-           "
--SRC_URI[md5sum] = "bd9d7567bbb987c88120669f5e1a1092"
--SRC_URI[sha256sum] = "bda38951c49f89ffc2e2fe85579ce616337b5d3a2f0319921fd071c838356bd4"
-+SRC_URI[md5sum] = "5b1711c9d16071959052e369a2682d77"
-+SRC_URI[sha256sum] = "5359ed1f31839d8542a057c0c4233131ab9c28d8c41fc9c8484579d9c0b99af4"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 185dbba82200..cbf1355fcbf7 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0050-Revert-Use-dbx_reg_number-for-spanning-registers.patch \
+            file://0051-eabispe.patch \
+            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
++           file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+ 	  "
+ SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
+ SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
+new file mode 100644
+index 000000000000..6cec9d6e1b27
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
+@@ -0,0 +1,46 @@
++From 5a0d2321f7d4afebb017d0672a04f570ba942f87 Mon Sep 17 00:00:00 2001
++From: Paul Gortmaker <paul.gortmaker@windriver.com>
++Date: Fri, 20 Jun 2014 16:41:08 -0400
++Subject: [PATCH] gcc: fix segfault from calling free on non-malloc'd area
++
++We see the following on a 32bit gcc installed on 64 bit host:
++
++  Reading symbols from ./i586-pokymllib32-linux-gcc...done.
++  (gdb) run
++  Starting program: x86-pokymllib32-linux/lib32-gcc/4.9.0-r0/image/usr/bin/i586-pokymllib32-linux-gcc
++
++  Program received signal SIGSEGV, Segmentation fault.
++  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
++  (gdb) bt
++  #0  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
++  #1  0x0804b73c in set_multilib_dir () at gcc-4.9.0/gcc/gcc.c:7827
++  #2  main (argc=1, argv=0xffffd504) at gcc-4.9.0/gcc/gcc.c:6688
++  (gdb)
++
++The problem arises because the check on whether we are using
++the internal string "." or an allocated one is reversed.
++We should be calling free() when the string is not equal to
++the internal "." string.
++
++Upstream-Status: Submitted [ https://gcc.gnu.org/ml/gcc-patches/2014-06/msg01778.html ]
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++---
++ gcc/gcc.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gcc/gcc.c b/gcc/gcc.c
++index 6870a840e1b7..a580975a7057 100644
++--- a/gcc/gcc.c
+++++ b/gcc/gcc.c
++@@ -7822,7 +7822,7 @@ set_multilib_dir (void)
++     }
++ 
++   if (multilib_dir == NULL && multilib_os_dir != NULL
++-      && strcmp (multilib_os_dir, ".") == 0)
+++      && strcmp (multilib_os_dir, ".") != 0)
++     {
++       free (CONST_CAST (char *, multilib_os_dir));
++       multilib_os_dir = NULL;
++-- 
++1.9.1
++
 -- 
 1.9.1
 
