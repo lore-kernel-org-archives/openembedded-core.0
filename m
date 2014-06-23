@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 940AD65F12
+	by mail.openembedded.org (Postfix) with ESMTP id 95D7F6B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 13:15:07 +0000 (UTC)
+	Mon, 23 Jun 2014 13:15:08 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2014 06:15:07 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2014 06:15:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,530,1400050800"; d="scan'208";a="532678494"
+X-IronPort-AV: E=Sophos;i="5.01,530,1400050800"; d="scan'208";a="532678506"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jun 2014 06:15:06 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 Jun 2014 06:15:07 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jun 2014 16:18:42 +0300
-Message-Id: <3b443764de37f6301f099347ea3eb29892af4492.1403529482.git.cristian.iorga@intel.com>
+Date: Mon, 23 Jun 2014 16:18:43 +0300
+Message-Id: <23dead2ac78c3a7454b28ae18be6b9f23d730cc9.1403529482.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1403529482.git.cristian.iorga@intel.com>
 References: <cover.1403529482.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1403529482.git.cristian.iorga@intel.com>
 References: <cover.1403529482.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/3] bluez5: upgrade to 5.20
+Subject: [PATCH 2/3] harfbuzz: upgrade to 0.9.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 23 Jun 2014 13:15:10 -0000
 
-Mostly bugfix release;
-Improved handling of PS3 controllers;
-Support for the A2DP aptX codec.
+Mostly a bugfix release.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5_5.19.bb | 3 ---
- meta/recipes-connectivity/bluez5/bluez5_5.20.bb | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.19.bb
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.20.bb
+ .../harfbuzz/{harfbuzz_0.9.28.bb => harfbuzz_0.9.29.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.28.bb => harfbuzz_0.9.29.bb} (88%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.19.bb b/meta/recipes-connectivity/bluez5/bluez5_5.19.bb
-deleted file mode 100644
-index 41d655d..0000000
---- a/meta/recipes-connectivity/bluez5/bluez5_5.19.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--require bluez5.inc
--SRC_URI[md5sum] = "2d839c0bc9f8daaa6ca32e65d7701812"
--SRC_URI[sha256sum] = "12778f3b66e71eec50eeb2e652de94a2578f33b8c8bd57c981fa00adab524c8a"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.20.bb b/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
-new file mode 100644
-index 0000000..1f4476a
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
-@@ -0,0 +1,3 @@
-+require bluez5.inc
-+SRC_URI[md5sum] = "177d4551f76e5933cc467c3abc6d3796"
-+SRC_URI[sha256sum] = "531fbaa0a9baf7b1f76fb8fd8975c20d3cc61cdc772a39d63df1d6abfc2a7481"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.28.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.29.bb
+similarity index 88%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_0.9.28.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_0.9.29.bb
+index 82ed2b1..96a4932 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.28.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.29.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ SECTION = "libs"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "accbeb679f39d839038b95a87e40870e"
+-SRC_URI[sha256sum] = "a567f7c58018af0a9751e18641fd8434bfcef8307122dabe47dd652ce8bde048"
++SRC_URI[md5sum] = "6251eb6d57e8c4e9e855188dbbdf8b6d"
++SRC_URI[sha256sum] = "601cea38c6fa0cf362dd9042c66cf4db711c5f9390de4ca46d6d2fc3f64de390"
+ inherit autotools pkgconfig lib_package
+ 
+ DEPENDS = "glib-2.0 cairo freetype"
 -- 
 1.9.1
 
