@@ -1,27 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BBD1B6FC0F
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 983BF6FBE3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 02:33:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5N2XDjU014867
+	Mon, 23 Jun 2014 06:28:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5N6SUeU028006
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jun 2014 19:33:13 -0700 (PDT)
-Received: from pek-kkang-d1.corp.ad.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Sun, 22 Jun 2014 19:33:13 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Jun 2014 10:32:52 +0800
-Message-ID: <89ff3aaad229d018851347dcda7d8c0e7cea6429.1403490121.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1403490121.git.kai.kang@windriver.com>
-References: <cover.1403490121.git.kai.kang@windriver.com>
+	Sun, 22 Jun 2014 23:28:30 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.137) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 22 Jun 2014 23:28:29 -0700
+From: <rongqing.li@windriver.com>
+To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jun 2014 14:28:30 +0800
+Message-ID: <1403504910-12319-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH 5/5] iptables: update init script and bb file
+Subject: [PATCH] qemu: exclude some ARM EABI obsolete syscalls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +31,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jun 2014 02:33:12 -0000
+X-List-Received-Date: Mon, 23 Jun 2014 06:28:34 -0000
 Content-Type: text/plain
 
-Update path of command iptables in init script that we put it in
-/usr/sbin rather than /sbin. Then update bb file to install init script,
-configure and rules files.
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+some syscalls are obsolete and no longer available for EABI, exclude them to
+fix the below error:
+        In file included from qemu-seccomp.c:16:0:
+        qemu-seccomp.c:28:7: error: '__NR_select' undeclared here (not in a function)
+              { SCMP_SYS(select), 252 },
+                ^
+        qemu-seccomp.c:36:7: error: '__NR_mmap' undeclared here (not in a function)
+              { SCMP_SYS(mmap), 247 },
+                ^
+        qemu-seccomp.c:57:7: error: '__NR_getrlimit' undeclared here (not in a function)
+              { SCMP_SYS(getrlimit), 245 },
+                ^
+        qemu-seccomp.c:96:7: error: '__NR_time' undeclared here (not in a function)
+              { SCMP_SYS(time), 245 },
+                ^
+        qemu-seccomp.c:185:7: error: '__NR_alarm' undeclared here (not in a function)
+              { SCMP_SYS(alarm), 241 },
+
+please refer source files:
+        arch/arm/include/uapi/asm/unistd.h
+or kernel header:
+        /usr/include/asm/unistd.h
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 ---
- meta/recipes-extended/iptables/iptables/iptables.init |  4 ++--
- meta/recipes-extended/iptables/iptables_1.4.21.bb     | 19 +++++++++++++++++++
- 2 files changed, 21 insertions(+), 2 deletions(-)
+ .../exclude-some-arm-EABI-obsolete-syscalls.patch  |   93 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc                |    1 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
 
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.init b/meta/recipes-extended/iptables/iptables/iptables.init
-index 01057dd..3f9ce23 100755
---- a/meta/recipes-extended/iptables/iptables/iptables.init
-+++ b/meta/recipes-extended/iptables/iptables/iptables.init
-@@ -33,8 +33,8 @@ VAR_SUBSYS_IPTABLES=/var/lock/subsys/$IPTABLES
- # only usable for root
- [ $EUID = 0 ] || exit 4
- 
--if [ ! -x /sbin/$IPTABLES ]; then
--    echo -n $"${IPTABLES}: /sbin/$IPTABLES does not exist."; warning; echo
-+if [ ! -x /usr/sbin/$IPTABLES ]; then
-+    echo -n $"${IPTABLES}: /usr/sbin/$IPTABLES does not exist."; warning; echo
-     exit 5
- fi
- 
-diff --git a/meta/recipes-extended/iptables/iptables_1.4.21.bb b/meta/recipes-extended/iptables/iptables_1.4.21.bb
-index ba4e8e4..a6fe55f 100644
---- a/meta/recipes-extended/iptables/iptables_1.4.21.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.4.21.bb
-@@ -28,6 +28,10 @@ FILES_${PN}-dbg =+ "${libdir}/xtables/.debug"
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://types.h-add-defines-that-are-required-for-if_packet.patch \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-+           file://iptables.init \
-+           file://iptables-config \
-+           file://iptables.rules \
-+           file://ip6tables.rules \
-           "
- 
- SRC_URI[md5sum] = "536d048c8e8eeebcd9757d0863ebb0c0"
-@@ -50,3 +54,18 @@ do_configure_prepend() {
- 	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
- 	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
- }
+diff --git a/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch b/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
+new file mode 100644
+index 0000000..171bda7
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
+@@ -0,0 +1,93 @@
++[PATCH] exclude some arm EABI obsolete syscalls
 +
-+do_install_append() {
-+	install -d -m 755 ${D}${sysconfdir}/init.d
-+	install -m 755 ${WORKDIR}/iptables.init ${D}${sysconfdir}/init.d/iptables
-+	install -m 755 ${WORKDIR}/iptables.init ${D}${sysconfdir}/init.d/ip6tables
-+	sed -i -e 's;iptables;ip6tables;g' -e 's;IPTABLES;IP6TABLES;g' ${D}${sysconfdir}/init.d/ip6tables
++Upstream-Status: Pending
 +
-+	install -d -m 755 ${D}${sysconfdir}/sysconfig
-+	install -m 755 ${WORKDIR}/iptables-config ${D}${sysconfdir}/sysconfig
-+	install -m 755 ${WORKDIR}/iptables-config ${D}${sysconfdir}/sysconfig/ip6tables-config
-+	sed -i -e 's;iptables;ip6tables;g' -e 's;IPTABLES;IP6TABLES;g' ${D}${sysconfdir}/sysconfig/ip6tables-config
++some syscalls are obsolete and no longer available for EABI, exclude them to
++fix the below error:
++	In file included from qemu-seccomp.c:16:0:
++	qemu-seccomp.c:28:7: error: '__NR_select' undeclared here (not in a function)
++	      { SCMP_SYS(select), 252 },
++	        ^
++	qemu-seccomp.c:36:7: error: '__NR_mmap' undeclared here (not in a function)
++	      { SCMP_SYS(mmap), 247 },
++	        ^
++	qemu-seccomp.c:57:7: error: '__NR_getrlimit' undeclared here (not in a function)
++	      { SCMP_SYS(getrlimit), 245 },
++	        ^
++	qemu-seccomp.c:96:7: error: '__NR_time' undeclared here (not in a function)
++	      { SCMP_SYS(time), 245 },
++	        ^
++	qemu-seccomp.c:185:7: error: '__NR_alarm' undeclared here (not in a function)
++	      { SCMP_SYS(alarm), 241 },
 +
-+	install -m 755 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/sysconfig/iptables
-+	install -m 755 ${WORKDIR}/ip6tables.rules ${D}${sysconfdir}/sysconfig/ip6tables
-+}
++please refer source files:
++	arch/arm/include/uapi/asm/unistd.h
++or kernel header:
++	/usr/include/asm/unistd.h
++
++Signed-off-by: Roy.Li <rongqing.li@windriver.com>
++---
++ qemu-seccomp.c | 14 ++++++++------
++ 1 file changed, 8 insertions(+), 6 deletions(-)
++
++diff --git a/qemu-seccomp.c b/qemu-seccomp.c
++index caa926e..5a78502 100644
++--- a/qemu-seccomp.c
+++++ b/qemu-seccomp.c
++@@ -25,15 +25,21 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++     { SCMP_SYS(timer_settime), 255 },
++     { SCMP_SYS(timer_gettime), 254 },
++     { SCMP_SYS(futex), 253 },
+++#if !defined(__ARM_EABI__)
++     { SCMP_SYS(select), 252 },
+++    { SCMP_SYS(time), 245 },
+++    { SCMP_SYS(alarm), 241 },
+++    { SCMP_SYS(getrlimit), 245 },
+++    { SCMP_SYS(mmap), 247 },
+++    { SCMP_SYS(socketcall), 250 },
+++    { SCMP_SYS(ipc), 245 },
+++#endif
++     { SCMP_SYS(recvfrom), 251 },
++     { SCMP_SYS(sendto), 250 },
++-    { SCMP_SYS(socketcall), 250 },
++     { SCMP_SYS(read), 249 },
++     { SCMP_SYS(io_submit), 249 },
++     { SCMP_SYS(brk), 248 },
++     { SCMP_SYS(clone), 247 },
++-    { SCMP_SYS(mmap), 247 },
++     { SCMP_SYS(mprotect), 246 },
++     { SCMP_SYS(execve), 245 },
++     { SCMP_SYS(open), 245 },
++@@ -48,13 +54,11 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++     { SCMP_SYS(bind), 245 },
++     { SCMP_SYS(listen), 245 },
++     { SCMP_SYS(semget), 245 },
++-    { SCMP_SYS(ipc), 245 },
++     { SCMP_SYS(gettimeofday), 245 },
++     { SCMP_SYS(readlink), 245 },
++     { SCMP_SYS(access), 245 },
++     { SCMP_SYS(prctl), 245 },
++     { SCMP_SYS(signalfd), 245 },
++-    { SCMP_SYS(getrlimit), 245 },
++     { SCMP_SYS(set_tid_address), 245 },
++     { SCMP_SYS(statfs), 245 },
++     { SCMP_SYS(unlink), 245 },
++@@ -93,7 +97,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++     { SCMP_SYS(times), 245 },
++     { SCMP_SYS(exit), 245 },
++     { SCMP_SYS(clock_gettime), 245 },
++-    { SCMP_SYS(time), 245 },
++     { SCMP_SYS(restart_syscall), 245 },
++     { SCMP_SYS(pwrite64), 245 },
++     { SCMP_SYS(nanosleep), 245 },
++@@ -182,7 +185,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
++     { SCMP_SYS(lstat64), 241 },
++     { SCMP_SYS(sendfile64), 241 },
++     { SCMP_SYS(ugetrlimit), 241 },
++-    { SCMP_SYS(alarm), 241 },
++     { SCMP_SYS(rt_sigsuspend), 241 },
++     { SCMP_SYS(rt_sigqueueinfo), 241 },
++     { SCMP_SYS(rt_tgsigqueueinfo), 241 },
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 076e8ad..ab0724a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -20,6 +20,7 @@ SRC_URI = "\
+     file://no-strip.patch \
+     file://larger_default_ram_size.patch \
+     file://disable-grabs.patch \
++    file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+     "
+ 
+ SRC_URI_append_class-native = "\
 -- 
-1.9.1
+1.7.10.4
 
 
