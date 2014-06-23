@@ -1,24 +1,32 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42ADE6A680
+Return-Path: <jatedev@gmail.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id AC61F62252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 15:02:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5NF2O4A006326
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 23 Jun 2014 15:07:05 +0000 (UTC)
+Received: by mail-qc0-f176.google.com with SMTP id w7so6079454qcr.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 08:02:24 -0700 (PDT)
-Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 23 Jun 2014 08:02:23 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Jun 2014 11:01:39 -0400
-Message-ID: <1403535699-41618-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 23 Jun 2014 08:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=wps3x4cfebyhXNU9svhvL6WW0VpB4sPfovdykQTkhLY=;
+	b=XKwVYMczkWh4kkfSRj3+13WgbLM2naZcBRgFDyQv7GIY4WUin+/bFOsRtj6r3jKvN9
+	tEXEMWCLG4wh87qy3T9JEjqekWCCYV7cutClRaFlbMf2t0ZFKa4O2tq30FkN2vhXdkha
+	TP14sgrCc0B/3v+EgqUchIhsGXDHBRokdGUWgWbCU6qvyBtC6ja8PFww3sjsEmosXkJA
+	KkwINMoftj407Z1Sbnf3JYyUAahxaKanv2NXgK4BW35yd3mAx0ogqpIPHVzFC5JZarKB
+	O6GDWnLgvF/9pe1ZHbgFXCV5lppM8EnZCu/SFMYsJRsJ6HVM4xfmxgPL1KbkSG18YBfM
+	vjIQ==
 MIME-Version: 1.0
-Subject: [PATCH] recipes-devtools: fix segfault in lib32-gcc with "." multilib_dir
+X-Received: by 10.224.163.146 with SMTP id a18mr14487029qay.31.1403536026895; 
+	Mon, 23 Jun 2014 08:07:06 -0700 (PDT)
+Received: by 10.140.91.84 with HTTP; Mon, 23 Jun 2014 08:07:06 -0700 (PDT)
+In-Reply-To: <1403533002-1118-1-git-send-email-jatedev@gmail.com>
+References: <1403533002-1118-1-git-send-email-jatedev@gmail.com>
+Date: Mon, 23 Jun 2014 11:07:06 -0400
+Message-ID: <CAPphmgbm851LepCazfd6mjYQZdOgAgqo=6jCxt5xP1-2Vrz-Ag@mail.gmail.com>
+From: Jate S <jatedev@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Install list-records with resolvconf package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,83 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jun 2014 15:02:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Jun 2014 15:07:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When enabling a lib32-gcc in a 64 bit build, without doing any
-other configuration, the mutilib dir is unspecified, which is
-represented internally in gcc as "." and as such uncovers an
-invalid free on a non-malloc'd pointer, triggered by that code
-path which erroneously checks for equality with "." rather than
-inequality.
+I had sent this to the wrong list.
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+---------- Forwarded message ----------
+From: Jate Sujjavanich <jatedev@gmail.com>
+Date: Mon, Jun 23, 2014 at 10:16 AM
+Subject: [PATCH] Install list-records with resolvconf package
+To: openembedded-devel@lists.openembedded.org, sgw@linux.intel.com
+Cc: Jate Sujjavanich <jatedev@gmail.com>
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 185dbba82200..cbf1355fcbf7 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0050-Revert-Use-dbx_reg_number-for-spanning-registers.patch \
-            file://0051-eabispe.patch \
-            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
-+           file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
- 	  "
- SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
- SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
-new file mode 100644
-index 000000000000..6cec9d6e1b27
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
-@@ -0,0 +1,46 @@
-+From 5a0d2321f7d4afebb017d0672a04f570ba942f87 Mon Sep 17 00:00:00 2001
-+From: Paul Gortmaker <paul.gortmaker@windriver.com>
-+Date: Fri, 20 Jun 2014 16:41:08 -0400
-+Subject: [PATCH] gcc: fix segfault from calling free on non-malloc'd area
-+
-+We see the following on a 32bit gcc installed on 64 bit host:
-+
-+  Reading symbols from ./i586-pokymllib32-linux-gcc...done.
-+  (gdb) run
-+  Starting program: x86-pokymllib32-linux/lib32-gcc/4.9.0-r0/image/usr/bin/i586-pokymllib32-linux-gcc
-+
-+  Program received signal SIGSEGV, Segmentation fault.
-+  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
-+  (gdb) bt
-+  #0  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
-+  #1  0x0804b73c in set_multilib_dir () at gcc-4.9.0/gcc/gcc.c:7827
-+  #2  main (argc=1, argv=0xffffd504) at gcc-4.9.0/gcc/gcc.c:6688
-+  (gdb)
-+
-+The problem arises because the check on whether we are using
-+the internal string "." or an allocated one is reversed.
-+We should be calling free() when the string is not equal to
-+the internal "." string.
-+
-+Upstream-Status: Submitted [ https://gcc.gnu.org/ml/gcc-patches/2014-06/msg01778.html ]
-+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-+---
-+ gcc/gcc.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gcc/gcc.c b/gcc/gcc.c
-+index 6870a840e1b7..a580975a7057 100644
-+--- a/gcc/gcc.c
-++++ b/gcc/gcc.c
-+@@ -7822,7 +7822,7 @@ set_multilib_dir (void)
-+     }
-+ 
-+   if (multilib_dir == NULL && multilib_os_dir != NULL
-+-      && strcmp (multilib_os_dir, ".") == 0)
-++      && strcmp (multilib_os_dir, ".") != 0)
-+     {
-+       free (CONST_CAST (char *, multilib_os_dir));
-+       multilib_os_dir = NULL;
-+-- 
-+1.9.1
-+
--- 
-1.9.1
 
+The resolvconf script uses /lib/resolvconf/list-records, but the recipe
+does not install it. This causes an error when /etc/resolvconf/update.d
+runs.
+
+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+---
+ .../resolvconf/resolvconf_1.75.bb                  |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+b/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+index 7310c83..77eac7a 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+@@ -40,8 +40,14 @@ do_install () {
+        install -m 0755 bin/resolvconf ${D}${base_sbindir}/
+        install -m 0644 README ${D}${docdir}/${P}/
+        install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
++
++       # resolvconf requires /lib/resolvconf/list-records
++       install -d ${D}${base_libdir}/${BPN}
++       install -m 0755 ${S}/bin/list-records ${D}${base_libdir}/${BPN}
+ }
+
++FILES_${PN} += "/lib/resolvconf/"
++
+ pkg_postinst_${PN} () {
+        if [ -z "$D" ]; then
+                if command -v systemd-tmpfiles >/dev/null; then
+--
+1.7.9.5
 
