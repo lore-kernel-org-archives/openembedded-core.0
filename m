@@ -1,44 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 535AA6A680
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 940AD65F12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 12:44:38 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id u56so6807087wes.21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 05:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=J8LY55nUdUcXbW98fUNxNAViI16fH0Cgk+6kEH2MNoM=;
-	b=V4jvHOgJ4uD74w4vEDL9NV1xH5Zl63YIVE0DIj9IHtFlQBZkzTUE/jcu6jaDynzli6
-	7dCIScH2xy834CfNPRYRmn6eDHJ6apAKfEbCnS9sHuSVfBEA9+Vwom+lFQRsdM3hfNNE
-	gde8DQQ7E1DVYjXRGwKrFYZ+rrLJGjkpRZOfJYyBfaLu4yhsOaCYxa7zKYJIsrEEJOe+
-	hytlWVmvNpS1iTVNViIPn0H+iNk1fryoVTvNpUIN2n0MbX09LJW9BDcDjhD/Bk3P6YRK
-	nmW4CPmNVa8VV2G+uSG6D5kWCnVcaGo0whfzBnfiAveNLFZu0YO+ZTp49JWCS+G8xN3j
-	pUKA==
-X-Received: by 10.180.37.180 with SMTP id z20mr25720483wij.58.1403527478007;
-	Mon, 23 Jun 2014 05:44:38 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	lo18sm33148760wic.1.2014.06.23.05.44.36 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Jun 2014 05:44:37 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 23 Jun 2014 14:44:37 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20140623124437.GG2437@jama>
-References: <1403177022-19086-1-git-send-email-Martin.Jansa@gmail.com>
-	<3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
-	<CAJTo0LbmBrwHOdYKdeaiKzHxpCdJ5XtxTUO5CnK7yi+Rm3nUyQ@mail.gmail.com>
-	<20140623123922.GF2437@jama>
-MIME-Version: 1.0
-In-Reply-To: <20140623123922.GF2437@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] usbinit, weston-init, run-postinsts, qt-demo-init: Drop allarch
+	Mon, 23 Jun 2014 13:15:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2014 06:15:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,530,1400050800"; d="scan'208";a="532678494"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jun 2014 06:15:06 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jun 2014 16:18:42 +0300
+Message-Id: <3b443764de37f6301f099347ea3eb29892af4492.1403529482.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1403529482.git.cristian.iorga@intel.com>
+References: <cover.1403529482.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1403529482.git.cristian.iorga@intel.com>
+References: <cover.1403529482.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/3] bluez5: upgrade to 5.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,68 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jun 2014 12:44:41 -0000
-X-Groupsio-MsgNum: 54320
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vSsTm1kUtxIHoa7M"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 23 Jun 2014 13:15:10 -0000
 
---vSsTm1kUtxIHoa7M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Mostly bugfix release;
+Improved handling of PS3 controllers;
+Support for the A2DP aptX codec.
 
-On Mon, Jun 23, 2014 at 02:39:22PM +0200, Martin Jansa wrote:
-> On Mon, Jun 23, 2014 at 01:12:25PM +0100, Burton, Ross wrote:
-> > On 19 June 2014 14:54, Paul Eggleton <paul.eggleton@linux.intel.com> wr=
-ote:
-> > >> * update-rc.d.bbclass now adds dependency on TUNE_PKGARCH initscript=
-s, so
-> > >> these cannot be allarch
-> > >
-> > > As I've said before, I really dislike this change. The system should =
-be made
-> > > to handle the situation properly instead of working around the issue.
-> >=20
-> > Isn't this what the abi exclude thingy is for?
->=20
-> Do we want to maintain list of all recipes which inherit update-rc.c in
-> layer.conf?
->=20
-> That's what I did in one of our layers and the list is rather long.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5_5.19.bb | 3 ---
+ meta/recipes-connectivity/bluez5/bluez5_5.20.bb | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.19.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.20.bb
 
-Ah sorry for possible confusion, I had to list *all* of them because we
-have MACHINE_ARCH initscripts.
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.19.bb b/meta/recipes-connectivity/bluez5/bluez5_5.19.bb
+deleted file mode 100644
+index 41d655d..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.19.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require bluez5.inc
+-SRC_URI[md5sum] = "2d839c0bc9f8daaa6ca32e65d7701812"
+-SRC_URI[sha256sum] = "12778f3b66e71eec50eeb2e652de94a2578f33b8c8bd57c981fa00adab524c8a"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.20.bb b/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
+new file mode 100644
+index 0000000..1f4476a
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
+@@ -0,0 +1,3 @@
++require bluez5.inc
++SRC_URI[md5sum] = "177d4551f76e5933cc467c3abc6d3796"
++SRC_URI[sha256sum] = "531fbaa0a9baf7b1f76fb8fd8975c20d3cc61cdc772a39d63df1d6abfc2a7481"
+-- 
+1.9.1
 
-To fix current issues in oe-core we only need to list all recipes which
-inherit allarch *and* update-rc.d (unless we want to exclude it
-everywhere just for consistency).
 
-> abi exclude thingy
-
-is a bit dangerous, I still sometimes see issues when something is
-supposed to be abisafe and in some cases it isn't and I need to manually
-bump PR in the recipe which wasn't rebuilt.
-
-So I'm trying to use SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS only in cases where
-it's really safe or when the dependent recipe takes forever to build (so
-I wan't to build it just once or once per TUNE_PKGARCH). For simple and
-quickly built recipe I really don't mind "building" them multiple times
-if it prevents "rebuilding" them every single time I change MACHINE.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---vSsTm1kUtxIHoa7M
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlOoITUACgkQN1Ujt2V2gBz9sgCgiS2HbrwEp+0bdrfg+93l8w7y
-ZzIAn2YHiXf3zpcyrOai2zo0+VTgsQfw
-=tb3Q
------END PGP SIGNATURE-----
-
---vSsTm1kUtxIHoa7M--
