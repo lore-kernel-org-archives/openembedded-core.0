@@ -1,33 +1,37 @@
-Return-Path: <anders@chargestorm.se>
-Received: from STOEXHUB02.domain01.net (STOEXHUB02.domain01.net
-	[83.145.59.143])
-	by mail.openembedded.org (Postfix) with ESMTP id EA65665FFB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D97B26AD68
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 11:44:52 +0000 (UTC)
-Received: from ad.chargestorm.se (213.114.64.43) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Mon, 23 Jun 2014 13:44:49 +0200
-Date: Mon, 23 Jun 2014 13:44:36 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Kai Kang <kai.kang@windriver.com>
-Message-ID: <20140623114436.GA16414@ad.chargestorm.se>
-Mail-Followup-To: Kai Kang <kai.kang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1403490121.git.kai.kang@windriver.com>
-	<89ff3aaad229d018851347dcda7d8c0e7cea6429.1403490121.git.kai.kang@windriver.com>
+	Mon, 23 Jun 2014 12:12:44 +0000 (UTC)
+Received: by mail-qa0-f50.google.com with SMTP id m5so5586177qaj.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jun 2014 05:12:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=XpRIv4V4jpr7d20rvS2T8+KYKsRKkGcRSTbrPZZN7+Y=;
+	b=gYJJcSe5kNliPf73ppZ+uLEuYnWVILush8UynpPiO4KVxai8vOavYa3IuFIC1gVQ1b
+	MG0HfN1wQkoHO3q9VXTPuEqiFCMDaLbJgLP/inCHSX5MTgq6CV4gOwal1WW2xkUqypFp
+	yH4F6VAD3E+OHa4NZioa+cyrJgx7BXREvT5ilsnYjEQrsDa3Y+O7fI84aCCaEYqQRgyM
+	xj6cFAD6CfY7XpxQPasZV5OYc2mcM6cW3PEc1R3NU79kBO3cy8vXJiw/+7cAWci72u4j
+	8+No14cdHhJmTlrFHvFDQjTvau+esiwTHB1J+VDeEVd3L/pidv6BE024Xd854vlwYkfL
+	McgA==
+X-Gm-Message-State: ALoCoQkciMnoMTCmZhO6DLHBhnKHSwBNhps1U2PLE5YEjtWq5DvktMJI4w5T/GDfTr85YFEDRURx
+X-Received: by 10.140.37.75 with SMTP id q69mr30428120qgq.60.1403525565312;
+	Mon, 23 Jun 2014 05:12:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <89ff3aaad229d018851347dcda7d8c0e7cea6429.1403490121.git.kai.kang@windriver.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-GFI-SMTP-Submission: 1
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] iptables: update init script and bb file
+Received: by 10.140.91.138 with HTTP; Mon, 23 Jun 2014 05:12:25 -0700 (PDT)
+In-Reply-To: <3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
+References: <1403177022-19086-1-git-send-email-Martin.Jansa@gmail.com>
+	<3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Jun 2014 13:12:25 +0100
+Message-ID: <CAJTo0LbmBrwHOdYKdeaiKzHxpCdJ5XtxTUO5CnK7yi+Rm3nUyQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] usbinit, weston-init, run-postinsts, qt-demo-init: Drop allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,41 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jun 2014 11:45:00 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 23 Jun 2014 12:12:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* Kai Kang <kai.kang@windriver.com> [140623 04:34]:
-> Update path of command iptables in init script that we put it in
-> /usr/sbin rather than /sbin. Then update bb file to install init script,
-> configure and rules files.
+On 19 June 2014 14:54, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+>> * update-rc.d.bbclass now adds dependency on TUNE_PKGARCH initscripts, so
+>> these cannot be allarch
+>
+> As I've said before, I really dislike this change. The system should be made
+> to handle the situation properly instead of working around the issue.
 
-These new files aren't that big, but could you anyway package at least
-the rules files into a separate package? Using an RRECOMMENDS would be
-fine, as I can easily add a BAD_RECOMMENDATION for that package.
+Isn't this what the abi exclude thingy is for?
 
-It might be that I don't need/want both of iptables and ip6tables
-installed; or even that I don't want either of those installed by
-default.
-
-Cheers,
-Anders
-
-> +do_install_append() {
-> +	install -d -m 755 ${D}${sysconfdir}/init.d
-> +	install -m 755 ${WORKDIR}/iptables.init ${D}${sysconfdir}/init.d/iptables
-> +	install -m 755 ${WORKDIR}/iptables.init ${D}${sysconfdir}/init.d/ip6tables
-> +	sed -i -e 's;iptables;ip6tables;g' -e 's;IPTABLES;IP6TABLES;g' ${D}${sysconfdir}/init.d/ip6tables
-> +
-> +	install -d -m 755 ${D}${sysconfdir}/sysconfig
-> +	install -m 755 ${WORKDIR}/iptables-config ${D}${sysconfdir}/sysconfig
-> +	install -m 755 ${WORKDIR}/iptables-config ${D}${sysconfdir}/sysconfig/ip6tables-config
-> +	sed -i -e 's;iptables;ip6tables;g' -e 's;IPTABLES;IP6TABLES;g' ${D}${sysconfdir}/sysconfig/ip6tables-config
-> +
-> +	install -m 755 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/sysconfig/iptables
-> +	install -m 755 ${WORKDIR}/ip6tables.rules ${D}${sysconfdir}/sysconfig/ip6tables
-> +}
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+Ross
 
