@@ -1,25 +1,23 @@
 Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 450C46B255
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 000B46B711
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jun 2014 10:55:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2014 03:55:16 -0700
+	Mon, 23 Jun 2014 10:55:41 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Jun 2014 03:55:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,529,1400050800"; d="scan'208";a="532624608"
+X-IronPort-AV: E=Sophos;i="5.01,529,1400050800"; d="scan'208";a="559578951"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jun 2014 03:55:11 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 23 Jun 2014 03:55:09 -0700
 Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id F3BBE6A4087;
-	Mon, 23 Jun 2014 03:54:40 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id DF02F6A4087;
+	Mon, 23 Jun 2014 03:54:38 -0700 (PDT)
 From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jun 2014 15:59:45 +0300
-Message-Id: <1403528385-4446-2-git-send-email-corneliux.stoicescu@intel.com>
+Date: Mon, 23 Jun 2014 15:59:44 +0300
+Message-Id: <1403528385-4446-1-git-send-email-corneliux.stoicescu@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1403528385-4446-1-git-send-email-corneliux.stoicescu@intel.com>
-References: <1403528385-4446-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH 2/2] scripts/test-remote-image: add value check for rootfs fstype, change method name used.
+Subject: [PATCH 1/2] oeqa/targetcontrol.py: Separate the matching of supported image fstypes from the resulting value check.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jun 2014 10:55:16 -0000
+X-List-Received-Date: Mon, 23 Jun 2014 10:55:45 -0000
 
-As per change in the oeqa/targetcontrol.py's BaseTarget class, changing the use of get_image_fstype() to match_image_fstype().
+Because we used a bb.fatal call inside the get_image_fstype classmethod, this caused problems when accessed without instantiating the object with a valid bb environment.
 
-Also because there is no longer a value check done by the target controller's match_image_fstype() method, we have to do one here.
-
-+ one helper comment for the get_controller() method.
+Separating the matching part of the classmethod(that is usable by outside scripts) from the check of the resulting value.
+The matching is done within a new classmethod and the latter keeps the old method name and internal functionality, this way we don't have to change any other target controllers code.
 
 Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- scripts/test-remote-image | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/targetcontrol.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/test-remote-image b/scripts/test-remote-image
-index 6da6672..7d02a84 100755
---- a/scripts/test-remote-image
-+++ b/scripts/test-remote-image
-@@ -136,7 +136,7 @@ class AutoTargetProfile(BaseTargetProfile):
-         self.set_manifest_file()
-         self.set_extra_download_files()
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 1464bf4..cc582dd 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -77,14 +77,21 @@ class BaseTarget(object):
+         return None
  
--
-+    # Get the controller object that will be used by bitbake.
-     def get_controller(self):
-         from oeqa.controllers.testtargetloader import TestTargetLoader
- 
-@@ -158,8 +158,13 @@ class AutoTargetProfile(BaseTargetProfile):
- 
-     def set_rootfs_file(self):
-         image_fstypes = get_bb_var('IMAGE_FSTYPES').split(' ')
--        fstype = self.controller.get_image_fstype(d=None, image_fstypes=image_fstypes)
--        self.rootfs_file = self.image_name + '.' + fstype
-+        # Get a matching value between target's IMAGE_FSTYPES and the image fstypes suppoerted by the target controller.
-+        fstype = self.controller.match_image_fstype(d=None, image_fstypes=image_fstypes)
-+        if fstype:
-+            self.rootfs_file = self.image_name + '.' + fstype
+     @classmethod
+-    def get_image_fstype(self, d, image_fstypes=None):
++    def match_image_fstype(self, d, image_fstypes=None):
+         if not image_fstypes:
+             image_fstypes = d.getVar('IMAGE_FSTYPES', True).split(' ')
+         possible_image_fstypes = [fstype for fstype in self.supported_image_fstypes if fstype in image_fstypes]
+         if possible_image_fstypes:
+             return possible_image_fstypes[0]
+         else:
+-            bb.fatal("no possible image_fstype could not be determined. IMAGE_FSTYPES=\"%s\" and supported_image_fstypes=\"%s\": " % (', '.join(map(str, image_fstypes)), ', '.join(map(str, self.supported_image_fstypes))))
++            return None
++
++    def get_image_fstype(self, d):
++        image_fstype = self.match_image_fstype(d)
++        if image_fstype:
++            return image_fstype
 +        else:
-+            log.error("Could not get a compatible image fstype. Check that IMAGE_FSTYPES and the target controller's supported_image_fstypes fileds have common values.")
-+            sys.exit(1)
++            bb.fatal("IMAGE_FSTYPES should contain a Target Controller supported image fstype: %s " % ', '.join(map(str, self.supported_image_fstypes)))
  
-     def set_manifest_file(self):
-         self.manifest_file = self.image_name + ".manifest"
+     def restart(self, params=None):
+         self.stop()
 -- 
 1.8.3.2
 
