@@ -1,27 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B37356FEBE
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 20DFC66078
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jun 2014 02:01:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5M21xtD016194
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jun 2014 19:01:59 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Sat, 21 Jun 2014 19:01:58 -0700
-Message-ID: <53A63915.4080900@windriver.com>
-Date: Sun, 22 Jun 2014 10:01:57 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Mon, 23 Jun 2014 01:24:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jun 2014 18:25:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,526,1400050800"; d="scan'208";a="561626591"
+Received: from unknown (HELO [10.255.12.166]) ([10.255.12.166])
+	by orsmga002.jf.intel.com with ESMTP; 22 Jun 2014 18:24:58 -0700
+Message-ID: <53A781EA.3050805@linux.intel.com>
+Date: Sun, 22 Jun 2014 18:24:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1401154976.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1401154976.git.liezhi.yang@windriver.com>
-Subject: Re: [dora] [PATCH 0/3] 3 fixes for dora
+To: Jate S <jatedev@gmail.com>, openembedded-core@lists.openembedded.org
+References: <CAPphmgZKCc=XCDgC8fHGaLqYLFOwrpocfRzz7BDZUhRkr5NkYQ@mail.gmail.com>
+In-Reply-To: <CAPphmgZKCc=XCDgC8fHGaLqYLFOwrpocfRzz7BDZUhRkr5NkYQ@mail.gmail.com>
+Subject: Re: resolvconf bugs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jun 2014 02:02:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 23 Jun 2014 01:25:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 06/20/2014 12:29 PM, Jate S wrote:
+> I have been using the resolvconf recipe, and I have discovered a few
+> things which keep it from working.
+>
+> The resolvconf script uses /lib/resolvconf/list-records, but the
+> recipe does not install it. This causes an error when
+> /etc/resolvconf/update.d/libc runs. This can be resolved by adding the
+> list-records script.
+>
+Please submit a patch adding the list-records to the FILES section.
 
-Ping.
+> I am using system V init. The initscripts recipe generates the
+> symbolic link to /etc/resolv.conf, but resolvconf checks this and
+> generates a warning. I have fixed this by adding the correct symbolic
+> link to this package. This overrides the link created by initscripts
+> Is this compatible with resolv.conf generated in a systemd based
+> system?
+>
+You may need to use UPDATE_ALTERNATIVES to get the correct behavior.
 
-// Robert
+Sau!
 
-On 05/27/2014 10:15 AM, Robert Yang wrote:
-> The following changes since commit 4c58fe468790822fe48e0a570779979c831d0f10:
+
 >
->    openssl: fix CVE-2014-0198 (2014-05-21 09:32:38 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib robert/dora-next
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=robert/dora-next
->
-> Chen Qi (1):
->    populate-extfs.sh: keep file timestamps
->
-> Jonathan Liu (1):
->    consolekit: fix console-kit-log-system-start.service startup
->
-> Mark Hatle (1):
->    rpm: Fix rpm -V usage
->
->   .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |   10 ++++++++-
->   .../rpm/rpm/rpm-verify-files.patch                 |   22 ++++++++++++++++++++
->   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
->   .../recipes-support/consolekit/consolekit_0.4.6.bb |    6 ++++++
->   4 files changed, 38 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-verify-files.patch
+> - Jate S.
 >
 
