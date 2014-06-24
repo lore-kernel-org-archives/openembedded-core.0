@@ -1,39 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id F10A261FE4
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C526265E58
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 20:24:12 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id x3so818345qcv.24
+	Tue, 24 Jun 2014 20:25:06 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id s7so1169184lbd.32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 13:24:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=iZdi2VOO4+2kw4E2uBVkbUgWs7EupCmlVqdyKy5ISJQ=;
-	b=XavgFVit4T6xae83uIJ1GSPPjmtNzhkGClq6hxntJ7cSRoOQ0mGBoay+t2toJYBo2p
-	fIgryAtPkGnUAwCbk5sabGO9W4r5yK03gHZX4h+Hv4wj0beqKrkPET53+XQpKlsc4JYP
-	dA3qNg5S7+V0/RuUGz1XDLUBZSKvzOOKjHIEHYUSGV6z8v7kWprG06luLtaN9k/0Mkp4
-	75xz4TJY3CJ+JsNJj6JKM1FmwbyPDDjfl2lGIWQkfpCEhvWXS2dd27OstH0TXgEb5MNY
-	50m011lNC0ddQyBnRI36t+8qI1uMk2oXXZ/4dQyKm18+IyGUguuID/pkizwkwYR2waCD
-	D6Gg==
-X-Gm-Message-State: ALoCoQlgTvxwo2e9pIVb5pgIb+AYrw+oaVmqyNBsaRLSF5FhS6/9RuHm535KRzZv9R3irLxyb8A0
-X-Received: by 10.140.91.226 with SMTP id z89mr5023158qgd.65.1403641453003;
-	Tue, 24 Jun 2014 13:24:13 -0700 (PDT)
+	Tue, 24 Jun 2014 13:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=J4/cwpH5AOAdPyj7yIkpcflC869HxDcOjzLWx7eDVsU=;
+	b=QD0YD1FNlcNQHUwdYgPJqaFUabdssnqzqMvd0GU71SVSgQekg+CCVQahO+ZcGcueqs
+	H9mp23hKM6PYltznwz7eVhdFeIPiD/5OaXHIC/x8X9E82waaDdlIYVatuxqrDjk02Xu0
+	Un7p6Ycr/NzSXGji4nqX4YkBTZ7vRVjysN1ATrgyyG8fvW/FRT1GW8ym4sUrwVe18BOg
+	re7lxl6QoCoyP+VfmAKniWZ3gHEMU5ykUAKeIjkWoAqb+WSeaC4ppaSsjKAhCFR/B64q
+	+CZsdvfpZbZT8Cki2/1PugpUxfyuZaOJL3zh2cGDT8MmUnNMX54E/Z19t8I3p46LvXg/
+	wL2g==
 MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Tue, 24 Jun 2014 13:23:51 -0700 (PDT)
-In-Reply-To: <53A33C63.9040209@gmail.com>
-References: <539B27F0.90109@gmail.com>
-	<CAJTo0Lauenh9=Mep+4ZUVPnjf0yJDdaCxbrNcB5vXEmtjn5-iA@mail.gmail.com>
-	<53A0A2F0.2020701@gmail.com> <53A0A6D1.7010206@linux.intel.com>
-	<53A33C63.9040209@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 24 Jun 2014 21:23:51 +0100
-Message-ID: <CAJTo0Lb_QXvNwGVi+p5feR9kYwSxXfL8k5kcfrHoPU7sdNXvVQ@mail.gmail.com>
-To: =?UTF-8?Q?Miroslav_Ke=C5=A1?= <miroslav.kes@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] cmake: respect ${S} and ${B} patch problem
+X-Received: by 10.152.87.164 with SMTP id az4mr2263024lab.74.1403641506874;
+	Tue, 24 Jun 2014 13:25:06 -0700 (PDT)
+Received: by 10.112.124.137 with HTTP; Tue, 24 Jun 2014 13:25:06 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.11.1406241348150.12872@localhost>
+References: <alpine.LFD.2.11.1406241348150.12872@localhost>
+Date: Tue, 24 Jun 2014 16:25:06 -0400
+Message-ID: <CADkTA4NgU0oLbh0G0zpuDfpZa6iSSQBStQFrCFH7Z=N7OkcLZw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: OE build of qemux86 fails for linux-yocto: undefined reference to `.LASF1122'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,21 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 20:24:13 -0000
+X-List-Received-Date: Tue, 24 Jun 2014 20:25:08 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 19 June 2014 20:39, Miroslav Ke=C5=A1 <miroslav.kes@gmail.com> wrote:
-> I'm doing it first time in my life. Hoping I understood the instructions =
-correctly.
+On Tue, Jun 24, 2014 at 1:50 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+>   doing a test build of core-image-minimal for qemux86 using current
+> git pull of openembedded-core, and got:
+>
+> |   LD      init/built-in.o
+> | drivers/built-in.o:(.debug_info+0x106096a): undefined reference to
+> `.LASF1122'
+> |
+> /home/rpjday/oe/builds/oe/qemux86/tmp-eglibc/work/qemux86-oe-linux/linux-yocto/3.14.5+gitAUTOINC+602be954ac_41d5fe27dc-r0/linux/Makefile:827:
+> recipe for target 'vmlinux' failed
+> | make[2]: *** [vmlinux] Error 1
+> | Makefile:133: recipe for target 'sub-make' failed
+> | make[1]: *** [sub-make] Error 2
+> | Makefile:26: recipe for target 'all' failed
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+>
+>   i'm about to try again to make sure it wasn't a transient glitch,
+> but has anyone else seen this?
 
-The best way to send the patch would be something like:
+builds here, and on the autobuilders.
 
-git send-email --to oe-core HEAD^ --subject-prefix=3DPATCH][V2
+hmm.
 
-(send to oe-core the current commit, marking the subject with PATCH and V2)
+Bruce
 
-However the patch as attached doesn't apply to master for some reason,
-so as it's so small I re-created it and have just submitted it.
-Ross
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
