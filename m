@@ -1,29 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DAD8365F09
+	by mail.openembedded.org (Postfix) with ESMTP id 4DFD665F2A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 01:57:50 +0000 (UTC)
+	Tue, 24 Jun 2014 05:47:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5O1vn8Q011626
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 23 Jun 2014 18:57:50 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Mon, 23 Jun 2014 18:57:49 -0700
-Message-ID: <53A8DB1A.7060106@windriver.com>
-Date: Tue, 24 Jun 2014 09:57:46 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5O5lJCf012643
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jun 2014 22:47:20 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 23 Jun 2014 22:47:18 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jun 2014 13:46:51 +0800
+Message-ID: <cover.1403588766.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1403490121.git.kai.kang@windriver.com>
-	<CAJTo0LbT8HseE1T+tTCTcbr59rwjZ1zU_rDFnaQUNpqL7oDagg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbT8HseE1T+tTCTcbr59rwjZ1zU_rDFnaQUNpqL7oDagg@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] Update iptables runtime recommends and add default init scripts and configs
+Subject: [PATCH 0/1] dbus-test: fix incorrect checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 01:57:58 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Jun 2014 05:47:26 -0000
+Content-Type: text/plain
 
-On 2014年06月23日 18:44, Burton, Ross wrote:
->> Kai Kang (5):
->>    iptables: update RRECOMMENDS
->>    iptables: add init script and configure file
->>    iptables: update init script and bb file
-> Squash these so there's a single commit that adds and integrates a
-> working init script.
+The following changes since commit d7b3683834f9095d7c1144fda18b2a34b85cf339:
 
-Though there is small change for init script, I still want to keep it 
-that make clear which part is our modification.
+  meta-yocto-bsp: oeqa/controllers: add GrubTarget (2014-06-23 17:54:30 +0100)
 
-I prefer to squash
+are available in the git repository at:
 
-iptables: update RRECOMMENDS
-iptables: update init script and bb file
+  git://git.pokylinux.org/poky-contrib chonglu/dbus-test
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/dbus-test
 
-and keep
-iptables: add init script and configure file
+Chong Lu (1):
+  dbus-test: fix incorrect checksum
 
-
-
-
->
->>    iptables: add default rules
->>    iptables: update rules for ip6tables
-> Ditto, squash these into a single commit.
-
-I prefer to keep them too.
-
-Regards,
-Kai
-
->
-> Ross
->
->
-
+ meta/recipes-core/dbus/dbus-test_1.8.2.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 -- 
-Regards,
-Neil | Kai Kang
+1.9.1
 
 
