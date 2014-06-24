@@ -1,31 +1,31 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 41DC865D6E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D6F260424
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 21:35:23 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 006632232CC0;
-	Tue, 24 Jun 2014 23:35:24 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 219DE2232CBF;
-	Tue, 24 Jun 2014 23:35:23 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.2
-Received: from localhost.localdomain (f052237089.adsl.alicedsl.de
-	[78.52.237.89]) by mail.familie-heinold.de (Postfix) with ESMTPSA;
-	Tue, 24 Jun 2014 23:35:23 +0200 (CEST)
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jun 2014 23:34:47 +0200
-Message-Id: <1403645687-19655-4-git-send-email-henning@itconsulting-heinold.de>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1403645687-19655-1-git-send-email-henning@itconsulting-heinold.de>
-References: <1403645687-19655-1-git-send-email-henning@itconsulting-heinold.de>
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH 3/3][for-dora] perf: add slang to the dependencies
+	Tue, 24 Jun 2014 22:53:14 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5OMrA6E000770 for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 23:53:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id a1Jl1v2MHKZc
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 23:53:10 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5OMr5wA000764
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 23:53:06 +0100
+Message-ID: <1403650378.2104.177.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jun 2014 23:52:58 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] gst-openmax: Add missing pkgconfig inherit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 21:35:24 -0000
+X-List-Received-Date: Tue, 24 Jun 2014 22:53:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* TUI/GUI support was added in 2.6.35 based on libnewt
-* since 3.10 slang replaced libnewt completly
-* changing TUI_DEFINES is not necessary, because NO_NEWT is
-  still respected with newer kernels
-* add comment about the gui history to the recipe
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The patch was sponsored by sysmocom
-
-Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
----
- meta/recipes-kernel/perf/perf.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index e43f053..63d356e 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -15,7 +15,10 @@ require perf-features.inc
+diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+index 4e22f46..2e01579 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-openmax/gst-openmax-${PV}.ta
+            file://ptr-array.patch \
+            "
  
- BUILDPERF_libc-uclibc = "no"
+-inherit autotools
++inherit autotools pkgconfig
  
--TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt', '',d)}"
-+# gui support was added with kernel 3.6.35
-+# since 3.10 libnewt was replaced by slang
-+# to cover a wide range of kernel we add both dependencies
-+TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
- SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
- 
- DEPENDS = "virtual/kernel \
--- 
-1.9.1
+ # Tell configure that this isn't a development snapshot so we don't want
+ # -Werror (hopefully fixed in 0.10.2)
+
+
 
