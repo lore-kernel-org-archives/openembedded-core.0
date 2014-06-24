@@ -1,33 +1,35 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 1959 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 24 Jun 2014 18:27:10 UTC
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B31365DB4
+Return-Path: <ashcharles@gmail.com>
+Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CC9B65CD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 18:27:10 +0000 (UTC)
-Received: from [99.240.204.5] (port=40204 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1WzUvN-0008FJ-7K for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jun 2014 13:54:29 -0400
-Date: Tue, 24 Jun 2014 13:50:35 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1406241348150.12872@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: OE build of qemux86 fails for linux-yocto: undefined reference to `.LASF1122'
+	Tue, 24 Jun 2014 20:10:44 +0000 (UTC)
+Received: by mail-pb0-f50.google.com with SMTP id rp16so682242pbb.23
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 13:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=aWFJy+ybdNmjHV+HesWd1hVmWUX8ZblA2G7YfMOETnk=;
+	b=kR8NNV0NIDJnlEDu8QolT4OzRPJexwAVwewSeeaagnM49H8sQwi9e+2FwIjuPeciQL
+	1lV6a87ShJhr7OXv2kK68+YxFnv/4YeI3Oj/hOvtdctYIrDfM8g6zCik3hls5xhTgvow
+	HH5/Xe7/UAllAduyQF43v4WcJA7uGcKVHNulvc/Enju0H35vCfQF/92zbhTFTsYVJKkm
+	FGdaj4/iivA03tLTVmJLo6VEv2AegiiaGFCXnF7sT/2sxm7C+yydn4OR9j/AsA1dRjBG
+	fV9VzsXyIQUH2pyobm8LVHMKLE2gjuL8vOAkwzqhhUZbuiq8otyuPYCCB3AVIjUpGFzc
+	saoQ==
+X-Received: by 10.67.4.163 with SMTP id cf3mr4750984pad.92.1403640646124;
+	Tue, 24 Jun 2014 13:10:46 -0700 (PDT)
+Received: from gumstux.bchsia.telus.net (s206-116-3-18.bc.hsia.telus.net.
+	[206.116.3.18])
+	by mx.google.com with ESMTPSA id bx5sm1723609pbd.69.2014.06.24.13.10.45
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 24 Jun 2014 13:10:45 -0700 (PDT)
+From: Ash Charles <ashcharles@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jun 2014 13:10:18 -0700
+Message-Id: <1403640618-1384-1-git-send-email-ashcharles@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] u-boot: Optionally deploy an environment or script file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,38 +42,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 18:27:11 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 24 Jun 2014 20:10:50 -0000
 
+Some boards are configured to read a script or environment file as part
+of the u-boot boot sequence.  This file, typically called 'uEnv.txt' or
+'boot.scr', would be deployed alongside the u-boot binary.  If a recipe
+uses this u-boot.inc, such a file can be deployed by setting the optional
+UBOOT_ENV parameter and including the file in the SRC_URI.  For example:
 
-  doing a test build of core-image-minimal for qemux86 using current
-git pull of openembedded-core, and got:
+    SRC_URI_append_overo = "file://uEnv.txt"
+    UBOOT_ENV_overo = "uEnv"
 
-|   LD      init/built-in.o
-| drivers/built-in.o:(.debug_info+0x106096a): undefined reference to
-`.LASF1122'
-|
-/home/rpjday/oe/builds/oe/qemux86/tmp-eglibc/work/qemux86-oe-linux/linux-yocto/3.14.5+gitAUTOINC+602be954ac_41d5fe27dc-r0/linux/Makefile:827:
-recipe for target 'vmlinux' failed
-| make[2]: *** [vmlinux] Error 1
-| Makefile:133: recipe for target 'sub-make' failed
-| make[1]: *** [sub-make] Error 2
-| Makefile:26: recipe for target 'all' failed
-| make: *** [all] Error 2
-| ERROR: oe_runmake failed
+Signed-off-by: Ash Charles <ashcharles@gmail.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-  i'm about to try again to make sure it wasn't a transient glitch,
-but has anyone else seen this?
-
-rday
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index d826a40..53c87c2 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -28,6 +28,17 @@ SPL_BINARY ?= ""
+ SPL_IMAGE ?= "${SPL_BINARY}-${MACHINE}-${PV}-${PR}"
+ SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
+ 
++# Additional environment variables or a script can be installed alongside
++# u-boot to be used automatically on boot.  This file, typically 'uEnv.txt'
++# or 'boot.scr', should be packaged along with u-boot as well as placed in the
++# deploy directory.  Machine configurations needing one of these files should
++# include it in the SRC_URI and set the UBOOT_ENV parameter.
++UBOOT_ENV_SUFFIX ?= "txt"
++UBOOT_ENV ?= ""
++UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
++UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
++UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
++
+ do_compile () {
+ 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
+ 		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' config.mk
+@@ -62,6 +73,12 @@ do_install () {
+         install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+         ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
+     fi
++
++    if [ "x${UBOOT_ENV}" != "x" ]
++    then
++        install ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
++        ln -sf ${UBOOT_ENV_IMAGE} ${D}/boot/${UBOOT_ENV_BINARY}
++    fi
+ }
+ 
+ FILES_${PN} = "/boot ${sysconfdir}"
+@@ -82,6 +99,14 @@ do_deploy () {
+         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
+         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
+     fi
++
++    if [ "x${UBOOT_ENV}" != "x" ]
++    then
++        install ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
++        rm -f ${DEPLOYDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
++        ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
++        ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
++    fi
+ }
+ 
+ addtask deploy before do_build after do_compile
 -- 
+1.8.3.2
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
