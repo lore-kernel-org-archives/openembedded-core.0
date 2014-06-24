@@ -1,34 +1,33 @@
-Return-Path: <ka6sox@gmail.com>
-Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
-	[209.85.219.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A5160CEB;
-	Tue, 24 Jun 2014 14:36:58 +0000 (UTC)
-Received: by mail-oa0-f50.google.com with SMTP id n16so423017oag.37
-	for <multiple recipients>; Tue, 24 Jun 2014 07:36:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=FbYE0uCU6yR13dhLIVtkH6/VMOicHs2F+Secz4ttXgA=;
-	b=spdXy07T+djaVkw5D+WcbkHzMQ+GTg3SFP9wAU6oINLwVoP99dp9u2gJxZMcgItVL8
-	lV6DZdeurOOn/2m0jPJReO+HSnOJ8yIEfnDMEdGO7tA8Y4EvnKd5bWI47RK4RYWczj/t
-	HMJ2udsFzH8UG6ohPHs48+5dBPqwuXDOuN5CC1L2W6kjHD7PND8zpgIvmYDFFX/ZNBsC
-	CSqQk5QYkr4nKiBbY8WqPrF/2qEkXSeyKvJ2OlS63bN6D/VbeHsvfqGFXybgJkPuQqMI
-	zHqWgzjGiG4xDbiZtPwkgT4DPzeCI64zLNaGJUhY2clrT7QrNow47qtYvbDDuVmhQqRw
-	NrJw==
+Return-Path: <rpjday@crashcourse.ca>
+X-Greylist: delayed 1959 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 24 Jun 2014 18:27:10 UTC
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B31365DB4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 18:27:10 +0000 (UTC)
+Received: from [99.240.204.5] (port=40204 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1WzUvN-0008FJ-7K for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jun 2014 13:54:29 -0400
+Date: Tue, 24 Jun 2014 13:50:35 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1406241348150.12872@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-X-Received: by 10.60.33.102 with SMTP id q6mr1292237oei.59.1403620619402; Tue,
-	24 Jun 2014 07:36:59 -0700 (PDT)
-Received: by 10.76.128.201 with HTTP; Tue, 24 Jun 2014 07:36:59 -0700 (PDT)
-In-Reply-To: <20140624101443.GO2437@jama>
-References: <20140619113451.GO2117@jama>
-	<20140624101443.GO2437@jama>
-Date: Tue, 24 Jun 2014 07:36:59 -0700
-Message-ID: <CAHQecY6eQfhY4hY_EEUmXd5MEA2_fDb5yfj7YP0i1gg=dKFQ7Q@mail.gmail.com>
-From: Tom King <ka6sox@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Few archives to add on sources.oe.org
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: OE build of qemux86 fails for linux-yocto: undefined reference to `.LASF1122'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,108 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 14:37:01 -0000
-Content-Type: multipart/alternative; boundary=089e01182bf66b439104fc95e432
-
---089e01182bf66b439104fc95e432
-Content-Type: text/plain; charset=UTF-8
-
-done
+X-List-Received-Date: Tue, 24 Jun 2014 18:27:11 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-On Tue, Jun 24, 2014 at 3:14 AM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
+  doing a test build of core-image-minimal for qemux86 using current
+git pull of openembedded-core, and got:
 
-> On Thu, Jun 19, 2014 at 01:34:51PM +0200, Martin Jansa wrote:
-> > Hi Tom,
-> >
-> > can you please add:
-> > IO-Tty-1.10.tar.gz
-> > SQLAlchemy-0.7.9.tar.gz
-> > fetchmail-6.3.26.tar.xz
-> > usb-modeswitch-2.0.1.tar.bz2
-> > usb-modeswitch-data-20130807.tar.bz2
-> >
-> > to sources.oe.org? I can send you tarballs (or fetch them from
-> > /home/jenkins/oe/shr-core-branches/downloads-missing/ on aruba)
-> >
-> > The most annoying is fetchmail which is now fetching HTML page from
-> > berlios (so checksum check fails instead of showing 404) :/. And user
-> > needs to download it manually or use sources.oe.org as PREMIRROR, but
-> > still better than nothing.
->
-> I've found only one more missing in upstream sites and used from dora
-> branch
->
-> daq-2.0.1.tar.gz
->
-> I've verified that
-> http://download.lunar-linux.org/lunar/mirrors/daq-2.0.1.tar.gz
-> provides correct checksum or you can fetch it from aruba as before.
->
-> SRC_URI[md5sum] = "044aa3663d44580d005293eeb8ccf175"
-> SRC_URI[sha256sum] =
-> "ebba87c2ec76ac65d2980934423b0597909caead3a86ce5d1ba1ea6ce518ec6d"
->
-> Thanks
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
+|   LD      init/built-in.o
+| drivers/built-in.o:(.debug_info+0x106096a): undefined reference to
+`.LASF1122'
+|
+/home/rpjday/oe/builds/oe/qemux86/tmp-eglibc/work/qemux86-oe-linux/linux-yocto/3.14.5+gitAUTOINC+602be954ac_41d5fe27dc-r0/linux/Makefile:827:
+recipe for target 'vmlinux' failed
+| make[2]: *** [vmlinux] Error 1
+| Makefile:133: recipe for target 'sub-make' failed
+| make[1]: *** [sub-make] Error 2
+| Makefile:26: recipe for target 'all' failed
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
 
---089e01182bf66b439104fc95e432
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  i'm about to try again to make sure it wasn't a transient glitch,
+but has anyone else seen this?
 
-<div dir=3D"ltr">done</div><div class=3D"gmail_extra"><br><br><div class=3D=
-"gmail_quote">On Tue, Jun 24, 2014 at 3:14 AM, Martin Jansa <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.j=
-ansa@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On T=
-hu, Jun 19, 2014 at 01:34:51PM +0200, Martin Jansa wrote:<br>
-&gt; Hi Tom,<br>
-&gt;<br>
-&gt; can you please add:<br>
-&gt; IO-Tty-1.10.tar.gz<br>
-&gt; SQLAlchemy-0.7.9.tar.gz<br>
-&gt; fetchmail-6.3.26.tar.xz<br>
-&gt; usb-modeswitch-2.0.1.tar.bz2<br>
-&gt; usb-modeswitch-data-20130807.tar.bz2<br>
-&gt;<br>
-&gt; to <a href=3D"http://sources.oe.org" target=3D"_blank">sources.oe.org<=
-/a>? I can send you tarballs (or fetch them from<br>
-&gt; /home/jenkins/oe/shr-core-branches/downloads-missing/ on aruba)<br>
-&gt;<br>
-&gt; The most annoying is fetchmail which is now fetching HTML page from<br=
->
-&gt; berlios (so checksum check fails instead of showing 404) :/. And user<=
-br>
-&gt; needs to download it manually or use <a href=3D"http://sources.oe.org"=
- target=3D"_blank">sources.oe.org</a> as PREMIRROR, but<br>
-&gt; still better than nothing.<br>
-<br>
-</div></div>I&#39;ve found only one more missing in upstream sites and used=
- from dora<br>
-branch<br>
-<br>
-daq-2.0.1.tar.gz<br>
-<br>
-I&#39;ve verified that<br>
-<a href=3D"http://download.lunar-linux.org/lunar/mirrors/daq-2.0.1.tar.gz" =
-target=3D"_blank">http://download.lunar-linux.org/lunar/mirrors/daq-2.0.1.t=
-ar.gz</a><br>
-provides correct checksum or you can fetch it from aruba as before.<br>
-<br>
-SRC_URI[md5sum] =3D &quot;044aa3663d44580d005293eeb8ccf175&quot;<br>
-SRC_URI[sha256sum] =3D &quot;ebba87c2ec76ac65d2980934423b0597909caead3a86ce=
-5d1ba1ea6ce518ec6d&quot;<br>
-<br>
-Thanks<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Martin &#39;JaMa&#39; Jansa =C2=A0 =C2=A0 jabber: <a href=3D"mailto:Martin.=
-Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
-</font></span></blockquote></div><br></div>
+rday
 
---089e01182bf66b439104fc95e432--
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
