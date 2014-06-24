@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4413065DCD
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 600D165D69
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 11:12:52 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id q58so162267wes.2
+	Tue, 24 Jun 2014 12:22:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5OCMAZ2017985
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 04:12:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=XbaAqs1NCso4aAo1PxSdnIZAjOU11puU66cPJyQsnnA=;
-	b=hiY8HHwTysuMpIuSEq9ILLsjJAdfxP15/yeV97ObjMa8lhrgi2rUNm8qym7Qp6rJe8
-	oqyKRnrTgT+7GtP3Hh+6AHC3/KoHpyi4x37TRS3Jrfp/Jv/SLrBMSVMRjt4mqN861YnQ
-	iSrwymum5RkB/Sj0NP+jDSX67RzJXjmZe3oR2+rkN7i+4AGMWAppzhlS0WvYhs1RuxAe
-	dWwVeK1dKcV9dAGpmxMz9B6r9zGtC4dUZ/4QOROOw2JpIWFfMODtRipZxb6Rhn+7BmaN
-	EqBk3TLPgILNlH1IfBT8eO84e+z+ot6hwq4cvNNDLUn7qXy83NVgx18WTrPF+aqmFJGl
-	eXOQ==
-X-Gm-Message-State: ALoCoQkqvvvElKqAJWtr47WR1oUhYI5Y5x2e0+3RzvAVGROvzCnrbkH5YKEdfOTtwZ36aiMhYD7P
-X-Received: by 10.180.75.71 with SMTP id a7mr1453466wiw.27.1403608370028;
-	Tue, 24 Jun 2014 04:12:50 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	a13sm20074214wjs.12.2014.06.24.04.12.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 24 Jun 2014 04:12:49 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jun 2014 12:12:34 +0100
-Message-Id: <1403608354-10812-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][RFC] ptest-gnome: add ptest helper for GNOME packages
+	Tue, 24 Jun 2014 05:22:11 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 24 Jun 2014 05:22:10 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jun 2014 20:22:07 +0800
+Message-ID: <1403612527-22722-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
+MIME-Version: 1.0
+Subject: [PATCH] kernel.bbclass: add task dependency between bundle_initramfs and package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 11:12:56 -0000
+X-List-Received-Date: Tue, 24 Jun 2014 12:22:14 -0000
+Content-Type: text/plain
 
-Many GNOME packages are using their InstalledTests pattern, where the test suite
-can be trivially installed.  To avoid repeating the same logic over and over,
-add a class to encapsulate this.
+To ensure the bundled image to be packaged kernel-image, otherwise, we
+may get a implicit result.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- meta/classes/ptest-gnome.bbclass |    8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 meta/classes/ptest-gnome.bbclass
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/ptest-gnome.bbclass b/meta/classes/ptest-gnome.bbclass
-new file mode 100644
-index 0000000..b2949af
---- /dev/null
-+++ b/meta/classes/ptest-gnome.bbclass
-@@ -0,0 +1,8 @@
-+inherit ptest
-+
-+EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-installed-tests', '--disable-installed-tests', d)}"
-+
-+FILES_${PN}-ptest += "${libexecdir}/installed-tests/ \
-+                      ${datadir}/installed-tests/"
-+
-+RDEPENDS_${PN}-ptest += "gnome-desktop-testing"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6ed1cb7..764a9ec 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -146,7 +146,7 @@ python do_devshell_prepend () {
+     os.environ["LDFLAGS"] = ''
+ }
+ 
+-addtask bundle_initramfs after do_install before do_deploy
++addtask bundle_initramfs after do_install before do_deploy do_package
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 -- 
-1.7.10.4
+1.8.4.1
 
 
