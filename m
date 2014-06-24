@@ -1,41 +1,37 @@
-Return-Path: <meier.dennis@siemens.com>
-X-Greylist: delayed 1207 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 24 Jun 2014 10:21:47 UTC
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id D6F1660167
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4413065DCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 10:21:46 +0000 (UTC)
-Received: from mail2.sbs.de (localhost [127.0.0.1])
-	by lizzard.sbs.de (8.14.3/8.14.3) with ESMTP id s5OA1cYj015311;
-	Tue, 24 Jun 2014 12:01:38 +0200
-Received: from DEFTHW99ERGMSX.ww902.siemens.net
-	(defthw99ergmsx.ww902.siemens.net [139.22.70.132])
-	by mail2.sbs.de (8.14.3/8.14.3) with ESMTP id s5OA1cxd018742
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Jun 2014 12:01:38 +0200
-Received: from DENBGAT9ERNMSX.ww902.siemens.net (139.22.70.144) by
-	DEFTHW99ERGMSX.ww902.siemens.net (139.22.70.132) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Tue, 24 Jun 2014 12:01:37 +0200
-Received: from DEFTHW99EI0MSX.ww902.siemens.net ([169.254.5.157]) by
-	DENBGAT9ERNMSX.ww902.siemens.net ([139.22.70.144]) with mapi id
-	14.03.0181.006; Tue, 24 Jun 2014 12:01:37 +0200
-From: "Meier, Dennis" <meier.dennis@siemens.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH] populate_sdk_base: add auto-completion in setup
-Thread-Index: AQHPii7vSamUFL9cm0+k8h2pM7QJdZt1PgIAgArTibA=
-Date: Tue, 24 Jun 2014 10:01:36 +0000
-Message-ID: <6F22A92316C68C42A591A48A6291DA9DD95C99@DEFTHW99EI0MSX.ww902.siemens.net>
-References: <1403011013-29977-1-git-send-email-meier.dennis@siemens.com>
-	<CAP9ODKo_tNpKNkOpr9mwFGosmuXiKfXQuNnTURaZzptsamSyzA@mail.gmail.com>
-In-Reply-To: <CAP9ODKo_tNpKNkOpr9mwFGosmuXiKfXQuNnTURaZzptsamSyzA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.25]
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] populate_sdk_base: add auto-completion in setup
+	Tue, 24 Jun 2014 11:12:52 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id q58so162267wes.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 04:12:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=XbaAqs1NCso4aAo1PxSdnIZAjOU11puU66cPJyQsnnA=;
+	b=hiY8HHwTysuMpIuSEq9ILLsjJAdfxP15/yeV97ObjMa8lhrgi2rUNm8qym7Qp6rJe8
+	oqyKRnrTgT+7GtP3Hh+6AHC3/KoHpyi4x37TRS3Jrfp/Jv/SLrBMSVMRjt4mqN861YnQ
+	iSrwymum5RkB/Sj0NP+jDSX67RzJXjmZe3oR2+rkN7i+4AGMWAppzhlS0WvYhs1RuxAe
+	dWwVeK1dKcV9dAGpmxMz9B6r9zGtC4dUZ/4QOROOw2JpIWFfMODtRipZxb6Rhn+7BmaN
+	EqBk3TLPgILNlH1IfBT8eO84e+z+ot6hwq4cvNNDLUn7qXy83NVgx18WTrPF+aqmFJGl
+	eXOQ==
+X-Gm-Message-State: ALoCoQkqvvvElKqAJWtr47WR1oUhYI5Y5x2e0+3RzvAVGROvzCnrbkH5YKEdfOTtwZ36aiMhYD7P
+X-Received: by 10.180.75.71 with SMTP id a7mr1453466wiw.27.1403608370028;
+	Tue, 24 Jun 2014 04:12:50 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	a13sm20074214wjs.12.2014.06.24.04.12.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Jun 2014 04:12:49 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jun 2014 12:12:34 +0100
+Message-Id: <1403608354-10812-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][RFC] ptest-gnome: add ptest helper for GNOME packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,25 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jun 2014 10:21:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 24 Jun 2014 11:12:56 -0000
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvdGF2aW8uc2FsdmFkb3JAZ21h
-aWwuY29tIFttYWlsdG86b3RhdmlvLnNhbHZhZG9yQGdtYWlsLmNvbV0gT24NCj4gQmVoYWxmIE9m
-IE90YXZpbyBTYWx2YWRvcg0KPiBTZW50OiBEaWVuc3RhZywgMTcuIEp1bmkgMjAxNCAxNjo0MA0K
-PiBUbzogTWVpZXIsIERlbm5pcw0KPiBDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQg
-dGhlIG9lLWNvcmUgbGF5ZXINCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHBvcHVs
-YXRlX3Nka19iYXNlOiBhZGQgYXV0by1jb21wbGV0aW9uDQo+IGluIHNldHVwDQo+IA0KPiBPbiBU
-dWUsIEp1biAxNywgMjAxNCBhdCAxMDoxNiBBTSwgRGVubmlzIE1laWVyDQo+IDxtZWllci5kZW5u
-aXNAc2llbWVucy5jb20+IHdyb3RlOg0KPiA+IFNpZ25lZC1vZmYtYnk6IERlbm5pcyBNZWllciA8
-bWVpZXIuZGVubmlzQHNpZW1lbnMuY29tPg0KPiANCj4gSSBkbyBsaWtlIHRoZSBpZGVhIGJ1dCBo
-b3cgcG9ydGFibGUgaXMgaXQ/DQo+IA0KPiBGb3IgZXhhbXBsZSBpbiBteSBlbnZpbnJvbm1lbnQg
-aXQgZG9lcyBub3Qgd29yayBhcyBJIHVzZSB6c2guDQoNClllYWggdGhhdCdzIHdoYXQgSSB3YXMg
-YWZyYWlkIG9mLiBXZSBmaWd1cmVkIHRoYXQgdGhlIHNjcmlwdCBtaWdodCBzdGlsbCBiZSBpbnZv
-a2VkIGJ5IGJhc2ggYmVjYXVzZSBpdCBzdGFydHMgd2l0aCAiIyEvYmluL2Jhc2giIGFuZCB0aHVz
-IGl0IG1pZ2h0IHdvcmssIGJ1dCBpZiB5b3UgdGVzdGVkIGl0IGFuZCBpdCBkaWRuJ3Qgd29yayBm
-b3IgeW91IEkgdGhpbmsgaXQgZG9lc24ndCBtYWtlIHNlbnNlIHRvIGFwcGx5IHRoaXMgcGF0Y2gu
-DQoNClJlZ2FyZHMsDQpEZW5uaXMNCg==
+Many GNOME packages are using their InstalledTests pattern, where the test suite
+can be trivially installed.  To avoid repeating the same logic over and over,
+add a class to encapsulate this.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/ptest-gnome.bbclass |    8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 meta/classes/ptest-gnome.bbclass
+
+diff --git a/meta/classes/ptest-gnome.bbclass b/meta/classes/ptest-gnome.bbclass
+new file mode 100644
+index 0000000..b2949af
+--- /dev/null
++++ b/meta/classes/ptest-gnome.bbclass
+@@ -0,0 +1,8 @@
++inherit ptest
++
++EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-installed-tests', '--disable-installed-tests', d)}"
++
++FILES_${PN}-ptest += "${libexecdir}/installed-tests/ \
++                      ${datadir}/installed-tests/"
++
++RDEPENDS_${PN}-ptest += "gnome-desktop-testing"
+-- 
+1.7.10.4
+
 
