@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C34DA65D42
+	by mail.openembedded.org (Postfix) with ESMTP id 3CB9265D42
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 00:13:40 +0000 (UTC)
+	Wed, 25 Jun 2014 00:13:41 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Jun 2014 17:13:24 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 24 Jun 2014 17:13:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,541,1400050800"; d="scan'208";a="560482008"
+X-IronPort-AV: E=Sophos;i="5.01,541,1400050800"; d="scan'208";a="560482025"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.166])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jun 2014 17:13:24 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 24 Jun 2014 17:13:26 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jun 2014 17:13:14 -0700
-Message-Id: <2cdbb3bfb445868c18454297569165d6570d7dc6.1403654908.git.sgw@linux.intel.com>
+Date: Tue, 24 Jun 2014 17:13:20 -0700
+Message-Id: <e33bb2eefbdda30378a55346ff60fb0fb90baff2.1403654908.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1403654908.git.sgw@linux.intel.com>
 References: <cover.1403654908.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1403654908.git.sgw@linux.intel.com>
 References: <cover.1403654908.git.sgw@linux.intel.com>
-Subject: [PATCH 04/10] gnupg: Update to 2.0.23
+Subject: [PATCH 10/10] curl: Convert CURLGNUTL to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 25 Jun 2014 00:13:41 -0000
 
+This will allow for easier configuration of curl for SSL vs gnutls
+
+[YOCTO #6329]
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/gnupg/{gnupg_2.0.22.bb => gnupg_2.0.23.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.0.22.bb => gnupg_2.0.23.bb} (88%)
+ meta/recipes-support/curl/curl_7.37.0.bb | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.22.bb b/meta/recipes-support/gnupg/gnupg_2.0.23.bb
-similarity index 88%
-rename from meta/recipes-support/gnupg/gnupg_2.0.22.bb
-rename to meta/recipes-support/gnupg/gnupg_2.0.23.bb
-index 0b00362..30414f9 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.22.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.23.bb
-@@ -13,8 +13,8 @@ inherit autotools gettext texinfo pkgconfig
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://pkgconfig.patch"
+diff --git a/meta/recipes-support/curl/curl_7.37.0.bb b/meta/recipes-support/curl/curl_7.37.0.bb
+index 1dc4ff3..f6b05a7 100644
+--- a/meta/recipes-support/curl/curl_7.37.0.bb
++++ b/meta/recipes-support/curl/curl_7.37.0.bb
+@@ -23,6 +23,13 @@ SRC_URI[sha256sum] = "24502492de3168b0556d8e1a06f14f7589e57b204917d602a572e14239
  
--SRC_URI[md5sum] = "ee22e7b4fdbfcb50229c2e6db6db291e"
--SRC_URI[sha256sum] = "437d0ab259854359fc48aa8795af80cff4975e559c111c92c03d0bc91408e251"
-+SRC_URI[md5sum] = "1c30b3aa1f99f17b4988e1ab616355d4"
-+SRC_URI[sha256sum] = "cf196b8056eafb4236f000a3e12543e0022a1fec4d6edff1b91b48936c109841"
+ inherit autotools pkgconfig binconfig multilib_header
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
++PACKAGECONFIG ??= "gnutls ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
++PACKAGECONFIG_class-native = "ipv6 ssl"
++PACKAGECONFIG_class-nativesdk = "ipv6"
++PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++PACKAGECONFIG[ssl] =  "--with-ssl, --without-ssl, ,"
++PACKAGECONFIG[gnutls] =  "--with-gnutls=${STAGING_LIBDIR}/../, --without-gnutls, gnutls,"
++
+ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --without-libssh2 \
+                 --with-random=/dev/urandom \
+@@ -31,19 +38,8 @@ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --disable-ldap \
+                 --disable-ldaps \
+                 --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+-                ${CURLGNUTLS} \
+                 "
+ 
+-CURLGNUTLS = " --with-gnutls=${STAGING_LIBDIR}/../ --without-ssl"
+-CURLGNUTLS_class-native = "--without-gnutls --with-ssl"
+-CURLGNUTLS_class-nativesdk = "--without-gnutls --without-ssl"
+-
+-PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
+-PACKAGECONFIG_class-native = "ipv6"
+-PACKAGECONFIG_class-nativesdk = "ipv6"
+-
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-
+ do_configure_prepend() {
+ 	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g ${S}/configure.ac
+ }
 -- 
 1.8.3.1
 
