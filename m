@@ -1,21 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C13B609A0
+Return-Path: <denis@denix.org>
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id C795960424
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 15:37:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2014 08:32:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,546,1400050800"; d="scan'208";a="563281273"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.121.119])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jun 2014 08:31:45 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 25 Jun 2014 16:20:18 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N7Q007JTG1ESD00@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 25 Jun 2014 11:20:03 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id B05432009B; Wed,
+	25 Jun 2014 12:20:02 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jun 2014 16:31:38 +0100
-Message-Id: <1403710298-18467-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] classes/report-error: tweak summary message
+Date: Wed, 25 Jun 2014 12:19:55 -0400
+Message-id: <1403713196-22214-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.0.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [daisy][PATCH 1/2] udev: update init script for conditional probing of platform bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,34 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jun 2014 15:37:28 -0000
+X-List-Received-Date: Wed, 25 Jun 2014 16:20:21 -0000
 
-* We don't want everyone to remove their identifying info, just if they
-  feel the need to
-* Split lines for clarity
-* A couple of grammar/spelling tweaks
+From: Denys Dmytriyenko <denys@ti.com>
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Make probing of "platform" bus conditional based on PROBE_PLATFORM_BUS
+variable from /etc/default/udev-cache on subsequent boots when udev
+cache is used. PROBE_PLATFORM_BUS has to be set to "yes" in order to
+force probing on every boot, otherwise it uses the old default behaviour
+of probing it just the first time.
+
+This is helpful on modern SoCs where most of the low level peripheral
+drivers are registered on the platform bus and need to be probed to load
+the necessary modules and enable the connected buses and subsystems.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+[Backport from OE-Core/master 70a695735e0a7d14448f2f5a9986bfe105210a91]
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/classes/report-error.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/udev/udev/init | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 15adc97..5fe2355 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -59,8 +59,8 @@ python errorreport_handler () {
-             if(len(failures) > 0):
-                 filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
-                 datafile = errorreport_savedata(e, jsondata, filename)
--                bb.note("The errors of this build are stored in: %s. You can send the errors to an upstream server by running: send-error-report %s [server]" % (datafile, datafile))
--                bb.note("The contents of these logs will be posted in public if you use the above script. Please ensure you remove any identifying or propriety information before sending.")
-+                bb.note("The errors for this build are stored in %s\nYou can send the errors to an upstream server by running:\n  send-error-report %s [server]" % (datafile, datafile))
-+                bb.note("The contents of these logs will be posted in public if you use the above command with the default server. If you need to do so, please ensure you remove any identifying or proprietary information before sending.")
- }
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 410a650..f2c84d5 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -102,7 +102,12 @@ case "$1" in
  
- addhandler errorreport_handler
+     udevadm control --env=STARTUP=1
+     if [ "$not_first_boot" != "" ];then
+-            udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
++            if [ "$PROBE_PLATFORM_BUS" != "yes" ]; then
++                PLATFORM_BUS_NOMATCH="--subsystem-nomatch=platform"
++            else
++                PLATFORM_BUS_NOMATCH=""
++            fi
++            udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus --subsystem-nomatch=graphics --subsystem-nomatch=backlight --subsystem-nomatch=video4linux $PLATFORM_BUS_NOMATCH
+             (udevadm settle --timeout=3; udevadm control --env=STARTUP=)&
+     else
+             udevadm trigger --action=add
 -- 
-1.9.3
+2.0.0
 
 
