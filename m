@@ -1,29 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Ming.Liu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ACCEF609BE
+	by mail.openembedded.org (Postfix) with ESMTP id B1840607FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 01:04:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5P14Pjk024878
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Jun 2014 18:04:25 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 24 Jun 2014 18:04:24 -0700
-Message-ID: <53AA2017.1030605@windriver.com>
-Date: Wed, 25 Jun 2014 09:04:23 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Wed, 25 Jun 2014 01:57:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5P1vGGX029400
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 18:57:16 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 24 Jun 2014 18:57:15 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Jun 2014 09:57:12 +0800
+Message-ID: <1403661432-26466-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-To: <sadlife1990@gmail.com>
-References: <CAAHuHfwLfFtraRLwu=Pre4hobHHMVa4QxVwhbAgGuEGSNHWOOA@mail.gmail.com>
-In-Reply-To: <CAAHuHfwLfFtraRLwu=Pre4hobHHMVa4QxVwhbAgGuEGSNHWOOA@mail.gmail.com>
-X-Forwarded-Message-Id: <CAAHuHfwLfFtraRLwu=Pre4hobHHMVa4QxVwhbAgGuEGSNHWOOA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [Yocto-builds] QT4 lib problem image file
+Subject: [PATCH V2] kernel.bbclass: add task dependency between bundle_initramfs and package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jun 2014 01:04:31 -0000
-X-Groupsio-MsgNum: 54380
-Content-Type: multipart/mixed; boundary="------------050605070209060208080307"
+X-List-Received-Date: Wed, 25 Jun 2014 01:57:19 -0000
+Content-Type: text/plain
 
---------------050605070209060208080307
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+To ensure the bundled image to be packaged into kernel-image, otherwise, If
+bundle_initramfs runs after do_package, the bundled kernel and initramfs
+will not be part of the kernel-image package. This can result in boot
+failures and other issues when the kernel-image is deployed.
 
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Life,
-
-I think that this email should to into oe-core mailing list, fwd it.
-
-// Robert
-
--------- Original Message --------
-Subject: 	[Yocto-builds] QT4 lib problem image file
-Date: 	Tue, 24 Jun 2014 15:53:31 +0300
-From: 	Life Life <sadlife1990@gmail.com>
-To: 	<yocto-builds@yoctoproject.org>
-
-
-
-Hello,
-
-I'm newbie, I'm testing beaglebone black. My setup and instruction following
-
-git clone git://github.com/Angstrom-distribution/setup-scripts.git
-<http://github.com/Angstrom-distribution/setup-scripts.git>
-cd setup-scripts
-MACHINE=beaglebone ./oebb.sh config beaglebone
-MACHINE=beaglebone ./oebb.sh update
-MACHINE=beaglebone ./oebb.sh
-after I run this command
-
-MACHINE=beaglebone ./oebb.sh bitbake -u hob and start hob GUI TOOL
-and select beaglebone and QT-embedded package and build image but I cant see my
-rootfs in qt lib. Please help.
-
-
-
---------------050605070209060208080307
-Content-Type: text/plain; charset="UTF-8"; name="Attached Message Part"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="Attached Message Part"
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6ed1cb7..764a9ec 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -146,7 +146,7 @@ python do_devshell_prepend () {
+     os.environ["LDFLAGS"] = ''
+ }
+ 
+-addtask bundle_initramfs after do_install before do_deploy
++addtask bundle_initramfs after do_install before do_deploy do_package
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 -- 
-_______________________________________________
-yocto-builds mailing list
-yocto-builds@yoctoproject.org
-https://lists.yoctoproject.org/listinfo/yocto-builds
+1.8.4.1
 
 
---------------050605070209060208080307--
