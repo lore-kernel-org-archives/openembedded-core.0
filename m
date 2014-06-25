@@ -1,25 +1,34 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 51A6060809
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D96960438
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 22:19:03 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 25 Jun 2014 15:13:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,548,1400050800"; d="scan'208";a="553333801"
-Received: from unknown (HELO [10.255.12.166]) ([10.255.12.166])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2014 15:18:58 -0700
-Message-ID: <53AB4ACF.40009@linux.intel.com>
-Date: Wed, 25 Jun 2014 15:18:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Jate Sujjavanich <jatedev@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1403732804-32097-1-git-send-email-jatedev@gmail.com>
-In-Reply-To: <1403732804-32097-1-git-send-email-jatedev@gmail.com>
-Subject: Re: [PATCH] Change resolv.conf generation for sysvinit
+	Wed, 25 Jun 2014 22:41:33 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5PMfF3V022283; Wed, 25 Jun 2014 23:41:15 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 82w3b0sf6rih; Wed, 25 Jun 2014 23:41:15 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5PMfBWw022279
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 25 Jun 2014 23:41:13 +0100
+Message-ID: <1403736065.2104.287.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Wed, 25 Jun 2014 23:41:05 +0100
+In-Reply-To: <20140625162209.GC1580@denix.org>
+References: <1403218403-3303-1-git-send-email-denis@denix.org>
+	<20140620171338.GX27324@denix.org> <20140625005255.GB1580@denix.org>
+	<2450957.82MqDgnpjo@peggleto-mobl5.ger.corp.intel.com>
+	<20140625162209.GC1580@denix.org>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,141 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jun 2014 22:19:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 25 Jun 2014 22:41:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/25/2014 02:46 PM, Jate Sujjavanich wrote:
-> Move /etc/resolv.conf link generation a volatiles file. Then use
-> update-alternatives to choose the correct one. This is for sysvinit
-> and resolvconf.
+On Wed, 2014-06-25 at 12:22 -0400, Denys Dmytriyenko wrote:
+> On Wed, Jun 25, 2014 at 05:20:23PM +0100, Paul Eggleton wrote:
+> > On Tuesday 24 June 2014 20:52:55 Denys Dmytriyenko wrote:
+> > > Ping? Any comments? Any better suggestions?
+> > 
+> > Looks like Richard has merged this, FWIW.
+> 
+> Yes, I saw it. Already submitted backport for daisy... :)
 
-Please review the commit guide lines on the Openembedded wiki
+I'd like this to see some testing in master for a while before we
+backport it...
 
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Cheers,
 
-Since this touches 2 recipes you can just say
+Richard
 
-resolvconf/initscripts: Change resolv.conf generation for sysvinit
-
-as the summary
-
-> ---
->   .../resolvconf/files/volatiles_resolv-conf         |    1 +
->   .../resolvconf/resolvconf_1.75.bb                  |   15 ++++++++++++++-
->   .../initscripts/initscripts-1.0/volatiles          |    1 -
->   .../initscripts-1.0/volatiles_resolv-conf          |    1 +
->   meta/recipes-core/initscripts/initscripts_1.0.bb   |    9 ++++++++-
->   5 files changed, 24 insertions(+), 3 deletions(-)
->   create mode 100644 meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
->   create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
->
-> diff --git a/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf b/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
-> new file mode 100644
-> index 0000000..e58993d
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
-> @@ -0,0 +1 @@
-> +l root root 0644 /etc/resolv.conf /etc/resolvconf/run/resolv.conf
-> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
-> index 7310c83..e108516 100644
-> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
-> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
-> @@ -11,12 +11,16 @@ AUTHOR = "Thomas Hood"
->   HOMEPAGE = "http://packages.debian.org/resolvconf"
->   RDEPENDS_${PN} = "bash"
->
-> -SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz"
-> +SRC_URI = "\
-> +	${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz \
-> +	file://volatiles_resolv-conf \
-> +"
->
->   SRC_URI[md5sum] = "4b8bc86a3cf070e3fd0e9aff7eaaba56"
->   SRC_URI[sha256sum] = "16167f37a77ef4bc4596dcbefece269b6a10d10fa448594ec55ed3303193086e"
->
->   inherit allarch
-> +inherit update-alternatives
->
->   do_compile () {
->   	:
-> @@ -30,6 +34,10 @@ do_install () {
->   		install -d ${D}${sysconfdir}/tmpfiles.d
->   		echo "d /run/${BPN}/interface - - - -" \
->   		     > ${D}${sysconfdir}/tmpfiles.d/resolvconf.conf
-> +	else
-> +		# Use a volatiles script to install resolv.conf symlink
-> +		install -d install -d ${D}${libdir}/${BPN}
-> +		install -m 0755 ${WORKDIR}/volatiles_resolv-conf ${D}${libdir}/${BPN}/resolv-conf
->   	fi
->   	install -d ${D}${sysconfdir}/${BPN}
->   	ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
-> @@ -42,6 +50,11 @@ do_install () {
->   	install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
->   }
->
-> +ALTERNATIVE_PRIORITY = "100"
-> +ALTERNATIVE_${PN}_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'resolvconf', d)}"
-> +ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/default/volatiles/00_resolv-conf"
-> +ALTERNATIVE_TARGET[resolv-conf] = "${libdir}/${BPN}/resolv-conf"
-> +
->   pkg_postinst_${PN} () {
->   	if [ -z "$D" ]; then
->   		if command -v systemd-tmpfiles >/dev/null; then
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> index 297245d..cd5f1f1 100644
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-> @@ -32,5 +32,4 @@ l root root 1777 /tmp /var/tmp
->   d root root 0755 /var/lock/subsys none
->   f root root 0664 /var/log/wtmp none
->   f root root 0664 /var/run/utmp none
-> -l root root 0644 /etc/resolv.conf /var/run/resolv.conf
->   f root root 0644 /var/run/resolv.conf none
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf b/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
-> new file mode 100644
-> index 0000000..ce7122d
-> --- /dev/null
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
-> @@ -0,0 +1 @@
-> +l root root 0644 /etc/resolv.conf /var/run/resolv.conf
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> index 7273a82..721e258 100644
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
->   SECTION = "base"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> -PR = "r155"
-> +PR = "r156"
->
-Don't need to bump PR anymore
-
->   INHIBIT_DEFAULT_DEPS = "1"
->
-> @@ -29,6 +29,7 @@ SRC_URI = "file://functions \
->              file://populate-volatile.sh \
->              file://read-only-rootfs-hook.sh \
->              file://volatiles \
-> +           file://volatiles_resolv-conf \
->              file://save-rtc.sh \
->              file://GPLv2.patch \
->              file://dmesg.sh \
-> @@ -45,8 +46,14 @@ DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-sys
->
->   PACKAGES =+ "${PN}-functions"
->   RDEPENDS_${PN} = "${PN}-functions"
-> +FILES_${PN} += "${libdir}/${BPN}/"
->   FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
->
-> +ALTERNATIVE_PRIORITY_${PN} = "90"
-> +ALTERNATIVE_${PN} = "resolv-conf"
-> +ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/default/volatiles/00_resolv-conf"
-> +ALTERNATIVE_TARGET[resolv-conf] = "${libdir}/${BPN}/resolv-conf"
-> +
->   ALTERNATIVE_PRIORITY_${PN}-functions = "90"
->   ALTERNATIVE_${PN}-functions = "functions"
->   ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
->
 
