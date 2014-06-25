@@ -1,32 +1,33 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 44CD5601A8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A9E3601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 06:43:46 +0000 (UTC)
+	Wed, 25 Jun 2014 06:46:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5P6hd0I025961
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Jun 2014 23:43:42 -0700 (PDT)
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5P6kGBn022970
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jun 2014 23:46:16 -0700 (PDT)
 Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Tue, 24 Jun 2014 23:43:41 -0700
-Message-ID: <53AA6F9A.10301@windriver.com>
-Date: Wed, 25 Jun 2014 14:43:38 +0800
+	Tue, 24 Jun 2014 23:46:16 -0700
+Message-ID: <53AA7035.4060003@windriver.com>
+Date: Wed, 25 Jun 2014 14:46:13 +0800
 From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, OE-core
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1403490121.git.kai.kang@windriver.com>
-	<c33af6b8216db6c04c5a4114d818182a5438ed0e.1403490121.git.kai.kang@windriver.com>
-	<CAJTo0Lb-bcLx4T1HHOEzsY3uXmNW8NzdKO9sBQtnottgEfyzXw@mail.gmail.com>
-	<53A8D695.8060500@windriver.com>
-	<20140624060602.GB22071@ad.chargestorm.se>
-In-Reply-To: <20140624060602.GB22071@ad.chargestorm.se>
+	<89ff3aaad229d018851347dcda7d8c0e7cea6429.1403490121.git.kai.kang@windriver.com>
+	<20140623114436.GA16414@ad.chargestorm.se>
+	<53A8D92F.3010304@windriver.com>
+	<20140624060130.GA22071@ad.chargestorm.se>
+In-Reply-To: <20140624060130.GA22071@ad.chargestorm.se>
 X-Originating-IP: [128.224.162.231]
-Subject: Re: [PATCH 3/5] iptables: add default rules
+Subject: Re: [PATCH 5/5] iptables: update init script and bb file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jun 2014 06:43:49 -0000
+X-List-Received-Date: Wed, 25 Jun 2014 06:46:18 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2014年06月24日 14:06, Anders Darander wrote:
-> * Kang Kai <Kai.Kang@windriver.com> [140624 03:40]:
+On 2014年06月24日 14:01, Anders Darander wrote:
+> * Kang Kai <Kai.Kang@windriver.com> [140624 03:49]:
 >
->> On 2014年06月23日 18:42, Burton, Ross wrote:
->>> On 23 June 2014 03:32, Kai Kang <kai.kang@windriver.com> wrote:
->>> Also, is it sensible to ship a static firewall configuration?  The one
->>> thing we're not is one-size-fits-all.
->> I just want users could start iptables without any professional work.
->> And these static firewall rules are common for desktop/server.
->> Or does the empty rule is better?
-> If these rules are common for a desktop/server, do they make sense here?
-> Or should a simplified rule set be your example configuration in that
-> case?
+>> On 2014年06月23日 19:44, Anders Darander wrote:
+>>> * Kai Kang <kai.kang@windriver.com> [140623 04:34]:
+>>>> Update path of command iptables in init script that we put it in
+>>>> /usr/sbin rather than /sbin. Then update bb file to install init script,
+>>>> configure and rules files.
+>>> These new files aren't that big, but could you anyway package at least
+>>> the rules files into a separate package? Using an RRECOMMENDS would be
+>>> fine, as I can easily add a BAD_RECOMMENDATION for that package.
+>> Of course.
+>> And as I replied in last main, do you think that an empty rule is
+>> better? A little concern is for iptables newbies.
+> Well, I'd be at lest a little bit happier to have the ipv6 rules file
+> obey the ipv6 distro feature, see below.
+>
+> Besides, most users of OE-Core won't have any benefit of a pre-generated
+> iptable rules file. Remember, we're building embedded devices that have
+> everything but a standard setup.
+>
+> If you want a static firewall configuration supplied by oe-core, can't
+> we package it in a separate package anyway?
 
-I am thinking put a configure file there without any special rule that 
-allows every input and output.
-Users could update it with their rules.
+OK.
+
+>
+>>> It might be that I don't need/want both of iptables and ip6tables
+>>> installed; or even that I don't want either of those installed by
+>>> default.
+>> iptables and ip6tables are not split into separated packages, so I put
+>> them together. And package iptbales is not installed by default indeed.
+> No, but at least we're not building IPv6 support into the package if
+> ipv6 is not set in DISTRO_FEATURES. At the very least, the ip6tables
+> rule file should obey that DISTRO_FEATUR also.
+
+I'll update to check DISTRO_FEATURES for ipv6 supports.
 
 Regards,
 Kai
-
 
 
 >
