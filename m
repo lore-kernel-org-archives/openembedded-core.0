@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C9CD60E07
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AA8C065D69
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 25 Jun 2014 00:28:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5P0SCia020347
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5P0SBAF024225
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jun 2014 17:28:12 -0700 (PDT)
+	Tue, 24 Jun 2014 17:28:11 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
 	14.3.169.1; Tue, 24 Jun 2014 17:28:11 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Jun 2014 19:28:06 -0500
-Message-ID: <68a4601291e067276353fb08065392931c938b70.1403655933.git.mark.hatle@windriver.com>
+Date: Tue, 24 Jun 2014 19:28:05 -0500
+Message-ID: <ec28cde60c7b58e26924a6adcd632798e1a670fd.1403655933.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1403655933.git.mark.hatle@windriver.com>
 References: <cover.1403655933.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] gcc-cross-canadian: Add configure-target-libgcc
+Subject: [PATCH 2/4] populate_sdk: Fix TOOLCHAIN_TARGET_TASK_ATTEMPTONLY implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jun 2014 00:28:13 -0000
+X-List-Received-Date: Wed, 25 Jun 2014 00:28:14 -0000
 Content-Type: text/plain
 
-While we're not going to package the libgcc component as part of the SDK,
-we do need to generate it to get the unwind, and quadmath headers.  Without
-this change it is not possible to build eglibc or other components that
-require these headers with the SDK toolchain.
+The variable was only partially implemented, and the part that was there
+was named incorrectly to, missing the 'TASK' piece.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ meta/classes/populate_sdk_base.bbclass | 1 +
+ meta/lib/oe/manifest.py                | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 307f73c..63adae8 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -58,7 +58,7 @@ do_configure () {
- }
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 35d837d..d3d8422 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -55,6 +55,7 @@ fakeroot python do_populate_sdk() {
  
- do_compile () {
--	oe_runmake all-host
-+	oe_runmake all-host configure-target-libgcc
- }
+     pn = d.getVar('PN', True)
+     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
++    runtime_mapping_rename("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY", pn, d)
  
- INHIBIT_PACKAGE_STRIP = "1"
-@@ -97,6 +97,7 @@ EXEEXT = ""
- BINRELPATH = "${@os.path.relpath(d.expand("${bindir}"), d.expand("${libexecdir}/gcc/${TARGET_SYS}/${BINV}"))}"
- 
- do_install () {
-+	( cd ${B}/${TARGET_SYS}/libgcc; oe_runmake 'DESTDIR=${D}' install-unwind_h )
- 	oe_runmake 'DESTDIR=${D}' install-host
- 
- 	# Cleanup some of the ${libdir}{,exec}/gcc stuff ...
-@@ -137,6 +138,11 @@ do_install () {
- 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t$suffix $dest$t$suffix
- 	done
- 
-+	# libquadmath headers need to  be available in the gcc libexec dir
-+	install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
-+	cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
-+	cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
-+
- 	chown -R root:root ${D}
- 	
- 	cross_canadian_bindirlinks
-@@ -150,8 +156,9 @@ SYSTEMHEADERS = "/usr/include"
- SYSTEMLIBS = "${target_base_libdir}/"
- SYSTEMLIBS1 = "${target_libdir}/"
- 
--EXTRA_OECONF += "--disable-libunwind-exceptions --disable-libssp \
--		--disable-libgomp --disable-libmudflap \
-+EXTRA_OECONF += " --enable-poison-system-directories"
-+
-+EXTRA_OECONF += "--disable-libunwind-exceptions \
- 		--with-mpfr=${STAGING_DIR_HOST}${layout_exec_prefix} \
- 		--with-mpc=${STAGING_DIR_HOST}${layout_exec_prefix}"
+     # create target/host SDK manifests
+     create_manifest(d, manifest_dir=d.getVar('SDK_DIR', True),
+diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
+index afda76b..42832f1 100644
+--- a/meta/lib/oe/manifest.py
++++ b/meta/lib/oe/manifest.py
+@@ -31,7 +31,7 @@ class Manifest(object):
+         },
+         MANIFEST_TYPE_SDK_TARGET: {
+             "TOOLCHAIN_TARGET_TASK": PKG_TYPE_MUST_INSTALL,
+-            "TOOLCHAIN_TARGET_ATTEMPTONLY": PKG_TYPE_ATTEMPT_ONLY
++            "TOOLCHAIN_TARGET_TASK_ATTEMPTONLY": PKG_TYPE_ATTEMPT_ONLY
+         }
+     }
  
 -- 
 1.9.3
