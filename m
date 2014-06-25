@@ -1,26 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7054C65E83
+Return-Path: <pandey_himanshu80@rediffmail.com>
+Received: from rediffmail.com (unknown [202.137.235.213])
+	by mail.openembedded.org (Postfix) with SMTP id 78C62601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 09:16:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5P9GL7k027387
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jun 2014 02:16:21 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Wed, 25 Jun 2014 02:16:21 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jun 2014 02:16:20 -0700
-Message-ID: <91c4c2c00702bcf6807ae079e58b6d77aec80443.1403687736.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1403687736.git.liezhi.yang@windriver.com>
-References: <cover.1403687736.git.liezhi.yang@windriver.com>
+	Wed, 25 Jun 2014 09:24:08 +0000 (UTC)
+Received: (qmail 2719 invoked by uid 510); 25 Jun 2014 09:23:55 -0000
+Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
+	b=d9SJTZSjVoscDY3JG2+uPhVogqCnoCq9D5QTxsX3eahOGi+OJrGQ3cb1ehCjRnN4ZsBZZr1UpII8yA073W6Pa31PokXqv+bPmpLTrYhD4Ui8IhJTlRVjLZdVB3yuTz0lTHfEhoBWtqNlCM9gwuYhh5aPvG2XsmaiKBtatK5syjg=
+	; 
+x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
+X-CTCH-Spam: Unknown
+X-CTCH-VOD: Unknown
+X-CTCH-Flags: : 0
+X-CTCH-RefID: str=0001.0A160204.53AA952B.0170, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+X-REDF-OSEN: pandey_himanshu80@rediffmail.com
+Date: 25 Jun 2014 09:23:55 -0000
 MIME-Version: 1.0
-Subject: [PATCH 1/1] createrepo: RDEPENDS on libxml2-python
+To: "Robert Yang " <liezhi.yang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
+	25 Jun 2014 09:23:55 -0000
+Message-ID: <1403356395.S.2910.26443.H.TlJvYmVydCBZYW5nAFJlOiBbYml0YmFrZS1kZXZlbF0gSGk_.RU.rfs303,
+	rfs303, 637,
+	244.f4-235-248.old.replied.1403688235.2532@webmail.rediffmail.com>
+Sender: pandey_himanshu80@rediffmail.com
+From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
+Subject: Re: [bitbake-devel] Hi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +40,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jun 2014 09:16:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Jun 2014 09:24:14 -0000
+Content-Type: multipart/alternative;
+	boundary="=_56870cf8ea187a0d571c7c5e40f1dfd5"
 
-Fixed the error when run createrepo on target:
-  Traceback (most recent call last):
-    File "/usr/share/createrepo/genpkgmetadata.py", line 27, in <module>
-      import libxml2
-    File "/usr/lib64/python2.7/site-packages/libxml2.py", line 1, in <module>
-  ImportError: No module named libxml2mod
+--=_56870cf8ea187a0d571c7c5e40f1dfd5
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../createrepo/createrepo_0.4.11.bb                |    1 +
- 1 file changed, 1 insertion(+)
+Hi,
 
-diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-index 159a6c4..49b45fc 100644
---- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-+++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-@@ -5,6 +5,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
- 
- DEPENDS_class-native += "libxml2-native rpm-native"
-+RDEPENDS_${PN}_class-target = "libxml2-python"
- 
- PR = "r9"
- 
--- 
-1.7.9.5
+Script in this section is appending just after the COMPRESS_CMD_bz2 command
+and the full script is executing as a single command.
+
+I want to run my script separately just after rootfs.tar.bz2 is created.
+Please help.
+
+Thanks in advance
+
+From: Robert Yang &lt;liezhi.yang@windriver.com&gt;
+Sent: Sat, 21 Jun 2014 18:43:15 
+To: Himanshu Pandey &lt;pandey_himanshu80@rediffmail.com&gt;, Patches and discussions about the oe-core layer &lt;openembedded-core@lists.openembedded.org&gt;
+Subject: Re: [bitbake-devel] Hi
 
 
+Hello,
+
+
+
+I think that this email should go into oe-core mailing list (see
+
+the CC). You can refer to:
+
+
+
+oe-core/meta/classes/image_types.bbclass:
+
+
+
+IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C 
+
+${IMAGE_ROOTFS} ."
+
+COMPRESS_CMD_bz2 = "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
+
+
+
+I think that you can add something like the following to your recipe:
+
+
+
+COMPRESS_CMD_bz2_append () {
+
+&nbsp;&nbsp;&nbsp;&lt;your shell script&gt;
+
+}
+
+
+
+Then the script would run after the .tar.bz2 is created.
+
+
+
+// Robert
+
+
+
+On 06/21/2014 08:26 PM, Himanshu Pandey wrote:
+
+&gt; Hi,
+
+&gt;
+
+&gt; I have a requirement that once the .tar.bz2 is created I want my shell script to
+
+&gt; be executed finally.
+
+&gt;
+
+&gt; So where do I have to add this?
+
+&gt;
+
+&gt; So what I have to do in order to achieve this.
+
+&gt;
+
+&gt; Regards,
+
+&gt; Himanshu Pandey
+
+&gt;
+
+&gt; &lt;http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.rediffmail.com/signatureline.htm@Middle?&gt;
+
+&gt; Get your own *FREE* website, *FREE* domain &amp; *FREE* mobile app with Company email.
+
+&gt; &nbsp;&nbsp;&nbsp;*Know More &gt;*
+
+&gt; &lt;http://track.rediff.com/click?url=___http://businessemail.rediff.com/email-ids-for-companies-with-less-than-50-employees?sc_cid=sign-1-10-13___&amp;cmp=host&amp;lnk=sign-1-10-13&amp;nsrv1=host&gt;
+
+&gt;
+
+&gt;
+
+&gt;
+
+
+--=_56870cf8ea187a0d571c7c5e40f1dfd5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="UTF-8"
+
+Hi,<br><br>Script in this section is appending just after the COMPRESS_CMD_=
+bz2 command<br>and the full script is executing as a single command.<br><br=
+>I want to run my script separately just after rootfs.tar.bz2 is created.<b=
+r>Please help.<br><br>Thanks in advance<br><br>From: Robert Yang &lt;liezhi=
+.yang@windriver.com&gt;<br>Sent: Sat, 21 Jun 2014 18:43:15 <br>To: Himanshu=
+ Pandey &lt;pandey_himanshu80@rediffmail.com&gt;, Patches and discussions a=
+bout the oe-core layer &lt;openembedded-core@lists.openembedded.org&gt;<br>=
+Subject: Re: [bitbake-devel] Hi<br><br>
+Hello,<br>
+<br>
+I think that this email should go into oe-core mailing list (see<br>
+the CC). You can refer to:<br>
+<br>
+oe-core/meta/classes/image_types.bbclass:<br>
+<br>
+IMAGE_CMD_tar =3D "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C=
+ <br>
+${IMAGE_ROOTFS} ."<br>
+COMPRESS_CMD_bz2 =3D "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"<br>
+<br>
+I think that you can add something like the following to your recipe:<br>
+<br>
+COMPRESS_CMD_bz2_append () {<br>
+&nbsp;&nbsp;&nbsp;&lt;your shell script&gt;<br>
+}<br>
+<br>
+Then the script would run after the .tar.bz2 is created.<br>
+<br>
+// Robert<br>
+<br>
+On 06/21/2014 08:26 PM, Himanshu Pandey wrote:<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; I have a requirement that once the .tar.bz2 is created I want my shell=
+ script to<br>
+&gt; be executed finally.<br>
+&gt;<br>
+&gt; So where do I have to add this?<br>
+&gt;<br>
+&gt; So what I have to do in order to achieve this.<br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; Himanshu Pandey<br>
+&gt;<br>
+&gt; &lt;http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.rediffmail=
+.com/signatureline.htm@Middle?&gt;<br>
+&gt; Get your own *FREE* website, *FREE* domain &amp; *FREE* mobile app wit=
+h Company email.<br>
+&gt; &nbsp;&nbsp;&nbsp;*Know More &gt;*<br>
+&gt; &lt;http://track.rediff.com/click?url=3D___http://businessemail.rediff=
+.com/email-ids-for-companies-with-less-than-50-employees?sc_cid=3Dsign-1-10=
+-13___&amp;cmp=3Dhost&amp;lnk=3Dsign-1-10-13&amp;nsrv1=3Dhost&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+<br><A HREF=3D"http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.redi=
+ffmail.com/signatureline.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://=
+sigads.rediff.com/RealMedia/ads/adstream_nx.ads/www.rediffmail.com/signatur=
+eline.htm@Middle"></A><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr=
+><td><div style=3D"font-family: Arial, Helvetica, sans-serif; font-size:14p=
+x">Get your own <span style=3D"padding-bottom: 0px; background-color: #cc00=
+00; padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, s=
+ans-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></=
+span> website,  <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> domain &amp; <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> mobile app with Company email. &nbsp;</div></td><td><a href=3D"http://tr=
+ack.rediff.com/click?url=3D___http://businessemail.rediff.com/email-ids-for=
+-companies-with-less-than-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&=
+lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=3D"font-family: Arial, Helvetica, sa=
+ns-serif; color: #fff; font-size: 14px; color:#0000cc" target=3D"_blank"><b=
+>Know More ></b></a><!-- <in-put type=3D"button" cl-ass=3D"button" on-click=
+=3D"parent.location=3D&#39;http://track.rediff.com/click?url=3D___http://bu=
+sinessemail.rediff.com/company-email-hosting-services?sc_cid=3Dsignature-23=
+-9-13___&amp;cmp=3Dsignature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhos=
+t&#39;" value=3D"Know more &gt;"> </input> --></td></tr></tbody></table>
+
+--=_56870cf8ea187a0d571c7c5e40f1dfd5--
