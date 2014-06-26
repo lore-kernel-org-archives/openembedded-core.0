@@ -1,35 +1,26 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DBC8561F16
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id E8CB6601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 12:27:37 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id c9so2982842qcz.37
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 05:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=eA1a4P310t70k3XEnPMcdMfzs5vAreu/XlEuiKPBJyE=;
-	b=U8xqCSRgZ0DjR5xjiEsgA1w4l0pgDkaS3NTS6+juQne2DYdZ0/Mps5297QOLu47CR5
-	gqt5dlADbY6ljSM1u/olgWLIw+z80B4dcqlVR6+adkDfyhRVQk4S3k6pIdl1DVkJMQko
-	95T8cFGk3UzC7GSD3Frb9v15cZj+12zvPVKR8pJl+9SgmL6hW64oNtorvIW0PZ83Ruod
-	rk3r7ge6eOBjjlLSpjFu7I5Trwtf6jXs+P7ydtsUQld3buNbdJ9omBxQqUI3lVq5k7Fv
-	L9oCk/p3+Y5utX6B9cjl7+ei/gVbHg+zRw/OrAC9asqCkpydvOpuQE6tsMHEOwT984S/
-	9+aw==
-X-Received: by 10.224.98.145 with SMTP id q17mr21734236qan.97.1403785658073;
-	Thu, 26 Jun 2014 05:27:38 -0700 (PDT)
-Received: from oliver.localdomain (cpe-098-121-186-226.ec.res.rr.com.
-	[98.121.186.226])
-	by mx.google.com with ESMTPSA id n12sm4152596qga.9.2014.06.26.05.27.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Jun 2014 05:27:37 -0700 (PDT)
-From: Tom Rini <tom.rini@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jun 2014 08:27:32 -0400
-Message-Id: <1403785652-17065-1-git-send-email-tom.rini@gmail.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] image.bbclass: Ensure IMAGE_FSTYPES is fully evaluated before live/live logic
+	Thu, 26 Jun 2014 13:34:13 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 26 Jun 2014 15:34:07 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id A38FC28BA92;
+	Thu, 26 Jun 2014 15:34:07 +0200 (CEST)
+Date: Thu, 26 Jun 2014 15:34:07 +0200
+From: "Maxin B. John" <maxin.john@enea.com>
+To: Tom Rini <trini@ti.com>
+Message-ID: <20140626133407.GA20735@sestofb10.enea.se>
+References: <1403687639-13030-1-git-send-email-maxin.john@enea.com>
+	<20140626122700.GM9006@bill-the-cat>
+MIME-Version: 1.0
+In-Reply-To: <20140626122700.GM9006@bill-the-cat>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot-fw-utils: install config file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jun 2014 12:27:38 -0000
+X-List-Received-Date: Thu, 26 Jun 2014 13:34:16 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Incase we have overrides applied to IMAGE_FSTYPES we need to make sure
-that we evaluate it fully before performing the live and vmdk logic
-checks.
+Hi Tom,
 
-Signed-off-by: Tom Rini <tom.rini@gmail.com>
----
- meta/classes/image.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+On Thu, Jun 26, 2014 at 08:27:00AM -0400, Tom Rini wrote:
+> On Wed, Jun 25, 2014 at 11:13:59AM +0200, Maxin B. John wrote:
+> > From: "Maxin B. John" <maxin.john@enea.com>
+> > 
+<snip>
+> > +  install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
+> >  }
+> >  
+> >  PACKAGE_ARCH = "${MACHINE_ARCH}"
+> 
+> We should really provide some way for the BSP to provide a functional
+> fw_env.config file as the one in the sources is mainly an example and
+> unlikely to work on most systems.
+I do agree that it is just an example file. However, without the configuration 
+file, fw_printenv will fail with this warning:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 79de5a2..ccfa1b1 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -78,10 +78,11 @@ do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
- 
- do_build[depends] += "virtual/kernel:do_deploy"
- 
-+EVALED_IMAGE_FSTYPES := "${IMAGE_FSTYPES}"
- def build_live(d):
--    if base_contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
--        d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", "1", d))
--        d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
-+    if base_contains("EVALED_IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
-+        d.setVar('NOISO', base_contains('EVALED_IMAGE_FSTYPES', "iso", "0", "1", d))
-+        d.setVar('NOHDD', base_contains('EVALED_IMAGE_FSTYPES', "hddimg", "0", "1", d))
-         if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
-             return "image-live"
-         return ""
-@@ -90,7 +91,7 @@ def build_live(d):
- IMAGE_TYPE_live = "${@build_live(d)}"
- 
- inherit ${IMAGE_TYPE_live}
--IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "image-vmdk", "", d)}'
-+IMAGE_TYPE_vmdk = '${@base_contains("EVALED_IMAGE_FSTYPES", "vmdk", "image-vmdk", "", d)}'
- inherit ${IMAGE_TYPE_vmdk}
- 
- python () {
--- 
-1.9.3
+#fw_printenv 
+Cannot parse config file: No such file or directory
 
+IMHO, those who want to use a "real" config file, should use a proper ".bbappend"
+eg:
+
+do_install_append() {
+
+case "${MACHINE}" in "mymachine" )
+        echo ' myargs '> ${D}${sysconfdir}/fw_env.config;;
+*);;
+
+esac
+}
+
+Is this an acceptable way or should we modify it ?
+> -- 
+> Tom
+
+Best Regards,
+Maxin
 
