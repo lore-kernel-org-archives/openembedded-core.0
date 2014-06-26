@@ -1,37 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B491C60169
+Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B46465DF9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 14:17:12 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id t60so3775002wes.28
+	Thu, 26 Jun 2014 14:21:10 +0000 (UTC)
+Received: by mail-qa0-f50.google.com with SMTP id m5so2894564qaj.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 07:17:12 -0700 (PDT)
+	Thu, 26 Jun 2014 07:21:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=F3OXn6Py/j2O+LuJkrrudhrXlIkDvE8jJ+49cxDG27A=;
-	b=XUMEYMbuy3lF8Pqbj0ikeVitvi8rAdi6mJlTML05/1yIr1CCE0D20OamqBuEaVW3im
-	4htFNKV9+IN9H65Bb9nCeTDLyZQxwGMs5OL7vsSPIrDOeYs/MKkbJCxXLbSqBLq0edP+
-	TX3jDgprUrSjwUFLLTeaN3iA04cTnbiatLk7pelfO9tb3hQj+LHLx8ukk58jLNtVIYDe
-	hPEf8rWZCVyJxQCzQOWKoke3cXp6kgOIc3ehWi4aFF7y7R2dqo21BRHcegK1J/AewgVk
-	U6kjv7AagwixxknBpb4Zb60VQO4tt6YFlI+rySmrfL/kgSLvLOVcMI0j7BfOln8mexe9
-	gbBg==
-X-Gm-Message-State: ALoCoQk2mxyLv45Hu2i50il5Z/3ZLCOWJY6V7X6W8PN70HdUQEz5EWRNl2Hy4ukIh4BxrGNJRR1i
-X-Received: by 10.180.100.200 with SMTP id fa8mr61585wib.23.1403792231181;
-	Thu, 26 Jun 2014 07:17:11 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	ez8sm24982213wib.12.2014.06.26.07.17.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Jun 2014 07:17:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jun 2014 15:16:55 +0100
-Message-Id: <1403792215-4306-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] patch.bbclass: unset TMPDIR after use
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=60pJzLADBYVIpPC11BHN/dhHoUS8OypkydMCnZCwpKw=;
+	b=a01VsIQQ+zT5cEq9i+cS+G5u42MXL8KadkS5c1PbfRaK6YZuwqiFRUAWli9qp2PA2l
+	jhAENO/nqadt/0ytkebt6o8owACLgtfkDGk5t3ZyH0xBjOAsNiTIThGToMeoNp83twsK
+	JZNSnBevW0TpXi5fJ8Q1N1s4yidV7o3TjcVFiz1JzHN8vwns2Q9YicK6cPKH8G/kZz2v
+	JsGQRT4kEUkfV79xROVYaPPhBuIDX4NOCfrUKY6fc+QvNTSiUos4moBqoIJLV0SvbIpw
+	oSrgZKoKtnd9QglA4dC7dC8pgk51tb9VCpqIjSJB4vkQhZrvDRtAM2o6qqBKp/UKXBfv
+	fLmQ==
+X-Gm-Message-State: ALoCoQn6SlmBfBLfInpLC6Z66ibvML6W7nltkAv6nHtXZyGSV95Jk1Y+Z/WWFbimaZP7heglMVem
+X-Received: by 10.229.44.65 with SMTP id z1mr9163753qce.7.1403792471450; Thu,
+	26 Jun 2014 07:21:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.40 with HTTP; Thu, 26 Jun 2014 07:20:50 -0700 (PDT)
+In-Reply-To: <1403792215-4306-1-git-send-email-ross.burton@intel.com>
+References: <1403792215-4306-1-git-send-email-ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Jun 2014 15:20:50 +0100
+Message-ID: <CAJTo0LZA+_MccT4S4oUvn+LWdARN3gUbrppbyGY75UQzB3xfqQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] patch.bbclass: unset TMPDIR after use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jun 2014 14:17:18 -0000
+X-List-Received-Date: Thu, 26 Jun 2014 14:21:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-GNU Patch < 2.6.1 has a race condition so we create a per-instance TMPDIR to
-avoid this.  This was implemented by setting os.environ[TMPDIR] but at the end
-of do_patch the temporary directory is deleted but TMPDIR is not unset.
+I forgot to say that Robert sent almost exactly this patch last year
+but I nacked it because the TMPDIR assignment should happen when patch
+is exec'd.  I'm not so sure now as that would cause an unnecessary
+overhead to patching.
 
-In general this doesn't cause a problem but if do_patch is embedded in a larger
-function then TMPDIR is set to a directory that doesn't exist.  Avoid this by
-removing TMPDIR from os.environ when the directory is deleted.
+Ross
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/patch.bbclass |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 86c65b3..1e2aab0 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -177,6 +177,7 @@ python patch_do_patch() {
-             bb.fatal(str(e))
- 
-     bb.utils.remove(process_tmpdir, True)
-+    del os.environ['TMPDIR']
- }
- patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
- 
--- 
-1.7.10.4
-
+On 26 June 2014 15:16, Ross Burton <ross.burton@intel.com> wrote:
+> GNU Patch < 2.6.1 has a race condition so we create a per-instance TMPDIR to
+> avoid this.  This was implemented by setting os.environ[TMPDIR] but at the end
+> of do_patch the temporary directory is deleted but TMPDIR is not unset.
+>
+> In general this doesn't cause a problem but if do_patch is embedded in a larger
+> function then TMPDIR is set to a directory that doesn't exist.  Avoid this by
+> removing TMPDIR from os.environ when the directory is deleted.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/patch.bbclass |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+> index 86c65b3..1e2aab0 100644
+> --- a/meta/classes/patch.bbclass
+> +++ b/meta/classes/patch.bbclass
+> @@ -177,6 +177,7 @@ python patch_do_patch() {
+>              bb.fatal(str(e))
+>
+>      bb.utils.remove(process_tmpdir, True)
+> +    del os.environ['TMPDIR']
+>  }
+>  patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
+>
+> --
+> 1.7.10.4
+>
 
