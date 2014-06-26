@@ -1,31 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BF2C60889
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B9B5607FE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 17:44:18 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173021.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N7S006GNEL5D420@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 26 Jun 2014 12:44:08 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 362262018D; Thu,
-	26 Jun 2014 13:43:53 -0400 (EDT)
-Date: Thu, 26 Jun 2014 13:43:53 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-id: <20140626174353.GE1580@denix.org>
-References: <1403218403-3303-1-git-send-email-denis@denix.org>
-	<20140620171338.GX27324@denix.org> <20140625005255.GB1580@denix.org>
-	<2450957.82MqDgnpjo@peggleto-mobl5.ger.corp.intel.com>
-	<20140625162209.GC1580@denix.org> <1403736065.2104.287.camel@ted>
-MIME-version: 1.0
-In-reply-to: <1403736065.2104.287.camel@ted>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
+	Thu, 26 Jun 2014 19:09:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5QJ9amt010870
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jun 2014 12:09:37 -0700 (PDT)
+Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 26 Jun 2014 12:09:36 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Jun 2014 15:08:47 -0400
+Message-ID: <1403809727-11325-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <53A97C13.2090006@windriver.com>
+References: <53A97C13.2090006@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH v2] recipes-devtools: fix segfault in lib32-gcc with "." multilib_dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +33,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jun 2014 17:44:26 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 26 Jun 2014 19:09:37 -0000
+Content-Type: text/plain
 
-On Wed, Jun 25, 2014 at 11:41:05PM +0100, Richard Purdie wrote:
-> On Wed, 2014-06-25 at 12:22 -0400, Denys Dmytriyenko wrote:
-> > On Wed, Jun 25, 2014 at 05:20:23PM +0100, Paul Eggleton wrote:
-> > > On Tuesday 24 June 2014 20:52:55 Denys Dmytriyenko wrote:
-> > > > Ping? Any comments? Any better suggestions?
-> > > 
-> > > Looks like Richard has merged this, FWIW.
-> > 
-> > Yes, I saw it. Already submitted backport for daisy... :)
-> 
-> I'd like this to see some testing in master for a while before we
-> backport it...
+When enabling a lib32-gcc in a 64 bit build, without doing any
+other configuration, the mutilib dir is unspecified, which is
+represented internally in gcc as "." and as such uncovers an
+invalid free on a non-malloc'd pointer.
 
-I'm Ok waiting a bit longer to test it in master. I'll ping on it later...
+As suggested by the gcc folks, simply make sure the "." case
+is also stored in a malloc'd pointer, so that the intended
+runtime behaviour of the code remains unchanged.
 
-But this fixes a very common issue that affects different platforms from 
-different BSP layers, including BeagleBone Black in meta-yocto-bsp. The goal 
-is to be least intrusive and preserve the old udev cache behavior as much as 
-possible. Alternative options were to disable udev cache completely or 
-forcefully load necessary modules when they won't be probed on subsequent 
-boots.
+Patch has been accepted by upstream maintainers of gcc.
 
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+---
+
+[v2: worked with gcc folks to get a variation on the 1st
+ patch which is now accepted into mainline gcc trunk. ]
+
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ ...fault-from-calling-free-on-non-malloc-d-a.patch | 66 ++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 185dbba82200..cbf1355fcbf7 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0050-Revert-Use-dbx_reg_number-for-spanning-registers.patch \
+            file://0051-eabispe.patch \
+            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
++           file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+ 	  "
+ SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
+ SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
+new file mode 100644
+index 000000000000..23b445c9ebfa
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
+@@ -0,0 +1,66 @@
++From a22a222c8f9299f6c07a0274388ade7d4ab8c28d Mon Sep 17 00:00:00 2001
++From: Paul Gortmaker <paul.gortmaker@windriver.com>
++Date: Fri, 20 Jun 2014 16:41:08 -0400
++Subject: [PATCH] gcc: fix segfault from calling free on non-malloc'd area
++
++We see the following on a 32bit gcc installed on 64 bit host:
++
++  Reading symbols from ./i586-pokymllib32-linux-gcc...done.
++  (gdb) run
++  Starting program: x86-pokymllib32-linux/lib32-gcc/4.9.0-r0/image/usr/bin/i586-pokymllib32-linux-gcc
++
++  Program received signal SIGSEGV, Segmentation fault.
++  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
++  (gdb) bt
++  #0  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
++  #1  0x0804b73c in set_multilib_dir () at gcc-4.9.0/gcc/gcc.c:7827
++  #2  main (argc=1, argv=0xffffd504) at gcc-4.9.0/gcc/gcc.c:6688
++  (gdb)
++
++The problem arises because we conditionally assign the pointer we
++eventually free, and the conditional may assign the pointer to the
++non-malloc'd internal string "." which fails when we free it here:
++
++   if (multilib_dir == NULL && multilib_os_dir != NULL
++       && strcmp (multilib_os_dir, ".") == 0)
++     {
++       free (CONST_CAST (char *, multilib_os_dir));
++       ...
++
++As suggested by Jakub, ensure the "." case is also malloc'd via
++xstrdup() and hence the pointer for the "." case can be freed.
++
++Cc: Jakub Jelinek <jakub@redhat.com>
++Cc: Jeff Law <law@redhat.com>
++Cc: Matthias Klose <doko@ubuntu.com>
++CC: Tobias Burnus <burnus@net-b.de>
++Upstream-Status: Accepted [ https://gcc.gnu.org/ml/gcc-patches/2014-06/msg02069.html ]
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++
++diff --git a/gcc/gcc.c b/gcc/gcc.c
++index 9ac18e60d801..168acf7eb0c9 100644
++--- a/gcc/gcc.c
+++++ b/gcc/gcc.c
++@@ -7790,10 +7790,15 @@ set_multilib_dir (void)
++ 		q2++;
++ 	      if (*q2 == ':')
++ 		ml_end = q2;
++-	      new_multilib_os_dir = XNEWVEC (char, ml_end - q);
++-	      memcpy (new_multilib_os_dir, q + 1, ml_end - q - 1);
++-	      new_multilib_os_dir[ml_end - q - 1] = '\0';
++-	      multilib_os_dir = *new_multilib_os_dir ? new_multilib_os_dir : ".";
+++	      if (ml_end - q == 1)
+++		multilib_os_dir = xstrdup (".");
+++	      else
+++		{
+++		  new_multilib_os_dir = XNEWVEC (char, ml_end - q);
+++		  memcpy (new_multilib_os_dir, q + 1, ml_end - q - 1);
+++		  new_multilib_os_dir[ml_end - q - 1] = '\0';
+++		  multilib_os_dir = new_multilib_os_dir;
+++		}
++ 
++ 	      if (q2 < end && *q2 == ':')
++ 		{
++-- 
++1.9.2
++
 -- 
-Denys
+1.9.1
+
 
