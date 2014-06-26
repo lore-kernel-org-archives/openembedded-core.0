@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
-	[209.85.216.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B46465DF9
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F7A66028A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 14:21:10 +0000 (UTC)
-Received: by mail-qa0-f50.google.com with SMTP id m5so2894564qaj.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 07:21:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=60pJzLADBYVIpPC11BHN/dhHoUS8OypkydMCnZCwpKw=;
-	b=a01VsIQQ+zT5cEq9i+cS+G5u42MXL8KadkS5c1PbfRaK6YZuwqiFRUAWli9qp2PA2l
-	jhAENO/nqadt/0ytkebt6o8owACLgtfkDGk5t3ZyH0xBjOAsNiTIThGToMeoNp83twsK
-	JZNSnBevW0TpXi5fJ8Q1N1s4yidV7o3TjcVFiz1JzHN8vwns2Q9YicK6cPKH8G/kZz2v
-	JsGQRT4kEUkfV79xROVYaPPhBuIDX4NOCfrUKY6fc+QvNTSiUos4moBqoIJLV0SvbIpw
-	oSrgZKoKtnd9QglA4dC7dC8pgk51tb9VCpqIjSJB4vkQhZrvDRtAM2o6qqBKp/UKXBfv
-	fLmQ==
-X-Gm-Message-State: ALoCoQn6SlmBfBLfInpLC6Z66ibvML6W7nltkAv6nHtXZyGSV95Jk1Y+Z/WWFbimaZP7heglMVem
-X-Received: by 10.229.44.65 with SMTP id z1mr9163753qce.7.1403792471450; Thu,
-	26 Jun 2014 07:21:11 -0700 (PDT)
+	Thu, 26 Jun 2014 16:56:43 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1X0Cya-0003bk-NI from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jun 2014 09:56:44 -0700
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 26 Jun 2014 09:56:44 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
+	Server id 14.2.247.3; Thu, 26 Jun 2014 09:56:09 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Jun 2014 12:56:42 -0400
+Message-ID: <1403801802-15101-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Thu, 26 Jun 2014 07:20:50 -0700 (PDT)
-In-Reply-To: <1403792215-4306-1-git-send-email-ross.burton@intel.com>
-References: <1403792215-4306-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Jun 2014 15:20:50 +0100
-Message-ID: <CAJTo0LZA+_MccT4S4oUvn+LWdARN3gUbrppbyGY75UQzB3xfqQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] patch.bbclass: unset TMPDIR after use
+X-OriginalArrivalTime: 26 Jun 2014 16:56:44.0353 (UTC)
+	FILETIME=[9C144B10:01CF915F]
+Subject: [PATCH] classes/kernel: Use full path for symlink in update-alternatives.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,43 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jun 2014 14:21:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Jun 2014 16:56:57 -0000
+Content-Type: text/plain
 
-I forgot to say that Robert sent almost exactly this patch last year
-but I nacked it because the TMPDIR assignment should happen when patch
-is exec'd.  I'm not so sure now as that would cause an unnecessary
-overhead to patching.
+Use a fully qualified path for the <path> parameter in calls
+to update-alternatives.  The chkconfig-alternatives version
+requires a full path and without it, the symlink is not
+properly created.
 
-Ross
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 26 June 2014 15:16, Ross Burton <ross.burton@intel.com> wrote:
-> GNU Patch < 2.6.1 has a race condition so we create a per-instance TMPDIR to
-> avoid this.  This was implemented by setting os.environ[TMPDIR] but at the end
-> of do_patch the temporary directory is deleted but TMPDIR is not unset.
->
-> In general this doesn't cause a problem but if do_patch is embedded in a larger
-> function then TMPDIR is set to a directory that doesn't exist.  Avoid this by
-> removing TMPDIR from os.environ when the directory is deleted.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/patch.bbclass |    1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> index 86c65b3..1e2aab0 100644
-> --- a/meta/classes/patch.bbclass
-> +++ b/meta/classes/patch.bbclass
-> @@ -177,6 +177,7 @@ python patch_do_patch() {
->              bb.fatal(str(e))
->
->      bb.utils.remove(process_tmpdir, True)
-> +    del os.environ['TMPDIR']
->  }
->  patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
->
-> --
-> 1.7.10.4
->
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6ed1cb7..f5d7258 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -374,7 +374,7 @@ pkg_postinst_kernel-base () {
+ }
+ 
+ pkg_postinst_kernel-image () {
+-	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
++	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+ }
+ 
+ pkg_postrm_kernel-image () {
+-- 
+1.9.1
+
 
