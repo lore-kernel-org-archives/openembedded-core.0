@@ -1,26 +1,31 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B9B5607FE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B3D4C60425
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 19:09:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5QJ9amt010870
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 27 Jun 2014 09:23:43 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5R9Na4o021756 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jun 2014 10:23:37 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rCi3-A-4jBrv
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jun 2014 12:09:37 -0700 (PDT)
-Received: from yow-pgortmak-d4.wrs.com (128.224.56.60) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 26 Jun 2014 12:09:36 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jun 2014 15:08:47 -0400
-Message-ID: <1403809727-11325-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <53A97C13.2090006@windriver.com>
-References: <53A97C13.2090006@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2] recipes-devtools: fix segfault in lib32-gcc with "." multilib_dir
+	Fri, 27 Jun 2014 10:23:36 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5R9NUZS021752
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jun 2014 10:23:32 +0100
+Message-ID: <1403861003.28648.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Jun 2014 10:23:23 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] distutils/distutils3: Fix bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,116 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jun 2014 19:09:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Jun 2014 09:23:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When enabling a lib32-gcc in a 64 bit build, without doing any
-other configuration, the mutilib dir is unspecified, which is
-represented internally in gcc as "." and as such uncovers an
-invalid free on a non-malloc'd pointer.
+read -d is a bashism. Replace with a direct exec to avoid the problem
+in this case. This fixes silent build failures in do_install of
+tasks on systems with dash as /bin/sh.
 
-As suggested by the gcc folks, simply make sure the "." case
-is also stored in a malloc'd pointer, so that the intended
-runtime behaviour of the code remains unchanged.
+Also merge the fix to distutils for only changing necessary files
+to disutils3 as well.
 
-Patch has been accepted by upstream maintainers of gcc.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
----
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 12f2603..6ed7ecc 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -42,12 +42,8 @@ distutils_do_install() {
+         bbfatal "${PYTHON_PN} setup.py install execution failed."
+ 
+         # support filenames with *spaces*
+-        find ${D} -name "*.py" -print0 | while read -d $'\0' i ; do \
+-            # only modify file if it contains path to avoid recompilation on the target
+-            if grep -q "${D}" "$i"; then
+-                sed -i -e s:${D}::g "$i"
+-            fi
+-        done
++        # only modify file if it contains path to avoid recompilation on the target
++        find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \;
+ 
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
+diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
+index bbd645c..e909ef4 100644
+--- a/meta/classes/distutils3.bbclass
++++ b/meta/classes/distutils3.bbclass
+@@ -64,9 +64,7 @@ distutils3_do_install() {
+         bbfatal "${PYTHON_PN} setup.py install execution failed."
+ 
+         # support filenames with *spaces*
+-        find ${D} -name "*.py" -print0 | while read -d $'\0' i ; do \
+-            sed -i -e s:${D}::g "$i"
+-        done
++        find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \;
+ 
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
 
-[v2: worked with gcc folks to get a variation on the 1st
- patch which is now accepted into mainline gcc trunk. ]
-
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
- ...fault-from-calling-free-on-non-malloc-d-a.patch | 66 ++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 185dbba82200..cbf1355fcbf7 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0050-Revert-Use-dbx_reg_number-for-spanning-registers.patch \
-            file://0051-eabispe.patch \
-            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
-+           file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
- 	  "
- SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
- SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
-new file mode 100644
-index 000000000000..23b445c9ebfa
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
-@@ -0,0 +1,66 @@
-+From a22a222c8f9299f6c07a0274388ade7d4ab8c28d Mon Sep 17 00:00:00 2001
-+From: Paul Gortmaker <paul.gortmaker@windriver.com>
-+Date: Fri, 20 Jun 2014 16:41:08 -0400
-+Subject: [PATCH] gcc: fix segfault from calling free on non-malloc'd area
-+
-+We see the following on a 32bit gcc installed on 64 bit host:
-+
-+  Reading symbols from ./i586-pokymllib32-linux-gcc...done.
-+  (gdb) run
-+  Starting program: x86-pokymllib32-linux/lib32-gcc/4.9.0-r0/image/usr/bin/i586-pokymllib32-linux-gcc
-+
-+  Program received signal SIGSEGV, Segmentation fault.
-+  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
-+  (gdb) bt
-+  #0  0xf7e957e0 in free () from /lib/i386-linux-gnu/libc.so.6
-+  #1  0x0804b73c in set_multilib_dir () at gcc-4.9.0/gcc/gcc.c:7827
-+  #2  main (argc=1, argv=0xffffd504) at gcc-4.9.0/gcc/gcc.c:6688
-+  (gdb)
-+
-+The problem arises because we conditionally assign the pointer we
-+eventually free, and the conditional may assign the pointer to the
-+non-malloc'd internal string "." which fails when we free it here:
-+
-+   if (multilib_dir == NULL && multilib_os_dir != NULL
-+       && strcmp (multilib_os_dir, ".") == 0)
-+     {
-+       free (CONST_CAST (char *, multilib_os_dir));
-+       ...
-+
-+As suggested by Jakub, ensure the "." case is also malloc'd via
-+xstrdup() and hence the pointer for the "." case can be freed.
-+
-+Cc: Jakub Jelinek <jakub@redhat.com>
-+Cc: Jeff Law <law@redhat.com>
-+Cc: Matthias Klose <doko@ubuntu.com>
-+CC: Tobias Burnus <burnus@net-b.de>
-+Upstream-Status: Accepted [ https://gcc.gnu.org/ml/gcc-patches/2014-06/msg02069.html ]
-+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-+
-+diff --git a/gcc/gcc.c b/gcc/gcc.c
-+index 9ac18e60d801..168acf7eb0c9 100644
-+--- a/gcc/gcc.c
-++++ b/gcc/gcc.c
-+@@ -7790,10 +7790,15 @@ set_multilib_dir (void)
-+ 		q2++;
-+ 	      if (*q2 == ':')
-+ 		ml_end = q2;
-+-	      new_multilib_os_dir = XNEWVEC (char, ml_end - q);
-+-	      memcpy (new_multilib_os_dir, q + 1, ml_end - q - 1);
-+-	      new_multilib_os_dir[ml_end - q - 1] = '\0';
-+-	      multilib_os_dir = *new_multilib_os_dir ? new_multilib_os_dir : ".";
-++	      if (ml_end - q == 1)
-++		multilib_os_dir = xstrdup (".");
-++	      else
-++		{
-++		  new_multilib_os_dir = XNEWVEC (char, ml_end - q);
-++		  memcpy (new_multilib_os_dir, q + 1, ml_end - q - 1);
-++		  new_multilib_os_dir[ml_end - q - 1] = '\0';
-++		  multilib_os_dir = new_multilib_os_dir;
-++		}
-+ 
-+ 	      if (q2 < end && *q2 == ':')
-+ 		{
-+-- 
-+1.9.2
-+
--- 
-1.9.1
 
 
