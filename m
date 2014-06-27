@@ -1,39 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A22FD62252
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 670E365F1E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jun 2014 13:11:38 +0000 (UTC)
-Received: by mail-yk0-f174.google.com with SMTP id 19so2846291ykq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jun 2014 06:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=6VULoCZgZY/MFzMbDFMLpZ4tNPEhVhW4oie6R1E1jp4=;
-	b=OOKw4jIWh3ISuWFfamCFXkYORKqf4LKm/1J3C321wZ/jCJ1sz+6upKjvcBWiew+mEa
-	8x6Yy5rsWpkvtM1wWwtpuJRrCUL3w42cc5bIDNlmhR7QQdbUk4rXAIVS1mdZmmpcsWBk
-	j2YO8+rMgqVdj85PFVWmsRwPcPdUIcGB9Xf/RMp/Ebk9aZXYqGQnyEO4mVWr73a2IGHG
-	6Oe+AVUqT6nxEt0aJDT3vARaKGoOpioUORgS2ixVNksWtfKgoL83Kg3iPMDRTrzpiP3O
-	0kaoaESBz5GPguM9GrZq0xXrlI+TlOI8GYNHzS+cOQHB6Cpcfii+2uiHbGkfqJsOLv6p
-	DTPg==
-MIME-Version: 1.0
-X-Received: by 10.236.180.169 with SMTP id j29mr32179096yhm.47.1403874699563; 
-	Fri, 27 Jun 2014 06:11:39 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.233.65 with HTTP; Fri, 27 Jun 2014 06:11:39 -0700 (PDT)
-In-Reply-To: <20140627124209.GS9006@bill-the-cat>
+	Fri, 27 Jun 2014 13:41:01 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5RDeuav032593; Fri, 27 Jun 2014 14:40:56 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tb3e3z13IwPe; Fri, 27 Jun 2014 14:40:55 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5RDepE5032584
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 27 Jun 2014 14:40:52 +0100
+Message-ID: <1403876444.28648.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tom Rini <tom.rini@gmail.com>
+Date: Fri, 27 Jun 2014 14:40:44 +0100
+In-Reply-To: <1403785652-17065-1-git-send-email-tom.rini@gmail.com>
 References: <1403785652-17065-1-git-send-email-tom.rini@gmail.com>
-	<CAP9ODKopjX4Jg5rTDLunZnV4xioqP7dCP09o-GB0t4yJxE-L3Q@mail.gmail.com>
-	<20140627124209.GS9006@bill-the-cat>
-Date: Fri, 27 Jun 2014 10:11:39 -0300
-X-Google-Sender-Auth: T6Z11z-mpgoBFpBM5NyOwZ8WdXM
-Message-ID: <CAP9ODKpvmM4JeYFt9p=co-+ZD51FWn1vjzB_OUEAbURDZAQSQQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Tom Rini <tom.rini@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] image.bbclass: Ensure IMAGE_FSTYPES is fully evaluated before live/live logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,43 +37,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jun 2014 13:11:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Jun 2014 13:41:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 27, 2014 at 9:42 AM, Tom Rini <tom.rini@gmail.com> wrote:
-> On Thu, Jun 26, 2014 at 02:25:34PM -0300, Otavio Salvador wrote:
->> On Thu, Jun 26, 2014 at 9:27 AM, Tom Rini <tom.rini@gmail.com> wrote:
->> > Incase we have overrides applied to IMAGE_FSTYPES we need to make sure
->> > that we evaluate it fully before performing the live and vmdk logic
->> > checks.
->> >
->> > Signed-off-by: Tom Rini <tom.rini@gmail.com>
->>
->> Do you have an example how it used to fail?
->
-> Sure:
-> diff --git a/meta/recipes-core/images/build-appliance-image_8.0.bb b/meta/recipes-core/images/build-appliance-image_8.0.bb
-> index 7b70025..23bb02e 100644
-> --- a/meta/recipes-core/images/build-appliance-image_8.0.bb
-> +++ b/meta/recipes-core/images/build-appliance-image_8.0.bb
-> @@ -17,7 +17,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
->  APPEND += "quiet"
->
->  DEPENDS = "zip-native"
-> -IMAGE_FSTYPES = "vmdk"
-> +IMAGE_FSTYPES_x86-64 = "vmdk"
->
->  inherit core-image
->
-> And now you won't get vmdk images on qemux86-64 (same for live, did the
-> same proof-of-concept there when working up the patch).
+On Thu, 2014-06-26 at 08:27 -0400, Tom Rini wrote:
+> Incase we have overrides applied to IMAGE_FSTYPES we need to make sure
+> that we evaluate it fully before performing the live and vmdk logic
+> checks.
+> 
+> Signed-off-by: Tom Rini <tom.rini@gmail.com>
+> ---
+>  meta/classes/image.bbclass | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 79de5a2..ccfa1b1 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -78,10 +78,11 @@ do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
+>  
+>  do_build[depends] += "virtual/kernel:do_deploy"
+>  
+> +EVALED_IMAGE_FSTYPES := "${IMAGE_FSTYPES}"
+>  def build_live(d):
+> -    if base_contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
+> -        d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", "1", d))
+> -        d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
+> +    if base_contains("EVALED_IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
+> +        d.setVar('NOISO', base_contains('EVALED_IMAGE_FSTYPES', "iso", "0", "1", d))
+> +        d.setVar('NOHDD', base_contains('EVALED_IMAGE_FSTYPES', "hddimg", "0", "1", d))
+>          if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
+>              return "image-live"
+>          return ""
 
-Isn't it a bug in BitBake?
+The trouble is this doesn't add up. 
 
-I'd expect it to work fine. Richard, can you provide some feedback?
+EVALED_IMAGE_FSTYPES := "${IMAGE_FSTYPES}"
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+basically sets EVALED_... to the expanded value of IMAGE_FSTYPES
+
+base_contains() also expands the variable its passed.
+
+I'm a little concerned as to why those two expansions of the same thing
+should result in something different.
+
+From your later explaination, it would appear the use of the override is
+causing problems but I don't understand how immediate expansion would
+work around that :/.
+
+So before this merges, more investigation is needed as there is
+something not adding up...
+
+Cheers,
+
+Richard
+
+
+> @@ -90,7 +91,7 @@ def build_live(d):
+>  IMAGE_TYPE_live = "${@build_live(d)}"
+>  
+>  inherit ${IMAGE_TYPE_live}
+> -IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "image-vmdk", "", d)}'
+> +IMAGE_TYPE_vmdk = '${@base_contains("EVALED_IMAGE_FSTYPES", "vmdk", "image-vmdk", "", d)}'
+>  inherit ${IMAGE_TYPE_vmdk}
+>  
+>  python () {
+> -- 
+> 1.9.3
+> 
+
+
 
