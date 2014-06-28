@@ -1,32 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B3B156059A
+Return-Path: <blloyd@familyhonor.net>
+Received: from mho-02-ewr.mailhop.org (mho-02-ewr.mailhop.org [204.13.248.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 7193360702
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jun 2014 08:35:29 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5S8ZNUW027301; Sat, 28 Jun 2014 09:35:23 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6vQt1zaPs2xC; Sat, 28 Jun 2014 09:35:23 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5S8ZHDY027297
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sat, 28 Jun 2014 09:35:18 +0100
-Message-ID: <1403944509.28648.26.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tom Rini <tom.rini@gmail.com>
-Date: Sat, 28 Jun 2014 09:35:09 +0100
-In-Reply-To: <20140627151709.GU9006@bill-the-cat>
-References: <1403785652-17065-1-git-send-email-tom.rini@gmail.com>
-	<1403876444.28648.9.camel@ted> <20140627141649.GT9006@bill-the-cat>
-	<1403880870.28648.11.camel@ted> <20140627151709.GU9006@bill-the-cat>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image.bbclass: Ensure IMAGE_FSTYPES is fully evaluated before live/live logic
+	Sat, 28 Jun 2014 15:49:24 +0000 (UTC)
+Received: from [98.142.68.171] (helo=lloydserv.home.familyhonor.net)
+	by mho-02-ewr.mailhop.org with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.72) (envelope-from <blloyd@familyhonor.net>)
+	id 1X0usX-0008wH-7s for openembedded-core@lists.openembedded.org;
+	Sat, 28 Jun 2014 15:49:25 +0000
+Received: from omclinuxballt.home.familyhonor.net ([192.168.0.83])
+	(authenticated bits=0)
+	by lloydserv.home.familyhonor.net (8.14.7/8.14.6) with ESMTP id
+	s5SFn9wp022766
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Sat, 28 Jun 2014 10:49:20 -0500
+X-Mail-Handler: Dyn Standard SMTP by Dyn
+X-Originating-IP: 98.142.68.171
+X-Report-Abuse-To: abuse@dyndns.com (see
+	http://www.dyndns.com/services/sendlabs/outbound_abuse.html for
+	abuse reporting information)
+X-MHO-User: U2FsdGVkX1+9yV7Ie52It5CDkPBn/zABAFIvZd+QOsE=
+From: Brian Lloyd <blloyd@familyhonor.net>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 28 Jun 2014 10:48:23 -0500
+Message-Id: <1403970504-26097-1-git-send-email-blloyd@familyhonor.net>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH 0/1] initramfs-lib-boot: move boot media to /media/realroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +38,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jun 2014 08:35:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 28 Jun 2014 15:49:28 -0000
 
-On Fri, 2014-06-27 at 11:17 -0400, Tom Rini wrote:
-> On Fri, Jun 27, 2014 at 03:54:30PM +0100, Richard Purdie wrote:
-> > I wondered about that but I did already check and:
-> > 
-> > http://git.yoctoproject.org/cgit.cgi/poky/tree/bitbake/lib/bb/utils.py
-> > 
-> > def contains(variable, checkvalues, truevalue, falsevalue, d):
-> >     val = d.getVar(variable, True)
-> > 
-> > so it is being expanded afaict...
-> 
-> Yeah, but what does that expand back to?  My bitbake internals-fu is
-> weak, but:
-> $ git grep def\ getVar
-> lib/bb/command.py:    def getVariable(self, command, params):
-> lib/bb/data.py:def getVar(var, d, exp = 0):
-> lib/bb/data.py:def getVarFlag(var, flag, d):
-> lib/bb/data.py:def getVarFlags(var, d):
-> lib/bb/data_smart.py:    def getVar(self, var, expand=False, noweakdefault=False
-> lib/bb/data_smart.py:    def getVarFlag(self, var, flag, expand=False, noweakdef
-> lib/bb/data_smart.py:    def getVarFlags(self, var, expand = False, internalflag
-> 
-> So where do we map back to a 'getVar' that takes expand as arg 2 not arg
-> 3?
+This patch is to let systems easily find the boot media used for the current 
+boot in a deterministic manner.  Previously, you would have to assume the boot
+disk or else walk through mounted disks looking for one that matches a live
+boot disk and is in use (and if paranoid, ensure there isn't another that
+also exists). 
 
-Its calling:
+Brian Lloyd (1):
+  Move boot media to /media/realroot for easy access after boot.
 
-lib/bb/data_smart.py:    def getVar(self, var, expand=False, noweakdefault=False
+ meta/recipes-core/initrdscripts/files/init-live.sh         | 10 +++++++++-
+ meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb |  4 ++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-since d is a data store object which becomes "self", the first argument
-and the other two are then passed in with expand = True.
-
-The bb.data.getVar(d, var, expand) syntax is just clumsy and deprecated
-when you can write the same thing as d.getVar(var, expand).
-
-Cheers,
-
-Richard
-
+-- 
+1.9.0
 
 
