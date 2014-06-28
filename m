@@ -1,28 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 46FDE60809
+Return-Path: <pandey_himanshu80@rediffmail.com>
+Received: from f4mail-83-122.rediffmail.com (unknown [203.199.83.122])
+	by mail.openembedded.org (Postfix) with ESMTP id 499DC60030
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jun 2014 02:39:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5S2diTh003726
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Jun 2014 19:39:44 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 27 Jun 2014 19:39:43 -0700
-Message-ID: <53AE2AEE.3020705@windriver.com>
-Date: Sat, 28 Jun 2014 10:39:42 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Sat, 28 Jun 2014 04:05:11 +0000 (UTC)
+Received: from rediffmail.com (unknown [10.50.250.70])
+	by f4mail-83-122.rediffmail.com (Postfix) with SMTP id 1E1AB30802D9
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Jun 2014 09:26:40 +0530 (IST)
+Received: (qmail 18219 invoked by uid 510); 28 Jun 2014 04:04:57 -0000
+Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
+	b=St3Ef+ESbo5jRNFYrUHFQQayj2d7K/BNuBavJNIxCTKCmhfEcLc+JQTf0WsrfpOOFMYT44pxdKWnUWQth6TrFVAaMiCdzoAI2NcQ/BQCBAbMi55/8oc5f9cNisgtwFWIZOkKL+FYOUVC4m1xeuU/nBxZSjILoFTU5qgIXchbhRQ=
+	; 
+x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
+X-CTCH-Spam: Unknown
+X-CTCH-VOD: Unknown
+X-CTCH-Flags: : 0
+X-CTCH-RefID: str=0001.0A160205.53AE3EE9.0017, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+X-REDF-OSEN: pandey_himanshu80@rediffmail.com
+Date: 28 Jun 2014 04:04:56 -0000
 MIME-Version: 1.0
-To: Henning Heinold <henning@itconsulting-heinold.de>,
+To: "Mats K rrman " <Mats.Karrman@tritech.se>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1403645687-19655-1-git-send-email-henning@itconsulting-heinold.de>
-	<1403645687-19655-3-git-send-email-henning@itconsulting-heinold.de>
-In-Reply-To: <1403645687-19655-3-git-send-email-henning@itconsulting-heinold.de>
-Subject: Re: [PATCH 2/3][for-dora] perf: split packging
+Received: from unknown 122.177.77.183 by rediffmail.com via HTTP;
+	28 Jun 2014 04:04:56 -0000
+Message-ID: <1403871626.S.1994.10180.H.Tk1hdHMgS~Rycm1hbgBSRTogW09FLWNvcmVdIEhp.RU.rfs303,
+	rfs303, 732,
+	588.f4-234-218.old.1403928296.18095@webmail.rediffmail.com>
+Sender: pandey_himanshu80@rediffmail.com
+From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
+Subject: Re: Hi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +44,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jun 2014 02:39:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Sat, 28 Jun 2014 04:05:13 -0000
+Content-Type: multipart/alternative;
+	boundary="=_04abeeec90a2a5dff51894124e9f3b4b"
+
+--=_04abeeec90a2a5dff51894124e9f3b4b
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+
+But I don't have meta-networking directory in my poky-dora-10.0.0
+
+From: Mats K  rrman &lt;Mats.Karrman@tritech.se&gt;
+Sent: Fri, 27 Jun 2014 17:50:26 
+To: "Himanshu  Pandey" &lt;pandey_himanshu80@rediffmail.com&gt;, "openembedded-core@lists.openembedded.org" &lt;openembedded-core@lists.openembedded.org&gt;
+Subject: Re: [OE-core] Hi
+Hi Himanshu,
 
 
 
-On 06/25/2014 05:34 AM, Henning Heinold wrote:
-> * some fundamental perf commands can work
->    without the dependency on perl, python or bash
->    make them separate packages and RSUGGEST them
->
-> * bump PR
+On Friday, June 27, 2014 1:14 PM, Himanshu Pandey wrote:
 
-Why you need bump the PR, please ?
+&gt; Can some one help me to write a receipe with all these requirements?
 
-// Robert
 
->
-> The patch was sponsored by sysmocom
->
-> Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
-> ---
->   meta/recipes-kernel/perf/perf.bb | 21 +++++++++++++++------
->   1 file changed, 15 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 31c2c8e..e43f053 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -9,7 +9,7 @@ as well."
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
->
-> -PR = "r8"
-> +PR = "r9"
->
->   require perf-features.inc
->
-> @@ -27,9 +27,6 @@ DEPENDS = "virtual/kernel \
->              bison flex \
->             "
->
-> -SCRIPTING_RDEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl perl-modules python', '',d)}"
-> -RDEPENDS_${PN} += "elfutils bash ${SCRIPTING_RDEPENDS}"
-> -
->   PROVIDES = "virtual/perf"
->
->   inherit linux-kernel-base kernel-arch pythonnative
-> @@ -124,6 +121,18 @@ python do_package_prepend() {
->
->   PACKAGE_ARCH = "${MACHINE_ARCH}"
->
-> -FILES_${PN} += "${libexecdir}/perf-core"
-> +PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
-> +
-> +RDEPENDS_${PN} += "elfutils"
-> +RDEPENDS_${PN}-archive =+ "bash"
-> +RDEPENDS_${PN}-python =+ "bash python"
-> +RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
-> +
-> +RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
-> +RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
-> +
->   FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
-> -FILES_${PN} += "${libdir}/python*/site-packages"
-> +FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
-> +FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
-> +FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
-> +FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
->
 
+How about starting out with meta-networking/recipes-protocols/pptp-linux/pptp-linux_1.7.2.bb and add your own .bbappend to tweak the things you must?
+
+
+
+BR // Mats
+
+
+--=_04abeeec90a2a5dff51894124e9f3b4b
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="UTF-8"
+
+But I don't have meta-networking directory in my poky-dora-10.0.0<br><br>Fr=
+om: Mats K  rrman &lt;Mats.Karrman@tritech.se&gt;<br>Sent: Fri, 27 Jun 2014=
+ 17:50:26 <br>To: "Himanshu  Pandey" &lt;pandey_himanshu80@rediffmail.com&g=
+t;, "openembedded-core@lists.openembedded.org" &lt;openembedded-core@lists.=
+openembedded.org&gt;<br>Subject: Re: [OE-core] Hi<br>Hi Himanshu,<br>
+<br>
+On Friday, June 27, 2014 1:14 PM, Himanshu Pandey wrote:<br>
+&gt; Can some one help me to write a receipe with all these requirements?<b=
+r>
+<br>
+How about starting out with meta-networking/recipes-protocols/pptp-linux/pp=
+tp-linux_1.7.2.bb and add your own .bbappend to tweak the things you must?<=
+br>
+<br>
+BR // Mats<br>
+<br><A HREF=3D"http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.redi=
+ffmail.com/signatureline.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://=
+sigads.rediff.com/RealMedia/ads/adstream_nx.ads/www.rediffmail.com/signatur=
+eline.htm@Middle"></A><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr=
+><td><div style=3D"font-family: Arial, Helvetica, sans-serif; font-size:14p=
+x">Get your own <span style=3D"padding-bottom: 0px; background-color: #cc00=
+00; padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, s=
+ans-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></=
+span> website,  <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> domain &amp; <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> mobile app with Company email. &nbsp;</div></td><td><a href=3D"http://tr=
+ack.rediff.com/click?url=3D___http://businessemail.rediff.com/email-ids-for=
+-companies-with-less-than-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&=
+lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=3D"font-family: Arial, Helvetica, sa=
+ns-serif; color: #fff; font-size: 14px; color:#0000cc" target=3D"_blank"><b=
+>Know More ></b></a><!-- <in-put type=3D"button" cl-ass=3D"button" on-click=
+=3D"parent.location=3D&#39;http://track.rediff.com/click?url=3D___http://bu=
+sinessemail.rediff.com/company-email-hosting-services?sc_cid=3Dsignature-23=
+-9-13___&amp;cmp=3Dsignature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhos=
+t&#39;" value=3D"Know more &gt;"> </input> --></td></tr></tbody></table>
+
+--=_04abeeec90a2a5dff51894124e9f3b4b--
