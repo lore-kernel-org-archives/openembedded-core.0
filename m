@@ -1,24 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F36860169
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 46FDE60809
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jun 2014 02:32:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s5S2WX9K007871
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jun 2014 19:32:33 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 27 Jun 2014 19:32:33 -0700
+	Sat, 28 Jun 2014 02:39:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5S2diTh003726
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 27 Jun 2014 19:39:44 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 27 Jun 2014 19:39:43 -0700
+Message-ID: <53AE2AEE.3020705@windriver.com>
+Date: Sat, 28 Jun 2014 10:39:42 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jun 2014 19:32:33 -0700
-Message-ID: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: [RFC PATCH V2] base.bbclass: show git summary in BUILDCFG_HEADER
+To: Henning Heinold <henning@itconsulting-heinold.de>,
+	<openembedded-core@lists.openembedded.org>
+References: <1403645687-19655-1-git-send-email-henning@itconsulting-heinold.de>
+	<1403645687-19655-3-git-send-email-henning@itconsulting-heinold.de>
+In-Reply-To: <1403645687-19655-3-git-send-email-henning@itconsulting-heinold.de>
+Subject: Re: [PATCH 2/3][for-dora] perf: split packging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jun 2014 02:32:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 28 Jun 2014 02:39:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It was:
-meta
-meta-yocto
-meta-yocto-bsp    = "master:3a054dc27067efaae9150b465298d9c45d728f85"
 
-Now:
-meta
-meta-yocto
-meta-yocto-bsp    = "master:3a054dc base.bbclass: show git summary in BUILDCFG_HEADER"
 
-The benefit is that we can easily know the top commit info rather than
-query it again in the git repo.
+On 06/25/2014 05:34 AM, Henning Heinold wrote:
+> * some fundamental perf commands can work
+>    without the dependency on perl, python or bash
+>    make them separate packages and RSUGGEST them
+>
+> * bump PR
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/base.bbclass         |    2 +-
- meta/classes/metadata_scm.bbclass |    6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+Why you need bump the PR, please ?
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index c0d2c8ec8..f5abb88 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -244,7 +244,7 @@ def get_layers_branch_rev(d):
-     layers = (d.getVar("BBLAYERS", True) or "").split()
-     layers_branch_rev = ["%-17s = \"%s:%s\"" % (os.path.basename(i), \
-         base_get_metadata_git_branch(i, None).strip(), \
--        base_get_metadata_git_revision(i, None)) \
-+        base_get_metadata_git_revision_and_summary(i, None)) \
-             for i in layers]
-     i = len(layers_branch_rev)-1
-     p1 = layers_branch_rev[i].find("=")
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index ba0edf9..dace653 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -80,3 +80,9 @@ def base_get_metadata_git_revision(path, d):
-             return rev
-     return "<unknown>"
- 
-+def base_get_metadata_git_revision_and_summary(path, d):
-+    f = os.popen("cd %s; git log -n 1 --abbrev-commit --pretty=oneline -- 2>&1" % path)
-+    data = f.readline()
-+    if f.close() is None:
-+            return data.rstrip()
-+    return "<unknown>"
--- 
-1.7.9.5
+// Robert
 
+>
+> The patch was sponsored by sysmocom
+>
+> Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
+> ---
+>   meta/recipes-kernel/perf/perf.bb | 21 +++++++++++++++------
+>   1 file changed, 15 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index 31c2c8e..e43f053 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -9,7 +9,7 @@ as well."
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+>
+> -PR = "r8"
+> +PR = "r9"
+>
+>   require perf-features.inc
+>
+> @@ -27,9 +27,6 @@ DEPENDS = "virtual/kernel \
+>              bison flex \
+>             "
+>
+> -SCRIPTING_RDEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl perl-modules python', '',d)}"
+> -RDEPENDS_${PN} += "elfutils bash ${SCRIPTING_RDEPENDS}"
+> -
+>   PROVIDES = "virtual/perf"
+>
+>   inherit linux-kernel-base kernel-arch pythonnative
+> @@ -124,6 +121,18 @@ python do_package_prepend() {
+>
+>   PACKAGE_ARCH = "${MACHINE_ARCH}"
+>
+> -FILES_${PN} += "${libexecdir}/perf-core"
+> +PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
+> +
+> +RDEPENDS_${PN} += "elfutils"
+> +RDEPENDS_${PN}-archive =+ "bash"
+> +RDEPENDS_${PN}-python =+ "bash python"
+> +RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
+> +
+> +RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
+> +RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+> +
+>   FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
+> -FILES_${PN} += "${libdir}/python*/site-packages"
+> +FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+> +FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
+> +FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
+> +FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
+>
 
