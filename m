@@ -1,30 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A07506116C
-	for <Openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jun 2014 09:05:57 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s5T95kWC019685; Sun, 29 Jun 2014 10:05:46 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Nkz9jzr_5N8F; Sun, 29 Jun 2014 10:05:46 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s5T95dYu019677
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 29 Jun 2014 10:05:40 +0100
-Message-ID: <1404032732.28648.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Fabien Chereau <fabien.chereau@intel.com>
-Date: Sun, 29 Jun 2014 10:05:32 +0100
-In-Reply-To: <1403778002-10155-1-git-send-email-fabien.chereau@intel.com>
-References: <1403778002-10155-1-git-send-email-fabien.chereau@intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libusb: add missing build dependency on udev
+Return-Path: <sadlife1990@gmail.com>
+Received: from mail-vc0-f195.google.com (mail-vc0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FAFB60167
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 29 Jun 2014 16:24:33 +0000 (UTC)
+Received: by mail-vc0-f195.google.com with SMTP id id10so1788869vcb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 29 Jun 2014 09:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=AwXW4WEd/V8ZkabntLd6JMH33A3DbdjfPj1K97qHo3A=;
+	b=mHnUFEvCiIf+P0uN8HjJG70765mWzfA+fn86xEIfyvBOSHrUCuiZYa9bjVOWSp8dLl
+	UvkXLmnPiTqra12bIPYJBRT9HGGozTtXKuZufFPrJ3o3/YItBD68dQ9TzyNhUjHMzIEh
+	t+0V22e7fSzdTyRfZ6Xl3ZSBrCAKxNEel2psrAp5/U3548LRklBx+PGkzVPhgNIffsnX
+	GQoQBCRVFM8omqRgcgkhFmTm0BA/OpM5CTA0BftHCzgF1jW2SSrUsAnn0BtUnNDcNJ12
+	oA+/XJzyL24O7xTkpeAaoOFjLHy47RiIpHmYJbESxFf8Sz6bSf2VPa2oZ+ar6ENibrF9
+	/ifg==
+MIME-Version: 1.0
+X-Received: by 10.58.234.199 with SMTP id ug7mr783666vec.40.1404059073993;
+	Sun, 29 Jun 2014 09:24:33 -0700 (PDT)
+Received: by 10.58.152.200 with HTTP; Sun, 29 Jun 2014 09:24:33 -0700 (PDT)
+Date: Sun, 29 Jun 2014 19:24:33 +0300
+Message-ID: <CAAHuHfzRzh2LhFoc0VrdA+MqJiUOVwv_tNe9y48nOrk13ERHug@mail.gmail.com>
+From: Life Life <sadlife1990@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Cape Manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +38,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Jun 2014 09:06:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 29 Jun 2014 16:24:37 -0000
+Content-Type: multipart/alternative; boundary=047d7b6da6685960a304fcfbfaab
 
-On Thu, 2014-06-26 at 12:20 +0200, Fabien Chereau wrote:
-> This fixes the ./configure error in case libusb is built before udev/systemd.
-> 
-> Signed-off-by: Fabien Chereau <fabien.chereau@intel.com>
-> ---
->  meta/recipes-support/libusb/libusb1_1.0.19.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-support/libusb/libusb1_1.0.19.bb b/meta/recipes-support/libusb/libusb1_1.0.19.bb
-> index a20e1fc..be2be9d 100644
-> --- a/meta/recipes-support/libusb/libusb1_1.0.19.bb
-> +++ b/meta/recipes-support/libusb/libusb1_1.0.19.bb
-> @@ -6,6 +6,8 @@ SECTION = "libs"
->  LICENSE = "LGPLv2.1+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
->  
-> +DEPENDS_append = " udev"
-> +
->  BBCLASSEXTEND = "native nativesdk"
->  
->  SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
+--047d7b6da6685960a304fcfbfaab
+Content-Type: text/plain; charset=UTF-8
 
-This causes the build to explode with circular dependency issues. How
-did you test this?
+Hello,
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/147/steps/BuildImages/logs/stdio
+I'm trying build yocto based linux, My hardware is beaglebone black I
+successfull build system image. But I can't see capemanager. Beacuse my lcd
+is not work.
 
-There is a second error about a missing nativesdk-udev dependency (to
-build nativesdk-libusb1) too.
+Thanks
 
-Cheers,
+--047d7b6da6685960a304fcfbfaab
+Content-Type: text/html; charset=UTF-8
 
-Richard
+<div dir="ltr"><div><div>Hello,<br><br></div>I&#39;m trying build yocto based linux, My hardware is beaglebone black I successfull build system image. But I can&#39;t see capemanager. Beacuse my lcd is not work.<br><br></div>
+Thanks<br></div>
 
-
+--047d7b6da6685960a304fcfbfaab--
