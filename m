@@ -1,30 +1,20 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ED69610F5
+Return-Path: <roxana.ciobanu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C467C6059A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 09:29:37 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id s5U9TXSY024690;
-	Mon, 30 Jun 2014 11:29:38 +0200
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0387.000; Mon, 30 Jun 2014 11:29:32 +0200
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] How to clean using bitbake
-Thread-Index: AQHPlEUvDZrS24sQak6DFFXytDLoVpuJYnpm
-Date: Mon, 30 Jun 2014 09:29:32 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B438884@post.tritech.se>
-References: <20140630092348.985.qmail@f4mail-235-118.rediffmail.com>
-In-Reply-To: <20140630092348.985.qmail@f4mail-235-118.rediffmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.75.63.254]
-MIME-Version: 1.0
-Subject: Re: How to clean using bitbake
+	Mon, 30 Jun 2014 09:43:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2014 02:38:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,574,1400050800"; d="scan'208";a="565937155"
+Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.47])
+	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2014 02:43:48 -0700
+From: Roxana <roxana.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Jun 2014 12:44:02 +0300
+Message-Id: <cover.1404120809.git.roxana.ciobanu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] Fix for YB6467
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 09:29:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Jun 2014 09:43:53 -0000
 
-Hi Himanshu,=0A=
-=0A=
-On Monday, June 30, 2014 11:23 AM, Himanshu Pandey wrote:=0A=
-> How to clean using bitbake?=0A=
-> What is the command for that?=0A=
-=0A=
-Please refer to https://www.yoctoproject.org/documentation/current=0A=
-=0A=
-BR // Mats=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-Get your own =0A=
-FREE website, =0A=
-FREE domain & =0A=
-FREE mobile app with Company email.  =0A=
-=0A=
-Know=0A=
- More >=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-=0A=
+The following changes since commit 6b5484d17df275b706a2b3c06bf7988da5818000:
+
+  Revert "libusb: add missing build dependency on udev" (2014-06-29 10:00:44 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib roxana/YB6467
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6467
+
+Roxana (1):
+  python3: fix builtins imports
+
+ meta/recipes-devtools/python/python3/unixccompiler.patch | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+1.9.1
+
 
