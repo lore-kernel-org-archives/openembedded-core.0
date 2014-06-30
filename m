@@ -1,36 +1,30 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 0250760850
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E35E9601A9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 19:31:32 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 04B522232CC0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 21:31:30 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 2D6792232CBF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 21:31:29 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from mail.itconsulting-heinold.de (f053010078.adsl.alicedsl.de
-	[78.53.10.78]) by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 21:31:28 +0200 (CEST)
-Date: Mon, 30 Jun 2014 21:31:18 +0200
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20140630193117.GA25772@mail.itconsulting-heinold.de>
-References: <20140630132926.5436.qmail@f4mail-235-92.rediffmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20140630132926.5436.qmail@f4mail-235-92.rediffmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: Reagrding meta-networking
+	Mon, 30 Jun 2014 22:00:25 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5UM0KIv014224; Mon, 30 Jun 2014 23:00:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id yduyUaZHu9wQ; Mon, 30 Jun 2014 23:00:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5UM0HJD014221
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 30 Jun 2014 23:00:18 +0100
+Message-ID: <1404165610.6362.45.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?St=E9phane?= Cerveau <scerveau@connected-labs.com>
+Date: Mon, 30 Jun 2014 23:00:10 +0100
+In-Reply-To: <1404138195-14158-1-git-send-email-scerveau@connected-labs.com>
+References: <1404138195-14158-1-git-send-email-scerveau@connected-labs.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [dora][PATCH] vala: should not depend on gtk+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 19:31:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Jun 2014 22:00:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 30, 2014 at 01:29:26PM -0000, Himanshu  Pandey wrote:
-> Hi,
+On Mon, 2014-06-30 at 16:23 +0200, Stéphane Cerveau wrote:
+> Signed-off-by: Stéphane Cerveau <scerveau@connected-labs.com>
+> ---
+>  meta/recipes-devtools/vala/vala.inc |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Since I want dhcp and pppoe, so I downloaded the same from git and included meta-networking layer in bblayers.conf. This layer is getting compiled but somehow dhcp and pppoe are not getting included in the final image. So what I have to do inorder to add dhcp and pppoe in the final image.
-> 
-> Please help.
-> 
-> Regards,
-> Himanshu
+> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+> index a8927d7..a9e5a57 100644
+> --- a/meta/recipes-devtools/vala/vala.inc
+> +++ b/meta/recipes-devtools/vala/vala.inc
+> @@ -1,7 +1,7 @@
+>  DESCRIPTION = "Vala is a C#-like language dedicated to ease GObject programming. \
+>  Vala compiles to plain C and has no runtime environment nor penalities whatsoever."
+>  SECTION = "devel"
+> -DEPENDS = "glib-2.0 dbus gtk+"
+> +DEPENDS = "glib-2.0 dbus"
+>  BBCLASSEXTEND = "native"
+>  DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native"
+>  HOMEPAGE = "http://vala-project.org"
 
-IMAGE_INSTALL += "packagename_dhcp packagname_pppoe"
+Really we should probably backport:
 
-Be aware that recipe(bb)-name is mostly not the resulting packagename.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=27c2cbbdb14d65caef1faafbfea063d6744f4e70
 
-Bye Henning
+?
+
+Cheers,
+
+Richard
+
 
