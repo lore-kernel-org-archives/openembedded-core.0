@@ -1,40 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B4AED60559
+Return-Path: <sadlife1990@gmail.com>
+Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7870465D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 16:40:30 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id n3so6404483wiv.9
+	Mon, 30 Jun 2014 17:27:01 +0000 (UTC)
+Received: by mail-ve0-f173.google.com with SMTP id db11so8404410veb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 09:40:31 -0700 (PDT)
+	Mon, 30 Jun 2014 10:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=uZ8VjPXbphXfG9AhUQ2uJThO90+2+/sQWfgjp75xEog=;
-	b=f71iuASzYAdNJHbi3DNLZL4gHshvaQBaGbixzklR/VXqwrjITw+UBAzIBraElovHS+
-	uVYET+xktaJDXPSztUwL1w7VFrdbjD+27If4OL+2dvz0BdbrGWYiwowgMtxz671hUhTW
-	IqLpqynvWLo+MRH6+t0gMfo4zwa9RLnu9iI1P8XbfUwijhnFTTfgDE/ESSHmanSmd2gA
-	xnVrLrZRaw8zwPVFl72NFfhoF74RMXRFYCutw/3GyInGaCS2erUkOs1TnM9VWUs7ZJSL
-	SXJGg9K+9VdlSmglimsDmRGWoqjkunm2836eFN6UqzW/GDfDrxk+zupvwThiCBjj5Mj0
-	YMSQ==
-X-Received: by 10.180.188.103 with SMTP id fz7mr30925216wic.73.1404146431731; 
-	Mon, 30 Jun 2014 09:40:31 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	hi4sm42345349wjc.27.2014.06.30.09.40.30 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jun 2014 09:40:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 30 Jun 2014 18:40:39 +0200
-To: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-Message-ID: <20140630164039.GC2437@jama>
-References: <1404138201-22662-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=DbWHiSS/NdAcOZh5zfFiBLYwvP3fs4JKw+fhBjVXm4Y=;
+	b=ND3qX10y4UOOZYjtZiNhOyG8bhQLEFyXPWD348dRWJn7lk0DQGUklKcdzVl/0Ftc9y
+	blfyypmRHSOYbZ0AshLAlg+O5OfezfD/rjAZ4FykJI2l4A9f7oTVaGdkMt3xEMDepqxs
+	1IBFZMdBUGQt4Vh6o+FI3ATWyXlfuUPhl726qzsaDcC34k/sZiJZrjEmqLoUH6x6AHgE
+	SFqiupCRNBOJTNo5dz1u2nFTRbX1b/hPBNFez5AdWfdssYsD1iLGOirBnzRyd5Zd9Rv5
+	hwBq1FZ4LhberUfUJ29/WQ/2NsJ7K4+ixuJsXl5L7rgxowv3FwJLv4Nhtf0N5vOGyMDp
+	GhMA==
 MIME-Version: 1.0
-In-Reply-To: <1404138201-22662-1-git-send-email-Matthieu.Crapet@ingenico.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
+X-Received: by 10.52.135.7 with SMTP id po7mr1841993vdb.50.1404149222689; Mon,
+	30 Jun 2014 10:27:02 -0700 (PDT)
+Received: by 10.58.152.200 with HTTP; Mon, 30 Jun 2014 10:27:02 -0700 (PDT)
+In-Reply-To: <CAMCfZKE6bTaWSCGg=2Gdzau-d=tSM_Vcae60rTWTYw88mMoyJQ@mail.gmail.com>
+References: <CAAHuHfzRzh2LhFoc0VrdA+MqJiUOVwv_tNe9y48nOrk13ERHug@mail.gmail.com>
+	<53B0DD86.4030402@windriver.com>
+	<20140630081507.GA5083@ad.chargestorm.se>
+	<CAMCfZKE6bTaWSCGg=2Gdzau-d=tSM_Vcae60rTWTYw88mMoyJQ@mail.gmail.com>
+Date: Mon, 30 Jun 2014 20:27:02 +0300
+Message-ID: <CAAHuHfw8_G0=tndHAvT+GGq2PRY7gAETDEc2qTWaqtdZvimJng@mail.gmail.com>
+From: Life Life <sadlife1990@gmail.com>
+To: Diego Sueiro <diego.sueiro@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Cape Manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,149 +45,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 16:40:33 -0000
-X-Groupsio-MsgNum: 54489
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="k8ylJtLa18RSEDYA"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Jun 2014 17:27:06 -0000
+Content-Type: multipart/alternative; boundary=bcaec52c637da14ffc04fd10f731
 
---k8ylJtLa18RSEDYA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--bcaec52c637da14ffc04fd10f731
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 30, 2014 at 04:23:21PM +0200, Matthieu Crapet wrote:
-> Dropped libvorvis dependency because there is already a (better) builtin =
-vorbis codec.
-> Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using exte=
-rnal library).
-> Changes:
-> - add --enable-nonfree when faac or openssl are used
-> - add DESCRIPTION
-> - sort PACKAGECONFIG entries
->=20
-> Tested with libav-0.8.11 & libav-9.13.
->=20
-> Note: Be sure to have a recent version of bitbake (2014-06-11 or better) =
-including this:
-> http://cgit.openembedded.org/bitbake/commit/?id=3D2e742c03e8dfdfa67899e7f=
-5d579ed14bd87e139
-> It affects behavior of bb.utils.contains_any
->=20
-> Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-> ---
->  meta/recipes-multimedia/libav/libav.inc | 30 ++++++++++++++++++++++-----=
----
->  1 file changed, 22 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multi=
-media/libav/libav.inc
-> index a05a2a6..1d617a2 100644
-> --- a/meta/recipes-multimedia/libav/libav.inc
-> +++ b/meta/recipes-multimedia/libav/libav.inc
-> @@ -1,6 +1,12 @@
-> -SUMMARY =3D "A complete, cross-platform solution to record, convert and =
-stream audio and video"
-> +SUMMARY =3D "Open source audio and video processing tools and librairies"
-> +DESCRIPTION =3D "Libav is a friendly and community-driven effort to prov=
-ide its users \
-> +               with a set of portable, functional and high-performance l=
-ibraries for \
-> +               dealing with multimedia formats of all sorts. It originat=
-es from the \
-> +               FFmpeg codebase, but goes its own way these days, providi=
-ng its users \
-> +               with reliable releases and a clear vision how to go forwa=
-rd."
->  HOMEPAGE =3D "http://libav.org/"
->  SECTION =3D "libs"
-> +
->  LICENSE =3D "GPLv2+"
->  LICENSE_FLAGS =3D "commercial"
-> =20
-> @@ -9,7 +15,7 @@ PROVIDES =3D "ffmpeg"
-> =20
->  ARM_INSTRUCTION_SET =3D "arm"
-> =20
-> -DEPENDS =3D "zlib libogg libvorbis libtheora yasm-native"
-> +DEPENDS =3D "zlib libogg yasm-native"
-> =20
->  INC_PR =3D "r8"
-> =20
-> @@ -23,21 +29,29 @@ BUILD_OPTIMIZATION =3D "${FULL_OPTIMIZATION}"
->  EXTRA_FFCONF_armv7a =3D "--cpu=3Dcortex-a8"
->  EXTRA_FFCONF ?=3D ""
-> =20
-> -PACKAGECONFIG ??=3D "bzip2 x264 ${@bb.utils.contains('DISTRO_FEATURES', =
-'x11', 'x11', '', d)}"
-> -PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
-ck"
-> +PACKAGECONFIG ??=3D "bzip2 x264 theora ${@bb.utils.contains('DISTRO_FEAT=
-URES', 'x11', 'x11', '', d)}"
->  PACKAGECONFIG[bzip2] =3D "--enable-bzlib,--disable-bzlib,bzip2"
-> -PACKAGECONFIG[schroedinger] =3D "--enable-libschroedinger,--disable-libs=
-chroedinger,schroedinger"
-> +PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
->  PACKAGECONFIG[gsm] =3D "--enable-libgsm,--disable-libgsm,libgsm"
-> -PACKAGECONFIG[x264] =3D "--enable-libx264,--disable-libx264,x264"
-> -PACKAGECONFIG[vpx] =3D "--enable-libvpx,--disable-libvpx,libvpx"
-> +PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
-ck"
-> +PACKAGECONFIG[libvorbis] =3D "--enable-libvorbis,--disable-libvorbis,lib=
-vorbis"
->  PACKAGECONFIG[mp3lame] =3D "--enable-libmp3lame,--disable-libmp3lame,lam=
-e"
-> -PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
-> +PACKAGECONFIG[openssl] =3D "--enable-openssl,--disable-openssl,openssl"
-> +PACKAGECONFIG[schroedinger] =3D "--enable-libschroedinger,--disable-libs=
-chroedinger,schroedinger"
-> +PACKAGECONFIG[speex] =3D "--enable-libspeex,--disable-libspeex,speex"
-> +PACKAGECONFIG[theora] =3D "--enable-libtheora,--disable-libtheora,libthe=
-ora"
-> +PACKAGECONFIG[vpx] =3D "--enable-libvpx,--disable-libvpx,libvpx"
->  PACKAGECONFIG[x11] =3D "--enable-x11grab,--disable-x11grab,virtual/libx1=
-1 libxfixes libxext xproto virtual/libsdl"
-> +PACKAGECONFIG[x264] =3D "--enable-libx264,--disable-libx264,x264"
-> +
-> +# Check codecs that require --enable-nonfree
-> +USE_NONFREE =3D "${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'op=
-enssl' ], 'yes', '', d)}"
-> =20
->  EXTRA_OECONF =3D " \
->      --enable-shared \
->      --enable-pthreads \
->      --enable-gpl \
-> +    ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d=
-)} \
+Hello,
 
-cannot you just pass --enable-nonfree in faac and openssl PACKAGECONFIG?
-In worse case when both are enabled the option will be added twice.
+How to use this layer, please explain
 
->      --enable-avfilter \
->      \
->      --cross-prefix=3D${TARGET_PREFIX} \
-> --=20
-> 2.0.0
->=20
-> --=20
+Thanks
+
+
+2014-06-30 16:40 GMT+03:00 Diego Sueiro <diego.sueiro@gmail.com>:
+
+>
+> On Mon, Jun 30, 2014 at 5:15 AM, Anders Darander <anders@chargestorm.se>
+> wrote:
+>
+>> * Robert Yang <liezhi.yang@windriver.com> [140630 05:47]:
+>>
+>>
+>> > On 06/30/2014 12:24 AM, Life Life wrote:
+>> > > Hello,
+>>
+>> > > I'm trying build yocto based linux, My hardware is beaglebone black I
+>> > > successfull build system image. But I can't see capemanager. Beacuse
+>> my lcd is
+>> > > not work.
+>>
+>> > Hello,
+>>
+>> > The cape manager is in meta-ti layer:
+>>
+>> > http://layers.openembedded.org/layerindex/branch/master/layer/meta-ti/
+>>
+>> > Seems that we'd better add it to meta-yoco-bsp ?
+>>
+>> Unless something has changed since I last looked at this, I don't think
+>> so.
+>>
+>> If I remember correctly, capemgr basically consists of a number of
+>> patches not in the mainline kernel (and also not in TI's staging
+>> kernel). I haven't checked it, by I doubt that we have them in the
+>> linux-yocto kernel. (Especially as the last time I checked it, you had
+>> to revert to a 3.8 (if I rember correctly, it might have been an even
+>> earlier kernel) kernel to get full capemgr support.
+>>
+>> If this has changed, then it'd be interesting to know!
+>>
+>> Cheers,
+>> Anders
+>>
+>
+> To get cape manager support you have to use meta-beagleboard layer (
+> linux-mainline_3.8.bb
+> <https://github.com/beagleboard/meta-beagleboard/blob/master/common-bsp/recipes-kernel/linux/linux-mainline_3.8.bb>
+> )
+>
+>
+>
+> Regards,
+>
+> --
+> *dS
+> Diego Sueiro
+>
+> Administrador do Embarcados
+> www.embarcados.com.br
+> <http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+>
+> /*long live rock 'n roll*/
+>
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--bcaec52c637da14ffc04fd10f731
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---k8ylJtLa18RSEDYA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+<div dir=3D"ltr"><div>Hello,<br><br></div>How to use this layer, please exp=
+lain<br><br>Thanks<br></div><div class=3D"gmail_extra"><br><br><div class=
+=3D"gmail_quote">2014-06-30 16:40 GMT+03:00 Diego Sueiro <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:diego.sueiro@gmail.com" target=3D"_blank">diego.sueir=
+o@gmail.com</a>&gt;</span>:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">=
+<div class=3D""><br><div class=3D"gmail_quote">On Mon, Jun 30, 2014 at 5:15=
+ AM, Anders Darander <span dir=3D"ltr">&lt;<a href=3D"mailto:anders@charges=
+torm.se" target=3D"_blank">anders@chargestorm.se</a>&gt;</span> wrote:<br>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlOxkwcACgkQN1Ujt2V2gBz46gCgoXr5hXpHCUFw6ElM2ig++uh2
-2C8An1QpSTk7r90qqfpMo2q7/lmpLmL5
-=K4nS
------END PGP SIGNATURE-----
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div style=3D"overflow:hidden">* Robert Yang &lt;<a href=
+=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
+er.com</a>&gt; [140630 <span><span>05:47</span></span>]:<br>
 
---k8ylJtLa18RSEDYA--
+
+
+<div><br>
+<br>
+&gt; On 06/30/2014 12:24 AM, Life Life wrote:<br>
+&gt; &gt; Hello,<br>
+<br>
+&gt; &gt; I&#39;m trying build yocto based linux, My hardware is beaglebone=
+ black I<br>
+&gt; &gt; successfull build system image. But I can&#39;t see capemanager. =
+Beacuse my lcd is<br>
+&gt; &gt; not work.<br>
+<br>
+&gt; Hello,<br>
+<br>
+&gt; The cape manager is in meta-ti layer:<br>
+<br>
+&gt; <a href=3D"http://layers.openembedded.org/layerindex/branch/master/lay=
+er/meta-ti/" target=3D"_blank">http://layers.openembedded.org/layerindex/br=
+anch/master/layer/meta-ti/</a><br>
+<br>
+&gt; Seems that we&#39;d better add it to meta-yoco-bsp ?<br>
+<br>
+</div>Unless something has changed since I last looked at this, I don&#39;t=
+ think<br>
+so.<br>
+<br>
+If I remember correctly, capemgr basically consists of a number of<br>
+patches not in the mainline kernel (and also not in TI&#39;s staging<br>
+kernel). I haven&#39;t checked it, by I doubt that we have them in the<br>
+linux-yocto kernel. (Especially as the last time I checked it, you had<br>
+to revert to a 3.8 (if I rember correctly, it might have been an even<br>
+earlier kernel) kernel to get full capemgr support.<br>
+<br>
+If this has changed, then it&#39;d be interesting to know!<br>
+<br>
+Cheers,<br>
+Anders</div></blockquote></div><br></div>To get cape manager support you ha=
+ve to use meta-beagleboard layer (<a href=3D"https://github.com/beagleboard=
+/meta-beagleboard/blob/master/common-bsp/recipes-kernel/linux/linux-mainlin=
+e_3.8.bb" title=3D"linux-mainline_3.8.bb" style=3D"background-color:rgb(248=
+,248,248);color:rgb(65,131,196);text-decoration:none;font-family:Helvetica,=
+arial,freesans,clean,sans-serif,&#39;Segoe UI Emoji&#39;,&#39;Segoe UI Symb=
+ol&#39;;font-size:12.727272033691406px;line-height:20px;white-space:nowrap"=
+ target=3D"_blank">linux-mainline_3.8.bb</a>)</div>
+
+
+<div class=3D"gmail_extra"><br><br><br clear=3D"all"><div><div dir=3D"ltr">=
+<div>Regards,</div><div><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administ=
+rador do Embarcados<br><a href=3D"http://www.embarcados.com.br/?utm_source=
+=3Dassinatura_diego&amp;utm_medium=3De-mail&amp;utm_campaign=3DAssinatura%2=
+0Email%20Diego" target=3D"_blank">www.embarcados.com.br</a><br>
+
+
+<br>/*long live rock &#39;n roll*/<br></div></div>
+</div></div>
+<br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+<br></blockquote></div><br></div>
+
+--bcaec52c637da14ffc04fd10f731--
