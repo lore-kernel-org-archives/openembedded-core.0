@@ -1,34 +1,35 @@
-Return-Path: <pandey_himanshu80@rediffmail.com>
-Received: from f4mail-83-111.rediffmail.com (unknown [203.199.83.114])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D54A60017
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 38DAD601A9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 13:29:32 +0000 (UTC)
-Received: from rediffmail.com (unknown [10.50.250.70])
-	by f4mail-83-111.rediffmail.com (Postfix) with SMTP id 79283235806A
+	Mon, 30 Jun 2014 13:40:42 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id r5so6892897qcx.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 18:59:30 +0530 (IST)
-Received: (qmail 5462 invoked by uid 510); 30 Jun 2014 13:29:26 -0000
-Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
-	b=OLHpLE/LlxRSbTKiDjy0Q1sz0NseUMsNy/VWWXTE6THBwMRx5iguWIMq4gbu9hHkkEj79R0Hxd9W16RZyr7oOjdP5RnshJsds+Li4TiJBq+7TLhA1K8m+7b2n+luQrumNy5taYm8MUNMBWffAKM9XTTQiLRTMM9JbhsxmdCtKCY=
-	; 
-x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
-X-CTCH-Spam: Unknown
-X-CTCH-VOD: Unknown
-X-CTCH-Flags: : 0
-X-CTCH-RefID: str=0001.0A160205.53B16636.0103, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-X-REDF-OSEN: pandey_himanshu80@rediffmail.com
-Date: 30 Jun 2014 13:29:26 -0000
-Message-ID: <20140630132926.5436.qmail@f4mail-235-92.rediffmail.com>
+	Mon, 30 Jun 2014 06:40:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=jVycua6L/8xp7Llym9vbDTN1TRqyKXMvmW0frmaumqY=;
+	b=gfIFVHmWBYPS7QgWd5tVEBNLrMMrt+jwWHXgfKu9UEnKRuoeISB4dDy3x17wAuCr8j
+	Y1agt+yihYF65o1+S/p3QSAaLTXK+oqDgOd9TEd8JUCJWXapqIRT4W9FhBC2oBi3wJiC
+	Hfhwd7hQVWnh0Ex1pX53YBdqGXTYdPevNj8b4oHuwulxiokEnlKYegjfvzwH3vw9/+vh
+	ACCvpRpX+VEIIJY0lIkw+mEE/UATqiPhhQ8ll0ZyiWZdR64fzMiDVqvfqZ8RrbBPdNeu
+	5HGNreBcasNiRMUjkzr34aXJYRy1UbLcjKpprKB/E/QF19sYCbrcJ2YKAbvYdZBcNX+h
+	8xwg==
+X-Received: by 10.140.41.116 with SMTP id y107mr56952071qgy.78.1404135643205; 
+	Mon, 30 Jun 2014 06:40:43 -0700 (PDT)
 MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
+Received: by 10.140.48.112 with HTTP; Mon, 30 Jun 2014 06:40:23 -0700 (PDT)
+In-Reply-To: <20140630081507.GA5083@ad.chargestorm.se>
+References: <CAAHuHfzRzh2LhFoc0VrdA+MqJiUOVwv_tNe9y48nOrk13ERHug@mail.gmail.com>
+	<53B0DD86.4030402@windriver.com>
+	<20140630081507.GA5083@ad.chargestorm.se>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Mon, 30 Jun 2014 10:40:23 -0300
+Message-ID: <CAMCfZKE6bTaWSCGg=2Gdzau-d=tSM_Vcae60rTWTYw88mMoyJQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
-	30 Jun 2014 13:29:26 -0000
-Sender: pandey_himanshu80@rediffmail.com
-From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
-Subject: Reagrding meta-networking
+Subject: Re: Cape Manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +42,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 13:29:33 -0000
-Content-Type: multipart/alternative;
-	boundary="=_17be07841d270c1d5c7b9a9dbcb79491"
+X-List-Received-Date: Mon, 30 Jun 2014 13:40:44 -0000
+Content-Type: multipart/alternative; boundary=001a11c125e83ad7ff04fd0dce77
 
---=_17be07841d270c1d5c7b9a9dbcb79491
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="UTF-8"
+--001a11c125e83ad7ff04fd0dce77
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi,
+On Mon, Jun 30, 2014 at 5:15 AM, Anders Darander <anders@chargestorm.se>
+wrote:
 
-Since I want dhcp and pppoe, so I downloaded the same from git and included meta-networking layer in bblayers.conf. This layer is getting compiled but somehow dhcp and pppoe are not getting included in the final image. So what I have to do inorder to add dhcp and pppoe in the final image.
+> * Robert Yang <liezhi.yang@windriver.com> [140630 05:47]:
+>
+>
+> > On 06/30/2014 12:24 AM, Life Life wrote:
+> > > Hello,
+>
+> > > I'm trying build yocto based linux, My hardware is beaglebone black I
+> > > successfull build system image. But I can't see capemanager. Beacuse
+> my lcd is
+> > > not work.
+>
+> > Hello,
+>
+> > The cape manager is in meta-ti layer:
+>
+> > http://layers.openembedded.org/layerindex/branch/master/layer/meta-ti/
+>
+> > Seems that we'd better add it to meta-yoco-bsp ?
+>
+> Unless something has changed since I last looked at this, I don't think
+> so.
+>
+> If I remember correctly, capemgr basically consists of a number of
+> patches not in the mainline kernel (and also not in TI's staging
+> kernel). I haven't checked it, by I doubt that we have them in the
+> linux-yocto kernel. (Especially as the last time I checked it, you had
+> to revert to a 3.8 (if I rember correctly, it might have been an even
+> earlier kernel) kernel to get full capemgr support.
+>
+> If this has changed, then it'd be interesting to know!
+>
+> Cheers,
+> Anders
+>
 
-Please help.
+To get cape manager support you have to use meta-beagleboard layer (
+linux-mainline_3.8.bb
+<https://github.com/beagleboard/meta-beagleboard/blob/master/common-bsp/recipes-kernel/linux/linux-mainline_3.8.bb>
+)
+
+
 
 Regards,
-Himanshu
 
---=_17be07841d270c1d5c7b9a9dbcb79491
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
+<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+
+/*long live rock 'n roll*/
+
+--001a11c125e83ad7ff04fd0dce77
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="UTF-8"
 
-Hi,<br><br>Since I want dhcp and pppoe, so I downloaded the same from git a=
-nd included meta-networking layer in bblayers.conf. This layer is getting c=
-ompiled but somehow dhcp and pppoe are not getting included in the final im=
-age. So what I have to do inorder to add dhcp and pppoe in the final image.=
-<br><br>Please help.<br><br>Regards,<br>Himanshu<br><br><A HREF=3D"http://s=
-igads.rediff.com/RealMedia/ads/click_nx.ads/www.rediffmail.com/signaturelin=
-e.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://sigads.rediff.com/RealM=
-edia/ads/adstream_nx.ads/www.rediffmail.com/signatureline.htm@Middle"></A><=
-table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr><td><div style=3D"font=
--family: Arial, Helvetica, sans-serif; font-size:14px">Get your own <span s=
-tyle=3D"padding-bottom: 0px; background-color: #cc0000; padding-left: 3px; =
-padding-RIGHT: 3px; font-family: Arial, Helvetica, sans-serif; color: #ffff=
-ff; font-size: 12px; padding-top: 0px"><b>FREE</b></span> website,  <span s=
-tyle=3D"padding-bottom: 0px; background-color: #c00; padding-left: 3px; pad=
-ding-RIGHT: 3px; font-family: Arial, Helvetica, sans-serif; color: #ffffff;=
- font-size: 12px; padding-top: 0px"><b>FREE</b></span> domain &amp; <span s=
-tyle=3D"padding-bottom: 0px; background-color: #c00; padding-left: 3px; pad=
-ding-RIGHT: 3px; font-family: Arial, Helvetica, sans-serif; color: #ffffff;=
- font-size: 12px; padding-top: 0px"><b>FREE</b></span> mobile app with Comp=
-any email. &nbsp;</div></td><td><a href=3D"http://track.rediff.com/click?ur=
-l=3D___http://businessemail.rediff.com/email-ids-for-companies-with-less-th=
-an-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&lnk=3Dsign-1-10-13&nsrv=
-1=3Dhost" style=3D"font-family: Arial, Helvetica, sans-serif; color: #fff; =
-font-size: 14px; color:#0000cc" target=3D"_blank"><b>Know More ></b></a><!-=
-- <in-put type=3D"button" cl-ass=3D"button" on-click=3D"parent.location=3D&=
-#39;http://track.rediff.com/click?url=3D___http://businessemail.rediff.com/=
-company-email-hosting-services?sc_cid=3Dsignature-23-9-13___&amp;cmp=3Dsign=
-ature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhost&#39;" value=3D"Know m=
-ore &gt;"> </input> --></td></tr></tbody></table>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Jun 30, 2014 at 5:15 AM, Anders Darander <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:anders@chargestorm.se" target=3D"_blank">anders@chargestorm.s=
+e</a>&gt;</span> wrote:<br>
 
---=_17be07841d270c1d5c7b9a9dbcb79491--
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":5fi" class=3D"" style=3D"overflow:hidden">* Ro=
+bert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com">liezhi.yang@wind=
+river.com</a>&gt; [140630 <span class=3D"" tabindex=3D"0"><span class=3D"">=
+05:47</span></span>]:<br>
+
+
+<div class=3D""><br>
+<br>
+&gt; On 06/30/2014 12:24 AM, Life Life wrote:<br>
+&gt; &gt; Hello,<br>
+<br>
+&gt; &gt; I&#39;m trying build yocto based linux, My hardware is beaglebone=
+ black I<br>
+&gt; &gt; successfull build system image. But I can&#39;t see capemanager. =
+Beacuse my lcd is<br>
+&gt; &gt; not work.<br>
+<br>
+&gt; Hello,<br>
+<br>
+&gt; The cape manager is in meta-ti layer:<br>
+<br>
+&gt; <a href=3D"http://layers.openembedded.org/layerindex/branch/master/lay=
+er/meta-ti/" target=3D"_blank">http://layers.openembedded.org/layerindex/br=
+anch/master/layer/meta-ti/</a><br>
+<br>
+&gt; Seems that we&#39;d better add it to meta-yoco-bsp ?<br>
+<br>
+</div>Unless something has changed since I last looked at this, I don&#39;t=
+ think<br>
+so.<br>
+<br>
+If I remember correctly, capemgr basically consists of a number of<br>
+patches not in the mainline kernel (and also not in TI&#39;s staging<br>
+kernel). I haven&#39;t checked it, by I doubt that we have them in the<br>
+linux-yocto kernel. (Especially as the last time I checked it, you had<br>
+to revert to a 3.8 (if I rember correctly, it might have been an even<br>
+earlier kernel) kernel to get full capemgr support.<br>
+<br>
+If this has changed, then it&#39;d be interesting to know!<br>
+<br>
+Cheers,<br>
+Anders</div></blockquote></div><br>To get cape manager support you have to =
+use meta-beagleboard layer (<a href=3D"https://github.com/beagleboard/meta-=
+beagleboard/blob/master/common-bsp/recipes-kernel/linux/linux-mainline_3.8.=
+bb" class=3D"" id=3D"433d21100f1d248d1b851f6eedbd91d2-e2cfe4a35e6fa5b9e5d74=
+d850577c2fdfa65a5ad" title=3D"linux-mainline_3.8.bb" style=3D"background-co=
+lor:rgb(248,248,248);color:rgb(65,131,196);text-decoration:none;font-family=
+:Helvetica,arial,freesans,clean,sans-serif,&#39;Segoe UI Emoji&#39;,&#39;Se=
+goe UI Symbol&#39;;font-size:12.727272033691406px;line-height:20px;white-sp=
+ace:nowrap">linux-mainline_3.8.bb</a>)</div>
+
+<div class=3D"gmail_extra"><br><br><br clear=3D"all"><div><div dir=3D"ltr">=
+<div>Regards,</div><div><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administ=
+rador do Embarcados<br><a href=3D"http://www.embarcados.com.br/?utm_source=
+=3Dassinatura_diego&amp;utm_medium=3De-mail&amp;utm_campaign=3DAssinatura%2=
+0Email%20Diego" target=3D"_blank">www.embarcados.com.br</a><br>
+
+<br>/*long live rock &#39;n roll*/<br></div></div>
+</div></div>
+
+--001a11c125e83ad7ff04fd0dce77--
