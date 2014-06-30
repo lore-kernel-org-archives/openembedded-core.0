@@ -1,28 +1,36 @@
-Return-Path: <rewitt@declaratino.com>
-X-Greylist: delayed 434 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 30 Jun 2014 19:23:35 UTC
-Received: from p3plsmtpa08-02.prod.phx3.secureserver.net
-	(p3plsmtpa08-02.prod.phx3.secureserver.net [173.201.193.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 92D1960850
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 0250760850
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 19:23:35 +0000 (UTC)
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
-	by p3plsmtpa08-02.prod.phx3.secureserver.net with 
-	id LjGN1o0053nfWBV01jGNwH; Mon, 30 Jun 2014 12:16:22 -0700
-Received: by mail-vc0-f175.google.com with SMTP id hy4so7969217vcb.20
+	Mon, 30 Jun 2014 19:31:32 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 04B522232CC0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 12:16:21 -0700 (PDT)
-X-Received: by 10.220.192.129 with SMTP id dq1mr2263898vcb.57.1404155781930;
-	Mon, 30 Jun 2014 12:16:21 -0700 (PDT)
+	Mon, 30 Jun 2014 21:31:30 +0200 (CEST)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 2D6792232CBF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jun 2014 21:31:29 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from mail.itconsulting-heinold.de (f053010078.adsl.alicedsl.de
+	[78.53.10.78]) by mail.familie-heinold.de (Postfix) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jun 2014 21:31:28 +0200 (CEST)
+Date: Mon, 30 Jun 2014 21:31:18 +0200
+From: Henning Heinold <henning@itconsulting-heinold.de>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20140630193117.GA25772@mail.itconsulting-heinold.de>
+References: <20140630132926.5436.qmail@f4mail-235-92.rediffmail.com>
 MIME-Version: 1.0
-Received: by 10.58.119.197 with HTTP; Mon, 30 Jun 2014 12:15:51 -0700 (PDT)
-In-Reply-To: <1404152999-10661-1-git-send-email-rewitt@declaratino.com>
-References: <1404152999-10661-1-git-send-email-rewitt@declaratino.com>
-From: Randy Witt <rewitt@declaratino.com>
-Date: Mon, 30 Jun 2014 15:15:51 -0400
-Message-ID: <CAP5N7XHpHhvsEZrjdwzWw=aDThS0nCY15mk_CvT-_s9WnkiKig@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: Speed up sdk creation by supporting multicore compressors.
+In-Reply-To: <20140630132926.5436.qmail@f4mail-235-92.rediffmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: Reagrding meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 19:23:37 -0000
-Content-Type: multipart/alternative; boundary=089e01293f2c97669204fd127efa
+X-List-Received-Date: Mon, 30 Jun 2014 19:31:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---089e01293f2c97669204fd127efa
-Content-Type: text/plain; charset=UTF-8
+On Mon, Jun 30, 2014 at 01:29:26PM -0000, Himanshu  Pandey wrote:
+> Hi,
+> 
+> Since I want dhcp and pppoe, so I downloaded the same from git and included meta-networking layer in bblayers.conf. This layer is getting compiled but somehow dhcp and pppoe are not getting included in the final image. So what I have to do inorder to add dhcp and pppoe in the final image.
+> 
+> Please help.
+> 
+> Regards,
+> Himanshu
 
-Sorry, I messed up my formatting there, here is are stats that are easier
-to read:
+IMAGE_INSTALL += "packagename_dhcp packagname_pppoe"
 
-Using default compressor(bzip2):
-core-image-minimal-1.0-r0: do_populate_sdk: Elapsed time: 133.21 seconds
-CPU usage: 12.3%
-core-image-sato-1.0-r0: do_populate_sdk: Elapsed time: 356.85 seconds
-CPU usage: 11.6%
+Be aware that recipe(bb)-name is mostly not the resulting packagename.
 
-Using pigz:
-core-image-minimal-1.0-r0: do_populate_sdk: Elapsed time: 102.62 seconds
-CPU usage: 15.3%
-core-image-sato-1.0-r0: do_populate_sdk: Elapsed time: 261.66 seconds
-CPU usage: 15.6%
+Bye Henning
 
---089e01293f2c97669204fd127efa
-Content-Type: text/html; charset=UTF-8
-
-<div dir="ltr">Sorry, I messed up my formatting there, here is are stats that are easier to read:<div><br></div><div><div>Using default compressor(bzip2):</div><div>core-image-minimal-1.0-r0: do_populate_sdk: Elapsed time: 133.21 seconds</div>
-
-<div>CPU usage: 12.3%</div><div>core-image-sato-1.0-r0: do_populate_sdk: Elapsed time: 356.85 seconds</div><div>CPU usage: 11.6%</div><div><br></div><div>Using pigz:</div><div>core-image-minimal-1.0-r0: do_populate_sdk: Elapsed time: 102.62 seconds</div>
-
-<div>CPU usage: 15.3%</div><div>core-image-sato-1.0-r0: do_populate_sdk: Elapsed time: 261.66 seconds</div><div>CPU usage: 15.6%</div></div></div>
-
---089e01293f2c97669204fd127efa--
