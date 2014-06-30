@@ -1,45 +1,31 @@
-Return-Path: <scerveau@connected-labs.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A4F73601A9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B5B0C60169
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 15:11:12 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id b13so8246315wgh.23
+	Mon, 30 Jun 2014 15:21:35 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s5UFLUEo028614 for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jun 2014 16:21:30 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id axbe0xBeS59F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 08:11:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=haoFC3PPUaRetOqiLvywwrO5zN08kH5l8s1TFc9IhR4=;
-	b=HAOKtH1tmh1IOOsK18JRqKr/5ieJoUamym8XGIsN1Uxiqg1Ti5nZqH15PqnwiWC4Pr
-	TQjqCZM/cpSDURzaet4YQaqm2txfprBFWeglIej4rImZ14+ruIHFPmCiD05AsFP0Yf/N
-	XYzfaxlGiBj8hq+MvPmNicCEvRBmaMxdDBg+jjYJa4Hr902xVouZKKdYdqnIzBLp8DQw
-	pWebgN0y0TPNMPG9qeKMgQwqx+frtGbLB0tH8Y6HI1FmRjjBapRsg/6yd8NxsUZNX598
-	T2NGsyhxSzcXbwwn8vX66nsn2JFEivKzhlDhhDM7+9N7ZBxGDEWgX+Jxvmmh8ztrSE94
-	0z3Q==
-X-Gm-Message-State: ALoCoQmVGcF3Px0jFeHIuBPH+cT3Nt86tm3fhz0sysQ238u1bweVCa+vsTUJ027WAifNU8AhO6Wt
-X-Received: by 10.180.90.233 with SMTP id bz9mr29622993wib.42.1404141073451;
-	Mon, 30 Jun 2014 08:11:13 -0700 (PDT)
-Received: from [172.24.63.14]
-	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
-	by mx.google.com with ESMTPSA id s14sm10848949wij.1.2014.06.30.08.11.12
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 30 Jun 2014 08:11:12 -0700 (PDT)
-Message-ID: <53B17E06.9060500@connected-labs.com>
-Date: Mon, 30 Jun 2014 17:11:02 +0200
-From: Stephane Cerveau <scerveau@connected-labs.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1404137924-14085-1-git-send-email-scerveau@connected-labs.com>	<53B17224.4050602@connected-labs.com>	<1404139876.6362.13.camel@ted>	<53B17CF5.9020008@connected-labs.com>
-	<CAP9ODKpXm4ZT-4Dye-bY1gMnaznnQmS3FJ_u0_n8VX8tW0BQZA@mail.gmail.com>
-In-Reply-To: <CAP9ODKpXm4ZT-4Dye-bY1gMnaznnQmS3FJ_u0_n8VX8tW0BQZA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dora][PATCH] e2fsprogs: Fix populate-extfs.sh
+	Mon, 30 Jun 2014 16:21:30 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s5UFLNAA028609
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jun 2014 16:21:25 +0100
+Message-ID: <1404141677.6362.14.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Jun 2014 16:21:17 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] adt_installer: Fix sed file not found error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,23 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 15:11:21 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 30 Jun 2014 15:21:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Dear Otavio,
+We need to look for the installed file within the sysroot we just installed
+so add in the missing prefix. This avoids errors like:
 
-I have been testing on dora branch.
-I havent been testing on master and daisy, my mistake :(
+Installing cross canadian packages for qemux86 ...
+sed: no input files
 
-On 06/30/2014 05:08 PM, Otavio Salvador wrote:
-> On Mon, Jun 30, 2014 at 12:06 PM, Stephane Cerveau
-> <scerveau@connected-labs.com> wrote:
->> Sorry i have been fooled by the poky web interface :(
->> Anyway the bug is real on dora branch.
-> Which branch did you test it?
->
-> You shouldn't say for backport something you didn't test.
->
+[YOCTO #6443]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index 432ba41..8d2ff57 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -157,7 +157,7 @@ for target_type in $YOCTOADT_TARGETS; do
+ 
+   # get the environment setup script paths: original (the one before relocation)
+   # and relocated
+-  env_script_original=`$OPKG_CMD -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR files meta-environment-$machine|\
++  env_script_original=$NATIVE_INSTALL_DIR`$OPKG_CMD -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR files meta-environment-$machine|\
+ 							grep environment-setup`
+   env_script_relocated=$INSTALL_FOLDER/${env_script_original##*/}
+ 
+
 
 
