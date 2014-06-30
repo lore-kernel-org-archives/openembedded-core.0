@@ -1,37 +1,34 @@
-Return-Path: <anders@chargestorm.se>
-Received: from STOEXHUB01.domain01.net (STOEXHUB01.domain01.net
-	[83.145.59.142])
-	by mail.openembedded.org (Postfix) with ESMTP id E693A60169
+Return-Path: <pandey_himanshu80@rediffmail.com>
+Received: from f4mail-83-123.rediffmail.com (unknown [203.199.83.123])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E975610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 08:49:37 +0000 (UTC)
-Received: from ad.chargestorm.se (213.114.64.43) by STOEXHUB01.domain01.net
-	(10.12.10.1) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Mon, 30 Jun 2014 10:49:36 +0200
-Date: Mon, 30 Jun 2014 10:49:21 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Life Life <sadlife1990@gmail.com>
-Message-ID: <20140630084921.GB5083@ad.chargestorm.se>
-Mail-Followup-To: Life Life <sadlife1990@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Saul Wold <saul.wold@intel.com>,
-	Robert Yang <liezhi.yang@windriver.com>
-References: <CAAHuHfzRzh2LhFoc0VrdA+MqJiUOVwv_tNe9y48nOrk13ERHug@mail.gmail.com>
-	<53B0DD86.4030402@windriver.com>
-	<20140630081507.GA5083@ad.chargestorm.se>
-	<CAAHuHfy=uyAnu1HiXfLA0a8Yk_DfrSpQktcBpedrW3SEzaYySA@mail.gmail.com>
+	Mon, 30 Jun 2014 09:23:56 +0000 (UTC)
+Received: from rediffmail.com (unknown [10.50.250.70])
+	by f4mail-83-123.rediffmail.com (Postfix) with SMTP id 4DD41308008F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jun 2014 14:45:16 +0530 (IST)
+Received: (qmail 999 invoked by uid 510); 30 Jun 2014 09:23:49 -0000
+Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
+	b=Y/w5CXHdV77/z5cgFE/XaLyZqPVASIorLcGTYVHeCN/yrL+iNEy9/TKkNqycPVSDIqH8Ric/1HX874QSR6E6eY60e1KuJDzoI/IOGixgj6uJjs0PYOKoXQlDdQgys+/0FflEN0bYzMa9iod96jjJlFbgB5YdtfiMPhm8FMQdx2c=
+	; 
+x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
+X-CTCH-Spam: Unknown
+X-CTCH-VOD: Unknown
+X-CTCH-Flags: : 0
+X-CTCH-RefID: str=0001.0A160206.53B12CA5.0009, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+X-REDF-OSEN: pandey_himanshu80@rediffmail.com
+Date: 30 Jun 2014 09:23:48 -0000
+Message-ID: <20140630092348.985.qmail@f4mail-235-118.rediffmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAHuHfy=uyAnu1HiXfLA0a8Yk_DfrSpQktcBpedrW3SEzaYySA@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Saul Wold <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Cape Manager
+Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
+	30 Jun 2014 09:23:48 -0000
+Sender: pandey_himanshu80@rediffmail.com
+From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
+Subject: How to clean using bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +41,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 08:49:47 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Jun 2014 09:24:07 -0000
+Content-Type: multipart/alternative;
+	boundary="=_68c2fea46ae8f086ad9ccc11c7f6686e"
 
-* Life Life <sadlife1990@gmail.com> [140630 10:37]:
+--=_68c2fea46ae8f086ad9ccc11c7f6686e
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 
-> Hello,
+Hi,
 
-> I add ti-meta but capemgr is not work
+How to clean using bitbake?
 
-> Linux version 3.14.0-yocto-standard (panda@pandabook) (gcc version 4.8.2 (GCC)
+What is the command for that?
 
-I took a _really_ quick look at ti-linux-kernel (as well as
-linux-yocto), neither one seems to include the capemgr-patches.
-
-Cheers,
-Anders
+Regards,
+Himanshu
 
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
+--=_68c2fea46ae8f086ad9ccc11c7f6686e
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="UTF-8"
+
+Hi,<br><br>How to clean using bitbake?<br><br>What is the command for that?=
+<br><br>Regards,<br>Himanshu<br><br><br><br><A HREF=3D"http://sigads.rediff=
+.com/RealMedia/ads/click_nx.ads/www.rediffmail.com/signatureline.htm@Middle=
+?" target=3D"_blank"><IMG SRC=3D"http://sigads.rediff.com/RealMedia/ads/ads=
+tream_nx.ads/www.rediffmail.com/signatureline.htm@Middle"></A><table cellpa=
+dding=3D"0" cellspacing=3D"0"><tbody><tr><td><div style=3D"font-family: Ari=
+al, Helvetica, sans-serif; font-size:14px">Get your own <span style=3D"padd=
+ing-bottom: 0px; background-color: #cc0000; padding-left: 3px; padding-RIGH=
+T: 3px; font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-siz=
+e: 12px; padding-top: 0px"><b>FREE</b></span> website,  <span style=3D"padd=
+ing-bottom: 0px; background-color: #c00; padding-left: 3px; padding-RIGHT: =
+3px; font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-size: =
+12px; padding-top: 0px"><b>FREE</b></span> domain &amp; <span style=3D"padd=
+ing-bottom: 0px; background-color: #c00; padding-left: 3px; padding-RIGHT: =
+3px; font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-size: =
+12px; padding-top: 0px"><b>FREE</b></span> mobile app with Company email. &=
+nbsp;</div></td><td><a href=3D"http://track.rediff.com/click?url=3D___http:=
+//businessemail.rediff.com/email-ids-for-companies-with-less-than-50-employ=
+ees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&lnk=3Dsign-1-10-13&nsrv1=3Dhost" st=
+yle=3D"font-family: Arial, Helvetica, sans-serif; color: #fff; font-size: 1=
+4px; color:#0000cc" target=3D"_blank"><b>Know More ></b></a><!-- <in-put ty=
+pe=3D"button" cl-ass=3D"button" on-click=3D"parent.location=3D&#39;http://t=
+rack.rediff.com/click?url=3D___http://businessemail.rediff.com/company-emai=
+l-hosting-services?sc_cid=3Dsignature-23-9-13___&amp;cmp=3Dsignature-23-9-1=
+3&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhost&#39;" value=3D"Know more &gt;"> <=
+/input> --></td></tr></tbody></table>
+
+--=_68c2fea46ae8f086ad9ccc11c7f6686e--
