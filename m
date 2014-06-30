@@ -1,44 +1,24 @@
-Return-Path: <scerveau@connected-labs.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C2A8160889
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 601D660438
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 14:20:31 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id n3so6092536wiv.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jun 2014 07:20:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=hKvL+0GIoF+oU4+IZdNaQAAkFvSIImcUudKuJmV+c0w=;
-	b=BiQ9sAPbhkMyJVJgkEYLWnjfXrhYsox7RBWXX1nxoSrZyhUNWPqspgSr12mkSFLSsw
-	6duYai7HX2MMAp7ZaHxHR1HBNY3wjKoJ6yn08cUNJlVvWgWpADSh0/t3oAwxz/QW7WGp
-	KYbLdz4Qjls8GZNmHuso0OiCPjuMN4XLp2Cm06mKeM1jfuxZX4Lhckd0UY9EgSzzSui9
-	Xk6iBECqKW3ZAt/wjPLfa/roLmV7BsSnCohebQj2nqCl5dkNq9xbieVfSgzskpBs5/4O
-	HOQuos/UhnXp105LH7kuH+RvjK2cmlw6rRGrogI987KyEFLy2PvmtiDtBZSf+uHLXq1R
-	wyGg==
-X-Gm-Message-State: ALoCoQkH4jkTlI9vgwjW3OXHxrfYn5TxpqbxHwZ4XZCbSq0Po/qmiUf4I3xh6CgNEsJP985FxjQO
-X-Received: by 10.194.200.37 with SMTP id jp5mr3265742wjc.120.1404138031773;
-	Mon, 30 Jun 2014 07:20:31 -0700 (PDT)
-Received: from [172.24.63.14]
-	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
-	by mx.google.com with ESMTPSA id
-	fb8sm31897098wib.15.2014.06.30.07.20.30 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 30 Jun 2014 07:20:31 -0700 (PDT)
-Message-ID: <53B17224.4050602@connected-labs.com>
-Date: Mon, 30 Jun 2014 16:20:20 +0200
-From: Stephane Cerveau <scerveau@connected-labs.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Mon, 30 Jun 2014 14:23:22 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,575,1400018400"; d="scan'208";a="54090306"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 30 Jun 2014 16:23:23 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Mon, 30 Jun 2014 16:23:23 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.3.174.1; Mon, 30 Jun 2014 16:23:22 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Jun 2014 16:23:21 +0200
+Message-ID: <1404138201-22662-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
 MIME-Version: 1.0
-To: =?UTF-8?B?U3TDqXBoYW5lIENlcnZlYXU=?= <scerveau@connected-labs.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1404137924-14085-1-git-send-email-scerveau@connected-labs.com>
-In-Reply-To: <1404137924-14085-1-git-send-email-scerveau@connected-labs.com>
-Subject: Re: [dora][PATCH] e2fsprogs: Fix populate-extfs.sh
+Subject: [PATCH v2] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +31,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 14:20:34 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Jun 2014 14:23:26 -0000
+Content-Type: text/plain
 
-This patch applies to master and daisy branches too.
+Dropped libvorvis dependency because there is already a (better) builtin vorbis codec.
+Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using external library).
 
-On 06/30/2014 04:18 PM, Stéphane Cerveau wrote:
-> Fix the use of command dirname on ubuntu 12.04.
-> dirname does not accept space in file name.
->
-> Signed-off-by: Stéphane Cerveau <scerveau@connected-labs.com>
-> ---
->   .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
-> index 26a8d89..47f5b5b 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
-> @@ -28,7 +28,7 @@ DEBUGFS="debugfs"
->   		[ ! -z "$DIR" ] || continue
->   		[ ! -z "$TGT" ] || continue
->   
-> -                DIR="$(dirname $DIR)"
-> +                DIR="$(dirname "$DIR")"
->   
->   		if [ "$DIR" != "$CWD" ]; then
->   			echo "cd $DIR"
+Changes:
+- add --enable-nonfree when faac or openssl are used
+- add DESCRIPTION
+- sort PACKAGECONFIG entries
+
+Tested with libav-0.8.11 & libav-9.13.
+
+Note: Be sure to have a recent version of bitbake (2014-06-11 or better) including this:
+http://cgit.openembedded.org/bitbake/commit/?id=2e742c03e8dfdfa67899e7f5d579ed14bd87e139
+It affects behavior of bb.utils.contains_any
+
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/recipes-multimedia/libav/libav.inc | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
+index a05a2a6..1d617a2 100644
+--- a/meta/recipes-multimedia/libav/libav.inc
++++ b/meta/recipes-multimedia/libav/libav.inc
+@@ -1,6 +1,12 @@
+-SUMMARY = "A complete, cross-platform solution to record, convert and stream audio and video"
++SUMMARY = "Open source audio and video processing tools and librairies"
++DESCRIPTION = "Libav is a friendly and community-driven effort to provide its users \
++               with a set of portable, functional and high-performance libraries for \
++               dealing with multimedia formats of all sorts. It originates from the \
++               FFmpeg codebase, but goes its own way these days, providing its users \
++               with reliable releases and a clear vision how to go forward."
+ HOMEPAGE = "http://libav.org/"
+ SECTION = "libs"
++
+ LICENSE = "GPLv2+"
+ LICENSE_FLAGS = "commercial"
+ 
+@@ -9,7 +15,7 @@ PROVIDES = "ffmpeg"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ 
+-DEPENDS = "zlib libogg libvorbis libtheora yasm-native"
++DEPENDS = "zlib libogg yasm-native"
+ 
+ INC_PR = "r8"
+ 
+@@ -23,21 +29,29 @@ BUILD_OPTIMIZATION = "${FULL_OPTIMIZATION}"
+ EXTRA_FFCONF_armv7a = "--cpu=cortex-a8"
+ EXTRA_FFCONF ?= ""
+ 
+-PACKAGECONFIG ??= "bzip2 x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
++PACKAGECONFIG ??= "bzip2 x264 theora ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG[bzip2] = "--enable-bzlib,--disable-bzlib,bzip2"
+-PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
++PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
+ PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
+-PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
+-PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
++PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
++PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+-PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
++PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
++PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
++PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
++PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
++PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
+ PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
++PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
++
++# Check codecs that require --enable-nonfree
++USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes', '', d)}"
+ 
+ EXTRA_OECONF = " \
+     --enable-shared \
+     --enable-pthreads \
+     --enable-gpl \
++    ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d)} \
+     --enable-avfilter \
+     \
+     --cross-prefix=${TARGET_PREFIX} \
+-- 
+2.0.0
 
 
