@@ -1,45 +1,34 @@
-Return-Path: <scerveau@connected-labs.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B8B5D610F5
+Return-Path: <pandey_himanshu80@rediffmail.com>
+X-Greylist: delayed 75794 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 01 Jul 2014 10:30:24 UTC
+Received: from rediffmail.com (f4mail-235-92.rediffmail.com [202.137.235.92])
+	by mail.openembedded.org (Postfix) with SMTP id 636AD60809
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 08:24:18 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id hi2so6915374wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Jul 2014 01:24:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=mtxp7c5SCI8aZKVyYHsS6YyXzP5b++D/folw0QVYd60=;
-	b=ImjqceJn5/gPM9EGD81AofsXvC/OWj2L+Ye6LqDO5FjOdneX6RNbtqs1YX6boph74e
-	be0L0NfvllQ+RBSFoekUIznuclkYTCdkLujraGTxRl4SRXKuj0Ve1D5SzxWhQEpMxLD8
-	VpjWPqlz8Kh0piEcucMufdcwFPpflPjvVkTf5W7g+7nYICzSuJ8lysDg06GmadALf41K
-	0ESicAExdF6YSK1T6u+L6D/TotdnRvut08eOf6VpqaHVFruzs8JejLydPqpn/V749Ius
-	ViXCdDdM81RL49DBJ/+nIO5nQXY5jA5gQNC1OZit7ui38+U0FDJHzzNytQx6SZEeelwx
-	E1yg==
-X-Gm-Message-State: ALoCoQlK44oJuA/apEw7C/+gQRhZ+Q/tzCrX68Rmp8lSvWA368yP0tCTTg5p3sIqN3KCSFLlgEBJ
-X-Received: by 10.194.119.9 with SMTP id kq9mr40586421wjb.49.1404203058992;
-	Tue, 01 Jul 2014 01:24:18 -0700 (PDT)
-Received: from [172.24.63.14]
-	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
-	by mx.google.com with ESMTPSA id fs17sm8390362wjc.6.2014.07.01.01.24.17
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 01 Jul 2014 01:24:18 -0700 (PDT)
-Message-ID: <53B27026.6050207@connected-labs.com>
-Date: Tue, 01 Jul 2014 10:24:06 +0200
-From: Stephane Cerveau <scerveau@connected-labs.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Tue,  1 Jul 2014 10:30:24 +0000 (UTC)
+Received: (qmail 8208 invoked by uid 510); 1 Jul 2014 10:30:22 -0000
+Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
+	b=QD7Z3h45xcWZQ4Yz8kEOz+fnGPoUTR0pZm08pvLT47pIqapCd/f8zkbH8CtbT0+ZIE8LBpCHtnL1q7bSfbzkhK0tBeqODIMWUBhNWXyjg6bCJpOeJ5z1fwW9ZRKWqLJTEa4tjkX+U+Asxmpb3tIWQ9oSnV7qgyIfMnjUiEdbnJk=
+	; 
+x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
+X-CTCH-Spam: Unknown
+X-CTCH-VOD: Unknown
+X-CTCH-Flags: : 0
+X-CTCH-RefID: str=0001.0A160209.53B28DBE.01FA, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+X-REDF-OSEN: pandey_himanshu80@rediffmail.com
+Date: 1 Jul 2014 10:30:22 -0000
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1404138195-14158-1-git-send-email-scerveau@connected-labs.com>
-	<1404165610.6362.45.camel@ted>
-In-Reply-To: <1404165610.6362.45.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dora][PATCH] vala: should not depend on gtk+
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
+	01 Jul 2014 10:30:22 -0000
+Message-ID: <1404203099.S.6036.17647.H.TlN0ZXBoYW5lIENlcnZlYXUAUmU6IFtPRS1jb3JlXSBbb2UtY29yZV1bZG9yYV1bUEFUQ0hdIHZhbGE6IHM_.RU.rfs209,
+	rfs209, 704,
+	126.f4-235-146.old.1404210622.8080@webmail.rediffmail.com>
+Sender: pandey_himanshu80@rediffmail.com
+From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
+Subject: Error: net-snmp not found in the base feeds (genericx86_64 x86_64 noarch any all).
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,45 +41,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 08:24:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 01 Jul 2014 10:30:29 -0000
+Content-Type: multipart/alternative;
+	boundary="=_28a3a16166016bf281ebbb182f4281f5"
 
-Yes, it could be an idea.
-On my side i tried with this patch but i could miss some dependency seen 
-that my build was incremental. Could be better to merge the master patch.
-Best regards.
+--=_28a3a16166016bf281ebbb182f4281f5
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 
-Stéphane
-On 07/01/2014 12:00 AM, Richard Purdie wrote:
-> On Mon, 2014-06-30 at 16:23 +0200, Stéphane Cerveau wrote:
->> Signed-off-by: Stéphane Cerveau <scerveau@connected-labs.com>
->> ---
->>   meta/recipes-devtools/vala/vala.inc |    2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
->> index a8927d7..a9e5a57 100644
->> --- a/meta/recipes-devtools/vala/vala.inc
->> +++ b/meta/recipes-devtools/vala/vala.inc
->> @@ -1,7 +1,7 @@
->>   DESCRIPTION = "Vala is a C#-like language dedicated to ease GObject programming. \
->>   Vala compiles to plain C and has no runtime environment nor penalities whatsoever."
->>   SECTION = "devel"
->> -DEPENDS = "glib-2.0 dbus gtk+"
->> +DEPENDS = "glib-2.0 dbus"
->>   BBCLASSEXTEND = "native"
->>   DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native"
->>   HOMEPAGE = "http://vala-project.org"
-> Really we should probably backport:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=27c2cbbdb14d65caef1faafbfea063d6744f4e70
->
-> ?
->
-> Cheers,
->
-> Richard
->
+Hi,
+
+I am getting following error:
+
+Error: net-snmp not found in the base feeds (genericx86_64 x86_64 noarch any all).
+Error: dhcp not found in the base feeds (genericx86_64 x86_64 noarch any all).
+
+Please help.
+
+Regards,
+Himanshu
 
 
+
+
+
+--=_28a3a16166016bf281ebbb182f4281f5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="UTF-8"
+
+Hi,<br><br>I am getting following error:<br><br>Error: net-snmp not found i=
+n the base feeds (genericx86_64 x86_64 noarch any all).<br>Error: dhcp not =
+found in the base feeds (genericx86_64 x86_64 noarch any all).<br><br>Pleas=
+e help.<br><br>Regards,<br>Himanshu<br><br><br><br>
+<br><A HREF=3D"http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.redi=
+ffmail.com/signatureline.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://=
+sigads.rediff.com/RealMedia/ads/adstream_nx.ads/www.rediffmail.com/signatur=
+eline.htm@Middle"></A><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr=
+><td><div style=3D"font-family: Arial, Helvetica, sans-serif; font-size:14p=
+x">Get your own <span style=3D"padding-bottom: 0px; background-color: #cc00=
+00; padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, s=
+ans-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></=
+span> website,  <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> domain &amp; <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> mobile app with Company email. &nbsp;</div></td><td><a href=3D"http://tr=
+ack.rediff.com/click?url=3D___http://businessemail.rediff.com/email-ids-for=
+-companies-with-less-than-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&=
+lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=3D"font-family: Arial, Helvetica, sa=
+ns-serif; color: #fff; font-size: 14px; color:#0000cc" target=3D"_blank"><b=
+>Know More ></b></a><!-- <in-put type=3D"button" cl-ass=3D"button" on-click=
+=3D"parent.location=3D&#39;http://track.rediff.com/click?url=3D___http://bu=
+sinessemail.rediff.com/company-email-hosting-services?sc_cid=3Dsignature-23=
+-9-13___&amp;cmp=3Dsignature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhos=
+t&#39;" value=3D"Know more &gt;"> </input> --></td></tr></tbody></table>
+
+--=_28a3a16166016bf281ebbb182f4281f5--
