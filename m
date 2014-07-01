@@ -1,36 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 38AB6609AC
+Return-Path: <roxana.ciobanu@intel.com>
+X-Greylist: delayed 600 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 01 Jul 2014 14:27:20 UTC
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8557A609AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 14:20:07 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id j5so3306722qga.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Jul 2014 07:20:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=aC6Fr+8pZia12ElunNRFyN0ZNOCST3Zp/672igdYrTU=;
-	b=BHEjZyZSmjj8w1gkItlWXdq5loujy8nEZweZK894eTx4OA/XJ0GI7BqzBuSvu5mZJ8
-	198BlE7qDe7VufEK9QS9eJfKs9PEx3LkL90SJ+/nyYubv9hg23SbYWHRbFss63PZA12q
-	1vHoaa2q/V7bFxdeStjOtMSlprt+2ObwBcgAHPkxucppy+Cbt6+XFVf+Mq7oHcqyR4CQ
-	hfpQyk3TuYbeFHgIluB98q2PdMa6TXF5To+5CJE1gZJox+nQRlC7TJ2qtN0+9b5WAP8S
-	a9qIsSc6ru6YO/97k+1LM0L8FzTItEol1fhylD2egmuaH5mKiORavL0A1RN5lU+oK2/Y
-	9XXg==
-X-Gm-Message-State: ALoCoQm3Dojz8kfEfX9gh4Fi9O9XJ34ujPvEPh9m6xcPNCijlF1NI0Ij+a7mj5Nk7Xbd6I61XHCz
-X-Received: by 10.224.124.74 with SMTP id t10mr47482278qar.78.1404224405333;
-	Tue, 01 Jul 2014 07:20:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Tue, 1 Jul 2014 07:19:45 -0700 (PDT)
-In-Reply-To: <1403879533-20717-1-git-send-email-georgex.l.musat@intel.com>
-References: <1403879533-20717-1-git-send-email-georgex.l.musat@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 1 Jul 2014 15:19:45 +0100
-Message-ID: <CAJTo0LY8aWb0sSe3zhtNzimQFevoceLvducvG4hwoQ+US1knWg@mail.gmail.com>
-To: Lucian Musat <georgex.l.musat@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Added testcase decorator to use in logging. Added class decorator LogResults that outputs test results in separate log file.
+	Tue,  1 Jul 2014 14:27:20 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2014 07:11:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,581,1400050800"; d="scan'208";a="555840265"
+Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.45])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2014 07:16:48 -0700
+From: Roxana Ciobanu <roxana.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Jul 2014 17:16:59 +0300
+Message-Id: <cover.1404224041.git.roxana.ciobanu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] Fix for YB6491
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,158 +29,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 14:20:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Jul 2014 14:27:22 -0000
 
-Looks good, decorators are fun. :)
+The following changes since commit 0ed5a13f5f9478e2c22f517fb3504b738422f85c:
 
-Ross
+  python3: fix builtins imports (2014-06-30 16:36:44 +0100)
 
-On 27 June 2014 15:32, Lucian Musat <georgex.l.musat@intel.com> wrote:
-> Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
-> ---
->  meta/lib/oeqa/selftest/base.py     |  2 ++
->  meta/lib/oeqa/selftest/bblayers.py |  6 ++++
->  meta/lib/oeqa/utils/decorators.py  | 66 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 74 insertions(+)
->
-> diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-> index fc880e9..80b9b4b 100644
-> --- a/meta/lib/oeqa/selftest/base.py
-> +++ b/meta/lib/oeqa/selftest/base.py
-> @@ -15,7 +15,9 @@ import errno
->
->  import oeqa.utils.ftools as ftools
->  from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-> +from oeqa.utils.decorators import LogResults
->
-> +@LogResults
->  class oeSelfTest(unittest.TestCase):
->
->      log = logging.getLogger("selftest.base")
-> diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
-> index 52aa4f8..1ead8e8 100644
-> --- a/meta/lib/oeqa/selftest/bblayers.py
-> +++ b/meta/lib/oeqa/selftest/bblayers.py
-> @@ -7,25 +7,31 @@ import shutil
->  import oeqa.utils.ftools as ftools
->  from oeqa.selftest.base import oeSelfTest
->  from oeqa.utils.commands import runCmd
-> +from oeqa.utils.decorators import testcase
->
->  class BitbakeLayers(oeSelfTest):
->
-> +    @testcase(756)
->      def test_bitbakelayers_showcrossdepends(self):
->          result = runCmd('bitbake-layers show-cross-depends')
->          self.assertTrue('aspell' in result.output)
->
-> +    @testcase(83)
->      def test_bitbakelayers_showlayers(self):
->          result = runCmd('bitbake-layers show_layers')
->          self.assertTrue('meta-selftest' in result.output)
->
-> +    @testcase(93)
->      def test_bitbakelayers_showappends(self):
->          result = runCmd('bitbake-layers show_appends')
->          self.assertTrue('xcursor-transparent-theme_0.1.1.bbappend' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
->
-> +    @testcase(90)
->      def test_bitbakelayers_showoverlayed(self):
->          result = runCmd('bitbake-layers show_overlayed')
->          self.assertTrue('aspell' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
->
-> +    @testcase(95)
->      def test_bitbakelayers_flatten(self):
->          self.assertFalse(os.path.isdir(os.path.join(self.builddir, 'test')))
->          result = runCmd('bitbake-layers flatten test')
-> diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-> index b99da8d..a0d94e6 100644
-> --- a/meta/lib/oeqa/utils/decorators.py
-> +++ b/meta/lib/oeqa/utils/decorators.py
-> @@ -7,6 +7,8 @@
->  # creating dependecies between two test methods.
->
->  from oeqa.oetest import *
-> +import logging
-> +import sys
->
->  class skipIfFailure(object):
->
-> @@ -48,3 +50,67 @@ class skipUnlessPassed(object):
->              return f(*args)
->          wrapped_f.__name__ = f.__name__
->          return wrapped_f
-> +
-> +class testcase(object):
-> +
-> +    def __init__(self, test_case):
-> +        self.test_case = test_case
-> +
-> +    def __call__(self, func):
-> +       def wrapped_f(*args):
-> +               return func(*args)
-> +       wrapped_f.test_case = self.test_case
-> +       return wrapped_f
-> +
-> +def LogResults(original_class):
-> +    orig_method = original_class.run
-> +
-> +    #rewrite the run method of unittest.TestCase to add testcase logging
-> +    def run(self, result, *args, **kws):
-> +        orig_method(self, result, *args, **kws)
-> +       passed = True
-> +       testMethod = getattr(self, self._testMethodName)
-> +
-> +       #if test case is decorated then use it's number, else use it's name
-> +       try:
-> +               test_case = testMethod.test_case
-> +       except AttributeError:
-> +               test_case = self._testMethodName
-> +
-> +       #create custom logging level for filtering.
-> +       custom_log_level = 100
-> +       logging.addLevelName(custom_log_level, 'RESULTS')
-> +       caller = os.path.basename(sys.argv[0])
-> +
-> +       def results(self, message, *args, **kws):
-> +           if self.isEnabledFor(custom_log_level):
-> +               self.log(custom_log_level, message, *args, **kws)
-> +       logging.Logger.results = results
-> +
-> +       logging.basicConfig(filename=os.path.join(os.getcwd(),'results-'+caller+'.log'),
-> +                            filemode='w',
-> +                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-> +                            datefmt='%H:%M:%S',
-> +                            level=custom_log_level)
-> +       local_log = logging.getLogger(caller)
-> +
-> +       #check status of tests and record it
-> +        for (name, msg) in result.errors:
-> +                if self._testMethodName == str(name).split(' ')[0]:
-> +                       local_log.results("Testcase "+str(test_case)+": ERROR")
-> +                       local_log.results("Testcase "+str(test_case)+":\n"+msg)
-> +                       passed = False
-> +        for (name, msg) in result.failures:
-> +                if self._testMethodName == str(name).split(' ')[0]:
-> +                       local_log.results("Testcase "+str(test_case)+": FAILED")
-> +                       local_log.results("Testcase "+str(test_case)+":\n"+msg)
-> +                       passed = False
-> +        for (name, msg) in result.skipped:
-> +                if self._testMethodName == str(name).split(' ')[0]:
-> +                       local_log.results("Testcase "+str(test_case)+": SKIPPED")
-> +                       passed = False
-> +       if passed:
-> +                       local_log.results("Testcase "+str(test_case)+": PASSED")
-> +
-> +    original_class.run = run
-> +    return original_class
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib roxana/YB6491
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6491
+
+Roxana Ciobanu (1):
+  elfutils/elfutils-native: Fix patching generated files
+
+ .../elfutils-0.158/redhat-portability.diff         | 859 ---------------------
+ .../elfutils/elfutils/redhat-portability.diff      | 370 +--------
+ 2 files changed, 1 insertion(+), 1228 deletions(-)
+
+-- 
+1.9.1
+
 
