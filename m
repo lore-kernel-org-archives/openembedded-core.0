@@ -1,30 +1,30 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3600 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 01 Jul 2014 21:01:27 UTC
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 52D7D60169
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E7C3460CEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 21:01:27 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N8100M5PUAFDJB0@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 01 Jul 2014 15:01:27 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id D7EEF201B8; Tue,
-	01 Jul 2014 16:01:26 -0400 (EDT)
-Date: Tue, 01 Jul 2014 16:01:26 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-id: <20140701200126.GP1580@denix.org>
-References: <CAAHuHfzRzh2LhFoc0VrdA+MqJiUOVwv_tNe9y48nOrk13ERHug@mail.gmail.com>
-	<53B0DD86.4030402@windriver.com>
-	<20140630081507.GA5083@ad.chargestorm.se>
-MIME-version: 1.0
-In-reply-to: <20140630081507.GA5083@ad.chargestorm.se>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Cape Manager
+	Tue,  1 Jul 2014 21:12:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s61LCQKa010192
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Jul 2014 14:12:27 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 1 Jul 2014 14:12:26 -0700
+Message-ID: <53B32439.6050804@windriver.com>
+Date: Tue, 1 Jul 2014 16:12:25 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1404244287.git.mark.hatle@windriver.com>
+	<7ec8091f15256ddcbadf4051867119ae82d333d3.1404244287.git.mark.hatle@windriver.com>
+	<CAJTo0LYnb4YifRMXyPdaX7ZQMBvT3Hw2S9bN-q4Uxmiz2x3efw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYnb4YifRMXyPdaX7ZQMBvT3Hw2S9bN-q4Uxmiz2x3efw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] db: Uprev to 6.0.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 21:01:35 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 01 Jul 2014 21:12:33 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 30, 2014 at 10:15:07AM +0200, Anders Darander wrote:
-> * Robert Yang <liezhi.yang@windriver.com> [140630 05:47]:
-> 
-> 
-> > On 06/30/2014 12:24 AM, Life Life wrote:
-> > > Hello,
-> 
-> > > I'm trying build yocto based linux, My hardware is beaglebone black I
-> > > successfull build system image. But I can't see capemanager. Beacuse my lcd is
-> > > not work.
-> 
-> > Hello,
-> 
-> > The cape manager is in meta-ti layer:
-> 
-> > http://layers.openembedded.org/layerindex/branch/master/layer/meta-ti/
-> 
-> > Seems that we'd better add it to meta-yoco-bsp ?
-> 
-> Unless something has changed since I last looked at this, I don't think
-> so. 
-> 
-> If I remember correctly, capemgr basically consists of a number of
-> patches not in the mainline kernel (and also not in TI's staging
-> kernel). I haven't checked it, by I doubt that we have them in the
-> linux-yocto kernel. (Especially as the last time I checked it, you had
-> to revert to a 3.8 (if I rember correctly, it might have been an even
-> earlier kernel) kernel to get full capemgr support.
-> 
-> If this has changed, then it'd be interesting to know!
+On 7/1/14, 3:56 PM, Burton, Ross wrote:
+> On 1 July 2014 21:01, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> +LICENSE = "AGPL-3.0"
+>
+> Presumably AGPL-v3 has the same clauses that caused
+> INCOMPATIBLE_LICENSES to exist?
+>
+> Does this mean that we should update the documentation to add AGPL-3.0
+> to the list of licenses being blacklisted in no-v3 builds, and that in
+> no-v3 images we can't have rpm on the target?
 
-That is correct - capemgr was a patchset against 3.8. It is not yet available 
-in mainline. It was developed and being adopted for the mainline by Pantelis 
-Antoniou and the community, but since it's rather a complicated subsystem, it 
-went through numerous revisions and changes, still not merged upstream though.
+I'm not sure.  We likely need someone (with a legal background) to investigate 
+and let us know.
 
--- 
-Denys
+Baring that, it's likely that AGPL-3.0 has similar restrictions to GPL v3 and 
+LGPL v3.
+
+This might make it worthwhile in keeping the older Sleepycat licensed version 
+around and making related changes to RPM to allow use of the older version if 
+appropriate.
+
+--Mark
+
+> Ross
+>
+
 
