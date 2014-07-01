@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A49AD65D33
+	by mail.openembedded.org (Postfix) with ESMTP id A78D065E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 20:01:17 +0000 (UTC)
+	Tue,  1 Jul 2014 20:01:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s61K1JZ7009712
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s61K1Fh0009706
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Jul 2014 13:01:19 -0700 (PDT)
+	Tue, 1 Jul 2014 13:01:15 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 1 Jul 2014 13:01:18 -0700
+	14.3.169.1; Tue, 1 Jul 2014 13:01:15 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Jul 2014 15:01:12 -0500
-Message-ID: <7ed0fc66eefb52419e04e2ddf017efbb419b2330.1404244287.git.mark.hatle@windriver.com>
+Date: Tue, 1 Jul 2014 15:01:08 -0500
+Message-ID: <2304283af395d567930b1ac61fc36ecc201405ee.1404244287.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1404244287.git.mark.hatle@windriver.com>
 References: <cover.1404244287.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] package_rpm.bbclass: Should be using HOST_* not TARGET_*
+Subject: [PATCH 1/6] lib/oe/package_manager.py: Fix _pkg_translate_smart_to_oe function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 01 Jul 2014 20:01:22 -0000
 Content-Type: text/plain
 
-When building target packages, HOST_OS and TARGET_OS are the same, as is the
-VENDOR field.  However, when building an SDK this is not true.  The patch
-corrects the oversight and switches to using the 'HOST' version and resolves
-the issue of meta-mingw not working w/ the rpm packaging.
+File: '/home/mhatle/git/oss/oe-core/meta/lib/oe/package_manager.py', lineno: 278, function: _pkg_translate_smart_to_oe
+     0274:
+     0275:            if found == 1 and fixed_arch == fixed_cmp_arch:
+     0276:                break
+     0277:        #bb.note('%s, %s -> %s, %s' % (pkg, arch, new_pkg, new_arch))
+ *** 0278:        return new_pkg, new_arch
+     0279:
+     0280:    def _list_pkg_deps(self):
+     0281:        cmd = [bb.utils.which(os.getenv('PATH'), "rpmresolve"),
+     0282:               "-t", self.image_rpmlib]
+Exception: UnboundLocalError: local variable 'new_arch' referenced before assignment
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/package_rpm.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oe/package_manager.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 71cfdc1..0a32b3e 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -652,7 +652,7 @@ python do_package_rpm () {
-     # Setup the rpmbuild arguments...
-     rpmbuild = d.getVar('RPMBUILD', True)
-     targetsys = d.getVar('TARGET_SYS', True)
--    targetvendor = d.getVar('TARGET_VENDOR', True)
-+    targetvendor = d.getVar('HOST_VENDOR', True)
-     package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
-     sdkpkgsuffix = (d.getVar('SDKPKGSUFFIX', True) or "nativesdk").replace("-", "_")
-     if package_arch not in "all any noarch".split() and not package_arch.endswith(sdkpkgsuffix):
-@@ -661,7 +661,7 @@ python do_package_rpm () {
-     else:
-         d.setVar('PACKAGE_ARCH_EXTEND', package_arch)
-     pkgwritedir = d.expand('${PKGWRITEDIRRPM}/${PACKAGE_ARCH_EXTEND}')
--    pkgarch = d.expand('${PACKAGE_ARCH_EXTEND}${TARGET_VENDOR}-${TARGET_OS}')
-+    pkgarch = d.expand('${PACKAGE_ARCH_EXTEND}${HOST_VENDOR}-${HOST_OS}')
-     magicfile = d.expand('${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc')
-     bb.utils.mkdirhier(pkgwritedir)
-     os.chmod(pkgwritedir, 0755)
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 18eb792..5444422 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -248,6 +248,7 @@ class RpmPkgsList(PkgsList):
+     '''
+     def _pkg_translate_smart_to_oe(self, pkg, arch):
+         new_pkg = pkg
++        new_arch = arch
+         fixed_arch = arch.replace('_', '-')
+         found = 0
+         for mlib in self.ml_prefix_list:
 -- 
 1.9.3
 
