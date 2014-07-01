@@ -1,34 +1,24 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D9EB60438
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1886B60144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 07:31:11 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,580,1400018400"; d="scan'208";a="54129209"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 01 Jul 2014 09:31:05 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Tue, 1 Jul 2014 09:31:05 +0200
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.28]) by
-	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
-	14.03.0174.001; Tue, 1 Jul 2014 09:31:05 +0200
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora,
-	libvorbis, speex and openssl
-Thread-Index: AQHPlIIChEbEbkHfX0ujM6KFnictOpuK0YeA
-Date: Tue, 1 Jul 2014 07:31:05 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050BA1F8247E@COSNADEXC13.usr.ingenico.loc>
-References: <1404138201-22662-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<20140630164039.GC2437@jama>
-In-Reply-To: <20140630164039.GC2437@jama>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+	Tue,  1 Jul 2014 07:52:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s617q5AD019306
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Jul 2014 00:52:06 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 1 Jul 2014 00:52:05 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Jul 2014 15:51:52 +0800
+Message-ID: <cover.1404200247.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/2] perl, perl-native, perl-ptest: upgrade from 5.14.3 to 5.20.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,155 +31,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 07:31:14 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 01 Jul 2014 07:52:07 -0000
+Content-Type: text/plain
 
-Hi,
+Test Step:
 
-To summarize the situation:
+1. Vim local.conf
+...
+MACHINE ?= "qemux86" or MACHINE ?= "qemuarm"
+...
+PTEST_ENABLED = "1" 
+IMAGE_INSTALL_append = " perl perl-ptest"
+...
 
-This v2 patch works fine with an "old" bitbake (keeping the default PACKAGE=
-CONFIG).
+2. bitbake core-image-sato && bitbake core-image-minimal
 
-But if user change PACKAGECONFIG  and adds "faac" or "openssl" (but not bot=
-h),
-the USE_NONFREE test will fail, so there will be a configure error.
+3. On target
+cd /usr/lib/perl/ptest
+./run-ptest 2>&1 | tee perl.log
 
-Maybe could I add a comment inside the recipe ?
+4. Test Result
+-----------------------------------------------
+qemux86 + core-image-sato:
+Failed  1 test out of 2285, 99.96% okay.
+	../cpan/ExtUtils-Constant/t/Constant.t
+Skepped 113 
+Ok      2361
 
-Regards,
-M
+-----------------------------------------------
+qemux86 + core-image-minimal:
+Failed  1 test out of 2285, 99.96% okay.
+	../cpan/ExtUtils-Constant/t/Constant.t
+Skepped 115 
+Ok      2282
+
+-----------------------------------------------
+qemuarm + core-image-sato:
+Failed 3 tests out of 2284, 99.87% okay.
+	../cpan/ExtUtils-Constant/t/Constant.t
+	op/threads.t
+	re/pat_thr.t
+Skepped 114 
+Ok      2358
+
+//Hongxu
 
 
------Message d'origine-----
-De=A0: Martin Jansa [mailto:martin.jansa@gmail.com]=20
-Envoy=E9=A0: lundi 30 juin 2014 18:41
-=C0=A0: Matthieu CRAPET
-Cc=A0: openembedded-core@lists.openembedded.org
-Objet=A0: Re: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora, lib=
-vorbis, speex and openssl
+The following changes since commit 0ed5a13f5f9478e2c22f517fb3504b738422f85c:
 
-On Mon, Jun 30, 2014 at 04:23:21PM +0200, Matthieu Crapet wrote:
-> Dropped libvorvis dependency because there is already a (better) builtin =
-vorbis codec.
-> Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using exte=
-rnal library).
-> Changes:
-> - add --enable-nonfree when faac or openssl are used
-> - add DESCRIPTION
-> - sort PACKAGECONFIG entries
->=20
-> Tested with libav-0.8.11 & libav-9.13.
->=20
-> Note: Be sure to have a recent version of bitbake (2014-06-11 or better) =
-including this:
-> http://cgit.openembedded.org/bitbake/commit/?id=3D2e742c03e8dfdfa67899e7
-> f5d579ed14bd87e139 It affects behavior of bb.utils.contains_any
->=20
-> Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-> ---
->  meta/recipes-multimedia/libav/libav.inc | 30=20
-> ++++++++++++++++++++++--------
->  1 file changed, 22 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/libav/libav.inc=20
-> b/meta/recipes-multimedia/libav/libav.inc
-> index a05a2a6..1d617a2 100644
-> --- a/meta/recipes-multimedia/libav/libav.inc
-> +++ b/meta/recipes-multimedia/libav/libav.inc
-> @@ -1,6 +1,12 @@
-> -SUMMARY =3D "A complete, cross-platform solution to record, convert and =
-stream audio and video"
-> +SUMMARY =3D "Open source audio and video processing tools and librairies=
-"
-> +DESCRIPTION =3D "Libav is a friendly and community-driven effort to prov=
-ide its users \
-> +               with a set of portable, functional and high-performance l=
-ibraries for \
-> +               dealing with multimedia formats of all sorts. It originat=
-es from the \
-> +               FFmpeg codebase, but goes its own way these days, providi=
-ng its users \
-> +               with reliable releases and a clear vision how to go forwa=
-rd."
->  HOMEPAGE =3D "http://libav.org/"
->  SECTION =3D "libs"
-> +
->  LICENSE =3D "GPLv2+"
->  LICENSE_FLAGS =3D "commercial"
-> =20
-> @@ -9,7 +15,7 @@ PROVIDES =3D "ffmpeg"
-> =20
->  ARM_INSTRUCTION_SET =3D "arm"
-> =20
-> -DEPENDS =3D "zlib libogg libvorbis libtheora yasm-native"
-> +DEPENDS =3D "zlib libogg yasm-native"
-> =20
->  INC_PR =3D "r8"
-> =20
-> @@ -23,21 +29,29 @@ BUILD_OPTIMIZATION =3D "${FULL_OPTIMIZATION}"
->  EXTRA_FFCONF_armv7a =3D "--cpu=3Dcortex-a8"
->  EXTRA_FFCONF ?=3D ""
-> =20
-> -PACKAGECONFIG ??=3D "bzip2 x264 ${@bb.utils.contains('DISTRO_FEATURES', =
-'x11', 'x11', '', d)}"
-> -PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
-ck"
-> +PACKAGECONFIG ??=3D "bzip2 x264 theora ${@bb.utils.contains('DISTRO_FEAT=
-URES', 'x11', 'x11', '', d)}"
->  PACKAGECONFIG[bzip2] =3D "--enable-bzlib,--disable-bzlib,bzip2"
-> -PACKAGECONFIG[schroedinger] =3D "--enable-libschroedinger,--disable-libs=
-chroedinger,schroedinger"
-> +PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
->  PACKAGECONFIG[gsm] =3D "--enable-libgsm,--disable-libgsm,libgsm"
-> -PACKAGECONFIG[x264] =3D "--enable-libx264,--disable-libx264,x264"
-> -PACKAGECONFIG[vpx] =3D "--enable-libvpx,--disable-libvpx,libvpx"
-> +PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
-ck"
-> +PACKAGECONFIG[libvorbis] =3D "--enable-libvorbis,--disable-libvorbis,lib=
-vorbis"
->  PACKAGECONFIG[mp3lame] =3D "--enable-libmp3lame,--disable-libmp3lame,lam=
-e"
-> -PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
-> +PACKAGECONFIG[openssl] =3D "--enable-openssl,--disable-openssl,openssl"
-> +PACKAGECONFIG[schroedinger] =3D "--enable-libschroedinger,--disable-libs=
-chroedinger,schroedinger"
-> +PACKAGECONFIG[speex] =3D "--enable-libspeex,--disable-libspeex,speex"
-> +PACKAGECONFIG[theora] =3D "--enable-libtheora,--disable-libtheora,libthe=
-ora"
-> +PACKAGECONFIG[vpx] =3D "--enable-libvpx,--disable-libvpx,libvpx"
->  PACKAGECONFIG[x11] =3D "--enable-x11grab,--disable-x11grab,virtual/libx1=
-1 libxfixes libxext xproto virtual/libsdl"
-> +PACKAGECONFIG[x264] =3D "--enable-libx264,--disable-libx264,x264"
-> +
-> +# Check codecs that require --enable-nonfree USE_NONFREE =3D=20
-> +"${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes',=
- '', d)}"
-> =20
->  EXTRA_OECONF =3D " \
->      --enable-shared \
->      --enable-pthreads \
->      --enable-gpl \
-> +    ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree',=20
-> + '', d)} \
+  python3: fix builtins imports (2014-06-30 16:36:44 +0100)
 
-cannot you just pass --enable-nonfree in faac and openssl PACKAGECONFIG?
-In worse case when both are enabled the option will be added twice.
+are available in the git repository at:
 
->      --enable-avfilter \
->      \
->      --cross-prefix=3D${TARGET_PREFIX} \
-> --
-> 2.0.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  git://git.pokylinux.org/poky-contrib hongxu/upgrade-perl
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/upgrade-perl
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Hongxu Jia (2):
+  perl, perl-native, perl-ptest: upgrade from 5.14.3 to 5.20.0
+  libxml-parser-perl: fix do_compile failed with unrecognized option
+    '-Wl,-O1'
+
+ .../perl/libxml-parser-perl_2.41.bb                |    2 +-
+ .../0001-Fix-misparsing-of-maketext-strings.patch  |   86 --
+ ...mature-hsplit-calls-and-only-trigger-REHA.patch |  178 ---
+ .../perl/perl-5.14.3/09_fix_installperl.patch      |   21 -
+ .../debian/arm_thread_stress_timeout.diff          |   27 -
+ .../perl-5.14.3/debian/cpanplus_config_path.diff   |   45 -
+ .../debian/cpanplus_definstalldirs.diff            |   56 -
+ .../perl-5.14.3/debian/deprecate-with-apt.diff     |  407 ------
+ .../perl-5.14.3/debian/disable-zlib-bundling.diff  |   31 -
+ .../perl/perl-5.14.3/debian/fakeroot.diff          |   45 -
+ .../debian/fixes/extutils-cbuilder-cflags.diff     |   87 --
+ .../perl-5.14.3/debian/fixes/h2ph-multiarch.diff   |   70 -
+ .../perl-5.14.3/debian/fixes/index-tainting.diff   |   74 --
+ .../debian/fixes/module-build-home-directory.diff  |   38 -
+ .../perl/perl-5.14.3/debian/fixes/pod_fixes.diff   |  146 ---
+ .../fixes/sys-syslog-socket-timeout-kfreebsd.patch |   37 -
+ .../perl-5.14.3/debian/m68k_thread_stress.diff     |   47 -
+ .../perl/perl-5.14.3/debian/patchlevel.diff        |   31 -
+ .../perl/perl-5.14.3/debian/series                 |   40 -
+ .../debian/skip-upstream-git-tests.diff            |   60 -
+ .../perl/perl-5.14.3/perl-build-in-t-dir.patch     |   42 -
+ .../0001-Makefile.SH-fix-do_install-failed.patch   |   47 +
+ .../Configure-multilib.patch                       |    0
+ .../{perl-5.14.3 => perl-5.20.0}/MM_Unix.pm.patch  |    0
+ .../{perl-5.14.3 => perl-5.20.0}/Makefile.SH.patch |  282 ++--
+ .../{perl-5.14.3 => perl-5.20.0}/Makefile.patch    |    0
+ .../perl/{perl-5.14.3 => perl-5.20.0}/config.sh    |  106 +-
+ .../perl/{perl-5.14.3 => perl-5.20.0}/config.sh-32 |    0
+ .../{perl-5.14.3 => perl-5.20.0}/config.sh-32-be   |    0
+ .../{perl-5.14.3 => perl-5.20.0}/config.sh-32-le   |    0
+ .../perl/{perl-5.14.3 => perl-5.20.0}/config.sh-64 |    0
+ .../{perl-5.14.3 => perl-5.20.0}/config.sh-64-be   |    0
+ .../{perl-5.14.3 => perl-5.20.0}/config.sh-64-le   |    0
+ .../cross-generate_uudmap.patch                    |    0
+ .../perl-5.20.0/debian/cpan-missing-site-dirs.diff |   62 +
+ .../debian/cpan_definstalldirs.diff                |   15 +-
+ .../debian/db_file_ver.diff                        |    7 +-
+ .../debian/doc_info.diff                           |   20 +-
+ .../debian/enc2xs_inc.diff                         |   32 +-
+ .../debian/errno_ver.diff                          |   15 +-
+ .../debian/extutils_set_libperl_path.diff          |   33 +-
+ .../debian/find_html2text.diff                     |   11 +-
+ .../debian/fixes/document_makemaker_ccflags.diff   |   11 +-
+ .../debian/fixes/memoize_storable_nstore.diff      |  110 ++
+ .../debian/fixes/net_smtp_docs.diff                |   11 +-
+ .../debian/fixes/respect_umask.diff                |   57 +-
+ .../perl-5.20.0/debian/hurd_test_skip_stack.diff   |   32 +
+ .../debian/instmodsh_doc.diff                      |    9 +-
+ .../debian/ld_run_path.diff                        |   19 +-
+ .../debian/libnet_config_path.diff                 |    9 +-
+ .../debian/libperl_embed_doc.diff                  |   15 +-
+ .../debian/mod_paths.diff                          |   13 +-
+ .../debian/module_build_man_extensions.diff        |   25 +-
+ .../debian/no_packlist_perllocal.diff              |   44 +-
+ .../debian/perl5db-x-terminal-emulator.patch       |   29 +
+ .../debian/perlivp.diff                            |   13 +-
+ .../debian/prefix_changes.diff                     |   43 +-
+ .../debian/prune_libs.diff                         |   19 +-
+ .../perl/perl-5.20.0/debian/regen-skip.diff        |   27 +
+ .../debian/skip-kfreebsd-crash.diff                |   20 +-
+ .../debian/skip-upstream-git-tests.diff            |   28 +
+ .../debian/squelch-locale-warnings.diff            |   33 +-
+ .../debian/writable_site_dirs.diff                 |   19 +-
+ .../dynaloaderhack.patch                           |    0
+ .../fix_bad_rpath.patch                            |    0
+ .../{perl-5.14.3 => perl-5.20.0}/generate-sh.patch |    0
+ .../{perl-5.14.3 => perl-5.20.0}/installperl.patch |    0
+ .../letgcc-find-errno.patch                        |    0
+ .../native-nopacklist.patch                        |   50 +-
+ .../native-perlinc.patch                           |    0
+ .../perl-5.14.3-fix-CVE-2010-4777.patch            |    0
+ .../perl-archlib-exp.patch                         |    0
+ .../perl-configpm-switch.patch                     |    0
+ .../{perl-5.14.3 => perl-5.20.0}/perl-configure.sh |    0
+ .../perl-dynloader.patch                           |    0
+ .../perl-enable-gdbm.patch                         |    0
+ .../perl-moreconfig.patch                          |    0
+ .../perl/{perl-5.14.3 => perl-5.20.0}/run-ptest    |    0
+ .../dist-threads-t-join.t-adjust-ps-option.patch   |   38 +
+ ...der-t-DynaLoader.t-fix-calling-dl_findfil.patch |   26 +
+ ...perl-native_5.14.3.bb => perl-native_5.20.0.bb} |   32 +-
+ meta/recipes-devtools/perl/perl-ptest.inc          |   47 +-
+ ...depends_5.14.3.inc => perl-rdepends_5.20.0.inc} | 1354 +++++++++++---------
+ ...ovides_5.14.3.inc => perl-rprovides_5.20.0.inc} |    0
+ .../perl/{perl_5.14.3.bb => perl_5.20.0.bb}        |   50 +-
+ 85 files changed, 1690 insertions(+), 2693 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Fix-misparsing-of-maketext-strings.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Prevent-premature-hsplit-calls-and-only-trigger-REHA.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/09_fix_installperl.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/arm_thread_stress_timeout.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/cpanplus_config_path.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/cpanplus_definstalldirs.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/deprecate-with-apt.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/disable-zlib-bundling.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fakeroot.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fixes/extutils-cbuilder-cflags.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fixes/h2ph-multiarch.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fixes/index-tainting.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fixes/module-build-home-directory.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fixes/pod_fixes.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/fixes/sys-syslog-socket-timeout-kfreebsd.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/m68k_thread_stress.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/patchlevel.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/series
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/debian/skip-upstream-git-tests.diff
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/perl-build-in-t-dir.patch
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/0001-Makefile.SH-fix-do_install-failed.patch
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/Configure-multilib.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/MM_Unix.pm.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/Makefile.SH.patch (43%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/Makefile.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh (77%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh-32 (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh-32-be (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh-32-le (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh-64 (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh-64-be (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/config.sh-64-le (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/cross-generate_uudmap.patch (100%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/debian/cpan-missing-site-dirs.diff
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/cpan_definstalldirs.diff (78%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/db_file_ver.diff (85%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/doc_info.diff (62%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/enc2xs_inc.diff (64%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/errno_ver.diff (62%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/extutils_set_libperl_path.diff (40%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/find_html2text.diff (80%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/fixes/document_makemaker_ccflags.diff (75%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/debian/fixes/memoize_storable_nstore.diff
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/fixes/net_smtp_docs.diff (65%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/fixes/respect_umask.diff (75%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/debian/hurd_test_skip_stack.diff
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/instmodsh_doc.diff (77%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/ld_run_path.diff (54%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/libnet_config_path.diff (84%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/libperl_embed_doc.diff (57%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/mod_paths.diff (87%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/module_build_man_extensions.diff (59%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/no_packlist_perllocal.diff (74%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/debian/perl5db-x-terminal-emulator.patch
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/perlivp.diff (78%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/prefix_changes.diff (75%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/prune_libs.diff (74%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/debian/regen-skip.diff
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/skip-kfreebsd-crash.diff (71%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/debian/skip-upstream-git-tests.diff
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/squelch-locale-warnings.diff (63%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/debian/writable_site_dirs.diff (63%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/dynaloaderhack.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/fix_bad_rpath.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/generate-sh.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/installperl.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/letgcc-find-errno.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/native-nopacklist.patch (68%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/native-perlinc.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-5.14.3-fix-CVE-2010-4777.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-archlib-exp.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-configpm-switch.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-configure.sh (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-dynloader.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-enable-gdbm.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/perl-moreconfig.patch (100%)
+ rename meta/recipes-devtools/perl/{perl-5.14.3 => perl-5.20.0}/run-ptest (100%)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/test/dist-threads-t-join.t-adjust-ps-option.patch
+ create mode 100644 meta/recipes-devtools/perl/perl-5.20.0/test/ext-DynaLoader-t-DynaLoader.t-fix-calling-dl_findfil.patch
+ rename meta/recipes-devtools/perl/{perl-native_5.14.3.bb => perl-native_5.20.0.bb} (71%)
+ rename meta/recipes-devtools/perl/{perl-rdepends_5.14.3.inc => perl-rdepends_5.20.0.inc} (84%)
+ rename meta/recipes-devtools/perl/{perl-rprovides_5.14.3.inc => perl-rprovides_5.20.0.inc} (100%)
+ rename meta/recipes-devtools/perl/{perl_5.14.3.bb => perl_5.20.0.bb} (92%)
+
+-- 
+1.8.1.2
+
 
