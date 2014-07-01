@@ -1,32 +1,34 @@
-Return-Path: <pandey_himanshu80@rediffmail.com>
-Received: from rediffmail.com (unknown [202.137.235.163])
-	by mail.openembedded.org (Postfix) with SMTP id 9BC8060809
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D9EB60438
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 06:12:44 +0000 (UTC)
-Received: (qmail 28473 invoked by uid 510); 1 Jul 2014 06:12:36 -0000
-Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
-	b=oK8Rx+AjD5sSMHCNp88diCdKFuSvKMgT2C7zV6dKnaR5N1pTcSzppnOKaNwdiSxVmTxwiGlKjZkFM4OfkzARKKoTZ9m/LP+QZ9BJx5akToT5+wN7sVYeHsveLGBYF0mEMr+CXIIrcsmIiS09/FMkzvi8MHyvT1hdTYBz3fjb9q8=
-	; 
-x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
-X-CTCH-Spam: Unknown
-X-CTCH-VOD: Unknown
-X-CTCH-Flags: : 0
-X-CTCH-RefID: str=0001.0A160209.53B25154.0019, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-X-REDF-OSEN: pandey_himanshu80@rediffmail.com
-Date: 1 Jul 2014 06:12:35 -0000
-MIME-Version: 1.0
+	Tue,  1 Jul 2014 07:31:11 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,580,1400018400"; d="scan'208";a="54129209"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 01 Jul 2014 09:31:05 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Tue, 1 Jul 2014 09:31:05 +0200
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.28]) by
+	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
+	14.03.0174.001; Tue, 1 Jul 2014 09:31:05 +0200
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
-	01 Jul 2014 06:12:35 -0000
-Message-ID: <1404156712.S.4100.6220.H.Tkhlbm5pbmcgSGVpbm9sZABSZTogW09FLWNvcmVdIFJlYWdyZGluZyBtZXRhLW5ldHdvcmtpbmc_.RU.rfs301,
-	rfs301, 416,
-	31.f4-234-181.old.replied.1404195155.28166@webmail.rediffmail.com>
-Sender: pandey_himanshu80@rediffmail.com
-From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
-Subject: Re: Reagrding oe error
+Thread-Topic: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora,
+	libvorbis, speex and openssl
+Thread-Index: AQHPlIIChEbEbkHfX0ujM6KFnictOpuK0YeA
+Date: Tue, 1 Jul 2014 07:31:05 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050BA1F8247E@COSNADEXC13.usr.ingenico.loc>
+References: <1404138201-22662-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<20140630164039.GC2437@jama>
+In-Reply-To: <20140630164039.GC2437@jama>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
+MIME-Version: 1.0
+Subject: Re: [PATCH v2] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,126 +41,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 06:12:55 -0000
-Content-Type: multipart/alternative;
-	boundary="=_58653b08a1c99226156b0a05c4167ee5"
-
---=_58653b08a1c99226156b0a05c4167ee5
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 01 Jul 2014 07:31:14 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-I am getting the following error: 
+To summarize the situation:
 
-Error: dhcp not found in the base feeds (genericx86_64 x86_64 noarch any all).
+This v2 patch works fine with an "old" bitbake (keeping the default PACKAGE=
+CONFIG).
 
-Please help.
+But if user change PACKAGECONFIG  and adds "faac" or "openssl" (but not bot=
+h),
+the USE_NONFREE test will fail, so there will be a configure error.
+
+Maybe could I add a comment inside the recipe ?
 
 Regards,
-Himanshu
-
-From: Henning Heinold &lt;henning@itconsulting-heinold.de&gt;
-Sent: Tue, 01 Jul 2014 01:01:52 
-To: "openembedded-core@lists.openembedded.org" &lt;openembedded-core@lists.openembedded.org&gt;
-Subject: Re: [OE-core] Reagrding meta-networking
-On Mon, Jun 30, 2014 at 01:29:26PM -0000, Himanshu &nbsp;Pandey wrote:
-
-&gt; Hi,
-
-&gt; 
-
-&gt; Since I want dhcp and pppoe, so I downloaded the same from git and included meta-networking layer in bblayers.conf. This layer is getting compiled but somehow dhcp and pppoe are not getting included in the final image. So what I have to do inorder to add dhcp and pppoe in the final image.
-
-&gt; 
-
-&gt; Please help.
-
-&gt; 
-
-&gt; Regards,
-
-&gt; Himanshu
+M
 
 
+-----Message d'origine-----
+De=A0: Martin Jansa [mailto:martin.jansa@gmail.com]=20
+Envoy=E9=A0: lundi 30 juin 2014 18:41
+=C0=A0: Matthieu CRAPET
+Cc=A0: openembedded-core@lists.openembedded.org
+Objet=A0: Re: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora, lib=
+vorbis, speex and openssl
 
-IMAGE_INSTALL += "packagename_dhcp packagname_pppoe"
+On Mon, Jun 30, 2014 at 04:23:21PM +0200, Matthieu Crapet wrote:
+> Dropped libvorvis dependency because there is already a (better) builtin =
+vorbis codec.
+> Don't confuse codec names: "vorbis" (builtin) and "libvorbis" (using exte=
+rnal library).
+> Changes:
+> - add --enable-nonfree when faac or openssl are used
+> - add DESCRIPTION
+> - sort PACKAGECONFIG entries
+>=20
+> Tested with libav-0.8.11 & libav-9.13.
+>=20
+> Note: Be sure to have a recent version of bitbake (2014-06-11 or better) =
+including this:
+> http://cgit.openembedded.org/bitbake/commit/?id=3D2e742c03e8dfdfa67899e7
+> f5d579ed14bd87e139 It affects behavior of bb.utils.contains_any
+>=20
+> Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+> ---
+>  meta/recipes-multimedia/libav/libav.inc | 30=20
+> ++++++++++++++++++++++--------
+>  1 file changed, 22 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/meta/recipes-multimedia/libav/libav.inc=20
+> b/meta/recipes-multimedia/libav/libav.inc
+> index a05a2a6..1d617a2 100644
+> --- a/meta/recipes-multimedia/libav/libav.inc
+> +++ b/meta/recipes-multimedia/libav/libav.inc
+> @@ -1,6 +1,12 @@
+> -SUMMARY =3D "A complete, cross-platform solution to record, convert and =
+stream audio and video"
+> +SUMMARY =3D "Open source audio and video processing tools and librairies=
+"
+> +DESCRIPTION =3D "Libav is a friendly and community-driven effort to prov=
+ide its users \
+> +               with a set of portable, functional and high-performance l=
+ibraries for \
+> +               dealing with multimedia formats of all sorts. It originat=
+es from the \
+> +               FFmpeg codebase, but goes its own way these days, providi=
+ng its users \
+> +               with reliable releases and a clear vision how to go forwa=
+rd."
+>  HOMEPAGE =3D "http://libav.org/"
+>  SECTION =3D "libs"
+> +
+>  LICENSE =3D "GPLv2+"
+>  LICENSE_FLAGS =3D "commercial"
+> =20
+> @@ -9,7 +15,7 @@ PROVIDES =3D "ffmpeg"
+> =20
+>  ARM_INSTRUCTION_SET =3D "arm"
+> =20
+> -DEPENDS =3D "zlib libogg libvorbis libtheora yasm-native"
+> +DEPENDS =3D "zlib libogg yasm-native"
+> =20
+>  INC_PR =3D "r8"
+> =20
+> @@ -23,21 +29,29 @@ BUILD_OPTIMIZATION =3D "${FULL_OPTIMIZATION}"
+>  EXTRA_FFCONF_armv7a =3D "--cpu=3Dcortex-a8"
+>  EXTRA_FFCONF ?=3D ""
+> =20
+> -PACKAGECONFIG ??=3D "bzip2 x264 ${@bb.utils.contains('DISTRO_FEATURES', =
+'x11', 'x11', '', d)}"
+> -PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
+ck"
+> +PACKAGECONFIG ??=3D "bzip2 x264 theora ${@bb.utils.contains('DISTRO_FEAT=
+URES', 'x11', 'x11', '', d)}"
+>  PACKAGECONFIG[bzip2] =3D "--enable-bzlib,--disable-bzlib,bzip2"
+> -PACKAGECONFIG[schroedinger] =3D "--enable-libschroedinger,--disable-libs=
+chroedinger,schroedinger"
+> +PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
+>  PACKAGECONFIG[gsm] =3D "--enable-libgsm,--disable-libgsm,libgsm"
+> -PACKAGECONFIG[x264] =3D "--enable-libx264,--disable-libx264,x264"
+> -PACKAGECONFIG[vpx] =3D "--enable-libvpx,--disable-libvpx,libvpx"
+> +PACKAGECONFIG[jack] =3D "--enable-indev=3Djack,--disable-indev=3Djack,ja=
+ck"
+> +PACKAGECONFIG[libvorbis] =3D "--enable-libvorbis,--disable-libvorbis,lib=
+vorbis"
+>  PACKAGECONFIG[mp3lame] =3D "--enable-libmp3lame,--disable-libmp3lame,lam=
+e"
+> -PACKAGECONFIG[faac] =3D "--enable-libfaac,--disable-libfaac,faac"
+> +PACKAGECONFIG[openssl] =3D "--enable-openssl,--disable-openssl,openssl"
+> +PACKAGECONFIG[schroedinger] =3D "--enable-libschroedinger,--disable-libs=
+chroedinger,schroedinger"
+> +PACKAGECONFIG[speex] =3D "--enable-libspeex,--disable-libspeex,speex"
+> +PACKAGECONFIG[theora] =3D "--enable-libtheora,--disable-libtheora,libthe=
+ora"
+> +PACKAGECONFIG[vpx] =3D "--enable-libvpx,--disable-libvpx,libvpx"
+>  PACKAGECONFIG[x11] =3D "--enable-x11grab,--disable-x11grab,virtual/libx1=
+1 libxfixes libxext xproto virtual/libsdl"
+> +PACKAGECONFIG[x264] =3D "--enable-libx264,--disable-libx264,x264"
+> +
+> +# Check codecs that require --enable-nonfree USE_NONFREE =3D=20
+> +"${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes',=
+ '', d)}"
+> =20
+>  EXTRA_OECONF =3D " \
+>      --enable-shared \
+>      --enable-pthreads \
+>      --enable-gpl \
+> +    ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree',=20
+> + '', d)} \
 
+cannot you just pass --enable-nonfree in faac and openssl PACKAGECONFIG?
+In worse case when both are enabled the option will be added twice.
 
+>      --enable-avfilter \
+>      \
+>      --cross-prefix=3D${TARGET_PREFIX} \
+> --
+> 2.0.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Be aware that recipe(bb)-name is mostly not the resulting packagename.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-
-
-Bye Henning
-
--- 
-
-_______________________________________________
-
-Openembedded-core mailing list
-
-Openembedded-core@lists.openembedded.org
-
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---=_58653b08a1c99226156b0a05c4167ee5
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="UTF-8"
-
-Hi,<br><br>I am getting the following error: <br><br>Error: dhcp not found =
-in the base feeds (genericx86_64 x86_64 noarch any all).<br><br>Please help=
-.<br><br>Regards,<br>Himanshu<br><br>From: Henning Heinold &lt;henning@itco=
-nsulting-heinold.de&gt;<br>Sent: Tue, 01 Jul 2014 01:01:52 <br>To: "openemb=
-edded-core@lists.openembedded.org" &lt;openembedded-core@lists.openembedded=
-.org&gt;<br>Subject: Re: [OE-core] Reagrding meta-networking<br>On Mon, Jun=
- 30, 2014 at 01:29:26PM -0000, Himanshu &nbsp;Pandey wrote:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; Since I want dhcp and pppoe, so I downloaded the same from git and inc=
-luded meta-networking layer in bblayers.conf. This layer is getting compile=
-d but somehow dhcp and pppoe are not getting included in the final image. S=
-o what I have to do inorder to add dhcp and pppoe in the final image.<br>
-&gt; <br>
-&gt; Please help.<br>
-&gt; <br>
-&gt; Regards,<br>
-&gt; Himanshu<br>
-<br>
-IMAGE_INSTALL +=3D "packagename_dhcp packagname_pppoe"<br>
-<br>
-Be aware that recipe(bb)-name is mostly not the resulting packagename.<br>
-<br>
-Bye Henning<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-Openembedded-core@lists.openembedded.org<br>
-http://lists.openembedded.org/mailman/listinfo/openembedded-core<br>
-<br><A HREF=3D"http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.redi=
-ffmail.com/signatureline.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://=
-sigads.rediff.com/RealMedia/ads/adstream_nx.ads/www.rediffmail.com/signatur=
-eline.htm@Middle"></A><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr=
-><td><div style=3D"font-family: Arial, Helvetica, sans-serif; font-size:14p=
-x">Get your own <span style=3D"padding-bottom: 0px; background-color: #cc00=
-00; padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, s=
-ans-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></=
-span> website,  <span style=3D"padding-bottom: 0px; background-color: #c00;=
- padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
--serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
-n> domain &amp; <span style=3D"padding-bottom: 0px; background-color: #c00;=
- padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
--serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
-n> mobile app with Company email. &nbsp;</div></td><td><a href=3D"http://tr=
-ack.rediff.com/click?url=3D___http://businessemail.rediff.com/email-ids-for=
--companies-with-less-than-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&=
-lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=3D"font-family: Arial, Helvetica, sa=
-ns-serif; color: #fff; font-size: 14px; color:#0000cc" target=3D"_blank"><b=
->Know More ></b></a><!-- <in-put type=3D"button" cl-ass=3D"button" on-click=
-=3D"parent.location=3D&#39;http://track.rediff.com/click?url=3D___http://bu=
-sinessemail.rediff.com/company-email-hosting-services?sc_cid=3Dsignature-23=
--9-13___&amp;cmp=3Dsignature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhos=
-t&#39;" value=3D"Know more &gt;"> </input> --></td></tr></tbody></table>
-
---=_58653b08a1c99226156b0a05c4167ee5--
