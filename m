@@ -1,36 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CF7F56AC8F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4349660065
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 16:05:50 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id cc10so8114924wib.0
+	Tue,  1 Jul 2014 17:00:53 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s61H0nnt015811 for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Jul 2014 18:00:49 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CQnyc3LPEqA0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Jul 2014 09:05:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=j2XVMQg7irpcEdO9BApV0F4s3TAdXHctzu8LLnTC5bw=;
-	b=OM+I4wsjx8WEvcfyObM6XP0P6WDoGu+rFV1S/+H1JzDyyRlEDBLjjO4/uqisXdDUZW
-	PZGvN9f1uA+i/B32az6KSLybSEGhZGoAMgzJYVFNc+Ei+Av4rq2+c7PqMUFGUXgdRgfD
-	qMpNFiwD7a1VMoajr73KL5ywBb5ybQXIEo8Aroth+H0C7Qae/IR68UADJN4sKOrlkWfi
-	BfzanZgiyAlkXLsZCD8OopBQvDCbGE7r1chT0WK6CcBNvddSKKo6pPt4BWIstsg6GgQd
-	t8fLIudqWIqj7kpbzQ/QWph2XPumqFHkrV0i+xo3STDsCMD+1ao5kGLtDl9QSedSNuGe
-	ZePA==
-X-Gm-Message-State: ALoCoQncIKyyhrtXcXjEgyhLpxoZ9BjrRMsLiwojgk4RyU2R2tsbXDkp8TsbocvYSkMfwrkvsOWC
-X-Received: by 10.194.200.37 with SMTP id jp5mr4081860wjc.120.1404230363425;
-	Tue, 01 Jul 2014 08:59:23 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id bq7sm44688087wib.7.2014.07.01.08.59.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Jul 2014 08:59:22 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Jul 2014 16:59:14 +0100
-Message-Id: <1404230354-3771-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] glib-2.0: silence QA warnings about libraries outside ${libdir}
+	Tue,  1 Jul 2014 18:00:49 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s61H0h7G015798
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Jul 2014 18:00:45 +0100
+Message-ID: <1404234036.6362.68.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 01 Jul 2014 18:00:36 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] toolchain-scripts: Add handling for CANADIANEXTRAOS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 16:05:51 -0000
+X-List-Received-Date: Tue, 01 Jul 2014 17:01:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The test suite is installed into ${libexecdir} and as that may be outside of
-${libdir} the QA test needs to be silenced.
+When we build a general toolchain script we should add all the OS
+variants to PATH, not just the current one. This is because some can
+cross reference each other and if the triplet prefixed ld can't be found
+for example, you recieve strange errors.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/glib-2.0/glib.inc |    2 ++
- 1 file changed, 2 insertions(+)
+Doing this resolves bugs exposed during SDK testing.
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index e2b130b..2eda8a1 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -96,3 +96,5 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-             eglibc-charmap-invariant \
-             eglibc-localedata-translit-cjk-variants \
-            "
-+
-+INSANE_SKIP_${PN}-ptest += "libdir"
--- 
-1.7.10.4
+[YOCTO #6490]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index b9f2aea9..413effe 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -14,7 +14,11 @@ toolchain_create_sdk_env_script () {
+ 	rm -f $script
+ 	touch $script
+ 	echo 'export SDKTARGETSYSROOT='"$sysroot" >> $script
+-	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}:$PATH' >> $script
++	EXTRAPATH=""
++	for i in ${CANADIANEXTRAOS}; do
++		EXTRAPATH="$EXTRAPATH:"`echo ${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS} | sed -e 's,${TARGET_PREFIX},${TARGET_PREFIX}$i,g'`
++	done
++	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+
 
 
