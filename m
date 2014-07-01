@@ -1,22 +1,36 @@
-Return-Path: <roxana.ciobanu@intel.com>
-X-Greylist: delayed 600 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 01 Jul 2014 14:27:20 UTC
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8557A609AC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AC433609AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 14:27:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2014 07:11:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,581,1400050800"; d="scan'208";a="555840265"
-Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.45])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2014 07:16:48 -0700
-From: Roxana Ciobanu <roxana.ciobanu@intel.com>
+	Tue,  1 Jul 2014 15:57:02 +0000 (UTC)
+Received: by mail-wg0-f51.google.com with SMTP id x12so9952588wgg.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Jul 2014 08:57:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=MWlUnK0sji59F/9y/u+jlzHRE7xszc90FQEe47MWSEk=;
+	b=dqOR0cKpYOo9hmdEwM7oH0sklVIyU2Kj7ue4NSM/hsFO98eyAyrxMuyKZAwPpRVdqD
+	mcpaIu2yFw+o4iwS7/z/zkAGkKzN0DcYOv3Yk7Pz3d35ElrMHGMDI99dxs6zIWuP8J4R
+	HPXpzhsOXjlGYxXB9LKkcVfpQQIbYLaLH68PejOHrlAo7FVuPfK2Gq0163WSp3/ZAPsj
+	7tFjENKLVqz7sK5byRYzR/Zp/Erl8THyAneRYJPJrwFKN2Vzli8jk+I6+JH/lHCuamD4
+	nBiLLkerMDLgan8GYOeyzF+bUtNyH7n1iRBQrwKIYvA1EYKiVYrysMdbBIxCubjyBqB5
+	+aHw==
+X-Gm-Message-State: ALoCoQlBWh/aq4yAJMFTu2uw4HB3hIRVuBvhDtTieQNb/K40pj++v9GZ7vmX1r2FPUjZ2qQ8Ey41
+X-Received: by 10.180.89.193 with SMTP id bq1mr36979903wib.81.1404230221077;
+	Tue, 01 Jul 2014 08:57:01 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	kr6sm48963669wjb.16.2014.07.01.08.56.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Jul 2014 08:57:00 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Jul 2014 17:16:59 +0300
-Message-Id: <cover.1404224041.git.roxana.ciobanu@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/1] Fix for YB6491
+Date: Tue,  1 Jul 2014 16:56:53 +0100
+Message-Id: <1404230213-3569-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] package.bbclass: add a stub implementation of package_name_hook
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,25 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 14:27:22 -0000
+X-List-Received-Date: Tue, 01 Jul 2014 15:57:09 -0000
 
-The following changes since commit 0ed5a13f5f9478e2c22f517fb3504b738422f85c:
+do_package() calls package_name_hook so that e.g. debian-style renaming through
+debian.bbclass can happen.  If there is no class providing a package_name_hook
+then this causes "WARNING: Function package_name_hook doesn't exist" every time
+do_package() is executed.
 
-  python3: fix builtins imports (2014-06-30 16:36:44 +0100)
+Silence this warning by providing an empty package_name_hook in package.bbclass.
 
-are available in the git repository at:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/package.bbclass |   12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-  git://git.yoctoproject.org/poky-contrib roxana/YB6491
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6491
-
-Roxana Ciobanu (1):
-  elfutils/elfutils-native: Fix patching generated files
-
- .../elfutils-0.158/redhat-portability.diff         | 859 ---------------------
- .../elfutils/elfutils/redhat-portability.diff      | 370 +--------
- 2 files changed, 1 insertion(+), 1228 deletions(-)
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index ea75918..40b5069 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1119,6 +1119,18 @@ python package_fixsymlinks () {
+         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
+ }
+ 
++
++python package_package_name_hook() {
++    """
++    A package_name_hook function can be used to rewrite the package names by
++    changing PKG.  For an example, see debian.bbclass.
++    """
++    pass
++}
++
++EXPORT_FUNCTIONS package_name_hook
++
++
+ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ 
+ python emit_pkgdata() {
 -- 
-1.9.1
+1.7.10.4
 
 
