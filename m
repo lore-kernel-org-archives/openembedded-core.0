@@ -1,34 +1,40 @@
-Return-Path: <pandey_himanshu80@rediffmail.com>
-X-Greylist: delayed 75794 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 01 Jul 2014 10:30:24 UTC
-Received: from rediffmail.com (f4mail-235-92.rediffmail.com [202.137.235.92])
-	by mail.openembedded.org (Postfix) with SMTP id 636AD60809
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 10:30:24 +0000 (UTC)
-Received: (qmail 8208 invoked by uid 510); 1 Jul 2014 10:30:22 -0000
-Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
-	b=QD7Z3h45xcWZQ4Yz8kEOz+fnGPoUTR0pZm08pvLT47pIqapCd/f8zkbH8CtbT0+ZIE8LBpCHtnL1q7bSfbzkhK0tBeqODIMWUBhNWXyjg6bCJpOeJ5z1fwW9ZRKWqLJTEa4tjkX+U+Asxmpb3tIWQ9oSnV7qgyIfMnjUiEdbnJk=
-	; 
-x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
-X-CTCH-Spam: Unknown
-X-CTCH-VOD: Unknown
-X-CTCH-Flags: : 0
-X-CTCH-RefID: str=0001.0A160209.53B28DBE.01FA, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-X-REDF-OSEN: pandey_himanshu80@rediffmail.com
-Date: 1 Jul 2014 10:30:22 -0000
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EFBE965C68;
+	Tue,  1 Jul 2014 10:58:05 +0000 (UTC)
+Received: by mail-we0-f176.google.com with SMTP id u56so9574496wes.7
+	for <multiple recipients>; Tue, 01 Jul 2014 03:58:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=logznd2anjiyqr5iSvEHrdTwT4O+NwYGloWr203q0Qs=;
+	b=IaJ4t+dty06dDnCY7e9g+dq3tAxtJLox0OtJZ3z1DG5CTQ0Xvs1sMH+UuUQuTXZjfR
+	YbB4HIBcfOrsyfaf3xrEcZ9p3OAaJq/E/gv3m3Kv17pweCYpYUN2V33SRxEwz+yj/DkW
+	i70fMLxoPPfXrxwgSUWRkotAHydo7JfaNIGjGVd2rWqX90o9ASzlFFeoVdqq1qeCyNT6
+	TktoAPjUW7a330JyLLpyovZTal9RcS52PvK8AkZkKCSgjFs5corSYIq8rkC/ULMD4Vfx
+	udrahEIEKKSJ+3S4eN6kNTkb8seSR7SqcJYTKDMr512p6OP93YN/IgR+lF+7q4b1falb
+	Bc0A==
+X-Received: by 10.180.9.71 with SMTP id x7mr35183796wia.61.1404212286479;
+	Tue, 01 Jul 2014 03:58:06 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	fn1sm42045852wib.18.2014.07.01.03.58.05 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Jul 2014 03:58:05 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 1 Jul 2014 12:58:15 +0200
+To: Tom King <ka6sox@gmail.com>
+Message-ID: <20140701105815.GF2437@jama>
+References: <20140619113451.GO2117@jama> <20140624101443.GO2437@jama>
+	<CAHQecY6eQfhY4hY_EEUmXd5MEA2_fDb5yfj7YP0i1gg=dKFQ7Q@mail.gmail.com>
 MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
-	01 Jul 2014 10:30:22 -0000
-Message-ID: <1404203099.S.6036.17647.H.TlN0ZXBoYW5lIENlcnZlYXUAUmU6IFtPRS1jb3JlXSBbb2UtY29yZV1bZG9yYV1bUEFUQ0hdIHZhbGE6IHM_.RU.rfs209,
-	rfs209, 704,
-	126.f4-235-146.old.1404210622.8080@webmail.rediffmail.com>
-Sender: pandey_himanshu80@rediffmail.com
-From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
-Subject: Error: net-snmp not found in the base feeds (genericx86_64 x86_64 noarch any all).
+In-Reply-To: <CAHQecY6eQfhY4hY_EEUmXd5MEA2_fDb5yfj7YP0i1gg=dKFQ7Q@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Few archives to add on sources.oe.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,61 +47,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 10:30:29 -0000
-Content-Type: multipart/alternative;
-	boundary="=_28a3a16166016bf281ebbb182f4281f5"
+X-List-Received-Date: Tue, 01 Jul 2014 10:58:08 -0000
+X-Groupsio-MsgNum: 54506
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gVeFDRGtAQ0W7qcm"
+Content-Disposition: inline
 
---=_28a3a16166016bf281ebbb182f4281f5
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="UTF-8"
-
-Hi,
-
-I am getting following error:
-
-Error: net-snmp not found in the base feeds (genericx86_64 x86_64 noarch any all).
-Error: dhcp not found in the base feeds (genericx86_64 x86_64 noarch any all).
-
-Please help.
-
-Regards,
-Himanshu
-
-
-
-
-
---=_28a3a16166016bf281ebbb182f4281f5
+--gVeFDRGtAQ0W7qcm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="UTF-8"
 
-Hi,<br><br>I am getting following error:<br><br>Error: net-snmp not found i=
-n the base feeds (genericx86_64 x86_64 noarch any all).<br>Error: dhcp not =
-found in the base feeds (genericx86_64 x86_64 noarch any all).<br><br>Pleas=
-e help.<br><br>Regards,<br>Himanshu<br><br><br><br>
-<br><A HREF=3D"http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.redi=
-ffmail.com/signatureline.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://=
-sigads.rediff.com/RealMedia/ads/adstream_nx.ads/www.rediffmail.com/signatur=
-eline.htm@Middle"></A><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr=
-><td><div style=3D"font-family: Arial, Helvetica, sans-serif; font-size:14p=
-x">Get your own <span style=3D"padding-bottom: 0px; background-color: #cc00=
-00; padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, s=
-ans-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></=
-span> website,  <span style=3D"padding-bottom: 0px; background-color: #c00;=
- padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
--serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
-n> domain &amp; <span style=3D"padding-bottom: 0px; background-color: #c00;=
- padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
--serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
-n> mobile app with Company email. &nbsp;</div></td><td><a href=3D"http://tr=
-ack.rediff.com/click?url=3D___http://businessemail.rediff.com/email-ids-for=
--companies-with-less-than-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&=
-lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=3D"font-family: Arial, Helvetica, sa=
-ns-serif; color: #fff; font-size: 14px; color:#0000cc" target=3D"_blank"><b=
->Know More ></b></a><!-- <in-put type=3D"button" cl-ass=3D"button" on-click=
-=3D"parent.location=3D&#39;http://track.rediff.com/click?url=3D___http://bu=
-sinessemail.rediff.com/company-email-hosting-services?sc_cid=3Dsignature-23=
--9-13___&amp;cmp=3Dsignature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhos=
-t&#39;" value=3D"Know more &gt;"> </input> --></td></tr></tbody></table>
+On Tue, Jun 24, 2014 at 07:36:59AM -0700, Tom King wrote:
+> done
 
---=_28a3a16166016bf281ebbb182f4281f5--
+Thanks,
+
+I've found another one in daisy:
+
+barnyard2-1.8.tar.gz
+
+I've verified that
+wget http://ftp.psu.ac.th/pub/snort/barnyard2-1.8.tar.gz
+provides correct checksum or you can fetch it from aruba
+(/home/jenkins/oe/world/downloads-missing).
+
+SRC_URI[md5sum] =3D "72fc6c490db6ea6a0f46c27d24998067"
+SRC_URI[sha256sum] =3D "1abfe6530d721debd98921421722b02c844c289564730b1e857=
+29e4915b2bb7a"
+
+> On Tue, Jun 24, 2014 at 3:14 AM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+>=20
+> > On Thu, Jun 19, 2014 at 01:34:51PM +0200, Martin Jansa wrote:
+> > > Hi Tom,
+> > >
+> > > can you please add:
+> > > IO-Tty-1.10.tar.gz
+> > > SQLAlchemy-0.7.9.tar.gz
+> > > fetchmail-6.3.26.tar.xz
+> > > usb-modeswitch-2.0.1.tar.bz2
+> > > usb-modeswitch-data-20130807.tar.bz2
+> > >
+> > > to sources.oe.org? I can send you tarballs (or fetch them from
+> > > /home/jenkins/oe/shr-core-branches/downloads-missing/ on aruba)
+> > >
+> > > The most annoying is fetchmail which is now fetching HTML page from
+> > > berlios (so checksum check fails instead of showing 404) :/. And user
+> > > needs to download it manually or use sources.oe.org as PREMIRROR, but
+> > > still better than nothing.
+> >
+> > I've found only one more missing in upstream sites and used from dora
+> > branch
+> >
+> > daq-2.0.1.tar.gz
+> >
+> > I've verified that
+> > http://download.lunar-linux.org/lunar/mirrors/daq-2.0.1.tar.gz
+> > provides correct checksum or you can fetch it from aruba as before.
+> >
+> > SRC_URI[md5sum] =3D "044aa3663d44580d005293eeb8ccf175"
+> > SRC_URI[sha256sum] =3D
+> > "ebba87c2ec76ac65d2980934423b0597909caead3a86ce5d1ba1ea6ce518ec6d"
+> >
+> > Thanks
+> >
+> > --
+> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--gVeFDRGtAQ0W7qcm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlOylEcACgkQN1Ujt2V2gBxbHgCbBmcd4ec3WEIikui1doMI2oip
+zgoAnjM9sX47f0tTXvpEGsonjy65SnUu
+=8jTS
+-----END PGP SIGNATURE-----
+
+--gVeFDRGtAQ0W7qcm--
