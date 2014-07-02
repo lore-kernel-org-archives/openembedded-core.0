@@ -1,37 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 746B865CE7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 33DF06AC74
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 12:42:43 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id n3so404823wiv.14
+	Wed,  2 Jul 2014 15:55:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s62FtpEs020298
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jul 2014 05:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zlscvaRcDo2CtR2g34glDow2VZYszXn0dlLmF3PGR7E=;
-	b=N/Klkn+zCUTqTPd9KViJR+XXdy30mfpXMWC+Bu47MftvvmrbJbHLwGa1p8mhvrrEgT
-	PTt5EbiCLG4UkJit6439iHqD6LkXAcN/eJ9yojoPdFQLhi6Ggbk7CBIDIN+k16e9W2uI
-	e83doOWobPppMij/AbWt2PfLQhnRI2VaFAFCLfzjAqSk8/SvsV2Ts7nPHqiv9DUc0Ekq
-	1C3dn1zXnuG2N3N6ZebsvCOYURflXXfFS+qxCF5y//uJvQappkEsGSKoILUsH/GT8hE2
-	/+X6WfZW7gcviIA4BP+K3cHCt4+sVyRsONRg3HltLoaAEKFSRo8EWKv7661VyvK7SQtx
-	23Hg==
-X-Received: by 10.180.14.162 with SMTP id q2mr4296878wic.54.1404304607173;
-	Wed, 02 Jul 2014 05:36:47 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	n2sm52520853wjf.40.2014.07.02.05.36.46 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Jul 2014 05:36:46 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Jul 2014 14:36:56 +0200
-Message-Id: <1404304616-31392-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.0
-In-Reply-To: <20140702123525.GL2437@jama>
-References: <20140702123525.GL2437@jama>
-Subject: [PATCHv2] gtk+: Add PACKAGECONFIG for directfb
+	Wed, 2 Jul 2014 08:55:51 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 2 Jul 2014 08:55:50 -0700
+Message-ID: <53B42B86.2010606@windriver.com>
+Date: Wed, 2 Jul 2014 10:55:50 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1404244287.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1404244287.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 0/6] RPM, BerkleyDB and related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +35,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 12:42:44 -0000
+X-List-Received-Date: Wed, 02 Jul 2014 15:55:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* building without x11 doesn't work, because it sets default
-  gdkbackend to x11 and then requires cairo-xlib to be available
-* checking for CAIRO_BACKEND... no
-  configure: error: Package requirements (cairo-xlib >= 1.6) were not met:
+Once I finish some testing, I'll have a version two of these patches later 
+today.  Instead of removing the db 5.3 package, we'll retain it as an 
+alternative to db 6.0.
 
-  No package 'cairo-xlib' found
+--Mark
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-gnome/gtk+/gtk+.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
-index dd1fa1b..390a582 100644
---- a/meta/recipes-gnome/gtk+/gtk+.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+.inc
-@@ -14,9 +14,14 @@ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender
- DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
-  cairo gdk-pixbuf"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+PACKAGECONFIG ??= " \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-+"
- 
- PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
-+# without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
-+PACKAGECONFIG[directfb] = "--with-gdktarget=directfb,,directfb"
- 
- inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache
- 
--- 
-2.0.0
+On 7/1/14, 3:01 PM, Mark Hatle wrote:
+> This set make a group of changes that affect RPM, BerkleyDB and other
+> related systems.
+>
+> The changes were tested using buildhistory.  It was verified that only
+> expected changes (the version string) occured in both the BerkleyDB and
+> RPM uprevs.  The dependencies are the same, or similar [within expecations].
+>
+> Buildhistory testing consisted of build w/ origin/master.  Build with
+> patch 1/6, build with patch 5/6, and build with patch 6/6 (with the
+> PREFERRED_VERSION enabled.)
+>
+> 1/6 - Fixes a rare issue when the arch translation fails (multilib case)
+> 2/6 - Uprev BerkelyDB to 6.0.30 -- note it also adds a comment explaining the
+>         thumb patch.  The comment comes from the original OE commit message
+>         from 2005.  Note new BerkleyDB is now under the AGPL-3.0 license!
+> 3/6 - Upgrade RPM to 5.4.14 release.  Change yacc from bison to byacc.
+> 4/6 - Change a backported patch to the upstream version.
+> 5/6 - Fix an issue where TARGET_VENDOR and _OS were used, when it should
+>        have been HOST.  This was breaking non-linux SDKs.
+> 6/6 - [optional] This adds a development RPM 5 based on the CVS rpm-5_4
+>        branch.  This recipe is being provided to help in future development.
+>
+> If 6/6 is not acceptable that it can be ignored.
+>
+> The following changes since commit c36d459f0d40bdbd3ba809835e0475e8992bc778:
+>
+>    python3: fix builtins imports (2014-06-30 16:35:03 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib mhatle/rpm
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+>
+> Mark Hatle (6):
+>    lib/oe/package_manager.py: Fix _pkg_translate_smart_to_oe function
+>    db: Uprev to 6.0.30
+>    rpm: Upgrade to 5.4.14
+>    rpm: Replace patch with backport from SCM version of RPM5
+>    package_rpm.bbclass: Should be using HOST_* not TARGET_*
+>    rpm_5.4+cvs: Add RPM community tree for future development
+>
+>   meta/classes/package_rpm.bbclass                   |   4 +-
+>   meta/lib/oe/package_manager.py                     |   1 +
+>   meta/recipes-devtools/rpm/rpm/dbconvert.patch      |  24 +-
+>   meta/recipes-devtools/rpm/rpm/debugedit-segv.patch |  19 +-
+>   ...debugedit-valid-file-to-fix-segment-fault.patch |  14 +-
+>   .../rpm/rpm/fstack-protector-configure-check.patch |   8 +-
+>   .../rpm/rpm/header-include-fix.patch               |  16 +-
+>   .../rpm/rpm/makefile-am-exec-hook.patch            |   8 +-
+>   .../rpm/rpm/python-rpm-rpmsense.patch              |   6 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   8 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |  14 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   6 +-
+>   .../rpm/rpm/rpm-db_buffer_small.patch              |  18 +-
+>   .../rpm/rpm/rpm-debug-platform.patch               |  14 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch  |  12 +-
+>   .../rpm/rpm/rpm-hardlink-segfault-fix.patch        |  10 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch |  12 +-
+>   .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |  10 +-
+>   .../rpm/rpm/rpm-lsb-compatibility.patch            |   8 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |  18 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-macros.patch     |  19 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |   9 +-
+>   .../rpm/rpm/rpm-no-perl-urpm.patch                 |   8 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   9 +-
+>   .../rpm/rpm/rpm-packageorigin.patch                |   8 +-
+>   .../rpm/rpm/rpm-payload-use-hashed-inode.patch     |  30 +-
+>   .../rpm/rpm/rpm-pkgconfigdeps.patch                |  11 +-
+>   .../rpm/rpm/rpm-platform-file-fix.patch            |  12 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |  39 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |  22 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   8 +-
+>   .../rpm/rpm/rpm-reloc-macros.patch                 |   6 +-
+>   .../rpm/rpm/rpm-remove-sykcparse-decl.patch        |   8 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |  10 +-
+>   .../rpm/rpm/rpm-respect-arch.patch                 |  67 ---
+>   meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch |  67 +++
+>   .../rpm/rpm/rpm-scriptletexechelper.patch          |  20 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-showrc.patch     |   9 +-
+>   meta/recipes-devtools/rpm/rpm/rpm-solvedb.patch    |  31 --
+>   .../rpm/rpm/rpm-stub-out-git_strerror.patch        |  60 ---
+>   .../rpm-tag-generate-endian-conversion-fix.patch   |   7 +-
+>   .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |  10 +-
+>   .../rpm/rpm/rpm-uuid-include.patch                 |  15 +-
+>   .../rpm/rpm/rpm-verify-files.patch                 |  22 -
+>   meta/recipes-devtools/rpm/rpm/rpmatch.patch        |  26 +-
+>   meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |  14 +-
+>   meta/recipes-devtools/rpm/rpm/uclibc-support.patch |  36 +-
+>   ...broken-logic-for-ghost-avoidance-Mark-Hat.patch |  38 ++
+>   meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           | 527 +++++++++++++++++++++
+>   .../rpm/{rpm_5.4.9.bb => rpm_5.4.14.bb}            |  21 +-
+>   .../db/db/arm-thumb-mutex_db5.patch                |  10 +
+>   .../db/{db_5.3.21.bb => db_6.0.30.bb}              |  33 +-
+>   52 files changed, 962 insertions(+), 480 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch
+>   delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-solvedb.patch
+>   delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-stub-out-git_strerror.patch
+>   delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-verify-files.patch
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch
+>   create mode 100644 meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+>   rename meta/recipes-devtools/rpm/{rpm_5.4.9.bb => rpm_5.4.14.bb} (97%)
+>   rename meta/recipes-support/db/{db_5.3.21.bb => db_6.0.30.bb} (77%)
+>
 
 
