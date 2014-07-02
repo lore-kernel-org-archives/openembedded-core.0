@@ -1,22 +1,22 @@
 Return-Path: <ricardo.neri-calderon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 76907609B2
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 356AC65E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 00:58:30 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Jul 2014 17:58:31 -0700
+	Wed,  2 Jul 2014 00:59:02 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 01 Jul 2014 17:59:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,585,1400050800"; d="scan'208";a="563887075"
+X-IronPort-AV: E=Sophos;i="5.01,585,1400050800"; d="scan'208";a="452304257"
 Received: from ranerica-desk01.sc.intel.com ([10.3.52.100])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jul 2014 17:58:31 -0700
+	by azsmga001.ch.intel.com with ESMTP; 01 Jul 2014 17:59:03 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Jul 2014 17:56:51 -0700
-Message-Id: <1404262611-19981-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Date: Tue,  1 Jul 2014 17:57:38 -0700
+Message-Id: <1404262658-20024-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 Cc: Matt Fleming <matt.fleming@intel.com>,
 	"Glenn P. Williamson" <glenn.p.williamson@intel.com>
-Subject: [PATCH] kexec-tools: upgrade to 2.0.7
+Subject: [PATCH] bootimg.bbclass: Add parameter to specify HDDIMG volume ID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 00:58:38 -0000
+X-List-Received-Date: Wed, 02 Jul 2014 00:59:05 -0000
 
-Kexec-tools v2.0.7 is out, upgrade accordingly.
+Users and children of the bootimg class may need to specify at build
+time the volume ID of the HDDIMG vfat partition. An example of this
+may be when at runtime the partition is uniquely identified by
+the volume ID.
+
+The HDDIMG_ID is expected to be provided externally. If the variable
+is not set, mkdosfs will use the default volume-id.
 
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-CC: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb | 13 -------------
- meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 13 deletions(-)
- delete mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
+ meta/classes/bootimg.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb
-deleted file mode 100644
-index 5321dd4..0000000
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb
-+++ /dev/null
-@@ -1,13 +0,0 @@
--require kexec-tools.inc
--export LDFLAGS = "-L${STAGING_LIBDIR}"
--EXTRA_OECONF = " --with-zlib=yes"
--
--SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch"
--
--SRC_URI[md5sum] = "c39ea40a7598e49b6dc961ee7de38f57"
--SRC_URI[sha256sum] = "a9c6cd9adc8c1c37b3272782f581cb8b4b4070d0e3e921a558a9083f68dcf29a"
--
--PACKAGES =+ "kexec kdump"
--
--FILES_kexec = "${sbindir}/kexec"
--FILES_kdump = "${sbindir}/kdump"
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
-new file mode 100644
-index 0000000..a5c1ced
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
-@@ -0,0 +1,13 @@
-+require kexec-tools.inc
-+export LDFLAGS = "-L${STAGING_LIBDIR}"
-+EXTRA_OECONF = " --with-zlib=yes"
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index 7678567..d52aace 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -22,6 +22,7 @@
+ # ${COMPRESSISO} - Transparent compress ISO, reduce size ~40% if set to 1
+ # ${NOISO}  - skip building the ISO image if set to 1
+ # ${NOHDD}  - skip building the HDD image if set to 1
++# ${HDDIMG_ID} - FAT image volume-id
+ # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
+ 
+ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+@@ -193,7 +194,14 @@ build_fat_img() {
+ 		FATSIZE="-F 32"
+ 	fi
+ 
+-	mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} ${BLOCKS}
++	if [ -z "${HDDIMG_ID}" ]; then
++		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
++			${BLOCKS}
++	else
++		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
++		${BLOCKS} -i ${HDDIMG_ID}
++	fi
 +
-+SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch"
-+
-+SRC_URI[md5sum] = "2309ba43981cb6d39d07ac3a9aac30ab"
-+SRC_URI[sha256sum] = "dde5c38be39882c6c91f0129647349c4e1943b077d3020af1970b481ee954eb0"
-+
-+PACKAGES =+ "kexec kdump"
-+
-+FILES_kexec = "${sbindir}/kexec"
-+FILES_kdump = "${sbindir}/kdump"
+ 	# Copy FATSOURCEDIR recursively into the image file directly
+ 	mcopy -i ${FATIMG} -s ${FATSOURCEDIR}/* ::/
+ }
 -- 
 1.9.1
 
