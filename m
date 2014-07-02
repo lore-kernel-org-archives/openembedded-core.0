@@ -1,33 +1,24 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CF06FE64
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D0D960438
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 07:48:44 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id va2so11856480obc.33
+	Wed,  2 Jul 2014 09:25:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s629PBKv014900
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jul 2014 00:48:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=b8NjbquIu90eBj5amwf7BIckQge8287WClRzT0xUQMg=;
-	b=eqJKcIOEjM4yO/0E6Wp/NVx3sDr/4/sBb6AFN/O5o4+9TrzUVBUfvXkn/2ax2LAbk4
-	sXx/KypTLaSs09QudWOVmwkVnhfx9r4cNnckeo7sgu+m/pOVr7JTX55OSSRkp3/hktT1
-	Soo8fMj5+WfFJwxyEoTgR0Xf7UTuF3qGMNhSIvKSIex32XREH1xMmg+U4nhnXoj3NI/X
-	TT8K1dHd89pP7uy381QyNwf1AK0Q1hxRcTRes9PQWLiTZ+fiQ/b5Ax/Ju+Q/WPRhbK+r
-	mv+a/3Aat4742ioSxpPZJAbC4tvOWzjnb9roZb32lBVjTEPAUmzdmC1BX2t0oZof+vSP
-	OWYw==
-X-Gm-Message-State: ALoCoQlUyxSjr5OsbIICcvGihEST16OS4fHb4GrncJp4Hk/TkA//rsI4ampi6IJO/xKCLUmEAkWJ
+	Wed, 2 Jul 2014 02:25:11 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 2 Jul 2014 02:25:11 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Jul 2014 02:25:10 -0700
+Message-ID: <cover.1404292676.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.60.117.39 with SMTP id kb7mr55408582oeb.5.1404287325875;
-	Wed, 02 Jul 2014 00:48:45 -0700 (PDT)
-Received: by 10.76.69.228 with HTTP; Wed, 2 Jul 2014 00:48:45 -0700 (PDT)
-Date: Wed, 2 Jul 2014 09:48:45 +0200
-Message-ID: <CA+AhUGwRbd4kv0_wd3Y9=5SPe-cf76FKqMU4mdH7_m1YucWabw@mail.gmail.com>
-From: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Building mesa uses hosts wayland-scanner instead of version from sysroot
+Subject: [RFC - WIP PATCH 0/1] image.bbclass: create binary pkg for image recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 07:48:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 02 Jul 2014 09:25:11 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit 0ed5a13f5f9478e2c22f517fb3504b738422f85c:
 
-I noticed differences when building mesa on my local machine and on
-one of our build servers. It failed on my local host due to errors in
-the generated wayland-drm-client-protocol.h but worked on the build
-server. Examining log.do_compile I noticed that it uses
-wayland-scanner from /usr/bin/ on both machines instead of using the
-one present in the sysroot, so I guess it works due to luck on one
-machine.
+  python3: fix builtins imports (2014-06-30 16:36:44 +0100)
 
-If I make /usr/bin/wayland-scanner a symlink to the version in the
-sysroot it builds ok.
+are available in the git repository at:
 
-Can anyone else verify if their mesa builds uses the hosts
-wayland-scanner? And does anyone the proper way to convince mesa to
-use the sysroot version?
+  git://git.pokylinux.org/poky-contrib rbt/image_pkg
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/image_pkg
 
-(I'm using daisy, so mesa 9.2.5)
+Robert Yang (1):
+  image.bbclass: create binary pkg for image recipe
 
-Cheers,
-Erik
+ meta/classes/image.bbclass                   |   91 +++++++++++++++++++++++---
+ meta/recipes-core/meta/buildtools-tarball.bb |    2 +-
+ 2 files changed, 83 insertions(+), 10 deletions(-)
+
+-- 
+1.7.9.5
+
 
