@@ -1,35 +1,38 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
-	[209.85.219.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8047765D03
+Return-Path: <ross.burton@intel.com>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B7BE365CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 11:07:27 +0000 (UTC)
-Received: by mail-oa0-f48.google.com with SMTP id m1so12014281oag.35
+	Wed,  2 Jul 2014 11:22:08 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id el20so6853351lab.19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jul 2014 04:07:29 -0700 (PDT)
+	Wed, 02 Jul 2014 04:22:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:content-transfer-encoding;
-	bh=v9JSAzKORW/h7X9sksILEF5ECJEYtz0evn+3tTQr1PM=;
-	b=J+rrbZl/RV8Ju+t2tExOVU0LmFa7K5SuRbNocvPjRKwH3p6Fpw/gyADLeLLk4FrzG7
-	lRsYZgtwhOlBcLscJ95axE7bWttD1heWuckOjSsBbPetZwgSUh7dOqbf5BKJn03MH3Lw
-	BdcWKat3K+2ly/bmm+KUqnUQllTKn2D3Xq9dmBV2T1Spq0bobUQ68t4JamUb6Pd/Es50
-	+DE6K+S5xPuJq5U6x/0gNawJEt77tpOBXwR16YdTmnyMzxFyMhb4QBSqU40rdmW6g3dl
-	aiYIXzBv8JKd/ClAvBAY8sDuCVQbTn13SsjlP0bGmPzFvRmxuBHZZwc5DdA7RUQQ2pyk
-	Rh3A==
-X-Gm-Message-State: ALoCoQmZNwGQb4fidNi43fGALyBmw6WBYWkeeP/ayHTlJ5q3K3jqgMRcGJnE0+P9CGYjeO0Cybo5
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=6KtlWtEVlJD2WWpxJtDyyxRGrb7WqOQ7+BM2AVeVv5Y=;
+	b=YvDHbq/oCuffn6nlDaEIkBGmsdFlHEbaNX3/Pg4tMisgU/IQ5w7wRYAzskmn1edveg
+	DVWM5wwUYeyqYi7CNfO1Q5blhBAb1bh9R3LsKzOFWIJXf8tMHEppQPy8KMyhGuUk2unc
+	5NyArPWZ0LFOyOjJb2XjSa6cyaop0nha2d0g9B7Q5QdOFZ8I9fEEZoOEdiF0oQtUVvb9
+	RFYa/o+68hm0xPeFZYJMzcJjU/jKFUF3R0UlVKa7icbZreDPybM7EsWhLQ8n4EjVpoHP
+	f7C1eg8Z1VG/+j99bDoJ8V8GIKzPAhVpBBe3O3HZtNNKamafgDdnoxpHEvKUkZKnFQn1
+	D2IA==
+X-Gm-Message-State: ALoCoQn/X6vIyFtAQdIC41uJLYTAaFRfgYSfkhvUYqEA7WQkWFk6v+fZurtGc8UXs3Edt24dIlVh
+X-Received: by 10.112.148.165 with SMTP id tt5mr1561160lbb.61.1404300128854;
+	Wed, 02 Jul 2014 04:22:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.60.101.170 with SMTP id fh10mr56184764oeb.39.1404299248957; 
-	Wed, 02 Jul 2014 04:07:28 -0700 (PDT)
-Received: by 10.76.69.228 with HTTP; Wed, 2 Jul 2014 04:07:28 -0700 (PDT)
-In-Reply-To: <CA+AhUGwRbd4kv0_wd3Y9=5SPe-cf76FKqMU4mdH7_m1YucWabw@mail.gmail.com>
-References: <CA+AhUGwRbd4kv0_wd3Y9=5SPe-cf76FKqMU4mdH7_m1YucWabw@mail.gmail.com>
-Date: Wed, 2 Jul 2014 13:07:28 +0200
-Message-ID: <CA+AhUGwaxiyWWRbRdB995q+VJTfK3vrXr-ismOp95NKDS40bkA@mail.gmail.com>
-From: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Building mesa uses hosts wayland-scanner instead of version from sysroot
+Received: by 10.112.1.170 with HTTP; Wed, 2 Jul 2014 04:21:48 -0700 (PDT)
+In-Reply-To: <53B3D558.7070800@windriver.com>
+References: <1402295373-27606-1-git-send-email-wenlin.kang@windriver.com>
+	<1402295373-27606-2-git-send-email-wenlin.kang@windriver.com>
+	<53B3D558.7070800@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 2 Jul 2014 12:21:48 +0100
+Message-ID: <CAJTo0LYDihXR3eiztNvUjFviVQ112rectiBwkAQRbhfGWJRtBw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: fix to build bash/po/ correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,57 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 11:07:28 -0000
+X-List-Received-Date: Wed, 02 Jul 2014 11:22:10 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Short update:
-
-It appears I have two machines where the configure script find
-wayland-scanner in /usr/bin and one machine where it actually find the
-correct one in the sysroot. The difference seems to be that the
-machine where it works doesn't have a wayland-scanner in /usr/bin/,
-for some reason the one in /usr/bin gets chosen before the sysroot
-version when available.
-
-Cheers,
-Erik
-
-On Wed, Jul 2, 2014 at 9:48 AM, Erik Bot=C3=B6 <erik.boto@pelagicore.com> w=
-rote:
-> Hi,
+On 2 July 2014 10:48, Robert Yang <liezhi.yang@windriver.com> wrote:
+> There are always errors in bash/4.3-r0/temp/log.do_install if we check it:
 >
-> I noticed differences when building mesa on my local machine and on
-> one of our build servers. It failed on my local host due to errors in
-> the generated wayland-drm-client-protocol.h but worked on the build
-> server. Examining log.do_compile I noticed that it uses
-> wayland-scanner from /usr/bin/ on both machines instead of using the
-> one present in the sysroot, so I guess it works due to luck on one
-> machine.
+> [snip]
+> make[1]: *** No rule to make target `/config.status', needed by `Makefile'.
+> Stop.
+> [snip]
 >
-> If I make /usr/bin/wayland-scanner a symlink to the version in the
-> sysroot it builds ok.
->
-> Can anyone else verify if their mesa builds uses the hosts
-> wayland-scanner? And does anyone the proper way to convince mesa to
-> use the sysroot version?
->
-> (I'm using daisy, so mesa 9.2.5)
->
-> Cheers,
-> Erik
+> This patch can fix the problem, and we may also need fix bash's Makefile
+> to let it exit 1 when error so that bitbake can catch the error.
 
+Patching aclocal is pointless as it's about to be rewritten, and I
+think you'll need a good rationale as to why the configure.ac patches
+to export more variables are correct if they're also OE-specific.
 
+Interestingly, telling autotools to invoke autopoint also resolves
+this bug, which implies that the real bug is that our home-grown
+install-the-i18n-stuff code isn't complete.  So do we fix that, or
+just enable autopoint (see poky-contrib:ross/i18n2 for my WIP).
 
---=20
-Erik Bot=C3=B6
-M.Sc.E.E.
-SENIOR SOFTWARE ENGINEER
-
-Pelagicore AB
-Ekelundsgatan 4, 6tr, SE-411 18 Gothenburg, Sweden
-Mobile: +46 (0)768 817 203
-E-Mail: erik.boto@pelagicore.com
-
-PELAGICORE Experience Change
+Ross
 
