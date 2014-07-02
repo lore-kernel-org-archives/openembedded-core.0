@@ -1,38 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B7BE365CC1
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id D174165CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 11:22:08 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id el20so6853351lab.19
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jul 2014 04:22:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6KtlWtEVlJD2WWpxJtDyyxRGrb7WqOQ7+BM2AVeVv5Y=;
-	b=YvDHbq/oCuffn6nlDaEIkBGmsdFlHEbaNX3/Pg4tMisgU/IQ5w7wRYAzskmn1edveg
-	DVWM5wwUYeyqYi7CNfO1Q5blhBAb1bh9R3LsKzOFWIJXf8tMHEppQPy8KMyhGuUk2unc
-	5NyArPWZ0LFOyOjJb2XjSa6cyaop0nha2d0g9B7Q5QdOFZ8I9fEEZoOEdiF0oQtUVvb9
-	RFYa/o+68hm0xPeFZYJMzcJjU/jKFUF3R0UlVKa7icbZreDPybM7EsWhLQ8n4EjVpoHP
-	f7C1eg8Z1VG/+j99bDoJ8V8GIKzPAhVpBBe3O3HZtNNKamafgDdnoxpHEvKUkZKnFQn1
-	D2IA==
-X-Gm-Message-State: ALoCoQn/X6vIyFtAQdIC41uJLYTAaFRfgYSfkhvUYqEA7WQkWFk6v+fZurtGc8UXs3Edt24dIlVh
-X-Received: by 10.112.148.165 with SMTP id tt5mr1561160lbb.61.1404300128854;
-	Wed, 02 Jul 2014 04:22:08 -0700 (PDT)
+	Wed,  2 Jul 2014 11:25:40 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 2 Jul 2014
+	13:25:36 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 1630B285092;
+	Wed,  2 Jul 2014 13:25:36 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Jul 2014 13:25:29 +0200
+Message-ID: <1404300330-4094-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.112.1.170 with HTTP; Wed, 2 Jul 2014 04:21:48 -0700 (PDT)
-In-Reply-To: <53B3D558.7070800@windriver.com>
-References: <1402295373-27606-1-git-send-email-wenlin.kang@windriver.com>
-	<1402295373-27606-2-git-send-email-wenlin.kang@windriver.com>
-	<53B3D558.7070800@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 Jul 2014 12:21:48 +0100
-Message-ID: <CAJTo0LYDihXR3eiztNvUjFviVQ112rectiBwkAQRbhfGWJRtBw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: fix to build bash/po/ correctly
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH 1/2] gnutls: update to 3.3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 11:22:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 02 Jul 2014 11:25:48 -0000
+Content-Type: text/plain
 
-On 2 July 2014 10:48, Robert Yang <liezhi.yang@windriver.com> wrote:
-> There are always errors in bash/4.3-r0/temp/log.do_install if we check it:
->
-> [snip]
-> make[1]: *** No rule to make target `/config.status', needed by `Makefile'.
-> Stop.
-> [snip]
->
-> This patch can fix the problem, and we may also need fix bash's Makefile
-> to let it exit 1 when error so that bitbake can catch the error.
+Bump version to 3.3.5
 
-Patching aclocal is pointless as it's about to be rewritten, and I
-think you'll need a good rationale as to why the configure.ac patches
-to export more variables are correct if they're also OE-specific.
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-support/gnutls/gnutls_3.2.15.bb | 7 -------
+ meta/recipes-support/gnutls/gnutls_3.3.5.bb  | 7 +++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls_3.2.15.bb
+ create mode 100644 meta/recipes-support/gnutls/gnutls_3.3.5.bb
 
-Interestingly, telling autotools to invoke autopoint also resolves
-this bug, which implies that the real bug is that our home-grown
-install-the-i18n-stuff code isn't complete.  So do we fix that, or
-just enable autopoint (see poky-contrib:ross/i18n2 for my WIP).
+diff --git a/meta/recipes-support/gnutls/gnutls_3.2.15.bb b/meta/recipes-support/gnutls/gnutls_3.2.15.bb
+deleted file mode 100644
+index ce8bdfd..0000000
+--- a/meta/recipes-support/gnutls/gnutls_3.2.15.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require gnutls.inc
+-
+-SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+-           "
+-
+-SRC_URI[md5sum] = "ec3b06f80e312137386c5d322183ca5a"
+-SRC_URI[sha256sum] = "30bdc7b34b220258f714602cdf0afa1abf0883bf926f35f400c88b1c72ca77b9"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.3.5.bb b/meta/recipes-support/gnutls/gnutls_3.3.5.bb
+new file mode 100644
+index 0000000..b3daa49
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls_3.3.5.bb
+@@ -0,0 +1,7 @@
++require gnutls.inc
++
++SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
++           "
++
++SRC_URI[md5sum] = "1f396dcf3c14ea67de7243821006d1a2"
++SRC_URI[sha256sum] = "48f34ae032692c498e782e9f1369506572be40ecf7f3f3604b0b00bad1b10477"
+-- 
+1.9.1
 
-Ross
 
