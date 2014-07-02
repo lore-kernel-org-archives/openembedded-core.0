@@ -1,40 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B5505609B1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A74865DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 18:39:48 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id y10so11616115wgg.17
+	Wed,  2 Jul 2014 19:08:28 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id c9so10057595qcz.23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jul 2014 11:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=UL+YJYCVVgwZ00PXVnPpz8gj4usE3lA3ZJjLvN4qzbU=;
-	b=JhUjK641GwCQuxyiqryXZm7Oo0WEvrtlc9/TcBam4OTuyDqYFQrrkbMxorWq0fug0P
-	6k+BblYESVwb6+IiBM+wQoLOIrh2m8YBxnO9CMhyqFUfi5pxwlo7y03FLg1bir+0oKs/
-	0nKsOs0NmaO+aLrHtUJFDou9Sm717AKdqqndR34juP6WtFMRtNxx/STAu2ZyFfxn0nEn
-	RoYnblzF/uQjMWRNPVeoq0M90EYFO9T/pLi6ByEIGH/4TYGT0TBqxs6WeAoDidLsCsuY
-	zB8VCYgi7o0tWALSpPHnU1ix7Yy7meRNP1kO7AbfLx/SK6LNOejZsUVup9feErOhLlSg
-	g4hQ==
-X-Received: by 10.180.93.196 with SMTP id cw4mr44524316wib.69.1404326388860;
-	Wed, 02 Jul 2014 11:39:48 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	fn1sm57908632wib.18.2014.07.02.11.39.47 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Jul 2014 11:39:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 2 Jul 2014 20:39:59 +0200
-To: Himanshu Pandey <pandey_himanshu80@rediffmail.com>
-Message-ID: <20140702183959.GM2437@jama>
-References: <20140702172118.3492.qmail@f4mail-235-235.rediffmail.com>
+	Wed, 02 Jul 2014 12:08:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=fUbwx2lZ78o3jbWNBrp2O0mu7FGmUJh0hvnPEYflybo=;
+	b=OuoxJDNYxQP67qqCRhDikKhZKyJrQ2umZJrEGpV2r8wkZtthDhuqHtXzR9EXF23hDZ
+	vuzfUkBUW7eeKq+SggFZtOtGoKJu2gyrAeQuzXKTojNqr6duGqYNEvaFadhB6E/mzpOQ
+	/1AEi6cluFLksWhdYx7KahzQhIZcq1qm10ymDAbun4Qvxr9CLcC0dyhdzZexhxyQZCPY
+	lcVOaWGKwStiYxAIb+VJm+IpxzeUz9X1o2mZrcgoIzrWoc4HYZLY0lGwZf/E9YUgSR6C
+	h61VlkaY62+9vKM8jctdSPZSfYh8vP5IF7O7ndzz+VPyx++lsqGhVxsObs6MzEkv0xX0
+	NZKw==
+X-Gm-Message-State: ALoCoQl5fhevyvUOusDBnKSpdugsDkSzEhJH+q8HUP8uDuaRsIWO/fnfIDGps/bjSqTy9skqeada
+X-Received: by 10.229.51.201 with SMTP id e9mr83734247qcg.2.1404328109941;
+	Wed, 02 Jul 2014 12:08:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20140702172118.3492.qmail@f4mail-235-235.rediffmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.140.86.40 with HTTP; Wed, 2 Jul 2014 12:08:08 -0700 (PDT)
+In-Reply-To: <CABcZANn4B6SzNTT+eCi9bsWQxDcDJ4PCFT5kHwV6c5nxShmyhg@mail.gmail.com>
+References: <1404286429-13962-1-git-send-email-ming.liu@windriver.com>
+	<CABcZANn4B6SzNTT+eCi9bsWQxDcDJ4PCFT5kHwV6c5nxShmyhg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 2 Jul 2014 20:08:08 +0100
+Message-ID: <CAJTo0La=tmVmk8vKFqr4xBd2LfgdQMHut0OcExV1o7xXTmAo7A@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Regarding Squid,uamhttpserver,lighthttpd
+Subject: Re: [PATCH] initscripts: add usleep support from RHEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 18:39:58 -0000
-X-Groupsio-MsgNum: 54552
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="CxSUI8jTRJ26tNoZ"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Jul 2014 19:08:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
---CxSUI8jTRJ26tNoZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2 July 2014 18:37, Christopher Larson <clarson@kergoth.com> wrote:
+>> Add usleep in to support sleeping some number of microseconds.
+>>
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>
+>
+> Maybe it's just me, but initscripts seems like a horrible place to put this.
 
-On Wed, Jul 02, 2014 at 05:21:18PM -0000, Himanshu  Pandey wrote:
-> Hi,
->=20
-> Where can I find these packages in git, so that I can download and compil=
-e them.
+Agreed.  Also is there a rationale for adding this?
 
-http://layers.openembedded.org/layerindex/branch/master/layers/
+Ross
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---CxSUI8jTRJ26tNoZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlO0Uf8ACgkQN1Ujt2V2gBxFPQCeIo02uJmEWz6abkF6acibmkII
-DIgAoIqHUZnH6aKSHK26lvICnaEg333y
-=SM04
------END PGP SIGNATURE-----
-
---CxSUI8jTRJ26tNoZ--
