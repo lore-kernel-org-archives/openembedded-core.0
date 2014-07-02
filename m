@@ -1,30 +1,22 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E7C3460CEB
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 76907609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Jul 2014 21:12:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s61LCQKa010192
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 1 Jul 2014 14:12:27 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 1 Jul 2014 14:12:26 -0700
-Message-ID: <53B32439.6050804@windriver.com>
-Date: Tue, 1 Jul 2014 16:12:25 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1404244287.git.mark.hatle@windriver.com>
-	<7ec8091f15256ddcbadf4051867119ae82d333d3.1404244287.git.mark.hatle@windriver.com>
-	<CAJTo0LYnb4YifRMXyPdaX7ZQMBvT3Hw2S9bN-q4Uxmiz2x3efw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYnb4YifRMXyPdaX7ZQMBvT3Hw2S9bN-q4Uxmiz2x3efw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] db: Uprev to 6.0.30
+	Wed,  2 Jul 2014 00:58:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Jul 2014 17:58:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,585,1400050800"; d="scan'208";a="563887075"
+Received: from ranerica-desk01.sc.intel.com ([10.3.52.100])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Jul 2014 17:58:31 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Jul 2014 17:56:51 -0700
+Message-Id: <1404262611-19981-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Matt Fleming <matt.fleming@intel.com>,
+	"Glenn P. Williamson" <glenn.p.williamson@intel.com>
+Subject: [PATCH] kexec-tools: upgrade to 2.0.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 21:12:33 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Jul 2014 00:58:38 -0000
 
-On 7/1/14, 3:56 PM, Burton, Ross wrote:
-> On 1 July 2014 21:01, Mark Hatle <mark.hatle@windriver.com> wrote:
->> +LICENSE = "AGPL-3.0"
->
-> Presumably AGPL-v3 has the same clauses that caused
-> INCOMPATIBLE_LICENSES to exist?
->
-> Does this mean that we should update the documentation to add AGPL-3.0
-> to the list of licenses being blacklisted in no-v3 builds, and that in
-> no-v3 images we can't have rpm on the target?
+Kexec-tools v2.0.7 is out, upgrade accordingly.
 
-I'm not sure.  We likely need someone (with a legal background) to investigate 
-and let us know.
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+CC: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb | 13 -------------
+ meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb | 13 +++++++++++++
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
 
-Baring that, it's likely that AGPL-3.0 has similar restrictions to GPL v3 and 
-LGPL v3.
-
-This might make it worthwhile in keeping the older Sleepycat licensed version 
-around and making related changes to RPM to allow use of the older version if 
-appropriate.
-
---Mark
-
-> Ross
->
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb
+deleted file mode 100644
+index 5321dd4..0000000
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.6.bb
++++ /dev/null
+@@ -1,13 +0,0 @@
+-require kexec-tools.inc
+-export LDFLAGS = "-L${STAGING_LIBDIR}"
+-EXTRA_OECONF = " --with-zlib=yes"
+-
+-SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch"
+-
+-SRC_URI[md5sum] = "c39ea40a7598e49b6dc961ee7de38f57"
+-SRC_URI[sha256sum] = "a9c6cd9adc8c1c37b3272782f581cb8b4b4070d0e3e921a558a9083f68dcf29a"
+-
+-PACKAGES =+ "kexec kdump"
+-
+-FILES_kexec = "${sbindir}/kexec"
+-FILES_kdump = "${sbindir}/kdump"
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
+new file mode 100644
+index 0000000..a5c1ced
+--- /dev/null
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
+@@ -0,0 +1,13 @@
++require kexec-tools.inc
++export LDFLAGS = "-L${STAGING_LIBDIR}"
++EXTRA_OECONF = " --with-zlib=yes"
++
++SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch"
++
++SRC_URI[md5sum] = "2309ba43981cb6d39d07ac3a9aac30ab"
++SRC_URI[sha256sum] = "dde5c38be39882c6c91f0129647349c4e1943b077d3020af1970b481ee954eb0"
++
++PACKAGES =+ "kexec kdump"
++
++FILES_kexec = "${sbindir}/kexec"
++FILES_kdump = "${sbindir}/kdump"
+-- 
+1.9.1
 
 
