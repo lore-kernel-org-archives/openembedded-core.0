@@ -1,22 +1,38 @@
-Return-Path: <ricardo.neri-calderon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 356AC65E1A
+Return-Path: <joaohf@gmail.com>
+Received: from mail-yh0-f49.google.com (mail-yh0-f49.google.com
+	[209.85.213.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B6D6E65E38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 00:59:02 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Jul 2014 17:59:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,585,1400050800"; d="scan'208";a="452304257"
-Received: from ranerica-desk01.sc.intel.com ([10.3.52.100])
-	by azsmga001.ch.intel.com with ESMTP; 01 Jul 2014 17:59:03 -0700
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+	Wed,  2 Jul 2014 01:58:55 +0000 (UTC)
+Received: by mail-yh0-f49.google.com with SMTP id f73so6451664yha.36
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Jul 2014 18:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=misUdKwhRpbIOUm3F956xCy2wJZIRHHORc/TdjIuoYk=;
+	b=lCC83r7HQuN1YByo/FvSsDKwBL7GrlO8xqVdvaKfgQuZr5zCDKfgtAzEyiX8ansRKl
+	cvWt4XEyaVsnS+KosF4OhZU3DIG6/o1EXl6OIRQY+//kNG50vzNeVKT+DeCFSDg7zUBZ
+	J+FWdlDEUvtyXzxa0ICf0hxDwpHd+LAkgqHfWe+ns6SLFj7A2ZciAB0oZCfPFKdWo/kC
+	q0/+SBBjrFnUIUMysycFBesNRutqnJzCJISZv8fsZKe0XQUGosZoqKMSptfmhzwA2ZeH
+	/dIaFZWZb3lhgJPvefQpKJ3usymD3B22/HvKVv7ImjArcIDz83GILPwzjPHDTGYQqYrH
+	axwA==
+X-Received: by 10.236.7.200 with SMTP id 48mr74632619yhp.43.1404266336571;
+	Tue, 01 Jul 2014 18:58:56 -0700 (PDT)
+Received: from localhost.localdomain ([201.53.220.248])
+	by mx.google.com with ESMTPSA id
+	d71sm28106373yho.24.2014.07.01.18.58.54 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 01 Jul 2014 18:58:56 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Jul 2014 17:57:38 -0700
-Message-Id: <1404262658-20024-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Date: Tue,  1 Jul 2014 22:58:46 -0300
+Message-Id: <1404266329-13524-1-git-send-email-joaohf@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Cc: Matt Fleming <matt.fleming@intel.com>,
-	"Glenn P. Williamson" <glenn.p.williamson@intel.com>
-Subject: [PATCH] bootimg.bbclass: Add parameter to specify HDDIMG volume ID
+MIME-Version: 1.0
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH 0/2] add nativesdk to BBCLASSEXTEND to python-distribute and to fix the side effect of it.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,49 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 00:59:05 -0000
+X-List-Received-Date: Wed, 02 Jul 2014 01:58:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Users and children of the bootimg class may need to specify at build
-time the volume ID of the HDDIMG vfat partition. An example of this
-may be when at runtime the partition is uniquely identified by
-the volume ID.
+Hi, 
 
-The HDDIMG_ID is expected to be provided externally. If the variable
-is not set, mkdosfs will use the default volume-id.
+My company has a private python build tool that has python-distribute as dependency.
+That tool builds well with -native. And now I need to put the my private tool in toolchain. So
+my users could use it.
 
-Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
- meta/classes/bootimg.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+To accomplish, I added nativesdk to BBCLASSEXTEND. My buildtools-mytool recipe builds and the
+toolchain get created. But when I try to install the toolchain I get the this:
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 7678567..d52aace 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -22,6 +22,7 @@
- # ${COMPRESSISO} - Transparent compress ISO, reduce size ~40% if set to 1
- # ${NOISO}  - skip building the ISO image if set to 1
- # ${NOHDD}  - skip building the HDD image if set to 1
-+# ${HDDIMG_ID} - FAT image volume-id
- # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
- 
- do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-@@ -193,7 +194,14 @@ build_fat_img() {
- 		FATSIZE="-F 32"
- 	fi
- 
--	mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} ${BLOCKS}
-+	if [ -z "${HDDIMG_ID}" ]; then
-+		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
-+			${BLOCKS}
-+	else
-+		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
-+		${BLOCKS} -i ${HDDIMG_ID}
-+	fi
-+
- 	# Copy FATSOURCEDIR recursively into the image file directly
- 	mcopy -i ${FATIMG} -s ${FATSOURCEDIR}/* ::/
- }
+$ tmp/deploy/sdk/buildtools-mytool-x86_64-nativesdk-standalone-1.6.1.0.sh 
+Enter target directory for SDK (default: /opt/mydistro/mytool/1.6.1.0): 
+You are about to install the SDK to "/opt/mydistro/mytool/1.6.1.0". Proceed[Y/n]?
+Extracting SDK...done
+Setting it up.../opt/mydistro/mytool/1.6.1.0/relocate_sdk.sh: linha 2: erro de sintaxe próximo do `token' não esperado `('
+
+One of the files that relocate_sdk.sh was trying to handle is:
+
+/opt/mydistro/mytool/1.6.1.0/sysroots/x
+86_64-linuxsdk-linux/usr/lib/python2.7/site-packages/distribute-0.6.32-py2.7.egg/setuptools/script template (dev).py
+
+Maybe there are other recipes when adding nativesdk to BBCLASSEXTEND which this special handler is needed. So it's better 
+ensure the correct handler of file name with spaces characters.
+
+João Henrique Ferreira de Freitas (2):
+  python-distribute: add nativesdk to BBCLASSEXTEND
+  populate_sdk_base: ensure that filenames with empty space character
+    are handled
+
+ meta/classes/populate_sdk_base.bbclass                   | 4 ++--
+ meta/recipes-devtools/python/python-distribute_0.6.32.bb | 7 ++++++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
 -- 
 1.9.1
 
