@@ -1,26 +1,29 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0233460438
+	by mail.openembedded.org (Postfix) with ESMTP id 9B4506AC6B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Jul 2014 09:25:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s629PCvg006605
+	Wed,  2 Jul 2014 09:48:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s629mA4P010968
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Jul 2014 02:25:12 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 2 Jul 2014 02:25:11 -0700
+	Wed, 2 Jul 2014 02:48:10 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Wed, 2 Jul 2014 02:48:10 -0700
+Message-ID: <53B3D558.7070800@windriver.com>
+Date: Wed, 2 Jul 2014 17:48:08 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Jul 2014 02:25:11 -0700
-Message-ID: <170029dfcde1cb5c69c5e8c82efa9f223deaf797.1404292676.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1404292676.git.liezhi.yang@windriver.com>
-References: <cover.1404292676.git.liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: [RFC - WIP PATCH 1/1] image.bbclass: create binary pkg for image recipe
+To: Wenlin Kang <wenlin.kang@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1402295373-27606-1-git-send-email-wenlin.kang@windriver.com>
+	<1402295373-27606-2-git-send-email-wenlin.kang@windriver.com>
+In-Reply-To: <1402295373-27606-2-git-send-email-wenlin.kang@windriver.com>
+Subject: Re: [PATCH] bash: fix to build bash/po/ correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,174 +36,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jul 2014 09:25:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Jul 2014 09:48:13 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Benefits
-  We can known the image's RDEPENDS outside the build environment, and
-  can use a third part installer such as anaconda to install the packages.
-  It's hard to get the ROOTFS_POSTPROCESS_COMMAND outside the build
-  environment, now the shell function can be added to postinst, and will
-  show a warning for the python function. We have two python functions
-  atm: write_package_manifest and write_image_manifest, we don't need them
-  in the binary pkg.
 
-* Brief design:
-  - Set the RDEPENDS and create the package as other regular recipes.
+There are always errors in bash/4.3-r0/temp/log.do_install if we check it:
 
-  - Translate the ROOTFS_POSTPROCESS_COMMAND to postinst
-    do_install[postfuncs] += "get_rootfs_postprocess_command"
+[snip]
+make[1]: *** No rule to make target `/config.status', needed by `Makefile'.  Stop.
+[snip]
 
-    The get_rootfs_postprocess_command() will emit the shell script to
-    /usr/share/${PN}, and the pkg_postinst_${PN} will run it when do the
-    install.
+This patch can fix the problem, and we may also need fix bash's Makefile
+to let it exit 1 when error so that bitbake can catch the error.
 
-* Fixed:
-  RDEPENDS -> RDEPENDS_${PN}, the similar to RRECOMMENDS
+// Robert
 
-* Tested on rpm, dep and ipk
-
-* TODO:
-  - Create the binary pkg optionally rather than default ?
-
-[YOCTO #6463]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/image.bbclass                   |   91 +++++++++++++++++++++++---
- meta/recipes-core/meta/buildtools-tarball.bb |    2 +-
- 2 files changed, 83 insertions(+), 10 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index a03b880..ad2bd2d 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -9,10 +9,15 @@ POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_sysroot_relativelinks; "
- inherit gzipnative
- 
- LICENSE = "MIT"
--PACKAGES = ""
-+
-+# Only build one package for the image recipe, for example:
-+# core-image-minimal -> core-image-minimal.rpm
-+# core-image-minimal-dev -> core-image-minimal-dev.rpm
-+PACKAGES = "${PN}"
-+
- DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
--RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
--RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
-+RDEPENDS_${PN} += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
-+RRECOMMENDS_${PN} += "${PACKAGE_INSTALL_ATTEMPTONLY}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-@@ -385,18 +390,86 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
- }
- 
-+do_install[postfuncs] += "get_rootfs_postprocess_command"
-+
-+# The target package doesn't need these commands
-+SKIPPED_POSTCOMMAND_FROM_POSTINSTS ?= "write_package_manifest write_image_manifest \
-+                                    license_create_manifest"
-+
-+python get_rootfs_postprocess_command() {
-+    import subprocess
-+
-+    skip_funcs = d.getVar('SKIPPED_POSTCOMMAND_FROM_POSTINSTS', True)
-+
-+    installdir = os.path.join(d.getVar('D', True), \
-+            d.getVar('datadir', True).lstrip('/'), d.getVar('PN', True), 'postinsts')
-+    bb.utils.mkdirhier(installdir)
-+
-+    # The postinst list
-+    postinst_list = os.path.join(installdir, 'postinst_list')
-+
-+    for f in d.getVar('ROOTFS_POSTPROCESS_COMMAND', True).split(';'):
-+        func = f.strip()
-+        if not func or func in skip_funcs:
-+            continue
-+
-+        flags = d.getVarFlags(func)
-+        ispython = flags.get('python')
-+        if ispython:
-+            bb.warn('%s is a python func, can not add it to postinst' % func)
-+            continue
-+
-+        postinst = os.path.join(installdir, func)
-+        with open(postinst, 'w') as script:
-+            script.write("#!/bin/sh\n\n")
-+            bb.data.emit_func(func, script, d)
-+            # Run the function
-+            script.write("%s\n" % func)
-+
-+        bb.note('Fix build path in %s' % postinst)
-+        # Remove the IMAGE_ROOTFS prefix
-+        fix_cmd = "sed -i -e 's:%s::g'" % d.getVar('IMAGE_ROOTFS', True)
-+        # Remove the STAGING_DIR_TARGET prefix
-+        fix_cmd += " -e 's:%s::g'" % d.getVar('STAGING_DIR_TARGET', True)
-+        # Comment out the STAGING_DIR_NATIVE related lines
-+        fix_cmd += " -e 's:\(^.*%s\):#\\1:'" % d.getVar('STAGING_DIR_NATIVE', True)
-+        # Comment out the PSEUDO related lines
-+        fix_cmd += " -e 's:\(^export .*PSEUDO\):#\\1:'"
-+        # Comment out the username related lines
-+        fix_cmd += " -e 's:\(^export .*%s\):#\\1:'" % d.getVar('USER', True)
-+
-+        fix_cmd += " %s" % postinst
-+        subprocess.call(fix_cmd, shell=True)
-+
-+        os.chmod(postinst, 0755)
-+
-+        with open(postinst_list, 'a') as plist:
-+            plist.write("%s\n" % postinst.replace(d.getVar('D', True), ''))
-+}
-+
-+pkg_postinst_${PN} () {
-+    listfile = "${datadir}/${PN}/postinst_list"
-+    if [ -s $listfile ]; then
-+        for script in `cat $listfile`; do
-+            echo "Running $script..."
-+            /bin/sh $script
-+            if [ $? -ne 0 ]; then
-+                # Allow the failure rather than re-install the package
-+                # since the script can be manualy run
-+                echo "ERROR: failed to run $script" >&2
-+                echo "ERROR: please fix $script and manually run it" >&2
-+                true
-+            fi
-+        done
-+    fi
-+}
-+
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
--do_install[noexec] = "1"
- do_populate_sysroot[noexec] = "1"
--do_package[noexec] = "1"
--do_packagedata[noexec] = "1"
--do_package_write_ipk[noexec] = "1"
--do_package_write_deb[noexec] = "1"
--do_package_write_rpm[noexec] = "1"
- 
- addtask rootfs before do_build
- # Allow the kernel to be repacked with the initramfs and boot image file as a single file
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 62e1e0b..7501525 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -45,7 +45,7 @@ TOOLCHAIN_HOST_TASK ?= "\
- 
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
- 
--RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
-+RDEPENDS_${PN} = "${TOOLCHAIN_HOST_TASK}"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
--- 
-1.7.9.5
-
+On 06/09/2014 02:29 PM, Wenlin Kang wrote:
+> There was an ignored error while building bash, causing the po/
+> directory not built out correctly, the log follow:
+> make[1]: *** No rule to make target `/config.status',
+> needed by `Makefile'. Stop.
+> make: [installdirs] Error 2 (ignored)
+>
+> The cause is that some variable,PACKAGE and VERSION don't be defined,
+> and others don't get correct value, eg, top_builddir in po/Makevar,
+> GETTEXT_MACRO_VERSION and MKDIR_P in po/Makefile.in.in and so on.
+>
+> The patch fixed above problem.
+>
+> Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+> ---
+>   .../bash/bash/fix-to-build-po-correctly.patch      |   87 ++++++++++++++++++++
+>   meta/recipes-extended/bash/bash_4.3.bb             |    1 +
+>   2 files changed, 88 insertions(+)
+>   create mode 100644 meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+>
+> diff --git a/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+> new file mode 100644
+> index 0000000..ae3c86a
+> --- /dev/null
+> +++ b/meta/recipes-extended/bash/bash/fix-to-build-po-correctly.patch
+> @@ -0,0 +1,87 @@
+> +
+> +Upstream-Status: Inappropriate [OE specific]
+> +Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+> +
+> +diff -aurN bash-4.3-org/aclocal.m4 bash-4.3/aclocal.m4
+> +--- bash-4.3-org/aclocal.m4	2014-05-23 15:28:54.252565146 +0800
+> ++++ bash-4.3/aclocal.m4	2014-05-23 15:33:19.924570133 +0800
+> +@@ -3710,6 +3710,14 @@
+> +   AC_REQUIRE([AC_PROG_INSTALL])dnl
+> +   AC_REQUIRE([AM_MKINSTALLDIRS])dnl
+> +   AC_REQUIRE([AM_NLS])dnl
+> ++  AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+> ++  AC_REQUIRE([AC_PROG_SED])dnl
+> ++
+> ++  AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
+> ++
+> ++  dnl Release version of the gettext macros. This is used to ensure that
+> ++  dnl the gettext macros and po/Makefile.in.in are in sync.
+> ++  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
+> +
+> +   dnl Perform the following tests also if --disable-nls has been given,
+> +   dnl because they are needed for "make dist" to work.
+> +@@ -3723,6 +3731,22 @@
+> +     :)
+> +   AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
+> +
+> ++ dnl Test whether it is GNU msgfmt >= 0.15.
+> ++changequote(,)dnl
+> ++  case `$MSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+> ++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) MSGFMT_015=: ;;
+> ++    *) MSGFMT_015=$MSGFMT ;;
+> ++  esac
+> ++changequote([,])dnl
+> ++  AC_SUBST([MSGFMT_015])
+> ++changequote(,)dnl
+> ++  case `$GMSGFMT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+> ++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) GMSGFMT_015=: ;;
+> ++    *) GMSGFMT_015=$GMSGFMT ;;
+> ++  esac
+> ++changequote([,])dnl
+> ++  AC_SUBST([GMSGFMT_015])
+> ++
+> +   dnl Search for GNU xgettext 0.12 or newer in the PATH.
+> +   dnl The first test excludes Solaris xgettext and early GNU xgettext versions.
+> +   dnl The second test excludes FreeBSD xgettext.
+> +@@ -3733,6 +3757,15 @@
+> +   dnl Remove leftover from FreeBSD xgettext call.
+> +   rm -f messages.po
+> +
+> ++  dnl Test whether it is GNU xgettext >= 0.15.
+> ++changequote(,)dnl
+> ++  case `$XGETTEXT --version | sed 1q | sed -e 's,^[^0-9]*,,'` in
+> ++    '' | 0.[0-9] | 0.[0-9].* | 0.1[0-4] | 0.1[0-4].*) XGETTEXT_015=: ;;
+> ++    *) XGETTEXT_015=$XGETTEXT ;;
+> ++  esac
+> ++changequote([,])dnl
+> ++  AC_SUBST([XGETTEXT_015])
+> ++
+> +   dnl Search for GNU msgmerge 0.11 or newer in the PATH.
+> +   AM_PATH_PROG_WITH_TEST(MSGMERGE, msgmerge,
+> +     [$ac_dir/$ac_word --update -q /dev/null /dev/null >/dev/null 2>&1], :)
+> +diff -aurN bash-4.3-org/configure.ac bash-4.3/configure.ac
+> +--- bash-4.3-org/configure.ac	2014-05-23 15:28:54.208565145 +0800
+> ++++ bash-4.3/configure.ac	2014-05-23 15:29:35.640565923 +0800
+> +@@ -1201,6 +1201,10 @@
+> + #AC_SUBST(ALLOCA_SOURCE)
+> + #AC_SUBST(ALLOCA_OBJECT)
+> +
+> ++# Define the identity of the package.
+> ++AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
+> ++AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])dnl
+> ++
+> + AC_OUTPUT([Makefile builtins/Makefile lib/readline/Makefile lib/glob/Makefile \
+> + 	  lib/intl/Makefile \
+> + 	  lib/malloc/Makefile lib/sh/Makefile lib/termcap/Makefile \
+> +diff -aurN bash-4.3-org/po/Makevars bash-4.3/po/Makevars
+> +--- bash-4.3-org/po/Makevars	2014-05-23 15:28:54.204565145 +0800
+> ++++ bash-4.3/po/Makevars	2014-05-23 15:30:04.772566469 +0800
+> +@@ -5,7 +5,7 @@
+> +
+> + # These two variables depend on the location of this directory.
+> + subdir = po
+> +-top_builddir = $(BUILD_DIR)
+> ++top_builddir = ..
+> +
+> + # These options get passed to xgettext.
+> + XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ -C
+> diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
+> index 25b7410..a6d7d40 100644
+> --- a/meta/recipes-extended/bash/bash_4.3.bb
+> +++ b/meta/recipes-extended/bash/bash_4.3.bb
+> @@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+>              file://build-tests.patch \
+>              file://test-output.patch \
+>              file://run-ptest \
+> +           file://fix-to-build-po-correctly.patch \
+>              "
+>
+>   SRC_URI[tarball.md5sum] = "81348932d5da294953e15d4814c74dd1"
+>
 
