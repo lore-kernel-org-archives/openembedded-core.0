@@ -1,23 +1,20 @@
-Return-Path: <corneliux.stoicescu@intel.com>
+Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F4D365CEE
+	by mail.openembedded.org (Postfix) with ESMTP id 5E1A360CEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jul 2014 11:00:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jul 2014 04:00:35 -0700
+	Thu,  3 Jul 2014 12:57:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jul 2014 05:57:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,594,1400050800"; d="scan'208";a="564664127"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2014 04:00:16 -0700
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id BCAC86A4087;
-	Thu,  3 Jul 2014 03:59:44 -0700 (PDT)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+X-IronPort-AV: E=Sophos;i="5.01,595,1400050800"; d="scan'208";a="556936191"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Jul 2014 05:57:43 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jul 2014 16:04:57 +0300
-Message-Id: <1404392697-20131-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] init-install-testfs.sh: add '--hotkey x' to 'test' menuentry
+Date: Thu,  3 Jul 2014 15:57:31 +0300
+Message-Id: <cover.1404392064.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] Partial fix for YB6495
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,29 +27,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jul 2014 11:00:47 -0000
+X-List-Received-Date: Thu, 03 Jul 2014 12:57:44 -0000
 
-Add a hotkey for the GRUB 'test' menuentry. This can be used by expect scripts to boot into 'test' when doing runtime hardware tests.
+For YB6495 to be completely fixed, source poky commit for Build Appliance
+needs to be advanced to this patch after integration.
+As such, this is a partial fix.
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-install-testfs.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 0ed5a13f5f9478e2c22f517fb3504b738422f85c:
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-index 618a53d..ac62160 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
-@@ -189,7 +189,7 @@ menuentry "Linux" {
- }
- _EOF
-     # Add the test label
--    echo -ne "\nmenuentry 'test' {\nlinux /test-kernel root=$testfs rw $rootwait quiet\n}\n" >> $GRUBCFG
-+    echo -ne "\nmenuentry 'test' --hotkey x {\nlinux /test-kernel root=$testfs rw $rootwait quiet\n}\n" >> $GRUBCFG
- 
-     chmod 0444 $GRUBCFG
- fi
+  python3: fix builtins imports (2014-06-30 16:36:44 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/YB6495
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB6495
+
+Cristian Iorga (1):
+  qemu: fix qemu-native pkg-config paths
+
+ meta/recipes-devtools/qemu/qemu.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
 -- 
-1.8.3.2
+1.9.1
 
 
