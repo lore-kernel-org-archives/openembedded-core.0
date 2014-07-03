@@ -1,24 +1,31 @@
-Return-Path: <roxana.ciobanu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4921365E38
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id BEEB765CF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jul 2014 09:46:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2014 02:41:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,594,1400050800"; d="scan'208";a="567757496"
-Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.38])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2014 02:46:55 -0700
-From: Roxana Ciobanu <roxana.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jul 2014 12:45:44 +0300
-Message-Id: <7288f6c98bf45e320a83b27a80aae3dc3d529764.1404380633.git.roxana.ciobanu@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1404380633.git.roxana.ciobanu@intel.com>
-References: <cover.1404380633.git.roxana.ciobanu@intel.com>
-In-Reply-To: <cover.1404380633.git.roxana.ciobanu@intel.com>
-References: <cover.1404380633.git.roxana.ciobanu@intel.com>
-Subject: [PATCH 1/1] gawk: fix optional dependency mpfr
+	Thu,  3 Jul 2014 09:50:30 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s639oP2D026247; Thu, 3 Jul 2014 10:50:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id wrURggjlkxfw; Thu,  3 Jul 2014 10:50:25 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s639oNli026231
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 3 Jul 2014 10:50:24 +0100
+Message-ID: <1404381016.6362.78.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Thu, 03 Jul 2014 10:50:16 +0100
+In-Reply-To: <1404379801-16174-2-git-send-email-ming.liu@windriver.com>
+References: <1404379801-16174-1-git-send-email-ming.liu@windriver.com>
+	<1404379801-16174-2-git-send-email-ming.liu@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] groff: fix bindir transaction error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +38,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jul 2014 09:47:03 -0000
+X-List-Received-Date: Thu, 03 Jul 2014 09:50:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
- Gawk was failing to compile because of the optional feature mpfr if it found
- libmpfr on build host and linked against that or mpfr existed in sysroot but
- not in deploy, or if gawk was pulled from sstate and someone had mpfr built.
+On Thu, 2014-07-03 at 17:30 +0800, Ming Liu wrote:
+> bindir is transfered to Makefile as ${D}${bindir}, hence it should not
+> use DESTDIR as the prefix directory any more during the install.
 
- [YOCTO# 6473]
+This feels wrong, we really want to have DESTDIR support in the
+Makefile. Can we stop passing ${D} as part of bindir instead?
 
-Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
----
- meta/recipes-extended/gawk/gawk_4.1.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-extended/gawk/gawk_4.1.1.bb b/meta/recipes-extended/gawk/gawk_4.1.1.bb
-index 1298ee2..3266f58 100644
---- a/meta/recipes-extended/gawk/gawk_4.1.1.bb
-+++ b/meta/recipes-extended/gawk/gawk_4.1.1.bb
-@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- DEPENDS += "readline"
- 
-+PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
-+
- SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-            file://run-ptest \
-            file://Use-DESTDIR-in-extension-Makefile.am-when-removing-..patch \
--- 
-1.9.1
+Richard
+
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> ---
+>  .../groff-1.18.1.4/groff-1.18.1.4-fix-bindir.patch | 39 ++++++++++++++++++++++
+>  meta/recipes-extended/groff/groff_1.18.1.4.bb      |  4 ++-
+>  2 files changed, 42 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/groff-1.18.1.4-fix-bindir.patch
+> 
+> diff --git a/meta/recipes-extended/groff/groff-1.18.1.4/groff-1.18.1.4-fix-bindir.patch b/meta/recipes-extended/groff/groff-1.18.1.4/groff-1.18.1.4-fix-bindir.patch
+> new file mode 100644
+> index 0000000..559ae72
+> --- /dev/null
+> +++ b/meta/recipes-extended/groff/groff-1.18.1.4/groff-1.18.1.4-fix-bindir.patch
+> @@ -0,0 +1,39 @@
+> +Upstream-Status: Inappropriate [embedded]
+> +
+> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> +---
+> + Makefile.sub |   10 +++++-----
+> + 1 file changed, 5 insertions(+), 5 deletions(-)
+> +
+> +--- a/contrib/groffer/Makefile.sub
+> ++++ b/contrib/groffer/Makefile.sub
+> +@@ -38,16 +38,16 @@ groffer: groffer.sh groffer2.sh version.
+> + 	$(RM) $@;
+> + 	sed \
+> +             -e "s|@g@|$(g)|g" \
+> +-	    -e "s|@BINDIR@|$(DESTDIR)$(bindir)|g" \
+> ++	    -e "s|@BINDIR@|$(bindir)|g" \
+> + 	    -e "s|@libdir@|$(DESTDIR)$(libdir)|g" \
+> + 	    -e "s|@VERSION@|$(version)$(revision)|g" \
+> + 	    $(srcdir)/groffer.sh >$@;
+> + 	chmod +x $@
+> + 
+> + install_data: groffer
+> +-	-test -d $(DESTDIR)$(bindir) || $(mkinstalldirs) $(DESTDIR)$(bindir)
+> +-	-$(RM) $(DESTDIR)$(bindir)/groffer
+> +-	$(INSTALL_SCRIPT) groffer $(DESTDIR)$(bindir)/groffer
+> ++	-test -d $(bindir) || $(mkinstalldirs) $(bindir)
+> ++	-$(RM) $(bindir)/groffer
+> ++	$(INSTALL_SCRIPT) groffer $(bindir)/groffer
+> + 	-test -d $(DESTDIR)$(libdir)/groff/groffer || \
+> +           $(mkinstalldirs) $(DESTDIR)$(libdir)/groff/groffer
+> + 	-$(RM) $(DESTDIR)$(libdir)/groff/groffer/groffer2.sh
+> +@@ -58,7 +58,7 @@ install_data: groffer
+> + 	$(DESTDIR)$(libdir)/groff/groffer/version.sh
+> + 
+> + uninstall_sub:
+> +-	-$(RM) $(DESTDIR)$(bindir)/groffer
+> ++	-$(RM) $(bindir)/groffer
+> + 	-$(RM) $(DESTDIR)$(libdir)/groff/groffer/groffer2.sh
+> + 	-$(RM) $(DESTDIR)$(libdir)/groff/groffer/version.sh
+> + 	-rmdir $(DESTDIR)$(libdir)/groff/groffer
+> diff --git a/meta/recipes-extended/groff/groff_1.18.1.4.bb b/meta/recipes-extended/groff/groff_1.18.1.4.bb
+> index 6871949..38e1d36 100644
+> --- a/meta/recipes-extended/groff/groff_1.18.1.4.bb
+> +++ b/meta/recipes-extended/groff/groff_1.18.1.4.bb
+> @@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e43fc16fccd8519fba405f0a0ff6e8a3"
+>  SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+>            file://groff-1.18.1.4-remove-mom.patch;striplevel=1 \
+>            file://man-local.patch \
+> -          file://mdoc-local.patch" 
+> +          file://mdoc-local.patch \
+> +          file://groff-1.18.1.4-fix-bindir.patch \
+> +" 
+>  
+>  inherit autotools texinfo
+>  
+> -- 
+> 1.8.4.1
+> 
+
 
 
