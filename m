@@ -1,35 +1,33 @@
 Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1615C609B2
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 07908609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jul 2014 22:43:41 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s63M0hsJ025076 for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Jul 2014 17:00:43 -0500
+	Thu,  3 Jul 2014 22:59:52 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s63M0aDo009783 for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 Jul 2014 17:00:36 -0500
 Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP5)
-	with ESMTP id 2014070317004346-806949 ;
-	Thu, 3 Jul 2014 17:00:43 -0500 
+	with ESMTP id 2014070317003626-806945 ;
+	Thu, 3 Jul 2014 17:00:36 -0500 
 From: Richard Tollerton <rich.tollerton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 3 Jul 2014 17:00:26 -0500
-Message-Id: <1404424826-12023-3-git-send-email-rich.tollerton@ni.com>
+Date: Thu, 3 Jul 2014 17:00:24 -0500
+Message-Id: <1404424826-12023-1-git-send-email-rich.tollerton@ni.com>
 X-Mailer: git-send-email 2.0.1
-In-Reply-To: <1404424826-12023-1-git-send-email-rich.tollerton@ni.com>
-References: <1404424826-12023-1-git-send-email-rich.tollerton@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP5|July 31, 2013) at 07/03/2014 05:00:43 PM,
+	8.5.3FP5|July 31, 2013) at 07/03/2014 05:00:36 PM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP5|July
-	31, 2013) at 07/03/2014 05:00:43 PM,
-	Serialize complete at 07/03/2014 05:00:43 PM
+	31, 2013) at 07/03/2014 05:00:36 PM,
+	Serialize complete at 07/03/2014 05:00:36 PM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
 	0.0.0000
 	definitions=2014-07-03_07:2014-07-03, 2014-07-03,
 	1970-01-01 signatures=0
 Cc: ken.sharp@ni.com
-Subject: [PATCH 2/2] gcc: Ensure c++ includes are in /usr/include/c++/${BINV}
+Subject: [PATCH 0/2] Two gcc compatibility/usability fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,100 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jul 2014 22:43:45 -0000
+X-List-Received-Date: Thu, 03 Jul 2014 22:59:59 -0000
 
-It was observed that code using STLport 4.6 fails to compile under the
-SDK with the following error message:
+I have a couple changes that help some sources build under meta-toolchain without
+workarounds. These were originally developed on dylan; I just tested them by
+building mingw SDKs under daisy with vanilla poky+meta-mingw, then applying the
+patches to oe-core.
 
-.../includes/cstddef:38:46: fatal error: ../4.7.2/cstddef: No such file
-or directory
+[01/02]: The build infrastructure for the Linux kernel tools (at least) doesn't
+really expect you to supply a --sysroot for cross-compilation; they expect
+setting CROSS_COMPILE to be all that you need. You can see the sorts of
+contortions this leads to in perf.bb; but I need to build some other kernel
+tools, outside of bitbake, so I'm exposed to this.
 
-STLport 4.6 (screwily) assumes that the C++ system headers live in a
-gcc-versioned subdirectory, for gcc>=3.0; cf
-http://sourceforge.net/p/stlport/code/ci/STLport-4.6-patch/tree/stlport/config/stl_gcc.h#l269.
+The root fix is *not* to supply --sysroot to these builds: thanks to some
+ungodly-complex path mangling, gcc is actually smart enough to find the target
+sysroot on its own. It just needs a little goading to work, which is provided in
+this patch.
 
-This assumption is *almost always* valid, because that matches the
-default setting of --with-gxx-include-dir. We can match that behavior by
-appending "/${BINV}" to our own --with-gxx-include-dir settings.
+This might help simplify some recipes, including perf's.
 
-Natinst-CAR-ID: 446449
-Natinst-Reviewboard-ID: 57209
-Acked-by: Ken Sharp <ken.sharp@ni.com>
-Acked-by: Ben Shelton <ben.shelton@ni.com>
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
----
+[02/02]: Virtually every g++ configuration installs C++ headers to e.g.
+/usr/include/c++/4.8.2 -- with the exception of OE, which doesn't include the
+gcc version. This breaks ancient versions of STLport; it also precludes
+side-by-side installation of multiple g++ versions. This patch fixes that.
+
+Richard Tollerton (2):
+  gcc-cross-canadian: Adjust $prefix to fix sysroot autodetect
+  gcc: Ensure c++ includes are in /usr/include/c++/${BINV}
+
  meta/recipes-devtools/gcc/gcc-4.8.inc            | 2 +-
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 2 +-
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 5 ++++-
  meta/recipes-devtools/gcc/gcc-cross.inc          | 2 +-
  meta/recipes-devtools/gcc/gcc-runtime.inc        | 2 +-
  meta/recipes-devtools/gcc/gcc-target.inc         | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ 5 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 9f2928b..2816f13 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -115,7 +115,7 @@ EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap \
- EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
- 
- EXTRA_OECONF_PATHS = " \ 
--                      --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++ \ 
-+                      --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \ 
-                       --with-sysroot=${STAGING_DIR_TARGET} \ 
-                       --with-build-sysroot=${STAGING_DIR_TARGET}"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 1a826ec..636b4db 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -9,7 +9,7 @@ GCCMULTILIB = "--enable-multilib"
- 
- require gcc-configure-common.inc
- 
--EXTRA_OECONF_PATHS = "--with-gxx-include-dir=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${target_includedir}/c++ \
-+EXTRA_OECONF_PATHS = "--with-gxx-include-dir=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${target_includedir}/c++/${BINV} \
-                       --with-build-time-tools=${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/bin \
-                       --with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
-                       --with-build-sysroot=${STAGING_DIR_TARGET}"
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index 0bf29e3..cf3e5e8 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -21,7 +21,7 @@ EXTRA_OECONF += "--disable-libunwind-exceptions \
-                  --with-system-zlib "
- 
- EXTRA_OECONF_PATHS = " \
--                      --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++ \
-+                      --with-gxx-include-dir=${STAGING_DIR_TARGET}${target_includedir}/c++/${BINV} \
-                       --with-sysroot=${STAGING_DIR_TARGET} \
-                       --with-build-sysroot=${STAGING_DIR_TARGET}"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 70f9e0e..974c80c 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -3,7 +3,7 @@ require gcc-configure-common.inc
- CXXFLAGS := "${@oe_filter_out('-fvisibility-inlines-hidden', '${CXXFLAGS}', d)}"
- 
- EXTRA_OECONF_PATHS = " \
--    --with-gxx-include-dir=${includedir}/c++/ \
-+    --with-gxx-include-dir=${includedir}/c++/${BINV} \
-     --with-sysroot=${STAGING_DIR_TARGET} \
-     --with-build-sysroot=${STAGING_DIR_TARGET}"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index de906d6..59c554d 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -5,7 +5,7 @@ EXTRA_OECONF_PATHS = " \
-     --with-sysroot=/ \
-     --with-build-sysroot=${STAGING_DIR_TARGET} \
-     --with-native-system-header-dir=${STAGING_DIR_TARGET}${target_includedir} \
--    --with-gxx-include-dir=${includedir}/c++/"
-+    --with-gxx-include-dir=${includedir}/c++/${BINV}"
- 
- EXTRA_OECONF_FPU = "${@get_gcc_fpu_setting(bb, d)}"
- 
 -- 
 2.0.1
 
