@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 93BC06AC9A
+	by mail.openembedded.org (Postfix) with ESMTP id 922C86AC98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jul 2014 00:57:51 +0000 (UTC)
+	Thu,  3 Jul 2014 00:57:49 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s630vnKl025159
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s630vobX025162
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Jul 2014 17:57:49 -0700 (PDT)
+	Wed, 2 Jul 2014 17:57:50 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 2 Jul 2014 17:57:48 -0700
+	14.3.174.1; Wed, 2 Jul 2014 17:57:50 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Jul 2014 19:57:40 -0500
-Message-ID: <cover.1404348351.git.mark.hatle@windriver.com>
+Date: Wed, 2 Jul 2014 19:57:42 -0500
+Message-ID: <ae065aa47bb0019cb28db71ec833cbe1a2cb2464.1404348351.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
+In-Reply-To: <cover.1404348351.git.mark.hatle@windriver.com>
+References: <cover.1404348351.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [v2 PATCH 0/7] RPM, BerkleyDB and related changes
+Subject: [v2 PATCH 2/7] db_5.3.*: Upgrade to 5.3.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,131 +36,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 03 Jul 2014 00:57:52 -0000
 Content-Type: text/plain
 
-The version 2 adjusts things slightly.  The older DB 5.3 was retained, but
-upgraded to the latest version -- and a patch to RPM was created to 
-dynamically select DB 5.3 or DB 6.
+Simple upgrade, the license checksum change is related to a copyright date
+change.
 
-1/7 - Same as before...
-2/7 - New db 5.3 upgrade, license file change is just a copyright date
-3/7 - New db 6.0 package, no longer obsolete 6.0
-4/7 - RPM 5.4.14 upgrade, only difference is the dyanmic DB 5.3 or DB 6.0
-5/7 - same as previous 4/6
-6/7 - same as previous 5/6
-7/7 - same as previous 6/6, but with dynamic DB 5.3 or DB 6.0 [optional]
-
-v1 follows:
-
-This set make a group of changes that affect RPM, BerkleyDB and other 
-related systems.
-
-The changes were tested using buildhistory.  It was verified that only
-expected changes (the version string) occured in both the BerkleyDB and
-RPM uprevs.  The dependencies are the same, or similar [within expecations].
-
-Buildhistory testing consisted of build w/ origin/master.  Build with
-patch 1/6, build with patch 5/6, and build with patch 6/6 (with the
-PREFERRED_VERSION enabled.)
-
-1/6 - Fixes a rare issue when the arch translation fails (multilib case)
-2/6 - Uprev BerkelyDB to 6.0.30 -- note it also adds a comment explaining the
-       thumb patch.  The comment comes from the original OE commit message
-       from 2005.  Note new BerkleyDB is now under the AGPL-3.0 license!
-3/6 - Upgrade RPM to 5.4.14 release.  Change yacc from bison to byacc.
-4/6 - Change a backported patch to the upstream version.
-5/6 - Fix an issue where TARGET_VENDOR and _OS were used, when it should
-      have been HOST.  This was breaking non-linux SDKs.
-6/6 - [optional] This adds a development RPM 5 based on the CVS rpm-5_4
-      branch.  This recipe is being provided to help in future development.
-
-If 6/6 is not acceptable that it can be ignored.
-
-The following changes since commit c36d459f0d40bdbd3ba809835e0475e8992bc778:
-
-  python3: fix builtins imports (2014-06-30 16:35:03 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mhatle/rpm
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
-
-Mark Hatle (7):
-  lib/oe/package_manager.py: Fix _pkg_translate_smart_to_oe function
-  db_5.3.*: Upgrade to 5.3.28
-  db: Add version 6.0.30
-  rpm: Upgrade to 5.4.14
-  rpm: Replace patch with backport from SCM version of RPM5
-  package_rpm.bbclass: Should be using HOST_* not TARGET_*
-  rpm_5.4+cvs: Add RPM community tree for future development
-
- meta/classes/package_rpm.bbclass                   |   4 +-
- meta/lib/oe/package_manager.py                     |   1 +
- meta/recipes-devtools/rpm/rpm/dbconvert.patch      |  24 +-
- meta/recipes-devtools/rpm/rpm/debugedit-segv.patch |  19 +-
- ...debugedit-valid-file-to-fix-segment-fault.patch |  14 +-
- .../rpm/rpm/fstack-protector-configure-check.patch |   8 +-
- .../rpm/rpm/header-include-fix.patch               |  16 +-
- .../rpm/rpm/makefile-am-exec-hook.patch            |   8 +-
- .../rpm/rpm/python-rpm-rpmsense.patch              |   6 +-
- meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   8 +-
- meta/recipes-devtools/rpm/rpm/rpm-canonarch.patch  |  14 +-
- meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   6 +-
- meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch | 162 +++++++
- .../rpm/rpm/rpm-db_buffer_small.patch              |  18 +-
- .../rpm/rpm/rpm-debug-platform.patch               |  14 +-
- meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch  |  12 +-
- .../rpm/rpm/rpm-fix-logio-cp.patch                 |  30 ++
- .../rpm/rpm/rpm-hardlink-segfault-fix.patch        |  10 +-
- meta/recipes-devtools/rpm/rpm/rpm-libsql-fix.patch |  12 +-
- .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |  10 +-
- .../rpm/rpm/rpm-lsb-compatibility.patch            |   8 +-
- meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |  18 +-
- meta/recipes-devtools/rpm/rpm/rpm-macros.patch     |  19 +-
- meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |   9 +-
- .../rpm/rpm/rpm-no-perl-urpm.patch                 |   8 +-
- meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   9 +-
- .../rpm/rpm/rpm-packageorigin.patch                |   8 +-
- .../rpm/rpm/rpm-payload-use-hashed-inode.patch     |  30 +-
- .../rpm/rpm/rpm-pkgconfigdeps.patch                |  11 +-
- .../rpm/rpm/rpm-platform-file-fix.patch            |  12 +-
- meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |  39 +-
- meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |  22 +-
- meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   8 +-
- .../rpm/rpm/rpm-reloc-macros.patch                 |   6 +-
- .../rpm/rpm/rpm-remove-sykcparse-decl.patch        |   8 +-
- meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |  10 +-
- .../rpm/rpm/rpm-respect-arch.patch                 |  67 ---
- meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch |  67 +++
- .../rpm/rpm/rpm-scriptletexechelper.patch          |  20 +-
- meta/recipes-devtools/rpm/rpm/rpm-showrc.patch     |   9 +-
- meta/recipes-devtools/rpm/rpm/rpm-solvedb.patch    |  31 --
- .../rpm/rpm/rpm-stub-out-git_strerror.patch        |  60 ---
- .../rpm-tag-generate-endian-conversion-fix.patch   |   7 +-
- .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |  10 +-
- .../rpm/rpm/rpm-uuid-include.patch                 |  15 +-
- .../rpm/rpm/rpm-verify-files.patch                 |  22 -
- meta/recipes-devtools/rpm/rpm/rpmatch.patch        |  26 +-
- meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |  14 +-
- meta/recipes-devtools/rpm/rpm/uclibc-support.patch |  36 +-
- ...broken-logic-for-ghost-avoidance-Mark-Hat.patch |  38 ++
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           | 529 +++++++++++++++++++++
- .../rpm/{rpm_5.4.9.bb => rpm_5.4.14.bb}            |  23 +-
- .../db/db/arm-thumb-mutex_db5.patch                |  10 +
- .../db/{db_5.3.21.bb => db_5.3.28.bb}              |   6 +-
- meta/recipes-support/db/db_6.0.30.bb               | 114 +++++
- 55 files changed, 1259 insertions(+), 466 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db5-or-db6.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-logio-cp.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmpgp-fix.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-solvedb.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-stub-out-git_strerror.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-verify-files.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
- rename meta/recipes-devtools/rpm/{rpm_5.4.9.bb => rpm_5.4.14.bb} (96%)
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-support/db/{db_5.3.21.bb => db_5.3.28.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-support/db/{db_5.3.21.bb => db_5.3.28.bb} (94%)
- create mode 100644 meta/recipes-support/db/db_6.0.30.bb
 
+diff --git a/meta/recipes-support/db/db_5.3.21.bb b/meta/recipes-support/db/db_5.3.28.bb
+similarity index 94%
+rename from meta/recipes-support/db/db_5.3.21.bb
+rename to meta/recipes-support/db/db_5.3.28.bb
+index caf6890..057c9d8 100644
+--- a/meta/recipes-support/db/db_5.3.21.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -20,10 +20,10 @@ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
+             file://fix-parallel-build.patch \
+            "
+ 
+-SRC_URI[md5sum] = "3fda0b004acdaa6fa350bfc41a3b95ca"
+-SRC_URI[sha256sum] = "ddd92a930317df92021054c03992392db9ea5cddba43bef8920d392a82114fb8"
++SRC_URI[md5sum] = "b99454564d5b4479750567031d66fe24"
++SRC_URI[sha256sum] = "e0a992d740709892e81f9d93f06daf305cf73fb81b545afe72478043172c3628"
+ 
+-LIC_FILES_CHKSUM = "file://../LICENSE;md5=32aefa5a8e7318be1f657432cbe2e768"
++LIC_FILES_CHKSUM = "file://../LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
+ 
+ inherit autotools
+ 
 -- 
 1.9.3
 
