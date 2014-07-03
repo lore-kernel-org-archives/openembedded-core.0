@@ -1,32 +1,34 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E9B8060DF7
+	by mail.openembedded.org (Postfix) with ESMTP id 8D831609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Jul 2014 16:36:26 +0000 (UTC)
+	Thu,  3 Jul 2014 16:46:07 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s63GaLvK027360; Thu, 3 Jul 2014 17:36:21 +0100
+	s63Gjit0028054; Thu, 3 Jul 2014 17:45:44 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mU_RW3uoA4Wt; Thu,  3 Jul 2014 17:36:21 +0100 (BST)
+	with LMTP id T7w0ZqAlXORs; Thu,  3 Jul 2014 17:45:44 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s63GaFma027341
+	s63GjdxB028045
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 3 Jul 2014 17:36:17 +0100
-Message-ID: <1404405369.6362.88.camel@ted>
+	Thu, 3 Jul 2014 17:45:41 +0100
+Message-ID: <1404405934.6362.89.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Thu, 03 Jul 2014 17:36:09 +0100
-In-Reply-To: <1404404852.6362.85.camel@ted>
-References: <cover.1404110873.git.Qi.Chen@windriver.com>
-	<84fd3c3cb49d0ba85292dee3181b18a46c2081b1.1404110873.git.Qi.Chen@windriver.com>
-	<1404402757.6362.82.camel@ted> <1404404852.6362.85.camel@ted>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 03 Jul 2014 17:45:34 +0100
+In-Reply-To: <20140623124437.GG2437@jama>
+References: <1403177022-19086-1-git-send-email-Martin.Jansa@gmail.com>
+	<3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
+	<CAJTo0LbmBrwHOdYKdeaiKzHxpCdJ5XtxTUO5CnK7yi+Rm3nUyQ@mail.gmail.com>
+	<20140623123922.GF2437@jama> <20140623124437.GG2437@jama>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] shadow: upgrade from 4.1.4.3 to 4.2.1
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] usbinit, weston-init, run-postinsts, qt-demo-init: Drop allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,77 +41,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jul 2014 16:36:28 -0000
+X-List-Received-Date: Thu, 03 Jul 2014 16:46:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-07-03 at 17:27 +0100, Richard Purdie wrote:
-> On Thu, 2014-07-03 at 16:52 +0100, Richard Purdie wrote:
-> > On Mon, 2014-06-30 at 14:48 +0800, Chen Qi wrote:
-> > > Upgrade shadow from 4.1.4.3 to 4.2.1.
+On Mon, 2014-06-23 at 14:44 +0200, Martin Jansa wrote:
+> On Mon, Jun 23, 2014 at 02:39:22PM +0200, Martin Jansa wrote:
+> > On Mon, Jun 23, 2014 at 01:12:25PM +0100, Burton, Ross wrote:
+> > > On 19 June 2014 14:54, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> > > >> * update-rc.d.bbclass now adds dependency on TUNE_PKGARCH initscripts, so
+> > > >> these cannot be allarch
+> > > >
+> > > > As I've said before, I really dislike this change. The system should be made
+> > > > to handle the situation properly instead of working around the issue.
 > > > 
-> > > Changes during this upgrade are as following.
-> > > 
-> > > 1. Remove the "merged" patches. These patches are either merged or
-> > >    the same functionality has been implemented upstream.
-> > > 
-> > >    add_root_cmd_groupmems.patch
-> > >    add_root_cmd_options.patch
-> > >    fix-etc-gshadow-reading.patch
-> > >    shadow-4.1.4.2-env-reset-keep-locale.patch
-> > >    shadow-4.1.4.2-groupmod-pam-check.patch
-> > >    shadow-4.1.4.2-su_no_sanitize_env.patch
-> > >    shadow.automake-1.11.patch
-> > >    shadow_fix_for_automake-1.12.patch
-> > >    useradd.patch
-> > > 
-> > > 2. Remove the unneeded patch.
-> > >    The following patch has been removed because the logic in the related
-> > >    codes of the new version has been changed. In specific, the codes now
-> > >    can handle the 'NULL' return value. So there's no need for the following
-> > >    patch.
-> > > 
-> > >    slackware_fix_for_glib-2.17_crypt.patch
-> > > 
-> > > 3. Teak the current patch to match the new version.
-> > > 
-> > >    allow-for-setting-password-in-clear-text.patch
-> > > 
-> > > 4. Add a patch to fix compilation failure.
-> > > 
-> > >    usermod-fix-compilation-failure-with-subids-disabled.patch
-> > > 
-> > > 5. Add a patch to fix the installation failure.
-> > > 
-> > >    fix-installation-failure-with-subids-disabled.patch
-> > > 
-> > > 5. Add a patch to fix the failure at rootfs time if extrausers is inherited.
-> > > 
-> > >    commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-> > > 
-> > > 6. Fix the bad section in the recipe.
-> > > 
-> > > 7. Disable the new subids feature in the new version as it doesn't support
-> > >    cross compilation for now.
-> > > 
-> > > 8. Modify the pkg_postinst to `exit 1' if the `pwconv' or `grpconv' fails.
-> > >    Also, fix the arguments to use '--root $D' instead of '--root=$D'.
+> > > Isn't this what the abi exclude thingy is for?
 > > 
-> > I think this introduces the following issue:
+> > Do we want to maintain list of all recipes which inherit update-rc.c in
+> > layer.conf?
 > > 
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/154/steps/BuildImages/logs/stdio
+> > That's what I did in one of our layers and the list is rather long.
 > 
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/158/steps/BuildImages_1/logs/stdio
+> Ah sorry for possible confusion, I had to list *all* of them because we
+> have MACHINE_ARCH initscripts.
 > 
-> and there are other failures similar to the xuser-account do_install
-> failure. I suspect these reproduce best on builds from scratch.
+> To fix current issues in oe-core we only need to list all recipes which
+> inherit allarch *and* update-rc.d (unless we want to exclude it
+> everywhere just for consistency).
+> 
+> > abi exclude thingy
+> 
+> is a bit dangerous, I still sometimes see issues when something is
+> supposed to be abisafe and in some cases it isn't and I need to manually
+> bump PR in the recipe which wasn't rebuilt.
+> 
+> So I'm trying to use SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS only in cases where
+> it's really safe or when the dependent recipe takes forever to build (so
+> I wan't to build it just once or once per TUNE_PKGARCH). For simple and
+> quickly built recipe I really don't mind "building" them multiple times
+> if it prevents "rebuilding" them every single time I change MACHINE.
 
-For the do_install failure, the ${STAGING_DIR_TARGET}/home directory has
-to exist. If it does from a previous build, the xuser-account will build
-correctly. If home/ doesn't exist it will fail with the error. Its
-similar to a "mkdir" verses "mkdir -p" issue.
-
-I don't know what the second build-appliance failure is due to.
+Can't we just add "initscripts" to the list there. There shouldn't be a
+need to rebuild initscripts any time something depending on it changes,
+it should have a safe ABI in that sense?
 
 Cheers,
 
