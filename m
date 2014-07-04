@@ -1,26 +1,24 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 508AC6E608
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D4B265C94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jul 2014 08:46:26 +0000 (UTC)
+	Fri,  4 Jul 2014 08:46:25 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s648kR3L010540
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s648kQgF017290
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Jul 2014 01:46:27 -0700 (PDT)
+	Fri, 4 Jul 2014 01:46:26 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 4 Jul 2014 01:46:27 -0700
+	14.3.174.1; Fri, 4 Jul 2014 01:46:25 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Jul 2014 16:45:13 +0800
-Message-ID: <5d00040de2573c76b3d85d3cd35f06e9ce234b0d.1404463017.git.Chong.Lu@windriver.com>
+Date: Fri, 4 Jul 2014 16:45:12 +0800
+Message-ID: <cover.1404463017.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1404463017.git.Chong.Lu@windriver.com>
-References: <cover.1404463017.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] adt_installer: remove unnecessary variable
+Subject: [PATCH 0/4] adt_installer: several fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +34,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 04 Jul 2014 08:46:33 -0000
 Content-Type: text/plain
 
-YOCTOADT_VERSION is not included in adt_installer.conf file.
-Remove this variable, because we don't need it.
+The following changes since commit 359f08766fac29d56a763de712434d8f0536441f:
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-devtools/installer/adt-installer_1.0.bb | 2 --
- 1 file changed, 2 deletions(-)
+  yocto-bsp: Drop GLIBC_ADDONS setting (2014-07-04 09:12:35 +0100)
 
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 6380b6c..6a63e79 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -34,7 +34,6 @@ PR = "r11"
- 
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
--YOCTOADT_VERSION = "${SDK_VERSION}"
- S = "${WORKDIR}/opkg-${PV}"
- 
- PV = "0.2.0"
-@@ -74,7 +73,6 @@ fakeroot do_populate_adt () {
- 	cp -r scripts ${ADT_DIR}/
- 	cp adt_installer ${ADT_DIR}
- 	cp adt_installer.conf ${ADT_DIR}
--	sed -i -e 's#YOCTOADT_VERSION#${SDK_VERSION}#' ${ADT_DIR}/adt_installer.conf
- 	sed -i -e 's#ADTREPO#${ADTREPO}#' ${ADT_DIR}/adt_installer.conf
- 	echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
- 	echo 'DEFAULT_INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/adtinstaller
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/adtinstller
+
+Chong Lu (4):
+  adt_installer: remove unnecessary variable
+  adt_installer: fix syntax error
+  adt_installer: check the result of updating opkg
+  adt_installer: not download repo page
+
+ meta/recipes-devtools/installer/adt-installer/adt_installer           | 4 ++--
+ .../installer/adt-installer/scripts/adt_installer_internal            | 4 ++--
+ meta/recipes-devtools/installer/adt-installer_1.0.bb                  | 2 --
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+
 -- 
 1.9.1
 
