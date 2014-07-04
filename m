@@ -1,27 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 380526AC94
+	by mail.openembedded.org (Postfix) with ESMTP id 4E41F6AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jul 2014 05:40:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s645euQF019516
+	Fri,  4 Jul 2014 08:46:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s648kSCs017296
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Jul 2014 22:40:58 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Thu, 3 Jul 2014 22:40:56 -0700
-Message-ID: <53B63E67.40903@windriver.com>
-Date: Fri, 4 Jul 2014 13:40:55 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
+	Fri, 4 Jul 2014 01:46:29 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 4 Jul 2014 01:46:28 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1404452300.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1404452300.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/2] bitbake: update help message for dump-signatures
+Date: Fri, 4 Jul 2014 16:45:14 +0800
+Message-ID: <90313c71f3056db00149363ceaf259da8db81346.1404463017.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1404463017.git.Chong.Lu@windriver.com>
+References: <cover.1404463017.git.Chong.Lu@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/4] adt_installer: fix syntax error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jul 2014 05:40:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Jul 2014 08:46:33 -0000
+Content-Type: text/plain
 
+We need to check YOCTOADT_QEMU variable whether is equal to "y".
+So we should use "==" rather than "=".
 
-Sorry, please ignore this, it should go into bitbake-devel.
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ .../installer/adt-installer/scripts/adt_installer_internal              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-// Robert
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index f9c6d18..6a219a3 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -169,7 +169,7 @@ for target_type in $YOCTOADT_TARGETS; do
+   $SUDO sed -i -e "s%##SDKTARGETSYSROOT##%$target_sysroot%g" $env_script
+ done
+ 
+-if [ "$YOCTOADT_QEMU" == "Y" ] || [ "$YOCTOADT_QEMU" = "y" ]; then
++if [ "$YOCTOADT_QEMU" == "Y" ] || [ "$YOCTOADT_QEMU" == "y" ]; then
+   echo_info "\nInstalling qemu native ..."
+   $OPKG_INSTALL_NATIVE_CMD nativesdk-qemu &>> $YOCTOADT_INSTALL_LOG_FILE
+   check_result
+-- 
+1.9.1
 
-On 07/04/2014 01:38 PM, Robert Yang wrote:
-> The following changes since commit 0ed5a13f5f9478e2c22f517fb3504b738422f85c:
->
->    python3: fix builtins imports (2014-06-30 16:36:44 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib rbt/sig
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/sig
->
-> Robert Yang (2):
->    bitbake: update help message for dump-signatures
->    bitbake-user-manual-intro.xml: update for dump-signatures
->
->   bitbake/bin/bitbake                                |    4 ++--
->   .../bitbake-user-manual-intro.xml                  |   10 ++++++----
->   2 files changed, 8 insertions(+), 6 deletions(-)
->
 
