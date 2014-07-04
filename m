@@ -1,31 +1,32 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Ming.Liu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C48AF65D33
+	by mail.openembedded.org (Postfix) with ESMTP id 0195C65C94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jul 2014 02:20:17 +0000 (UTC)
+	Fri,  4 Jul 2014 02:30:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s642KFTj007819
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s642Ur4k007880
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 3 Jul 2014 19:20:15 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	Thu, 3 Jul 2014 19:30:53 -0700 (PDT)
+Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 3 Jul 2014 19:20:14 -0700
-Message-ID: <53B60FC1.1070203@windriver.com>
-Date: Fri, 4 Jul 2014 10:21:53 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Thu, 3 Jul 2014 19:30:53 -0700
+Message-ID: <53B611D9.2020501@windriver.com>
+Date: Fri, 4 Jul 2014 10:30:49 +0800
+From: Ming Liu <ming.liu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1404110873.git.Qi.Chen@windriver.com>	
-	<84fd3c3cb49d0ba85292dee3181b18a46c2081b1.1404110873.git.Qi.Chen@windriver.com>	
-	<1404402757.6362.82.camel@ted> <1404404852.6362.85.camel@ted>
-	<1404405369.6362.88.camel@ted>
-In-Reply-To: <1404405369.6362.88.camel@ted>
-X-Originating-IP: [128.224.162.187]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] shadow: upgrade from 4.1.4.3 to 4.2.1
+To: Christopher Larson <clarson@kergoth.com>
+References: <1404286429-13962-1-git-send-email-ming.liu@windriver.com>
+	<CABcZANn4B6SzNTT+eCi9bsWQxDcDJ4PCFT5kHwV6c5nxShmyhg@mail.gmail.com>
+	<53B45FDC.1050703@linux.intel.com> <53B4BF4B.5090306@windriver.com>
+	<CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com>
+In-Reply-To: <CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com>
+X-Originating-IP: [128.224.163.186]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initscripts: add usleep support from RHEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,89 +39,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jul 2014 02:20:30 -0000
+X-List-Received-Date: Fri, 04 Jul 2014 02:31:00 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060304080702020403040207"
+
+--------------060304080702020403040207
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/04/2014 12:36 AM, Richard Purdie wrote:
-> On Thu, 2014-07-03 at 17:27 +0100, Richard Purdie wrote:
->> On Thu, 2014-07-03 at 16:52 +0100, Richard Purdie wrote:
->>> On Mon, 2014-06-30 at 14:48 +0800, Chen Qi wrote:
->>>> Upgrade shadow from 4.1.4.3 to 4.2.1.
->>>>
->>>> Changes during this upgrade are as following.
->>>>
->>>> 1. Remove the "merged" patches. These patches are either merged or
->>>>     the same functionality has been implemented upstream.
->>>>
->>>>     add_root_cmd_groupmems.patch
->>>>     add_root_cmd_options.patch
->>>>     fix-etc-gshadow-reading.patch
->>>>     shadow-4.1.4.2-env-reset-keep-locale.patch
->>>>     shadow-4.1.4.2-groupmod-pam-check.patch
->>>>     shadow-4.1.4.2-su_no_sanitize_env.patch
->>>>     shadow.automake-1.11.patch
->>>>     shadow_fix_for_automake-1.12.patch
->>>>     useradd.patch
->>>>
->>>> 2. Remove the unneeded patch.
->>>>     The following patch has been removed because the logic in the related
->>>>     codes of the new version has been changed. In specific, the codes now
->>>>     can handle the 'NULL' return value. So there's no need for the following
->>>>     patch.
->>>>
->>>>     slackware_fix_for_glib-2.17_crypt.patch
->>>>
->>>> 3. Teak the current patch to match the new version.
->>>>
->>>>     allow-for-setting-password-in-clear-text.patch
->>>>
->>>> 4. Add a patch to fix compilation failure.
->>>>
->>>>     usermod-fix-compilation-failure-with-subids-disabled.patch
->>>>
->>>> 5. Add a patch to fix the installation failure.
->>>>
->>>>     fix-installation-failure-with-subids-disabled.patch
->>>>
->>>> 5. Add a patch to fix the failure at rootfs time if extrausers is inherited.
->>>>
->>>>     commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
->>>>
->>>> 6. Fix the bad section in the recipe.
->>>>
->>>> 7. Disable the new subids feature in the new version as it doesn't support
->>>>     cross compilation for now.
->>>>
->>>> 8. Modify the pkg_postinst to `exit 1' if the `pwconv' or `grpconv' fails.
->>>>     Also, fix the arguments to use '--root $D' instead of '--root=$D'.
->>> I think this introduces the following issue:
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/154/steps/BuildImages/logs/stdio
->> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/158/steps/BuildImages_1/logs/stdio
->>
->> and there are other failures similar to the xuser-account do_install
->> failure. I suspect these reproduce best on builds from scratch.
-> For the do_install failure, the ${STAGING_DIR_TARGET}/home directory has
-> to exist. If it does from a previous build, the xuser-account will build
-> correctly. If home/ doesn't exist it will fail with the error. Its
-> similar to a "mkdir" verses "mkdir -p" issue.
+On 07/03/2014 11:45 AM, Christopher Larson wrote:
 >
-> I don't know what the second build-appliance failure is due to.
+> On Wed, Jul 2, 2014 at 7:26 PM, Ming Liu <ming.liu@windriver.com 
+> <mailto:ming.liu@windriver.com>> wrote:
 >
-> Cheers,
+>     On 07/03/2014 03:39 AM, Saul Wold wrote:
 >
-> Richard
+>         On 07/02/2014 10:37 AM, Christopher Larson wrote:
+>
+>             On Wed, Jul 2, 2014 at 12:33 AM, Ming Liu
+>             <ming.liu@windriver.com <mailto:ming.liu@windriver.com>>
+>             wrote:
+>
+>                 Add usleep in to support sleeping some number of
+>                 microseconds.
+>
+>                 Signed-off-by: Ming Liu <ming.liu@windriver.com
+>                 <mailto:ming.liu@windriver.com>>
+>
+>
+>             Maybe it's just me, but initscripts seems like a horrible
+>             place to put this.
 >
 >
 >
+>         It's not just you!  Not sure why it's being added here and I
+>         don't see any usage of it, so more information is required.
+>
+>     Why I've sent this is because I noticed there was no usleep binary
+>     in any of the packages in oe repositories, and I assumed that the
+>     end user might like to use it in their rootfs, so I migrated it
+>     from initscripts package of RHEL. Anyway, if all you guys think
+>     it's not necessary and not appropriate, I will not insist it, we
+>     could just ignore my proposal. :)
 >
 >
+> The tool itself sounds like it could be of use, but it should likely 
+> get its own recipe in meta-oe until/if something in oe-core actually 
+> needs it.
+Got it, thanks! I will do that.
 
-Thanks!
+the best,
+thank you
+> -- 
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
 
-I'm looking into the problems now.
 
-Best Regards,
-Chen Qi
+--------------060304080702020403040207
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 07/03/2014 11:45 AM, Christopher
+      Larson wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On Wed, Jul 2, 2014 at 7:26 PM, Ming
+            Liu <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:ming.liu@windriver.com" target="_blank">ming.liu@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote">
+              <div class="HOEnZb adM">
+                <div class="h5">On 07/03/2014 03:39 AM, Saul Wold wrote:<br>
+                  <blockquote class="gmail_quote">
+                    On 07/02/2014 10:37 AM, Christopher Larson wrote:<br>
+                    <blockquote class="gmail_quote">
+                      On Wed, Jul 2, 2014 at 12:33 AM, Ming Liu &lt;<a
+                        moz-do-not-send="true"
+                        href="mailto:ming.liu@windriver.com"
+                        target="_blank">ming.liu@windriver.com</a>&gt;
+                      wrote:<br>
+                      <br>
+                      <blockquote class="gmail_quote">
+                        Add usleep in to support sleeping some number of
+                        microseconds.<br>
+                        <br>
+                        Signed-off-by: Ming Liu &lt;<a
+                          moz-do-not-send="true"
+                          href="mailto:ming.liu@windriver.com"
+                          target="_blank">ming.liu@windriver.com</a>&gt;<br>
+                        <br>
+                      </blockquote>
+                      <br>
+                      Maybe it's just me, but initscripts seems like a
+                      horrible place to put this.<br>
+                      <br>
+                      <br>
+                      <br>
+                    </blockquote>
+                    It's not just you!  Not sure why it's being added
+                    here and I don't see any usage of it, so more
+                    information is required.<br>
+                  </blockquote>
+                </div>
+              </div>
+              Why I've sent this is because I noticed there was no
+              usleep binary in any of the packages in oe repositories,
+              and I assumed that the end user might like to use it in
+              their rootfs, so I migrated it from initscripts package of
+              RHEL. Anyway, if all you guys think it's not necessary and
+              not appropriate, I will not insist it, we could just
+              ignore my proposal. :)</blockquote>
+          </div>
+          <br>
+        </div>
+        <div class="gmail_extra">The tool itself sounds like it could be
+          of use, but it should likely get its own recipe in meta-oe
+          until/if something in oe-core actually needs it.<br>
+        </div>
+      </div>
+    </blockquote>
+    Got it, thanks! I will do that.<br>
+    <br>
+    the best,<br>
+    thank you<br>
+    <blockquote
+cite="mid:CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">-- <br>
+          Christopher Larson<br>
+          clarson at kergoth dot com<br>
+          Founder - BitBake, OpenEmbedded, OpenZaurus<br>
+          Maintainer - Tslib<br>
+          Senior Software Engineer, Mentor Graphics
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060304080702020403040207--
