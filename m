@@ -1,32 +1,26 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0195C65C94
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CAA1C65CD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jul 2014 02:30:58 +0000 (UTC)
+	Fri,  4 Jul 2014 05:38:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s642Ur4k007880
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 3 Jul 2014 19:30:53 -0700 (PDT)
-Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Thu, 3 Jul 2014 19:30:53 -0700
-Message-ID: <53B611D9.2020501@windriver.com>
-Date: Fri, 4 Jul 2014 10:30:49 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s645cxB8019272
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 Jul 2014 22:38:59 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Thu, 3 Jul 2014 22:38:58 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Jul 2014 22:38:56 -0700
+Message-ID: <29052f940ce9526083a09d3ce4e665a5aa9e0db1.1404452300.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1404452300.git.liezhi.yang@windriver.com>
+References: <cover.1404452300.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: Christopher Larson <clarson@kergoth.com>
-References: <1404286429-13962-1-git-send-email-ming.liu@windriver.com>
-	<CABcZANn4B6SzNTT+eCi9bsWQxDcDJ4PCFT5kHwV6c5nxShmyhg@mail.gmail.com>
-	<53B45FDC.1050703@linux.intel.com> <53B4BF4B.5090306@windriver.com>
-	<CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com>
-In-Reply-To: <CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com>
-X-Originating-IP: [128.224.163.186]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] initscripts: add usleep support from RHEL
+Subject: [PATCH 2/2] bitbake-user-manual-intro.xml: update for dump-signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,157 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jul 2014 02:31:00 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060304080702020403040207"
+X-List-Received-Date: Fri, 04 Jul 2014 05:39:01 -0000
+Content-Type: text/plain
 
---------------060304080702020403040207
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../bitbake-user-manual-intro.xml                  |   10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-On 07/03/2014 11:45 AM, Christopher Larson wrote:
->
-> On Wed, Jul 2, 2014 at 7:26 PM, Ming Liu <ming.liu@windriver.com 
-> <mailto:ming.liu@windriver.com>> wrote:
->
->     On 07/03/2014 03:39 AM, Saul Wold wrote:
->
->         On 07/02/2014 10:37 AM, Christopher Larson wrote:
->
->             On Wed, Jul 2, 2014 at 12:33 AM, Ming Liu
->             <ming.liu@windriver.com <mailto:ming.liu@windriver.com>>
->             wrote:
->
->                 Add usleep in to support sleeping some number of
->                 microseconds.
->
->                 Signed-off-by: Ming Liu <ming.liu@windriver.com
->                 <mailto:ming.liu@windriver.com>>
->
->
->             Maybe it's just me, but initscripts seems like a horrible
->             place to put this.
->
->
->
->         It's not just you!  Not sure why it's being added here and I
->         don't see any usage of it, so more information is required.
->
->     Why I've sent this is because I noticed there was no usleep binary
->     in any of the packages in oe repositories, and I assumed that the
->     end user might like to use it in their rootfs, so I migrated it
->     from initscripts package of RHEL. Anyway, if all you guys think
->     it's not necessary and not appropriate, I will not insist it, we
->     could just ignore my proposal. :)
->
->
-> The tool itself sounds like it could be of use, but it should likely 
-> get its own recipe in meta-oe until/if something in oe-core actually 
-> needs it.
-Got it, thanks! I will do that.
-
-the best,
-thank you
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+diff --git a/bitbake/doc/bitbake-user-manual/bitbake-user-manual-intro.xml b/bitbake/doc/bitbake-user-manual/bitbake-user-manual-intro.xml
+index ae267b4..e4025a8 100644
+--- a/bitbake/doc/bitbake-user-manual/bitbake-user-manual-intro.xml
++++ b/bitbake/doc/bitbake-user-manual/bitbake-user-manual-intro.xml
+@@ -471,11 +471,13 @@
+        -D, --debug           Increase the debug level. You can specify this more
+                              than once.
+        -n, --dry-run         Don't execute, just go through the motions.
+-       -S DUMP_SIGNATURES, --dump-signatures=DUMP_SIGNATURES
++       -S SIGNATURE_HANDLER, --dump-signatures=SIGNATURE_HANDLER
+                              Dump out the signature construction information, with
+-                             no task execution. Parameters are passed to the
+-                             signature handling code, use 'none' if no specific
+-                             handler is required.
++                             no task execution. The SIGNATURE_HANDLER can be none
++                             or printdiff, while none means only dump the
++                             signature, printdiff means compare the dumped
++                             signature with the cached one.
++
+        -p, --parse-only      Quit after parsing the BB recipes.
+        -s, --show-versions   Show current and preferred versions of all recipes.
+        -e, --environment     Show the global or per-package environment complete
+-- 
+1.7.9.5
 
 
---------------060304080702020403040207
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 07/03/2014 11:45 AM, Christopher
-      Larson wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Wed, Jul 2, 2014 at 7:26 PM, Ming
-            Liu <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:ming.liu@windriver.com" target="_blank">ming.liu@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote">
-              <div class="HOEnZb adM">
-                <div class="h5">On 07/03/2014 03:39 AM, Saul Wold wrote:<br>
-                  <blockquote class="gmail_quote">
-                    On 07/02/2014 10:37 AM, Christopher Larson wrote:<br>
-                    <blockquote class="gmail_quote">
-                      On Wed, Jul 2, 2014 at 12:33 AM, Ming Liu &lt;<a
-                        moz-do-not-send="true"
-                        href="mailto:ming.liu@windriver.com"
-                        target="_blank">ming.liu@windriver.com</a>&gt;
-                      wrote:<br>
-                      <br>
-                      <blockquote class="gmail_quote">
-                        Add usleep in to support sleeping some number of
-                        microseconds.<br>
-                        <br>
-                        Signed-off-by: Ming Liu &lt;<a
-                          moz-do-not-send="true"
-                          href="mailto:ming.liu@windriver.com"
-                          target="_blank">ming.liu@windriver.com</a>&gt;<br>
-                        <br>
-                      </blockquote>
-                      <br>
-                      Maybe it's just me, but initscripts seems like a
-                      horrible place to put this.<br>
-                      <br>
-                      <br>
-                      <br>
-                    </blockquote>
-                    It's not just you!  Not sure why it's being added
-                    here and I don't see any usage of it, so more
-                    information is required.<br>
-                  </blockquote>
-                </div>
-              </div>
-              Why I've sent this is because I noticed there was no
-              usleep binary in any of the packages in oe repositories,
-              and I assumed that the end user might like to use it in
-              their rootfs, so I migrated it from initscripts package of
-              RHEL. Anyway, if all you guys think it's not necessary and
-              not appropriate, I will not insist it, we could just
-              ignore my proposal. :)</blockquote>
-          </div>
-          <br>
-        </div>
-        <div class="gmail_extra">The tool itself sounds like it could be
-          of use, but it should likely get its own recipe in meta-oe
-          until/if something in oe-core actually needs it.<br>
-        </div>
-      </div>
-    </blockquote>
-    Got it, thanks! I will do that.<br>
-    <br>
-    the best,<br>
-    thank you<br>
-    <blockquote
-cite="mid:CABcZANnpq=UnWN6YNaPtuGrg6Xb3CUh9Pqc0bxL0G2o9cirdRQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">-- <br>
-          Christopher Larson<br>
-          clarson at kergoth dot com<br>
-          Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-          Maintainer - Tslib<br>
-          Senior Software Engineer, Mentor Graphics
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------060304080702020403040207--
