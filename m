@@ -1,28 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 859666ACD4
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A5D762252
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jul 2014 10:50:07 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s64Ao008002344; Fri, 4 Jul 2014 11:50:00 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id n0tj_ql8Yqie; Fri,  4 Jul 2014 11:50:00 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s64AnuWP002340
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 4 Jul 2014 11:49:57 +0100
-Message-ID: <1404470990.4852.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Maxin B. John" <maxin.john@enea.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Jul 2014 11:49:50 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sanity.bbclass: Update minimum git version to 1.7.8
+	Fri,  4 Jul 2014 10:54:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s64AsYg1009090
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Jul 2014 03:54:34 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Fri, 4 Jul 2014 03:54:33 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 4 Jul 2014 18:54:29 +0800
+Message-ID: <1404471270-1536-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] libcroco: dont package /usr/bin/croco-0.6-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jul 2014 10:50:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Jul 2014 10:54:38 -0000
+Content-Type: text/plain
 
-To quote "Maxin B. John" <maxin.john@enea.com>:
+It's build time specific and should not be packaged, otherwise, it will
+introduce conflicts among multilib build.
 
-git version 1.7.8 added the --list option to git-branch. Since we depend on this
-option in git.py, the minimum requiremnt for git should be updated to Git
-1.7.8+
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-support/libcroco/libcroco_0.6.8.bb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 4b42b17..ed65814 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -386,15 +386,15 @@ def check_tar_version(sanity_data):
-         return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar.\n"
-     return None
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.8.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
+index 7d04265..a926a1c 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.8.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
+@@ -19,3 +19,14 @@ GNOME_COMPRESS_TYPE = "xz"
  
--# We use git parameters and functionality only found in 1.7.5 or later
-+# We use git parameters and functionality only found in 1.7.8 or later
- def check_git_version(sanity_data):
-     from distutils.version import LooseVersion
-     status, result = oe.utils.getstatusoutput("git --version 2> /dev/null")
-     if status != 0:
-         return "Unable to execute git --version, exit code %s\n" % status
-     version = result.split()[2]
--    if LooseVersion(version) < LooseVersion("1.7.5"):
--        return "Your version of git is older than 1.7.5 and has bugs which will break builds. Please install a newer version of git.\n"
-+    if LooseVersion(version) < LooseVersion("1.7.8"):
-+        return "Your version of git is older than 1.7.8 and has bugs which will break builds. Please install a newer version of git.\n"
-     return None
- 
- # Check the required perl modules which may not be installed by default
-
+ SRC_URI[archive.md5sum] = "767e73c4174f75b99695d4530fd9bb80"
+ SRC_URI[archive.sha256sum] = "ea6e1b858c55219cefd7109756bff5bc1a774ba7a55f7d3ccd734d6b871b8570"
++
++#
++# Don't package croco-0.6-config, it's build time specific.
++# Otherwise, it would cause conflicts among multilib install. 
++#
++PACKAGE_PREPROCESS_FUNCS += "croco_package_preprocess"
++croco_package_preprocess () {
++	if [ -f ${PKGD}/${bindir}/croco-0.6-config ]; then
++		rm -f ${PKGD}/${bindir}/croco-0.6-config
++	fi
++}
+-- 
+1.8.4.1
 
 
