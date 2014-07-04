@@ -1,24 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E65465CA7
+Return-Path: <prvs=2551ecdd1=Richard.Leitner@skidata.com>
+X-Greylist: delayed 642 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 04 Jul 2014 09:27:19 UTC
+Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E27B60850
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jul 2014 09:16:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s649GbVH010783
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Jul 2014 02:16:37 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 4 Jul 2014 02:16:37 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Fri,  4 Jul 2014 09:27:18 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AqAEAPhvtlOsEApK/2dsb2JhbABag19avmuIYnWECwI3ZxQ0GTWIWgjJfRMEjz+ELQWYCoJrhzmQGWqBRA
+X-IPAS-Result: AqAEAPhvtlOsEApK/2dsb2JhbABag19avmuIYnWECwI3ZxQ0GTWIWgjJfRMEjz+ELQWYCoJrhzmQGWqBRA
+Date: Fri, 4 Jul 2014 11:16:35 +0200
+From: Richard Leitner <richard.leitner@skidata.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Jul 2014 02:16:36 -0700
-Message-ID: <cover.1404465351.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+Message-ID: <20140704111635.489b97b2@lxbuild.skidata.net>
+Organization: SKIDATA AG
 MIME-Version: 1.0
-Subject: [PATCH 0/1] image.bbclass/buildtools-tarball: cleanup the RDEPENDS
+X-Originating-IP: [172.16.60.30]
+Subject: nscd: missing configuration and initscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +28,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jul 2014 09:16:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 04 Jul 2014 09:27:23 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit a5531a2b8983318b99c119a87b78a92cf84160b8:
+Hi folks,
+I've a question regarding the nscd package in the eglibc recipes (which I already posted on the yocto ml [1]):
 
-  bitbake: fetch2/svn: Add transportuser parameter (2014-07-04 09:28:36 +0100)
+Is there a reason why there's only the nscd executeable but no config or initscript included?
+If so, what would be the proper way to add such a config & initscript file without touching the original recipe?
+If not, should I provide a patch for adding these two files?
 
-are available in the git repository at:
+I'd appreciate any answers!
 
-  git://git.pokylinux.org/poky-contrib rbt/rdepends
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/rdepends
+thanks & regards,
+richard
 
-Robert Yang (1):
-  image.bbclass/buildtools-tarball: cleanup the RDEPENDS
-
- meta/classes/image.bbclass                   |    4 ++--
- meta/recipes-core/meta/buildtools-tarball.bb |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
--- 
-1.7.9.5
-
+[1] https://lists.yoctoproject.org/pipermail/yocto/2014-July/020406.html
 
