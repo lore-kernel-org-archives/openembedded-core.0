@@ -1,24 +1,31 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1296F701AC
+Return-Path: <sadlife1990@gmail.com>
+Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
+	[209.85.128.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B3757020E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Jul 2014 06:06:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6566Q8k018514
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat,  5 Jul 2014 08:42:21 +0000 (UTC)
+Received: by mail-ve0-f182.google.com with SMTP id oy12so2411535veb.27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Jul 2014 23:06:26 -0700 (PDT)
-Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 4 Jul 2014 23:06:26 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 5 Jul 2014 14:06:23 +0800
-Message-ID: <1404540383-13425-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
+	Sat, 05 Jul 2014 01:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=ZMFz6rfSWJlk2rzOl7isfkaeX4HFK6zjl13bo0vdPPA=;
+	b=NwGpyMaZf/S9DAza8XbXgPsqfH9OlEmt1nxeUEKPA+GDSSfDmQiakrgQZWjTPEAG+w
+	ue6uQ2Dt8T6kbHxKpO5PSpY5TZVlaOT0eD5bvJjn5fmDV3UhAINdl6FZvcxwVA5/StL3
+	47hBFfT+BM/mc51hPbE9zS4V3BR6UrZkuVEITB59TA66sKWYEsS6dBrWgIrNBtDxqiKA
+	lgHZPMWpWw/1VBmG9FM5J9xj62app7Jmn/b/NoW6Tms++4zVL6r/SPCQsUK3RtvwMEqR
+	RE1qYLoUeIqqO9LD1fdMz2h1eg6rkUf6xmyZvusvfzz8are/65q0yTOJst68NRzOTGxg
+	/j+A==
 MIME-Version: 1.0
-Subject: [PATCH] gconf: fix multilib conflict - org.gnome.GConf.service
+X-Received: by 10.58.245.134 with SMTP id xo6mr14419823vec.14.1404549743008;
+	Sat, 05 Jul 2014 01:42:23 -0700 (PDT)
+Received: by 10.58.152.200 with HTTP; Sat, 5 Jul 2014 01:42:22 -0700 (PDT)
+Date: Sat, 5 Jul 2014 11:42:22 +0300
+Message-ID: <CAAHuHfyssKi6tXjKFwBHXNPuCLPXwyx3CKR14=g=w5REakyjMA@mail.gmail.com>
+From: Life Life <sadlife1990@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Could not inherit file classes/rootfs_${IMAGE_PKGTYPE}.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jul 2014 06:06:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 05 Jul 2014 08:42:23 -0000
+Content-Type: multipart/alternative; boundary=047d7bd6ad8880638b04fd6e38cb
 
-Fix following error:
-error: file /usr/share/dbus-1/services/org.gnome.GConf.service from
-install of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
-gconf-3.2.6-r0.0.x86_64
+--047d7bd6ad8880638b04fd6e38cb
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- .../gnome/gconf/fix-multilib-conflicts.patch       | 33 ++++++++++++++++++++++
- meta/recipes-gnome/gnome/gconf_3.2.6.bb            |  4 +++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/gconf/fix-multilib-conflicts.patch
+Hello,
 
-diff --git a/meta/recipes-gnome/gnome/gconf/fix-multilib-conflicts.patch b/meta/recipes-gnome/gnome/gconf/fix-multilib-conflicts.patch
-new file mode 100644
-index 0000000..b67157e
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gconf/fix-multilib-conflicts.patch
-@@ -0,0 +1,33 @@
-+Upstream-Status: Inappropriate [embebbed]
-+
-+Signed-off-by: Ming Liu <ming.liu@windriver.com>
-+
-+--- a/gconf/Makefile.am
-++++ b/gconf/Makefile.am
-+@@ -27,8 +27,7 @@ EFENCE=
-+ 
-+ lib_LTLIBRARIES = libgconf-2.la
-+ 
-+-bin_PROGRAMS = gconftool-2 
-+-libexec_PROGRAMS = gconfd-2
-++bin_PROGRAMS = gconftool-2 gconfd-2 
-+ 
-+ CORBA_SOURCECODE = GConfX-common.c GConfX-skels.c GConfX-stubs.c GConfX.h
-+ 
-+@@ -168,7 +167,7 @@ default.path: $(srcdir)/default.path.in
-+ 	sed -e 's,[@]sysgconfdir[@],$(sysgconfdir),g' \
-+ 		<$(srcdir)/default.path.in >default.path
-+ org.gnome.GConf.service:  $(srcdir)/org.gnome.GConf.service.in
-+-	sed -e 's,[@]libexecdir[@],$(libexecdir),g' \
-++	sed -e 's,[@]bindir[@],$(bindir),g' \
-+ 		<$(srcdir)/org.gnome.GConf.service.in >org.gnome.GConf.service
-+ 
-+ servicedir = $(datadir)/dbus-1/services
-+
-+--- a/gconf/org.gnome.GConf.service.in
-++++ b/gconf/org.gnome.GConf.service.in
-+@@ -1,3 +1,3 @@
-+ [D-BUS Service]
-+ Name=org.gnome.GConf
-+-Exec=@libexecdir@/gconfd-2
-++Exec=@bindir@/gconfd-2
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index 17fdafa..e932746 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -9,9 +9,13 @@ DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-nat
- 
- inherit gnomebase gtk-doc gettext
- 
-+GCONF_FIX_MULTILIB_PATCH = ""
-+GCONF_FIX_MULTILIB_PATCH_class-target = "file://fix-multilib-conflicts.patch"
-+
- SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
-            file://remove_plus_from_invalid_characters_list.patch \
-            file://unable-connect-dbus.patch \
-+           ${GCONF_FIX_MULTILIB_PATCH} \
- "
- 
- SRC_URI[archive.md5sum] = "2b16996d0e4b112856ee5c59130e822c"
--- 
-1.8.4.1
+I'm trying build simple image and I run this command bitbake console-image
+After I see this error. How to solve this problem ?
+
+ERROR: ParseError at
+/home/setup-scripts/sources/openembedded-core/meta/classes/image.bbclass:1:
+Could not inherit file classes/rootfs_${IMAGE_PKGTYPE}.bbclass
 
 
+Thanks
+
+--047d7bd6ad8880638b04fd6e38cb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,<br><br></div>I&#39;m trying build simple image=
+ and I run this command bitbake console-image After I see this error. How t=
+o solve this problem ?<br><div><div><br>ERROR: ParseError at /home/setup-sc=
+ripts/sources/openembedded-core/meta/classes/image.bbclass:1: Could not inh=
+erit file classes/rootfs_${IMAGE_PKGTYPE}.bbclass<br>
+<br><br></div><div>Thanks <br></div></div></div>
+
+--047d7bd6ad8880638b04fd6e38cb--
