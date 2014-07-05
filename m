@@ -1,27 +1,21 @@
-Return-Path: <sadlife1990@gmail.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 1781870253
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id A513770253
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Jul 2014 12:38:38 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id hy4so2351086vcb.20
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Jul 2014 05:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=qOGGg6KZpX4ULtD1r0FP+UAI2JmYKp2/HYxYLf296Qc=;
-	b=yJNMHGs8JptvEmeb0EW1LWWJeTJofUGgLnt4wgifEhRHFyLcyFEdOY/fmwXpREEkqR
-	D3vy89P4j0zmdbaU7d5tRgXUy+yNX1XJ8rhn5aXrLYMxT32MZF3HqZSofBLoaohM8nie
-	tzYq20PfXyV4Dw2X1FoBpAoYziX1ZWLcsG3CFlna8hZKvcDf+xXGN/ypbrf8pVZ35WWw
-	Krft87iJ0TkVaVRJa9k9ziKBjqasq1J9w0flSGxVsye+OMkd4SVbse3V5XRH/jDugD9R
-	RLDzF8bD3CsqEj3/P3AgrRrieHLVYXBlAP4/+NyOL1cWZb6oSY51Lz1Kv4yhrJDPKJEq
-	+0Jg==
-MIME-Version: 1.0
-X-Received: by 10.58.76.225 with SMTP id n1mr216383vew.32.1404563919639; Sat,
-	05 Jul 2014 05:38:39 -0700 (PDT)
-Received: by 10.58.152.200 with HTTP; Sat, 5 Jul 2014 05:38:39 -0700 (PDT)
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C5B43AB70@post.tritech.se>
+	Sat,  5 Jul 2014 12:50:56 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s65CopCq008537;
+	Sat, 5 Jul 2014 14:50:57 +0200
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Sat, 5 Jul 2014 14:50:51 +0200
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: Life Life <sadlife1990@gmail.com>
+Thread-Topic: [OE-core] Could not inherit file
+	classes/rootfs_${IMAGE_PKGTYPE}.bbclass
+Thread-Index: AQHPmEHqFnCBZ/Q0cEK4+rOv5WLwipuRU4SS///pVQCAACH2bf//5AqAgAAh3kr//+VVgAAEfj8p
+Date: Sat, 5 Jul 2014 12:50:50 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B43ABCB@post.tritech.se>
 References: <CAAHuHfyssKi6tXjKFwBHXNPuCLPXwyx3CKR14=g=w5REakyjMA@mail.gmail.com>
 	<ED3E0BCACD909541BA94A34C4A164D4C5B43AAF6@post.tritech.se>
 	<ED3E0BCACD909541BA94A34C4A164D4C5B43AB08@post.tritech.se>
@@ -30,11 +24,14 @@ References: <CAAHuHfyssKi6tXjKFwBHXNPuCLPXwyx3CKR14=g=w5REakyjMA@mail.gmail.com>
 	<CAAHuHfzUxTVUVtNec_pSghazarNeiVRd-3dYWRGXJ8w1nQDTig@mail.gmail.com>
 	<ED3E0BCACD909541BA94A34C4A164D4C5B43AB5B@post.tritech.se>
 	<CAAHuHfxRyjJZnncMbjcE6MdgfttW5aap8ESDFTg8NecAKy57ng@mail.gmail.com>
-	<ED3E0BCACD909541BA94A34C4A164D4C5B43AB70@post.tritech.se>
-Date: Sat, 5 Jul 2014 15:38:39 +0300
-Message-ID: <CAAHuHfyRhyZnf6qBHqgLSLsmzRYLTZqHPPfxfui8CFc4qZAUbQ@mail.gmail.com>
-From: Life Life <sadlife1990@gmail.com>
-To: =?UTF-8?Q?Mats_K=C3=A4rrman?= <Mats.Karrman@tritech.se>
+	<ED3E0BCACD909541BA94A34C4A164D4C5B43AB70@post.tritech.se>,
+	<CAAHuHfyRhyZnf6qBHqgLSLsmzRYLTZqHPPfxfui8CFc4qZAUbQ@mail.gmail.com>
+In-Reply-To: <CAAHuHfyRhyZnf6qBHqgLSLsmzRYLTZqHPPfxfui8CFc4qZAUbQ@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [195.84.96.49]
+MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Could not inherit file classes/rootfs_${IMAGE_PKGTYPE}.bbclass
@@ -50,65 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jul 2014 12:38:43 -0000
-X-Groupsio-MsgNum: 54631
-Content-Type: multipart/related; boundary=047d7b3a7e6c7eaae104fd7185ca
+X-List-Received-Date: Sat, 05 Jul 2014 12:50:59 -0000
+X-Groupsio-MsgNum: 54632
+Content-Language: en-US
+Content-Type: multipart/mixed;
+	boundary="_002_ED3E0BCACD909541BA94A34C4A164D4C5B43ABCBposttritechse_"
 
---047d7b3a7e6c7eaae104fd7185ca
-Content-Type: multipart/alternative; boundary=047d7b3a7e6c7eaade04fd7185c9
-
---047d7b3a7e6c7eaade04fd7185c9
-Content-Type: text/plain; charset=UTF-8
+--_002_ED3E0BCACD909541BA94A34C4A164D4C5B43ABCBposttritechse_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-[image: Sat=C4=B1r i=C3=A7i resim 1]
+=0A=
+On Saturday, July 05, 2014 2:38 PM, Life Life wrote:=0A=
+> screenshot.png=0A=
+=0A=
+And you also get the expexted value for PACKAGE_CLASSES?=0A=
+And you still get the same error message?=0A=
+=0A=
+Shouldn't you be running bitbake from the build directory?=0A=
+=0A=
+// Mats=0A=
 
-
-2014-07-05 15:16 GMT+03:00 Mats K=C3=A4rrman <Mats.Karrman@tritech.se>:
-
->
-> On Saturday, July 05, 2014 2:12 PM, Life Life wrote:
-> > Thank you for quick reply, I'm using angstrom-v2013.12-yocto1.5
-> > PACKAGE_CLASSES =3D "package_ipk"
->
-> ...and by using the -e option you have verified that this is really what
-> is used by your build, or?
->
-> // Mats
->
-
---047d7b3a7e6c7eaade04fd7185c9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><img alt=3D"Sat=C4=B1r i=C3=A7i resim 1" src=3D"cid:ii_147=
-0688625d0ff39" height=3D"36.28472222222222" width=3D"475"><br></div><div cl=
-ass=3D"gmail_extra"><br><br><div class=3D"gmail_quote">2014-07-05 15:16 GMT=
-+03:00 Mats K=C3=A4rrman <span dir=3D"ltr">&lt;<a href=3D"mailto:Mats.Karrm=
-an@tritech.se" target=3D"_blank">Mats.Karrman@tritech.se</a>&gt;</span>:<br=
->
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D""><br>
-On Saturday, July 05, 2014 2:12 PM, Life Life wrote:<br>
-&gt; Thank you for quick reply, I&#39;m using angstrom-v2013.12-yocto1.5<br=
->
-&gt; PACKAGE_CLASSES =3D &quot;package_ipk&quot;<br>
-<br>
-</div>...and by using the -e option you have verified that this is really w=
-hat is used by your build, or?<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-// Mats<br>
-</font></span></blockquote></div><br></div>
-
---047d7b3a7e6c7eaade04fd7185c9--
-
---047d7b3a7e6c7eaae104fd7185ca
-Content-Type: image/png; name="Screenshot - 07052014 - 03:37:56 PM.png"
-Content-Disposition: inline; 
-	filename="Screenshot - 07052014 - 03:37:56 PM.png"
-Content-Transfer-Encoding: base64
+--_002_ED3E0BCACD909541BA94A34C4A164D4C5B43ABCBposttritechse_
+Content-Type: image/png; name="Screenshot - 07052014 - 033756 PM.png"
+Content-Description: Screenshot - 07052014 - 033756 PM.png
+Content-Disposition: attachment;
+	filename="Screenshot - 07052014 - 033756 PM.png"; size=11099;
+	creation-date="Sat, 05 Jul 2014 12:38:47 GMT";
+	modification-date="Sat, 05 Jul 2014 12:47:22 GMT"
 Content-ID: <ii_1470688625d0ff39>
-X-Attachment-Id: ii_1470688625d0ff39
+Content-Transfer-Encoding: base64
 
 iVBORw0KGgoAAAANSUhEUgAAAtAAAAA3CAYAAAAliX2PAAAABHNCSVQICAgIfAhkiAAAIABJREFU
 eJztnXd0VcXWwH/nliQ3PZDQewnSlYegNOm9yCfYAFFEFMtTBER8T1AQEEWUIgIqFkSk+PA9FJGu
@@ -306,4 +274,4 @@ CkXFcFPdUcXfAFMDXjpygffji4gRrVAoFAqFQvEXRFcUjlsKzYWna9ZkpLn4LGFJEYyJz1JRHhQK
 hUKhUCgUFc7t50BjoJ7FjRYlaO6fbtAZLUKhUCgUCoVCoSgbaguHQqFQKBQKhUJRBnSFsVMoFAqF
 QqFQKBQ5KAdaoVAoFAqFQqEoA/8Put6Js4EYxPIAAAAASUVORK5CYII=
 
---047d7b3a7e6c7eaae104fd7185ca--
+--_002_ED3E0BCACD909541BA94A34C4A164D4C5B43ABCBposttritechse_--
