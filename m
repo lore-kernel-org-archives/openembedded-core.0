@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 6477A7028C
+Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E33037028C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 13:40:53 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id t60so4454595wes.14
+	Mon,  7 Jul 2014 13:42:23 +0000 (UTC)
+Received: by mail-qa0-f41.google.com with SMTP id cm18so3659897qab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 06:40:53 -0700 (PDT)
+	Mon, 07 Jul 2014 06:42:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bbcUJTfsUXj9aomaIg+Jewf8oAFt6wn/4zl0xLwYHtk=;
-	b=klmrUm5oys2ojTDLJE2xhw0eHhZIzJDKxjtIg9lxl76k6nLuv/xMCYDKrS9ooO2bvW
-	hNHZRFVXGpeD5boNzqCUhK9UBuGGJfQdyMOC9gU45R2TYZMQwTXR3FaAqFZPBlW+a+Lt
-	Q2aykh+SOIFPJIyFAMI/AIFhtPPA8Tm18kYEhR9s9hsMPp7fUGWfLbZ/VnUoooQbqp42
-	sglpWht9sgKnqOKevM/Eh62YmOkvbCDP4IHqdoSh1uXil38BGi8G14J4nn+Yg/cQ+hec
-	+EfNkrdjx76elBhO2pMgy/w3ORn/E014aO1Cr9n1MAWbHsXqdp71U5oy71OXboz2lbeE
-	M0Dg==
-X-Gm-Message-State: ALoCoQkOx8WwA3R7dNZP48C0dZcTlknsHGYcA6pulRT80wH3bc2hQ9tWWbE7+EVfqmD81KTyp3Nh
-X-Received: by 10.194.133.1 with SMTP id oy1mr32560329wjb.87.1404740453854;
-	Mon, 07 Jul 2014 06:40:53 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	jb16sm115349396wic.10.2014.07.07.06.40.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Jul 2014 06:40:53 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jul 2014 14:40:48 +0100
-Message-Id: <1404740449-28121-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][xserver 1/2] xserver-xorg: add PACKAGECONFIG for libunwind
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=d88/bP5FK/4mAGp992Z0pMxRGLDooIzOlBlCY70BK8w=;
+	b=HQ10bmeJ4HMRNiCyE334/JqsOf1rZlbLeaysnfCv535HOQ/fhhDCb/tl4zUQSsQsvQ
+	CunXnFU2/fxmnrXuZzRwzpdNqaiEEVhSTh3xYJYppQkvwFG81a277Xvyx+ILwDTMnQg5
+	7lih1dnuuFqMOFP5zne+xBnAV94SVFjsoh/iPeWHX3LJU9ccf5Bo+MTAS0uNUQrfEfkd
+	hhAHfkYKthVeZ5ScB6fjPMy+1obxmXo1aEvZdDd8i9ZECkXvWNDOEcg0F4Y5JZ2zHz9T
+	rUKBLidfHtTu9C8HyR+to6sj5awZ/WMQm0qkFRHCUjXEIfDnlPxSV9ySkp1RhkPdV98q
+	Q2zw==
+X-Gm-Message-State: ALoCoQnydNAZjEJKRsOZDnKaX7a1fbVSH+9kkxXA4RSKCcEjC1YmxdxbI8+aFXeURlE/J31vCOfH
+X-Received: by 10.140.91.164 with SMTP id z33mr45473071qgd.65.1404740545086;
+	Mon, 07 Jul 2014 06:42:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.40 with HTTP; Mon, 7 Jul 2014 06:42:05 -0700 (PDT)
+In-Reply-To: <1404740449-28121-2-git-send-email-ross.burton@intel.com>
+References: <1404740449-28121-1-git-send-email-ross.burton@intel.com>
+	<1404740449-28121-2-git-send-email-ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Jul 2014 14:42:05 +0100
+Message-ID: <CAJTo0LYEjFjkR0Mf3Zo2eTQyQCSi7YosOsnLaYThi7z4Dr5J8w@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][xserver 2/2] xserver-xorg: fix xshmfence autodetection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +43,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 13:40:59 -0000
+X-List-Received-Date: Mon, 07 Jul 2014 13:42:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The automatic detection of libunwind causes non-deterministic builds, so add a
-PACKAGECONFIG option for it.
+Let's just pretend I didn't put [xserver] in the subject, that was
+intended for the xorg-devel list... :)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index b9b9ac4..48ab347 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -122,6 +122,7 @@ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86dripro
- PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
- PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
- PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
-+PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
--- 
-1.7.10.4
-
+Ross
 
