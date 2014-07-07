@@ -1,36 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id EACE57038D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D4D465CE6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 09:40:28 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q108so3356481qgd.21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 02:40:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=uVvmCUziNrjWDryA1+TFhRmNKzkvGI1CYSdsbYdcs0w=;
-	b=VkiKrbL0uS0HedjaNHnx8ny75EOCgWquBgklRMoHI8+FO2xzDUo3ReLYiMPzg+7Zzr
-	SwGTtYtdmmoZO7oGYqN45+mAk8QuARe0Wn0mt+ArI+THHgJFS29vpEThBA3TN9/TrAjP
-	QcsqYzUWm22MW31vB8yq1ro609LyCnds7TGh3L0wcMbGvy8nhJTYoq2uwA4Xn0+rt3YV
-	3iwCZHpzkNAKjIW5/cafKRl9oMcRiV+LpVcOtyH8jPx/1Ox9uYE804cnS0DsysHIll+F
-	D/zRR83bt88V+iy2GKBpy6dcH2OvKwdupsSjcWRrKXT6ub670aHqrEnW1pibjZ0POaof
-	6vpw==
-X-Gm-Message-State: ALoCoQmSYuTtF4HJYPA2rvamZbL7wYG8rBTG0b/m9SGAT2R6NNv3zoM3Lq4asnYAQUHNnpbZ5Rha
-X-Received: by 10.224.25.206 with SMTP id a14mr34408364qac.35.1404726028831;
-	Mon, 07 Jul 2014 02:40:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Mon, 7 Jul 2014 02:40:08 -0700 (PDT)
-In-Reply-To: <1404540383-13425-1-git-send-email-ming.liu@windriver.com>
-References: <1404540383-13425-1-git-send-email-ming.liu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Jul 2014 10:40:08 +0100
-Message-ID: <CAJTo0LbLcADdC0qC7cYNDWoZOjvj_BXg42-K4siPE518MykU2Q@mail.gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gconf: fix multilib conflict - org.gnome.GConf.service
+	Mon,  7 Jul 2014 09:54:29 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s679sPp0020366; Mon, 7 Jul 2014 10:54:25 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Ec1ylt_ssGlp; Mon,  7 Jul 2014 10:54:24 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s679sMhM020351
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 7 Jul 2014 10:54:23 +0100
+Message-ID: <1404726856.1458.12.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 07 Jul 2014 10:54:16 +0100
+In-Reply-To: <53BA697F.8060604@windriver.com>
+References: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
+	<53BA697F.8060604@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH V2] base.bbclass: show git summary in BUILDCFG_HEADER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 09:40:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 07 Jul 2014 09:54:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 5 July 2014 07:06, Ming Liu <ming.liu@windriver.com> wrote:
-> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from
-> install of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
-> gconf-3.2.6-r0.0.x86_64
+On Mon, 2014-07-07 at 17:33 +0800, Robert Yang wrote:
+> On 06/28/2014 10:32 AM, Robert Yang wrote:
+> > It was:
+> > meta
+> > meta-yocto
+> > meta-yocto-bsp    = "master:3a054dc27067efaae9150b465298d9c45d728f85"
+> >
+> > Now:
+> > meta
+> > meta-yocto
+> > meta-yocto-bsp    = "master:3a054dc base.bbclass: show git summary in BUILDCFG_HEADER"
+> 
+> Any objections on this patch, please ? Or I will send a regular patch.
 
-Your patch doesn't move the file that is conflicting so it won't help...
+Being able to find the full sha1 can be useful and is something I use
+periodical but I also understand why you want more information here.
 
-As you'll only ever install a single instance of the binaries, the
-correct fix would be to split the ML-appropriate libraries into a
-libgconf, but leave the DBus service and tools in the main package.
-Then multilib images can install lib32gconf, lib64gconf, and gconf.
+So I have mixed feelings on it...
 
-Ross
+Cheers,
+
+Richard
+
 
