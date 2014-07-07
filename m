@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DAD116FF24
+	by mail.openembedded.org (Postfix) with ESMTP id DBD7370391
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  7 Jul 2014 09:33:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s679Y1Jn002244
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s679Y0OR002241
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 7 Jul 2014 02:34:01 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 7 Jul 2014 02:34:01 -0700
+	Mon, 7 Jul 2014 02:34:00 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Jul 2014 02:33:59 -0700
-Message-ID: <5c4e27d21b03ce0fb4ff7f9085893511cfbf2507.1404725000.git.liezhi.yang@windriver.com>
+Date: Mon, 7 Jul 2014 02:33:57 -0700
+Message-ID: <cover.1404725000.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1404725000.git.liezhi.yang@windriver.com>
-References: <cover.1404725000.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] kernel.bbclass: update KERNEL_IMAGE_MAXSIZE
+Subject: [PATCH 0/3] meta: check IMAGE_ROOTFS_MAXSIZE and KERNEL_IMAGE_MAXSIZE (if set)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +34,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 07 Jul 2014 09:34:01 -0000
 Content-Type: text/plain
 
-* Make KERNEL_IMAGE_MAXSIZE and IMAGE_ROOTFS_SIZE have the same algorithm:
-  - Use Kbytes as the unit since we use this in other codes.
-  - Use "du" rather than "ls" to figure out the size since we use this in
-    image.py.
+The following changes since commit c452b098b4c021d4cbeddf5bf13f7fd9b1cc9224:
 
-[YOCTO #2610]
+  Revert "meta-yocto-bsp: oeqa/controllers: add GrubTarget" (2014-07-04 08:45:10 +0100)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/kernel.bbclass |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index f5d7258..b2e9d4c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -422,10 +422,13 @@ addtask do_strip before do_sizecheck after do_kernel_link_vmlinux
- # with a fixed length or there is a limit in transferring the kernel to memory
- do_sizecheck() {
- 	if [ ! -z "${KERNEL_IMAGE_MAXSIZE}" ]; then
--		cd ${B}
--		size=`ls -lL ${KERNEL_OUTPUT} | awk '{ print $5}'`
-+		invalid=`echo ${KERNEL_IMAGE_MAXSIZE} | sed 's/[0-9]//g'`
-+		if [ -n "$invalid" ]; then
-+			die "Invalid KERNEL_IMAGE_MAXSIZE: ${KERNEL_IMAGE_MAXSIZE}, should be an integerx (The unit is Kbytes)"
-+		fi
-+		size=`du -ks ${B}/${KERNEL_OUTPUT} | awk '{ print $1}'`
- 		if [ $size -ge ${KERNEL_IMAGE_MAXSIZE} ]; then
--			die "This kernel (size=$size > ${KERNEL_IMAGE_MAXSIZE}) is too big for your device. Please reduce the size of the kernel by making more of it modular."
-+			die "This kernel (size=$size(K) > ${KERNEL_IMAGE_MAXSIZE}(K)) is too big for your device. Please reduce the size of the kernel by making more of it modular."
- 		fi
- 	fi
- }
+  git://git.openembedded.org/openembedded-core-contrib rbt/size
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/size
+
+Robert Yang (3):
+  lib/oe/image.py: check the rootfs size against IMAGE_ROOTFS_MAXSIZE
+  kernel.bbclass: update KERNEL_IMAGE_MAXSIZE
+  local.conf.sample.extended: add KERNEL_IMAGE_MAXSIZE and
+    IMAGE_ROOTFS_MAXSIZE
+
+ meta/classes/kernel.bbclass          |    9 ++++++---
+ meta/conf/bitbake.conf               |    4 ++++
+ meta/conf/local.conf.sample.extended |    8 ++++++++
+ meta/lib/oe/image.py                 |    8 ++++++++
+ 4 files changed, 26 insertions(+), 3 deletions(-)
+
 -- 
 1.7.9.5
 
