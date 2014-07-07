@@ -1,28 +1,32 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 20A276AC95
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 09A18701C9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 00:43:02 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1X3x1L-0004yZ-4j from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sun, 06 Jul 2014 17:43:03 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Sun, 6 Jul 2014 17:43:02 -0700
-Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
-	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
-	Server id 14.2.247.3; Sun, 6 Jul 2014 17:42:50 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 6 Jul 2014 20:42:59 -0400
-Message-ID: <1404693780-11126-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-OriginalArrivalTime: 07 Jul 2014 00:43:02.0790 (UTC)
-	FILETIME=[68A87A60:01CF997C]
-Subject: [PATCH 1/2] init-install-efi.sh: Verify /sys based files exist before displaying them
+	Mon,  7 Jul 2014 02:24:05 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s672O5Xo018356; Sun, 6 Jul 2014 21:24:05 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014070621240544-8242 ; Sun, 6 Jul 2014 21:24:05 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Sun, 6 Jul 2014 21:23:27 -0500
+Message-Id: <1404699810-23745-1-git-send-email-rich.tollerton@ni.com>
+X-Mailer: git-send-email 2.0.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/06/2014 09:24:05 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/06/2014 09:24:05 PM,
+	Serialize complete at 07/06/2014 09:24:05 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-06_03:2014-07-04, 2014-07-06,
+	1970-01-01 signatures=0
+Cc: ken.sharp@ni.com
+Subject: [PATCH][meta-mingw 0/3] Fix gdb-cross-canadian on mingw32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 00:43:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Jul 2014 02:24:06 -0000
 
-Some mmc cards do not have all the data files in /sys/block
-populated.  Check for existence before displaying the files
-to avoid erroring out of the install process.
+A lot of people were made very happy when mingw toolchain support was
+resurrected last year. Unfortunately, all of those came back this year crying
+"where's my Eclipse debugging support!?!" :F
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+Fortunately, it seeeems like getting a working gdb-cross-canadian isn't too much
+of a hassle, as long as you don't care about Python support or TUI.
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index fcf21cd..b142ed4 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -47,9 +47,14 @@ for hdname in $hdnamelist; do
- 	echo -n "VENDOR="
- 	cat /sys/block/$hdname/device/vendor
-     fi
--    echo -n "MODEL="
--    cat /sys/block/$hdname/device/model
--    cat /sys/block/$hdname/device/uevent
-+    if [ -r /sys/block/$hdname/device/model ]; then
-+        echo -n "MODEL="
-+        cat /sys/block/$hdname/device/model
-+    fi
-+    if [ -r /sys/block/$hdname/device/uevent ]; then
-+        echo -n "UEVENT="
-+        cat /sys/block/$hdname/device/uevent
-+    fi
-     echo
-     # Get user choice
-     while true; do
+These patches were tested on daisy then ported to master.
+
+Richard Tollerton (3):
+  common-mingw: force ac_cv_func_mmap_fixed_mapped=no
+  gdb-cross-canadian: remove ncurses and python deps from mingw32 builds
+  packagegroup-cross-canadian: reenable gdb on mingw32
+
+ meta/site/common-mingw                                          | 2 ++
+ recipes-core/packagegroups/packagegroup-cross-canadian.bbappend | 5 -----
+ recipes-devtools/gdb/gdb-cross-canadian_7.7.bbappend            | 5 +++++
+ 3 files changed, 7 insertions(+), 5 deletions(-)
+ create mode 100644 meta/site/common-mingw
+ delete mode 100644 recipes-core/packagegroups/packagegroup-cross-canadian.bbappend
+ create mode 100644 recipes-devtools/gdb/gdb-cross-canadian_7.7.bbappend
+
 -- 
-1.9.1
+2.0.1
 
 
