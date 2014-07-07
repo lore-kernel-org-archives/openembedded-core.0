@@ -1,27 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D01047025A
+	by mail.openembedded.org (Postfix) with ESMTP id 38CA76FF24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 09:33:52 +0000 (UTC)
+	Mon,  7 Jul 2014 09:33:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s679XqBm021692
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s679Y18I021722
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Jul 2014 02:33:53 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 7 Jul 2014 02:33:52 -0700
-Message-ID: <53BA697F.8060604@windriver.com>
-Date: Mon, 7 Jul 2014 17:33:51 +0800
+	Mon, 7 Jul 2014 02:34:01 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 7 Jul 2014 02:34:01 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
-In-Reply-To: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
-Subject: Re: [RFC PATCH V2] base.bbclass: show git summary in BUILDCFG_HEADER
+Date: Mon, 7 Jul 2014 02:33:58 -0700
+Message-ID: <97d978ed0f49da7c881046486badffdf6a44f139.1404725000.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1404725000.git.liezhi.yang@windriver.com>
+References: <cover.1404725000.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/3] lib/oe/image.py: check the rootfs size against IMAGE_ROOTFS_MAXSIZE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 09:33:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Jul 2014 09:34:00 -0000
+Content-Type: text/plain
 
+* Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (if set)
+* Add comments for IMAGE_ROOTFS_SIZE to not confuse with IMAGE_ROOTFS_MAXSIZE
 
-On 06/28/2014 10:32 AM, Robert Yang wrote:
-> It was:
-> meta
-> meta-yocto
-> meta-yocto-bsp    = "master:3a054dc27067efaae9150b465298d9c45d728f85"
->
-> Now:
-> meta
-> meta-yocto
-> meta-yocto-bsp    = "master:3a054dc base.bbclass: show git summary in BUILDCFG_HEADER"
+[YOCTO #2610]
 
-Any objections on this patch, please ? Or I will send a regular patch.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/conf/bitbake.conf |    4 ++++
+ meta/lib/oe/image.py   |    8 ++++++++
+ 2 files changed, 12 insertions(+)
 
-// Robert
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 311e9a0..f4870d5 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -688,6 +688,10 @@ IMAGE_FSTYPES ?= "tar.gz"
+ INITRAMFS_FSTYPES ?= "cpio.gz"
+ DEFAULT_TASK_PROVIDER ?= "packagegroup-base"
+ MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
++
++# The size in Kbytes for the generated image if it is larger than
++# the required size (du -ks IMAGE_ROOTFS * IMAGE_OVERHEAD_FACTOR),
++# and no effect if less than it.
+ IMAGE_ROOTFS_SIZE ?= "65536"
+ 
+ # Forcefully set CACHE now so future changes to things like 
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index c9b9033..354a676 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -144,6 +144,7 @@ class Image(ImageDepGraph):
+         overhead_factor = float(self.d.getVar('IMAGE_OVERHEAD_FACTOR', True))
+         rootfs_req_size = int(self.d.getVar('IMAGE_ROOTFS_SIZE', True))
+         rootfs_extra_space = eval(self.d.getVar('IMAGE_ROOTFS_EXTRA_SPACE', True))
++        rootfs_maxsize = self.d.getVar('IMAGE_ROOTFS_MAXSIZE', True)
+ 
+         output = subprocess.check_output(['du', '-ks',
+                                           self.d.getVar('IMAGE_ROOTFS', True)])
+@@ -158,6 +159,13 @@ class Image(ImageDepGraph):
+         base_size += rootfs_alignment - 1
+         base_size -= base_size % rootfs_alignment
+ 
++        # Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (if set)
++        if rootfs_maxsize:
++            rootfs_maxsize_int = int(rootfs_maxsize)
++            if base_size > rootfs_maxsize_int:
++                bb.fatal("The rootfs size %d(K) overrides the max size %d(K)" % \
++                    (base_size, rootfs_maxsize_int))
++
+         return base_size
+ 
+     def _create_symlinks(self, subimages):
+-- 
+1.7.9.5
 
->
-> The benefit is that we can easily know the top commit info rather than
-> query it again in the git repo.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/classes/base.bbclass         |    2 +-
->   meta/classes/metadata_scm.bbclass |    6 ++++++
->   2 files changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index c0d2c8ec8..f5abb88 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -244,7 +244,7 @@ def get_layers_branch_rev(d):
->       layers = (d.getVar("BBLAYERS", True) or "").split()
->       layers_branch_rev = ["%-17s = \"%s:%s\"" % (os.path.basename(i), \
->           base_get_metadata_git_branch(i, None).strip(), \
-> -        base_get_metadata_git_revision(i, None)) \
-> +        base_get_metadata_git_revision_and_summary(i, None)) \
->               for i in layers]
->       i = len(layers_branch_rev)-1
->       p1 = layers_branch_rev[i].find("=")
-> diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-> index ba0edf9..dace653 100644
-> --- a/meta/classes/metadata_scm.bbclass
-> +++ b/meta/classes/metadata_scm.bbclass
-> @@ -80,3 +80,9 @@ def base_get_metadata_git_revision(path, d):
->               return rev
->       return "<unknown>"
->
-> +def base_get_metadata_git_revision_and_summary(path, d):
-> +    f = os.popen("cd %s; git log -n 1 --abbrev-commit --pretty=oneline -- 2>&1" % path)
-> +    data = f.readline()
-> +    if f.close() is None:
-> +            return data.rstrip()
-> +    return "<unknown>"
->
 
