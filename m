@@ -1,29 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D4D465CE6
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 23E9F70386
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 09:54:29 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s679sPp0020366; Mon, 7 Jul 2014 10:54:25 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Ec1ylt_ssGlp; Mon,  7 Jul 2014 10:54:24 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s679sMhM020351
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 7 Jul 2014 10:54:23 +0100
-Message-ID: <1404726856.1458.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 07 Jul 2014 10:54:16 +0100
-In-Reply-To: <53BA697F.8060604@windriver.com>
-References: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
-	<53BA697F.8060604@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	Mon,  7 Jul 2014 09:58:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s679wKOS024125
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Jul 2014 02:58:21 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 7 Jul 2014 02:58:20 -0700
+Message-ID: <53BA6F3B.8030206@windriver.com>
+Date: Mon, 7 Jul 2014 17:58:19 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>	
+	<53BA697F.8060604@windriver.com> <1404726856.1458.12.camel@ted>
+In-Reply-To: <1404726856.1458.12.camel@ted>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC PATCH V2] base.bbclass: show git summary in BUILDCFG_HEADER
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,31 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 09:54:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 07 Jul 2014 09:58:23 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-07-07 at 17:33 +0800, Robert Yang wrote:
-> On 06/28/2014 10:32 AM, Robert Yang wrote:
-> > It was:
-> > meta
-> > meta-yocto
-> > meta-yocto-bsp    = "master:3a054dc27067efaae9150b465298d9c45d728f85"
-> >
-> > Now:
-> > meta
-> > meta-yocto
-> > meta-yocto-bsp    = "master:3a054dc base.bbclass: show git summary in BUILDCFG_HEADER"
-> 
-> Any objections on this patch, please ? Or I will send a regular patch.
 
-Being able to find the full sha1 can be useful and is something I use
-periodical but I also understand why you want more information here.
 
-So I have mixed feelings on it...
+On 07/07/2014 05:54 PM, Richard Purdie wrote:
+> On Mon, 2014-07-07 at 17:33 +0800, Robert Yang wrote:
+>> On 06/28/2014 10:32 AM, Robert Yang wrote:
+>>> It was:
+>>> meta
+>>> meta-yocto
+>>> meta-yocto-bsp    = "master:3a054dc27067efaae9150b465298d9c45d728f85"
+>>>
+>>> Now:
+>>> meta
+>>> meta-yocto
+>>> meta-yocto-bsp    = "master:3a054dc base.bbclass: show git summary in BUILDCFG_HEADER"
+>>
+>> Any objections on this patch, please ? Or I will send a regular patch.
+>
+> Being able to find the full sha1 can be useful and is something I use
+> periodical but I also understand why you want more information here.
 
-Cheers,
+Thanks, let's drop the patch since the full sha1 is useful.
 
-Richard
+// Robert
 
+>
+> So I have mixed feelings on it...
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
