@@ -1,38 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C73CD70249
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id F34DC6FF24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 10:38:53 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q108so3403478qgd.21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 03:38:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=57V0f73P37ImnZuaZ/yvjSCDrtANBYZtch7DK6XXfcg=;
-	b=CMaKu2nM36DFo+Bi1KV/DCb0GNm26sRLaQ/GaRxqaq7wftkIr/kQv9KTrpgKG9LSLj
-	zgNj66/mUlWYvja4sXMEPLJFUy/ZDMlCdRq9EE1TWjhwgn2p+C8bKdPGC5XZ5rGRMmKO
-	PME4qzcsY3iN//QkV1PnaEkjinpveWk4ZpoeI7Iusw21SIXObf1jQhD6JY1y6RoZT+2D
-	TFHk764fRrcXWBQG7XCzo999lCmRdIfGAghVRO6GxKaV2djgGSwqkm1Wq+vcJZegTvxh
-	HgS0IMnQxEaQwvXaM1UivCbUHUQW3h2sUvQdJ9KPG7XgRve4HbPApboXqie/9cOLKSJe
-	+DyA==
-X-Gm-Message-State: ALoCoQkOXoifoHCk+lC0x/FBFEjq9ShthhWt2pmtRfYNXxkI3pnkDY2bc8eASpP5PQR/oK7vlP2P
-X-Received: by 10.224.167.70 with SMTP id p6mr46792931qay.79.1404729534891;
-	Mon, 07 Jul 2014 03:38:54 -0700 (PDT)
+	Mon,  7 Jul 2014 10:58:50 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Mon, 7 Jul 2014
+	12:58:45 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id CF551288F30;
+	Mon,  7 Jul 2014 12:58:45 +0200 (CEST)
+Date: Mon, 7 Jul 2014 12:58:45 +0200
+From: "Maxin B. John" <maxin.john@enea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140707105845.GA43212@sestofb10.enea.se>
+References: <1404470990.4852.1.camel@ted>
 MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Mon, 7 Jul 2014 03:38:34 -0700 (PDT)
-In-Reply-To: <53BA715D.6010901@windriver.com>
-References: <1404540383-13425-1-git-send-email-ming.liu@windriver.com>
-	<CAJTo0LbLcADdC0qC7cYNDWoZOjvj_BXg42-K4siPE518MykU2Q@mail.gmail.com>
-	<53BA715D.6010901@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Jul 2014 11:38:34 +0100
-Message-ID: <CAJTo0Lban=ZhrrPMXN6kLvkHyuhUbinOGWwyhQsNyKh7rsMLZg@mail.gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gconf: fix multilib conflict - org.gnome.GConf.service
+In-Reply-To: <1404470990.4852.1.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sanity.bbclass: Update minimum git version to 1.7.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 10:38:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 07 Jul 2014 10:58:53 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On 7 July 2014 11:07, Ming Liu <ming.liu@windriver.com> wrote:
-> I got your point, but my patch was not tring to address the conflict of
-> binaries or libraries, that kind of conflicts would not cause build error,
-> as you pointed out, only ever a single instance be installed at one time.
-> It's actually tring to fix a conflict of conf file, if the gconfd-2 is put
-> into libexec directory, we have to keep a path like
-> /usr/lib64/gconf/gconfd-2(or /usr/lib/gconf/gconfd-2 in lib32 case)
-> referring it in /usr/share/dbus-1/services/org.gnome.GConf.service which
-> will cause the conflict.
+Hi,
 
-So why did the commit message talk about
-/usr/share/dbus-1/services/GConf.service conflicting between
-installation, and how will your patch fix that error?  As far as I can
-tell ${datadir} isn't in the MULTILIBRE_ALLOW_REP so they'll still
-conflict, right?
+On Fri, Jul 04, 2014 at 11:49:50AM +0100, Richard Purdie wrote:
+> To quote "Maxin B. John" <maxin.john@enea.com>:
+> 
+> git version 1.7.8 added the --list option to git-branch. Since we depend on this
+> option in git.py, the minimum requiremnt for git should be updated to Git
+> 1.7.8+
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 4b42b17..ed65814 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -386,15 +386,15 @@ def check_tar_version(sanity_data):
+>          return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar.\n"
+>      return None
+>  
+> -# We use git parameters and functionality only found in 1.7.5 or later
+> +# We use git parameters and functionality only found in 1.7.8 or later
+>  def check_git_version(sanity_data):
+>      from distutils.version import LooseVersion
+>      status, result = oe.utils.getstatusoutput("git --version 2> /dev/null")
+>      if status != 0:
+>          return "Unable to execute git --version, exit code %s\n" % status
+>      version = result.split()[2]
+> -    if LooseVersion(version) < LooseVersion("1.7.5"):
+> -        return "Your version of git is older than 1.7.5 and has bugs which will break builds. Please install a newer version of git.\n"
+> +    if LooseVersion(version) < LooseVersion("1.7.8"):
+> +        return "Your version of git is older than 1.7.8 and has bugs which will break builds. Please install a newer version of git.\n"
+>      return None
+>  
+>  # Check the required perl modules which may not be installed by default
 
-I still think that splitting up the gconf package into library and
-tooling is the logical solution.
+Ah, I missed this part. Thanks for updating it!
 
-Ross
+Reviewed-by: Maxin B. John <maxin.john@enea.com>
+
+Best Regards,
+Maxin
 
