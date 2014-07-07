@@ -1,25 +1,37 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id F34DC6FF24
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D471A702A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 10:58:50 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Mon, 7 Jul 2014
-	12:58:45 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id CF551288F30;
-	Mon,  7 Jul 2014 12:58:45 +0200 (CEST)
-Date: Mon, 7 Jul 2014 12:58:45 +0200
-From: "Maxin B. John" <maxin.john@enea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140707105845.GA43212@sestofb10.enea.se>
-References: <1404470990.4852.1.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1404470990.4852.1.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sanity.bbclass: Update minimum git version to 1.7.8
+	Mon,  7 Jul 2014 12:19:15 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id q58so4323886wes.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Jul 2014 05:19:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=bbcUJTfsUXj9aomaIg+Jewf8oAFt6wn/4zl0xLwYHtk=;
+	b=XCt9gdrYR2cea2cRKacSmTi5Wh23WVXFLteb4Z5M3M6Dwzj52Oh6Xl+WGHeyJqljzw
+	1+aHUe/Aa8GxfmSesNDHD0vuB1sPqodUfagqKPl32hPxOL99ggfJwBTNq5Ly2oxud0F9
+	c53sZhDQOWBtKEEo4I28DC7zH7fLcCWizyn0CbN12eAWp9RBdgoegD4tUHimUZZ2XwVH
+	HTWUT22Utlo+nHTIFYGhXV0nlVf4fyCqcqBlxamASQp7qgXnK/iJhuCc2Rx8WwbPU/oC
+	7obOKNpm8qoR43FHvKtGHRvjOlzcf2LYsrHtW+qzeUBV720TRHTU3DydcgZq4q5Pvyu6
+	NlTw==
+X-Gm-Message-State: ALoCoQmKoywnld0OfBOn9FH4GepqwDQ1tnFPFudiha3MERX0RF8XrxDbDWj2KJaikaVnNJUXv/B2
+X-Received: by 10.194.61.47 with SMTP id m15mr32701569wjr.63.1404735555766;
+	Mon, 07 Jul 2014 05:19:15 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	pj4sm52348708wic.12.2014.07.07.05.19.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Jul 2014 05:19:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Jul 2014 13:19:10 +0100
+Message-Id: <1404735551-27757-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] xserver-xorg: add PACKAGECONFIG for libunwind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 10:58:53 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 07 Jul 2014 12:19:17 -0000
 
-Hi,
+The automatic detection of libunwind causes non-deterministic builds, so add a
+PACKAGECONFIG option for it.
 
-On Fri, Jul 04, 2014 at 11:49:50AM +0100, Richard Purdie wrote:
-> To quote "Maxin B. John" <maxin.john@enea.com>:
-> 
-> git version 1.7.8 added the --list option to git-branch. Since we depend on this
-> option in git.py, the minimum requiremnt for git should be updated to Git
-> 1.7.8+
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 4b42b17..ed65814 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -386,15 +386,15 @@ def check_tar_version(sanity_data):
->          return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar.\n"
->      return None
->  
-> -# We use git parameters and functionality only found in 1.7.5 or later
-> +# We use git parameters and functionality only found in 1.7.8 or later
->  def check_git_version(sanity_data):
->      from distutils.version import LooseVersion
->      status, result = oe.utils.getstatusoutput("git --version 2> /dev/null")
->      if status != 0:
->          return "Unable to execute git --version, exit code %s\n" % status
->      version = result.split()[2]
-> -    if LooseVersion(version) < LooseVersion("1.7.5"):
-> -        return "Your version of git is older than 1.7.5 and has bugs which will break builds. Please install a newer version of git.\n"
-> +    if LooseVersion(version) < LooseVersion("1.7.8"):
-> +        return "Your version of git is older than 1.7.8 and has bugs which will break builds. Please install a newer version of git.\n"
->      return None
->  
->  # Check the required perl modules which may not be installed by default
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-Ah, I missed this part. Thanks for updating it!
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index b9b9ac4..48ab347 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -122,6 +122,7 @@ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86dripro
+ PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
+ PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
+ PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
++PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ 
+ do_install_append () {
+ 	# Its assumed base-files creates this for us
+-- 
+1.7.10.4
 
-Reviewed-by: Maxin B. John <maxin.john@enea.com>
-
-Best Regards,
-Maxin
 
