@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D471A702A7
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id EED7470298
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 12:19:15 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id q58so4323886wes.30
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 05:19:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bbcUJTfsUXj9aomaIg+Jewf8oAFt6wn/4zl0xLwYHtk=;
-	b=XCt9gdrYR2cea2cRKacSmTi5Wh23WVXFLteb4Z5M3M6Dwzj52Oh6Xl+WGHeyJqljzw
-	1+aHUe/Aa8GxfmSesNDHD0vuB1sPqodUfagqKPl32hPxOL99ggfJwBTNq5Ly2oxud0F9
-	c53sZhDQOWBtKEEo4I28DC7zH7fLcCWizyn0CbN12eAWp9RBdgoegD4tUHimUZZ2XwVH
-	HTWUT22Utlo+nHTIFYGhXV0nlVf4fyCqcqBlxamASQp7qgXnK/iJhuCc2Rx8WwbPU/oC
-	7obOKNpm8qoR43FHvKtGHRvjOlzcf2LYsrHtW+qzeUBV720TRHTU3DydcgZq4q5Pvyu6
-	NlTw==
-X-Gm-Message-State: ALoCoQmKoywnld0OfBOn9FH4GepqwDQ1tnFPFudiha3MERX0RF8XrxDbDWj2KJaikaVnNJUXv/B2
-X-Received: by 10.194.61.47 with SMTP id m15mr32701569wjr.63.1404735555766;
-	Mon, 07 Jul 2014 05:19:15 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	pj4sm52348708wic.12.2014.07.07.05.19.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Jul 2014 05:19:15 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jul 2014 13:19:10 +0100
-Message-Id: <1404735551-27757-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] xserver-xorg: add PACKAGECONFIG for libunwind
+	Mon,  7 Jul 2014 13:31:09 +0000 (UTC)
+Received: from [69.196.158.250] (port=40189 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X490f-0004eX-St for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jul 2014 09:31:09 -0400
+Date: Mon, 7 Jul 2014 09:31:02 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1407070925320.9468@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what's the rationale for libpcre_8.35 "PROVIDING" pcre?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 12:19:17 -0000
+X-List-Received-Date: Mon, 07 Jul 2014 13:31:11 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-The automatic detection of libunwind causes non-deterministic builds, so add a
-PACKAGECONFIG option for it.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
- 1 file changed, 1 insertion(+)
+  i might be overthinking this, but ive noticed a number of "lib*"
+recipe files that "PROVIDE" the shorter name. case in point -- in the
+current oe-core, the recipe file libpcre_8.35.bb explicitly does this:
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index b9b9ac4..48ab347 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -122,6 +122,7 @@ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86dripro
- PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
- PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto libxshmfence"
- PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
-+PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
+PROVIDES += "pcre"
+
+is there a reason for this, other than the obvious allowing to use the
+shorter name?
+
+  i did notice that, although the name "libpcre" suggests a shared
+library, the recipe file clearly creates a number of packages,
+including some that provide command-line utilities:
+
+PACKAGES =+ "libpcrecpp libpcreposix pcregrep pcregrep-doc pcretest pcretest-doc"
+
+  so is there anything to this occasional "lib*" renaming, other than
+brevity? thanks.
+
+rday
+
 -- 
-1.7.10.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
