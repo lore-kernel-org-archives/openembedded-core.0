@@ -1,26 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E80DD70356
+	by mail.openembedded.org (Postfix) with ESMTP id D01047025A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 04:40:37 +0000 (UTC)
+	Mon,  7 Jul 2014 09:33:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s674ecEw021131
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s679XqBm021692
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 6 Jul 2014 21:40:38 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Sun, 6 Jul 2014 21:40:37 -0700
+	Mon, 7 Jul 2014 02:33:53 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 7 Jul 2014 02:33:52 -0700
+Message-ID: <53BA697F.8060604@windriver.com>
+Date: Mon, 7 Jul 2014 17:33:51 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 6 Jul 2014 21:40:37 -0700
-Message-ID: <33bebf0c7911a1d338265cc73c9f4c321a2d26e4.1404707988.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1404707988.git.liezhi.yang@windriver.com>
-References: <cover.1404707988.git.liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] base-passwd: install passwd and group atomically
+To: <openembedded-core@lists.openembedded.org>
+References: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
+In-Reply-To: <1403922753-33481-1-git-send-email-liezhi.yang@windriver.com>
+Subject: Re: [RFC PATCH V2] base.bbclass: show git summary in BUILDCFG_HEADER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 04:40:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Jul 2014 09:33:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixed the race issue:
-util-macros.do_package failed: 'getpwnam(): name not found: root'
 
-The error happens when there is a half etc/passwd, fixed by:
-$ install usr/share/base-passwd/passwd.master etc/passwd.master
-$ mv etc/passwd.master etc/passwd
+On 06/28/2014 10:32 AM, Robert Yang wrote:
+> It was:
+> meta
+> meta-yocto
+> meta-yocto-bsp    = "master:3a054dc27067efaae9150b465298d9c45d728f85"
+>
+> Now:
+> meta
+> meta-yocto
+> meta-yocto-bsp    = "master:3a054dc base.bbclass: show git summary in BUILDCFG_HEADER"
 
-The "mv" is atomic which will fix this problem.
+Any objections on this patch, please ? Or I will send a regular patch.
 
-[YOCTO #6124]
+// Robert
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../recipes-core/base-passwd/base-passwd_3.5.29.bb |    9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-index 59bd413..ec8f2af 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-@@ -47,9 +47,14 @@ base_passwd_sstate_postinst() {
- 		# put these files in the target sysroot so they can
- 		# be used by recipes which use custom user/group
- 		# permissions.
-+		# Install passwd.master and group.master to sysconfdir and mv
-+		# them to make sure they are atomically install.
- 		install -d -m 755 ${STAGING_DIR_TARGET}${sysconfdir}
--		install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/passwd.master ${STAGING_DIR_TARGET}${sysconfdir}/passwd
--		install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/group.master ${STAGING_DIR_TARGET}${sysconfdir}/group
-+		for i in passwd group; do
-+			install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/$i.master \
-+				${STAGING_DIR_TARGET}${sysconfdir}/
-+			mv ${STAGING_DIR_TARGET}${sysconfdir}/$i.master ${STAGING_DIR_TARGET}${sysconfdir}/$i
-+		done
- 	fi
- }
- 
--- 
-1.7.9.5
-
+>
+> The benefit is that we can easily know the top commit info rather than
+> query it again in the git repo.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/classes/base.bbclass         |    2 +-
+>   meta/classes/metadata_scm.bbclass |    6 ++++++
+>   2 files changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index c0d2c8ec8..f5abb88 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -244,7 +244,7 @@ def get_layers_branch_rev(d):
+>       layers = (d.getVar("BBLAYERS", True) or "").split()
+>       layers_branch_rev = ["%-17s = \"%s:%s\"" % (os.path.basename(i), \
+>           base_get_metadata_git_branch(i, None).strip(), \
+> -        base_get_metadata_git_revision(i, None)) \
+> +        base_get_metadata_git_revision_and_summary(i, None)) \
+>               for i in layers]
+>       i = len(layers_branch_rev)-1
+>       p1 = layers_branch_rev[i].find("=")
+> diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+> index ba0edf9..dace653 100644
+> --- a/meta/classes/metadata_scm.bbclass
+> +++ b/meta/classes/metadata_scm.bbclass
+> @@ -80,3 +80,9 @@ def base_get_metadata_git_revision(path, d):
+>               return rev
+>       return "<unknown>"
+>
+> +def base_get_metadata_git_revision_and_summary(path, d):
+> +    f = os.popen("cd %s; git log -n 1 --abbrev-commit --pretty=oneline -- 2>&1" % path)
+> +    data = f.readline()
+> +    if f.close() is None:
+> +            return data.rstrip()
+> +    return "<unknown>"
+>
 
