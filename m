@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B75E7701D0
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A18570373
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 14:22:23 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id r20so6989449wiv.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 07:22:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=YT1dnbXgk8JTqo1tD7ZcVh12EpLGoTRJont3o5Kt+vY=;
-	b=bJt/Arh5yE5Rw6zCQfX71Gic1qIY0MLdV9OPgW2LF3TVp4wHGxSxY6pcHM6btmXSp/
-	0GybFC3yuNx4rmJ6DCVaePt7YoEThhr4cKzFO1V0XMFuhtAK9SrxGuzlF52GrVHJOk+1
-	rahYPf3UcJK1NJVR+GYgfZhSlrhyxAtxviaC32MMYzYM59h0Bmh2JhoPsYHtSxSovNvj
-	ZSsw57I1X67iQaRYCm7mn2iMw/4UwAJxvW9/Ba9I+gI+QBUpl1Uz+lfT7PiASN2evJn0
-	E3pWRje+lVcFhcP1qB2IBD9q7jRyBMzpEL9NHxCWSjHCg64Z5usY3krivafVgfZlYgLo
-	clNQ==
-X-Gm-Message-State: ALoCoQngrggEZGpg/l4U1Kl17ZHHJgLiMRe8V+N0oHYvUfWauPuBo5IoQHlAta48bn9e+cwmTJyL
-X-Received: by 10.194.90.228 with SMTP id bz4mr33489495wjb.65.1404742944953;
-	Mon, 07 Jul 2014 07:22:24 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id w6sm31048106wjr.4.2014.07.07.07.22.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Jul 2014 07:22:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon,  7 Jul 2014 15:36:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2014 08:36:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,618,1400050800"; d="scan'208";a="558373868"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2014 08:36:37 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jul 2014 15:22:20 +0100
-Message-Id: <1404742940-1438-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] binconfig-disabled: add a default value and comment for BINCONFIG
+Date: Mon,  7 Jul 2014 18:36:27 +0300
+Message-Id: <aeac3d6af3f0b6d4c68cc2cff46f1e51845e32b9.1404747336.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1404747336.git.cristian.iorga@intel.com>
+References: <cover.1404747336.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1404747336.git.cristian.iorga@intel.com>
+References: <cover.1404747336.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/2] bluez5: upgrade to 5.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 14:22:26 -0000
+X-List-Received-Date: Mon, 07 Jul 2014 15:36:53 -0000
 
-To avoid syntax errors when inheriting this class without setting BINCONFIG, add
-a default value and a comment.
+Bug fixes;
+Features parity with Bluedroid and additional
+support for Bluetooth 4.1 core technology and
+upgraded profiles including HFP 1.6 + Wideband speech,
+A2DP 1.3, AVRCP 1.5 and MPS;
+It also provides full integration for aptX(R)
+high-quality low-latency codec from CSR (codec license not included).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/classes/binconfig-disabled.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-connectivity/bluez5/bluez5_5.20.bb | 3 ---
+ meta/recipes-connectivity/bluez5/bluez5_5.21.bb | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.20.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.21.bb
 
-diff --git a/meta/classes/binconfig-disabled.bbclass b/meta/classes/binconfig-disabled.bbclass
-index 1308358..27f904e 100644
---- a/meta/classes/binconfig-disabled.bbclass
-+++ b/meta/classes/binconfig-disabled.bbclass
-@@ -2,6 +2,9 @@
- # Class to disable binconfig files instead of installing them
- #
- 
-+# The list of scripts which should be disabled.
-+BINCONFIG ?= ""
-+
- FILES_${PN}-dev += "${bindir}/*-config"
- 
- do_install_append () {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.20.bb b/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
+deleted file mode 100644
+index 1f4476a..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require bluez5.inc
+-SRC_URI[md5sum] = "177d4551f76e5933cc467c3abc6d3796"
+-SRC_URI[sha256sum] = "531fbaa0a9baf7b1f76fb8fd8975c20d3cc61cdc772a39d63df1d6abfc2a7481"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.21.bb b/meta/recipes-connectivity/bluez5/bluez5_5.21.bb
+new file mode 100644
+index 0000000..5b0102e
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.21.bb
+@@ -0,0 +1,3 @@
++require bluez5.inc
++SRC_URI[md5sum] = "d5a0d05520e013f2394bf1d0bac12889"
++SRC_URI[sha256sum] = "81eb073516f39ff1fa02fa40120e834f40fdb0b772f8f4153a9ab566cc0a1f4f"
 -- 
-1.7.10.4
+1.9.1
 
 
