@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
-	[209.85.216.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E33037028C
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B75E7701D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 13:42:23 +0000 (UTC)
-Received: by mail-qa0-f41.google.com with SMTP id cm18so3659897qab.0
+	Mon,  7 Jul 2014 14:22:23 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id r20so6989449wiv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 06:42:25 -0700 (PDT)
+	Mon, 07 Jul 2014 07:22:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=d88/bP5FK/4mAGp992Z0pMxRGLDooIzOlBlCY70BK8w=;
-	b=HQ10bmeJ4HMRNiCyE334/JqsOf1rZlbLeaysnfCv535HOQ/fhhDCb/tl4zUQSsQsvQ
-	CunXnFU2/fxmnrXuZzRwzpdNqaiEEVhSTh3xYJYppQkvwFG81a277Xvyx+ILwDTMnQg5
-	7lih1dnuuFqMOFP5zne+xBnAV94SVFjsoh/iPeWHX3LJU9ccf5Bo+MTAS0uNUQrfEfkd
-	hhAHfkYKthVeZ5ScB6fjPMy+1obxmXo1aEvZdDd8i9ZECkXvWNDOEcg0F4Y5JZ2zHz9T
-	rUKBLidfHtTu9C8HyR+to6sj5awZ/WMQm0qkFRHCUjXEIfDnlPxSV9ySkp1RhkPdV98q
-	Q2zw==
-X-Gm-Message-State: ALoCoQnydNAZjEJKRsOZDnKaX7a1fbVSH+9kkxXA4RSKCcEjC1YmxdxbI8+aFXeURlE/J31vCOfH
-X-Received: by 10.140.91.164 with SMTP id z33mr45473071qgd.65.1404740545086;
-	Mon, 07 Jul 2014 06:42:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Mon, 7 Jul 2014 06:42:05 -0700 (PDT)
-In-Reply-To: <1404740449-28121-2-git-send-email-ross.burton@intel.com>
-References: <1404740449-28121-1-git-send-email-ross.burton@intel.com>
-	<1404740449-28121-2-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Jul 2014 14:42:05 +0100
-Message-ID: <CAJTo0LYEjFjkR0Mf3Zo2eTQyQCSi7YosOsnLaYThi7z4Dr5J8w@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][xserver 2/2] xserver-xorg: fix xshmfence autodetection
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=YT1dnbXgk8JTqo1tD7ZcVh12EpLGoTRJont3o5Kt+vY=;
+	b=bJt/Arh5yE5Rw6zCQfX71Gic1qIY0MLdV9OPgW2LF3TVp4wHGxSxY6pcHM6btmXSp/
+	0GybFC3yuNx4rmJ6DCVaePt7YoEThhr4cKzFO1V0XMFuhtAK9SrxGuzlF52GrVHJOk+1
+	rahYPf3UcJK1NJVR+GYgfZhSlrhyxAtxviaC32MMYzYM59h0Bmh2JhoPsYHtSxSovNvj
+	ZSsw57I1X67iQaRYCm7mn2iMw/4UwAJxvW9/Ba9I+gI+QBUpl1Uz+lfT7PiASN2evJn0
+	E3pWRje+lVcFhcP1qB2IBD9q7jRyBMzpEL9NHxCWSjHCg64Z5usY3krivafVgfZlYgLo
+	clNQ==
+X-Gm-Message-State: ALoCoQngrggEZGpg/l4U1Kl17ZHHJgLiMRe8V+N0oHYvUfWauPuBo5IoQHlAta48bn9e+cwmTJyL
+X-Received: by 10.194.90.228 with SMTP id bz4mr33489495wjb.65.1404742944953;
+	Mon, 07 Jul 2014 07:22:24 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id w6sm31048106wjr.4.2014.07.07.07.22.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 07 Jul 2014 07:22:24 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Jul 2014 15:22:20 +0100
+Message-Id: <1404742940-1438-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] binconfig-disabled: add a default value and comment for BINCONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,11 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jul 2014 13:42:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 07 Jul 2014 14:22:26 -0000
 
-Let's just pretend I didn't put [xserver] in the subject, that was
-intended for the xorg-devel list... :)
+To avoid syntax errors when inheriting this class without setting BINCONFIG, add
+a default value and a comment.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/binconfig-disabled.bbclass |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/classes/binconfig-disabled.bbclass b/meta/classes/binconfig-disabled.bbclass
+index 1308358..27f904e 100644
+--- a/meta/classes/binconfig-disabled.bbclass
++++ b/meta/classes/binconfig-disabled.bbclass
+@@ -2,6 +2,9 @@
+ # Class to disable binconfig files instead of installing them
+ #
+ 
++# The list of scripts which should be disabled.
++BINCONFIG ?= ""
++
+ FILES_${PN}-dev += "${bindir}/*-config"
+ 
+ do_install_append () {
+-- 
+1.7.10.4
+
 
