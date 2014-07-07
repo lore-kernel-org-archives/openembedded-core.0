@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A18570373
+	by mail.openembedded.org (Postfix) with ESMTP id 8792570383
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jul 2014 15:36:50 +0000 (UTC)
+	Mon,  7 Jul 2014 15:36:53 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2014 08:36:40 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2014 08:36:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,618,1400050800"; d="scan'208";a="558373868"
+X-IronPort-AV: E=Sophos;i="5.01,618,1400050800"; d="scan'208";a="558373877"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2014 08:36:37 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2014 08:36:39 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jul 2014 18:36:27 +0300
-Message-Id: <aeac3d6af3f0b6d4c68cc2cff46f1e51845e32b9.1404747336.git.cristian.iorga@intel.com>
+Date: Mon,  7 Jul 2014 18:36:28 +0300
+Message-Id: <4a54173d68bf7ba1534816aec71c592b6622ccd2.1404747336.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1404747336.git.cristian.iorga@intel.com>
 References: <cover.1404747336.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1404747336.git.cristian.iorga@intel.com>
 References: <cover.1404747336.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/2] bluez5: upgrade to 5.21
+Subject: [PATCH 2/2] ofono: upgrade to 1.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +34,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 07 Jul 2014 15:36:53 -0000
 
 Bug fixes;
-Features parity with Bluedroid and additional
-support for Bluetooth 4.1 core technology and
-upgraded profiles including HFP 1.6 + Wideband speech,
-A2DP 1.3, AVRCP 1.5 and MPS;
-It also provides full integration for aptX(R)
-high-quality low-latency codec from CSR (codec license not included).
+Add support for Handsfree subscriber number feature;
+Add support for Handsfree multiple DTMF characters;
+Add support for PAP authentication.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5_5.20.bb | 3 ---
- meta/recipes-connectivity/bluez5/bluez5_5.21.bb | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.20.bb
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.21.bb
+ meta/recipes-connectivity/ofono/{ofono_1.14.bb => ofono_1.15.bb} | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.14.bb => ofono_1.15.bb} (50%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.20.bb b/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
-deleted file mode 100644
-index 1f4476a..0000000
---- a/meta/recipes-connectivity/bluez5/bluez5_5.20.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--require bluez5.inc
--SRC_URI[md5sum] = "177d4551f76e5933cc467c3abc6d3796"
--SRC_URI[sha256sum] = "531fbaa0a9baf7b1f76fb8fd8975c20d3cc61cdc772a39d63df1d6abfc2a7481"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.21.bb b/meta/recipes-connectivity/bluez5/bluez5_5.21.bb
-new file mode 100644
-index 0000000..5b0102e
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.21.bb
-@@ -0,0 +1,3 @@
-+require bluez5.inc
-+SRC_URI[md5sum] = "d5a0d05520e013f2394bf1d0bac12889"
-+SRC_URI[sha256sum] = "81eb073516f39ff1fa02fa40120e834f40fdb0b772f8f4153a9ab566cc0a1f4f"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.14.bb b/meta/recipes-connectivity/ofono/ofono_1.15.bb
+similarity index 50%
+rename from meta/recipes-connectivity/ofono/ofono_1.14.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.15.bb
+index dea5d88..8462a28 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.14.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.15.bb
+@@ -1,13 +1,11 @@
+ require ofono.inc
+ 
+-PR = "r1"
+-
+ SRC_URI  = "\
+   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+   file://ofono \
+ "
+ 
+-SRC_URI[md5sum] = "8bc398d86642408cc71d039f59c61538"
+-SRC_URI[sha256sum] = "84d28d37cbc47129628a78bf3e17323af1636dceb2494511dd44caa829fb277f"
++SRC_URI[md5sum] = "4d03de85239d8100dc7721bf0dad2bd2"
++SRC_URI[sha256sum] = "978807a05e8904eb4e57d6533ed71e75676a55fa3819a39fe2c878f45dbf7af6"
+ 
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 -- 
 1.9.1
 
