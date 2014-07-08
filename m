@@ -1,24 +1,39 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 743147040D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7992065CF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 15:39:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s68FdLT7021475
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  8 Jul 2014 18:53:29 +0000 (UTC)
+Received: by mail-ob0-f173.google.com with SMTP id va2so6883424obc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Jul 2014 08:39:21 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 8 Jul 2014 08:39:20 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Jul 2014 08:39:19 -0700
-Message-ID: <cover.1404833184.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 08 Jul 2014 11:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=RUKJ4JhMRyhwXYSzK49p48RDh1lXwaFvWlDJSf0zHTc=;
+	b=IiaSV4YBklymCTAQ+aNkQDvKQjn2HyuPCaLPE4qzQ+xq2MlCdWD6nM+M1z7Jf5V1rq
+	IDLzJFLYiDHmamunoriZrbxNxAsPlhiDxs3gwKRJy7PyapbTeCMciGQj4YxaxlPv/yQX
+	hssOI8Y33pUqdfNyJkyOqwefui8qDQoMsrEFrOXDt0ESiHpRcBdSZ+iayGkvqZnUzUgx
+	1FF2/IM244X4A2hO+hyp7jlTcYg1vQhlwFXNtG4XBglujDYhimPYVbni0IINARTLP4Vo
+	E75l5P0CXtxBWBa9HZoIB11lPzLmP8290grNrQvhGTKqSV+aDxJhTlYjjaOwUz5YjE2B
+	ahvA==
 MIME-Version: 1.0
-Subject: [PATCH 0/1] rpm: disable -Wno-override-ini
+X-Received: by 10.60.63.195 with SMTP id i3mr13376459oes.76.1404845610831;
+	Tue, 08 Jul 2014 11:53:30 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.84.164 with HTTP; Tue, 8 Jul 2014 11:53:30 -0700 (PDT)
+In-Reply-To: <337dfbdfa91ac843566cbb9e014db36a8b197878.1404812342.git.hongxu.jia@windriver.com>
+References: <cover.1404812342.git.hongxu.jia@windriver.com>
+	<337dfbdfa91ac843566cbb9e014db36a8b197878.1404812342.git.hongxu.jia@windriver.com>
+Date: Tue, 8 Jul 2014 15:53:30 -0300
+X-Google-Sender-Auth: rQYf8ZptFBbn-Moi9uzU6l7u6us
+Message-ID: <CAP9ODKqRqwKL4=QzNrmHuCCJq-KCnf+cBJqA1KWJ6GpNfmSOkw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] xserver-xorg.inc: enable xmlto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +46,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 15:39:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Jul 2014 18:53:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit a5776ae532d6af1e880ab1a712dc768c900f88db:
+Hello,
 
-  sanity.bbclass: Update minimum git version to 1.7.8 (2014-07-08 11:19:50 +0100)
+The commit log needs to be way more detailed. Without a reasoning this
+just increases build time so for now, NAK!
 
-are available in the git repository at:
+On Tue, Jul 8, 2014 at 6:48 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote=
+:
+> [YOCTO #2416]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/r=
+ecipes-graphics/xorg-xserver/xserver-xorg.inc
+> index b9b9ac4..ac76b01 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> @@ -25,7 +25,7 @@ inherit autotools pkgconfig
+>
+>  PROTO_DEPS =3D "randrproto renderproto fixesproto damageproto xextproto =
+xproto xf86dgaproto xf86miscproto xf86vidmodeproto compositeproto recordpro=
+to resourceproto videoproto scrnsaverproto  xineramaproto fontsproto kbprot=
+o inputproto bigreqsproto xcmiscproto presentproto"
+>  LIB_DEPS =3D "pixman libxfont xtrans libxau libxext libxdmcp libdrm libx=
+kbfile libpciaccess openssl libgcrypt"
+> -DEPENDS =3D "${PROTO_DEPS} ${LIB_DEPS} font-util"
+> +DEPENDS =3D "${PROTO_DEPS} ${LIB_DEPS} font-util xmlto-native"
+>
+>  # Split out some modules and extensions from the main package
+>  # These aren't needed for basic operations and only take up space:
+> @@ -99,7 +99,7 @@ FILES_${PN}-module-libxf1bpp =3D "${libdir}/xorg/module=
+s/libxf1bpp.so"
+>  FILES_${PN}-module-libxf4bpp =3D "${libdir}/xorg/modules/libxf4bpp.so"
+>
+>  EXTRA_OECONF +=3D "--with-fop=3Dno \
+> -                 --without-xmlto \
+> +                 --with-xmlto \
+>                   --with-pic \
+>                   --disable-static \
+>                   --disable-xinerama \
+> --
+> 1.8.1.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/rpm_cent
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rpm_cent
 
-Robert Yang (1):
-  rpm: disable -Wno-override-init
 
- .../rpm/rpm/rpm-disable-Wno-override-init.patch    |   32 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    1 +
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
- 3 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-disable-Wno-override-init.patch
-
--- 
-1.7.9.5
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
