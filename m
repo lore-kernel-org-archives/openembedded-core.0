@@ -1,44 +1,37 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 2507270409
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E82FE7040F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 20:39:33 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id lj1so7869364pab.22
+	Tue,  8 Jul 2014 21:33:31 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id w8so5322634qac.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jul 2014 13:39:34 -0700 (PDT)
+	Tue, 08 Jul 2014 14:33:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=LBWqR+xbaH2raVSoNdAqdK84rwPxfdITjrKz+aeCCMM=;
-	b=VX3iAn0UlL9doxw1R1SR3YANZOzSYWkbUPH+GakA67nOnOjO1EjhYrZox6DP0tCGbF
-	VBo8W6EH27NInhmxhGermyzvvZmuxJ3BsfrEmEO753Dx5VA6gKCNa/+nXvtutRqCGzS7
-	6dcJro+tg08N+wddVNYW0ZMaO6zdj6htR7V4CRxeVxQizpVThQbxWb/GwWzzCbuC/tnA
-	EW7RDhJxnclkU0ptpqupLca2TXzJ+O0CI2vTkiWsuw6tUlPRcJvliejGBFCfRy92gV/X
-	axa+cYf2R1vfVbWF/NCPA9Tk1OCVt4Nde6BK3xWl4ZilFyrEFw0xN58S8KfBGB9elYwg
-	VADQ==
-X-Gm-Message-State: ALoCoQmqGZ7xaVN/8cncoLvoCJ0owIRtgCMA/TluXcm8/GdeEI4GVklrHTdgGQDfv+94utV/CjAb
-X-Received: by 10.68.200.10 with SMTP id jo10mr4145688pbc.143.1404851974093;
-	Tue, 08 Jul 2014 13:39:34 -0700 (PDT)
-Received: from [10.7.100.231] (64.2.3.195.ptr.us.xo.net. [64.2.3.195])
-	by mx.google.com with ESMTPSA id
-	hk5sm56648070pbb.86.2014.07.08.13.39.32 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 08 Jul 2014 13:39:33 -0700 (PDT)
-Message-ID: <53BC5704.4020804@mvista.com>
-Date: Tue, 08 Jul 2014 13:39:32 -0700
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ZlVmIyi7J4bnMk0XLHIOUlvaChlNy+4MJzFN4iFbmYQ=;
+	b=AihABqFLHbG9vFGPnTQVvvEl7iMe57dZcsFfV8TsF8hUrLm75mvL86HwDZVPiaBjo8
+	i70Y1uA4cdPxno8j7pPLi2gt+D/ZmP1MnoeAAR59aArNE5EwdC/pOepUJOf++zcNSLFf
+	x+E9iPjxDpcNEMF/j22KzvoCQn0rSKw5y7egKG3LSK4yk3A1qZ/HXY3PI2BZDRk2KlLS
+	Z1Rrwf17tBmVJO/cdzcnQ/PfOZjnNKspp8G97LspEVvRyPCntrhVop327+rS4Uwe6LFM
+	ippr6/1g1eD4Ms8cROosYteHpPOvzA1XhY1upU4L7c3pG1MQ64NqT1Xi6wo912ORkZvO
+	uvGA==
+X-Gm-Message-State: ALoCoQmYq4PFwQbXxfAO+Fq7XXg9OVBb3ZXNNqZF21ma6bjDXDEZmvQLlJ7QhHQkqIYrcFuIeavz
+X-Received: by 10.224.124.74 with SMTP id t10mr64812213qar.78.1404855212982;
+	Tue, 08 Jul 2014 14:33:32 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster@mvista.com>
-References: <1404768785-24026-1-git-send-email-akuster@mvista.com>	<1404768785-24026-2-git-send-email-akuster@mvista.com>
-	<CAJTo0LYo+VSRkjKrbC3a5SRS0ixGdHXT=Ox0NCU1St7_mSm_9w@mail.gmail.com>
-In-Reply-To: <CAJTo0LYo+VSRkjKrbC3a5SRS0ixGdHXT=Ox0NCU1St7_mSm_9w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lz4: update to latest version 119
+Received: by 10.140.86.40 with HTTP; Tue, 8 Jul 2014 14:33:12 -0700 (PDT)
+In-Reply-To: <cover.1404812342.git.hongxu.jia@windriver.com>
+References: <cover.1404812342.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Jul 2014 22:33:12 +0100
+Message-ID: <CAJTo0Lbsf6fw=rg3mQv7CqJ+Apmxd2X6W=srNf6dNer_5VZqNQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] support xmlto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,39 +44,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 20:39:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Jul 2014 21:33:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 8 July 2014 10:47, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> The xmlto was shipped from meta-oe, and fixed the defects that
+> 'xmlto/xsltproc stylesheets cannot be found even when they are
+> installed in sysroot'
+>
+> The xmlto required docbook-xml-dtd and docbook-xsl-stylesheets,
+> we refered debian's docbook-xml-dtd and ubuntu config.
+>
+> We also enable xmlto for alsa-utils, xorg-proto-common.inc,
+> xorg-lib-common.inc, xserver-xorg.inc.
 
+Presumably the goal here is to enable documentation generation?  I'd
+say what we want is more complicated than a blanket "--with-xmlto" and
+comes back to the same points I raised when the doxygen patch was
+submitted.
 
-On 07/08/2014 03:15 AM, Burton, Ross wrote:
-> On 7 July 2014 22:33, Armin Kuster <akuster@mvista.com> wrote:
->> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
->> +LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
->
-> Please add a comment in the commit message explaining why the checksum
-> has changed.
+Native packages never need to build documentation, as nobody is going
+to read it.  We've made steps in this direction with the texinfo class
+that stubs makeinfo for native recipes.
 
-ok, will do.
+Target packages may want documentation, but may not.  A powerul board
+such as a Minnow or Beagle can support development on the target and
+having e.g. the X11 protocol documentation available might be
+convenient.  A board with no UI and 64MB of RAM isn't going to support
+development on the target and every built piece of documentation is
+wasted time.
 
->
->> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
->> +SRC_URI = "https://github.com/Cyan4973/lz4/archive/${PV}.tar.gz"
->
-> Github archives can't be trusted as they can be re-generated at any
-> time by github (and the checksums will change).  If upstream doesn't
-> provide static tarballs then use the git fetcher and checkout the
-> release tag.
->
-Thanks for the info. I will look for a different solution.
+SDK packages do want documentation.  The ability to ship a SDK with a
+toolchain, libraries, and exactly the correct documentation for the
+libraries is valuable and currently something we can't do.
 
-- Armin
+I'd suggest that we need a global BUILD_DOCUMENTATION variable that
+can be overridden per-class so that e.g. native and target recipes
+don't build documentation but SDK packages do.  Then along with xmlto
+we can add gtk-doc and doxygen, adding the ability to build full API
+documentation for the SDKs.
 
->> +S = "${WORKDIR}/${BPN}-${PV}"
->
-> This is the default value.
->
-> Ross
->
+As such this is definitely a two-part series.  Adding xmlto is useful
+and I'm genuinely happy that someone who wasn't me managed to get
+docbook-xsl working ;) as that's the blocker for gtk-doc support too.
+However rnabling xmlto in some recipes globally isn't the right thing
+to do and will introduce noticeable regressions in build time for many
+classes of users for no reason.
+
+Ross
 
