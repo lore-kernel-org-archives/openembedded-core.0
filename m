@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 048B165CB2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DBA3703B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 10:16:02 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id i8so5009316qcq.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jul 2014 03:16:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YI8aayvLCPxwis2gmZTIbBDDSvh01LS4BjAP3RpTq9k=;
-	b=f2QEWXp0lOMGIDHr5Q+Alpq1msc0yru09nGjxQrP1gI7oFPFZGMddwAAYg26V9F2UR
-	U+U9pjpQxpKNn/0pg7yNeFBohYLc4lHCNlrPIhl6AeGu/12fuKEMEXHxtyWnYb1ca2Rb
-	NbJSZ0BGhN/rfXqsQlRiXHRtD5U0sFPqGBUT2LbUknk5aNEz/6MCHji4g4TH58kqnmML
-	5fN2y09aqXDDbpnkWE2oBNJO7P5mQsvRbqbbi5IaRLr48eYUYmiPtvsWWsbwJxbdL8q7
-	cJ6ON02VMrvlXDSRzVPD8uX67AkxhnR7j+PcnTr39lSSa6YFkfg9xmqUj62wTUEAE9Sx
-	N4uQ==
-X-Gm-Message-State: ALoCoQlMPYGFDaGe+/1Zy84uM0C8l1R7+fJq1Q64WduzAFHP+fF3URqFxgtPVraDepsS0aE5g+OI
-X-Received: by 10.140.48.161 with SMTP id o30mr54629376qga.68.1404814563672;
-	Tue, 08 Jul 2014 03:16:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Tue, 8 Jul 2014 03:15:43 -0700 (PDT)
-In-Reply-To: <1404768785-24026-2-git-send-email-akuster@mvista.com>
-References: <1404768785-24026-1-git-send-email-akuster@mvista.com>
-	<1404768785-24026-2-git-send-email-akuster@mvista.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jul 2014 11:15:43 +0100
-Message-ID: <CAJTo0LYo+VSRkjKrbC3a5SRS0ixGdHXT=Ox0NCU1St7_mSm_9w@mail.gmail.com>
-To: Armin Kuster <akuster@mvista.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lz4: update to latest version 119
+	Tue,  8 Jul 2014 10:16:09 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s68AFnfd007865; Tue, 8 Jul 2014 11:15:49 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VJmlDf9oIO8a; Tue,  8 Jul 2014 11:15:49 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s68AFiU3007862
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 8 Jul 2014 11:15:46 +0100
+Message-ID: <1404814538.1458.60.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 08 Jul 2014 11:15:38 +0100
+In-Reply-To: <alpine.LFD.2.11.1407070925320.9468@localhost>
+References: <alpine.LFD.2.11.1407070925320.9468@localhost>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what's the rationale for libpcre_8.35 "PROVIDING" pcre?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +38,34 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Jul 2014 10:16:10 -0000
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 7 July 2014 22:33, Armin Kuster <akuster@mvista.com> wrote:
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
+On Mon, 2014-07-07 at 09:31 -0400, Robert P. J. Day wrote:
+>   i might be overthinking this, but ive noticed a number of "lib*"
+> recipe files that "PROVIDE" the shorter name. case in point -- in the
+> current oe-core, the recipe file libpcre_8.35.bb explicitly does this:
+> 
+> PROVIDES += "pcre"
+> 
+> is there a reason for this, other than the obvious allowing to use the
+> shorter name?
+> 
+>   i did notice that, although the name "libpcre" suggests a shared
+> library, the recipe file clearly creates a number of packages,
+> including some that provide command-line utilities:
+> 
+> PACKAGES =+ "libpcrecpp libpcreposix pcregrep pcregrep-doc pcretest pcretest-doc"
+> 
+>   so is there anything to this occasional "lib*" renaming, other than
+> brevity? thanks.
 
-Please add a comment in the commit message explaining why the checksum
-has changed.
+I suspect the recipe was once called "pcre" but was renamed and the
+PROVIDES was for compatibility. There might be something in the history
+about that.
 
-> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
-> +SRC_URI = "https://github.com/Cyan4973/lz4/archive/${PV}.tar.gz"
+Cheers,
 
-Github archives can't be trusted as they can be re-generated at any
-time by github (and the checksums will change).  If upstream doesn't
-provide static tarballs then use the git fetcher and checkout the
-release tag.
+Richard
 
-> +S = "${WORKDIR}/${BPN}-${PV}"
-
-This is the default value.
-
-Ross
 
