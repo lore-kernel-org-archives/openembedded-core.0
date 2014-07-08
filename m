@@ -1,22 +1,24 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D52CB70415
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CBDB7703F9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 14:52:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Jul 2014 07:51:56 -0700
+	Tue,  8 Jul 2014 14:52:10 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Jul 2014 07:51:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,625,1400050800"; d="scan'208";a="566758617"
+X-IronPort-AV: E=Sophos;i="5.01,625,1400050800"; d="scan'208";a="454502557"
 Received: from gmacartn-mobl.ger.corp.intel.com (HELO localhost)
 	([10.255.13.3])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2014 07:51:55 -0700
+	by azsmga001.ch.intel.com with ESMTP; 08 Jul 2014 07:51:57 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jul 2014 09:51:54 -0500
-Message-Id: <cover.1404830754.git.tom.zanussi@linux.intel.com>
+Date: Tue,  8 Jul 2014 09:51:52 -0500
+Message-Id: <62d5079dcc2b71362fb5930ca600e8936a040049.1404830754.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1404830754.git.tom.zanussi@linux.intel.com>
+References: <cover.1404830754.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/5] wic: Source plugin updates
+Subject: [PATCH 1/5] wic: Add command to list available source plugins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 14:52:10 -0000
+X-List-Received-Date: Tue, 08 Jul 2014 14:52:11 -0000
 
-This patchset adds a new 'list plugins' subcommand along with some
-better error handling and messaging when users try to use
-nonexistent plugins.  It also adds a new hook for general purpose
-help topics and adds a 'plugins' topic as the first entry.
+Add a 'wic list source-plugins' command enabling users to get a list
+of valid partition --sources.  This is useful not only for determining
+sources to use in .wks partition statements, but also for making sense
+of errors in .wks partition processing.
 
-Addresses problems exposed in YOCTO #6481.
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ scripts/lib/image/engine.py | 13 +++++++++++++
+ scripts/lib/mic/plugin.py   | 16 ++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-The following changes since commit 6879c3c903ec7d08cf0240281c83d85b4a42b6db:
-
-  maintainers.inc: add info for libical (2014-07-08 11:20:14 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-plugin-updates
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-plugin-updates
-
-Tom Zanussi (5):
-  wic: Add command to list available source plugins
-  wic: Add help text for 'wic list source-plugins'
-  wic: Print error if a partition specifies an invalid --source
-  wic: Add dummy subcommand and usage strings
-  wic: Add general 'plugins' help topic
-
- scripts/lib/image/engine.py                        |  13 +++
- scripts/lib/image/help.py                          | 121 ++++++++++++++++++++-
- .../lib/mic/kickstart/custom_commands/partition.py |   5 +
- scripts/lib/mic/plugin.py                          |  16 +++
- scripts/wic                                        |  28 ++++-
- 5 files changed, 173 insertions(+), 10 deletions(-)
-
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index 1256236..b850bb9 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -174,6 +174,16 @@ def list_canned_image_help(scripts_path, fullpath):
+             break
+ 
+ 
++def list_source_plugins():
++    """
++    List the available source plugins i.e. plugins available for --source.
++    """
++    plugins = pluginmgr.get_source_plugins()
++
++    for plugin in plugins:
++        print "  %s" % plugin
++
++
+ def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+                native_sysroot, hdddir, staging_data_dir, scripts_path,
+                image_output_dir, debug, properties_file, properties=None):
+@@ -258,6 +268,9 @@ def wic_list(args, scripts_path, properties_file):
+         if args[0] == "images":
+             list_canned_images(scripts_path)
+             return True
++        elif args[0] == "source-plugins":
++            list_source_plugins()
++            return True
+         elif args[0] == "properties":
+             return True
+         else:
+diff --git a/scripts/lib/mic/plugin.py b/scripts/lib/mic/plugin.py
+index 585fd6d..f836950 100644
+--- a/scripts/lib/mic/plugin.py
++++ b/scripts/lib/mic/plugin.py
+@@ -117,6 +117,22 @@ class PluginMgr(object):
+ 
+         return pluginbase.get_plugins(ptype)
+ 
++    def get_source_plugins(self):
++        """
++        Return list of available source plugins.
++        """
++        plugins_dir = self._build_plugin_dir_list(self.plugin_dir, 'source')
++
++        self.append_dirs(plugins_dir)
++
++        plugins = []
++
++        for _source_name, klass in self.get_plugins('source').iteritems():
++            plugins.append(_source_name)
++
++        return plugins
++
++
+     def get_source_plugin_methods(self, source_name, methods):
+         """
+         The methods param is a dict with the method names to find.  On
 -- 
 1.8.3.1
 
