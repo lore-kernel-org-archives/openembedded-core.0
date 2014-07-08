@@ -1,28 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AE0EE65CA8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 048B165CB2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 10:03:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s68A3Ygr016071
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Jul 2014 03:03:34 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 8 Jul 2014 03:03:34 -0700
-Message-ID: <53BBC1EE.5060608@windriver.com>
-Date: Tue, 8 Jul 2014 18:03:26 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Tue,  8 Jul 2014 10:16:02 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id i8so5009316qcq.34
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Jul 2014 03:16:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=YI8aayvLCPxwis2gmZTIbBDDSvh01LS4BjAP3RpTq9k=;
+	b=f2QEWXp0lOMGIDHr5Q+Alpq1msc0yru09nGjxQrP1gI7oFPFZGMddwAAYg26V9F2UR
+	U+U9pjpQxpKNn/0pg7yNeFBohYLc4lHCNlrPIhl6AeGu/12fuKEMEXHxtyWnYb1ca2Rb
+	NbJSZ0BGhN/rfXqsQlRiXHRtD5U0sFPqGBUT2LbUknk5aNEz/6MCHji4g4TH58kqnmML
+	5fN2y09aqXDDbpnkWE2oBNJO7P5mQsvRbqbbi5IaRLr48eYUYmiPtvsWWsbwJxbdL8q7
+	cJ6ON02VMrvlXDSRzVPD8uX67AkxhnR7j+PcnTr39lSSa6YFkfg9xmqUj62wTUEAE9Sx
+	N4uQ==
+X-Gm-Message-State: ALoCoQlMPYGFDaGe+/1Zy84uM0C8l1R7+fJq1Q64WduzAFHP+fF3URqFxgtPVraDepsS0aE5g+OI
+X-Received: by 10.140.48.161 with SMTP id o30mr54629376qga.68.1404814563672;
+	Tue, 08 Jul 2014 03:16:03 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1404812342.git.hongxu.jia@windriver.com>
-	<b0e0464a72f2f2fa6b96a0f1d175c8b0d2b41ebb.1404812342.git.hongxu.jia@windriver.com>
-In-Reply-To: <b0e0464a72f2f2fa6b96a0f1d175c8b0d2b41ebb.1404812342.git.hongxu.jia@windriver.com>
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 3/8] docbook-xml: add docbook-xml-dtd4
+Received: by 10.140.86.40 with HTTP; Tue, 8 Jul 2014 03:15:43 -0700 (PDT)
+In-Reply-To: <1404768785-24026-2-git-send-email-akuster@mvista.com>
+References: <1404768785-24026-1-git-send-email-akuster@mvista.com>
+	<1404768785-24026-2-git-send-email-akuster@mvista.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Jul 2014 11:15:43 +0100
+Message-ID: <CAJTo0LYo+VSRkjKrbC3a5SRS0ixGdHXT=Ox0NCU1St7_mSm_9w@mail.gmail.com>
+To: Armin Kuster <akuster@mvista.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lz4: update to latest version 119
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 10:03:38 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Jul 2014 10:16:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 07/08/2014 05:47 PM, Hongxu Jia wrote:
+On 7 July 2014 22:33, Armin Kuster <akuster@mvista.com> wrote:
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
 
-> diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-> new file mode 100644
-> index 0000000..3b20391
-> --- /dev/null
-> +++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-> @@ -0,0 +1,75 @@
-> +# The DTDs of the various versions have to be installed in parallel and
-> +# should not replace each other. The installation step is common for
-> +# all versions and just differs in ${DTD_VERSION} which is set in each
-> +# version recipe.
-> +#
-> +# The DTDs do have some quirks (see LFS documentation).
-> +SUMMARY = "Document type definitions for verification of XML data files"
-> +DESCRIPTION = "Document type definitions for verification of XML data \
-> +files against the DocBook rule set, it ships with the latest DocBook 4.5 \
-> +XML DTD, as well as a selected set of legacy DTDs for use with older \
-> +documents, including 4.0, 4.1.2, 4.2, 4.3 and 4.4"
-> +HOMEPAGE = "http://www.docbook.org/xml/"
-> +
-> +LICENSE = "OASIS"
-> +LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
-> +
-> +# Note: the upstream sources are not distributed with a license file.
-> +# LICENSE-OASIS is included as a "patch" to workaround this. When
-> +# upgrading this recipe, please verify whether this is still needed.
-> +SRC_URI = "${DEBIAN_MIRROR}/main/d/docbook-xml/docbook-xml_${PV}.orig.tar.gz \
-> +           file://LICENSE-OASIS \
-> +           file://docbook-xml-update-catalog.xml.patch \
-> +           file://docbook-xml.xml \
-> +"
-> +
-> +SRC_URI[md5sum] = "487b4d44e15cffb1f4048af23f98208e"
-> +SRC_URI[sha256sum] = "b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441db372e0f17b2a44f"
-> +
-> +S="${WORKDIR}/docbook-xml-4.5.c31424"
-> +
-> +inherit allarch
-> +BBCLASSEXTEND = "native"
-> +
-> +SSTATEPOSTINSTFUNCS_append_class-native = " docbook_xml_dtd_sstate_postinst"
-> +SYSROOT_PREPROCESS_FUNCS_append_class-native = " docbook_xml_dtd_sysroot_preprocess"
-> +
-> +do_configre (){
-> +  :
-> +}
-> +
-> +do_compile (){
-> +  :
-> +}
-> +
-> +do_install () {
-> +    # Refer debian https://packages.debian.org/sid/all/docbook-xml/filelist
-> +    for DTDVERSION in 4.0 4.1.2 4.2 4.3 4.4 4.5; do
-> +        install -d -m 755 ${D}${datadir}/xml/docbook/schema/dtd/${DTDVERSION}
-> +        cp -v -R docbook-${DTDVERSION}/* ${D}${datadir}/xml/docbook/schema/dtd/${DTDVERSION}
-> +    done
-> +
-> +    install -d ${D}${sysconfdir}/xml/
-> +    install -m 755  ${WORKDIR}/docbook-xml.xml ${D}${sysconfdir}/xml/docbook-xml.xml
-> +}
-> +
-> +do_install_append_class-nativesdk () {
-> +    # Update the hardcode dir in docbook-xml.xml
-> +    sed -i -e "s|file:///usr/share/xml|file://${datadir}/xml|g" ${D}${sysconfdir}/xml/docbook-xml.xml
-> +}
+Please add a comment in the commit message explaining why the checksum
+has changed.
 
-Remove the nativesdk do_install_append_class-nativesd, we don't support 
-nativesdk.
+> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+> +SRC_URI = "https://github.com/Cyan4973/lz4/archive/${PV}.tar.gz"
 
-I update the git tree directly, no v2 will be sent.
+Github archives can't be trusted as they can be re-generated at any
+time by github (and the checksums will change).  If upstream doesn't
+provide static tarballs then use the git fetcher and checkout the
+release tag.
 
-//Hongxu
+> +S = "${WORKDIR}/${BPN}-${PV}"
 
-> +
-> +docbook_xml_dtd_sstate_postinst () {
-> +    if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-> +    then
-> +        # Ensure that the catalog file sgml-docbook.cat is properly
-> +        # updated when the package is installed from sstate cache.
-> +        sed -i -e "s|file://.*/usr/share/xml|file://${datadir}/xml|g" ${SYSROOT_DESTDIR}${sysconfdir}/xml/docbook-xml.xml
-> +    fi
-> +}
-> +
-> +docbook_xml_dtd_sysroot_preprocess () {
-> +    # Update the hardcode dir in docbook-xml.xml
-> +    sed -i -e "s|file:///usr/share/xml|file://${datadir}/xml|g" ${SYSROOT_DESTDIR}${sysconfdir}/xml/docbook-xml.xml
-> +}
-> +
-> +FILES_${PN} = "${datadir}/* ${sysconfdir}/xml/docbook-xml.xml"
+This is the default value.
 
+Ross
 
