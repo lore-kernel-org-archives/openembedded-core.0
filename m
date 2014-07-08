@@ -1,27 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Ming.Liu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 87DFC6FE64
+	by mail.openembedded.org (Postfix) with ESMTP id 15FCA65E38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 07:11:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s687BCak015864
+	Tue,  8 Jul 2014 08:07:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6887acl023957
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Jul 2014 00:11:12 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 8 Jul 2014 00:11:11 -0700
-Message-ID: <53BB998E.8080605@windriver.com>
-Date: Tue, 8 Jul 2014 15:11:10 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Tue, 8 Jul 2014 01:07:37 -0700 (PDT)
+Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Tue, 8 Jul 2014 01:07:36 -0700
+Message-ID: <53BBA6C4.7060306@windriver.com>
+Date: Tue, 8 Jul 2014 16:07:32 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Bryan <just4tech83@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <CAD2C2VS999rDn_WEdtaiRPMdtCFgbzY_iqm2ex6Kc3Vm0f8NaQ@mail.gmail.com>
-In-Reply-To: <CAD2C2VS999rDn_WEdtaiRPMdtCFgbzY_iqm2ex6Kc3Vm0f8NaQ@mail.gmail.com>
-Subject: Re: OpenEmbedded build issues with beagle board
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1404540383-13425-1-git-send-email-ming.liu@windriver.com>
+	<CAJTo0LbLcADdC0qC7cYNDWoZOjvj_BXg42-K4siPE518MykU2Q@mail.gmail.com>
+	<53BA715D.6010901@windriver.com>
+	<CAJTo0Lban=ZhrrPMXN6kLvkHyuhUbinOGWwyhQsNyKh7rsMLZg@mail.gmail.com>
+In-Reply-To: <CAJTo0Lban=ZhrrPMXN6kLvkHyuhUbinOGWwyhQsNyKh7rsMLZg@mail.gmail.com>
+X-Originating-IP: [128.224.163.186]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 07:11:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 08 Jul 2014 08:07:39 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 07/07/2014 06:38 PM, Burton, Ross wrote:
+> On 7 July 2014 11:07, Ming Liu <ming.liu@windriver.com> wrote:
+>> I got your point, but my patch was not tring to address the conflict of
+>> binaries or libraries, that kind of conflicts would not cause build error,
+>> as you pointed out, only ever a single instance be installed at one time.
+>> It's actually tring to fix a conflict of conf file, if the gconfd-2 is put
+>> into libexec directory, we have to keep a path like
+>> /usr/lib64/gconf/gconfd-2(or /usr/lib/gconf/gconfd-2 in lib32 case)
+>> referring it in /usr/share/dbus-1/services/org.gnome.GConf.service which
+>> will cause the conflict.
+> So why did the commit message talk about
+> /usr/share/dbus-1/services/GConf.service conflicting between
+> installation, and how will your patch fix that error?  As far as I can
+> tell ${datadir} isn't in the MULTILIBRE_ALLOW_REP so they'll still
+> conflict, right?
+>
+> I still think that splitting up the gconf package into library and
+> tooling is the logical solution.
+I made this patch against to a old version of oe, I don't know much 
+about the MULTILIBRE_ALLOW_REP thing, maybe you are right, I will try to 
+figure out a new patch.
 
+the best,
+thank you
+>
+> Ross
+>
+>
 
-On 07/08/2014 02:52 PM, Bryan wrote:
->
->
-> Hi All
->   I am trying to build  Openembeeded classic for Beagle board-XM but i am
-> getting lot of broken link issues. I have  set DISTRO as angstrom-2010.x in
-> local.conf.   Is this approach  ok? or should i move to openembedded core ??
-> Pls suggest.
->
-> Broken link e.g.
->
-> Resolving www.angstrom-distribution.org <http://www.angstrom-distribution.org>
-> (www.angstrom-distribution.org <http://www.angstrom-distribution.org>)...
-> 140.211.169.177
->   Connecting to www.angstrom-distribution.org
-> <http://www.angstrom-distribution.org> (www.angstrom-distribution.org
-
-Where is the www.angstrom-distribution.org from, please ? Maybe you need check
-the customized distro file angstrom-2010.x (.conf) ?
-
-// Robert
-
-> <http://www.angstrom-distribution.org>)|140.211.169.177|:80... connected.
->   HTTP request sent, awaiting response...
-> 404 Not Found  2014-07-08 10:13:43 ERROR 404: Not Found.
->
-> Thanks in advance
->
->
->
 
