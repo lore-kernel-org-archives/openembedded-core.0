@@ -1,31 +1,31 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A3F766FED8
+Return-Path: <just4tech83@gmail.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 0463870254
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 04:54:26 +0000 (UTC)
-Received: by mail-la0-f41.google.com with SMTP id hz20so3607434lab.28
+	Tue,  8 Jul 2014 06:52:58 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id hw13so4484629qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jul 2014 21:54:27 -0700 (PDT)
+	Mon, 07 Jul 2014 23:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=PjzDutIrGSl2Z3vuvGkJ/zBtNORAIQSsJVYZ63qyfzQ=;
-	b=WolhzsJi4+N7A28SkggiqGPOkgfVzRqbIx05T7xg2K+OQpJoF4dLzdo4yeEMMXmT6X
-	r8f3QG+S4Hbki+m7ky2mhWNf7k2X9a1QCMcuGpNoqSYXlInolTX/Rs5bZJcF2vU2j7Ui
-	MMSIcilqz3O1pssomnY99IJ7UYIi9VMxOGZ3iu2CwFQli/AIDFIGSgeuVH20eHEMvF7U
-	sG/ww0qGmbZG+u4GnFK+/hx7S0N6x4BrKIzeoAss56qneSLxKae4ekX6CvB6ViKf4zsH
-	YR3DM7oGXanm5r7mRTnrrqyl494zt9dkqkEO0iiJug34zGpV20IiXoSdwtHPmqh3RXtq
-	8l/w==
+	bh=oh8vWafuGlwu4TEMDSRBrzrZzuwazFIRQgnuV7c4Zho=;
+	b=AmLjvh7Ot2ym8LyB8xgOA01yBPo+wc4iM8Wk+8iAL8phWmQud/pMiERGWDvw31WF14
+	4wHmnXCwfTsyxt8vYi3GQb1df0sqk1G421rWUNOq/I17E1Pgy0NWBWCmRvil3FD416ZS
+	cSF010zBNW+YDxJ9UY0j15Y+nRK1LdPpIrR9PEGarXsoC5vX687wEeclnwEj+MbhG8Qm
+	i402ppfxGjaORRNQwp9Y/ThHXRuebJNNzjU9MgqSr3FSa9oBJ8+bvt164txhtGAZyCAS
+	gxjWPYheLdc+ayAFdG2GPYCIE5KLbpeKfbjn1ui+0h7A986NDRFSe+T8tCG5YwxE+ENx
+	4FDA==
 MIME-Version: 1.0
-X-Received: by 10.152.204.102 with SMTP id kx6mr26799836lac.32.1404795267450; 
-	Mon, 07 Jul 2014 21:54:27 -0700 (PDT)
-Received: by 10.114.216.35 with HTTP; Mon, 7 Jul 2014 21:54:27 -0700 (PDT)
-Date: Mon, 7 Jul 2014 21:54:27 -0700
-Message-ID: <CANx9H-BF_O_+YVW7V4XBVLBn3mQWGhVaN+FjZQ_YGxOTeMpcNg@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
+X-Received: by 10.224.49.71 with SMTP id u7mr55879034qaf.58.1404802379803;
+	Mon, 07 Jul 2014 23:52:59 -0700 (PDT)
+Received: by 10.140.16.103 with HTTP; Mon, 7 Jul 2014 23:52:59 -0700 (PDT)
+Date: Tue, 8 Jul 2014 12:22:59 +0530
+Message-ID: <CAD2C2VS999rDn_WEdtaiRPMdtCFgbzY_iqm2ex6Kc3Vm0f8NaQ@mail.gmail.com>
+From: Bryan <just4tech83@gmail.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: [WIP] cpanm.bbclass: need help with paths
+Subject: OpenEmbedded build issues with beagle board
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,51 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 04:54:30 -0000
-Content-Type: multipart/alternative; boundary=001a1134386ae60cb704fda76233
+X-List-Received-Date: Tue, 08 Jul 2014 06:53:05 -0000
+Content-Type: multipart/alternative; boundary=001a11c300a8d3ef9e04fda90a15
 
---001a1134386ae60cb704fda76233
+--001a11c300a8d3ef9e04fda90a15
 Content-Type: text/plain; charset=UTF-8
 
-DO NOT MERGE
+Hi All
+ I am trying to build  Openembeeded classic for Beagle board-XM but i am
+getting lot of broken link issues. I have  set DISTRO as angstrom-2010.x in
+local.conf.   Is this approach  ok? or should i move to openembedded core ??
+Pls suggest.
 
-In the following branch, I am trying to create a bbclass for cpanm (aka
-cpanminus), based heavily on cpan_build.bbclass:
-http://git.openembedded.org/openembedded-core-contrib/log/?h=timo/cpanminus
+Broken link e.g.
 
-However, as it stands, it always seems to use host paths, not even
-perl-native. Ultimately, it needs to install in both perl-native and
-target's vendor_perl.
+Resolving www.angstrom-distribution.org (www.angstrom-distribution.org)...
+140.211.169.177
+ Connecting to www.angstrom-distribution.org
+(www.angstrom-distribution.org)|140.211.169.177|:80...
+connected.
+ HTTP request sent, awaiting response...
+404 Not Found  2014-07-08 10:13:43 ERROR 404: Not Found.
 
-Any insight is appreciated!
+Thanks in advance
 
---Tim
-
-P.S. The class is to be used to build Slic3r. Currently the cpanm version
-of the recipe is only local WIP, but I have a building non-cpanm (XS only)
-version publicly available:
-http://git.openembedded.org/meta-openembedded-contrib/log/?h=timo/meta-maker
-
---001a1134386ae60cb704fda76233
+--001a11c300a8d3ef9e04fda90a15
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div><div><div>DO NOT MERGE<br><br></div><div>In=
- the following branch, I am trying to create a bbclass for cpanm (aka cpanm=
-inus), based heavily on cpan_build.bbclass:<br></div><a href=3D"http://git.=
-openembedded.org/openembedded-core-contrib/log/?h=3Dtimo/cpanminus">http://=
-git.openembedded.org/openembedded-core-contrib/log/?h=3Dtimo/cpanminus</a><=
-br>
-<br></div>However, as it stands, it always seems to use host paths, not eve=
-n perl-native. Ultimately, it needs to install in both perl-native and targ=
-et&#39;s vendor_perl.<br><br></div>Any insight is appreciated!<br><br></div=
->
---Tim<br><br></div><div>P.S. The class is to be used to build Slic3r. Curre=
-ntly the cpanm version of the recipe is only local WIP, but I have a buildi=
-ng non-cpanm (XS only) version publicly available:<br><a href=3D"http://git=
-.openembedded.org/meta-openembedded-contrib/log/?h=3Dtimo/meta-maker">http:=
-//git.openembedded.org/meta-openembedded-contrib/log/?h=3Dtimo/meta-maker</=
-a><br>
-</div></div>
+<div><br></div><div><br></div><div>Hi All</div><div>=C2=A0I am trying to bu=
+ild =C2=A0Openembeeded classic for Beagle board-XM but i am getting lot of =
+broken link issues. I have =C2=A0set DISTRO as angstrom-2010.x in local.con=
+f. =C2=A0 Is this approach =C2=A0ok? or should i move to openembedded core =
+??</div>
+<div>Pls suggest.=C2=A0</div><div><br></div><div>Broken link e.g.=C2=A0</di=
+v><div><br></div><div>Resolving <a href=3D"http://www.angstrom-distribution=
+.org">www.angstrom-distribution.org</a> (<a href=3D"http://www.angstrom-dis=
+tribution.org">www.angstrom-distribution.org</a>)... 140.211.169.177</div>
+<div>=C2=A0Connecting to <a href=3D"http://www.angstrom-distribution.org">w=
+ww.angstrom-distribution.org</a> (<a href=3D"http://www.angstrom-distributi=
+on.org">www.angstrom-distribution.org</a>)|140.211.169.177|:80... connected=
+.</div>
+<div>=C2=A0HTTP request sent, awaiting response...=C2=A0</div><div>404 Not =
+Found =C2=A02014-07-08 10:13:43 ERROR 404: Not Found.</div><div><br></div><=
+div>Thanks in advance</div><div><br></div>
 
---001a1134386ae60cb704fda76233--
+--001a11c300a8d3ef9e04fda90a15--
