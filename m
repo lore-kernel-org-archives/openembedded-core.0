@@ -1,38 +1,44 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EF6E565CF7
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2507270409
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 18:57:54 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id o6so6897000oag.4
+	Tue,  8 Jul 2014 20:39:33 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id lj1so7869364pab.22
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jul 2014 11:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=6NFZwtDmVS+zYQgw/NU1+X7nNHo0rXUrzaKbcGiosCM=;
-	b=PtcAAB6OOh/YM8LbpgBgtY7Y4L1e2LwpWTLqcqYoqESvLBK6RJzNv8EMuJFb7tlvZ/
-	mysc2dyMVv1WEnHuDDSVxP8xKKICSEzvWKbzW7+QqtsizlYd6Ls1bfSgIGAwIIzqLT2W
-	C3s7wSpe8dVcju2sXGFA7MmFc2ni6Igkd1NIQd35UsKZoPsIgF/VtPDJpRBESYQD5rV2
-	djUm3QGkKrnyKBLG0f1ac13iONLF1uGT+X0baFvs5Y2dOa68pqC0a3RG0bjQGc/ofSZd
-	zbrnAWyJOy9hfeczHPT5Axr1ji52YUvnCaSIYAqHpTYcrsDwuq4pZLKIvSI0KrZ6MgAd
-	Ugyw==
+	Tue, 08 Jul 2014 13:39:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=LBWqR+xbaH2raVSoNdAqdK84rwPxfdITjrKz+aeCCMM=;
+	b=VX3iAn0UlL9doxw1R1SR3YANZOzSYWkbUPH+GakA67nOnOjO1EjhYrZox6DP0tCGbF
+	VBo8W6EH27NInhmxhGermyzvvZmuxJ3BsfrEmEO753Dx5VA6gKCNa/+nXvtutRqCGzS7
+	6dcJro+tg08N+wddVNYW0ZMaO6zdj6htR7V4CRxeVxQizpVThQbxWb/GwWzzCbuC/tnA
+	EW7RDhJxnclkU0ptpqupLca2TXzJ+O0CI2vTkiWsuw6tUlPRcJvliejGBFCfRy92gV/X
+	axa+cYf2R1vfVbWF/NCPA9Tk1OCVt4Nde6BK3xWl4ZilFyrEFw0xN58S8KfBGB9elYwg
+	VADQ==
+X-Gm-Message-State: ALoCoQmqGZ7xaVN/8cncoLvoCJ0owIRtgCMA/TluXcm8/GdeEI4GVklrHTdgGQDfv+94utV/CjAb
+X-Received: by 10.68.200.10 with SMTP id jo10mr4145688pbc.143.1404851974093;
+	Tue, 08 Jul 2014 13:39:34 -0700 (PDT)
+Received: from [10.7.100.231] (64.2.3.195.ptr.us.xo.net. [64.2.3.195])
+	by mx.google.com with ESMTPSA id
+	hk5sm56648070pbb.86.2014.07.08.13.39.32 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 08 Jul 2014 13:39:33 -0700 (PDT)
+Message-ID: <53BC5704.4020804@mvista.com>
+Date: Tue, 08 Jul 2014 13:39:32 -0700
+From: akuster <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-X-Received: by 10.182.214.98 with SMTP id nz2mr41219707obc.62.1404845875412;
-	Tue, 08 Jul 2014 11:57:55 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.84.164 with HTTP; Tue, 8 Jul 2014 11:57:55 -0700 (PDT)
-In-Reply-To: <cover.1404812342.git.hongxu.jia@windriver.com>
-References: <cover.1404812342.git.hongxu.jia@windriver.com>
-Date: Tue, 8 Jul 2014 15:57:55 -0300
-X-Google-Sender-Auth: SgYFtFfoknnIL1opXjygi4PdLyc
-Message-ID: <CAP9ODKrRR-F-6Qpnj=KLqY0=S3gf0VTPdAsppVj7G+xOX7GODw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/8] support xmlto
+To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster@mvista.com>
+References: <1404768785-24026-1-git-send-email-akuster@mvista.com>	<1404768785-24026-2-git-send-email-akuster@mvista.com>
+	<CAJTo0LYo+VSRkjKrbC3a5SRS0ixGdHXT=Ox0NCU1St7_mSm_9w@mail.gmail.com>
+In-Reply-To: <CAJTo0LYo+VSRkjKrbC3a5SRS0ixGdHXT=Ox0NCU1St7_mSm_9w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lz4: update to latest version 119
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,33 +51,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 18:57:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Jul 2014 20:39:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
 
-On Tue, Jul 8, 2014 at 6:47 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> The xmlto was shipped from meta-oe, and fixed the defects that
-> 'xmlto/xsltproc stylesheets cannot be found even when they are
-> installed in sysroot'
+
+On 07/08/2014 03:15 AM, Burton, Ross wrote:
+> On 7 July 2014 22:33, Armin Kuster <akuster@mvista.com> wrote:
+>> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
 >
-> The xmlto required docbook-xml-dtd and docbook-xsl-stylesheets,
-> we refered debian's docbook-xml-dtd and ubuntu config.
+> Please add a comment in the commit message explaining why the checksum
+> has changed.
+
+ok, will do.
+
 >
-> We also enable xmlto for alsa-utils, xorg-proto-common.inc,
-> xorg-lib-common.inc, xserver-xorg.inc.
+>> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+>> +SRC_URI = "https://github.com/Cyan4973/lz4/archive/${PV}.tar.gz"
 >
-> The test is easy, just build alsa-utils.
+> Github archives can't be trusted as they can be re-generated at any
+> time by github (and the checksums will change).  If upstream doesn't
+> provide static tarballs then use the git fetcher and checkout the
+> release tag.
+>
+Thanks for the info. I will look for a different solution.
 
-The commit logs in the patches need to be extended. Please bear on
-mind that people does not have the cover letter when reading the 'git
-log' and thus all important information needs to be added in each
-commit.
+- Armin
 
-I also don't see /why/ this is being done. Please clarify.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>> +S = "${WORKDIR}/${BPN}-${PV}"
+>
+> This is the default value.
+>
+> Ross
+>
 
