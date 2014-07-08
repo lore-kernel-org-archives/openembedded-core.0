@@ -1,38 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 051167040D
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 9579162252
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 15:26:31 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id a108so5180491qge.18
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jul 2014 08:26:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=lgMP6lu3ZdrcYCnsvqDOi+E5l7nbfAGdm/qIBNvAAhA=;
-	b=WeMy+eTDkxyk9vh17N7+ZoGbBF3SDnGFJ5/GvUkuAJCOckUUvWEj82dSYAgFuvYEPK
-	cPdJC40e/G9H47b7BxEWf9AuLoGzLRR/X1wdVBeQiA+QVrJ72+RuiMsedaR3pByCeVye
-	cOT4TWyBLCQfXGc/scn8KDvEPWF0ml8HvyZVDdJxLfNwwFMrU2t82zy5LldmPE0Uh5rB
-	yU6NemweP10FVlizo21KEy8N2Eymk0q6tIFP4x34ZYD5lidUje7v3na2NDMRxlQIwoNP
-	X3AIWnkK9IuAFIL+rtIPdP54Kpht1gA5rQGdpCD67T/nj+ZZZN8Tf1vMcrwAMuhid69f
-	cLAw==
-X-Gm-Message-State: ALoCoQmUt5oMul8yV3kQ35G4haXRiCEOuFnVQVA9/Bwa0YFyhGIrH9NcVCPokw4v7JLwuDqpBjtt
-X-Received: by 10.224.25.206 with SMTP id a14mr47633299qac.35.1404833192265;
-	Tue, 08 Jul 2014 08:26:32 -0700 (PDT)
+	Tue,  8 Jul 2014 15:35:03 +0000 (UTC)
+Received: from [69.196.158.250] (port=34891 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X4XQ8-0001if-7c for openembedded-core@lists.openembedded.org;
+	Tue, 08 Jul 2014 11:35:04 -0400
+Date: Tue, 8 Jul 2014 11:34:55 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1407081124440.6415@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Tue, 8 Jul 2014 08:26:12 -0700 (PDT)
-In-Reply-To: <7b884496fe887767c6be62b854b4b3dd9ac6aab8.1404812342.git.hongxu.jia@windriver.com>
-References: <cover.1404812342.git.hongxu.jia@windriver.com>
-	<7b884496fe887767c6be62b854b4b3dd9ac6aab8.1404812342.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jul 2014 16:26:12 +0100
-Message-ID: <CAJTo0LbF5p1wS4kkcN8HoN2O5UrY0QtHiSU0qa0f9+RigfAk-g@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] libxml2: enable Catalog support
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: a question about recipe style
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,14 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 15:26:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Jul 2014 15:35:13 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 8 July 2014 10:47, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> +CFLAGS_append = " -DLIBXML_CATALOG_ENABLED"
 
-EXTRA_OECONF has --without-catalog, so you should change that instead
-of passing CFLAGS directly.
+  perusing the bitbake user manual, and ran across the section
+discussing the "override style" operators _append, _prepend and
+_remove, and thought i'd go looking through the OE recipes for an
+actual example of the use of "_remove", and the only example i found
+is in meta/recipes-extended/newt, but it looks a bit awkward, so i
+just want to know about recommended style.
 
-Ross
+  there are two recipe files there -- libnewt_0.52.17.bb and
+libnewt-python_0.52.17.bb -- with the following structure. that first
+recipe file contains (among other things) the following:
+
+PACKAGES_prepend = "whiptail "
+...
+FILES_whiptail = "${bindir}/whiptail"
+
+  ok, so that recipe defines an additional package, and adds a single
+file to that package, whereupon the second recipe file contains:
+
+require recipes-extended/newt/libnewt_${PV}.bb
+...
+PACKAGES_remove = "whiptail"
+
+  it just seems awkward for recipe 1 to explicitly add a package, only
+for recipe 2 to include that recipe file, and subsequently remove that
+package.
+
+  it's not a big deal, but from a style perspective, i would have
+thought one would first create a generic libnewt.inc file with common
+content, then define the two recipe files off of that. does that make
+sense in terms of best programming principles?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
