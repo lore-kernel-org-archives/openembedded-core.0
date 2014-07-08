@@ -1,26 +1,22 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 04FE265CC1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D52CB70415
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 14:52:01 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jul 2014 07:52:02 -0700
+	Tue,  8 Jul 2014 14:52:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jul 2014 07:51:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,625,1400050800"; d="scan'208";a="540295622"
+X-IronPort-AV: E=Sophos;i="5.01,625,1400050800"; d="scan'208";a="566758617"
 Received: from gmacartn-mobl.ger.corp.intel.com (HELO localhost)
 	([10.255.13.3])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jul 2014 07:52:01 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2014 07:51:55 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
 Date: Tue,  8 Jul 2014 09:51:54 -0500
-Message-Id: <2bdfc41eabf5c876d0fe2f75584d3cb930b46539.1404830754.git.tom.zanussi@linux.intel.com>
+Message-Id: <cover.1404830754.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <62d5079dcc2b71362fb5930ca600e8936a040049.1404830754.git.tom.zanussi@linux.intel.com>
-References: <62d5079dcc2b71362fb5930ca600e8936a040049.1404830754.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1404830754.git.tom.zanussi@linux.intel.com>
-References: <cover.1404830754.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 3/5] wic: Print error if a partition specifies an invalid --source
+Subject: [PATCH 0/5] wic: Source plugin updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 14:52:09 -0000
+X-List-Received-Date: Tue, 08 Jul 2014 14:52:10 -0000
 
-If a partition specified in a .wks file specifies a nonexistent
---source, print an error to that effect and exit.  The error text also
-points the user to a command listing valid sources, and help on adding
-a new source plugin.
+This patchset adds a new 'list plugins' subcommand along with some
+better error handling and messaging when users try to use
+nonexistent plugins.  It also adds a new hook for general purpose
+help topics and adds a 'plugins' topic as the first entry.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- scripts/lib/mic/kickstart/custom_commands/partition.py | 5 +++++
- 1 file changed, 5 insertions(+)
+Addresses problems exposed in YOCTO #6481.
 
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index 6b575c0..75ad6ad 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -130,6 +130,11 @@ class Wic_PartData(Mic_PartData):
-                                              native_sysroot)
-             return
- 
-+        plugins = pluginmgr.get_source_plugins()
-+
-+        if self.source not in plugins:
-+            msger.error("The '%s' --source specified for %s doesn't exist.\n\tSee 'wic list source-plugins' for a list of available --sources.\n\tSee 'wic help source-plugins' for details on adding a new source plugin." % (self.source, self.mountpoint))
-+
-         self._source_methods = pluginmgr.get_source_plugin_methods(self.source, partition_methods)
-         self._source_methods["do_configure_partition"](self, cr, cr_workdir,
-                                                        oe_builddir,
+The following changes since commit 6879c3c903ec7d08cf0240281c83d85b4a42b6db:
+
+  maintainers.inc: add info for libical (2014-07-08 11:20:14 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-plugin-updates
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-plugin-updates
+
+Tom Zanussi (5):
+  wic: Add command to list available source plugins
+  wic: Add help text for 'wic list source-plugins'
+  wic: Print error if a partition specifies an invalid --source
+  wic: Add dummy subcommand and usage strings
+  wic: Add general 'plugins' help topic
+
+ scripts/lib/image/engine.py                        |  13 +++
+ scripts/lib/image/help.py                          | 121 ++++++++++++++++++++-
+ .../lib/mic/kickstart/custom_commands/partition.py |   5 +
+ scripts/lib/mic/plugin.py                          |  16 +++
+ scripts/wic                                        |  28 ++++-
+ 5 files changed, 173 insertions(+), 10 deletions(-)
+
 -- 
 1.8.3.1
 
