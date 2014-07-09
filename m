@@ -1,24 +1,36 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DB62B70410
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8E97024A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jul 2014 01:40:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s691ep29026119
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Jul 2014 18:40:51 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 8 Jul 2014 18:40:51 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Jul 2014 09:39:21 +0800
-Message-ID: <cover.1404869333.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed,  9 Jul 2014 08:11:23 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 09 Jul 2014 01:11:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,630,1400050800"; d="scan'208";a="454842666"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by azsmga001.ch.intel.com with ESMTP; 09 Jul 2014 01:11:23 -0700
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 9 Jul 2014 09:11:22 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.76]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.25]) with mapi id
+	14.03.0123.003; Wed, 9 Jul 2014 09:11:22 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] builder: removed setting of BB_NUMBER_THREADS and
+	PARALLEL_MAKE
+Thread-Index: AQHPl5CVuY/Vkrn/SkurG04eu6KkQZuXa5FQ
+Date: Wed, 9 Jul 2014 08:11:22 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F277880@IRSMSX105.ger.corp.intel.com>
+References: <1404482504-25076-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1404482504-25076-1-git-send-email-cristian.iorga@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Subject: [PATCH 0/1] classes/insane: Show QA check name
+Subject: Re: [PATCH] builder: removed setting of BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jul 2014 01:40:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 09 Jul 2014 08:11:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit a5531a2b8983318b99c119a87b78a92cf84160b8:
+Ping.
 
-  bitbake: fetch2/svn: Add transportuser parameter (2014-07-04 09:28:36 +0100)
+-----Original Message-----
+From: Iorga, Cristian=20
+Sent: Friday, July 4, 2014 5:02 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Iorga, Cristian
+Subject: [PATCH] builder: removed setting of BB_NUMBER_THREADS and PARALLEL=
+_MAKE
 
-are available in the git repository at:
+This values are now adjusted automatically, based on underlying hardware CP=
+U cores count, so no need to enable manually.
 
-  git://git.pokylinux.org/poky-contrib chonglu/qacheck
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/qacheck
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-graphics/builder/files/builder_hob_start.sh | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Chong Lu (1):
-  classes/insane: Show QA check name
-
- meta/classes/insane.bbclass | 66 ++++++++++++++++++++++-----------------------
- 1 file changed, 32 insertions(+), 34 deletions(-)
-
--- 
+diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/met=
+a/recipes-graphics/builder/files/builder_hob_start.sh
+index 42c93dd..65a68ee 100644
+--- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
++++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+@@ -30,10 +30,6 @@ fi
+ cd /home/builder/poky
+ . ./oe-init-build-env
+=20
+-#uncomment the settings for BB_NUMBER_THREADS and PARALLEL_MAKE -sed -i 's=
+/^#BB_NUMBER_THREADS =3D/BB_NUMBER_THREADS =3D/g' conf/local.conf -sed -i '=
+s/^#PARALLEL_MAKE =3D/PARALLEL_MAKE =3D/g' conf/local.conf
+-
+ hob &
+=20
+ matchbox-terminal&
+--
 1.9.1
 
 
