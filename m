@@ -1,27 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 97A1165C83
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 77F3E65CE6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jul 2014 00:19:20 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2014 17:13:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,629,1400050800"; d="scan'208";a="570257668"
-Received: from unknown (HELO [10.255.13.46]) ([10.255.13.46])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2014 17:19:02 -0700
-Message-ID: <53BC8A76.3010608@linux.intel.com>
-Date: Tue, 08 Jul 2014 17:19:02 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Wed,  9 Jul 2014 00:35:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s690ZgpQ002092
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Jul 2014 17:35:42 -0700 (PDT)
+Received: from [128.224.162.137] (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 8 Jul 2014 17:35:42 -0700
+Message-ID: <53BC8E63.1070607@windriver.com>
+Date: Wed, 9 Jul 2014 08:35:47 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
-	<joaohf@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1404266329-13524-1-git-send-email-joaohf@gmail.com>
-	<1404266329-13524-3-git-send-email-joaohf@gmail.com>
-In-Reply-To: <1404266329-13524-3-git-send-email-joaohf@gmail.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: Re: [PATCH 2/2] populate_sdk_base: ensure that filenames with empty space character are handled
+To: <openembedded-core@lists.openembedded.org>
+References: <1403504910-12319-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1403504910-12319-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] qemu: exclude some ARM EABI obsolete syscalls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,64 +34,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jul 2014 00:19:22 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 09 Jul 2014 00:35:42 -0000
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 07/01/2014 06:58 PM, João Henrique Ferreira de Freitas wrote:
-> When extracting toolchain, if the list $executable_files has filenames
-> with empty space character, the list will created but relocate_sdk.sh
-> will not handle it well. This will lead to the below erro:
+ping
+
+On 06/23/2014 02:28 PM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
 >
->      ./tmp/deploy/sdk/buildtools-mytools-x86_64-nativesdk-standalone-1.6.1.0.sh
->      Enter target directory for SDK (default: /opt/mydistro/mytoolset/1.6.1.0):
->      You are about to install the SDK to "/opt/mydistro/mytoolset/1.6.1.0". Proceed[Y/n]?
->      Extracting SDK...done
->      Setting it up.../opt/mydistro/mytoolset/1.6.1.0/relocate_sdk.sh: line 2: sintaxe error `token'  `('
->      /opt/mydistro/mytoolset/1.6.1.0/relocate_sdk.sh: line 2: `e
+> some syscalls are obsolete and no longer available for EABI, exclude them to
+> fix the below error:
+>          In file included from qemu-seccomp.c:16:0:
+>          qemu-seccomp.c:28:7: error: '__NR_select' undeclared here (not in a function)
+>                { SCMP_SYS(select), 252 },
+>                  ^
+>          qemu-seccomp.c:36:7: error: '__NR_mmap' undeclared here (not in a function)
+>                { SCMP_SYS(mmap), 247 },
+>                  ^
+>          qemu-seccomp.c:57:7: error: '__NR_getrlimit' undeclared here (not in a function)
+>                { SCMP_SYS(getrlimit), 245 },
+>                  ^
+>          qemu-seccomp.c:96:7: error: '__NR_time' undeclared here (not in a function)
+>                { SCMP_SYS(time), 245 },
+>                  ^
+>          qemu-seccomp.c:185:7: error: '__NR_alarm' undeclared here (not in a function)
+>                { SCMP_SYS(alarm), 241 },
 >
-> The same occurs with replacement of ${SDKPATH} in configs/scripts/etc files.
+> please refer source files:
+>          arch/arm/include/uapi/asm/unistd.h
+> or kernel header:
+>          /usr/include/asm/unistd.h
 >
-> We should ensure that full path is protected before relocate_sdk.sh
-> and ${SDKPATH} replacement calls.
->
-
-I am not sure about this one, there are other cases where spaces in 
-filenames/directory pathes just don't work, so fixing one place may not 
-address all issues, I thought this was documented someplace, but I can't 
-seem to find the associated bug or wiki entries.
-
-Maybe someone else can remind me also where we talk about whitespace in 
-pathe, obviously my search-fu is off right now.
-
-Sau!
-
-> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 > ---
->   meta/classes/populate_sdk_base.bbclass | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   .../exclude-some-arm-EABI-obsolete-syscalls.patch  |   93 ++++++++++++++++++++
+>   meta/recipes-devtools/qemu/qemu.inc                |    1 +
+>   2 files changed, 94 insertions(+)
+>   create mode 100644 meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
 >
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index a12bf11..5311271 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -252,7 +252,7 @@ if [ "$dl_path" = "" ] ; then
->   	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
->   	exit 1
->   fi
-> -executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111)
-> +executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 -exec echo \'{}\' \;)
+> diff --git a/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch b/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
+> new file mode 100644
+> index 0000000..171bda7
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
+> @@ -0,0 +1,93 @@
+> +[PATCH] exclude some arm EABI obsolete syscalls
+> +
+> +Upstream-Status: Pending
+> +
+> +some syscalls are obsolete and no longer available for EABI, exclude them to
+> +fix the below error:
+> +	In file included from qemu-seccomp.c:16:0:
+> +	qemu-seccomp.c:28:7: error: '__NR_select' undeclared here (not in a function)
+> +	      { SCMP_SYS(select), 252 },
+> +	        ^
+> +	qemu-seccomp.c:36:7: error: '__NR_mmap' undeclared here (not in a function)
+> +	      { SCMP_SYS(mmap), 247 },
+> +	        ^
+> +	qemu-seccomp.c:57:7: error: '__NR_getrlimit' undeclared here (not in a function)
+> +	      { SCMP_SYS(getrlimit), 245 },
+> +	        ^
+> +	qemu-seccomp.c:96:7: error: '__NR_time' undeclared here (not in a function)
+> +	      { SCMP_SYS(time), 245 },
+> +	        ^
+> +	qemu-seccomp.c:185:7: error: '__NR_alarm' undeclared here (not in a function)
+> +	      { SCMP_SYS(alarm), 241 },
+> +
+> +please refer source files:
+> +	arch/arm/include/uapi/asm/unistd.h
+> +or kernel header:
+> +	/usr/include/asm/unistd.h
+> +
+> +Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> +---
+> + qemu-seccomp.c | 14 ++++++++------
+> + 1 file changed, 8 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/qemu-seccomp.c b/qemu-seccomp.c
+> +index caa926e..5a78502 100644
+> +--- a/qemu-seccomp.c
+> ++++ b/qemu-seccomp.c
+> +@@ -25,15 +25,21 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+> +     { SCMP_SYS(timer_settime), 255 },
+> +     { SCMP_SYS(timer_gettime), 254 },
+> +     { SCMP_SYS(futex), 253 },
+> ++#if !defined(__ARM_EABI__)
+> +     { SCMP_SYS(select), 252 },
+> ++    { SCMP_SYS(time), 245 },
+> ++    { SCMP_SYS(alarm), 241 },
+> ++    { SCMP_SYS(getrlimit), 245 },
+> ++    { SCMP_SYS(mmap), 247 },
+> ++    { SCMP_SYS(socketcall), 250 },
+> ++    { SCMP_SYS(ipc), 245 },
+> ++#endif
+> +     { SCMP_SYS(recvfrom), 251 },
+> +     { SCMP_SYS(sendto), 250 },
+> +-    { SCMP_SYS(socketcall), 250 },
+> +     { SCMP_SYS(read), 249 },
+> +     { SCMP_SYS(io_submit), 249 },
+> +     { SCMP_SYS(brk), 248 },
+> +     { SCMP_SYS(clone), 247 },
+> +-    { SCMP_SYS(mmap), 247 },
+> +     { SCMP_SYS(mprotect), 246 },
+> +     { SCMP_SYS(execve), 245 },
+> +     { SCMP_SYS(open), 245 },
+> +@@ -48,13 +54,11 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+> +     { SCMP_SYS(bind), 245 },
+> +     { SCMP_SYS(listen), 245 },
+> +     { SCMP_SYS(semget), 245 },
+> +-    { SCMP_SYS(ipc), 245 },
+> +     { SCMP_SYS(gettimeofday), 245 },
+> +     { SCMP_SYS(readlink), 245 },
+> +     { SCMP_SYS(access), 245 },
+> +     { SCMP_SYS(prctl), 245 },
+> +     { SCMP_SYS(signalfd), 245 },
+> +-    { SCMP_SYS(getrlimit), 245 },
+> +     { SCMP_SYS(set_tid_address), 245 },
+> +     { SCMP_SYS(statfs), 245 },
+> +     { SCMP_SYS(unlink), 245 },
+> +@@ -93,7 +97,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+> +     { SCMP_SYS(times), 245 },
+> +     { SCMP_SYS(exit), 245 },
+> +     { SCMP_SYS(clock_gettime), 245 },
+> +-    { SCMP_SYS(time), 245 },
+> +     { SCMP_SYS(restart_syscall), 245 },
+> +     { SCMP_SYS(pwrite64), 245 },
+> +     { SCMP_SYS(nanosleep), 245 },
+> +@@ -182,7 +185,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
+> +     { SCMP_SYS(lstat64), 241 },
+> +     { SCMP_SYS(sendfile64), 241 },
+> +     { SCMP_SYS(ugetrlimit), 241 },
+> +-    { SCMP_SYS(alarm), 241 },
+> +     { SCMP_SYS(rt_sigsuspend), 241 },
+> +     { SCMP_SYS(rt_sigqueueinfo), 241 },
+> +     { SCMP_SYS(rt_tgsigqueueinfo), 241 },
+> +--
+> +1.9.1
+> +
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 076e8ad..ab0724a 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -20,6 +20,7 @@ SRC_URI = "\
+>       file://no-strip.patch \
+>       file://larger_default_ram_size.patch \
+>       file://disable-grabs.patch \
+> +    file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+>       "
 >
->   tdir=`mktemp -d`
->   if [ x$tdir = x ] ; then
-> @@ -273,7 +273,7 @@ if [ $relocate = 1 ] ; then
->   fi
+>   SRC_URI_append_class-native = "\
 >
->   # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
-> -$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|grep ":.*\(ASCII\|script\|source\).*text"|cut -d':' -f1|$SUDO_EXEC xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
-> +$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|grep ":.*\(ASCII\|script\|source\).*text"|cut -d':' -f1|tr "\n" "\0"|$SUDO_EXEC xargs -0 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
->
->   # change all symlinks pointing to ${SDKPATH}
->   for l in $($SUDO_EXEC find $native_sysroot -type l); do
->
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
