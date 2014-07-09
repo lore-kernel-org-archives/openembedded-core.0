@@ -1,26 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3195F7045A
+Return-Path: <smennetrier@connected-labs.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 316E670290
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jul 2014 10:17:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s69AHQum001914
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Jul 2014 03:17:26 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 9 Jul 2014 03:17:25 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Jul 2014 18:17:01 +0800
-Message-ID: <cf53e769126cd311242b334989618fd969b8d521.1404885647.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1404885647.git.hongxu.jia@windriver.com>
-References: <cover.1404885647.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 8/8] xserver-xorg.inc: add PACKAGECONFIG for xmlto
+	Wed,  9 Jul 2014 14:24:54 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id k14so7447368wgh.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Jul 2014 07:24:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=IU81d+cvDBDwP1GgE29ax88n8j8LpnClFKaTwHI527Q=;
+	b=I6iWPzpimwdD0at2j4G6VjeVPUhTI/mZyoW9dlA2zEfHSiYXQHd+zP+RUVem7/kzY5
+	g7Ro2QKhp/g1t55IdJbUyhTulrkJHJQ/OgwC7xkBE68sr1O4S1u65+PkmqVHkIajBa8I
+	c4QiY69DsNlwQjJAc+wTi92Umb8ShY8gZ/iYPChyroAX82gcvwto/aSnurOvxIJStMH9
+	jrQlPlMR8oFa40MYqyv0RdALemNPDvgR4tedFitSI0hVa6PwbATGL0BLTE4D+U+0xRix
+	xAGEYmI5YJIhWo+iDj2VAyiu/66Pz2EFrycVIKX7mU/Ro8Zgf8LGHNio7omR6V7ZJzwU
+	vbOw==
+X-Gm-Message-State: ALoCoQkzvTIoawABqdQ0tcAYrVPRCd3WyipgzGMYm19RgcGfj4Xhc6l2/Ec3iacYmltcKE38WPjH
+X-Received: by 10.180.80.70 with SMTP id p6mr12209319wix.22.1404915895289;
+	Wed, 09 Jul 2014 07:24:55 -0700 (PDT)
+Received: from smennetrier-desktop.mpl.mstarsemi.fr
+	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
+	by mx.google.com with ESMTPSA id
+	h3sm103689110wjz.48.2014.07.09.07.24.53 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 09 Jul 2014 07:24:54 -0700 (PDT)
+From: =?UTF-8?q?S=C3=A9bastien=20Mennetrier?= <smennetrier@connected-labs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Jul 2014 16:24:49 +0200
+Message-Id: <1404915889-26159-1-git-send-email-smennetrier@connected-labs.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [dora][backport from master] apmd.service: Fix typo (not mandatory EnvironmentFile prefix)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jul 2014 10:17:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 09 Jul 2014 14:25:03 -0000
 
-Support xmlto for documentation generation and disable it by default.
+From: Tobias Blom <tobias.blom@techne-dev.se>
 
-[YOCTO #2416]
+Prefix to EnvironmentFile should be preciding the filenamn.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+(From OE-Core rev: 1f694e4cb493b0737b6009382c0957e6837ebbed)
+
+Signed-off-by: Tobias Blom <tobias.blom@techne-dev.se>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
+ meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 8b5747e..6281eee 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -99,7 +99,6 @@ FILES_${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
- FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
+diff --git a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
+index 62d6af1..ffab823 100644
+--- a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
++++ b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
+@@ -3,5 +3,5 @@ Description=Advanced Power Management daemon
+ After=remote-fs.target
  
- EXTRA_OECONF += "--with-fop=no \
--                 --without-xmlto \
-                  --with-pic \
-                  --disable-static \
-                  --disable-xinerama \
-@@ -125,6 +124,7 @@ PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto"
- PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
- PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
-+PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
+ [Service]
+-EnvironmentFile-= @SYSCONFDIR@/default/apmd
++EnvironmentFile=-@SYSCONFDIR@/default/apmd
+ ExecStart=@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
 -- 
-1.8.1.2
+1.8.3.2
 
 
