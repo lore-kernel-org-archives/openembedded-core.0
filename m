@@ -1,27 +1,38 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 77F3E65CE6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BF56609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jul 2014 00:35:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s690ZgpQ002092
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  9 Jul 2014 00:57:55 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id j17so7208605oag.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Jul 2014 17:35:42 -0700 (PDT)
-Received: from [128.224.162.137] (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 8 Jul 2014 17:35:42 -0700
-Message-ID: <53BC8E63.1070607@windriver.com>
-Date: Wed, 9 Jul 2014 08:35:47 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Tue, 08 Jul 2014 17:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=PdeChvZN+qtFSf/MYOaKJWzPV/4kZnRwtOPK+XWnZJg=;
+	b=OF2Yv+Oy+b7WEqTEUUD9s6wj6Y8xSSjTcz91u9gxM+Li4x6YtKSh1BTnDeM4To3mWu
+	+KO3gmXchrWxVxxI7bX3/cipX0oYQWiweRi8WJV4+eTEJj3ixFFZXAYSZb//TMyQLpZb
+	lWmyi6ij+9J5b4ERGg3PptG9HISYH3nTYyFGmWCcPFkntYYx1BPIDtPLKVOHwsFtAZWL
+	VK78pfzKAH627Ee27d4GFv3OQ+/9c516SCPzoXPO8/ciMwWj47+XScusxnwncm7cnCyj
+	0IwLEsPCh7X3wL2KOwRfVe0dmOntNRaOdRlt34miGKO/wa8eOcPiXjpIcPfPCvfWK974
+	Nmdg==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1403504910-12319-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1403504910-12319-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] qemu: exclude some ARM EABI obsolete syscalls
+X-Received: by 10.182.121.170 with SMTP id ll10mr43706579obb.58.1404867476738; 
+	Tue, 08 Jul 2014 17:57:56 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.50.135 with HTTP; Tue, 8 Jul 2014 17:57:56 -0700 (PDT)
+In-Reply-To: <CAJTo0Lbsf6fw=rg3mQv7CqJ+Apmxd2X6W=srNf6dNer_5VZqNQ@mail.gmail.com>
+References: <cover.1404812342.git.hongxu.jia@windriver.com>
+	<CAJTo0Lbsf6fw=rg3mQv7CqJ+Apmxd2X6W=srNf6dNer_5VZqNQ@mail.gmail.com>
+Date: Tue, 8 Jul 2014 21:57:56 -0300
+X-Google-Sender-Auth: aVLGTWuCs6id7Vm7TK25K7eI1ek
+Message-ID: <CAP9ODKrMXK1c25F8E4ApXTKRSc2VHw1kMMZev5ZEMATeCRAGFA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 0/8] support xmlto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,159 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jul 2014 00:35:42 -0000
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Jul 2014 00:58:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ping
+On Tue, Jul 8, 2014 at 6:33 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 8 July 2014 10:47, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> The xmlto was shipped from meta-oe, and fixed the defects that
+>> 'xmlto/xsltproc stylesheets cannot be found even when they are
+>> installed in sysroot'
+>>
+>> The xmlto required docbook-xml-dtd and docbook-xsl-stylesheets,
+>> we refered debian's docbook-xml-dtd and ubuntu config.
+>>
+>> We also enable xmlto for alsa-utils, xorg-proto-common.inc,
+>> xorg-lib-common.inc, xserver-xorg.inc.
+>
+> Presumably the goal here is to enable documentation generation?  I'd
+> say what we want is more complicated than a blanket "--with-xmlto" and
+> comes back to the same points I raised when the doxygen patch was
+> submitted.
+>
+> Native packages never need to build documentation, as nobody is going
+> to read it.  We've made steps in this direction with the texinfo class
+> that stubs makeinfo for native recipes.
+>
+> Target packages may want documentation, but may not.  A powerul board
+> such as a Minnow or Beagle can support development on the target and
+> having e.g. the X11 protocol documentation available might be
+> convenient.  A board with no UI and 64MB of RAM isn't going to support
+> development on the target and every built piece of documentation is
+> wasted time.
+>
+> SDK packages do want documentation.  The ability to ship a SDK with a
+> toolchain, libraries, and exactly the correct documentation for the
+> libraries is valuable and currently something we can't do.
+>
+> I'd suggest that we need a global BUILD_DOCUMENTATION variable that
+> can be overridden per-class so that e.g. native and target recipes
+> don't build documentation but SDK packages do.  Then along with xmlto
+> we can add gtk-doc and doxygen, adding the ability to build full API
+> documentation for the SDKs.
+>
+> As such this is definitely a two-part series.  Adding xmlto is useful
+> and I'm genuinely happy that someone who wasn't me managed to get
+> docbook-xsl working ;) as that's the blocker for gtk-doc support too.
+> However rnabling xmlto in some recipes globally isn't the right thing
+> to do and will introduce noticeable regressions in build time for many
+> classes of users for no reason.
 
-On 06/23/2014 02:28 PM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->
-> some syscalls are obsolete and no longer available for EABI, exclude them to
-> fix the below error:
->          In file included from qemu-seccomp.c:16:0:
->          qemu-seccomp.c:28:7: error: '__NR_select' undeclared here (not in a function)
->                { SCMP_SYS(select), 252 },
->                  ^
->          qemu-seccomp.c:36:7: error: '__NR_mmap' undeclared here (not in a function)
->                { SCMP_SYS(mmap), 247 },
->                  ^
->          qemu-seccomp.c:57:7: error: '__NR_getrlimit' undeclared here (not in a function)
->                { SCMP_SYS(getrlimit), 245 },
->                  ^
->          qemu-seccomp.c:96:7: error: '__NR_time' undeclared here (not in a function)
->                { SCMP_SYS(time), 245 },
->                  ^
->          qemu-seccomp.c:185:7: error: '__NR_alarm' undeclared here (not in a function)
->                { SCMP_SYS(alarm), 241 },
->
-> please refer source files:
->          arch/arm/include/uapi/asm/unistd.h
-> or kernel header:
->          /usr/include/asm/unistd.h
->
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->   .../exclude-some-arm-EABI-obsolete-syscalls.patch  |   93 ++++++++++++++++++++
->   meta/recipes-devtools/qemu/qemu.inc                |    1 +
->   2 files changed, 94 insertions(+)
->   create mode 100644 meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
->
-> diff --git a/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch b/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
-> new file mode 100644
-> index 0000000..171bda7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
-> @@ -0,0 +1,93 @@
-> +[PATCH] exclude some arm EABI obsolete syscalls
-> +
-> +Upstream-Status: Pending
-> +
-> +some syscalls are obsolete and no longer available for EABI, exclude them to
-> +fix the below error:
-> +	In file included from qemu-seccomp.c:16:0:
-> +	qemu-seccomp.c:28:7: error: '__NR_select' undeclared here (not in a function)
-> +	      { SCMP_SYS(select), 252 },
-> +	        ^
-> +	qemu-seccomp.c:36:7: error: '__NR_mmap' undeclared here (not in a function)
-> +	      { SCMP_SYS(mmap), 247 },
-> +	        ^
-> +	qemu-seccomp.c:57:7: error: '__NR_getrlimit' undeclared here (not in a function)
-> +	      { SCMP_SYS(getrlimit), 245 },
-> +	        ^
-> +	qemu-seccomp.c:96:7: error: '__NR_time' undeclared here (not in a function)
-> +	      { SCMP_SYS(time), 245 },
-> +	        ^
-> +	qemu-seccomp.c:185:7: error: '__NR_alarm' undeclared here (not in a function)
-> +	      { SCMP_SYS(alarm), 241 },
-> +
-> +please refer source files:
-> +	arch/arm/include/uapi/asm/unistd.h
-> +or kernel header:
-> +	/usr/include/asm/unistd.h
-> +
-> +Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> +---
-> + qemu-seccomp.c | 14 ++++++++------
-> + 1 file changed, 8 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/qemu-seccomp.c b/qemu-seccomp.c
-> +index caa926e..5a78502 100644
-> +--- a/qemu-seccomp.c
-> ++++ b/qemu-seccomp.c
-> +@@ -25,15 +25,21 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
-> +     { SCMP_SYS(timer_settime), 255 },
-> +     { SCMP_SYS(timer_gettime), 254 },
-> +     { SCMP_SYS(futex), 253 },
-> ++#if !defined(__ARM_EABI__)
-> +     { SCMP_SYS(select), 252 },
-> ++    { SCMP_SYS(time), 245 },
-> ++    { SCMP_SYS(alarm), 241 },
-> ++    { SCMP_SYS(getrlimit), 245 },
-> ++    { SCMP_SYS(mmap), 247 },
-> ++    { SCMP_SYS(socketcall), 250 },
-> ++    { SCMP_SYS(ipc), 245 },
-> ++#endif
-> +     { SCMP_SYS(recvfrom), 251 },
-> +     { SCMP_SYS(sendto), 250 },
-> +-    { SCMP_SYS(socketcall), 250 },
-> +     { SCMP_SYS(read), 249 },
-> +     { SCMP_SYS(io_submit), 249 },
-> +     { SCMP_SYS(brk), 248 },
-> +     { SCMP_SYS(clone), 247 },
-> +-    { SCMP_SYS(mmap), 247 },
-> +     { SCMP_SYS(mprotect), 246 },
-> +     { SCMP_SYS(execve), 245 },
-> +     { SCMP_SYS(open), 245 },
-> +@@ -48,13 +54,11 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
-> +     { SCMP_SYS(bind), 245 },
-> +     { SCMP_SYS(listen), 245 },
-> +     { SCMP_SYS(semget), 245 },
-> +-    { SCMP_SYS(ipc), 245 },
-> +     { SCMP_SYS(gettimeofday), 245 },
-> +     { SCMP_SYS(readlink), 245 },
-> +     { SCMP_SYS(access), 245 },
-> +     { SCMP_SYS(prctl), 245 },
-> +     { SCMP_SYS(signalfd), 245 },
-> +-    { SCMP_SYS(getrlimit), 245 },
-> +     { SCMP_SYS(set_tid_address), 245 },
-> +     { SCMP_SYS(statfs), 245 },
-> +     { SCMP_SYS(unlink), 245 },
-> +@@ -93,7 +97,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
-> +     { SCMP_SYS(times), 245 },
-> +     { SCMP_SYS(exit), 245 },
-> +     { SCMP_SYS(clock_gettime), 245 },
-> +-    { SCMP_SYS(time), 245 },
-> +     { SCMP_SYS(restart_syscall), 245 },
-> +     { SCMP_SYS(pwrite64), 245 },
-> +     { SCMP_SYS(nanosleep), 245 },
-> +@@ -182,7 +185,6 @@ static const struct QemuSeccompSyscall seccomp_whitelist[] = {
-> +     { SCMP_SYS(lstat64), 241 },
-> +     { SCMP_SYS(sendfile64), 241 },
-> +     { SCMP_SYS(ugetrlimit), 241 },
-> +-    { SCMP_SYS(alarm), 241 },
-> +     { SCMP_SYS(rt_sigsuspend), 241 },
-> +     { SCMP_SYS(rt_sigqueueinfo), 241 },
-> +     { SCMP_SYS(rt_tgsigqueueinfo), 241 },
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 076e8ad..ab0724a 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -20,6 +20,7 @@ SRC_URI = "\
->       file://no-strip.patch \
->       file://larger_default_ram_size.patch \
->       file://disable-grabs.patch \
-> +    file://exclude-some-arm-EABI-obsolete-syscalls.patch \
->       "
->
->   SRC_URI_append_class-native = "\
->
+I second all your concerns and also I add that the commit logs were too pour.
+
+I am really not sure about a global setting is the way to go. I'd be
+more included to a PACKAGECONFIG like system.
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
