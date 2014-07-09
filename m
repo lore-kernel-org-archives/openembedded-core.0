@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id E82FE7040F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 97A1165C83
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jul 2014 21:33:31 +0000 (UTC)
-Received: by mail-qa0-f52.google.com with SMTP id w8so5322634qac.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jul 2014 14:33:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ZlVmIyi7J4bnMk0XLHIOUlvaChlNy+4MJzFN4iFbmYQ=;
-	b=AihABqFLHbG9vFGPnTQVvvEl7iMe57dZcsFfV8TsF8hUrLm75mvL86HwDZVPiaBjo8
-	i70Y1uA4cdPxno8j7pPLi2gt+D/ZmP1MnoeAAR59aArNE5EwdC/pOepUJOf++zcNSLFf
-	x+E9iPjxDpcNEMF/j22KzvoCQn0rSKw5y7egKG3LSK4yk3A1qZ/HXY3PI2BZDRk2KlLS
-	Z1Rrwf17tBmVJO/cdzcnQ/PfOZjnNKspp8G97LspEVvRyPCntrhVop327+rS4Uwe6LFM
-	ippr6/1g1eD4Ms8cROosYteHpPOvzA1XhY1upU4L7c3pG1MQ64NqT1Xi6wo912ORkZvO
-	uvGA==
-X-Gm-Message-State: ALoCoQmYq4PFwQbXxfAO+Fq7XXg9OVBb3ZXNNqZF21ma6bjDXDEZmvQLlJ7QhHQkqIYrcFuIeavz
-X-Received: by 10.224.124.74 with SMTP id t10mr64812213qar.78.1404855212982;
-	Tue, 08 Jul 2014 14:33:32 -0700 (PDT)
+	Wed,  9 Jul 2014 00:19:20 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2014 17:13:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,629,1400050800"; d="scan'208";a="570257668"
+Received: from unknown (HELO [10.255.13.46]) ([10.255.13.46])
+	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2014 17:19:02 -0700
+Message-ID: <53BC8A76.3010608@linux.intel.com>
+Date: Tue, 08 Jul 2014 17:19:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.140.86.40 with HTTP; Tue, 8 Jul 2014 14:33:12 -0700 (PDT)
-In-Reply-To: <cover.1404812342.git.hongxu.jia@windriver.com>
-References: <cover.1404812342.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jul 2014 22:33:12 +0100
-Message-ID: <CAJTo0Lbsf6fw=rg3mQv7CqJ+Apmxd2X6W=srNf6dNer_5VZqNQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/8] support xmlto
+To: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
+	<joaohf@gmail.com>, openembedded-core@lists.openembedded.org
+References: <1404266329-13524-1-git-send-email-joaohf@gmail.com>
+	<1404266329-13524-3-git-send-email-joaohf@gmail.com>
+In-Reply-To: <1404266329-13524-3-git-send-email-joaohf@gmail.com>
+Cc: paul.eggleton@linux.intel.com
+Subject: Re: [PATCH 2/2] populate_sdk_base: ensure that filenames with empty space character are handled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,52 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jul 2014 21:33:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 Jul 2014 00:19:22 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 8 July 2014 10:47, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> The xmlto was shipped from meta-oe, and fixed the defects that
-> 'xmlto/xsltproc stylesheets cannot be found even when they are
-> installed in sysroot'
+On 07/01/2014 06:58 PM, João Henrique Ferreira de Freitas wrote:
+> When extracting toolchain, if the list $executable_files has filenames
+> with empty space character, the list will created but relocate_sdk.sh
+> will not handle it well. This will lead to the below erro:
 >
-> The xmlto required docbook-xml-dtd and docbook-xsl-stylesheets,
-> we refered debian's docbook-xml-dtd and ubuntu config.
+>      ./tmp/deploy/sdk/buildtools-mytools-x86_64-nativesdk-standalone-1.6.1.0.sh
+>      Enter target directory for SDK (default: /opt/mydistro/mytoolset/1.6.1.0):
+>      You are about to install the SDK to "/opt/mydistro/mytoolset/1.6.1.0". Proceed[Y/n]?
+>      Extracting SDK...done
+>      Setting it up.../opt/mydistro/mytoolset/1.6.1.0/relocate_sdk.sh: line 2: sintaxe error `token'  `('
+>      /opt/mydistro/mytoolset/1.6.1.0/relocate_sdk.sh: line 2: `e
 >
-> We also enable xmlto for alsa-utils, xorg-proto-common.inc,
-> xorg-lib-common.inc, xserver-xorg.inc.
+> The same occurs with replacement of ${SDKPATH} in configs/scripts/etc files.
+>
+> We should ensure that full path is protected before relocate_sdk.sh
+> and ${SDKPATH} replacement calls.
+>
 
-Presumably the goal here is to enable documentation generation?  I'd
-say what we want is more complicated than a blanket "--with-xmlto" and
-comes back to the same points I raised when the doxygen patch was
-submitted.
+I am not sure about this one, there are other cases where spaces in 
+filenames/directory pathes just don't work, so fixing one place may not 
+address all issues, I thought this was documented someplace, but I can't 
+seem to find the associated bug or wiki entries.
 
-Native packages never need to build documentation, as nobody is going
-to read it.  We've made steps in this direction with the texinfo class
-that stubs makeinfo for native recipes.
+Maybe someone else can remind me also where we talk about whitespace in 
+pathe, obviously my search-fu is off right now.
 
-Target packages may want documentation, but may not.  A powerul board
-such as a Minnow or Beagle can support development on the target and
-having e.g. the X11 protocol documentation available might be
-convenient.  A board with no UI and 64MB of RAM isn't going to support
-development on the target and every built piece of documentation is
-wasted time.
+Sau!
 
-SDK packages do want documentation.  The ability to ship a SDK with a
-toolchain, libraries, and exactly the correct documentation for the
-libraries is valuable and currently something we can't do.
-
-I'd suggest that we need a global BUILD_DOCUMENTATION variable that
-can be overridden per-class so that e.g. native and target recipes
-don't build documentation but SDK packages do.  Then along with xmlto
-we can add gtk-doc and doxygen, adding the ability to build full API
-documentation for the SDKs.
-
-As such this is definitely a two-part series.  Adding xmlto is useful
-and I'm genuinely happy that someone who wasn't me managed to get
-docbook-xsl working ;) as that's the blocker for gtk-doc support too.
-However rnabling xmlto in some recipes globally isn't the right thing
-to do and will introduce noticeable regressions in build time for many
-classes of users for no reason.
-
-Ross
+> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+> ---
+>   meta/classes/populate_sdk_base.bbclass | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index a12bf11..5311271 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -252,7 +252,7 @@ if [ "$dl_path" = "" ] ; then
+>   	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
+>   	exit 1
+>   fi
+> -executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111)
+> +executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 -exec echo \'{}\' \;)
+>
+>   tdir=`mktemp -d`
+>   if [ x$tdir = x ] ; then
+> @@ -273,7 +273,7 @@ if [ $relocate = 1 ] ; then
+>   fi
+>
+>   # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
+> -$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|grep ":.*\(ASCII\|script\|source\).*text"|cut -d':' -f1|$SUDO_EXEC xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+> +$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|grep ":.*\(ASCII\|script\|source\).*text"|cut -d':' -f1|tr "\n" "\0"|$SUDO_EXEC xargs -0 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+>
+>   # change all symlinks pointing to ${SDKPATH}
+>   for l in $($SUDO_EXEC find $native_sysroot -type l); do
+>
 
