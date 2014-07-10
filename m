@@ -1,37 +1,28 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 76AC8703C1
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C7E270241
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jul 2014 17:32:14 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id cc10so5000487wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jul 2014 10:32:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Pts8QZQbJTOyySDpmRJqK52CT4IcxpI2nIq1+vjDHYc=;
-	b=QbjkA+5oqoEmqIPY+8phEWYT5VyhOIkwcI/TRrbIGQN6hSpPCRgenvXJKgCm3AoIO7
-	PBGTmdyhGQIQ9otluw7+Ae1G5zH5ndHLpMruv5pnBgA6O5rBh72nucSZ6+WVYgXGphjA
-	SOJxOFs3fCvSm52uLDGfihr+ZNqbJZ2LCbXTqsXKwpzOEyQsr8JQKUy3kJjOfVKU0TlC
-	yeEjF7yn2094EAJ2VVUIBrj3r8S1ojsdhaVuPsXdkZdWsZv4yzO6qydrQS6RemI5wvFF
-	1THCbD59RVJNxuKyIZRMkRbKZnREa1zeo5dcbYgxG3kmW+3rYu21Kb+UR5MNBR5hZqeV
-	wPKQ==
-X-Gm-Message-State: ALoCoQn8cIuXoYxRO1gnIogmsDj3A2RlzpirAdQIOWP0XiPwbnbD7U9BW+g3KyToe9gFoyU03GVw
-X-Received: by 10.194.221.6 with SMTP id qa6mr57176964wjc.39.1405013532677;
-	Thu, 10 Jul 2014 10:32:12 -0700 (PDT)
-Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
-	[78.243.126.63]) by mx.google.com with ESMTPSA id
-	lk7sm111657287wjb.24.2014.07.10.10.32.11 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Jul 2014 10:32:11 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jul 2014 19:32:04 +0200
-Message-Id: <1405013524-11228-1-git-send-email-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.0.1
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] git: update to v2.0.1
+	Thu, 10 Jul 2014 19:18:23 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1X5JrM-0000bk-Ga from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 Jul 2014 12:18:24 -0700
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 10 Jul 2014 12:18:24 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
+	Server id 14.2.247.3; Thu, 10 Jul 2014 12:17:57 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Jul 2014 15:18:22 -0400
+Message-ID: <1405019902-31691-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-OriginalArrivalTime: 10 Jul 2014 19:18:24.0129 (UTC)
+	FILETIME=[B81FAF10:01CF9C73]
+Subject: [PATCH] libomxil-0.9.3: Move .so files to main package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jul 2014 17:32:17 -0000
+X-List-Received-Date: Thu, 10 Jul 2014 19:18:24 -0000
+Content-Type: text/plain
 
-Also fetch source code from kernel.org. As per the Git release announcement, see
-[1], Git source tarball are now located back on kernel.org, at [2].
+The omxregister-bellagio app scans the libdir for the '*.so'
+files to get them properly registered.  Make sure they are
+included in the base package rather than the dev.
 
-[1] https://lkml.org/lkml/2014/6/25/760
-[2] https://www.kernel.org/pub/software/scm/git/
-
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 ---
- meta/recipes-devtools/git/git.inc                        | 1 +
- meta/recipes-devtools/git/{git_1.9.0.bb => git_2.0.1.bb} | 6 ++----
- 2 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/git/{git_1.9.0.bb => git_2.0.1.bb} (52%)
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 4e0527c..7633577 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -5,6 +5,7 @@ DEPENDS = "openssl curl zlib expat"
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index 103d789..e11febc 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -24,12 +24,14 @@ inherit autotools
+ EXTRA_OECONF += "--disable-doc --disable-Werror"
  
- PROVIDES_append_class-native = " git-replacement-native"
- 
-+SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz"
- S = "${WORKDIR}/git-${PV}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
-diff --git a/meta/recipes-devtools/git/git_1.9.0.bb b/meta/recipes-devtools/git/git_2.0.1.bb
-similarity index 52%
-rename from meta/recipes-devtools/git/git_1.9.0.bb
-rename to meta/recipes-devtools/git/git_2.0.1.bb
-index 4eb6c99..dbf32e1 100644
---- a/meta/recipes-devtools/git/git_1.9.0.bb
-+++ b/meta/recipes-devtools/git/git_2.0.1.bb
-@@ -1,9 +1,7 @@
- require git.inc
- 
--SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "e16c14b27c644b8e0dd72bdb5ff77450"
--SRC_URI[sha256sum] = "de3097fdc36d624ea6cf4bb853402fde781acdb860f12152c5eb879777389882"
-+SRC_URI[md5sum] = "981f5937840716cb563be1cc6292c8d7"
-+SRC_URI[sha256sum] = "02609a06fb40db1f6a968867c0e82bcb959b85902747830de0fda53228712daf"
- 
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+ FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
+-                ${libdir}/omxloaders/*${SOLIBS}"
++                ${libdir}/bellagio/*${SOLIBSDEV} \
++                ${libdir}/omxloaders/*${SOLIBS} \
++                ${libdir}/omxloaders/*${SOLIBSDEV}"
+ FILES_${PN}-staticdev += "${libdir}/bellagio/*.a \
+                           ${libdir}/omxloaders/*.a"
+ FILES_${PN}-dev += "${libdir}/bellagio/*.la \
+-                    ${libdir}/bellagio/*${SOLIBSDEV} \
+-                    ${libdir}/omxloaders/*.la \
+-                    ${libdir}/omxloaders/*${SOLIBSDEV}"
++                    ${libdir}/omxloaders/*.la"
+ FILES_${PN}-dbg += "${libdir}/bellagio/.debug/ \
+                     ${libdir}/omxloaders/.debug/"
++
++INSANE_SKIP_${PN} += "dev-so"
 -- 
-2.0.1
+1.9.1
 
 
