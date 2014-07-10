@@ -1,38 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id F14096ACD6
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 76AC8703C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jul 2014 14:46:41 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id k15so324812qaq.24
+	Thu, 10 Jul 2014 17:32:14 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id cc10so5000487wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jul 2014 07:46:41 -0700 (PDT)
+	Thu, 10 Jul 2014 10:32:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=agXVkgl0ONo0HUlhiJ/wctqZuHVn47znnwzUMYKNBjM=;
-	b=EuGfpVkIp2DEnvjXrYoXZNSPTvTVMSCjYj9yTBFEiyouDGP+5yWR9iJOmuc8gvB5dJ
-	x9D3jlzUKcbiua9QMvm868o+DEESYMJStvKp/ITdQ4KfB9OnVvEEOY5AUPz25xcXgiKu
-	r8sHM++MWkYjbHQArS8t8iqgnVooVQgK0Qze1zbgqajvHDx0DjeQ/WNgOCrydVgaM9Ee
-	J6hCbWVniW07L8lFKTuvK1P6np2YAPOHwwhGBD/xiAF7IwR6YkUximwVr9QR+mXPpefW
-	zb6GAR53QnrLzhIhCBHqeiINTinkLo7cerbZcHWPCbi9kA+L0PczHhNTrA+xPve8p4so
-	9fkw==
-X-Gm-Message-State: ALoCoQmmu2Z3gUVmaNGOyUhlQeTFZfMXTJmuGvjkNK7DdhcjrZzfnfzUiChWq+i+IjdzbVEAKpPC
-X-Received: by 10.224.124.74 with SMTP id t10mr82365925qar.78.1405003601322;
-	Thu, 10 Jul 2014 07:46:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Thu, 10 Jul 2014 07:46:21 -0700 (PDT)
-In-Reply-To: <53BE9A21.8060606@linux.intel.com>
-References: <cover.1404997871.git.roxana.ciobanu@intel.com>
-	<56d5da369a640da16ac88ce325b12636d17e0400.1404997871.git.roxana.ciobanu@intel.com>
-	<53BE9A21.8060606@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Jul 2014 15:46:21 +0100
-Message-ID: <CAJTo0LZrUCY5Fh97H06nEoROHcLkZB9R7xUjEC8SGLD7EvtYvQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] latencytop: fix mount error
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Pts8QZQbJTOyySDpmRJqK52CT4IcxpI2nIq1+vjDHYc=;
+	b=QbjkA+5oqoEmqIPY+8phEWYT5VyhOIkwcI/TRrbIGQN6hSpPCRgenvXJKgCm3AoIO7
+	PBGTmdyhGQIQ9otluw7+Ae1G5zH5ndHLpMruv5pnBgA6O5rBh72nucSZ6+WVYgXGphjA
+	SOJxOFs3fCvSm52uLDGfihr+ZNqbJZ2LCbXTqsXKwpzOEyQsr8JQKUy3kJjOfVKU0TlC
+	yeEjF7yn2094EAJ2VVUIBrj3r8S1ojsdhaVuPsXdkZdWsZv4yzO6qydrQS6RemI5wvFF
+	1THCbD59RVJNxuKyIZRMkRbKZnREa1zeo5dcbYgxG3kmW+3rYu21Kb+UR5MNBR5hZqeV
+	wPKQ==
+X-Gm-Message-State: ALoCoQn8cIuXoYxRO1gnIogmsDj3A2RlzpirAdQIOWP0XiPwbnbD7U9BW+g3KyToe9gFoyU03GVw
+X-Received: by 10.194.221.6 with SMTP id qa6mr57176964wjc.39.1405013532677;
+	Thu, 10 Jul 2014 10:32:12 -0700 (PDT)
+Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
+	[78.243.126.63]) by mx.google.com with ESMTPSA id
+	lk7sm111657287wjb.24.2014.07.10.10.32.11 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Jul 2014 10:32:11 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Jul 2014 19:32:04 +0200
+Message-Id: <1405013524-11228-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.0.1
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] git: update to v2.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jul 2014 14:46:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 10 Jul 2014 17:32:17 -0000
 
-On 10 July 2014 14:50, Saul Wold <sgw@linux.intel.com> wrote:
-> I think Ross's suggestion of using stat() to check for the existance of a
-> file in debugfs would be better.
+Also fetch source code from kernel.org. As per the Git release announcement, see
+[1], Git source tarball are now located back on kernel.org, at [2].
 
-At least one good way of checking if a directory is a mount point is
-to compare the device of / and /debug using stat().  For example:
+[1] https://lkml.org/lkml/2014/6/25/760
+[2] https://www.kernel.org/pub/software/scm/git/
 
-$ stat -c %d /
-2049
-$ stat -c %d /sys
-13
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-devtools/git/git.inc                        | 1 +
+ meta/recipes-devtools/git/{git_1.9.0.bb => git_2.0.1.bb} | 6 ++----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/git/{git_1.9.0.bb => git_2.0.1.bb} (52%)
 
-Different devices, so /sys is a mount.
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 4e0527c..7633577 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -5,6 +5,7 @@ DEPENDS = "openssl curl zlib expat"
+ 
+ PROVIDES_append_class-native = " git-replacement-native"
+ 
++SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz"
+ S = "${WORKDIR}/git-${PV}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
+diff --git a/meta/recipes-devtools/git/git_1.9.0.bb b/meta/recipes-devtools/git/git_2.0.1.bb
+similarity index 52%
+rename from meta/recipes-devtools/git/git_1.9.0.bb
+rename to meta/recipes-devtools/git/git_2.0.1.bb
+index 4eb6c99..dbf32e1 100644
+--- a/meta/recipes-devtools/git/git_1.9.0.bb
++++ b/meta/recipes-devtools/git/git_2.0.1.bb
+@@ -1,9 +1,7 @@
+ require git.inc
+ 
+-SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "e16c14b27c644b8e0dd72bdb5ff77450"
+-SRC_URI[sha256sum] = "de3097fdc36d624ea6cf4bb853402fde781acdb860f12152c5eb879777389882"
++SRC_URI[md5sum] = "981f5937840716cb563be1cc6292c8d7"
++SRC_URI[sha256sum] = "02609a06fb40db1f6a968867c0e82bcb959b85902747830de0fda53228712daf"
+ 
+ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-- 
+2.0.1
 
-Ross
 
