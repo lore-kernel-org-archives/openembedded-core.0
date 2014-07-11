@@ -1,32 +1,35 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC90661585
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
+	[209.85.216.46])
+	by mail.openembedded.org (Postfix) with ESMTP id E0B69703A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 07:44:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6B7i0Qx020246
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 11 Jul 2014 00:44:00 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.48]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Fri, 11 Jul 2014 00:44:00 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Anders Darander <anders@chargestorm.se>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/1] postfix: add new recipe
-Thread-Index: AQHPnNqudmAJLSQpU0KP2ApY9N1mq5uaffHw
-Date: Fri, 11 Jul 2014 07:44:00 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCA7B1D7@ALA-MBA.corp.ad.wrs.com>
+	Fri, 11 Jul 2014 07:45:01 +0000 (UTC)
+Received: by mail-qa0-f46.google.com with SMTP id v10so585647qac.33
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Jul 2014 00:45:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=wPW1VKchKRem7IKsawiBQ9iVYeNp67PK+6O7MMOEh4E=;
+	b=aLzogWa71z4NeJ6uAHMsAPlLZbBcSjeiBg5Ed35DKGth1w4q+AYIs4ST/G6lHX4Bar
+	nedXrNZEvaFCy5CSA34eDgue0YZARtEneRVg5zlI94l0+9s6NysC/GVPNSM2iqHOx7VS
+	CNyMKWxosHjFCOaC7H7XlsQRG4CV4UN4LRucm8A727gYWvXV+8r8x0ZmD1DpZ+WsddOo
+	a/TDD/IqrqzZpfdHp5F7hwQhj5SBNaYmZV433zVAIW19o7VJlGCJNI3KapCNWM043lNg
+	79KV4ElFH0u/QBUBSSuDPC9EASoaFUK7MnWcjfjyrYIaU+nlGXX5fMcKfyTbuOg7eH4+
+	lAYA==
+X-Gm-Message-State: ALoCoQlDQ2RweBoqbCmZ1nZGdxAwFQKVkCwUqkAsOu3I3NxlQunL5zO8UZT3j4n5oUQCEdCKD/uh
+X-Received: by 10.224.25.206 with SMTP id a14mr74901359qac.35.1405064702663;
+	Fri, 11 Jul 2014 00:45:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Fri, 11 Jul 2014 00:44:42 -0700 (PDT)
+In-Reply-To: <20140711073413.GA9641@ad.chargestorm.se>
 References: <cover.1404987090.git.jackie.huang@windriver.com>
 	<20140711073413.GA9641@ad.chargestorm.se>
-In-Reply-To: <20140711073413.GA9641@ad.chargestorm.se>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.252]
-MIME-Version: 1.0
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 Jul 2014 08:44:42 +0100
+Message-ID: <CAJTo0LbC0F+h2pV-K+0DUYAvDbdzM==SAwbk9_FOPCKS9K98OQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/1] postfix: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,45 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 07:44:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 Jul 2014 07:45:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 11 July 2014 08:34, Anders Darander <anders@chargestorm.se> wrote:
+> I think meta-oe is a better place for postfix. So, please resend it to
+> meta-oe.
 
+Agreed.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-core-
-> bounces@lists.openembedded.org] On Behalf Of Anders Darander
-> Sent: Friday, July 11, 2014 3:34 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 0/1] postfix: add new recipe
->=20
-> * jackie.huang@windriver.com <jackie.huang@windriver.com> [140711 03:58]:
-> > We ported postfix from openembedded a year ago, and updated it to
-> > 2.9.5, now we are updating it to the latest stable release 2.11.1, and
-> > I'm sending here to see if oe-core take it, if not, I will send it to m=
-eta-oe.
->=20
-> I think meta-oe is a better place for postfix. So, please resend it to me=
-ta-oe.
-
-Ok, I will resend to meta-oe.
-
-Thanks,
-Jackie
-
->=20
-> Cheers,
-> Anders
->=20
-> --
-> Anders Darander
-> ChargeStorm AB / eStorm AB
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
