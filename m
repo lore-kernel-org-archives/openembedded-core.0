@@ -1,31 +1,26 @@
-Return-Path: <diego.abelenda@domo-safety.com>
-Received: from emea01-am1-obe.outbound.protection.outlook.com
-	(mail-am1lp0012.outbound.protection.outlook.com [213.199.154.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB717029A
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3EF65E08
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 14:24:16 +0000 (UTC)
-Received: from Arika (128.179.67.139) by
-	AMSPR06MB101.eurprd06.prod.outlook.com (10.242.90.146) with Microsoft
-	SMTP Server (TLS) id 15.0.985.8; Fri, 11 Jul 2014 14:24:16 +0000
-Date: Fri, 11 Jul 2014 16:24:04 +0200
-From: Abelenda Diego <diego.abelenda@domo-safety.com>
-CC: <openembedded-core@lists.openembedded.org>
-Message-ID: <20140711162404.2b839c40@Arika>
-In-Reply-To: <20140711152256.7c5ad7b8@Arika>
-References: <20140711152256.7c5ad7b8@Arika>
-X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
+	Fri, 11 Jul 2014 16:04:47 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id BA006F811E4; Fri, 11 Jul 2014 10:04:48 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id EBBD6F811E3;
+	Fri, 11 Jul 2014 10:04:47 -0600 (MDT)
+Message-ID: <53C00B20.7060204@mlbassoc.com>
+Date: Fri, 11 Jul 2014 10:04:48 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-X-Originating-IP: [128.179.67.139]
-X-ClientProxiedBy: DB4PR06CA0012.eurprd06.prod.outlook.com (25.160.40.140) To
-	AMSPR06MB101.eurprd06.prod.outlook.com (10.242.90.146)
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:
-X-Forefront-PRVS: 02698DF457
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(6009001)(24454002)(189002)(51704005)(199002)(105586002)(42186005)(23726002)(21056001)(110136001)(50466002)(107046002)(31966008)(87286001)(77156001)(99396002)(95666004)(77096002)(102836001)(106356001)(79102001)(85306003)(19580395003)(77982001)(101416001)(92726001)(83322001)(76176999)(62966002)(33716001)(86362001)(93916002)(104166001)(81542001)(92566001)(87976001)(81342001)(83072002)(46102001)(66066001)(1671002)(47776003)(50226001)(64706001)(20776003)(19580405001)(85852003)(89996001)(88136002)(33646001)(50986999)(4396001)(74662001)(46406003)(59246002);
-	DIR:OUT; SFP:; SCL:1; SRVR:AMSPR06MB101; H:Arika; FPR:; MLV:sfv;
-	PTR:InfoNoRecords; MX:1; LANG:en; 
-X-OriginatorOrg: domo-safety.com
-Subject: Re: [PATCH] Try to make urandom more random using the proper seed.
+To: openembedded-core@lists.openembedded.org
+Subject: rpm-native build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,80 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 14:24:19 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 Jul 2014 16:04:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sorry for the mess...
+I'm getting a build error on rpm-native on my venerable Fedora-13
+based builder (which I am loathe to update/replace).  This probably
+happened with the update to 5.4.14 but I didn't notice until now
+as I was away on holiday.  Here are the details:
 
-At least consider it as my way to tell that I think the iniscripts options
-should be reviewed.
+| /usr/bin/ld: rpm.o: undefined reference to symbol '__gxx_personality_v0@@CXXABI_1.3'
+| /usr/bin/ld: note: '__gxx_personality_v0@@CXXABI_1.3' is defined in DSO /usr/lib/libstdc++.so.6 so try adding it to the linker command line
+| /usr/lib/libstdc++.so.6: could not read symbols: Invalid operation
+| collect2: ld returned 1 exit status
+| make[2]: *** [rpm] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| /usr/bin/ld: rpmbuild.o: undefined reference to symbol '__gxx_personality_v0@@CXXABI_1.3'
+| /usr/bin/ld: note: '__gxx_personality_v0@@CXXABI_1.3' is defined in DSO /usr/lib/libstdc++.so.6 so try adding it to the linker command line
+| /usr/lib/libstdc++.so.6: could not read symbols: Invalid operation
+| collect2: ld returned 1 exit status
+| make[2]: *** [rpmbuild] Error 1
+| make[2]: Leaving directory `/home/local/imx53_2014-07-12/tmp/work/i686-linux/rpm-native/5.4.14-r0/build'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory `/home/local/imx53_2014-07-12/tmp/work/i686-linux/rpm-native/5.4.14-r0/build'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+| WARNING: /home/local/imx53_2014-07-12/tmp/work/i686-linux/rpm-native/5.4.14-r0/temp/run.do_compile.18609:1 exit 1 from
+|   exit 1
+| ERROR: Function failed: do_compile (log file is located at /home/local/imx53_2014-07-12/tmp/work/i686-linux/rpm-native/5.4.14-r0/temp/log.do_compile.18609)
+ERROR: Task 382 (virtual:native:/home/local/poky-cutting-edge/meta/recipes-devtools/rpm/rpm_5.4.14.bb, do_compile) failed with exit code '1'
 
-=46rom what I see in /etc/init.d/rc, the script will not be started at runlev=
-els
-0 6 due to lines 146-161 :
-	if [ $previous !=3D N ] && [ $previous !=3D S ]
-	then
-		#
-		# Find start script in previous runlevel and
-		# stop script in this runlevel.
-		#
-		suffix=3D${i#/etc/rc$runlevel.d/S[0-9][0-9]}
-		stop=3D/etc/rc$runlevel.d/K[0-9][0-9]$suffix
-		previous_start=3D/etc/rc$previous.d/S[0-9][0-9]$suffix
-		#
-		# If there is a start script in the previous level
-		# and _no_ stop script in this level, we don't
-		# have to re-start the service.
-		#
-		[ -f $previous_start ] && [ ! -f $stop ] && continue
-	fi
+My configuration is:
+BB_VERSION        = "1.23.1"
+BUILD_SYS         = "i686-linux"
+NATIVELSBSTRING   = "Fedora-13"
+TARGET_SYS        = "arm-amltd-linux-gnueabi"
+MACHINE           = "imx53qsb"
+DISTRO            = "amltd"
+DISTRO_VERSION    = "1.6+snapshot-20140711"
+TUNE_FEATURES     = "arm armv7a vfp neon"
+TARGET_FPU        = "vfp-neon"
+meta              = "master:1cb9f7b00b5ede62a9546c39d798c876775b08c0"
+meta-oe-local     = "master:7dd439b185ccb0de3bb8311122d79e13e8fc2fef"
+meta-amltd        = "master:0b6506b9505e8274110f1a011372c215b517f947"
+meta-imx6         = "master:fbfbc3ced45619c9f27c0f0694289b97ae935e73"
+meta-fsl-arm      = "master:3941fe0fda4ac9ef372699160133c92ebf4df4e8"
+meta-fsl-arm-extra = "master:456c27085a70bb1385a4c2e28ba80ac74d6f533e"
 
-If the script is still run please explain to me why, I do not understand...
-
-Best regards,
-Diego Abelenda
-
-On Fri, 11 Jul 2014 15:22:56 +0200
-Abelenda Diego <diego.abelenda@domo-safety.com> wrote:
-
-> From 963a99512475b6bc402d2339fa4e4765960e4c26 Mon Sep 17 00:00:00 2001
-> From: Diego <diego.abelenda@domo-safety.com>
-> Date: Fri, 11 Jul 2014 14:30:56 +0200
-> Subject: [PATCH] Try to make urandom more random using the proper seed.
->=20
-> If we follow the syntax here we think that previously, at shutdown, the s=
-eed
-> file was created after urandom was re-seeded with its state at boot. This
-> might make the state of urandom pretty similar to its state at last reboo=
-t.
-> Even if it might not be the case since the /etc/init.d/rc script tells us
-> that it stops services in reboot and shutdown runlevels.
->=20
-> If this patch does not makes the initscript called with argument start at
-> boot and stop at shutdown, it will at least make things less confusing and
-> give the correct names for the /etc/rc?.d/ links. But from what I underst=
-and,
-> the initscript will not be called at all at shutdown because of the double
-> start pervention in /etc/init.d/rc.
->=20
-> ---
->  meta/recipes-core/initscripts/initscripts_1.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> b/meta/recipes-core/initscripts/initscripts_1.0.  bb index 531b2b6..b266b=
-a6
-> 100644 --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -104,7 +104,7 @@ do_install () {
->  #
->     update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .=20
->     update-rc.d -r ${D} sendsigs start 20 0 6 .=20
-> -   update-rc.d -r ${D} urandom start 30 S 0 6 .
-> +   update-rc.d -r ${D} urandom start 30 S . stop 30 0 6 .
->     update-rc.d -r ${D} umountnfs.sh start 31 0 6 .=20
->     update-rc.d -r ${D} umountfs start 40 0 6 .=20
->     update-rc.d -r ${D} reboot start 90 6 .=20
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
