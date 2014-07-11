@@ -1,37 +1,28 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 218F27027F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AEC57027F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 05:44:25 +0000 (UTC)
-Received: by mail-ob0-f173.google.com with SMTP id vb8so403558obc.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jul 2014 22:44:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=QFXywYi5JLCjoS/qcaVVTi0mkWp92WOOD+tWZtkbgx8=;
-	b=Xc0rZOE1ZtV4zGAPnMkPpTX8mxbLLrOM2It3xWM9B1UtxJJm1YJP5ZnVCPqCj2AtbJ
-	pUdYQ8hHBnjTV+IM/pRUouhuHEMiCZSY5ufexqQrjePHM1dV1zXQwhP0sUvlYAfje8Zx
-	6d/mskmvyIZxJFrPF+w9PNBuGidw/UV5Vmd+d7vEPxDIgfPDx5vikqdbkhGZBCgCQf6h
-	Zcdr/hmNKQOS255PlsSfBPdppZDqAPH84Fz0WTWUkK397yqT8/8vysaLhbQDiF0ADAxH
-	zBc5jZmR297WdGULzPz4DbQ/tVRRDGAgj9pFZmtqqic+1985ss1kVkRwtGkkB8zHtR65
-	wRdw==
-X-Gm-Message-State: ALoCoQnDdqkApAVphidliSFJuWyhXITx3laBQoWe3qMHhuuBZSU3e5lxSFgdwF2vvI29Vr+tOk0D
-X-Received: by 10.182.96.166 with SMTP id dt6mr58942106obb.7.1405057465877;
-	Thu, 10 Jul 2014 22:44:25 -0700 (PDT)
+	Fri, 11 Jul 2014 05:45:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jul 2014 22:45:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,642,1400050800"; d="scan'208";a="541836994"
+Received: from hpatters-mobl.amr.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.246])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2014 22:45:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Fri, 11 Jul 2014 06:45:48 +0100
+Message-ID: <5076045.c5iu4589rZ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.5 (Linux/3.14.8-200.fc20.x86_64; KDE/4.12.5; x86_64; ; )
+In-Reply-To: <53BF3CF3.609@windriver.com>
+References: <cover.1404869333.git.Chong.Lu@windriver.com>
+	<b7aeaae2912f4cbaf11091a64c8c620574ec4e2d.1404869333.git.Chong.Lu@windriver.com>
+	<53BF3CF3.609@windriver.com>
 MIME-Version: 1.0
-Received: by 10.76.171.168 with HTTP; Thu, 10 Jul 2014 22:44:05 -0700 (PDT)
-In-Reply-To: <CAJTo0LagVOxUCNT1P+=6yBXydb0tP6SuADyy6CAb4jgX=YU1Eg@mail.gmail.com>
-References: <1405013524-11228-1-git-send-email-nicolas.dechesne@linaro.org>
-	<CAJTo0LagVOxUCNT1P+=6yBXydb0tP6SuADyy6CAb4jgX=YU1Eg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 11 Jul 2014 07:44:05 +0200
-Message-ID: <CAP71Wjz4jFWKV=HQ49_4REiEdLyaysCH=P-xQEpgBObSSoxNoQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] git: update to v2.0.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] classes/insane: Show QA check name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 05:44:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 11 Jul 2014 05:45:55 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Jul 10, 2014 at 9:37 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 10 July 2014 18:32, Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
->> Also fetch source code from kernel.org. As per the Git release announcement, see
->> [1], Git source tarball are now located back on kernel.org, at [2].
->
-> Were there any big changes in 2.0 that we should be aware of, or was
-> that just an arbitrary version bump?
+Hi Chong,
 
-I think the most notable change is about git push when no branch is
-specified. the default changed from 'matching' to 'simple'. it should
-not come as a surprise since it's been announced for some time now.
-and in fact it is a much better default anyways..  other than that,
-it's just business/improvements as usual. see
-http://blogs.atlassian.com/2014/06/happened-git-2-0-full-goodies/
+On Friday 11 July 2014 09:25:07 Chong Lu wrote:
+> On 07/09/2014 09:39 AM, Chong Lu wrote:
+> > QA errors/warnings would show the name of the QA failure in the
+> > error/warning message.> 
+> > The format is listed:
+> > 	[The name of QA] QA Issue: messages
+> > 
+> > You can see which QA check you need to disable if you want to disable it.
+
+The way I had envisaged this being shown was <message> [QA check name]; since 
+the message is the important part (in general we really want to encourage 
+people to fix the QA issues rather than disabling them). This also matches up 
+with gcc's warning message behaviour.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
