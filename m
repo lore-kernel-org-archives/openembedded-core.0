@@ -1,32 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DDDD70381
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 020D870248
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 08:27:21 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6B8RHBP020884; Fri, 11 Jul 2014 09:27:17 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZchXnShx27kt; Fri, 11 Jul 2014 09:27:16 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6B8RBqA020872
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 11 Jul 2014 09:27:12 +0100
-Message-ID: <1405067225.15985.89.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 11 Jul 2014 09:27:05 +0100
-In-Reply-To: <CAP9ODKpd5-KkRZg7QMbaMS-zn=f6uephJObn3X44RNoEK8y76A@mail.gmail.com>
-References: <1404936934.15985.48.camel@ted>
-	<CAP9ODKpd5-KkRZg7QMbaMS-zn=f6uephJObn3X44RNoEK8y76A@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC 1/3] insane: Split do_package_qa into a separate task (from do_package)
+	Fri, 11 Jul 2014 10:20:15 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id x12so839779wgg.16
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Jul 2014 03:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=03U9oJ/jnh/LHnoecaiPdhIaYLJscma6Gz6RmoG4+xU=;
+	b=jQlRo0wO60hCVqb6afuTu2oSG/3jZ5ZT4Pp7P5NnGvTVnlvkCVXgGjWIS8tulmJkAs
+	G/VI4PkJCdDDejRS81cJqpKuxD3+oHgvpkFNBAM126Z21QkqeoWwAy1LQwQLdjzK2eAv
+	pTRhiil4jeik06ko5kE7sXo+QWk/WiVTlxtgEasjzbd0YocUtW0/45MjHcOzwyP6iHmS
+	vXyIGNybtdkHMzu8MuxVlo70vGfB96ifvYZcyEClD+TMWRcgF9Pm9nLVJ5wNewr2qWmK
+	c9baQpsiYHB9tgNrz4DGOqP+umF8bSXLePswWdFc5xZVvUmQGwu/mC9GmKQYiDL3Qs8/
+	iStA==
+X-Received: by 10.180.81.234 with SMTP id d10mr3686381wiy.79.1405074012082;
+	Fri, 11 Jul 2014 03:20:12 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	de6sm4254088wjc.16.2014.07.11.03.20.10 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 11 Jul 2014 03:20:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 11 Jul 2014 12:20:13 +0200
+To: jackie.huang@windriver.com
+Message-ID: <20140711102013.GE2433@jama>
+References: <cover.1404987090.git.jackie.huang@windriver.com>
+	<3a19aa87a9f5d562cd1c5615d89486a46adea9da.1404987090.git.jackie.huang@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <3a19aa87a9f5d562cd1c5615d89486a46adea9da.1404987090.git.jackie.huang@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] postfix: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,86 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 08:27:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Jul 2014 10:20:17 -0000
+X-Groupsio-MsgNum: 54782
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qOrJKOH36bD5yhNe"
+Content-Disposition: inline
 
-On Thu, 2014-07-10 at 23:43 -0300, Otavio Salvador wrote:
-> On Wed, Jul 9, 2014 at 5:15 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Its possible to run the package QA checks as a separate task rather than
-> > as part of the do_package task. This offers more parallelism but the
-> > fact that made me propose this is that ideally we'd like to access
-> > pkgdata to help add new tests and to do that, we need to run later in
-> > the task list. We also need to add in RDEPENDS to the task which apply
-> > to do_package_write_* but not do_package. See the subsequent patches
-> > for why this is desireable.
-> >
-> > If we split into a separate task, we need to add in calls to read
-> > the sub package data, build the cache structure used by do_package and
-> > cover the task with sstate (which is empty and just acts as a stamp
-> > saying it passed package QA). We also need to handle our own
-> > dependencies.
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+--qOrJKOH36bD5yhNe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've just seen this email. I did see the failure from the overnight
-build and already sent a reply suggesting how this can be fixed, it
-should be a simple change.
+On Thu, Jul 10, 2014 at 09:57:56PM -0400, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>=20
+> Postfix is Wietse Venema's mail server that started life at IBM
+> research as an alternative to the widely-used Sendmail program.
+>=20
+> Postfix attempts to be fast, easy to administer, and secure.
+> The outside has a definite Sendmail-ish flavor, but the inside
+> is completely different.
 
-> When I see a RFC serie I expect people to wait some days /for
-> comments/. I learned today those are already merged and /no comment
-> time/ has been given.
-
-The whole RFC was not merged. The previous RFC was and when that
-happened, to avoid more rebuilds, I chose to merge some parts of the
-second one since there appeared low risk.
-
-I send out a lot of patches, in general I get zero replies to most of
-them so its hard to know when I've waited "long enough". I did seek out
-and talk to some people about those RFCs and the feedback was positive,
-we all agree that the improvements to the dependency checking outweigh
-any downsides, including to be this issue.
-
-> The problem I found is that running the QA checks in another task
-> seems to break some use-cases.
-
-I think in this case the usage is rather horrid and not something I'd
-say we've ever suggested or supported.
-
-> In the libfslcodec (it is a binary blob provided by Freescale for
-> multimedia) we have:
-> 
-> ...
-> python populate_packages_prepend() {
->     ...
->     # FIXME: All binaries lack GNU_HASH in elf binary but as we don't have
->     # the source we cannot fix it. Disable the insane check for now.
->     for p in d.getVar('PACKAGES', True).split():
->         d.setVar("DEBIAN_NOAUTONAME_%s" % p, "1")
-> 
->         if p == 'libfslcodec-test-bin':
->             # FIXME: includes the DUT .so files so we need to deploy those
->             d.appendVar("INSANE_SKIP_%s" % p, "ldflags textrel libdir")
->         else:
->             d.appendVar("INSANE_SKIP_%s" % p, "ldflags textrel")
->     ...
-> }
-> 
-> In this case the INSANE_SKIP var is not being set on time. If we check
-> the value it is being set but it seems to be too late.
-> 
-> How we can address it?
-
-Should be as simple as s/populate_packages_prepend//. The
-DEBIAN_NOAUTONAME doesn't really fit the description of the code there
-FWIW, I know why you're doing it but its not what the comment says. 
-
-I would not recommend setting variables in function prepends like this,
-its ugly and error prone, as you've just found out.
-
-Cheers,
-
-Richard
+Why is it sent to oe-core and meta-oe at the same time?
 
 
+--qOrJKOH36bD5yhNe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlO/ul0ACgkQN1Ujt2V2gBzh/QCgn/vLjhX24MKrhxnbPXRkF4p6
+WCsAnjcvFZel8+K/a4sCnTc0srHNb9dV
+=TjjS
+-----END PGP SIGNATURE-----
+
+--qOrJKOH36bD5yhNe--
