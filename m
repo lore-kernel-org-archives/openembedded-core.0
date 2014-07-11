@@ -1,38 +1,33 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
-	[209.85.219.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E0C965F0F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 119DB70210
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 16:46:38 +0000 (UTC)
-Received: by mail-oa0-f46.google.com with SMTP id m1so1471669oag.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 09:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=hn8MmsUqywSQqm+npgfpZVU2xbNOmul5unk2qDTWsEw=;
-	b=NUnCRb8pMZ2TFD+I7hIifdz/xj86hlF+DHqZEXlhnG2hQztm9dyR4828572w7ep1yP
-	eGeS03p8brpYpvfHNb/qVZ108mmNw4OSfheN42gBxVYXsXFPlTAgTHCX5fMYHvGsQe0g
-	1Jiky4CPPTOds8ep5Xp6MjAmMpNmqrHiH/1YqRqJsFgDQOxVyTPHxHPZNKvtWIB71WY/
-	tEIkBjbCPL7MoV1ew/L26aa83E+qQtOdXCcUkaeMRtCNOo5ynymAXnCgqh4Ub/mX8Da6
-	FDQPwzY4Lo+3yVASOMwenw7oxH9DQwZ8JnBl3wBAdFWeYZo8eDPni2ZfS51ZptXVSfG1
-	M4Mw==
-MIME-Version: 1.0
-X-Received: by 10.182.121.170 with SMTP id ll10mr81714obb.58.1405097199558;
-	Fri, 11 Jul 2014 09:46:39 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.50.135 with HTTP; Fri, 11 Jul 2014 09:46:39 -0700 (PDT)
-In-Reply-To: <1405084930.21289.7.camel@ted>
+	Fri, 11 Jul 2014 17:41:05 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6BHf0bq014409; Fri, 11 Jul 2014 18:41:00 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MJl9O4-Lvlon; Fri, 11 Jul 2014 18:41:00 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6BHersN014398
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 11 Jul 2014 18:40:55 +0100
+Message-ID: <1405100448.21289.88.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 11 Jul 2014 18:40:48 +0100
+In-Reply-To: <CAP9ODKrwE-vNz=NcZ7pntPiCaqqdVNkMnOiNGy2yTCJnsNxUBA@mail.gmail.com>
 References: <1404936934.15985.48.camel@ted>
 	<CAP9ODKpd5-KkRZg7QMbaMS-zn=f6uephJObn3X44RNoEK8y76A@mail.gmail.com>
 	<1405067225.15985.89.camel@ted>
 	<CAP9ODKrWDP4OR4W3xxuKgCKzW7iqDZo5uc3DBEm43syYP=EA5A@mail.gmail.com>
 	<1405084930.21289.7.camel@ted>
-Date: Fri, 11 Jul 2014 13:46:39 -0300
-X-Google-Sender-Auth: 6Gr7b6JZqQbCVuBgmflcX2P7YDE
-Message-ID: <CAP9ODKrwE-vNz=NcZ7pntPiCaqqdVNkMnOiNGy2yTCJnsNxUBA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAP9ODKrwE-vNz=NcZ7pntPiCaqqdVNkMnOiNGy2yTCJnsNxUBA@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH RFC 1/3] insane: Split do_package_qa into a separate task (from do_package)
@@ -48,27 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 16:46:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 11 Jul 2014 17:41:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 11, 2014 at 10:22 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2014-07-11 at 09:14 -0300, Otavio Salvador wrote:
-...
->> > I would not recommend setting variables in function prepends like this,
->> > its ugly and error prone, as you've just found out.
->>
->> Any suggested better way of to do it?
->
-> The anonymous python fragment should be fine, it sets the data at the
-> right level, the global recipe level rather than burying it in some
-> task.
+On Fri, 2014-07-11 at 13:46 -0300, Otavio Salvador wrote:
+> On Fri, Jul 11, 2014 at 10:22 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2014-07-11 at 09:14 -0300, Otavio Salvador wrote:
+> ...
+> >> > I would not recommend setting variables in function prepends like this,
+> >> > its ugly and error prone, as you've just found out.
+> >>
+> >> Any suggested better way of to do it?
+> >
+> > The anonymous python fragment should be fine, it sets the data at the
+> > right level, the global recipe level rather than burying it in some
+> > task.
+> 
+> and in case we need to do it for the packages split from the
+> do_package_split? Use the hook mechanism?
 
-and in case we need to do it for the packages split from the
-do_package_split? Use the hook mechanism?
+That will not work, if you set data in the do_package task, the
+do_package_q task cannot see it.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+You'd probably have to add a prefunc to do_package_qa to set the right
+skip variables if you needed to that since the package names wouldn't be
+known until then.
+
+Cheers,
+
+Richard
+
+
+
 
