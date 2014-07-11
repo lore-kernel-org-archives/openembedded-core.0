@@ -1,38 +1,41 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F0ED70260
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
+	[209.85.219.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0C965F0F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 16:11:04 +0000 (UTC)
-Received: by mail-ie0-f175.google.com with SMTP id x19so1041722ier.6
+	Fri, 11 Jul 2014 16:46:38 +0000 (UTC)
+Received: by mail-oa0-f46.google.com with SMTP id m1so1471669oag.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 09:11:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qPeAstq03I1gnbehJbaKujJLgzOEl4cIYJmXj6B0zuc=;
-	b=CNwc4LUVcnyKwJ56HhyZuAGGud8rzUo7iUaSuL6qJVp8hMWxSR6UhHtG5QavwyF1zT
-	YWRMbfAawoV721zNUM7wBo1g1j+AXXaKIHt/oHsXXtPtAfGIyYJr4TgB3mSshl21s4hp
-	3bcEteqE+AiZJmQbNb2JCpbmVJOiwSLuGM0rxYditbmHBahfAs0bflskg5h7KxZvvHu5
-	08C4LidCMpN9eAKp8HVj9TZ/Bhb6EUiyNmvHgZqXwcLRCQtW0obXbaEYdZGNdjSQuVLf
-	BCkjpNHr0vgyg8XWPB8z9dmpJRoLvJTy8oTbk3ln6OZHtc9xM66O1cNmuKVnrh94xlTN
-	J24w==
-X-Gm-Message-State: ALoCoQlW9JUj6vRMccwu7eRThc/SdDERWL6sK/5hjfzQ4qVfgs4z4FoaGuuy/CiVgPm1aZHNGG0a
-X-Received: by 10.50.141.170 with SMTP id rp10mr5777493igb.6.1405095065136;
-	Fri, 11 Jul 2014 09:11:05 -0700 (PDT)
-Received: from openSUSE-i7.site (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id aw9sm7142923igc.9.2014.07.11.09.11.03
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Jul 2014 09:11:04 -0700 (PDT)
-From: Trevor Woerner <trevor.woerner@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jul 2014 12:11:01 -0400
-Message-Id: <1405095061-29714-1-git-send-email-trevor.woerner@linaro.org>
-X-Mailer: git-send-email 2.0.1.563.g66f467c
-Cc: Koen Kooi <koen.kooi@linaro.org>, patches@linaro.org
-Subject: [PATCH] grub_git: bump version, remove patch
+	Fri, 11 Jul 2014 09:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=hn8MmsUqywSQqm+npgfpZVU2xbNOmul5unk2qDTWsEw=;
+	b=NUnCRb8pMZ2TFD+I7hIifdz/xj86hlF+DHqZEXlhnG2hQztm9dyR4828572w7ep1yP
+	eGeS03p8brpYpvfHNb/qVZ108mmNw4OSfheN42gBxVYXsXFPlTAgTHCX5fMYHvGsQe0g
+	1Jiky4CPPTOds8ep5Xp6MjAmMpNmqrHiH/1YqRqJsFgDQOxVyTPHxHPZNKvtWIB71WY/
+	tEIkBjbCPL7MoV1ew/L26aa83E+qQtOdXCcUkaeMRtCNOo5ynymAXnCgqh4Ub/mX8Da6
+	FDQPwzY4Lo+3yVASOMwenw7oxH9DQwZ8JnBl3wBAdFWeYZo8eDPni2ZfS51ZptXVSfG1
+	M4Mw==
+MIME-Version: 1.0
+X-Received: by 10.182.121.170 with SMTP id ll10mr81714obb.58.1405097199558;
+	Fri, 11 Jul 2014 09:46:39 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.50.135 with HTTP; Fri, 11 Jul 2014 09:46:39 -0700 (PDT)
+In-Reply-To: <1405084930.21289.7.camel@ted>
+References: <1404936934.15985.48.camel@ted>
+	<CAP9ODKpd5-KkRZg7QMbaMS-zn=f6uephJObn3X44RNoEK8y76A@mail.gmail.com>
+	<1405067225.15985.89.camel@ted>
+	<CAP9ODKrWDP4OR4W3xxuKgCKzW7iqDZo5uc3DBEm43syYP=EA5A@mail.gmail.com>
+	<1405084930.21289.7.camel@ted>
+Date: Fri, 11 Jul 2014 13:46:39 -0300
+X-Google-Sender-Auth: 6Gr7b6JZqQbCVuBgmflcX2P7YDE
+Message-ID: <CAP9ODKrwE-vNz=NcZ7pntPiCaqqdVNkMnOiNGy2yTCJnsNxUBA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC 1/3] insane: Split do_package_qa into a separate task (from do_package)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,76 +48,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 16:11:07 -0000
+X-List-Received-Date: Fri, 11 Jul 2014 16:46:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-A previously upstreamed patch has been applied. Bump the version to
-incorporate this upstream update.
+On Fri, Jul 11, 2014 at 10:22 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2014-07-11 at 09:14 -0300, Otavio Salvador wrote:
+...
+>> > I would not recommend setting variables in function prepends like this,
+>> > its ugly and error prone, as you've just found out.
+>>
+>> Any suggested better way of to do it?
+>
+> The anonymous python fragment should be fine, it sets the data at the
+> right level, the global recipe level rather than burying it in some
+> task.
 
-Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
----
- .../grub/grub/asciih-fix-build-warning-error.patch | 34 ----------------------
- meta/recipes-bsp/grub/grub_git.bb                  |  3 +-
- 2 files changed, 1 insertion(+), 36 deletions(-)
- delete mode 100644 meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
+and in case we need to do it for the packages split from the
+do_package_split? Use the hook mechanism?
 
-diff --git a/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch b/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
-deleted file mode 100644
-index 48ace56..0000000
---- a/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--util/grub-gen-asciih.c: fix build warning->error
--
--A potential problem is flagged by the compiler and generates a warning. This
--warning is promoted to an error via -Werror. This patch fixes the original
--issue, avoids the warning, and therefore avoids the build error.
--
--Upstream-Status: Pending
--
--Index: git/util/grub-gen-asciih.c
--===================================================================
----- git.orig/util/grub-gen-asciih.c
--+++ git/util/grub-gen-asciih.c
--@@ -131,6 +131,8 @@ write_font_ascii_bitmap (FILE *file, FT_
--   struct grub_glyph_info glyph;
--   int char_code;
-- 
--+  memset (&glyph, 0, sizeof(glyph));
--+
--   fprintf (file, "/* THIS CHUNK OF BYTES IS AUTOMATICALLY GENERATED */\n");
--   fprintf (file, "unsigned char ascii_bitmaps[] =\n");
--   fprintf (file, "{\n");
--@@ -144,6 +146,12 @@ write_font_ascii_bitmap (FILE *file, FT_
-- 	return;
--       add_glyph (glyph_idx, face, char_code, &glyph);
-- 
--+      if (glyph.bitmap == 0)
--+        {
--+          fprintf (stderr, "grub-gen-asciih: add_glyph not successful");
--+          exit (1);
--+        }
--+
--       if (glyph.width == 8 && glyph.height == 16
-- 	  && glyph.x_ofs == 0 && glyph.y_ofs == 0)
-- 	{
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 7f89739..f74bae8 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -17,11 +17,10 @@ DEFAULT_PREFERENCE = "-1"
- DEFAULT_PREFERENCE_arm = "1"
- 
- PV = "2.00+${SRCPV}"
--SRCREV = "4b8b9135f1676924a8458da528d264bbc7bbb301"
-+SRCREV = "87de66d9d83446ecddb29cfbdf7369102c8e209e"
- SRC_URI = "git://git.savannah.gnu.org/grub.git \
-            file://autogen.sh-exclude-pc.patch \
-            file://grub-2.00-add-oe-kernel.patch \
--           file://asciih-fix-build-warning-error.patch \
-           "
- 
- S = "${WORKDIR}/git"
 -- 
-2.0.1.563.g66f467c
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
