@@ -1,24 +1,37 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D109703BC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 787476AC93
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jul 2014 01:57:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6B1vwQ8025045
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 11 Jul 2014 02:43:01 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id wm4so524955obc.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jul 2014 18:57:58 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 10 Jul 2014 18:57:58 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Jul 2014 21:57:55 -0400
-Message-ID: <cover.1404987090.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Thu, 10 Jul 2014 19:43:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=gEhnRYG5vviXDZ4H3OSraYPxZaGUHEkTy3VrD3cOtek=;
+	b=VD/F/3yqX3e8RWF2Jypmmz4pKfZdtSCeXxLt3DNTSjxNojnwmKnY1J8NHa2lj2p/4O
+	J9u9mRtSDGxLa5FNJY4Lv2R5vpAZD1uA4vbNlXisEF+/+SPL8qj4lgqqzdbU6icrxOHM
+	Ejprjn/O+dHAc+Vgyw38Tu58cJ5U1rQNAU5HQ2+9C4ElyFL8hDVoZ1z1CTRTlNNOlROq
+	8o/QNTzhtdbmophcRwzTKAmxdWIFKJkYbHJ3nZJIhoaKPljNI0G3uwfJtmO+dRZ0egiF
+	33MHKACZvMaE+UBDi4INZek9Br2YENEpT/BAIc16iFFI4L6Lk2YQmJLrgxrWBoDViA/1
+	fnQA==
 MIME-Version: 1.0
-Subject: [PATCH 0/1] postfix: add new recipe
+X-Received: by 10.60.76.41 with SMTP id h9mr39860802oew.13.1405046582217; Thu,
+	10 Jul 2014 19:43:02 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.50.135 with HTTP; Thu, 10 Jul 2014 19:43:02 -0700 (PDT)
+In-Reply-To: <1404936934.15985.48.camel@ted>
+References: <1404936934.15985.48.camel@ted>
+Date: Thu, 10 Jul 2014 23:43:02 -0300
+X-Google-Sender-Auth: SJMbU85XpFx1bqTCL4bI58v1s0A
+Message-ID: <CAP9ODKpd5-KkRZg7QMbaMS-zn=f6uephJObn3X44RNoEK8y76A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC 1/3] insane: Split do_package_qa into a separate task (from do_package)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jul 2014 01:58:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 11 Jul 2014 02:43:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Hello Richard,
 
-We ported postfix from openembedded a year ago, and updated it to 2.9.5,
-now we are updating it to the latest stable release 2.11.1, and I'm
-sending here to see if oe-core take it, if not, I will send it to meta-oe.
+(added meta-freescale mailing list as it is related to meta-fsl-arm)
 
---
-The following changes since commit a5776ae532d6af1e880ab1a712dc768c900f88db:
+On Wed, Jul 9, 2014 at 5:15 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Its possible to run the package QA checks as a separate task rather than
+> as part of the do_package task. This offers more parallelism but the
+> fact that made me propose this is that ideally we'd like to access
+> pkgdata to help add new tests and to do that, we need to run later in
+> the task list. We also need to add in RDEPENDS to the task which apply
+> to do_package_write_* but not do_package. See the subsequent patches
+> for why this is desireable.
+>
+> If we split into a separate task, we need to add in calls to read
+> the sub package data, build the cache structure used by do_package and
+> cover the task with sstate (which is empty and just acts as a stamp
+> saying it passed package QA). We also need to handle our own
+> dependencies.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-  sanity.bbclass: Update minimum git version to 1.7.8 (2014-07-08 11:19:50 +0100)
+When I see a RFC serie I expect people to wait some days /for
+comments/. I learned today those are already merged and /no comment
+time/ has been given.
 
-are available in the git repository at:
+The problem I found is that running the QA checks in another task
+seems to break some use-cases.
 
-  git://git.pokylinux.org/poky-contrib jhuang0/uprev-postfix_140710-1
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/uprev-postfix_140710-1
+In the libfslcodec (it is a binary blob provided by Freescale for
+multimedia) we have:
 
-Jackie Huang (1):
-  postfix: add new recipe
+...
+python populate_packages_prepend() {
+    ...
+    # FIXME: All binaries lack GNU_HASH in elf binary but as we don't have
+    # the source we cannot fix it. Disable the insane check for now.
+    for p in d.getVar('PACKAGES', True).split():
+        d.setVar("DEBIAN_NOAUTONAME_%s" % p, "1")
 
- meta/recipes-extended/postfix/files/install.patch  |   66 ++++++
- .../postfix/files/internal_recipient               |    1 +
- meta/recipes-extended/postfix/files/main.cf_2.0    |  102 +++++++++
- meta/recipes-extended/postfix/files/makedefs.patch |  116 ++++++++++
- meta/recipes-extended/postfix/files/postfix        |   85 ++++++++
- .../postfix/files/postfix-add-db6-support.patch    |   26 +++
- .../recipes-extended/postfix/files/postfix.service |   14 ++
- meta/recipes-extended/postfix/postfix.inc          |  230 ++++++++++++++++++++
- meta/recipes-extended/postfix/postfix_2.11.1.bb    |    6 +
- 9 files changed, 646 insertions(+)
- create mode 100644 meta/recipes-extended/postfix/files/install.patch
- create mode 100644 meta/recipes-extended/postfix/files/internal_recipient
- create mode 100644 meta/recipes-extended/postfix/files/main.cf_2.0
- create mode 100644 meta/recipes-extended/postfix/files/makedefs.patch
- create mode 100755 meta/recipes-extended/postfix/files/postfix
- create mode 100644 meta/recipes-extended/postfix/files/postfix-add-db6-support.patch
- create mode 100644 meta/recipes-extended/postfix/files/postfix.service
- create mode 100644 meta/recipes-extended/postfix/postfix.inc
- create mode 100644 meta/recipes-extended/postfix/postfix_2.11.1.bb
+        if p == 'libfslcodec-test-bin':
+            # FIXME: includes the DUT .so files so we need to deploy those
+            d.appendVar("INSANE_SKIP_%s" % p, "ldflags textrel libdir")
+        else:
+            d.appendVar("INSANE_SKIP_%s" % p, "ldflags textrel")
+    ...
+}
+
+In this case the INSANE_SKIP var is not being set on time. If we check
+the value it is being set but it seems to be too late.
+
+How we can address it?
 
 -- 
-1.7.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
