@@ -1,35 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B522B60CEB;
-	Sat, 12 Jul 2014 05:03:28 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id l13so159398iga.1
-	for <multiple recipients>; Fri, 11 Jul 2014 22:03:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Lhf0b2fvAeqKh73JM4oinoiJZF7RmAIgEKTpDrBUg2E=;
-	b=yTEf6XKAaAKYFNkTbBLmEIvYiI68NtFGxg58XC/P3iWUEZtAhBMbIjsrdd+WozqBUl
-	bc4ihtVdpvbDeKmcaQV0C4invwGk6O17TDCLTA7dJjFAjhz9AMj6WS/V0V3yPQTxa2ou
-	ydXvzwTkg0DN0HYU7GfGCMK76NBLnG8CoBp1RteJZC7cQ5L4noNuwb5/5mZWqTr/p5/X
-	B0UV2BpXyny3+e7tGo0aVcDpcxPxnh3TcxQnk24HMkHX3Ok5nziXa9I2KT8l36HKPCjz
-	p5al4+ZIXDBgqrMWgOo4A1u6Q55ycB2cqOzASfzeuOrq8wTk6vyP7vYtcbK7O9nQMJww
-	5pNg==
-X-Received: by 10.43.69.202 with SMTP id yd10mr8922135icb.36.1405141409475;
-	Fri, 11 Jul 2014 22:03:29 -0700 (PDT)
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CB1587030B
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 12 Jul 2014 08:41:34 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2014 01:35:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,648,1400050800"; d="scan'208";a="542358102"
+Received: from pskulath-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.160])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2014 01:41:19 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Saul Wold <sgw@linux.intel.com>
+Date: Sat, 12 Jul 2014 09:41:13 +0100
+Message-ID: <1658509.iXhpYTtWFZ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.2 (Linux/3.15.4-200.fc20.x86_64; KDE/4.13.2; x86_64; ; )
+In-Reply-To: <CAJTo0LZrUCY5Fh97H06nEoROHcLkZB9R7xUjEC8SGLD7EvtYvQ@mail.gmail.com>
+References: <cover.1404997871.git.roxana.ciobanu@intel.com>
+	<53BE9A21.8060606@linux.intel.com>
+	<CAJTo0LZrUCY5Fh97H06nEoROHcLkZB9R7xUjEC8SGLD7EvtYvQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Fri, 11 Jul 2014 22:02:59 -0700 (PDT)
-In-Reply-To: <CAP9ODKqwOXV+GxNhoPFXJWcjLipD1P176Qcy0bBNMuzF9=Bhng@mail.gmail.com>
-References: <alpine.LFD.2.11.1407111821080.6262@localhost>
-	<CAP9ODKqwOXV+GxNhoPFXJWcjLipD1P176Qcy0bBNMuzF9=Bhng@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 11 Jul 2014 22:02:59 -0700
-Message-ID: <CAMKF1spgCphqN7PVskjP_bHd2CfsBRi52y=KJ2fWyjwQxw0cYw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [PATCH] core-image.bbclass: Reformat definition of CORE_IMAGE_BASE_INSTALL
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/1] latencytop: fix mount error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jul 2014 05:03:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 12 Jul 2014 08:41:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Jul 11, 2014 at 4:41 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Hello,
->
-> +OE-Core
->
-> On Fri, Jul 11, 2014 at 7:23 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->>
->> Reformat the assignment to CORE_IMAGE_BASE_INSTALL to be more
->> intuitively obvious.
->>
->> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->>
->> ---
->>
->>   compile and run-time tested, building a core-image-minimal for
->> qemuarm.
->>
->> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
->> index 1b36cba..d2b9d69 100644
->> --- a/meta/classes/core-image.bbclass
->> +++ b/meta/classes/core-image.bbclass
->> @@ -59,13 +59,11 @@ MACHINE_HWCODECS ??= ""
->>  CORE_IMAGE_BASE_INSTALL = '\
->>      packagegroup-core-boot \
->>      packagegroup-base-extended \
->> -    \
->> -    ${CORE_IMAGE_EXTRA_INSTALL} \
->>      '
->>
->>  CORE_IMAGE_EXTRA_INSTALL ?= ""
->>
->> -IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
->> +IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL} ${CORE_IMAGE_EXTRA_INSTALL}"
->
-> For me, more intuitively would be:
->
-> CORE_IMAGE_BASE_INSTALL ?= ...
+On Thursday 10 July 2014 15:46:21 Burton, Ross wrote:
+> On 10 July 2014 14:50, Saul Wold <sgw@linux.intel.com> wrote:
+> > I think Ross's suggestion of using stat() to check for the existance of a
+> > file in debugfs would be better.
+> 
+> At least one good way of checking if a directory is a mount point is
+> to compare the device of / and /debug using stat().  For example:
+> 
+> $ stat -c %d /
+> 2049
+> $ stat -c %d /sys
+> 13
+> 
+> Different devices, so /sys is a mount.
 
-weak assignment here would mean overridable base install which is not
-the intention. we want a working base image when inheriting core-image
+This came up a while back in another context, and someone (Phil?) pointed out 
+the "mountpoint" standard Unix command which does exactly this.
 
->
-> IMAGE_INSTALL += "${CORE_IMAGE_BASE_INSTALL} ${CORE_IMAGE_EXTRA_INSTALL}"
->
-> So IMAGE_INSTALL += "foo" in local.conf works as expected by new users.
+Cheers,
+Paul
 
-doesnt patch has same change ?
+-- 
 
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Paul Eggleton
+Intel Open Source Technology Centre
 
