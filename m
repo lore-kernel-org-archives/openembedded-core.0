@@ -1,21 +1,35 @@
-Return-Path: <pab@pabigot.com>
-X-Greylist: delayed 433 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 12 Jul 2014 02:49:43 UTC
-Received: from p3plsmtpa07-01.prod.phx3.secureserver.net
-	(p3plsmtpa07-01.prod.phx3.secureserver.net [173.201.192.230])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C1227032F
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jul 2014 02:49:43 +0000 (UTC)
-Received: from llc.pab ([66.41.60.82])
-	by p3plsmtpa07-01.prod.phx3.secureserver.net with 
-	id REiV1o00A1mTNtu01EiWtK; Fri, 11 Jul 2014 19:42:31 -0700
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jul 2014 21:42:27 -0500
-Message-Id: <1405132947-32495-1-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: "Peter A. Bigot" <pab@pabigot.com>
-Subject: [meta-oe][PATCH] cups: extend cups-no-gcrypt.patch to apply to configure script
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B522B60CEB;
+	Sat, 12 Jul 2014 05:03:28 +0000 (UTC)
+Received: by mail-ig0-f180.google.com with SMTP id l13so159398iga.1
+	for <multiple recipients>; Fri, 11 Jul 2014 22:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Lhf0b2fvAeqKh73JM4oinoiJZF7RmAIgEKTpDrBUg2E=;
+	b=yTEf6XKAaAKYFNkTbBLmEIvYiI68NtFGxg58XC/P3iWUEZtAhBMbIjsrdd+WozqBUl
+	bc4ihtVdpvbDeKmcaQV0C4invwGk6O17TDCLTA7dJjFAjhz9AMj6WS/V0V3yPQTxa2ou
+	ydXvzwTkg0DN0HYU7GfGCMK76NBLnG8CoBp1RteJZC7cQ5L4noNuwb5/5mZWqTr/p5/X
+	B0UV2BpXyny3+e7tGo0aVcDpcxPxnh3TcxQnk24HMkHX3Ok5nziXa9I2KT8l36HKPCjz
+	p5al4+ZIXDBgqrMWgOo4A1u6Q55ycB2cqOzASfzeuOrq8wTk6vyP7vYtcbK7O9nQMJww
+	5pNg==
+X-Received: by 10.43.69.202 with SMTP id yd10mr8922135icb.36.1405141409475;
+	Fri, 11 Jul 2014 22:03:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.78.105 with HTTP; Fri, 11 Jul 2014 22:02:59 -0700 (PDT)
+In-Reply-To: <CAP9ODKqwOXV+GxNhoPFXJWcjLipD1P176Qcy0bBNMuzF9=Bhng@mail.gmail.com>
+References: <alpine.LFD.2.11.1407111821080.6262@localhost>
+	<CAP9ODKqwOXV+GxNhoPFXJWcjLipD1P176Qcy0bBNMuzF9=Bhng@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 Jul 2014 22:02:59 -0700
+Message-ID: <CAMKF1spgCphqN7PVskjP_bHd2CfsBRi52y=KJ2fWyjwQxw0cYw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH] core-image.bbclass: Reformat definition of CORE_IMAGE_BASE_INSTALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,143 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jul 2014 02:49:48 -0000
+X-List-Received-Date: Sat, 12 Jul 2014 05:03:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: "Peter A. Bigot" <pab@pabigot.com>
+On Fri, Jul 11, 2014 at 4:41 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> Hello,
+>
+> +OE-Core
+>
+> On Fri, Jul 11, 2014 at 7:23 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>>
+>> Reformat the assignment to CORE_IMAGE_BASE_INSTALL to be more
+>> intuitively obvious.
+>>
+>> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+>>
+>> ---
+>>
+>>   compile and run-time tested, building a core-image-minimal for
+>> qemuarm.
+>>
+>> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+>> index 1b36cba..d2b9d69 100644
+>> --- a/meta/classes/core-image.bbclass
+>> +++ b/meta/classes/core-image.bbclass
+>> @@ -59,13 +59,11 @@ MACHINE_HWCODECS ??= ""
+>>  CORE_IMAGE_BASE_INSTALL = '\
+>>      packagegroup-core-boot \
+>>      packagegroup-base-extended \
+>> -    \
+>> -    ${CORE_IMAGE_EXTRA_INSTALL} \
+>>      '
+>>
+>>  CORE_IMAGE_EXTRA_INSTALL ?= ""
+>>
+>> -IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+>> +IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL} ${CORE_IMAGE_EXTRA_INSTALL}"
+>
+> For me, more intuitively would be:
+>
+> CORE_IMAGE_BASE_INSTALL ?= ...
 
-The original patch removed gcrypt from an m4 source file that
-contributes to configure.in, but didn't apply those changes to or
-rebuild the configure script itself.  This allowed libgcrypt-config to
-be found, adding native libraries to the target build.
+weak assignment here would mean overridable base install which is not
+the intention. we want a working base image when inheriting core-image
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- .../cups/cups/cups-no-gcrypt.patch                 |   87 +++++++++++++++++++-
- 1 file changed, 84 insertions(+), 3 deletions(-)
+>
+> IMAGE_INSTALL += "${CORE_IMAGE_BASE_INSTALL} ${CORE_IMAGE_EXTRA_INSTALL}"
+>
+> So IMAGE_INSTALL += "foo" in local.conf works as expected by new users.
 
-diff --git a/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch b/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
-index 8bbcf39..05646ee 100644
---- a/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
-+++ b/meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
-@@ -10,11 +10,12 @@ Backported from http://www.cups.org/strfiles.php/3308/cups-no-gcrypt.patch
- Upstream-Status: Backport 
- 
- Signed-off-by: Armin Kuster <akuster@mvista.com>
-+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
- 
- Last-Update: 2014-04-07
- --- a/config-scripts/cups-ssl.m4
- +++ b/config-scripts/cups-ssl.m4
--@@ -66,7 +66,6 @@
-+@@ -66,7 +66,6 @@ if test x$enable_ssl != xno; then
-      dnl Then look for GNU TLS...
-      if test $have_ssl = 0 -a "x$enable_gnutls" != "xno" -a "x$PKGCONFIG" != x; then
-      	AC_PATH_PROG(LIBGNUTLSCONFIG,libgnutls-config)
-@@ -22,7 +23,7 @@ Last-Update: 2014-04-07
-  	if $PKGCONFIG --exists gnutls; then
-  	    have_ssl=1
-  	    SSLLIBS=`$PKGCONFIG --libs gnutls`
--@@ -84,14 +83,6 @@
-+@@ -84,14 +83,6 @@ if test x$enable_ssl != xno; then
-  	if test $have_ssl = 1; then
-  	    CUPS_SERVERCERT="ssl/server.crt"
-  	    CUPS_SERVERKEY="ssl/server.key"
-@@ -37,9 +38,86 @@ Last-Update: 2014-04-07
-  	fi
-      fi
-  
-+diff --git a/configure b/configure
-+index 58623bb..c1f47c0 100755
-+--- a/configure
-++++ b/configure
-+@@ -651,7 +651,6 @@ SSLFLAGS
-+ IPPALIASES
-+ CUPS_SERVERKEY
-+ CUPS_SERVERCERT
-+-LIBGCRYPTCONFIG
-+ LIBGNUTLSCONFIG
-+ PTHREAD_FLAGS
-+ CUPS_DEFAULT_GSSSERVICENAME
-+@@ -8342,47 +8341,6 @@ else
-+ $as_echo "no" >&6; }
-+ fi
-+ 
-+-
-+-    	# Extract the first word of "libgcrypt-config", so it can be a program name with args.
-+-set dummy libgcrypt-config; ac_word=$2
-+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-+-$as_echo_n "checking for $ac_word... " >&6; }
-+-if ${ac_cv_path_LIBGCRYPTCONFIG+:} false; then :
-+-  $as_echo_n "(cached) " >&6
-+-else
-+-  case $LIBGCRYPTCONFIG in
-+-  [\\/]* | ?:[\\/]*)
-+-  ac_cv_path_LIBGCRYPTCONFIG="$LIBGCRYPTCONFIG" # Let the user override the test with a path.
-+-  ;;
-+-  *)
-+-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-+-for as_dir in $PATH
-+-do
-+-  IFS=$as_save_IFS
-+-  test -z "$as_dir" && as_dir=.
-+-    for ac_exec_ext in '' $ac_executable_extensions; do
-+-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-+-    ac_cv_path_LIBGCRYPTCONFIG="$as_dir/$ac_word$ac_exec_ext"
-+-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-+-    break 2
-+-  fi
-+-done
-+-  done
-+-IFS=$as_save_IFS
-+-
-+-  ;;
-+-esac
-+-fi
-+-LIBGCRYPTCONFIG=$ac_cv_path_LIBGCRYPTCONFIG
-+-if test -n "$LIBGCRYPTCONFIG"; then
-+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBGCRYPTCONFIG" >&5
-+-$as_echo "$LIBGCRYPTCONFIG" >&6; }
-+-else
-+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-+-$as_echo "no" >&6; }
-+-fi
-+-
-+-
-+ 	if $PKGCONFIG --exists gnutls; then
-+ 	    have_ssl=1
-+ 	    SSLLIBS=`$PKGCONFIG --libs gnutls`
-+@@ -8404,14 +8362,6 @@ fi
-+ 	if test $have_ssl = 1; then
-+ 	    CUPS_SERVERCERT="ssl/server.crt"
-+ 	    CUPS_SERVERKEY="ssl/server.key"
-+-
-+-            if $PKGCONFIG --exists gcrypt; then
-+-	        SSLLIBS="$SSLLIBS `$PKGCONFIG --libs gcrypt`"
-+-	        SSLFLAGS="$SSLFLAGS `$PKGCONFIG --cflags gcrypt`"
-+-	    elif test "x$LIBGCRYPTCONFIG" != x; then
-+-	        SSLLIBS="$SSLLIBS `$LIBGCRYPTCONFIG --libs`"
-+-	        SSLFLAGS="$SSLFLAGS `$LIBGCRYPTCONFIG --cflags`"
-+-	    fi
-+ 	fi
-+     fi
-+ 
-+diff --git a/cups/http-private.h b/cups/http-private.h
-+index 99a85c3..a674852 100644
- --- a/cups/http-private.h
- +++ b/cups/http-private.h
--@@ -80,7 +80,6 @@
-+@@ -80,7 +80,6 @@ typedef int socklen_t;
-  #  elif defined HAVE_GNUTLS
-  #    include <gnutls/gnutls.h>
-  #    include <gnutls/x509.h>
-@@ -47,3 +125,6 @@ Last-Update: 2014-04-07
-  #  elif defined(HAVE_CDSASSL)
-  #    include <CoreFoundation/CoreFoundation.h>
-  #    include <Security/Security.h>
-+-- 
-+1.8.5.5
-+
--- 
-1.7.9.5
+doesnt patch has same change ?
 
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
