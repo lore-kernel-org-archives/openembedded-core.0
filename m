@@ -1,44 +1,43 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yh0-f44.google.com (mail-yh0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B8D2270252
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6334365E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jul 2014 13:20:52 +0000 (UTC)
-Received: by mail-yh0-f44.google.com with SMTP id f73so727313yha.17
+	Sun, 13 Jul 2014 23:49:03 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id pv20so2292157lab.37
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jul 2014 06:20:53 -0700 (PDT)
+	Sun, 13 Jul 2014 16:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=qgZxM24cFONHCRmdFkEwh5siEwW2NYkNMd8zJFXMT+Q=;
-	b=XLNYZ09nGcqWgx0GAWNdJl88p4+uYYfsIQueWqoS/l4C0lxb1cFwUEQ5jQ6YNLzPOT
-	aF4zbS6ePSvKGNCZuMQdnBf11/dQ32FcXw/+pffR6m5G51Yn5zkin+8RyVq1hIc9/NtZ
-	IFvzsGnBG2nfFk3xxkdVEPrdQt+/3exASsgc+Mx6yKH9nyk5Z4U4ioPfr+HNNsixsnCm
-	oURe1Y34YlM9mc3Op7BEbdojE6M/55UEszYXu3EvKuvl91QnOxk80zJ7aEU3TlEHfLKh
-	Jmo843QaQeX8zbkXmJzPCCuPQvaY2HkayteCmJQwP8IS8KMufMAInaqX/dUWJLDMzX3X
-	B/9w==
-X-Received: by 10.236.193.9 with SMTP id j9mr2592975yhn.155.1405171253169;
-	Sat, 12 Jul 2014 06:20:53 -0700 (PDT)
-Received: from [192.168.0.12] ([201.53.220.248])
-	by mx.google.com with ESMTPSA id s9sm10994014yhp.39.2014.07.12.06.20.50
+	h=date:from:to:cc:subject:in-reply-to:message-id:references
+	:user-agent:mime-version:content-type;
+	bh=PWE1COJ+Xyqb3I/LvtFEzwMetSPmDFjZ8cCUsaSMUsk=;
+	b=J10UuG0aZBii00UI1rESq8NDI4E+APOft+kOAEw3GCo+FOaG7T6JIRkavqwpi3dhmX
+	T8GDA4wd/SezN7M3wdmEy4L01fdlac8n92pfWP32mvkteqpv0z/2u917W2OUBDgsV11/
+	s/dgt+5Xb1rJw+cdH8hcR0wiWT0kbbn8wkv79E9XYEXnQKTvIdcNbj9febQ59zRKRyUO
+	yXxPTdG/dbw7MysTSYJMDDiZNmxs45hAgj1RAPN7QhoauaniSLp8431CHULfWu53IgbO
+	9jr7iVa/T/jYO9whX6eOrSamhlFQU5LUVTM5vqa8VArLVB9Yq0X+Nbyw+/mp0q5iAWfv
+	6VsQ==
+X-Received: by 10.152.180.168 with SMTP id dp8mr11404323lac.11.1405295343769; 
+	Sun, 13 Jul 2014 16:49:03 -0700 (PDT)
+Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
+	[89.253.118.72])
+	by mx.google.com with ESMTPSA id k5sm4512237lak.8.2014.07.13.16.49.02
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 12 Jul 2014 06:20:52 -0700 (PDT)
-Message-ID: <53C1362F.9040006@gmail.com>
-Date: Sat, 12 Jul 2014 10:20:47 -0300
-From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
-	<joaohf@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Sun, 13 Jul 2014 16:49:03 -0700 (PDT)
+Date: Mon, 14 Jul 2014 01:48:47 +0200 (CEST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+X-X-Sender: jkroon@localhost.localdomain
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1404938578.15985.59.camel@ted>
+Message-ID: <alpine.LFD.2.11.1407140142470.30533@localhost.localdomain>
+References: <cover.1404896873.git.roxana.ciobanu@intel.com>
+	<fc1e780d3862d570820104c388a20e2b6d832c89.1404896873.git.roxana.ciobanu@intel.com>
+	<1404938578.15985.59.camel@ted>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>, Saul Wold <sgw@linux.intel.com>
-References: <1404266329-13524-1-git-send-email-joaohf@gmail.com>	<1404266329-13524-3-git-send-email-joaohf@gmail.com>	<53BC8A76.3010608@linux.intel.com>
-	<CAP9ODKpMVXway08KT0R+uyLr6V37ouCa038t_n-LzSOdDQ6h=g@mail.gmail.com>
-In-Reply-To: <CAP9ODKpMVXway08KT0R+uyLr6V37ouCa038t_n-LzSOdDQ6h=g@mail.gmail.com>
-Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] populate_sdk_base: ensure that filenames with empty space character are handled
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.bbclass: add ROOTFS_POSTPROCESS_COMMAND to rootfs[vardeps]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,44 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jul 2014 13:20:59 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 13 Jul 2014 23:49:07 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
 
+On Wed, 9 Jul 2014, Richard Purdie wrote:
 
-Hi Otavio
+> On Wed, 2014-07-09 at 12:08 +0300, Roxana Ciobanu wrote:
+>>     Changes to ROOTFS_POSTPROCESS_COMMAND require the rootfs
+>>     for the image to be rebuilt.
+>>
+>>     [YOCTO #6502]
+>>
+>> Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
+>> ---
+>>  meta/classes/image.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index a03b880..e088bdb 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -75,7 +75,7 @@ LDCONFIGDEPEND_libc-musl = ""
+>>  do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
+>>  do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
+>>  do_rootfs[recrdeptask] += "do_packagedata"
+>> -do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
+>> +do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS ROOTFS_POSTPROCESS_COMMAND"
+>>
+>>  do_build[depends] += "virtual/kernel:do_deploy"
+>
+> Are there other variables we look at in the rootfs process we also need
+> to list here?
+>
+> As background, the move to lib/oe has moved the variables outside the
+> scope of bitbake's function parsing code so we need to handle that
+> manually now...
+>
 
-Em 08-07-2014 22:33, Otavio Salvador escreveu:
-> Now talking about the patch itself, Joao, did you try to avoid the 
-> extra fork calling echo? Using '-print0' option in find might help. 
+I was hit by this recently, and talked to kergoth on IRC about it.
+As he suggested, perhaps we should also do
 
-Not until now. But I agree about your concern. So, instead of
+ROOTFS_POSTPROCESS_COMMAND[func] = "1"
 
-executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 
--exec echo \'{}\' \;)
+to inform bitbake that it is a shell script, so that it invokes its 
+shell dependency parsing. I would guess most people add a function, 
+and append this to ROOTFS_POSTPROCESS_COMMAND. Without marking it as a 
+function, changes in the actual function body would not trigger rootfs 
+rebuilds.
 
-Its better do:
-
-executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 
--printf "'%h/%f' ")
-
-No extra fork was used with -printf "'%h/%f' ".
-
-The argument -print0 is not an option because the output of find command 
-will be 'path1 path2 path 3' a concatenation of strings not strings 
-split by space and protected with ' '.
-
-Both results are valid. But the second is nicer. What do you think?
-
-
-When I did this patch I was not thinking to solve all problems about 
-spaces in filename. However a deep dig is needed to track all points 
-that have this issue.
-
-Thanks.
-
--- 
-João Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
-
+/Jacob
 
