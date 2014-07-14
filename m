@@ -1,51 +1,29 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id C28007039A
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 573AC7039A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 18:32:19 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s6EIWGdV032496
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Mon, 14 Jul 2014 20:32:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1405362739;
-	bh=lvmbNa4ZfYA8HDj53SvPASnWtbEursC3PCtqZYmbuE8=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=MPouISu4zmzkBNwCt/py73BVQ0voX07Ts50m1jkURV/Co3BgYjhZJCshNApTgsBVF
-	u18DL0w7ApQxSmyiHjof2U7rk4pTUUFgr/EBBauUJ85BWmasQvoKYKgaTolYOxoM7W
-	LiwVjxIWBNXHecEupSDWUlJuKXSH75aktlhXJOAQ=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s6EIWCZg020747
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 14 Jul 2014 20:32:13 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1X6l2p-0003z5-Vh; Mon, 14 Jul 2014 20:32:12 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Jate S <jatedev@gmail.com>
-References: <1405349203-32702-1-git-send-email-jatedev@gmail.com>
-	<lyzjgchs81.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAPphmgYUX828A=6SayztArEdU9L-=Hhfkw2w3mRw1ka_AmCWsw@mail.gmail.com>
-Date: Mon, 14 Jul 2014 20:32:11 +0200
-In-Reply-To: <CAPphmgYUX828A=6SayztArEdU9L-=Hhfkw2w3mRw1ka_AmCWsw@mail.gmail.com>
-	(Jate S.'s message of "Mon, 14 Jul 2014 13:58:26 -0400")
-Message-ID: <lylhrviyfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Mon, 14 Jul 2014 18:39:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6EIdvNt020712
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 Jul 2014 11:39:57 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 14 Jul 2014 11:39:56 -0700
+Date: Mon, 14 Jul 2014 13:39:50 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140714133950.37e29e55@e6410-2>
+In-Reply-To: <1405114369.21289.95.camel@ted>
+References: <cover.1405110050.git.peter.seebach@windriver.com>
+	<0cbfa0da548acdef1a4ab12cb708c699a495dd7f.1405110050.git.peter.seebach@windriver.com>
+	<CAJTo0Lay1CB_BumWQDDLHrS2i2XkiE99TamO3bwMH86_=P8gFg@mail.gmail.com>
+	<20140711152449.08d84fdc@e6410-2> <1405114369.21289.95.camel@ted>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python2: Add PACKAGECONFIG for tkinter to support tk from meta-oe
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] pseudo_1.6.0.bb: uprev to pseudo 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 18:32:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Jul 2014 18:40:05 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-Jate S <jatedev@gmail.com> writes:
+On Fri, 11 Jul 2014 22:32:49 +0100
+Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 
-> Python 2.7.x does not use an explicit configure option for tk support.
-> Instead, it tries to detect the tk and tcl libraries before compiling
-> python-tkinter.
+> The issue is the lack of the xattr headers from what I saw, not the
+> xattr support itself and we're missing what looks like a single define.
+> For the complexity, I did wonder if we should ship a default...
 
-Your patch does not solve the issue of non-deterministic builds.  When
-tk was added by some other way, python will get tkinter support although
-PACKAGECONFIG was not set.
+Thinking about this more, the default alone wouldn't do it, I'd have to
+either drop the header or make it conditional, which I'd sort of prefer not
+to do. Checks for header availability are a pain.
 
-An idea to make build deterministic might be patching of detect_modules()
-in setup.py to add disabled modules to 'missing'.  E.g.
+So should I resubmit with the attr-native dependency? I don't know how much
+build time that will impose, but I assume not very much.
 
-|             missing.append('_tkinter')
-| 
-|+        missing.extend(os.environ('OE_HACK_MISSING').split())
-|         return missing
-
-Probably there are better/cleaner ways but I am not familar with python
-distutils.
-
-
-Enrico
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
