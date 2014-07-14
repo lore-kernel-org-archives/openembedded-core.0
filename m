@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 20BAC7039A
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A8AD1703BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 18:56:36 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id x3so1986954qcv.23
+	Mon, 14 Jul 2014 19:07:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6EJ7HG3024342
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 11:56:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=g83OwK5BAbqqS8af7GBLwTBFYa7ZF2nMLoRLbPfiUNQ=;
-	b=Adwra/scvL68HnAEGuR+os31+PMY/CRtumQkCxKqL4L5KJGOt9dfCtf4n9NxYv6ueg
-	TIyA18AogPI4TpGcTxud2RQjkJ8MzMa3rBbkyf085B1cJgy5umm6NZBYAu600QhxIxjS
-	0iGRGUeroFuL+7qSz8xLNjcSs2ivmV8//gZC0CZjbEyq/+4RCBE0LdysO7IFO4EyGIfA
-	OpAXekE/+ulPgu2ZcgcgaCSYal5gXgGu+m7zYCPFdB7JZyjNEbT4oWHegLBqFvgDn/9A
-	jjP6C+ima6K7OxaKdKopDvQOpl+5DRlBEQxZU+3gY+BR1APzU7gKyaqR1RqPhYonWdPS
-	D7RA==
-X-Gm-Message-State: ALoCoQm/GWVTbUmR3d6IcAvbrC7z553lYXtWxSbdWO7OcSCS6noWAsXgTvKg+ut09A+3bkkPY3yU
-X-Received: by 10.224.122.83 with SMTP id k19mr9347987qar.78.1405364197824;
-	Mon, 14 Jul 2014 11:56:37 -0700 (PDT)
+	Mon, 14 Jul 2014 12:07:17 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 14 Jul 2014 12:07:17 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Jul 2014 14:12:28 -0500
+Message-ID: <cover.1405365020.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 14 Jul 2014 11:56:17 -0700 (PDT)
-In-Reply-To: <53C41827.7060002@linux.intel.com>
-References: <cover.1405335436.git.roxana.ciobanu@intel.com>
-	<bdbcbfeed06623ac20632e04036ff5eb15e53258.1405335436.git.roxana.ciobanu@intel.com>
-	<53C41827.7060002@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Jul 2014 19:56:17 +0100
-Message-ID: <CAJTo0LbJHs+m8QMGqT23PQLh2yQ4mmXvj9=CGBQnwmOhWkdMTQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/1] latencytop: fix mount error
+Subject: [PATCH 0/1] pseudo 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,17 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 18:56:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Jul 2014 19:07:18 -0000
+Content-Type: text/plain
 
-On 14 July 2014 18:49, Saul Wold <sgw@linux.intel.com> wrote:
-> Why do two stats here?  Can't you stat an entry inside of the
-> /sys/kernel/debug directory?
+This is the pseudo 1.6 update, now with an explicit dependency on
+attr to make sure xattr.h is available. Also a signed-off-by.
 
-It's the idiomatic "is this a mount point" test: look at the device
-number inside and outside the hopeful mount point, and if they're
-different then there's a mount.  You need to stat twice to determine
-this.
+Previous blurb:
+pseudo 1.6.0 is a moderately significant update. It should actually
+be better in a number of ways. Performance may be slightly improved
+by changes to how debugging messages are generated. Debugging output
+is dramatically improved. Extended attributes are supported.
 
-Ross
+I don't really feel this can be tested adequately without pretty
+broad exposure, so I'm leaving the 1.5.1 recipe in-tree in this update,
+so people can go back if they have problems.
+
+The following changes since commit fa325e44f5b429b4038022b31285af9c94672943:
+
+  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:19:18 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo16
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo16
+
+Peter Seebach (1):
+  pseudo_1.6.0.bb: uprev to pseudo 1.6
+
+ meta/recipes-devtools/pseudo/pseudo.inc      |    6 +-----
+ meta/recipes-devtools/pseudo/pseudo_1.5.1.bb |    4 ++++
+ meta/recipes-devtools/pseudo/pseudo_1.6.0.bb |   10 ++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    4 ++--
+ 4 files changed, 17 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
+
 
