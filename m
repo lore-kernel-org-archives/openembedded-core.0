@@ -1,53 +1,29 @@
-Return-Path: <mike.looijmans@topic.nl>
-X-Greylist: delayed 359 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 14 Jul 2014 12:13:20 UTC
-Received: from retry101.mer-nm.internl.net (vif1-retry101.mer-nm.internl.net
-	[217.149.192.107])
-	by mail.openembedded.org (Postfix) with ESMTP id AFD4E70194
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 12:13:20 +0000 (UTC)
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[IPv6:2a01:3a8:100:2::8b:25])
-	by retry101.mer-nm.internl.net (Postfix) with ESMTP id 21BE441171
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 14:07:29 +0200 (CEST)
-Received: from amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.54])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id F33184011F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 14:07:20 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: 0.8
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 tagged_above=-999 required=4.5
-	tests=[BAYES_50=0.8] autolearn=no
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 14:07:19 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 14:07:04 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 14 Jul 2014 14:07:12 +0200
-Message-ID: <53C3C7E8.2000806@topic.nl>
-Date: Mon, 14 Jul 2014 14:07:04 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AFB1070194;
+	Mon, 14 Jul 2014 12:15:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 14 Jul 2014 05:08:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,657,1400050800"; d="scan'208";a="561475884"
+Received: from snaufer-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.80])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2014 05:14:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 14 Jul 2014 13:14:56 +0100
+Message-ID: <2532084.Gn1ogpR50R@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.2 (Linux/3.15.4-200.fc20.x86_64; KDE/4.13.2; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1407140736060.12986@localhost>
+References: <alpine.LFD.2.11.1407101115390.10701@localhost>
+	<3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
+	<alpine.LFD.2.11.1407140736060.12986@localhost>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: UBI filesystem creation fails silently with 4k erase size
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] any value in keeping the backward compat "task-core" stuff?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,60 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 12:13:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Jul 2014 12:15:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-=EF=BB=BFI have a NOR chip that reports a 4k erase size, so in my machine.c=
-onf I entered:
+On Monday 14 July 2014 07:39:23 Robert P. J. Day wrote:
+> On Mon, 14 Jul 2014, Paul Eggleton wrote:
+> > On Friday 11 July 2014 20:39:04 Otavio Salvador wrote:
+> > > On Thu, Jul 10, 2014 at 12:21 PM, Robert P. J. Day
+> > > 
+> > > <rpjday@crashcourse.ca> wrote:
+> > > >   a number of the current packagegroup recipe files still have
+> > > > 
+> > > > backward compatibility support for the old "task-core" names, seems
+> > > > like that's been there for well over a year, would it be safe to
+> > > > finally just toss that? seems like everyone's had enough time to make
+> > > > the move to the new names, and it would be clearer to not confuse the
+> > > > proper use of the word "task" these days.
+> > > 
+> > > I agree; however this question should also be send to oe-core mailing
+> > > list (added in Cc)
+> > 
+> > I agree as well; these should go. I know there are some who want to
+> > keep these indefinitely for upgrade purposes, but I think there's a
+> > limit to how long they should stay around in OE-Core. They can
+> > always be preserved in bbappends for those that do want to keep
+> > them.
+> 
+>   one more (general) question about this ... there's a fair bit of
+> this task/packagegroup backward compatibility stuff under the meta-oe
+> layer as well. i assume that patches to the meta-oe layer should still
+> be posted to this list, but have a subject line of:
+> 
+>   [meta-oe][PATCH] ...
+> 
+> correct? as in, two separate patches.
 
-MKUBIFS_ARGS =3D "-m 1 -e 3968 -c 7040"
-UBINIZE_ARGS =3D "-m 1 -p 4096"
-UBI_VOLNAME =3D "qspi-rootfs"
+To be clear (since we're cross-posted to two lists in this thread) OE-Core 
+patches go to the openembedded-core list, meta-oe patches to the openembedded-
+devel list.
 
+Cheers,
+Paul
 
-When I create an image with "ubi" in the IMAGE_FSTYPES, the build runs and=
-=20
-does not report any error, however it did NOT create the ubi filesystem ima=
-ge.
+-- 
 
-If I change the parameters for a 64k flash using:
-
-MKUBIFS_ARGS =3D "-m 1 -e 65408 -c 440"
-
-the ubi filesystem is created (both ubifs and ubi files).
-
-
-Where can I find what went wrong? I'd expect big read error messages tellin=
-g=20
-me that it failed to create an image for my device, but I cannot find such=
-=20
-message anywhere.
-
-So my questions are:
-
-1) Why is there no error message when image creation fails?
-2) Where is the log/output from the mkfs.ubi commands?
-2) What could be wrong with my mkubifs parameters?
-
-Mike.
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt FPGA experts
-http://topic.nl/vacatures/word-jij-onze-nieuwe-fpga-expert/
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
