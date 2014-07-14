@@ -1,26 +1,35 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B2C48703E0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 19:07:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6EJ7IlF002309
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 12:07:18 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 14 Jul 2014 12:07:17 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jul 2014 14:12:29 -0500
-Message-ID: <6c0f987e41f866f61c54d626f2248111122e831d.1405365020.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1405365020.git.peter.seebach@windriver.com>
-References: <cover.1405365020.git.peter.seebach@windriver.com>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E4F2270394;
+	Mon, 14 Jul 2014 19:36:47 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id z12so4581064wgg.0
+	for <multiple recipients>; Mon, 14 Jul 2014 12:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=f3T0zYG2cS2xVM2o8z+e3LxZFJRv7nYY0ASY3pxxh4s=;
+	b=a3z6dSUwCu04co2omNrx56n/RYva6CoLV6jRQ5QJ/tmjxpkYEkE4zyY9YkqAdjsm8w
+	9MEhM+wvp5JrhHHJGoAii78d7eVNzh2pmF1uKg8xhEEwVIgeAblNoemwRN2XJKjyoMhf
+	U+E55K3xBxygdpjb6wQOqtd7wOGSjHcAqMFGiTBRlLE30xQrL8gppZFz/E0+Rr9j/gbP
+	H2h2Gd5b4KzgON+oK5YZ1A2CL0+Dcr9b2+EDmj6bSPjwnlUPPynMqUEYY+r4LEyMDq6h
+	q7Go5peKBEQQ4xsy6WijlMLPwBlro2Ur/DiNLZF2/KqQhDFC+mGme9aQEt2ctl6RXvB/
+	XvOA==
+X-Received: by 10.180.80.70 with SMTP id p6mr176251wix.22.1405366608919;
+	Mon, 14 Jul 2014 12:36:48 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ub11sm34579465wib.1.2014.07.14.12.36.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Jul 2014 12:36:48 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 14 Jul 2014 21:36:57 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140714193657.GJ2433@jama>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo_1.6.0.bb: uprev to pseudo 1.6
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, Failed tasks 2014-07-14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,91 +42,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 19:07:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Jul 2014 19:36:49 -0000
+X-Groupsio-MsgNum: 54863
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="k18oBAwMkTg3OUap"
+Content-Disposition: inline
 
-This uprevs pseudo to 1.6. This merges in all of the existing
-fixes, and also adds partial support for extended attributes,
-including storing arbitrary extended attributes in the database,
-and also interpreting the posix permissions ACLs as chmod
-requests.
+--k18oBAwMkTg3OUap
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The extended attribute support means we need xattr.h, the simplest
-way to be sure of this is to build attr before pseudo, which doesn't
-take long.
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/recipes-devtools/pseudo/pseudo.inc      |    6 +-----
- meta/recipes-devtools/pseudo/pseudo_1.5.1.bb |    4 ++++
- meta/recipes-devtools/pseudo/pseudo_1.6.0.bb |   10 ++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb   |    4 ++--
- 4 files changed, 17 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
+=3D=3D Failed tasks 2014-07-14 =3D=3D
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 42738ab..11a8514 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -7,11 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/pseudo"
- LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
- SECTION = "base"
- LICENSE = "LGPL2.1"
--DEPENDS = "sqlite3"
--
--SRC_URI_append_class-nativesdk = " file://symver.patch"
--
--SRC_URI_append_class-native = " file://symver.patch"
-+DEPENDS = "sqlite3 attr"
- 
- FILES_${PN} = "${prefix}/lib/pseudo/lib*/libpseudo.so ${bindir}/* ${localstatedir}/pseudo ${prefix}/var/pseudo"
- FILES_${PN}-dbg += "${prefix}/lib/pseudo/lib*/.debug"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-index 47291fd..8d562ec 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-@@ -10,6 +10,10 @@ SRC_URI = " \
-     file://pseudo-fchmodat-permissions.patch \
- "
- 
-+SRC_URI_append_class-nativesdk = " file://symver.patch"
-+
-+SRC_URI_append_class-native = " file://symver.patch"
-+
- SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
- SRC_URI[sha256sum] = "3b896f592f4d568569bd02323fad2d6b8c398e16ca36ee5a8947d2ff6c1d3d52"
- 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
-new file mode 100644
-index 0000000..e92c4d7
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
-@@ -0,0 +1,10 @@
-+require pseudo.inc
-+
-+SRC_URI = " \
-+    http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-+"
-+
-+SRC_URI[md5sum] = "78c3f8aa8efe8cf15a2b21261174e3b6"
-+SRC_URI[sha256sum] = "e24f526443b31c3292ec5ba04950d230b5388e8983c7e192e9e489c007f3dba3"
-+
-+PSEUDO_EXTRA_OPTS ?= "--enable-force-async"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 66fc85f..ef258fa 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,7 +1,7 @@
- require pseudo.inc
- 
--SRCREV = "b9eb2b5633b5a23efe72c950494728d93c2b5823"
--PV = "1.5.1+git${SRCPV}"
-+SRCREV = "512b84fb539c970464a93107995edf0e775d13fa"
-+PV = "1.6.0+git${SRCPV}"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--- 
-1.7.1
+=3D=3D=3D common (31) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-filesystems/recipes-filesystems/owfs/owfs_2.9p=
+1.bb, do_compile
+    * meta-openembedded/meta-filesystems/recipes-filesystems/smbnetfs/smbne=
+tfs_git.bb, do_configure
+    * meta-openembedded/meta-multimedia/recipes-mkv/mkvtoolnix/mkvtoolnix_5=
+=2E9.0.bb, do_configure
+    * meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-so=
+ft_1.15.1.bb, do_compile
+    * meta-openembedded/meta-multimedia/recipes-multimedia/vlc/vlc_2.1.4.bb=
+, do_configure
+    * meta-openembedded/meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1=
+=2Ebb, do_install
+    * meta-openembedded/meta-oe/recipes-core/llvm/llvm3.3_3.3.bb, do_packag=
+e_qa
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-cython_git.b=
+b, do_package_qa
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-pyyaml_3.10.=
+bb, do_compile
+    * meta-openembedded/meta-oe/recipes-extended/hexedit/hexedit_1.2.13.bb,=
+ do_compile
+    * meta-openembedded/meta-oe/recipes-extended/lcdproc/lcdproc_0.5.5.bb, =
+do_compile
+    * meta-openembedded/meta-oe/recipes-navigation/gdal/gdal_1.10.1.bb, do_=
+install
+    * meta-openembedded/meta-oe/recipes-navigation/orrery/orrery_2.7.bb, do=
+_compile
+    * meta-openembedded/meta-oe/recipes-support/daemonize/daemonize_git.bb,=
+ do_configure
+    * meta-openembedded/meta-oe/recipes-support/farsight/libnice_0.0.13.bb,=
+ do_configure
+    * meta-openembedded/meta-oe/recipes-support/fltk/fltk_1.1.10.bb, do_ins=
+tall
+    * meta-openembedded/meta-oe/recipes-support/pidgin/libotr_4.0.0.bb, do_=
+compile
+    * meta-openembedded/meta-webserver/recipes-webadmin/webmin/webmin_1.620=
+=2Ebb, do_package
+    * meta-openembedded/meta-xfce/recipes-xfce/xfconf/xfconf_4.10.0.bb, do_=
+configure
+    * meta-smartphone/meta-aurora/recipes-aurora/aurora/aurora-daemon_git.b=
+b, do_configure
+    * meta-smartphone/meta-fso/recipes-freesmartphone/freesmartphone/zhone_=
+git.bb, do_compile
+    * meta-smartphone/meta-fso/recipes-freesmartphone/python/python-pyrtc_g=
+it.bb, do_compile
+    * meta-smartphone/meta-palm/recipes-bsp/tsmd/tsmd_git.bb, do_configure
+    * meta-smartphone/meta-shr/recipes-shr/3rdparty/numptyphysics_svn.bb, d=
+o_configure
+    * meta-smartphone/meta-shr/recipes-shr/3rdparty/sensmon_git.bb, do_conf=
+igure
+    * meta-smartphone/meta-shr/recipes-shr/3rdparty/vagalume_0.8.5.bb, do_c=
+onfigure
+    * meta-smartphone/meta-shr/recipes-shr/3rdparty/valacompass_git.bb, do_=
+configure
+    * meta-smartphone/meta-shr/recipes-shr/games/mokomaze_0.5.5.bb, do_conf=
+igure
+    * meta-smartphone/meta-shr/recipes-shr/shr/phonefsod_git.bb, do_configu=
+re
+    * meta-smartphone/meta-shr/recipes-shr/shr/python-phoneutils_git.bb, do=
+_compile
+
+=3D=3D=3D common-x86 (4) =3D=3D=3D
+    * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_c=
+ompile
+    * meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tin=
+y-kexecboot_3.10.bb, do_package_qa
+    * meta-openembedded/meta-oe/recipes-devtools/concurrencykit/concurrency=
+kit_git.bb, do_compile
+    * meta-smartphone/meta-fso/recipes-freesmartphone/freesmartphone/mioctl=
+_git.bb, do_configure
+
+=3D=3D=3D qemuarm (14) =3D=3D=3D
+    * meta-openembedded/meta-efl/recipes-navigation/mcnavi/mcnavi_0.3.4.bb,=
+ do_configure
+    * meta-openembedded/meta-networking/recipes-connectivity/snort/snort_2.=
+9.6.0.bb, do_configure
+    * meta-openembedded/meta-networking/recipes-support/lksctp-tools/lksctp=
+-tools_1.0.16.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
+_git.bb, do_package_qa
+    * meta-openembedded/meta-oe/recipes-extended/hplip/hplip_3.12.6.bb, do_=
+compile
+    * meta-openembedded/meta-oe/recipes-extended/subsurface/subsurface_git.=
+bb, do_compile
+    * meta-openembedded/meta-oe/recipes-graphics/fbgrab/fbgrab_1.2.bb, do_i=
+nstall
+    * meta-openembedded/meta-oe/recipes-support/flite/flite-alsa_1.3.bb, do=
+_install
+    * meta-openembedded/meta-oe/recipes-support/usbpath/usbpath_svn.bb, do_=
+configure
+    * meta-openembedded/meta-webserver/recipes-httpd/monkey/monkey_1.5.1.bb=
+, do_package
+    * meta-smartphone/meta-fso/recipes-freesmartphone/freesmartphone/fso-gp=
+sd_git.bb, do_configure
+    * meta-smartphone/meta-osmocombb/recipes-osmocombb/osmoconbb/osmocon_gi=
+t.bb, do_configure
+    * openembedded-core/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb, d=
+o_compile
+    * openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.1=
+3.bb, do_configure
+
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * openembedded-core/meta/recipes-bsp/usbinit/usbinit.bb, do_install
+
+=3D=3D=3D qemux86_64 (2) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
+_git.bb, do_compile
+    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb, do_compile
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||45    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20140712_004121.log/||
+|-
+||qemux86       ||36    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20140712_175359.log/||
+|-
+||qemux86_64    ||49    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20140713_094108.log/||
+|}
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--k18oBAwMkTg3OUap
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPEMVkACgkQN1Ujt2V2gBxf/gCfZcLMrqMYkJN22NSwMmTNDMaT
++hkAoIcLdGmCb1Q002M9VT4fB7P++nA1
+=icnP
+-----END PGP SIGNATURE-----
+
+--k18oBAwMkTg3OUap--
