@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7EB702C1
+	by mail.openembedded.org (Postfix) with ESMTP id 7CA017029E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 09:01:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6E91pko022856
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Jul 2014 02:01:51 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 14 Jul 2014 02:01:50 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	Mon, 14 Jul 2014 09:03:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6E940pG022874
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 02:04:00 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 14 Jul 2014 02:03:59 -0700
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jul 2014 17:01:42 +0800
-Message-ID: <f67e07e11f5f7294bd6bc49fc1a0b90ca31bc830.1405328408.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1405328408.git.hongxu.jia@windriver.com>
-References: <cover.1405328408.git.hongxu.jia@windriver.com>
+Date: Mon, 14 Jul 2014 05:03:58 -0400
+Message-ID: <1405328638-7688-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] perl-rdepends: Add perl as perl-misc/${PN}-pod runtime dep
+Subject: [PATCH] setserial: package depends on groff-native to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 09:01:58 -0000
+X-List-Received-Date: Mon, 14 Jul 2014 09:04:04 -0000
 Content-Type: text/plain
 
-Each of the items requires perl, but had not previously stated their perl
-dependency.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Joe MacDonald <joe.macdonald@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+[YOCTO #6526]
+
+Add explicit depends to avoid host contamination.
+
+Signed-off-by: Jonas Zetterberg <jonas.zetterberg@windriver.com>
+Signed-off-by: Yue Tao <yue.tao@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-devtools/perl/perl-rdepends_5.20.0.inc | 2 ++
+ meta/recipes-bsp/setserial/setserial_2.17.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.20.0.inc b/meta/recipes-devtools/perl/perl-rdepends_5.20.0.inc
-index 47a7548..9bd2e39 100644
---- a/meta/recipes-devtools/perl/perl-rdepends_5.20.0.inc
-+++ b/meta/recipes-devtools/perl/perl-rdepends_5.20.0.inc
-@@ -12,6 +12,8 @@
- #| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' 
- #| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/
+diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
+index 65d6068..f1e8cd3 100644
+--- a/meta/recipes-bsp/setserial/setserial_2.17.bb
++++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
+@@ -8,6 +8,8 @@ LICENSE = "GPLv2.0"
+ LIC_FILES_CHKSUM = "file://version.h;beginline=1;endline=6;md5=2e7c59cb9e57e356ae81f50f4e4dfd99"
+ PR = "r3"
  
-+RDEPENDS_perl-misc += "perl"
-+RDEPENDS_${PN}-pod += "perl"
++DEPENDS += "groff-native"
++
+ inherit autotools-brokensep
  
- # Some additional dependencies that the above doesn't manage to figure out
- RDEPENDS_${PN}-module-file-spec += "${PN}-module-file-spec-unix"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/setserial/${BPN}-${PV}.tar.gz \
 -- 
-1.8.1.2
+2.0.0
 
 
