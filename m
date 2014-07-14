@@ -1,27 +1,38 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 573AC7039A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CACF26ACED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 18:39:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6EIdvNt020712
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Jul 2014 11:39:57 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 14 Jul 2014 11:39:56 -0700
-Date: Mon, 14 Jul 2014 13:39:50 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140714133950.37e29e55@e6410-2>
-In-Reply-To: <1405114369.21289.95.camel@ted>
+	Mon, 14 Jul 2014 18:55:25 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id q107so1680577qgd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 11:55:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=PHuEiKuEBjx/qr9Ra92Gv1LZbb0do73Oha2umy63lkI=;
+	b=jf315umiBkgvdd3RSWzNNy2XWCUZaJS4N+I8aV7a24edewCvZMnCYnyfEAWMxPOoKD
+	H513l2ytk6HGVprflET3U97vDVwZ3XYgDxfeKQG+HzBe5FZjsmsAGYw6/Q/AKb79vm+t
+	F4ebN2AjZFDJ1pqS6bE7d6gwY+qMmDZo6tsxO4mgvNpH9aPIjYsDTwkP3w2BRHMjAUX/
+	0BpBGNgdGzJIs+jDSDz7i0XkqvGMTIsyB9LpjNS8FTlMZ03H9YmLFnAkvuXWcoZE4idk
+	cVM2WAwlbinsGfiMnSarGUhm3R0SiAMTvGOBXtrZIXAIoYPeEMTMljuOwQhjjGlU4aU0
+	a2QQ==
+X-Gm-Message-State: ALoCoQkQ/upr6rngC6O5k9yZIDmCay1EsrKAVSREx4AYXj5HNwTh4t2zvP1MHPLKHMBy9k0ZdoCj
+X-Received: by 10.140.91.164 with SMTP id z33mr26175760qgd.65.1405364126557;
+	Mon, 14 Jul 2014 11:55:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Mon, 14 Jul 2014 11:55:06 -0700 (PDT)
+In-Reply-To: <20140714133950.37e29e55@e6410-2>
 References: <cover.1405110050.git.peter.seebach@windriver.com>
 	<0cbfa0da548acdef1a4ab12cb708c699a495dd7f.1405110050.git.peter.seebach@windriver.com>
 	<CAJTo0Lay1CB_BumWQDDLHrS2i2XkiE99TamO3bwMH86_=P8gFg@mail.gmail.com>
 	<20140711152449.08d84fdc@e6410-2> <1405114369.21289.95.camel@ted>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+	<20140714133950.37e29e55@e6410-2>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Jul 2014 19:55:06 +0100
+Message-ID: <CAJTo0LaUMieDWUeYB7a2rhV0vE6HPypTwAMCwzosU1qX4H=gyA@mail.gmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] pseudo_1.6.0.bb: uprev to pseudo 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,25 +47,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 18:40:05 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Jul 2014 18:55:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 11 Jul 2014 22:32:49 +0100
-Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+On 14 July 2014 19:39, Peter Seebach <peter.seebach@windriver.com> wrote:
+> So should I resubmit with the attr-native dependency? I don't know how much
+> build time that will impose, but I assume not very much.
 
-> The issue is the lack of the xattr headers from what I saw, not the
-> xattr support itself and we're missing what looks like a single define.
-> For the complexity, I did wonder if we should ship a default...
+Please do, the build time for attr-native is minimal in the scheme of things.
 
-Thinking about this more, the default alone wouldn't do it, I'd have to
-either drop the header or make it conditional, which I'd sort of prefer not
-to do. Checks for header availability are a pain.
-
-So should I resubmit with the attr-native dependency? I don't know how much
-build time that will impose, but I assume not very much.
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Ross
 
