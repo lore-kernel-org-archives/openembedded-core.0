@@ -1,25 +1,48 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D21DF70499
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 1371170436
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 12:37:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Jul 2014 05:31:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,658,1400050800"; d="scan'208";a="561483354"
-Received: from snaufer-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.80])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2014 05:37:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jul 2014 13:37:14 +0100
-Message-ID: <22671291.0T6rJZEYxz@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.2 (Linux/3.15.4-200.fc20.x86_64; KDE/4.13.2; x86_64; ; )
-In-Reply-To: <CAD2C2VS999rDn_WEdtaiRPMdtCFgbzY_iqm2ex6Kc3Vm0f8NaQ@mail.gmail.com>
-References: <CAD2C2VS999rDn_WEdtaiRPMdtCFgbzY_iqm2ex6Kc3Vm0f8NaQ@mail.gmail.com>
+	Mon, 14 Jul 2014 13:06:32 +0000 (UTC)
+Received: from amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.128])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 4C437401C6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 15:06:33 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: 0.8
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 tagged_above=-999 required=4.5
+	tests=[BAYES_50=0.8] autolearn=no
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 15:06:32 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 15:06:32 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 14 Jul 2014 15:06:40 +0200
+Message-ID: <53C3D5D7.5090309@topic.nl>
+Date: Mon, 14 Jul 2014 15:06:31 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: Re: OpenEmbedded build issues with beagle board
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <53C3C7E8.2000806@topic.nl>
+In-Reply-To: <53C3C7E8.2000806@topic.nl>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: UBI filesystem creation fails silently with 4k erase size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +55,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 12:37:49 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 14 Jul 2014 13:06:43 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bryan,
+=EF=BB=BFOn 07/14/2014 02:07 PM, Mike Looijmans wrote:
+> I have a NOR chip that reports a 4k erase size, so in my machine.conf I e=
+ntered:
+>
+> MKUBIFS_ARGS =3D "-m 1 -e 3968 -c 7040"
+> UBINIZE_ARGS =3D "-m 1 -p 4096"
+> UBI_VOLNAME =3D "qspi-rootfs"
+>
+>
+> When I create an image with "ubi" in the IMAGE_FSTYPES, the build runs an=
+d
+> does not report any error, however it did NOT create the ubi filesystem i=
+mage.
+>
+> If I change the parameters for a 64k flash using:
+>
+> MKUBIFS_ARGS =3D "-m 1 -e 65408 -c 440"
+>
+> the ubi filesystem is created (both ubifs and ubi files).
+>
+>
+> Where can I find what went wrong? I'd expect big read error messages tell=
+ing
+> me that it failed to create an image for my device, but I cannot find suc=
+h
+> message anywhere.
+>
+> So my questions are:
+>
+> 1) Why is there no error message when image creation fails?
+> 2) Where is the log/output from the mkfs.ubi commands?
+> 2) What could be wrong with my mkubifs parameters?
+>
 
-On Tuesday 08 July 2014 12:22:59 Bryan wrote:
-> Hi All
->  I am trying to build  Openembeeded classic for Beagle board-XM but i am
-> getting lot of broken link issues. I have  set DISTRO as angstrom-2010.x in
-> local.conf.   Is this approach  ok? or should i move to openembedded core ??
-> Pls suggest.
-> 
-> Broken link e.g.
-> 
-> Resolving www.angstrom-distribution.org (www.angstrom-distribution.org)...
-> 140.211.169.177
->  Connecting to www.angstrom-distribution.org
-> (www.angstrom-distribution.org)|140.211.169.177|:80...
-> connected.
->  HTTP request sent, awaiting response...
-> 404 Not Found  2014-07-08 10:13:43 ERROR 404: Not Found.
+The answer to that last question is that UBI itself refuses to work with a=
+=20
+sector size below 15kB. Which results in UBI now failing to work on most NO=
+R=20
+chips on the market because the kernel recently uses 4k erasing for all ser=
+ial=20
+flash chips that support it.
 
-I would strongly suggest moving to OE-Core. OE-Classic isn't really supported 
-anymore.
+So just the question remains why OE doesn't tell me about mkfs.ubifs failur=
+e?
 
-Cheers.
-Paul
+Mike.
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt FPGA experts
+http://topic.nl/vacatures/word-jij-onze-nieuwe-fpga-expert/
+
 
