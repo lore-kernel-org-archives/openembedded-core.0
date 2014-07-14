@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 54A5E61585
+	by mail.openembedded.org (Postfix) with ESMTP id 55AB77040C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 06:31:18 +0000 (UTC)
+	Mon, 14 Jul 2014 06:31:12 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6E6VKP8021622
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6E6VE7O021619
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jul 2014 23:31:20 -0700 (PDT)
+	Sun, 13 Jul 2014 23:31:14 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 13 Jul 2014 23:31:16 -0700
+	14.3.174.1; Sun, 13 Jul 2014 23:31:13 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jul 2014 14:31:12 +0800
-Message-ID: <c36d415106e1210c21f520017b52b0ce84e064f3.1405319307.git.Qi.Chen@windriver.com>
+Date: Mon, 14 Jul 2014 14:31:10 +0800
+Message-ID: <cover.1405319307.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1405319307.git.Qi.Chen@windriver.com>
-References: <cover.1405319307.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] base-files: stage the /home directory
+Subject: [PATCH 0/2] Upgrade shadow to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +34,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 14 Jul 2014 06:31:20 -0000
 Content-Type: text/plain
 
-The /home directory might be needed by packages that inherit useradd.bbclass.
-One example is the 'xuser-account' recipe.
+The following changes since commit fa325e44f5b429b4038022b31285af9c94672943:
 
-Previously, we patched the shadow package to change the behaviour of the
-'--create-home' option. This is not appropriate. Instead, we should let
-the base-files package also stage the /home directory.
+  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:19:18 +0100)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb |    6 ++++++
- 1 file changed, 6 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 6d76a2b..fe82d20 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -138,6 +138,12 @@ do_install_append_linuxstdbase() {
-         done
- }
- 
-+sysroot_stage_home () {
-+	sysroot_stage_dir ${D}/home ${SYSROOT_DESTDIR}/home
-+}
-+
-+SYSROOT_PREPROCESS_FUNCS = "sysroot_stage_home"
-+
- PACKAGES = "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
- FILES_${PN} = "/"
- FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/shadow-4.2.1
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/shadow-4.2.1
+
+Chen Qi (2):
+  shadow: upgrade from 4.1.4.3 to 4.2.1
+  base-files: stage the /home directory
+
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    6 +
+ .../shadow/files/add_root_cmd_groupmems.patch      |   75 --
+ .../shadow/files/add_root_cmd_options.patch        | 1384 --------------------
+ .../allow-for-setting-password-in-clear-text.patch |  215 ++-
+ ...fix-unexpected-open-failure-in-chroot-env.patch |   46 +
+ .../shadow/files/fix-etc-gshadow-reading.patch     |   36 -
+ ...installation-failure-with-subids-disabled.patch |   28 +
+ .../shadow-4.1.4.2-env-reset-keep-locale.patch     |   31 -
+ .../files/shadow-4.1.4.2-groupmod-pam-check.patch  |   36 -
+ .../files/shadow-4.1.4.2-su_no_sanitize_env.patch  |   31 -
+ .../shadow/files/shadow.automake-1.11.patch        |  106 --
+ .../files/shadow_fix_for_automake-1.12.patch       |   23 -
+ .../files/slackware_fix_for_glib-2.17_crypt.patch  |   63 -
+ meta/recipes-extended/shadow/files/useradd.patch   |   17 -
+ ...-compilation-failure-with-subids-disabled.patch |   33 +
+ ...uretty_4.1.4.3.bb => shadow-securetty_4.2.1.bb} |    0
+ ...-sysroot_4.1.4.3.bb => shadow-sysroot_4.2.1.bb} |    0
+ meta/recipes-extended/shadow/shadow.inc            |   35 +-
+ .../shadow/{shadow_4.1.4.3.bb => shadow_4.2.1.bb}  |    0
+ 19 files changed, 229 insertions(+), 1936 deletions(-)
+ delete mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+ create mode 100644 meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+ create mode 100644 meta/recipes-extended/shadow/files/fix-installation-failure-with-subids-disabled.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-env-reset-keep-locale.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-groupmod-pam-check.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-su_no_sanitize_env.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow.automake-1.11.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/useradd.patch
+ create mode 100644 meta/recipes-extended/shadow/files/usermod-fix-compilation-failure-with-subids-disabled.patch
+ rename meta/recipes-extended/shadow/{shadow-securetty_4.1.4.3.bb => shadow-securetty_4.2.1.bb} (100%)
+ rename meta/recipes-extended/shadow/{shadow-sysroot_4.1.4.3.bb => shadow-sysroot_4.2.1.bb} (100%)
+ rename meta/recipes-extended/shadow/{shadow_4.1.4.3.bb => shadow_4.2.1.bb} (100%)
+
 -- 
 1.7.9.5
 
