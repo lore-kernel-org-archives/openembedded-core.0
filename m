@@ -1,29 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF19A7047D
+Return-Path: <roxana.ciobanu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B0C53701C0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 10:34:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6EAYs6F026436
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Jul 2014 03:34:54 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 14 Jul 2014 03:34:53 -0700
-Message-ID: <53C3B24C.4020100@windriver.com>
-Date: Mon, 14 Jul 2014 18:34:52 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1405330780.git.liezhi.yang@windriver.com>
-	<965b510cf2d609b1fac50901312b3372d4e063a5.1405330780.git.liezhi.yang@windriver.com>
-	<CAJTo0LYg5msYt02t9a6xaOtW0opqvgrC1YZesCb3FjOL7WSFDA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYg5msYt02t9a6xaOtW0opqvgrC1YZesCb3FjOL7WSFDA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] package.bbclass: convert file depends into pkg depends
+	Mon, 14 Jul 2014 10:58:14 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 14 Jul 2014 03:52:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,657,1400050800"; d="scan'208";a="561450615"
+Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.57])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2014 03:58:15 -0700
+From: Roxana Ciobanu <roxana.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jul 2014 13:58:33 +0300
+Message-Id: <cover.1405335436.git.roxana.ciobanu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v3 0/1] Fix for YB6498
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +27,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 10:34:54 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Jul 2014 10:58:16 -0000
 
+The following changes since commit 9e99bcffec594cb5b4c3533200e8eb56d32e6a77:
 
+  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:20:04 +0100)
 
-On 07/14/2014 06:29 PM, Burton, Ross wrote:
-> On 14 July 2014 10:41, Robert Yang <liezhi.yang@windriver.com> wrote:
->> +    prog_maps = {"/bin/bash": "bash", "/usr/bin/perl": "perl", "/usr/bin/python": "python"}
->
-> Use something like d.expand("${bindir}/perl") instead of hard-coding paths.
+are available in the git repository at:
 
-Good idea, thanks, will update it sooner.
+  git://git.yoctoproject.org/poky-contrib roxana/YB6498
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6498
 
-// Robert
+Roxana Ciobanu (1):
+  latencytop: fix mount error
 
->
-> Ross
->
->
+ .../latencytop-0.5/latencytop-fsync-mount.patch    | 37 ++++++++++++++++++++++
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb   |  3 +-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync-mount.patch
+
+-- 
+1.9.1
+
 
