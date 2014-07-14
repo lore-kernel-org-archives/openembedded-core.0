@@ -1,52 +1,25 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id A4ADD65CD8
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
+	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
+	by mail.openembedded.org (Postfix) with ESMTP id 988A8703EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 15:31:53 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s6EFVlND004995
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 17:31:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1405351911;
-	bh=3snb9P9n8kz2qiqYLhbfsF1Vd/eB/+umOONm4y/FvRA=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=P25tqFOyWdJp08rAlL4t05BSmSeJ81K69DkYFFdXwQWmBh5IJCwkwHHzOrJkH521G
-	8ZcFuR0wP7rOk4z9pgnE+Bl8rKY2FTRHVD1/2McDq2PMLbXUp4CXWToT3y7ZOE8cPA
-	Ho2YBdp5+quFv9WTqOmT7vUhls2Yq3qCWkmUHB6k=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s6EFVg2r017304
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 17:31:43 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1X6iEA-0000ug-40
-	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jul 2014 17:31:42 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1405349203-32702-1-git-send-email-jatedev@gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 14 Jul 2014 17:31:42 +0200
-In-Reply-To: <1405349203-32702-1-git-send-email-jatedev@gmail.com> (Jate
-	Sujjavanich's message of "Mon, 14 Jul 2014 10:46:43 -0400")
-Message-ID: <lyzjgchs81.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Mon, 14 Jul 2014 15:33:06 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
+	id SFZ61o0061mTNtu01FZ60V; Mon, 14 Jul 2014 08:33:07 -0700
+Message-ID: <53C3F832.8010307@pabigot.com>
+Date: Mon, 14 Jul 2014 10:33:06 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: Re: [PATCH] python2: Add PACKAGECONFIG for tkinter to support tk from meta-oe
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1405132947-32495-1-git-send-email-pab@pabigot.com>
+	<CAJTo0LbzhpJb_CMkqRy6etVJnah0HACkP8k_8mKw3A+8s5kkwg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbzhpJb_CMkqRy6etVJnah0HACkP8k_8mKw3A+8s5kkwg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] cups: extend cups-no-gcrypt.patch to apply to configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,25 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 15:31:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Jul 2014 15:33:08 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Jate Sujjavanich <jatedev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
+On 07/14/2014 09:37 AM, Burton, Ross wrote:
+> On 12 July 2014 03:42, Peter A. Bigot <pab@pabigot.com> wrote:
+>> The original patch removed gcrypt from an m4 source file that
+>> contributes to configure.in, but didn't apply those changes to or
+>> rebuild the configure script itself.  This allowed libgcrypt-config to
+>> be found, adding native libraries to the target build.
+> I'm really not happy with maintaining patches to generated files, do
+> you know why we don't use the usual autotools class to re-generate the
+> configure script at build time?
 
-> +PACKAGECONFIG[tkinter] = ",,tk,tk tk-lib"
+No; it was that way when I found it, and I'm still too rusty on yocto to 
+do it the right way.  If you can point me to a recipe that does this 
+I'll try to rework it (and resubmit based on openembedded-core instead 
+of poky).
 
-What do you want to reach with this?  Afais, build is not more deterministic
-than before and requiring both 'tk' and 'tk-lib' when 'tkinter' is *not*
-enabled does not look sane to me either.
+(FWIW: The issue doesn't show up building cups; it shows up with 
+core-image-lsb building ghostscript which believes cups-config's lie 
+that it needs -L/lib/x86_64-linux-gnu to find the gcrypt libraries that 
+it doesn't reference.)
 
-You probably want something like
-
-| PACKAGECONFIG[tkinter]="--with-tkinter, --without-tkinter, tk tk-lib"
-
-although I do not know/checked whether '--with*-tkinter' is supported by
-python's configure script.
-
-
-Enrico
+Peter
 
