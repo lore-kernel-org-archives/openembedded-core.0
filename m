@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AB165701A9
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AF19A7047D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 10:32:28 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id v10so3064291qac.33
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 03:32:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=PEayxUqeIW0s/KyWhtM0qvCbY8UcE3tQG2MJv9A5nkg=;
-	b=PR2QIN3xh19XFpJ3+XmAfTV3FeL0mlAI+jpLasIHynCAPaFCM9a0HuCOIh4ncnUgh/
-	H22zoCyuUkZfnXXpViG3Cx+vHbcBaVN15OvtMg/56gqIOAlx6JbjnyHqU7rAtbh7Iajz
-	DD9zD5jTfJjMAjG/MihJNlBgdbKWRKMX5lG8bfwjgoz6RUpVxtEAPNM8EcBB9mBqzUch
-	4CU5G1gOP5NKsF6EwODNoE2uQb3vSdLp+6PD6D1Xwi/OgnBwnFmkdlbf3kPNLqYqx8qO
-	g/kpztNkKH2ni1hngkOGV8JaKbskzlCJ7uGWYT7zQeXFzOA8uG4qk/Ng1XQRcoC6vC0s
-	FndQ==
-X-Gm-Message-State: ALoCoQk1FFlvvcmh/nU3h8shs96PCdnH4uI/n5QWAzsiErLDs+6yGUlo2thtsPR1Z4FQKdkaCTY+
-X-Received: by 10.224.167.136 with SMTP id q8mr20756218qay.35.1405333949175;
-	Mon, 14 Jul 2014 03:32:29 -0700 (PDT)
+	Mon, 14 Jul 2014 10:34:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6EAYs6F026436
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 Jul 2014 03:34:54 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 14 Jul 2014 03:34:53 -0700
+Message-ID: <53C3B24C.4020100@windriver.com>
+Date: Mon, 14 Jul 2014 18:34:52 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 14 Jul 2014 03:32:09 -0700 (PDT)
-In-Reply-To: <1405328638-7688-1-git-send-email-jackie.huang@windriver.com>
-References: <1405328638-7688-1-git-send-email-jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Jul 2014 11:32:09 +0100
-Message-ID: <CAJTo0LbBpWLoJq_LP_PtnGDVcYoE6V+ChzODDV2anPW1cgoZ3w@mail.gmail.com>
-To: jackie.huang@windriver.com
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1405330780.git.liezhi.yang@windriver.com>
+	<965b510cf2d609b1fac50901312b3372d4e063a5.1405330780.git.liezhi.yang@windriver.com>
+	<CAJTo0LYg5msYt02t9a6xaOtW0opqvgrC1YZesCb3FjOL7WSFDA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYg5msYt02t9a6xaOtW0opqvgrC1YZesCb3FjOL7WSFDA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] setserial: package depends on groff-native to build
+Subject: Re: [PATCH 2/2] package.bbclass: convert file depends into pkg depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 10:32:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Jul 2014 10:34:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 July 2014 10:03,  <jackie.huang@windriver.com> wrote:
-> Add explicit depends to avoid host contamination.
 
-That's not host contamination, please reword the commit to explain
-that it's a missing build dependency.
 
-Ross
+On 07/14/2014 06:29 PM, Burton, Ross wrote:
+> On 14 July 2014 10:41, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> +    prog_maps = {"/bin/bash": "bash", "/usr/bin/perl": "perl", "/usr/bin/python": "python"}
+>
+> Use something like d.expand("${bindir}/perl") instead of hard-coding paths.
+
+Good idea, thanks, will update it sooner.
+
+// Robert
+
+>
+> Ross
+>
+>
 
