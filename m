@@ -1,25 +1,29 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-07.prod.phx3.secureserver.net
-	(p3plsmtpa07-07.prod.phx3.secureserver.net [173.201.192.236])
-	by mail.openembedded.org (Postfix) with ESMTP id 988A8703EA
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 931B87039F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 15:33:06 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa07-07.prod.phx3.secureserver.net with 
-	id SFZ61o0061mTNtu01FZ60V; Mon, 14 Jul 2014 08:33:07 -0700
-Message-ID: <53C3F832.8010307@pabigot.com>
-Date: Mon, 14 Jul 2014 10:33:06 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Mon, 14 Jul 2014 16:25:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6EGPpYE000198
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 Jul 2014 09:25:51 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 14 Jul 2014 09:25:50 -0700
+Message-ID: <53C4048D.7090006@windriver.com>
+Date: Tue, 15 Jul 2014 00:25:49 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <1405132947-32495-1-git-send-email-pab@pabigot.com>
-	<CAJTo0LbzhpJb_CMkqRy6etVJnah0HACkP8k_8mKw3A+8s5kkwg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbzhpJb_CMkqRy6etVJnah0HACkP8k_8mKw3A+8s5kkwg@mail.gmail.com>
+References: <cover.1405330780.git.liezhi.yang@windriver.com>
+	<965b510cf2d609b1fac50901312b3372d4e063a5.1405330780.git.liezhi.yang@windriver.com>
+	<CAJTo0LYg5msYt02t9a6xaOtW0opqvgrC1YZesCb3FjOL7WSFDA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYg5msYt02t9a6xaOtW0opqvgrC1YZesCb3FjOL7WSFDA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] cups: extend cups-no-gcrypt.patch to apply to configure script
+Subject: Re: [PATCH 2/2] package.bbclass: convert file depends into pkg depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 15:33:08 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 14 Jul 2014 16:25:52 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/14/2014 09:37 AM, Burton, Ross wrote:
-> On 12 July 2014 03:42, Peter A. Bigot <pab@pabigot.com> wrote:
->> The original patch removed gcrypt from an m4 source file that
->> contributes to configure.in, but didn't apply those changes to or
->> rebuild the configure script itself.  This allowed libgcrypt-config to
->> be found, adding native libraries to the target build.
-> I'm really not happy with maintaining patches to generated files, do
-> you know why we don't use the usual autotools class to re-generate the
-> configure script at build time?
 
-No; it was that way when I found it, and I'm still too rusty on yocto to 
-do it the right way.  If you can point me to a recipe that does this 
-I'll try to rework it (and resubmit based on openembedded-core instead 
-of poky).
+Hello,
 
-(FWIW: The issue doesn't show up building cups; it shows up with 
-core-image-lsb building ghostscript which believes cups-config's lie 
-that it needs -L/lib/x86_64-linux-gnu to find the gcrypt libraries that 
-it doesn't reference.)
+Found that eglibc-utils/usr/bin/tzselect is a bash script, should we
+add:
 
-Peter
+RDEPENDS_eglibc-utils += "bash" ?
+
+The problem is that this would cause bash installed to meta-toolchain,
+the dependencies chain is:
+
+meta-toolchain -> eglibc-utils -> bash
+
+Maybe we should only warn rather than add the RDEPENDS atm, please ?
+
+// Robert
+
+On 07/14/2014 06:29 PM, Burton, Ross wrote:
+> On 14 July 2014 10:41, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> +    prog_maps = {"/bin/bash": "bash", "/usr/bin/perl": "perl", "/usr/bin/python": "python"}
+>
+> Use something like d.expand("${bindir}/perl") instead of hard-coding paths.
+>
+> Ross
+>
+>
 
