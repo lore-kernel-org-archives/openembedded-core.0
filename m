@@ -1,36 +1,35 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id DA9C665DB1;
-	Mon, 14 Jul 2014 10:13:26 +0000 (UTC)
-Received: from [69.196.158.250] (port=40593 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X6dGA-0002Qg-Lc; Mon, 14 Jul 2014 06:13:26 -0400
-Date: Mon, 14 Jul 2014 06:13:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
-Message-ID: <alpine.LFD.2.11.1407140612160.4257@localhost>
-References: <alpine.LFD.2.11.1407101115390.10701@localhost>
-	<CAP9ODKq1vdW+eZ64gWGbSAygxfYkMCKwOAZGUOD-WntUN+azJA@mail.gmail.com>
-	<3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] any value in keeping the backward compat "task-core" stuff?
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AB4D97048D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 10:23:37 +0000 (UTC)
+Received: by mail-wg0-f51.google.com with SMTP id b13so1748077wgh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 03:23:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VqcrMOItdTOTwUk0iTSHK/UUVI4/YBCNH13Ax+bddJ8=;
+	b=R2ASEzHFMU5XzRnKI6ZNCprNMOrSgP02NiaIVOS+xA9ckfqvA7bHryRd7m0/lpFkjD
+	/iggvrpgv8TAkWuwwTPpIew+vM3XmLZp30GzF+XAJ+BsK3bHNe/BX0pJWEkk1RG+DDWw
+	KqvQ85qT9tLx9RXMWMrVNJYtKUpwbDuyg0ACQRxqSTPip/Y8PWQpQYoiKaGsihJ6Up3s
+	aHymR+R8ZX+7xwAfXpyuqmxJKlp6lB52xIFXI1M8i6XIyTnaMj2GfhZ563K/BKH7TY7f
+	PZirCzZlBBhf9dRiXOrtX4zrg47h3rWOWM7majKIwt9Q7ILuAjsiG3LiBY4qxYf5Odcc
+	DXrw==
+X-Gm-Message-State: ALoCoQnlmTDPwp3ZBSsJn7+NwrqCvhsjMg5ok0DLEMCuLNLVRZT57dW6unHqy0epw++Jn5noH+LG
+X-Received: by 10.180.198.173 with SMTP id jd13mr24083812wic.9.1405333416471; 
+	Mon, 14 Jul 2014 03:23:36 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id o9sm29469365wib.22.2014.07.14.03.23.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Jul 2014 03:23:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jul 2014 11:23:29 +0100
+Message-Id: <1405333409-17997-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] license.bbclass: canonicalise licenses when dealing with INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 10:13:29 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 14 Jul 2014 10:23:39 -0000
 
-On Mon, 14 Jul 2014, Paul Eggleton wrote:
+If INCOMPATIBLE_LICENSE=GPLv3.0 but the recipe sets LICENSE=GPLv3, the current
+code won't trigger because they're different strings.
 
-> On Friday 11 July 2014 20:39:04 Otavio Salvador wrote:
-> > On Thu, Jul 10, 2014 at 12:21 PM, Robert P. J. Day
-> >
-> > <rpjday@crashcourse.ca> wrote:
-> > >   a number of the current packagegroup recipe files still have
-> > >
-> > > backward compatibility support for the old "task-core" names, seems
-> > > like that's been there for well over a year, would it be safe to
-> > > finally just toss that? seems like everyone's had enough time to make
-> > > the move to the new names, and it would be clearer to not confuse the
-> > > proper use of the word "task" these days.
-> >
-> > I agree; however this question should also be send to oe-core mailing
-> > list (added in Cc)
->
-> I agree as well; these should go. I know there are some who want to
-> keep these indefinitely for upgrade purposes, but I think there's a
-> limit to how long they should stay around in OE-Core. They can
-> always be preserved in bbappends for those that do want to keep
-> them.
+Fix this by attempting to canonicalise every license name to a SPDX name, so
+both names in this example become GPL-3.0.
 
-  i can submit a patch for that later today if no one objects.
+[ YOCTO #5622 ]
 
-rday
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass    |    2 ++
+ meta/classes/license.bbclass |   14 +++++++++++---
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index c0d2c8ec8..8114cf6 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -540,6 +540,8 @@ python () {
+                 check_license = False
+ 
+         if check_license and bad_licenses:
++            bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++
+             whitelist = []
+             for lic in bad_licenses:
+                 for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 08f0665..973a95b 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -264,10 +264,18 @@ def return_spdx(d, license):
+      """
+     return d.getVarFlag('SPDXLICENSEMAP', license, True)
+ 
++def canonical_license(d, license):
++    """
++    Return the canonical (SPDX) form of the license if available (so GPLv3
++    becomes GPL-3.0), or the passed license if there is no canonical form.
++    """
++    return d.getVarFlag('SPDXLICENSEMAP', license, True) or license
++
+ def incompatible_license(d, dont_want_licenses, package=None):
+     """
+-    This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
+-    operand.
++    This function checks if a recipe has only incompatible licenses. It also
++    take into consideration 'or' operand.  dont_want_licenses should be passed
++    as canonical (SPDX) names.
+     """
+     import re
+     import oe.license
+@@ -298,7 +306,7 @@ def incompatible_license(d, dont_want_licenses, package=None):
+         licenses = oe.license.flattened_licenses(license, choose_lic_set)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('P', True), exc))
+-    return any(not license_ok(l) for l in licenses)
++    return any(not license_ok(canonical_license(d, l)) for l in licenses)
+ 
+ def check_license_flags(d):
+     """
 -- 
+1.7.10.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
