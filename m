@@ -1,24 +1,21 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CA017029E
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-01.prod.phx3.secureserver.net
+	(p3plsmtpa07-01.prod.phx3.secureserver.net [173.201.192.230])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A9B96028A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 09:03:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6E940pG022874
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 02:04:00 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 14 Jul 2014 02:03:59 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jul 2014 05:03:58 -0400
-Message-ID: <1405328638-7688-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Mon, 14 Jul 2014 09:21:54 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa07-01.prod.phx3.secureserver.net with 
+	id S9Mt1o0061mTNtu019Mtvv; Mon, 14 Jul 2014 02:21:53 -0700
+Message-ID: <53C3A130.4000900@pabigot.com>
+Date: Mon, 14 Jul 2014 04:21:52 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: [PATCH] setserial: package depends on groff-native to build
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: patchwork client problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +28,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 09:04:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Jul 2014 09:21:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Yue Tao <Yue.Tao@windriver.com>
+I'm finding attempts to use pwclient on 
+http://patches.openembedded.org/xmlrpc/ produce an ExpatError because 
+the returned document is always empty (per a wireshark trace of the 
+transaction).  Can somebody confirm that the server for the command-line 
+client is working properly?  Thanks.
 
-[YOCTO #6526]
-
-Add explicit depends to avoid host contamination.
-
-Signed-off-by: Jonas Zetterberg <jonas.zetterberg@windriver.com>
-Signed-off-by: Yue Tao <yue.tao@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-bsp/setserial/setserial_2.17.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
-index 65d6068..f1e8cd3 100644
---- a/meta/recipes-bsp/setserial/setserial_2.17.bb
-+++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
-@@ -8,6 +8,8 @@ LICENSE = "GPLv2.0"
- LIC_FILES_CHKSUM = "file://version.h;beginline=1;endline=6;md5=2e7c59cb9e57e356ae81f50f4e4dfd99"
- PR = "r3"
- 
-+DEPENDS += "groff-native"
-+
- inherit autotools-brokensep
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/setserial/${BPN}-${PV}.tar.gz \
--- 
-2.0.0
+Peter
 
 
