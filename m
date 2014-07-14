@@ -1,36 +1,36 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id CCF22701A9;
-	Mon, 14 Jul 2014 10:31:27 +0000 (UTC)
-Received: from [69.196.158.250] (port=40660 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X6dXb-0002xi-77; Mon, 14 Jul 2014 06:31:27 -0400
-Date: Mon, 14 Jul 2014 06:31:18 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
-Message-ID: <alpine.LFD.2.11.1407140627370.6362@localhost>
-References: <alpine.LFD.2.11.1407101115390.10701@localhost>
-	<CAP9ODKq1vdW+eZ64gWGbSAygxfYkMCKwOAZGUOD-WntUN+azJA@mail.gmail.com>
-	<3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
+	[209.85.216.46])
+	by mail.openembedded.org (Postfix) with ESMTP id AB165701A9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 10:32:28 +0000 (UTC)
+Received: by mail-qa0-f46.google.com with SMTP id v10so3064291qac.33
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 03:32:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=PEayxUqeIW0s/KyWhtM0qvCbY8UcE3tQG2MJv9A5nkg=;
+	b=PR2QIN3xh19XFpJ3+XmAfTV3FeL0mlAI+jpLasIHynCAPaFCM9a0HuCOIh4ncnUgh/
+	H22zoCyuUkZfnXXpViG3Cx+vHbcBaVN15OvtMg/56gqIOAlx6JbjnyHqU7rAtbh7Iajz
+	DD9zD5jTfJjMAjG/MihJNlBgdbKWRKMX5lG8bfwjgoz6RUpVxtEAPNM8EcBB9mBqzUch
+	4CU5G1gOP5NKsF6EwODNoE2uQb3vSdLp+6PD6D1Xwi/OgnBwnFmkdlbf3kPNLqYqx8qO
+	g/kpztNkKH2ni1hngkOGV8JaKbskzlCJ7uGWYT7zQeXFzOA8uG4qk/Ng1XQRcoC6vC0s
+	FndQ==
+X-Gm-Message-State: ALoCoQk1FFlvvcmh/nU3h8shs96PCdnH4uI/n5QWAzsiErLDs+6yGUlo2thtsPR1Z4FQKdkaCTY+
+X-Received: by 10.224.167.136 with SMTP id q8mr20756218qay.35.1405333949175;
+	Mon, 14 Jul 2014 03:32:29 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] any value in keeping the backward compat "task-core" stuff?
+Received: by 10.140.86.99 with HTTP; Mon, 14 Jul 2014 03:32:09 -0700 (PDT)
+In-Reply-To: <1405328638-7688-1-git-send-email-jackie.huang@windriver.com>
+References: <1405328638-7688-1-git-send-email-jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Jul 2014 11:32:09 +0100
+Message-ID: <CAJTo0LbBpWLoJq_LP_PtnGDVcYoE6V+ChzODDV2anPW1cgoZ3w@mail.gmail.com>
+To: jackie.huang@windriver.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] setserial: package depends on groff-native to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,70 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 10:31:29 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 14 Jul 2014 10:32:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 14 Jul 2014, Paul Eggleton wrote:
+On 14 July 2014 10:03,  <jackie.huang@windriver.com> wrote:
+> Add explicit depends to avoid host contamination.
 
-> On Friday 11 July 2014 20:39:04 Otavio Salvador wrote:
-> > On Thu, Jul 10, 2014 at 12:21 PM, Robert P. J. Day
-> >
-> > <rpjday@crashcourse.ca> wrote:
-> > >   a number of the current packagegroup recipe files still have
-> > >
-> > > backward compatibility support for the old "task-core" names, seems
-> > > like that's been there for well over a year, would it be safe to
-> > > finally just toss that? seems like everyone's had enough time to make
-> > > the move to the new names, and it would be clearer to not confuse the
-> > > proper use of the word "task" these days.
-> >
-> > I agree; however this question should also be send to oe-core mailing
-> > list (added in Cc)
->
-> I agree as well; these should go. I know there are some who want to
-> keep these indefinitely for upgrade purposes, but I think there's a
-> limit to how long they should stay around in OE-Core. They can
-> always be preserved in bbappends for those that do want to keep
-> them.
+That's not host contamination, please reword the commit to explain
+that it's a missing build dependency.
 
-  getting rid of all that "task-core" stuff in packagegroups looks
-pretty easy, except for this snippet in
-packagegroup-core-full-cmdline.bb:
-
-    packages = d.getVar("PACKAGES", True).split()
-    for pkg in packages:
-        if pkg.endswith('-dev'):
-            mapped = namemap.get(pkg[:-4], None)
-            if mapped:
-                mapped += '-dev'
-        elif pkg.endswith('-dbg'):
-            mapped = namemap.get(pkg[:-4], None)
-            if mapped:
-                mapped += '-dbg'
-        else:
-            mapped = namemap.get(pkg, None)
-
-        if mapped:
-            oldtaskname = mapped.replace("packagegroup-core", "task-core")
-            mapstr = " %s %s" % (mapped, oldtaskname)
-            d.appendVar("RPROVIDES_%s" % pkg, mapstr)
-            d.appendVar("RREPLACES_%s" % pkg, mapstr)
-            d.appendVar("RCONFLICTS_%s" % pkg, mapstr)
-}
-
-  would one simply delete that last "if mapped:" conditional in its
-entirety? or what?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Ross
 
