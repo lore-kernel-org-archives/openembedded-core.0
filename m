@@ -1,25 +1,32 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 57437703A3;
-	Mon, 14 Jul 2014 11:05:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Jul 2014 04:05:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,657,1400050800"; d="scan'208";a="569462416"
-Received: from snaufer-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.80])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Jul 2014 04:05:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Mon, 14 Jul 2014 12:05:02 +0100
-Message-ID: <127762303.86BWg8DWSh@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.2 (Linux/3.15.4-200.fc20.x86_64; KDE/4.13.2; x86_64; ; )
-In-Reply-To: <alpine.LFD.2.11.1407140627370.6362@localhost>
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 89B2F7044B;
+	Mon, 14 Jul 2014 11:39:36 +0000 (UTC)
+Received: from [69.196.158.250] (port=43674 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X6ebY-0004rv-SZ; Mon, 14 Jul 2014 07:39:36 -0400
+Date: Mon, 14 Jul 2014 07:39:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
+Message-ID: <alpine.LFD.2.11.1407140736060.12986@localhost>
 References: <alpine.LFD.2.11.1407101115390.10701@localhost>
+	<CAP9ODKq1vdW+eZ64gWGbSAygxfYkMCKwOAZGUOD-WntUN+azJA@mail.gmail.com>
 	<3833732.EFEfTvAqk5@peggleto-mobl5.ger.corp.intel.com>
-	<alpine.LFD.2.11.1407140627370.6362@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	Otavio Salvador <otavio@ossystems.com.br>,
 	openembedded-core@lists.openembedded.org
@@ -36,70 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 11:05:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 14 Jul 2014 11:39:40 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Monday 14 July 2014 06:31:18 Robert P. J. Day wrote:
-> On Mon, 14 Jul 2014, Paul Eggleton wrote:
-> > On Friday 11 July 2014 20:39:04 Otavio Salvador wrote:
-> > > On Thu, Jul 10, 2014 at 12:21 PM, Robert P. J. Day
-> > > 
-> > > <rpjday@crashcourse.ca> wrote:
-> > > >   a number of the current packagegroup recipe files still have
-> > > > 
-> > > > backward compatibility support for the old "task-core" names, seems
-> > > > like that's been there for well over a year, would it be safe to
-> > > > finally just toss that? seems like everyone's had enough time to make
-> > > > the move to the new names, and it would be clearer to not confuse the
-> > > > proper use of the word "task" these days.
-> > > 
-> > > I agree; however this question should also be send to oe-core mailing
-> > > list (added in Cc)
-> > 
-> > I agree as well; these should go. I know there are some who want to
-> > keep these indefinitely for upgrade purposes, but I think there's a
-> > limit to how long they should stay around in OE-Core. They can
-> > always be preserved in bbappends for those that do want to keep
-> > them.
-> 
->   getting rid of all that "task-core" stuff in packagegroups looks
-> pretty easy, except for this snippet in
-> packagegroup-core-full-cmdline.bb:
-> 
->     packages = d.getVar("PACKAGES", True).split()
->     for pkg in packages:
->         if pkg.endswith('-dev'):
->             mapped = namemap.get(pkg[:-4], None)
->             if mapped:
->                 mapped += '-dev'
->         elif pkg.endswith('-dbg'):
->             mapped = namemap.get(pkg[:-4], None)
->             if mapped:
->                 mapped += '-dbg'
->         else:
->             mapped = namemap.get(pkg, None)
-> 
->         if mapped:
->             oldtaskname = mapped.replace("packagegroup-core", "task-core")
->             mapstr = " %s %s" % (mapped, oldtaskname)
->             d.appendVar("RPROVIDES_%s" % pkg, mapstr)
->             d.appendVar("RREPLACES_%s" % pkg, mapstr)
->             d.appendVar("RCONFLICTS_%s" % pkg, mapstr)
-> }
-> 
->   would one simply delete that last "if mapped:" conditional in its
-> entirety? or what?
+On Mon, 14 Jul 2014, Paul Eggleton wrote:
 
-Well the packagegroup-core-full-cmdline rename was relatively recent (March), 
-so it would be a bit early to remove that as well. You'd need to cut out just 
-the "oldtaskname" (and corresponding "%s") bit.
+> On Friday 11 July 2014 20:39:04 Otavio Salvador wrote:
+> > On Thu, Jul 10, 2014 at 12:21 PM, Robert P. J. Day
+> >
+> > <rpjday@crashcourse.ca> wrote:
+> > >   a number of the current packagegroup recipe files still have
+> > >
+> > > backward compatibility support for the old "task-core" names, seems
+> > > like that's been there for well over a year, would it be safe to
+> > > finally just toss that? seems like everyone's had enough time to make
+> > > the move to the new names, and it would be clearer to not confuse the
+> > > proper use of the word "task" these days.
+> >
+> > I agree; however this question should also be send to oe-core mailing
+> > list (added in Cc)
+>
+> I agree as well; these should go. I know there are some who want to
+> keep these indefinitely for upgrade purposes, but I think there's a
+> limit to how long they should stay around in OE-Core. They can
+> always be preserved in bbappends for those that do want to keep
+> them.
 
-Cheers,
-Paul
+  one more (general) question about this ... there's a fair bit of
+this task/packagegroup backward compatibility stuff under the meta-oe
+layer as well. i assume that patches to the meta-oe layer should still
+be posted to this list, but have a subject line of:
+
+  [meta-oe][PATCH] ...
+
+correct? as in, two separate patches.
+
+rday
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
