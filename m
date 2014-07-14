@@ -1,26 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F5626ACED
+Return-Path: <jatedev@gmail.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BB097023C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 17:49:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2014 10:49:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,659,1400050800"; d="scan'208";a="572966348"
-Received: from unknown (HELO [10.255.13.46]) ([10.255.13.46])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jul 2014 10:49:27 -0700
-Message-ID: <53C41827.7060002@linux.intel.com>
-Date: Mon, 14 Jul 2014 10:49:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Mon, 14 Jul 2014 17:58:25 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id r5so3087767qcx.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 10:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Bqk5mVxt59S2tLQwQlOsGokPDDhX88IO+oG2IMHcB0w=;
+	b=0+zNMSPfTpPoB3e2H2yGccyBY6KWi1jMWuz/GDkoIWykdnBSb02mx6tzpAyF5GGw0X
+	vZEHoY+dt9KaQ5YBQAlK7IfAC1nae5qZOCRw0HllMZroH70kCqfF7dOyEd8o41C17ba5
+	gOE6LXb0fPolcnj8QF97ZjRvgCMg/Y0iT+6HhsJyEpOQL6KJvun+my+5zPEJJpxEq4kH
+	W94Bkgd8emw8aQEq+IjnOk0FJWw6mOGyV26Io9t6jzhoi4cL/Upk9SmRszXYf2uAaYkq
+	9DdxHAFypEsRiuBNoDu7n/6EBBEFueKzsipfwy9uH3lzx5Q3ypwt5uyx8AA4f+2unNBE
+	Hl8A==
 MIME-Version: 1.0
-To: Roxana Ciobanu <roxana.ciobanu@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1405335436.git.roxana.ciobanu@intel.com>
-	<bdbcbfeed06623ac20632e04036ff5eb15e53258.1405335436.git.roxana.ciobanu@intel.com>
-In-Reply-To: <bdbcbfeed06623ac20632e04036ff5eb15e53258.1405335436.git.roxana.ciobanu@intel.com>
-Subject: Re: [PATCH v3 1/1] latencytop: fix mount error
+X-Received: by 10.224.57.148 with SMTP id c20mr24868825qah.31.1405360706891;
+	Mon, 14 Jul 2014 10:58:26 -0700 (PDT)
+Received: by 10.140.34.76 with HTTP; Mon, 14 Jul 2014 10:58:26 -0700 (PDT)
+In-Reply-To: <lyzjgchs81.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <1405349203-32702-1-git-send-email-jatedev@gmail.com>
+	<lyzjgchs81.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Date: Mon, 14 Jul 2014 13:58:26 -0400
+Message-ID: <CAPphmgYUX828A=6SayztArEdU9L-=Hhfkw2w3mRw1ka_AmCWsw@mail.gmail.com>
+From: Jate S <jatedev@gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python2: Add PACKAGECONFIG for tkinter to support tk from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +42,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 17:49:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Jul 2014 17:58:26 -0000
+Content-Type: multipart/alternative; boundary=089e0149c578b7371404fe2b0930
 
-On 07/14/2014 03:58 AM, Roxana Ciobanu wrote:
-> Added a check to ensure debugfs is not mounted before trying
-> to mount it, because sysfs.sh already mounts it.
->
-> [ YOCTO #6498 ]
->
-> Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
-> ---
->   .../latencytop-0.5/latencytop-fsync-mount.patch    | 37 ++++++++++++++++++++++
->   meta/recipes-kernel/latencytop/latencytop_0.5.bb   |  3 +-
->   2 files changed, 39 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync-mount.patch
->
-> diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync-mount.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync-mount.patch
-> new file mode 100644
-> index 0000000..9f2e120
-> --- /dev/null
-> +++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync-mount.patch
+--089e0149c578b7371404fe2b0930
+Content-Type: text/plain; charset=UTF-8
 
-This patch file needs Signed-off-by and Upstream-Status tags.  Also have 
-you submitted this change to the upstream community?
+Python 2.7.x does not use an explicit configure option for tk support.
+Instead, it tries to detect the tk and tcl libraries before compiling
+python-tkinter.
 
-Sau!
+In PACKAGECONFIG[*], items three and four are the DEPENDS and RDEPENDS,
+respectively. They are only added to the python DEPENDS/RDEPENDS when the
+user adds tkinter to the PACKAGECONFIG value.
 
-> @@ -0,0 +1,37 @@
-> +Index: latencytop-0.5/fsync.c
-> +===================================================================
-> +--- latencytop-0.5.orig/fsync.c	2014-07-14 13:25:27.657187985 +0300
-> ++++ latencytop-0.5/fsync.c	2014-07-14 13:26:12.033187979 +0300
-> +@@ -32,6 +32,7 @@
-> + #include <time.h>
-> + #include <wchar.h>
-> + #include <ctype.h>
-> ++#include <sys/stat.h>
-> +
-> + #include <glib.h>
-> +
-> +@@ -142,16 +143,23 @@
-> + int enable_fsync_tracer(void)
-> + {
-> + 	int ret;
-> ++    struct stat s_debug, s_mount_point;
-> ++
-> + /*
-> +  * Steps to do:
-> +  *
-> ++ * check if /sys/kernel/debug is mounted
-> +  * mount -t debugfs none /sys/kernel/debug/
-> +  * cd /sys/kernel/debug/tracing
-> +  * echo fsync > current_tracer
-> +  * echo ftrace_printk > iter_ctrl
-> +  * echo 1 > tracing_on
-> +  */
-> +-	ret = system("/bin/mount -t debugfs none /sys/kernel/debug/");
-> ++
-> ++    stat("/sys/kernel/debug/..", &s_debug);
-> ++    if (stat("/sys/kernel/debug", &s_mount_point) != 0 ||
-Why do two stats here?  Can't you stat an entry inside of the 
-/sys/kernel/debug directory?
+This thread contains more discussion:
 
-Sau!
-> ++        (s_debug.st_dev == s_mount_point.st_dev))
-> ++        ret = system("/bin/mount -t debugfs none /sys/kernel/debug/");
-> + 	if (!ret)
-> + 		return -1;
-> + 	write_to_file("/sys/kernel/debug/tracing/current_tracer", "fsync");	
-> diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> index 516e2c5..243f3d9 100644
-> --- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> +++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> @@ -10,7 +10,8 @@ PR = "r3"
+https://lists.yoctoproject.org/pipermail/yocto/2014-July/thread.html#20415
+
+- Jate S.
+
+
+
+On Mon, Jul 14, 2014 at 11:31 AM, Enrico Scholz <
+enrico.scholz@sigma-chemnitz.de> wrote:
+
+> Jate Sujjavanich <jatedev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> writes:
 >
->   SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
->               file://latencytop-makefile.patch \
-> -            file://latencytop-fsync.patch"
-> +            file://latencytop-fsync.patch \
-> +            file://latencytop-fsync-mount.patch"
+> > +PACKAGECONFIG[tkinter] = ",,tk,tk tk-lib"
 >
->   SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
->   SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
+> What do you want to reach with this?  Afais, build is not more
+> deterministic
+> than before and requiring both 'tk' and 'tk-lib' when 'tkinter' is *not*
+> enabled does not look sane to me either.
+>
+> You probably want something like
+>
+> | PACKAGECONFIG[tkinter]="--with-tkinter, --without-tkinter, tk tk-lib"
+>
+> although I do not know/checked whether '--with*-tkinter' is supported by
+> python's configure script.
+>
+>
+> Enrico
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
+--089e0149c578b7371404fe2b0930
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Python 2.7.x does not use an explicit configure optio=
+n for tk support. Instead, it tries to detect the tk and tcl libraries befo=
+re compiling python-tkinter.<br><br>In PACKAGECONFIG[*], items three and fo=
+ur are the DEPENDS and RDEPENDS, respectively. They are only added to the p=
+ython DEPENDS/RDEPENDS when the user adds tkinter to the PACKAGECONFIG valu=
+e.<br>
+<br>This thread contains more discussion:<br><br><a href=3D"https://lists.y=
+octoproject.org/pipermail/yocto/2014-July/thread.html#20415">https://lists.=
+yoctoproject.org/pipermail/yocto/2014-July/thread.html#20415<span class=3D"=
+sewz5yuip6q1dc3"></span><span class=3D"sewz5yuip6q1dc3"></span></a><br>
+<br></div>- Jate S.<br><div><br></div></div><div class=3D"gmail_extra"><br>=
+<br><div class=3D"gmail_quote">On Mon, Jul 14, 2014 at 11:31 AM, Enrico Sch=
+olz <span dir=3D"ltr">&lt;<a href=3D"mailto:enrico.scholz@sigma-chemnitz.de=
+" target=3D"_blank">enrico.scholz@sigma-chemnitz.de</a>&gt;</span> wrote:<b=
+r>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Jate Sujjavanich &lt;<a href=3D"mailto:jated=
+ev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org">jatedev-Re5JQEeQqe8AvxtiuMwx3w@=
+public.gmane.org</a>&gt;<br>
+
+writes:<br>
+<div class=3D""><br>
+&gt; +PACKAGECONFIG[tkinter] =3D &quot;,,tk,tk tk-lib&quot;<br>
+<br>
+</div>What do you want to reach with this? =C2=A0Afais, build is not more d=
+eterministic<br>
+than before and requiring both &#39;tk&#39; and &#39;tk-lib&#39; when &#39;=
+tkinter&#39; is *not*<br>
+enabled does not look sane to me either.<br>
+<br>
+You probably want something like<br>
+<br>
+| PACKAGECONFIG[tkinter]=3D&quot;--with-tkinter, --without-tkinter, tk tk-l=
+ib&quot;<br>
+<br>
+although I do not know/checked whether &#39;--with*-tkinter&#39; is support=
+ed by<br>
+python&#39;s configure script.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
+Enrico<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+</font></span></blockquote></div><br></div>
+
+--089e0149c578b7371404fe2b0930--
