@@ -1,40 +1,26 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B2DE7026B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C68970259
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 22:38:15 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kx10so4732062pab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 15:38:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=sBq50dPs4OWRR1zrgmxkCLD0kmtnSjzleawXPoHoGpM=;
-	b=YbeG/HLhWVBMV+N+7L7AVNDMNPqx5RaLkMZNpfxOUWISbx7Xk/a7n1VGmywvn4ZtZq
-	bcogZQ18Dtl7kUIPC4yhcLlyD382GFGWth0Bdbgo8krhWc/kXzXFpOQFXB6xAzyyHhOg
-	0GWYjQ+KPcHGRcxfaDp939W0re5yLqeU6wjO5jklgDxPxhZIqw6QboeB/PkpgnBA/Gpq
-	/xX25LedWjRmVROVbvUVjMFEDlmBMb1h21D6YXOWnruaCWenAluCLRe49eyiSp4tiId3
-	qhBH8p+X6H8YJQgb8MsRSmF7GfSbfS1TEyt0AQGKKAQ9Hf/LMB4/ZGR3zSmi9vvDtMfj
-	/MTg==
-X-Gm-Message-State: ALoCoQkEOunz49vXrY+cjdp8cc3Q9FIRcblOXJ8zigp5OY4f72g6d+SYdizl5PJ5ybdaqM5vuu2s
-X-Received: by 10.70.109.169 with SMTP id ht9mr11512088pdb.106.1405377497002; 
-	Mon, 14 Jul 2014 15:38:17 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	nz7sm15942493pdb.48.2014.07.14.15.38.15 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 14 Jul 2014 15:38:16 -0700 (PDT)
-Message-ID: <53C45BD7.1020104@mvista.com>
-Date: Mon, 14 Jul 2014 15:38:15 -0700
-From: akuster <akuster@mvista.com>
+	Mon, 14 Jul 2014 22:50:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2014 15:50:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,661,1400050800"; d="scan'208";a="573088943"
+Received: from unknown (HELO [10.255.13.46]) ([10.255.13.46])
+	by orsmga002.jf.intel.com with ESMTP; 14 Jul 2014 15:50:41 -0700
+Message-ID: <53C45EC0.6070801@linux.intel.com>
+Date: Mon, 14 Jul 2014 15:50:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>, 
+To: akuster <akuster@mvista.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>,
 	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-Subject: /etc/os-release
+References: <53C45BD7.1020104@mvista.com>
+In-Reply-To: <53C45BD7.1020104@mvista.com>
+Subject: Re: /etc/os-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,16 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 22:38:20 -0000
+X-List-Received-Date: Mon, 14 Jul 2014 22:50:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello all,
+On 07/14/2014 03:38 PM, akuster wrote:
+> Hello all,
+>
+> I noticed some reference to /etc/os-release in some recipes. Where can I
+> find the initial creation of /etc/os-release? If one is not created,
+> would there desire to have one?
+>
+Really?  We reference it in the meta/lib/oe/lsb.py release_dict_file() 
+function to search for LSB information of the host machine to identify 
+the host distro version information.
 
-I noticed some reference to /etc/os-release in some recipes. Where can I 
-find the initial creation of /etc/os-release? If one is not created, 
-would there desire to have one?
+Can you be specific about which recipes are using os-release, I did do a 
+search.
 
-regards,
-Armin
+Sau!
+
+> regards,
+> Armin
 
