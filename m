@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 79CA77044B
+Return-Path: <jatedev@gmail.com>
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id ABB9E61585
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 14:37:35 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id i50so719007qgf.6
+	Mon, 14 Jul 2014 14:46:54 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id nu7so4364245obb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 07:37:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=yHezY9PXxGM5JewMHKJkTkvOMZVb+149WSgv0eCSpdM=;
-	b=g8ZxEM0B1CCTqBNal+9oKZYL0b09XV7HIMTvXN/7KrJ/wiS6Um6VSggASwtb0fqbUI
-	gfB0sDPtivn5t6SMJoLKi/BQ045fI+m3CQ3DE1IYpl9TUYzyKwqsbNOGN+ST7kF4mn9J
-	nQ+hf5RkaPUMaJZj8E2mvZ98Dgw0+alcxx0pE/bDAvaoEhzyCR/s84J7M2vsTFceF0Uq
-	uU7ApLokNR7sMHmYOPN9AMjK3SPVfqOTjc4wlOr7A45tt1Pd825nCLTaZ6T4POdPGN6K
-	ZywEbPmm7EgSCH7SjfAxjozGA4U0khC1d5vhS4zRuAzUKaoDAxDoiKpZpL/y8JG8/Cqw
-	O1oQ==
-X-Gm-Message-State: ALoCoQmLbXk6p2vU9q5n9je0dw7oTScQFULYu5TNwkOpSHkZ3HI9wky4m+Mwwm7yW4PMQr257o2S
-X-Received: by 10.140.91.164 with SMTP id z33mr23892775qgd.65.1405348656982;
-	Mon, 14 Jul 2014 07:37:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 14 Jul 2014 07:37:16 -0700 (PDT)
-In-Reply-To: <1405132947-32495-1-git-send-email-pab@pabigot.com>
-References: <1405132947-32495-1-git-send-email-pab@pabigot.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Jul 2014 15:37:16 +0100
-Message-ID: <CAJTo0LbzhpJb_CMkqRy6etVJnah0HACkP8k_8mKw3A+8s5kkwg@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] cups: extend cups-no-gcrypt.patch to apply to configure script
+	Mon, 14 Jul 2014 07:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=1bxJL7sw9r4j56VCBr5t4r0Ppjls/5vjWKBiL8xtdmc=;
+	b=kA5EhbrOJTQc1FzcDVXTNQJ0zF7L9eJ/1/8Ai1gNaBC881VtQ1YHSzNczQ0EDOcnsO
+	Oz0ymEuFgNTZ976rTawrvAuvm+sKdNe0nodvOhGwYAbYahFjne3bbyPbRtMJy3Z1Favr
+	WXj/uleOssrKs3raNVq+vWQS85XB3EEqTzLwlvdKjg/7u73DwsTwQhtmRGG53xMY8yma
+	9NTPAyObnArbZe40jwOCk1eKnOdR8NVmjN5fSH6xTip++gnoR77nlxDW+SJbvT4oEJll
+	n5BD218g1OKJazTtd8OArYdDD392J0FXCtAuu4ZzRvVPzoJsAVWX0vrOAcaLazed3ckR
+	+AYg==
+X-Received: by 10.60.144.169 with SMTP id sn9mr837660oeb.75.1405349216112;
+	Mon, 14 Jul 2014 07:46:56 -0700 (PDT)
+Received: from STSPYoctoBuild.syntech.org (exchsrvr.syntech-fuelmaster.com.
+	[199.44.250.2])
+	by mx.google.com with ESMTPSA id g7sm45802883oex.10.2014.07.14.07.46.55
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 14 Jul 2014 07:46:55 -0700 (PDT)
+From: Jate Sujjavanich <jatedev@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 14 Jul 2014 10:46:43 -0400
+Message-Id: <1405349203-32702-1-git-send-email-jatedev@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] python2: Add PACKAGECONFIG for tkinter to support tk from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 14:37:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Jul 2014 14:47:02 -0000
 
-On 12 July 2014 03:42, Peter A. Bigot <pab@pabigot.com> wrote:
-> The original patch removed gcrypt from an m4 source file that
-> contributes to configure.in, but didn't apply those changes to or
-> rebuild the configure script itself.  This allowed libgcrypt-config to
-> be found, adding native libraries to the target build.
+Previously, the python recipe did not have a way to add a DEPENDS on
+tk.
 
-I'm really not happy with maintaining patches to generated files, do
-you know why we don't use the usual autotools class to re-generate the
-configure script at build time?
+This makes the option available for users of the meta-oe/meta-oe layer.
 
-Ross
+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+---
+ meta/recipes-devtools/python/python_2.7.3.bb |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 0d64172..cc54296 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -42,6 +42,8 @@ S = "${WORKDIR}/Python-${PV}"
+ 
+ inherit autotools multilib_header python-dir pythonnative
+ 
++PACKAGECONFIG[tkinter] = ",,tk,tk tk-lib"
++
+ # The 3 lines below are copied from the libffi recipe, ctypes ships its own copy of the libffi sources
+ #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=softp :(
+ TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
+-- 
+1.7.9.5
+
 
