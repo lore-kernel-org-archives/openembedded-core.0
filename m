@@ -1,26 +1,51 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E9216ACD4
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id C28007039A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 18:05:28 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2014 11:05:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,659,1400050800"; d="scan'208";a="572974509"
-Received: from unknown (HELO [10.255.13.46]) ([10.255.13.46])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jul 2014 11:05:29 -0700
-Message-ID: <53C41BE8.2080508@linux.intel.com>
-Date: Mon, 14 Jul 2014 11:05:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Mon, 14 Jul 2014 18:32:19 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s6EIWGdV032496
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Mon, 14 Jul 2014 20:32:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1405362739;
+	bh=lvmbNa4ZfYA8HDj53SvPASnWtbEursC3PCtqZYmbuE8=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=MPouISu4zmzkBNwCt/py73BVQ0voX07Ts50m1jkURV/Co3BgYjhZJCshNApTgsBVF
+	u18DL0w7ApQxSmyiHjof2U7rk4pTUUFgr/EBBauUJ85BWmasQvoKYKgaTolYOxoM7W
+	LiwVjxIWBNXHecEupSDWUlJuKXSH75aktlhXJOAQ=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s6EIWCZg020747
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 14 Jul 2014 20:32:13 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1X6l2p-0003z5-Vh; Mon, 14 Jul 2014 20:32:12 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Jate S <jatedev@gmail.com>
+References: <1405349203-32702-1-git-send-email-jatedev@gmail.com>
+	<lyzjgchs81.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAPphmgYUX828A=6SayztArEdU9L-=Hhfkw2w3mRw1ka_AmCWsw@mail.gmail.com>
+Date: Mon, 14 Jul 2014 20:32:11 +0200
+In-Reply-To: <CAPphmgYUX828A=6SayztArEdU9L-=Hhfkw2w3mRw1ka_AmCWsw@mail.gmail.com>
+	(Jate S.'s message of "Mon, 14 Jul 2014 13:58:26 -0400")
+Message-ID: <lylhrviyfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1405043280.git.liezhi.yang@windriver.com>
-	<5912151dc1b33e4b1c156e50d02e3a426fb880ad.1405043280.git.liezhi.yang@windriver.com>
-In-Reply-To: <5912151dc1b33e4b1c156e50d02e3a426fb880ad.1405043280.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/2] file: fix perl reported as awk
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python2: Add PACKAGECONFIG for tkinter to support tk from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jul 2014 18:05:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Jul 2014 18:32:31 -0000
+Content-Type: text/plain
 
-On 07/10/2014 06:51 PM, Robert Yang wrote:
-> The awk pattern was checked *before* the Perl pattern, so the perl
-> script with BEGIN{...} would be reported as awk, this patch fixes it.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   .../recipes-devtools/file/file/debian-742262.patch |   16 ++++++++++++++++
->   meta/recipes-devtools/file/file_5.18.bb            |    4 +++-
->   2 files changed, 19 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/file/file/debian-742262.patch
->
-> diff --git a/meta/recipes-devtools/file/file/debian-742262.patch b/meta/recipes-devtools/file/file/debian-742262.patch
-> new file mode 100644
-> index 0000000..5cfe380
-> --- /dev/null
-> +++ b/meta/recipes-devtools/file/file/debian-742262.patch
-> @@ -0,0 +1,16 @@
-> +The awk pattern was checked *before* the Perl pattern, so the perl
-> +script with BEGIN{...} would be reported as awk, this patch fixes it.
-> +
-> +Upstream-Status: Backport [debian]
-> +
+Jate S <jatedev@gmail.com> writes:
 
-Missing the Signed-off-by here also.
+> Python 2.7.x does not use an explicit configure option for tk support.
+> Instead, it tries to detect the tk and tcl libraries before compiling
+> python-tkinter.
 
-Sau!
+Your patch does not solve the issue of non-deterministic builds.  When
+tk was added by some other way, python will get tkinter support although
+PACKAGECONFIG was not set.
 
-> +diff --git a/magic/Magdir/commands b/magic/Magdir/commands
-> +--- a/magic/Magdir/commands
-> ++++ b/magic/Magdir/commands
-> +@@ -50,6 +50,7 @@
-> + 0	string/wt	#!\ /usr/bin/awk	awk script text executable
-> + !:mime	text/x-awk
-> + 0	regex		=^\\s{0,100}BEGIN\\s{0,100}[{]	awk script text
-> ++!:strength - 12
-> +
-> + # AT&T Bell Labs' Plan 9 shell
-> + 0	string/wt	#!\ /bin/rc	Plan 9 rc shell script text executable
-> diff --git a/meta/recipes-devtools/file/file_5.18.bb b/meta/recipes-devtools/file/file_5.18.bb
-> index a7db410..ba61f22 100644
-> --- a/meta/recipes-devtools/file/file_5.18.bb
-> +++ b/meta/recipes-devtools/file/file_5.18.bb
-> @@ -13,7 +13,9 @@ DEPENDS_class-native = "zlib-native"
->
->   SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
->              file://dump \
-> -           file://filesystems"
-> +           file://filesystems \
-> +           file://debian-742262.patch \
-> +          "
->
->   SRC_URI[md5sum] = "d420d8f2990cd344673acfbf8d76ff5a"
->   SRC_URI[sha256sum] = "6519fb706d583231c2419592ebecdbb21d33c62eaf7a1a0b24ddfcb80c08bf07"
->
+An idea to make build deterministic might be patching of detect_modules()
+in setup.py to add disabled modules to 'missing'.  E.g.
+
+|             missing.append('_tkinter')
+| 
+|+        missing.extend(os.environ('OE_HACK_MISSING').split())
+|         return missing
+
+Probably there are better/cleaner ways but I am not familar with python
+distutils.
+
+
+Enrico
 
