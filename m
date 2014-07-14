@@ -1,43 +1,36 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6334365E2D
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E55D703A2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jul 2014 23:49:03 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id pv20so2292157lab.37
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jul 2014 16:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:in-reply-to:message-id:references
-	:user-agent:mime-version:content-type;
-	bh=PWE1COJ+Xyqb3I/LvtFEzwMetSPmDFjZ8cCUsaSMUsk=;
-	b=J10UuG0aZBii00UI1rESq8NDI4E+APOft+kOAEw3GCo+FOaG7T6JIRkavqwpi3dhmX
-	T8GDA4wd/SezN7M3wdmEy4L01fdlac8n92pfWP32mvkteqpv0z/2u917W2OUBDgsV11/
-	s/dgt+5Xb1rJw+cdH8hcR0wiWT0kbbn8wkv79E9XYEXnQKTvIdcNbj9febQ59zRKRyUO
-	yXxPTdG/dbw7MysTSYJMDDiZNmxs45hAgj1RAPN7QhoauaniSLp8431CHULfWu53IgbO
-	9jr7iVa/T/jYO9whX6eOrSamhlFQU5LUVTM5vqa8VArLVB9Yq0X+Nbyw+/mp0q5iAWfv
-	6VsQ==
-X-Received: by 10.152.180.168 with SMTP id dp8mr11404323lac.11.1405295343769; 
-	Sun, 13 Jul 2014 16:49:03 -0700 (PDT)
-Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
-	[89.253.118.72])
-	by mx.google.com with ESMTPSA id k5sm4512237lak.8.2014.07.13.16.49.02
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 13 Jul 2014 16:49:03 -0700 (PDT)
-Date: Mon, 14 Jul 2014 01:48:47 +0200 (CEST)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-X-X-Sender: jkroon@localhost.localdomain
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1404938578.15985.59.camel@ted>
-Message-ID: <alpine.LFD.2.11.1407140142470.30533@localhost.localdomain>
-References: <cover.1404896873.git.roxana.ciobanu@intel.com>
-	<fc1e780d3862d570820104c388a20e2b6d832c89.1404896873.git.roxana.ciobanu@intel.com>
-	<1404938578.15985.59.camel@ted>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Mon, 14 Jul 2014 02:16:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6E2G1MH011217
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 13 Jul 2014 19:16:01 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.241]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0169.001;
+	Sun, 13 Jul 2014 19:16:01 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>, Martin Jansa
+	<martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH 0/1] postfix: add new recipe
+Thread-Index: AQHPnP20dmAJLSQpU0KP2ApY9N1mq5ue2HjA
+Date: Mon, 14 Jul 2014 02:16:00 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCA81408@ALA-MBB.corp.ad.wrs.com>
+References: <cover.1404987090.git.jackie.huang@windriver.com>
+	<3a19aa87a9f5d562cd1c5615d89486a46adea9da.1404987090.git.jackie.huang@windriver.com>
+	<20140711102013.GE2433@jama>	<20140711102537.GF2433@jama>
+	<CAJTo0LaEhugeO61kbzZDXwRM+=GmWUzhhVxi9WE==HsAeqeYOQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LaEhugeO61kbzZDXwRM+=GmWUzhhVxi9WE==HsAeqeYOQ@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.143]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: add ROOTFS_POSTPROCESS_COMMAND to rootfs[vardeps]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] postfix: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,53 +43,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Jul 2014 23:49:07 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+X-List-Received-Date: Mon, 14 Jul 2014 02:16:05 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AABCA81408ALAMBBcorpadwrs_"
 
-On Wed, 9 Jul 2014, Richard Purdie wrote:
+--_000_1B858668EC6A94408DCA5225FDFA85AABCA81408ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> On Wed, 2014-07-09 at 12:08 +0300, Roxana Ciobanu wrote:
->>     Changes to ROOTFS_POSTPROCESS_COMMAND require the rootfs
->>     for the image to be rebuilt.
->>
->>     [YOCTO #6502]
->>
->> Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
->> ---
->>  meta/classes/image.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index a03b880..e088bdb 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -75,7 +75,7 @@ LDCONFIGDEPEND_libc-musl = ""
->>  do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
->>  do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
->>  do_rootfs[recrdeptask] += "do_packagedata"
->> -do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
->> +do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS ROOTFS_POSTPROCESS_COMMAND"
->>
->>  do_build[depends] += "virtual/kernel:do_deploy"
->
-> Are there other variables we look at in the rootfs process we also need
-> to list here?
->
-> As background, the move to lib/oe has moved the variables outside the
-> scope of bitbake's function parsing code so we need to handle that
-> manually now...
->
+T2ssIG1ldGEtbmV0d29ya2luZyBpcyBmaW5lIHRvIG1lLCBJIHdpbGwgcmVzZW5kIGFsdGhvdWdo
+IEkgaGFkIGFscmVhZHkgcmVzZW50IHRvIG1ldGEtb2UuDQoNClRoYW5rcywNCkphY2tpZQ0KDQpG
+cm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBG
+cmlkYXksIEp1bHkgMTEsIDIwMTQgNzo0NiBQTQ0KVG86IE1hcnRpbiBKYW5zYQ0KQ2M6IEh1YW5n
+LCBKaWUgKEphY2tpZSk7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+ClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDAvMV0gcG9zdGZpeDogYWRkIG5ldyByZWNp
+cGUNCg0KTWV0YS1uZXR3b3JraW5nIHNlZW1zIHRoZSBvYnZpb3VzIGhvbWUgdG8gbWUuDQoNClJv
+c3MNCg0KT24gRnJpZGF5LCAxMSBKdWx5IDIwMTQsIE1hcnRpbiBKYW5zYSA8bWFydGluLmphbnNh
+QGdtYWlsLmNvbTxtYWlsdG86bWFydGluLmphbnNhQGdtYWlsLmNvbT4+IHdyb3RlOg0KT24gRnJp
+LCBKdWwgMTEsIDIwMTQgYXQgMTI6MjA6MTNQTSArMDIwMCwgTWFydGluIEphbnNhIHdyb3RlOg0K
+PiBPbiBUaHUsIEp1bCAxMCwgMjAxNCBhdCAwOTo1Nzo1NlBNIC0wNDAwLCBqYWNraWUuaHVhbmdA
+d2luZHJpdmVyLmNvbTxqYXZhc2NyaXB0Ojs+IHdyb3RlOg0KPiA+IEZyb206IEphY2tpZSBIdWFu
+ZyA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208amF2YXNjcmlwdDo7Pj4NCj4gPg0KPiA+IFBv
+c3RmaXggaXMgV2lldHNlIFZlbmVtYSdzIG1haWwgc2VydmVyIHRoYXQgc3RhcnRlZCBsaWZlIGF0
+IElCTQ0KPiA+IHJlc2VhcmNoIGFzIGFuIGFsdGVybmF0aXZlIHRvIHRoZSB3aWRlbHktdXNlZCBT
+ZW5kbWFpbCBwcm9ncmFtLg0KPiA+DQo+ID4gUG9zdGZpeCBhdHRlbXB0cyB0byBiZSBmYXN0LCBl
+YXN5IHRvIGFkbWluaXN0ZXIsIGFuZCBzZWN1cmUuDQo+ID4gVGhlIG91dHNpZGUgaGFzIGEgZGVm
+aW5pdGUgU2VuZG1haWwtaXNoIGZsYXZvciwgYnV0IHRoZSBpbnNpZGUNCj4gPiBpcyBjb21wbGV0
+ZWx5IGRpZmZlcmVudC4NCj4NCj4gV2h5IGlzIGl0IHNlbnQgdG8gb2UtY29yZSBhbmQgbWV0YS1v
+ZSBhdCB0aGUgc2FtZSB0aW1lPw0KPg0KDQpJJ20gc29ycnksIEkgc2hvdWxkIGhhdmUgZmluaXNo
+ZWQgcmVhZGluZyB3aG9sZSBiYWNrbG9nIGJlZm9yZQ0Kbm90LXNlbmRpbmcgdGhpcy4NCg0KSSBh
+Z3JlZSB3aXRoIG90aGVyIHJldmlld2VycyBpdCdzIGJldHRlciBpbiBtZXRhLW9lIChtYXliZQ0K
+bWV0YS1uZXR3b3JraW5nPykNCg0KLS0NCk1hcnRpbiAnSmFNYScgSmFuc2EgICAgIGphYmJlcjog
+TWFydGluLkphbnNhQGdtYWlsLmNvbTxqYXZhc2NyaXB0Ojs+DQo=
 
-I was hit by this recently, and talked to kergoth on IRC about it.
-As he suggested, perhaps we should also do
+--_000_1B858668EC6A94408DCA5225FDFA85AABCA81408ALAMBBcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-ROOTFS_POSTPROCESS_COMMAND[func] = "1"
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+T2ssIG1ldGEtbmV0d29ya2luZyBpcyBmaW5lIHRvIG1l
+LCBJIHdpbGwgcmVzZW5kIGFsdGhvdWdoIEkgaGFkIGFscmVhZHkgcmVzZW50IHRvIG1ldGEtb2Uu
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
+YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
+cjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
+aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
+cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3Bh
+ZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25l
+O2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGlu
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5G
+cm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3Mg
+W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5
+LCBKdWx5IDExLCAyMDE0IDc6NDYgUE08YnI+DQo8Yj5Ubzo8L2I+IE1hcnRpbiBKYW5zYTxicj4N
+CjxiPkNjOjwvYj4gSHVhbmcsIEppZSAoSmFja2llKTsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRD
+SCAwLzFdIHBvc3RmaXg6IGFkZCBuZXcgcmVjaXBlPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9k
+aXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+TWV0YS1uZXR3b3JraW5nIHNlZW1zIHRoZSBvYnZpb3VzIGhv
+bWUgdG8gbWUuPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
+cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5S
+b3NzPGJyPg0KPGJyPg0KT24gRnJpZGF5LCAxMSBKdWx5IDIwMTQsIE1hcnRpbiBKYW5zYSAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOm1hcnRpbi5qYW5zYUBnbWFpbC5jb20iPm1hcnRpbi5qYW5zYUBnbWFp
+bC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+Pk9uIEZyaSwgSnVsIDExLCAyMDE0IGF0IDEyOjIwOjEzUE0gJiM0MzswMjAwLCBNYXJ0aW4gSmFu
+c2Egd3JvdGU6PGJyPg0KJmd0OyBPbiBUaHUsIEp1bCAxMCwgMjAxNCBhdCAwOTo1Nzo1NlBNIC0w
+NDAwLCA8YSBocmVmPSJqYXZhc2NyaXB0OjsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9h
+PiB3cm90ZTo8YnI+DQomZ3Q7ICZndDsgRnJvbTogSmFja2llIEh1YW5nICZsdDs8YSBocmVmPSJq
+YXZhc2NyaXB0OjsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDs8YnI+DQomZ3Q7
+ICZndDs8YnI+DQomZ3Q7ICZndDsgUG9zdGZpeCBpcyBXaWV0c2UgVmVuZW1hJ3MgbWFpbCBzZXJ2
+ZXIgdGhhdCBzdGFydGVkIGxpZmUgYXQgSUJNPGJyPg0KJmd0OyAmZ3Q7IHJlc2VhcmNoIGFzIGFu
+IGFsdGVybmF0aXZlIHRvIHRoZSB3aWRlbHktdXNlZCBTZW5kbWFpbCBwcm9ncmFtLjxicj4NCiZn
+dDsgJmd0Ozxicj4NCiZndDsgJmd0OyBQb3N0Zml4IGF0dGVtcHRzIHRvIGJlIGZhc3QsIGVhc3kg
+dG8gYWRtaW5pc3RlciwgYW5kIHNlY3VyZS48YnI+DQomZ3Q7ICZndDsgVGhlIG91dHNpZGUgaGFz
+IGEgZGVmaW5pdGUgU2VuZG1haWwtaXNoIGZsYXZvciwgYnV0IHRoZSBpbnNpZGU8YnI+DQomZ3Q7
+ICZndDsgaXMgY29tcGxldGVseSBkaWZmZXJlbnQuPGJyPg0KJmd0Ozxicj4NCiZndDsgV2h5IGlz
+IGl0IHNlbnQgdG8gb2UtY29yZSBhbmQgbWV0YS1vZSBhdCB0aGUgc2FtZSB0aW1lPzxicj4NCiZn
+dDs8YnI+DQo8YnI+DQpJJ20gc29ycnksIEkgc2hvdWxkIGhhdmUgZmluaXNoZWQgcmVhZGluZyB3
+aG9sZSBiYWNrbG9nIGJlZm9yZTxicj4NCm5vdC1zZW5kaW5nIHRoaXMuPGJyPg0KPGJyPg0KSSBh
+Z3JlZSB3aXRoIG90aGVyIHJldmlld2VycyBpdCdzIGJldHRlciBpbiBtZXRhLW9lIChtYXliZTxi
+cj4NCm1ldGEtbmV0d29ya2luZz8pPGJyPg0KPGJyPg0KLS08YnI+DQpNYXJ0aW4gJ0phTWEnIEph
+bnNhICZuYnNwOyAmbmJzcDsgamFiYmVyOiA8YSBocmVmPSJqYXZhc2NyaXB0OjsiPk1hcnRpbi5K
+YW5zYUBnbWFpbC5jb208L2E+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-to inform bitbake that it is a shell script, so that it invokes its 
-shell dependency parsing. I would guess most people add a function, 
-and append this to ROOTFS_POSTPROCESS_COMMAND. Without marking it as a 
-function, changes in the actual function body would not trigger rootfs 
-rebuilds.
-
-/Jacob
-
+--_000_1B858668EC6A94408DCA5225FDFA85AABCA81408ALAMBBcorpadwrs_--
