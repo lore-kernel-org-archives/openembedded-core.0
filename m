@@ -1,34 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 089ED65D03
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C87EA7048E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 18:30:05 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id b13so3858020wgh.18
+	Tue, 15 Jul 2014 19:37:13 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id hz1so3856613pad.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 11:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=b5mQgVhFHzCcTrDgTV+dBmcbzq+eORzi7/5ZS4uwGFk=;
-	b=FjU9SVKhKFPHWZ/PnXcBaK+2YteGL0q2oRNyIBW/SXAP5G/Y87gEmTKj7zXAMObeNe
-	b0jrrpWw7eWsGiPon95iz0gCmVhjwX3z+41tqqiusGq+ZmCkWz3rfbjdc0VnU68jOrh8
-	epuioQOPyRO9lHcWcOwtkb9vwKCc9zzKmV10ImvUAbFd3aA03eppM9kOwE7H49Uh1Wgu
-	YIfCGyz2dHAL+BParuuLjmrySY0l2b/USP5Msu5qEDNJsD8FH5ohFoSzb1ruLs4FBg3x
-	bkYAfgDGkLZNMVjyLxhvZlgodZ5/VQ+4xn8fK/hp3EkwKrOQ3jzGn+3xJphX/Lh4MHtW
-	7lmA==
-X-Received: by 10.180.14.5 with SMTP id l5mr7765383wic.50.1405449006183;
-	Tue, 15 Jul 2014 11:30:06 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	eh10sm41898819wic.0.2014.07.15.11.30.05 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jul 2014 11:30:05 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 20:30:14 +0200
-Message-Id: <1405449014-17065-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.0
-Subject: [PATCH] gdb: force arm mode
+	Tue, 15 Jul 2014 12:37:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=ttAGo7PHqhJPVNy6/Iui3uCIe3bypPZgVvXCkVn886M=;
+	b=LTJOdHdKWEAp6jqfPLEMMyO5NKlSaxfSl3e4dcUpLsRF70EDvOHLbNWK3ZIMoQJ1cz
+	+uwtkdcmwwPStS8iLjkWtek5rh23JnLCPBR/vUnndI+fkoqnERDXkoe+sKq0IoLWvk9Y
+	VJtBilTI2L1Lt7OO0gmh5izqpdgxqn8CxXA1xaFdUVcxuhnFrzBmqQTLAoMP1t1x44xc
+	1dnPaqUqhPwICB/chaSx96kfeCOkSKH+QCk1Ej6hOegCHWdkw87wGrOIC7U4Cee0z1KK
+	OtfJDofcbsFsyypHDPl+OQEb/szkONF0TewvQqth28wCs4AO+CJUXnxzLsKfFHk17kv7
+	RKMA==
+X-Gm-Message-State: ALoCoQnaK8ZCbqdOcG5V6daDri9gaWIcfSL3LJJU57LIPttIdRm/BwWMLttswjmqJaCZaipCn1sg
+X-Received: by 10.70.137.103 with SMTP id qh7mr13227212pdb.69.1405453035163;
+	Tue, 15 Jul 2014 12:37:15 -0700 (PDT)
+Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55])
+	by mx.google.com with ESMTPSA id l3sm14769521pbq.8.2014.07.15.12.37.13
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 15 Jul 2014 12:37:14 -0700 (PDT)
+Message-ID: <53C582E7.3090409@mvista.com>
+Date: Tue, 15 Jul 2014 12:37:11 -0700
+From: akuster <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1405430888-12456-1-git-send-email-akuster@mvista.com>
+	<53C5436F.1070506@linux.intel.com> <53C54719.60104@mvista.com>
+	<53C54AD7.4050702@linux.intel.com>
+In-Reply-To: <53C54AD7.4050702@linux.intel.com>
+Subject: Re: [meta-oe][PATCH] [v3] lz4: update to latest version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,56 +52,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 18:30:09 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 19:37:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* triggers some issue in gcc-4.9, this call:
-arm-oe-linux-gnueabi-gcc  -march=armv5te -mthumb -mthumb-interwork -mtune=xscale
---sysroot=/OE/build/shr-core/tmp-eglibc/sysroots/spitz -O2 -pipe -g
--feliminate-unused-debug-types   -I.
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/common
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/config
--DLOCALEDIR="\"/usr/share/locale\"" -DHAVE_CONFIG_H
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../include/opcode
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../opcodes/..
--I../bfd
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../bfd
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../include
--I../libdecnumber
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../libdecnumber
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/gnulib/import
--Ibuild-gnulib/import    -Wall -Wdeclaration-after-statement
--Wpointer-arith -Wpointer-sign -Wno-unused -Wunused-value
--Wunused-function -Wno-switch -Wno-char-subscripts -Wmissing-prototypes
--Wdeclaration-after-statement -Wempty-body -Wmissing-parameter-type
--Wold-style-declaration -Wold-style-definition -Wformat-nonliteral  -c
--o eval.o -MT eval.o -MMD -MP -MF .deps/eval.Tpo
-/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/eval.c
 
-just hangs (strace shows occasional call to mmap, brk, munmap) and eats all available memory
-(in my case 20GB), I've waited for 2,5 hours and it didn't finish,
-after removing -mthumb it builds in second.
+On 07/15/2014 08:37 AM, Saul Wold wrote:
+> On 07/15/2014 08:22 AM, akuster wrote:
+>>
+>> On 07/15/2014 08:06 AM, Saul Wold wrote:
+>>> On 07/15/2014 06:28 AM, Armin Kuster wrote:
+>>>> update to version r119
+>>>> Use github instead of svn
+>>>> LICENSE md5sum changed since it was updated in r117
+>>>
+>>> What exactly changed in r117?  Same License different working or ??
+>>
+>> They updated the copyright date.
+>>
+>
+> That's what we need in the commit message then, please update your 
+> commit message.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/gdb/gdb_7.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
+done
 
-diff --git a/meta/recipes-devtools/gdb/gdb_7.7.bb b/meta/recipes-devtools/gdb/gdb_7.7.bb
-index 1abc9d8..bc042ec 100644
---- a/meta/recipes-devtools/gdb/gdb_7.7.bb
-+++ b/meta/recipes-devtools/gdb/gdb_7.7.bb
-@@ -7,6 +7,9 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python"
- PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
- 
-+# cc1 (4.9) call with -mthumb gets stuck and eats all available memory (over 20GB in my case)
-+ARM_INSTRUCTION_SET = "arm"
-+
- do_configure_prepend() {
- 	if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python', '', d)}" ]; then
- 		cat > ${WORKDIR}/python << EOF
--- 
-2.0.0
+>
+> Is there a valid PV that you can set for lz4, seems like they are 
+> still calling them rXXX, so PV should be "r119"
+
+done.
+
+Thanks,
+Armin
+>
+> Thanks
+>     Sau!
+>
+>> - Armin
+>>>
+>>> Sau!
+>>>
+>>>> FIxes CVE-2014-4611
+>>>>
+>>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>>>> ---
+>>>>   meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} | 11 ++++-------
+>>>>   1 file changed, 4 insertions(+), 7 deletions(-)
+>>>>   rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (68%)
+>>>>
+>>>> diff --git a/meta/recipes-support/lz4/lz4_svn.bb
+>>>> b/meta/recipes-support/lz4/lz4_git.bb
+>>>> similarity index 68%
+>>>> rename from meta/recipes-support/lz4/lz4_svn.bb
+>>>> rename to meta/recipes-support/lz4/lz4_git.bb
+>>>> index 38e36d8..3978d76 100644
+>>>> --- a/meta/recipes-support/lz4/lz4_svn.bb
+>>>> +++ b/meta/recipes-support/lz4/lz4_git.bb
+>>>> @@ -2,15 +2,12 @@ SUMMARY = "Extremely Fast Compression algorithm"
+>>>>   DESCRIPTION = "LZ4 is a very fast lossless compression algorithm,
+>>>> providing compression speed at 400 MB/s per core, scalable with
+>>>> multi-cores CPU. It also features an extremely fast decoder, with
+>>>> speed in multiple GB/s per core, typically reaching RAM speed limits
+>>>> on multi-core systems."
+>>>>
+>>>>   LICENSE = "BSD"
+>>>> -LIC_FILES_CHKSUM =
+>>>> "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
+>>>> +LIC_FILES_CHKSUM =
+>>>> "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
+>>>>
+>>>> -# Upstream names releases after SVN revs
+>>>> -SRCREV = "112"
+>>>> -PV = "r${SRCREV}"
+>>>> +SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
+>>>> +SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
+>>>>
+>>>> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+>>>> -
+>>>> -S = "${WORKDIR}/trunk"
+>>>> +S = "${WORKDIR}/git"
+>>>>
+>>>>   EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D}
+>>>> LIBDIR=${libdir} INCLUDEDIR=${includedir}"
+>>>>
+>>>>
+>>
+>>
 
 
