@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CD3A7063A
+	by mail.openembedded.org (Postfix) with ESMTP id B0E2E70638
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:50 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJqPK012755
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJpr1012752
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:52 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:51 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 07:19:51 -0700
+	Tue, 15 Jul 2014 07:19:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:33 -0700
-Message-ID: <9525a2ff1a4fd38f645c20e43fb7b3858c2f1c8c.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:31 -0700
+Message-ID: <4d3e05c0ea3c9a7e703eee4cf346f44c64477a02.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 38/38] dpkg: add perl to RDEPENDS_perl
+Subject: [PATCH 36/38] gconf: add python to RDEPENDS_gconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 14:19:50 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 14:19:54 -0000
 Content-Type: text/plain
 
-Perl scripts:
-dpkg/usr/lib/dpkg/parsechangelog/debian
-dpkg/usr/bin/dpkg-parsechangelog
-dpkg/usr/bin/dpkg-buildflags
-dpkg/usr/bin/dpkg-gencontrol
-dpkg/usr/bin/dpkg-shlibdeps
-dpkg/usr/bin/dpkg-mergechangelogs
-dpkg/usr/bin/dpkg-source
-dpkg/usr/bin/dpkg-checkbuilddeps
-dpkg/usr/bin/dpkg-buildpackage
-dpkg/usr/bin/dpkg-gensymbols
-dpkg/usr/bin/dpkg-scanpackages
-dpkg/usr/bin/dpkg-vendor
-dpkg/usr/bin/dpkg-name
-dpkg/usr/bin/dpkg-genchanges
-dpkg/usr/bin/dpkg-distaddfile
-dpkg/usr/bin/dpkg-scansources
-dpkg/usr/bin/dpkg-architecture
+Python script:
+gconf/usr/bin/gsettings-schema-convert
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc |    2 +-
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 929906d..ea6b171 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -7,7 +7,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index 17fdafa..ff4ad55 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -45,7 +45,7 @@ do_install_append_class-native() {
+ }
  
- DEPENDS = "zlib bzip2 perl ncurses"
- DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts"
-+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts perl"
- RDEPENDS_${PN}_class-native = "xz-native"
+ # disable dbus-x11 when x11 isn't in DISTRO_FEATURES
+-RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
++RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)} python"
+ RDEPENDS_${PN}_class-native = ""
  
- S = "${WORKDIR}/${BPN}-${PV}"
+ FILES_${PN} += "${libdir}/GConf/* \
 -- 
 1.7.9.5
 
