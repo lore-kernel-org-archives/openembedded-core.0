@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B100705C4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9994E70612
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:46 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJmdE012740
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJnre022810
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:48 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:49 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 07:19:47 -0700
+	Tue, 15 Jul 2014 07:19:48 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:23 -0700
-Message-ID: <d0d73ce61cd19763467d2f31ffd26daef005a8d3.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:26 -0700
+Message-ID: <00ee77e44e236d00799028454e010bcf12dbf674.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 28/38] valgrind: add bash to RDEPENDS_valgrind-ptest
+Subject: [PATCH 31/38] usbutils: add python to RDEPENDS_usbutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:19:47 -0000
 Content-Type: text/plain
 
-Bash script:
-valgrind-ptest/usr/lib/valgrind/ptest/run-ptest
+Python scripts:
+usbutils/usr/bin/lsusb.py
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.9.0.bb |    2 +-
+ meta/recipes-bsp/usbutils/usbutils_007.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-index 3c6aa13..a18cc23 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-@@ -48,7 +48,7 @@ FILES_${PN}-dbg += "${libdir}/${PN}/*/.debug/*"
- # redirect functions like strlen.
- RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
+diff --git a/meta/recipes-bsp/usbutils/usbutils_007.bb b/meta/recipes-bsp/usbutils/usbutils_007.bb
+index b93b2bd..56113da 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_007.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_007.bb
+@@ -28,4 +28,4 @@ PACKAGES += "${PN}-ids"
+ FILES_${PN}-dev += "${datadir}/pkgconfig"
+ FILES_${PN}-ids = "${datadir}/usb*"
  
--RDEPENDS_${PN}-ptest += " sed perl eglibc-utils"
-+RDEPENDS_${PN}-ptest += " sed perl eglibc-utils bash"
- 
- do_compile_ptest() {
-     oe_runmake check
+-RDEPENDS_${PN} = "${PN}-ids"
++RDEPENDS_${PN} = "${PN}-ids python"
 -- 
 1.7.9.5
 
