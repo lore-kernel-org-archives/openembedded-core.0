@@ -1,32 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
-	[206.46.173.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 12BC160196
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5162C7027F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 02:41:55 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173023.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N8Q00EYRFGVU8C0@vms173023.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 14 Jul 2014 21:41:30 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 6A81F20086; Mon,
-	14 Jul 2014 22:41:19 -0400 (EDT)
-Date: Mon, 14 Jul 2014 22:41:19 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-id: <20140715024119.GS1580@denix.org>
-References: <1403218403-3303-1-git-send-email-denis@denix.org>
-	<20140620171338.GX27324@denix.org> <20140625005255.GB1580@denix.org>
-	<2450957.82MqDgnpjo@peggleto-mobl5.ger.corp.intel.com>
-	<20140625162209.GC1580@denix.org> <1403736065.2104.287.camel@ted>
-	<20140626174353.GE1580@denix.org>
-MIME-version: 1.0
-In-reply-to: <20140626174353.GE1580@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org, Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
+	Tue, 15 Jul 2014 05:27:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6F5R2n9006318
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 22:27:03 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 14 Jul 2014 22:27:02 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jul 2014 13:26:59 +0800
+Message-ID: <1405402019-31886-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
+MIME-Version: 1.0
+Subject: [PATCH] insane.bbclass: avoid QA errors for n32 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,38 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 02:41:56 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 15 Jul 2014 05:27:03 -0000
+Content-Type: text/plain
 
-On Thu, Jun 26, 2014 at 01:43:53PM -0400, Denys Dmytriyenko wrote:
-> On Wed, Jun 25, 2014 at 11:41:05PM +0100, Richard Purdie wrote:
-> > On Wed, 2014-06-25 at 12:22 -0400, Denys Dmytriyenko wrote:
-> > > On Wed, Jun 25, 2014 at 05:20:23PM +0100, Paul Eggleton wrote:
-> > > > On Tuesday 24 June 2014 20:52:55 Denys Dmytriyenko wrote:
-> > > > > Ping? Any comments? Any better suggestions?
-> > > > 
-> > > > Looks like Richard has merged this, FWIW.
-> > > 
-> > > Yes, I saw it. Already submitted backport for daisy... :)
-> > 
-> > I'd like this to see some testing in master for a while before we
-> > backport it...
-> 
-> I'm Ok waiting a bit longer to test it in master. I'll ping on it later...
-> 
-> But this fixes a very common issue that affects different platforms from 
-> different BSP layers, including BeagleBone Black in meta-yocto-bsp. The goal 
-> is to be least intrusive and preserve the old udev cache behavior as much as 
-> possible. Alternative options were to disable udev cache completely or 
-> forcefully load necessary modules when they won't be probed on subsequent 
-> boots.
+A series of commits had been integrated to avoid qa checking code
+throwing the bitsize not matched error for x32 kernel files, the
+same logic is also needed by n32 kernel which was not addressed in
+that series.
 
-Hi, Richard,
+This commit extends the condition for n32 kernel files.
 
-Was it enough wait time to get the change tested in master? Should I re-submit 
-the patch for daisy one more time or you have it in the archives? Thanks!
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/classes/insane.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 106ace7..0fb568f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -461,11 +461,11 @@ def package_qa_check_arch(path,name,d, elf, messages):
+ 
+     # Check the architecture and endiannes of the binary
+     if not ((machine == elf.machine()) or \
+-        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32"))):
++        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32" or target_os == "linux-gnun32"))):
+         messages.append("Architecture did not match (%d to %d) on %s" % \
+                  (machine, elf.machine(), package_qa_clean_path(path,d)))
+     elif not ((bits == elf.abiSize()) or  \
+-        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32"))):
++        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32" or target_os == "linux-gnun32"))):
+         messages.append("Bit size did not match (%d to %d) %s on %s" % \
+                  (bits, elf.abiSize(), bpn, package_qa_clean_path(path,d)))
+     elif not littleendian == elf.isLittleEndian():
 -- 
-Denys
+1.8.4.1
+
 
