@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 18D1C701C9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6947A701C9
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 14:19:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJf0b012719
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJfRt022782
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 07:19:41 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Tue, 15 Jul 2014 07:19:41 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:09 -0700
-Message-ID: <55ef60ee41642e67eb780680a7ff2e28c7a90605.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:10 -0700
+Message-ID: <a5eccbf8c34a541522e2676e702bb9b93035fd88.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 14/38] lttng-tools: add perl bash python to RDEPENDS_lttng-tools-ptest
+Subject: [PATCH 15/38] quilt: add bash and perl to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +36,78 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:19:40 -0000
 Content-Type: text/plain
 
-Perl script:
-lttng-tools-ptest/usr/lib/lttng-tools/ptest/tests/utils/babelstats.pl
+Perl scripts:
+quilt/usr/share/quilt/scripts/edmail is a perl script, but perl is not in RDEPEND_quilt
+quilt/usr/share/quilt/scripts/remove-trailing-ws is a perl script, but perl is not in RDEPEND_quilt
+quilt/usr/share/quilt/scripts/dependency-graph is a perl script, but perl is not in RDEPEND_quilt
+guards/usr/bin/guards is a perl script, but perl is not in RDEPEND_guards
 
-Python script:
-lttng-tools-ptest/usr/lib/lttng-tools/ptest/tests/regression/run-report.py
-
-Bash script:
-[snip]
-47 ones
+Bash scripts:
+quilt-ptest/usr/lib/quilt/ptest/quilt/unapplied
+quilt-ptest/usr/lib/quilt/ptest/quilt/push
+quilt-ptest/usr/lib/quilt/ptest/quilt/fork
+quilt-ptest/usr/lib/quilt/ptest/quilt/patches
+quilt-ptest/usr/lib/quilt/ptest/quilt/upgrade
+quilt-ptest/usr/lib/quilt/ptest/quilt/delete
+quilt-ptest/usr/lib/quilt/ptest/quilt/applied
+quilt-ptest/usr/lib/quilt/ptest/quilt/rename
+quilt-ptest/usr/lib/quilt/ptest/quilt/pop
+quilt-ptest/usr/lib/quilt/ptest/quilt/new
+quilt-ptest/usr/lib/quilt/ptest/quilt/remove
+quilt-ptest/usr/lib/quilt/ptest/quilt/series
+quilt-ptest/usr/lib/quilt/ptest/quilt/setup
+quilt-ptest/usr/lib/quilt/ptest/quilt/grep
+quilt-ptest/usr/lib/quilt/ptest/quilt/previous
+quilt-ptest/usr/lib/quilt/ptest/quilt/mail
+quilt-ptest/usr/lib/quilt/ptest/quilt/edit
+quilt-ptest/usr/lib/quilt/ptest/quilt/top
+quilt-ptest/usr/lib/quilt/ptest/quilt/revert
+quilt-ptest/usr/lib/quilt/ptest/quilt/diff
+quilt-ptest/usr/lib/quilt/ptest/quilt/graph
+quilt-ptest/usr/lib/quilt/ptest/quilt/refresh
+quilt-ptest/usr/lib/quilt/ptest/quilt/annotate
+quilt-ptest/usr/lib/quilt/ptest/quilt/fold
+quilt-ptest/usr/lib/quilt/ptest/quilt/next
+quilt-ptest/usr/lib/quilt/ptest/quilt/add
+quilt-ptest/usr/lib/quilt/ptest/quilt/files
+quilt-ptest/usr/lib/quilt/ptest/quilt/import
+quilt-ptest/usr/lib/quilt/ptest/quilt/header
+quilt-ptest/usr/lib/quilt/ptest/quilt/snapshot
+quilt-ptest/usr/lib/quilt/ptest/quilt/scripts/inspect
+quilt-ptest/usr/lib/quilt/ptest/quilt/scripts/backup-files
+quilt-ptest/usr/lib/quilt/ptest/bin/quilt
+quilt-ptest/usr/lib/quilt/ptest/bin/patch-wrapper
+quilt-ptest/usr/lib/quilt/ptest/compat/awk
+quilt-ptest/usr/lib/quilt/ptest/compat/sendmail
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb |    2 +-
- meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/quilt/quilt-0.63.inc |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
-index db8b65b..0474578 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
-                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+diff --git a/meta/recipes-devtools/quilt/quilt-0.63.inc b/meta/recipes-devtools/quilt/quilt-0.63.inc
+index f375785..50593a9 100644
+--- a/meta/recipes-devtools/quilt/quilt-0.63.inc
++++ b/meta/recipes-devtools/quilt/quilt-0.63.inc
+@@ -26,7 +26,8 @@ FILES_guards = "${bindir}/guards"
+ FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${BPN}"
+ FILES_guards-doc = "${mandir}/man1/guards.1"
  
- DEPENDS = "liburcu popt lttng-ust"
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make perl bash python"
+-RDEPENDS_${PN} = "bash"
++RDEPENDS_${PN} = "bash perl"
++RDEPENDS_guards = "perl"
  
- SRCREV = "5d985544a7ad54afa0514ea7f522a89d8d844860"
- PV = "v2.3.1"
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-index aab9bf6..34b9869 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
-                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
- 
- DEPENDS = "liburcu popt lttng-ust"
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make perl bash python"
- 
- SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
- PV = "v2.4.0"
+ EXTRA_OE_MAKE_ARGS_darwin ?= ""
+ EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
+@@ -55,5 +56,5 @@ do_install_ptest() {
+ RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
+                         perl-module-filehandle perl-module-getopt-std \
+                         perl-module-posix perl-module-file-temp \
+-                        perl-module-text-parsewords \
++                        perl-module-text-parsewords bash \
+ "
 -- 
 1.7.9.5
 
