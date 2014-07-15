@@ -1,37 +1,22 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id BFDCC7058C
+Return-Path: <Daniel.Bornaz@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 42D6F60144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 13:28:18 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id v10so7130726pde.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 06:28:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=P825sm/OTChnYN6ZgM5XB3+oT2o8Xku5UyEOeNwcQqM=;
-	b=clPRHeImsgCHs97VHsH/FnTYgs6PwGTjrnqA6QXjsb7JpI3eSYmhPm8tS3hZo33szj
-	2q1U4fV7mp7+pyIRGNgEZh3QOf/TjOc0G5Ln1XLuRdjYZp7pghVHIm79jI50cYTJltJy
-	svr9Gl8WH5imOegIncJ71t+tJEfCSmZB/BnrazslNCCiclXjt0uCqxMQJj3PAKoCjknK
-	goVU6cDq2MRzJXWPZuHsC/hRxJdsi8iAPO/RqFAv36dhzMHQbUGLx9upyCB81dUSuuXV
-	kifPpvU7PgkcRfhBwFklgN/g/eiZZS6hqjXq1fOtyemEaUocYTpb0vFCeE6bYzD4qhhW
-	/vHQ==
-X-Gm-Message-State: ALoCoQmjBjw5as6lmKvu3r+BMzICG+HOfikyLMMLyMCxFGp3Vi+euIhYCc++4UpFp4S0cb4qMavn
-X-Received: by 10.68.211.195 with SMTP id ne3mr9196483pbc.121.1405430899629;
-	Tue, 15 Jul 2014 06:28:19 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55])
-	by mx.google.com with ESMTPSA id kl4sm3085154pdb.76.2014.07.15.06.28.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 15 Jul 2014 06:28:19 -0700 (PDT)
-From: Armin Kuster <akuster@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 06:28:08 -0700
-Message-Id: <1405430888-12456-1-git-send-email-akuster@mvista.com>
+	Tue, 15 Jul 2014 13:31:09 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Tue, 15 Jul 2014 15:31:05 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4483)	id 7FCCB288F30;
+	Tue, 15 Jul 2014 15:31:05 +0200 (CEST)
+From: Daniel BORNAZ <daniel.bornaz@enea.com>
+To: <yocto@yoctoproject.org>, <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jul 2014 15:30:59 +0200
+Message-ID: <1405431059-47938-1-git-send-email-daniel.bornaz@enea.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [meta-oe][PATCH] [v3] lz4: update to latest version
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: daniel.bornaz@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH 1/1] Qemu security patch: CVE-2014-3471
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +29,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 13:28:18 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 13:31:16 -0000
+Content-Type: text/plain
 
-update to version r119
-Use github instead of svn
-LICENSE md5sum changed since it was updated in r117
-FIxes CVE-2014-4611
+Qemu PCIe bus support is vulnerable to a use-after-free flaw. It could
+occur via guest, when it tries to hotplug/hotunplug devices on the
+guest.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+A user able to add & delete Virtio block devices on a guest could use
+this flaw to crash the Qemu instance resulting in DoS.
+
+Originated-by: Marcel Apfelbaum <address@hidden>
+Signed-off-by: Daniel BORNAZ <daniel.bornaz@enea.com>
+
+[LXCR-3365]
 ---
- meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (68%)
+ .../qemu/files/pcie_better_hotplug_support.patch   | 74 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.0.0.bb           |  6 +-
+ 2 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
 
-diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_git.bb
-similarity index 68%
-rename from meta/recipes-support/lz4/lz4_svn.bb
-rename to meta/recipes-support/lz4/lz4_git.bb
-index 38e36d8..3978d76 100644
---- a/meta/recipes-support/lz4/lz4_svn.bb
-+++ b/meta/recipes-support/lz4/lz4_git.bb
-@@ -2,15 +2,12 @@ SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+diff --git a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+new file mode 100644
+index 0000000..c7035b2
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+@@ -0,0 +1,74 @@
++The current code is broken: it does surprise removal which crashes guests.
++
++Reimplemented the steps:
++ - Hotplug triggers both 'present detect change' and
++   'attention button pressed'.
++
++ - Hotunplug starts by triggering 'attention button pressed',
++   then waits for the OS to power off the device and only
++   then detaches it.
++
++Fixes CVE-2014-3471.
++
++Originated-by: Marcel Apfelbaum <address@hidden>
++Updated-by: Daniel BORNAZ <daniel.bornaz@enea.com>
++
++--- a/hw/pci/pcie.c	2014-04-17 15:44:44.000000000 +0200
+++++ b/hw/pci/pcie.c	2014-07-15 13:03:16.905070562 +0200
++@@ -258,7 +258,8 @@ void pcie_cap_slot_hotplug_cb(HotplugHan
++ 
++     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
++                                PCI_EXP_SLTSTA_PDS);
++-    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+++    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
+++                        PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
++ }
++ 
++ void pcie_cap_slot_hot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
++@@ -268,10 +269,7 @@ void pcie_cap_slot_hot_unplug_cb(Hotplug
++ 
++     pcie_cap_slot_hotplug_common(PCI_DEVICE(hotplug_dev), dev, &exp_cap, errp);
++ 
++-    object_unparent(OBJECT(dev));
++-    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
++-                                 PCI_EXP_SLTSTA_PDS);
++-    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+++    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
++ }
++ 
++ /* pci express slot for pci express root/downstream port
++@@ -352,6 +350,11 @@ void pcie_cap_slot_reset(PCIDevice *dev)
++     hotplug_event_update_event_status(dev);
++ }
++ 
+++static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
+++{
+++    object_unparent(OBJECT(dev));
+++}
+++
++ void pcie_cap_slot_write_config(PCIDevice *dev,
++                                 uint32_t addr, uint32_t val, int len)
++ {
++@@ -376,6 +379,22 @@ void pcie_cap_slot_write_config(PCIDevic
++                         sltsta);
++     }
++ 
+++    /*
+++     * If the slot is polulated, power indicator is off and power
+++     * controller is off, it is safe to detach the devices.
+++     */
+++    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+++        ((val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF)) {
+++            PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+++            pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+++                                pcie_unplug_device, NULL);
+++
+++            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+++                                         PCI_EXP_SLTSTA_PDS);
+++            pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+++                                       PCI_EXP_SLTSTA_PDC);
+++    }
+++
++     hotplug_event_notify(dev);
++ 
++     /* 
+diff --git a/meta/recipes-devtools/qemu/qemu_2.0.0.bb b/meta/recipes-devtools/qemu/qemu_2.0.0.bb
+index b8ce624..9a530a6 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.0.0.bb
+@@ -4,7 +4,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
+ SRC_URI += "file://qemu-enlarge-env-entry-size.patch \
+-            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch"
++            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
++            file://pcie_better_hotplug_support.patch \
++            "
++
++
  
--# Upstream names releases after SVN revs
--SRCREV = "112"
--PV = "r${SRCREV}"
-+SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
-+SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
- 
--SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
--
--S = "${WORKDIR}/trunk"
-+S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
- 
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "2790f44fd76da5de5024b4aafeb594c2"
 -- 
 1.9.1
 
