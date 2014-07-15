@@ -1,34 +1,36 @@
-Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id C64337062A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F7B07022A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:38:42 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173025.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N8R006F9FGI8820@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 15 Jul 2014 10:38:42 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 2B1D82008D; Tue,
-	15 Jul 2014 11:38:41 -0400 (EDT)
-Date: Tue, 15 Jul 2014 11:38:41 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Saul Wold <sgw@linux.intel.com>
-Message-id: <20140715153841.GU1580@denix.org>
-References: <1403218403-3303-1-git-send-email-denis@denix.org>
-	<20140620171338.GX27324@denix.org> <20140625005255.GB1580@denix.org>
-	<2450957.82MqDgnpjo@peggleto-mobl5.ger.corp.intel.com>
-	<20140625162209.GC1580@denix.org> <1403736065.2104.287.camel@ted>
-	<20140626174353.GE1580@denix.org> <20140715024119.GS1580@denix.org>
-	<53C548FC.2010309@linux.intel.com>
-MIME-version: 1.0
-In-reply-to: <53C548FC.2010309@linux.intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
+	Tue, 15 Jul 2014 15:40:48 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id tp5so4691892ieb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 08:40:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=TfATC61PterraDhhUZNrX2r8iOoSu/qQeZPAF7v/qcA=;
+	b=IgW/2sOxsLdPh1cAWt+WDmcIHWreGyFa+NZKgTAAjiNOwhTLBt4vLpQpnMO6TQAQDz
+	NVDK6JfW0b7Bvl7XRFO10RrErEelGTDg2jgJxm7F/CJwKveZT1vmYKH6L+407X7aDqVq
+	06n6RbvZ4Aryq14T1NdJcIHMDckXQjexf+VQYWRmanKsVN/wRiq8MrKL8F/bXMCDC7nE
+	jYNa3RQN5I5WASGr5hb4LDcP1WzJlgp9J4nnkNztm+rnu6h6YQsOwhVBj62M1PLNHfnO
+	DfD87ZqOPzQnQugJPhDLrzXjsCnImsTNVp3/8VG+Xane/9V7sZX5qB3L9+BPZz8wwI0M
+	fdog==
+X-Received: by 10.42.90.74 with SMTP id j10mr30821417icm.29.1405438849787;
+	Tue, 15 Jul 2014 08:40:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 08:40:19 -0700 (PDT)
+In-Reply-To: <c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
+References: <cover.1405433828.git.liezhi.yang@windriver.com>
+	<c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 15 Jul 2014 08:40:19 -0700
+Message-ID: <CAMKF1so50VJx-iL4dXbmR_RNpgvSPJYNOPkPGth7uTFmNL=VoQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/38] gnu-config: add perl to RDEPENDS_gnu-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,44 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:38:42 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 15 Jul 2014 15:40:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jul 15, 2014 at 08:30:04AM -0700, Saul Wold wrote:
-> On 07/14/2014 07:41 PM, Denys Dmytriyenko wrote:
-> >On Thu, Jun 26, 2014 at 01:43:53PM -0400, Denys Dmytriyenko wrote:
-> >>On Wed, Jun 25, 2014 at 11:41:05PM +0100, Richard Purdie wrote:
-> >>>On Wed, 2014-06-25 at 12:22 -0400, Denys Dmytriyenko wrote:
-> >>>>On Wed, Jun 25, 2014 at 05:20:23PM +0100, Paul Eggleton wrote:
-> >>>>>On Tuesday 24 June 2014 20:52:55 Denys Dmytriyenko wrote:
-> >>>>>>Ping? Any comments? Any better suggestions?
-> >>>>>
-> >>>>>Looks like Richard has merged this, FWIW.
-> >>>>
-> >>>>Yes, I saw it. Already submitted backport for daisy... :)
-> >>>
-> >>>I'd like this to see some testing in master for a while before we
-> >>>backport it...
-> >>
-> >>I'm Ok waiting a bit longer to test it in master. I'll ping on it later...
-> >>
-> >>But this fixes a very common issue that affects different platforms from
-> >>different BSP layers, including BeagleBone Black in meta-yocto-bsp. The goal
-> >>is to be least intrusive and preserve the old udev cache behavior as much as
-> >>possible. Alternative options were to disable udev cache completely or
-> >>forcefully load necessary modules when they won't be probed on subsequent
-> >>boots.
-> >
-> >Hi, Richard,
-> >
-> >Was it enough wait time to get the change tested in master? Should I re-submit
-> >the patch for daisy one more time or you have it in the archives? Thanks!
-> >
-> I have it in my daisy-next (1.6.2) branch (I know it's not in daisy yet).
+On Tue, Jul 15, 2014 at 7:19 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Perl script:
+> gnu-config/usr/bin/gnu-configize
 
-Thanks!
+will it impact native recipes too ?
 
--- 
-Denys
+>
+> [YOCTO #1662]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../gnu-config/gnu-config_20120814.bb              |    2 ++
+>  meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+> index d67466a..af4afd6 100644
+> --- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+> @@ -17,6 +17,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
+>  SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
+>  SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
+>
+> +RDEPENDS_${PN} += "perl"
+> +
+>  do_compile() {
+>         :
+>  }
+> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> index 00fa759..d1b0a59 100644
+> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> @@ -17,6 +17,8 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
+>
+>  S = "${WORKDIR}/git"
+>
+> +RDEPENDS_${PN} += "perl"
+> +
+>  do_compile() {
+>         :
+>  }
+> --
+> 1.7.9.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
