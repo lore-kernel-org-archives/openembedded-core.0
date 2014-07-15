@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB12C705C4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 18D1C701C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:39 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJflB022777
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJf0b012719
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 07:19:41 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Tue, 15 Jul 2014 07:19:41 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:08 -0700
-Message-ID: <c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:09 -0700
+Message-ID: <55ef60ee41642e67eb780680a7ff2e28c7a90605.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 13/38] gnu-config: add perl to RDEPENDS_gnu-config
+Subject: [PATCH 14/38] lttng-tools: add perl bash python to RDEPENDS_lttng-tools-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +37,49 @@ X-List-Received-Date: Tue, 15 Jul 2014 14:19:40 -0000
 Content-Type: text/plain
 
 Perl script:
-gnu-config/usr/bin/gnu-configize
+lttng-tools-ptest/usr/lib/lttng-tools/ptest/tests/utils/babelstats.pl
+
+Python script:
+lttng-tools-ptest/usr/lib/lttng-tools/ptest/tests/regression/run-report.py
+
+Bash script:
+[snip]
+47 ones
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../gnu-config/gnu-config_20120814.bb              |    2 ++
- meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 ++
- 2 files changed, 4 insertions(+)
+ meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb |    2 +-
+ meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-index d67466a..af4afd6 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-@@ -17,6 +17,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
- SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
- SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+index db8b65b..0474578 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
  
-+RDEPENDS_${PN} += "perl"
-+
- do_compile() {
- 	:
- }
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-index 00fa759..d1b0a59 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-@@ -17,6 +17,8 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
+ DEPENDS = "liburcu popt lttng-ust"
+-RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make perl bash python"
  
- S = "${WORKDIR}/git"
+ SRCREV = "5d985544a7ad54afa0514ea7f522a89d8d844860"
+ PV = "v2.3.1"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+index aab9bf6..34b9869 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
  
-+RDEPENDS_${PN} += "perl"
-+
- do_compile() {
- 	:
- }
+ DEPENDS = "liburcu popt lttng-ust"
+-RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make perl bash python"
+ 
+ SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
+ PV = "v2.4.0"
 -- 
 1.7.9.5
 
