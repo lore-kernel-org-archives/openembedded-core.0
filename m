@@ -1,38 +1,34 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id A30B6701BF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 089ED65D03
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 17:21:23 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20140715172123532
+	Tue, 15 Jul 2014 18:30:05 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id b13so3858020wgh.18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 17:21:23 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [69.196.158.250] (port=56262 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X76Pm-0005Fq-74 for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jul 2014 13:21:18 -0400
-Date: Tue, 15 Jul 2014 13:21:15 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1407151319550.16952@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] Change to correct spelling of "local.conf.sample.extended"
+	Tue, 15 Jul 2014 11:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=b5mQgVhFHzCcTrDgTV+dBmcbzq+eORzi7/5ZS4uwGFk=;
+	b=FjU9SVKhKFPHWZ/PnXcBaK+2YteGL0q2oRNyIBW/SXAP5G/Y87gEmTKj7zXAMObeNe
+	b0jrrpWw7eWsGiPon95iz0gCmVhjwX3z+41tqqiusGq+ZmCkWz3rfbjdc0VnU68jOrh8
+	epuioQOPyRO9lHcWcOwtkb9vwKCc9zzKmV10ImvUAbFd3aA03eppM9kOwE7H49Uh1Wgu
+	YIfCGyz2dHAL+BParuuLjmrySY0l2b/USP5Msu5qEDNJsD8FH5ohFoSzb1ruLs4FBg3x
+	bkYAfgDGkLZNMVjyLxhvZlgodZ5/VQ+4xn8fK/hp3EkwKrOQ3jzGn+3xJphX/Lh4MHtW
+	7lmA==
+X-Received: by 10.180.14.5 with SMTP id l5mr7765383wic.50.1405449006183;
+	Tue, 15 Jul 2014 11:30:06 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	eh10sm41898819wic.0.2014.07.15.11.30.05 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Jul 2014 11:30:05 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jul 2014 20:30:14 +0200
+Message-Id: <1405449014-17065-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.0.0
+Subject: [PATCH] gdb: force arm mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +41,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 17:21:27 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 15 Jul 2014 18:30:09 -0000
 
+* triggers some issue in gcc-4.9, this call:
+arm-oe-linux-gnueabi-gcc  -march=armv5te -mthumb -mthumb-interwork -mtune=xscale
+--sysroot=/OE/build/shr-core/tmp-eglibc/sysroots/spitz -O2 -pipe -g
+-feliminate-unused-debug-types   -I.
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/common
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/config
+-DLOCALEDIR="\"/usr/share/locale\"" -DHAVE_CONFIG_H
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../include/opcode
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../opcodes/..
+-I../bfd
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../bfd
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../include
+-I../libdecnumber
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../libdecnumber
+-I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/gnulib/import
+-Ibuild-gnulib/import    -Wall -Wdeclaration-after-statement
+-Wpointer-arith -Wpointer-sign -Wno-unused -Wunused-value
+-Wunused-function -Wno-switch -Wno-char-subscripts -Wmissing-prototypes
+-Wdeclaration-after-statement -Wempty-body -Wmissing-parameter-type
+-Wold-style-declaration -Wold-style-definition -Wformat-nonliteral  -c
+-o eval.o -MT eval.o -MMD -MP -MF .deps/eval.Tpo
+/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/eval.c
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+just hangs (strace shows occasional call to mmap, brk, munmap) and eats all available memory
+(in my case 20GB), I've waited for 2,5 hours and it didn't finish,
+after removing -mthumb it builds in second.
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
+ meta/recipes-devtools/gdb/gdb_7.7.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index d64ba7f..8c58271 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -2,7 +2,7 @@
- # This file is your local configuration file and is where all local user settings
- # are placed. The comments in this file give some guide to the options a new user
- # to the system might want to change but pretty much any configuration option can
--# be set in this file. More adventurous users can look at local.conf.extended
-+# be set in this file. More adventurous users can look at local.conf.sample.extended
- # which contains other examples of configuration which can be placed in this file
- # but new users likely won't need any of them initially.
- #
-@@ -148,7 +148,8 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
- #   - 'image-prelink' in order to prelink the filesystem image
- #   - 'image-swab' to perform host system intrusion detection
- # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
--# NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
-+# NOTE: mklibs also needs to be explicitly enabled for a given image,
-+#     see local.conf.sample.extended
- USER_CLASSES ?= "buildstats image-mklibs image-prelink"
-
-
-
+diff --git a/meta/recipes-devtools/gdb/gdb_7.7.bb b/meta/recipes-devtools/gdb/gdb_7.7.bb
+index 1abc9d8..bc042ec 100644
+--- a/meta/recipes-devtools/gdb/gdb_7.7.bb
++++ b/meta/recipes-devtools/gdb/gdb_7.7.bb
+@@ -7,6 +7,9 @@ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python"
+ PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
+ 
++# cc1 (4.9) call with -mthumb gets stuck and eats all available memory (over 20GB in my case)
++ARM_INSTRUCTION_SET = "arm"
++
+ do_configure_prepend() {
+ 	if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python', '', d)}" ]; then
+ 		cat > ${WORKDIR}/python << EOF
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.0.0
 
 
