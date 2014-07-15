@@ -1,42 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B2D8C705A4
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id AA28B705E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 16:18:45 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id w61so4914498wes.23
+	Tue, 15 Jul 2014 16:18:46 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id q59so5898379wes.40
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 09:18:46 -0700 (PDT)
+	Tue, 15 Jul 2014 09:18:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=14/gOmWr2ltnYFmfz/j4TB9FFJGaS2XjEFXmyHmYG1E=;
-	b=gsDysHSI8ZbdD+7p9uC+0uZcXUtmm5vT4HDc/z0/W01NUbc1vrBt/vYTXLDrTO7IsB
-	jkbrwkmUq3jZ1swjZCo9hLqzqq2rnKOPV6wzg4tWWTP/M2UoV64dQmdIs2YXWJak0uOj
-	qwXBFR4Zvbtc07ucJc0ylegjNDK7VmiyxSN2AHqHO3sOzFhtiRjQ6a86G+gHTrKXo8w2
-	uR/sUeJk3KOgyFTd6C3r430Bn79EKDwgGjtUh/x6+UtIWgEeSP99H1xDEmPuw0PTemAh
-	23bg5l13pljiKxy23ImrT5NopCREJ8Cr5Ge0flD2BO9aDcB5nWuogF6XheXYk4uaWTjF
-	GnWg==
-X-Gm-Message-State: ALoCoQnZC3d5cc2RG74G2nc8RhMbvQsMeJI62BmFGj3oX/j++g+t2K5N7+IvqGcPI+sJAl0eQWCs
-X-Received: by 10.180.11.74 with SMTP id o10mr5596624wib.78.1405441126099;
-	Tue, 15 Jul 2014 09:18:46 -0700 (PDT)
+	bh=eX3q7k3lS8UGyM+RfCEvZ+tTHQ0W59h9LMT2lq02Ctk=;
+	b=k4rkenlqaGAAmZCZRZEW2/BseJWHRYSYf9VAbtEJxFE0iZ7pXX0CfD/DqOegAMIILP
+	caHV5SrFI3grl1yRimU5UryQzE69zeuSgShc2Kli6EL8Pfm7sLYgMEvB4Aw4jyWBXJRC
+	58grH7vqJKz+vkMYz2bpOGTS4VqcoEEiROtgLCRAzX/Qn21esWPLezw1czTc8GKzsOzK
+	RPBgle8/hD3E3qJAVDQeC5zM7EcH/BmJ6XVBIKeZi/DDk1zJBSKBP+0SifNRoQbmQXdm
+	1EPXbqNnsNn352+eofZnetafp6bDBp7UN3P/pLZvP+rB2Zymt4RMH+aKmNcRwb/rIChE
+	l8aw==
+X-Gm-Message-State: ALoCoQn2YPWqfGb/yxZ7MKAt4bQRciz6djTL7Ev1dlX0Rxi0PCEqWTBgmPOLVh4aEPmZJ1kHY8RA
+X-Received: by 10.180.94.166 with SMTP id dd6mr6577826wib.33.1405441127328;
+	Tue, 15 Jul 2014 09:18:47 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	au7sm33554040wjc.41.2014.07.15.09.18.44 for <multiple recipients>
+	au7sm33554040wjc.41.2014.07.15.09.18.46 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Jul 2014 09:18:45 -0700 (PDT)
+	Tue, 15 Jul 2014 09:18:46 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 17:18:33 +0100
-Message-Id: <37e493698ba3d50bed2057eba92ab3b922752497.1405440532.git.ross.burton@intel.com>
+Date: Tue, 15 Jul 2014 17:18:34 +0100
+Message-Id: <03013af37177fc05ac28bf57c4ed7d348b0bacd3.1405440532.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1405440532.git.ross.burton@intel.com>
 References: <cover.1405440532.git.ross.burton@intel.com>
 In-Reply-To: <cover.1405440532.git.ross.burton@intel.com>
 References: <cover.1405440532.git.ross.burton@intel.com>
 Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH 3/7] which: use "foreign" automake strictness
+Subject: [PATCH 4/7] libmad: use "foreign" automake strictness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +49,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 16:18:46 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 16:18:47 -0000
 
-which doesn't want GNU-levels of automake strictness so tell it to be "foreign".
+libmad doesn't want GNU-levels of automake strictness so tell it to be
+"foreign".
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/which/which-2.20/automake.patch |   10 ++++++++++
- meta/recipes-extended/which/which_2.20.bb             |    1 +
- 2 files changed, 11 insertions(+)
- create mode 100644 meta/recipes-extended/which/which-2.20/automake.patch
+ .../libmad/libmad/automake-foreign.patch                   |   12 ++++++++++++
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb           |    1 +
+ 2 files changed, 13 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
 
-diff --git a/meta/recipes-extended/which/which-2.20/automake.patch b/meta/recipes-extended/which/which-2.20/automake.patch
+diff --git a/meta/recipes-multimedia/libmad/libmad/automake-foreign.patch b/meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
 new file mode 100644
-index 0000000..92365dd
+index 0000000..3e54424
 --- /dev/null
-+++ b/meta/recipes-extended/which/which-2.20/automake.patch
-@@ -0,0 +1,10 @@
++++ b/meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
+@@ -0,0 +1,12 @@
++Pass foreign to AM_INIT_AUTOMAKE so it doesn't enforce GNU strictness.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
 +diff --git a/configure.ac b/configure.ac
-+index d974461..a20dfa8 100644
++index e602fd3..e075b86 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -2,2 +2,3 @@ dnl Process this file with autoconf to produce a configure script.
-+-AC_INIT(which.c)
-+-AM_INIT_AUTOMAKE(which, 2.20)
-++AC_INIT([which],[2.20])
-++AC_CONFIG_SRCDIR(which.c)
++@@ -29 +29 @@ AC_CONFIG_SRCDIR([decoder.h])
++-AM_INIT_AUTOMAKE
 ++AM_INIT_AUTOMAKE([foreign])
-diff --git a/meta/recipes-extended/which/which_2.20.bb b/meta/recipes-extended/which/which_2.20.bb
-index f3c6037..7483554 100644
---- a/meta/recipes-extended/which/which_2.20.bb
-+++ b/meta/recipes-extended/which/which_2.20.bb
-@@ -18,6 +18,7 @@ PR = "r3"
- EXTRA_OECONF = "--disable-iberty"
+diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+index 58d68a6..30937eb 100644
+--- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
++++ b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/mad/libmad-${PV}.tar.gz \
+            file://add-pkgconfig.patch \
+            file://fix_for_mips_with_gcc-4.5.0.patch \
+            file://obsolete_automake_macros.patch \
++           file://automake-foreign.patch \
+ "
  
- SRC_URI = "${GNU_MIRROR}/which/which-${PV}.tar.gz \
-+           file://automake.patch \
-            file://remove-declaration.patch"
- 
- SRC_URI[md5sum] = "95be0501a466e515422cde4af46b2744"
+ SRC_URI[md5sum] = "1be543bc30c56fb6bea1d7bf6a64e66c"
 -- 
 1.7.10.4
 
