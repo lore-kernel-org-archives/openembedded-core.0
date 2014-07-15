@@ -1,36 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E0A6AC6B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 20:00:43 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id c1so45317igq.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 13:00:44 -0700 (PDT)
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B634F60030;
+	Tue, 15 Jul 2014 20:14:16 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id hn18so64778igb.4
+	for <multiple recipients>; Tue, 15 Jul 2014 13:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=5U0g9SxVw7Xx8WYK4SRlBAV1EanYLedwB3T0GnyEhnU=;
-	b=VgyAb/SKM0JZP0fYzeSZh6YVzCF1IdmsqiUiVrQHwji0BS0HJBDm/ZWNNpeuf1+110
-	1pDZWEIB/Syri0DkO78ccFGBU2o91Ce7Ad8tct809qTMR+Im9U3Y3l34WTZBa6oKoWtL
-	G5miuRoqfld2udY0iGbdxVmxGdcZTGmCjN/+DtH7ApiVpWmIkMcmrRicGeMYOD+4kGIn
-	SxqYPVZ5aFDCio31yXFKAoyz5fCtsq+z71HYUjKZIMhoMukArFGEJXzDIafBBbzNOUrs
-	W6qfGkt0ol3RvWelBrNmYbdvzrphhYgMcUDeum0xkrve0uUOaZvpaCLpiYJ8KFkjX9XY
-	zXKA==
+	bh=cNUiJ+0QE87p6gX01zRiQGURiyT15wBRAL3TB5o/xzw=;
+	b=OjWZbM3uODMhbdFI5UgWaxqtlXp+wuGqvxzsJd6OhARYw33ktqnJCRcMXXSNbGMT7L
+	EI1cRtcBWOg5PKLKkM1Jcve0ElNyP6wtPQAelYdXl9K0bC+fF/vOoarQ65rci5EZCw8+
+	1aQObP7UbyjoK9VAxrdPqk3ii+kB+IOkiGlw25NZUjvIP/czQCeoeqcSzn9MraJY0ZvH
+	oq51kX+MLZWn682ngfU5Xaz0koht6oZxVYQx8FI5FEh/BmPdAX0lfs6ee7R1WKZGqEC1
+	RRsHGTsjGFDvJwNNmETyKHUIZOwYe+XQg6dFPNfvVp2sH7ghbYOV28aD2lg3bULtf/x6
+	oXtg==
 MIME-Version: 1.0
-X-Received: by 10.42.90.74 with SMTP id j10mr32534617icm.29.1405454444197;
-	Tue, 15 Jul 2014 13:00:44 -0700 (PDT)
-Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 13:00:44 -0700 (PDT)
-Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 13:00:44 -0700 (PDT)
-In-Reply-To: <1405449014-17065-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1405449014-17065-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Tue, 15 Jul 2014 13:00:44 -0700
-Message-ID: <CAMKF1spDMkZOpj59jYsXEB7d4QjLW+2TaGRA_wMdpCGXvWePyw@mail.gmail.com>
+X-Received: by 10.50.13.102 with SMTP id g6mr9859703igc.20.1405455257513; Tue,
+	15 Jul 2014 13:14:17 -0700 (PDT)
+Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 13:14:17 -0700 (PDT)
+Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 13:14:17 -0700 (PDT)
+In-Reply-To: <406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
+References: <cover.1405440532.git.ross.burton@intel.com>
+	<406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
+Date: Tue, 15 Jul 2014 13:14:17 -0700
+Message-ID: <CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb: force arm mode
+Subject: Re: [oe] [PATCH 7/7] autoconf: remove automake patch enforcing --foreign
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,189 +42,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 20:00:46 -0000
-Content-Type: multipart/alternative; boundary=90e6ba53b27ce5018104fe40dc24
+X-List-Received-Date: Tue, 15 Jul 2014 20:14:25 -0000
+Content-Type: multipart/alternative; boundary=089e013c66d65f376104fe410d23
 
---90e6ba53b27ce5018104fe40dc24
+--089e013c66d65f376104fe410d23
 Content-Type: text/plain; charset=UTF-8
 
-On Jul 15, 2014 11:30 AM, "Martin Jansa" <martin.jansa@gmail.com> wrote:
+On Jul 15, 2014 9:20 AM, "Ross Burton" <ross.burton@intel.com> wrote:
 >
-> * triggers some issue in gcc-4.9, this call:
-> arm-oe-linux-gnueabi-gcc  -march=armv5te -mthumb -mthumb-interwork
--mtune=xscale
-> --sysroot=/OE/build/shr-core/tmp-eglibc/sysroots/spitz -O2 -pipe -g
-> -feliminate-unused-debug-types   -I.
+> Since 2004 we've been carrying a patch[1] make autoreconf pass --foreign
+to
+> automake.  Presumably at the time this was due to many upstreams using
+> hand-coded bootstrap scripts that passed --foreign manually, but we were
+using
+> autoreconf.  These days many projects have added foreign to
+AM_INIT_AUTOMAKE and
+> use autoreconf directly, so this patch isn't as critical as it used to be.
+
+can it be somehow made such that it can be passed via option flags so we
+dont have to patch the packages not using above automake macro
 >
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 >
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/common
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/config
-> -DLOCALEDIR="\"/usr/share/locale\"" -DHAVE_CONFIG_H
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../include/opcode
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../opcodes/..
-> -I../bfd
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../bfd
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../include
-> -I../libdecnumber
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/../libdecnumber
->
--I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/gnulib/import
-> -Ibuild-gnulib/import    -Wall -Wdeclaration-after-statement
-> -Wpointer-arith -Wpointer-sign -Wno-unused -Wunused-value
-> -Wunused-function -Wno-switch -Wno-char-subscripts -Wmissing-prototypes
-> -Wdeclaration-after-statement -Wempty-body -Wmissing-parameter-type
-> -Wold-style-declaration -Wold-style-definition -Wformat-nonliteral  -c
-> -o eval.o -MT eval.o -MMD -MP -MF .deps/eval.Tpo
->
-/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r0/gdb-7.7/gdb/eval.c
->
-> just hangs (strace shows occasional call to mmap, brk, munmap) and eats
-all available memory
-> (in my case 20GB), I've waited for 2,5 hours and it didn't finish,
-> after removing -mthumb it builds in second.
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> [1] oe-classic 2ab2a92eadaf2f80410d8746099f8a9b1b81ff91
 > ---
->  meta/recipes-devtools/gdb/gdb_7.7.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../autoconf/autoconf/autoreconf-foreign.patch            |   13
+-------------
+>  meta/recipes-devtools/autoconf/autoconf_2.69.bb           |    1 -
+>  2 files changed, 14 deletions(-)
+>  delete mode 100644
+meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
 >
-> diff --git a/meta/recipes-devtools/gdb/gdb_7.7.bb
-b/meta/recipes-devtools/gdb/gdb_7.7.bb
-> index 1abc9d8..bc042ec 100644
-> --- a/meta/recipes-devtools/gdb/gdb_7.7.bb
-> +++ b/meta/recipes-devtools/gdb/gdb_7.7.bb
-> @@ -7,6 +7,9 @@ PACKAGECONFIG ??= ""
->  PACKAGECONFIG[python] =
-"--with-python=${WORKDIR}/python,--without-python,python"
->  PACKAGECONFIG[babeltrace] =
-"--with-babeltrace,--without-babeltrace,babeltrace"
->
-> +# cc1 (4.9) call with -mthumb gets stuck and eats all available memory
-(over 20GB in my case)
-> +ARM_INSTRUCTION_SET = "arm"
-
-we dont want to turn thumb off unconditionally since thumb2 may be ok.
-
-> +
->  do_configure_prepend() {
->         if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'python',
-'python', '', d)}" ]; then
->                 cat > ${WORKDIR}/python << EOF
+> diff --git
+a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
+b/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
+> deleted file mode 100644
+> index 88f7501..0000000
+> --- a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> ---- autoconf-2.59/bin/autoreconf.in~autoreconf-foreign 2004-05-09
+20:55:06.000000000 -0400
+> -+++ autoconf-2.59/bin/autoreconf.in    2004-05-09 20:55:55.000000000
+-0400
+> -@@ -184,6 +184,8 @@
+> -
+> -   $aclocal_supports_force = `$aclocal --help` =~ /--force/;
+> -
+> -+  $automake   .= ' --foreign';
+> -+
+> -   # Dispatch autoreconf's option to the tools.
+> -   # --include;
+> -   $autoconf   .= join (' --include=', '', @include);
+> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> index 5c652d4..6614a7b 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> @@ -10,7 +10,6 @@ LIC_FILES_CHKSUM =
+"file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>  SRC_URI += "file://autoreconf-include.patch \
+>             file://check-automake-cross-warning.patch \
+>             file://autoreconf-exclude.patch \
+> -           file://autoreconf-foreign.patch \
+>             file://autoreconf-gnuconfigize.patch \
+>              file://config_site.patch \
+>              file://remove-usr-local-lib-from-m4.patch \
 > --
-> 2.0.0
+> 1.7.10.4
 >
 > --
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
---90e6ba53b27ce5018104fe40dc24
+--089e013c66d65f376104fe410d23
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <p dir=3D"ltr"><br>
-On Jul 15, 2014 11:30 AM, &quot;Martin Jansa&quot; &lt;<a href=3D"mailto:ma=
-rtin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>
+On Jul 15, 2014 9:20 AM, &quot;Ross Burton&quot; &lt;<a href=3D"mailto:ross=
+.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
 &gt;<br>
-&gt; * triggers some issue in gcc-4.9, this call:<br>
-&gt; arm-oe-linux-gnueabi-gcc =C2=A0-march=3Darmv5te -mthumb -mthumb-interw=
-ork -mtune=3Dxscale<br>
-&gt; --sysroot=3D/OE/build/shr-core/tmp-eglibc/sysroots/spitz -O2 -pipe -g<=
-br>
-&gt; -feliminate-unused-debug-types =C2=A0 -I.<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/common<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/config<br>
-&gt; -DLOCALEDIR=3D&quot;\&quot;/usr/share/locale\&quot;&quot; -DHAVE_CONFI=
-G_H<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/../include/opcode<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/../opcodes/..<br>
-&gt; -I../bfd<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/../bfd<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/../include<br>
-&gt; -I../libdecnumber<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/../libdecnumber<br>
-&gt; -I/OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7=
--r0/gdb-7.7/gdb/gnulib/import<br>
-&gt; -Ibuild-gnulib/import =C2=A0 =C2=A0-Wall -Wdeclaration-after-statement=
-<br>
-&gt; -Wpointer-arith -Wpointer-sign -Wno-unused -Wunused-value<br>
-&gt; -Wunused-function -Wno-switch -Wno-char-subscripts -Wmissing-prototype=
-s<br>
-&gt; -Wdeclaration-after-statement -Wempty-body -Wmissing-parameter-type<br=
->
-&gt; -Wold-style-declaration -Wold-style-definition -Wformat-nonliteral =C2=
-=A0-c<br>
-&gt; -o eval.o -MT eval.o -MMD -MP -MF .deps/eval.Tpo<br>
-&gt; /OE/build/shr-core/tmp-eglibc/work/xscalete-oe-linux-gnueabi/gdb/7.7-r=
-0/gdb-7.7/gdb/eval.c<br>
+&gt; Since 2004 we&#39;ve been carrying a patch[1] make autoreconf pass --f=
+oreign to<br>
+&gt; automake. =C2=A0Presumably at the time this was due to many upstreams =
+using<br>
+&gt; hand-coded bootstrap scripts that passed --foreign manually, but we we=
+re using<br>
+&gt; autoreconf. =C2=A0These days many projects have added foreign to AM_IN=
+IT_AUTOMAKE and<br>
+&gt; use autoreconf directly, so this patch isn&#39;t as critical as it use=
+d to be.</p>
+<p dir=3D"ltr"> can it be somehow made such that it can be passed via optio=
+n flags so we dont have to patch the packages not using above automake macr=
+o<br>
 &gt;<br>
-&gt; just hangs (strace shows occasional call to mmap, brk, munmap) and eat=
-s all available memory<br>
-&gt; (in my case 20GB), I&#39;ve waited for 2,5 hours and it didn&#39;t fin=
-ish,<br>
-&gt; after removing -mthumb it builds in second.<br>
+&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
+">ross.burton@intel.com</a>&gt;<br>
 &gt;<br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
-om">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; [1] oe-classic 2ab2a92eadaf2f80410d8746099f8a9b1b81ff91<br>
 &gt; ---<br>
-&gt; =C2=A0meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.7.bb">gdb_7.7.=
-bb</a> | 3 +++<br>
-&gt; =C2=A01 file changed, 3 insertions(+)<br>
+&gt; =C2=A0.../autoconf/autoconf/autoreconf-foreign.patch =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 13 -------------<br>
+&gt; =C2=A0meta/recipes-devtools/autoconf/<a href=3D"http://autoconf_2.69.b=
+b">autoconf_2.69.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01=
+ -<br>
+&gt; =C2=A02 files changed, 14 deletions(-)<br>
+&gt; =C2=A0delete mode 100644 meta/recipes-devtools/autoconf/autoconf/autor=
+econf-foreign.patch<br>
 &gt;<br>
-&gt; diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.7.bb">g=
-db_7.7.bb</a> b/meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.7.bb">gdb=
-_7.7.bb</a><br>
-&gt; index 1abc9d8..bc042ec 100644<br>
-&gt; --- a/meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.7.bb">gdb_7.7.=
-bb</a><br>
-&gt; +++ b/meta/recipes-devtools/gdb/<a href=3D"http://gdb_7.7.bb">gdb_7.7.=
-bb</a><br>
-&gt; @@ -7,6 +7,9 @@ PACKAGECONFIG ??=3D &quot;&quot;<br>
-&gt; =C2=A0PACKAGECONFIG[python] =3D &quot;--with-python=3D${WORKDIR}/pytho=
-n,--without-python,python&quot;<br>
-&gt; =C2=A0PACKAGECONFIG[babeltrace] =3D &quot;--with-babeltrace,--without-=
-babeltrace,babeltrace&quot;<br>
-&gt;<br>
-&gt; +# cc1 (4.9) call with -mthumb gets stuck and eats all available memor=
-y (over 20GB in my case)<br>
-&gt; +ARM_INSTRUCTION_SET =3D &quot;arm&quot;</p>
-<p dir=3D"ltr">we dont want to turn thumb off unconditionally since thumb2 =
-may be ok. </p>
-<p dir=3D"ltr">&gt; +<br>
-&gt; =C2=A0do_configure_prepend() {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${@bb.utils.contains(&#39;PA=
-CKAGECONFIG&#39;, &#39;python&#39;, &#39;python&#39;, &#39;&#39;, d)}&quot;=
- ]; then<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cat &gt; ${WOR=
-KDIR}/python &lt;&lt; EOF<br>
+&gt; diff --git a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreig=
+n.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch<=
+br>
+&gt; deleted file mode 100644<br>
+&gt; index 88f7501..0000000<br>
+&gt; --- a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch=
+<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,13 +0,0 @@<br>
+&gt; -Upstream-Status: Pending<br>
+&gt; -<br>
+&gt; ---- autoconf-2.59/bin/<a href=3D"http://autoreconf.in">autoreconf.in<=
+/a>~autoreconf-foreign 2004-05-09 20:55:06.000000000 -0400<br>
+&gt; -+++ autoconf-2.59/bin/<a href=3D"http://autoreconf.in">autoreconf.in<=
+/a> =C2=A0 =C2=A02004-05-09 20:55:55.000000000 -0400<br>
+&gt; -@@ -184,6 +184,8 @@<br>
+&gt; -<br>
+&gt; - =C2=A0 $aclocal_supports_force =3D `$aclocal --help` =3D~ /--force/;=
+<br>
+&gt; -<br>
+&gt; -+ =C2=A0$automake =C2=A0 .=3D &#39; --foreign&#39;;<br>
+&gt; -+<br>
+&gt; - =C2=A0 # Dispatch autoreconf&#39;s option to the tools.<br>
+&gt; - =C2=A0 # --include;<br>
+&gt; - =C2=A0 $autoconf =C2=A0 .=3D join (&#39; --include=3D&#39;, &#39;&#3=
+9;, @include);<br>
+&gt; diff --git a/meta/recipes-devtools/autoconf/<a href=3D"http://autoconf=
+_2.69.bb">autoconf_2.69.bb</a> b/meta/recipes-devtools/autoconf/<a href=3D"=
+http://autoconf_2.69.bb">autoconf_2.69.bb</a><br>
+&gt; index 5c652d4..6614a7b 100644<br>
+&gt; --- a/meta/recipes-devtools/autoconf/<a href=3D"http://autoconf_2.69.b=
+b">autoconf_2.69.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/autoconf/<a href=3D"http://autoconf_2.69.b=
+b">autoconf_2.69.bb</a><br>
+&gt; @@ -10,7 +10,6 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D7514=
+19260aa954499f7abaabaa882bbe \<br>
+&gt; =C2=A0SRC_URI +=3D &quot;file://autoreconf-include.patch \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://check-automake-cross-=
+warning.patch \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoreconf-exclude.pa=
+tch \<br>
+&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoreconf-foreign.patch \=
+<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoreconf-gnuconfigi=
+ze.patch \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://config_site.pat=
+ch \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://remove-usr-loca=
+l-lib-from-m4.patch \<br>
 &gt; --<br>
-&gt; 2.0.0<br>
+&gt; 1.7.10.4<br>
 &gt;<br>
 &gt; --<br>
 &gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
+&gt; Openembedded-devel mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembed=
+ded-devel@lists.openembedded.org</a><br>
 &gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
+-devel">http://lists.openembedded.org/mailman/listinfo/openembedded-devel</=
+a><br>
 </p>
 
---90e6ba53b27ce5018104fe40dc24--
+--089e013c66d65f376104fe410d23--
