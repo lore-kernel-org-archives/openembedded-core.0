@@ -1,28 +1,25 @@
-Return-Path: <denis@denix.org>
-Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
-	[206.46.173.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C889705EA
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BC71705EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:15:48 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [71.191.205.189])
-	by vms173023.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0N8R008SEEDMOGG0@vms173023.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 15 Jul 2014 10:15:38 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id BF6D52008D; Tue,
-	15 Jul 2014 11:15:22 -0400 (EDT)
-Date: Tue, 15 Jul 2014 11:15:22 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-id: <20140715151522.GT1580@denix.org>
-References: <53C3C7E8.2000806@topic.nl> <53C3D5D7.5090309@topic.nl>
-MIME-version: 1.0
-In-reply-to: <53C3D5D7.5090309@topic.nl>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: UBI filesystem creation fails silently with 4k erase size
+	Tue, 15 Jul 2014 15:16:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FFGAoQ013412
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 08:16:11 -0700 (PDT)
+Received: from pek-kkang-d1.corp.ad.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.169.1; Tue, 15 Jul 2014 08:16:09 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jul 2014 23:15:55 +0800
+Message-ID: <1405437355-13212-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.231]
+Subject: [PATCH] smart: set noprogress for pycurl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +32,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:15:51 -0000
-Content-type: text/plain; charset=utf-8
-Content-disposition: inline
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Tue, 15 Jul 2014 15:16:12 -0000
+Content-Type: text/plain
 
-On Mon, Jul 14, 2014 at 03:06:31PM +0200, Mike Looijmans wrote:
-> ﻿On 07/14/2014 02:07 PM, Mike Looijmans wrote:
-> >I have a NOR chip that reports a 4k erase size, so in my machine.conf I entered:
-> >
-> >MKUBIFS_ARGS = "-m 1 -e 3968 -c 7040"
-> >UBINIZE_ARGS = "-m 1 -p 4096"
-> >UBI_VOLNAME = "qspi-rootfs"
-> >
-> >
-> >When I create an image with "ubi" in the IMAGE_FSTYPES, the build runs and
-> >does not report any error, however it did NOT create the ubi filesystem image.
-> >
-> >If I change the parameters for a 64k flash using:
-> >
-> >MKUBIFS_ARGS = "-m 1 -e 65408 -c 440"
-> >
-> >the ubi filesystem is created (both ubifs and ubi files).
-> >
-> >
-> >Where can I find what went wrong? I'd expect big read error messages telling
-> >me that it failed to create an image for my device, but I cannot find such
-> >message anywhere.
-> >
-> >So my questions are:
-> >
-> >1) Why is there no error message when image creation fails?
-> >2) Where is the log/output from the mkfs.ubi commands?
-> >2) What could be wrong with my mkubifs parameters?
-> >
-> 
-> The answer to that last question is that UBI itself refuses to work
-> with a sector size below 15kB. Which results in UBI now failing to
-> work on most NOR chips on the market because the kernel recently
-> uses 4k erasing for all serial flash chips that support it.
-> 
-> So just the question remains why OE doesn't tell me about mkfs.ubifs failure?
+Set NOPROGRESS for pycurl just as same as default operation in pycurl
+module itself. If set NOPROGRESS with 0 for pycurl, it causes dead lock
+issue of Python GIL when call smart library by python gui just like
+pygtk.
 
-Do you have the following fix?
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../smart-set-noprogress-for-pycurl.patch            | 20 ++++++++++++++++++++
+ meta/recipes-devtools/python/python-smartpm_1.4.1.bb |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
 
-http://cgit.openembedded.org/openembedded-core/commit/?id=f8125a1e9b6893a12355d55d4df584a8d97f0bff
-
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
+new file mode 100644
+index 0000000..2885998
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
+@@ -0,0 +1,20 @@
++Set NOPROGRESS for pycurl just as same as default operation in pycurl module itself.
++If set NOPROGRESS with 0 for pycurl, it causes dead lock issue of Python GIL when
++call smart library by python gui just like pygtk.
++
++Upstream-Status: Pending
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++diff -u smart-1.4.1/smart.orig/fetcher.py smart-1.4.1/smart/fetcher.py
++--- smart-1.4.1/smart.orig/fetcher.py	2014-07-15 16:42:19.240437080 +0800
+++++ smart-1.4.1/smart/fetcher.py	2014-07-15 17:02:37.812470289 +0800
++@@ -1720,7 +1720,7 @@
++                         handle.setopt(pycurl.OPT_FILETIME, 1)
++                         handle.setopt(pycurl.LOW_SPEED_LIMIT, 1)
++                         handle.setopt(pycurl.LOW_SPEED_TIME, SOCKETTIMEOUT)
++-                        handle.setopt(pycurl.NOPROGRESS, 0)
+++                        handle.setopt(pycurl.NOPROGRESS, 1)
++                         handle.setopt(pycurl.PROGRESSFUNCTION, progress)
++                         handle.setopt(pycurl.WRITEDATA, local)
++                         handle.setopt(pycurl.FOLLOWLOCATION, 1)
+diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+index 0971579..8eb2a25 100644
+--- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
++++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+@@ -32,6 +32,7 @@ SRC_URI = "\
+           file://smart-config-ignore-all-recommends.patch \
+           file://smart-attempt.patch \
+           file://smart-filename-NAME_MAX.patch \
++          file://smart-set-noprogress-for-pycurl.patch \
+           "
+ 
+ SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
 -- 
-Denys
+1.9.1
+
 
