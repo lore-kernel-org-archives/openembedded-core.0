@@ -1,43 +1,37 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 36CFF60850
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CBC170567
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 16:18:16 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20140715161814793
+	Tue, 15 Jul 2014 16:18:41 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id n3so4384372wiv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 16:18:14 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [69.196.158.250] (port=55703 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X75Qf-000293-7Y; Tue, 15 Jul 2014 12:18:09 -0400
-Date: Tue, 15 Jul 2014 12:18:01 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <53C54F34.7030802@linux.intel.com>
-Message-ID: <alpine.LFD.2.11.1407151215330.7130@localhost>
-References: <alpine.LFD.2.11.1407150923000.13777@localhost>
-	<53C5477D.3030501@linux.intel.com>
-	<CAJTo0La_uMvwmqZSX-8uaRk3ZcZDY=54+3A1X+oNNtf9-fydaQ@mail.gmail.com>
-	<53C54F34.7030802@linux.intel.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: curious about why bitbake.conf setting of FILES_${PN}-bin
+	Tue, 15 Jul 2014 09:18:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CBk50kZwJYGU8ji7FFpQolgkszjXxwTz2Q8rNIG0XP8=;
+	b=ABwv8zPCJ+8QE1UjcWb1AQ3TH3S6XISbx6cRK/MgiZXzgP38tY06EWBELiQq92NTo9
+	BqEQivgYpGobWgwM77HO3x/gBZYucaN9Q7jB35uPtzaO0gU7zdpr/6Eb4O0Ct0g20Vw+
+	YL3n/u7IcmcyDeQrdLrPw7p77UejCVAAzYP4MUwZ/nxm5gWlO3W6iuCyhcg/FRcxA+b+
+	33hUfgWJdOETPeiyJT/uGDXF9DxyRNPE69LEJh8h+FsJS0nZirPWJId95A7bb1Hvf92j
+	GqGYsrJq+jXsQmw0YEvcftAy3deKnCTXj2DIFYSuUG+TtvDzhZnOiBXFxpR1MmOPKQt9
+	i+DA==
+X-Gm-Message-State: ALoCoQneLd13stuEtjgXDOJSZqD39PFLS+lLgPMpEDsG1UHxe6OVACqjtvBEfGErgm2eCoOH6C/9
+X-Received: by 10.180.7.230 with SMTP id m6mr6685289wia.3.1405441122224;
+	Tue, 15 Jul 2014 09:18:42 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	au7sm33554040wjc.41.2014.07.15.09.18.40 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Jul 2014 09:18:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jul 2014 17:18:30 +0100
+Message-Id: <cover.1405440532.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: openembedded-devel@lists.openembedded.org
+Subject: [PATCH 0/7][RFC] Remove enforced --foreign in autoreconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,50 +44,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 16:18:20 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 15 Jul 2014 16:18:43 -0000
 
-On Tue, 15 Jul 2014, Saul Wold wrote:
+Hi,
 
-> On 07/15/2014 08:51 AM, Burton, Ross wrote:
-> > On 15 July 2014 16:23, Saul Wold <sgw@linux.intel.com> wrote:
-> > > Blame me for that patch!  Looking back at the commit message
-> > > from about 2 years ago I think this got mid-way through a
-> > > change, with the plan to actually remove lib_package completely
-> > > since all it contained was the setting of PACKAGE_BEFORE_PN,
-> > > therefore having FILES${PN}-bin. Not sure why we did not end up
-> > > completing that.
-> > >
-> > > So another option is to remove the inherits and replace it with
-> > > PACKAGE_BEFORE_PNs, Which would finish off the orignal plan!
-> >
-> > Wouldn't that change the packaging by putting all binaries into a
-> > PN-bin package?
-> >
-> No the change would be to rmove the inherit lib_packaging from the
-> recipes that use it and replace that with setting PACKAGE_BEFORE_PN
-> with ${PN}-bin. So it's just doing what the recipes do already, not
-> a general change in bitbake.conf.
+Since 2004 we've been forcibly passing --foreign to automake in autoreconf.
+This is a change from upstream behaviour and can actually break packages that
+expect GNU behaviour (admittedly the failure case reported was "interesting"),
+and I'm on a bit of a mission to remove patches that don't have a solid reason
+behind them.
 
-  just FYI, while PACKAGE_BEFORE_PN is a cool concept, it's not like
-there's a lot of it being used in the poky layer -- all of two uses:
+Forcing --foreign doesn't seem that important these days as the majority of
+packages are telling automake they're foreign, There are a few packages that
+need patches for this change, notably they're mostly packages that haven't seen
+a release for ten years.
 
-meta/classes/lib_package.bbclass:PACKAGE_BEFORE_PN = "${PN}-bin"
-meta/recipes-graphics/clutter/clutter-1.0.inc:PACKAGE_BEFORE_PN += "${PN}-examples"
+This series is build tested against a world build in oe-core for NUC, so I'd
+call it a demonstration that the patch is viable and would appreciate others
+running build tests against other machines or layers.
 
-was it really necessary to introduce a new variable just for that?
+Ross
 
-rday
+The following changes since commit 9e99bcffec594cb5b4c3533200e8eb56d32e6a77:
+
+  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:20:04 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/automake
+
+for you to fetch changes up to 406153008dc78f4e3198c012f2db98fcac09b5c1:
+
+  autoconf: remove automake patch enforcing --foreign (2014-07-15 17:05:29 +0100)
+
+----------------------------------------------------------------
+Ross Burton (7):
+      bzip2: use "foreign" automake strictness
+      libid3tag: use "foreign" automake strictness
+      which: use "foreign" automake strictness
+      libmad: use "foreign" automake strictness
+      oprofile: use "foreign" automake strictness
+      ltp: use "foreign" automake strictness
+      autoconf: remove automake patch enforcing --foreign
+
+ .../autoconf/autoconf/autoreconf-foreign.patch     |   13 -------------
+ meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    1 -
+ .../bzip2/bzip2-1.0.6/configure.ac                 |    2 +-
+ .../ltp/ltp/automake-foreign.patch                 |   20 ++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20140422.bb          |    1 +
+ .../which/which-2.20/automake.patch                |   10 ++++++++++
+ meta/recipes-extended/which/which_2.20.bb          |    1 +
+ meta/recipes-kernel/oprofile/oprofile.inc          |    1 +
+ .../oprofile/oprofile/automake-foreign.patch       |    7 +++++++
+ .../libid3tag/obsolete_automake_macros.patch       |    3 ++-
+ .../libmad/libmad/automake-foreign.patch           |   12 ++++++++++++
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
+ 12 files changed, 56 insertions(+), 16 deletions(-)
+ delete mode 100644 meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/automake-foreign.patch
+ create mode 100644 meta/recipes-extended/which/which-2.20/automake.patch
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/automake-foreign.patch
+ create mode 100644 meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
+
+Ross Burton (7):
+  bzip2: use "foreign" automake strictness
+  libid3tag: use "foreign" automake strictness
+  which: use "foreign" automake strictness
+  libmad: use "foreign" automake strictness
+  oprofile: use "foreign" automake strictness
+  ltp: use "foreign" automake strictness
+  autoconf: remove automake patch enforcing --foreign
+
+ .../autoconf/autoconf/autoreconf-foreign.patch     |   13 -------------
+ meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    1 -
+ .../bzip2/bzip2-1.0.6/configure.ac                 |    2 +-
+ .../ltp/ltp/automake-foreign.patch                 |   20 ++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20140422.bb          |    1 +
+ .../which/which-2.20/automake.patch                |   10 ++++++++++
+ meta/recipes-extended/which/which_2.20.bb          |    1 +
+ meta/recipes-kernel/oprofile/oprofile.inc          |    1 +
+ .../oprofile/oprofile/automake-foreign.patch       |    7 +++++++
+ .../libid3tag/obsolete_automake_macros.patch       |    3 ++-
+ .../libmad/libmad/automake-foreign.patch           |   12 ++++++++++++
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    1 +
+ 12 files changed, 56 insertions(+), 16 deletions(-)
+ delete mode 100644 meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/automake-foreign.patch
+ create mode 100644 meta/recipes-extended/which/which-2.20/automake.patch
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/automake-foreign.patch
+ create mode 100644 meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+1.7.10.4
 
 
