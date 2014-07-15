@@ -1,26 +1,26 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A8D3470652
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 336F57064C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:43:40 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Jul 2014 08:43:42 -0700
+	Tue, 15 Jul 2014 15:43:44 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Jul 2014 08:43:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="562117787"
+X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="457235052"
 Received: from gmacartn-mobl.ger.corp.intel.com (HELO localhost)
 	([10.255.13.33])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Jul 2014 08:43:41 -0700
+	by azsmga001.ch.intel.com with ESMTP; 15 Jul 2014 08:43:44 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 10:43:35 -0500
-Message-Id: <f131a43f65ae3850ac0eb4b925542bf9378b5f7f.1405438752.git.tom.zanussi@linux.intel.com>
+Date: Tue, 15 Jul 2014 10:43:37 -0500
+Message-Id: <0b39aa8efa3eac8078452ff1432dab9632065187.1405438752.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
 References: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1405438752.git.tom.zanussi@linux.intel.com>
 References: <cover.1405438752.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 2/5] wic: Add vfat support
+Subject: [PATCH 4/5] wic: Add kickstart reference to help system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,125 +33,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:43:41 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 15:43:44 -0000
 
-Add vfat as a supported rootfs type (in addition to the current
-ext2/3/4 and btrfs support).
-
-vfat partitions can now be created using --source rootfs along with
---fstype=vfat, or without --source but specifying a --size.
+Add a 'wic kickstart' help section to make it easy for users to access
+the kickstart reference without having to go to an external website.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- .../lib/mic/kickstart/custom_commands/partition.py | 74 ++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
+ scripts/lib/image/canned-wks/directdisk.wks |   2 +-
+ scripts/lib/image/help.py                   | 114 ++++++++++++++++++++++++++++
+ scripts/wic                                 |  27 ++++---
+ 3 files changed, 130 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index 75ad6ad..4662bdd 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -186,6 +186,11 @@ class Wic_PartData(Mic_PartData):
-                                              rootfs_dir, native_sysroot,
-                                              pseudo)
+diff --git a/scripts/lib/image/canned-wks/directdisk.wks b/scripts/lib/image/canned-wks/directdisk.wks
+index 397a929..62dcab1 100644
+--- a/scripts/lib/image/canned-wks/directdisk.wks
++++ b/scripts/lib/image/canned-wks/directdisk.wks
+@@ -3,7 +3,7 @@
+ # can directly dd to boot media.
  
-+        elif self.fstype.startswith("vfat"):
-+            return self.prepare_rootfs_vfat(cr_workdir, oe_builddir,
-+                                            rootfs_dir, native_sysroot,
-+                                            pseudo)
-+
-     def prepare_rootfs_ext(self, cr_workdir, oe_builddir, rootfs_dir,
-                            native_sysroot, pseudo):
-         """
-@@ -270,6 +275,53 @@ class Wic_PartData(Mic_PartData):
-         self.size = rootfs_size
-         self.source_file = rootfs
  
-+    def prepare_rootfs_vfat(self, cr_workdir, oe_builddir, rootfs_dir,
-+                            native_sysroot, pseudo):
-+        """
-+        Prepare content for a vfat rootfs partition.
-+        """
-+        image_rootfs = rootfs_dir
-+        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
-+
-+        du_cmd = "du -bks %s" % image_rootfs
-+        rc, out = exec_cmd(du_cmd)
-+        blocks = int(out.split()[0])
-+
-+        extra_blocks = self.get_extra_block_count(blocks)
-+
-+        if extra_blocks < BOOTDD_EXTRA_SPACE:
-+            extra_blocks = BOOTDD_EXTRA_SPACE
-+
-+        blocks += extra_blocks
-+
-+        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                    (extra_blocks, self.mountpoint, blocks))
-+
-+        # Ensure total sectors is an integral number of sectors per
-+        # track or mcopy will complain. Sectors are 512 bytes, and we
-+        # generate images with 32 sectors per track. This calculation is
-+        # done in blocks, thus the mod by 16 instead of 32.
-+        blocks += (16 - (blocks % 16))
-+
-+        dosfs_cmd = "mkdosfs -n boot -S 512 -C %s %d" % (rootfs, blocks)
-+        exec_native_cmd(dosfs_cmd, native_sysroot)
-+
-+        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, image_rootfs)
-+        rc, out = exec_native_cmd(mcopy_cmd, native_sysroot)
-+        if rc:
-+            msger.error("ERROR: mcopy returned '%s' instead of 0 (which you probably don't want to ignore, use --debug for details)" % rc)
-+
-+        chmod_cmd = "chmod 644 %s" % rootfs
-+        exec_cmd(chmod_cmd)
-+
-+        # get the rootfs size in the right units for kickstart (Mb)
-+        du_cmd = "du -Lbms %s" % rootfs
-+        rc, out = exec_cmd(du_cmd)
-+        rootfs_size = out.split()[0]
-+
-+        self.set_size(rootfs_size)
-+        self.set_source_file(rootfs)
-+
-     def prepare_empty_partition(self, cr_workdir, oe_builddir, native_sysroot):
-         """
-         Prepare an empty partition.
-@@ -280,6 +332,9 @@ class Wic_PartData(Mic_PartData):
-         elif self.fstype.startswith("btrfs"):
-             return self.prepare_empty_partition_btrfs(cr_workdir, oe_builddir,
-                                                       native_sysroot)
-+        elif self.fstype.startswith("vfat"):
-+            return self.prepare_empty_partition_vfat(cr_workdir, oe_builddir,
-+                                                     native_sysroot)
+-part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos --label boot --active --align 1024
++part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+ part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
  
-     def prepare_empty_partition_ext(self, cr_workdir, oe_builddir,
-                                     native_sysroot):
-@@ -322,6 +377,25 @@ class Wic_PartData(Mic_PartData):
+ bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index bf2f773..a7e7830 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -631,3 +631,117 @@ DESCRIPTION
+     kickstart commands available for use in .wks files from 'wic help
+     kickstart'.
+ """
++
++wic_kickstart_help = """
++
++NAME
++    wic kickstart - wic kickstart reference
++
++DESCRIPTION
++    This section provides the definitive reference to the wic
++    kickstart language.  It also provides documentation on the list of
++    --source plugins available for use from the 'part' command (see
++    the 'Platform-specific Plugins' section below).
++
++    The current wic implementation supports only the basic kickstart
++    partitioning commands: partition (or part for short) and
++    bootloader.
++
++    The following is a listing of the commands, their syntax, and
++    meanings. The commands are based on the Fedora kickstart
++    documentation but with modifications to reflect wic capabilities.
++
++      http://fedoraproject.org/wiki/Anaconda/Kickstart#part_or_partition
++      http://fedoraproject.org/wiki/Anaconda/Kickstart#bootloader
++
++  Commands
++
++    * 'part' or 'partition'
++
++       This command creates a partition on the system and uses the
++       following syntax:
++
++         part <mountpoint>
++
++       The <mountpoint> is where the partition will be mounted and
++       must take of one of the following forms:
++
++         /<path>: For example: /, /usr, or /home
++
++         swap: The partition will be used as swap space.
++
++       The following are supported 'part' options:
++
++         --size: The minimum partition size in MBytes. Specify an
++                 integer value such as 500. Do not append the number
++                 with "MB". You do not need this option if you use
++                 --source.
++
++         --source: This option is a wic-specific option that names the
++                   source of the data that will populate the
++                   partition.  The most common value for this option
++                   is 'rootfs', but can be any value which maps to a
++                   valid 'source plugin' (see 'wic help plugins').
++
++                   If '--source rootfs' is used, it tells the wic
++                   command to create a partition as large as needed
++                   and to fill it with the contents of the root
++                   filesystem pointed to by the '-r' wic command-line
++                   option (or the equivalent rootfs derived from the
++                   '-e' command-line option).  The filesystem type
++                   that will be used to create the partition is driven
++                   by the value of the --fstype option specified for
++                   the partition (see --fstype below).
++
++                   If --source <plugin-name>' is used, it tells the
++                   wic command to create a partition as large as
++                   needed and to fill with the contents of the
++                   partition that will be generated by the specified
++                   plugin name using the data pointed to by the '-r'
++                   wic command-line option (or the equivalent rootfs
++                   derived from the '-e' command-line option).
++                   Exactly what those contents and filesystem type end
++                   up being are depend on the given plugin
++                   implementation.
++
++         --ondisk or --ondrive: Forces the partition to be created on
++                                a particular disk.
++
++         --fstype: Sets the file system type for the partition.  These
++           apply to partitions created using '--source rootfs' (see
++           --source above).  Valid values are:
++
++             ext2
++             ext3
++             ext4
++             btrfs
++             swap
++
++         --label label: Specifies the label to give to the filesystem
++                        to be made on the partition. If the given
++                        label is already in use by another filesystem,
++                        a new label is created for the partition.
++
++         --active: Marks the partition as active.
++
++         --align (in KBytes): This option is specific to wic and says
++                              to start a partition on an x KBytes
++                              boundary.
++
++    * bootloader
++
++      This command allows the user to specify various bootloader
++      options.  The following are supported 'bootloader' options:
++
++        --timeout: Specifies the number of seconds before the
++                   bootloader times out and boots the default option.
++
++        --append: Specifies kernel parameters. These will be added to
++                  bootloader command-line - for example, the syslinux
++                  APPEND or grub kernel command line.
++
++      Note that bootloader functionality and boot partitions are
++      implemented by the various --source plugins that implement
++      bootloader functionality; the bootloader command essentially
++      provides a means of modifying bootloader configuration.
++"""
+diff --git a/scripts/wic b/scripts/wic
+index 5453750..15cc9b3 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -240,18 +240,21 @@ wic_help_topic_usage = """
+ """
  
-         return 0
+ subcommands = {
+-    "create":   [wic_create_subcommand,
+-                 wic_create_usage,
+-                 wic_create_help],
+-    "list":     [wic_list_subcommand,
+-                 wic_list_usage,
+-                 wic_list_help],
+-    "plugins":  [wic_help_topic_subcommand,
+-                 wic_help_topic_usage,
+-                 wic_plugins_help],
+-    "overview":  [wic_help_topic_subcommand,
+-                 wic_help_topic_usage,
+-                 wic_overview_help],
++    "create":    [wic_create_subcommand,
++                  wic_create_usage,
++                  wic_create_help],
++    "list":      [wic_list_subcommand,
++                  wic_list_usage,
++                  wic_list_help],
++    "plugins":   [wic_help_topic_subcommand,
++                  wic_help_topic_usage,
++                  wic_plugins_help],
++    "overview":   [wic_help_topic_subcommand,
++                  wic_help_topic_usage,
++                  wic_overview_help],
++    "kickstart":  [wic_help_topic_subcommand,
++                  wic_help_topic_usage,
++                  wic_kickstart_help],
+ }
  
-+    def prepare_empty_partition_vfat(self, cr_workdir, oe_builddir,
-+                                     native_sysroot):
-+        """
-+        Prepare an empty vfat partition.
-+        """
-+        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-+
-+        blocks = self.size * 1024
-+
-+        dosfs_cmd = "mkdosfs -n boot -S 512 -C %s %d" % (fs, blocks)
-+        exec_native_cmd(dosfs_cmd, native_sysroot)
-+
-+        chmod_cmd = "chmod 644 %s" % fs
-+        exec_cmd(chmod_cmd)
-+
-+        self.source_file = fs
-+
-+        return 0
-+
-     def prepare_swap_partition(self, cr_workdir, oe_builddir, native_sysroot):
-         """
-         Prepare a swap partition.
+ 
 -- 
 1.8.3.1
 
