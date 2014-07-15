@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EE41D705E1
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8572D705B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:40 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJgZH012722
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJhK9022785
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:42 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:43 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 07:19:41 -0700
+	Tue, 15 Jul 2014 07:19:42 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:11 -0700
-Message-ID: <2054bcc0ab5d1da3ea253703530086d1cfb30bdd.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:12 -0700
+Message-ID: <24e58487abe660ffc34b568693cd25930cc352a4.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 16/38] udev: add perl to RDEPENDS_udev-ptest
+Subject: [PATCH 17/38] apt: add bash to RDEPENDS_apt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:19:41 -0000
 Content-Type: text/plain
 
-Perl scripts:
-udev-ptest/usr/lib/udev/ptest/test/udev-test.pl
+Bash scripts:
+apt/usr/lib/dpkg/methods/apt/update
+apt/usr/lib/dpkg/methods/apt/install
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/udev/udev.inc |    2 +-
+ meta/recipes-devtools/apt/apt_0.9.9.4.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 11204aa..280da10 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -31,7 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://init"
+diff --git a/meta/recipes-devtools/apt/apt_0.9.9.4.bb b/meta/recipes-devtools/apt/apt_0.9.9.4.bb
+index ae9ed6c..86ffe66 100644
+--- a/meta/recipes-devtools/apt/apt_0.9.9.4.bb
++++ b/meta/recipes-devtools/apt/apt_0.9.9.4.bb
+@@ -1,5 +1,5 @@
+ DEPENDS = "curl db"
+-RDEPENDS_${PN} = "dpkg"
++RDEPENDS_${PN} = "dpkg bash"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ require apt.inc
  
- inherit autotools pkgconfig update-rc.d ptest
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make perl"
- 
- libexecdir = "${base_libdir}"
- EXTRA_OECONF = "--disable-introspection \
 -- 
 1.7.9.5
 
