@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B736705B3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F081705B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:42 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJiVZ022788
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJiB5012728
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 07:19:44 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 07:19:43 -0700
+	Tue, 15 Jul 2014 07:19:44 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:14 -0700
-Message-ID: <26d6c559439dd57f1cf3cf4dabcc52df60249f81.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:15 -0700
+Message-ID: <1cf638d8a153440ef72da2a1f7f0131934b99804.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 19/38] oprofile: add bash to RDEPENDS_oprofile-ptest
+Subject: [PATCH 20/38] pax-utils: add bash to RDEPENDS_pax-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 14:19:42 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 14:19:43 -0000
 Content-Type: text/plain
 
 Bash script:
-oprofile-ptest/usr/lib/oprofile/ptest/run-ptest
+pax-utils/usr/bin/lddtree
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/oprofile/oprofile.inc |    2 ++
+ meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb |    2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
-index 76d0b6c..d49b89c 100644
---- a/meta/recipes-kernel/oprofile/oprofile.inc
-+++ b/meta/recipes-kernel/oprofile/oprofile.inc
-@@ -26,6 +26,8 @@ SRC_URI = "file://opstart.patch \
+diff --git a/meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb b/meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb
+index e79347f..79e58ba 100644
+--- a/meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb
++++ b/meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb
+@@ -12,6 +12,8 @@ SRC_URI = "http://gentoo.osuosl.org/distfiles/pax-utils-${PV}.tar.xz"
+ SRC_URI[md5sum] = "bc42279c5aff3682c12be40f72805cec"
+ SRC_URI[sha256sum] = "844ff25b1a11bcef92ef34b22f576f226a772b67196818656f8874513438f5b9"
  
- inherit autotools-brokensep pkgconfig ptest
- 
-+RDEPENDS_${PN}-ptest += "bash"
++RDEPENDS_${PN} += "bash"
 +
- EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x"
- do_configure () {
- 	cp ${WORKDIR}/acinclude.m4 ${S}/
+ do_install() {
+     oe_runmake PREFIX=${D}${prefix} DESTDIR=${D} install
+ }
 -- 
 1.7.9.5
 
