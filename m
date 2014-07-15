@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7008B704B3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 029EE7040F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 01:35:14 +0000 (UTC)
+	Tue, 15 Jul 2014 01:35:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6F1ZGEP022085
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6F1ZG84005296
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 18:35:16 -0700 (PDT)
+	Mon, 14 Jul 2014 18:35:17 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 14 Jul 2014 18:35:15 -0700
+	Mon, 14 Jul 2014 18:35:16 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jul 2014 18:35:14 -0700
-Message-ID: <cover.1405388079.git.liezhi.yang@windriver.com>
+Date: Mon, 14 Jul 2014 18:35:15 -0700
+Message-ID: <d704d7a6e31d4f3f7be98b5857f1d165f66f63e0.1405388079.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1405388079.git.liezhi.yang@windriver.com>
+References: <cover.1405388079.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] groff: fix PERLPATH
+Subject: [PATCH 1/1] groff: fix PERLPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 01:35:16 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 01:35:18 -0000
 Content-Type: text/plain
 
-The following changes since commit fa325e44f5b429b4038022b31285af9c94672943:
+There is no PERLPATH, but "${USRBINPATH}/env perl".
 
-  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:19:18 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/groff
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/groff
-
-Robert Yang (1):
-  groff: fix PERLPATH
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-extended/groff/groff_1.18.1.4.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/groff/groff_1.18.1.4.bb b/meta/recipes-extended/groff/groff_1.18.1.4.bb
+index 38e1d36..7fbce9b 100644
+--- a/meta/recipes-extended/groff/groff_1.18.1.4.bb
++++ b/meta/recipes-extended/groff/groff_1.18.1.4.bb
+@@ -32,7 +32,7 @@ do_install_append() {
+ 	# for target as /usr/bin/perl, so fix it to /usr/bin/perl.
+ 	for i in afmtodit mmroff; do
+ 		if [ -f ${D}${bindir}/$i ]; then
+-			sed -i -e '1s,#!.*perl,#! ${PERLPATH},' ${D}${bindir}/$i
++			sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/$i
+ 		fi
+ 	done
+ 
 -- 
 1.7.9.5
 
