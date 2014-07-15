@@ -1,26 +1,26 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 336F57064C
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E466F7064C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 15:43:44 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 15 Jul 2014 08:43:45 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2014 08:43:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="457235052"
+X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="543671696"
 Received: from gmacartn-mobl.ger.corp.intel.com (HELO localhost)
 	([10.255.13.33])
-	by azsmga001.ch.intel.com with ESMTP; 15 Jul 2014 08:43:44 -0700
+	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2014 08:43:43 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 10:43:37 -0500
-Message-Id: <0b39aa8efa3eac8078452ff1432dab9632065187.1405438752.git.tom.zanussi@linux.intel.com>
+Date: Tue, 15 Jul 2014 10:43:36 -0500
+Message-Id: <d6a7076713bf7a2f496faffaff4257fb4af33548.1405438752.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
 References: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1405438752.git.tom.zanussi@linux.intel.com>
 References: <cover.1405438752.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 4/5] wic: Add kickstart reference to help system
+Subject: [PATCH 3/5] wic: Add wic overview to help system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,188 +33,270 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:43:44 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 15:43:45 -0000
 
-Add a 'wic kickstart' help section to make it easy for users to access
-the kickstart reference without having to go to an external website.
+Add a general overview of wic to the help system as 'wic overview',
+along with some introductory examples.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/lib/image/canned-wks/directdisk.wks |   2 +-
- scripts/lib/image/help.py                   | 114 ++++++++++++++++++++++++++++
- scripts/wic                                 |  27 ++++---
- 3 files changed, 130 insertions(+), 13 deletions(-)
+ scripts/lib/image/help.py | 209 ++++++++++++++++++++++++++++++++++++++++++++++
+ scripts/wic               |  21 +++--
+ 2 files changed, 221 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/lib/image/canned-wks/directdisk.wks b/scripts/lib/image/canned-wks/directdisk.wks
-index 397a929..62dcab1 100644
---- a/scripts/lib/image/canned-wks/directdisk.wks
-+++ b/scripts/lib/image/canned-wks/directdisk.wks
-@@ -3,7 +3,7 @@
- # can directly dd to boot media.
- 
- 
--part /boot --source bootimg-pcbios --ondisk sda --fstype=msdos --label boot --active --align 1024
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
- part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
- 
- bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
 diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index bf2f773..a7e7830 100644
+index a4f27ab..bf2f773 100644
 --- a/scripts/lib/image/help.py
 +++ b/scripts/lib/image/help.py
-@@ -631,3 +631,117 @@ DESCRIPTION
-     kickstart commands available for use in .wks files from 'wic help
-     kickstart'.
+@@ -88,6 +88,7 @@ wic_usage = """
+     list              List available values for options and image properties
+ 
+  Help topics:
++    overview           wic overview - General overview of wic
+     plugins            wic plugins - Overview and API
+ 
+  See 'wic help <COMMAND or HELP TOPIC>' for more information on a specific
+@@ -422,3 +423,211 @@ DESCRIPTION
+     with the actual methods. Please see the implementation for
+     examples and details.
  """
 +
-+wic_kickstart_help = """
++wic_overview_help = """
 +
 +NAME
-+    wic kickstart - wic kickstart reference
++    wic overview - General overview of wic
 +
 +DESCRIPTION
-+    This section provides the definitive reference to the wic
-+    kickstart language.  It also provides documentation on the list of
-+    --source plugins available for use from the 'part' command (see
-+    the 'Platform-specific Plugins' section below).
++    The 'wic' command generates partitioned images from existing
++    OpenEmbedded build artifacts.  Image generation is driven by
++    partitioning commands contained in an 'Openembedded kickstart'
++    (.wks) file (see 'wic help kickstart') specified either directly
++    on the command-line or as one of a selection of canned .wks files
++    (see 'wic list images').  When applied to a given set of build
++    artifacts, the result is an image or set of images that can be
++    directly written onto media and used on a particular system.
 +
-+    The current wic implementation supports only the basic kickstart
-+    partitioning commands: partition (or part for short) and
-+    bootloader.
++    The 'wic' command and the infrastructure it's based is by
++    definition incomplete - it's designed to allow the generation of
++    customized images, and as such was designed to be completely
++    extensible via a plugin interface (see 'wic help plugins').
 +
-+    The following is a listing of the commands, their syntax, and
-+    meanings. The commands are based on the Fedora kickstart
-+    documentation but with modifications to reflect wic capabilities.
++  Background and Motivation
 +
-+      http://fedoraproject.org/wiki/Anaconda/Kickstart#part_or_partition
-+      http://fedoraproject.org/wiki/Anaconda/Kickstart#bootloader
++    wic is meant to be a completely independent standalone utility
++    that initially provides easier-to-use and more flexible
++    replacements for a couple bits of existing functionality in
++    oe-core: directdisk.bbclass and mkefidisk.sh.  The difference
++    between wic and those examples is that with wic the functionality
++    of those scripts is implemented by a general-purpose partitioning
++    'language' based on Redhat kickstart syntax (with the underlying
++    code borrowed from Tizen mic, which in turn was borrowed from
++    Meego mic, in turn borrowed from Fedora livecd, etc.).
 +
-+  Commands
++    The initial motivation and design considerations that lead to the
++    current tool are described exhaustively in Yocto Bug #3847
++    (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3847).
 +
-+    * 'part' or 'partition'
++    Though the current wic tool only uses the kickstart syntax related
++    to partitioning and bootloaders and only for creating images,
++    because the code is based on the mic/pykickstart code, future
++    deployment efforts such as those partially described by Yocto Bug
++    #4106 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=4106),
++    but also others including package selection (from e.g. binary
++    feeds) and deployment configuration of users/network/services,
++    etc, could be implemented under this framework, considering that
++    all of those are implemented in some form by the base system.
 +
-+       This command creates a partition on the system and uses the
-+       following syntax:
++  Implementation and Examples
 +
-+         part <mountpoint>
++    wic can be used in two different modes, depending on how much
++    control the user needs in specifying the Openembedded build
++    artifacts that will be used in creating the image: 'raw' and
++    'cooked'.
 +
-+       The <mountpoint> is where the partition will be mounted and
-+       must take of one of the following forms:
++    If used in 'raw' mode, artifacts are explicitly specified via
++    command-line arguments (see example below).
 +
-+         /<path>: For example: /, /usr, or /home
++    The more easily usable 'cooked' mode uses the current MACHINE
++    setting and a specified image name to automatically locate the
++    artifacts used to create the image.
 +
-+         swap: The partition will be used as swap space.
++    OE kickstart files (.wks) can of course be specified directly on
++    the command-line, but the user can also choose from a set of
++    'canned' .wks files available via the 'wic list images' command
++    (example below).
 +
-+       The following are supported 'part' options:
++    In any case, the prerequisite for generating any image is to have
++    the build artifacts already available.  The below examples assume
++    the user has already build a 'core-image-minimal' for a specific
++    machine (future versions won't require this redundant step, but
++    for now that's typically how build artifacts get generated).
 +
-+         --size: The minimum partition size in MBytes. Specify an
-+                 integer value such as 500. Do not append the number
-+                 with "MB". You do not need this option if you use
-+                 --source.
++    The other prerequisite is to source the build environment:
 +
-+         --source: This option is a wic-specific option that names the
-+                   source of the data that will populate the
-+                   partition.  The most common value for this option
-+                   is 'rootfs', but can be any value which maps to a
-+                   valid 'source plugin' (see 'wic help plugins').
++      $ source oe-init-build-env
 +
-+                   If '--source rootfs' is used, it tells the wic
-+                   command to create a partition as large as needed
-+                   and to fill it with the contents of the root
-+                   filesystem pointed to by the '-r' wic command-line
-+                   option (or the equivalent rootfs derived from the
-+                   '-e' command-line option).  The filesystem type
-+                   that will be used to create the partition is driven
-+                   by the value of the --fstype option specified for
-+                   the partition (see --fstype below).
++    To start out with, we'll generate an image from one of the canned
++    .wks files.  The following generates a list of availailable
++    images:
 +
-+                   If --source <plugin-name>' is used, it tells the
-+                   wic command to create a partition as large as
-+                   needed and to fill with the contents of the
-+                   partition that will be generated by the specified
-+                   plugin name using the data pointed to by the '-r'
-+                   wic command-line option (or the equivalent rootfs
-+                   derived from the '-e' command-line option).
-+                   Exactly what those contents and filesystem type end
-+                   up being are depend on the given plugin
-+                   implementation.
++      $ wic list images
++        mkefidisk             Create an EFI disk image
++        directdisk            Create a 'pcbios' direct disk image
 +
-+         --ondisk or --ondrive: Forces the partition to be created on
-+                                a particular disk.
++    You can get more information about any of the available images by
++    typing 'wic list xxx help', where 'xxx' is one of the image names:
 +
-+         --fstype: Sets the file system type for the partition.  These
-+           apply to partitions created using '--source rootfs' (see
-+           --source above).  Valid values are:
++      $ wic list mkefidisk help
 +
-+             ext2
-+             ext3
-+             ext4
-+             btrfs
-+             swap
++    Creates a partitioned EFI disk image that the user can directly dd
++    to boot media.
 +
-+         --label label: Specifies the label to give to the filesystem
-+                        to be made on the partition. If the given
-+                        label is already in use by another filesystem,
-+                        a new label is created for the partition.
++    At any time, you can get help on the 'wic' command or any
++    subcommand (currently 'list' and 'create').  For instance, to get
++    the description of 'wic create' command and its parameters:
 +
-+         --active: Marks the partition as active.
++      $ wic create
 +
-+         --align (in KBytes): This option is specific to wic and says
-+                              to start a partition on an x KBytes
-+                              boundary.
++       Usage:
 +
-+    * bootloader
++       Create a new OpenEmbedded image
 +
-+      This command allows the user to specify various bootloader
-+      options.  The following are supported 'bootloader' options:
++       usage: wic create <wks file or image name> [-o <DIRNAME> | ...]
++            [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
++            [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
++            [-k, --kernel-dir] [-n, --native-sysroot] [-s, --skip-build-check]
 +
-+        --timeout: Specifies the number of seconds before the
-+                   bootloader times out and boots the default option.
++       This command creates an OpenEmbedded image based on the 'OE
++       kickstart commands' found in the <wks file>.
 +
-+        --append: Specifies kernel parameters. These will be added to
-+                  bootloader command-line - for example, the syslinux
-+                  APPEND or grub kernel command line.
++       The -o option can be used to place the image in a directory
++       with a different name and location.
 +
-+      Note that bootloader functionality and boot partitions are
-+      implemented by the various --source plugins that implement
-+      bootloader functionality; the bootloader command essentially
-+      provides a means of modifying bootloader configuration.
++       See 'wic help create' for more detailed instructions.
++       ...
++
++    As mentioned in the command, you can get even more detailed
++    information by adding 'help' to the above:
++
++      $ wic help create
++
++    So, the easiest way to create an image is to use the -e option
++    with a canned .wks file.  To use the -e option, you need to
++    specify the image used to generate the artifacts and you actually
++    need to have the MACHINE used to build them specified in your
++    local.conf (these requirements aren't necessary if you aren't
++    using the -e options.)  Below, we generate a directdisk image,
++    pointing the process at the core-image-minimal artifacts for the
++    current MACHINE:
++
++      $ wic create directdisk -e core-image-minimal
++
++      Checking basic build environment...
++      Done.
++
++      Creating image(s)...
++
++      Info: The new image(s) can be found here:
++      /var/tmp/wic/build/directdisk-201309252350-sda.direct
++
++      The following build artifacts were used to create the image(s):
++
++      ROOTFS_DIR:      ...
++      BOOTIMG_DIR:     ...
++      KERNEL_DIR:      ...
++      NATIVE_SYSROOT:  ...
++
++      The image(s) were created using OE kickstart file:
++        .../scripts/lib/image/canned-wks/directdisk.wks
++
++    The output shows the name and location of the image created, and
++    so that you know exactly what was used to generate the image, each
++    of the artifacts and the kickstart file used.
++
++    Similarly, you can create a 'mkefidisk' image in the same way
++    (notice that this example uses a different machine - because it's
++    using the -e option, you need to change the MACHINE in your
++    local.conf):
++
++      $ wic create mkefidisk -e core-image-minimal
++      Checking basic build environment...
++      Done.
++
++      Creating image(s)...
++
++      Info: The new image(s) can be found here:
++         /var/tmp/wic/build/mkefidisk-201309260027-sda.direct
++
++      ...
++
++    Here's an example that doesn't take the easy way out and manually
++    specifies each build artifact, along with a non-canned .wks file,
++    and also uses the -o option to have wic create the output
++    somewhere other than the default /var/tmp/wic:
++
++      $ wic create ~/test.wks -o /home/trz/testwic --rootfs-dir
++      /home/trz/yocto/build/tmp/work/crownbay/core-image-minimal/1.0-r0/rootfs
++      --bootimg-dir /home/trz/yocto/build/tmp/sysroots/crownbay/usr/share
++      --kernel-dir /home/trz/yocto/build/tmp/sysroots/crownbay/usr/src/kernel
++      --native-sysroot /home/trz/yocto/build/tmp/sysroots/x86_64-linux
++
++      Creating image(s)...
++
++      Info: The new image(s) can be found here:
++        /home/trz/testwic/build/test-201309260032-sda.direct
++
++      ...
++
++    Finally, here's an example of the actual partition language
++    commands used to generate the mkefidisk image i.e. these are the
++    contents of the mkefidisk.wks OE kickstart file:
++
++      # short-description: Create an EFI disk image
++      # long-description: Creates a partitioned EFI disk image that the user
++      # can directly dd to boot media.
++
++      part /boot --source bootimg-efi --ondisk sda --fstype=efi --active
++
++      part / --source rootfs --ondisk sda --fstype=ext3 --label platform
++
++      part swap --ondisk sda --size 44 --label swap1 --fstype=swap
++
++      bootloader  --timeout=10  --append="rootwait console=ttyPCH0,115200"
++
++    You can get a complete listing and description of all the
++    kickstart commands available for use in .wks files from 'wic help
++    kickstart'.
 +"""
 diff --git a/scripts/wic b/scripts/wic
-index 5453750..15cc9b3 100755
+index ac3ed16..5453750 100755
 --- a/scripts/wic
 +++ b/scripts/wic
-@@ -240,18 +240,21 @@ wic_help_topic_usage = """
+@@ -240,15 +240,18 @@ wic_help_topic_usage = """
  """
  
  subcommands = {
--    "create":   [wic_create_subcommand,
--                 wic_create_usage,
--                 wic_create_help],
--    "list":     [wic_list_subcommand,
--                 wic_list_usage,
--                 wic_list_help],
--    "plugins":  [wic_help_topic_subcommand,
--                 wic_help_topic_usage,
--                 wic_plugins_help],
--    "overview":  [wic_help_topic_subcommand,
--                 wic_help_topic_usage,
--                 wic_overview_help],
-+    "create":    [wic_create_subcommand,
-+                  wic_create_usage,
-+                  wic_create_help],
-+    "list":      [wic_list_subcommand,
-+                  wic_list_usage,
-+                  wic_list_help],
-+    "plugins":   [wic_help_topic_subcommand,
-+                  wic_help_topic_usage,
-+                  wic_plugins_help],
-+    "overview":   [wic_help_topic_subcommand,
-+                  wic_help_topic_usage,
-+                  wic_overview_help],
-+    "kickstart":  [wic_help_topic_subcommand,
-+                  wic_help_topic_usage,
-+                  wic_kickstart_help],
+-    "create":  [wic_create_subcommand,
+-                wic_create_usage,
+-                wic_create_help],
+-    "list":    [wic_list_subcommand,
+-                wic_list_usage,
+-                wic_list_help],
+-    "plugins": [wic_help_topic_subcommand,
+-                wic_help_topic_usage,
+-                wic_plugins_help],
++    "create":   [wic_create_subcommand,
++                 wic_create_usage,
++                 wic_create_help],
++    "list":     [wic_list_subcommand,
++                 wic_list_usage,
++                 wic_list_help],
++    "plugins":  [wic_help_topic_subcommand,
++                 wic_help_topic_usage,
++                 wic_plugins_help],
++    "overview":  [wic_help_topic_subcommand,
++                 wic_help_topic_usage,
++                 wic_overview_help],
  }
  
  
