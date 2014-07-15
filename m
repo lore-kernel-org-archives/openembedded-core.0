@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EAA1705BC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 787EB705BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:37 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJd9a022770
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJeQh012713
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:39 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:40 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
 	Tue, 15 Jul 2014 07:19:39 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:04 -0700
-Message-ID: <68edfb4c7320db8cc0d7a85316d4dc121fb98353.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:05 -0700
+Message-ID: <f22b0b045ea5c00c92859e2c88a303be68da7b42.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/38] rpm: add perl to RDEPENDS_rpm-build
+Subject: [PATCH 10/38] opensp: add perl to RDEPENDS_opensp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,65 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:19:38 -0000
 Content-Type: text/plain
 
-Perl scripts:
-rpm-build/usr/lib/rpm/osgideps.pl
-rpm-build/usr/lib/rpm/perl.prov
-rpm-build/usr/lib/rpm/perldeps.pl
-rpm-build/usr/lib/rpm/perl.req
-rpm-build/usr/lib/rpm/bin/api-sanity-autotest.pl
+Perl script:
+opensp/usr/share/OpenSP/gensyntax.pl
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb |    4 +---
- meta/recipes-devtools/rpm/rpm_5.4.14.bb  |    4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-index 27d01dd..d2dec5f 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-@@ -274,8 +274,6 @@ FILES_${PN}-libs = "${libdir}/librpm-*.so \
- 		${libdir}/librpmbuild-*.so \
- 		"
+diff --git a/meta/recipes-devtools/opensp/opensp_1.5.2.bb b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
+index a1f115c..3f833f2 100644
+--- a/meta/recipes-devtools/opensp/opensp_1.5.2.bb
++++ b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
+@@ -18,6 +18,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/openjade/OpenSP-${PV}.tar.gz \
+ SRC_URI[md5sum] = "670b223c5d12cee40c9137be86b6c39b"
+ SRC_URI[sha256sum] = "57f4898498a368918b0d49c826aa434bb5b703d2c3b169beb348016ab25617ce"
  
--RDEPENDS_${PN}-build += "bash"
--
- FILES_${PN}-build = "${prefix}/src/rpm \
- 		${bindir}/rpmbuild \
- 		${bindir}/rpmbuild.real \
-@@ -349,7 +347,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- RDEPENDS_${PN} = "base-files run-postinsts"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
--RDEPENDS_${PN}-build = "file"
-+RDEPENDS_${PN}-build = "file bash perl"
++RDEPENDS_${PN} += "perl"
++
+ S = "${WORKDIR}/OpenSP-${PV}"
  
- RDEPENDS_python-rpm = "${PN}"
- 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index 15c1738..d875837 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -260,8 +260,6 @@ FILES_${PN}-libs = "${libdir}/librpm-*.so \
- 		${libdir}/librpmbuild-*.so \
- 		"
- 
--RDEPENDS_${PN}-build += "bash"
--
- FILES_${PN}-build = "${prefix}/src/rpm \
- 		${bindir}/rpmbuild \
- 		${bindir}/rpmbuild.real \
-@@ -335,7 +333,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- RDEPENDS_${PN} = "base-files run-postinsts"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
--RDEPENDS_${PN}-build = "file"
-+RDEPENDS_${PN}-build = "file bash perl"
- 
- RDEPENDS_python-rpm = "${PN}"
- 
+ inherit autotools gettext
 -- 
 1.7.9.5
 
