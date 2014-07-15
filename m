@@ -1,43 +1,24 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C406AC7C
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E8670269
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 05:30:12 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id rd3so6661225pab.4
+	Tue, 15 Jul 2014 06:27:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6F6RmSo006627
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 22:30:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=ycGtHP92mV7JZtWxACTL6hpxs8hFuB+ZpsmdvB6047o=;
-	b=V5GAK09in7+ezF9Mhbu3zE83fAla3tITAhiQNUxDtxe7fg/GAxrZjxZ35CGyIfuwfn
-	kNFABGSL/95VNGEcpbQoQxgJPLbhTSnB1wEq6Hmxi2vkHYU9wLGuhNZuW9Rl4lqacrxk
-	eu1cMSt6FML1qnqeCkzGn10itfwO+mPCqW7X4J5K+hRY5Q7R2fHXVr4gRQHJOSAwwKdl
-	ftKpbgONgb0ihIgVB4pvhtJVfWizCeJCjyeuSwgMjTMRqWbHFjAbKjBZAsMQ/Y3BPFxX
-	rymQ1rCR+DcsEujHrSq463TbKLySa1wykaU2yB5r0mQgWAQlRsB6xPOWfmICbXe69Ruy
-	r/qg==
-X-Gm-Message-State: ALoCoQk51dPi8BC8MnGMxsGP4/tVoUFAyGyBxzPt4hcUoaMEd11krMfs6pUo7EG5VEoxcwG17BOP
-X-Received: by 10.70.33.228 with SMTP id u4mr19453114pdi.6.1405402214080;
-	Mon, 14 Jul 2014 22:30:14 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	qf10sm12628146pbc.23.2014.07.14.22.30.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 14 Jul 2014 22:30:13 -0700 (PDT)
-Message-ID: <53C4BC63.6070501@mvista.com>
-Date: Mon, 14 Jul 2014 22:30:11 -0700
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Mon, 14 Jul 2014 23:27:48 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Mon, 14 Jul 2014 23:27:47 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jul 2014 14:27:47 +0800
+Message-ID: <cover.1405405388.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1405388483-30716-1-git-send-email-akuster@mvista.com>
-In-Reply-To: <1405388483-30716-1-git-send-email-akuster@mvista.com>
-Subject: Re: [meta-oe][PATCH] V2 lz4: update to latest version
+Subject: [PATCH V4 0/1] shadow: upgrade from 4.1.4.3 to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,52 +31,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 05:30:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Jul 2014 06:27:54 -0000
+Content-Type: text/plain
+
+Test Case:
+
+Fire a clean build for core-image-sato with the following lines in local.conf:
+INHERIT += "extrausers"
+EXTRA_USERS_PARAMS = "usermod -P 'root' root; \
+                      useradd -P 'test' --create-home test; \ 
+                      groupadd -g 1314 no-zuo-no-die;"
 
 
-Bah,
+The following changes since commit fa325e44f5b429b4038022b31285af9c94672943:
 
-missed removing old recipe and wrong list.
+  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:19:18 +0100)
 
-- Armin
+are available in the git repository at:
 
-On 07/14/2014 06:41 PM, Armin Kuster wrote:
-> update to version r119
-> Use github instead of svn
-> LICENSE md5sum changed since it was updated in r117
-> FIxes CVE-2014-4611
->
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->   meta/recipes-support/lz4/lz4_git.bb | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->   create mode 100644 meta/recipes-support/lz4/lz4_git.bb
->
-> diff --git a/meta/recipes-support/lz4/lz4_git.bb b/meta/recipes-support/lz4/lz4_git.bb
-> new file mode 100644
-> index 0000000..3978d76
-> --- /dev/null
-> +++ b/meta/recipes-support/lz4/lz4_git.bb
-> @@ -0,0 +1,18 @@
-> +SUMMARY = "Extremely Fast Compression algorithm"
-> +DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
-> +
-> +LICENSE = "BSD"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
-> +
-> +SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
-> +SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
-> +
-> +do_install() {
-> +	oe_runmake install
-> +}
-> +
-> +BBCLASSEXTEND += "native nativesdk"
->
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/shadow-4.2.1
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/shadow-4.2.1
+
+Chen Qi (1):
+  shadow: upgrade from 4.1.4.3 to 4.2.1
+
+ ...-create-parent-directories-when-necessary.patch |  109 ++
+ .../shadow/files/add_root_cmd_groupmems.patch      |   75 --
+ .../shadow/files/add_root_cmd_options.patch        | 1384 --------------------
+ .../allow-for-setting-password-in-clear-text.patch |  215 ++-
+ ...fix-unexpected-open-failure-in-chroot-env.patch |   46 +
+ .../shadow/files/fix-etc-gshadow-reading.patch     |   36 -
+ ...installation-failure-with-subids-disabled.patch |   28 +
+ .../shadow-4.1.4.2-env-reset-keep-locale.patch     |   31 -
+ .../files/shadow-4.1.4.2-groupmod-pam-check.patch  |   36 -
+ .../files/shadow-4.1.4.2-su_no_sanitize_env.patch  |   31 -
+ .../shadow/files/shadow.automake-1.11.patch        |  106 --
+ .../files/shadow_fix_for_automake-1.12.patch       |   23 -
+ .../files/slackware_fix_for_glib-2.17_crypt.patch  |   63 -
+ meta/recipes-extended/shadow/files/useradd.patch   |   17 -
+ ...-compilation-failure-with-subids-disabled.patch |   33 +
+ ...uretty_4.1.4.3.bb => shadow-securetty_4.2.1.bb} |    0
+ ...-sysroot_4.1.4.3.bb => shadow-sysroot_4.2.1.bb} |    0
+ meta/recipes-extended/shadow/shadow.inc            |   36 +-
+ .../shadow/{shadow_4.1.4.3.bb => shadow_4.2.1.bb}  |    0
+ 19 files changed, 333 insertions(+), 1936 deletions(-)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+ create mode 100644 meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+ create mode 100644 meta/recipes-extended/shadow/files/fix-installation-failure-with-subids-disabled.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-env-reset-keep-locale.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-groupmod-pam-check.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow-4.1.4.2-su_no_sanitize_env.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow.automake-1.11.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/slackware_fix_for_glib-2.17_crypt.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/useradd.patch
+ create mode 100644 meta/recipes-extended/shadow/files/usermod-fix-compilation-failure-with-subids-disabled.patch
+ rename meta/recipes-extended/shadow/{shadow-securetty_4.1.4.3.bb => shadow-securetty_4.2.1.bb} (100%)
+ rename meta/recipes-extended/shadow/{shadow-sysroot_4.1.4.3.bb => shadow-sysroot_4.2.1.bb} (100%)
+ rename meta/recipes-extended/shadow/{shadow_4.1.4.3.bb => shadow_4.2.1.bb} (100%)
+
+-- 
+1.7.9.5
+
 
