@@ -1,26 +1,34 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 025A170600
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id C64337062A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:37:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2014 08:32:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="573493276"
-Received: from unknown (HELO [10.255.12.224]) ([10.255.12.224])
-	by orsmga002.jf.intel.com with ESMTP; 15 Jul 2014 08:38:00 -0700
-Message-ID: <53C54AD7.4050702@linux.intel.com>
-Date: Tue, 15 Jul 2014 08:37:59 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: akuster <akuster@mvista.com>, 
- openembedded-core@lists.openembedded.org
-References: <1405430888-12456-1-git-send-email-akuster@mvista.com>
-	<53C5436F.1070506@linux.intel.com> <53C54719.60104@mvista.com>
-In-Reply-To: <53C54719.60104@mvista.com>
-Subject: Re: [meta-oe][PATCH] [v3] lz4: update to latest version
+	Tue, 15 Jul 2014 15:38:42 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173025.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N8R006F9FGI8820@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 15 Jul 2014 10:38:42 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 2B1D82008D; Tue,
+	15 Jul 2014 11:38:41 -0400 (EDT)
+Date: Tue, 15 Jul 2014 11:38:41 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Saul Wold <sgw@linux.intel.com>
+Message-id: <20140715153841.GU1580@denix.org>
+References: <1403218403-3303-1-git-send-email-denis@denix.org>
+	<20140620171338.GX27324@denix.org> <20140625005255.GB1580@denix.org>
+	<2450957.82MqDgnpjo@peggleto-mobl5.ger.corp.intel.com>
+	<20140625162209.GC1580@denix.org> <1403736065.2104.287.camel@ted>
+	<20140626174353.GE1580@denix.org> <20140715024119.GS1580@denix.org>
+	<53C548FC.2010309@linux.intel.com>
+MIME-version: 1.0
+In-reply-to: <53C548FC.2010309@linux.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:38:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Jul 2014 15:38:42 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 07/15/2014 08:22 AM, akuster wrote:
->
-> On 07/15/2014 08:06 AM, Saul Wold wrote:
->> On 07/15/2014 06:28 AM, Armin Kuster wrote:
->>> update to version r119
->>> Use github instead of svn
->>> LICENSE md5sum changed since it was updated in r117
->>
->> What exactly changed in r117?  Same License different working or ??
->
-> They updated the copyright date.
->
+On Tue, Jul 15, 2014 at 08:30:04AM -0700, Saul Wold wrote:
+> On 07/14/2014 07:41 PM, Denys Dmytriyenko wrote:
+> >On Thu, Jun 26, 2014 at 01:43:53PM -0400, Denys Dmytriyenko wrote:
+> >>On Wed, Jun 25, 2014 at 11:41:05PM +0100, Richard Purdie wrote:
+> >>>On Wed, 2014-06-25 at 12:22 -0400, Denys Dmytriyenko wrote:
+> >>>>On Wed, Jun 25, 2014 at 05:20:23PM +0100, Paul Eggleton wrote:
+> >>>>>On Tuesday 24 June 2014 20:52:55 Denys Dmytriyenko wrote:
+> >>>>>>Ping? Any comments? Any better suggestions?
+> >>>>>
+> >>>>>Looks like Richard has merged this, FWIW.
+> >>>>
+> >>>>Yes, I saw it. Already submitted backport for daisy... :)
+> >>>
+> >>>I'd like this to see some testing in master for a while before we
+> >>>backport it...
+> >>
+> >>I'm Ok waiting a bit longer to test it in master. I'll ping on it later...
+> >>
+> >>But this fixes a very common issue that affects different platforms from
+> >>different BSP layers, including BeagleBone Black in meta-yocto-bsp. The goal
+> >>is to be least intrusive and preserve the old udev cache behavior as much as
+> >>possible. Alternative options were to disable udev cache completely or
+> >>forcefully load necessary modules when they won't be probed on subsequent
+> >>boots.
+> >
+> >Hi, Richard,
+> >
+> >Was it enough wait time to get the change tested in master? Should I re-submit
+> >the patch for daisy one more time or you have it in the archives? Thanks!
+> >
+> I have it in my daisy-next (1.6.2) branch (I know it's not in daisy yet).
 
-That's what we need in the commit message then, please update your 
-commit message.
+Thanks!
 
-Is there a valid PV that you can set for lz4, seems like they are still 
-calling them rXXX, so PV should be "r119"
-
-Thanks
-	Sau!
-
-> - Armin
->>
->> Sau!
->>
->>> FIxes CVE-2014-4611
->>>
->>> Signed-off-by: Armin Kuster <akuster@mvista.com>
->>> ---
->>>   meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} | 11 ++++-------
->>>   1 file changed, 4 insertions(+), 7 deletions(-)
->>>   rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (68%)
->>>
->>> diff --git a/meta/recipes-support/lz4/lz4_svn.bb
->>> b/meta/recipes-support/lz4/lz4_git.bb
->>> similarity index 68%
->>> rename from meta/recipes-support/lz4/lz4_svn.bb
->>> rename to meta/recipes-support/lz4/lz4_git.bb
->>> index 38e36d8..3978d76 100644
->>> --- a/meta/recipes-support/lz4/lz4_svn.bb
->>> +++ b/meta/recipes-support/lz4/lz4_git.bb
->>> @@ -2,15 +2,12 @@ SUMMARY = "Extremely Fast Compression algorithm"
->>>   DESCRIPTION = "LZ4 is a very fast lossless compression algorithm,
->>> providing compression speed at 400 MB/s per core, scalable with
->>> multi-cores CPU. It also features an extremely fast decoder, with
->>> speed in multiple GB/s per core, typically reaching RAM speed limits
->>> on multi-core systems."
->>>
->>>   LICENSE = "BSD"
->>> -LIC_FILES_CHKSUM =
->>> "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
->>> +LIC_FILES_CHKSUM =
->>> "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
->>>
->>> -# Upstream names releases after SVN revs
->>> -SRCREV = "112"
->>> -PV = "r${SRCREV}"
->>> +SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
->>> +SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
->>>
->>> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
->>> -
->>> -S = "${WORKDIR}/trunk"
->>> +S = "${WORKDIR}/git"
->>>
->>>   EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D}
->>> LIBDIR=${libdir} INCLUDEDIR=${includedir}"
->>>
->>>
->
->
+-- 
+Denys
 
