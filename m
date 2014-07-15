@@ -1,35 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B634F60030;
-	Tue, 15 Jul 2014 20:14:16 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id hn18so64778igb.4
-	for <multiple recipients>; Tue, 15 Jul 2014 13:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=cNUiJ+0QE87p6gX01zRiQGURiyT15wBRAL3TB5o/xzw=;
-	b=OjWZbM3uODMhbdFI5UgWaxqtlXp+wuGqvxzsJd6OhARYw33ktqnJCRcMXXSNbGMT7L
-	EI1cRtcBWOg5PKLKkM1Jcve0ElNyP6wtPQAelYdXl9K0bC+fF/vOoarQ65rci5EZCw8+
-	1aQObP7UbyjoK9VAxrdPqk3ii+kB+IOkiGlw25NZUjvIP/czQCeoeqcSzn9MraJY0ZvH
-	oq51kX+MLZWn682ngfU5Xaz0koht6oZxVYQx8FI5FEh/BmPdAX0lfs6ee7R1WKZGqEC1
-	RRsHGTsjGFDvJwNNmETyKHUIZOwYe+XQg6dFPNfvVp2sH7ghbYOV28aD2lg3bULtf/x6
-	oXtg==
-MIME-Version: 1.0
-X-Received: by 10.50.13.102 with SMTP id g6mr9859703igc.20.1405455257513; Tue,
-	15 Jul 2014 13:14:17 -0700 (PDT)
-Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 13:14:17 -0700 (PDT)
-Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 13:14:17 -0700 (PDT)
-In-Reply-To: <406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
-References: <cover.1405440532.git.ross.burton@intel.com>
-	<406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
-Date: Tue, 15 Jul 2014 13:14:17 -0700
-Message-ID: <CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [PATCH 7/7] autoconf: remove automake patch enforcing --foreign
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AC0B70436
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 21:07:19 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id n3so263030wiv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 14:07:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cjIPs5Yeu55fPBBENyyopC4E/x0eMIcNrstap/03bHM=;
+	b=L3Nw1EKgduwbY8SGiCfE3hI3xLVW/W1lmEnYA62vZWDJQ/c4Cxk45JPUYa2czp30ri
+	HxIilmcLcLZbGxy2YaHGYBakGB21nIjVdWCbt6ckIQa4pFD+wOjsp6pnnhAkGo4nCiBQ
+	WFeLeiEc2ajGZ3N03zy8F6nGN9O8gU0WyRAz0kmUuFs2i6RCUPf7QW3I+30XWMK897BQ
+	Jj5ThwiSSROGwidFjB+f1uEMQXHSduGTDVBhEx7aE58TSf8O/UJI7xyR8viXN4Fsc2Lp
+	ACnYlSv7S8BWqeFLUFVkNupNArGZXDAw+kLTheSlVMQI+tOQXyEFWwEX76rRlEyHxYlM
+	VrNQ==
+X-Gm-Message-State: ALoCoQmzPg5zntiP3TJ5kyrMt8wuE+CqgIkSqkowhp0+hZD2DReFWa7gDo9Du+32Z/f8RviR4Moa
+X-Received: by 10.180.189.234 with SMTP id gl10mr8384690wic.56.1405458440247; 
+	Tue, 15 Jul 2014 14:07:20 -0700 (PDT)
+Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
+	[78.243.126.63])
+	by mx.google.com with ESMTPSA id fg1sm501379wic.17.2014.07.15.14.07.17
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 15 Jul 2014 14:07:18 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jul 2014 23:07:11 +0200
+Message-Id: <1405458431-17805-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.0.1
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>, patches@linaro.org
+Subject: [PATCH] libdrm: upgrade to 2.4.54
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,179 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 20:14:25 -0000
-Content-Type: multipart/alternative; boundary=089e013c66d65f376104fe410d23
+X-List-Received-Date: Tue, 15 Jul 2014 21:07:31 -0000
 
---089e013c66d65f376104fe410d23
-Content-Type: text/plain; charset=UTF-8
+Version 2.4.54 was released a couple of months ago, see [1] for list of
+changes.
 
-On Jul 15, 2014 9:20 AM, "Ross Burton" <ross.burton@intel.com> wrote:
->
-> Since 2004 we've been carrying a patch[1] make autoreconf pass --foreign
-to
-> automake.  Presumably at the time this was due to many upstreams using
-> hand-coded bootstrap scripts that passed --foreign manually, but we were
-using
-> autoreconf.  These days many projects have added foreign to
-AM_INIT_AUTOMAKE and
-> use autoreconf directly, so this patch isn't as critical as it used to be.
+The upgrade is required for using recent freedreno X11 driver on QCOM SoC. This
+was tested on IFC6410 board.
 
-can it be somehow made such that it can be passed via option flags so we
-dont have to patch the packages not using above automake macro
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> [1] oe-classic 2ab2a92eadaf2f80410d8746099f8a9b1b81ff91
-> ---
->  .../autoconf/autoconf/autoreconf-foreign.patch            |   13
--------------
->  meta/recipes-devtools/autoconf/autoconf_2.69.bb           |    1 -
->  2 files changed, 14 deletions(-)
->  delete mode 100644
-meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
->
-> diff --git
-a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-b/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-> deleted file mode 100644
-> index 88f7501..0000000
-> --- a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> ---- autoconf-2.59/bin/autoreconf.in~autoreconf-foreign 2004-05-09
-20:55:06.000000000 -0400
-> -+++ autoconf-2.59/bin/autoreconf.in    2004-05-09 20:55:55.000000000
--0400
-> -@@ -184,6 +184,8 @@
-> -
-> -   $aclocal_supports_force = `$aclocal --help` =~ /--force/;
-> -
-> -+  $automake   .= ' --foreign';
-> -+
-> -   # Dispatch autoreconf's option to the tools.
-> -   # --include;
-> -   $autoconf   .= join (' --include=', '', @include);
-> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> index 5c652d4..6614a7b 100644
-> --- a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> @@ -10,7 +10,6 @@ LIC_FILES_CHKSUM =
-"file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
->  SRC_URI += "file://autoreconf-include.patch \
->             file://check-automake-cross-warning.patch \
->             file://autoreconf-exclude.patch \
-> -           file://autoreconf-foreign.patch \
->             file://autoreconf-gnuconfigize.patch \
->              file://config_site.patch \
->              file://remove-usr-local-lib-from-m4.patch \
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
+[1] http://lists.x.org/archives/xorg-announce/2014-May/002426.html
 
---089e013c66d65f376104fe410d23
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-graphics/drm/libdrm_2.4.53.bb | 8 --------
+ meta/recipes-graphics/drm/libdrm_2.4.54.bb | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm_2.4.53.bb
+ create mode 100644 meta/recipes-graphics/drm/libdrm_2.4.54.bb
 
-<p dir=3D"ltr"><br>
-On Jul 15, 2014 9:20 AM, &quot;Ross Burton&quot; &lt;<a href=3D"mailto:ross=
-.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Since 2004 we&#39;ve been carrying a patch[1] make autoreconf pass --f=
-oreign to<br>
-&gt; automake. =C2=A0Presumably at the time this was due to many upstreams =
-using<br>
-&gt; hand-coded bootstrap scripts that passed --foreign manually, but we we=
-re using<br>
-&gt; autoreconf. =C2=A0These days many projects have added foreign to AM_IN=
-IT_AUTOMAKE and<br>
-&gt; use autoreconf directly, so this patch isn&#39;t as critical as it use=
-d to be.</p>
-<p dir=3D"ltr"> can it be somehow made such that it can be passed via optio=
-n flags so we dont have to patch the packages not using above automake macr=
-o<br>
-&gt;<br>
-&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
-">ross.burton@intel.com</a>&gt;<br>
-&gt;<br>
-&gt; [1] oe-classic 2ab2a92eadaf2f80410d8746099f8a9b1b81ff91<br>
-&gt; ---<br>
-&gt; =C2=A0.../autoconf/autoconf/autoreconf-foreign.patch =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 13 -------------<br>
-&gt; =C2=A0meta/recipes-devtools/autoconf/<a href=3D"http://autoconf_2.69.b=
-b">autoconf_2.69.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01=
- -<br>
-&gt; =C2=A02 files changed, 14 deletions(-)<br>
-&gt; =C2=A0delete mode 100644 meta/recipes-devtools/autoconf/autoconf/autor=
-econf-foreign.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreig=
-n.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch<=
-br>
-&gt; deleted file mode 100644<br>
-&gt; index 88f7501..0000000<br>
-&gt; --- a/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch=
-<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,13 +0,0 @@<br>
-&gt; -Upstream-Status: Pending<br>
-&gt; -<br>
-&gt; ---- autoconf-2.59/bin/<a href=3D"http://autoreconf.in">autoreconf.in<=
-/a>~autoreconf-foreign 2004-05-09 20:55:06.000000000 -0400<br>
-&gt; -+++ autoconf-2.59/bin/<a href=3D"http://autoreconf.in">autoreconf.in<=
-/a> =C2=A0 =C2=A02004-05-09 20:55:55.000000000 -0400<br>
-&gt; -@@ -184,6 +184,8 @@<br>
-&gt; -<br>
-&gt; - =C2=A0 $aclocal_supports_force =3D `$aclocal --help` =3D~ /--force/;=
-<br>
-&gt; -<br>
-&gt; -+ =C2=A0$automake =C2=A0 .=3D &#39; --foreign&#39;;<br>
-&gt; -+<br>
-&gt; - =C2=A0 # Dispatch autoreconf&#39;s option to the tools.<br>
-&gt; - =C2=A0 # --include;<br>
-&gt; - =C2=A0 $autoconf =C2=A0 .=3D join (&#39; --include=3D&#39;, &#39;&#3=
-9;, @include);<br>
-&gt; diff --git a/meta/recipes-devtools/autoconf/<a href=3D"http://autoconf=
-_2.69.bb">autoconf_2.69.bb</a> b/meta/recipes-devtools/autoconf/<a href=3D"=
-http://autoconf_2.69.bb">autoconf_2.69.bb</a><br>
-&gt; index 5c652d4..6614a7b 100644<br>
-&gt; --- a/meta/recipes-devtools/autoconf/<a href=3D"http://autoconf_2.69.b=
-b">autoconf_2.69.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/autoconf/<a href=3D"http://autoconf_2.69.b=
-b">autoconf_2.69.bb</a><br>
-&gt; @@ -10,7 +10,6 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D7514=
-19260aa954499f7abaabaa882bbe \<br>
-&gt; =C2=A0SRC_URI +=3D &quot;file://autoreconf-include.patch \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://check-automake-cross-=
-warning.patch \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoreconf-exclude.pa=
-tch \<br>
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoreconf-foreign.patch \=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://autoreconf-gnuconfigi=
-ze.patch \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://config_site.pat=
-ch \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://remove-usr-loca=
-l-lib-from-m4.patch \<br>
-&gt; --<br>
-&gt; 1.7.10.4<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-devel mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-devel@lists.openembedded.org">Openembed=
-ded-devel@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--devel">http://lists.openembedded.org/mailman/listinfo/openembedded-devel</=
-a><br>
-</p>
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.53.bb b/meta/recipes-graphics/drm/libdrm_2.4.53.bb
+deleted file mode 100644
+index 323bef5..0000000
+--- a/meta/recipes-graphics/drm/libdrm_2.4.53.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require libdrm.inc
+-
+-SRC_URI += "file://installtests.patch \
+-            file://GNU_SOURCE_definition.patch \
+-           "
+-SRC_URI[md5sum] = "342886a137ddd9ed4341675d132388ad"
+-SRC_URI[sha256sum] = "1b0c28fd2f2b92d2df0a73d1aed88f43cb0dee1267aea6bc52ccb5fca5757a08"
+-
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.54.bb b/meta/recipes-graphics/drm/libdrm_2.4.54.bb
+new file mode 100644
+index 0000000..12eefc7
+--- /dev/null
++++ b/meta/recipes-graphics/drm/libdrm_2.4.54.bb
+@@ -0,0 +1,8 @@
++require libdrm.inc
++
++SRC_URI += "file://installtests.patch \
++            file://GNU_SOURCE_definition.patch \
++           "
++SRC_URI[md5sum] = "56e98a9c2073c3fab7f95e003b657f46"
++SRC_URI[sha256sum] = "d94001ebfbe80e1523d1228ee2df57294698d1c734fad9ccf53efde8932fe4e9"
++
+-- 
+2.0.1
 
---089e013c66d65f376104fe410d23--
+
