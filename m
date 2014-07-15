@@ -1,37 +1,37 @@
 Return-Path: <akuster@mvista.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 228C270258
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id BFDCC7058C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 13:27:36 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id y10so2750759pdj.14
+	Tue, 15 Jul 2014 13:28:18 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id v10so7130726pde.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 06:27:38 -0700 (PDT)
+	Tue, 15 Jul 2014 06:28:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=T/eldfuesQsJ3sUBeBA/rixXBMDLwizoWrPdjEgMOd4=;
-	b=UVOzUAInVZHVjoGp3/ayBP+ioYWbJJBDzieNjFPaxWoR4S5eOeEV4rGo/CjDlGJAjM
-	/7a57r31kQXSplMlIiEcchKBAdL7VNCpJJxG6ydDsfZ2w/dLhNEHIsbPfUiu0rFHrJnv
-	1EQeneROXQ5YAcrdlKTCvbCoqCUFfAsS4AisU8onzBJrx9neJ+T2RrAUgAQ5gkAg4VO4
-	dz9+OI/STCuj5pHAjX3+4d6S3XcMPPEXfFjwHM49oyJ55Mo9FHc0WOpygDZ1qg/ZGsAb
-	MLaxrYIGncAPwnoecxQTn8ryazF9UKT95Q5f+4r5rQ3UW0Yp6sO5OtWjneiA9XpQEo/3
-	jumA==
-X-Gm-Message-State: ALoCoQlCaPHvtaSF1x8PiHWdMKZPEjyhaZeBuZC/bM+9/evHcqdBw7oP5t1/kqYhJ4iftEnc2nig
-X-Received: by 10.68.201.226 with SMTP id kd2mr1503939pbc.157.1405430858210;
-	Tue, 15 Jul 2014 06:27:38 -0700 (PDT)
+	bh=P825sm/OTChnYN6ZgM5XB3+oT2o8Xku5UyEOeNwcQqM=;
+	b=clPRHeImsgCHs97VHsH/FnTYgs6PwGTjrnqA6QXjsb7JpI3eSYmhPm8tS3hZo33szj
+	2q1U4fV7mp7+pyIRGNgEZh3QOf/TjOc0G5Ln1XLuRdjYZp7pghVHIm79jI50cYTJltJy
+	svr9Gl8WH5imOegIncJ71t+tJEfCSmZB/BnrazslNCCiclXjt0uCqxMQJj3PAKoCjknK
+	goVU6cDq2MRzJXWPZuHsC/hRxJdsi8iAPO/RqFAv36dhzMHQbUGLx9upyCB81dUSuuXV
+	kifPpvU7PgkcRfhBwFklgN/g/eiZZS6hqjXq1fOtyemEaUocYTpb0vFCeE6bYzD4qhhW
+	/vHQ==
+X-Gm-Message-State: ALoCoQmjBjw5as6lmKvu3r+BMzICG+HOfikyLMMLyMCxFGp3Vi+euIhYCc++4UpFp4S0cb4qMavn
+X-Received: by 10.68.211.195 with SMTP id ne3mr9196483pbc.121.1405430899629;
+	Tue, 15 Jul 2014 06:28:19 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	fv2sm14012616pbd.11.2014.07.15.06.27.37
+	[98.239.95.55])
+	by mx.google.com with ESMTPSA id kl4sm3085154pdb.76.2014.07.15.06.28.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 15 Jul 2014 06:27:37 -0700 (PDT)
+	Tue, 15 Jul 2014 06:28:19 -0700 (PDT)
 From: Armin Kuster <akuster@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 06:27:35 -0700
-Message-Id: <1405430855-12398-1-git-send-email-akuster@mvista.com>
+Date: Tue, 15 Jul 2014 06:28:08 -0700
+Message-Id: <1405430888-12456-1-git-send-email-akuster@mvista.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [meta-oe][PATCH] nettle: update to version 3.0
+Subject: [meta-oe][PATCH] [v3] lz4: update to latest version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,57 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 13:27:48 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 13:28:18 -0000
 
-Update to latest version
-Add GNUv3 license
+update to version r119
+Use github instead of svn
+LICENSE md5sum changed since it was updated in r117
+FIxes CVE-2014-4611
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../nettle/{nettle_2.7.1.bb => nettle_3.0.bb}            | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-support/nettle/{nettle_2.7.1.bb => nettle_3.0.bb} (59%)
+ meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (68%)
 
-diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_3.0.bb
-similarity index 59%
-rename from meta/recipes-support/nettle/nettle_2.7.1.bb
-rename to meta/recipes-support/nettle/nettle_3.0.bb
-index 8aa5351..04789c9 100644
---- a/meta/recipes-support/nettle/nettle_2.7.1.bb
-+++ b/meta/recipes-support/nettle/nettle_3.0.bb
-@@ -1,17 +1,19 @@
- SUMMARY = "A low level cryptographic library"
- HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
- SECTION = "libs"
--LICENSE = "LGPLv2.1 & GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
--                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
-+LICENSE = "LGPLv2.1 & GPLv2 & GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYINGv3;md5=11cc2d3ee574f9d6b7ee797bdce4d423\
-+                    file://serpent-decrypt.c;beginline=53;endline=67;md5=a4ccbeb343203d3586661f45c1cab577 \
-+                    file://serpent-set-key.c;beginline=56;endline=70;md5=150b0ea44cdfb712a83331bff566e9a8"
+diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_git.bb
+similarity index 68%
+rename from meta/recipes-support/lz4/lz4_svn.bb
+rename to meta/recipes-support/lz4/lz4_git.bb
+index 38e36d8..3978d76 100644
+--- a/meta/recipes-support/lz4/lz4_svn.bb
++++ b/meta/recipes-support/lz4/lz4_git.bb
+@@ -2,15 +2,12 @@ SUMMARY = "Extremely Fast Compression algorithm"
+ DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
  
- DEPENDS += "gmp"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
  
- SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
+-# Upstream names releases after SVN revs
+-SRCREV = "112"
+-PV = "r${SRCREV}"
++SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
++SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
  
--SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
--SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
-+SRC_URI[md5sum] = "f64b1bf1e774b7ae6e507318e340250e"
-+SRC_URI[sha256sum] = "9651c0bd2326eb737d0ed9eb403444712407c01a25b0fe813432ef31bebcd913"
-+
-+inherit autotools-brokensep
- 
- EXTRA_OECONF = "--disable-openssl"
- 
-@@ -21,6 +23,4 @@ do_configure_prepend() {
-        fi
- }
- 
--inherit autotools
+-SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
 -
- BBCLASSEXTEND = "native"
+-S = "${WORKDIR}/trunk"
++S = "${WORKDIR}/git"
+ 
+ EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
+ 
 -- 
 1.9.1
 
