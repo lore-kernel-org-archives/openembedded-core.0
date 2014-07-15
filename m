@@ -1,36 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id ACA7D701AC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B5E665DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 21:34:03 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id hy10so27271vcb.4
+	Tue, 15 Jul 2014 21:52:02 +0000 (UTC)
+Received: by mail-qa0-f44.google.com with SMTP id f12so21686qad.31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=fF3wNOw9r3ZwDUFTorpbgTct/KzpyEi4PYULLRdfWtU=;
-	b=SQgYcItoG3KVuAcfJ/GnGxxX3xmCO3tsoewq/CO2zwknijjRzwQR0PAcbJ/0cLXh+5
-	lg6dDrJ9TFs0TvidkHSyLDgRAokhGxyKcPsWbJvRB118/nva6v6DeMxjVfI2qO6CvcMo
-	2Ga5bSEWA6KHqpcw2Gsj3WbBeVY6YlrQXmHZhZBbqxq6tHlPEfHuMQS1yKfBLFBQGU5r
-	VR0VulXqLyxJCvp2vedWK8KbabdzmA82dwc85iw9pqfit3/W9BWd41wj/btWlKIg6yUs
-	kxkPY9YtZY5+i4hH/Uue/jefXBbKIYl9Q7sa3fUbaodAKgdXCmMegGAx5dfopyZHN22n
-	9OnA==
-X-Received: by 10.53.7.204 with SMTP id de12mr3337727vdd.41.1405460044152;
-	Tue, 15 Jul 2014 14:34:04 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([177.35.70.10])
-	by mx.google.com with ESMTPSA id j6sm27263800vdf.12.2014.07.15.14.34.02
-	for <multiple recipients>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Tue, 15 Jul 2014 14:34:03 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 18:33:42 -0300
-Message-Id: <1405460022-20428-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] alsa-tools: Disable use of GTK+ when using DirectFB
+	Tue, 15 Jul 2014 14:52:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=AwyF1jEIzFvz/55sQxVPZ6+vjfW0WyIILZ756ZmNtro=;
+	b=AaNJ7ia//S1Ju513x7aOuxGFR7p0r9ZFWPZxf4uO5XfyX4osle0mxrG0rLfoEtVvby
+	/EDoaz3GPsjiKFuBlJ0fHaI2JmvwaT2ajDdqOnDwSiwf5sJRuPuMTmscU21cHIoIVI+3
+	/vEjfAGUpbqEZdl7MPf+TlEC9WjsSNhrMa/FLJqLb9pbVeZzoYXvs3F1x9rfpWo3e63S
+	6IgFJBcAKBNvG884zY/bqMNyAXrll6+h4aCpQ1HoVAXkyYFzcZBOqmIEGsiHjKpdhhe8
+	LpHZe6o0x+Fq2SU0FZGFInDdx03KUWePpsTAHCaIUsWv45hc0AhseE0EqzJ/WX5+6FCA
+	s+Qw==
+X-Gm-Message-State: ALoCoQkhEzPQ3Leysp9sI+3fJTtN1GCaTAVBWV7WR6T1xEnc/o8bCZULKtTllWzY5sZiameUQNSc
+X-Received: by 10.140.100.233 with SMTP id s96mr14987594qge.92.1405461123388; 
+	Tue, 15 Jul 2014 14:52:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Tue, 15 Jul 2014 14:51:43 -0700 (PDT)
+In-Reply-To: <CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
+References: <cover.1405440532.git.ross.burton@intel.com>
+	<406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
+	<CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 15 Jul 2014 22:51:43 +0100
+Message-ID: <CAJTo0LajRNrS1nWfnE1n=ar6tO3A6US4too4sf8GwxZU1KyDwQ@mail.gmail.com>
+To: OE-devel <openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH 7/7] autoconf: remove automake patch enforcing --foreign
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 21:34:12 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 21:52:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The GTK+3 does not provide support for DirectFB backend so we cannot
-enable GTK+ features of alsa-tools in this case.
+On 15 July 2014 21:14, Khem Raj <raj.khem@gmail.com> wrote:
+> can it be somehow made such that it can be passed via option flags so we
+> dont have to patch the packages not using above automake macro
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Packages that don't use the right automake macro are generally very
+old and we're already carrying patches to fix the autoconf/automake
+files, so I'm not sure this is actually worth it.  I'm trying to drop
+the patches we're carrying against core build tools, not increase it.
+:)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-index 62d71ea..d3f0a79 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://mips_has_no_io_h.patch \
-            file://autotools.patch \
--           ${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland directfb', '', \
-+           ${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland', '', \
-                                     'file://makefile_no_gtk.patch', d)}"
- 
- SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
-@@ -21,7 +21,7 @@ inherit autotools-brokensep pkgconfig
- 
- EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland directfb', 'gtk+', '', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland', 'gtk+', '', d)}"
- PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
- 
- # configure.ac/.in doesn't exist so force copy
--- 
-1.7.10.4
-
+Ross
 
