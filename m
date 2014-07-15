@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C5C970634
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CD3A7063A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 14:19:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJp6c022824
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJqPK012755
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:51 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:52 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
 	Tue, 15 Jul 2014 07:19:51 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:32 -0700
-Message-ID: <827191ed4f51a454b91ad7dd8b525e4ed4f58be4.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:33 -0700
+Message-ID: <9525a2ff1a4fd38f645c20e43fb7b3858c2f1c8c.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 37/38] blktrace: add python to RDEPENDS_blktrace
+Subject: [PATCH 38/38] dpkg: add perl to RDEPENDS_perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +36,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:19:50 -0000
 Content-Type: text/plain
 
-Python script:
-blktrace/usr/bin/bno_plot.py
+Perl scripts:
+dpkg/usr/lib/dpkg/parsechangelog/debian
+dpkg/usr/bin/dpkg-parsechangelog
+dpkg/usr/bin/dpkg-buildflags
+dpkg/usr/bin/dpkg-gencontrol
+dpkg/usr/bin/dpkg-shlibdeps
+dpkg/usr/bin/dpkg-mergechangelogs
+dpkg/usr/bin/dpkg-source
+dpkg/usr/bin/dpkg-checkbuilddeps
+dpkg/usr/bin/dpkg-buildpackage
+dpkg/usr/bin/dpkg-gensymbols
+dpkg/usr/bin/dpkg-scanpackages
+dpkg/usr/bin/dpkg-vendor
+dpkg/usr/bin/dpkg-name
+dpkg/usr/bin/dpkg-genchanges
+dpkg/usr/bin/dpkg-distaddfile
+dpkg/usr/bin/dpkg-scansources
+dpkg/usr/bin/dpkg-architecture
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/blktrace/blktrace_git.bb |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/dpkg/dpkg.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
-index 7a32993..5d89a20 100644
---- a/meta/recipes-kernel/blktrace/blktrace_git.bb
-+++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
-@@ -12,6 +12,8 @@ PV = "1.0.5+git${SRCPV}"
- SRC_URI = "git://git.kernel.dk/blktrace.git \
-            file://ldflags.patch"
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 929906d..ea6b171 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -7,7 +7,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
  
-+RDEPENDS_${PN} += "python"
-+
- S = "${WORKDIR}/git"
+ DEPENDS = "zlib bzip2 perl ncurses"
+ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
+-RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts"
++RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts perl"
+ RDEPENDS_${PN}_class-native = "xz-native"
  
- EXTRA_OEMAKE = "\
+ S = "${WORKDIR}/${BPN}-${PV}"
 -- 
 1.7.9.5
 
