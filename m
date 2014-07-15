@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EF8BD705EA
+	by mail.openembedded.org (Postfix) with ESMTP id BB6337058C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:45 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJl07022803
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJmhG022806
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:47 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:48 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
 	Tue, 15 Jul 2014 07:19:47 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:22 -0700
-Message-ID: <67d8911bc85145bdb19b98eda51f4e90e5c2f2f3.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:24 -0700
+Message-ID: <c70f0ebecc89672637175d12cfa79f0a1fa1a050.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 27/38] libpam: add bash to RDEPENDS_libpam-xtests
+Subject: [PATCH 29/38] ltp: add bash and python to RDEPENDS_ltp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,56 +37,36 @@ X-List-Received-Date: Tue, 15 Jul 2014 14:19:46 -0000
 Content-Type: text/plain
 
 Bash scripts:
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_limits1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_access1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_unix4.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_access3.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/run-xtests.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_substack5.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_unix3.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_pwhistory1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_succeed_if1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_unix1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_unix2.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_substack2.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_substack4.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_substack3.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_access4.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_substack1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_access2.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_assemble_line1.sh
-libpam-xtests/usr/share/Linux-PAM/xtests/tst-pam_group1.sh
+[snip]
+228 ones
+
+Python scripts:
+ltp/opt/ltp/testcases/bin/lib/sched_mc.py
+ltp/opt/ltp/testcases/bin/cpu_consolidation.py
+ltp/opt/ltp/testcases/bin/sched_domain.py
+ltp/opt/ltp/testcases/bin/ilb_test.py
+ltp/opt/ltp/bin/execltp
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/pam/libpam_1.1.6.bb |   12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ meta/recipes-extended/ltp/ltp_20140422.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index 3190aaf..789890d 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -72,8 +72,16 @@ libpam_suffix = "suffix${@get_multilib_bit(d)}"
- RPROVIDES_${PN} += "libpam-${libpam_suffix}"
- RPROVIDES_${PN}-runtime += "libpam-runtime-${libpam_suffix}"
+diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
+index 995d617..f464ad9 100644
+--- a/meta/recipes-extended/ltp/ltp_20140422.bb
++++ b/meta/recipes-extended/ltp/ltp_20140422.bb
+@@ -64,7 +64,7 @@ do_install(){
+     find ${D} -type f -print | xargs grep "\!.*\/usr\/bin\/expect" | awk -F":" '{print $1}' | xargs rm -f
+ }
  
--RDEPENDS_${PN}-runtime = "libpam-${libpam_suffix} pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix}"
--RDEPENDS_${PN}-xtests = "libpam-${libpam_suffix} pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} coreutils"
-+RDEPENDS_${PN}-runtime = "libpam-${libpam_suffix} \
-+    pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} \
-+    pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix} \
-+    "
-+RDEPENDS_${PN}-xtests = "libpam-${libpam_suffix} \
-+    pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} \
-+    pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} \
-+    pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} \
-+    coreutils bash \
-+    "
- RRECOMMENDS_${PN} = "libpam-runtime-${libpam_suffix}"
+-RDEPENDS_${PN} = "perl e2fsprogs-mke2fs"
++RDEPENDS_${PN} = "perl e2fsprogs-mke2fs bash python"
  
- python populate_packages_prepend () {
+ FILES_${PN}-dbg += "\
+     /opt/ltp/runtest/.debug \
 -- 
 1.7.9.5
 
