@@ -1,37 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C83B07029A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EACAC70298
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 08:46:59 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id i17so2079868qcy.16
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 01:47:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Jv0kcMyCP9TNm5Xwb30MuZPdXgKRklzI2TkOyrSkLtc=;
-	b=QdqLmejJPb28dzKo9NWXBliY6ayHPvBeMLoBxd1KkQl2xe6w/U4gaXoaE1VmQu7E5L
-	XEYwx2bYYkSdZbDrkKvip6u83QWHDJYmeHyDi6U5KNKkA9+ucmwtwWTRtzg2YIO5Cue2
-	kZGvBY7aSgkhlSlEJOsnV7tJoZXFAN8piVp1W1Ece5vzinO9LPFFF9S9uLK6iwlxtjXp
-	9hKIcqIf5il3/idZ0FP2PIIUtSdX0mj+6WbIgIlH/GfIe0O4ixSEtHAV1oHwwyRcB/ed
-	GG5u4tnlh2uMeQF//TVBlKdSLVpH5GbbdUCqoSwI4nPUH6OYS5OK77SFumIVMQhMgFSS
-	tqzw==
-X-Gm-Message-State: ALoCoQkXF1GTqZhfKiGDprtKFq6fIoFmEdsRBBbTBcz7cqjV2iyElhfziBP2UsrUENTRDHVD4Q6Y
-X-Received: by 10.140.89.197 with SMTP id v63mr31203546qgd.71.1405414020596;
-	Tue, 15 Jul 2014 01:47:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Tue, 15 Jul 2014 01:46:40 -0700 (PDT)
-In-Reply-To: <53C46FEC.3080006@linux.intel.com>
-References: <1405019902-31691-1-git-send-email-drew_moseley@mentor.com>
-	<53C46FEC.3080006@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Jul 2014 09:46:40 +0100
-Message-ID: <CAJTo0LaZJzF1y=jp2ZV+sNV+6Kr9G9ez-BNvT6gUY3sgNvBrQw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libomxil-0.9.3: Move .so files to main package.
+	Tue, 15 Jul 2014 10:58:00 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6FAvmXu007327; Tue, 15 Jul 2014 11:57:48 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FsZ814wWLTyy; Tue, 15 Jul 2014 11:57:48 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6FAvgBF007322
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 15 Jul 2014 11:57:44 +0100
+Message-ID: <1405421856.20402.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 15 Jul 2014 11:57:36 +0100
+In-Reply-To: <53BF41A9.4010706@windriver.com>
+References: <cover.1404885647.git.hongxu.jia@windriver.com>
+	<9941caf92c8d49ddd3cdea016fa8ec6263875185.1404885647.git.hongxu.jia@windriver.com>
+	<CAJTo0LZ7X4UUedddwb3q9XxkqZqTYF8-mHST7GRZ0y7OZUksvg@mail.gmail.com>
+	<53BF41A9.4010706@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 4/8] xmlto: add version 0.0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +41,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 08:47:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Jul 2014 10:58:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 15 July 2014 01:03, Saul Wold <sgw@linux.intel.com> wrote:
-> On 07/10/2014 12:18 PM, Drew Moseley wrote:
->>
->> The omxregister-bellagio app scans the libdir for the '*.so'
->> files to get them properly registered.  Make sure they are
->> included in the base package rather than the dev.
->>
-> Would it be better to patch the register app to have a more generic search
-> for .so*??
+On Fri, 2014-07-11 at 09:45 +0800, Hongxu Jia wrote:
+> On 07/11/2014 04:57 AM, Burton, Ross wrote:
+> 
+> > On 9 July 2014 11:16, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> > > +# To make sure these native packages ready before xmlto-native was invoked.
+> > > +DEPENDS_class-native = " \
+> > > +    docbook-xml-dtd4-native \
+> > > +    docbook-xsl-stylesheets-native \
+> > > +    util-linux-native \
+> > > +    libxml2-native \
+> > > +    libxslt-native \
+> > > +"
+> > Does this do what you want if xmlto-native is pulled in from sstate in
+> > an empty tmp?
+> 
+> Hi Ross,
+> 
+> If we don't have it, while runing bitbake world, there was a build
+> failure for alsa-utils which xmlto enabled.
+> ...
+> | xmlto man alsactl_init.xml
+> | sed -e 's,@localstatedir\@,/var,g' -e 's,@sbindir\@,/usr/sbin,g' -e 's,@daemonswitch\@,/etc/alsa/state-daemon.conf,g' < 90-alsa-restore.rules.in > 90-alsa-restore.rules || rm 90-alsa-restore.rules
+> | i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/buildarea3/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86  -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o alsactl alsactl-alsactl.o alsactl-state.o alsactl-lock.o alsactl-utils.o alsactl-init_parse.o alsactl-daemon.o  -lasound -lm -ldl -lpthread
+> | xmlto: /buildarea3/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/alsa-utils/1.0.27.2-r0/alsa-utils-1.0.27.2/alsactl/alsactl_init.xml does not validate (status 3)
+> | xmlto: Fix document syntax or use --skip-validation option
+> | I/O error : Attempt to load network entity http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd
+> | /buildarea3/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/alsa-utils/1.0.27.2-r0/alsa-utils-1.0.27.2/alsactl/alsactl_init.xml:3: warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
+> |   "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+> |                                                            ^
+> | I/O error : Attempt to load network entity http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd
+> | warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
+> | validity error : Could not load the external subset "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
+> ...
+> 
+> The alsa-utils invoked xmlto to generate document at his do_compile,
+> so we have to make sure the above native packages prepared before
+> xmlto-native.
 
-Searching for .so is fine if you're looking for loadable modules, but
-as the package contains versioned real files and lots of symlinks
-they're Doing It Wrong.  A better fix would be to fix the build so
-that it installs unversioned loadable modules, and then ensure that
-they're in the main package (a real .so file in $PN shoudn't kick a QA
-error, either).
+Shouldn't alsa-utils have a dependency on the docbook pieces it needs as
+well as xmlto-native then?
 
-I think the magic libtool options are -avoid-version -module -shared.
+Certainly, these are not build time dependencies of xmlto so something
+is not quite right...
 
-Ross
+Cheers,
+
+Richard
+
 
