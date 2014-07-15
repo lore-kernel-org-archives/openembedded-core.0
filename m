@@ -1,25 +1,26 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BC71705EA
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BDEB1705EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:16:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FFGAoQ013412
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 08:16:11 -0700 (PDT)
-Received: from pek-kkang-d1.corp.ad.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.169.1; Tue, 15 Jul 2014 08:16:09 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 23:15:55 +0800
-Message-ID: <1405437355-13212-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 15 Jul 2014 15:17:40 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2014 08:12:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="573482167"
+Received: from unknown (HELO [10.255.12.224]) ([10.255.12.224])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jul 2014 08:13:37 -0700
+Message-ID: <53C54520.6000704@linux.intel.com>
+Date: Tue, 15 Jul 2014 08:13:36 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH] smart: set noprogress for pycurl
+To: akuster808 <akuster808@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+References: <1405430855-12398-1-git-send-email-akuster@mvista.com>	<CAJTo0LYfG4kCxWHbKK9rM7YScB2NAqVqmTVmMKpGb7UD7WE0Bg@mail.gmail.com>
+	<53C5387D.6040503@gmail.com>
+In-Reply-To: <53C5387D.6040503@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] nettle: update to version 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:16:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Jul 2014 15:17:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Set NOPROGRESS for pycurl just as same as default operation in pycurl
-module itself. If set NOPROGRESS with 0 for pycurl, it causes dead lock
-issue of Python GIL when call smart library by python gui just like
-pygtk.
+On 07/15/2014 07:19 AM, akuster808 wrote:
+> Ross,
+>
+> Since we are keeping both versions, should I define  a PREFERRED_VERSION?
+>
+No need to do that since the newer version will be used by default, and 
+when INCOMPATIBLE_LICENSE with GPLv3 is set, the GPLv3 will be 
+blacklisted and the older GPLv2 version will be used.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../smart-set-noprogress-for-pycurl.patch            | 20 ++++++++++++++++++++
- meta/recipes-devtools/python/python-smartpm_1.4.1.bb |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
+Sau!
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
-new file mode 100644
-index 0000000..2885998
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
-@@ -0,0 +1,20 @@
-+Set NOPROGRESS for pycurl just as same as default operation in pycurl module itself.
-+If set NOPROGRESS with 0 for pycurl, it causes dead lock issue of Python GIL when
-+call smart library by python gui just like pygtk.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+diff -u smart-1.4.1/smart.orig/fetcher.py smart-1.4.1/smart/fetcher.py
-+--- smart-1.4.1/smart.orig/fetcher.py	2014-07-15 16:42:19.240437080 +0800
-++++ smart-1.4.1/smart/fetcher.py	2014-07-15 17:02:37.812470289 +0800
-+@@ -1720,7 +1720,7 @@
-+                         handle.setopt(pycurl.OPT_FILETIME, 1)
-+                         handle.setopt(pycurl.LOW_SPEED_LIMIT, 1)
-+                         handle.setopt(pycurl.LOW_SPEED_TIME, SOCKETTIMEOUT)
-+-                        handle.setopt(pycurl.NOPROGRESS, 0)
-++                        handle.setopt(pycurl.NOPROGRESS, 1)
-+                         handle.setopt(pycurl.PROGRESSFUNCTION, progress)
-+                         handle.setopt(pycurl.WRITEDATA, local)
-+                         handle.setopt(pycurl.FOLLOWLOCATION, 1)
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index 0971579..8eb2a25 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -32,6 +32,7 @@ SRC_URI = "\
-           file://smart-config-ignore-all-recommends.patch \
-           file://smart-attempt.patch \
-           file://smart-filename-NAME_MAX.patch \
-+          file://smart-set-noprogress-for-pycurl.patch \
-           "
- 
- SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
--- 
-1.9.1
-
+> - Armin
+>
+> On 07/15/2014 06:49 AM, Burton, Ross wrote:
+>> On 15 July 2014 14:27, Armin Kuster <akuster@mvista.com> wrote:
+>>> Add GNUv3 license
+>>
+>> If nettle 3 contains GPLv3 code then we probably don't want to remove
+>> nettle 2.1, for people building without any v3 code in the images.
+>>
+>> Ross
+>>
 
