@@ -1,38 +1,26 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 84F346DA74
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C105702A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 12:33:52 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20140715123350948
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 12:33:50 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [69.196.158.250] (port=52545 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X71vU-0006Yr-MO for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jul 2014 08:33:44 -0400
-Date: Tue, 15 Jul 2014 08:33:42 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1407150831460.9719@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Tue, 15 Jul 2014 12:36:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FCa1D6000310
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Jul 2014 05:36:01 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 15 Jul 2014 05:36:01 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jul 2014 20:35:45 +0800
+Message-ID: <57a93de32f9cf7d406b8cbf06fa57df055e23c4e.1405427541.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1405427541.git.hongxu.jia@windriver.com>
+References: <cover.1405427541.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] local.conf.sample: Add QEMU machine entry for supported MIPS64.
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/8] libxml2: enable catalog support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 12:33:57 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 15 Jul 2014 12:36:05 -0000
+Content-Type: text/plain
 
+It let the environment variable XML_CATALOG_FILES could work
+which was required by xmlto.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+[YOCTO #2416]
 
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
+ meta/recipes-core/libxml/libxml2.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index d64ba7f..8e3f95c 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -41,6 +41,7 @@ PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
- #
- #MACHINE ?= "qemuarm"
- #MACHINE ?= "qemumips"
-+#MACHINE ?= "qemumips64"
- #MACHINE ?= "qemuppc"
- #MACHINE ?= "qemux86"
- #MACHINE ?= "qemux86-64"
-
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index e0b50cf..9aa640b 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -38,10 +38,10 @@ do_configure_prepend_class-nativesdk () {
+ 	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+ }
+ 
+-EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+-EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+-EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+-EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-catalog --with-docbook --with-c14n --without-lzma"
++EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
++EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma"
++EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma"
++EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma"
+ 
+ # required for pythong binding
+ export HOST_SYS
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+1.8.1.2
 
 
