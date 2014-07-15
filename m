@@ -1,26 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA0AB705EA
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id DED3E705FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:34:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEYsfC025410
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:34:54 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 07:34:54 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:34:54 -0700
-Message-ID: <fcd61e5baf3556bdd989c51e318f6e177032b516.1405434689.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1405434689.git.liezhi.yang@windriver.com>
-References: <cover.1405434689.git.liezhi.yang@windriver.com>
+	Tue, 15 Jul 2014 14:38:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,665,1400018400"; d="scan'208";a="54918031"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 15 Jul 2014 16:38:06 +0200
+Received: from COSNADEXC11.usr.ingenico.loc (10.31.4.211) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Tue, 15 Jul 2014 16:38:05 +0200
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.156]) by
+	COSNADEXC11.usr.ingenico.loc ([10.31.4.211]) with mapi id
+	14.03.0174.001; Tue, 15 Jul 2014 16:38:05 +0200
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora,
+	libvorbis, speex and openssl
+Thread-Index: AQHPnNJ/XlmlgL3ls0q17myQTtn7XpuawSVA///vQICABoqjIA==
+Date: Tue, 15 Jul 2014 14:38:05 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050BA8B27988@COSNADEXC13.usr.ingenico.loc>
+References: <1404138201-22662-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<20140630164039.GC2437@jama>
+	<C147EF5C-664D-45FD-BA7C-020B54702266@dominion.thruhere.net>
+	<8672BB614B4CCA40A6B3BDD6FD82050BA8B25636@COSNADEXC13.usr.ingenico.loc>
+	<53BFDC0F.3050208@opendreambox.org>
+In-Reply-To: <53BFDC0F.3050208@opendreambox.org>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] kernel.bbclass: add perl python bash to RDEPENDS_kernel-dev
+Subject: Re: [PATCH v2] libav: add PACKAGECONFIG for theora, libvorbis, speex and openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +44,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 14:34:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Jul 2014 14:38:14 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Bash scripts:
-[snip]
-66 ones
+Hi Andreas,
 
-Perl scripts:
-[snip]
-26 ones
+Thanks for contribution. Your way is simple but user must know internal dep=
+endencies between codecs in licenses.
+I think we can drop the GPL v2/v3 case because it is only used with libopen=
+core & libvo that we don't use them in our recipe.
 
-Python scripts:
-kernel-dev/usr/src/kernel/scripts/diffconfig
-kernel-dev/usr/src/kernel/scripts/rt-tester/rt-tester.py
-kernel-dev/usr/src/kernel/scripts/tracing/draw_functrace.py
-kernel-dev/usr/src/kernel/scripts/analyze_suspend.py
-kernel-dev/usr/src/kernel/scripts/bloat-o-meter
-kernel-dev/usr/src/kernel/scripts/show_delta
-kernel-dev/usr/src/kernel/tools/perf/scripts/python/sched-migration.py
-kernel-dev/usr/src/kernel/tools/perf/util/setup.py
-kernel-dev/usr/src/kernel/arch/ia64/scripts/unwcheck.py
+I'll post a v3 patch asap.
 
-[YOCTO #1662]
+Regards,
+Matthieu
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/kernel.bbclass |    1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index b2e9d4c..a78ee96 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -350,6 +350,7 @@ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERN
- FILES_kernel-vmlinux = "/boot/vmlinux*"
- FILES_kernel-modules = ""
- RDEPENDS_kernel = "kernel-base"
-+RDEPENDS_kernel-dev = "perl bash python"
- # Allow machines to override this dependency if kernel image files are 
- # not wanted in images as standard
- RDEPENDS_kernel-base ?= "kernel-image"
--- 
-1.7.9.5
+-----Message d'origine-----
+De=A0: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
+d-core-bounces@lists.openembedded.org] De la part de Andreas Oberritter
+Envoy=E9=A0: vendredi 11 juillet 2014 14:44
+=C0=A0: openembedded-core@lists.openembedded.org
+Objet=A0: Re: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora, lib=
+vorbis, speex and openssl
 
+Hi Matthieu,
+
+I used a different approach, but could't test with master yet.
+
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dobi/daisy=
+&id=3D1e3c64a768a5aeaf8d904609a14dd29e298821df
+
+While at it, you may also take a look at this commit:
+
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dobi/daisy=
+&id=3D1e39f95927b65c7943c8d6c36203b8b55c9b3cdf
+
+Feel free to modify and submit as you like.
+
+Regards,
+Andreas
+
+On 11.07.2014 13:47, Matthieu CRAPET wrote:
+> Hi Koen,
+>=20
+> Something like this (in a small python function) would be acceptable?
+>=20
+> d.setVar('LICENSE', 'CLOSED')
+>=20
+> Regards,
+> Matthieu
+>=20
+>=20
+> -----Message d'origine-----
+> De : Koen Kooi [mailto:koen@dominion.thruhere.net]
+> Envoy=E9 : vendredi 11 juillet 2014 08:37 =C0 : Martin Jansa Cc : Matthie=
+u=20
+> CRAPET; openembedded-core@lists.openembedded.org
+> Objet : Re: [OE-core] [PATCH v2] libav: add PACKAGECONFIG for theora,=20
+> libvorbis, speex and openssl
+>=20
+> [...]
+>=20
+>>> +# Check codecs that require --enable-nonfree USE_NONFREE =3D=20
+>>> +"${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes=
+', '', d)}"
+>>>
+>>> EXTRA_OECONF =3D " \
+>>>     --enable-shared \
+>>>     --enable-pthreads \
+>>>     --enable-gpl \
+>>> +    ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree',=20
+>>> + '', d)} \
+>>
+>> cannot you just pass --enable-nonfree in faac and openssl PACKAGECONFIG?
+>> In worse case when both are enabled the option will be added twice.
+>=20
+> If you have nonfree enabled, you need to change the license as well, it w=
+on't be GPL anymore.
+>=20
+> regards,
+>=20
+> Koen
+>=20
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
