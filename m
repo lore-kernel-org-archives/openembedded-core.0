@@ -1,25 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 898E67040C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A45570391
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 00:22:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jul 2014 17:16:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,661,1400050800"; d="scan'208";a="573128484"
-Received: from unknown (HELO [10.255.13.46]) ([10.255.13.46])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jul 2014 17:22:12 -0700
-Message-ID: <53C47434.50404@linux.intel.com>
-Date: Mon, 14 Jul 2014 17:22:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Tue, 15 Jul 2014 01:24:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6F1OUOo005240
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jul 2014 18:24:30 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Mon, 14 Jul 2014 18:24:29 -0700
+Message-ID: <53C482CC.3010806@windriver.com>
+Date: Tue, 15 Jul 2014 09:24:28 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1405348287-30244-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1405348287-30244-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH 1/2] xf86-video-intel: upgrade to 2.99.912
+To: Mark Hatle <mark.hatle@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1405330780.git.liezhi.yang@windriver.com>	<bb94f3eb6cee9ad053d6a938766e45e9fab2d167.1405330780.git.liezhi.yang@windriver.com>
+	<53C43749.2000103@windriver.com>
+In-Reply-To: <53C43749.2000103@windriver.com>
+Subject: Re: [PATCH 1/2] insane.bbclass: QAPATHTEST: check file depends on bash, perl and python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,248 +36,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 00:22:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 15 Jul 2014 01:24:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/14/2014 07:31 AM, Ross Burton wrote:
-> Drop a backported patch that has been applied.
+
+
+On 07/15/2014 04:02 AM, Mark Hatle wrote:
+> On 7/14/14, 4:41 AM, Robert Yang wrote:
+>> If it is a bash, perl or python script, and the RDEPENDS_pkg doesn't
+>> have bash, python or perl, then warn.
+>>
+>> This is mainly for ipk and deb, since rpm can add "/usr/bin/perl" to the
+>> its "Requires" section if it is a perl script, but ipk or deb can't
+>> depend on file such as "/usr/bin/perl", they can only depend on pkg, so
+>> they would know nothing about perl, then there would be depend issues.
+>>
+>> This check can help us figure out the depends, it nearly has no effect
+>> on performance when enabled.
+>>
+>> [YOCTO #1662]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/classes/insane.bbclass |   32 ++++++++++++++++++++++++++++++--
+>>   1 file changed, 30 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+>> index 106ace7..a14e668 100644
+>> --- a/meta/classes/insane.bbclass
+>> +++ b/meta/classes/insane.bbclass
+>> @@ -19,7 +19,7 @@
+>>
+>>   # unsafe-references-in-binaries requires prelink-rtld from
+>>   # prelink-native, but we don't want this DEPENDS for -native builds
+>> -QADEPENDS = "prelink-native"
+>> +QADEPENDS = "prelink-native file-native"
 >
-> Apply a patch from upstream to add enable/disable options for each DRI level, as
-> .912 won't build if the X server doesn't support DRI3.  Add PACKAGECONFIG
-> options for each DRI level and enable DRI1 and DRI2.
+> If the perfile dependency processing is enabled, run in: package_do_filedeps
 >
-> Add a PACKAGECONFIG option for the client tools, disabled by default as they're
-> only useful on machines with hybrid discrete/integrated GPUs.
+> The system will already have gathered the information needed for the QA
+> processing.  You can look at:
+>
+> # Collect perfile run-time dependency metadata
+> # Output:
+> #  FILERPROVIDESFLIST_pkg - list of all files w/ deps
+> #  FILERPROVIDES_filepath_pkg - per file dep
+> #
+> #  FILERDEPENDSFLIST_pkg - list of all files w/ deps
+> #  FILERDEPENDS_filepath_pkg - per file dep
+>
+> variables for the per-file dependencies and then warn if a dependency is not
+> already declared in the manual RDEPENDS -- and/or promote them to real
+> dependencies automatically.
+>
+> This should be faster then iterating through and calling file directly.
 >
 
-I think you need to update the default-versions for PREFERRED_VERSION of 
-x86-video-intel also.
+Thanks, I will only warn from package_do_filedeps and let the user add the
+RDEPENDS manually, I will also fix a few of the RDEPENDS in V2.
 
-Sau!
+Please feel free to let me know if others have any suggestions.
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   .../xf86-video-intel/configure-dri.patch           |  166 ++++++++++++++++++++
->   ...el_2.99.910.bb => xf86-video-intel_2.99.912.bb} |   19 ++-
->   2 files changed, 178 insertions(+), 7 deletions(-)
->   create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/configure-dri.patch
->   rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.99.910.bb => xf86-video-intel_2.99.912.bb} (59%)
+// Robert
+
+
+> --Mark
 >
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/configure-dri.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/configure-dri.patch
-> new file mode 100644
-> index 0000000..7fa9443
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/configure-dri.patch
-> @@ -0,0 +1,166 @@
-> +Add the ability to enable/disable specific versions of the DRI support.
-> +
-> +This is the following two commits from master squashed:
-> +  7bc669dd4b7e3e5978e95e4131d1f9215afbc041
-> +  5a0cb1049c2fa0586708719210a2d2cffa7a4491
-> +
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index b3b6e8e..bd654f3 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -296,6 +296,21 @@ AC_ARG_ENABLE(dri,
-> + 			     [Disable DRI support [[default=auto]]]),
-> + 	      [DRI=$enableval],
-> + 	      [DRI=auto])
-> ++AC_ARG_ENABLE(dri1,
-> ++	      AS_HELP_STRING([--disable-dri1],
-> ++			     [Disable DRI1 support [[default=yes]]]),
-> ++	      [DRI1=$enableval],
-> ++	      [DRI1=yes])
-> ++AC_ARG_ENABLE(dri2,
-> ++	      AS_HELP_STRING([--disable-dri2],
-> ++			     [Disable DRI2 support [[default=yes]]]),
-> ++	      [DRI2=$enableval],
-> ++	      [DRI2=yes])
-> ++AC_ARG_ENABLE(dri3,
-> ++	      AS_HELP_STRING([--disable-dri3],
-> ++			     [Disable DRI3 support [[default=yes]]]),
-> ++	      [DRI3=$enableval],
-> ++	      [DRI3=yes])
-> +
-> + AC_ARG_ENABLE(xvmc, AS_HELP_STRING([--disable-xvmc],
-> +                                   [Disable XvMC support [[default=yes]]]),
-> +@@ -461,15 +476,15 @@ if test "x$UMS" = "xyes"; then
-> + 	AC_DEFINE(UMS,1,[Assume UMS support])
-> + fi
-> +
-> +-DRI1=no
-> ++have_dri1=no
-> + XORG_DRIVER_CHECK_EXT(XF86DRI, xf86driproto)
-> +-if test "x$_EXT_CHECK" != "xno" -a "x$DRI" != "xno" -a "x$UMS" = "xyes"; then
-> +-	PKG_CHECK_MODULES(DRI1, [xf86driproto], [DRI1=$DRI], [DRI1=no])
-> ++if test "x$_EXT_CHECK" != "xno" -a "x$DRI" != "xno" -a "x$DRI1" != "xno" -a "x$UMS" = "xyes"; then
-> ++	PKG_CHECK_MODULES(DRI1, [xf86driproto], [have_dri1=$DRI], [have_dri1=no])
-> +         save_CFLAGS="$CFLAGS"
-> +         save_CPPFLAGS="$CPPFLAGS"
-> +         CFLAGS="$CFLAGS $XORG_CFLAGS $DRI1_CFLAGS $DRM_CFLAGS"
-> +         CPPFLAGS="$CPPFLAGS $XORG_CFLAGS $DRI1_CFLAGS $DRM_CFLAGS"
-> +-        AC_CHECK_HEADERS([dri.h sarea.h dristruct.h], [], [DRI1=no],
-> ++        AC_CHECK_HEADERS([dri.h sarea.h dristruct.h], [], [have_dri1=no],
-> +                 [/* for dri.h */
-> +                  #include <xf86str.h>
-> +                  /* for dristruct.h */
-> +@@ -486,49 +501,55 @@ if test "x$_EXT_CHECK" != "xno" -a "x$DRI" != "xno" -a "x$UMS" = "xyes"; then
-> + fi
-> +
-> + AC_MSG_CHECKING([whether to include DRI1 support])
-> +-AC_MSG_RESULT([$DRI1])
-> ++AC_MSG_RESULT([$have_dri1])
-> +
-> +-AM_CONDITIONAL(DRI1, test "x$DRI1" != "xno")
-> +-if test "x$DRI1" != "xno"; then
-> ++AM_CONDITIONAL(DRI1, test "x$have_dri1" != "xno")
-> ++if test "x$have_dri1" != "xno"; then
-> +         AC_DEFINE(HAVE_DRI1,1,[Enable DRI1 driver support])
-> + 	dri_msg="$dri_msg DRI1"
-> + else
-> +         DRI1_CFLAGS=""
-> +         DRI1_LIBS=""
-> +
-> +-        if test "x$DRI" = "xyes" -a "x$UMS" = "xyes"; then
-> ++        if test "x$DRI" = "xyes" -a "x$UMS" = "xyes" -a "x$DRI1" != "xno"; then
-> +                 AC_MSG_ERROR([DRI1 requested but prerequisites not found])
-> +         fi
-> + fi
-> +
-> +-DRI2=no
-> +-DRI3=no
-> ++have_dri2=no
-> ++have_dri3=no
-> + if test "x$DRI" != "xno"; then
-> +-	PKG_CHECK_MODULES(DRI2, [dri2proto >= 2.6], [DRI2=$DRI], [DRI2=no])
-> +-	dridriverdir=`$PKG_CONFIG --variable=dridriverdir dri`
-> +-	if test "x$dridriverdir" = "x"; then
-> +-		dridriverdir="$libdir/dri"
-> +-	fi
-> +-	AC_DEFINE_DIR(DRI_DRIVER_PATH, dridriverdir, [Default DRI2 driver path])
-> + 	if test "x$DRI2" != "xno"; then
-> ++		PKG_CHECK_MODULES(DRI2, [dri2proto >= 2.6], [have_dri2=$DRI], [have_dri2=no])
-> ++	fi
-> ++	if test "x$have_dri2" != "xno"; then
-> + 		save_CFLAGS=$CFLAGS
-> + 		CFLAGS="$XORG_CFLAGS $DRM_CFLAGS $DRI1_CFLAGS $DRI2_CFLAGS"
-> +-		AC_CHECK_HEADERS([dri2.h], [], [DRI2=no], [
-> ++		AC_CHECK_HEADERS([dri2.h], [], [have_dri2=no], [
-> + #include <dixstruct.h>
-> + #include <drm.h>
-> + ])
-> + 		CFLAGS=$save_CFLAGS
-> + 	fi
-> +-
-> +-	XORG_DRIVER_CHECK_EXT(DRI3, dri3proto)
-> +-	if test "x$_EXT_CHECK" != "xno"; then
-> +-		PKG_CHECK_MODULES(DRI3, [dri3proto], [DRI3=$DRI], [])
-> ++	if test "x$have_dri2" != "xno"; then
-> ++		dridriverdir=`$PKG_CONFIG --variable=dridriverdir dri`
-> ++		if test "x$dridriverdir" = "x"; then
-> ++			dridriverdir="$libdir/dri"
-> ++		fi
-> ++		AC_DEFINE_DIR(DRI_DRIVER_PATH, dridriverdir, [Default have_dri2 driver path])
-> + 	fi
-> ++
-> + 	if test "x$DRI3" != "xno"; then
-> ++		XORG_DRIVER_CHECK_EXT(DRI3, dri3proto)
-> ++		if test "x$_EXT_CHECK" != "xno"; then
-> ++			PKG_CHECK_MODULES(DRI3, [dri3proto], [have_dri3=$DRI], [])
-> ++		fi
-> ++	fi
-> ++	if test "x$have_dri3" != "xno"; then
-> + 		save_CFLAGS=$CFLAGS
-> + 		CFLAGS="$XORG_CFLAGS $DRI3_CFLAGS"
-> +-		AC_CHECK_DECL(DRI3, [], [DRI3=no], [#include <xorg-server.h>])
-> +-		AC_CHECK_HEADERS([misyncstr.h misyncshm.h], [], [DRI3=no], [
-> ++		AC_CHECK_DECL(DRI3, [], [have_dri3=no], [#include <xorg-server.h>])
-> ++		AC_CHECK_HEADERS([misyncstr.h misyncshm.h], [], [have_dri3=no], [
-> + #include <xorg-server.h>
-> + #include <xf86str.h>
-> + #include <misync.h>
-> +@@ -538,13 +559,13 @@ if test "x$DRI" != "xno"; then
-> + fi
-> +
-> + AC_MSG_CHECKING([whether to include DRI2 support])
-> +-AM_CONDITIONAL(DRI2, test "x$DRI2" != "xno")
-> +-AC_MSG_RESULT([$DRI2])
-> +-if test "x$DRI2" != "xno"; then
-> ++AM_CONDITIONAL(DRI2, test "x$have_dri2" != "xno")
-> ++AC_MSG_RESULT([$have_dri2])
-> ++if test "x$have_dri2" != "xno"; then
-> +         AC_DEFINE(HAVE_DRI2,1,[Enable DRI2 driver support])
-> + 	dri_msg="$dri_msg DRI2"
-> + else
-> +-	if test "x$DRI" = "xyes" -a "x$KMS" = "xyes"; then
-> ++	if test "x$DRI" = "xyes" -a "x$DRI2" != "xno" -a "x$KMS" = "xyes"; then
-> + 		AC_MSG_ERROR([DRI2 requested but prerequisites not found])
-> + 	fi
-> +
-> +@@ -553,13 +574,13 @@ else
-> + fi
-> +
-> + AC_MSG_CHECKING([whether to include DRI3 support])
-> +-AM_CONDITIONAL(DRI3, test "x$DRI3" != "xno")
-> +-AC_MSG_RESULT([$DRI3])
-> +-if test "x$DRI3" != "xno"; then
-> ++AM_CONDITIONAL(DRI3, test "x$have_dri3" != "xno")
-> ++AC_MSG_RESULT([$have_dri3])
-> ++if test "x$have_dri3" != "xno"; then
-> +         AC_DEFINE(HAVE_DRI3,1,[Enable DRI3 driver support])
-> + 	dri_msg="$dri_msg DRI3"
-> + else
-> +-	if test "x$DRI" = "xyes" -a "x$KMS" = "xyes"; then
-> ++	if test "x$DRI" = "xyes" -a "x$DRI3" != "xno" -a "x$KMS" = "xyes"; then
-> + 		AC_MSG_ERROR([DRI3 requested but prerequisites not found])
-> + 	fi
-> + fi
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.910.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.912.bb
-> similarity index 59%
-> rename from meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.910.bb
-> rename to meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.912.bb
-> index 60eace4..0777690 100644
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.910.bb
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.912.bb
-> @@ -9,23 +9,28 @@ Infrastructure (DRI)."
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
->
-> -DEPENDS += "virtual/libx11 drm libpciaccess pixman"
-> +SRC_URI += "file://configure-dri.patch"
-> +
-> +SRC_URI[md5sum] = "88d1a884f9b7bd07bf0755cfa34052d4"
-> +SRC_URI[sha256sum] = "7c8ffc492d59f34cac64093deb70717b4d9223cf416ecc6fa016ab2e8bde9501"
->
-> -SRC_URI += "file://compat-api-Map-changes-of-DamageUnregister-API-in-1..patch \
-> -           "
-> +DEPENDS += "virtual/libx11 drm libpciaccess pixman"
->
-> -PACKAGECONFIG ??= "sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri', '', d)}"
-> +PACKAGECONFIG ??= "sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri1 dri2', '', d)}"
->
-> -PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,xf86driproto dri2proto"
-> +PACKAGECONFIG[dri] = "--enable-dri,--disable-dri"
-> +PACKAGECONFIG[dri1] = "--enable-dri1,--disable-dri1,xf86driproto"
-> +PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
-> +PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto"
->   PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
->   PACKAGECONFIG[uxa] = "--enable-uxa,--disable-uxa"
->   PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
->   PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
-> +PACKAGECONFIG[tools] = "--enable-tools,--disable-tools,libxinerama libxrandr libxdamage libxfixes libxcursor libxtst libxext libxrender"
->
->   # --enable-kms-only option is required by ROOTLESS_X
->   EXTRA_OECONF += '${@base_conditional( "ROOTLESS_X", "1", " --enable-kms-only", "", d )}'
->
->   COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
->
-> -SRC_URI[md5sum] = "a9a5c2c15766c06a024381efe0d724bb"
-> -SRC_URI[sha256sum] = "203d46064449da0e23a111418dfb189422ba96ea08707167c8dee463e2d745b1"
-> +FILES_${PN} += "${datadir}/polkit-1"
+>>   QADEPENDS_class-native = ""
+>>   QADEPENDS_class-nativesdk = ""
+>>   QA_SANE = "True"
+>> @@ -29,7 +29,7 @@ QA_SANE = "True"
+>>   WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>>               textrel already-stripped incompatible-license files-invalid \
+>>               installed-vs-shipped compile-host-path install-host-path \
+>> -            pn-overrides infodir \
+>> +            pn-overrides infodir file-depends \
+>>               "
+>>   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>>               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+>> @@ -605,6 +605,34 @@ def package_qa_check_symlink_to_sysroot(path, name, d,
+>> elf, messages):
+>>                   trimmed = path.replace(os.path.join (d.getVar("PKGDEST",
+>> True), name), "")
+>>                   messages.append("Symlink %s in %s points to TMPDIR" %
+>> (trimmed, name))
+>>
+>> +QAPATHTEST[file-depends] = "package_qa_check_file_depends"
+>> +def package_qa_check_file_depends(path, name, d, elf, messages):
+>> +    """
+>> +    Check that the package doesn't miss the RDEPENDS on perl, python and bash
+>> +    """
+>> +
+>> +    if not os.access(path, os.X_OK) or os.path.islink(path) or elf:
+>> +        return
+>> +
+>> +    import subprocess
+>> +    import re
+>> +
+>> +    # The file command may return:
+>> +    # - Perl or perl, Python or python.
+>> +    # - "Bourne-Again shell" script or "bash" for bash script
+>> +    prog_maps = {"[Pp]erl": "perl", "[Pp]ython": "python", "bash": "bash",
+>> +                "Bourne-Again shell": "bash"}
+>> +
+>> +    file_output = bb.process.Popen(["file", "-b", path],
+>> stdout=subprocess.PIPE).stdout.read()
+>> +    for p in prog_maps:
+>> +        if re.search('%s .*script, ASCII text executable' % p, file_output):
+>> +            rdepends = bb.utils.explode_deps(d.getVar('RDEPENDS_' + name,
+>> True) or "")
+>> +            if prog_maps[p] not in rdepends:
+>> +                if prog_maps[p] == "python" and "python-core" in rdepends:
+>> +                    continue
+>> +                messages.append("%s is a %s script, but %s is not in
+>> RDEPENDS_%s" % (path, prog_maps[p], prog_maps[p], name))
+>> +                break
+>> +
+>>   def package_qa_check_license(workdir, d):
+>>       """
+>>       Check for changes in the license files
+>>
 >
 
