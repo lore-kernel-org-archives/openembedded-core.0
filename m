@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 863267020E
+	by mail.openembedded.org (Postfix) with ESMTP id 87655705EA
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 14:29:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FETDRd012853
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FETCZ9012849
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:29:13 -0700 (PDT)
+	Tue, 15 Jul 2014 07:29:12 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 07:29:13 -0700
+	Tue, 15 Jul 2014 07:29:12 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:29:12 -0700
-Message-ID: <da31fe7e746c7ffaf031672eed2a40318715d83a.1405434230.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:29:10 -0700
+Message-ID: <cover.1405434230.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1405434230.git.liezhi.yang@windriver.com>
-References: <cover.1405434230.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] python-distribute: add python to RDEPENDS_python-distribute
+Subject: [PATCH 0/2] Add python to python-distribute and connman-tests' RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +34,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:29:17 -0000
 Content-Type: text/plain
 
-We don't need this in theory since:
-python-distribute -> python-distutils -> python-core
+We don't need this in theory, they are only used for fixing the QA check
+of file-depends, we need add python to the RDEPENDS here is because the
+"rpmdeps" can't find the indirect dependencies.
 
-But the rpmdeps can't figure out the dependencies recursively, and add python
-to fix the warning.
+I think that add python to their RDEPENDS is harmless, or we can disable
+the file-depends check for the two recipes.
 
-[YOCTO #1662]
+//Robert
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+The following changes since commit fa325e44f5b429b4038022b31285af9c94672943:
+
+  insane: Ensure do_package_qa happens after do_packagedata (2014-07-11 23:19:18 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/python
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/python
+
+Robert Yang (2):
+  connman: add python to RDEPENDS_connman-tests
+  python-distribute: add python to RDEPENDS_python-distribute
+
+ meta/recipes-connectivity/connman/connman.inc      |    4 +++-
  .../python/python-distribute_0.6.32.bb             |    1 +
  .../python/python3-distribute_0.6.32.bb            |    1 +
- 2 files changed, 2 insertions(+)
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-index 58bb8b4..56d9787 100644
---- a/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-+++ b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-@@ -42,6 +42,7 @@ do_install_append() {
- RDEPENDS_${PN} = "\
-   python-distutils \
-   python-compression \
-+  python \
- "
- 
- RPROVIDES_${PN} += "python-setuptools"
-diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-index 573096c..3aaa518 100644
---- a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-+++ b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-@@ -42,6 +42,7 @@ do_install_append() {
- RDEPENDS_${PN} = "\
-   python3-distutils \
-   python3-compression \
-+  python3 \
- "
- 
- RPROVIDES_${PN} += "python3-setuptools"
 -- 
 1.7.9.5
 
