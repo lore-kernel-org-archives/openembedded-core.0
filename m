@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6947A701C9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EE41D705E1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Jul 2014 14:19:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJfRt022782
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJgZH012722
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:41 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:42 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
 	Tue, 15 Jul 2014 07:19:41 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:19:10 -0700
-Message-ID: <a5eccbf8c34a541522e2676e702bb9b93035fd88.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:19:11 -0700
+Message-ID: <2054bcc0ab5d1da3ea253703530086d1cfb30bdd.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 15/38] quilt: add bash and perl to RDEPENDS
+Subject: [PATCH 16/38] udev: add perl to RDEPENDS_udev-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 14:19:40 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 14:19:41 -0000
 Content-Type: text/plain
 
 Perl scripts:
-quilt/usr/share/quilt/scripts/edmail is a perl script, but perl is not in RDEPEND_quilt
-quilt/usr/share/quilt/scripts/remove-trailing-ws is a perl script, but perl is not in RDEPEND_quilt
-quilt/usr/share/quilt/scripts/dependency-graph is a perl script, but perl is not in RDEPEND_quilt
-guards/usr/bin/guards is a perl script, but perl is not in RDEPEND_guards
-
-Bash scripts:
-quilt-ptest/usr/lib/quilt/ptest/quilt/unapplied
-quilt-ptest/usr/lib/quilt/ptest/quilt/push
-quilt-ptest/usr/lib/quilt/ptest/quilt/fork
-quilt-ptest/usr/lib/quilt/ptest/quilt/patches
-quilt-ptest/usr/lib/quilt/ptest/quilt/upgrade
-quilt-ptest/usr/lib/quilt/ptest/quilt/delete
-quilt-ptest/usr/lib/quilt/ptest/quilt/applied
-quilt-ptest/usr/lib/quilt/ptest/quilt/rename
-quilt-ptest/usr/lib/quilt/ptest/quilt/pop
-quilt-ptest/usr/lib/quilt/ptest/quilt/new
-quilt-ptest/usr/lib/quilt/ptest/quilt/remove
-quilt-ptest/usr/lib/quilt/ptest/quilt/series
-quilt-ptest/usr/lib/quilt/ptest/quilt/setup
-quilt-ptest/usr/lib/quilt/ptest/quilt/grep
-quilt-ptest/usr/lib/quilt/ptest/quilt/previous
-quilt-ptest/usr/lib/quilt/ptest/quilt/mail
-quilt-ptest/usr/lib/quilt/ptest/quilt/edit
-quilt-ptest/usr/lib/quilt/ptest/quilt/top
-quilt-ptest/usr/lib/quilt/ptest/quilt/revert
-quilt-ptest/usr/lib/quilt/ptest/quilt/diff
-quilt-ptest/usr/lib/quilt/ptest/quilt/graph
-quilt-ptest/usr/lib/quilt/ptest/quilt/refresh
-quilt-ptest/usr/lib/quilt/ptest/quilt/annotate
-quilt-ptest/usr/lib/quilt/ptest/quilt/fold
-quilt-ptest/usr/lib/quilt/ptest/quilt/next
-quilt-ptest/usr/lib/quilt/ptest/quilt/add
-quilt-ptest/usr/lib/quilt/ptest/quilt/files
-quilt-ptest/usr/lib/quilt/ptest/quilt/import
-quilt-ptest/usr/lib/quilt/ptest/quilt/header
-quilt-ptest/usr/lib/quilt/ptest/quilt/snapshot
-quilt-ptest/usr/lib/quilt/ptest/quilt/scripts/inspect
-quilt-ptest/usr/lib/quilt/ptest/quilt/scripts/backup-files
-quilt-ptest/usr/lib/quilt/ptest/bin/quilt
-quilt-ptest/usr/lib/quilt/ptest/bin/patch-wrapper
-quilt-ptest/usr/lib/quilt/ptest/compat/awk
-quilt-ptest/usr/lib/quilt/ptest/compat/sendmail
+udev-ptest/usr/lib/udev/ptest/test/udev-test.pl
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/quilt/quilt-0.63.inc |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-core/udev/udev.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/quilt/quilt-0.63.inc b/meta/recipes-devtools/quilt/quilt-0.63.inc
-index f375785..50593a9 100644
---- a/meta/recipes-devtools/quilt/quilt-0.63.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.63.inc
-@@ -26,7 +26,8 @@ FILES_guards = "${bindir}/guards"
- FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${BPN}"
- FILES_guards-doc = "${mandir}/man1/guards.1"
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 11204aa..280da10 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -31,7 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://init"
  
--RDEPENDS_${PN} = "bash"
-+RDEPENDS_${PN} = "bash perl"
-+RDEPENDS_guards = "perl"
+ inherit autotools pkgconfig update-rc.d ptest
+-RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make perl"
  
- EXTRA_OE_MAKE_ARGS_darwin ?= ""
- EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
-@@ -55,5 +56,5 @@ do_install_ptest() {
- RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
-                         perl-module-filehandle perl-module-getopt-std \
-                         perl-module-posix perl-module-file-temp \
--                        perl-module-text-parsewords \
-+                        perl-module-text-parsewords bash \
- "
+ libexecdir = "${base_libdir}"
+ EXTRA_OECONF = "--disable-introspection \
 -- 
 1.7.9.5
 
