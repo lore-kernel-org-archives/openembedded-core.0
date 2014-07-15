@@ -1,37 +1,28 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5991670181
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C889705EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:14:01 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id hz1so3530400pad.36
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 08:14:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=w0pPa0f5+9UXHCM9zVc1MlZhmmp8RvBxWHA1qqFLqdA=;
-	b=MfLkEp58rzO3jJ5YHmWbJRcYcqRrgORfrI7r3+VxxkZphXaEnMsXdqpn47BUjzTtS3
-	KejMi23FtIJpkOBPM7tl2fm39nNXtDGyLTpK5MqDAI1pTtIXCV4Xt6wqhsBrcdlr0Btg
-	CQTCucVEQZ/jfozWr+glIELQvzKS0/MCczE2guFNpxgVK4SaxAlyOlm3zfobOSKXvXAD
-	uOtw4G3fnYnW6ByT6c8dBAdGa1TQ0ymsrq3POpl2io30lAk6m09/KYsARmPQlSB1yI8T
-	c6Xos9VEj0xHX6piv+pasCTe3DRA30xbX6TaAzzqLyQPHn0ERmsC21UtijcnSQ8ycLa9
-	9XMg==
-X-Gm-Message-State: ALoCoQkMrrKbcpC7gWXyKrUooU8qSCbTUrfRmKgs/lg3gxr5AGwQhTKdQj/0zGkgqmoiJrRFpEYi
-X-Received: by 10.68.166.36 with SMTP id zd4mr23659791pbb.54.1405437241635;
-	Tue, 15 Jul 2014 08:14:01 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	mz8sm18993030pdb.62.2014.07.15.08.14.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 15 Jul 2014 08:14:01 -0700 (PDT)
-From: Armin Kuster <akuster@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 08:13:58 -0700
-Message-Id: <1405437238-28782-1-git-send-email-akuster@mvista.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [meta-oe][PATCH] [v2] nettle: update to version 3.0
+	Tue, 15 Jul 2014 15:15:48 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173023.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N8R008SEEDMOGG0@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 15 Jul 2014 10:15:38 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id BF6D52008D; Tue,
+	15 Jul 2014 11:15:22 -0400 (EDT)
+Date: Tue, 15 Jul 2014 11:15:22 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Message-id: <20140715151522.GT1580@denix.org>
+References: <53C3C7E8.2000806@topic.nl> <53C3D5D7.5090309@topic.nl>
+MIME-version: 1.0
+In-reply-to: <53C3D5D7.5090309@topic.nl>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: UBI filesystem creation fails silently with 4k erase size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,113 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:14:09 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 15:15:51 -0000
+Content-type: text/plain; charset=utf-8
+Content-disposition: inline
+Content-transfer-encoding: 8bit
 
-Updating to version 3.x
-Version 3.x includes GPL v3 code. They call it dual
-  licensing
-Keeping 2.7.1 as it is GPL v2
-Put common code in inc file
+On Mon, Jul 14, 2014 at 03:06:31PM +0200, Mike Looijmans wrote:
+> ﻿On 07/14/2014 02:07 PM, Mike Looijmans wrote:
+> >I have a NOR chip that reports a 4k erase size, so in my machine.conf I entered:
+> >
+> >MKUBIFS_ARGS = "-m 1 -e 3968 -c 7040"
+> >UBINIZE_ARGS = "-m 1 -p 4096"
+> >UBI_VOLNAME = "qspi-rootfs"
+> >
+> >
+> >When I create an image with "ubi" in the IMAGE_FSTYPES, the build runs and
+> >does not report any error, however it did NOT create the ubi filesystem image.
+> >
+> >If I change the parameters for a 64k flash using:
+> >
+> >MKUBIFS_ARGS = "-m 1 -e 65408 -c 440"
+> >
+> >the ubi filesystem is created (both ubifs and ubi files).
+> >
+> >
+> >Where can I find what went wrong? I'd expect big read error messages telling
+> >me that it failed to create an image for my device, but I cannot find such
+> >message anywhere.
+> >
+> >So my questions are:
+> >
+> >1) Why is there no error message when image creation fails?
+> >2) Where is the log/output from the mkfs.ubi commands?
+> >2) What could be wrong with my mkubifs parameters?
+> >
+> 
+> The answer to that last question is that UBI itself refuses to work
+> with a sector size below 15kB. Which results in UBI now failing to
+> work on most NOR chips on the market because the kernel recently
+> uses 4k erasing for all serial flash chips that support it.
+> 
+> So just the question remains why OE doesn't tell me about mkfs.ubifs failure?
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-support/nettle/nettle.inc      | 27 +++++++++++++++++++++++++++
- meta/recipes-support/nettle/nettle_2.7.1.bb | 20 +++-----------------
- meta/recipes-support/nettle/nettle_3.0.bb   | 16 ++++++++++++++++
- 3 files changed, 46 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-support/nettle/nettle.inc
- create mode 100644 meta/recipes-support/nettle/nettle_3.0.bb
+Do you have the following fix?
 
-diff --git a/meta/recipes-support/nettle/nettle.inc b/meta/recipes-support/nettle/nettle.inc
-new file mode 100644
-index 0000000..bca35c0
---- /dev/null
-+++ b/meta/recipes-support/nettle/nettle.inc
-@@ -0,0 +1,27 @@
-+SUMMARY = "A low level cryptographic library"
-+HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
-+SECTION = "libs"
-+LICENSE = "LGPLv2.1 & GPLv2"
-+
-+# Version 2.7.1 is GPL v2
-+# set PREFERRED_VERSION_nettle =  "2.7.1" in local.conf
-+# if you want GPLv2 code
-+#
-+# Version 3.x is GPL v2 and v3
-+
-+
-+DEPENDS += "gmp"
-+
-+SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
-+
-+EXTRA_OECONF = "--disable-openssl"
-+
-+do_configure_prepend() {
-+       if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
-+               cp ${S}/aclocal.m4 ${S}/acinclude.m4
-+       fi
-+}
-+
-+inherit autotools
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
-index 8aa5351..9ef9f64 100644
---- a/meta/recipes-support/nettle/nettle_2.7.1.bb
-+++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
-@@ -1,26 +1,12 @@
--SUMMARY = "A low level cryptographic library"
--HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
--SECTION = "libs"
-+
-+include nettle.inc
-+
- LICENSE = "LGPLv2.1 & GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
-                     file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
- 
--DEPENDS += "gmp"
--
--SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
- 
- SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
- SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
- 
--EXTRA_OECONF = "--disable-openssl"
--
--do_configure_prepend() {
--       if [ ! -e ${S}/acinclude.m4 -a -e ${S}/aclocal.m4 ]; then
--               cp ${S}/aclocal.m4 ${S}/acinclude.m4
--       fi
--}
--
--inherit autotools
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-support/nettle/nettle_3.0.bb b/meta/recipes-support/nettle/nettle_3.0.bb
-new file mode 100644
-index 0000000..bac2e71
---- /dev/null
-+++ b/meta/recipes-support/nettle/nettle_3.0.bb
-@@ -0,0 +1,16 @@
-+#
-+# Nettle  3 and above contains GPL v3 code
-+# use 2.7.1 if you do not want GPL v3 code
-+#
-+
-+include nettle.inc
-+
-+LICENSE = "LGPLv2.1 & GPLv2 & GPLv3"
-+
-+LIC_FILES_CHKSUM = "file://COPYINGv3;md5=11cc2d3ee574f9d6b7ee797bdce4d423\
-+                    file://serpent-decrypt.c;beginline=53;endline=67;md5=a4ccbeb343203d3586661f45c1cab577 \
-+                    file://serpent-set-key.c;beginline=56;endline=70;md5=150b0ea44cdfb712a83331bff566e9a8"
-+
-+SRC_URI[md5sum] = "f64b1bf1e774b7ae6e507318e340250e"
-+SRC_URI[sha256sum] = "9651c0bd2326eb737d0ed9eb403444712407c01a25b0fe813432ef31bebcd913"
-+
+http://cgit.openembedded.org/openembedded-core/commit/?id=f8125a1e9b6893a12355d55d4df584a8d97f0bff
+
 -- 
-1.9.1
-
+Denys
 
