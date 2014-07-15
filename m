@@ -1,26 +1,32 @@
-Return-Path: <Yang.Shi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 85BB2705C3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F09AD705E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:08:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FF8IpF013326
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 08:08:18 -0700 (PDT)
-Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.166) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 15 Jul 2014 08:08:18 -0700
-From: Yang Shi <yang.shi@windriver.com>
-To: <bruce.ashfield@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 08:03:58 -0700
-Message-ID: <1405436638-25131-2-git-send-email-yang.shi@windriver.com>
-X-Mailer: git-send-email 1.9.2
-In-Reply-To: <1405436638-25131-1-git-send-email-yang.shi@windriver.com>
-References: <1405436638-25131-1-git-send-email-yang.shi@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage
+	Tue, 15 Jul 2014 15:09:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6FF9F5u018534; Tue, 15 Jul 2014 16:09:15 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8k4Xwjlw-FJL; Tue, 15 Jul 2014 16:09:15 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6FF9BiC018509
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 15 Jul 2014 16:09:13 +0100
+Message-ID: <1405436945.20402.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akuster <akuster@mvista.com>
+Date: Tue, 15 Jul 2014 16:09:05 +0100
+In-Reply-To: <53C53683.7050107@mvista.com>
+References: <1405430855-12398-1-git-send-email-akuster@mvista.com>
+	<CAJTo0LYfG4kCxWHbKK9rM7YScB2NAqVqmTVmMKpGb7UD7WE0Bg@mail.gmail.com>
+	<53C53683.7050107@mvista.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] nettle: update to version 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,147 +39,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:08:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Jul 2014 15:09:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Install, deploy and package KERNEL_ALT_IMAGETYPE and create kernel-alt-image
-package.
+On Tue, 2014-07-15 at 07:11 -0700, akuster wrote:
+> On 07/15/2014 06:49 AM, Burton, Ross wrote:
+> > On 15 July 2014 14:27, Armin Kuster <akuster@mvista.com> wrote:
+> >> Add GNUv3 license
+> > If nettle 3 contains GPLv3 code then we probably don't want to remove
+> > nettle 2.1, for people building without any v3 code in the images.
+> 
+> They have what they call dual license in 3.x ( GPLv2 or GPLv3). We 
+> certainly can keep 2.7.1
 
-Check if KERNEL_ALT_IMAGETYPE is uImage in do_uboot_mkimage and adding
-u-boot-mkimage-native depend if it is uImage.
+Is it "GPLv2 or GPLv3" or "GPLv2 and GPLv3". There is a big difference
+and the LICENSE field needs to be set correctly (&& or || in the license
+field).
 
-Signed-off-by: Yang Shi <yang.shi@windriver.com>
----
- meta/classes/kernel.bbclass | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6ed1cb7..2edc2bb 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -13,7 +13,8 @@ INITRAMFS_IMAGE_BUNDLE ?= ""
- 
- python __anonymous () {
-     kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
--    if kerneltype == 'uImage':
-+    kernelalttype = d.getVar('KERNEL_ALT_IMAGETYPE', True) or ''
-+    if kerneltype == 'uImage' or kernelalttype == 'uImage':
-         depends = d.getVar("DEPENDS", True)
-         depends = "%s u-boot-mkimage-native" % depends
-         d.setVar("DEPENDS", depends)
-@@ -74,6 +75,7 @@ KERNEL_EXTRA_ARGS ?= ""
- EXTRA_OEMAKE = ""
- 
- KERNEL_ALT_IMAGETYPE ??= ""
-+KERNEL_ALT_OUTPUT ?= "arch/${ARCH}/boot/${KERNEL_ALT_IMAGETYPE}"
- 
- # Define where the kernel headers are installed on the target as well as where
- # they are staged.
-@@ -200,6 +202,7 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 	install -d ${D}/boot
- 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-+	install -m 0644 ${KERNEL_ALT_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION}
- 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
- 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
- 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
-@@ -225,6 +228,7 @@ kernel_do_install() {
- 	#
- 
- 	echo "${KERNEL_IMAGE_BASE_NAME}" >$kerneldir/kernel-image-name
-+	echo "${KERNEL_ALT_IMAGE_BASE_NAME}" >$kerneldir/kernel-alt-image-name
- 
- 	#
- 	# Copy the entire source tree. In case an external build directory is
-@@ -245,6 +249,7 @@ kernel_do_install() {
- 	# the same file. If hardlinking is used, they will be the same, and there's
- 	# no need to install.
- 	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
-+	! [ ${KERNEL_ALT_OUTPUT} -ef $kerneldir/${KERNEL_ALT_IMAGETYPE} ] && install -m 0644 ${KERNEL_ALT_OUTPUT} $kerneldir/${KERNEL_ALT_IMAGETYPE}
- 	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
- 
- 	# Dummy Makefile so the clean below works
-@@ -342,10 +347,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
- 
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERISON}
--PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
-+PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-alt-image kernel-dev kernel-modules"
- FILES_${PN} = ""
- FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
- FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-+FILES_kernel-alt-image = "/boot/${KERNEL_ALT_IMAGETYPE}*"
- FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
- FILES_kernel-vmlinux = "/boot/vmlinux*"
- FILES_kernel-modules = ""
-@@ -354,11 +360,13 @@ RDEPENDS_kernel = "kernel-base"
- # not wanted in images as standard
- RDEPENDS_kernel-base ?= "kernel-image"
- PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+PKG_kernel-alt-image = "kernel-alt-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
- PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
- RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
- ALLOW_EMPTY_kernel = "1"
- ALLOW_EMPTY_kernel-base = "1"
- ALLOW_EMPTY_kernel-image = "1"
-+ALLOW_EMPTY_kernel-alt-image = "1"
- ALLOW_EMPTY_kernel-modules = "1"
- DESCRIPTION_kernel-modules = "Kernel modules meta package"
- 
-@@ -381,6 +389,14 @@ pkg_postrm_kernel-image () {
- 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
- }
- 
-+pkg_postinst_kernel-alt-image () {
-+	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+}
-+
-+pkg_postrm_kernel-alt-image () {
-+	update-alternatives --remove ${KERNEL_ALT_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION} || true
-+}
-+
- PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
- 
- python split_kernel_packages () {
-@@ -437,6 +453,10 @@ KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE
- # Don't include the DATETIME variable in the sstate package signatures
- KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
- KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
-+KERNEL_ALT_IMAGE_BASE_NAME ?= "${KERNEL_ALT_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-+# Don't include the DATETIME variable in the sstate package signatures
-+KERNEL_ALT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-+KERNEL_ALT_IMAGE_SYMLINK_NAME ?= "${KERNEL_ALT_IMAGETYPE}-${MACHINE}"
- MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
- MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
- MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
-@@ -445,7 +465,7 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
- MODULE_TARBALL_DEPLOY ?= "1"
- 
- do_uboot_mkimage() {
--	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
-+	if test "x${KERNEL_IMAGETYPE}" = "xuImage" or "x${KERNEL_ALT_IMAGETYPE}" = "xuImage"; then 
- 		if test "x${KEEPUIMAGE}" != "xyes" ; then
- 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
- 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
-@@ -471,6 +491,7 @@ addtask uboot_mkimage before do_install after do_compile
- 
- kernel_do_deploy() {
- 	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-+	install -m 0644 ${KERNEL_ALT_OUTPUT} ${DEPLOYDIR}/${KERNEL_ALT_IMAGE_BASE_NAME}.bin
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		mkdir -p ${D}/lib
- 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
-@@ -480,6 +501,9 @@ kernel_do_deploy() {
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
- 
-+	ln -sf ${KERNEL_ALT_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_ALT_IMAGE_SYMLINK_NAME}.bin
-+	ln -sf ${KERNEL_ALT_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_ALT_IMAGETYPE}
-+
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- 
- 	cd ${B}
--- 
-1.9.2
+Richard
 
 
