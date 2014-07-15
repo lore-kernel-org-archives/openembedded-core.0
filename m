@@ -1,31 +1,40 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 962DF7023B
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 2575070260
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 11:44:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FBiq6A011480
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jul 2014 04:44:52 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 04:44:52 -0700
-Message-ID: <53C5142C.3040304@windriver.com>
-Date: Tue, 15 Jul 2014 19:44:44 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Tue, 15 Jul 2014 12:03:34 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20140715120334432
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 12:03:34 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [69.196.158.250] (port=51982 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X71SC-0005Yo-4h for openembedded-core@lists.openembedded.org;
+	Tue, 15 Jul 2014 08:03:28 -0400
+Date: Tue, 15 Jul 2014 08:03:19 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+In-Reply-To: <alpine.LFD.2.11.1407150720001.5794@localhost>
+Message-ID: <alpine.LFD.2.11.1407150759260.6548@localhost>
+References: <alpine.LFD.2.11.1407150720001.5794@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1404885647.git.hongxu.jia@windriver.com>	
-	<9941caf92c8d49ddd3cdea016fa8ec6263875185.1404885647.git.hongxu.jia@windriver.com>	
-	<CAJTo0LZ7X4UUedddwb3q9XxkqZqTYF8-mHST7GRZ0y7OZUksvg@mail.gmail.com>	
-	<53BF41A9.4010706@windriver.com> <1405421856.20402.3.camel@ted>
-In-Reply-To: <1405421856.20402.3.camel@ted>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH 4/8] xmlto: add version 0.0.25
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: Re: would replacing packagegroup names with "${PN}" be useless code churn?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,61 +47,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 11:44:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Jul 2014 12:03:43 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 07/15/2014 06:57 PM, Richard Purdie wrote:
-> On Fri, 2014-07-11 at 09:45 +0800, Hongxu Jia wrote:
->> On 07/11/2014 04:57 AM, Burton, Ross wrote:
->>
->>> On 9 July 2014 11:16, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->>>> +# To make sure these native packages ready before xmlto-native was invoked.
->>>> +DEPENDS_class-native = " \
->>>> +    docbook-xml-dtd4-native \
->>>> +    docbook-xsl-stylesheets-native \
->>>> +    util-linux-native \
->>>> +    libxml2-native \
->>>> +    libxslt-native \
->>>> +"
->>> Does this do what you want if xmlto-native is pulled in from sstate in
->>> an empty tmp?
->> Hi Ross,
->>
->> If we don't have it, while runing bitbake world, there was a build
->> failure for alsa-utils which xmlto enabled.
->> ...
->> | xmlto man alsactl_init.xml
->> | sed -e 's,@localstatedir\@,/var,g' -e 's,@sbindir\@,/usr/sbin,g' -e 's,@daemonswitch\@,/etc/alsa/state-daemon.conf,g' < 90-alsa-restore.rules.in > 90-alsa-restore.rules || rm 90-alsa-restore.rules
->> | i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/buildarea3/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/sysroots/qemux86  -D__USE_GNU -DSYS_ASOUNDRC=\"/var/lib/alsa/asound.state\" -DSYS_PIDFILE=\"/var/run/alsactl.pid\" -O2 -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o alsactl alsactl-alsactl.o alsactl-state.o alsactl-lock.o alsactl-utils.o alsactl-init_parse.o alsactl-daemon.o  -lasound -lm -ldl -lpthread
->> | xmlto: /buildarea3/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/alsa-utils/1.0.27.2-r0/alsa-utils-1.0.27.2/alsactl/alsactl_init.xml does not validate (status 3)
->> | xmlto: Fix document syntax or use --skip-validation option
->> | I/O error : Attempt to load network entity http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd
->> | /buildarea3/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/alsa-utils/1.0.27.2-r0/alsa-utils-1.0.27.2/alsactl/alsactl_init.xml:3: warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
->> |   "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
->> |                                                            ^
->> | I/O error : Attempt to load network entity http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd
->> | warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
->> | validity error : Could not load the external subset "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
->> ...
->>
->> The alsa-utils invoked xmlto to generate document at his do_compile,
->> so we have to make sure the above native packages prepared before
->> xmlto-native.
-> Shouldn't alsa-utils have a dependency on the docbook pieces it needs as
-> well as xmlto-native then?
+On Tue, 15 Jul 2014, Robert P. J. Day wrote:
+
 >
-> Certainly, these are not build time dependencies of xmlto so something
-> is not quite right...
-
-Got it, I will add docbook pieces to alsa-utils's dependency, V3 Incoming.
-
-//Hongxu
-
-
-> Cheers,
+>   just my sheldon cooper-like OCD coming through again, but i long ago
+> noted that some packagegroup files do this:
 >
-> Richard
+>   RDEPENDS_${PN} = "openssh"
 >
+> while others spell out (unnecessarily) the packagegroup name:
+>
+>   RDEPENDS_packagegroup-core-buildessential = "\
+>
+> when using ${PN} would have worked just fine. i'm a big fan of brevity
+> so i can whip up a patch to shorter all those lines and make them
+> clearer, unless folks think that's just unnecessary code churn.
+
+  my own followup to this ... there's the occasional packagegroup file
+for which this would cause numerous changes; take a look at
+packagegroup-base.bb:
+
+PACKAGES = ' \
+            packagegroup-base \
+            packagegroup-base-extended \
+            packagegroup-distro-base \
+            packagegroup-machine-base \
+            \
+            ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "alsa", "packagegroup-base-alsa", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "ext2", "packagegroup-base-ext2", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "vfat", "packagegroup-base-vfat", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "irda", "packagegroup-base-irda", "",d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "packagegroup-base-keyboard", "", d)} \
+            ... snip ...
+
+  i'm guessing that one could shorten all that to:
+
+PACKAGES = ' \
+            ${PN} \
+            ${PN}-extended \
+            packagegroup-distro-base \
+            packagegroup-machine-base \
+            \
+            ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "${PN}-acpi", "",d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "alsa", "${PN}-alsa", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "apm", "${PN}-apm", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "ext2", "${PN}-ext2", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "vfat", "${PN}-vfat", "", d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "irda", "${PN}-irda", "",d)} \
+            ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${PN}-keyboard", "", d)} \
+            ... snip ...
+
+so while most packagegroup files would just get a couple tweaked
+lines, it's files like the above for which i asked whether this would
+be just code churn. i'll let someone else make that decision.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
