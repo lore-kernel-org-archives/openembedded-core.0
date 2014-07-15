@@ -1,24 +1,43 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5162C7027F
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 46C406AC7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 05:27:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6F5R2n9006318
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 15 Jul 2014 05:30:12 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id rd3so6661225pab.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jul 2014 22:27:03 -0700 (PDT)
-Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 14 Jul 2014 22:27:02 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 13:26:59 +0800
-Message-ID: <1405402019-31886-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
+	Mon, 14 Jul 2014 22:30:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=ycGtHP92mV7JZtWxACTL6hpxs8hFuB+ZpsmdvB6047o=;
+	b=V5GAK09in7+ezF9Mhbu3zE83fAla3tITAhiQNUxDtxe7fg/GAxrZjxZ35CGyIfuwfn
+	kNFABGSL/95VNGEcpbQoQxgJPLbhTSnB1wEq6Hmxi2vkHYU9wLGuhNZuW9Rl4lqacrxk
+	eu1cMSt6FML1qnqeCkzGn10itfwO+mPCqW7X4J5K+hRY5Q7R2fHXVr4gRQHJOSAwwKdl
+	ftKpbgONgb0ihIgVB4pvhtJVfWizCeJCjyeuSwgMjTMRqWbHFjAbKjBZAsMQ/Y3BPFxX
+	rymQ1rCR+DcsEujHrSq463TbKLySa1wykaU2yB5r0mQgWAQlRsB6xPOWfmICbXe69Ruy
+	r/qg==
+X-Gm-Message-State: ALoCoQk51dPi8BC8MnGMxsGP4/tVoUFAyGyBxzPt4hcUoaMEd11krMfs6pUo7EG5VEoxcwG17BOP
+X-Received: by 10.70.33.228 with SMTP id u4mr19453114pdi.6.1405402214080;
+	Mon, 14 Jul 2014 22:30:14 -0700 (PDT)
+Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55]) by mx.google.com with ESMTPSA id
+	qf10sm12628146pbc.23.2014.07.14.22.30.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 14 Jul 2014 22:30:13 -0700 (PDT)
+Message-ID: <53C4BC63.6070501@mvista.com>
+Date: Mon, 14 Jul 2014 22:30:11 -0700
+From: akuster <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: [PATCH] insane.bbclass: avoid QA errors for n32 kernel
+To: openembedded-core@lists.openembedded.org
+References: <1405388483-30716-1-git-send-email-akuster@mvista.com>
+In-Reply-To: <1405388483-30716-1-git-send-email-akuster@mvista.com>
+Subject: Re: [meta-oe][PATCH] V2 lz4: update to latest version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 05:27:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Jul 2014 05:30:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-A series of commits had been integrated to avoid qa checking code
-throwing the bitsize not matched error for x32 kernel files, the
-same logic is also needed by n32 kernel which was not addressed in
-that series.
 
-This commit extends the condition for n32 kernel files.
+Bah,
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/classes/insane.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+missed removing old recipe and wrong list.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 106ace7..0fb568f 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -461,11 +461,11 @@ def package_qa_check_arch(path,name,d, elf, messages):
- 
-     # Check the architecture and endiannes of the binary
-     if not ((machine == elf.machine()) or \
--        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32"))):
-+        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32" or target_os == "linux-gnun32"))):
-         messages.append("Architecture did not match (%d to %d) on %s" % \
-                  (machine, elf.machine(), package_qa_clean_path(path,d)))
-     elif not ((bits == elf.abiSize()) or  \
--        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32"))):
-+        ((("virtual/kernel" in provides) or bb.data.inherits_class("module", d) ) and (target_os == "linux-gnux32" or target_os == "linux-gnun32"))):
-         messages.append("Bit size did not match (%d to %d) %s on %s" % \
-                  (bits, elf.abiSize(), bpn, package_qa_clean_path(path,d)))
-     elif not littleendian == elf.isLittleEndian():
--- 
-1.8.4.1
+- Armin
 
+On 07/14/2014 06:41 PM, Armin Kuster wrote:
+> update to version r119
+> Use github instead of svn
+> LICENSE md5sum changed since it was updated in r117
+> FIxes CVE-2014-4611
+>
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>   meta/recipes-support/lz4/lz4_git.bb | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+>   create mode 100644 meta/recipes-support/lz4/lz4_git.bb
+>
+> diff --git a/meta/recipes-support/lz4/lz4_git.bb b/meta/recipes-support/lz4/lz4_git.bb
+> new file mode 100644
+> index 0000000..3978d76
+> --- /dev/null
+> +++ b/meta/recipes-support/lz4/lz4_git.bb
+> @@ -0,0 +1,18 @@
+> +SUMMARY = "Extremely Fast Compression algorithm"
+> +DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+> +
+> +LICENSE = "BSD"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
+> +
+> +SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
+> +SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
+> +
+> +do_install() {
+> +	oe_runmake install
+> +}
+> +
+> +BBCLASSEXTEND += "native nativesdk"
+>
 
