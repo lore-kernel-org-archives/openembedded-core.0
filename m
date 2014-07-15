@@ -1,26 +1,41 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B326C60D67
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id C8865701AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:44:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2014 08:43:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="543671708"
-Received: from gmacartn-mobl.ger.corp.intel.com (HELO localhost)
-	([10.255.13.33])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2014 08:43:46 -0700
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jul 2014 10:43:38 -0500
-Message-Id: <e25d490ce37196736b03574b7db299e2fc447958.1405438752.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
-References: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1405438752.git.tom.zanussi@linux.intel.com>
-References: <cover.1405438752.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 5/5] wic: Error on zero-sized partitions
+	Tue, 15 Jul 2014 15:50:13 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20140715155012167
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 15:50:12 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [69.196.158.250] (port=55168 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X74zW-0000jW-5q; Tue, 15 Jul 2014 11:50:06 -0400
+Date: Tue, 15 Jul 2014 11:49:54 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <53C5477D.3030501@linux.intel.com>
+Message-ID: <alpine.LFD.2.11.1407151148030.6425@localhost>
+References: <alpine.LFD.2.11.1407150923000.13777@localhost>
+	<53C5477D.3030501@linux.intel.com>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: curious about why bitbake.conf setting of FILES_${PN}-bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:44:12 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 15:50:16 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-It doesn't make sense to create zero-sized partitions so assume user
-error and notify the user they should be using a non-zero --size for
-partitions that don't specify a --source.
+On Tue, 15 Jul 2014, Saul Wold wrote:
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- scripts/lib/mic/kickstart/custom_commands/partition.py | 2 ++
- 1 file changed, 2 insertions(+)
+> I just did a basic search and could not find any reference and I
+> know that PACKAGES/FILES is "greedy" meaning once a file is consumed
+> by a FILES entry it's not available again.  Should probably be added
+> to the PACKAGES and / or FILES.
 
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index 4662bdd..06f29a9 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -122,6 +122,8 @@ class Wic_PartData(Mic_PartData):
-         partition command parameters.
-         """
-         if not self.source:
-+            if not self.size:
-+                msger.error("The %s partition has a size of zero.  Please specify a non-zero --size for that partition." % self.mountpoint)
-             if self.fstype and self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-                                             native_sysroot)
+  i *know* i've read that before somewhere, just don't remember where.
+the only reference i've seen recently is, coincidentally,
+lib_package.bbclass:
+
+#
+# ${PN}-bin is defined in bitbake.conf
+#
+# We need to allow the other packages to be greedy with what they
+# want out of /usr/bin and /usr/sbin before ${PN}-bin gets greedy.
+#
+PACKAGE_BEFORE_PN = "${PN}-bin"
+
+  anyone know if it's somewhere in one of the yocto manuals?
+
+rday
+
 -- 
-1.8.3.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
