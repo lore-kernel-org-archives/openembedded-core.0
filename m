@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 164437059E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 82892705AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:19:33 +0000 (UTC)
+	Tue, 15 Jul 2014 14:19:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJYwD012698
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6FEJZSo022743
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 07:19:34 -0700 (PDT)
+	Tue, 15 Jul 2014 07:19:36 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
 	Tue, 15 Jul 2014 07:19:34 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jul 2014 07:18:57 -0700
-Message-ID: <5cafcef4b4d10c867d54f55c32247e78034e6f76.1405433828.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Jul 2014 07:18:58 -0700
+Message-ID: <dc87cac6bc81cc9ea0235665ad64b88634c061db.1405433828.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1405433828.git.liezhi.yang@windriver.com>
 References: <cover.1405433828.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/38] attr: add perl to RDEPENDS_attr-ptest
+Subject: [PATCH 03/38] git: add perl to RDEPENDS_gitweb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 15 Jul 2014 14:19:35 -0000
 Content-Type: text/plain
 
-These are perl scripts:
-/usr/lib/attr/ptest/test/run
-/usr/lib/attr/ptest/test/sort-getfattr-output
+Perl script:
+/usr/share/gitweb/gitweb.cgi
 
 [YOCTO #1662]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-support/attr/attr.inc |    2 +-
+ meta/recipes-devtools/git/git.inc |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index c37d34f..981e825 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -34,4 +34,4 @@ do_install_ptest() {
- 	sed -e 's|; @echo|; echo|' -i ${D}${PTEST_PATH}/test/Makefile
- }
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 4e0527c..5c6f204 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -108,6 +108,6 @@ FILES_${PN}-tk = " \
  
--RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
-+RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix perl"
+ PACKAGES =+ "gitweb"
+ FILES_gitweb = "${datadir}/gitweb/"
+-
++RDEPENDS_gitweb += "perl"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.9.5
 
