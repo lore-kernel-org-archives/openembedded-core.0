@@ -1,40 +1,45 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 397 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 15 Jul 2014 15:18:43 UTC
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F1247061A
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 698CB70623
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:18:43 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20140715151206091
+	Tue, 15 Jul 2014 15:19:37 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kx10so6065864pab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:12:06 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [69.196.158.250] (port=53482 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X74Od-0006sK-Qw for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jul 2014 11:11:59 -0400
-Date: Tue, 15 Jul 2014 11:11:51 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1407151108080.5743@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Tue, 15 Jul 2014 08:19:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=PBrvtciJd2aPuXU2QQa6rgKw0HrlXeegOQYs+z9/DVI=;
+	b=C+ytbE2GfU9VxzAgziIgr3wndztsGeLm9WKfcbIhpjQiCP9u8FxPXTaCWEajbpZYGx
+	5Iz5hwavkupAsXnjn+m20NOLJ2c0eB0DaqhcleJv+h/LQiiBQYjEQDqw156w15Awi9Zs
+	W9Tfz1fM/4mjimLOHvata7L4VHFRyqthonfF6b7yJbI/8P4SISp0/7EhArFMXn1oRrVn
+	v7+KSp5JfEUsXl2SjoR3tdiql31Ey1u7Av1cthRbldIeOocHo4GCs4xg6wtH7gj+2HC8
+	rFBeFZRGqS0BlJoWeWyKE4+xt01A/B+qAz2D8/3TarAnIlOUneRG8ZxAORkDA5TYKoER
+	BHfA==
+X-Gm-Message-State: ALoCoQkPnR8pD/Nw6YBTDPgZCYiAd7eIbuxl708Fa12m6wZRebnSWapGCI9mzeYTt7wKyL3T9f9k
+X-Received: by 10.70.61.103 with SMTP id o7mr4373375pdr.134.1405437578442;
+	Tue, 15 Jul 2014 08:19:38 -0700 (PDT)
+Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	[98.239.95.55]) by mx.google.com with ESMTPSA id
+	kn1sm14280793pbd.13.2014.07.15.08.19.37 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 15 Jul 2014 08:19:37 -0700 (PDT)
+Message-ID: <53C54687.6090501@mvista.com>
+Date: Tue, 15 Jul 2014 08:19:35 -0700
+From: akuster <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] Document all five "*-pkgs" valid image features.
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	akuster <akuster@mvista.com>
+References: <1405430855-12398-1-git-send-email-akuster@mvista.com>	<CAJTo0LYfG4kCxWHbKK9rM7YScB2NAqVqmTVmMKpGb7UD7WE0Bg@mail.gmail.com>	<53C53683.7050107@mvista.com>
+	<1405436945.20402.9.camel@ted>
+In-Reply-To: <1405436945.20402.9.camel@ted>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] nettle: update to version 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,65 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:18:48 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 15 Jul 2014 15:19:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Richard,
+
+On 07/15/2014 08:09 AM, Richard Purdie wrote:
+> On Tue, 2014-07-15 at 07:11 -0700, akuster wrote:
+>> On 07/15/2014 06:49 AM, Burton, Ross wrote:
+>>> On 15 July 2014 14:27, Armin Kuster <akuster@mvista.com> wrote:
+>>>> Add GNUv3 license
+>>> If nettle 3 contains GPLv3 code then we probably don't want to remove
+>>> nettle 2.1, for people building without any v3 code in the images.
+>>
+>> They have what they call dual license in 3.x ( GPLv2 or GPLv3). We
+>> certainly can keep 2.7.1
+>
+> Is it "GPLv2 or GPLv3" or "GPLv2 and GPLv3". There is a big difference
+> and the LICENSE field needs to be set correctly (&& or || in the license
+> field).
 
 
-Make sure both bitbake.conf and local.conf,sample list all five valid
-"*-pkgs" forms of IMAGE_FEATURES.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Looks like 'or':
+<snippet>
+    GNU Nettle is free software: you can redistribute it and/or
+    modify it under the terms of either:
 
----
+      * the GNU Lesser General Public License as published by the Free
+        Software Foundation; either version 3 of the License, or (at your
+        option) any later version.
 
-  given this at the top of populate_sdk_base.bbclass:
+    or
 
-COMPLEMENTARY_GLOB[dev-pkgs] = '*-dev'
-COMPLEMENTARY_GLOB[staticdev-pkgs] = '*-staticdev'
-COMPLEMENTARY_GLOB[doc-pkgs] = '*-doc'
-COMPLEMENTARY_GLOB[dbg-pkgs] = '*-dbg'
-COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest'
+      * the GNU General Public License as published by the Free
+        Software Foundation; either version 2 of the License, or (at your
+        option) any later version.
 
-i thought it would be worth adding the missing entries to the lists
-below.
+    or both in parallel, as here.
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 1b36cba..0972d1a 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -28,8 +28,10 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
- # - package-management  - installs package management tools and preserves the package manager database
- # - debug-tweaks        - makes an image suitable for development, e.g. allowing passwordless root logins
- # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
-+# - staticdev-pkgs      - static versions of development packages
- # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
- # - doc-pkgs            - documentation packages for all installed packages in the rootfs
-+# - ptest-pkgs          - package test files for ptest-enabled packages
- # - read-only-rootfs    - tweaks an image to support read-only rootfs
- #
- FEATURE_PACKAGES_x11 = "packagegroup-core-x11"
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index d64ba7f..61db873 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -123,6 +123,8 @@ PACKAGE_CLASSES ?= "package_ipk"
- #                     (adds symbol information for debugging/profiling)
- #  "dev-pkgs"       - add -dev packages for all installed packages
- #                     (useful if you want to develop against libs in the image)
-+#  "staticdev-pkgs" - add -staticdev packages for all installed packages
-+#  "doc-pkgs"       - add -doc packages for all installed packages
- #  "ptest-pkgs"     - add -ptest packages for all ptest-enabled packages
- #                     (useful if you want to run the package test suites)
- #  "tools-sdk"      - add development tools (gcc, make, pkgconfig etc.)
+- Armin
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+>
+> Cheers,
+>
+> Richard
+>
 
