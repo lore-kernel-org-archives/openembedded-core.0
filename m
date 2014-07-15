@@ -1,36 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F7B07022A
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A1CD70641
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:40:48 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id tp5so4691892ieb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 08:40:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=TfATC61PterraDhhUZNrX2r8iOoSu/qQeZPAF7v/qcA=;
-	b=IgW/2sOxsLdPh1cAWt+WDmcIHWreGyFa+NZKgTAAjiNOwhTLBt4vLpQpnMO6TQAQDz
-	NVDK6JfW0b7Bvl7XRFO10RrErEelGTDg2jgJxm7F/CJwKveZT1vmYKH6L+407X7aDqVq
-	06n6RbvZ4Aryq14T1NdJcIHMDckXQjexf+VQYWRmanKsVN/wRiq8MrKL8F/bXMCDC7nE
-	jYNa3RQN5I5WASGr5hb4LDcP1WzJlgp9J4nnkNztm+rnu6h6YQsOwhVBj62M1PLNHfnO
-	DfD87ZqOPzQnQugJPhDLrzXjsCnImsTNVp3/8VG+Xane/9V7sZX5qB3L9+BPZz8wwI0M
-	fdog==
-X-Received: by 10.42.90.74 with SMTP id j10mr30821417icm.29.1405438849787;
-	Tue, 15 Jul 2014 08:40:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Tue, 15 Jul 2014 08:40:19 -0700 (PDT)
-In-Reply-To: <c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
-References: <cover.1405433828.git.liezhi.yang@windriver.com>
-	<c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 15 Jul 2014 08:40:19 -0700
-Message-ID: <CAMKF1so50VJx-iL4dXbmR_RNpgvSPJYNOPkPGth7uTFmNL=VoQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/38] gnu-config: add perl to RDEPENDS_gnu-config
+	Tue, 15 Jul 2014 15:43:39 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Jul 2014 08:43:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,666,1400050800"; d="scan'208";a="457235042"
+Received: from gmacartn-mobl.ger.corp.intel.com (HELO localhost)
+	([10.255.13.33])
+	by azsmga001.ch.intel.com with ESMTP; 15 Jul 2014 08:43:40 -0700
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jul 2014 10:43:34 -0500
+Message-Id: <f27d93432eef12967210dfe6dbfdc451371bd1d6.1405438752.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1405438752.git.tom.zanussi@linux.intel.com>
+References: <cover.1405438752.git.tom.zanussi@linux.intel.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 1/5] wic: Error on parted non-zero error code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,56 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:40:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Jul 2014 15:43:40 -0000
 
-On Tue, Jul 15, 2014 at 7:19 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Perl script:
-> gnu-config/usr/bin/gnu-configize
+The current code uses msger.debug() to note errors, effectively
+squelching them if --debug isn't used.  Apparently this is because it
+can return non-zero for some loop device failures.  We don't care
+about loop devices, and not paying attention to the error code
+actually results in invalid images, so error out on parted failures as
+we should be.
 
-will it impact native recipes too ?
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ scripts/lib/mic/utils/partitionedfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> [YOCTO #1662]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../gnu-config/gnu-config_20120814.bb              |    2 ++
->  meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 ++
->  2 files changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-> index d67466a..af4afd6 100644
-> --- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-> @@ -17,6 +17,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
->  SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
->  SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
->
-> +RDEPENDS_${PN} += "perl"
-> +
->  do_compile() {
->         :
->  }
-> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-> index 00fa759..d1b0a59 100644
-> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-> @@ -17,6 +17,8 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
->
->  S = "${WORKDIR}/git"
->
-> +RDEPENDS_${PN} += "perl"
-> +
->  do_compile() {
->         :
->  }
-> --
-> 1.7.9.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/scripts/lib/mic/utils/partitionedfs.py b/scripts/lib/mic/utils/partitionedfs.py
+index 6607466..593cf1f 100644
+--- a/scripts/lib/mic/utils/partitionedfs.py
++++ b/scripts/lib/mic/utils/partitionedfs.py
+@@ -272,7 +272,7 @@ class PartitionedMount(Mount):
+             # parted always fails to reload part table with loop devices. This
+             # prevents us from distinguishing real errors based on return
+             # code.
+-            msger.debug("WARNING: parted returned '%s' instead of 0" % rc)
++            msger.error("WARNING: parted returned '%s' instead of 0 (use --debug for details)" % rc)
+ 
+     def __create_partition(self, device, parttype, fstype, start, size):
+         """ Create a partition on an image described by the 'device' object. """
+-- 
+1.8.3.1
+
 
