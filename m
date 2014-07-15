@@ -1,45 +1,43 @@
 Return-Path: <akuster@mvista.com>
 Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
 	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 698CB70623
+	by mail.openembedded.org (Postfix) with ESMTP id 535AD65CCE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 15:19:37 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kx10so6065864pab.6
+	Tue, 15 Jul 2014 15:22:02 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kx10so6175771pab.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 08:19:38 -0700 (PDT)
+	Tue, 15 Jul 2014 08:22:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
+	:subject:references:in-reply-to:content-type
 	:content-transfer-encoding;
-	bh=PBrvtciJd2aPuXU2QQa6rgKw0HrlXeegOQYs+z9/DVI=;
-	b=C+ytbE2GfU9VxzAgziIgr3wndztsGeLm9WKfcbIhpjQiCP9u8FxPXTaCWEajbpZYGx
-	5Iz5hwavkupAsXnjn+m20NOLJ2c0eB0DaqhcleJv+h/LQiiBQYjEQDqw156w15Awi9Zs
-	W9Tfz1fM/4mjimLOHvata7L4VHFRyqthonfF6b7yJbI/8P4SISp0/7EhArFMXn1oRrVn
-	v7+KSp5JfEUsXl2SjoR3tdiql31Ey1u7Av1cthRbldIeOocHo4GCs4xg6wtH7gj+2HC8
-	rFBeFZRGqS0BlJoWeWyKE4+xt01A/B+qAz2D8/3TarAnIlOUneRG8ZxAORkDA5TYKoER
-	BHfA==
-X-Gm-Message-State: ALoCoQkPnR8pD/Nw6YBTDPgZCYiAd7eIbuxl708Fa12m6wZRebnSWapGCI9mzeYTt7wKyL3T9f9k
-X-Received: by 10.70.61.103 with SMTP id o7mr4373375pdr.134.1405437578442;
-	Tue, 15 Jul 2014 08:19:38 -0700 (PDT)
+	bh=QvAyct5Ky+f3iVDMd2illxdoGs979hNFReJU8LYfnWs=;
+	b=U5oNm9nEBTYsSNJKzMeB/tFDKUAQTRYwdG8U52Kh4isrjDkgnyK2+oqv0ligMdxTXB
+	ynyxveNCv4zaa9qDUnl8Daq/t4uWa+lEodtak6OoGsI15O5NhJ4nCmfw4P8H/MQJ5mD4
+	KVi0ru6ZHzcJd8xCW7AHihhm9C+twTRBOwmQX8iqIf7ikC79jd54fDjXvt5fVoJjUaB8
+	8SeRed3k/b5bQAy1KPAyMrQfjgs2VRCB7meRvWP0bcg8w6zgMa/tBH2J//8srctySsB/
+	FmQo7hvZNrY0GgB1Bvb2/2ZgsoBigr38cpsKBa+7K4NzIK2R+3s9Ouq7qU81msTxv2Ot
+	XIqw==
+X-Gm-Message-State: ALoCoQms87yDj+DhWhrGeDEjk2rfq8EG/vIzemMRKDAq76RY+IVDAJiip20/K7jK8nFIwx9a5NsL
+X-Received: by 10.70.131.134 with SMTP id om6mr23395242pdb.95.1405437723516;
+	Tue, 15 Jul 2014 08:22:03 -0700 (PDT)
 Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
 	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	kn1sm14280793pbd.13.2014.07.15.08.19.37 for <multiple recipients>
+	cm7sm19013005pdb.74.2014.07.15.08.22.02 for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 15 Jul 2014 08:19:37 -0700 (PDT)
-Message-ID: <53C54687.6090501@mvista.com>
-Date: Tue, 15 Jul 2014 08:19:35 -0700
+	Tue, 15 Jul 2014 08:22:02 -0700 (PDT)
+Message-ID: <53C54719.60104@mvista.com>
+Date: Tue, 15 Jul 2014 08:22:01 -0700
 From: akuster <akuster@mvista.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	akuster <akuster@mvista.com>
-References: <1405430855-12398-1-git-send-email-akuster@mvista.com>	<CAJTo0LYfG4kCxWHbKK9rM7YScB2NAqVqmTVmMKpGb7UD7WE0Bg@mail.gmail.com>	<53C53683.7050107@mvista.com>
-	<1405436945.20402.9.camel@ted>
-In-Reply-To: <1405436945.20402.9.camel@ted>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] nettle: update to version 3.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1405430888-12456-1-git-send-email-akuster@mvista.com>
+	<53C5436F.1070506@linux.intel.com>
+In-Reply-To: <53C5436F.1070506@linux.intel.com>
+Subject: Re: [meta-oe][PATCH] [v3] lz4: update to latest version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 15:19:40 -0000
+X-List-Received-Date: Tue, 15 Jul 2014 15:22:04 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Richard,
 
-On 07/15/2014 08:09 AM, Richard Purdie wrote:
-> On Tue, 2014-07-15 at 07:11 -0700, akuster wrote:
->> On 07/15/2014 06:49 AM, Burton, Ross wrote:
->>> On 15 July 2014 14:27, Armin Kuster <akuster@mvista.com> wrote:
->>>> Add GNUv3 license
->>> If nettle 3 contains GPLv3 code then we probably don't want to remove
->>> nettle 2.1, for people building without any v3 code in the images.
->>
->> They have what they call dual license in 3.x ( GPLv2 or GPLv3). We
->> certainly can keep 2.7.1
+On 07/15/2014 08:06 AM, Saul Wold wrote:
+> On 07/15/2014 06:28 AM, Armin Kuster wrote:
+>> update to version r119
+>> Use github instead of svn
+>> LICENSE md5sum changed since it was updated in r117
 >
-> Is it "GPLv2 or GPLv3" or "GPLv2 and GPLv3". There is a big difference
-> and the LICENSE field needs to be set correctly (&& or || in the license
-> field).
+> What exactly changed in r117?  Same License different working or ??
 
-
-
-Looks like 'or':
-<snippet>
-    GNU Nettle is free software: you can redistribute it and/or
-    modify it under the terms of either:
-
-      * the GNU Lesser General Public License as published by the Free
-        Software Foundation; either version 3 of the License, or (at your
-        option) any later version.
-
-    or
-
-      * the GNU General Public License as published by the Free
-        Software Foundation; either version 2 of the License, or (at your
-        option) any later version.
-
-    or both in parallel, as here.
+They updated the copyright date.
 
 - Armin
+>
+> Sau!
+>
+>> FIxes CVE-2014-4611
+>>
+>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>> ---
+>>   meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} | 11 ++++-------
+>>   1 file changed, 4 insertions(+), 7 deletions(-)
+>>   rename meta/recipes-support/lz4/{lz4_svn.bb => lz4_git.bb} (68%)
+>>
+>> diff --git a/meta/recipes-support/lz4/lz4_svn.bb 
+>> b/meta/recipes-support/lz4/lz4_git.bb
+>> similarity index 68%
+>> rename from meta/recipes-support/lz4/lz4_svn.bb
+>> rename to meta/recipes-support/lz4/lz4_git.bb
+>> index 38e36d8..3978d76 100644
+>> --- a/meta/recipes-support/lz4/lz4_svn.bb
+>> +++ b/meta/recipes-support/lz4/lz4_git.bb
+>> @@ -2,15 +2,12 @@ SUMMARY = "Extremely Fast Compression algorithm"
+>>   DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, 
+>> providing compression speed at 400 MB/s per core, scalable with 
+>> multi-cores CPU. It also features an extremely fast decoder, with 
+>> speed in multiple GB/s per core, typically reaching RAM speed limits 
+>> on multi-core systems."
+>>
+>>   LICENSE = "BSD"
+>> -LIC_FILES_CHKSUM = 
+>> "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
+>> +LIC_FILES_CHKSUM = 
+>> "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
+>>
+>> -# Upstream names releases after SVN revs
+>> -SRCREV = "112"
+>> -PV = "r${SRCREV}"
+>> +SRCREV = "28fd251bc7b42e5cde15f9a2d78fc53b3b575558"
+>> +SRC_URI= "git://github.com/Cyan4973/lz4.git;branch=master"
+>>
+>> -SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+>> -
+>> -S = "${WORKDIR}/trunk"
+>> +S = "${WORKDIR}/git"
+>>
+>>   EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} 
+>> LIBDIR=${libdir} INCLUDEDIR=${includedir}"
+>>
+>>
 
->
-> Cheers,
->
-> Richard
->
 
