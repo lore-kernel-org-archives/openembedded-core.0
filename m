@@ -1,24 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <Yang.Shi@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F4E870588
+	by mail.openembedded.org (Postfix) with ESMTP id 91D7570295
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 18:40:15 +0000 (UTC)
+	Wed, 16 Jul 2014 18:46:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6GIeEJx007290
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6GIkZGq010617
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 11:40:15 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	Wed, 16 Jul 2014 11:46:35 -0700 (PDT)
+Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.166) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Wed, 16 Jul 2014 11:40:14 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Jul 2014 11:40:14 -0700
-Message-ID: <1405536014-16921-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	14.3.169.1; Wed, 16 Jul 2014 11:46:35 -0700
+From: Yang Shi <yang.shi@windriver.com>
+To: <bruce.ashfield@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Jul 2014 11:42:11 -0700
+Message-ID: <1405536132-31250-1-git-send-email-yang.shi@windriver.com>
+X-Mailer: git-send-email 1.9.2
 MIME-Version: 1.0
-Subject: (resending) [PATCH 1/1] rpm: compile rpmqv.c instead of rpmqv.cc
+Subject: [PATCH 0/1 V2] Fix KERNEL_ALT_IMAGETYPE deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,66 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 18:40:22 -0000
+X-List-Received-Date: Wed, 16 Jul 2014 18:46:40 -0000
 Content-Type: text/plain
 
-Some versions of gcc will put a reference to __gxx_personality_v0
-into rpm.o and rpmbuild.o.  This means we must link using g++,
-and Makefile does not.
 
-Go back to using rpmqv.c (which is currently identical to rpmqv.cc).
+When trying to bootup qemuarma9 BSP with uImage, I ran into the below issues:
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   25 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
- 2 files changed, 26 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+1. Need u-boot-mkimage-native depend.
+kernel.bbclass just checks if KERNEL_IMAGETYPE is uImage, if it is the depend will be added. But, it doesn't check KERNEL_ALT_IMAGETYPE.
+In the patch, the check for alt image is added.
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-new file mode 100644
-index 0000000..0996448
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
-@@ -0,0 +1,25 @@
-+
-+Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
-+into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
-+generate does not.
-+
-+So, go back to using rpmqv.c (which is currently identical to rpmqv.cc).
-+
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -127,13 +127,13 @@ rpm_SOURCES =		build.c
-+ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
-+ rpm_LDADD =		rpm.o $(myLDADD)
-+ rpm.o:	$(top_srcdir)/rpmqv.c
-+-	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $(top_srcdir)/rpmqv.cc
-++	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $(top_srcdir)/rpmqv.c
-+ 
-+ rpmbuild_SOURCES =	build.c
-+ rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
-+ rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
-+ rpmbuild.o: $(top_srcdir)/rpmqv.c
-+-	$(COMPILE) -DIAM_RPMBT -o $@ -c $(top_srcdir)/rpmqv.cc
-++	$(COMPILE) -DIAM_RPMBT -o $@ -c $(top_srcdir)/rpmqv.c
-+ 
-+ .PHONY:	splint
-+ splint:
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index 15c1738..8fec656 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -92,6 +92,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
- 	   file://rpm-fix-logio-cp.patch \
- 	   file://rpm-db5-or-db6.patch \
- 	   file://rpm-disable-Wno-override-init.patch \
-+	   file://rpmqv_cc_b_gone.patch \
- 	  "
- 
- # Uncomment the following line to enable platform score debugging
--- 
-1.7.3.4
+2. UBOOT_LOADADDRESS is passed to uboot-mkimage in do_uboot_mkimage. But, this function just check if KERNEL_IMAGETYPE is uImage or not. It doesn't check KERNEL_ALT_IMAGETYPE.
+The patch adds the check.
 
+3. KERNEL_ALT_IMAGETYPE is not deployed at all, although it is built. So, we need install, deploy and package the atl image.
+
+Changelog V1 -> V2:
+Check if KERNEL_ALT_IMAGETYPE is empty or not. If KERNEL_ALT_IMAGETYPE is empty, just skip alt image install and deploy, otherwise it is failed to install/deploy
+because KERNEL_ALT_OUTPUT doesn't point to a real kernel image file.
+
+Yang
+
+
+The following changes since commit 68824d9b8f6e290da078383316b3f4b732585f2b:
+
+  u-boot-fw-utils: install config file (2014-06-25 13:51:49 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib yshi/kernel_altimg_v2
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=yshi/kernel_altimg_v2
+
+for you to fetch changes up to a4d3971a48d0fb490537d755a19740cb25ea5f4c:
+
+  oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage (2014-07-16 11:36:12 -0700)
+
+----------------------------------------------------------------
+Yang Shi (1):
+      oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage
+
+ meta/classes/kernel.bbclass | 38 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 35 insertions(+), 3 deletions(-)
 
