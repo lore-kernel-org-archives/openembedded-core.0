@@ -1,30 +1,43 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 187DE7050E
+Return-Path: <joaohf@gmail.com>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 975B07050E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 03:01:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6G31SWi025996
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jul 2014 20:01:28 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 15 Jul 2014 20:01:28 -0700
-Message-ID: <53C5EB06.3030403@windriver.com>
-Date: Wed, 16 Jul 2014 11:01:26 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Wed, 16 Jul 2014 03:01:58 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id ij19so535024vcb.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jul 2014 20:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=fDhAjeLaui09xkaqQQZH0xFjHwob0Zo7RU4X4dEeero=;
+	b=ua46vYjSHXX0jc2QVnj/jzqpmlTAbc2X4kdHyhzhbsiAtLJy+WuOCjf65RBHinFw64
+	g+5oswYsaHqLIAQ8yY4Aq18uu29nUSw+52UlpRb8frF/ps/8u7CmK/j6thoW7Jq2+svW
+	1/az3iQcl5Ch3CJ19fmnd2qiBlNt1s9yOnk97CVQMlzdvtoMcVQqMp8eb510PaNkcamB
+	XpBZpLkpKR0vB+UUZHtQgCAV2N++TY8Q3DKsPdSdkZqbe8mVWvuN/bRQmQwUaRBk0mlN
+	FFa7KwnDVy7WS6gMkNvX97PlwXyfCtpSuJX2NaoSR0Tje3jasRFfCiQ2QMVP1eYJ579t
+	PB2w==
+X-Received: by 10.220.133.13 with SMTP id d13mr634030vct.66.1405479719263;
+	Tue, 15 Jul 2014 20:01:59 -0700 (PDT)
+Received: from [192.168.0.12] ([201.53.220.248])
+	by mx.google.com with ESMTPSA id
+	ft3sm20032475vdb.22.2014.07.15.20.01.57 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 15 Jul 2014 20:01:58 -0700 (PDT)
+Message-ID: <53C5EB22.6070700@gmail.com>
+Date: Wed, 16 Jul 2014 00:01:54 -0300
+From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
+	<joaohf@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1405433828.git.liezhi.yang@windriver.com>
-	<c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
-	<CAMKF1so50VJx-iL4dXbmR_RNpgvSPJYNOPkPGth7uTFmNL=VoQ@mail.gmail.com>
-In-Reply-To: <CAMKF1so50VJx-iL4dXbmR_RNpgvSPJYNOPkPGth7uTFmNL=VoQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1404266329-13524-1-git-send-email-joaohf@gmail.com>	<1405378518-4832-1-git-send-email-joaohf@gmail.com>	<1405378518-4832-3-git-send-email-joaohf@gmail.com>
+	<CAP9ODKr1fxmPVE3ejC0T8JCYpyOPk9dWjoPCZw4Mwv8s-QS+Xw@mail.gmail.com>
+In-Reply-To: <CAP9ODKr1fxmPVE3ejC0T8JCYpyOPk9dWjoPCZw4Mwv8s-QS+Xw@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/38] gnu-config: add perl to RDEPENDS_gnu-config
+Subject: Re: [PATCH v2 2/2] populate_sdk_base: ensure that filenames with empty space character are handled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,69 +50,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 03:01:31 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Jul 2014 03:02:03 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-
-On 07/15/2014 11:40 PM, Khem Raj wrote:
-> On Tue, Jul 15, 2014 at 7:19 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> Perl script:
->> gnu-config/usr/bin/gnu-configize
+Em 15-07-2014 10:33, Otavio Salvador escreveu:
+> On Mon, Jul 14, 2014 at 7:55 PM, João Henrique Ferreira de Freitas
+> <joaohf@gmail.com> wrote:
+>> When extracting toolchain, if the list $executable_files has filenames
+>> with empty space character, the list will created but relocate_sdk.sh
+>> will not handle it well. This will lead to the below erro:
+>>
+>>      ./tmp/deploy/sdk/buildtools-mytools-x86_64-nativesdk-standalone-1.6.1.0.sh
+>>      Enter target directory for SDK (default: /opt/mydistro/mytoolset/1.6.1.0):
+>>      You are about to install the SDK to "/opt/mydistro/mytoolset/1.6.1.0". Proceed[Y/n]?
+>>      Extracting SDK...done
+>>      Setting it up.../opt/mydistro/mytoolset/1.6.1.0/relocate_sdk.sh: line 2: sintaxe error `token'  `('
+>>      /opt/mydistro/mytoolset/1.6.1.0/relocate_sdk.sh: line 2: `e
+>>
+>> The same occurs with replacement of ${SDKPATH} in configs/scripts/etc files.
+>>
+>> We should ensure that full path is protected before relocate_sdk.sh
+>> and ${SDKPATH} replacement calls.
+>>
+>> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+> I am wondering if we cannot get rid of the 'tr' command that converts
+> newlines to '\0'. This would avoid a new fork of command. Did you
+> think about it?
 >
-> will it impact native recipes too ?
+I think it's possible. Maybe  using: awk -F':' '{printf "%s\0", $1}' 
+like this:
 
-Yes, it will, thanks, update it to target only in the git repo,
+$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|grep 
+":.*\(ASCII\|script\|source\).*text"|awk -F':' '{printf "%s\0", 
+$1}'|$SUDO_EXEC xargs -0 sed -i -e 
+"s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
 
-RDEPENDS_${PN}_class-target += "perl"
+I will finish my tests before send a v3.
 
-// Robert
+Thanks.
 
->
->>
->> [YOCTO #1662]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   .../gnu-config/gnu-config_20120814.bb              |    2 ++
->>   meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 ++
->>   2 files changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
->> index d67466a..af4afd6 100644
->> --- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
->> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
->> @@ -17,6 +17,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
->>   SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
->>   SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
->>
->> +RDEPENDS_${PN} += "perl"
->> +
->>   do_compile() {
->>          :
->>   }
->> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
->> index 00fa759..d1b0a59 100644
->> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
->> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
->> @@ -17,6 +17,8 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
->>
->>   S = "${WORKDIR}/git"
->>
->> +RDEPENDS_${PN} += "perl"
->> +
->>   do_compile() {
->>          :
->>   }
->> --
->> 1.7.9.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+-- 
+João Henrique Ferreira de Freitas - joaohf_at_gmail.com
+Campinas-SP-Brasil
+
 
