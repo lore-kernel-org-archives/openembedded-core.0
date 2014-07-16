@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B5E665DA3
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D55AB70496
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 21:52:02 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id f12so21686qad.31
+	Wed, 16 Jul 2014 02:08:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6G28DN2020243
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 14:52:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=AwyF1jEIzFvz/55sQxVPZ6+vjfW0WyIILZ756ZmNtro=;
-	b=AaNJ7ia//S1Ju513x7aOuxGFR7p0r9ZFWPZxf4uO5XfyX4osle0mxrG0rLfoEtVvby
-	/EDoaz3GPsjiKFuBlJ0fHaI2JmvwaT2ajDdqOnDwSiwf5sJRuPuMTmscU21cHIoIVI+3
-	/vEjfAGUpbqEZdl7MPf+TlEC9WjsSNhrMa/FLJqLb9pbVeZzoYXvs3F1x9rfpWo3e63S
-	6IgFJBcAKBNvG884zY/bqMNyAXrll6+h4aCpQ1HoVAXkyYFzcZBOqmIEGsiHjKpdhhe8
-	LpHZe6o0x+Fq2SU0FZGFInDdx03KUWePpsTAHCaIUsWv45hc0AhseE0EqzJ/WX5+6FCA
-	s+Qw==
-X-Gm-Message-State: ALoCoQkhEzPQ3Leysp9sI+3fJTtN1GCaTAVBWV7WR6T1xEnc/o8bCZULKtTllWzY5sZiameUQNSc
-X-Received: by 10.140.100.233 with SMTP id s96mr14987594qge.92.1405461123388; 
-	Tue, 15 Jul 2014 14:52:03 -0700 (PDT)
+	Tue, 15 Jul 2014 19:08:13 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 15 Jul 2014 19:08:13 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Jul 2014 19:08:12 -0700
+Message-ID: <1405476492-10983-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Tue, 15 Jul 2014 14:51:43 -0700 (PDT)
-In-Reply-To: <CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
-References: <cover.1405440532.git.ross.burton@intel.com>
-	<406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
-	<CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Jul 2014 22:51:43 +0100
-Message-ID: <CAJTo0LajRNrS1nWfnE1n=ar6tO3A6US4too4sf8GwxZU1KyDwQ@mail.gmail.com>
-To: OE-devel <openembedded-devel@lists.openembedded.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [PATCH 7/7] autoconf: remove automake patch enforcing --foreign
+Subject: [PATCH 1/1] rpm: compile rpmqv.c instead of rpmqv.cc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,18 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jul 2014 21:52:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 16 Jul 2014 02:08:20 -0000
+Content-Type: text/plain
 
-On 15 July 2014 21:14, Khem Raj <raj.khem@gmail.com> wrote:
-> can it be somehow made such that it can be passed via option flags so we
-> dont have to patch the packages not using above automake macro
+Some versions of gcc will put a reference to __gxx_personality_v0
+into rpm.o and rpmbuild.o.  This means we must link using g++,
+and Makefile does not.
 
-Packages that don't use the right automake macro are generally very
-old and we're already carrying patches to fix the autoconf/automake
-files, so I'm not sure this is actually worth it.  I'm trying to drop
-the patches we're carrying against core build tools, not increase it.
-:)
+Go back to using rpmqv.c (which is currently identical to rpmqv.cc).
 
-Ross
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   25 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
+ 2 files changed, 26 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+new file mode 100644
+index 0000000..0996448
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+@@ -0,0 +1,25 @@
++
++Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
++into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
++generate does not.
++
++So, go back to using rpmqv.c (which is currently identical to rpmqv.cc).
++
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -127,13 +127,13 @@ rpm_SOURCES =		build.c
++ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
++ rpm_LDADD =		rpm.o $(myLDADD)
++ rpm.o:	$(top_srcdir)/rpmqv.c
++-	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $(top_srcdir)/rpmqv.cc
+++	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $(top_srcdir)/rpmqv.c
++ 
++ rpmbuild_SOURCES =	build.c
++ rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
++ rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
++ rpmbuild.o: $(top_srcdir)/rpmqv.c
++-	$(COMPILE) -DIAM_RPMBT -o $@ -c $(top_srcdir)/rpmqv.cc
+++	$(COMPILE) -DIAM_RPMBT -o $@ -c $(top_srcdir)/rpmqv.c
++ 
++ .PHONY:	splint
++ splint:
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index 15c1738..8fec656 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -92,6 +92,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://rpm-fix-logio-cp.patch \
+ 	   file://rpm-db5-or-db6.patch \
+ 	   file://rpm-disable-Wno-override-init.patch \
++	   file://rpmqv_cc_b_gone.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
+-- 
+1.7.3.4
+
 
