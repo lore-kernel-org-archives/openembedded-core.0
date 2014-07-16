@@ -1,26 +1,24 @@
 Return-Path: <Shan.Hai@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4752E70515
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE5E170496
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 03:27:00 +0000 (UTC)
+	Wed, 16 Jul 2014 06:15:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6G3R2Sj019217
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6G6Furg008606
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 20:27:02 -0700 (PDT)
+	Tue, 15 Jul 2014 23:15:56 -0700 (PDT)
 Received: from pek-lpd-susbld.wrs.com (128.224.153.80) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 15 Jul 2014 20:27:01 -0700
+	14.3.174.1; Tue, 15 Jul 2014 23:15:55 -0700
 From: Shan Hai <shan.hai@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Jul 2014 11:26:49 +0800
-Message-ID: <1405481209-16891-2-git-send-email-shan.hai@windriver.com>
+Date: Wed, 16 Jul 2014 14:15:53 +0800
+Message-ID: <1405491353-23636-1-git-send-email-shan.hai@windriver.com>
 X-Mailer: git-send-email 1.8.5.2.233.g932f7e4
-In-Reply-To: <1405481209-16891-1-git-send-email-shan.hai@windriver.com>
-References: <1405481209-16891-1-git-send-email-shan.hai@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] grub-core/net/tftp: Fix endianness problem in (ack)
+Subject: [PATCH] grub-core: fix endianness problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 03:27:03 -0000
+X-List-Received-Date: Wed, 16 Jul 2014 06:15:57 -0000
 Content-Type: text/plain
 
-commit a706f4cc6bddd03e67a66620101209c471177b53 upstream
----
- .../tftp-fix-endianness-problem-in-ack.patch       | 42 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch
+Fix tftp stalls on loading files bigger than ~32k bug by cherry picking
+a patch from grub upstream.
 
-diff --git a/meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch b/meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch
+Upstream-Status: Backport
+
+Signed-off-by: Shan Hai <shan.hai@windriver.com>
+---
+ .../grub/grub-2.00/fix-endianness-problem.patch    | 46 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+
+diff --git a/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch b/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
 new file mode 100644
-index 0000000..c2a75de
+index 0000000..bb5ba9b
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch
-@@ -0,0 +1,42 @@
-+grub-core/net/tftp: Fix endianness problem in (ack)
++++ b/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+@@ -0,0 +1,46 @@
++grub-core/net/tftp.c: fix endianness problem.
 +
-+commit a706f4cc6bddd03e67a66620101209c471177b53 upstream
++	* grub-core/net/tftp.c (ack): Fix endianness problem.
++	(tftp_receive): Likewise.
++	Reported by: Michael Davidsaver.
 +
-+Signed-off-by: Shan Hai <shan.hai@windriver.com>
++Upstream-Status: Submitted [grub-devel@gnu.org]
++
++Signed-off-by: Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
 +
 +diff --git a/ChangeLog b/ChangeLog
 +index 81bdae9..c2f42d5 100644
@@ -92,14 +99,14 @@ index 0000000..c2a75de
 + 	      {
 + 		file->device->net->stall = 1;
 diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-index ce2d680..374e716 100644
+index 72ed402..36c648e 100644
 --- a/meta/recipes-bsp/grub/grub_2.00.bb
 +++ b/meta/recipes-bsp/grub/grub_2.00.bb
 @@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
            file://check-if-liblzma-is-disabled.patch \
            file://fix-issue-with-flex-2.5.37.patch \
            file://grub-2.00-add-oe-kernel.patch \
-+          file://tftp-fix-endianness-problem-in-ack.patch \
++          file://fix-endianness-problem.patch \
            "
  
  SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
