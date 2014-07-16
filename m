@@ -1,36 +1,31 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B85ED6AC82
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AF2F06AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 08:31:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 29DCD314D0E2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 10:31:07 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id irBJKoipbVFs
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 10:31:02 +0200 (CEST)
-Received: from [172.22.22.61] (unknown [212.255.118.48])
-	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 25565314D0DE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 10:31:02 +0200 (CEST)
-Message-ID: <53C63845.2060407@opendreambox.org>
-Date: Wed, 16 Jul 2014 10:31:01 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <8672BB614B4CCA40A6B3BDD6FD82050BA8B27988@COSNADEXC13.usr.ingenico.loc>	<1405436079-13220-1-git-send-email-Matthieu.Crapet@ingenico.com>	<53C55932.2050206@opendreambox.org>
-	<8672BB614B4CCA40A6B3BDD6FD82050BA8B27F6E@COSNADEXC13.usr.ingenico.loc>
-In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050BA8B27F6E@COSNADEXC13.usr.ingenico.loc>
-Subject: Re: [PATCH v3] libav: set LICENSE and LICENSE_FLAGS according to PACKAGECONFIG options
+	Wed, 16 Jul 2014 08:34:08 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6G8Y2bm021989; Wed, 16 Jul 2014 09:34:02 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id W-ZN9xh5TTZ6; Wed, 16 Jul 2014 09:34:02 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6G8Xtca021976
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 16 Jul 2014 09:33:56 +0100
+Message-ID: <1405499628.20402.13.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
+Date: Wed, 16 Jul 2014 09:33:48 +0100
+In-Reply-To: <53C5EAC3.3020901@gmail.com>
+References: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
+	<53C5EAC3.3020901@gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 08:31:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Jul 2014 08:34:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 16.07.2014 08:43, Matthieu CRAPET wrote:
-> Hi again,
+On Wed, 2014-07-16 at 00:00 -0300, João Henrique Ferreira de Freitas
+wrote:
+> Hi Paul,
 > 
->> Some optional parts of Libav are licensed under the GNU General Public License version 2 or later (GPL v2+). See the file COPYING.GPLv2 for details. 
->> None of these parts are used by default, you have to explicitly pass --enable-gpl to configure to activate them. In this case, Libav's license changes to GPL v2+."
 > 
-> I may misunderstood something here.
+> I got this error.
 > 
-> For example:
-> - libavfiler. It contains yadif code which is GPLv2+ and frei0r code is LGPLv2.1+. Libavfiler is clearly contaminated: 
-
-Yadif needs to be enabled explicitly with --enable-gpl. frei0r is 
-disabled by default. If enabled, it's linked at runtime using dlopen. 
-At least, this is what the 'configure' script suggests.
-
-> LICENSE_libavfilter = "GPLv2+"
-> - libavutils is 100% LGPL
-> LICENSE_libavutils = " LGPLv2.1+"
+> On daisy branch, I was using a MACHINE=genericx86 then I changed to 
+> MACHINE=crownbay and build my image. libxml-parser-perl shows the same 
+> problem.
 > 
-> Giving --enable-gpl to configure does not convert pure 100% LGPL licensed library to GPL license. Am I wrong?
+> So I did 'bitbake perl -c cleansstate' and 'bitbake libxml-parser-perl'. 
+> No problems anymore, until I change back to genericx86.
+> 
+> But this is odd and I am trying to figure out what is the problem.
 
-If you combine GPL'ed and LGPL'ed code, the resulting binary will be GPL'ed.
+I've seen this happen before with a half built perl recipe where you've
+switched machines half way through a build of perl. Stripping out the
+RPATH is not the right fix though.
 
-https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License#Compatibility
+Cheers,
 
-Regards,
-Andreas
+Richard
 
 
