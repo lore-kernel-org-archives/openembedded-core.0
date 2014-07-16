@@ -1,32 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ED8C970259
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 93E3870259
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 21:47:32 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6GLlKVh025393; Wed, 16 Jul 2014 22:47:20 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jVrgivilvnyJ; Wed, 16 Jul 2014 22:47:20 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6GLlDWU025383
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 16 Jul 2014 22:47:15 +0100
-Message-ID: <1405547228.3668.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Jul 2014 22:47:08 +0100
-In-Reply-To: <CAJTo0LYPQvPP0f_4w1bV=56KoUvMDCmwqpMp2Q8mHg+_krZ0Wg@mail.gmail.com>
-References: <cover.1405527926.git.richard.purdie@linuxfoundation.org>
-	<742f62754f3a09352af1aa87c3072472f6e6549d.1405527926.git.richard.purdie@linuxfoundation.org>
-	<CAJTo0LYPQvPP0f_4w1bV=56KoUvMDCmwqpMp2Q8mHg+_krZ0Wg@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 18/19] xserver-xorg: Fix build determinism problem
+	Wed, 16 Jul 2014 21:52:16 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6GKxNbu017689 for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jul 2014 15:59:23 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014071615592400-455724 ;
+	Wed, 16 Jul 2014 15:59:24 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jul 2014 15:59:13 -0500
+Message-Id: <cover.1405542432.git.ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/16/2014 03:59:24 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/16/2014 03:59:24 PM,
+	Serialize complete at 07/16/2014 03:59:24 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-16_07:2014-07-16, 2014-07-16,
+	1970-01-01 signatures=0
+Subject: [PATCH 0/5] Various fixes and improvements to initscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 21:47:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Jul 2014 21:52:20 -0000
 
-On Wed, 2014-07-16 at 21:38 +0100, Burton, Ross wrote:
-> On 16 July 2014 17:26, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > WARNING: QA Issue: xserver-xorg rdepends on nettle but its not a build dependency? [build-deps]
-> >
-> > We list openssl in DEPENDS so we need to specify that as the sha1 provider
-> > rather that nettle which is autodetected.
-> 
-> If xserver is seeing both openssl and nettle installed but picking
-> nettle, should we switch the build dependency from openssl to nettle?
-> The nettle library is half the size of openssl and has saner
-> licensing, so this seems like a win to me.
+This patch series contains fixes and improvements we've made to several init 
+scripts.  These changes have been thoroughly tested on Dylan and ported to 
+master.
 
-Happy to have a follow up patch. I just fixed it so it was at least
-doing what we were supposedly configuring it to.
+The following changes since commit 846bc50fde11bbb36c8eb5b2e3ae6bb644c037f3:
 
-Cheers,
+  ltp: use "foreign" automake strictness (2014-07-16 10:27:16 +0100)
 
-Richard
+are available in the git repository at:
+
+  git://github.com/ni/openembedded-core dev/bshelton/upstream_initscripts
+  https://github.com/ni/openembedded-core/tree/dev/bshelton/upstream_initscripts
+
+Blair Elliott (1):
+  initscripts: save /etc/timestamp with seconds accuracy
+
+Ken Sharp (1):
+  initscripts: Use current date as an additional source of entropy
+
+Richard Tollerton (3):
+  initscripts: bootmisc.sh: Make sysctl -p honor VERBOSE
+  initscripts: parametrize random seed file location
+  initscripts: make hostname.sh coreutils-compatible
+
+ .../initscripts/initscripts-1.0/bootmisc.sh          | 12 +++++++++---
+ .../initscripts/initscripts-1.0/hostname.sh          |  2 +-
+ .../initscripts/initscripts-1.0/save-rtc.sh          |  2 +-
+ .../recipes-core/initscripts/initscripts-1.0/urandom | 20 +++++++++++---------
+ 4 files changed, 22 insertions(+), 14 deletions(-)
+
+-- 
+2.0.1
 
 
