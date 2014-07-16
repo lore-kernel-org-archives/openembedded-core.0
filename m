@@ -1,40 +1,30 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 355DC65C70
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 187DE7050E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 03:00:22 +0000 (UTC)
-Received: by mail-vc0-f170.google.com with SMTP id lf12so529523vcb.29
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 20:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=1gHAZefIrYNWy4npepIoy/d+O5F0FA7NpViX0BTiZb0=;
-	b=BIdu9RYR2XPzA2UqoH0bcXPmPoSqkWdbmA+iaZ323DBoBHV74nX4oI6j5Wdbv+wGsf
-	j/KwtEIeiuumz9earRitdzXGAD57PLFhPqpYCb3j/5OV0RTT5alj2aAwFzon4Q6n0FVM
-	HDmRRY/WAB5Lq0SMS3+hyFE8ESaFMUkrza7iJy2KC5QZYzXR6zunG/uc3l7f0c6nJUJA
-	a+X2L8q7kEbD2OLQm26yD+YWhpAtQlwgAuKl4NEoJ7IHsPFfohykYJgQp/Adm6FkPhBe
-	YK+z3/uxcZlJJFmyCbfTbtrKL2bCLfsWZrDzjEpsnve7W9vwT6dsVsr3yLvaLMOLCSaw
-	uQkQ==
-X-Received: by 10.52.171.233 with SMTP id ax9mr3763682vdc.76.1405479623884;
-	Tue, 15 Jul 2014 20:00:23 -0700 (PDT)
-Received: from [192.168.0.12] ([201.53.220.248])
-	by mx.google.com with ESMTPSA id y8sm28547591vdj.25.2014.07.15.20.00.21
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 15 Jul 2014 20:00:23 -0700 (PDT)
-Message-ID: <53C5EAC3.3020901@gmail.com>
-Date: Wed, 16 Jul 2014 00:00:19 -0300
-From: =?ISO-8859-1?Q?Jo=E3o_Henrique_Ferreira_de_Freitas?= <joaohf@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed, 16 Jul 2014 03:01:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6G31SWi025996
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Jul 2014 20:01:28 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 15 Jul 2014 20:01:28 -0700
+Message-ID: <53C5EB06.3030403@windriver.com>
+Date: Wed, 16 Jul 2014 11:01:26 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Paul Gortmaker <paul.gortmaker@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
-In-Reply-To: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
-Subject: Re: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1405433828.git.liezhi.yang@windriver.com>
+	<c6ba65dc4b22e743a8aef32cf77b08c6eca388fc.1405433828.git.liezhi.yang@windriver.com>
+	<CAMKF1so50VJx-iL4dXbmR_RNpgvSPJYNOPkPGth7uTFmNL=VoQ@mail.gmail.com>
+In-Reply-To: <CAMKF1so50VJx-iL4dXbmR_RNpgvSPJYNOPkPGth7uTFmNL=VoQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/38] gnu-config: add perl to RDEPENDS_gnu-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,53 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 03:00:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Paul,
+X-List-Received-Date: Wed, 16 Jul 2014 03:01:31 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-I got this error.
 
-On daisy branch, I was using a MACHINE=genericx86 then I changed to 
-MACHINE=crownbay and build my image. libxml-parser-perl shows the same 
-problem.
-
-So I did 'bitbake perl -c cleansstate' and 'bitbake libxml-parser-perl'. 
-No problems anymore, until I change back to genericx86.
-
-But this is odd and I am trying to figure out what is the problem.
-
-
-Em 18-06-2014 19:48, Paul Gortmaker escreveu:
-> To fix:
+On 07/15/2014 11:40 PM, Khem Raj wrote:
+> On Tue, Jul 15, 2014 at 7:19 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> Perl script:
+>> gnu-config/usr/bin/gnu-configize
 >
-> ERROR: QA Issue: package libxml-parser-perl contains bad RPATH /home/paul/poky/build/tmp/sysroots/intel-corei7-64/usr/lib64 in file /home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.41-r3/packages-split/libxml-parser-perl/usr/lib64/perl/vendor_perl/5.14.3/auto/XML/Parser/Expat/Expat.so
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
-> ERROR: Logfile of failure stored in: /home/paul/poky/build/tmp/work/corei7-64-poky-linux/libxml-parser-perl/2.41-r3/temp/log.do_package.28544
-> ERROR: Task 4102 (/home/paul/poky/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb, do_package) failed with exit code '1'
->
-> ...which showed up when enabling a multilib build.
->
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
->
-> diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-> index 43a8a84518d3..2488aacb682c 100644
-> --- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-> +++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-> @@ -27,6 +27,7 @@ do_configure_append() {
->   do_compile() {
->   	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
->   	cpan_do_compile
-> +	chrpath -d ${S}/blib/arch/auto/XML/Parser/Expat/Expat.so
->   }
->   
->   do_compile_class-native() {
+> will it impact native recipes too ?
 
--- 
-João Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
+Yes, it will, thanks, update it to target only in the git repo,
 
+RDEPENDS_${PN}_class-target += "perl"
+
+// Robert
+
+>
+>>
+>> [YOCTO #1662]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../gnu-config/gnu-config_20120814.bb              |    2 ++
+>>   meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 ++
+>>   2 files changed, 4 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+>> index d67466a..af4afd6 100644
+>> --- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+>> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+>> @@ -17,6 +17,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
+>>   SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
+>>   SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
+>>
+>> +RDEPENDS_${PN} += "perl"
+>> +
+>>   do_compile() {
+>>          :
+>>   }
+>> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+>> index 00fa759..d1b0a59 100644
+>> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+>> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+>> @@ -17,6 +17,8 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
+>>
+>>   S = "${WORKDIR}/git"
+>>
+>> +RDEPENDS_${PN} += "perl"
+>> +
+>>   do_compile() {
+>>          :
+>>   }
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
