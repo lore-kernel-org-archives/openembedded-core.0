@@ -1,20 +1,24 @@
 Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D31E705DB
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 672147018F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 16 Jul 2014 21:16:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jul 2014 14:10:37 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 Jul 2014 14:16:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,673,1400050800"; d="scan'208";a="544425844"
+X-IronPort-AV: E=Sophos;i="5.01,673,1400050800"; d="scan'208";a="574300355"
 Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
-	by orsmga001.jf.intel.com with ESMTP; 16 Jul 2014 14:16:13 -0700
+	by orsmga002.jf.intel.com with ESMTP; 16 Jul 2014 14:16:13 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jul 2014 14:15:56 +0000
-Message-Id: <cover.1405520111.git.dvhart@linux.intel.com>
+Date: Wed, 16 Jul 2014 14:15:57 +0000
+Message-Id: <0638ee88bb8bd469244e77b0961d2f3f2e59f47f.1405520111.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 2.0.0
-Subject: [PATCH 0/8] mkefidisk updates and gummiboot support
+In-Reply-To: <cover.1405520111.git.dvhart@linux.intel.com>
+References: <cover.1405520111.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1405520111.git.dvhart@linux.intel.com>
+References: <cover.1405520111.git.dvhart@linux.intel.com>
+Subject: [PATCH 1/8] mkefidisk.sh: Use all caps for volume names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +33,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 16 Jul 2014 21:16:17 -0000
 
-mkefidisk was in need of some improvements. This adds gummiboot support, but
-also adds improved logging, output formatting, robustness, error trapping,
-cleanup, and verbosity control.
+Avoid some mkfs warnings by using all caps in the volume names.
 
-The following changes since commit 03c6fd0caab0ea8dcc2e0c3ab827a287a4f36910:
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/contrib/mkefidisk.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  ltp: use "foreign" automake strictness (2014-07-16 10:31:17 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib dvhart/mkefidisk
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/mkefidisk
-
-Darren Hart (8):
-  mkefidisk.sh: Use all caps for volume names
-  mkefidisk.sh: Add mount error checking
-  mkefidisk.sh: Add gummiboot support
-  mkefidisk.sh: Copy the EFI dir recursively
-  mkefidisk.sh: Improve logging
-  mkefidisk.sh: Add die() and cleanup() routines
-  mkefidisk.sh: Make the rootfs copy the last step
-  mkefidisk.sh: Reduce output and add verbose flag
-
- scripts/contrib/mkefidisk.sh | 306 ++++++++++++++++++++++++++++---------------
- 1 file changed, 204 insertions(+), 102 deletions(-)
-
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 1992d6c..959307a 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -208,14 +208,14 @@ unmount_device
+ echo ""
+ echo "Formatting $BOOTFS as vfat..."
+ if [ ! "${DEVICE#/dev/loop}" = "${DEVICE}" ]; then
+-	mkfs.vfat -I $BOOTFS -n "efi"
++	mkfs.vfat -I $BOOTFS -n "EFI"
+ else
+-	mkfs.vfat $BOOTFS -n "efi"
++	mkfs.vfat $BOOTFS -n "EFI"
+ 
+ fi
+ 
+ echo "Formatting $ROOTFS as ext3..."
+-mkfs.ext3 $ROOTFS -L "root"
++mkfs.ext3 -F $ROOTFS -L "ROOT"
+ 
+ echo "Formatting swap partition...($SWAP)"
+ mkswap $SWAP
 -- 
 2.0.0
 
