@@ -1,41 +1,39 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F30B7024B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 19:26:39 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20140716192638316
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 19:26:38 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=44872 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X7UqW-0000Fp-7w; Wed, 16 Jul 2014 15:26:32 -0400
-Date: Wed, 16 Jul 2014 15:26:29 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Christopher Larson <clarson@kergoth.com>
-In-Reply-To: <CABcZANnfhoCkE_ttWfcGA4PMJQ3YH912XrTHP6AH=9QAf8z=0Q@mail.gmail.com>
-Message-ID: <alpine.LFD.2.11.1407161523410.4207@localhost>
-References: <alpine.LFD.2.11.1407160719540.5398@localhost>
-	<CABcZANnfhoCkE_ttWfcGA4PMJQ3YH912XrTHP6AH=9QAf8z=0Q@mail.gmail.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id EEEB170200;
+	Wed, 16 Jul 2014 20:19:26 +0000 (UTC)
+Received: by mail-ie0-f174.google.com with SMTP id rp18so1433978iec.19
+	for <multiple recipients>; Wed, 16 Jul 2014 13:19:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=FiCdEQ83LSlXAzxpPq55V51FD187k9JGXpfqCS8HFWY=;
+	b=bKdGvwTlko6i1Qwk5OcYuUrrD7Zj12RK8QGEmMNCS/GfSibr43MduvOyaGD62lANUO
+	xyUWJvxjEZJ6yWdefcWTs7sZYLWFrA5djW57KSBg5OmslozWw5jD9D4ArgOB0CF8MBIF
+	+WW5299/mjm0vY8AEdcDs8butoSjNSZ+4bauTKQfpUd+7kAhF+JWPzuGY1Ej6jKTiinp
+	vy7daxvsBfaUrqOT4Su5G68RrPjgoShEVKbkxSyZQondrZPoh5YvNYohwRu1LFvjslxM
+	S7qDeDBVScj4d0+IGWBLtuB/kEt4HmSC8RI77Px/V98Ee3F3xIMPZppbes8tG3RJoRrf
+	ieVQ==
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: two variations for distro-specific FILESEXTRAPATHS prepending
+X-Received: by 10.43.53.199 with SMTP id vr7mr22098554icb.70.1405541967220;
+	Wed, 16 Jul 2014 13:19:27 -0700 (PDT)
+Received: by 10.50.78.105 with HTTP; Wed, 16 Jul 2014 13:19:27 -0700 (PDT)
+Received: by 10.50.78.105 with HTTP; Wed, 16 Jul 2014 13:19:27 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.11.1407120436510.28008@localhost>
+References: <alpine.LFD.2.11.1407111821080.6262@localhost>
+	<CAP9ODKqwOXV+GxNhoPFXJWcjLipD1P176Qcy0bBNMuzF9=Bhng@mail.gmail.com>
+	<CAMKF1spgCphqN7PVskjP_bHd2CfsBRi52y=KJ2fWyjwQxw0cYw@mail.gmail.com>
+	<alpine.LFD.2.11.1407120436510.28008@localhost>
+Date: Wed, 16 Jul 2014 13:19:27 -0700
+Message-ID: <CAMKF1soB6boe8Echqswu64ptz2PBh_VWF_8aK5WooPcwMYeyGA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: openembedded-devel@lists.openembedded.org,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH] core-image.bbclass: Reformat definition of CORE_IMAGE_BASE_INSTALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,60 +46,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 19:26:43 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323328-193618293-1405538792=:4207"
+X-List-Received-Date: Wed, 16 Jul 2014 20:19:28 -0000
+Content-Type: multipart/alternative; boundary=bcaec51b1ad9ac571c04fe553dad
 
---8323328-193618293-1405538792=:4207
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+--bcaec51b1ad9ac571c04fe553dad
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 16 Jul 2014, Christopher Larson wrote:
-
+On Jul 12, 2014 1:41 AM, "Robert P. J. Day" <rpjday@crashcourse.ca> wrote:
 >
-> On Wed, Jul 16, 2014 at 4:26 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         just ran across this in the meta-yocto layer but it's a general OE
->       question -- the psplash_git.bbappend file contains the following
->       distro-conditional line:
+> On Fri, 11 Jul 2014, Khem Raj wrote:
 >
->         FILESEXTRAPATHS_prepend_poky := "${THISDIR}/files:"
+> > On Fri, Jul 11, 2014 at 4:41 PM, Otavio Salvador
+> > <otavio@ossystems.com.br> wrote:
+> > > Hello,
+> > >
+> > > +OE-Core
+> > >
+> > > On Fri, Jul 11, 2014 at 7:23 PM, Robert P. J. Day <
+rpjday@crashcourse.ca> wrote:
+> > >>
+> > >> Reformat the assignment to CORE_IMAGE_BASE_INSTALL to be more
+> > >> intuitively obvious.
+> > >>
+> > >> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> > >>
+> > >> ---
+> > >>
+> > >>   compile and run-time tested, building a core-image-minimal for
+> > >> qemuarm.
+> > >>
+> > >> diff --git a/meta/classes/core-image.bbclass
+b/meta/classes/core-image.bbclass
+> > >> index 1b36cba..d2b9d69 100644
+> > >> --- a/meta/classes/core-image.bbclass
+> > >> +++ b/meta/classes/core-image.bbclass
+> > >> @@ -59,13 +59,11 @@ MACHINE_HWCODECS ??= ""
+> > >>  CORE_IMAGE_BASE_INSTALL = '\
+> > >>      packagegroup-core-boot \
+> > >>      packagegroup-base-extended \
+> > >> -    \
+> > >> -    ${CORE_IMAGE_EXTRA_INSTALL} \
+> > >>      '
+> > >>
+> > >>  CORE_IMAGE_EXTRA_INSTALL ?= ""
+> > >>
+> > >> -IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+> > >> +IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}
+${CORE_IMAGE_EXTRA_INSTALL}"
+> > >
+> > > For me, more intuitively would be:
+> > >
+> > > CORE_IMAGE_BASE_INSTALL ?= ...
+> >
+> > weak assignment here would mean overridable base install which is
+> > not the intention. we want a working base image when inheriting
+> > core-image
 >
->       and the accompanying files/ directory has, unsurprisingly, a
->       poky-specific splash image file, "psplash-poky-img.h".
+>   except that that argument doesn't really hold water given how one
+> can inherit core-image, then (as i pointed out) immediately wipe out
+> that supposedly inviolable definition of CORE_IMAGE_BASE_INSTALL by
+> simply reassigning to IMAGE_INSTALL.
+
+these classes are provided as basic working blocks. it would be a bad use
+case if one were to override basic constructs inside it completely. some
+variables are sort of interfaces some are not. besides your change is ok
+its just the preset is not. we should start using the constructs as
+intended.
 >
->         but based on how FILESEXTRAPATHS is processed by incorporating all
->       of the FILESOVERRIDES variations (one of which is the distro name),
->       would it not have been entirely equivalent to have used simply
+>   i *like* the idea of a weak assignment to CORE_IMAGE_BASE INSTALL.
+> it's effectively what core-image-minimal is doing anyway, it just
+> allows you to do it in a way that's not grotesquely ugly.
 >
->           FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+> rday
 >
->       and placed that splash file in the accompanying directory files/poky/?
->       would these two approaches do the same thing? is there a preferred
->       way? that's the only example of that i've seen in all the layers i've
->       played with.
+> --
 >
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
 >
-> Both would do the same thing, I'm personally of the opinion that the
-> latter would be more consistent with how such things are normally
-> done.
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
 
-  i was ready to bet internal organs that they had the same effect,
-but i've perused the OE code base enough that i trip over oddities and
-i just really want to make sure i know what i'm looking at.
+--bcaec51b1ad9ac571c04fe553dad
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-rday
+<p dir=3D"ltr"><br>
+On Jul 12, 2014 1:41 AM, &quot;Robert P. J. Day&quot; &lt;<a href=3D"mailto=
+:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Fri, 11 Jul 2014, Khem Raj wrote:<br>
+&gt;<br>
+&gt; &gt; On Fri, Jul 11, 2014 at 4:41 PM, Otavio Salvador<br>
+&gt; &gt; &lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.c=
+om.br</a>&gt; wrote:<br>
+&gt; &gt; &gt; Hello,<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; +OE-Core<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Fri, Jul 11, 2014 at 7:23 PM, Robert P. J. Day &lt;<a hre=
+f=3D"mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; Reformat the assignment to CORE_IMAGE_BASE_INSTALL to be=
+ more<br>
+&gt; &gt; &gt;&gt; intuitively obvious.<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; Signed-off-by: Robert P. J. Day &lt;<a href=3D"mailto:rp=
+jday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt;<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; ---<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; =C2=A0 compile and run-time tested, building a core-imag=
+e-minimal for<br>
+&gt; &gt; &gt;&gt; qemuarm.<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; diff --git a/meta/classes/core-image.bbclass b/meta/clas=
+ses/core-image.bbclass<br>
+&gt; &gt; &gt;&gt; index 1b36cba..d2b9d69 100644<br>
+&gt; &gt; &gt;&gt; --- a/meta/classes/core-image.bbclass<br>
+&gt; &gt; &gt;&gt; +++ b/meta/classes/core-image.bbclass<br>
+&gt; &gt; &gt;&gt; @@ -59,13 +59,11 @@ MACHINE_HWCODECS ??=3D &quot;&quot;<=
+br>
+&gt; &gt; &gt;&gt; =C2=A0CORE_IMAGE_BASE_INSTALL =3D &#39;\<br>
+&gt; &gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0packagegroup-core-boot \<br>
+&gt; &gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0packagegroup-base-extended \<br>
+&gt; &gt; &gt;&gt; - =C2=A0 =C2=A0\<br>
+&gt; &gt; &gt;&gt; - =C2=A0 =C2=A0${CORE_IMAGE_EXTRA_INSTALL} \<br>
+&gt; &gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0&#39;<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; =C2=A0CORE_IMAGE_EXTRA_INSTALL ?=3D &quot;&quot;<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; -IMAGE_INSTALL ?=3D &quot;${CORE_IMAGE_BASE_INSTALL}&quo=
+t;<br>
+&gt; &gt; &gt;&gt; +IMAGE_INSTALL ?=3D &quot;${CORE_IMAGE_BASE_INSTALL} ${C=
+ORE_IMAGE_EXTRA_INSTALL}&quot;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; For me, more intuitively would be:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; CORE_IMAGE_BASE_INSTALL ?=3D ...<br>
+&gt; &gt;<br>
+&gt; &gt; weak assignment here would mean overridable base install which is=
+<br>
+&gt; &gt; not the intention. we want a working base image when inheriting<b=
+r>
+&gt; &gt; core-image<br>
+&gt;<br>
+&gt; =C2=A0 except that that argument doesn&#39;t really hold water given h=
+ow one<br>
+&gt; can inherit core-image, then (as i pointed out) immediately wipe out<b=
+r>
+&gt; that supposedly inviolable definition of CORE_IMAGE_BASE_INSTALL by<br=
+>
+&gt; simply reassigning to IMAGE_INSTALL.</p>
+<p dir=3D"ltr">these classes are provided as basic working blocks. it would=
+ be a bad use case if one were to override basic constructs inside it compl=
+etely. some variables are sort of interfaces some are not. besides your cha=
+nge is ok its just the preset is not. we should start using the constructs =
+as intended. <br>
 
-p.s. if someone wants to submit a poky patch that changes that, feel
-free. otherwise, i'll just use it in class as a "check out what
-someone did *here*!" example. :-)
+&gt;<br>
+&gt; =C2=A0 i *like* the idea of a weak assignment to CORE_IMAGE_BASE INSTA=
+LL.<br>
+&gt; it&#39;s effectively what core-image-minimal is doing anyway, it just<=
+br>
+&gt; allows you to do it in a way that&#39;s not grotesquely ugly.<br>
+&gt;<br>
+&gt; rday<br>
+&gt;<br>
+&gt; --<br>
+&gt;<br>
+&gt; =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br=
+>
+&gt; Robert P. J. Day =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Ottawa, Ontario=
+, CANADA<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 <a href=3D"http://crashcourse.ca">http://crashcourse.ca</a><b=
+r>
+&gt;<br>
+&gt; Twitter: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <=
+a href=3D"http://twitter.com/rpjday">http://twitter.com/rpjday</a><br>
+&gt; LinkedIn: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://ca.linkedin=
+.com/in/rpjday">http://ca.linkedin.com/in/rpjday</a><br>
+&gt; =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br=
+>
+</p>
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-193618293-1405538792=:4207--
+--bcaec51b1ad9ac571c04fe553dad--
