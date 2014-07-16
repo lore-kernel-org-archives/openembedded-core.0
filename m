@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C3F57026E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 22:31:04 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id i17so1406090qcy.35
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 15:31:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=W+phTfKY5CyxthkrNdJWjkv6nMmYvLTCJ6eWH7k9KfM=;
-	b=QmhIsGwDGtnwzVFW0ga1hXT3aP5DuihdVZy6twbmgR2L5qNG/C04iVbpw1wkrm/RDP
-	AZqsigkBNffhHELCBjBz7o+Q5aAncXvWhPzmbCqbnzelv59x8Gns6EihjNjPiMJ1l/Q8
-	wNz3qFWGnyMGkW23TnRulI9IjhzgW2xPsipM52v2IjGzX4pmDemOmllX0/gaHanxPVtE
-	C+kPON9foKfCTkm5de+LdW0EyW8kDKppXkRkU4aERNpNeDkAt3BlauHUp5pa3Ne9Tzbd
-	CRMlfTQllP3j3jbA+p3mz8Yppg1gQuN1WKQIeqXtuZ4FdYqVlrjsqoXOaJP05Z8LkRtR
-	Y6vQ==
-X-Gm-Message-State: ALoCoQkgoSIubJNJbddlSPTxJ1aCHRX9KeDaiLaNvb/czby25uZuxXsyMgc+GEUAXG1RCo8P9qqp
-X-Received: by 10.224.43.77 with SMTP id v13mr2412800qae.34.1405549865487;
-	Wed, 16 Jul 2014 15:31:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Wed, 16 Jul 2014 15:30:45 -0700 (PDT)
-In-Reply-To: <53386c9bab6af2fd79b9816e82566b220a1e99ae.1405527926.git.richard.purdie@linuxfoundation.org>
-References: <cover.1405527926.git.richard.purdie@linuxfoundation.org>
-	<53386c9bab6af2fd79b9816e82566b220a1e99ae.1405527926.git.richard.purdie@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Jul 2014 23:30:45 +0100
-Message-ID: <CAJTo0LbGMb_v-aUQ2JHJcAxRr3qY39JcUmS+ziY21N+oTeyNiw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/19] python-scons: Upgrade 2.3.0 -> 2.3.2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5090F701BF;
+	Wed, 16 Jul 2014 22:47:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6GMlAUq027158; Wed, 16 Jul 2014 23:47:11 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ojfywgjLa3hX; Wed, 16 Jul 2014 23:47:10 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6GMl64S027154
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 16 Jul 2014 23:47:08 +0100
+Message-ID: <1405550821.3668.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 16 Jul 2014 23:47:01 +0100
+In-Reply-To: <20140715165842.GN2433@jama>
+References: <cover.1405440532.git.ross.burton@intel.com>
+	<20140715165842.GN2433@jama>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] [PATCH 0/7][RFC] Remove enforced --foreign in autoreconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 22:31:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 16 Jul 2014 22:47:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16 July 2014 17:26, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=98e9a1e6029e715255c52032a1eba637"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f0ad8a74a10870caa5e08a3e45d719e2"
+On Tue, 2014-07-15 at 18:58 +0200, Martin Jansa wrote:
+> On Tue, Jul 15, 2014 at 05:18:30PM +0100, Ross Burton wrote:
+> > Hi,
+> > 
+> > Since 2004 we've been forcibly passing --foreign to automake in autoreconf.
+> > This is a change from upstream behaviour and can actually break packages that
+> > expect GNU behaviour (admittedly the failure case reported was "interesting"),
+> > and I'm on a bit of a mission to remove patches that don't have a solid reason
+> > behind them.
+> > 
+> > Forcing --foreign doesn't seem that important these days as the majority of
+> > packages are telling automake they're foreign, There are a few packages that
+> > need patches for this change, notably they're mostly packages that haven't seen
+> > a release for ten years.
+> > 
+> > This series is build tested against a world build in oe-core for NUC, so I'd
+> > call it a demonstration that the patch is viable and would appreciate others
+> > running build tests against other machines or layers.
+> 
+> world builds from
+> http://www.openembedded.org/wiki/Bitbake_World_Status
+> already have around ~50 failed recipes per architecture, I don't think
+> we need more now :/
+> 
+> Do we have some volunteers to fix-up meta-oe/* layers?
+> 
+> I'm going to use PNBLACKLIST more aggressively as agreed on OEDAM, but
+> with this speed next meta-oe release will have half of recipes which
+> were available in daisy.
 
-Why did the checksum change?
+I made a quick test and the failures I spotted from meta-oe likely due
+to this patch were:
 
-Ross
+re2c
+libsdl-iomage
+claws-plugin-gtkhtml2-viewer
+claws-plugin-rssyl
+libsdl-tiff
+libol
+ode
+dejagnu
+memcached
+rp-pppoe
+ipsec-tools
+mtr
+hplip
+onig
+
+Its probably not a complete list as I have a lot more failures than your
+world builds but it gives some idea of number and its not a massive
+list.
+
+Cheers,
+
+Richard
+
+
 
