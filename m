@@ -1,37 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C49870588;
-	Wed, 16 Jul 2014 16:40:10 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id tp5so996655ieb.37
-	for <multiple recipients>; Wed, 16 Jul 2014 09:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Y6iNgh2TaHms2K/bFTkDaIbQgMsYH3+pDsK4Mw2HyDc=;
-	b=L8akcPdsdpVUIs09qKN/5J1OvqEcw37Ggrx+b0RcX4BfFkYFMXjVD2SICueOOU3239
-	8LDxLdjNnzxGQBSI/QL6CzTOyP8JJDiLeCmqxTFgqs3w6BRSWeJYjGqqatn7wmmgQkhb
-	EyrdKuKqeKmpnlKk0u1gzLEeHEANKToMaG8N0pLwXL2m3gkjksUZAYqyVl+gLalHDf9A
-	yi1oFPz1ep2YNssF7Ft0TN5f/I7uD4kqDu7JUmaSbLoeRGPuAsQmZOA3j8sQj/9VkFmQ
-	yrfbZhCAaz3ZPtWfKP13U/BOkE3hWbxgn+wHDZPzLh9uNE847ceURaBWN+4PGEONOQO1
-	xlGg==
-X-Received: by 10.50.176.202 with SMTP id ck10mr18323003igc.2.1405528811908;
-	Wed, 16 Jul 2014 09:40:11 -0700 (PDT)
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ABCF7059E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jul 2014 16:43:40 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 Jul 2014 09:42:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,673,1400050800"; d="scan'208";a="574166839"
+Received: from unknown (HELO [10.255.12.224]) ([10.255.12.224])
+	by orsmga002.jf.intel.com with ESMTP; 16 Jul 2014 09:42:29 -0700
+Message-ID: <53C6AB75.70909@linux.intel.com>
+Date: Wed, 16 Jul 2014 09:42:29 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Wed, 16 Jul 2014 09:39:41 -0700 (PDT)
-In-Reply-To: <CAJTo0LajRNrS1nWfnE1n=ar6tO3A6US4too4sf8GwxZU1KyDwQ@mail.gmail.com>
-References: <cover.1405440532.git.ross.burton@intel.com>
-	<406153008dc78f4e3198c012f2db98fcac09b5c1.1405440532.git.ross.burton@intel.com>
-	<CAMKF1sptj_ctzUmMSxm+6VW5LYG8xCm26b3_j4=8GMMS1HPr8w@mail.gmail.com>
-	<CAJTo0LajRNrS1nWfnE1n=ar6tO3A6US4too4sf8GwxZU1KyDwQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 16 Jul 2014 09:39:41 -0700
-Message-ID: <CAMKF1soF6tLi+=tOMULDAfDV33XPi8=oWLnVoeriS8ogjrPsOw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [PATCH 7/7] autoconf: remove automake patch enforcing --foreign
+To: Shan Hai <shan.hai@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1405491353-23636-1-git-send-email-shan.hai@windriver.com>
+In-Reply-To: <1405491353-23636-1-git-send-email-shan.hai@windriver.com>
+Subject: Re: [PATCH] grub-core: fix endianness problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +32,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 16:40:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 16 Jul 2014 16:43:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 15, 2014 at 2:51 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 15 July 2014 21:14, Khem Raj <raj.khem@gmail.com> wrote:
->> can it be somehow made such that it can be passed via option flags so we
->> dont have to patch the packages not using above automake macro
+On 07/15/2014 11:15 PM, Shan Hai wrote:
+> Fix tftp stalls on loading files bigger than ~32k bug by cherry picking
+> a patch from grub upstream.
 >
-> Packages that don't use the right automake macro are generally very
-> old and we're already carrying patches to fix the autoconf/automake
-> files, so I'm not sure this is actually worth it.  I'm trying to drop
-> the patches we're carrying against core build tools, not increase it.
-> :)
+> Upstream-Status: Backport
+>
 
-While I understand that, I am also worried about breakage/work it will
-cause for layers additional to OE-Core
-thats why providing a least impact migration path is desirable.
+> Signed-off-by: Shan Hai <shan.hai@windriver.com>
+> ---
+>   .../grub/grub-2.00/fix-endianness-problem.patch    | 46 ++++++++++++++++++++++
+>   meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
+>   2 files changed, 47 insertions(+)
+>   create mode 100644 meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+>
+> diff --git a/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch b/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+> new file mode 100644
+> index 0000000..bb5ba9b
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+> @@ -0,0 +1,46 @@
+> +grub-core/net/tftp.c: fix endianness problem.
+> +
+> +	* grub-core/net/tftp.c (ack): Fix endianness problem.
+> +	(tftp_receive): Likewise.
+> +	Reported by: Michael Davidsaver.
+> +
+> +Upstream-Status: Submitted [grub-devel@gnu.org]
+> +
+
+Is this patch a backport from the upstream or submitted only on the 
+mailing list?
+
+Sau!
+
+
+> +Signed-off-by: Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
+> +
+> +diff --git a/ChangeLog b/ChangeLog
+> +index 81bdae9..c2f42d5 100644
+> +--- a/ChangeLog
+> ++++ b/ChangeLog
+> +@@ -1,3 +1,9 @@
+> ++2012-07-02  Vladimir Serbinenko  <phcoder@gmail.com>
+> ++
+> ++	* grub-core/net/tftp.c (ack): Fix endianness problem.
+> ++	(tftp_receive): Likewise.
+> ++	Reported by: Michael Davidsaver.
+> ++
+> + 2012-06-27  Vladimir Serbinenko  <phcoder@gmail.com>
+> +
+> + 	* configure.ac: Bump version to 2.00.
+> +diff --git a/grub-core/net/tftp.c b/grub-core/net/tftp.c
+> +index 9c70efb..d0f39ea 100644
+> +--- a/grub-core/net/tftp.c
+> ++++ b/grub-core/net/tftp.c
+> +@@ -143,7 +143,7 @@ ack (tftp_data_t data, grub_uint16_t block)
+> +
+> +   tftph_ack = (struct tftphdr *) nb_ack.data;
+> +   tftph_ack->opcode = grub_cpu_to_be16 (TFTP_ACK);
+> +-  tftph_ack->u.ack.block = block;
+> ++  tftph_ack->u.ack.block = grub_cpu_to_be16 (block);
+> +
+> +   err = grub_net_send_udp_packet (data->sock, &nb_ack);
+> +   if (err)
+> +@@ -225,7 +225,7 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
+> + 	    grub_priority_queue_pop (data->pq);
+> +
+> + 	    if (file->device->net->packs.count < 50)
+> +-	      err = ack (data, tftph->u.data.block);
+> ++	      err = ack (data, data->block + 1);
+> + 	    else
+> + 	      {
+> + 		file->device->net->stall = 1;
+> diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+> index 72ed402..36c648e 100644
+> --- a/meta/recipes-bsp/grub/grub_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub_2.00.bb
+> @@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>             file://check-if-liblzma-is-disabled.patch \
+>             file://fix-issue-with-flex-2.5.37.patch \
+>             file://grub-2.00-add-oe-kernel.patch \
+> +          file://fix-endianness-problem.patch \
+>             "
+>
+>   SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+>
 
