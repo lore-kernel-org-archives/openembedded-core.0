@@ -1,47 +1,41 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C13A705AA
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F30B7024B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 19:07:19 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id w10so1712272pde.18
+	Wed, 16 Jul 2014 19:26:39 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20140716192638316
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 12:07:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=hXI8AzVqKv5UsOCjUTBu44+hquNirrzI89eRg4KZjuY=;
-	b=cdQuaXRvyL53d9k6248nwVA5qH0SxVMpw6kCJ1drtrJFMR43cBgSIm0Tw0jqkEMBNJ
-	kOsOdi1dKyJa3F+8ChU9bxtwbnOK80fgNLGH1UUHmic7NkgYdvdyyua6N7/62W8R9ece
-	vRUj5ZRVGnruLbeCl2FPko8nOS+GpVJoJcuFYXaEPOPKGAsD0dfllsPoJpHnZPXTNuym
-	7VUkgsXR84Blc3HgwK3acaJUpsOQiC5i3l7mjjhUd4pN7a8iVGn2QAnXRi601Q0b/fCM
-	Jqm8o5rNqZp3vAMH/17uwMJh7MZ41Pa0E7uIgc/sB90LW5PjTJRj2Yhup1VagJSmm5CU
-	fE7A==
-X-Gm-Message-State: ALoCoQnpCAjDNYEV1LYdJKg93kJhWOgzZAeYhdZKFk0bfyjN7oys1+4/YkTBPS30PEJp9pijph4l
-X-Received: by 10.68.166.36 with SMTP id zd4mr32048429pbb.54.1405537640868;
-	Wed, 16 Jul 2014 12:07:20 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55])
-	by mx.google.com with ESMTPSA id jt7sm136733pbc.46.2014.07.16.12.07.19
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 16 Jul 2014 12:07:20 -0700 (PDT)
-Message-ID: <53C6CD64.2090807@mvista.com>
-Date: Wed, 16 Jul 2014 12:07:16 -0700
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Wed, 16 Jul 2014 19:26:38 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=44872 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X7UqW-0000Fp-7w; Wed, 16 Jul 2014 15:26:32 -0400
+Date: Wed, 16 Jul 2014 15:26:29 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: Christopher Larson <clarson@kergoth.com>
+In-Reply-To: <CABcZANnfhoCkE_ttWfcGA4PMJQ3YH912XrTHP6AH=9QAf8z=0Q@mail.gmail.com>
+Message-ID: <alpine.LFD.2.11.1407161523410.4207@localhost>
+References: <alpine.LFD.2.11.1407160719540.5398@localhost>
+	<CABcZANnfhoCkE_ttWfcGA4PMJQ3YH912XrTHP6AH=9QAf8z=0Q@mail.gmail.com>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1405388483-30716-1-git-send-email-akuster@mvista.com>
-	<1405501880.20402.17.camel@ted>
-	<CAJTo0LY6uP-92RmP31eTNZtb5cPkor1d2Ornw0q-Okd2E0KGYg@mail.gmail.com>
-In-Reply-To: <CAJTo0LY6uP-92RmP31eTNZtb5cPkor1d2Ornw0q-Okd2E0KGYg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] V2 lz4: update to latest version
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: two variations for distro-specific FILESEXTRAPATHS prepending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +48,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 19:07:24 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Jul 2014 19:26:43 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323328-193618293-1405538792=:4207"
 
+--8323328-193618293-1405538792=:4207
+Content-Type: TEXT/PLAIN; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Did not mean to generate extra work for you all.
+On Wed, 16 Jul 2014, Christopher Larson wrote:
 
-Thanks for the input. I will go back to the drawing board.
-
-regards,
-Armin
-On 07/16/2014 06:48 AM, Burton, Ross wrote:
-> On 16 July 2014 10:11, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> I'm still a little concerned about this change from svn to git. Which is
->> the definitive source? It looks like the svn repo is active too?
->>
->> I just don't want to end up in a position where we're pulling from
->> someone's hack'n'dev version of lz4 rather than the place considered the
->> real "master" source...
-> The revision histories *are* different (commits marked "untested" and
-> then fixed in another commit) but the owner of the git repo is the
-> same as the owner of the svn repo.  It looks like git is his working
-> area and then changes that have been tested are merged and committed
-> to git.
 >
-> Unless there's a good reason I'd keep with the svn repo for now.
+> On Wed, Jul 16, 2014 at 4:26 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>         just ran across this in the meta-yocto layer but it's a general OE
+>       question -- the psplash_git.bbappend file contains the following
+>       distro-conditional line:
 >
-> Ross
+>         FILESEXTRAPATHS_prepend_poky := "${THISDIR}/files:"
+>
+>       and the accompanying files/ directory has, unsurprisingly, a
+>       poky-specific splash image file, "psplash-poky-img.h".
+>
+>         but based on how FILESEXTRAPATHS is processed by incorporating all
+>       of the FILESOVERRIDES variations (one of which is the distro name),
+>       would it not have been entirely equivalent to have used simply
+>
+>           FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+>
+>       and placed that splash file in the accompanying directory files/poky/?
+>       would these two approaches do the same thing? is there a preferred
+>       way? that's the only example of that i've seen in all the layers i've
+>       played with.
+>
+>
+> Both would do the same thing, I'm personally of the opinion that the
+> latter would be more consistent with how such things are normally
+> done.
 
+  i was ready to bet internal organs that they had the same effect,
+but i've perused the OE code base enough that i trip over oddities and
+i just really want to make sure i know what i'm looking at.
 
+rday
+
+p.s. if someone wants to submit a poky patch that changes that, feel
+free. otherwise, i'll just use it in class as a "check out what
+someone did *here*!" example. :-)
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-193618293-1405538792=:4207--
