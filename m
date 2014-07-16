@@ -1,35 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 79D2D701D0
+Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D5EF7705C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 21:08:20 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id m15so1510045wgh.29
+	Wed, 16 Jul 2014 21:08:23 +0000 (UTC)
+Received: by mail-we0-f175.google.com with SMTP id t60so1538202wes.34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 14:08:20 -0700 (PDT)
+	Wed, 16 Jul 2014 14:08:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=IRsYE13qsOUdlBixsX8loZB82pu3UtRrv34lJS/iXVM=;
-	b=ETRMn0trAcvo6a+9DgfDhdgnOrEYLbkFT26GWsFmtSo2rxJxYK7st5pXpUw2y0SRnR
-	4SHmz5DnNKasmZzDgG0kRpQr6uFbnpaW56CekTujy5zMaYQZzsxNSY8c1/ImbvQw8UsI
-	ll+QdT/N5AUG2sC/eLyYq6EbGUDv3k9K3laIihOT8qjmg7ONgbLjQ5+ePykxFfgsDbkO
-	U0VfoT1oGxVzt3A6HhKMX2Ytxhwzw7TArGPReqImvJLmK+9goK0Z0Y/Vomy//+hj8V1O
-	UuPTm/tCAtDm0ZhmFwcT1CgYovAJfvHYeDD94crZHfoyynHPaRQbZ/ppAm2u7hhZEA7H
-	TEZQ==
-X-Gm-Message-State: ALoCoQldZDGgbaEGvjmEa0FJnI/q4wjAGkHU49E+PBMQrUcBAuQAuyoXWlwUtZiHj6EI6vBZ4Ayi
-X-Received: by 10.194.191.131 with SMTP id gy3mr24256982wjc.108.1405544900861; 
-	Wed, 16 Jul 2014 14:08:20 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=VqcrMOItdTOTwUk0iTSHK/UUVI4/YBCNH13Ax+bddJ8=;
+	b=KMyNBnI4qVhlGudbdLGq/XdhQiCeZm7tDX3erlmjuy/A9b3RfKLLW+Hdy6iC2wxy6q
+	fGYwW4aeXe97HEkeNdG2v0bWVP4gsSxnBhYYvrRoy+vOQ5PrKVFz/ihPp39TihwepxPN
+	7E3dHbX9c+hFjpkOXEC+cY716konbwcsbaPc5xycNVGL0Rw52ohpRCFuhxzS8ZHauLBn
+	TVzkBKAsvCQlAQ0r/Y4qv5FsRY/0BPcNi95wQ6jQVp3hcKkLvarwzISURqkVQ7Wcv9g1
+	0T8gSIoBIkGyXBYkE0Slg95lyaR58bYSYEY2q4esiCGBzAXlEpPVXldH0yj5zsd5k1WL
+	RBbQ==
+X-Gm-Message-State: ALoCoQmeO2cdT1bUWS6O9qHBUDi6PeRnXVbmZOxGbhT9IKULmuqqzuR5H7srWJY/G27XlZ4Tc9k+
+X-Received: by 10.180.211.134 with SMTP id nc6mr14602913wic.44.1405544902150; 
+	Wed, 16 Jul 2014 14:08:22 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id m3sm13215918wik.7.2014.07.16.14.08.19
+	by mx.google.com with ESMTPSA id m3sm13215918wik.7.2014.07.16.14.08.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Jul 2014 14:08:20 -0700 (PDT)
+	Wed, 16 Jul 2014 14:08:21 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jul 2014 22:08:12 +0100
-Message-Id: <cover.1405542583.git.ross.burton@intel.com>
+Date: Wed, 16 Jul 2014 22:08:13 +0100
+Message-Id: <630fae1a4789305e375dc7897b9bbb71a240e250.1405542583.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/2][V2] License compliance fixes
+In-Reply-To: <cover.1405542583.git.ross.burton@intel.com>
+References: <cover.1405542583.git.ross.burton@intel.com>
+In-Reply-To: <cover.1405542583.git.ross.burton@intel.com>
+References: <cover.1405542583.git.ross.burton@intel.com>
+Subject: [PATCH 1/2] license.bbclass: canonicalise licenses when dealing with INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +50,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 16 Jul 2014 21:08:25 -0000
 
-Hi,
-
 If INCOMPATIBLE_LICENSE=GPLv3.0 but the recipe sets LICENSE=GPLv3, the current
 code won't trigger because they're different strings.
 
 Fix this by attempting to canonicalise every license name to a SPDX name, so
 both names in this example become GPL-3.0.
 
-The whitelists also have to be updated.  This means using variable names that
-could be considered non-standard (or "crazy"), such as WHITELIST_GPL-3.0.  This
-does look strange and if the community agrees we can take the compatibility hit
-I'll change the whitelists to use flags, i.e HOSTTOOLS_WHITELIST[GPL-3.0].
+[ YOCTO #5622 ]
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass    |    2 ++
+ meta/classes/license.bbclass |   14 +++++++++++---
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
-The following changes since commit 1dcdd877c7946be4c0b1203deb14e2f842f9d0c2:
-
-  bitbake: toasterui: fix build - project identification (2014-07-14 14:10:03 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/license
-
-for you to fetch changes up to 934289b8ba6a8b7a0f1eec8aabf723f823d515d8:
-
-  default-distrovars: update license whitelists to use canonical names (2014-07-16 21:02:45 +0100)
-
-----------------------------------------------------------------
-Ross Burton (2):
-      license.bbclass: canonicalise licenses when dealing with INCOMPATIBLE_LICENSE
-      default-distrovars: update license whitelists to use canonical names
-
- meta/classes/base.bbclass                       |    2 ++
- meta/classes/license.bbclass                    |   14 +++++++++++---
- meta/conf/distro/include/default-distrovars.inc |    6 +++---
- 3 files changed, 16 insertions(+), 6 deletions(-)
-
-Ross Burton (2):
-  license.bbclass: canonicalise licenses when dealing with
-    INCOMPATIBLE_LICENSE
-  default-distrovars: update license whitelists to use canonical names
-
- meta/classes/base.bbclass                       |    2 ++
- meta/classes/license.bbclass                    |   14 +++++++++++---
- meta/conf/distro/include/default-distrovars.inc |    6 +++---
- 3 files changed, 16 insertions(+), 6 deletions(-)
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index c0d2c8ec8..8114cf6 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -540,6 +540,8 @@ python () {
+                 check_license = False
+ 
+         if check_license and bad_licenses:
++            bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++
+             whitelist = []
+             for lic in bad_licenses:
+                 for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 08f0665..973a95b 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -264,10 +264,18 @@ def return_spdx(d, license):
+      """
+     return d.getVarFlag('SPDXLICENSEMAP', license, True)
+ 
++def canonical_license(d, license):
++    """
++    Return the canonical (SPDX) form of the license if available (so GPLv3
++    becomes GPL-3.0), or the passed license if there is no canonical form.
++    """
++    return d.getVarFlag('SPDXLICENSEMAP', license, True) or license
++
+ def incompatible_license(d, dont_want_licenses, package=None):
+     """
+-    This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
+-    operand.
++    This function checks if a recipe has only incompatible licenses. It also
++    take into consideration 'or' operand.  dont_want_licenses should be passed
++    as canonical (SPDX) names.
+     """
+     import re
+     import oe.license
+@@ -298,7 +306,7 @@ def incompatible_license(d, dont_want_licenses, package=None):
+         licenses = oe.license.flattened_licenses(license, choose_lic_set)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('P', True), exc))
+-    return any(not license_ok(l) for l in licenses)
++    return any(not license_ok(canonical_license(d, l)) for l in licenses)
+ 
+ def check_license_flags(d):
+     """
 -- 
 1.7.10.4
 
