@@ -1,38 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 49E176ACEC
+Return-Path: <ben.shelton@ni.com>
+X-Greylist: delayed 1761 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 16 Jul 2014 21:28:43 UTC
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 00E377018F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 21:23:20 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id z60so1259286qgd.41
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 14:23:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Meam/HDri7g0mGS10spA/oQ0YO/mlOUWK4bEzVw59ew=;
-	b=c+YSb9uoeT+cqK+N/c02pGLFy2tlmBPl5W1e1uKq3Wrw50MGOW3BqHZe/v7r7diVQ8
-	vj8wZx/E4TNHgi1lJjrLLi+8wo5vDpcI7AuaBwwq/nYyL0794vcnbh3YpX/Zb2odPuYt
-	7ar9wRou4Y//18C3QShbqOBh8IO5tAVP45Ha/TJXu79aS90NHTdikMvfucHI5CRRn7J9
-	ALIUCeB+aQvCNFlWb0eVpYjdpTWUQE1PHLZCqQUMwp2BVN2tvC0eyWRSz6SAG8YN0EqP
-	poAdwOpcPigthfx6YyZTmVxm13gZmaZzfHrXRI7afYGhLMY8b19Zn3cWlaBe1Zy4VK/L
-	VouA==
-X-Gm-Message-State: ALoCoQkdTVYzPuIJ7ZHiQxNFc/M5lnkiwjRKIQRCg2rNi+uE7iugzROtLFOvtcQkJSO3QtWudIjF
-X-Received: by 10.140.48.161 with SMTP id o30mr49238277qga.68.1405545801711;
-	Wed, 16 Jul 2014 14:23:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Wed, 16 Jul 2014 14:23:01 -0700 (PDT)
-In-Reply-To: <53C6B3DF.3040300@linux.intel.com>
-References: <1405437238-28782-1-git-send-email-akuster@mvista.com>
-	<CAJTo0La7owsx7Bpz9NDm2AdUtU08n_bWVkVYh-T2MTGRcOxzgw@mail.gmail.com>
-	<53C54A18.4030907@mvista.com> <53C6B3DF.3040300@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Jul 2014 22:23:01 +0100
-Message-ID: <CAJTo0LbB=Jd5SA1Dg6u3MmHoMHEkq8YGHSMCccHJ8+Dc3XkgeA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] [v2] nettle: update to version 3.0
+	Wed, 16 Jul 2014 21:28:43 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6GLSijP012138 for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jul 2014 16:28:44 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014071616284465-457065 ;
+	Wed, 16 Jul 2014 16:28:44 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jul 2014 16:28:32 -0500
+Message-Id: <1405546112-14100-1-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/16/2014 04:28:44 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/16/2014 04:28:44 PM,
+	Serialize complete at 07/16/2014 04:28:44 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-16_07:2014-07-16, 2014-07-16,
+	1970-01-01 signatures=0
+Subject: [PATCH] openssh: use pidfile in initscript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,23 +41,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 21:23:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 16 Jul 2014 21:28:46 -0000
 
-On 16 July 2014 18:18, Saul Wold <sgw@linux.intel.com> wrote:
-> The only other concern I have is there is a COPYING.GPLv3, you might want to
-> check with the upstream what the intent of having that License file is for,
-> do they intend on some parts being v3 and if so which parts?
+From: Richard Tollerton <rich.tollerton@ni.com>
 
-They'll need a LGPLv3 license alongside the GPLv2 license if they're
-dual-licensing, but we should checksum the "LGPLv3 or GPLv2" statement
-if it's written down anywhere in the tarball (which I hope it is) so
-we get alerted if they ever decide to be LGPLv3+ only.
+Stopping sshd must only kill the listening (top-level) daemon; it must
+not stop any other sshd process, because those are forked ssh
+connections which may include e.g. the connection that called
+/etc/init.d/sshd stop.
 
-> I am not sure if the INCOMPATIBLE_LICENSE will handle the OR properly, but
-> we should just have one version.
+This initscript uses "start-stop-daemon -x <exe>" for starting/stopping.
+When that is provided by busybox, this behavior is broken:
+`/etc/init.d/sshd stop` stops *all* sshd processes. This was caused by a
+fix to busybox 1.20: 17eedcad9406c43beddab3906c8c693626c351fb
+"ssd: compat: match -x EXECUTABLE by /proc/pid/exe too".
 
-The INCOMPATIBLE_LICENSE checks do handle "or" license statements.
+The fix is to use a pidfile. All initscripts in upstream openssh do this,
+as does dropbear.
 
-Ross
+Acked-by: Gratian Crisan <gratian.crisan@ni.com>
+Acked-by: Ken Sharp <ken.sharp@ni.com>
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+---
+ meta/recipes-connectivity/openssh/openssh/init | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
+index 37c8e7b..70d4a34 100644
+--- a/meta/recipes-connectivity/openssh/openssh/init
++++ b/meta/recipes-connectivity/openssh/openssh/init
+@@ -1,6 +1,8 @@
+ #! /bin/sh
+ set -e
+ 
++PIDFILE=/var/run/sshd.pid
++
+ # source function library
+ . /etc/init.d/functions
+ 
+@@ -70,12 +72,12 @@ case "$1" in
+ 	echo "Starting OpenBSD Secure Shell server: sshd"
+ 	check_keys
+ 	check_privsep_dir
+-	start-stop-daemon -S -x /usr/sbin/sshd -- $SSHD_OPTS
++	start-stop-daemon -S -p $PIDFILE -x /usr/sbin/sshd -- $SSHD_OPTS
+         echo "done."
+ 	;;
+   stop)
+         echo -n "Stopping OpenBSD Secure Shell server: sshd"
+-	start-stop-daemon -K -x /usr/sbin/sshd
++	start-stop-daemon -K -p $PIDFILE -x /usr/sbin/sshd
+         echo "."
+ 	;;
+ 
+@@ -84,7 +86,7 @@ case "$1" in
+ 	check_keys
+ 	check_config
+         echo -n "Reloading OpenBSD Secure Shell server's configuration"
+-	start-stop-daemon -K -s 1 -x /usr/sbin/sshd
++	start-stop-daemon -K -p $PIDFILE -s 1 -x /usr/sbin/sshd
+ 	echo "."
+ 	;;
+ 
+@@ -92,11 +94,11 @@ case "$1" in
+   	check_keys
+ 	check_config
+         echo -n "Restarting OpenBSD Secure Shell server: sshd"
+-	start-stop-daemon -K --oknodo -x /usr/sbin/sshd
++	start-stop-daemon -K -p $PIDFILE --oknodo -x /usr/sbin/sshd
+ 	check_for_no_start
+ 	check_privsep_dir
+ 	sleep 2
+-	start-stop-daemon -S -x /usr/sbin/sshd -- $SSHD_OPTS
++	start-stop-daemon -S -p $PIDFILE -x /usr/sbin/sshd -- $SSHD_OPTS
+ 	echo "."
+ 	;;
+ 
+-- 
+2.0.1
+
 
