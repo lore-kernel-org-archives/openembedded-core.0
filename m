@@ -1,32 +1,46 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3777027C
+Return-Path: <ting.liu@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2lp0244.outbound.protection.outlook.com [207.46.163.244])
+	by mail.openembedded.org (Postfix) with ESMTP id AD94170332
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 10:02:46 +0000 (UTC)
-Received: by mail-la0-f49.google.com with SMTP id hz20so468013lab.22
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 03:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=6Sg03Kv6XWFsuPMIXQM4lrPmPzLC+Ebomq01ycnNbhE=;
-	b=HhCwUhUmaxlG25Ot5ok1z8yw+y72VHR0zEtbV0QXwTUmlGMeR8vePz4ox9umHREj0x
-	S5shGTOJ+ceBrTZCbpFMcVrv3HM7R9PImMVahM78ODuaZBlxruTdVCXDo7+MBzUcP6aM
-	4RZTSwg0MVWfJe8BjxQtOptI8lKK1xNJhPoWbUmvYVA/KWcuP60QR3wjDdNCAKZFfEi6
-	51JnLWrfHdUZNvY563Ir4FIthxSM1vdWSH1psDFNOTlFNWeM1Gslk9GEi+BfpWq3qxSs
-	M45IlQsd0+QLdKv4FzB87gjgyDGqooRohvbPD99W+dSEmZ1H+Raf0Eb09a3OwmIV7mHm
-	1k/Q==
+	Wed, 16 Jul 2014 10:35:05 +0000 (UTC)
+Received: from BY2PR03CA070.namprd03.prod.outlook.com (10.141.249.43) by
+	BL2PR03MB147.namprd03.prod.outlook.com (10.255.230.19) with Microsoft
+	SMTP Server (TLS) id 15.0.985.8; Wed, 16 Jul 2014 10:35:05 +0000
+Received: from BN1BFFO11FD035.protection.gbl (2a01:111:f400:7c10::1:104) by
+	BY2PR03CA070.outlook.office365.com (2a01:111:e400:2c5d::43) with
+	Microsoft
+	SMTP Server (TLS) id 15.0.985.8 via Frontend Transport; Wed, 16 Jul 2014
+	10:35:04 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BN1BFFO11FD035.mail.protection.outlook.com (10.58.144.98) with
+	Microsoft SMTP Server (TLS) id 15.0.980.11 via Frontend Transport;
+	Wed, 16 Jul 2014 10:35:04 +0000
+Received: from b28495.ap.freescale.net (b28495.ap.freescale.net [10.193.20.99])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	s6GAZ0BL019065; Wed, 16 Jul 2014 03:35:02 -0700
+From: <ting.liu@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Jul 2014 18:35:58 +0800
+Message-ID: <1405506958-29789-1-git-send-email-ting.liu@freescale.com>
+X-Mailer: git-send-email 1.7.3.4
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:CAL; IPV:NLI;
+	EFV:NLI; SFV:NSPM;
+	SFS:(6009001)(189002)(199002)(105606002)(80022001)(87936001)(102836001)(81542001)(85306003)(106466001)(68736004)(74662001)(92726001)(31966008)(46102001)(85852003)(50466002)(79102001)(6806004)(36756003)(77982001)(104016003)(92566001)(83072002)(88136002)(97736001)(33646002)(74502001)(86152002)(50226001)(20776003)(76482001)(89996001)(81342001)(26826002)(19580405001)(47776003)(93916002)(110136001)(99396002)(50986999)(77156001)(4396001)(21056001)(19580395003)(83322001)(48376002)(64706001)(104166001)(84676001)(2351001)(44976005)(62966002)(86362001)(95666004)(87286001)(229853001)(107046002);
+	DIR:OUT; SFP:; SCL:1; SRVR:BL2PR03MB147;
+	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
+	PTR:InfoDomainNonexistent; MX:1; LANG:; 
 MIME-Version: 1.0
-X-Received: by 10.112.63.65 with SMTP id e1mr2065433lbs.81.1405504967178; Wed,
-	16 Jul 2014 03:02:47 -0700 (PDT)
-Received: by 10.112.207.9 with HTTP; Wed, 16 Jul 2014 03:02:47 -0700 (PDT)
-In-Reply-To: <CAAQYJAvV6166k+wVaSwJStNUdu5r9n+muGxL37hDz0jt+P32kw@mail.gmail.com>
-References: <CAAQYJAvV6166k+wVaSwJStNUdu5r9n+muGxL37hDz0jt+P32kw@mail.gmail.com>
-Date: Wed, 16 Jul 2014 12:02:47 +0200
-Message-ID: <CAAQYJAvHQnCGc8pR0FRvhaLvSwRxDLpJK8jOT+p4Y1LeXSQGtw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Busybox: do not enable ENABLE_FEATURE_NON_POSIX_CP
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:
+X-Forefront-PRVS: 0274272F87
+Received-SPF: Fail (: domain of freescale.com does not designate 192.88.168.50
+	as permitted sender) receiver=; client-ip=192.88.168.50;
+	helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=ting.liu@freescale.com; 
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] gcc: update *LIBC_* linker relocation reglex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,42 +53,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 10:02:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 16 Jul 2014 10:35:12 -0000
+Content-Type: text/plain
 
-On Wed, Jul 16, 2014 at 11:35 AM, Andrea Adami <andrea.adami@gmail.com> wrote:
-> Hi,
->
-> I was hit by a strange issue while benchmarking: I was copying some
-> large files to /dev/null and that was failing.
-> In fact, busybox cp foo /dev/null (and even cat foo > /dev/null) are
-> transforming the target in a regular file, with increasing size.At the
-> end devtmpfs was full...
->
-> After som eresearch I discovered that strange Busybox configuration option
-> ENABLE_FEATURE_NON_POSIX_CP.
->
-> Guess what? It is ENABLED in oe-core!
->
-> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-core/busybox/busybox/defconfig#n113
->
-> Now, do we really want it enabled by default?
->
-> Cheers
->
-> Andrea
->
-> P.S. I agree with  https://forum.openwrt.org/viewtopic.php?id=27235
-> ""...ill-conceived feature""
+From: Ting Liu <ting.liu@freescale.com>
 
+* GLIBC_DYNAMIC_LINKER64 reglex does not work for rs6000/linux64.h,
+  update it.
+* it turns out that UCLIBC_DYNAMIC_LINKER reglex will strip the 32/64
+  chars from UCLIBC_DYNAMIC_LINKER64/UCLIBC_DYNAMIC_LINKER32, add '\b'.
+  my two PCs: Centos 6.5 (python 2.7.5) and Fedora 13 (python 2.7.3)
 
-I add the WONTIFX bug:
- http://lists.busybox.net/pipermail/busybox-cvs/2011-February/032161.html
+Signed-off-by: Ting Liu <ting.liu@freescale.com>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-It seems that cat should not have adverse effects, probably I tried
-cat once /dev/null was already b0rked (unlinked) by the non-posix cp.
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 81d664a..acea6d8 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -88,8 +88,10 @@ python gcc_multilib_setup() {
+                 substs = [
+                     (r'^(#define\s*GLIBC_DYNAMIC_LINKER32\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdir32) + r'\3'),
+-                    (r'^(#define\s*GLIBC_DYNAMIC_LINKER64\s*)(\S+)(\s*\".*\")$',
++                    (r'^(#define\s*GLIBC_DYNAMIC_LINKER64\s*)(\S+)(\s*\"\S+\")$',
+                         r'\1' + wrap_libdir(libdir64) + r'\3'),
++                    (r'^(#define\s*GLIBC_DYNAMIC_LINKER64\s*\"\S+\"\s*)(\S+)(\s*\"\S+\"\s*)(\S+)(\s*\".*\")$',
++                        r'\1' + wrap_libdir(libdir64) + r'\3' + wrap_libdir(libdir64) + r'\5'),
+                     (r'^(#define\s*GLIBC_DYNAMIC_LINKERX32\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdirx32) + r'\3'),
+                     (r'^(#define\s*GLIBC_DYNAMIC_LINKERN32\s*)(\S+)(\s*\".*\")$',
+@@ -100,7 +102,7 @@ python gcc_multilib_setup() {
+                         r'\1' + wrap_libdir(libdir64) + r'\3'),
+                     (r'^(#define\s*UCLIBC_DYNAMIC_LINKERN32\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdirn32) + r'\3'),
+-                    (r'^(#define\s*UCLIBC_DYNAMIC_LINKER\s*)(\S+)(\s*\".*\")$',
++                    (r'^(#define\s*UCLIBC_DYNAMIC_LINKER\b\s*)(\S+)(\s*\".*\")$',
+                         r'\1' + wrap_libdir(libdir32) + r'\3'),
+                 ]
+ 
+-- 
+1.7.3.4
 
-Regards
-
-Andrea
 
