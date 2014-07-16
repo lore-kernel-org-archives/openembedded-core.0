@@ -1,24 +1,26 @@
 Return-Path: <Shan.Hai@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D8527024F
+	by mail.openembedded.org (Postfix) with ESMTP id 4752E70515
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 03:26:52 +0000 (UTC)
+	Wed, 16 Jul 2014 03:27:00 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6G3QqNF019214
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6G3R2Sj019217
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jul 2014 20:26:53 -0700 (PDT)
+	Tue, 15 Jul 2014 20:27:02 -0700 (PDT)
 Received: from pek-lpd-susbld.wrs.com (128.224.153.80) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 15 Jul 2014 20:26:52 -0700
+	14.3.174.1; Tue, 15 Jul 2014 20:27:01 -0700
 From: Shan Hai <shan.hai@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Jul 2014 11:26:48 +0800
-Message-ID: <1405481209-16891-1-git-send-email-shan.hai@windriver.com>
+Date: Wed, 16 Jul 2014 11:26:49 +0800
+Message-ID: <1405481209-16891-2-git-send-email-shan.hai@windriver.com>
 X-Mailer: git-send-email 1.8.5.2.233.g932f7e4
+In-Reply-To: <1405481209-16891-1-git-send-email-shan.hai@windriver.com>
+References: <1405481209-16891-1-git-send-email-shan.hai@windriver.com>
 MIME-Version: 1.0
-Subject: (No subject)
+Subject: [PATCH] grub-core/net/tftp: Fix endianness problem in (ack)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,13 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 03:26:53 -0000
+X-List-Received-Date: Wed, 16 Jul 2014 03:27:03 -0000
 Content-Type: text/plain
 
+commit a706f4cc6bddd03e67a66620101209c471177b53 upstream
+---
+ .../tftp-fix-endianness-problem-in-ack.patch       | 42 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch
 
-Fix grub bug #36755 by cherry picking a patch from grub upstream.
-The bug is reported at "http://savannah.gnu.org/bugs/?36755"
+diff --git a/meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch b/meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch
+new file mode 100644
+index 0000000..c2a75de
+--- /dev/null
++++ b/meta/recipes-bsp/grub/grub-2.00/tftp-fix-endianness-problem-in-ack.patch
+@@ -0,0 +1,42 @@
++grub-core/net/tftp: Fix endianness problem in (ack)
++
++commit a706f4cc6bddd03e67a66620101209c471177b53 upstream
++
++Signed-off-by: Shan Hai <shan.hai@windriver.com>
++
++diff --git a/ChangeLog b/ChangeLog
++index 81bdae9..c2f42d5 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,9 @@
+++2012-07-02  Vladimir Serbinenko  <phcoder@gmail.com>
+++
+++	* grub-core/net/tftp.c (ack): Fix endianness problem.
+++	(tftp_receive): Likewise.
+++	Reported by: Michael Davidsaver.
+++
++ 2012-06-27  Vladimir Serbinenko  <phcoder@gmail.com>
++ 
++ 	* configure.ac: Bump version to 2.00.
++diff --git a/grub-core/net/tftp.c b/grub-core/net/tftp.c
++index 9c70efb..d0f39ea 100644
++--- a/grub-core/net/tftp.c
+++++ b/grub-core/net/tftp.c
++@@ -143,7 +143,7 @@ ack (tftp_data_t data, grub_uint16_t block)
++ 
++   tftph_ack = (struct tftphdr *) nb_ack.data;
++   tftph_ack->opcode = grub_cpu_to_be16 (TFTP_ACK);
++-  tftph_ack->u.ack.block = block;
+++  tftph_ack->u.ack.block = grub_cpu_to_be16 (block);
++ 
++   err = grub_net_send_udp_packet (data->sock, &nb_ack);
++   if (err)
++@@ -225,7 +225,7 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
++ 	    grub_priority_queue_pop (data->pq);
++ 
++ 	    if (file->device->net->packs.count < 50)
++-	      err = ack (data, tftph->u.data.block);
+++	      err = ack (data, data->block + 1);
++ 	    else
++ 	      {
++ 		file->device->net->stall = 1;
+diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+index ce2d680..374e716 100644
+--- a/meta/recipes-bsp/grub/grub_2.00.bb
++++ b/meta/recipes-bsp/grub/grub_2.00.bb
+@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+           file://check-if-liblzma-is-disabled.patch \
+           file://fix-issue-with-flex-2.5.37.patch \
+           file://grub-2.00-add-oe-kernel.patch \
++          file://tftp-fix-endianness-problem-in-ack.patch \
+           "
+ 
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+-- 
+1.8.5.2.233.g932f7e4
 
-Thanks
-Shan Hai
 
