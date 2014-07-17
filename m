@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 99AAF6FC70
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 75A3770613
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 09:21:52 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id k15so1667902qaq.27
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 02:21:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Z6WAAJwl/Ty76Lu3ue/TcVlNu3krKsXW9FhoSYnjFr0=;
-	b=YF/Gl74vcGyDSDbYeZN2VH1ZUPQcUxM1P13usd4sQAVDMklvarnyYO4D/LHlCGQqph
-	xNiIokzLE4eGFlHT5aU5Cvulanavu0xsb3O7rN/C2z/9Ehm2WR4dioGzRS07bDgvgdvO
-	bWiOdr6ol6sU+evQBDSjifWaeSZartjUbWqL62lL7bQNjdMof4Sp83/sy1zfnQXoYy89
-	e19J6ERaylEJz3gTD8NzIKuwW+lqGtQ11oT7YMwdjvEiDh+vjfTScgKq4PfVNf1bD4BH
-	jeCl041ihmLHhqEgphy/XJcSFUBkWMLoHI7vH98vBAUahYpE4eHrCjtVMsw7SAnQbLn2
-	ndNw==
-X-Gm-Message-State: ALoCoQkhYkjjFk/RvGm5cNeBmU+v3BlXlT9vIA/t9eWE/f4qldFVtjBioLuCz/JjdH04k+SyL4FR
-X-Received: by 10.229.84.133 with SMTP id j5mr55710550qcl.14.1405588913555;
-	Thu, 17 Jul 2014 02:21:53 -0700 (PDT)
+	Thu, 17 Jul 2014 09:38:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6H9cvW1006527
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 17 Jul 2014 02:38:57 -0700 (PDT)
+Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Thu, 17 Jul 2014 02:38:57 -0700
+Message-ID: <53C799AD.4070706@windriver.com>
+Date: Thu, 17 Jul 2014 17:38:53 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Thu, 17 Jul 2014 02:21:33 -0700 (PDT)
-In-Reply-To: <1405583899-13188-3-git-send-email-ming.liu@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1405583899-13188-1-git-send-email-ming.liu@windriver.com>
 	<1405583899-13188-3-git-send-email-ming.liu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Jul 2014 10:21:33 +0100
-Message-ID: <CAJTo0LaqmvZ7yoXtEOShd0TKNGzTXidoOd_dLhEu=DiCoyvr=Q@mail.gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
+	<CAJTo0LaqmvZ7yoXtEOShd0TKNGzTXidoOd_dLhEu=DiCoyvr=Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LaqmvZ7yoXtEOShd0TKNGzTXidoOd_dLhEu=DiCoyvr=Q@mail.gmail.com>
+X-Originating-IP: [128.224.163.186]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/3] gettext: fix implicit build result
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,21 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 09:22:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 17 Jul 2014 09:38:58 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 17 July 2014 08:58, Ming Liu <ming.liu@windriver.com> wrote:
-> Some "once only" variants are being defined instead of standard autoconf
-> macros, for instance, AC_CHECK_HEADERS_ONCE like AC_CHECK_HEADERS. The
-> advantage is that the check for each of the headers will be put only once
-> into the 'configure' file, therefore it keeps the size down. But there
-> is also a drawback that the checks then will turn to be statically inserted
-> to the configure and cannot be conditionalized any more. It will
-> definitely break the dependencies chosen as internally included.
+On 07/17/2014 05:21 PM, Burton, Ross wrote:
+> On 17 July 2014 08:58, Ming Liu <ming.liu@windriver.com> wrote:
+>> Some "once only" variants are being defined instead of standard autoconf
+>> macros, for instance, AC_CHECK_HEADERS_ONCE like AC_CHECK_HEADERS. The
+>> advantage is that the check for each of the headers will be put only once
+>> into the 'configure' file, therefore it keeps the size down. But there
+>> is also a drawback that the checks then will turn to be statically inserted
+>> to the configure and cannot be conditionalized any more. It will
+>> definitely break the dependencies chosen as internally included.
+> I'm confused as to why this breaks anything, and if it does break
+> gettext then it's not embedded-specific but an upstream bug in the
+> configure script, surely.  Can you explain what the problem is?
+Yes, I'd like to explain it a little more.
+AC_CHECK_HEADERS_ONCE will statically add some code to 'configure' file 
+to force checking headers no matter it's in a condition or not. For example:
+   ......
+   if test "$gl_cv_libxml_use_included" != yes; then
+     ......
+     AC_CHECK_HEADERS_ONCE([somehead.h])
+     ......
+   fi
 
-I'm confused as to why this breaks anything, and if it does break
-gettext then it's not embedded-specific but an upstream bug in the
-configure script, surely.  Can you explain what the problem is?
+will always check somehead.h even gl_cv_libxml_use_included equal to 
+'yes', then there will be a problem if we want to choose some 
+dependency, for instance, libxml2, to be internally included, that means 
+not refer to any headers or libraries in system, but oppositely, 
+AC_CHECK_HEADERS_ONCE will pull in the header that it's supposed to 
+check, and that would break the dependency we intended to set.
 
-Ross
+//Ming Liu
+>
+> Ross
+>
+>
+
 
