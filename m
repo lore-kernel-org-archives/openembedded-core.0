@@ -1,22 +1,22 @@
 Return-Path: <Daniel.Bornaz@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 7180E7060C
+	by mail.openembedded.org (Postfix) with SMTP id 574876AC82
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 12:08:58 +0000 (UTC)
+	Thu, 17 Jul 2014 12:24:25 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 17 Jul 2014 14:08:58 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4483)	id 99D58288F32;
-	Thu, 17 Jul 2014 14:08:58 +0200 (CEST)
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 17 Jul 2014 14:24:24 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4483)	id EC580288F32;
+	Thu, 17 Jul 2014 14:24:24 +0200 (CEST)
 From: Daniel BORNAZ <daniel.bornaz@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Jul 2014 14:08:52 +0200
-Message-ID: <1405598932-28766-1-git-send-email-daniel.bornaz@enea.com>
+Date: Thu, 17 Jul 2014 14:24:11 +0200
+Message-ID: <1405599851-14801-1-git-send-email-daniel.bornaz@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: daniel.bornaz@enea.com does not
+Received-SPF: None (SESTOEX08.enea.se: daniel.bornaz@enea.com does not
 	designate permitted sender hosts)
-Subject: [PATCH] dbus: dbus update to 1.8.6
+Subject: [PATCH] qemu: security patch for CVE-2014-3471
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,119 +29,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 12:09:08 -0000
+X-List-Received-Date: Thu, 17 Jul 2014 12:24:30 -0000
 Content-Type: text/plain
 
-dbus: dbus update to 1.8.6
+Qemu PCIe bus support is vulnerable to a use-after-free flaw. It could
+occur via guest, when it tries to hotplug/hotunplug devices on the
+guest.
 
-Dbus and dbus-test updated to version 1.8.6, dbus-glib updated to
-version 0.102. Removed recipes and files from previous version(s).
+A user able to add & delete Virtio block devices on a guest could use
+this flaw to crash the Qemu instance resulting in DoS.
 
-Current version fixes two DoS vulnerabilities in dbus-daemon (CVE-2014-3532).
+Originated-by: Marcel Apfelbaum <address@hidden>
+
+
+Updated the qemu recipe to include the security patch.
+
+Upstream-Status: Submitted
 
 Signed-off-by: Daniel BORNAZ <daniel.bornaz@enea.com>
 
-	renamed:    meta/recipes-core/dbus/dbus-glib-0.100.2/no-examples.patch -> meta/recipes-core/dbus/dbus-glib-0.102/no-examples.patch
-	renamed:    meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch -> meta/recipes-core/dbus/dbus-glib-0.102/obsolete_automake_macros.patch
-	renamed:    meta/recipes-core/dbus/dbus-glib-0.100.2/test-install-makefile.patch -> meta/recipes-core/dbus/dbus-glib-0.102/test-install-makefile.patch
-	deleted:    meta/recipes-core/dbus/dbus-glib_0.100.2.bb
-	new file:   meta/recipes-core/dbus/dbus-glib_0.102.bb
-	renamed:    meta/recipes-core/dbus/dbus-test_1.8.2.bb -> meta/recipes-core/dbus/dbus-test_1.8.6.bb
-	deleted:    meta/recipes-core/dbus/dbus_1.8.2.bb
-	new file:   meta/recipes-core/dbus/dbus_1.8.6.bb
 ---
- .../dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/no-examples.patch | 0
- .../obsolete_automake_macros.patch                                | 0
- .../test-install-makefile.patch                                   | 0
- meta/recipes-core/dbus/dbus-glib_0.100.2.bb                       | 5 -----
- meta/recipes-core/dbus/dbus-glib_0.102.bb                         | 8 ++++++++
- meta/recipes-core/dbus/{dbus-test_1.8.2.bb => dbus-test_1.8.6.bb} | 3 +--
- meta/recipes-core/dbus/dbus_1.8.2.bb                              | 4 ----
- meta/recipes-core/dbus/dbus_1.8.6.bb                              | 4 ++++
- 8 files changed, 13 insertions(+), 11 deletions(-)
- rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/no-examples.patch (100%)
- rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/obsolete_automake_macros.patch (100%)
- rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/test-install-makefile.patch (100%)
- delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.100.2.bb
- create mode 100644 meta/recipes-core/dbus/dbus-glib_0.102.bb
- rename meta/recipes-core/dbus/{dbus-test_1.8.2.bb => dbus-test_1.8.6.bb} (93%)
- delete mode 100644 meta/recipes-core/dbus/dbus_1.8.2.bb
- create mode 100644 meta/recipes-core/dbus/dbus_1.8.6.bb
+ .../qemu/files/pcie_better_hotplug_support.patch   | 74 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.0.0.bb           |  6 +-
+ 2 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
 
-diff --git a/meta/recipes-core/dbus/dbus-glib-0.100.2/no-examples.patch b/meta/recipes-core/dbus/dbus-glib-0.102/no-examples.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-glib-0.100.2/no-examples.patch
-rename to meta/recipes-core/dbus/dbus-glib-0.102/no-examples.patch
-diff --git a/meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch b/meta/recipes-core/dbus/dbus-glib-0.102/obsolete_automake_macros.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch
-rename to meta/recipes-core/dbus/dbus-glib-0.102/obsolete_automake_macros.patch
-diff --git a/meta/recipes-core/dbus/dbus-glib-0.100.2/test-install-makefile.patch b/meta/recipes-core/dbus/dbus-glib-0.102/test-install-makefile.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-glib-0.100.2/test-install-makefile.patch
-rename to meta/recipes-core/dbus/dbus-glib-0.102/test-install-makefile.patch
-diff --git a/meta/recipes-core/dbus/dbus-glib_0.100.2.bb b/meta/recipes-core/dbus/dbus-glib_0.100.2.bb
-deleted file mode 100644
-index c1bb06a..0000000
---- a/meta/recipes-core/dbus/dbus-glib_0.100.2.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require dbus-glib.inc
--
--
--SRC_URI[md5sum] = "ad0920c7e3aad669163bb59171cf138e"
--SRC_URI[sha256sum] = "a5bb42da921f51c28161e0e54a5a8241d94a1c0499a14007150e9ce743da6ac5"
-diff --git a/meta/recipes-core/dbus/dbus-glib_0.102.bb b/meta/recipes-core/dbus/dbus-glib_0.102.bb
+diff --git a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
 new file mode 100644
-index 0000000..28e8a72
+index 0000000..c7035b2
 --- /dev/null
-+++ b/meta/recipes-core/dbus/dbus-glib_0.102.bb
-@@ -0,0 +1,8 @@
-+require dbus-glib.inc
++++ b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+@@ -0,0 +1,74 @@
++The current code is broken: it does surprise removal which crashes guests.
 +
-+SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz \
-+           file://no-examples.patch \
-+"
++Reimplemented the steps:
++ - Hotplug triggers both 'present detect change' and
++   'attention button pressed'.
 +
-+SRC_URI[md5sum] = "f76b8558fd575d0106c3a556eaa49184"
-+SRC_URI[sha256sum] = "6964ed585bb8149a14ab744b5ded5e77cf71ec5446e6dcc5fcf5eebcc52df29c"
-diff --git a/meta/recipes-core/dbus/dbus-test_1.8.2.bb b/meta/recipes-core/dbus/dbus-test_1.8.6.bb
-similarity index 93%
-rename from meta/recipes-core/dbus/dbus-test_1.8.2.bb
-rename to meta/recipes-core/dbus/dbus-test_1.8.6.bb
-index e19d2e9..53c5d9a 100644
---- a/meta/recipes-core/dbus/dbus-test_1.8.2.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.8.6.bb
-@@ -18,8 +18,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-            "
++ - Hotunplug starts by triggering 'attention button pressed',
++   then waits for the OS to power off the device and only
++   then detaches it.
++
++Fixes CVE-2014-3471.
++
++Originated-by: Marcel Apfelbaum <address@hidden>
++Updated-by: Daniel BORNAZ <daniel.bornaz@enea.com>
++
++--- a/hw/pci/pcie.c	2014-04-17 15:44:44.000000000 +0200
+++++ b/hw/pci/pcie.c	2014-07-15 13:03:16.905070562 +0200
++@@ -258,7 +258,8 @@ void pcie_cap_slot_hotplug_cb(HotplugHan
++ 
++     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
++                                PCI_EXP_SLTSTA_PDS);
++-    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+++    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
+++                        PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
++ }
++ 
++ void pcie_cap_slot_hot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
++@@ -268,10 +269,7 @@ void pcie_cap_slot_hot_unplug_cb(Hotplug
++ 
++     pcie_cap_slot_hotplug_common(PCI_DEVICE(hotplug_dev), dev, &exp_cap, errp);
++ 
++-    object_unparent(OBJECT(dev));
++-    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
++-                                 PCI_EXP_SLTSTA_PDS);
++-    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+++    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
++ }
++ 
++ /* pci express slot for pci express root/downstream port
++@@ -352,6 +350,11 @@ void pcie_cap_slot_reset(PCIDevice *dev)
++     hotplug_event_update_event_status(dev);
++ }
++ 
+++static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
+++{
+++    object_unparent(OBJECT(dev));
+++}
+++
++ void pcie_cap_slot_write_config(PCIDevice *dev,
++                                 uint32_t addr, uint32_t val, int len)
++ {
++@@ -376,6 +379,22 @@ void pcie_cap_slot_write_config(PCIDevic
++                         sltsta);
++     }
++ 
+++    /*
+++     * If the slot is polulated, power indicator is off and power
+++     * controller is off, it is safe to detach the devices.
+++     */
+++    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+++        ((val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF)) {
+++            PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+++            pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+++                                pcie_unplug_device, NULL);
+++
+++            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+++                                         PCI_EXP_SLTSTA_PDS);
+++            pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+++                                       PCI_EXP_SLTSTA_PDC);
+++    }
+++
++     hotplug_event_notify(dev);
++ 
++     /* 
+diff --git a/meta/recipes-devtools/qemu/qemu_2.0.0.bb b/meta/recipes-devtools/qemu/qemu_2.0.0.bb
+index b8ce624..9a530a6 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.0.0.bb
+@@ -4,7 +4,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
--SRC_URI[md5sum] = "d6f709bbec0a022a1847c7caec9d6068"
--SRC_URI[sha256sum] = "5689f7411165adc953f37974e276a3028db94447c76e8dd92efe910c6d3bae08"
-+SRC_URI[md5sum] = "6a08ba555d340e9dfe2d623b83c0eea8"
- 
- S="${WORKDIR}/dbus-${PV}"
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
-diff --git a/meta/recipes-core/dbus/dbus_1.8.2.bb b/meta/recipes-core/dbus/dbus_1.8.2.bb
-deleted file mode 100644
-index 37ebed2..0000000
---- a/meta/recipes-core/dbus/dbus_1.8.2.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--include dbus.inc
--
--SRC_URI[md5sum] = "d6f709bbec0a022a1847c7caec9d6068"
--SRC_URI[sha256sum] = "5689f7411165adc953f37974e276a3028db94447c76e8dd92efe910c6d3bae08"
-diff --git a/meta/recipes-core/dbus/dbus_1.8.6.bb b/meta/recipes-core/dbus/dbus_1.8.6.bb
-new file mode 100644
-index 0000000..2fd630f
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus_1.8.6.bb
-@@ -0,0 +1,4 @@
-+include dbus.inc
+ SRC_URI += "file://qemu-enlarge-env-entry-size.patch \
+-            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch"
++            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
++            file://pcie_better_hotplug_support.patch \
++            "
 +
-+SRC_URI[md5sum] = "6a08ba555d340e9dfe2d623b83c0eea8"
-+SRC_URI[sha256sum] = "eded83ca007b719f32761e60fd8b9ffd0f5796a4caf455b01b5a5ef740ebd23f"
++
+ 
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "2790f44fd76da5de5024b4aafeb594c2"
 -- 
 1.9.1
 
