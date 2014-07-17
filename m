@@ -1,34 +1,34 @@
 Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 735EF70644
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AF7970657
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Jul 2014 21:57:18 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6HLvJwM023301 for <openembedded-core@lists.openembedded.org>;
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6HLvJf1015835 for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Jul 2014 16:57:19 -0500
 Received: from bshelton-desktop.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014071716571968-513276 ;
+	with ESMTP id 2014071716571971-513278 ;
 	Thu, 17 Jul 2014 16:57:19 -0500 
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jul 2014 16:56:55 -0500
-Message-Id: <6f87ef917a6327c50f2a190d6f30a705fe536bdc.1405633546.git.ben.shelton@ni.com>
+Date: Thu, 17 Jul 2014 16:56:57 -0500
+Message-Id: <d0f8c4b25dae67f30c57ca9c84becc3fdbd57b01.1405633546.git.ben.shelton@ni.com>
 X-Mailer: git-send-email 2.0.2
 In-Reply-To: <cover.1405633546.git.ben.shelton@ni.com>
 References: <cover.1405633546.git.ben.shelton@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
 	8.5.3FP6|November 21, 2013) at 07/17/2014 04:57:19 PM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/17/2014 04:57:19 PM,
-	Serialize complete at 07/17/2014 04:57:19 PM
+	8.5.3FP6|November 21, 2013) at 07/17/2014 04:57:20 PM,
+	Serialize complete at 07/17/2014 04:57:20 PM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
 	0.0.0000
 	definitions=2014-07-17_06:2014-07-17, 2014-07-17,
 	1970-01-01 signatures=0
-Subject: [PATCH v2 4/6] initscripts: Use current date as an additional source of entropy
+Subject: [PATCH v2 6/6] initscripts: Add support for /etc/default/urandom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +43,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Jul 2014 21:57:22 -0000
 
-From: Ken Sharp <ken.sharp@ni.com>
+From: Richard Tollerton <rich.tollerton@ni.com>
 
-If the seed file is empty or does not exist, the date is an extremely
-poor backup source of entropy, but it is better than nothing.
+Source /etc/default/urandom if present.  This allows the rootfs to
+remain read-only while enabling the user to override the location of the
+random seed file.
 
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 Signed-off-by: Ben Shelton <ben.shelton@ni.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/urandom | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ meta/recipes-core/initscripts/initscripts-1.0/urandom | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-core/initscripts/initscripts-1.0/urandom b/meta/recipes-core/initscripts/initscripts-1.0/urandom
-index a0549de..ec4ef61 100755
+index ec4ef61..af1625b 100755
 --- a/meta/recipes-core/initscripts/initscripts-1.0/urandom
 +++ b/meta/recipes-core/initscripts/initscripts-1.0/urandom
-@@ -20,12 +20,11 @@ RANDOM_SEED_FILE=/var/lib/urandom/random-seed
+@@ -16,6 +16,7 @@ test -c /dev/urandom || exit 0
+ RANDOM_SEED_FILE=/var/lib/urandom/random-seed
+ 
+ . /etc/default/rcS
++[ -f /etc/default/urandom ] && . /etc/default/urandom
+ 
  case "$1" in
  	start|"")
- 		test "$VERBOSE" != no && echo "Initializing random number generator..."
--		# Load and then save 512 bytes,
--		# which is the size of the entropy pool
--		if test -f "$RANDOM_SEED_FILE"
--		then
--			cat "$RANDOM_SEED_FILE" >/dev/urandom
--		fi
-+		# Load and then save 512 bytes, which is the size of the entropy
-+		# pool. Also load the current date, in case the seed file is
-+		# empty.
-+		( date +%s.%N; [ -f "$RANDOM_SEED_FILE" ] && cat "$RANDOM_SEED_FILE" ) \
-+			>/dev/urandom
- 		rm -f "$RANDOM_SEED_FILE"
- 		umask 077
- 		dd if=/dev/urandom of=$RANDOM_SEED_FILE count=1 \
 -- 
 2.0.2
 
