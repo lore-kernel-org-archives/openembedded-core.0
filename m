@@ -1,30 +1,30 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E39F4705E4
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1786FEB1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 01:43:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6H1hPk6026330
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Jul 2014 18:43:25 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Wed, 16 Jul 2014 18:43:25 -0700
-Message-ID: <53C72A3A.50101@windriver.com>
-Date: Thu, 17 Jul 2014 09:43:22 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 17 Jul 2014 01:47:11 +0000 (UTC)
+Received: by mail-wg0-f43.google.com with SMTP id l18so1721509wgh.14
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jul 2014 18:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=9G4+JnqwkdQ+jcAhvHEtZOhRL/VXyn/wYVdDIgel4E8=;
+	b=zCr7iZy0YH74498lqJxG782VGLRSVKFQZ+QQidD52cLPli+0l4BcHgLaf3Eatr/JOW
+	V0X17C3zyG/voAJyR1LziNABBrJcaktNlcErqP8UXJnhndD/LTyASUgRSXk8VXs7tkQP
+	yCK2408zqYj4PkumpqNEcEgVwqDJFXJdi7DZjBsrKFXtNFLfrxoBXx2rf4TNBpBELRP4
+	qymR9EyyVbVvNdlwSYEoMqqvlugQXIETEb2ShhfahQ5B4QBazQXCsc0Dihq7QgS8nYBT
+	xTI39pcK4uz5LfcgvrAIcQBSEpSX1+VKaRjFlmw+a/6nSVPp7SVxKXEGBs8a52qmqHM+
+	HLBg==
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.1405497586.git.Chong.Lu@windriver.com>	<5ff47f75a60d393359e5555ca9a65a61ba744446.1405497586.git.Chong.Lu@windriver.com>
-	<CADkTA4MMphKfFSKw5ViEBgYn+fFJbABeO1hZg+cs4j0eqr__Jw@mail.gmail.com>
-In-Reply-To: <CADkTA4MMphKfFSKw5ViEBgYn+fFJbABeO1hZg+cs4j0eqr__Jw@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.194.87.134 with SMTP id ay6mr39406000wjb.84.1405561632593;
+	Wed, 16 Jul 2014 18:47:12 -0700 (PDT)
+Received: by 10.194.18.114 with HTTP; Wed, 16 Jul 2014 18:47:12 -0700 (PDT)
+Date: Wed, 16 Jul 2014 18:47:12 -0700
+Message-ID: <CAOLEWZXde+2T1bS4ARKMv0cy4KGEZtXHVhtaab0E--49q6wsHA@mail.gmail.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] perf: split package
+Subject: libgcrypt workaround
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 01:43:28 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jul 2014 01:47:21 -0000
+X-Groupsio-MsgNum: 55132
+Content-Type: multipart/mixed; boundary=089e0102ee04d2367104fe59d1bc
 
+--089e0102ee04d2367104fe59d1bc
+Content-Type: multipart/alternative; boundary=089e0102ee04d2366c04fe59d1ba
 
-On 07/16/2014 09:04 PM, Bruce Ashfield wrote:
-> On Wed, Jul 16, 2014 at 4:00 AM, Chong Lu <Chong.Lu@windriver.com> wrote:
->> Fix incorrect paths to split perf package.
-> Can you elaborate here ? This commit message doesn't really tell us much.
-> Why is the current split incorrect ? What is the symptom and result of the
-> incorrect split ? Are the package contents the same after this change ?
->
-> Bruce
-Hi Bruce,
+--089e0102ee04d2366c04fe59d1ba
+Content-Type: text/plain; charset=UTF-8
 
-Currently, perf can't split to perf-archive, perf-tests, perf-python and 
-perf-perl.
-All files are included in perf package. For example, like perf-tests 
-package:
-It generates files in '${exec_prefix}/libexec/perf-core/tests', not in 
-'${libdir}/perf/perf-core/tests'.
-So I change the files paths to make split successfully.
+OE-devs/Tim:
 
-I will improve commit message and resend a V2.
+Here's the basic recipe patch; not sure if I should submit it formally or
+not.  Maybe a configure patch is preferred?  Feedback welcome.
 
-Best Regards
-Chong
->> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->> ---
->>   meta/recipes-kernel/perf/perf.bb | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
->> index 20968f9..781a738 100644
->> --- a/meta/recipes-kernel/perf/perf.bb
->> +++ b/meta/recipes-kernel/perf/perf.bb
->> @@ -166,10 +166,10 @@ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
->>
->>   FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
->>   FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
->> -FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
->> -FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
->> -FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
->> -FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
->> +FILES_${PN}-archive = "${exec_prefix}/libexec/perf-core/perf-archive"
->> +FILES_${PN}-tests = "${exec_prefix}/libexec/perf-core/tests"
->> +FILES_${PN}-python = "${libdir}/python*/site-packages ${exec_prefix}/libexec/perf-core/scripts/python"
->> +FILES_${PN}-perl = "${exec_prefix}/libexec/perf-core/scripts/perl"
->>
->>
->>   INHIBIT_PACKAGE_DEBUG_SPLIT="1"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+Thanks, Steve
 
+--089e0102ee04d2366c04fe59d1ba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div><div>OE-devs/Tim:<br><br></div>Here&#39;s the basic r=
+ecipe patch; not sure if I should submit it formally or not.=C2=A0 Maybe a =
+configure patch is preferred?=C2=A0 Feedback welcome.<br><br></div>Thanks, =
+Steve<br>
+</div>
+
+--089e0102ee04d2366c04fe59d1ba--
+
+--089e0102ee04d2367104fe59d1bc
+Content-Type: text/x-patch; charset=US-ASCII; 
+	name="libgcrypt.inc_gpgerror_linker-args.patch"
+Content-Disposition: attachment; 
+	filename="libgcrypt.inc_gpgerror_linker-args.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hxpf3h8c0
+
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdjcnlwdC9saWJnY3J5cHQuaW5j
+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0L2xpYmdjcnlwdC5pbmMKaW5kZXggYmJh
+NGE3OS4uYmQ0ZWVkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0
+L2xpYmdjcnlwdC5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0L2xpYmdj
+cnlwdC5pbmMKQEAgLTIyLDExICsyMiwxNyBAQCBpbmhlcml0IGF1dG90b29scy1icm9rZW5zZXAg
+dGV4aW5mbyBiaW5jb25maWctZGlzYWJsZWQgcGtnY29uZmlnCiAKIEFTRkxBR1M9Ii0tZGl2aWRl
+IgogQ1BQRkxBR1NfYXBwZW5kID0gIiAtRFBJQyAtZlBJQyIKKwogRVhUUkFfT0VDT05GID0gIi0t
+d2l0aG91dC1jYXBhYmlsaXRpZXMgLS1kaXNhYmxlLXBhZGxvY2stc3VwcG9ydCIKIAogZG9fY29u
+ZmlndXJlX3ByZXBlbmQgKCkgewogCSMgRWxzZSB0aGVzZSBjb3VsZCBiZSB1c2VkIGluIHByZWZl
+cm5jZSB0byB0aG9zZSBpbiBhY2xvY2FsLWNvcHkKIAlybSAtZiAke1N9L200LyoubTQKKwlleHBv
+cnQgR1BHX0VSUk9SX0xJQlM9Ii1MJHtTVEFHSU5HX0xJQkRJUn0gLWxncGctZXJyb3IgIgorfQor
+Citkb19jb25maWd1cmVfcHJlcGVuZF9jbGFzcy1uYXRpdmUoKSB7CisJZXhwb3J0IEdQR19FUlJP
+Ul9MSUJTPSItTCR7U1RBR0lOR19MSUJESVJfTkFUSVZFfSAtbGdwZy1lcnJvciAiCiB9CiAKICMg
+bGliZ2NyeXB0LnBjIGlzIGFkZGVkIGxvY2FsbHkgYW5kIHRodXMgaW5zdGFsbGVkIGhlcmUK
+
+--089e0102ee04d2367104fe59d1bc--
