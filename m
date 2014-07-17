@@ -1,32 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 50BEF705CF
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EEC556ACD4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 12:51:14 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6HCp8XU021032; Thu, 17 Jul 2014 13:51:08 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id USHms4ez3zkp; Thu, 17 Jul 2014 13:51:08 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6HCp5ES021018
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 17 Jul 2014 13:51:06 +0100
-Message-ID: <1405601460.3668.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
-Date: Thu, 17 Jul 2014 13:51:00 +0100
-In-Reply-To: <53C72316.2070009@gmail.com>
-References: <1403131683-28758-1-git-send-email-paul.gortmaker@windriver.com>
-	<53C5EAC3.3020901@gmail.com> <1405499628.20402.13.camel@ted>
-	<53C72316.2070009@gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] perl: strip RPATH from libxml-parser-perl Expat.so
+	Thu, 17 Jul 2014 13:05:53 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2014 06:05:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,678,1400050800"; d="scan'208";a="563196294"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2014 06:05:53 -0700
+Received: from localhost.localdomain (unknown [10.237.112.162])
+	by linux.intel.com (Postfix) with ESMTP id 8710B6A4087;
+	Thu, 17 Jul 2014 06:05:19 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Jul 2014 18:10:43 +0300
+Message-Id: <1405609843-17942-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] scripts/oe-selftest: add command-line parsing and options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,37 +30,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 12:51:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 Jul 2014 13:05:56 -0000
 
-On Wed, 2014-07-16 at 22:12 -0300, João Henrique Ferreira de Freitas
-wrote:
-> Em 16-07-2014 05:33, Richard Purdie escreveu:
-> > On Wed, 2014-07-16 at 00:00 -0300, João Henrique Ferreira de Freitas
-> > wrote:
-> > I've seen this happen before with a half built perl recipe where you've
-> > switched machines half way through a build of perl. Stripping out the
-> > RPATH is not the right fix though.
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> 
-> I agree. And what is the right way to fix it?
-> 
-> Is an issue from perl recipes ? I want to get an start point.
+[YOCTO #6453]
 
-First we need to understand the problem exactly. Do you have a
-reproducer that always works?
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+---
+ scripts/oe-selftest | 81 +++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 53 insertions(+), 28 deletions(-)
 
-I'm not sure how to fix it at this point, we need to work on
-understanding it first.
-
-Cheers,
-
-Richard
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 8c4ea92..2332b22 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -29,6 +29,7 @@ import os
+ import sys
+ import unittest
+ import logging
++import argparse
+ 
+ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'meta/lib')))
+ 
+@@ -58,6 +59,16 @@ def logger_create():
+ 
+ log = logger_create()
+ 
++def get_args_parser():
++    description = "Script that runs unit tests agains bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
++    parser = argparse.ArgumentParser(description=description)
++    group = parser.add_mutually_exclusive_group(required=True)
++    group.add_argument('--run-tests', required=False, action='store', nargs='*', dest="run_tests", default=None, help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
++    group.add_argument('--run-all-tests', required=False, action="store_true", dest="run_all_tests", default=False, help='Run all (unhidden) tests')
++    group.add_argument('--list-modules', required=False, action="store_true", dest="list_modules", default=False, help='List all available test modules.')
++    return parser
++
++
+ def preflight_check():
+ 
+     log.info("Checking that everything is in order before running the tests")
+@@ -108,13 +119,13 @@ def remove_inc_files():
+     except OSError as e:
+         pass
+ 
+-def get_tests():
++def get_tests(exclusive_modules=[], include_hidden=False):
+     testslist = []
+-    for x in sys.argv[1:]:
++    for x in exclusive_modules:
+         testslist.append('oeqa.selftest.' + x)
+     if not testslist:
+         testpath = os.path.abspath(os.path.dirname(oeqa.selftest.__file__))
+-        files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not f.startswith('_') and f != 'base.py'])
++        files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
+         for f in files:
+             module = 'oeqa.selftest.' + f[:-3]
+             testslist.append(module)
+@@ -122,32 +133,46 @@ def get_tests():
+     return testslist
+ 
+ def main():
+-    if not preflight_check():
+-        return 1
+-
+-    testslist = get_tests()
+-    suite = unittest.TestSuite()
+-    loader = unittest.TestLoader()
+-    loader.sortTestMethodsUsing = None
+-    runner = unittest.TextTestRunner(verbosity=2)
+-    # we need to do this here, otherwise just loading the tests
+-    # will take 2 minutes (bitbake -e calls)
+-    oeSelfTest.testlayer_path = get_test_layer()
+-    for test in testslist:
+-        log.info("Loading tests from: %s" % test)
+-        try:
+-            suite.addTests(loader.loadTestsFromName(test))
+-        except AttributeError as e:
+-            log.error("Failed to import %s" % test)
+-            log.error(e)
++    parser = get_args_parser()
++    args = parser.parse_args()
++
++    if args.list_modules:
++        log.info('Listing all available test modules:')
++        testslist = get_tests(include_hidden=True)
++        for test in testslist:
++            module = test.split('.')[-1]
++            info = ''
++            if module.startswith('_'):
++                info = ' (hidden)'
++            print module + info
++
++    if args.run_tests or args.run_all_tests:
++        if not preflight_check():
++            return 1
++
++        testslist = get_tests(exclusive_modules=(args.run_tests or []), include_hidden=False)
++        suite = unittest.TestSuite()
++        loader = unittest.TestLoader()
++        loader.sortTestMethodsUsing = None
++        runner = unittest.TextTestRunner(verbosity=2)
++        # we need to do this here, otherwise just loading the tests
++        # will take 2 minutes (bitbake -e calls)
++        oeSelfTest.testlayer_path = get_test_layer()
++        for test in testslist:
++            log.info("Loading tests from: %s" % test)
++            try:
++                suite.addTests(loader.loadTestsFromName(test))
++            except AttributeError as e:
++                log.error("Failed to import %s" % test)
++                log.error(e)
++                return 1
++        add_include()
++        result = runner.run(suite)
++        log.info("Finished")
++        if result.wasSuccessful():
++            return 0
++        else:
+             return 1
+-    add_include()
+-    result = runner.run(suite)
+-    log.info("Finished")
+-    if result.wasSuccessful():
+-        return 0
+-    else:
+-        return 1
+ 
+ if __name__ == "__main__":
+     try:
+-- 
+1.8.3.2
 
 
