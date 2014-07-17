@@ -1,38 +1,26 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D10D970239
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 244BB6FE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 02:13:47 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id el20so1218634lab.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 19:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=VD9xfQfw1W044Bj/GrWge/4Fx7ihTReltYML6/iwlRU=;
-	b=sBT01xIk7zmfhvnc3HpTpoUQ/cN4V5jCB36wWYmmyJfffzxOpw4SS6nMO7LZBNDQZu
-	Gz9QVFMTv/WlvRgB2Wi0kb7FmvQCbRXgNXWxck5pCXntayUSJ9jHU7CNlI2Rs5A2x3rv
-	Dm56DBScV0L5N5VUwDPZAt6SPMYtjrLwEmEyUAHKzh/TFgM5yusriTCHo/bVcgMzJvqK
-	FaCcPHlop/F5quwVYTKMNyGbYpZuiE/ONPqjfEy9ATpL/q4B9vvji8dldwOPsgddmA8h
-	ntTkKDczg5EnyxTfFE2JhJhUrB0ETv0BRU1DLgOwPx8E8kLv/ns45z67lrhApGpF2AWP
-	IrSA==
+	Thu, 17 Jul 2014 05:53:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6H5rObi003919
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Jul 2014 22:53:24 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Wed, 16 Jul 2014 22:53:24 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Jul 2014 13:53:10 +0800
+Message-ID: <68c1591a93ebcb982a24424b021b7218aefad269.1405575611.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1405575611.git.hongxu.jia@windriver.com>
+References: <cover.1405575611.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.112.72.3 with SMTP id z3mr26963683lbu.30.1405563227598; Wed,
-	16 Jul 2014 19:13:47 -0700 (PDT)
-Received: by 10.112.124.137 with HTTP; Wed, 16 Jul 2014 19:13:47 -0700 (PDT)
-In-Reply-To: <53C72A3A.50101@windriver.com>
-References: <cover.1405497586.git.Chong.Lu@windriver.com>
-	<5ff47f75a60d393359e5555ca9a65a61ba744446.1405497586.git.Chong.Lu@windriver.com>
-	<CADkTA4MMphKfFSKw5ViEBgYn+fFJbABeO1hZg+cs4j0eqr__Jw@mail.gmail.com>
-	<53C72A3A.50101@windriver.com>
-Date: Wed, 16 Jul 2014 22:13:47 -0400
-Message-ID: <CADkTA4MSh39enfLcF5VNtkTBpdBtkhZ8ZhkYXPfypKGTxDFe-w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] perf: split package
+Cc: saul.wold@intel.com
+Subject: [PATCH 2/2] eglibc: rewritten tzselect as posix sh and move it to tzcode package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,93 +33,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 02:13:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 17 Jul 2014 05:53:26 -0000
+Content-Type: text/plain
 
-On Wed, Jul 16, 2014 at 9:43 PM, Chong Lu <Chong.Lu@windriver.com> wrote:
->
-> On 07/16/2014 09:04 PM, Bruce Ashfield wrote:
->>
->> On Wed, Jul 16, 2014 at 4:00 AM, Chong Lu <Chong.Lu@windriver.com> wrote:
->>>
->>> Fix incorrect paths to split perf package.
->>
->> Can you elaborate here ? This commit message doesn't really tell us much.
->> Why is the current split incorrect ? What is the symptom and result of the
->> incorrect split ? Are the package contents the same after this change ?
->>
->> Bruce
->
-> Hi Bruce,
->
-> Currently, perf can't split to perf-archive, perf-tests, perf-python and
-> perf-perl.
-> All files are included in perf package. For example, like perf-tests
-> package:
-> It generates files in '${exec_prefix}/libexec/perf-core/tests', not in
-> '${libdir}/perf/perf-core/tests'.
-> So I change the files paths to make split successfully.
+The problem is that this would cause bash installed to meta-toolchain,
+the dependencies chain is:
+meta-toolchain -> eglibc-utils -> bash
+We should eliminate bash dependencies in anything core to a tiny system.
 
-But that means, whether or not we like it, anything using perf has been using
-those "non splits" and getting everything when perf is installed.
+The eglibc-utils also provides eglibc-utils/usr/bin/zdump,
+eglibc-utils/usr/bin/zic which all of them belonged to tzcode, so we
+should split these three utils as tzcode package.
 
-It's also might be in order to make the main perf package RDEPEND on
-the other three, to keep it consistent. Make it a ?= so it can be overridden,
-and then we can age it out over time.
+[YOCTO #6544]
 
-Bruce
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../timezone-re-written-tzselect-as-posix-sh.patch | 40 ++++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc-package.inc        |  6 ++--
+ meta/recipes-core/eglibc/eglibc_2.19.bb            |  1 +
+ 3 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/timezone-re-written-tzselect-as-posix-sh.patch
 
->
-> I will improve commit message and resend a V2.
->
-> Best Regards
-> Chong
->
->>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->>> ---
->>>   meta/recipes-kernel/perf/perf.bb | 8 ++++----
->>>   1 file changed, 4 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/perf/perf.bb
->>> b/meta/recipes-kernel/perf/perf.bb
->>> index 20968f9..781a738 100644
->>> --- a/meta/recipes-kernel/perf/perf.bb
->>> +++ b/meta/recipes-kernel/perf/perf.bb
->>> @@ -166,10 +166,10 @@ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests
->>> ${RSUGGESTS_SCRIPTING}"
->>>
->>>   FILES_${PN} += "${libexecdir}/perf-core
->>> ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
->>>   FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
->>> -FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
->>> -FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
->>> -FILES_${PN}-python = "${libdir}/python*/site-packages
->>> ${libdir}/perf/perf-core/scripts/python"
->>> -FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
->>> +FILES_${PN}-archive = "${exec_prefix}/libexec/perf-core/perf-archive"
->>> +FILES_${PN}-tests = "${exec_prefix}/libexec/perf-core/tests"
->>> +FILES_${PN}-python = "${libdir}/python*/site-packages
->>> ${exec_prefix}/libexec/perf-core/scripts/python"
->>> +FILES_${PN}-perl = "${exec_prefix}/libexec/perf-core/scripts/perl"
->>>
->>>
->>>   INHIBIT_PACKAGE_DEBUG_SPLIT="1"
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->
-
-
-
+diff --git a/meta/recipes-core/eglibc/eglibc-2.19/timezone-re-written-tzselect-as-posix-sh.patch b/meta/recipes-core/eglibc/eglibc-2.19/timezone-re-written-tzselect-as-posix-sh.patch
+new file mode 100644
+index 0000000..1477ea2
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.19/timezone-re-written-tzselect-as-posix-sh.patch
+@@ -0,0 +1,40 @@
++timezone: re-written tzselect as posix sh
++
++To avoid the bash dependency.
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ timezone/Makefile     | 2 +-
++ timezone/tzselect.ksh | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/timezone/Makefile b/timezone/Makefile
++--- a/timezone/Makefile
+++++ b/timezone/Makefile
++@@ -113,7 +113,7 @@ $(testdata)/Asia/Tokyo: asia $(zic-deps)
++ 
++ 
++ $(objpfx)tzselect: tzselect.ksh $(common-objpfx)config.make
++-	sed -e 's|/bin/bash|$(KSH)|g' \
+++	sed -e 's|/bin/bash|/bin/sh|g' \
++ 	    -e '/TZDIR=/s|\$$(pwd)|$(zonedir)|' \
++ 	    -e '/TZVERSION=/s|see_Makefile|"$(version)"|' \
++ 	    -e '/PKGVERSION=/s|=.*|="$(PKGVERSION)"|' \
++diff --git a/timezone/tzselect.ksh b/timezone/tzselect.ksh
++index 9d70691..25f45a8 100644
++--- a/timezone/tzselect.ksh
+++++ b/timezone/tzselect.ksh
++@@ -35,7 +35,7 @@ REPORT_BUGS_TO=tz@iana.org
++ 
++ # Specify default values for environment variables if they are unset.
++ : ${AWK=awk}
++-: ${TZDIR=`pwd`}
+++: ${TZDIR=$(pwd)}
++ 
++ # Check for awk Posix compliance.
++ ($AWK -v x=y 'BEGIN { exit 123 }') </dev/null >/dev/null 2>&1
++-- 
++1.8.1.2
++
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index d5d407f..c357a13 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -17,7 +17,7 @@ python __anonymous () {
+ # Set this to zero if you don't want ldconfig in the output package
+ USE_LDCONFIG ?= "1"
+ 
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldd ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
++PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ 
+ # The ld.so in this eglibc supports the GNU_HASH
+ RPROVIDES_${PN} = "glibc rtld(GNU_HASH)"
+@@ -47,6 +47,7 @@ FILES_${PN}-dev += "${bindir}/rpcgen ${libdir}/*_nonshared.a ${base_libdir}/*_no
+ FILES_${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
+ FILES_nscd = "${sbindir}/nscd*"
+ FILES_${PN}-mtrace = "${bindir}/mtrace"
++FILES_tzcode = "${bindir}/tzselect ${sbindir}/zic ${sbindir}/zdump"
+ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv = "${bindir}/catchsegv"
+@@ -65,8 +66,9 @@ DESCRIPTION_eglibc-extra-nss = "eglibc: nis, nisplus and hesiod search services.
+ SUMMARY_ldd = "print shared library dependencies"
+ DESCRIPTION_ldd = "${bindir}/ldd prints shared library dependencies for each program or shared library specified on the command line."
+ SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
+-DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
++DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, rpcinfo, ..."
+ DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
++DESCRIPTION_tzcode = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
+ 
+ inherit libc-common multilib_header
+ 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
+index 2d354cb..19bd52d 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.19.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
+@@ -27,6 +27,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
+            file://ppce6500-32b_slow_ieee754_sqrt.patch \
+            file://grok_gold.patch \
+            file://fix_am_rootsbindir.patch;striplevel=2 \
++           file://timezone-re-written-tzselect-as-posix-sh.patch \
+           "
+ SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
+ SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.1.2
+
 
