@@ -1,34 +1,30 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD4F70660
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 21:57:18 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6HLvJf0015835 for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 16:57:19 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014071716571965-513274 ;
-	Thu, 17 Jul 2014 16:57:19 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jul 2014 16:56:53 -0500
-Message-Id: <c417e9dd139050026787229778db277911302044.1405633546.git.ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-In-Reply-To: <cover.1405633546.git.ben.shelton@ni.com>
-References: <cover.1405633546.git.ben.shelton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/17/2014 04:57:19 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/17/2014 04:57:19 PM,
-	Serialize complete at 07/17/2014 04:57:19 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-17_06:2014-07-17, 2014-07-17,
-	1970-01-01 signatures=0
-Subject: [PATCH v2 2/6] initscripts: save /etc/timestamp with seconds accuracy
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 70930703F9;
+	Thu, 17 Jul 2014 22:11:24 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6HMBJsO012929; Thu, 17 Jul 2014 23:11:19 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ZjPGrk4ccVYl; Thu, 17 Jul 2014 23:11:19 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6HMBDo1012925
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 17 Jul 2014 23:11:15 +0100
+Message-ID: <1405635068.26348.34.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-devel@lists.openembedded.org
+Date: Thu, 17 Jul 2014 23:11:08 +0100
+In-Reply-To: <1405550821.3668.9.camel@ted>
+References: <cover.1405440532.git.ross.burton@intel.com>
+	<20140715165842.GN2433@jama> <1405550821.3668.9.camel@ted>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] [PATCH 0/7][RFC] Remove enforced --foreign in autoreconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,64 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 21:57:22 -0000
+X-List-Received-Date: Thu, 17 Jul 2014 22:11:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Blair Elliott <blair.elliott@ni.com>
+On Wed, 2014-07-16 at 23:47 +0100, Richard Purdie wrote:
+> I made a quick test and the failures I spotted from meta-oe likely due
+> to this patch were:
+> 
+> re2c
+> libsdl-iomage
+> claws-plugin-gtkhtml2-viewer
+> claws-plugin-rssyl
+> libsdl-tiff
+> libol
+> ode
+> dejagnu
+> memcached
+> rp-pppoe
+> ipsec-tools
+> mtr
+> hplip
+> onig
+> 
+> Its probably not a complete list as I have a lot more failures than your
+> world builds but it gives some idea of number and its not a massive
+> list.
 
-Currently, /etc/timestamp is saved with minutes accuracy.  To increase
-the accuracy, modify the save-rtc.sh and bootmisc.sh scripts to save and
-read /etc/timestamp respectively with seconds accuracy.
+There were more efl ones once I sorted a fetch issue.
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- meta/classes/image.bbclass                                | 2 +-
- meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh | 5 +++--
- meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+I've run out of time/energy today but I have about 20 fixes for various
+build issues in meta-oe in:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index a03b880..772c3ed 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -359,7 +359,7 @@ set_image_autologin () {
- # Can be use to create /etc/timestamp during image construction to give a reasonably 
- # sane default time setting
- rootfs_update_timestamp () {
--	date -u +%4Y%2m%2d%2H%2M >${IMAGE_ROOTFS}/etc/timestamp
-+	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
- }
- 
- # Prevent X from being started
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-index 5211824..ccc7f9f 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-@@ -66,10 +66,11 @@ fi
- test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh start
- if test -e /etc/timestamp
- then
--	SYSTEMDATE=`date -u +%4Y%2m%2d%2H%2M`
-+	SYSTEMDATE=`date -u +%4Y%2m%2d%2H%2M%2S`
- 	read TIMESTAMP < /etc/timestamp
- 	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
--		date -u ${TIMESTAMP#????}${TIMESTAMP%????????}
-+		# format the timestamp as date expects it (2m2d2H2M4Y.2S)
-+		date -u ${TIMESTAMP:4:8}${TIMESTAMP:0:4}.${TIMESTAMP:(-2)}
- 		test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh stop
- 	fi
- fi
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-index 1f804e2..b038fc5 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
-@@ -10,4 +10,4 @@
- ### END INIT INFO
- 
- # Update the timestamp
--date -u +%4Y%2m%2d%2H%2M > /etc/timestamp
-+date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
--- 
-2.0.2
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/metaoe&id=bfb0ddc8c3d3f7c963c3529efc970b9ba8d8d788
+
+Mentioning so people don't duplicate work. I'll try and split into
+patches as/when I get time if nobody beats me to it.
+
+Cheers,
+
+Richard
 
 
