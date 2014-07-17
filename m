@@ -1,26 +1,38 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D1E970239
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D10D970239
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 02:08:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6H28aNo002249
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 Jul 2014 02:13:47 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id el20so1218634lab.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 19:08:36 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 16 Jul 2014 19:08:35 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Jul 2014 10:08:37 +0800
-Message-ID: <8a2f5d0e429d76a916afc1177cd0d74acadc20f0.1405562859.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1405562859.git.Qi.Chen@windriver.com>
-References: <cover.1405562859.git.Qi.Chen@windriver.com>
+	Wed, 16 Jul 2014 19:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=VD9xfQfw1W044Bj/GrWge/4Fx7ihTReltYML6/iwlRU=;
+	b=sBT01xIk7zmfhvnc3HpTpoUQ/cN4V5jCB36wWYmmyJfffzxOpw4SS6nMO7LZBNDQZu
+	Gz9QVFMTv/WlvRgB2Wi0kb7FmvQCbRXgNXWxck5pCXntayUSJ9jHU7CNlI2Rs5A2x3rv
+	Dm56DBScV0L5N5VUwDPZAt6SPMYtjrLwEmEyUAHKzh/TFgM5yusriTCHo/bVcgMzJvqK
+	FaCcPHlop/F5quwVYTKMNyGbYpZuiE/ONPqjfEy9ATpL/q4B9vvji8dldwOPsgddmA8h
+	ntTkKDczg5EnyxTfFE2JhJhUrB0ETv0BRU1DLgOwPx8E8kLv/ns45z67lrhApGpF2AWP
+	IrSA==
 MIME-Version: 1.0
-Subject: [PATCH 1/1] package.bbclass: ensure correct modes on directories
+X-Received: by 10.112.72.3 with SMTP id z3mr26963683lbu.30.1405563227598; Wed,
+	16 Jul 2014 19:13:47 -0700 (PDT)
+Received: by 10.112.124.137 with HTTP; Wed, 16 Jul 2014 19:13:47 -0700 (PDT)
+In-Reply-To: <53C72A3A.50101@windriver.com>
+References: <cover.1405497586.git.Chong.Lu@windriver.com>
+	<5ff47f75a60d393359e5555ca9a65a61ba744446.1405497586.git.Chong.Lu@windriver.com>
+	<CADkTA4MMphKfFSKw5ViEBgYn+fFJbABeO1hZg+cs4j0eqr__Jw@mail.gmail.com>
+	<53C72A3A.50101@windriver.com>
+Date: Wed, 16 Jul 2014 22:13:47 -0400
+Message-ID: <CADkTA4MSh39enfLcF5VNtkTBpdBtkhZ8ZhkYXPfypKGTxDFe-w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] perf: split package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +45,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 02:08:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Jul 2014 02:13:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Previously, when we create directories in populate_packages, the
-directory modes are not all correct. Take the base-files recipe
-as an example. The directory package/home has mode 2755, but
-packages-split/base-files/home has mode 0755.
+On Wed, Jul 16, 2014 at 9:43 PM, Chong Lu <Chong.Lu@windriver.com> wrote:
+>
+> On 07/16/2014 09:04 PM, Bruce Ashfield wrote:
+>>
+>> On Wed, Jul 16, 2014 at 4:00 AM, Chong Lu <Chong.Lu@windriver.com> wrote:
+>>>
+>>> Fix incorrect paths to split perf package.
+>>
+>> Can you elaborate here ? This commit message doesn't really tell us much.
+>> Why is the current split incorrect ? What is the symptom and result of the
+>> incorrect split ? Are the package contents the same after this change ?
+>>
+>> Bruce
+>
+> Hi Bruce,
+>
+> Currently, perf can't split to perf-archive, perf-tests, perf-python and
+> perf-perl.
+> All files are included in perf package. For example, like perf-tests
+> package:
+> It generates files in '${exec_prefix}/libexec/perf-core/tests', not in
+> '${libdir}/perf/perf-core/tests'.
+> So I change the files paths to make split successfully.
 
-So after using creating directory, we need to use chmod to ensure
-it gets the correct mode.
+But that means, whether or not we like it, anything using perf has been using
+those "non splits" and getting everything when perf is installed.
 
-[YOCTO #6517]
+It's also might be in order to make the main perf package RDEPEND on
+the other three, to keep it consistent. Make it a ?= so it can be overridden,
+and then we can age it out over time.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/package.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+Bruce
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 26a20d1..7e85af4 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1019,6 +1019,7 @@ python populate_packages () {
-                 dest = os.path.join(dest, p)
-                 fstat = cpath.stat(src)
-                 os.mkdir(dest, fstat.st_mode)
-+                os.chmod(dest, fstat.st_mode)
-                 os.chown(dest, fstat.st_uid, fstat.st_gid)
-                 if p not in seen:
-                     seen.append(p)
+>
+> I will improve commit message and resend a V2.
+>
+> Best Regards
+> Chong
+>
+>>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+>>> ---
+>>>   meta/recipes-kernel/perf/perf.bb | 8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/perf/perf.bb
+>>> b/meta/recipes-kernel/perf/perf.bb
+>>> index 20968f9..781a738 100644
+>>> --- a/meta/recipes-kernel/perf/perf.bb
+>>> +++ b/meta/recipes-kernel/perf/perf.bb
+>>> @@ -166,10 +166,10 @@ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests
+>>> ${RSUGGESTS_SCRIPTING}"
+>>>
+>>>   FILES_${PN} += "${libexecdir}/perf-core
+>>> ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
+>>>   FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
+>>> -FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+>>> -FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
+>>> -FILES_${PN}-python = "${libdir}/python*/site-packages
+>>> ${libdir}/perf/perf-core/scripts/python"
+>>> -FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
+>>> +FILES_${PN}-archive = "${exec_prefix}/libexec/perf-core/perf-archive"
+>>> +FILES_${PN}-tests = "${exec_prefix}/libexec/perf-core/tests"
+>>> +FILES_${PN}-python = "${libdir}/python*/site-packages
+>>> ${exec_prefix}/libexec/perf-core/scripts/python"
+>>> +FILES_${PN}-perl = "${exec_prefix}/libexec/perf-core/scripts/perl"
+>>>
+>>>
+>>>   INHIBIT_PACKAGE_DEBUG_SPLIT="1"
+>>> --
+>>> 1.9.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>
+
+
+
 -- 
-1.7.9.5
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
