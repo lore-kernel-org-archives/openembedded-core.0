@@ -1,21 +1,21 @@
 Return-Path: <ben.shelton@ni.com>
 Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 7277170642
+	by mail.openembedded.org (Postfix) with ESMTP id 7096470637
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Jul 2014 21:57:18 +0000 (UTC)
 Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
 	[130.164.19.134])
 	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6HLvJwK023301 for <openembedded-core@lists.openembedded.org>;
+	s6HLvJwN023301 for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Jul 2014 16:57:19 -0500
 Received: from bshelton-desktop.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014071716571964-513273 ;
+	with ESMTP id 2014071716571970-513277 ;
 	Thu, 17 Jul 2014 16:57:19 -0500 
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jul 2014 16:56:52 -0500
-Message-Id: <315504745a3addb5e02a807e3a2062eb6cbe2ed3.1405633546.git.ben.shelton@ni.com>
+Date: Thu, 17 Jul 2014 16:56:56 -0500
+Message-Id: <e42e7279d246813dc21a9498524b7e61412a0349.1405633546.git.ben.shelton@ni.com>
 X-Mailer: git-send-email 2.0.2
 In-Reply-To: <cover.1405633546.git.ben.shelton@ni.com>
 References: <cover.1405633546.git.ben.shelton@ni.com>
@@ -28,7 +28,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
 	0.0.0000
 	definitions=2014-07-17_06:2014-07-17, 2014-07-17,
 	1970-01-01 signatures=0
-Subject: [PATCH v2 1/6] initscripts: bootmisc.sh: Make sysctl -p honor VERBOSE
+Subject: [PATCH v2 5/6] initscripts: make hostname.sh coreutils-compatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +45,28 @@ X-List-Received-Date: Thu, 17 Jul 2014 21:57:21 -0000
 
 From: Richard Tollerton <rich.tollerton@ni.com>
 
-busybox sysctl may lack the "-q" setting, so simulate it with redirects.
+inetutils and busybox hostname utils support `hostname -F`; coreutils
+hostname doesn't. So just use `cat` instead.
 
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 Signed-off-by: Ben Shelton <ben.shelton@ni.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-core/initscripts/initscripts-1.0/hostname.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-index 3b5a47f..5211824 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-@@ -36,7 +36,12 @@ if [ -f "${SYSCTL_CONF}" ]
- then
- 	if [ -x "/sbin/sysctl" ]
- 	then
--		/sbin/sysctl -p "${SYSCTL_CONF}"
-+		# busybox sysctl does not support -q
-+		VERBOSE_REDIR="1>/dev/null"
-+		if [ "${VERBOSE}" != "no" ]; then
-+			VERBOSE_REDIR="1>&1"
-+		fi
-+		eval /sbin/sysctl -p "${SYSCTL_CONF}" $VERBOSE_REDIR
- 	else
- 		echo "To have ${SYSCTL_CONF} applied during boot, install package <procps>."
- 	fi
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh b/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
+index 78fb91c..95287cc 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
+@@ -16,7 +16,7 @@ fi
+ 
+ # Busybox hostname doesn't support -b so we need implement it on our own
+ if [ -f /etc/hostname ];then
+-	hostname -F /etc/hostname
++	hostname `cat /etc/hostname`
+ elif [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" -o ! -z "`echo $HOSTNAME | sed -n '/^[0-9]*\.[0-9].*/p'`" ] ; then
+ 	hostname localhost
+ fi
 -- 
 2.0.2
 
