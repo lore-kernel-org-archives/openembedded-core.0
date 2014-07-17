@@ -1,32 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A3E56705A9
+Return-Path: <joaohf@gmail.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 452917032B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 22:50:48 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6GMobbJ027223; Wed, 16 Jul 2014 23:50:37 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ikO6d14FKzLO; Wed, 16 Jul 2014 23:50:36 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6GMoVj2027219
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 16 Jul 2014 23:50:32 +0100
-Message-ID: <1405551026.3668.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Jul 2014 23:50:26 +0100
-In-Reply-To: <CAJTo0LbGMb_v-aUQ2JHJcAxRr3qY39JcUmS+ziY21N+oTeyNiw@mail.gmail.com>
-References: <cover.1405527926.git.richard.purdie@linuxfoundation.org>
-	<53386c9bab6af2fd79b9816e82566b220a1e99ae.1405527926.git.richard.purdie@linuxfoundation.org>
-	<CAJTo0LbGMb_v-aUQ2JHJcAxRr3qY39JcUmS+ziY21N+oTeyNiw@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/19] python-scons: Upgrade 2.3.0 -> 2.3.2
+	Thu, 17 Jul 2014 00:50:34 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id hy10so3193077vcb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jul 2014 17:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=dqX8fu4L6duabG0qvCd+xODfVdypD/4Ew2abOiidW8w=;
+	b=p3hr/3KZuZlyDENEXIKmT8Q9iAkXBQmUjTDl5YD8w6zAKckB8ZLNp/A2U5SDysANtC
+	3HjO+m+qZlAw9Dz8dU9wPr52dHBA2SgT8UNWywBi7gx71h/W3jxxO78catZxkBHA1fPF
+	5GV+20eqtyAnmizF1/ytLB+Fc6bZ3RREKt9NJ1DAsANnQZ/jXxPOVWk90pz+JIgQRg5b
+	jaMwZ06sVCHEFe4MiFxYexNuA4rM0wSM201LK8HnK08v5j79sI2IvxpOqyiEk8plcWX0
+	hFEU/BLUu5CTC7BJNy724l/GRwvG6J10TQUpLxbytjgNKl/WMVHqtYScArwcixCu1xHB
+	WsBg==
+X-Received: by 10.221.26.71 with SMTP id rl7mr7173753vcb.69.1405558235091;
+	Wed, 16 Jul 2014 17:50:35 -0700 (PDT)
+Received: from [192.168.0.12] ([201.53.220.248])
+	by mx.google.com with ESMTPSA id ty7sm1741281vdc.24.2014.07.16.17.50.33
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 16 Jul 2014 17:50:34 -0700 (PDT)
+Message-ID: <53C71DCF.9040702@gmail.com>
+Date: Wed, 16 Jul 2014 21:50:23 -0300
+From: =?UTF-8?B?Sm/Do28gSGVucmlxdWUgRmVycmVpcmEgZGUgRnJlaXRhcw==?=
+	<joaohf@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1404266329-13524-1-git-send-email-joaohf@gmail.com>	<1405378518-4832-1-git-send-email-joaohf@gmail.com>	<1405378518-4832-2-git-send-email-joaohf@gmail.com>
+	<CAP9ODKok9mWnjgmdciVJ7GaENzX09VUn17RSwoB7SGJAeipPSw@mail.gmail.com>
+In-Reply-To: <CAP9ODKok9mWnjgmdciVJ7GaENzX09VUn17RSwoB7SGJAeipPSw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] python-distribute: add nativesdk to BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,24 +50,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 22:50:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jul 2014 00:50:42 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2014-07-16 at 23:30 +0100, Burton, Ross wrote:
-> On 16 July 2014 17:26, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=98e9a1e6029e715255c52032a1eba637"
-> > +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f0ad8a74a10870caa5e08a3e45d719e2"
-> 
-> Why did the checksum change?
+Hi Otavio,
 
-Gah, I did check but forgot to put it in the log. It was the copyright
-year.
+Em 15-07-2014 10:35, Otavio Salvador escreveu:
+> On Mon, Jul 14, 2014 at 7:55 PM, João Henrique Ferreira de Freitas
+> <joaohf@gmail.com> wrote:
+>> Without this, python tools that need python-distribute doesn't install
+>> in SDK generated by OE.
+>>
+>> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+>> ---
+>>   meta/recipes-devtools/python/python-distribute_0.6.32.bb | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+>> index 58bb8b4..7000145 100644
+>> --- a/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+>> +++ b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+>> @@ -39,6 +39,12 @@ do_install_append() {
+>>       echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+>>   }
+>>
+>> +do_install_append_class-nativesdk() {
+>> +       sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.egg/setuptools/tests/test_resources.py
+>> +       sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${bindir}/easy_install
+>> +       sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${bindir}/easy_install-${PYTHON_BASEVERSION}
+>> +}
+> Couldn't this be done unconditionally for all target types?
+> "/usr/bin/env python" should work fine in target as well, no?
+>
+I don't know if I fully understood your question...
 
-Cheers,
 
-Richard
+Do you mean by 'all target types' like native, nativesdk ?
 
+In some recipes (gnome-doc-utils.inc, createrepo_0.4.11.bb) , this 
+pattern was used:
+
+----
+# Wrap the python script since the native python is
+# ${bindir}/python-native/python, and the "#! /usr/bin/env python" can't
+# find it since it is not in PATH.
+do_install_append_class-native () {
+  ...
+   sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|' $i
+  ...
+}
+----
+
+Sometimes I feel really lost when need to fixes things like that. What 
+is the correct way?
+
+Without do_install_append_class-nativesdk() I got:
+
+Computing transaction...error: Can't install nativesdk-python-distribute-0.6.32-ml5@x86_64_nativesdk: no package provides /usr/bin/python
+
+
+Thanks.
+
+-- 
+João Henrique Ferreira de Freitas - joaohf_at_gmail.com
+Campinas-SP-Brasil
 
 
