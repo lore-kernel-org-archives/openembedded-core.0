@@ -1,43 +1,35 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A3FA270678
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 83DF870621
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 16:54:03 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id c1so3263511igq.3
+	Thu, 17 Jul 2014 17:34:48 +0000 (UTC)
+Received: by mail-la0-f41.google.com with SMTP id s18so2034060lam.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 09:54:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=lKRjV/RXlhhha2bGDkTT8H3qt418axjQLDEscezVoWM=;
-	b=DDkBnFrWCbBp2nBqxworDvdwuh/nutY+cSks41rkOhaIAurZg2RxAfaHExMkaxyOTq
-	TJJx2eTvLggktaesOphRyDDUoUTzRkvSyMfWKII8xQWb4bRUa4JIWxCeqZwUF3ac7eY3
-	EZu6FtirztBg7oKbtH8Q3M2S7NepHO7FEDfixAWRdEyt68FpcvLwDtIe6htwjbbxNOjE
-	2oZH/NwVGpC4z3J/ukcNFld+mviWmYxT1LdXGyeUYHASyQqwCcZHorjFnFUnWg4Fsxfy
-	HVz58Kr3/1gZHAbBLgtCMuivqENrDG7WZXfTM8ZSB1ayMyzXaSDkuGplDrwfH+z/IQCe
-	tbuA==
-X-Gm-Message-State: ALoCoQnGBWObYhpr7H7Qj59MFRvyEL5KMqO9/yiwPUX5nRqsHADMEvgdtd3YbR9ezJggsK57SEef
-X-Received: by 10.50.25.196 with SMTP id e4mr29753433igg.28.1405616043460;
-	Thu, 17 Jul 2014 09:54:03 -0700 (PDT)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id v8sm7996020igh.19.2014.07.17.09.54.01
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 17 Jul 2014 09:54:02 -0700 (PDT)
-Message-ID: <53C7FFA7.5060001@linaro.org>
-Date: Thu, 17 Jul 2014 12:53:59 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Thu, 17 Jul 2014 10:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=RfZ2FmKKTS0GUbpXMISlim9IOf3OA4xzYf2Dte9KuUY=;
+	b=HOb9+hYGFv74PJWkQJOK0a/OK20/Fd8ClBCinQX/8X52uYYZlNM7sHanM/UPlzglYQ
+	AZJyVFhz8mG4+5GtkOxETASD5ZtT7tBZlxGV2e7Oi92NxB2qDceGcGg5oKJI9G4NnYsz
+	2aFmAvbGgl8+S8dYPNrd+pfAJiFikbn547LSFAOI6aIoagWi0BLUPCigPGIMpvrBsOLl
+	H3NQghNs/IlMcbJGKocKhPbJlSF2lK/o5M9nb1guiiA/jjjVZVuocRTxZQnNS+uqjRSq
+	oc/DyaFYtoQW5iUsqZRKT+7TDxSCUbKWbhFEK0ulMwlgt6M2vYdSyyKMwkVLPSM+PbLd
+	u/DA==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1405095061-29714-1-git-send-email-trevor.woerner@linaro.org>
-In-Reply-To: <1405095061-29714-1-git-send-email-trevor.woerner@linaro.org>
-Subject: Re: [PATCH] grub_git: bump version, remove patch
+X-Received: by 10.112.144.162 with SMTP id sn2mr26850491lbb.49.1405618489451; 
+	Thu, 17 Jul 2014 10:34:49 -0700 (PDT)
+Received: by 10.114.216.35 with HTTP; Thu, 17 Jul 2014 10:34:49 -0700 (PDT)
+In-Reply-To: <CAOLEWZXde+2T1bS4ARKMv0cy4KGEZtXHVhtaab0E--49q6wsHA@mail.gmail.com>
+References: <CAOLEWZXde+2T1bS4ARKMv0cy4KGEZtXHVhtaab0E--49q6wsHA@mail.gmail.com>
+Date: Thu, 17 Jul 2014 10:34:49 -0700
+Message-ID: <CANx9H-BaAyDGhz15XdeGZED9=9inevH_00ctZW_vo05aB8FytA@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+To: Stephen Arnold <stephen.arnold42@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libgcrypt workaround
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,79 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 16:54:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jul 2014 17:34:56 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a8776c0f3b904fe670e8c
 
-ping?
+--047d7b3a8776c0f3b904fe670e8c
+Content-Type: text/plain; charset=UTF-8
 
-On 07/11/14 12:11, Trevor Woerner wrote:
-> A previously upstreamed patch has been applied. Bump the version to
-> incorporate this upstream update.
+Steve,
+
+That workaround fixes the problem, but I think there is something
+fundamentally wrong deeper in. Looks like the culprit is pkgconfig.patch
+for libgpg-error. Testing and will send patch.
+
+
+On Wed, Jul 16, 2014 at 6:47 PM, Stephen Arnold <stephen.arnold42@gmail.com>
+wrote:
+
+> OE-devs/Tim:
 >
-> Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
-> ---
->  .../grub/grub/asciih-fix-build-warning-error.patch | 34 ----------------------
->  meta/recipes-bsp/grub/grub_git.bb                  |  3 +-
->  2 files changed, 1 insertion(+), 36 deletions(-)
->  delete mode 100644 meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
+> Here's the basic recipe patch; not sure if I should submit it formally or
+> not.  Maybe a configure patch is preferred?  Feedback welcome.
 >
-> diff --git a/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch b/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
-> deleted file mode 100644
-> index 48ace56..0000000
-> --- a/meta/recipes-bsp/grub/grub/asciih-fix-build-warning-error.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -util/grub-gen-asciih.c: fix build warning->error
-> -
-> -A potential problem is flagged by the compiler and generates a warning. This
-> -warning is promoted to an error via -Werror. This patch fixes the original
-> -issue, avoids the warning, and therefore avoids the build error.
-> -
-> -Upstream-Status: Pending
-> -
-> -Index: git/util/grub-gen-asciih.c
-> -===================================================================
-> ---- git.orig/util/grub-gen-asciih.c
-> -+++ git/util/grub-gen-asciih.c
-> -@@ -131,6 +131,8 @@ write_font_ascii_bitmap (FILE *file, FT_
-> -   struct grub_glyph_info glyph;
-> -   int char_code;
-> - 
-> -+  memset (&glyph, 0, sizeof(glyph));
-> -+
-> -   fprintf (file, "/* THIS CHUNK OF BYTES IS AUTOMATICALLY GENERATED */\n");
-> -   fprintf (file, "unsigned char ascii_bitmaps[] =\n");
-> -   fprintf (file, "{\n");
-> -@@ -144,6 +146,12 @@ write_font_ascii_bitmap (FILE *file, FT_
-> - 	return;
-> -       add_glyph (glyph_idx, face, char_code, &glyph);
-> - 
-> -+      if (glyph.bitmap == 0)
-> -+        {
-> -+          fprintf (stderr, "grub-gen-asciih: add_glyph not successful");
-> -+          exit (1);
-> -+        }
-> -+
-> -       if (glyph.width == 8 && glyph.height == 16
-> - 	  && glyph.x_ofs == 0 && glyph.y_ofs == 0)
-> - 	{
-> diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-> index 7f89739..f74bae8 100644
-> --- a/meta/recipes-bsp/grub/grub_git.bb
-> +++ b/meta/recipes-bsp/grub/grub_git.bb
-> @@ -17,11 +17,10 @@ DEFAULT_PREFERENCE = "-1"
->  DEFAULT_PREFERENCE_arm = "1"
->  
->  PV = "2.00+${SRCPV}"
-> -SRCREV = "4b8b9135f1676924a8458da528d264bbc7bbb301"
-> +SRCREV = "87de66d9d83446ecddb29cfbdf7369102c8e209e"
->  SRC_URI = "git://git.savannah.gnu.org/grub.git \
->             file://autogen.sh-exclude-pc.patch \
->             file://grub-2.00-add-oe-kernel.patch \
-> -           file://asciih-fix-build-warning-error.patch \
->            "
->  
->  S = "${WORKDIR}/git"
+> Thanks, Steve
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
+--047d7b3a8776c0f3b904fe670e8c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Steve,<br><br></div>That workaround fixes the problem=
+, but I think there is something fundamentally wrong deeper in. Looks like =
+the culprit is pkgconfig.patch for libgpg-error. Testing and will send patc=
+h.<br>
+</div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Wed,=
+ Jul 16, 2014 at 6:47 PM, Stephen Arnold <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:stephen.arnold42@gmail.com" target=3D"_blank">stephen.arnold42@gmail.=
+com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><div>OE-devs/Tim:<br><=
+br></div>Here&#39;s the basic recipe patch; not sure if I should submit it =
+formally or not.=C2=A0 Maybe a configure patch is preferred?=C2=A0 Feedback=
+ welcome.<br>
+<br></div>Thanks, Steve<br>
+</div>
+<br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+<br></blockquote></div><br></div>
+
+--047d7b3a8776c0f3b904fe670e8c--
