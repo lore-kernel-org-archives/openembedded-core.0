@@ -1,30 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 70930703F9;
-	Thu, 17 Jul 2014 22:11:24 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6HMBJsO012929; Thu, 17 Jul 2014 23:11:19 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZjPGrk4ccVYl; Thu, 17 Jul 2014 23:11:19 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6HMBDo1012925
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 17 Jul 2014 23:11:15 +0100
-Message-ID: <1405635068.26348.34.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-devel@lists.openembedded.org
-Date: Thu, 17 Jul 2014 23:11:08 +0100
-In-Reply-To: <1405550821.3668.9.camel@ted>
-References: <cover.1405440532.git.ross.burton@intel.com>
-	<20140715165842.GN2433@jama> <1405550821.3668.9.camel@ted>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [PATCH 0/7][RFC] Remove enforced --foreign in autoreconf
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 52F4670621
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jul 2014 23:08:00 +0000 (UTC)
+Received: by mail-vc0-f179.google.com with SMTP id hq11so4385329vcb.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jul 2014 16:08:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=wysSekCW3le48IWU+Fz5o0X4p5Nsx2FjIGhT/MYEC0A=;
+	b=oEJloOE5lUoN3Vd+F088ZinafrRAmXfqP+MHIvE2NG7faAepyC1mYvDFmvgvugprc5
+	2A2aM23cj3GCdc2ZC02CBrTZQLYkHFYA/RsP+5bHgID9BcOqcqLGhQ7IKjXHo/6x9Nr7
+	OZepzIw+5BCnUEdbMHP3oeE+lsLXt78e41UrQ12nOJoOgqlPkgEk6OOqHYWHE+OcMDRj
+	fl2JFaGsQVA6+WHHQqvosnMercDysQmEV7Y6aUWXzUG9dxje1+RlwdCeODaWp6YE4UAK
+	HZ6nohofVULliZrC3U+urIItZ0DjXtIC10jWwPclX9CGnBvY6NAgrhEaP3Tt+fHcJdoX
+	JYpg==
+X-Received: by 10.52.27.208 with SMTP id v16mr361577vdg.21.1405638481802;
+	Thu, 17 Jul 2014 16:08:01 -0700 (PDT)
+Received: from localhost.localdomain.com ([196.40.10.133])
+	by mx.google.com with ESMTPSA id
+	sx10sm7305975vdb.16.2014.07.17.16.07.59 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 17 Jul 2014 16:08:00 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <TicoTimo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Jul 2014 16:07:45 -0700
+Message-Id: <1405638465-23793-1-git-send-email-TicoTimo@gmail.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] libgpg-error: fix pkgconfig.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 22:11:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jul 2014 23:08:08 -0000
 
-On Wed, 2014-07-16 at 23:47 +0100, Richard Purdie wrote:
-> I made a quick test and the failures I spotted from meta-oe likely due
-> to this patch were:
-> 
-> re2c
-> libsdl-iomage
-> claws-plugin-gtkhtml2-viewer
-> claws-plugin-rssyl
-> libsdl-tiff
-> libol
-> ode
-> dejagnu
-> memcached
-> rp-pppoe
-> ipsec-tools
-> mtr
-> hplip
-> onig
-> 
-> Its probably not a complete list as I have a lot more failures than your
-> world builds but it gives some idea of number and its not a massive
-> list.
+Typo in pkgconfig.patch:
+   -Libs: -L{libdir} -lgpg-error
+vs.
+   +Libs: -L${libdir} -lgpg-error
 
-There were more efl ones once I sorted a fetch issue.
+This patch fixes failure in libgcrypt-native do_configure.
+| ../x86_64-linux-libtool: line 6001: cd: {libdir}: No such file or directory
+| x86_64-linux-libtool: link: cannot determine absolute directory name of `{libdir}'
 
-I've run out of time/energy today but I have about 20 fixes for various
-build issues in meta-oe in:
+Signed-off-by: Tim Orling <TicoTimo@gmail.com>
+---
+ meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/metaoe&id=bfb0ddc8c3d3f7c963c3529efc970b9ba8d8d788
-
-Mentioning so people don't duplicate work. I'll try and split into
-patches as/when I get time if nobody beats me to it.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
+index 2a2c1e9..89c9d22 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
++++ b/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
+@@ -52,7 +52,7 @@ Index: libgpg-error-1.12/src/gpg-error.pc.in
+ +Name: gpg-error
+ +Description: a library that defines common error values for all GnuPG components
+ +Version: @VERSION@
+-+Libs: -L{libdir} -lgpg-error
+++Libs: -L${libdir} -lgpg-error
+ +Cflags: -I${includedir}
+ Index: libgpg-error-1.12/src/gpg-error.m4
+ ===================================================================
+-- 
+1.9.3
 
 
