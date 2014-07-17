@@ -1,23 +1,25 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F373F609B1
+Return-Path: <Daniel.Bornaz@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 7180E7060C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 11:46:58 +0000 (UTC)
-Message-ID: <53C7B7B1.8010301@communistcode.co.uk>
-Date: Thu, 17 Jul 2014 12:46:57 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Thu, 17 Jul 2014 12:08:58 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 17 Jul 2014 14:08:58 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4483)	id 99D58288F32;
+	Thu, 17 Jul 2014 14:08:58 +0200 (CEST)
+From: Daniel BORNAZ <daniel.bornaz@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Jul 2014 14:08:52 +0200
+Message-ID: <1405598932-28766-1-git-send-email-daniel.bornaz@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1402915976-12506-1-git-send-email-ross.burton@intel.com>		<53B66F26.5000800@communistcode.co.uk>		<53C7AE4F.5060809@communistcode.co.uk>	<1405596838.3668.14.camel@ted>
-	<53C7B5F1.1030302@communistcode.co.uk>
-In-Reply-To: <53C7B5F1.1030302@communistcode.co.uk>
-Subject: Re: [PATCH] wget: use GnuTLS instead of OpenSSL
+Received-SPF: None (SESTOEX03.enea.se: daniel.bornaz@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] dbus: dbus update to 1.8.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -27,41 +29,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 11:47:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jul 2014 12:09:08 -0000
+Content-Type: text/plain
 
-Failed with gnutls config.log: http://ix.io/dr4
+dbus: dbus update to 1.8.6
 
-On 17/07/14 12:39, Jack Mitchell wrote:
-> config.log: http://ix.io/dr3
-> 
-> and yes, gnutls is being built, or at least it's in the work dir.
-> 
-> [jack@jackArch gnutls]$ pwd
-> /home/jack/Work/oe-core.git/test-build/tmp-eglibc/work/core2-32-oe-linux/gnutls
-> [jack@jackArch gnutls]$ ls
-> 2.12.23-r8.4  3.2.13-r0  3.2.15-r0  3.3.5-r0
-> [jack@jackArch gnutls]$
-> 
-> On 17/07/14 12:33, Richard Purdie wrote:
->> On Thu, 2014-07-17 at 12:06 +0100, Jack Mitchell wrote:
->>> So this error is still blocking my master build, any ideas?
->> Share the config.log so we can see how the configure test is failing? Is
->> gnutls actually built and in the sysroot or not?
->>
->> Cheers,
->>
->> Richard
->>
-> 
-> 
+Dbus and dbus-test updated to version 1.8.6, dbus-glib updated to
+version 0.102. Removed recipes and files from previous version(s).
 
+Current version fixes two DoS vulnerabilities in dbus-daemon (CVE-2014-3532).
 
+Signed-off-by: Daniel BORNAZ <daniel.bornaz@enea.com>
+
+	renamed:    meta/recipes-core/dbus/dbus-glib-0.100.2/no-examples.patch -> meta/recipes-core/dbus/dbus-glib-0.102/no-examples.patch
+	renamed:    meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch -> meta/recipes-core/dbus/dbus-glib-0.102/obsolete_automake_macros.patch
+	renamed:    meta/recipes-core/dbus/dbus-glib-0.100.2/test-install-makefile.patch -> meta/recipes-core/dbus/dbus-glib-0.102/test-install-makefile.patch
+	deleted:    meta/recipes-core/dbus/dbus-glib_0.100.2.bb
+	new file:   meta/recipes-core/dbus/dbus-glib_0.102.bb
+	renamed:    meta/recipes-core/dbus/dbus-test_1.8.2.bb -> meta/recipes-core/dbus/dbus-test_1.8.6.bb
+	deleted:    meta/recipes-core/dbus/dbus_1.8.2.bb
+	new file:   meta/recipes-core/dbus/dbus_1.8.6.bb
+---
+ .../dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/no-examples.patch | 0
+ .../obsolete_automake_macros.patch                                | 0
+ .../test-install-makefile.patch                                   | 0
+ meta/recipes-core/dbus/dbus-glib_0.100.2.bb                       | 5 -----
+ meta/recipes-core/dbus/dbus-glib_0.102.bb                         | 8 ++++++++
+ meta/recipes-core/dbus/{dbus-test_1.8.2.bb => dbus-test_1.8.6.bb} | 3 +--
+ meta/recipes-core/dbus/dbus_1.8.2.bb                              | 4 ----
+ meta/recipes-core/dbus/dbus_1.8.6.bb                              | 4 ++++
+ 8 files changed, 13 insertions(+), 11 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/no-examples.patch (100%)
+ rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/obsolete_automake_macros.patch (100%)
+ rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib-0.102}/test-install-makefile.patch (100%)
+ delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.100.2.bb
+ create mode 100644 meta/recipes-core/dbus/dbus-glib_0.102.bb
+ rename meta/recipes-core/dbus/{dbus-test_1.8.2.bb => dbus-test_1.8.6.bb} (93%)
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.8.2.bb
+ create mode 100644 meta/recipes-core/dbus/dbus_1.8.6.bb
+
+diff --git a/meta/recipes-core/dbus/dbus-glib-0.100.2/no-examples.patch b/meta/recipes-core/dbus/dbus-glib-0.102/no-examples.patch
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-glib-0.100.2/no-examples.patch
+rename to meta/recipes-core/dbus/dbus-glib-0.102/no-examples.patch
+diff --git a/meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch b/meta/recipes-core/dbus/dbus-glib-0.102/obsolete_automake_macros.patch
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch
+rename to meta/recipes-core/dbus/dbus-glib-0.102/obsolete_automake_macros.patch
+diff --git a/meta/recipes-core/dbus/dbus-glib-0.100.2/test-install-makefile.patch b/meta/recipes-core/dbus/dbus-glib-0.102/test-install-makefile.patch
+similarity index 100%
+rename from meta/recipes-core/dbus/dbus-glib-0.100.2/test-install-makefile.patch
+rename to meta/recipes-core/dbus/dbus-glib-0.102/test-install-makefile.patch
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.100.2.bb b/meta/recipes-core/dbus/dbus-glib_0.100.2.bb
+deleted file mode 100644
+index c1bb06a..0000000
+--- a/meta/recipes-core/dbus/dbus-glib_0.100.2.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require dbus-glib.inc
+-
+-
+-SRC_URI[md5sum] = "ad0920c7e3aad669163bb59171cf138e"
+-SRC_URI[sha256sum] = "a5bb42da921f51c28161e0e54a5a8241d94a1c0499a14007150e9ce743da6ac5"
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.102.bb b/meta/recipes-core/dbus/dbus-glib_0.102.bb
+new file mode 100644
+index 0000000..28e8a72
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-glib_0.102.bb
+@@ -0,0 +1,8 @@
++require dbus-glib.inc
++
++SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz \
++           file://no-examples.patch \
++"
++
++SRC_URI[md5sum] = "f76b8558fd575d0106c3a556eaa49184"
++SRC_URI[sha256sum] = "6964ed585bb8149a14ab744b5ded5e77cf71ec5446e6dcc5fcf5eebcc52df29c"
+diff --git a/meta/recipes-core/dbus/dbus-test_1.8.2.bb b/meta/recipes-core/dbus/dbus-test_1.8.6.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus-test_1.8.2.bb
+rename to meta/recipes-core/dbus/dbus-test_1.8.6.bb
+index e19d2e9..53c5d9a 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.8.2.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.8.6.bb
+@@ -18,8 +18,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
+ 
+-SRC_URI[md5sum] = "d6f709bbec0a022a1847c7caec9d6068"
+-SRC_URI[sha256sum] = "5689f7411165adc953f37974e276a3028db94447c76e8dd92efe910c6d3bae08"
++SRC_URI[md5sum] = "6a08ba555d340e9dfe2d623b83c0eea8"
+ 
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+diff --git a/meta/recipes-core/dbus/dbus_1.8.2.bb b/meta/recipes-core/dbus/dbus_1.8.2.bb
+deleted file mode 100644
+index 37ebed2..0000000
+--- a/meta/recipes-core/dbus/dbus_1.8.2.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-include dbus.inc
+-
+-SRC_URI[md5sum] = "d6f709bbec0a022a1847c7caec9d6068"
+-SRC_URI[sha256sum] = "5689f7411165adc953f37974e276a3028db94447c76e8dd92efe910c6d3bae08"
+diff --git a/meta/recipes-core/dbus/dbus_1.8.6.bb b/meta/recipes-core/dbus/dbus_1.8.6.bb
+new file mode 100644
+index 0000000..2fd630f
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus_1.8.6.bb
+@@ -0,0 +1,4 @@
++include dbus.inc
++
++SRC_URI[md5sum] = "6a08ba555d340e9dfe2d623b83c0eea8"
++SRC_URI[sha256sum] = "eded83ca007b719f32761e60fd8b9ffd0f5796a4caf455b01b5a5ef740ebd23f"
 -- 
-  Jack Mitchell (jack@embed.me.uk)
-  Embedded Systems Engineer
-  Cambridgeshire, UK
-  http://www.embed.me.uk
--- 
+1.9.1
+
 
