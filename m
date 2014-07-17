@@ -1,36 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A6D370660
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A7630701A9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 23:15:40 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x48so3827384wes.5
+	Thu, 17 Jul 2014 23:16:30 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id u56so3767945wes.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 16:15:41 -0700 (PDT)
+	Thu, 17 Jul 2014 16:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=o+kj4ov9GSMx4oFxqawLF9AqHC8IooZLy4ykpPQkvnE=;
-	b=ICt9nPeJ1aKUEKsvku2w481JGh0OrL9X0PCJsz4KAGSNaKk/aAk5qcHcW0tDZK97Dp
-	H6tkHIZATq5M/MNwNsota7hJBVg1o27/cIo+JqsAd/9Cqn+SFpuJXlUSjtYo9LLcncgL
-	ldsxuw3JFx4q6to3pXQ7/6LrXf/Dk3XoykyQuYC9DFqKHxtkGTUsScRfg0sZQCbuVvqC
-	Q9n24uoXR9yBekNYzr+1GzysH7zTY0hqYZSKL9Jm8KSOHZAsk3IEHVVo7ROG8ucXbi0x
-	QKBAX4gVlLK6ly2du/EYlDidvdd7WZduT7l1VJy5SN6c55kNraV5fjJbO30OvZqHnEKU
-	l2OQ==
-X-Received: by 10.180.39.73 with SMTP id n9mr2022399wik.70.1405638941075;
-	Thu, 17 Jul 2014 16:15:41 -0700 (PDT)
+	bh=CmdPyFV9P9BTnnevQ6BCWs/WezZhH8glfefS8ERB9CU=;
+	b=iKIyM2o26AvAACnNPN6YaGgMJ3Fsw+Y6kzjpf7DKePPeHg1X/1Bjf70l2BtoTHkZfM
+	dYcgmE4OV8hM4qR4baDSoYeyZhCEifFV4ECHzc8hSbmzECbu57CiLLVsVQYg0mSQ/SGO
+	KBx9rLeKhUmmMhHmRr2EM+lXj+jPOT7ahTg91xjJmDPfcsEUS8/TrD3V2QAdHiZQAFI0
+	tBnTzpr9G/pmfp6eIqqBniHjjFtlCvDRg4IqapvQykcJJi6aQLiC5eAj54APAK1V02Ae
+	1w+C8uPTKvx8JayvKPPL2kKtX2MNWmLy/RMFexuUNrvGh5ARxsxpzOQpgJmE6V4hb8fk
+	7tTw==
+X-Received: by 10.180.221.134 with SMTP id qe6mr2075149wic.66.1405638991962;
+	Thu, 17 Jul 2014 16:16:31 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	fc7sm9525465wjc.37.2014.07.17.16.15.40 for <multiple recipients>
+	w10sm26038934wie.22.2014.07.17.16.16.31 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Jul 2014 16:15:40 -0700 (PDT)
+	Thu, 17 Jul 2014 16:16:31 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jul 2014 01:15:47 +0200
-Message-Id: <1405638947-30399-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri, 18 Jul 2014 01:16:39 +0200
+Message-Id: <1405638999-9737-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.0.0
 Cc: Martin Jansa <martin.jansa@lge.com>
-Subject: [PATCH] gcc-4.8: backport fix for ICE when building opus
+Subject: [dora][PATCHv2] gcc-4.8: backport fix for ICE when building opus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,7 +43,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 23:15:48 -0000
+X-List-Received-Date: Thu, 17 Jul 2014 23:16:32 -0000
 
 From: Martin Jansa <martin.jansa@lge.com>
 
@@ -196,6 +196,6 @@ index 0000000..9d3aeaa
 +2.0.0
 +
 -- 
-1.9.1
+2.0.0
 
 
