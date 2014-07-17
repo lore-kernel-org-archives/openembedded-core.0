@@ -1,10 +1,10 @@
 Return-Path: <ml@communistcode.co.uk>
 Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D153C7064F
+	by mail.openembedded.org (Postfix) with ESMTP id F373F609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 11:44:36 +0000 (UTC)
-Message-ID: <53C7B723.6020301@communistcode.co.uk>
-Date: Thu, 17 Jul 2014 12:44:35 +0100
+	Thu, 17 Jul 2014 11:46:58 +0000 (UTC)
+Message-ID: <53C7B7B1.8010301@communistcode.co.uk>
+Date: Thu, 17 Jul 2014 12:46:57 +0100
 From: Jack Mitchell <ml@communistcode.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
@@ -27,12 +27,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 11:44:46 -0000
+X-List-Received-Date: Thu, 17 Jul 2014 11:47:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-Wait, that config.log is bad. It's from my build with the patch
-reverted. Hold up I'll get the proper one out.
+Failed with gnutls config.log: http://ix.io/dr4
 
 On 17/07/14 12:39, Jack Mitchell wrote:
 > config.log: http://ix.io/dr3
