@@ -1,30 +1,24 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D1786FEB1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5642170239
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 01:47:11 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id l18so1721509wgh.14
+	Thu, 17 Jul 2014 02:08:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6H28Yrq028151
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jul 2014 18:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=9G4+JnqwkdQ+jcAhvHEtZOhRL/VXyn/wYVdDIgel4E8=;
-	b=zCr7iZy0YH74498lqJxG782VGLRSVKFQZ+QQidD52cLPli+0l4BcHgLaf3Eatr/JOW
-	V0X17C3zyG/voAJyR1LziNABBrJcaktNlcErqP8UXJnhndD/LTyASUgRSXk8VXs7tkQP
-	yCK2408zqYj4PkumpqNEcEgVwqDJFXJdi7DZjBsrKFXtNFLfrxoBXx2rf4TNBpBELRP4
-	qymR9EyyVbVvNdlwSYEoMqqvlugQXIETEb2ShhfahQ5B4QBazQXCsc0Dihq7QgS8nYBT
-	xTI39pcK4uz5LfcgvrAIcQBSEpSX1+VKaRjFlmw+a/6nSVPp7SVxKXEGBs8a52qmqHM+
-	HLBg==
+	Wed, 16 Jul 2014 19:08:35 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 16 Jul 2014 19:08:34 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Jul 2014 10:08:36 +0800
+Message-ID: <cover.1405562859.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.194.87.134 with SMTP id ay6mr39406000wjb.84.1405561632593;
-	Wed, 16 Jul 2014 18:47:12 -0700 (PDT)
-Received: by 10.194.18.114 with HTTP; Wed, 16 Jul 2014 18:47:12 -0700 (PDT)
-Date: Wed, 16 Jul 2014 18:47:12 -0700
-Message-ID: <CAOLEWZXde+2T1bS4ARKMv0cy4KGEZtXHVhtaab0E--49q6wsHA@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: libgcrypt workaround
+Subject: [PATCH 0/1] package.bbclass: ensure correct modes on directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,56 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 01:47:21 -0000
-X-Groupsio-MsgNum: 55132
-Content-Type: multipart/mixed; boundary=089e0102ee04d2367104fe59d1bc
+X-List-Received-Date: Thu, 17 Jul 2014 02:08:36 -0000
+Content-Type: text/plain
 
---089e0102ee04d2367104fe59d1bc
-Content-Type: multipart/alternative; boundary=089e0102ee04d2366c04fe59d1ba
+The following changes since commit 846bc50fde11bbb36c8eb5b2e3ae6bb644c037f3:
 
---089e0102ee04d2366c04fe59d1ba
-Content-Type: text/plain; charset=UTF-8
+  ltp: use "foreign" automake strictness (2014-07-16 10:27:16 +0100)
 
-OE-devs/Tim:
+are available in the git repository at:
 
-Here's the basic recipe patch; not sure if I should submit it formally or
-not.  Maybe a configure patch is preferred?  Feedback welcome.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/package-file-modes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/package-file-modes
 
-Thanks, Steve
+Chen Qi (1):
+  package.bbclass: ensure correct modes on directories
 
---089e0102ee04d2366c04fe59d1ba
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ meta/classes/package.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-<div dir=3D"ltr"><div><div>OE-devs/Tim:<br><br></div>Here&#39;s the basic r=
-ecipe patch; not sure if I should submit it formally or not.=C2=A0 Maybe a =
-configure patch is preferred?=C2=A0 Feedback welcome.<br><br></div>Thanks, =
-Steve<br>
-</div>
+-- 
+1.7.9.5
 
---089e0102ee04d2366c04fe59d1ba--
 
---089e0102ee04d2367104fe59d1bc
-Content-Type: text/x-patch; charset=US-ASCII; 
-	name="libgcrypt.inc_gpgerror_linker-args.patch"
-Content-Disposition: attachment; 
-	filename="libgcrypt.inc_gpgerror_linker-args.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_hxpf3h8c0
-
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdjcnlwdC9saWJnY3J5cHQuaW5j
-IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0L2xpYmdjcnlwdC5pbmMKaW5kZXggYmJh
-NGE3OS4uYmQ0ZWVkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0
-L2xpYmdjcnlwdC5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0L2xpYmdj
-cnlwdC5pbmMKQEAgLTIyLDExICsyMiwxNyBAQCBpbmhlcml0IGF1dG90b29scy1icm9rZW5zZXAg
-dGV4aW5mbyBiaW5jb25maWctZGlzYWJsZWQgcGtnY29uZmlnCiAKIEFTRkxBR1M9Ii0tZGl2aWRl
-IgogQ1BQRkxBR1NfYXBwZW5kID0gIiAtRFBJQyAtZlBJQyIKKwogRVhUUkFfT0VDT05GID0gIi0t
-d2l0aG91dC1jYXBhYmlsaXRpZXMgLS1kaXNhYmxlLXBhZGxvY2stc3VwcG9ydCIKIAogZG9fY29u
-ZmlndXJlX3ByZXBlbmQgKCkgewogCSMgRWxzZSB0aGVzZSBjb3VsZCBiZSB1c2VkIGluIHByZWZl
-cm5jZSB0byB0aG9zZSBpbiBhY2xvY2FsLWNvcHkKIAlybSAtZiAke1N9L200LyoubTQKKwlleHBv
-cnQgR1BHX0VSUk9SX0xJQlM9Ii1MJHtTVEFHSU5HX0xJQkRJUn0gLWxncGctZXJyb3IgIgorfQor
-Citkb19jb25maWd1cmVfcHJlcGVuZF9jbGFzcy1uYXRpdmUoKSB7CisJZXhwb3J0IEdQR19FUlJP
-Ul9MSUJTPSItTCR7U1RBR0lOR19MSUJESVJfTkFUSVZFfSAtbGdwZy1lcnJvciAiCiB9CiAKICMg
-bGliZ2NyeXB0LnBjIGlzIGFkZGVkIGxvY2FsbHkgYW5kIHRodXMgaW5zdGFsbGVkIGhlcmUK
-
---089e0102ee04d2367104fe59d1bc--
