@@ -1,31 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B1F79703B0
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 956E365CFF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 13:32:02 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6IDVZuP013711; Fri, 18 Jul 2014 14:31:58 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id g9qQYEPj_TES; Fri, 18 Jul 2014 14:31:57 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6IDVsMH013728
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 18 Jul 2014 14:31:56 +0100
-Message-ID: <1405690309.26348.40.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Fri, 18 Jul 2014 14:31:49 +0100
-In-Reply-To: <8a2f5d0e429d76a916afc1177cd0d74acadc20f0.1405562859.git.Qi.Chen@windriver.com>
-References: <cover.1405562859.git.Qi.Chen@windriver.com>
-	<8a2f5d0e429d76a916afc1177cd0d74acadc20f0.1405562859.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] package.bbclass: ensure correct modes on directories
+	Fri, 18 Jul 2014 14:07:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Jul 2014 07:01:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,685,1400050800"; d="scan'208";a="545377376"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.85])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2014 07:07:17 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Jul 2014 17:06:47 +0300
+Message-Id: <1405692407-17792-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1405411250-10594-2-git-send-email-valentin.popa@intel.com>
+References: <1405411250-10594-2-git-send-email-valentin.popa@intel.com>
+Subject: [PATCH V2] user-session-units: added to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,21 +29,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 13:32:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Jul 2014 14:07:20 -0000
 
-On Thu, 2014-07-17 at 10:08 +0800, Chen Qi wrote:
->                  fstat = cpath.stat(src)
->                  os.mkdir(dest, fstat.st_mode)
-> +                os.chmod(dest, fstat.st_mode)
+systemd needs this to launch user sessions.
 
-This doesn't make sense. Shouldn't the fstat.st_mode to os.mkdir have
-taken care of the mode for us?
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ ...temd-login-lib-was-merged-into-libsystemd.patch | 28 ++++++++++++++++++++++
+ .../user-session-units/user-session-units_9.bb     | 25 +++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch
+ create mode 100644 meta/recipes-support/user-session-units/user-session-units_9.bb
 
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch b/meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch
+new file mode 100644
+index 0000000..6fd194c
+--- /dev/null
++++ b/meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch
+@@ -0,0 +1,28 @@
++From f80245dbdc5b29fe8dbe9b39482d41fbca044fe6 Mon Sep 17 00:00:00 2001
++From: Valentin Popa <valentin.popa@intel.com>
++Date: Mon, 26 May 2014 10:04:13 +0300
++Subject: [PATCH] systemd-login lib was merged into libsystemd
++
++Upstream-Status: Pending
++
++Signed-off-by: Valentin Popa <valentin.popa@intel.com>
++---
++ Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index a2f960c..7186b10 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -21,7 +21,7 @@ user_session_launch_SOURCES = \
++ 
++ # FIXME: add pkgconfig checks for these instead
++ user_session_launch_LDADD = \
++-	-lsystemd-login \
+++	-lsystemd \
++ 	-lpam \
++ 	-lpam_misc
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/user-session-units/user-session-units_9.bb b/meta/recipes-support/user-session-units/user-session-units_9.bb
+new file mode 100644
+index 0000000..ad2f683
+--- /dev/null
++++ b/meta/recipes-support/user-session-units/user-session-units_9.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "systemd units to start a user session"
++
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SRC_URI = "http://foo-projects.org/~sofar/${BPN}/${BPN}-${PV}.tar.gz \
++           file://0001-systemd-login-lib-was-merged-into-libsystemd.patch "
++
++SRC_URI[md5sum] = "30d26fec6e3e221072c59554c93ecde0"
++SRC_URI[sha256sum] = "edfc0df890981708e1a09e8488bb91384b6739d76867d3fe2417b03265361717"
++
++DEPENDS = "systemd dbus libpam"
++
++inherit autotools pkgconfig
++
++# Seed configure so it doesn't look on the host host for gnome/xfce/etc.
++EXTRA_OECONF = "ac_cv_prog_E_PROG= \
++ ac_cv_prog_XFCE_PROG= \
++ ac_cv_prog_XFWM_PROG= \
++ ac_cv_prog_XBMC_PROG= \
++ ac_cv_prog_GNOME_PROG= \
++ ac_cv_prog_KDE_PROG= \
++ ac_cv_prog_MYTH_PROG="
++
++FILES_${PN} = "${systemd_unitdir}/ ${libdir}/systemd/user/ ${bindir}/"
+-- 
+1.9.1
 
 
