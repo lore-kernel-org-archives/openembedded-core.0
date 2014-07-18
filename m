@@ -1,37 +1,24 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 094B870617
+Return-Path: <Shan.Hai@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F16A70290
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 03:45:59 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id lf10so4606986pab.1
+	Fri, 18 Jul 2014 05:21:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6I5Levj016719
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 20:46:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+O9Dej2olJIa2VYKPjOr5WfYNc0UNvTliYpgb5a0k+A=;
-	b=Rdz2S08ywRZRIxV0UyI+X+fbyLQctUkfUSb0LQy0bWETD6RQzr3sPKDPcvr6eZEsOG
-	YmtKq9LY/Cv6a+UJVwRWCCOFHby3vy/c3lwgzIlkRxL2mB+rfJGmqzgiwvGdZsyoOSfZ
-	NBwp896GvIFImHG13TEd3iKJFtZMB9AWbhg+6ZqhzIt11rHPFokcLTaniJHwDiXBmaLg
-	j8bD1HOi4wvYZfr+gIwJP0tOvJTGKDqF0Qc9U+INpBlV3NPfW4jD2AlOEOYtgFHnBq4a
-	lx5/ooOx1a+ywoiekQ4tpMxWcoS+FfGj6l5lBjmMlZBpxTJq/8VTUpVX76AIDaIBCnpK
-	TBqQ==
-X-Gm-Message-State: ALoCoQlD4OrxtAnTISTAd2ZjTBN4Qa/5QjQgZNAXfeotCyL2SZNsuMsqOtff5/bOtUVjBe/Tu6wF
-X-Received: by 10.69.12.33 with SMTP id en1mr1744761pbd.66.1405655160261;
-	Thu, 17 Jul 2014 20:46:00 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55])
-	by mx.google.com with ESMTPSA id x5sm4035034pbw.26.2014.07.17.20.45.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 Jul 2014 20:45:59 -0700 (PDT)
-From: Armin Kuster <akuster@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jul 2014 20:45:56 -0700
-Message-Id: <1405655156-655-1-git-send-email-akuster@mvista.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [meta-oe][PATCH] [v4] lz4: update to latest
+	Thu, 17 Jul 2014 22:21:40 -0700 (PDT)
+Received: from pek-lpd-susbld.wrs.com (128.224.153.80) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 17 Jul 2014 22:21:39 -0700
+From: Shan Hai <shan.hai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Jul 2014 13:21:37 +0800
+Message-ID: <1405660897-25304-1-git-send-email-shan.hai@windriver.com>
+X-Mailer: git-send-email 1.8.5.2.233.g932f7e4
+MIME-Version: 1.0
+Subject: [PATCH v3] grub-core: fix endianness problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +31,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 03:46:07 -0000
+X-List-Received-Date: Fri, 18 Jul 2014 05:21:48 -0000
+Content-Type: text/plain
 
-update to version r119
-LICENSE md5sum changed since it was updated in r117 for
-  copyright date change
-Fixes CVE-2014-4611
+Fix tftp stalls on loading files bigger than ~32k bug by cherry picking
+a patch from grub upstream.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Shan Hai <shan.hai@windriver.com>
 ---
- meta/recipes-support/lz4/lz4_svn.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../grub/grub-2.00/fix-endianness-problem.patch    | 44 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
 
-diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_svn.bb
-index 38e36d8..44160f4 100644
---- a/meta/recipes-support/lz4/lz4_svn.bb
-+++ b/meta/recipes-support/lz4/lz4_svn.bb
-@@ -2,10 +2,10 @@ SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+diff --git a/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch b/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+new file mode 100644
+index 0000000..079992a
+--- /dev/null
++++ b/meta/recipes-bsp/grub/grub-2.00/fix-endianness-problem.patch
+@@ -0,0 +1,44 @@
++grub-core/net/tftp.c: fix endianness problem.
++
++	* grub-core/net/tftp.c (ack): Fix endianness problem.
++	(tftp_receive): Likewise.
++	Reported by: Michael Davidsaver.
++
++Upstream-Status: Backport
++
++diff --git a/ChangeLog b/ChangeLog
++index 81bdae9..c2f42d5 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,9 @@
+++2012-07-02  Vladimir Serbinenko  <phcoder@gmail.com>
+++
+++	* grub-core/net/tftp.c (ack): Fix endianness problem.
+++	(tftp_receive): Likewise.
+++	Reported by: Michael Davidsaver.
+++
++ 2012-06-27  Vladimir Serbinenko  <phcoder@gmail.com>
++ 
++ 	* configure.ac: Bump version to 2.00.
++diff --git a/grub-core/net/tftp.c b/grub-core/net/tftp.c
++index 9c70efb..d0f39ea 100644
++--- a/grub-core/net/tftp.c
+++++ b/grub-core/net/tftp.c
++@@ -143,7 +143,7 @@ ack (tftp_data_t data, grub_uint16_t block)
++ 
++   tftph_ack = (struct tftphdr *) nb_ack.data;
++   tftph_ack->opcode = grub_cpu_to_be16 (TFTP_ACK);
++-  tftph_ack->u.ack.block = block;
+++  tftph_ack->u.ack.block = grub_cpu_to_be16 (block);
++ 
++   err = grub_net_send_udp_packet (data->sock, &nb_ack);
++   if (err)
++@@ -225,7 +225,7 @@ tftp_receive (grub_net_udp_socket_t sock __attribute__ ((unused)),
++ 	    grub_priority_queue_pop (data->pq);
++ 
++ 	    if (file->device->net->packs.count < 50)
++-	      err = ack (data, tftph->u.data.block);
+++	      err = ack (data, data->block + 1);
++ 	    else
++ 	      {
++ 		file->device->net->stall = 1;
+diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+index ce2d680..3c1ec0b 100644
+--- a/meta/recipes-bsp/grub/grub_2.00.bb
++++ b/meta/recipes-bsp/grub/grub_2.00.bb
+@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+           file://check-if-liblzma-is-disabled.patch \
+           file://fix-issue-with-flex-2.5.37.patch \
+           file://grub-2.00-add-oe-kernel.patch \
++          file://fix-endianness-problem.patch \
+           "
  
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
- 
- # Upstream names releases after SVN revs
--SRCREV = "112"
-+SRCREV = "119"
- PV = "r${SRCREV}"
- 
- SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
 -- 
-1.9.1
+1.8.5.2.233.g932f7e4
 
 
