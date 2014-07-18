@@ -1,37 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 33FA970608
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B5D27018D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 14:26:00 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id i13so3083817qae.34
+	Fri, 18 Jul 2014 16:47:12 +0000 (UTC)
+Received: by mail-yh0-f51.google.com with SMTP id f73so2380692yha.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 07:26:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/J4L6KYpFDUSFdoG9OPGxOhCBWWzI59R5DROOcbPQ5s=;
-	b=AqyWcoR2xRB4y/Ptisz6DrrEoCXBCHUBC+u9WJDXVnE2jYaV4ZQhg8UPQlWQWRpsU2
-	R5qB058ilPw9mWFUUtQdl6rfdBfTjbnNVN9pb9Fy1nvYH/DIspCVyReJnwo5RJ7i3qE5
-	+oOeR6WQVoXYWCrenHh/eYEDpkUwe4L1vfdOwfo7Rk5HCnAOsbt0PS4Ck3qoJpChlCwO
-	tMAcjcPT6M1NNyxA8697tb2CsEoIDR5gjxLF2GtzNvJi2Y/FO52e4pl1i/cQugSzrQIX
-	7J0TezpigJCgK7bnTGTJR4ycLPHI+7VEScsuafYbmP8Jx2CZxl0jpHDmFCIK+Nj3573T
-	z88Q==
-X-Gm-Message-State: ALoCoQl7h/fEbp85UIAcwzfsFiNm4zp+CVa/5f6HiWHa2whnEwUPVnGIG1d4iph7j3zl4Hn6OXtY
-X-Received: by 10.140.35.232 with SMTP id n95mr8301249qgn.82.1405693559898;
-	Fri, 18 Jul 2014 07:25:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Fri, 18 Jul 2014 07:25:39 -0700 (PDT)
-In-Reply-To: <6cd5cf732c512dd0c5b6623742c8c0bbd2668513.1405689624.git.roxana.ciobanu@intel.com>
-References: <cover.1405689624.git.roxana.ciobanu@intel.com>
-	<6cd5cf732c512dd0c5b6623742c8c0bbd2668513.1405689624.git.roxana.ciobanu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Jul 2014 15:25:39 +0100
-Message-ID: <CAJTo0LYypd-Di=2GY=kcmBBTi2zsAQ4NCX9Ep6zNef1kPi4fgQ@mail.gmail.com>
-To: Roxana Ciobanu <roxana.ciobanu@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] image.bbclass/rootfs.py: add variables to rootfs[vardeps]
+	Fri, 18 Jul 2014 09:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=fBQ7kbuf9ke2HxM9GtdG0ss4o+x1QeTDK/1L35oGBeg=;
+	b=BXUS0ym/bnM+Z8CLngAprxXrrTkxIDFCTaYbYgTISfrBdyh026m69AO/STN1jSl4Rz
+	k6DFtMCloeeAPqlaOWylsO5l4M7oRz9xWup5UtfqxX5qMXzPjGcVW+6NxPcjVmYnesnI
+	dmywCmU+0lzr/0++VQn74m/0FpbP8mykAc+M7VWJuhY4LCka2h3ej4n7tP1I54mk/k3X
+	La2z+cLLsL531s6Cj05PZUDm804jl07eip8XEVtD+MoTGBzRerBv0GrpkPknFW6f/ofa
+	s+oxDvb5b6KQKz6pVhFFedY6cfXomWYzGvUMGiZoIxEqS1tI2J39MsoP8/8q+YZuFcWY
+	tMZQ==
+X-Received: by 10.236.222.106 with SMTP id s100mr8990024yhp.38.1405702033693; 
+	Fri, 18 Jul 2014 09:47:13 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.35.70.10])
+	by mx.google.com with ESMTPSA id
+	n68sm11908195yhe.23.2014.07.18.09.47.12 for <multiple recipients>
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Fri, 18 Jul 2014 09:47:12 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Jul 2014 13:47:06 -0300
+Message-Id: <1405702026-30443-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] alsa-tools: Disable use of GTK+ when not using X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 14:26:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Jul 2014 16:47:19 -0000
 
-On 18 July 2014 14:20, Roxana Ciobanu <roxana.ciobanu@intel.com> wrote:
-> +def rootfs_variables(d):
-> +    from oe.rootfs import variable_depends
-> +    deps =  variable_depends(d)
-> +    variables = "IMAGE_DEVICE_TABLES BUILD_IMAGES_FROM_FEEDS IMAGE_TYPEDEP_ IMAGE_TYPES_MASKED IMAGE_ROOTFS_ALIGNMENT
-[snip]
-NO_RECOMMENDATIONS PACKAGE_ARCHS PACKAGE_CLASSES "
-> +    # keep line under 998 characters
-> +    variables += "TARGET_VENDOR TARGET_VENDOR TARGET_ARCH TARGET_OS OVERRIDES BBEXTENDVARIANT FEED_DEPLOYDIR_BASE_URI INTERCEPT_DIR BUILDNAME USE_DEVFS STAGING_KERNEL_DIR COMPRESSIONTYPES"
-> +    return ' '.join([variables, deps])
+The GTK+3 does not provide support for DirectFB backend so we cannot
+enable GTK+ features of alsa-tools in this case; GTK+2 does not provide
+support for Wayland.
 
-So a neater way of doing this would be to do:
+This patch changes GTK+ support to be enabled only when X11 support is
+enabled.
 
-  variables = ['BUILD_IMAGES_FROM_FEEDS', 'PACKAGE_ARCHS', (etc)]
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This list can be wrapped appropriately so that it doesn't take up a
-few pages and also isn't a single massive line.
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+index 62d71ea..bca7170 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.27.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae1
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
+            file://mips_has_no_io_h.patch \
+            file://autotools.patch \
+-           ${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland directfb', '', \
+-                                    'file://makefile_no_gtk.patch', d)}"
++           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', \
++                                'file://makefile_no_gtk.patch', d)}"
+ 
+ SRC_URI[md5sum] = "1ea381d00a6069a98613aa7effa4cb51"
+ SRC_URI[sha256sum] = "6562611b5a6560712f109e09740a9d4fa47296b07ed9590cb44139c5f154ada2"
+@@ -21,7 +21,7 @@ inherit autotools-brokensep pkgconfig
+ 
+ EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland directfb', 'gtk+', '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+ PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
+ 
+ # configure.ac/.in doesn't exist so force copy
+-- 
+1.7.10.4
 
-Then add the variable from the rootfs with:
-
-  variables.extend(variable_depends())
-  return " ".join(variables)
-
-> +def variable_depends(d, manifest_dir=None):
-> +    img_type = d.getVar('IMAGE_PKGTYPE', True)
-> +    cls = get_class_for_type(img_type)
-> +    return " ".join(cls._depends_list())
-
-If the above change happens then this should return the list, not a
-joined string.
-
-Ross
 
