@@ -1,26 +1,26 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BA03B705F9
+	by mail.openembedded.org (Postfix) with ESMTP id 30D3C6E608
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 18:14:47 +0000 (UTC)
+	Fri, 18 Jul 2014 18:36:27 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Jul 2014 11:14:48 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 18 Jul 2014 11:36:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,686,1400050800"; d="scan'208";a="571960321"
+X-IronPort-AV: E=Sophos;i="5.01,686,1400050800"; d="scan'208";a="571968784"
 Received: from unknown (HELO [10.255.13.17]) ([10.255.13.17])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2014 11:14:47 -0700
-Message-ID: <53C96417.7020603@linux.intel.com>
-Date: Fri, 18 Jul 2014 11:14:47 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2014 11:36:26 -0700
+Message-ID: <53C96929.1050504@linux.intel.com>
+Date: Fri, 18 Jul 2014 11:36:25 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: Daniel BORNAZ <daniel.bornaz@enea.com>, yocto@yoctoproject.org, 
+To: Valentin Popa <valentin.popa@intel.com>, 
 	openembedded-core@lists.openembedded.org
-References: <1405592877-16855-1-git-send-email-daniel.bornaz@enea.com>
-In-Reply-To: <1405592877-16855-1-git-send-email-daniel.bornaz@enea.com>
-Cc: Benjamin Peterson <benjamin@python.org>
-Subject: Re: [yocto] [PATCH] _json module arbitrary process memory read vulnerability
+References: <1405411250-10594-2-git-send-email-valentin.popa@intel.com>
+	<1405692407-17792-1-git-send-email-valentin.popa@intel.com>
+In-Reply-To: <1405692407-17792-1-git-send-email-valentin.popa@intel.com>
+Subject: Re: [PATCH V2] user-session-units: added to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,92 +33,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 18:14:47 -0000
+X-List-Received-Date: Fri, 18 Jul 2014 18:36:31 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/17/2014 03:27 AM, Daniel BORNAZ wrote:
-> python-native: _json module arbitrary process memory read vulnerability
+On 07/18/2014 07:06 AM, Valentin Popa wrote:
+> systemd needs this to launch user sessions.
 >
-This should be the proper subject of the mail and commit, please update 
-and see below.
-
-> http://bugs.python.org/issue21529
->
-> Python 2 and 3 are susceptible to arbitrary process memory reading by
-> a user or adversary due to a bug in the _json module caused by
-> insufficient bounds checking.
->
-> The sole prerequisites of this attack are that the attacker is able to
-> control or influence the two parameters of the default scanstring
-> function: the string to be decoded and the index.
->
-> The bug is caused by allowing the user to supply a negative index
-> value. The index value is then used directly as an index to an array
-> in the C code; internally the address of the array and its index are
-> added to each other in order to yield the address of the value that is
-> desired. However, by supplying a negative index value and adding this
-> to the address of the array, the processor's register value wraps
-> around and the calculated value will point to a position in memory
-> which isn't within the bounds of the supplied string, causing the
-> function to access other parts of the process memory.
->
-> Signed-off-by: Benjamin Peterson <benjamin@python.org>
->
->
-> Applied to python-native recipe in order to fix the above mentioned vulnerability.
->
-> Upstream-Status: Submitted
->
-> Signed-off-by: Daniel BORNAZ <daniel.bornaz@enea.com>
->
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 > ---
->   meta/recipes-devtools/python/python-native_2.7.3.bb  |  1 +
->   .../python/python/python-json-flaw-fix.patch         | 20 ++++++++++++++++++++
->   2 files changed, 21 insertions(+)
->   create mode 100644 meta/recipes-devtools/python/python/python-json-flaw-fix.patch
+>   ...temd-login-lib-was-merged-into-libsystemd.patch | 28 ++++++++++++++++++++++
+>   .../user-session-units/user-session-units_9.bb     | 25 +++++++++++++++++++
+>   2 files changed, 53 insertions(+)
+>   create mode 100644 meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch
+>   create mode 100644 meta/recipes-support/user-session-units/user-session-units_9.bb
 >
-> diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
-> index 0571d3a..74f0dfc 100644
-> --- a/meta/recipes-devtools/python/python-native_2.7.3.bb
-> +++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
-> @@ -19,6 +19,7 @@ SRC_URI += "\
->              file://parallel-makeinst-create-bindir.patch \
->              file://python-fix-build-error-with-Readline-6.3.patch \
->              file://gcc-4.8-fix-configure-Wformat.patch \
-> +           file://python-json-flaw-fix.patch \
->              "
->   S = "${WORKDIR}/Python-${PV}"
->
-> diff --git a/meta/recipes-devtools/python/python/python-json-flaw-fix.patch b/meta/recipes-devtools/python/python/python-json-flaw-fix.patch
+> diff --git a/meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch b/meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch
 > new file mode 100644
-> index 0000000..631713d
-
-This patch file needs a Signed-off-by and Upstream-Status.
-
-Thanks
+> index 0000000..6fd194c
 > --- /dev/null
-> +++ b/meta/recipes-devtools/python/python/python-json-flaw-fix.patch
-> @@ -0,0 +1,20 @@
-> +--- a/Modules/_json.c	2014-07-15 15:37:17.151046356 +0200
-> ++++ b/Modules/_json.c	2014-07-15 15:38:37.335605042 +0200
-> +@@ -1491,7 +1491,7 @@ scan_once_str(PyScannerObject *s, PyObje
-> +     PyObject *res;
-> +     char *str = PyString_AS_STRING(pystr);
-> +     Py_ssize_t length = PyString_GET_SIZE(pystr);
-> +-    if (idx >= length) {
-> ++    if ( idx < 0 || idx >= length) {
-> +         PyErr_SetNone(PyExc_StopIteration);
-> +         return NULL;
-> +     }
-> +@@ -1578,7 +1578,7 @@ scan_once_unicode(PyScannerObject *s, Py
-> +     PyObject *res;
-> +     Py_UNICODE *str = PyUnicode_AS_UNICODE(pystr);
-> +     Py_ssize_t length = PyUnicode_GET_SIZE(pystr);
-> +-    if (idx >= length) {
-> ++    if ( idx < 0 || idx >= length) {
-> +         PyErr_SetNone(PyExc_StopIteration);
-> +         return NULL;
-> +     }
+> +++ b/meta/recipes-support/user-session-units/user-session-units/0001-systemd-login-lib-was-merged-into-libsystemd.patch
+> @@ -0,0 +1,28 @@
+> +From f80245dbdc5b29fe8dbe9b39482d41fbca044fe6 Mon Sep 17 00:00:00 2001
+> +From: Valentin Popa <valentin.popa@intel.com>
+> +Date: Mon, 26 May 2014 10:04:13 +0300
+> +Subject: [PATCH] systemd-login lib was merged into libsystemd
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> +---
+> + Makefile.am | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Makefile.am b/Makefile.am
+> +index a2f960c..7186b10 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -21,7 +21,7 @@ user_session_launch_SOURCES = \
+> +
+> + # FIXME: add pkgconfig checks for these instead
+> + user_session_launch_LDADD = \
+> +-	-lsystemd-login \
+> ++	-lsystemd \
+> + 	-lpam \
+> + 	-lpam_misc
+> +
+> +--
+> +1.9.1
+> +
+> diff --git a/meta/recipes-support/user-session-units/user-session-units_9.bb b/meta/recipes-support/user-session-units/user-session-units_9.bb
+> new file mode 100644
+> index 0000000..ad2f683
+> --- /dev/null
+> +++ b/meta/recipes-support/user-session-units/user-session-units_9.bb
+> @@ -0,0 +1,25 @@
+> +SUMMARY = "systemd units to start a user session"
+> +
+> +LICENSE = "LGPLv2.1"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> +
+> +SRC_URI = "http://foo-projects.org/~sofar/${BPN}/${BPN}-${PV}.tar.gz \
+> +           file://0001-systemd-login-lib-was-merged-into-libsystemd.patch "
+> +
+> +SRC_URI[md5sum] = "30d26fec6e3e221072c59554c93ecde0"
+> +SRC_URI[sha256sum] = "edfc0df890981708e1a09e8488bb91384b6739d76867d3fe2417b03265361717"
+> +
+> +DEPENDS = "systemd dbus libpam"
+> +
+
+Will this project build without systemd?  When attempting to build world 
+without systemd enabled in DISTRO_FEATURES I get the following errors:
+> ERROR: Nothing PROVIDES 'systemd' (but /home/sgw/yocto/poky/meta/recipes-support/user-session-units/user-session-units_9.bb DEPENDS on or otherwise requires it)
+> ERROR: systemd was skipped: 'systemd' not in DISTRO_FEATURES
+> ERROR: Nothing RPROVIDES 'user-session-units-dev' (but /home/sgw/yocto/poky/meta/recipes-support/user-session-units/user-session-units_9.bb RDEPENDS on or otherwise requires it)
+> ERROR: No eligible RPROVIDERs exist for 'user-session-units-dev'
+> NOTE: Runtime target 'user-session-units-dev' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['user-session-units-dev']
+> ERROR: Nothing RPROVIDES 'user-session-units' (but /home/sgw/yocto/poky/meta/recipes-support/user-session-units/user-session-units_9.bb RDEPENDS on or otherwise requires it)
+> ERROR: No eligible RPROVIDERs exist for 'user-session-units'
+> NOTE: Runtime target 'user-session-units' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['user-session-units']
+
+Can you please look into this.
+
+Sau!
+
+> +inherit autotools pkgconfig
+> +
+> +# Seed configure so it doesn't look on the host host for gnome/xfce/etc.
+> +EXTRA_OECONF = "ac_cv_prog_E_PROG= \
+> + ac_cv_prog_XFCE_PROG= \
+> + ac_cv_prog_XFWM_PROG= \
+> + ac_cv_prog_XBMC_PROG= \
+> + ac_cv_prog_GNOME_PROG= \
+> + ac_cv_prog_KDE_PROG= \
+> + ac_cv_prog_MYTH_PROG="
+> +
+> +FILES_${PN} = "${systemd_unitdir}/ ${libdir}/systemd/user/ ${bindir}/"
 >
 
