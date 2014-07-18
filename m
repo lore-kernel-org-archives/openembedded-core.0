@@ -1,24 +1,20 @@
 Return-Path: <roxana.ciobanu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A7B5B7066D
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CF6E2705A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 12:41:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jul 2014 05:41:44 -0700
+	Fri, 18 Jul 2014 13:20:33 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 18 Jul 2014 06:20:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,684,1400050800"; d="scan'208";a="545346251"
+X-IronPort-AV: E=Sophos;i="5.01,685,1400050800"; d="scan'208";a="458603176"
 Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.57])
-	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2014 05:41:16 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2014 06:20:32 -0700
 From: Roxana Ciobanu <roxana.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jul 2014 15:41:34 +0300
-Message-Id: <a36a9c3d405abe05010fb260d909a5a135ea1ac2.1405687258.git.roxana.ciobanu@intel.com>
+Date: Fri, 18 Jul 2014 16:20:51 +0300
+Message-Id: <cover.1405689624.git.roxana.ciobanu@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1405687258.git.roxana.ciobanu@intel.com>
-References: <cover.1405687258.git.roxana.ciobanu@intel.com>
-In-Reply-To: <cover.1405687258.git.roxana.ciobanu@intel.com>
-References: <cover.1405687258.git.roxana.ciobanu@intel.com>
-Subject: [PATCH 1/1] license.bbclass: fix indentation in python function
+Subject: [PATCH 0/1] Fix for YB6502
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 12:41:46 -0000
+X-List-Received-Date: Fri, 18 Jul 2014 13:20:41 -0000
 
-If we don't fix this, the fix for bug 6502 will trigger warnings
-that the write_package_manifest function contains tabs.
+The following changes since commit 0662aa801237ac716e35c7930d857f98249db1cf:
 
-Related to fix for [YOCTO #6502].
+  bdwgc: Add PACKAGECONFIG for libatomic-ops (2014-07-17 15:04:10 +0100)
 
-Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
----
- meta/classes/license.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 08f0665..2a6e869 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -17,12 +17,12 @@ do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
- 
- python write_package_manifest() {
--	# Get list of installed packages
--	license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
--	bb.utils.mkdirhier(license_image_dir)
--	from oe.rootfs import image_list_installed_packages
--	open(os.path.join(license_image_dir, 'package.manifest'),
--         'w+').write(image_list_installed_packages(d))
-+    # Get list of installed packages
-+    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
-+    bb.utils.mkdirhier(license_image_dir)
-+    from oe.rootfs import image_list_installed_packages
-+    open(os.path.join(license_image_dir, 'package.manifest'),
-+        'w+').write(image_list_installed_packages(d))
- }
- 
- license_create_manifest() {
+  git://git.yoctoproject.org/poky-contrib roxana/YB6502
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6502
+
+Roxana Ciobanu (1):
+  image.bbclass/rootfs.py: add variables to rootfs[vardeps]
+
+ meta/classes/image.bbclass | 17 ++++++++++++++++-
+ meta/lib/oe/rootfs.py      | 21 +++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+
 -- 
 1.9.1
 
