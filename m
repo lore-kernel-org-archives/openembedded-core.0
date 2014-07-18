@@ -1,37 +1,31 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 99A8570245
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 79B2370609
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 10:33:06 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id b13so3289125wgh.10
+	Fri, 18 Jul 2014 12:40:45 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6ICefrj010898 for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jul 2014 13:40:41 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id S8odD8sqtpNq
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 03:33:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JypGZr+HkatDvJQsff12vnRaxrzLfKaUUrWMRyHdTP4=;
-	b=RhUT2txo2b1ShkIuvxvSeALItX1gxqBBd6Vh5VRp2AXBXdoOBCzxnB2gk4tLznFCXL
-	HQglNjEoOFqcD2wHrzDmzKuG8YiVDGE5TMn4M7vw9jfpC2zIM/P0xum4wgCfrp2HT/L0
-	oJ2YniwUSbuoQD+ijlAJZJ6qajIjVmm2oZfxPr+wScyExn3IkRhDQ6ykyxUn3DIA5d4S
-	AYkcIONH/MzqZOD53MTonc3X4OiCZCFPgWrahWLjCoyh5HRljvPavvzNOYVxGY7mN9h7
-	8ZnRrwR8kU7Auo4/YO41OcMrXsVrtO3B00OvCwyKmnTuEADfLl7fd7Za9AxZ7Io7WDu0
-	X7UQ==
-X-Gm-Message-State: ALoCoQnN6zlUwo86GCh7In9PaXZuqKUGUQZx7WS+jrhFRQldS5ku1YgR9YnP6kdmX8ZQQksmTmmS
-X-Received: by 10.180.89.143 with SMTP id bo15mr6274265wib.78.1405679587147;
-	Fri, 18 Jul 2014 03:33:07 -0700 (PDT)
-Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
-	[78.243.126.63])
-	by mx.google.com with ESMTPSA id bg2sm5188043wib.21.2014.07.18.03.33.05
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 18 Jul 2014 03:33:06 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jul 2014 12:33:01 +0200
-Message-Id: <1405679581-32482-1-git-send-email-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.0.1
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>, patches@linaro.org
-Subject: [PATCH] libdrm: enable freedreno experimental support
+	Fri, 18 Jul 2014 13:40:41 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6ICeagC010893
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jul 2014 13:40:37 +0100
+Message-ID: <1405687231.26348.36.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Jul 2014 13:40:31 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] subversion: Disable make install parallelism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 10:33:10 -0000
+X-List-Received-Date: Fri, 18 Jul 2014 12:40:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The freedreno project is a free and open source linux driver for the 2D/3D GPUs
-in Qualcomm snapdragon SoCs.
+The Makefile generation for subversion is horrible, I can't figure out
+where the dependencies are missing, it looks like they might be missing
+everywhere. Give up and disable parallel make install.
 
-Support for freedreno in libdrm was added around 2.4.43.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-graphics/drm/libdrm.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/subversion/subversion_1.8.9.bb b/meta/re=
+cipes-devtools/subversion/subversion_1.8.9.bb
+index a6ef3d4..d134a53 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+@@ -40,3 +40,10 @@ do_configure_prepend () {
+ 	rm -f ${S}/aclocal.m4
+ 	sed -i -e 's:with_sasl=3D"/usr/local":with_sasl=3D"${STAGING_DIR}":' ${S}=
+/build/ac-macros/sasl.m4
+ }
++
++#| x86_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuil=
+der/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/sub=
+version-native/1.8.9-r0/build/subversion/libsvn_ra_local/libsvn_ra_local-1.=
+la' has not been installed in `/home/pokybuild/yocto-autobuilder/yocto-work=
+er/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| x86=
+_64-linux-libtool: install: warning: `/home/pokybuild/yocto-autobuilder/yoc=
+to-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion=
+-native/1.8.9-r0/build/subversion/libsvn_repos/libsvn_repos-1.la' has not b=
+een installed in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa=
+-logrotate/build/build/tmp/sysroots/x86_64-linux/usr/lib'| /usr/bin/ld: can=
+not find -lsvn_delta-1| collect2: ld returned 1 exit status| x86_64-linux-l=
+ibtool: install: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/n=
+ightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8=
+.9-r0/build/subversion/libsvn_ra_svn/libsvn_ra_svn-1.la' has not been insta=
+lled in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotat=
+e/build/build/tmp/sysroots/x86_64-linux/usr/lib'| x86_64-linux-libtool: ins=
+tall: warning: `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-l=
+ogrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/build=
+/subversion/libsvn_ra_serf/libsvn_ra_serf-1.la' has not been installed in `=
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/b=
+uild/tmp/sysroots/x86_64-linux/usr/lib'
++#| x86_64-linux-libtool: install: error: relink `libsvn_ra_serf-1.la' with=
+ the above command before installing it
++#| x86_64-linux-libtool: install: warning: `../../subversion/libsvn_repos/=
+libsvn_repos-1.la' has not been installed in `/home/pokybuild/yocto-autobui=
+lder/yocto-worker/nightly-qa-logrotate/build/build/tmp/sysroots/x86_64-linu=
+x/usr/lib'
++#| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/bui=
+ld/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/subversion-1.8.9/=
+build-outputs.mk:1090: recipe for target 'install-serf-lib' failed
++#| make: *** [install-serf-lib] Error 1
++PARALLEL_MAKEINST =3D ""
 
-diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
-index 1b2ffeb..5ec6307 100644
---- a/meta/recipes-graphics/drm/libdrm.inc
-+++ b/meta/recipes-graphics/drm/libdrm.inc
-@@ -21,14 +21,15 @@ inherit autotools pkgconfig
- 
- EXTRA_OECONF += "--disable-cairo-tests \
-                  --enable-omap-experimental-api \
-+                 --enable-freedreno-experimental-api \
-                  --enable-install-test-programs \
-                 "
- ALLOW_EMPTY_${PN}-drivers = "1"
- PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
--             ${PN}-intel ${PN}-exynos ${PN}-kms"
-+             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno"
- 
- RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
--                             ${PN}-exynos"
-+                             ${PN}-exynos ${PN}-freedreno"
- 
- FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
- FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
-@@ -37,3 +38,4 @@ FILES_${PN}-omap = "${libdir}/libdrm_omap.so.*"
- FILES_${PN}-intel = "${libdir}/libdrm_intel.so.*"
- FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
- FILES_${PN}-kms = "${libdir}/libkms*.so.*"
-+FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
--- 
-2.0.1
 
 
