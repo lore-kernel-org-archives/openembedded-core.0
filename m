@@ -1,36 +1,37 @@
-Return-Path: <smennetrier@connected-labs.com>
-Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
-	[209.85.219.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E20870258
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 07:30:03 +0000 (UTC)
-Received: by mail-oa0-f50.google.com with SMTP id g18so2546413oah.23
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 00:30:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=QG6nRm3MDeqLqGqBIssrnEKCadys09TWt54wt/inGMQ=;
-	b=T1BRVXX1CjFaqKnJcja1aTfSlEjxflvkDr4bK5hzXxa9s5NtWAtzah8F2W2jv2+XQq
-	hgoFDB3ffJNRLK5It4qkto6eCAzgUnSHD1PQlQEaKEzam96s140N4P1f2+4hB3A/ed4/
-	jcb+v/khDAnjzJl17DK53RiUIzynBiulzuZ64Vaqk3qbq4SulWTOACpbD3xJOs86eh4v
-	quUkmOc354K82RsjRWnvvWjestMcRkLIvOiGJ4O8my3VORK7tt0e6EOL+Jf9cDJ554Rk
-	khMIhT9arnvffIvR1qfwl4INFB84hIj0LaXI+oZwJgDO4BffjXH0BI8eHbzQDY63lwsh
-	qhGw==
-X-Gm-Message-State: ALoCoQl1T753W3ZoP1F6yGNJWrJEqOZmNf59j/kvtWfwL9GiOaMkXmu4WMIJO6VAjeUE1YaVPDcb
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 70D8B6FA41;
+	Fri, 18 Jul 2014 08:38:49 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id x13so3075219wgg.31
+	for <multiple recipients>; Fri, 18 Jul 2014 01:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ro8d9OglbpuIDYNzzJ2fW1wGZ0FWBGGV736iJvNSL8I=;
+	b=fc7OsoXQkU9YpisasBFbSce7ee8NaA1XzU+o74hRPqXnJalmCrmxA7+2++Ae6yvI+C
+	OrJtpf1JZcmYfI1ppeRWuktU2GG2zXOChoyNPXlB0v8/Fx01+3fLWu+HVGP1LOVs2tA9
+	TPTbSUV8WyAHbKBWAZacSE3E73akbsjDbOFdRyQJ3K7k4077jp3A1PHXzfdL6+xjvhv3
+	crPRI+CMV+49ZCTfOqVXH5St6u81Ob0bL+G6dThLMtGp31S/aTmDRFxk+2S3MpemWPIE
+	IpaCij1kuMelwIeGnTUFXIHK62vhclihffRUDKazMLKcADVHB26lCZi4/kpSKb4r8647
+	5ctw==
+X-Received: by 10.194.57.132 with SMTP id i4mr4376620wjq.6.1405672730256;
+	Fri, 18 Jul 2014 01:38:50 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	g8sm4166489wib.18.2014.07.18.01.38.48 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 18 Jul 2014 01:38:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 18 Jul 2014 10:39:01 +0200
+To: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>
+Message-ID: <20140718083901.GN2433@jama>
+References: <20140717113633.324A3504D4@opal.openembedded.org>
 MIME-Version: 1.0
-X-Received: by 10.182.125.8 with SMTP id mm8mr3604807obb.11.1405668602928;
-	Fri, 18 Jul 2014 00:30:02 -0700 (PDT)
-Received: by 10.182.129.166 with HTTP; Fri, 18 Jul 2014 00:30:02 -0700 (PDT)
-X-Originating-IP: [94.103.137.126]
-In-Reply-To: <1404915889-26159-1-git-send-email-smennetrier@connected-labs.com>
-References: <1404915889-26159-1-git-send-email-smennetrier@connected-labs.com>
-Date: Fri, 18 Jul 2014 09:30:02 +0200
-Message-ID: <CAKCtLPy=a4EHgA1Nqvih9JMNxeyVuLp7UUEifGsfPaF-G1Srxw@mail.gmail.com>
-From: =?UTF-8?Q?S=C3=A9bastien_Mennetrier?= <smennetrier@connected-labs.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [dora][backport from master] apmd.service: Fix typo (not mandatory EnvironmentFile prefix)
+In-Reply-To: <20140717113633.324A3504D4@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Chen Qi : shadow: upgrade from 4.1.4.3 to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,105 +44,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 07:30:10 -0000
-Content-Type: multipart/alternative; boundary=089e012955b4bff6b504fe72b96c
+X-List-Received-Date: Fri, 18 Jul 2014 08:38:55 -0000
+X-Groupsio-MsgNum: 55206
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Eclf2LUqbhpvYoNt"
+Content-Disposition: inline
 
---089e012955b4bff6b504fe72b96c
-Content-Type: text/plain; charset=UTF-8
+--Eclf2LUqbhpvYoNt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Ping
+On Thu, Jul 17, 2014 at 11:36:33AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: b73e5cd51551556f9e6a4f7d9e7deec4d9d661bd
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Db73e5cd51551556f9e6a4f7d9e7deec4d9d661bd
+>=20
+> Author: Chen Qi <Qi.Chen@windriver.com>
+> Date:   Thu Jul 17 15:53:34 2014 +0800
+>=20
+> shadow: upgrade from 4.1.4.3 to 4.2.1
+>=20
+> Upgrade shadow from 4.1.4.3 to 4.2.1.
+>=20
+> Changes during this upgrade are as following.
 
-Is it possible to cherry-pick this patch from Master to Dora ?
+This seems to trigger ICE in some configurations, this was detected in qemu=
+arm world build:
 
-Commit : b21468434c519927dace6a1433786ca7a0501172
+| arm-oe-linux-gnueabi-gcc  -march=3Darmv5te -marm -mthumb-interwork --sysr=
+oot=3D/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemuarm -DHAVE_CO=
+NFIG_H -I. -I/home/jenkins/oe/world/shr-core/tmp-eglibc/work/armv5te-oe-lin=
+ux-gnueabi/shadow/4.2.1-r0/shadow-4.2.1/libmisc -I.. -I/home/jenkins/oe/wor=
+ld/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/shadow/4.2.1-r0/shadow=
+-4.2.1/lib    -O2 -pipe -g -feliminate-unused-debug-types -c -o cleanup_gro=
+up.o /home/jenkins/oe/world/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnuea=
+bi/shadow/4.2.1-r0/shadow-4.2.1/libmisc/cleanup_group.c
+| /home/jenkins/oe/world/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/=
+shadow/4.2.1-r0/shadow-4.2.1/libmisc/cleanup.c:1:0: internal compiler error=
+: in default_addr_space_address_mode, at targhooks.c:1161
+|  /*
+|  ^
+| Please submit a full bug report,
+| with preprocessed source if appropriate.
+| See <http://gcc.gnu.org/bugs.html> for instructions.
+| make[2]: *** [cleanup.o] Error 1
 
 
-Regards,
-Seb M
+--Eclf2LUqbhpvYoNt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-2014-07-09 16:24 GMT+02:00 S=C3=A9bastien Mennetrier <
-smennetrier@connected-labs.com>:
+iEYEARECAAYFAlPI3SUACgkQN1Ujt2V2gBxl1ACeNqpmjUuRTRjuuS7bF+4eZeBP
+L9gAni3qhkLK+L6z7yH3Bmf+bCWn/rGU
+=Qtug
+-----END PGP SIGNATURE-----
 
-> From: Tobias Blom <tobias.blom@techne-dev.se>
->
-> Prefix to EnvironmentFile should be preciding the filenamn.
->
-> (From OE-Core rev: 1f694e4cb493b0737b6009382c0957e6837ebbed)
->
-> Signed-off-by: Tobias Blom <tobias.blom@techne-dev.se>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-> b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-> index 62d6af1..ffab823 100644
-> --- a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-> +++ b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-> @@ -3,5 +3,5 @@ Description=3DAdvanced Power Management daemon
->  After=3Dremote-fs.target
->
->  [Service]
-> -EnvironmentFile-=3D @SYSCONFDIR@/default/apmd
-> +EnvironmentFile=3D-@SYSCONFDIR@/default/apmd
->  ExecStart=3D@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
-> --
-> 1.8.3.2
->
->
-
---089e012955b4bff6b504fe72b96c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ping<div><br></div><div>Is it possible to cherry-pick this=
- patch from Master to Dora ?</div><div><br></div><div>Commit :=C2=A0b214684=
-34c519927dace6a1433786ca7a0501172</div></div><div class=3D"gmail_extra"><br=
- clear=3D"all">
-<div><div dir=3D"ltr"><div style=3D"font-family:arial;font-size:small"><br>=
-Regards,</div><div style=3D"font-family:arial;font-size:small">Seb M</div><=
-/div></div>
-<br><br><div class=3D"gmail_quote">2014-07-09 16:24 GMT+02:00 S=C3=A9bastie=
-n Mennetrier <span dir=3D"ltr">&lt;<a href=3D"mailto:smennetrier@connected-=
-labs.com" target=3D"_blank">smennetrier@connected-labs.com</a>&gt;</span>:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-From: Tobias Blom &lt;<a href=3D"mailto:tobias.blom@techne-dev.se">tobias.b=
-lom@techne-dev.se</a>&gt;<br>
-<br>
-Prefix to EnvironmentFile should be preciding the filenamn.<br>
-<br>
-(From OE-Core rev: 1f694e4cb493b0737b6009382c0957e6837ebbed)<br>
-<br>
-Signed-off-by: Tobias Blom &lt;<a href=3D"mailto:tobias.blom@techne-dev.se"=
->tobias.blom@techne-dev.se</a>&gt;<br>
-Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
-ux.intel.com</a>&gt;<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org">richard.purdie@linuxfoundation.org</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service b/meta/recipe=
-s-bsp/apmd/apmd-3.2.2-14/apmd.service<br>
-index 62d6af1..ffab823 100644<br>
---- a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service<br>
-+++ b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service<br>
-@@ -3,5 +3,5 @@ Description=3DAdvanced Power Management daemon<br>
-=C2=A0After=3Dremote-fs.target<br>
-<br>
-=C2=A0[Service]<br>
--EnvironmentFile-=3D @SYSCONFDIR@/default/apmd<br>
-+EnvironmentFile=3D-@SYSCONFDIR@/default/apmd<br>
-=C2=A0ExecStart=3D@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.8.3.2<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---089e012955b4bff6b504fe72b96c--
+--Eclf2LUqbhpvYoNt--
