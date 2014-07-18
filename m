@@ -1,24 +1,31 @@
-Return-Path: <roxana.ciobanu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 13EB070609
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B24B7705A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 13:20:40 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Jul 2014 06:20:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,685,1400050800"; d="scan'208";a="458603180"
-Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.57])
-	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2014 06:20:33 -0700
-From: Roxana Ciobanu <roxana.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jul 2014 16:20:52 +0300
-Message-Id: <6cd5cf732c512dd0c5b6623742c8c0bbd2668513.1405689624.git.roxana.ciobanu@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1405689624.git.roxana.ciobanu@intel.com>
-References: <cover.1405689624.git.roxana.ciobanu@intel.com>
-In-Reply-To: <cover.1405689624.git.roxana.ciobanu@intel.com>
-References: <cover.1405689624.git.roxana.ciobanu@intel.com>
-Subject: [PATCH 1/1] image.bbclass/rootfs.py: add variables to rootfs[vardeps]
+	Fri, 18 Jul 2014 13:25:00 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6IDOeI0013419; Fri, 18 Jul 2014 14:24:40 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0GOLaup7mqGq; Fri, 18 Jul 2014 14:24:39 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6IDOVb9013410
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 18 Jul 2014 14:24:33 +0100
+Message-ID: <1405689866.26348.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 18 Jul 2014 14:24:26 +0100
+In-Reply-To: <1405638947-30399-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1405638947-30399-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Martin Jansa <martin.jansa@lge.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-4.8: backport fix for ICE when building opus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,109 +38,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 13:20:41 -0000
+X-List-Received-Date: Fri, 18 Jul 2014 13:25:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Added base variables and package backend specific variables to
-rootfs[vardeps] in order for rootfs to rebuild when changes are made.
+On Fri, 2014-07-18 at 01:15 +0200, Martin Jansa wrote:
+> From: Martin Jansa <martin.jansa@lge.com>
+> 
+> * backported from 4.8.2, so daisy isn't affected
+> 
+> Signed-off-by: Martin Jansa <martin.jansa@lge.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
+>  .../gcc-4.8/0001-fix-ICE-when-building-opus.patch  | 121 +++++++++++++++++++++
+>  2 files changed, 122 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch
 
-Set some variables as [func] to inform bitbake that they are shell
-scripts, so that it invokes its shell dependency parsing. Without
-marking them as functions, changes in the actual function body would
-not trigger rootfs rebuilds.
+Doesn't apply against master?
 
-[YOCTO #6502]
+Cheers,
 
-Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
----
- meta/classes/image.bbclass | 17 ++++++++++++++++-
- meta/lib/oe/rootfs.py      | 21 +++++++++++++++++++++
- 2 files changed, 37 insertions(+), 1 deletion(-)
+Richard
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index a03b880..5dd0bde 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -72,10 +72,25 @@ LDCONFIGDEPEND ?= "ldconfig-native:do_populate_sysroot"
- LDCONFIGDEPEND_libc-uclibc = ""
- LDCONFIGDEPEND_libc-musl = ""
- 
-+python () {
-+    variables = ['ROOTFS_POSTPROCESS_COMMAND', 'OPKG_PREPROCESS_COMMANDS', 'OPKG_POSTPROCESS_COMMANDS', 'IMAGE_POSTPROCESS_COMMAND', 'IMAGE_PREPROCESS_COMMAND', 'POPULATE_SDK_POST_HOST_COMMAND', 'POPULATE_SDK_POST_TARGET_COMMAND', 'SDK_POSTPROCESS_COMMAND']
-+    for var in variables:
-+        d.appendVarFlag(var, 'func', '1')
-+}
-+
- do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
- do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_packagedata"
--do_rootfs[vardeps] += "BAD_RECOMMENDATIONS NO_RECOMMENDATIONS"
-+
-+def rootfs_variables(d):
-+    from oe.rootfs import variable_depends
-+    deps =  variable_depends(d)
-+    variables = "IMAGE_DEVICE_TABLES BUILD_IMAGES_FROM_FEEDS IMAGE_TYPEDEP_ IMAGE_TYPES_MASKED IMAGE_ROOTFS_ALIGNMENT IMAGE_OVERHEAD_FACTOR IMAGE_ROOTFS_SIZE IMAGE_ROOTFS_EXTRA_SPACE IMAGE_ROOTFS_MAXSIZE IMAGE_NAME IMAGE_LINK_NAME IMAGE_MANIFEST DEPLOY_DIR_IMAGE RM_OLD_IMAGE IMAGE_FSTYPES IMAGE_PREPROCESS_COMMAND IMAGE_POSTPROCESS_COMMAND IMAGE_INSTALL_COMPLEMENTARY IMAGE_LINGUAS SDK_OS SDK_OUTPUT SDKPATHNATIVE SDKTARGETSYSROOT SDK_DIR SDK_POSTPROCESS_COMMAND SDK_VENDOR SDKIMAGE_INSTALL_COMPLEMENTARY POPULATE_SDK_POST_TARGET_COMMAND POPULATE_SDK_POST_HOST_COMMAND SDK_PACKAGE_ARCHS SDK_OUTPUT SDKTARGETSYSROOT MULTILIBRE_ALLOW_REP MULTILIB_TEMP_ROOTFS MULTILIB_VARIANTS MULTILIBS ALL_MULTILIB_PACKAGE_ARCHS MULTILIB_GLOBAL_VARIANTS ROOTFS_POSTINSTALL_COMMAND ROOTFS_PREPROCESS_COMMAND ROOTFS_POSTPROCESS_COMMAND BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_ARCHS PACKAGE_CLASSES "
-+    # keep line under 998 characters
-+    variables += "TARGET_VENDOR TARGET_VENDOR TARGET_ARCH TARGET_OS OVERRIDES BBEXTENDVARIANT FEED_DEPLOYDIR_BASE_URI INTERCEPT_DIR BUILDNAME USE_DEVFS STAGING_KERNEL_DIR COMPRESSIONTYPES"
-+    return ' '.join([variables, deps])
-+
-+do_rootfs[vardeps] += "${@rootfs_variables(d)}"
- 
- do_build[depends] += "virtual/kernel:do_deploy"
- 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index bc2524f..e0560ff 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -327,6 +327,10 @@ class RpmRootfs(Rootfs):
- 
-         self.pm.rpm_setup_smart_target_config()
- 
-+    @staticmethod
-+    def _depends_list():
-+        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS', 'RPM_POSTPROCESS_COMMANDS']
-+
-     def _get_delayed_postinsts(self):
-         postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/rpm-postinsts")
-         if os.path.isdir(postinst_dir):
-@@ -417,6 +421,10 @@ class DpkgRootfs(Rootfs):
- 
-         self.pm.run_pre_post_installs()
- 
-+    @staticmethod
-+    def _depends_list():
-+        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMAND']
-+
-     def _get_delayed_postinsts(self):
-         pkg_list = []
-         with open(self.image_rootfs + "/var/lib/dpkg/status") as status:
-@@ -679,6 +687,10 @@ class OpkgRootfs(Rootfs):
-         if self.inc_opkg_image_gen == "1":
-             self.pm.backup_packaging_data()
- 
-+    @staticmethod
-+    def _depends_list():
-+        return ['IPKGCONF_SDK', 'IPK_FEED_URIS', 'DEPLOY_DIR_IPK', 'IPKGCONF_TARGET', 'INC_IPK_IMAGE_GEN', 'OPKG_ARGS', 'OPKGLIBDIR', 'OPKG_PREPROCESS_COMMANDS', 'OPKG_POSTPROCESS_COMMANDS', 'OPKGLIBDIR']
-+
-     def _get_delayed_postinsts(self):
-         pkg_list = []
-         status_file = os.path.join(self.image_rootfs,
-@@ -722,6 +734,15 @@ class OpkgRootfs(Rootfs):
-     def _cleanup(self):
-         pass
- 
-+def get_class_for_type(imgtype):
-+    return {"rpm": RpmRootfs,
-+            "ipk": OpkgRootfs,
-+            "deb": DpkgRootfs}[imgtype]
-+
-+def variable_depends(d, manifest_dir=None):
-+    img_type = d.getVar('IMAGE_PKGTYPE', True)
-+    cls = get_class_for_type(img_type)
-+    return " ".join(cls._depends_list())
- 
- def create_rootfs(d, manifest_dir=None):
-     env_bkp = os.environ.copy()
--- 
-1.9.1
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> index f1260af..ac205de 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> @@ -79,6 +79,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>  	   file://0047-repomembug.patch \
+>  	   file://0048-PR57532.patch \
+>  	   file://0048-PR58854_fix_arm_apcs_epilogue.patch \
+> +           file://0001-fix-ICE-when-building-opus.patch \
+>  	  "
+>  SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+>  SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch b/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch
+> new file mode 100644
+> index 0000000..9d3aeaa
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch
+> @@ -0,0 +1,121 @@
+> +From 22228d8ba86c70381f7c34c22ac6994234d0f3e7 Mon Sep 17 00:00:00 2001
+> +From: xguo <xguo@138bc75d-0d04-0410-961f-82ee72b054a4>
+> +Date: Fri, 9 Aug 2013 06:59:01 +0000
+> +Subject: [PATCH] gcc/ChangeLog:
+> +
+> +        Backport from mainline:
+> +        2013-08-09  Zhenqiang Chen  <zhenqiang.chen@linaro.org>
+> +
+> +        * config/arm/neon.md (vcond): Fix floating-point vector
+> +        comparisons against 0.
+> +
+> +gcc/testsuite/ChangeLog:
+> +
+> +        Backport from mainline:
+> +        2013-08-09  Zhenqiang Chen  <zhenqiang.chen@linaro.org>
+> +
+> +        * gcc.target/arm/lp1189445.c: New testcase.
+> +
+> +Upstream-Status: Backport from 4.8.2
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +
+> +More details in:
+> +http://gcc.1065356.n5.nabble.com/PATCH-ARM-Fix-unrecognizable-vector-comparisons-td947064.html
+> +
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-4_8-branch@201620 138bc75d-0d04-0410-961f-82ee72b054a4
+> +---
+> + gcc/ChangeLog                            |  8 ++++++++
+> + gcc/config/arm/neon.md                   | 34 +++++++++++++++++++++++++++-----
+> + gcc/testsuite/ChangeLog                  |  7 +++++++
+> + gcc/testsuite/gcc.target/arm/lp1189445.c | 18 +++++++++++++++++
+> + 4 files changed, 62 insertions(+), 5 deletions(-)
+> + create mode 100644 gcc/testsuite/gcc.target/arm/lp1189445.c
+> +
+> +diff --git a/gcc/config/arm/neon.md b/gcc/config/arm/neon.md
+> +index d8d4202..86a5932 100644
+> +--- a/gcc/config/arm/neon.md
+> ++++ b/gcc/config/arm/neon.md
+> +@@ -1732,6 +1732,7 @@
+> + 			     ? 3 : 1;
+> +   rtx magic_rtx = GEN_INT (magic_word);
+> +   int inverse = 0;
+> ++  int use_zero_form = 0;
+> +   int swap_bsl_operands = 0;
+> +   rtx mask = gen_reg_rtx (<V_cmp_result>mode);
+> +   rtx tmp = gen_reg_rtx (<V_cmp_result>mode);
+> +@@ -1742,12 +1743,16 @@
+> +   switch (GET_CODE (operands[3]))
+> +     {
+> +     case GE:
+> ++    case GT:
+> +     case LE:
+> ++    case LT:
+> +     case EQ:
+> +-      if (!REG_P (operands[5])
+> +-	  && (operands[5] != CONST0_RTX (<MODE>mode)))
+> +-	operands[5] = force_reg (<MODE>mode, operands[5]);
+> +-      break;
+> ++      if (operands[5] == CONST0_RTX (<MODE>mode))
+> ++	{
+> ++	  use_zero_form = 1;
+> ++	  break;
+> ++	}
+> ++      /* Fall through.  */
+> +     default:
+> +       if (!REG_P (operands[5]))
+> + 	operands[5] = force_reg (<MODE>mode, operands[5]);
+> +@@ -1798,7 +1803,26 @@
+> + 	 a GT b -> a GT b
+> + 	 a LE b -> b GE a
+> + 	 a LT b -> b GT a
+> +-	 a EQ b -> a EQ b  */
+> ++	 a EQ b -> a EQ b
+> ++	 Note that there also exist direct comparison against 0 forms,
+> ++	 so catch those as a special case.  */
+> ++      if (use_zero_form)
+> ++	{
+> ++	  inverse = 0;
+> ++	  switch (GET_CODE (operands[3]))
+> ++	    {
+> ++	    case LT:
+> ++	      base_comparison = gen_neon_vclt<mode>;
+> ++	      break;
+> ++	    case LE:
+> ++	      base_comparison = gen_neon_vcle<mode>;
+> ++	      break;
+> ++	    default:
+> ++	      /* Do nothing, other zero form cases already have the correct
+> ++		 base_comparison.  */
+> ++	      break;
+> ++	    }
+> ++	}
+> + 
+> +       if (!inverse)
+> + 	emit_insn (base_comparison (mask, operands[4], operands[5], magic_rtx));
+> +diff --git a/gcc/testsuite/gcc.target/arm/lp1189445.c b/gcc/testsuite/gcc.target/arm/lp1189445.c
+> +new file mode 100644
+> +index 0000000..766748e
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/arm/lp1189445.c
+> +@@ -0,0 +1,18 @@
+> ++/* { dg-do compile } */
+> ++/* { dg-require-effective-target arm_neon } */
+> ++/* { dg-add-options arm_neon } */
+> ++/* { dg-options "-O3" } */
+> ++
+> ++int id;
+> ++int
+> ++test (const long int *data)
+> ++{
+> ++  int i, retval;
+> ++  retval = id;
+> ++  for (i = 0; i < id; i++)
+> ++    {
+> ++      retval &= (data[i] <= 0);
+> ++    }
+> ++
+> ++  return (retval);
+> ++}
+> +-- 
+> +2.0.0
+> +
+> -- 
+> 1.9.1
+> 
+
 
 
