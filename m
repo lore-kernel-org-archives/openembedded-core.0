@@ -1,26 +1,38 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BAF87068F
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id A748E70639
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 18:44:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6IIi9pK025774
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 18 Jul 2014 18:58:46 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20140718185846223
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 11:44:09 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Fri, 18 Jul 2014 11:44:09 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Jul 2014 13:49:25 -0500
-Message-ID: <864bb33221017a0543a802d3c09e11841c753871.1405709256.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1405709256.git.peter.seebach@windriver.com>
-References: <cover.1405709256.git.peter.seebach@windriver.com>
+	Fri, 18 Jul 2014 18:58:46 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=50047 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1X8DMe-0001dQ-Rd for openembedded-core@lists.openembedded.org;
+	Fri, 18 Jul 2014 14:58:40 -0400
+Date: Fri, 18 Jul 2014 14:58:40 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1407181455510.13980@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo: uprev to 1.6.1
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: patches can be either ".patch" or ".diff" files, yes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 18:44:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Jul 2014 18:58:51 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Pseudo now automatically tries to shut down the server after running
-single commands under pseudo ("pseudo <cmd>"), which means it can
-print a useless "server already offline" message in some cases. The
-message has been changed to a debugging message only.
 
-The glibc symbol versions for memcpy were being applied to non-x86
-targets, unintentionally, which broke builds for at least some targets.
-(But pseudo doesn't usually get built for targets so it didn't
-get noticed right away.)
+ not sure where i saw this recently (i'll track it down), but some OE
+or yocto doc claimed that patch files *must* be suffixed with
+".patch". i'm pretty sure it can be either .patch or .diff, correct?
+as in, it's perfectly valid to do this in a .bbappend file:
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- .../pseudo/{pseudo_1.6.0.bb => pseudo_1.6.1.bb}    |    4 ++--
- meta/recipes-devtools/pseudo/pseudo_git.bb         |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/pseudo/{pseudo_1.6.0.bb => pseudo_1.6.1.bb} (52%)
+     SRC_URI += "file://0001-first-change.patch"
+     SRC_URI += "file://0002-first-change.patch"
+     SRC_URI += "file://0003-first-change.diff"
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.1.bb
-similarity index 52%
-rename from meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
-rename to meta/recipes-devtools/pseudo/pseudo_1.6.1.bb
-index e92c4d7..2dff823 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.1.bb
-@@ -4,7 +4,7 @@ SRC_URI = " \
-     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
- "
- 
--SRC_URI[md5sum] = "78c3f8aa8efe8cf15a2b21261174e3b6"
--SRC_URI[sha256sum] = "e24f526443b31c3292ec5ba04950d230b5388e8983c7e192e9e489c007f3dba3"
-+SRC_URI[md5sum] = "c19e4811635d12f2a923e47061c7d336"
-+SRC_URI[sha256sum] = "de9cc755b786bfbe2d416d35fab340f2b8ef9904cb2801be3092eeb7446a7c37"
- 
- PSEUDO_EXTRA_OPTS ?= "--enable-force-async"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index ef258fa..d599cfb 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,7 +1,7 @@
- require pseudo.inc
- 
--SRCREV = "512b84fb539c970464a93107995edf0e775d13fa"
--PV = "1.6.0+git${SRCPV}"
-+SRCREV = "2765805641f09109029b88b38f27256dc1b52ba3"
-+PV = "1.6.1+git${SRCPV}"
- 
- DEFAULT_PREFERENCE = "-1"
- 
+as long as the filenames match, of course. yes?
+
+rday
+
 -- 
-1.7.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
