@@ -1,36 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A7630701A9
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 52E4270234
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 23:16:30 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u56so3767945wes.14
+	Fri, 18 Jul 2014 01:14:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6I1Esxh015572
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jul 2014 16:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=CmdPyFV9P9BTnnevQ6BCWs/WezZhH8glfefS8ERB9CU=;
-	b=iKIyM2o26AvAACnNPN6YaGgMJ3Fsw+Y6kzjpf7DKePPeHg1X/1Bjf70l2BtoTHkZfM
-	dYcgmE4OV8hM4qR4baDSoYeyZhCEifFV4ECHzc8hSbmzECbu57CiLLVsVQYg0mSQ/SGO
-	KBx9rLeKhUmmMhHmRr2EM+lXj+jPOT7ahTg91xjJmDPfcsEUS8/TrD3V2QAdHiZQAFI0
-	tBnTzpr9G/pmfp6eIqqBniHjjFtlCvDRg4IqapvQykcJJi6aQLiC5eAj54APAK1V02Ae
-	1w+C8uPTKvx8JayvKPPL2kKtX2MNWmLy/RMFexuUNrvGh5ARxsxpzOQpgJmE6V4hb8fk
-	7tTw==
-X-Received: by 10.180.221.134 with SMTP id qe6mr2075149wic.66.1405638991962;
-	Thu, 17 Jul 2014 16:16:31 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	w10sm26038934wie.22.2014.07.17.16.16.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Jul 2014 16:16:31 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jul 2014 01:16:39 +0200
-Message-Id: <1405638999-9737-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.0
-Cc: Martin Jansa <martin.jansa@lge.com>
-Subject: [dora][PATCHv2] gcc-4.8: backport fix for ICE when building opus
+	Thu, 17 Jul 2014 18:14:55 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 17 Jul 2014 18:14:54 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Jul 2014 18:14:54 -0700
+Message-ID: <1405646094-27385-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [add patch comments][PATCH 1/1] rpm: compile rpmqv.c instead of rpmqv.cc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,159 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jul 2014 23:16:32 -0000
+X-List-Received-Date: Fri, 18 Jul 2014 01:14:59 -0000
+Content-Type: text/plain
 
-From: Martin Jansa <martin.jansa@lge.com>
+Some versions of gcc will put a reference to __gxx_personality_v0
+into rpm.o and rpmbuild.o.  This means we must link using g++,
+and Makefile does not.
 
-* backported from 4.8.2, so daisy isn't affected
+Go back to using rpmqv.c (which is currently identical to rpmqv.cc).
 
-Signed-off-by: Martin Jansa <martin.jansa@lge.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
- .../gcc-4.8/0001-fix-ICE-when-building-opus.patch  | 121 +++++++++++++++++++++
- 2 files changed, 122 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch
+ .../recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch |   32 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
+ 2 files changed, 33 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index f1260af..ac205de 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -79,6 +79,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0047-repomembug.patch \
- 	   file://0048-PR57532.patch \
- 	   file://0048-PR58854_fix_arm_apcs_epilogue.patch \
-+           file://0001-fix-ICE-when-building-opus.patch \
- 	  "
- SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
- SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch b/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch
+diff --git a/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
 new file mode 100644
-index 0000000..9d3aeaa
+index 0000000..f08bd68
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.patch
-@@ -0,0 +1,121 @@
-+From 22228d8ba86c70381f7c34c22ac6994234d0f3e7 Mon Sep 17 00:00:00 2001
-+From: xguo <xguo@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Fri, 9 Aug 2013 06:59:01 +0000
-+Subject: [PATCH] gcc/ChangeLog:
++++ b/meta/recipes-devtools/rpm/rpm/rpmqv_cc_b_gone.patch
+@@ -0,0 +1,32 @@
++rpm: compile rpmqv.c instead of rpmqv.cc
 +
-+        Backport from mainline:
-+        2013-08-09  Zhenqiang Chen  <zhenqiang.chen@linaro.org>
++Some versions of gcc, 4.4.5 for example, will put a reference to __gxx_personality_v0
++into rpm.o and rpmbuild.o.  This means we must link with g++, and the Makefile we
++generate does not.
 +
-+        * config/arm/neon.md (vcond): Fix floating-point vector
-+        comparisons against 0.
++So, go back to using rpmqv.c (which is currently identical to rpmqv.cc).
 +
-+gcc/testsuite/ChangeLog:
++Upstream-Status: Inappropriate [other]
 +
-+        Backport from mainline:
-+        2013-08-09  Zhenqiang Chen  <zhenqiang.chen@linaro.org>
++   When linking with g++ is really necessary, the upstream package will do that.
 +
-+        * gcc.target/arm/lp1189445.c: New testcase.
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
 +
-+Upstream-Status: Backport from 4.8.2
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+More details in:
-+http://gcc.1065356.n5.nabble.com/PATCH-ARM-Fix-unrecognizable-vector-comparisons-td947064.html
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-4_8-branch@201620 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+ gcc/ChangeLog                            |  8 ++++++++
-+ gcc/config/arm/neon.md                   | 34 +++++++++++++++++++++++++++-----
-+ gcc/testsuite/ChangeLog                  |  7 +++++++
-+ gcc/testsuite/gcc.target/arm/lp1189445.c | 18 +++++++++++++++++
-+ 4 files changed, 62 insertions(+), 5 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.target/arm/lp1189445.c
-+
-+diff --git a/gcc/config/arm/neon.md b/gcc/config/arm/neon.md
-+index d8d4202..86a5932 100644
-+--- a/gcc/config/arm/neon.md
-++++ b/gcc/config/arm/neon.md
-+@@ -1732,6 +1732,7 @@
-+ 			     ? 3 : 1;
-+   rtx magic_rtx = GEN_INT (magic_word);
-+   int inverse = 0;
-++  int use_zero_form = 0;
-+   int swap_bsl_operands = 0;
-+   rtx mask = gen_reg_rtx (<V_cmp_result>mode);
-+   rtx tmp = gen_reg_rtx (<V_cmp_result>mode);
-+@@ -1742,12 +1743,16 @@
-+   switch (GET_CODE (operands[3]))
-+     {
-+     case GE:
-++    case GT:
-+     case LE:
-++    case LT:
-+     case EQ:
-+-      if (!REG_P (operands[5])
-+-	  && (operands[5] != CONST0_RTX (<MODE>mode)))
-+-	operands[5] = force_reg (<MODE>mode, operands[5]);
-+-      break;
-++      if (operands[5] == CONST0_RTX (<MODE>mode))
-++	{
-++	  use_zero_form = 1;
-++	  break;
-++	}
-++      /* Fall through.  */
-+     default:
-+       if (!REG_P (operands[5]))
-+ 	operands[5] = force_reg (<MODE>mode, operands[5]);
-+@@ -1798,7 +1803,26 @@
-+ 	 a GT b -> a GT b
-+ 	 a LE b -> b GE a
-+ 	 a LT b -> b GT a
-+-	 a EQ b -> a EQ b  */
-++	 a EQ b -> a EQ b
-++	 Note that there also exist direct comparison against 0 forms,
-++	 so catch those as a special case.  */
-++      if (use_zero_form)
-++	{
-++	  inverse = 0;
-++	  switch (GET_CODE (operands[3]))
-++	    {
-++	    case LT:
-++	      base_comparison = gen_neon_vclt<mode>;
-++	      break;
-++	    case LE:
-++	      base_comparison = gen_neon_vcle<mode>;
-++	      break;
-++	    default:
-++	      /* Do nothing, other zero form cases already have the correct
-++		 base_comparison.  */
-++	      break;
-++	    }
-++	}
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -127,13 +127,13 @@ rpm_SOURCES =		build.c
++ rpm_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
++ rpm_LDADD =		rpm.o $(myLDADD)
++ rpm.o:	$(top_srcdir)/rpmqv.c
++-	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $(top_srcdir)/rpmqv.cc
+++	$(COMPILE) -DIAM_RPMBT -DIAM_RPMDB -DIAM_RPMEIU -DIAM_RPMK -DIAM_RPMQV -o $@ -c $(top_srcdir)/rpmqv.c
 + 
-+       if (!inverse)
-+ 	emit_insn (base_comparison (mask, operands[4], operands[5], magic_rtx));
-+diff --git a/gcc/testsuite/gcc.target/arm/lp1189445.c b/gcc/testsuite/gcc.target/arm/lp1189445.c
-+new file mode 100644
-+index 0000000..766748e
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/arm/lp1189445.c
-+@@ -0,0 +1,18 @@
-++/* { dg-do compile } */
-++/* { dg-require-effective-target arm_neon } */
-++/* { dg-add-options arm_neon } */
-++/* { dg-options "-O3" } */
-++
-++int id;
-++int
-++test (const long int *data)
-++{
-++  int i, retval;
-++  retval = id;
-++  for (i = 0; i < id; i++)
-++    {
-++      retval &= (data[i] <= 0);
-++    }
-++
-++  return (retval);
-++}
-+-- 
-+2.0.0
-+
++ rpmbuild_SOURCES =	build.c
++ rpmbuild_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
++ rpmbuild_LDADD =	rpmbuild.o $(myLDADD)
++ rpmbuild.o: $(top_srcdir)/rpmqv.c
++-	$(COMPILE) -DIAM_RPMBT -o $@ -c $(top_srcdir)/rpmqv.cc
+++	$(COMPILE) -DIAM_RPMBT -o $@ -c $(top_srcdir)/rpmqv.c
++ 
++ .PHONY:	splint
++ splint:
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index 15c1738..8fec656 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -92,6 +92,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://rpm-fix-logio-cp.patch \
+ 	   file://rpm-db5-or-db6.patch \
+ 	   file://rpm-disable-Wno-override-init.patch \
++	   file://rpmqv_cc_b_gone.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
 -- 
-2.0.0
+1.7.3.4
 
 
