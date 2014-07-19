@@ -1,27 +1,38 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp04.online.nl (smtp04.online.nl [194.134.41.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 120F970589
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 24A2F7059E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jul 2014 18:38:25 +0000 (UTC)
-Received: from smtp04.online.nl (localhost [127.0.0.1])
-	by smtp04.online.nl (Postfix) with ESMTP id 0C838E4FF;
-	Sat, 19 Jul 2014 20:38:25 +0200 (CEST)
-Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp04.online.nl (Postfix) with ESMTP;
-	Sat, 19 Jul 2014 20:38:24 +0200 (CEST)
-Message-ID: <53CABB20.7070004@topic.nl>
-Date: Sat, 19 Jul 2014 20:38:24 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Sat, 19 Jul 2014 18:38:43 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id gl10so3706343lab.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Jul 2014 11:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=iDM7skHo3ShcQ9YidQYLFDpAksC/lDI7AMZ6DoB44IY=;
+	b=MKf1xQdjQ/s2RTg5QfJil5NgCESDNx4triWRtRJEZ/H66TyfcT4qUwOQl8tdqZ03qw
+	AJ2Z/XgMyygortRi/Zl/aUKyX13H6vbUYS2g65c9dkHCuNSHeboL8nE+/HVTIfGUaBRw
+	XZup/advh1xCApNiN1vSDZr1S2tZi2cF2Tn761W8q5afL24lLC5NpKzQJ63UVqdQMxnd
+	m/DxiOaps8Z6XVYb1iX2ctyxmQS0aN/i7shhZgEH0lyiTHWb5VDojog5XuX0B3KxLQy/
+	CzqyTewqx2OZsvopYXVFxK0DzKRbob3qpRY5AXXZjWytKZ0pHIXrjRCVzKB+D9lFu1Vd
+	1LjQ==
+X-Received: by 10.112.198.161 with SMTP id jd1mr12909040lbc.56.1405795124083; 
+	Sat, 19 Jul 2014 11:38:44 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <53CA603D.4050900@topic.nl> <1405786878.22985.9.camel@ted>
-In-Reply-To: <1405786878.22985.9.camel@ted>
-X-Online-Scanned: by Cloudmark authority (on smtp04.online.nl)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: PRSERVER is killing settop boxes
+Sender: kergoth@gmail.com
+Received: by 10.112.63.72 with HTTP; Sat, 19 Jul 2014 11:38:23 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.11.1407181726070.25832@localhost>
+References: <alpine.LFD.2.11.1407181455510.13980@localhost>
+	<CAJTo0Lbefya8wCNvhfVXXytN+HH0nuMbsEO7XPfTk5kVzQ0XxA@mail.gmail.com>
+	<alpine.LFD.2.11.1407181726070.25832@localhost>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Sat, 19 Jul 2014 11:38:23 -0700
+X-Google-Sender-Auth: Kr2Y3AnxmxWTj3MUWa_FYrXtadE
+Message-ID: <CABcZAN=K0zQ6JENDWWC4PCn9yNaPx0GD=xZS+sjhcrPx9KuapQ@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: patches can be either ".patch" or ".diff" files, yes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,117 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Jul 2014 18:38:29 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 19 Jul 2014 18:38:44 -0000
+Content-Type: multipart/alternative; boundary=001a11c34b88ff84fd04fe902e3b
 
-On 19-7-2014 18:21, Richard Purdie wrote:
-> On Sat, 2014-07-19 at 14:10 +0200, Mike Looijmans wrote:
->> For a hobby project (openpli.org) there are about a million boxes
->> running software built with OE.
->>
->> I recently upgraded its core to the current master. What now happens is
->> that if a package like gcc has been changed, it will not only rebuild
->> everything, but it will also give all packages a new PR number. When a
->> box in the field now runs "opkg upgrade", it will get 286 "new" packages
->> and will try to squeeze them into its flash filesystem (even though only
->> about 5 of these packages actually have different content). This is
->> likely to kill the box, as the packages installed later on will take up
->> more room in the flash system than when they were initially installed
->> from scratch, and many models are using over 90% of the NAND flash space
->> available already.
->>
->> Before the PRSERVER was made mandatory, we never had this problem.
->>
->> Is there a way we can get the old behaviour of having to explicitly set
->> the PR of each package?
->> Or at least, distinguish between "the package itself was modified" and
->> "some library it depended upon was altered and we built a new one just
->> to make sure, but it'll likely work just fine with the previously built
->> one, so don't update the PR of the dependent packages".
+--001a11c34b88ff84fd04fe902e3b
+Content-Type: text/plain; charset=UTF-8
+
+On Fri, Jul 18, 2014 at 2:26 PM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
+
+> On Fri, 18 Jul 2014, Burton, Ross wrote:
 >
-> The key question is how do you tell that?
+> > On 18 July 2014 19:58, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > >  not sure where i saw this recently (i'll track it down), but some OE
+> > > or yocto doc claimed that patch files *must* be suffixed with
+> > > ".patch". i'm pretty sure it can be either .patch or .diff, correct?
+> > > as in, it's perfectly valid to do this in a .bbappend file:
+>
 
-Up until now, just by running it and see if it worked. In all those 
-years, I cannot recall a situation that a minor library upgrade ever was 
-incompatible with existing clients. Usually the build fails, if the 
-library had been changed in some incompatible way.
-(the closed source software CAM still running on these systems has been 
-compiled years ago by an ancient compiler in some unknown garage in 
-Eastern Europe somewhere, and even that binary still runs on today's 
-images flawlessly)
-
-> Its always been assumed that we should be able to add some kind of
-> binary diff tooling onto the end result and then only upgrade the
-> package, if it really did change (for whatever value of 'change' you
-> configure).
-
-That'd be a tough tool to write. Things like "build date" tend to end up 
-in packages and even binaries, so I'd expect there's little change of 
-building the same library twice and ending up with binary equal results. 
-Other than running a test suite on target, I really don't have a clue 
-how to detect whether a dependent package would need to be rebuilt.
-
- From that point, I totally agree that the obvious choice is to just 
-rebuild the dependent one.
-
-It's like discovering that an X-ray machine in the hospital is faulty. 
-Calling back patients for a rerun of the exam will expose them to 
-radiation, and thus will certainly harm them. Not calling them back may 
-expose them to wrong diagnoses.
-
-In this case, rebuilding libraries will harm because it will needlessly 
-consume flash space. Not rebuilding them may lead to application failure.
-
-Until the PR server was mandatorized, we defaulted to "rebuild the 
-libraries, but only install them on new machines and let existing setups 
-keep what they have". It's also going to be hurting our servers - we're 
-pushing the montly multi-terabyte bandwidth limits already, most of that 
-traffic is "opkg upgrade", and now the upgrade size threatens to become 
-over ten times larger, we'll need to be looking for bandwidth sponsors soon.
-
-> To be honest, I get depressed when I read things like this.
-
-It's not a complaint against you personally or anyone else on the OE 
-team. I just want you to know what's happening in your user community, 
-and call for suggestions and ideas on how to better handle this. The 
-compare tool you're talking about is a step into that direction. I think 
-in essence the PR server is a good thing. There's just more to it than 
-what meets the eye.
-
-Honestly, would you have been happier had I never written about this and 
-just went looking for an alternative on my own without ever talking to 
-the OE-core people?
-
-> There are
-> key pieces of functionality we're missing and we simply do not have the
-> developer manpower to be able to go and fix them all. I want to help but
-> I'm drowning just trying to keep the day to day project and patches
-> flowing and generally I never hear about the successes, just when
-> people's builds break (which is always *my* fault and must be fixed
-> *now*).
-
-Oh boy, that sounds like a daytime job :)
-
-I'm facing the opposite problem - I spend so much time keeping up with 
-the OE updates, that I don't get around to do much about other things in 
-our hobby team. You're moving so damn fast, the rest of the world just 
-can't keep up!
-
-> I'd love to see more organisations donating some man power to address
-> issues like this. People see the project basically keeping moving and
-> therefore decide to put manpower on things closer to home though. I wish
-> I knew how to try and improve things, I don't even get the time to step
-> back and think about that these days though :(.
-
-If you happen to be in the neighbourhood, drop by and we'll grill 
-someting on the BBQ and drink some alcoholic beverages if that'd help 
-you relax :)
-
-Be careful what you wish for though. More manpower will also mean that 
-more patches will pile up on your doorstep...
-
-
+Also remember that as Ross says ('*automatically* applied as a patch'),
+it's not a must, you can opt-in to patch application with ;apply=yes if the
+filename doesn't match the expected extensions.
 -- 
-Mike Looijmans
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a11c34b88ff84fd04fe902e3b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Jul 18, 2014 at 2:26 PM, Robert P. J. Day <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.=
+ca</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"">On Fri, 18 Jul 2014, Burton,=
+ Ross wrote:<br>
+<br>
+&gt; On 18 July 2014 19:58, Robert P. J. Day &lt;<a href=3D"mailto:rpjday@c=
+rashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>
+&gt; &gt; =C2=A0not sure where i saw this recently (i&#39;ll track it down)=
+, but some OE<br>
+&gt; &gt; or yocto doc claimed that patch files *must* be suffixed with<br>
+&gt; &gt; &quot;.patch&quot;. i&#39;m pretty sure it can be either .patch o=
+r .diff, correct?<br>
+&gt; &gt; as in, it&#39;s perfectly valid to do this in a .bbappend file:</=
+div></blockquote></div><br></div><div class=3D"gmail_extra">Also remember t=
+hat as Ross says (&#39;*automatically* applied as a patch&#39;), it&#39;s n=
+ot a must, you can opt-in to patch application with ;apply=3Dyes if the fil=
+ename doesn&#39;t match the expected extensions.<br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
+
+--001a11c34b88ff84fd04fe902e3b--
