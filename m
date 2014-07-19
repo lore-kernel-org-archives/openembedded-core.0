@@ -1,32 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A136E70753
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 603 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 19 Jul 2014 12:20:41 UTC
+Received: from smtp01.online.nl (smtp01.online.nl [194.134.41.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E4BC705C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jul 2014 23:15:50 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6INERnh006482; Sat, 19 Jul 2014 00:15:31 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 94jlPtpRHlhE; Sat, 19 Jul 2014 00:15:31 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6INFP7g006684
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sat, 19 Jul 2014 00:15:27 +0100
-Message-ID: <1405725320.26348.80.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Sat, 19 Jul 2014 00:15:20 +0100
-In-Reply-To: <53C9A11B.3020805@linux.intel.com>
-References: <cover.1405542583.git.ross.burton@intel.com>
-	<934289b8ba6a8b7a0f1eec8aabf723f823d515d8.1405542583.git.ross.burton@intel.com>
-	<53C9A11B.3020805@linux.intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] default-distrovars: update license whitelists to use canonical names
+	Sat, 19 Jul 2014 12:20:41 +0000 (UTC)
+Received: from smtp01.online.nl (localhost [127.0.0.1])
+	by smtp01.online.nl (Postfix) with ESMTP id D6D028E4FF
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Jul 2014 14:10:37 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp01.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Jul 2014 14:10:37 +0200 (CEST)
+Message-ID: <53CA603D.4050900@topic.nl>
+Date: Sat, 19 Jul 2014 14:10:37 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+X-Online-Scanned: by Cloudmark authority (on smtp01.online.nl)
+Subject: PRSERVER is killing settop boxes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jul 2014 23:16:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 19 Jul 2014 12:20:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2014-07-18 at 15:35 -0700, Saul Wold wrote:
-> On 07/16/2014 02:08 PM, Ross Burton wrote:
-> > Now that all licenses are canonicalised to SPDX names when processing, we need
-> > to rename the whitelists to the match.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > ---
-> >   meta/conf/distro/include/default-distrovars.inc |    6 +++---
-> >   1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> > index 1bc8e46..8d24d66 100644
-> > --- a/meta/conf/distro/include/default-distrovars.inc
-> > +++ b/meta/conf/distro/include/default-distrovars.inc
-> > @@ -23,9 +23,9 @@ IMAGE_FEATURES ?= ""
-> >
-> >   # This is a list of packages that are used by the build system to build the distribution, they are not
-> >   # directly part of the distribution.
-> > -HOSTTOOLS_WHITELIST_GPLv3 ?= ""
-> > -WHITELIST_GPLv3 ?= "less"
-> > -LGPLv2_WHITELIST_GPLv3 ?= "libassuan gnutls libtasn1 libidn libgcc libgcc-initial gcc-runtime"
-> > +HOSTTOOLS_WHITELIST_GPL-3.0 ?= ""
-> > +WHITELIST_GPL-3.0 ?= "less"
-> > +LGPLv2_WHITELIST_GPL-3.0 ?= "libassuan gnutls libtasn1 libidn libgcc libgcc-initial gcc-runtime"
-> >
-> 
-> This change seems to make multilib builds unhappy, both on the 
-> Autobuilder and locally, see attached output.
+For a hobby project (openpli.org) there are about a million boxes 
+running software built with OE.
 
-FWIW I've fixed this before I merged it, it needed a tweak to
-multilib.bbclass...
+I recently upgraded its core to the current master. What now happens is 
+that if a package like gcc has been changed, it will not only rebuild 
+everything, but it will also give all packages a new PR number. When a 
+box in the field now runs "opkg upgrade", it will get 286 "new" packages 
+and will try to squeeze them into its flash filesystem (even though only 
+about 5 of these packages actually have different content). This is 
+likely to kill the box, as the packages installed later on will take up 
+more room in the flash system than when they were initially installed 
+from scratch, and many models are using over 90% of the NAND flash space 
+available already.
 
-Cheers,
+Before the PRSERVER was made mandatory, we never had this problem.
 
-Richard
+Is there a way we can get the old behaviour of having to explicitly set 
+the PR of each package?
+Or at least, distinguish between "the package itself was modified" and 
+"some library it depended upon was altered and we built a new one just 
+to make sure, but it'll likely work just fine with the previously built 
+one, so don't update the PR of the dependent packages".
 
+
+-- 
+Mike Looijmans
 
