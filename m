@@ -1,22 +1,30 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 8A63D7066C
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id C2B72705A2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Jul 2014 20:00:50 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Sun, 20 Jul 2014 22:00:45 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 4C0F5288F33;
-	Sun, 20 Jul 2014 22:00:45 +0200 (CEST)
-From: Tudor Florea <tudor.florea@enea.com>
+	Sun, 20 Jul 2014 20:13:38 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1X8xUJ-00061J-9u from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Sun, 20 Jul 2014 13:13:39 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Sun, 20 Jul 2014 13:13:39 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-04.mgc.mentorg.com (147.34.97.41) with Microsoft SMTP
+	Server id 14.2.247.3; Sun, 20 Jul 2014 13:13:00 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 20 Jul 2014 22:00:43 +0200
-Message-ID: <1405886443-34495-1-git-send-email-tudor.florea@enea.com>
+Date: Sun, 20 Jul 2014 16:13:36 -0400
+Message-ID: <1405887216-24658-1-git-send-email-drew_moseley@mentor.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <CAJTo0LaZJzF1y=jp2ZV+sNV+6Kr9G9ez-BNvT6gUY3sgNvBrQw@mail.gmail.com>
+References: <CAJTo0LaZJzF1y=jp2ZV+sNV+6Kr9G9ez-BNvT6gUY3sgNvBrQw@mail.gmail.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH 1/1] buildtools-tarball: Add wget to buildtools-tarball
+X-OriginalArrivalTime: 20 Jul 2014 20:13:39.0126 (UTC)
+	FILETIME=[18259560:01CFA457]
+Subject: [PATCH v2] libomxil-0.9.3: Remove versioning for .so files.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,88 +37,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Jul 2014 20:00:52 -0000
+X-List-Received-Date: Sun, 20 Jul 2014 20:13:43 -0000
 Content-Type: text/plain
 
-GNU Wget cannot be upgrated to a newer that 1.12 version on supported
-Centos distro. GNU Wget 1.12 and earlier uses a server-provided filename
-instead of the original URL to determine the destination filename of a
-download.
-This means the files downloaded when fetching cannot be properly used:
-$ wget http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/3.4.2/source/eventlog_0.2.13.tar.gz
-$ ls
-eventlog_0.2.13.tar.gz?AWSAccessKeyId=AKIAICTJ5MANGPMOH7JA&Expires=1400838672&Signature=TjakOBpOvHtEKKDgF14iVinWpY0=
-This in turn lead to build errors like:
-WARNING: Failed to fetch URL http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/3.4.2/source/eventlog_0.2.13.tar.gz, attempting MIRRORS if available
-ERROR: Fetcher failure for URL: 'http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/3.4.2/source/eventlog_0.2.13.tar.gz&#39;. The fetch command returned success for url http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/3.4.2/source/eventlog_0.2.13.tar.gz but /path/to/downloads/eventlog_0.2.13.tar.gz doesn't exist?!
-ERROR: Function failed: Fetcher failure for URL: 'http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/3.4.2/source/eventlog_0.2.13.tar.gz&#39;. Unable to fetch URL from any source.
-ERROR: Logfile of failure stored in: /path/to/tmp/work/ppce500v2-enea-linux-gnuspe/eventlog/0.2.13-r0/temp/log.do_fetch.28302
-ERROR: Task 4 (/path/to/poky/meta-openembedded/meta-oe/recipes-support/eventlog/eventlog_0.2.13.bb, do_fetch) failed with exit code '1'
+The so files installed by libomxil are not versioned and should
+be installed without version-based symlinks so that omxregister-bellagio
+can properly find and register them.
 
-[YOCTO #6549]
-
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 1 +
- meta/recipes-extended/wget/wget.inc          | 4 ++++
- meta/recipes-support/gnutls/gnutls.inc       | 2 +-
- meta/recipes-support/nettle/nettle_2.7.1.bb  | 2 +-
- 4 files changed, 7 insertions(+), 2 deletions(-)
+ .../libomxil-0.9.3/disable-so-versioning.patch     | 69 ++++++++++++++++++++++
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 17 ++++--
+ 2 files changed, 80 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 62e1e0b..c54d9e8 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -41,6 +41,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-git \
-     nativesdk-pigz \
-     nativesdk-make \
-+    nativesdk-wget \
-     "
- 
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 642d502..a8ceb0e 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -4,6 +4,7 @@ SECTION = "console/network"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "gnutls zlib libpcre"
-+DEPENDS_class-nativesdk = "nativesdk-gnutls nativesdk-zlib nativesdk-libpcre"
- 
- INC_PR = "r16"
- 
-@@ -13,6 +14,9 @@ EXTRA_OECONF = "--enable-ipv6 --with-ssl=gnutls --disable-rpath --disable-iri \
-                 ac_cv_header_uuid_uuid_h=no"
- 
- ALTERNATIVE_${PN} = "wget"
-+ALTERNATIVE_${PN}_class-nativesdk = ""
- ALTERNATIVE_PRIORITY = "100"
- 
- RRECOMMENDS_${PN} += "ca-certificates"
+diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
+new file mode 100644
+index 0000000..9c63b4d
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
+@@ -0,0 +1,69 @@
++Disable so versioning since they are really not a versioned shared lib.
 +
-+BBCLASSEXTEND += "nativesdk"
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 8820b0e..2193ea0 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -42,4 +42,4 @@ FILES_${PN}-xx = "${libdir}/libgnutlsxx.so.*"
++Upstream-Status: Submitted @ https://sourceforge.net/p/omxil/bugs/59/
++
++Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
++
++diff -rub libomxil-bellagio-0.9.3-orig/src/components/audio_effects/Makefile.am libomxil-bellagio-0.9.3/src/components/audio_effects/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/components/audio_effects/Makefile.am	2014-07-20 15:22:00.858425234 -0400
+++++ libomxil-bellagio-0.9.3/src/components/audio_effects/Makefile.am	2014-07-20 15:25:42.687525225 -0400
++@@ -10,4 +10,5 @@
++ libomxaudio_effects_la_CFLAGS = -I$(top_srcdir)/include \
++ 				-I$(top_srcdir)/src \
++ 				-I$(top_srcdir)/src/base
+++libomxaudio_effects_la_LDFLAGS = -avoid-version
++ 
++diff -rub libomxil-bellagio-0.9.3-orig/src/components/clocksrc/Makefile.am libomxil-bellagio-0.9.3/src/components/clocksrc/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/components/clocksrc/Makefile.am	2014-07-20 15:22:00.858425234 -0400
+++++ libomxil-bellagio-0.9.3/src/components/clocksrc/Makefile.am	2014-07-20 15:24:49.151259753 -0400
++@@ -10,4 +10,4 @@
++                              -I$(top_srcdir)/include \
++                              -I$(top_srcdir)/src \
++                              -I$(top_srcdir)/src/base
++-
+++libomxclocksrc_la_LDFLAGS = -avoid-version
++diff -rub libomxil-bellagio-0.9.3-orig/src/components/videoscheduler/Makefile.am libomxil-bellagio-0.9.3/src/components/videoscheduler/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/components/videoscheduler/Makefile.am	2014-07-20 15:22:00.862425254 -0400
+++++ libomxil-bellagio-0.9.3/src/components/videoscheduler/Makefile.am	2014-07-20 15:22:36.462601786 -0400
++@@ -6,7 +6,7 @@
++ 								library_entry_point.c
++ 
++ libomxvideosched_la_LIBADD = $(top_builddir)/src/libomxil-bellagio.la
++-libomxvideosched_la_LDFLAGS = 
+++libomxvideosched_la_LDFLAGS = -avoid-version
++ libomxvideosched_la_CFLAGS = -I$(top_srcdir)/include \
++ 			-I$(top_srcdir)/src \
++ 			-I$(top_srcdir)/src/base
++diff -rub libomxil-bellagio-0.9.3-orig/src/dynamic_loader/Makefile.am libomxil-bellagio-0.9.3/src/dynamic_loader/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/dynamic_loader/Makefile.am	2014-07-20 15:22:00.862425254 -0400
+++++ libomxil-bellagio-0.9.3/src/dynamic_loader/Makefile.am	2014-07-20 15:22:36.462601786 -0400
++@@ -3,7 +3,7 @@
++ omxdynamicloader_LTLIBRARIES = libomxdynamicloader.la
++ libomxdynamicloader_la_SOURCES = ste_dynamic_component_loader.c ste_dynamic_component_loader.h
++ 
++-libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs
+++libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs -avoid-version
++ libomxdynamicloader_la_CFLAGS = -I$(top_srcdir)/include \
++ 			-I$(top_srcdir)/src \
++ 			-I$(top_srcdir)/src/base \
++diff -rub libomxil-bellagio-0.9.3-orig/src/Makefile.am libomxil-bellagio-0.9.3/src/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/Makefile.am	2014-07-20 15:22:00.862425254 -0400
+++++ libomxil-bellagio-0.9.3/src/Makefile.am	2014-07-20 15:22:36.462601786 -0400
++@@ -8,7 +8,7 @@
++ omxregister_bellagio_CFLAGS = -DOMXILCOMPONENTSPATH=\"$(plugindir)/\" \
++ 			      -I$(top_srcdir)/include
++ omxregister_bellagio_LDADD = $(lib_LTLIBRARIES)
++-omxregister_bellagio_LDFLAGS = -lomxil-bellagio -L$(builddir)
+++omxregister_bellagio_LDFLAGS = -lomxil-bellagio -L$(builddir) -avoid-version
++ 
++ lib_LTLIBRARIES = libomxil-bellagio.la
++ libomxil_bellagio_la_SOURCES = component_loader.h \
++@@ -29,7 +29,7 @@
++ libomxil_bellagio_la_CFLAGS = -I$(top_srcdir)/include -I$(srcdir)/base -I$(srcdir)/core_extensions \
++                               -DINSTALL_PATH_STR=\"$(plugindir)\" -DOMX_LOADERS_DIRNAME=\"$(libdir)/omxloaders\/\"
++ libomxil_bellagio_la_LIBADD = base/libomxbase.la core_extensions/libomxcoreext.la -lpthread
++-libomxil_bellagio_la_LDFLAGS = -version-info @SHARED_VERSION_INFO@
+++libomxil_bellagio_la_LDFLAGS = -avoid-version
++ 
++ include_extradir = $(includedir)/bellagio
++ 
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index 103d789..ba3d491 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -12,7 +12,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
+            file://configure-fix.patch \
+            file://parallel-make.patch \
+            file://makefile-docdir-fix.patch \
+-           file://dynamicloader-linking.patch"
++           file://dynamicloader-linking.patch \
++           file://disable-so-versioning.patch"
  
- LDFLAGS_append_libc-uclibc += " -pthread"
+ SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
+ SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
+@@ -23,13 +24,17 @@ inherit autotools
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
-index 8aa5351..f53afcc 100644
---- a/meta/recipes-support/nettle/nettle_2.7.1.bb
-+++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
-@@ -23,4 +23,4 @@ do_configure_prepend() {
+ EXTRA_OECONF += "--disable-doc --disable-Werror"
  
- inherit autotools
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+-FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
+-                ${libdir}/omxloaders/*${SOLIBS}"
++#
++# The .so files populated by libomxil are not intended to be versioned and symlinked.
++# Make sure they get packaged in the main package.
++#
++FILES_SOLIBSDEV = ""
++FILES_${PN} += "${libdir}/*.so \
++                ${libdir}/bellagio/*.so \
++                ${libdir}/omxloaders/*.so"
+ FILES_${PN}-staticdev += "${libdir}/bellagio/*.a \
+                           ${libdir}/omxloaders/*.a"
+ FILES_${PN}-dev += "${libdir}/bellagio/*.la \
+-                    ${libdir}/bellagio/*${SOLIBSDEV} \
+-                    ${libdir}/omxloaders/*.la \
+-                    ${libdir}/omxloaders/*${SOLIBSDEV}"
++                    ${libdir}/omxloaders/*.la"
+ FILES_${PN}-dbg += "${libdir}/bellagio/.debug/ \
+                     ${libdir}/omxloaders/.debug/"
 -- 
 1.9.1
 
