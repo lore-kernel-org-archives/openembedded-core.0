@@ -1,34 +1,20 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 048C860167
+Return-Path: <roxana.ciobanu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 311AE6028A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 15:51:07 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6LFp8UJ015387 for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 10:51:08 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072110510863-32914 ;
-	Mon, 21 Jul 2014 10:51:08 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
+	Mon, 21 Jul 2014 15:55:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2014 08:54:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,701,1400050800"; d="scan'208";a="564994232"
+Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.53])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2014 08:54:52 -0700
+From: Roxana Ciobanu <roxana.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jul 2014 10:50:56 -0500
-Message-Id: <1405957856-15114-3-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-In-Reply-To: <1405957856-15114-1-git-send-email-ben.shelton@ni.com>
-References: <1405957856-15114-1-git-send-email-ben.shelton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/21/2014 10:51:08 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/21/2014 10:51:08 AM,
-	Serialize complete at 07/21/2014 10:51:08 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-20_03:2014-07-18, 2014-07-20,
-	1970-01-01 signatures=0
-Subject: [PATCH 3/3] bootlogd: ensure /var/log/boot is created in volatiles
+Date: Mon, 21 Jul 2014 18:55:12 +0300
+Message-Id: <cover.1405958049.git.roxana.ciobanu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] Fix for YB6502
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 15:51:16 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 15:55:17 -0000
 
-From: Richard Tollerton <rich.tollerton@ni.com>
+The following changes since commit 4d2ac6f6df2b3ef98699dd4f7afadb2d994222bb:
 
-bootlogd does not write to /var/log/boot if it does not exist,
-so if using the volatiles facility (presumed to mount /var/log under a
-tmpfs), ensure that /var/log/boot gets created.
+  rootfs: Remove the extraneous install directory (2014-07-19 00:18:21 +0100)
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- meta/recipes-core/sysvinit/sysvinit/01_bootlogd | 1 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb  | 7 ++++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/sysvinit/sysvinit/01_bootlogd
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/01_bootlogd b/meta/recipes-core/sysvinit/sysvinit/01_bootlogd
-new file mode 100644
-index 0000000..a689d92
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit/01_bootlogd
-@@ -0,0 +1 @@
-+f root root 0644 /var/log/boot none
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 448d021..a8c10f2 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -16,7 +16,9 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
-            file://rcS-default \
-            file://rc \
-            file://rcS \
--           file://bootlogd.init"
-+	   file://bootlogd.init \
-+           file://01_bootlogd \
-+"
- 
- SRC_URI[md5sum] = "6eda8a97b86e0a6f59dabbf25202aa6f"
- SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5df1519"
-@@ -92,6 +94,9 @@ do_install () {
- 	update-rc.d -r ${D} bootlogd start 07 S .
- 	update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
- 
-+	install -d ${D}${sysconfdir}/default/volatiles
-+	install -m 0644 ${WORKDIR}/01_bootlogd ${D}${sysconfdir}/default/volatiles
-+
- 	chown root.shutdown ${D}${base_sbindir}/halt ${D}${base_sbindir}/shutdown
- 	chmod o-x,u+s ${D}${base_sbindir}/halt ${D}${base_sbindir}/shutdown
- }
+  git://git.yoctoproject.org/poky-contrib roxana/YB6502
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6502
+
+Roxana Ciobanu (1):
+  image.bbclass/rootfs.py: add variables to rootfs[vardeps]
+
+ meta/classes/image.bbclass | 27 ++++++++++++++++++++++++++-
+ meta/lib/oe/rootfs.py      | 21 +++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+
 -- 
-2.0.2
+1.9.1
 
 
