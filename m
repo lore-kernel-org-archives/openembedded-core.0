@@ -1,39 +1,21 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6548765CC9;
-	Mon, 21 Jul 2014 22:32:24 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x48so8257049wes.19
-	for <multiple recipients>; Mon, 21 Jul 2014 15:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0W5hDxiaBo9OndrCB3YsFmz/hKdrCmSFxvkuTA/N/Ew=;
-	b=D+CCQJ/zS5BMvMLjlmjE3AfpZ9gehjAH+L3R0cXG/cryyVLjLl5616IXAIQJcil9ig
-	8AvgCmrySYTzyNK7tMgZhte+ESVl7GectygpPxedXlQ2OcTanai3vcAkcWjDXkfjScef
-	g9IhEvlBhJnxtB3WKJaX0a/WAG3KOJ6ESGoAUuNE2JEI4j4/rWz+vgWE0y0jkFqa1OW7
-	o7tPPzo5oTXHGSfGO9gL/0Alv2/iGhZ5VaWZS1I7FpUfTH3X85DCxh1TCITasPQNwMhk
-	g5/x55onusk88aMwjBz8Yq8zw2oQw4CoYeW+stsTPY/jxG8pzLnQCFQ0YkuFKjLt6fvH
-	u+zg==
-X-Received: by 10.194.177.168 with SMTP id cr8mr17755164wjc.134.1405981945829; 
-	Mon, 21 Jul 2014 15:32:25 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	wu6sm40749358wjb.46.2014.07.21.15.32.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Jul 2014 15:32:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 22 Jul 2014 00:32:40 +0200
-To: openembedded-core@lists.openembedded.org,
-	Peter Seebach <peter.seebach@windriver.com>
-Message-ID: <20140721223240.GN22875@jama>
-References: <20140716092525.988C0503D2@opal.openembedded.org>
-MIME-Version: 1.0
-In-Reply-To: <20140716092525.988C0503D2@opal.openembedded.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Peter Seebach : pseudo_1.6.0.bb: uprev to pseudo 1.6
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8037270656
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jul 2014 22:46:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jul 2014 15:40:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,705,1400050800"; d="scan'208";a="576683416"
+Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jul 2014 15:46:04 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jul 2014 22:45:57 +0000
+Message-Id: <3ef5564ecb54ed9e9663eefd2a05390ad890f5cf.1405982758.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 2.0.0
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 1/2] mkefidisk.sh: Fix redirection to 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,168 +28,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 22:32:25 -0000
-X-Groupsio-MsgNum: 55296
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9lPOKfY2vCV97ybw"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 21 Jul 2014 22:46:08 -0000
 
---9lPOKfY2vCV97ybw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The current script intends to redirect stderr to stdout, but instead
+redirects to a file named 1. No doubt a regex replace error.
 
-On Wed, Jul 16, 2014 at 09:25:25AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: b8f5d6b493ec759a97b92cf9b4c07ad8a8114de6
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Db8f5d6b493ec759a97b92cf9b4c07ad8a8114de6
->=20
-> Author: Peter Seebach <peter.seebach@windriver.com>
-> Date:   Mon Jul 14 14:12:29 2014 -0500
->=20
-> pseudo_1.6.0.bb: uprev to pseudo 1.6
->=20
-> This uprevs pseudo to 1.6. This merges in all of the existing
-> fixes, and also adds partial support for extended attributes,
-> including storing arbitrary extended attributes in the database,
-> and also interpreting the posix permissions ACLs as chmod
-> requests.
->=20
-> The extended attribute support means we need xattr.h, the simplest
-> way to be sure of this is to build attr before pseudo, which doesn't
-> take long.
->=20
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Replace all instances of 2>1 with 2>&1.
 
-I know there is 1.6.1 version in pseudo_git.bb but 1.6.0 is still default v=
-ersion and target version fails to build with:
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/contrib/mkefidisk.sh | 38 +++++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-| arm-oe-linux-gnueabi-gcc  -march=3Darmv5te -marm -mthumb-interwork --sysr=
-oot=3D/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemuarm  -O2 -pip=
-e -g -feliminate-unused-debug-types -pipe -std=3Dgnu99 -Wall -W -Wextra -fP=
-IC -D_LARGEFILE64_SOURCE -D_ATFILE_SOURCE -O2 -pipe -g -feliminate-unused-d=
-ebug-types -DPSEUDO_PREFIX=3D'"/usr"' -DPSEUDO_SUFFIX=3D'""' -DPSEUDO_BINDI=
-R=3D'"bin"' -DPSEUDO_LIBDIR=3D'"lib/pseudo/lib"' -DPSEUDO_LOCALSTATEDIR=3D'=
-"var/pseudo"' -DPSEUDO_VERSION=3D'"1.6.0"' -DUSE_MEMORY_DB -DPSEUDO_FORCE_A=
-SYNC -DPSEUDO_PASSWD_FALLBACK=3D'""' -O2 -g -L/home/jenkins/oe/world/shr-co=
-re/tmp-eglibc/sysroots/qemuarm/usr/lib -I/home/jenkins/oe/world/shr-core/tm=
-p-eglibc/sysroots/qemuarm/usr/include  -o bin/pseudolog pseudolog.o pseudo_=
-client.o pseudo_ipc.o \
-| 		pseudo_db.o pseudo_tables.o pseudo_util.o /home/jenkins/oe/world/shr-co=
-re/tmp-eglibc/sysroots/qemuarm/usr/lib/libsqlite3.a -lpthread -ldl -lpthread
-| pseudo.c:556: error: undefined reference to 'memcpy', version 'GLIBC_2.0'
-=2E.
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 7ec373e..44ab8d5 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -257,22 +257,22 @@ echo ""
+ info "Partitioning installation media ($DEVICE)"
+ 
+ debug "Deleting partition table on $DEVICE"
+-dd if=/dev/zero of=$DEVICE bs=512 count=2 >$OUT 2>1 || die "Failed to zero beginning of $DEVICE"
++dd if=/dev/zero of=$DEVICE bs=512 count=2 >$OUT 2>&1 || die "Failed to zero beginning of $DEVICE"
+ 
+ debug "Creating new partition table (MSDOS) on $DEVICE"
+-parted $DEVICE mklabel msdos >$OUT 2>1 || die "Failed to create MSDOS partition table"
++parted $DEVICE mklabel msdos >$OUT 2>&1 || die "Failed to create MSDOS partition table"
+ 
+ debug "Creating boot partition on $BOOTFS"
+-parted $DEVICE mkpart primary 0% $BOOT_SIZE >$OUT 2>1 || die "Failed to create BOOT partition"
++parted $DEVICE mkpart primary 0% $BOOT_SIZE >$OUT 2>&1 || die "Failed to create BOOT partition"
+ 
+ debug "Enabling boot flag on $BOOTFS"
+-parted $DEVICE set 1 boot on >$OUT 2>1 || die "Failed to enable boot flag"
++parted $DEVICE set 1 boot on >$OUT 2>&1 || die "Failed to enable boot flag"
+ 
+ debug "Creating ROOTFS partition on $ROOTFS"
+-parted $DEVICE mkpart primary $ROOTFS_START $ROOTFS_END >$OUT 2>1 || die "Failed to create ROOTFS partition"
++parted $DEVICE mkpart primary $ROOTFS_START $ROOTFS_END >$OUT 2>&1 || die "Failed to create ROOTFS partition"
+ 
+ debug "Creating swap partition on $SWAP"
+-parted $DEVICE mkpart primary $SWAP_START 100% >$OUT 2>1 || die "Failed to create SWAP partition"
++parted $DEVICE mkpart primary $SWAP_START 100% >$OUT 2>&1 || die "Failed to create SWAP partition"
+ 
+ if [ $DEBUG -eq 1 ]; then
+ 	parted $DEVICE print
+@@ -291,34 +291,34 @@ unmount_device || die "Failed to unmount $DEVICE partitions"
+ info "Formating partitions"
+ debug "Formatting $BOOTFS as vfat"
+ if [ ! "${DEVICE#/dev/loop}" = "${DEVICE}" ]; then
+-	mkfs.vfat -I $BOOTFS -n "EFI" >$OUT 2>1 || die "Failed to format $BOOTFS"
++	mkfs.vfat -I $BOOTFS -n "EFI" >$OUT 2>&1 || die "Failed to format $BOOTFS"
+ else
+-	mkfs.vfat $BOOTFS -n "EFI" >$OUT 2>1 || die "Failed to format $BOOTFS"
++	mkfs.vfat $BOOTFS -n "EFI" >$OUT 2>&1 || die "Failed to format $BOOTFS"
+ fi
+ 
+ debug "Formatting $ROOTFS as ext3"
+-mkfs.ext3 -F $ROOTFS -L "ROOT" >$OUT 2>1 || die "Failed to format $ROOTFS"
++mkfs.ext3 -F $ROOTFS -L "ROOT" >$OUT 2>&1 || die "Failed to format $ROOTFS"
+ 
+ debug "Formatting swap partition ($SWAP)"
+-mkswap $SWAP >$OUT 2>1 || die "Failed to prepare swap"
++mkswap $SWAP >$OUT 2>&1 || die "Failed to prepare swap"
+ 
+ 
+ #
+ # Installing to $DEVICE
+ #
+ debug "Mounting images and device in preparation for installation"
+-mount -o loop $HDDIMG $HDDIMG_MNT >$OUT 2>1 || error "Failed to mount $HDDIMG"
+-mount -o loop $HDDIMG_MNT/rootfs.img $HDDIMG_ROOTFS_MNT >$OUT 2>1 || error "Failed to mount rootfs.img"
+-mount $ROOTFS $ROOTFS_MNT >$OUT 2>1 || error "Failed to mount $ROOTFS on $ROOTFS_MNT"
+-mount $BOOTFS $BOOTFS_MNT >$OUT 2>1 || error "Failed to mount $BOOTFS on $BOOTFS_MNT"
++mount -o loop $HDDIMG $HDDIMG_MNT >$OUT 2>&1 || error "Failed to mount $HDDIMG"
++mount -o loop $HDDIMG_MNT/rootfs.img $HDDIMG_ROOTFS_MNT >$OUT 2>&1 || error "Failed to mount rootfs.img"
++mount $ROOTFS $ROOTFS_MNT >$OUT 2>&1 || error "Failed to mount $ROOTFS on $ROOTFS_MNT"
++mount $BOOTFS $BOOTFS_MNT >$OUT 2>&1 || error "Failed to mount $BOOTFS on $BOOTFS_MNT"
+ 
+ info "Preparing boot partition"
+ EFIDIR="$BOOTFS_MNT/EFI/BOOT"
+-cp $HDDIMG_MNT/vmlinuz $BOOTFS_MNT >$OUT 2>1 || error "Failed to copy vmlinuz"
++cp $HDDIMG_MNT/vmlinuz $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy vmlinuz"
+ # Copy the efi loader and configs (booti*.efi and grub.cfg if it exists)
+-cp -r $HDDIMG_MNT/EFI $BOOTFS_MNT >$OUT 2>1 || error "Failed to copy EFI dir"
++cp -r $HDDIMG_MNT/EFI $BOOTFS_MNT >$OUT 2>&1 || error "Failed to copy EFI dir"
+ # Silently ignore a missing gummiboot loader dir (we might just be a GRUB image)
+-cp -r $HDDIMG_MNT/loader $BOOTFS_MNT >$OUT 2>1
++cp -r $HDDIMG_MNT/loader $BOOTFS_MNT >$OUT 2>&1
+ 
+ # Update the boot loaders configurations for an installed image
+ # Remove any existing root= kernel parameters and:
+@@ -349,7 +349,7 @@ GUMMI_CFG="$GUMMI_ENTRIES/boot.conf"
+ if [ -d "$GUMMI_ENTRIES" ]; then
+ 	info "Configuring Gummiboot"
+ 	# remove the install target if it exists
+-	rm $GUMMI_ENTRIES/install.conf >$OUT 2>1
++	rm $GUMMI_ENTRIES/install.conf >$OUT 2>&1
+ 
+ 	if [ ! -e "$GUMMI_CFG" ]; then
+ 		echo "ERROR: $GUMMI_CFG not found"
+@@ -366,7 +366,7 @@ fi
+ 
+ 
+ info "Copying ROOTFS files (this may take a while)"
+-cp -a $HDDIMG_ROOTFS_MNT/* $ROOTFS_MNT >$OUT 2>1 || die "Root FS copy failed"
++cp -a $HDDIMG_ROOTFS_MNT/* $ROOTFS_MNT >$OUT 2>&1 || die "Root FS copy failed"
+ 
+ echo "$TARGET_SWAP     swap             swap       defaults              0 0" >> $ROOTFS_MNT/etc/fstab
+ 
+-- 
+2.0.0
 
-full log
-http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20140721_02=
-2210.log/3_min/failed/pseudo.log
 
-Can you please check it?
-
->=20
-> ---
->=20
->  meta/recipes-devtools/pseudo/pseudo.inc      |  6 +-----
->  meta/recipes-devtools/pseudo/pseudo_1.5.1.bb |  4 ++++
->  meta/recipes-devtools/pseudo/pseudo_1.6.0.bb | 10 ++++++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb   |  4 ++--
->  4 files changed, 17 insertions(+), 7 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devto=
-ols/pseudo/pseudo.inc
-> index 42738ab..11a8514 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo.inc
-> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
-> @@ -7,11 +7,7 @@ HOMEPAGE =3D "http://git.yoctoproject.org/cgit/cgit.cgi/=
-pseudo"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D243b725d71bb5df4a1e5920b344b8=
-6ad"
->  SECTION =3D "base"
->  LICENSE =3D "LGPL2.1"
-> -DEPENDS =3D "sqlite3"
-> -
-> -SRC_URI_append_class-nativesdk =3D " file://symver.patch"
-> -
-> -SRC_URI_append_class-native =3D " file://symver.patch"
-> +DEPENDS =3D "sqlite3 attr"
-> =20
->  FILES_${PN} =3D "${prefix}/lib/pseudo/lib*/libpseudo.so ${bindir}/* ${lo=
-calstatedir}/pseudo ${prefix}/var/pseudo"
->  FILES_${PN}-dbg +=3D "${prefix}/lib/pseudo/lib*/.debug"
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-=
-devtools/pseudo/pseudo_1.5.1.bb
-> index 47291fd..8d562ec 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-> @@ -10,6 +10,10 @@ SRC_URI =3D " \
->      file://pseudo-fchmodat-permissions.patch \
->  "
-> =20
-> +SRC_URI_append_class-nativesdk =3D " file://symver.patch"
-> +
-> +SRC_URI_append_class-native =3D " file://symver.patch"
-> +
->  SRC_URI[md5sum] =3D "5ec67c7bff5fe68c56de500859c19172"
->  SRC_URI[sha256sum] =3D "3b896f592f4d568569bd02323fad2d6b8c398e16ca36ee5a=
-8947d2ff6c1d3d52"
-> =20
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb b/meta/recipes-=
-devtools/pseudo/pseudo_1.6.0.bb
-> new file mode 100644
-> index 0000000..e92c4d7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.6.0.bb
-> @@ -0,0 +1,10 @@
-> +require pseudo.inc
-> +
-> +SRC_URI =3D " \
-> +    http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-> +"
-> +
-> +SRC_URI[md5sum] =3D "78c3f8aa8efe8cf15a2b21261174e3b6"
-> +SRC_URI[sha256sum] =3D "e24f526443b31c3292ec5ba04950d230b5388e8983c7e192=
-e9e489c007f3dba3"
-> +
-> +PSEUDO_EXTRA_OPTS ?=3D "--enable-force-async"
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-de=
-vtools/pseudo/pseudo_git.bb
-> index 66fc85f..ef258fa 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -1,7 +1,7 @@
->  require pseudo.inc
-> =20
-> -SRCREV =3D "b9eb2b5633b5a23efe72c950494728d93c2b5823"
-> -PV =3D "1.5.1+git${SRCPV}"
-> +SRCREV =3D "512b84fb539c970464a93107995edf0e775d13fa"
-> +PV =3D "1.6.0+git${SRCPV}"
-> =20
->  DEFAULT_PREFERENCE =3D "-1"
-> =20
->=20
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---9lPOKfY2vCV97ybw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPNlQgACgkQN1Ujt2V2gBx83ACcCoXDMEIlN//gYo0fT6r7EhEy
-XkAAoLGG1k/ZoG44yFWyrX9Z5xOC2ybz
-=BuQ9
------END PGP SIGNATURE-----
-
---9lPOKfY2vCV97ybw--
