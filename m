@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 41F5C701C0
+Return-Path: <roxana.ciobanu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 77C8A6ACD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 08:31:24 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6L8VKpw028129 for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 09:31:20 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hTU1y7G_QHNE
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 09:31:19 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6L8VHfP028114
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 09:31:19 +0100
-Message-ID: <1405931472.22985.90.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Jul 2014 09:31:12 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] shadow: Add PACKAGECONFIG for acl/attr
+	Mon, 21 Jul 2014 09:15:05 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 21 Jul 2014 02:15:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,699,1400050800"; d="scan'208";a="459416647"
+Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.53])
+	by azsmga001.ch.intel.com with ESMTP; 21 Jul 2014 02:14:54 -0700
+From: Roxana Ciobanu <roxana.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jul 2014 12:15:15 +0300
+Message-Id: <cover.1405934076.git.roxana.ciobanu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/1] Fix for YB6502
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 08:31:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Jul 2014 09:15:13 -0000
 
-Otherwise builds are not deterministic.
+The following changes since commit 4d2ac6f6df2b3ef98699dd4f7afadb2d994222bb:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  rootfs: Remove the extraneous install directory (2014-07-19 00:18:21 +0100)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 40f58f0..66541f4 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -75,6 +75,8 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
- PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
-+PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
-+PACKAGECONFIG[acl] = "--with-acl,--without-acl,acl"
- 
- RDEPENDS_${PN} = "shadow-securetty \
-                   base-passwd"
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib roxana/YB6502
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=roxana/YB6502
+
+Roxana Ciobanu (1):
+  image.bbclass/rootfs.py: add variables to rootfs[vardeps]
+
+ meta/classes/image.bbclass | 21 ++++++++++++++++++++-
+ meta/lib/oe/rootfs.py      | 21 +++++++++++++++++++++
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+
+-- 
+1.9.1
 
 
