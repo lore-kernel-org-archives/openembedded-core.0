@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CE8E5701F5
+	by mail.openembedded.org (Postfix) with ESMTP id 5504A70206
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 18:14:41 +0000 (UTC)
+	Mon, 21 Jul 2014 18:16:47 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6LIEbe8021727; Mon, 21 Jul 2014 19:14:37 +0100
+	s6LIGhe5021884; Mon, 21 Jul 2014 19:16:43 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PHMfGMo49gLR; Mon, 21 Jul 2014 19:14:37 +0100 (BST)
+	with LMTP id Z7rhjgnkYvGk; Mon, 21 Jul 2014 19:16:43 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6LIEWSo021723
+	s6LIGZSP021871
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 21 Jul 2014 19:14:34 +0100
-Message-ID: <1405966466.22985.101.camel@ted>
+	Mon, 21 Jul 2014 19:16:39 +0100
+Message-ID: <1405966590.22985.103.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ben Shelton <ben.shelton@ni.com>
-Date: Mon, 21 Jul 2014 19:14:26 +0100
-In-Reply-To: <1405961628-25284-4-git-send-email-ben.shelton@ni.com>
-References: <1405961628-25284-1-git-send-email-ben.shelton@ni.com>
-	<1405961628-25284-4-git-send-email-ben.shelton@ni.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Mon, 21 Jul 2014 19:16:30 +0100
+In-Reply-To: <53CCF28B.1050804@mlbassoc.com>
+References: <cover.1405583236.git.Qi.Chen@windriver.com>
+	<1405931246.22985.89.camel@ted> <53CCF28B.1050804@mlbassoc.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] busybox: Allow busybox-mdev to RPROVIDES hotplug
+Subject: Re: [PATCH V5 0/2] shadow: upgrade from 4.1.4.3 to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +38,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 18:14:44 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 18:16:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-07-21 at 11:53 -0500, Ben Shelton wrote:
-> From: Richard Tollerton <rich.tollerton@ni.com>
+On Mon, 2014-07-21 at 04:59 -0600, Gary Thomas wrote:
+> On 2014-07-21 02:27, Richard Purdie wrote:
+> > On Thu, 2014-07-17 at 15:53 +0800, Chen Qi wrote:
+> >> The following changes since commit 846bc50fde11bbb36c8eb5b2e3ae6bb644c037f3:
+> >>
+> >>    ltp: use "foreign" automake strictness (2014-07-16 10:27:16 +0100)
+> >>
+> >> are available in the git repository at:
+> >>
+> >>    git://git.openembedded.org/openembedded-core-contrib ChenQi/shadow-4.2.1
+> >>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/shadow-4.2.1
+> >>
+> >> Chen Qi (2):
+> >>    shadow: upgrade from 4.1.4.3 to 4.2.1
+> >>    oeqa: fix return status in pam.py to match shadow-4.2.1
+> >
+> > I think but am not 100% sure this has introduced another regression:
+> >
+> > https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/builds/177
+> >
+> > The issue is that X doesn't start in oe-core built images. It does work
+> > correctly in poky. The issue is that the /etc/init.d/xserver-nodm script
+> > returns:
+> >
+> > root@qemuarm:/etc# /etc/init.d/xserver-nodm start
+> > Starting Xserver
+> > su: applet not found
+> >
+> > or to be more specific:
+> >
+> > root@qemuarm:/etc# su -l -c '/etc/X11/Xserver&' xuser
+> > su: applet not found
+> >
+> >
+> > The poky images appear to work since we install bash. If you remove bash
+> > from packagegroup-core-device-devel.bb, the poky images will show the
+> > same error.
+> >
+> > I think this is something to do with the none-suid busybox binary not
+> > containing su support, but why su is being called there, I don't know.
+> > su is being provided by shadow in the image. If I make su provided by
+> > busybox the problem also goes away.
 > 
-> This is for symmetry with udev which also RPROVIDES hotplug.
-> 
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> Signed-off-by: Ben Shelton <ben.shelton@ni.com>
-> ---
->  meta/recipes-core/busybox/busybox.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-> index bd66e4f..b4b9684 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -42,6 +42,7 @@ SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
->  
->  CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
->  CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
-> +RPROVIDES_${PN}-mdev = "hotplug"
->  
->  RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+> The problem (reported last week on the Yocto list) is su.shadow
+> changed how it behaves.  The old version would end up passing
+> the script off by
+>    6761  execve("/bin/sh", ["/bin/sh", "-c", "/etc/X11/Xserver"], [/* 7 vars */]) = 0
+> whereas the new version does
+>    961   execve("/bin/sh", ["-su", "-c", "/etc/X11/Xserver"], [/* 7 vars */]) = 0
 
-Why add this? I'm curious what would actually use that naming?
+Hmm, busybox is interpreting that "-su" as an argument to call su, which
+busybox.nosuid doesn't have within it as an applet, hence the error
+message.
 
-The RPROVIDES in udev was for backwards compatibility when hotplug
-actually existed iirc, its long since dead?
+> I still haven't figured out why su.shadow now behaves this way.
+
+That does indeed look like what we need to figure out...
 
 Cheers,
 
 Richard
-
 
 
