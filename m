@@ -1,28 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D56C703CF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AEF2970362
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 06:03:27 +0000 (UTC)
+	Mon, 21 Jul 2014 06:17:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6L63R3X010958
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6L6HoP0025813
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 20 Jul 2014 23:03:27 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Sun, 20 Jul 2014 23:03:26 -0700
-Message-ID: <53CCAD21.8050301@windriver.com>
-Date: Mon, 21 Jul 2014 14:03:13 +0800
+	Sun, 20 Jul 2014 23:17:50 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Sun, 20 Jul 2014 23:17:49 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1405917574.git.hongxu.jia@windriver.com>
-	<24a0f777e3517a0365315cc1d311ba9d686c80a2.1405917574.git.hongxu.jia@windriver.com>
-In-Reply-To: <24a0f777e3517a0365315cc1d311ba9d686c80a2.1405917574.git.hongxu.jia@windriver.com>
+Date: Mon, 21 Jul 2014 14:17:34 +0800
+Message-ID: <3706903d5cad6c996413ffa6e79d598d173c50ee.1405923190.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1405923190.git.hongxu.jia@windriver.com>
+References: <cover.1405923190.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: Re: [PATCH 1/1] add checking to standardize how .bbappend files do FILESEXTRAPATHS
+Subject: [PATCH 1/1] insane: add checking to standardize how .bbappend files do FILESEXTRAPATHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,93 +33,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 06:03:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Jul 2014 06:17:54 -0000
+Content-Type: text/plain
 
-I think it is more reasonable to move the checking to insance.bbclass
-  rather than create a new bbclass.
+When adding patches or config files from bbappend files, it requires
+the use of FILESEXTRAPATHS, which has been an issue and failure point
+for people starting to work with bitbake and oe-core.
 
-Please drop this, V2 incoming.
+We add checking to standardize how to use FILESEXTRAPATHS. Only the
+format of:
+  FILESEXTRAPATHS_append := ${THISDIR}/Your_Files_Path or
+  FILESEXTRAPATHS_prepend := ${THISDIR}/Your_Files_Path
+is acceptable.
 
-//Hongxu
+[YOCTO #5412]
 
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/insane.bbclass | 10 ++++++++++
+ meta/classes/utils.bbclass  |  2 ++
+ meta/conf/bitbake.conf      |  2 ++
+ 3 files changed, 14 insertions(+)
 
-On 07/21/2014 01:34 PM, Hongxu Jia wrote:
-> When adding patches or config files from bbappend files, it requires
-> the use of FILESEXTRAPATHS, which has been an issue and failure point
-> for people starting to work with bitbake and oe-core.
->
-> We add checking to standardize how to use FILESEXTRAPATHS. Only the
-> format of:
->    FILESEXTRAPATHS_append := ${THISDIR}/Your_Files_Path or
->    FILESEXTRAPATHS_prepend := ${THISDIR}/Your_Files_Path
-> is acceptable.
->
-> [YOCTO #5412]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/classes/base.bbclass                  |  1 +
->   meta/classes/filesextrapaths_check.bbclass | 10 ++++++++++
->   meta/classes/utils.bbclass                 |  2 ++
->   meta/conf/bitbake.conf                     |  2 ++
->   4 files changed, 15 insertions(+)
->   create mode 100644 meta/classes/filesextrapaths_check.bbclass
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 8114cf6..be8400a 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -9,6 +9,7 @@ inherit utils
->   inherit utility-tasks
->   inherit metadata_scm
->   inherit logging
-> +inherit filesextrapaths_check
->   
->   OE_IMPORTS += "os sys time oe.path oe.utils oe.data oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath"
->   OE_IMPORTS[type] = "list"
-> diff --git a/meta/classes/filesextrapaths_check.bbclass b/meta/classes/filesextrapaths_check.bbclass
-> new file mode 100644
-> index 0000000..6863e0c
-> --- /dev/null
-> +++ b/meta/classes/filesextrapaths_check.bbclass
-> @@ -0,0 +1,10 @@
-> +python __anonymous() {
-> +    # Checking ${FILESEXTRAPATHS}
-> +    extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
-> +    if '__default' not in extrapaths.split(":"):
-> +        msg =  "Please assign FILESEXTRAPATHS with the format of:\n"
-> +        msg += "  FILESEXTRAPATHS_append := ${THISDIR}/Your_Files_Path or\n"
-> +        msg += "  FILESEXTRAPATHS_prepend := ${THISDIR}/Your_Files_Path\n"
-> +        msg += "in your bbappend file\n"
-> +        bb.fatal(msg)
-> +}
-> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> index 0ee13e0..0f2a484 100644
-> --- a/meta/classes/utils.bbclass
-> +++ b/meta/classes/utils.bbclass
-> @@ -312,6 +312,8 @@ def explode_deps(s):
->   def base_set_filespath(path, d):
->       filespath = []
->       extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
-> +    # Remove default flag which was used for checking
-> +    extrapaths = extrapaths.replace("__default:", "")
->       # Don't prepend empty strings to the path list
->       if extrapaths != "":
->           path = extrapaths.split(":") + path
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index f4870d5..6a0cf7a 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -311,6 +311,8 @@ FILES_${PN}-locale = "${datadir}/locale"
->   FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
->   # FILESPATH is set in base.bbclass
->   #FILESPATH = "${FILE_DIRNAME}/${PF}:${FILE_DIRNAME}/${P}:${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/${BP}:${FILE_DIRNAME}/${BPN}:${FILE_DIRNAME}/files:${FILE_DIRNAME}"
-> +# This default was only used for checking
-> +FILESEXTRAPATHS ?= "__default:"
->   
->   ##################################################################
->   # General work and output directories for the build system.
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index b26216e..c3a6e9a 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1022,6 +1022,16 @@ python () {
+     # Check various variables
+     ###########################################################################
+ 
++    # Checking ${FILESEXTRAPATHS}
++    extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
++    if '__default' not in extrapaths.split(":"):
++        msg = "FILESEXTRAPATHS-variable, must always use _prepend (or _append)\n"
++        msg += "type of assignment. Please assign it with the format of:\n"
++        msg += "  FILESEXTRAPATHS_append := ${THISDIR}/Your_Files_Path or\n"
++        msg += "  FILESEXTRAPATHS_prepend := ${THISDIR}/Your_Files_Path\n"
++        msg += "in your bbappend file"
++        bb.fatal(msg)
++
+     if d.getVar('do_stage', True) is not None:
+         bb.fatal("Legacy staging found for %s as it has a do_stage function. This will need conversion to a do_install or often simply removal to work with OE-core" % d.getVar("FILE", True))
+ 
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index 0ee13e0..0f2a484 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -312,6 +312,8 @@ def explode_deps(s):
+ def base_set_filespath(path, d):
+     filespath = []
+     extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
++    # Remove default flag which was used for checking
++    extrapaths = extrapaths.replace("__default:", "")
+     # Don't prepend empty strings to the path list
+     if extrapaths != "":
+         path = extrapaths.split(":") + path
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index f4870d5..6a0cf7a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -311,6 +311,8 @@ FILES_${PN}-locale = "${datadir}/locale"
+ FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
+ # FILESPATH is set in base.bbclass
+ #FILESPATH = "${FILE_DIRNAME}/${PF}:${FILE_DIRNAME}/${P}:${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/${BP}:${FILE_DIRNAME}/${BPN}:${FILE_DIRNAME}/files:${FILE_DIRNAME}"
++# This default was only used for checking
++FILESEXTRAPATHS ?= "__default:"
+ 
+ ##################################################################
+ # General work and output directories for the build system.
+-- 
+1.8.1.2
 
 
