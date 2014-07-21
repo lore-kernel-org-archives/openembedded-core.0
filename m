@@ -1,20 +1,34 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 28A13705CF
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FA996ACD6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 10:03:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2014 03:03:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,699,1400050800"; d="scan'208";a="572973868"
-Received: from jrissane-mobl.ger.corp.intel.com ([10.237.67.153])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2014 03:03:12 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jul 2014 13:03:10 +0300
-Message-Id: <1405936990-10656-1-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] connman: Fix PPTP VPN plugin QA issue
+	Mon, 21 Jul 2014 10:16:40 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id w7so3779399lbi.29
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jul 2014 03:16:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=m5NEMl4RoHZzkIGNYMC7lTlpI40q91NDy01bx1Ss+lY=;
+	b=Q+IHCl2hxdutt2s0R+KMen0uvVxM1IzIj97vG1r/+/epXLqoDSsh+dhugQNiuOhXmN
+	0iUO6vneoR7kWGihecb1Uv7C4ejMxZgnXxJH/bTzFc1PXQhUGw/7fkTKevTsFEYEp894
+	zY2kXLWMZv3tVfkOsS3PfOv3P18K1uDVJOGyH0dfoQ1OH6un83Rv3QzeSs/JYs4raVf4
+	LoT9N90+xXGQYqrtVWf6gH52bEq+nW0OSHxwU6v8OgI8nmvVhRn2QauDbC2L0Gu/dTU+
+	0t/40Kv1jy00t81ekSzVGl93vyZBhjS57kmkL9jBHdB4Q8Wid7RidmjVERvlRv/Gc3OE
+	zUmw==
+MIME-Version: 1.0
+X-Received: by 10.152.26.37 with SMTP id i5mr25147046lag.17.1405937801350;
+	Mon, 21 Jul 2014 03:16:41 -0700 (PDT)
+Received: by 10.112.26.210 with HTTP; Mon, 21 Jul 2014 03:16:41 -0700 (PDT)
+In-Reply-To: <1405908237-7560-1-git-send-email-Chong.Lu@windriver.com>
+References: <1405908237-7560-1-git-send-email-Chong.Lu@windriver.com>
+Date: Mon, 21 Jul 2014 12:16:41 +0200
+Message-ID: <CAPbeDC=0Sq_wM-pAZtxgXQdM6m_89RH-r0bV5HwVdEXhiA-fNA@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][V2] perf: split package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,43 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 10:03:36 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 10:16:46 -0000
+Content-Type: multipart/alternative; boundary=089e0160a47639d3f804feb16728
 
-Fixing this error by skipping dev-so QA check for
-connman-plugin-vpn-pptp package.
+--089e0160a47639d3f804feb16728
+Content-Type: text/plain; charset=UTF-8
 
-ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: connman-plugin-vpn-pptp path '/work/core2-32-oe-linux/connman/1.24+gitAUTOINC+42779cd63c-r20.0/packages-split/connman-plugin-vpn-pptp/usr/lib/connman/scripts/libppp-plugin.so' [dev-so]
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
+On Mon, Jul 21, 2014 at 4:03 AM, Chong Lu <Chong.Lu@windriver.com> wrote:
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
-Hi,
+> Currently, perf can't split to perf-archive, perf-tests, perf-python and
+> perf-perl. All files are included in perf package.
+> Change the files paths to make split successfully and add perf package
+> RDEPEND on the other four to keep it consistent.
+>
 
-just upgraded to head 4d2ac6f6df2b3ef98699dd4f7afadb2d994222bb in master and started
-to see this QA error. Adding proper INSANE_SKIP seem to fix it. Just wondered why
-I am seeing this now but not earlier.
+Could it be that this is depending on which kernel version is building ?
+I'm using Freescales 3.10.17 kernel, and my perf packages do have perl
+scripts in perf-perl, python scripts in perl-python, etc.
 
+/Jacob
 
-Cheers,
-Jukka
+--089e0160a47639d3f804feb16728
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
+on, Jul 21, 2014 at 4:03 AM, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;=
+</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Currently, perf can&#39;t split to perf-arch=
+ive, perf-tests, perf-python and<br>
+perf-perl. All files are included in perf package.<br>
+Change the files paths to make split successfully and add perf package<br>
+RDEPEND on the other four to keep it consistent.<br></blockquote></div><br>=
+</div><div class=3D"gmail_extra">Could it be that this is depending on whic=
+h kernel version is building ?<br></div><div class=3D"gmail_extra">I&#39;m =
+using Freescales 3.10.17 kernel, and my perf packages do have perl scripts =
+in perf-perl, python scripts in perl-python, etc.<br>
+<br></div><div class=3D"gmail_extra">/Jacob<br></div></div>
 
- meta/recipes-connectivity/connman/connman.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index f121a81..3e9d027 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -211,5 +211,6 @@ DESCRIPTION_${PN}-plugin-vpn-pptp = "The ConnMan PPTP plugin uses pptp-linux cli
- to create a VPN connection to PPTP server."
- FILES_${PN}-plugin-vpn-pptp += "${libdir}/connman/scripts/libppp-plugin.so* \
-                                 ${libdir}/connman/plugins-vpn/pptp.so"
-+INSANE_SKIP_${PN}-plugin-vpn-pptp += "dev-so"
- RDEPENDS_${PN}-plugin-vpn-pptp += "${PN}-vpn"
- RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','pptp','${PN}-plugin-vpn-pptp', '', d)}"
--- 
-1.8.3.1
-
-
+--089e0160a47639d3f804feb16728--
