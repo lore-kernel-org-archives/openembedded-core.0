@@ -1,20 +1,28 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 21 Jul 2014 11:07:31 UTC
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C48870355
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 8DD0D70355
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 11:07:31 +0000 (UTC)
-Received: from localhost.localdomain (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 40D30E02EFB6;
-	Mon, 21 Jul 2014 13:02:25 +0200 (CEST)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jul 2014 13:01:57 +0200
-Message-Id: <1405940517-30651-1-git-send-email-maciej.borzecki@open-rnd.pl>
-X-Mailer: git-send-email 1.9.0
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
-Subject: [OE-code][PATCH] wic: include partition label in fs image file name
+	Mon, 21 Jul 2014 12:18:46 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Mon, 21 Jul 2014 14:18:39 +0200
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] buildtools-tarball: Add wget to
+	buildtools-tarball
+Thread-Index: AQHPpFVKVOAQmFztqkOEVefEriTQhpuqKh4AgABIx5A=
+Date: Mon, 21 Jul 2014 12:18:39 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428A8CC16@SESTOEX04.enea.se>
+References: <1405886443-34495-1-git-send-email-tudor.florea@enea.com>
+	<CAJTo0LaAM+Xf+G5i2AtQsK4cr1ec2V9yogOZrsRvVSyJ78KaRA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaAM+Xf+G5i2AtQsK4cr1ec2V9yogOZrsRvVSyJ78KaRA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] buildtools-tarball: Add wget to buildtools-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,49 +35,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 11:07:32 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 12:18:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Not including the label image but having multiple partitions of the same
-type, the image file of one partition would overwrite the other.
-
-Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
----
- scripts/lib/mic/kickstart/custom_commands/partition.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index 06f29a9..d0f1b78 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -343,7 +343,7 @@ class Wic_PartData(Mic_PartData):
-         """
-         Prepare an empty ext2/3/4 partition.
-         """
--        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-+        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
- 
-         dd_cmd = "dd if=/dev/zero of=%s bs=1M seek=%d count=0" % \
-             (fs, self.size)
-@@ -363,7 +363,7 @@ class Wic_PartData(Mic_PartData):
-         """
-         Prepare an empty btrfs partition.
-         """
--        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-+        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
- 
-         dd_cmd = "dd if=/dev/zero of=%s bs=1M seek=%d count=0" % \
-             (fs, self.size)
-@@ -384,7 +384,7 @@ class Wic_PartData(Mic_PartData):
-         """
-         Prepare an empty vfat partition.
-         """
--        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-+        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
- 
-         blocks = self.size * 1024
- 
--- 
-1.9.0
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
+YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIEp1bHkgMjEsIDIw
+MTQgMTI6NTcNCj4gVG86IFR1ZG9yIEZsb3JlYQ0KPiBDYzogT0UtY29yZQ0KPiBTdWJqZWN0OiBS
+ZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIGJ1aWxkdG9vbHMtdGFyYmFsbDogQWRkIHdnZXQgdG8g
+YnVpbGR0b29scy0NCj4gdGFyYmFsbA0KPiANCj4gT24gMjAgSnVseSAyMDE0IDIxOjAwLCBUdWRv
+ciBGbG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4gd3JvdGU6DQo+ID4gIERFUEVORFMgPSAi
+Z251dGxzIHpsaWIgbGlicGNyZSINCj4gPiArREVQRU5EU19jbGFzcy1uYXRpdmVzZGsgPSAibmF0
+aXZlc2RrLWdudXRscyBuYXRpdmVzZGstemxpYiBuYXRpdmVzZGstDQo+IGxpYnBjcmUiDQo+IA0K
+PiBXaHkgZG8geW91IG5lZWQgdG8gc2V0IERFUEVORFNfY2xhc3MtbmF0aXZlc2RrPw0KPiANCj4g
+Um9zcw0KIEknbGwgcmVtb3ZlIHRoZSBsaW5lIGFuZCBzZW5kIFYyIHBhdGNoLg0KVHVkb3IuDQo=
 
