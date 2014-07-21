@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
-	[209.85.216.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B98CB6AD01
+Return-Path: <jukka.rissanen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 28A13705CF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 09:57:37 +0000 (UTC)
-Received: by mail-qa0-f41.google.com with SMTP id j7so5005212qaq.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 02:57:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=930tKT1V1uJ8eaFvwKkKWWDZZVGz72f3bg4SPlIvfGE=;
-	b=gzTWFy4eSRV5L5knzxbL7Ue439NOZNKsLsDFGzGy9tjLubBtbecp8SP45UMs7BHF87
-	l7t0vaupmtPi4ggQdtLpI9UeeXoHPyiCCpLEdJNJUWWkW1uJzek9JgFvourXkIpC3AGb
-	OVa7B8LD9cFAhSaDN0B4+p3yk+VTG+N8EhVO7DK27/ACZDkpGDp1/baRQRaLxqfCTiFi
-	7/w0aFRRrA+TIowWp8HAOKZ/R28m8Z3xICmNzo8vrrSsEyjOnTBUZ4YHbYFTvebogzgD
-	qRoX4ci6w+lYzErLKGq0G6jOnWyacOn9Gp256wCkt705OjP3c4J6ZhwV+EbbYW1Wq4NW
-	MBgg==
-X-Gm-Message-State: ALoCoQkF0wgUrPSgYFqe5C+UTtnUmhn60mLx0xV1S8I52ubRCvoHm/v+JRnXPNtaOph5uDnq26er
-X-Received: by 10.140.47.129 with SMTP id m1mr29697654qga.95.1405936658553;
-	Mon, 21 Jul 2014 02:57:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 21 Jul 2014 02:57:18 -0700 (PDT)
-In-Reply-To: <1405886443-34495-1-git-send-email-tudor.florea@enea.com>
-References: <1405886443-34495-1-git-send-email-tudor.florea@enea.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Jul 2014 10:57:18 +0100
-Message-ID: <CAJTo0LaAM+Xf+G5i2AtQsK4cr1ec2V9yogOZrsRvVSyJ78KaRA@mail.gmail.com>
-To: Tudor Florea <tudor.florea@enea.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] buildtools-tarball: Add wget to buildtools-tarball
+	Mon, 21 Jul 2014 10:03:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2014 03:03:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,699,1400050800"; d="scan'208";a="572973868"
+Received: from jrissane-mobl.ger.corp.intel.com ([10.237.67.153])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2014 03:03:12 -0700
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jul 2014 13:03:10 +0300
+Message-Id: <1405936990-10656-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] connman: Fix PPTP VPN plugin QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 09:57:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 21 Jul 2014 10:03:36 -0000
 
-On 20 July 2014 21:00, Tudor Florea <tudor.florea@enea.com> wrote:
->  DEPENDS = "gnutls zlib libpcre"
-> +DEPENDS_class-nativesdk = "nativesdk-gnutls nativesdk-zlib nativesdk-libpcre"
+Fixing this error by skipping dev-so QA check for
+connman-plugin-vpn-pptp package.
 
-Why do you need to set DEPENDS_class-nativesdk?
+ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: connman-plugin-vpn-pptp path '/work/core2-32-oe-linux/connman/1.24+gitAUTOINC+42779cd63c-r20.0/packages-split/connman-plugin-vpn-pptp/usr/lib/connman/scripts/libppp-plugin.so' [dev-so]
+ERROR: QA run found fatal errors. Please consider fixing them.
+ERROR: Function failed: do_package_qa
 
-Ross
+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+---
+Hi,
+
+just upgraded to head 4d2ac6f6df2b3ef98699dd4f7afadb2d994222bb in master and started
+to see this QA error. Adding proper INSANE_SKIP seem to fix it. Just wondered why
+I am seeing this now but not earlier.
+
+
+Cheers,
+Jukka
+
+
+ meta/recipes-connectivity/connman/connman.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index f121a81..3e9d027 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -211,5 +211,6 @@ DESCRIPTION_${PN}-plugin-vpn-pptp = "The ConnMan PPTP plugin uses pptp-linux cli
+ to create a VPN connection to PPTP server."
+ FILES_${PN}-plugin-vpn-pptp += "${libdir}/connman/scripts/libppp-plugin.so* \
+                                 ${libdir}/connman/plugins-vpn/pptp.so"
++INSANE_SKIP_${PN}-plugin-vpn-pptp += "dev-so"
+ RDEPENDS_${PN}-plugin-vpn-pptp += "${PN}-vpn"
+ RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','pptp','${PN}-plugin-vpn-pptp', '', d)}"
+-- 
+1.8.3.1
+
 
