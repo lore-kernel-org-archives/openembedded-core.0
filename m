@@ -1,35 +1,31 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A207B7023A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CE8E5701F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 16:54:04 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6LGs58I002747 for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 11:54:05 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072111540572-36073 ;
-	Mon, 21 Jul 2014 11:54:05 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jul 2014 11:53:46 -0500
-Message-Id: <1405961628-25284-2-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-In-Reply-To: <1405961628-25284-1-git-send-email-ben.shelton@ni.com>
+	Mon, 21 Jul 2014 18:14:41 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6LIEbe8021727; Mon, 21 Jul 2014 19:14:37 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PHMfGMo49gLR; Mon, 21 Jul 2014 19:14:37 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6LIEWSo021723
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 21 Jul 2014 19:14:34 +0100
+Message-ID: <1405966466.22985.101.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ben Shelton <ben.shelton@ni.com>
+Date: Mon, 21 Jul 2014 19:14:26 +0100
+In-Reply-To: <1405961628-25284-4-git-send-email-ben.shelton@ni.com>
 References: <1405961628-25284-1-git-send-email-ben.shelton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/21/2014 11:54:05 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/21/2014 11:54:05 AM,
-	Serialize complete at 07/21/2014 11:54:05 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-20_03:2014-07-18, 2014-07-20,
-	1970-01-01 signatures=0
-Cc: Bill Pittman <bill.pittman@ni.com>
-Subject: [PATCH 2/4] busybox: mdev: Use mdev.seq
+	<1405961628-25284-4-git-send-email-ben.shelton@ni.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] busybox: Allow busybox-mdev to RPROVIDES hotplug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 16:54:09 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 18:14:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Bill Pittman <bill.pittman@ni.com>
+On Mon, 2014-07-21 at 11:53 -0500, Ben Shelton wrote:
+> From: Richard Tollerton <rich.tollerton@ni.com>
+> 
+> This is for symmetry with udev which also RPROVIDES hotplug.
+> 
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index bd66e4f..b4b9684 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -42,6 +42,7 @@ SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
+>  
+>  CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
+>  CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+> +RPROVIDES_${PN}-mdev = "hotplug"
+>  
+>  RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
 
-/dev/mdev.seq exists to synchronize concurrently running instances of
-mdev and to ensure that they execute in the proper order.  Without this
-synchronization, it is possible to have inconsistent mount points, to
-leak device nodes, or to have a node erroneously removed in rapid
-hotplug scenarios.
+Why add this? I'm curious what would actually use that naming?
 
-Enable the use of mdev.seq by creating an empty /dev/mdev.seq at boot.
+The RPROVIDES in udev was for backwards compatibility when hotplug
+actually existed iirc, its long since dead?
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- meta/recipes-core/busybox/files/mdev | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
-index f7ed1f3..c4447ef 100755
---- a/meta/recipes-core/busybox/files/mdev
-+++ b/meta/recipes-core/busybox/files/mdev
-@@ -4,5 +4,6 @@ mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
- mkdir /dev/pts /dev/shm
- chmod 777 /dev/shm
- mount -t devpts devpts /dev/pts
-+touch /dev/mdev.seq
- echo "/sbin/mdev" > /proc/sys/kernel/hotplug
- mdev -s
--- 
-2.0.2
+Richard
+
 
 
