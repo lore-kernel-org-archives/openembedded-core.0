@@ -1,35 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id ACDF370199
+Return-Path: <denis@denix.org>
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 4531C65CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 21:40:33 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id hi2so4829058wib.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 14:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=P+UyK9yqN0+iOXR/pLL3VMXbQmK/MbD2Kqwq+DAVoB4=;
-	b=EO6WdJqsd3DqGgSaXysQOGOxZsh45lEH4IDCQtOWLxWpwXv4zpRGYdQ8TeRrDbKiB7
-	8UQpqPy9VVfh39BoiRtn2+Gt7GF6O9RqTNqBus+KmIdN2ccDzAIsdgzpY7iCzLAOqV9Q
-	Rj99pu/ScEb8JF+C9kF/Jh0C5Dy8ZHpBsMXVg1TyCzyvJ5CHQGU1JlEWuy9NDIGhnrwU
-	jYGrE12GbYeeOhz4Pr/JrXTwemT07wkrC77iOMtD4hfjqhRwTJ+cw8a6CoX8aZH3l6Kj
-	o7oTbItISI9pUblj6imN0xkU3zH22H7rwbWFe/O2IueSrz+9cz8DZ8uWd4o1LaAU8WBX
-	2Gzg==
-X-Received: by 10.180.12.239 with SMTP id b15mr4312734wic.75.1405978834213;
-	Mon, 21 Jul 2014 14:40:34 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	h13sm40532561wjs.2.2014.07.21.14.40.32 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Jul 2014 14:40:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jul 2014 23:40:47 +0200
-Message-Id: <1405978847-11719-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.2
-Subject: [RFC][PATCH] kernel-module-split.bbclass: Allow autoloading multiple modules or modules where basename != module name
+	Mon, 21 Jul 2014 22:30:35 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [71.191.205.189])
+	by vms173021.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0N9300G172ILVPO0@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 21 Jul 2014 17:30:37 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4575D200A9; Mon,
+	21 Jul 2014 18:30:21 -0400 (EDT)
+Date: Mon, 21 Jul 2014 18:30:21 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Saul Wold <sgw@linux.intel.com>
+Message-id: <20140721223021.GY1580@denix.org>
+References: <1403218403-3303-1-git-send-email-denis@denix.org>
+	<20140620171338.GX27324@denix.org> <20140625005255.GB1580@denix.org>
+	<2450957.82MqDgnpjo@peggleto-mobl5.ger.corp.intel.com>
+	<20140625162209.GC1580@denix.org> <1403736065.2104.287.camel@ted>
+	<20140626174353.GE1580@denix.org> <20140715024119.GS1580@denix.org>
+	<53C548FC.2010309@linux.intel.com> <20140715153841.GU1580@denix.org>
+MIME-version: 1.0
+In-reply-to: <20140715153841.GU1580@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org, Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 1/2] udev: update init script for conditional probing of platform bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,55 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 21:40:42 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 22:30:39 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-* new KERNEL_MODULE_AUTOLOAD syntax doesn't support modules where basename and
-  module name don't match (usually - and _), e.g.:
+On Tue, Jul 15, 2014 at 11:38:41AM -0400, Denys Dmytriyenko wrote:
+> On Tue, Jul 15, 2014 at 08:30:04AM -0700, Saul Wold wrote:
+> > On 07/14/2014 07:41 PM, Denys Dmytriyenko wrote:
+> > >On Thu, Jun 26, 2014 at 01:43:53PM -0400, Denys Dmytriyenko wrote:
+> > >>On Wed, Jun 25, 2014 at 11:41:05PM +0100, Richard Purdie wrote:
+> > >>>On Wed, 2014-06-25 at 12:22 -0400, Denys Dmytriyenko wrote:
+> > >>>>On Wed, Jun 25, 2014 at 05:20:23PM +0100, Paul Eggleton wrote:
+> > >>>>>On Tuesday 24 June 2014 20:52:55 Denys Dmytriyenko wrote:
+> > >>>>>>Ping? Any comments? Any better suggestions?
+> > >>>>>
+> > >>>>>Looks like Richard has merged this, FWIW.
+> > >>>>
+> > >>>>Yes, I saw it. Already submitted backport for daisy... :)
+> > >>>
+> > >>>I'd like this to see some testing in master for a while before we
+> > >>>backport it...
+> > >>
+> > >>I'm Ok waiting a bit longer to test it in master. I'll ping on it later...
+> > >>
+> > >>But this fixes a very common issue that affects different platforms from
+> > >>different BSP layers, including BeagleBone Black in meta-yocto-bsp. The goal
+> > >>is to be least intrusive and preserve the old udev cache behavior as much as
+> > >>possible. Alternative options were to disable udev cache completely or
+> > >>forcefully load necessary modules when they won't be probed on subsequent
+> > >>boots.
+> > >
+> > >Hi, Richard,
+> > >
+> > >Was it enough wait time to get the change tested in master? Should I re-submit
+> > >the patch for daisy one more time or you have it in the archives? Thanks!
+> > >
+> > I have it in my daisy-next (1.6.2) branch (I know it's not in daisy yet).
+> 
+> Thanks!
 
-  module_autoload_bq27x00_battery = "bq27x00-battery"
+Saul,
 
-* sometimes it's useful to load modules in particular order and
-  module_autoload allowed to just list multiple modules, e.g.:
+Do you have any ETA on when daisy will be updated? Thanks.
 
-  module_autoload_snd-soc-neo1973-wm8753 = "snd-soc-s3c24xx snd_soc_s3c24xx_i2s snd-soc-dfbmcs320 snd-soc-wm8753 snd-soc-neo1973-wm8753"
-  or
-  module_autoload_g_ether = "s3c2410_udc g_ether"
-
-  restore this possibility which is useful for incorrect dependencies
-  between modules
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel-module-split.bbclass | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 0c045c9..9a95b72 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -132,12 +132,18 @@ python split_kernel_module_packages () {
-         # appropriate modprobe commands to the postinst
-         autoloadlist = (d.getVar("KERNEL_MODULE_AUTOLOAD", True) or "").split()
-         autoload = d.getVar('module_autoload_%s' % basename, True)
--        if autoload:
--            bb.error("KERNEL_MODULE_AUTOLOAD has replaced module_autoload_%s, please replace it!" % basename)
-+        if autoload and autoload == basename:
-+            bb.warn("module_autoload_%s was replaced by KERNEL_MODULE_AUTOLOAD for cases where basename == module name, please drop it" % basename)
-+        if autoload and basename not in autoloadlist:
-+            bb.warn("module_autoload_%s is defined but '%s' isn't included in KERNEL_MODULE_AUTOLOAD, please add it there" % (basename, basename))
-         if basename in autoloadlist:
-             name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
-             f = open(name, 'w')
--            f.write('%s\n' % basename)
-+            if autoload:
-+                for m in autoload.split():
-+                    f.write('%s\n' % m)
-+            else:
-+                f.write('%s\n' % basename)
-             f.close()
-             postinst = d.getVar('pkg_postinst_%s' % pkg, True)
-             if not postinst:
 -- 
-2.0.2
-
+Denys
 
