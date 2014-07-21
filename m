@@ -1,36 +1,36 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C2E970507
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8372270507
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 12:40:36 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id 10so1517565lbg.20
+	Mon, 21 Jul 2014 12:49:44 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id o8so5487607qcw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 05:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id;
-	bh=0LoGug89nJrJYIbNNWBZeIITGUV1spBVMEBlm9VtW5s=;
-	b=YhzwiRmhlag+o4aCtgDguaPr9snHuhvU827/6pd9mls/UrjWO7QeejnCOORy9gOuHK
-	5PEpZu0bzCK1HVQJFfQwEGewBtFrgfKH94d5NwSmgZhJ4j8bG0y8eGUt3p56uNY6ahZ7
-	4LKH2uZ04pvihBGIWu/IzDQzSdg0WJEFHbODjAXpJ7EemrXNYFbloBww67mpX8HhNohW
-	oaGaVmLBDbKo2uvWVsAvHckWJT34pDzBLwVHNdpJLwE4SHDiH2UJaPwX/ZCDaRswRgsM
-	ACfzCFZ9LyfMjECFJlTqWjShLn5gev5ZiHFwcKsJKqAMSwK+Cce/io2eqMa6A34Wg72/
-	bXjw==
-X-Received: by 10.152.206.105 with SMTP id ln9mr26603011lac.45.1405946436754; 
-	Mon, 21 Jul 2014 05:40:36 -0700 (PDT)
-Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
-	[89.253.118.72]) by mx.google.com with ESMTPSA id
-	qv5sm25030139lbb.19.2014.07.21.05.40.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Jul 2014 05:40:36 -0700 (PDT)
-Sender: Jacob Kroon <jacob.kroon@gmail.com>
-From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Jul 2014 14:39:09 +0200
-Message-Id: <1405946349-16124-1-git-send-email-jacob.kroon@mikrodidakt.se>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] pixbufcache: Add missing dependency on jpeg-native
+	Mon, 21 Jul 2014 05:49:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=3POW4huD4iYamoUI9BBOdiqLXvqK9b6VwJJIZo3q/sc=;
+	b=cy6zA5mg4R9DvBljhfsA5qgkBHhT+0+/RzZfJrgdp2lHxM0mp2Gt0TeqbNtqTFuI+t
+	47nw8IAAEvamDyevzdswepB9tgIqL+dqY9i0COjg1VM9awFlZ8NpZKz408GAaZ49mRJW
+	kJEvTDwiFIg1byxYAnbUjrX3Jj0pcAnNytoDo2zhMFTTKBeofrfgJqVO+hWf7vGRey1K
+	FMlTIYelHR2xTAH6l1jI0HmWZeHdxIPOvrEzFWZSMUgWnrSGjZLUjucm06J2cuo6p0Dl
+	tUgEK0rEaHYoF7NgvyrakeUq3QJVixCN+QVWvX8zh6AubPyW8M1kXWtRm+y0qXfLe7R8
+	26jA==
+X-Gm-Message-State: ALoCoQmOeJAtYGAmHdOBK+MezYtO+0P93mtfeROovbs5WbF0zm32ZXIzpmMmrBs/emBhnpemEKaB
+X-Received: by 10.140.47.129 with SMTP id m1mr31228714qga.95.1405946984853;
+	Mon, 21 Jul 2014 05:49:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Mon, 21 Jul 2014 05:49:24 -0700 (PDT)
+In-Reply-To: <1405946349-16124-1-git-send-email-jacob.kroon@mikrodidakt.se>
+References: <1405946349-16124-1-git-send-email-jacob.kroon@mikrodidakt.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 Jul 2014 13:49:24 +0100
+Message-ID: <CAJTo0Lafck2hOcUfpqYTnARMuzLOfNbA-GnnLcHF-oUBnc9zwA@mail.gmail.com>
+To: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pixbufcache: Add missing dependency on jpeg-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 12:40:42 -0000
+X-List-Received-Date: Mon, 21 Jul 2014 12:49:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-gdk-pixbuf-native uses png and jpeg loaders. When updating the
-loader-cache, these needs to be already populated in the sysroot.
+On 21 July 2014 13:39, Jacob Kroon <jacob.kroon@mikrodidakt.se> wrote:
+> gdk-pixbuf-native uses png and jpeg loaders. When updating the
+> loader-cache, these needs to be already populated in the sysroot.
+>
+> Although png was present, the jpeg dependency was missing, so add it.
 
-Although png was present, the jpeg dependency was missing, so add it.
+But those dependencies are dependent on a PACKAGECONFIG setting, so
+you'll potentially be forcing a build of libjpeg purely to satisfy a
+fetch from sstate of a JPEG-disabled gdk-pixbuf.  Also, libtiff and
+libjasper are missing.
 
-Fixes:
-  DEBUG: Executing shell function pixbufcache_sstate_postinst
-  g_module_open() failed for <snip>/libpixbufloader-jpeg.so:
-    libjpeg.so.8: cannot open shared object file: No such file or directory
+If we can't change the sysroot creation order so that the order is
+zlib, libpng, libjpeg, and then gdk-pixbuf then I think this needs to
+be pulled out to a function that can do neater logic, such as iterate
+through PACKAGECONFIG and add the required dependencies (for each
+enabled option, turn the build depends into
+%s-native:do_populate_sysroot_setscene).
 
-Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
----
- meta/classes/pixbufcache.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index b8d75bd..418ace0 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -67,6 +67,6 @@ pixbufcache_sstate_postinst() {
- # Packages that use this class should extend this variable with their runtime
- # dependencies.
- PIXBUFCACHE_SYSROOT_DEPS = ""
--PIXBUFCACHE_SYSROOT_DEPS_class-native = "${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene"
-+PIXBUFCACHE_SYSROOT_DEPS_class-native = "${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene libpng-native:do_populate_sysroot_setscene jpeg-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene"
- do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
- do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene','')}"
--- 
-1.9.3
-
+Ross
 
