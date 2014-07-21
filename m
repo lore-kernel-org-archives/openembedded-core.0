@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 01BB865E47
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 3249E7057A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 10:55:26 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id w7so5327448qcr.40
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 03:55:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vLUkTuEEfHyCEUbJ3ClhueBBhiDpUkmWlQLo5XNh11E=;
-	b=FrrM1PtDww56+noWzv8xhUubzDwmahORwMLBs3XlOukLD4+zexXGs8ajXRK2RUTzXo
-	awqIAemqAkzDV0A8AtKE0JV/1I8i3uIRwOpJ+joKytlHBKzFN2TA60V7IYFMGFVJkSum
-	9iSMYpKnhFDXFujSYUkhjlXAzWVWfc/uUCzcY7lVL/S27nR21UtZFBkJciiISjvaX7mC
-	ksh56OSpX1WwchdHmEfK/HiKga/saMQpzK8/NlHebslM/cJ7SVY9M2Au4BPUwNXmlTcS
-	KwroSBUozCEtDY06R2D31o9PQCkBsIu3bwYNPiCUNAkJfSpfTKnREduIl7ZO/3VgDJdt
-	94yw==
-X-Gm-Message-State: ALoCoQnbgCIuTHYJBHSA8WYhohz9cKmar6WrUI+eZLOxYRHVUtFSC2N+7USk+SdSPaON2NrOq/Yl
-X-Received: by 10.229.211.132 with SMTP id go4mr40254478qcb.0.1405940125919;
-	Mon, 21 Jul 2014 03:55:25 -0700 (PDT)
+	Mon, 21 Jul 2014 10:59:14 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 8B2E7F811E4; Mon, 21 Jul 2014 04:59:15 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 21504F811DB;
+	Mon, 21 Jul 2014 04:59:12 -0600 (MDT)
+Message-ID: <53CCF28B.1050804@mlbassoc.com>
+Date: Mon, 21 Jul 2014 04:59:23 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 21 Jul 2014 03:55:05 -0700 (PDT)
-In-Reply-To: <1405936990-10656-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1405936990-10656-1-git-send-email-jukka.rissanen@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Jul 2014 11:55:05 +0100
-Message-ID: <CAJTo0LZj_KrGLVXxkjJQPxQedTXUj9kOShm-Jk7RAcVxfZGD9Q@mail.gmail.com>
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: Fix PPTP VPN plugin QA issue
+To: openembedded-core@lists.openembedded.org
+References: <cover.1405583236.git.Qi.Chen@windriver.com>
+	<1405931246.22985.89.camel@ted>
+In-Reply-To: <1405931246.22985.89.camel@ted>
+Subject: Re: [PATCH V5 0/2] shadow: upgrade from 4.1.4.3 to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 10:55:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 21 Jul 2014 10:59:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 21 July 2014 11:03, Jukka Rissanen <jukka.rissanen@linux.intel.com> wrote:
-> Fixing this error by skipping dev-so QA check for
-> connman-plugin-vpn-pptp package.
+On 2014-07-21 02:27, Richard Purdie wrote:
+> On Thu, 2014-07-17 at 15:53 +0800, Chen Qi wrote:
+>> The following changes since commit 846bc50fde11bbb36c8eb5b2e3ae6bb644c037f3:
+>>
+>>    ltp: use "foreign" automake strictness (2014-07-16 10:27:16 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.openembedded.org/openembedded-core-contrib ChenQi/shadow-4.2.1
+>>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/shadow-4.2.1
+>>
+>> Chen Qi (2):
+>>    shadow: upgrade from 4.1.4.3 to 4.2.1
+>>    oeqa: fix return status in pam.py to match shadow-4.2.1
+>
+> I think but am not 100% sure this has introduced another regression:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/builds/177
+>
+> The issue is that X doesn't start in oe-core built images. It does work
+> correctly in poky. The issue is that the /etc/init.d/xserver-nodm script
+> returns:
+>
+> root@qemuarm:/etc# /etc/init.d/xserver-nodm start
+> Starting Xserver
+> su: applet not found
+>
+> or to be more specific:
+>
+> root@qemuarm:/etc# su -l -c '/etc/X11/Xserver&' xuser
+> su: applet not found
+>
+>
+> The poky images appear to work since we install bash. If you remove bash
+> from packagegroup-core-device-devel.bb, the poky images will show the
+> same error.
+>
+> I think this is something to do with the none-suid busybox binary not
+> containing su support, but why su is being called there, I don't know.
+> su is being provided by shadow in the image. If I make su provided by
+> busybox the problem also goes away.
 
-As discussed on IM but repeating for the list, plugins should always
-be real .so files and not symlinks to versioned files.
+The problem (reported last week on the Yocto list) is su.shadow
+changed how it behaves.  The old version would end up passing
+the script off by
+   6761  execve("/bin/sh", ["/bin/sh", "-c", "/etc/X11/Xserver"], [/* 7 vars */]) = 0
+whereas the new version does
+   961   execve("/bin/sh", ["-su", "-c", "/etc/X11/Xserver"], [/* 7 vars */]) = 0
 
-If a plugin is on disk as symlinks and versioned files, then you need
-to pass more flags to libtool: -shared -avoid-version -module is the
-canonical set to get a loadable module without a static counterpart
-and versioned symlinks.
+I still haven't figured out why su.shadow now behaves this way.
 
-Ideally a few patches to the build will remove the need for every
-dev-so insane skip in connman.
-
-Ross
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
