@@ -1,38 +1,32 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C68261585
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 057F060196
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 15:41:06 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id c11so4848819lbj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 08:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=4sd9gkVsNe1EeeUNSlrs3/78RW3S7+9JOnffcVTtfOs=;
-	b=z+EGmh+40/hGQ87Lw0l9ALkOO3VySx6KWFeuQA/Fs55iWujGxEpanYzP2iwsJ4A/28
-	/+STNbp53bMTiVL/fFpJg566OsjTqeOhkX0NipUnXr/FFi3h+ssQBn34Ssl7F0VRfZCU
-	SnnV54XF4Z3lsnNQdNspdM/MUoZ4X4dvHYSVROUTFvIrpUEgj+6yigIZ+EczYun1r/Tj
-	zSuYZA2p4VMBoyptUJaZaD4QglvQoyDvPrDMLCCn0+7CtyXdcgfS+VMPavHg6HAJL51g
-	qiz5qqTF/MS/KrVHhLr04QSYeVdb/GKM8DBzAFcxKg4FcDiisg28MM2dtvDU1Aimgdwv
-	Xl7Q==
-X-Received: by 10.112.144.104 with SMTP id sl8mr25557243lbb.52.1405957267124; 
-	Mon, 21 Jul 2014 08:41:07 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.63.72 with HTTP; Mon, 21 Jul 2014 08:40:47 -0700 (PDT)
-In-Reply-To: <CAJTo0Lafck2hOcUfpqYTnARMuzLOfNbA-GnnLcHF-oUBnc9zwA@mail.gmail.com>
-References: <1405946349-16124-1-git-send-email-jacob.kroon@mikrodidakt.se>
-	<CAJTo0Lafck2hOcUfpqYTnARMuzLOfNbA-GnnLcHF-oUBnc9zwA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 21 Jul 2014 08:40:47 -0700
-X-Google-Sender-Auth: F2q2WYbZR9diqANj5Va2XjQ00ig
-Message-ID: <CABcZAN=c+xOFrE+_nfg=9_OfdS_X_jLnfwEB=7Ox-s5xkF8Wcw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Jacob Kroon <jacob.kroon@mikrodidakt.se>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pixbufcache: Add missing dependency on jpeg-native
+	Mon, 21 Jul 2014 15:51:07 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6LFp8UH015387 for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jul 2014 10:51:08 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072110510860-32912 ;
+	Mon, 21 Jul 2014 10:51:08 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jul 2014 10:50:54 -0500
+Message-Id: <1405957856-15114-1-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/21/2014 10:51:08 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/21/2014 10:51:08 AM,
+	Serialize complete at 07/21/2014 10:51:08 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-20_03:2014-07-18, 2014-07-20,
+	1970-01-01 signatures=0
+Subject: [PATCH 1/3] bootlogd: Honor VERBOSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,64 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 15:41:10 -0000
-Content-Type: multipart/alternative; boundary=047d7b3441ec79f84004feb5ef91
+X-List-Received-Date: Mon, 21 Jul 2014 15:51:16 -0000
 
---047d7b3441ec79f84004feb5ef91
-Content-Type: text/plain; charset=UTF-8
+From: Richard Tollerton <rich.tollerton@ni.com>
 
-On Mon, Jul 21, 2014 at 5:49 AM, Burton, Ross <ross.burton@intel.com> wrote:
+The messages echoed when starting and stopping bootlogd are currently
+printed regardless of the setting of VERBOSE.  Adjust the initscript so
+they're only printed when VERBOSE is enabled.
 
-> If we can't change the sysroot creation order so that the order is
-> zlib, libpng, libjpeg, and then gdk-pixbuf then I think this needs to
-> be pulled out to a function that can do neater logic, such as iterate
-> through PACKAGECONFIG and add the required dependencies (for each
-> enabled option, turn the build depends into
-> %s-native:do_populate_sysroot_setscene).
->
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+---
+ meta/recipes-core/sysvinit/sysvinit/bootlogd.init | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-I'm a bit confused by this. It's the class that needs to know the deps, and
-it's inherited by a bunch of recipes, but the packageconfig you're talking
-about is in the gdk-pixbuf-native recipe -- how is it going to iterate over
-the packageconfig of another recipe, or are you saying that the
-packageconfigs of anyone using pixbufcache need to mirror that of the tool
-in question?
+diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+index 7d6518d..06af465 100755
+--- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
++++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+@@ -46,7 +46,7 @@ esac
+ 
+ case "$ACTION" in
+ 	start)
+-		echo -n "Starting $DESC: "
++		[ "${VERBOSE}" != "no" ] && echo -n "Starting $DESC: "
+ 		if [ -d /proc/1/. ]
+ 		then
+ 			umask 027
+@@ -55,10 +55,12 @@ case "$ACTION" in
+ 		else
+ 			$DAEMON -r -c
+ 		fi
+-		echo "$NAME."
++		[ "${VERBOSE}" != "no" ] && echo "$NAME."
+ 		;;
+ 	stop)
+-		echo -n "Stopping $DESC: "
++		# stop may get called during bootup, so let it honor
++		# rcS VERBOSE setting
++		[ "${VERBOSE}" != "no" ] && echo -n "Stopping $DESC: "
+ 		start-stop-daemon --stop --quiet --exec $DAEMON
+ 
+ 		if [ "$STOPPER" ] && [ -f /var/log/boot ] && \
+@@ -71,7 +73,7 @@ case "$ACTION" in
+ 			mv boot~ boot.0
+ 		fi
+ 
+-		echo "$NAME."
++		[ "${VERBOSE}" != "no" ] && echo "$NAME."
+ 		;;
+ 	 restart|force-reload)
+ 		echo -n "Restarting $DESC: "
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics Corporation
-
---047d7b3441ec79f84004feb5ef91
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Jul 21, 2014 at 5:49 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":gy" class=3D"a3s" style=3D"overf=
-low:hidden">If we can&#39;t change the sysroot creation order so that the o=
-rder is<br>
+2.0.2
 
 
-zlib, libpng, libjpeg, and then gdk-pixbuf then I think this needs to<br>
-be pulled out to a function that can do neater logic, such as iterate<br>
-through PACKAGECONFIG and add the required dependencies (for each<br>
-enabled option, turn the build depends into<br>
-%s-native:do_populate_sysroot_setscene).</div></blockquote></div><br></div>=
-<div class=3D"gmail_extra">I&#39;m a bit confused by this. It&#39;s the cla=
-ss that needs to know the deps, and it&#39;s inherited by a bunch of recipe=
-s, but the packageconfig you&#39;re talking about is in the gdk-pixbuf-nati=
-ve recipe -- how is it going to iterate over the packageconfig of another r=
-ecipe, or are you saying that the packageconfigs of anyone using pixbufcach=
-e need to mirror that of the tool in question?<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics Corporation<br></div></div>
-
---047d7b3441ec79f84004feb5ef91--
