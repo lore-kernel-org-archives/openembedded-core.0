@@ -1,27 +1,26 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C0FCD7021B;
-	Mon, 21 Jul 2014 22:51:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6LMp2hr022026
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 21 Jul 2014 15:51:02 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Mon, 21 Jul 2014 15:51:02 -0700
-Date: Mon, 21 Jul 2014 17:50:46 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20140721175046.0bb1ba08@e6410-2>
-In-Reply-To: <20140721223240.GN22875@jama>
-References: <20140716092525.988C0503D2@opal.openembedded.org>
-	<20140721223240.GN22875@jama>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Peter Seebach : pseudo_1.6.0.bb: uprev to pseudo 1.6
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B287018E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jul 2014 23:01:13 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jul 2014 15:55:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,705,1400050800"; d="scan'208";a="576687951"
+Received: from dvhart-mac01.jf.intel.com (HELO [10.24.5.55]) ([10.24.5.55])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jul 2014 16:01:08 -0700
+User-Agent: Microsoft-MacOutlook/14.4.3.140616
+Date: Mon, 21 Jul 2014 16:01:17 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <CFF2E9A5.9D541%dvhart@linux.intel.com>
+Thread-Topic: [PATCH 2/2] mkefidisk.sh: Add signal handling
+References: <3ef5564ecb54ed9e9663eefd2a05390ad890f5cf.1405982758.git.dvhart@linux.intel.com>
+	<4d5011c9e8ab86c32edd9ac606fa1330576bb97f.1405982758.git.dvhart@linux.intel.com>
+In-Reply-To: <4d5011c9e8ab86c32edd9ac606fa1330576bb97f.1405982758.git.dvhart@linux.intel.com>
+Mime-version: 1.0
+Subject: Re: [PATCH 2/2] mkefidisk.sh: Add signal handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,19 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 22:51:12 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Jul 2014 23:01:20 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
-On Tue, 22 Jul 2014 00:32:40 +0200
-Martin Jansa <martin.jansa@gmail.com> wrote:
+Please ignore this one (2/2), it rearranges output in a way that might
+lead to someone pulling the USB key before the sync completes. I will
+resend 2/2 of separately.
 
-> I know there is 1.6.1 version in pseudo_git.bb but 1.6.0 is still default version and target version fails to build with:
+Apologies :/
 
-Huh. The 1.6.1 version should now be merged, and that fixes this. (This is
-basically why there's a 1.6.1.)
+On 7/21/14, 15:45, "Darren Hart" <dvhart@linux.intel.com> wrote:
 
--s
+>Add basic signal handling to unmount and remove any temporary files.
+>
+>Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>---
+> scripts/contrib/mkefidisk.sh | 12 ++++++------
+> 1 file changed, 6 insertions(+), 6 deletions(-)
+>
+>diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+>index 44ab8d5..7d48b53 100755
+>--- a/scripts/contrib/mkefidisk.sh
+>+++ b/scripts/contrib/mkefidisk.sh
+>@@ -46,7 +46,9 @@ cleanup() {
+> 	if [ -d "$TMPDIR" ]; then
+> 		rm -rf $TMPDIR || error "Failed to remove $TMPDIR"
+> 	fi
+>+	exit $1
+> }
+>+trap cleanup HUP INT TERM
+> 
+> # Logging routines
+> WARNINGS=0
+>@@ -72,8 +74,7 @@ success() {
+> }
+> die() {
+> 	error $1
+>-	cleanup
+>-	exit 1
+>+	cleanup 1
+> }
+> debug() {
+> 	if [ $DEBUG -eq 1 ]; then
+>@@ -375,10 +376,6 @@ if [ -d $ROOTFS_MNT/etc/udev/ ] ; then
+> 	echo "$TARGET_DEVICE" >> $ROOTFS_MNT/etc/udev/mount.blacklist
+> fi
+> 
+>-
+>-# Call cleanup to unmount devices and images and remove the TMPDIR
+>-cleanup
+>-
+> echo ""
+> if [ $WARNINGS -ne 0 ] && [ $ERRORS -eq 0 ]; then
+> 	echo "${YELLOW}Installation completed with warnings${CLEAR}"
+>@@ -391,3 +388,6 @@ else
+> 	success "Installation completed successfully"
+> fi
+> echo ""
+>+
+>+# Call cleanup to unmount devices and images and remove the TMPDIR
+>+cleanup 0
+>-- 
+>2.0.0
+>
+>
+
+
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
+
+
+
 
