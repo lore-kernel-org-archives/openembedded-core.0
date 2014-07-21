@@ -1,28 +1,34 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F00E60167
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 805BE701DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 16:15:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Jul 2014 09:15:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,702,1400050800"; d="scan'208";a="573146509"
-Received: from dvhart-mac01.jf.intel.com (HELO [10.24.5.55]) ([10.24.5.55])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2014 09:15:52 -0700
-User-Agent: Microsoft-MacOutlook/14.4.3.140616
-Date: Mon, 21 Jul 2014 09:16:01 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <CFF28A91.9D412%dvhart@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] kernelshark: Remove trace-cmd from the
-	kernelshark package
-References: <7ebd83d37f946d8f169e4bec7e00bfeed6cc6408.1405724512.git.dvhart@linux.intel.com>
-	<CFF27DBC.9D3CA%dvhart@linux.intel.com>
-	<1405956772.22985.99.camel@ted>
-In-Reply-To: <1405956772.22985.99.camel@ted>
-Mime-version: 1.0
-Cc: california.l.sullivan@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernelshark: Remove trace-cmd from the kernelshark package
+	Mon, 21 Jul 2014 16:54:04 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6LGs5Y6015104 for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jul 2014 11:54:06 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072111540573-36074 ;
+	Mon, 21 Jul 2014 11:54:05 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jul 2014 11:53:47 -0500
+Message-Id: <1405961628-25284-3-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.2
+In-Reply-To: <1405961628-25284-1-git-send-email-ben.shelton@ni.com>
+References: <1405961628-25284-1-git-send-email-ben.shelton@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/21/2014 11:54:05 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/21/2014 11:54:06 AM,
+	Serialize complete at 07/21/2014 11:54:06 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-20_03:2014-07-18, 2014-07-20,
+	1970-01-01 signatures=0
+Subject: [PATCH 3/4] busybox: mdev: Ensure /dev/initctl exists after tmpfs mount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 16:16:01 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Mon, 21 Jul 2014 16:54:09 -0000
 
-On 7/21/14, 8:32, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-wrote:
+During boot, there is a brief window during which /dev/initctl is
+missing, which breaks initscripts that would need to access it. This
+occurs because /etc/init.d/mountall.sh (rcS.d/S02...) attempts to ensure
+/dev/initctl is present, but /etc/init.d/mdev (rcS.d/S06...) mounts over
+/dev and clobbers the work done by mountall, and then does not wait
+synchronously until initctl is ready before continuing.
 
->On Mon, 2014-07-21 at 08:21 -0700, Darren Hart wrote:
->> On 7/18/14, 16:01, "Darren Hart" <dvhart@linux.intel.com> wrote:
->> 
->> >Fixes [YOCTO 6550]
->> >
->> >Images installing both trace-cmd and kernelshark would fail with:
->> >
->> >error: file /usr/bin/trace-cmd conflicts between attempted installs of
->> >kernelshark-1.2+git0+7055ffd37b-r3.core2_32 and
->> >trace-cmd-1.2+git0+7055ffd37b-r3.core2_32
->> >
->> >This patch removes ${bindir}/trace-cmd from the install prior to
->> >packaging, as is already done with the ${datadir}.
->> >
->> >Reported-by: California Sullivan <california.l.sullivan@intel.com>
->> >Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->> >(cherry picked from commit eb08ae8f729ef77329892d19b23ddfdaa7953de0)
->> 
->> Apologies for the cherry-picked line, that shouldn't have appeared here.
->> Please remove prior to merge. I can resubmit if that is preferred.
->
->Too late, its in...
+To close this window, in /etc/init.d/mdev, we check whether /dev/initctl
+is present, and if not, we remove it and recreate it.  This is the same
+thing that is done by /etc/init.d/mountall.sh, and we have verified that
+any writers of /dev/initctl will wait synchronously until sysvinit
+notices the change in fd and does the read, so no race exists.
 
-Yeah, I saw that. My apologies, that was sloppy and unacceptable. I'll
-correct this going forward.
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+---
+ meta/recipes-core/busybox/files/mdev | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
+diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
+index c4447ef..9625247 100755
+--- a/meta/recipes-core/busybox/files/mdev
++++ b/meta/recipes-core/busybox/files/mdev
+@@ -7,3 +7,13 @@ mount -t devpts devpts /dev/pts
+ touch /dev/mdev.seq
+ echo "/sbin/mdev" > /proc/sys/kernel/hotplug
+ mdev -s
++
++#
++# We might have mounted something over /dev, see if /dev/initctl is there.
++#
++if test ! -p /dev/initctl
++then
++        rm -f /dev/initctl
++        mknod -m 600 /dev/initctl p
++fi
++
 -- 
-Darren Hart					Open Source Technology Center
-darren.hart@intel.com				            Intel Corporation
-
-
+2.0.2
 
 
