@@ -1,28 +1,36 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 8DD0D70355
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C2E970507
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 12:18:46 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Mon, 21 Jul 2014 14:18:39 +0200
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] buildtools-tarball: Add wget to
-	buildtools-tarball
-Thread-Index: AQHPpFVKVOAQmFztqkOEVefEriTQhpuqKh4AgABIx5A=
-Date: Mon, 21 Jul 2014 12:18:39 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428A8CC16@SESTOEX04.enea.se>
-References: <1405886443-34495-1-git-send-email-tudor.florea@enea.com>
-	<CAJTo0LaAM+Xf+G5i2AtQsK4cr1ec2V9yogOZrsRvVSyJ78KaRA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaAM+Xf+G5i2AtQsK4cr1ec2V9yogOZrsRvVSyJ78KaRA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] buildtools-tarball: Add wget to buildtools-tarball
+	Mon, 21 Jul 2014 12:40:36 +0000 (UTC)
+Received: by mail-lb0-f175.google.com with SMTP id 10so1517565lbg.20
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Jul 2014 05:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=0LoGug89nJrJYIbNNWBZeIITGUV1spBVMEBlm9VtW5s=;
+	b=YhzwiRmhlag+o4aCtgDguaPr9snHuhvU827/6pd9mls/UrjWO7QeejnCOORy9gOuHK
+	5PEpZu0bzCK1HVQJFfQwEGewBtFrgfKH94d5NwSmgZhJ4j8bG0y8eGUt3p56uNY6ahZ7
+	4LKH2uZ04pvihBGIWu/IzDQzSdg0WJEFHbODjAXpJ7EemrXNYFbloBww67mpX8HhNohW
+	oaGaVmLBDbKo2uvWVsAvHckWJT34pDzBLwVHNdpJLwE4SHDiH2UJaPwX/ZCDaRswRgsM
+	ACfzCFZ9LyfMjECFJlTqWjShLn5gev5ZiHFwcKsJKqAMSwK+Cce/io2eqMa6A34Wg72/
+	bXjw==
+X-Received: by 10.152.206.105 with SMTP id ln9mr26603011lac.45.1405946436754; 
+	Mon, 21 Jul 2014 05:40:36 -0700 (PDT)
+Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
+	[89.253.118.72]) by mx.google.com with ESMTPSA id
+	qv5sm25030139lbb.19.2014.07.21.05.40.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Jul 2014 05:40:36 -0700 (PDT)
+Sender: Jacob Kroon <jacob.kroon@gmail.com>
+From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Jul 2014 14:39:09 +0200
+Message-Id: <1405946349-16124-1-git-send-email-jacob.kroon@mikrodidakt.se>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] pixbufcache: Add missing dependency on jpeg-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,19 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Jul 2014 12:18:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 21 Jul 2014 12:40:42 -0000
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
-YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIEp1bHkgMjEsIDIw
-MTQgMTI6NTcNCj4gVG86IFR1ZG9yIEZsb3JlYQ0KPiBDYzogT0UtY29yZQ0KPiBTdWJqZWN0OiBS
-ZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIGJ1aWxkdG9vbHMtdGFyYmFsbDogQWRkIHdnZXQgdG8g
-YnVpbGR0b29scy0NCj4gdGFyYmFsbA0KPiANCj4gT24gMjAgSnVseSAyMDE0IDIxOjAwLCBUdWRv
-ciBGbG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4gd3JvdGU6DQo+ID4gIERFUEVORFMgPSAi
-Z251dGxzIHpsaWIgbGlicGNyZSINCj4gPiArREVQRU5EU19jbGFzcy1uYXRpdmVzZGsgPSAibmF0
-aXZlc2RrLWdudXRscyBuYXRpdmVzZGstemxpYiBuYXRpdmVzZGstDQo+IGxpYnBjcmUiDQo+IA0K
-PiBXaHkgZG8geW91IG5lZWQgdG8gc2V0IERFUEVORFNfY2xhc3MtbmF0aXZlc2RrPw0KPiANCj4g
-Um9zcw0KIEknbGwgcmVtb3ZlIHRoZSBsaW5lIGFuZCBzZW5kIFYyIHBhdGNoLg0KVHVkb3IuDQo=
+gdk-pixbuf-native uses png and jpeg loaders. When updating the
+loader-cache, these needs to be already populated in the sysroot.
+
+Although png was present, the jpeg dependency was missing, so add it.
+
+Fixes:
+  DEBUG: Executing shell function pixbufcache_sstate_postinst
+  g_module_open() failed for <snip>/libpixbufloader-jpeg.so:
+    libjpeg.so.8: cannot open shared object file: No such file or directory
+
+Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+---
+ meta/classes/pixbufcache.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index b8d75bd..418ace0 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -67,6 +67,6 @@ pixbufcache_sstate_postinst() {
+ # Packages that use this class should extend this variable with their runtime
+ # dependencies.
+ PIXBUFCACHE_SYSROOT_DEPS = ""
+-PIXBUFCACHE_SYSROOT_DEPS_class-native = "${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene"
++PIXBUFCACHE_SYSROOT_DEPS_class-native = "${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene libpng-native:do_populate_sysroot_setscene jpeg-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene"
+ do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
+ do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene','')}"
+-- 
+1.9.3
+
 
