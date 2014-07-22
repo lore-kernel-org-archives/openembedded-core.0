@@ -1,37 +1,37 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D8570671
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B303B705FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 15:30:32 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6MFUJNd025059; Tue, 22 Jul 2014 10:30:20 -0500
-Received: from localhost ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072210301992-87427 ;
-	Tue, 22 Jul 2014 10:30:19 -0500 
-Date: Tue, 22 Jul 2014 10:30:12 -0500
-From: Ben Shelton <ben.shelton@ni.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20140722153012.GA30289@bshelton-desktop>
-References: <20140721182515.CD7355015A@opal.openembedded.org>
-	<20140722091803.GO22875@jama>
+	Tue, 22 Jul 2014 15:32:24 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id k15so6631060qaq.41
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 08:32:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wWRjeRMfdIsqeehrfW1z9KYkW0kGE2IQ2tIQa6F91/Y=;
+	b=K38Wr09ozYeYqtjOWMLHraU5pqxacb0l5qxybfgCeURax87aPyWXxs2Z4d+Bo59Etf
+	ifYgDAJt52goZ56jHev+So9ihcdP5mFkLTyeiM0I9vn81vLGcWuLkhFdgc2ynjOcOtV8
+	VzgYOm+X/wW/NM0ACbykkKpxyZBG26FSrjg5oyi8QADZYn/uMFpOJzdMI0BknvibpePe
+	NHfCxCo1s5HU+FFGtxIgBkOWNEykkTgOyUD7Y6ddkwRUXgves21MJ0Ds63s6PlE8geoc
+	hLs5XfmEwnljAd/8gXg6VrDDXjigQx0Lx6f8ZBnwJzBlpZcc1tdGoZiK2Uup7YHSRWNJ
+	UQjA==
+X-Gm-Message-State: ALoCoQnku5mUcqbPaAG0INlQcDwUW+YdNmRNXkZLnZNhW+lYXb9Q3W2Xg1SaP5TesnA/+rKsEj+l
+X-Received: by 10.140.19.100 with SMTP id 91mr39500339qgg.32.1406043146237;
+	Tue, 22 Jul 2014 08:32:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20140722091803.GO22875@jama>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/22/2014 10:30:19 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/22/2014 10:30:20 AM,
-	Serialize complete at 07/22/2014 10:30:20 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-22_06:2014-07-22, 2014-07-22,
-	1970-01-01 signatures=0
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Tollerton : bootlogd: ensure /var/log/boot is created in volatiles
+Received: by 10.140.86.99 with HTTP; Tue, 22 Jul 2014 08:32:06 -0700 (PDT)
+In-Reply-To: <eb52483d72008b797160d1423aa289b1e111dac8.1406037471.git.roxana.ciobanu@intel.com>
+References: <cover.1406037471.git.roxana.ciobanu@intel.com>
+	<eb52483d72008b797160d1423aa289b1e111dac8.1406037471.git.roxana.ciobanu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Jul 2014 16:32:06 +0100
+Message-ID: <CAJTo0LbVemTY0dhc-4SBh1h0+SpzNmhwYT5jhykJp82jh8sZnw@mail.gmail.com>
+To: Roxana Ciobanu <roxana.ciobanu@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bitbake.conf: move BB_NUMBER_THREADS and PARALLEL_MAKE to bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 15:30:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 22 Jul 2014 15:32:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 07/22, Martin Jansa wrote:
-> On Mon, Jul 21, 2014 at 06:25:15PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master-next
-> > Commit: 6f963d761fa2916711b0d7808351515383bd5298
-> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=6f963d761fa2916711b0d7808351515383bd5298
-> > 
-> > Author: Richard Tollerton <rich.tollerton@ni.com>
-> > Date:   Mon Jul 21 10:50:56 2014 -0500
-> > 
-> > bootlogd: ensure /var/log/boot is created in volatiles
-> 
-> subject usually starts with recipe/bbclass name, so it should be
-> sysvinit not bootlogd.
-> 
-> 
-> Please don't mix tabs and spaces for indentation, only spaces should be used
-> in multi-line variables.
-> 
+On 22 July 2014 14:58, Roxana Ciobanu <roxana.ciobanu@intel.com> wrote:
+> +BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
 
-Sorry about that -- do we need to resubmit the patch, or has it already
-been merged?
+Thinking about this some more we probably need the assignments in
+bitbake.conf to be ??=, or to be moved further down the file to after
+local.conf has been evaluated (there's a section marked Weak
+Assignments, for exactly this situation).
 
-Thanks,
-Ben
+The reasoning being that existing local.conf files will likely have
+e.g. BB_NUMBER_THREADS ?= 8 and the expectation is that this
+assignment will work.  If bitbake.conf before local.conf has been
+loaded uses ?= then it will assign as the value hasn't been set, so
+then when local.conf is parsed the value has already been assigned and
+that assignment won't have an effect.
 
-> 
-> -- 
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+For consistency with the other variables that have moved to
+bitbake.conf, I think we should move it to the weak variables section
+in bitbake.conf and keep using ?=.
 
-
+Ross
 
