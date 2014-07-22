@@ -1,28 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 87F3F70600;
-	Tue, 22 Jul 2014 15:45:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6MFjkTj010442
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jul 2014 08:45:47 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 22 Jul 2014 08:45:46 -0700
-Message-ID: <53CE8723.5050608@windriver.com>
-Date: Tue, 22 Jul 2014 11:45:39 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A4B170660;
+	Tue, 22 Jul 2014 16:25:55 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id u56so9409859wes.0
+	for <multiple recipients>; Tue, 22 Jul 2014 09:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=IZl3I/ExIvqUHVC7aNN4bg+hzQ44NN+tjqQ8qpwKaDA=;
+	b=cvVKccQsRMEaiA1TPQQpZkNc/Y0PIXMrn/zfJHi64dPcrJXsDvUNj2xn8eHWaYNBiX
+	hI2PSjcTId7ARvz9KedfhcLX8zAWT/t3dHhmcHnqWRAcMwVd+hLK8J11KoJ+Y5DsREVY
+	cTzAUgS04yRepEmYKtApCSHEn7ZKEsCPIlWgqN35Y9JVQX8uttDQVlrddyNvXj66Am59
+	9Zy9GzlwNulAuwI7JYlVIBu0HBF8ClVxQVq67PbqVy9Q7bef7wo+OHhkROLFhRosxYp2
+	seT4XtHOa9HLk7J8edNJvwxzrDofZ/yGQntgQGzykUnNEjb8fgzUpyqLQAJ5xaXfdHxz
+	XWTQ==
+X-Received: by 10.194.82.106 with SMTP id h10mr36135047wjy.115.1406046355045; 
+	Tue, 22 Jul 2014 09:25:55 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ft17sm2081750wjc.14.2014.07.22.09.25.53 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Jul 2014 09:25:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 22 Jul 2014 18:26:10 +0200
+To: openembedded-core@lists.openembedded.org,
+	Ross Burton <ross.burton@intel.com>
+Message-ID: <20140722162610.GV22875@jama>
+References: <20140710164012.3BE7C503BE@opal.openembedded.org>
 MIME-Version: 1.0
-To: Gabriel Barbu <gabriel.barbu@enea.com>, Martin Jansa
-	<martin.jansa@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20140618094425.8523A504AA@opal.openembedded.org>	<20140720140213.GA12193@jama>
-	<53CE6C67.4000405@windriver.com> <53CE8676.5000104@enea.com>
-In-Reply-To: <53CE8676.5000104@enea.com>
+In-Reply-To: <20140710164012.3BE7C503BE@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : lttng-modules: update to 2.4.1-stable latest
+Subject: debian.bbclass doesn't work in some setups Was: [oe-commits] Ross Burton : package.bbclass: add a stub implementation of package_name_hook
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,211 +46,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 15:46:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Jul 2014 16:26:02 -0000
+X-Groupsio-MsgNum: 55373
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zAZKrYjO7GRpkTOs"
+Content-Disposition: inline
 
-On 14-07-22 11:42 AM, Gabriel Barbu wrote:
-> On 7/22/2014 4:51 PM, Bruce Ashfield wrote:
->> On 14-07-20 10:02 AM, Martin Jansa wrote:
->>> On Wed, Jun 18, 2014 at 09:44:25AM +0000, git@git.openembedded.org
->>> wrote:
->>>> Module: openembedded-core.git
->>>> Branch: master
->>>> Commit: bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
->>>> URL:
->>>> http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
->>>>
->>>>
->>>>
->>>> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> Date:   Tue Jun 17 21:29:51 2014 -0400
->>>>
->>>> lttng-modules: update to 2.4.1-stable latest
->>>>
->>>> The 3.15, and 3.14.5+ kernels introduced a change to
->>>> trace_block_rq_complete,
->>>> which triggers the following build error:
->>>>
->>>>
->>>> probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
->>>>
->>>>
->>>>      error: conflicting types for 'trace_block_rq_complete'
->>>>      |  void trace_##_name(_proto);
->>>>      |       ^
->>>>      |
->>>>
->>>> probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
->>>>
->>>>
->>>>      note: in expansion of macro 'DEFINE_EVENT_MAP'
->>>>      |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto),
->>>> PARAMS(args))
->>>>      |   ^
->>>>      |
->>>>
->>>> probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
->>>>
->>>>
->>>>      note: in expansion of macro 'DEFINE_EVENT'
->>>>      |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
->>>>
->>>> The lttng 2.4.x-stable branch contains the fix (and several other
->>>> small fixes), so
->>>> we bump the SRCREV to import the change.
->>>
->>> We still have lttng-modules 2.3.3 in oe-core which still suffers from
->>> this issue, can you please drop or fix them?
->>
->> I'm currently fighting with 3.16 and lttng .. once I survive my current
->> battle, I'll see about sorting this out as well.
->>
->> Cheers,
->>
->> Bruce
->
-> The reason for which we use the 2.3.3 version is that lttng-modules has
-> blacklisted arm as it was not working with gcc 4.8.
-> However, by implementation it was blacklisted for any gcc version and it
-> still is, even if we are now using gcc 4.9.
-> So I think the solution here would be to remove the blacklist and thus
-> also move to 2.4.1.
->
-> I tried it for qemuarm and it worked.
+--zAZKrYjO7GRpkTOs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have a 2.4.2 update that also works here, as well as a 2.5, since I needed
-to update to get 3.16 working.
+On Thu, Jul 10, 2014 at 04:40:12PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: f6eb8e4e44b66217e4ada9f830a058c5ba120932
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Df6eb8e4e44b66217e4ada9f830a058c5ba120932
+>=20
+> Author: Ross Burton <ross.burton@intel.com>
+> Date:   Tue Jul  1 16:56:53 2014 +0100
+>=20
+> package.bbclass: add a stub implementation of package_name_hook
+>=20
+> do_package() calls package_name_hook so that e.g. debian-style renaming t=
+hrough
+> debian.bbclass can happen.  If there is no class providing a package_name=
+_hook
+> then this causes "WARNING: Function package_name_hook doesn't exist" ever=
+y time
+> do_package() is executed.
+>=20
+> Silence this warning by providing an empty package_name_hook in package.b=
+bclass.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-Either way works for me, but I'll be submitting a patch over top of
-anything else shortly.
+We've discussed this on Friday, so just for reference and people who
+weren't in #yocto channel
 
-Cheers,
+13:52 < JaMa> RP: it seems that debian.bbclass doesn't work with recent cha=
+nges
+13:53 < JaMa> RP: all packagenames lost .so version suffix
+13:54 < JaMa> maybe package_name_hook exported from package.bbclass now som=
+ehow conflicts with the same function exported by debian.bbclass?
+13:54 < JaMa> rburton: ^
+13:56 < JaMa> tmp-eglibc/work/arm920tt-oe-linux-gnueabi/libgcc/4.9.0-r0/tem=
+p/run.package_name_hook.14013:
+13:56 < JaMa> tmp-eglibc/work/arm920tt-oe-linux-gnueabi/libgcc/4.9.0-r0/tem=
+p/run.package_package_name_hook.14013:
+13:56 < JaMa> both show just empty function
 
-Bruce
+15:03 < rburton> JaMa:  whaaaa
+15:03 < rburton> i bloody tested that and it bloody worked :(
 
-> If you agree I could submit a patch.
->
-> Best regards,
->
-> Gabriel
->
->>
->>>
->>> 2.3.3 is used by default for qemuarm, because of this in 2.4.1:
->>> # lttng currently blacklists arm with gcc-4.8
->>> COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
->>>
->>> The issue was already reported 7 times in world status builds.
->>>
->>> |   CC [M]
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o
->>>
->>>
->>> | In file included from
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/define_trace.h:148:0,
->>>
->>>
->>> |                  from
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/block.h:932,
->>>
->>>
->>> |                  from
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:41:
->>>
->>>
->>> |
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
->>>
->>> error: conflicting types for 'trace_block_rq_complete'
->>> |  void trace_##_name(_proto);
->>> |       ^
->>> |
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
->>>
->>> note: in expansion of macro 'DEFINE_EVENT_MAP'
->>> |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto), PARAMS(args))
->>> |   ^
->>> |
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
->>>
->>> note: in expansion of macro 'DEFINE_EVENT'
->>> |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
->>> |  ^
->>> | In file included from include/linux/module.h:18:0,
->>> |                  from
->>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:23:
->>>
->>>
->>> | include/linux/tracepoint.h:168:21: note: previous definition of
->>> 'trace_block_rq_complete' was here
->>> |   static inline void trace_##name(proto)    \
->>> |                      ^
->>> | include/linux/tracepoint.h:265:3: note: in expansion of macro
->>> '__DECLARE_TRACE'
->>> |    __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
->>> |    ^
->>> | include/linux/tracepoint.h:399:2: note: in expansion of macro
->>> 'DECLARE_TRACE'
->>> |   DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
->>> |   ^
->>> | include/trace/events/block.h:143:1: note: in expansion of macro
->>> 'TRACE_EVENT'
->>> |  TRACE_EVENT(block_rq_complete,
->>> |  ^
->>> | make[3]: ***
->>> [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o]
->>>
->>> Error 1
->>> | make[2]: ***
->>> [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes]
->>>
->>> Error 2
->>> | make[1]: ***
->>> [_module_/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git]
->>>
->>> Error 2
->>> | make[1]: Leaving directory
->>> `/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemuarm/usr/src/kernel'
->>>
->>>
->>> | make: *** [default] Error 2
->>>
->>>>
->>>> Build tested against 3.14 and 3.10.
->>>>
->>>> [YOCTO #6459]
->>>>
->>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>
->>>> ---
->>>>
->>>>   meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>> b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>> index 4ef74dd..5e05ffc 100644
->>>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>> @@ -10,7 +10,7 @@ DEPENDS = "virtual/kernel"
->>>>
->>>>   inherit module
->>>>
->>>> -SRCREV = "afdc6b155161f209fcfadc5288dc017ceab56353"
->>>> +SRCREV = "a0383def517e3aebbbcebae61fe2bcfb50d31e71"
->>>>   PV = "2.4.1"
->>>>
->>>>   # lttng currently blacklists arm with gcc-4.8
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-commits mailing list
->>>> Openembedded-commits@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->>>
->>
->
+16:21 < JaMa> rburton: bitbake -e libgcc: http://bpaste.net/show/475166/
 
+16:27 < rburton> JaMa: how interesting
+16:28 < pev> Hm, when do you need to set IMAGE_BASENAME? Ive seen it done a=
+ couple of times but not sure why/when?
+16:28 < rburton> JaMa: python package_name_hook () {
+16:28 < rburton>     bb.build.exec_func('debian_package_name_hook', d)
+16:28 < rburton> }
+16:28 < rburton> is what i hae
+16:28 < rburton> inherit order?
+16:29 < rburton> JaMa: how do you enable debian.bbclass?
+16:29 < rburton> poky does INHERIT_DISTRO=3Ddebian blaa blaa
 
+16:30 < JaMa> rburton: the same without your patch http://bpaste.net/show/4=
+75181/
+16:31 < JaMa> env.libgcc:INHERIT=3D" buildhistory buildstats buildstats-sum=
+mary blacklist debian shr-mirrors package_ipk  debian devshell sstate licen=
+se blacklist sanity"
+16:31 < JaMa> env.libgcc2:INHERIT=3D" buildhistory buildstats buildstats-su=
+mmary blacklist debian shr-mirrors package_ipk  debian devshell sstate lice=
+nse blacklist sanity"
+16:31 < JaMa> $ grep -A 1 "^python package_name_hook" env.libgcc*
+16:31 < JaMa> env.libgcc:python package_name_hook () {
+16:31 < JaMa> env.libgcc-    bb.build.exec_func('package_package_name_hook'=
+, d)
+16:31 < JaMa> --
+16:31 < JaMa> env.libgcc2:python package_name_hook () {
+16:31 < JaMa> env.libgcc2-    bb.build.exec_func('debian_package_name_hook'=
+, d)
+16:32 < JaMa> and enabled by:
+16:32 < JaMa> #   append /OE/build/shr-core/meta-smartphone/meta-shr-distro=
+/conf/distro/shr.conf:70
+16:32 < JaMa> #     "debian"
+16:35 < rburton> maybe this is a distro-inherit vs inherit thing
+16:36 < rburton> try using DISTRO_INHERIT for that?
+16:36 < rburton> INHERIT_DISTRO even
+16:36 < rburton> oh, that's just a variable that gets passed to INHERIT
+16:36 < rburton> hm
+
+16:42 < rburton> JaMa: try moving debian after package_ipk
+16:43 < rburton> (maybe we need an inherit package in debian)?
+
+16:45 < JaMa> sorry, I've already started different build
+
+16:46 < rburton> np
+16:47 < rburton> easily tested outside of a build, i'll have a go in a bit
+
+since then I'm building with this change reverted
+
+>  meta/classes/package.bbclass | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 7358376..26a20d1 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1119,6 +1119,18 @@ python package_fixsymlinks () {
+>          d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commase=
+p=3DFalse))
+>  }
+> =20
+> +
+> +python package_package_name_hook() {
+> +    """
+> +    A package_name_hook function can be used to rewrite the package name=
+s by
+> +    changing PKG.  For an example, see debian.bbclass.
+> +    """
+> +    pass
+> +}
+> +
+> +EXPORT_FUNCTIONS package_name_hook
+> +
+> +
+>  PKGDESTWORK =3D "${WORKDIR}/pkgdata"
+> =20
+>  python emit_pkgdata() {
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--zAZKrYjO7GRpkTOs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPOkKIACgkQN1Ujt2V2gBwgPQCgt8VTOWyVeF7S3hY07FsEDgTK
+S4MAn1lKo6FDui2Z/AeXrD+z8hDq9581
+=X/hN
+-----END PGP SIGNATURE-----
+
+--zAZKrYjO7GRpkTOs--
