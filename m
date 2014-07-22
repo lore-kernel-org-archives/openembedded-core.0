@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E0BC70676
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 94D8570671
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 15:05:26 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id bs8so6203736wib.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 08:05:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JTfvfeHzc6ZT16Za7u+p0lW5KP9Kmt63A/3BB4gMLhQ=;
-	b=RGt+pI8V9iBL3t07Vqf4cmYNF3s1Mn5LOsm85uRNvOg/5QiemRhQFAmVvAyzXHkID5
-	gdEmFuyzD5OQ2++ssrGYk4WonUXpPjexD6vJkqraBP1i+GRD6PAvmqrR0D4OpuwyC47n
-	6Hbt6DDlQguvudVi3uOXY6wE3E+NWycqjPFlc97fJitqe7zyjCX9VTcRezxQUMRcvxOy
-	CHjkhcMD6ltJPl8SbpGxxQfe54hiEk5xjG+jSC9uc7RVdXTYIJ5ty4g7s0lnb8+DI4KD
-	+z9htoHPHtCVRAFkYU4jN6Hx2tp1oDXA2S2bXdj42X73nTQLFr9ZVbNgVjKLda5XW2H7
-	n9Mw==
-X-Gm-Message-State: ALoCoQkIb0sTnPjClLmjH+FudF6mVzDssxwpRWYFGuMYsY4cdS6865o6jDyk7Gwshia/YmYoxFtW
-X-Received: by 10.180.104.42 with SMTP id gb10mr15538741wib.65.1406041526900; 
-	Tue, 22 Jul 2014 08:05:26 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id kr5sm1594058wjc.27.2014.07.22.08.05.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Jul 2014 08:05:26 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 16:05:13 +0100
-Message-Id: <1406041513-9294-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] package_rpm: only claim ownership of empty directories
+	Tue, 22 Jul 2014 15:30:32 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6MFUJNd025059; Tue, 22 Jul 2014 10:30:20 -0500
+Received: from localhost ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072210301992-87427 ;
+	Tue, 22 Jul 2014 10:30:19 -0500 
+Date: Tue, 22 Jul 2014 10:30:12 -0500
+From: Ben Shelton <ben.shelton@ni.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20140722153012.GA30289@bshelton-desktop>
+References: <20140721182515.CD7355015A@opal.openembedded.org>
+	<20140722091803.GO22875@jama>
+MIME-Version: 1.0
+In-Reply-To: <20140722091803.GO22875@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/22/2014 10:30:19 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/22/2014 10:30:20 AM,
+	Serialize complete at 07/22/2014 10:30:20 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-22_06:2014-07-22, 2014-07-22,
+	1970-01-01 signatures=0
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Tollerton : bootlogd: ensure /var/log/boot is created in volatiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,77 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 15:05:34 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 15:30:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Previous every package claimed ownership via %dir of every directory, which lead
-to e.g. every package claiming to own /usr.  This destroys the concept of
-directory ownership, so instead only use %dir to ensure empty directories are
-packaged.
+On 07/22, Martin Jansa wrote:
+> On Mon, Jul 21, 2014 at 06:25:15PM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master-next
+> > Commit: 6f963d761fa2916711b0d7808351515383bd5298
+> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=6f963d761fa2916711b0d7808351515383bd5298
+> > 
+> > Author: Richard Tollerton <rich.tollerton@ni.com>
+> > Date:   Mon Jul 21 10:50:56 2014 -0500
+> > 
+> > bootlogd: ensure /var/log/boot is created in volatiles
+> 
+> subject usually starts with recipe/bbclass name, so it should be
+> sysvinit not bootlogd.
+> 
+> 
+> Please don't mix tabs and spaces for indentation, only spaces should be used
+> in multi-line variables.
+> 
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/package_rpm.bbclass |   45 +++++++++++++++++++++-----------------
- 1 file changed, 25 insertions(+), 20 deletions(-)
+Sorry about that -- do we need to resubmit the patch, or has it already
+been merged?
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 0a32b3e..9e6b103 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -186,28 +186,33 @@ python write_specfile () {
-                     array.append("%s: %s" % (tag, dep))
- 
-     def walk_files(walkpath, target, conffiles):
--        # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
--        # when packaging. We just ignore these files which are created in 
--        # packages-split/ and not package/
--        # We have the odd situation where the CONTROL/DEBIAN directory can be removed in the middle of
--        # of the walk, the isdir() test would then fail and the walk code would assume its a file
--        # hence we check for the names in files too.
-         for rootpath, dirs, files in os.walk(walkpath):
--            path = rootpath.replace(walkpath, "")
--            if path.endswith("DEBIAN") or path.endswith("CONTROL"):
--                continue
--            for dir in dirs:
--                if dir == "CONTROL" or dir == "DEBIAN":
--                    continue
--                # All packages own the directories their files are in...
--                target.append('%dir "' + path + '/' + dir + '"')
--            for file in files:
--                if file == "CONTROL" or file == "DEBIAN":
--                    continue
--                if conffiles.count(path + '/' + file):
--                    target.append('%config "' + path + '/' + file + '"')
-+            # Ignore the CONTROL and DEBIAN directories, created by ipkg and
-+            # dpkg during packaging.  As they can be removed while this is
-+            # running (and so the isdir() test fails) ignore both files and
-+            # directories.
-+            for n in ("CONTROL", "DEBIAN"):
-+                try:
-+                    dirs.remove(n)
-+                    files.remove(n)
-+                except ValueError:
-+                    pass
-+
-+            # When rootpath is walkpath the replace will return "" so handle
-+            # that and set path to /.
-+            path = rootpath.replace(walkpath, "") or "/"
-+
-+            # Packages own only empty directories, but handle / specially as we
-+            # don't want empty packages to contain a %dir / entry.
-+            if (path != '/' and not files and not dirs):
-+                target.append('%dir "' + path + '"')
-+
-+            for f in files:
-+                f = os.path.join(path, f)
-+                if f in conffiles:
-+                    target.append('%config "' + f + '"')
-                 else:
--                    target.append('"' + path + '/' + file + '"')
-+                    target.append('"' + f + '"')
- 
-     # Prevent the prerm/postrm scripts from being run during an upgrade
-     def wrap_uninstall(scriptvar):
--- 
-1.7.10.4
+Thanks,
+Ben
+
+> 
+> -- 
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
 
 
