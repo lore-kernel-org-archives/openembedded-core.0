@@ -1,20 +1,28 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4745E70523
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 13:11:50 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Jul 2014 06:11:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,710,1400050800"; d="scan'208";a="576982691"
-Received: from jrissane-mobl.ger.corp.intel.com ([10.237.67.153])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jul 2014 06:11:22 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 16:11:20 +0300
-Message-Id: <1406034680-5710-1-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v3] connman: Fix PPTP VPN plugin QA issue
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4400D6AC77;
+	Tue, 22 Jul 2014 13:51:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6MDpgir000343
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Jul 2014 06:51:43 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 22 Jul 2014 06:51:42 -0700
+Message-ID: <53CE6C67.4000405@windriver.com>
+Date: Tue, 22 Jul 2014 09:51:35 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20140618094425.8523A504AA@opal.openembedded.org>
+	<20140720140213.GA12193@jama>
+In-Reply-To: <20140720140213.GA12193@jama>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Bruce Ashfield : lttng-modules: update to 2.4.1-stable latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,89 +35,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 13:11:55 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 13:51:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This error was seen when building ConnMan. Fixed by not
-building ConnMan pptp plugin with module versioning info.
+On 14-07-20 10:02 AM, Martin Jansa wrote:
+> On Wed, Jun 18, 2014 at 09:44:25AM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
+>>
+>> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> Date:   Tue Jun 17 21:29:51 2014 -0400
+>>
+>> lttng-modules: update to 2.4.1-stable latest
+>>
+>> The 3.15, and 3.14.5+ kernels introduced a change to trace_block_rq_complete,
+>> which triggers the following build error:
+>>
+>>      probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
+>>      error: conflicting types for 'trace_block_rq_complete'
+>>      |  void trace_##_name(_proto);
+>>      |       ^
+>>      |
+>>      probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
+>>      note: in expansion of macro 'DEFINE_EVENT_MAP'
+>>      |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto), PARAMS(args))
+>>      |   ^
+>>      |
+>>      probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
+>>      note: in expansion of macro 'DEFINE_EVENT'
+>>      |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
+>>
+>> The lttng 2.4.x-stable branch contains the fix (and several other small fixes), so
+>> we bump the SRCREV to import the change.
+>
+> We still have lttng-modules 2.3.3 in oe-core which still suffers from
+> this issue, can you please drop or fix them?
 
-ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: connman-plugin-vpn-pptp path '/work/core2-32-oe-linux/connman/1.24+gitAUTOINC+42779cd63c-r20/packages-split/connman-plugin-vpn-pptp/usr/lib/connman/scripts/libppp-plugin.so' [dev-so]
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
+I'm currently fighting with 3.16 and lttng .. once I survive my current
+battle, I'll see about sorting this out as well.
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- ...ild-libppp-plugin-without-versioning-info.patch | 48 ++++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.24.bb  |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+Cheers,
 
-diff --git a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
-new file mode 100644
-index 0000000..0cb43b6
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
-@@ -0,0 +1,48 @@
-+Upstream-Status: Accepted [Fixed in Version 1.25]
-+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-+
-+From c1b9fc4cefb82892f6debe607f5e50ba5fc6aa96 Mon Sep 17 00:00:00 2001
-+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-+Date: Tue, 22 Jul 2014 15:39:39 +0300
-+Subject: [PATCH] scripts: Build libppp-plugin without versioning information
-+
-+There is no need to have module versioning for libppp-plugin.so file
-+so build the plugin same way as other vpn plugins.
-+
-+This issue was seen when building ConnMan for Yocto.
-+---
-+ Makefile.plugins | 7 ++-----
-+ 1 file changed, 2 insertions(+), 5 deletions(-)
-+
-+diff --git a/Makefile.plugins b/Makefile.plugins
-+index 294cae0..e90ad19 100644
-+--- a/Makefile.plugins
-++++ b/Makefile.plugins
-+@@ -3,9 +3,6 @@ plugin_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
-+ 					@DBUS_CFLAGS@ @GLIB_CFLAGS@
-+ plugin_ldflags = -no-undefined -module -avoid-version
-+ 
-+-script_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
-+-					@DBUS_CFLAGS@
-+-
-+ if LOOPBACK
-+ builtin_modules += loopback
-+ builtin_sources += plugins/loopback.c
-+@@ -156,12 +153,12 @@ endif
-+ 
-+ if PPTP
-+ script_LTLIBRARIES += scripts/libppp-plugin.la
-+-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
-++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
-+ scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
-+ else
-+ if L2TP
-+ script_LTLIBRARIES += scripts/libppp-plugin.la
-+-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
-++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
-+ scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
-+ endif
-+ endif
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.24.bb b/meta/recipes-connectivity/connman/connman_1.24.bb
-index 66a8c58..29e239c 100644
---- a/meta/recipes-connectivity/connman/connman_1.24.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.24.bb
-@@ -4,6 +4,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
-+            file://build-libppp-plugin-without-versioning-info.patch \
-             "
- SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
- SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
--- 
-1.8.3.1
+Bruce
+
+>
+> 2.3.3 is used by default for qemuarm, because of this in 2.4.1:
+> # lttng currently blacklists arm with gcc-4.8
+> COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+>
+> The issue was already reported 7 times in world status builds.
+>
+> |   CC [M]  /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o
+> | In file included from /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/define_trace.h:148:0,
+> |                  from /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/block.h:932,
+> |                  from /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:41:
+> | /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6: error: conflicting types for 'trace_block_rq_complete'
+> |  void trace_##_name(_proto);
+> |       ^
+> | /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2: note: in expansion of macro 'DEFINE_EVENT_MAP'
+> |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto), PARAMS(args))
+> |   ^
+> | /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1: note: in expansion of macro 'DEFINE_EVENT'
+> |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
+> |  ^
+> | In file included from include/linux/module.h:18:0,
+> |                  from /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:23:
+> | include/linux/tracepoint.h:168:21: note: previous definition of 'trace_block_rq_complete' was here
+> |   static inline void trace_##name(proto)    \
+> |                      ^
+> | include/linux/tracepoint.h:265:3: note: in expansion of macro '__DECLARE_TRACE'
+> |    __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
+> |    ^
+> | include/linux/tracepoint.h:399:2: note: in expansion of macro 'DECLARE_TRACE'
+> |   DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+> |   ^
+> | include/trace/events/block.h:143:1: note: in expansion of macro 'TRACE_EVENT'
+> |  TRACE_EVENT(block_rq_complete,
+> |  ^
+> | make[3]: *** [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o] Error 1
+> | make[2]: *** [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes] Error 2
+> | make[1]: *** [_module_/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git] Error 2
+> | make[1]: Leaving directory `/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemuarm/usr/src/kernel'
+> | make: *** [default] Error 2
+>
+>>
+>> Build tested against 3.14 and 3.10.
+>>
+>> [YOCTO #6459]
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>
+>> ---
+>>
+>>   meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>> index 4ef74dd..5e05ffc 100644
+>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>> @@ -10,7 +10,7 @@ DEPENDS = "virtual/kernel"
+>>
+>>   inherit module
+>>
+>> -SRCREV = "afdc6b155161f209fcfadc5288dc017ceab56353"
+>> +SRCREV = "a0383def517e3aebbbcebae61fe2bcfb50d31e71"
+>>   PV = "2.4.1"
+>>
+>>   # lttng currently blacklists arm with gcc-4.8
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>
 
 
