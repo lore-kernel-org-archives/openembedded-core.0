@@ -1,24 +1,36 @@
-Return-Path: <roxana.ciobanu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 814A5705E2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FA99705A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 13:58:21 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 22 Jul 2014 06:58:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,710,1400050800"; d="scan'208";a="459959283"
-Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.53])
-	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2014 06:58:21 -0700
-From: Roxana Ciobanu <roxana.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 16:58:41 +0300
-Message-Id: <eb52483d72008b797160d1423aa289b1e111dac8.1406037471.git.roxana.ciobanu@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1406037471.git.roxana.ciobanu@intel.com>
-References: <cover.1406037471.git.roxana.ciobanu@intel.com>
-In-Reply-To: <cover.1406037471.git.roxana.ciobanu@intel.com>
-References: <cover.1406037471.git.roxana.ciobanu@intel.com>
-Subject: [PATCH 1/1] bitbake.conf: move BB_NUMBER_THREADS and PARALLEL_MAKE to bitbake.conf
+	Tue, 22 Jul 2014 14:06:32 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id i50so7026011qgf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 07:06:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tWnitOPyxAWZRv5uXH5uLCv59bvyZfIo9sbxt6WFx98=;
+	b=eyvirHfVcqHj0Iko0szb2WfhGeaVnsxlihCr1ynhL7UPbkqeuCuPJ7alqoG1QpMvPp
+	9dgJG78FqnvwEXB7+iUfZjhFDE01KZx3sdcGqCzSBJUwOs4aBr4DR/80qqtvStn48XAa
+	J6ocwKkyG0bfDFiDzTtYGkVyTudV1ErbDjEaRfJHn8JMO1pNu14og5uj7w619VxU990/
+	XyKilIqwSyIMhW98zXhOAfEEVG50x0otcFMEBiHebzpC59mWVwxhbKixXxnuOmCQbcgi
+	q8WXyfF0rUAHC8npgmjEC3JG1dZfZI/tt2hiw40CpEI6/3oNHnZJ6K82t3bPl/jnTTwq
+	a5NQ==
+X-Gm-Message-State: ALoCoQmwbzvMsahGZs72AfYp93oOMRfEn1ZekZigIEP+4hnFXwtO/YyZnB1p64JVCyakTNzgm87A
+X-Received: by 10.140.91.66 with SMTP id y60mr50380662qgd.58.1406037993275;
+	Tue, 22 Jul 2014 07:06:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Tue, 22 Jul 2014 07:06:13 -0700 (PDT)
+In-Reply-To: <1406034680-5710-1-git-send-email-jukka.rissanen@linux.intel.com>
+References: <1406034680-5710-1-git-send-email-jukka.rissanen@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Jul 2014 15:06:13 +0100
+Message-ID: <CAJTo0LYvQW8xT0=uw4TaNAqZGe6Yg-5=Z9=Yr4r_h7zwAd9UDg@mail.gmail.com>
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] connman: Fix PPTP VPN plugin QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,105 +43,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 13:58:21 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 14:06:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Currently, BB_NUMBER_THREADS and PARALLEL_MAKE default to unset and
-are set in local.conf. Now that we have the automatic probing, the
-default values can be set in bitbake.conf and an example of explicitly
-defining how many tasks to run can be moved to
-local.conf.sample.extended.
+Acked-by: Ross Burton <ross.burton@intel.com>
 
-[YOCTO #6217]
-Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
----
- meta-yocto/conf/local.conf.sample          | 22 ----------------------
- meta-yocto/conf/local.conf.sample.extended | 23 +++++++++++++++++++++++
- meta/conf/bitbake.conf                     |  4 ++++
- 3 files changed, 27 insertions(+), 22 deletions(-)
+Ross
 
-diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
-index bcb0864..da4a01e 100644
---- a/meta-yocto/conf/local.conf.sample
-+++ b/meta-yocto/conf/local.conf.sample
-@@ -12,28 +12,6 @@
- # variable as required.
- 
- #
--# Parallelism Options
--#
--# These two options control how much parallelism BitBake should use. The first 
--# option determines how many tasks bitbake should run in parallel:
--#
--#BB_NUMBER_THREADS ?= "4"
--#
--# Default to setting automatically based on cpu count
--BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
--# 
--# The second option controls how many processes make should run in parallel when
--# running compile tasks:
--#
--#PARALLEL_MAKE ?= "-j 4"
--#
--# Default to setting automatically based on cpu count
--PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
--#
--# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
--# be appropriate for example.
--
--#
- # Machine Selection
- #
- # You need to select a specific machine to target the build with. There are a selection
-diff --git a/meta-yocto/conf/local.conf.sample.extended b/meta-yocto/conf/local.conf.sample.extended
-index b156319..e247a9c 100644
---- a/meta-yocto/conf/local.conf.sample.extended
-+++ b/meta-yocto/conf/local.conf.sample.extended
-@@ -2,6 +2,29 @@
- # certain recipes.
- #BBMASK = ""
- 
-+#
-+# Parallelism Options
-+#
-+# These two options control how much parallelism BitBake should use. The first 
-+# option determines how many tasks bitbake should run in parallel:
-+#
-+#BB_NUMBER_THREADS ?= "4"
-+#
-+# Default to setting automatically based on cpu count
-+#BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
-+# 
-+# The second option controls how many processes make should run in parallel when
-+# running compile tasks:
-+#
-+#PARALLEL_MAKE ?= "-j 4"
-+#
-+# Default to setting automatically based on cpu count
-+#PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
-+#
-+# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
-+# be appropriate for example.
-+
-+
- # eglibc configurability is used to reduce minimal image's size.
- # the all supported eglibc options are listed in DISTRO_FEATURES_LIBC
- # and disabled by default. Uncomment and copy the DISTRO_FEATURES_LIBC
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f4870d5..6e7260d 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -527,6 +527,10 @@ export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
- # Which flags to leave by strip-flags() in bin/build/oebuild.sh ?
- ALLOWED_FLAGS = "-O -mcpu -march -pipe"
- 
-+# Default to setting automatically based on cpu count
-+BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
-+# Default to setting automatically based on cpu count
-+PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
- # Pass parallel make options to the compile task
- EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
- PARALLEL_MAKEINST ??= "${PARALLEL_MAKE}"
--- 
-1.9.1
-
+On 22 July 2014 14:11, Jukka Rissanen <jukka.rissanen@linux.intel.com> wrote:
+> This error was seen when building ConnMan. Fixed by not
+> building ConnMan pptp plugin with module versioning info.
+>
+> ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: connman-plugin-vpn-pptp path '/work/core2-32-oe-linux/connman/1.24+gitAUTOINC+42779cd63c-r20/packages-split/connman-plugin-vpn-pptp/usr/lib/connman/scripts/libppp-plugin.so' [dev-so]
+> ERROR: QA run found fatal errors. Please consider fixing them.
+> ERROR: Function failed: do_package_qa
+>
+> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+> ---
+>  ...ild-libppp-plugin-without-versioning-info.patch | 48 ++++++++++++++++++++++
+>  meta/recipes-connectivity/connman/connman_1.24.bb  |  1 +
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+>
+> diff --git a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+> new file mode 100644
+> index 0000000..0cb43b6
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+> @@ -0,0 +1,48 @@
+> +Upstream-Status: Accepted [Fixed in Version 1.25]
+> +Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+> +
+> +From c1b9fc4cefb82892f6debe607f5e50ba5fc6aa96 Mon Sep 17 00:00:00 2001
+> +From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+> +Date: Tue, 22 Jul 2014 15:39:39 +0300
+> +Subject: [PATCH] scripts: Build libppp-plugin without versioning information
+> +
+> +There is no need to have module versioning for libppp-plugin.so file
+> +so build the plugin same way as other vpn plugins.
+> +
+> +This issue was seen when building ConnMan for Yocto.
+> +---
+> + Makefile.plugins | 7 ++-----
+> + 1 file changed, 2 insertions(+), 5 deletions(-)
+> +
+> +diff --git a/Makefile.plugins b/Makefile.plugins
+> +index 294cae0..e90ad19 100644
+> +--- a/Makefile.plugins
+> ++++ b/Makefile.plugins
+> +@@ -3,9 +3,6 @@ plugin_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
+> +                                       @DBUS_CFLAGS@ @GLIB_CFLAGS@
+> + plugin_ldflags = -no-undefined -module -avoid-version
+> +
+> +-script_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
+> +-                                      @DBUS_CFLAGS@
+> +-
+> + if LOOPBACK
+> + builtin_modules += loopback
+> + builtin_sources += plugins/loopback.c
+> +@@ -156,12 +153,12 @@ endif
+> +
+> + if PPTP
+> + script_LTLIBRARIES += scripts/libppp-plugin.la
+> +-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
+> ++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
+> + scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
+> + else
+> + if L2TP
+> + script_LTLIBRARIES += scripts/libppp-plugin.la
+> +-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
+> ++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
+> + scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
+> + endif
+> + endif
+> +--
+> +1.8.3.1
+> +
+> diff --git a/meta/recipes-connectivity/connman/connman_1.24.bb b/meta/recipes-connectivity/connman/connman_1.24.bb
+> index 66a8c58..29e239c 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.24.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.24.bb
+> @@ -4,6 +4,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>              file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>              file://add_xuser_dbus_permission.patch \
+>              file://connman \
+> +            file://build-libppp-plugin-without-versioning-info.patch \
+>              "
+>  SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
+>  SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
+> --
+> 1.8.3.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
