@@ -1,39 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2989C70795
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id D3DD67078F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 18:38:40 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id f8so933536wiw.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 11:38:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=QlBTGNFcm0sON9621MPvmN9TuIKseqvSoipqT5Wm9AM=;
-	b=Ekmyn9ODMe6VvT0CLiRhJ12rD83ZnTxUbArPczEpQ9w6T0Kt2tuzRy+Nd7dVm7b8VO
-	GSZ2alnryxeG54ku8beiAsHUKVfjFTphaaLWk0liPSpo7zQi21T4yE5/i5j9iSWY1wzM
-	CAVKvuYrePyTS7xrOY4KP+mWT7bIvBzR55rJFFYqgAVUYAcU8ytsJDFluQG/SvA/g0tx
-	zSume4YQR6be1aByfrp2Kq8s/gx8riRsTo7YtM+OFP5Q+CxVxjmQT+LAofExDEDcqbqo
-	R1/BRATSQxe/Mk96RWE9CiFELqTzgaohC/g2+GBgslSFn52R3u0hSi+H8oTQ0r7hwnoo
-	s/hg==
-X-Gm-Message-State: ALoCoQlYe5VOu7BqJ9mG0x+YAvchiupaPwlziscdhTupbvVjeRncQh97OKcQxS2NKKvwZX4I3m4Q
-X-Received: by 10.180.83.8 with SMTP id m8mr17540910wiy.8.1406054321684;
-	Tue, 22 Jul 2014 11:38:41 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id jy8sm2847638wjc.7.2014.07.22.11.38.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Jul 2014 11:38:41 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 22 Jul 2014 19:01:14 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 Jul 2014 12:01:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,711,1400050800"; d="scan'208";a="460085525"
+Received: from unknown (HELO localhost) ([10.255.12.245])
+	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2014 12:01:14 -0700
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 19:38:21 +0100
-Message-Id: <1406054301-9027-11-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1406054301-9027-1-git-send-email-ross.burton@intel.com>
-References: <1406054301-9027-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 11/11] pango: upgrade to 1.36.5
+Date: Tue, 22 Jul 2014 14:01:10 -0500
+Message-Id: <7e2acb41efc8a44331b7849e73c3ca49a8ec5c3d.1406052643.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <3d7c44a6df1f49a78f9d169f337e3041aad9e430.1406052643.git.tom.zanussi@linux.intel.com>
+References: <3d7c44a6df1f49a78f9d169f337e3041aad9e430.1406052643.git.tom.zanussi@linux.intel.com>
+In-Reply-To: <cover.1406052643.git.tom.zanussi@linux.intel.com>
+References: <cover.1406052643.git.tom.zanussi@linux.intel.com>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 2/3] wic: Add help entry for wic kickstart
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,49 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 18:38:41 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 19:01:15 -0000
 
-Update pango-ptest to reflect moved test suite.
+Previous patches added help for 'wic kickstart' but forgot to add an
+entry in the main help page showing its availability.  Add an entry
+for it.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- meta/recipes-graphics/pango/pango.inc                            |    4 ++--
- meta/recipes-graphics/pango/{pango_1.36.3.bb => pango_1.36.5.bb} |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/pango/{pango_1.36.3.bb => pango_1.36.5.bb} (55%)
+ scripts/lib/image/help.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index c02d8c0..1ad46a3 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -90,8 +90,8 @@ FILES_${PN} = "${sysconfdir}/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
- FILES_${PN}-dbg += "${libdir}/pango/${LIBV}/modules/.debug"
- FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index a7e7830..848aa9a 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -90,6 +90,7 @@ wic_usage = """
+  Help topics:
+     overview           wic overview - General overview of wic
+     plugins            wic plugins - Overview and API
++    kickstart          wic kickstart - wic kickstart reference
  
--FILES_${PN}-ptest += "${libexecdir}/pango/installed-tests/* \
-+FILES_${PN}-ptest += "${libexecdir}/installed-tests/* \
-                       ${datadir}/installed-tests/pango"
--FILES_${PN}-dbg += "${libexecdir}/pango/installed-tests/.debug"
-+FILES_${PN}-dbg += "${libexecdir}/installed-tests/.debug"
- 
- RDEPENDS_${PN}-ptest += "gnome-desktop-testing liberation-fonts"
-diff --git a/meta/recipes-graphics/pango/pango_1.36.3.bb b/meta/recipes-graphics/pango/pango_1.36.5.bb
-similarity index 55%
-rename from meta/recipes-graphics/pango/pango_1.36.3.bb
-rename to meta/recipes-graphics/pango/pango_1.36.5.bb
-index 7782f92..5c20497 100644
---- a/meta/recipes-graphics/pango/pango_1.36.3.bb
-+++ b/meta/recipes-graphics/pango/pango_1.36.5.bb
-@@ -8,5 +8,5 @@ SRC_URI += "file://run-ptest \
-             file://multilib-fix-clean.patch \
- "
- 
--SRC_URI[archive.md5sum] = "d9532826e95bdb374355deebc42441bb"
--SRC_URI[archive.sha256sum] = "ad48e32917f94aa9d507486d44366e59355fcfd46ef86d119ddcba566ada5d22"
-+SRC_URI[archive.md5sum] = "2500930093c3ed38acb40e4255bce2f1"
-+SRC_URI[archive.sha256sum] = "be0e94b2e5c7459f0b6db21efab6253556c8f443837200b8736d697071276ac8"
-\ No newline at end of file
+  See 'wic help <COMMAND or HELP TOPIC>' for more information on a specific
+  command or help topic.
 -- 
-1.7.10.4
+1.8.3.1
 
 
