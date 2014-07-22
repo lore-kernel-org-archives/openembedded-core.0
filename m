@@ -1,25 +1,34 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 76964707AD
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E23FD707A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 19:03:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Jul 2014 12:03:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,711,1400050800"; d="scan'208";a="573794773"
-Received: from unknown (HELO localhost) ([10.255.12.245])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2014 12:02:44 -0700
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+	Tue, 22 Jul 2014 20:23:46 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6MKNluF026785 for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 15:23:47 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072215234765-100362 ;
+	Tue, 22 Jul 2014 15:23:47 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 14:02:40 -0500
-Message-Id: <c870535e8d1001cfdde3da2cb1703011b51b0b8c.1406054327.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <0fd2a015fbbbfb2073e65154369bee2992b0d4b2.1406054327.git.tom.zanussi@linux.intel.com>
-References: <0fd2a015fbbbfb2073e65154369bee2992b0d4b2.1406054327.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1406054327.git.tom.zanussi@linux.intel.com>
-References: <cover.1406054327.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [for-daisy][PATCH 2/2] wic: Remove fstype from mkefidisk canned wks
+Date: Tue, 22 Jul 2014 15:23:36 -0500
+Message-Id: <1406060616-15914-3-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.2
+In-Reply-To: <1406060616-15914-1-git-send-email-ben.shelton@ni.com>
+References: <1406060616-15914-1-git-send-email-ben.shelton@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/22/2014 03:23:47 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/22/2014 03:23:47 PM,
+	Serialize complete at 07/22/2014 03:23:47 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-22_07:2014-07-22, 2014-07-22,
+	1970-01-01 signatures=0
+Subject: [PATCH v2 3/3] sysvinit: bootlogd: ensure /var/log/boot is created in volatiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 19:03:35 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 20:23:56 -0000
 
-The bootimg-efi plugin specifies the fstype internally, so remove it
-from the partition definition.
+From: Richard Tollerton <rich.tollerton@ni.com>
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+bootlogd does not write to /var/log/boot if it does not exist,
+so if using the volatiles facility (presumed to mount /var/log under a
+tmpfs), ensure that /var/log/boot gets created.
+
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
 ---
- scripts/lib/image/canned-wks/mkefidisk.wks | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/sysvinit/sysvinit/01_bootlogd | 1 +
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb  | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit/01_bootlogd
 
-diff --git a/scripts/lib/image/canned-wks/mkefidisk.wks b/scripts/lib/image/canned-wks/mkefidisk.wks
-index e976bc8..db86caa 100644
---- a/scripts/lib/image/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/image/canned-wks/mkefidisk.wks
-@@ -2,7 +2,7 @@
- # long-description: Creates a partitioned EFI disk image that the user
- # can directly dd to boot media.
+diff --git a/meta/recipes-core/sysvinit/sysvinit/01_bootlogd b/meta/recipes-core/sysvinit/sysvinit/01_bootlogd
+new file mode 100644
+index 0000000..a689d92
+--- /dev/null
++++ b/meta/recipes-core/sysvinit/sysvinit/01_bootlogd
+@@ -0,0 +1 @@
++f root root 0644 /var/log/boot none
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index 448d021..00d3333 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -16,7 +16,9 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
+            file://rcS-default \
+            file://rc \
+            file://rcS \
+-           file://bootlogd.init"
++           file://bootlogd.init \
++           file://01_bootlogd \
++"
  
--part /boot --source bootimg-efi --ondisk sda --fstype=msdos --label msdos --active --align 1024
-+part /boot --source bootimg-efi --ondisk sda --label msdos --active --align 1024
+ SRC_URI[md5sum] = "6eda8a97b86e0a6f59dabbf25202aa6f"
+ SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5df1519"
+@@ -92,6 +94,9 @@ do_install () {
+ 	update-rc.d -r ${D} bootlogd start 07 S .
+ 	update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
  
- part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
- 
++	install -d ${D}${sysconfdir}/default/volatiles
++	install -m 0644 ${WORKDIR}/01_bootlogd ${D}${sysconfdir}/default/volatiles
++
+ 	chown root.shutdown ${D}${base_sbindir}/halt ${D}${base_sbindir}/shutdown
+ 	chmod o-x,u+s ${D}${base_sbindir}/halt ${D}${base_sbindir}/shutdown
+ }
 -- 
-1.8.3.1
+2.0.2
 
 
