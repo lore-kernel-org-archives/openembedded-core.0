@@ -1,39 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 40033701D0
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 338D76084E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 11:19:48 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id f8so5773667wiw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 04:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0ywlsA976JgBRe5tRuaYL0jXVft262+i7EGz/2QCHYA=;
-	b=kQ9LY53cI6QR/EXIReXqJMQ9XowbWytFrvzzx4F0I68xy3B0E1jIgetWoMGAURITK7
-	E/1CoZ74AuPAjshjE2Qu9oVniIcb7mxCut2Z2WhUWuoY6Iu7ZhBEp3IBVVr5v4Ma0WmE
-	XUTNjMvwrFdGz2zZJyX8F9p23T52t+xlrzmOnyp+fbXHuriofbptFuMxWex6suxQNLpz
-	//L7VVqgk4wDM8BJvOqVfy43jmd9breW0xUJWEbuCq/uB0Wep4oiAtanPZ6MKv6UyWt+
-	i2WwruddxWE82gSwFDMIoTA+7mF+b/KZIsGJ51yhzTQZ+BYxjaVQ6khWrWmpFfHEQ849
-	ycZg==
-X-Received: by 10.180.205.141 with SMTP id lg13mr13968561wic.21.1406027989715; 
-	Tue, 22 Jul 2014 04:19:49 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	pl1sm1621289wic.17.2014.07.22.04.19.47 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Jul 2014 04:19:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 22 Jul 2014 13:20:04 +0200
-To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140722112004.GR22875@jama>
-References: <1403176695-18917-1-git-send-email-Martin.Jansa@gmail.com>
+	Tue, 22 Jul 2014 12:05:53 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 74F6EF811E6; Tue, 22 Jul 2014 06:05:54 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 97386F811E3;
+	Tue, 22 Jul 2014 06:05:52 -0600 (MDT)
+Message-ID: <53CE53A2.7000608@mlbassoc.com>
+Date: Tue, 22 Jul 2014 06:05:54 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-In-Reply-To: <1403176695-18917-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [DO-NOT-MERGE][RFC][PATCH] DO-NOT-MERGE: distutils3.bbclass: Don't use MACHINE variable
+To: openembedded-core@lists.openembedded.org
+References: <cover.1405996037.git.Qi.Chen@windriver.com>
+	<3777fcb67381393b494ac5fcb042ba8bc9fa8acb.1405996037.git.Qi.Chen@windriver.com>
+In-Reply-To: <3777fcb67381393b494ac5fcb042ba8bc9fa8acb.1405996037.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] shadow: fix the behavior of su
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,153 +36,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 11:19:49 -0000
-X-Groupsio-MsgNum: 55356
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="6qFdnjy6dKaiDX/E"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 22 Jul 2014 12:05:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---6qFdnjy6dKaiDX/E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2014-07-21 20:32, Chen Qi wrote:
+> In systems where bash is not installed and /bin/sh is provided by
+> busybox. Commands like `su -l -c '/home/root/test' xuser' would fail
+> complaining the the 'su' applet could not be found.
+>
+> This patch references the old version of shadow to keep the behaviour
+> the way it was in old version so that we would avoid the problem mentioned
+> above.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-On Thu, Jun 19, 2014 at 01:18:15PM +0200, Martin Jansa wrote:
-> The original patch says this about MACHINE variables:
->=20
->     Use MACHINE for sysroot when not building for build host
->=20
->     Python's machinery replaces directories in sysroot path to match OE's
->     staging area sysroots. Earlier we use to have HOST_SYS represent sysr=
-oot
->     always but now we use MACHINE to represent target sysroots but HOST_S=
-YS
->     to represent host sysroot. This patch caters to that difference
->=20
-> But I think we need to find some different solution, because right now th=
-e only
-> user of distutils3 bbclass python3-distribute becames effectivelly MACHIN=
-E_ARCH
-> because of this. Detected with sstate-diff-machines.sh script:
->=20
->  =3D=3D Comparing signatures for python3-distribute.do_populate_sysroot.s=
-igdata between qemux86 and qemux86copy =3D=3D
->   Hash for dependent task python3-distribute_0.6.32.bb.do_install changed=
- from ef2f64ea6aecf1f9c2c6a0f201c52f67 to 7afd17fd366b28cf4a0353c7dd5e1c5b
->=20
->   $ bitbake-diffsigs sstate-diff/1403174194/qemux86*/i586*/python3-distri=
-bute*/*do_install*
->     basehash changed from 5311d29c25ff324645de9c17cdefe083 to 2f079b81b13=
-427faddeb040e7a115965
->     Variable MACHINE value changed from 'qemux86copy' to 'qemux86'
->     Hash for dependent task python3-distribute_0.6.32.bb.do_compile chang=
-ed from 4fcb29eb2a0df7bef2f9806a0d9cdd92 to e7df3cdd7b82733d69c87f1822b7177b
->=20
->   $ bitbake-diffsigs sstate-diff/1403174194/qemux86*/i586*/python3-distri=
-bute*/*do_compile*
->     basehash changed from 870a9e01c2c4eb73dd57451eeb2a7f0c to c061ae11d7f=
-16d74d49f667243a21be0
->     Variable MACHINE value changed from 'qemux86copy' to 'qemux86'
+Acked-by: Gary Thomas <gary@mlbassoc.com>
 
-No comment?
-
-+Khem who added this
-
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  meta/classes/distutils3.bbclass | 28 ++++------------------------
->  1 file changed, 4 insertions(+), 24 deletions(-)
->=20
-> diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bb=
-class
-> index bbd645c..8cf29d5 100644
-> --- a/meta/classes/distutils3.bbclass
-> +++ b/meta/classes/distutils3.bbclass
-> @@ -9,14 +9,9 @@ DISTUTILS_INSTALL_ARGS ?=3D "--prefix=3D${D}/${prefix} \
->      --install-data=3D${D}/${datadir}"
-> =20
->  distutils3_do_compile() {
-> -        if [ ${BUILD_SYS} !=3D ${HOST_SYS} ]; then
-> -                SYS=3D${MACHINE}
-> -        else
-> -                SYS=3D${HOST_SYS}
-> -        fi
->          STAGING_INCDIR=3D${STAGING_INCDIR} \
->          STAGING_LIBDIR=3D${STAGING_LIBDIR} \
-> -        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${SYS} \
-> +        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.=
-py \
->          build ${DISTUTILS_BUILD_ARGS} || \
->          bbfatal "${PYTHON_PN} setup.py build_ext execution failed."
-> @@ -24,42 +19,27 @@ distutils3_do_compile() {
-> =20
->  distutils3_stage_headers() {
->          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-> -        if [ ${BUILD_SYS} !=3D ${HOST_SYS} ]; then
-> -                SYS=3D${MACHINE}
-> -        else
-> -                SYS=3D${HOST_SYS}
-> -        fi
-> -        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${SYS} \
-> +        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.=
-py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
->          bbfatal "${PYTHON_PN} setup.py install_headers execution failed."
->  }
-> =20
->  distutils3_stage_all() {
-> -        if [ ${BUILD_SYS} !=3D ${HOST_SYS} ]; then
-> -                SYS=3D${MACHINE}
-> -        else
-> -                SYS=3D${HOST_SYS}
-> -        fi
->          STAGING_INCDIR=3D${STAGING_INCDIR} \
->          STAGING_LIBDIR=3D${STAGING_LIBDIR} \
->          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
->          PYTHONPATH=3D${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
-> -        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${SYS} \
-> +        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.=
-py install ${DISTUTILS_STAGE_ALL_ARGS} || \
->          bbfatal "${PYTHON_PN} setup.py install (stage) execution failed."
->  }
-> =20
->  distutils3_do_install() {
->          install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-> -        if [ ${BUILD_SYS} !=3D ${HOST_SYS} ]; then
-> -                SYS=3D${MACHINE}
-> -        else
-> -                SYS=3D${HOST_SYS}
-> -        fi
->          STAGING_INCDIR=3D${STAGING_INCDIR} \
->          STAGING_LIBDIR=3D${STAGING_LIBDIR} \
->          PYTHONPATH=3D${D}${PYTHON_SITEPACKAGES_DIR} \
-> -        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${SYS} \
-> +        BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.=
-py install --install-lib=3D${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INST=
-ALL_ARGS} || \
->          bbfatal "${PYTHON_PN} setup.py install execution failed."
-> =20
-> --=20
-> 2.0.0
->=20
+>   .../0001-su.c-fix-to-exec-command-correctly.patch  |   25 ++++++++++++++++++++
+>   meta/recipes-extended/shadow/shadow.inc            |    1 +
+>   2 files changed, 26 insertions(+)
+>   create mode 100644 meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch
+>
+> diff --git a/meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch b/meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch
+> new file mode 100644
+> index 0000000..31337de
+> --- /dev/null
+> +++ b/meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch
+> @@ -0,0 +1,25 @@
+> +Upstream-Status: Pending
+> +
+> +Subject: su.c: fix to exec command correctly
+> +
+> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> +---
+> + src/su.c |    2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/su.c b/src/su.c
+> +index 3704217..bc4f2ac 100644
+> +--- a/src/su.c
+> ++++ b/src/su.c
+> +@@ -1156,7 +1156,7 @@ int main (int argc, char **argv)
+> + 		 * Use the shell and create an argv
+> + 		 * with the rest of the command line included.
+> + 		 */
+> +-		argv[-1] = cp;
+> ++		argv[-1] = shellstr;
+> + 		execve_shell (shellstr, &argv[-1], environ);
+> + 		err = errno;
+> + 		(void) fprintf (stderr,
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+> index 66541f4..84d1f86 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -14,6 +14,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
+>              file://shadow-4.1.3-dots-in-usernames.patch \
+>              file://usermod-fix-compilation-failure-with-subids-disabled.patch \
+>              file://fix-installation-failure-with-subids-disabled.patch \
+> +           file://0001-su.c-fix-to-exec-command-correctly.patch \
+>              ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
+>              "
+>
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
---6qFdnjy6dKaiDX/E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPOSOQACgkQN1Ujt2V2gBx2oQCeKx4h0lvEYRqQyDLqITus+7ro
-lWYAn2gJKrJBmtomF4X6B/xxq4Ic5wIn
-=/cJV
------END PGP SIGNATURE-----
-
---6qFdnjy6dKaiDX/E--
