@@ -1,28 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B106B705C1
+Return-Path: <jukka.rissanen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4745E70523
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 13:05:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6MD5nl4010247
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jul 2014 06:05:49 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 22 Jul 2014 06:05:48 -0700
-Message-ID: <53CE61AB.3060706@windriver.com>
-Date: Tue, 22 Jul 2014 21:05:47 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: Andrea Adami <andrea.adami@gmail.com>
-References: <cover.1406022752.git.liezhi.yang@windriver.com>
-	<CAAQYJAtLih10k7o+8OiR2AbijfSwj=JoNjBTeqmyGXrorWy+mA@mail.gmail.com>
-In-Reply-To: <CAAQYJAtLih10k7o+8OiR2AbijfSwj=JoNjBTeqmyGXrorWy+mA@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/40 V2] fix rdepends on bash perl and python
+	Tue, 22 Jul 2014 13:11:50 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jul 2014 06:11:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,710,1400050800"; d="scan'208";a="576982691"
+Received: from jrissane-mobl.ger.corp.intel.com ([10.237.67.153])
+	by orsmga002.jf.intel.com with ESMTP; 22 Jul 2014 06:11:22 -0700
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Jul 2014 16:11:20 +0300
+Message-Id: <1406034680-5710-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH v3] connman: Fix PPTP VPN plugin QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,203 +27,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 13:05:52 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Jul 2014 13:11:55 -0000
 
+This error was seen when building ConnMan. Fixed by not
+building ConnMan pptp plugin with module versioning info.
 
+ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: connman-plugin-vpn-pptp path '/work/core2-32-oe-linux/connman/1.24+gitAUTOINC+42779cd63c-r20/packages-split/connman-plugin-vpn-pptp/usr/lib/connman/scripts/libppp-plugin.so' [dev-so]
+ERROR: QA run found fatal errors. Please consider fixing them.
+ERROR: Function failed: do_package_qa
 
-On 07/22/2014 08:37 PM, Andrea Adami wrote:
-> On Tue, Jul 22, 2014 at 12:14 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> Note:
->> I put PATCH 3 to PATCH 40 in one email to avoid flushing the mailing list, I'd
->> like to put them into one patch, but I have to write the reason one by one.
->> Please get the commits from the repo.
->>
->> * V2: (Fixed comments from RP)
->>    - Add bash-native to ASSUME_PROVIDED
->>    - Use RDEPENDS_${PN} rather than RDEPENDS_${PN}_class-target
->>
->> * V1:
->>    - Initial version
->>
->> // Robert
->>
->> The following changes since commit 6bc3696d8451a23d743daf03ee98c4ba54ce4551:
->>
->>    wget: Remove unneeded DEPENDS line (2014-07-21 19:10:30 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.openembedded.org/openembedded-core-contrib rbt/fixrdeps
->>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/filedep
->>
->> Robert Yang (40):
->>    bitbake.conf: add bash-native to ASSUME_PROVIDED
->>    kernel.bbclass: add perl python bash to RDEPENDS_kernel-dev
->>    groff: add perl to RDEPENDS_groff
->>    attr: add perl to RDEPENDS_attr-ptest
->>    git: add perl to RDEPENDS_gitweb
->>    syslinux: add perl to RDEPENDS_syslinux-misc
->>    texi2html: add perl to RDEPENDS_texi2html
->>    gst-plugins-package: add perl to RDEPENDS_gst-plugins-base-apps
->>    foomatic-filters: add perl to RDEPENDS_foomatic-filters
->>    icon-naming-utils: add perl to RDEPENDS_icon-naming-utils
->>    rpm: add perl to RDEPENDS_rpm-build
->>    opensp: add perl to RDEPENDS_opensp
->>    aspell: add perl to RDEPENDS_aspell-utils
->>    glib-2.0: add perl to RDEPENDS_glib-2.0-utils
->>    lttng-tools: add perl bash python to RDEPENDS_lttng-tools-ptest
->>    quilt: add bash and perl to RDEPENDS
->>    udev: add perl to RDEPENDS_udev-ptest
->>    apt: add bash to RDEPENDS_apt
->>    lsbtest: add bash to RDEPENDS_lsbtest
->>    oprofile: add bash to RDEPENDS_oprofile-ptest
->>    pax-utils: add bash to RDEPENDS_pax-utils
->>    gzip: add bash to RDEPENDS_gzip
->>    dtc: add bash to RDEPENDS_dtc
->>    pm-utils: add bash to RDEPENDS_pm-utils
->>    grep: add bash to RDEPENDS_grep
->>    kconfig-frontends: add bash to RDEPENDS_kconfig-frontends
->>    xz: add bash to RDEPENDS_xz
->>    libpam: add bash to RDEPENDS_libpam-xtests
->>    valgrind: add bash to RDEPENDS_valgrind-ptest
->>    ltp: add bash and python to RDEPENDS_ltp
->>    piglit: add bash to RDEPENDS_piglit
->>    usbutils: add python to RDEPENDS_usbutils
->>    libxml2: add python to RDEPENDS_libxml2-ptest
->>    builder: add python to RDEPENDS_builder
->>    lttng-ust: add python to RDEPENDS_lttng-ust-bin
->>    libevent: add python to RDEPENDS_libevent
->>    gconf: add python to RDEPENDS_gconf
->>    blktrace: add python to RDEPENDS_blktrace
->>    dpkg: add perl to RDEPENDS_perl
->>    gnu-config: add perl to RDEPENDS_gnu-config
->>
->>   meta/classes/kernel.bbclass                        |    1 +
->>   meta/conf/bitbake.conf                             |    1 +
->>   meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb        |    2 +-
->>   meta/recipes-bsp/usbutils/usbutils_007.bb          |    2 +-
->>   meta/recipes-core/glib-2.0/glib.inc                |    2 ++
->>   meta/recipes-core/libxml/libxml2.inc               |    2 ++
->>   meta/recipes-core/udev/udev.inc                    |    2 +-
->>   meta/recipes-devtools/apt/apt_0.9.9.4.bb           |    2 +-
->>   meta/recipes-devtools/dpkg/dpkg.inc                |    2 +-
->>   meta/recipes-devtools/git/git.inc                  |    2 +-
->>   .../gnu-config/gnu-config_20120814.bb              |    2 ++
->>   meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 ++
->>   .../icon-naming-utils/icon-naming-utils_0.8.90.bb  |    2 ++
->>   .../kconfig-frontends_3.12.0.0.bb                  |    2 ++
->>   meta/recipes-devtools/opensp/opensp_1.5.2.bb       |    2 ++
->>   meta/recipes-devtools/pax-utils/pax-utils_0.8.1.bb |    2 ++
->>   meta/recipes-devtools/quilt/quilt-0.63.inc         |    5 +++--
->>   meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    4 +---
->>   meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    4 +---
->>   meta/recipes-devtools/syslinux/syslinux_6.01.bb    |    1 +
->>   meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |    2 +-
->>   .../foomatic/foomatic-filters_4.0.17.bb            |    2 ++
->>   meta/recipes-extended/grep/grep_2.19.bb            |    2 ++
->>   meta/recipes-extended/groff/groff_1.22.2.bb        |    2 ++
->>   meta/recipes-extended/gzip/gzip.inc                |    2 ++
->>   meta/recipes-extended/lsb/lsbtest_1.0.bb           |    2 +-
->>   meta/recipes-extended/ltp/ltp_20140422.bb          |    2 +-
->>   meta/recipes-extended/pam/libpam_1.1.6.bb          |   12 ++++++++++--
->>   meta/recipes-extended/texi2html/texi2html_5.0.bb   |    2 ++
->>   meta/recipes-extended/xz/xz_5.1.3alpha.bb          |    2 ++
->>   meta/recipes-gnome/gnome/gconf_3.2.6.bb            |    2 +-
->>   meta/recipes-graphics/builder/builder_0.1.bb       |    2 +-
->>   meta/recipes-graphics/piglit/piglit_git.bb         |    5 ++++-
->>   meta/recipes-kernel/blktrace/blktrace_git.bb       |    2 ++
->>   meta/recipes-kernel/dtc/dtc.inc                    |    1 +
->>   meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb     |    2 +-
->>   meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb     |    2 +-
->>   meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb       |    2 +-
->>   meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb       |    1 +
->>   meta/recipes-kernel/oprofile/oprofile.inc          |    2 ++
->>   .../gstreamer/gst-plugins-package.inc              |    1 +
->>   meta/recipes-support/aspell/aspell_0.60.6.1.bb     |    2 ++
->>   meta/recipes-support/attr/attr.inc                 |    2 +-
->>   meta/recipes-support/libevent/libevent_2.0.21.bb   |    2 ++
->>   44 files changed, 76 insertions(+), 26 deletions(-)
->>
->> --
->> 1.7.9.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-> Hi Robert,
->
-> many thanks for having looked at the issue in [YOCTO #1662].
->
-> Having to deal with size-contrained devices I immediately noticed that
-> practically if we apply this patchset we risk to add bash (and perl &
-> python in lesser extent) to the normal images we build.
+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+---
+ ...ild-libppp-plugin-without-versioning-info.patch | 48 ++++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_1.24.bb  |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
 
-If you use the rpm backend, the python/perl/bash dependencies should already
-be there with or without these patches since the rpm can scan the depends
-of bash/perl/python and install it, these patches should not affect the
-image's size.
+diff --git a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+new file mode 100644
+index 0000000..0cb43b6
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+@@ -0,0 +1,48 @@
++Upstream-Status: Accepted [Fixed in Version 1.25]
++Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
++
++From c1b9fc4cefb82892f6debe607f5e50ba5fc6aa96 Mon Sep 17 00:00:00 2001
++From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
++Date: Tue, 22 Jul 2014 15:39:39 +0300
++Subject: [PATCH] scripts: Build libppp-plugin without versioning information
++
++There is no need to have module versioning for libppp-plugin.so file
++so build the plugin same way as other vpn plugins.
++
++This issue was seen when building ConnMan for Yocto.
++---
++ Makefile.plugins | 7 ++-----
++ 1 file changed, 2 insertions(+), 5 deletions(-)
++
++diff --git a/Makefile.plugins b/Makefile.plugins
++index 294cae0..e90ad19 100644
++--- a/Makefile.plugins
+++++ b/Makefile.plugins
++@@ -3,9 +3,6 @@ plugin_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
++ 					@DBUS_CFLAGS@ @GLIB_CFLAGS@
++ plugin_ldflags = -no-undefined -module -avoid-version
++ 
++-script_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
++-					@DBUS_CFLAGS@
++-
++ if LOOPBACK
++ builtin_modules += loopback
++ builtin_sources += plugins/loopback.c
++@@ -156,12 +153,12 @@ endif
++ 
++ if PPTP
++ script_LTLIBRARIES += scripts/libppp-plugin.la
++-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
+++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
++ scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
++ else
++ if L2TP
++ script_LTLIBRARIES += scripts/libppp-plugin.la
++-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
+++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
++ scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
++ endif
++ endif
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.24.bb b/meta/recipes-connectivity/connman/connman_1.24.bb
+index 66a8c58..29e239c 100644
+--- a/meta/recipes-connectivity/connman/connman_1.24.bb
++++ b/meta/recipes-connectivity/connman/connman_1.24.bb
+@@ -4,6 +4,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
++            file://build-libppp-plugin-without-versioning-info.patch \
+             "
+ SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
+ SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
+-- 
+1.8.3.1
 
-If you use dpkg or ipkg backend, they can't work even they are installed
-since lacks of interprets.
-
->
-> I cannot imagine offhand why i.e. gzip/xz are rdepending on bash.
-
-For gzip, it is because:
-
-Subject: [PATCH 22/40] gzip: add bash to RDEPENDS_gzip
-
-Bash scripts:
-gzip/bin/zcat.gzip
-gzip/bin/gunzip.gzip
-gzip/bin/uncompress
-gzip/usr/bin/zfgrep
-gzip/usr/bin/gzexe
-gzip/usr/bin/zdiff
-gzip/usr/bin/zegrep
-gzip/usr/bin/zforce
-gzip/usr/bin/zmore
-gzip/usr/bin/zcmp
-gzip/usr/bin/zless
-gzip/usr/bin/znew
-gzip/usr/bin/zgrep
-
-[YOCTO #1662]
-
-I've looked at the files, there is a #!/bin/bash in the header, I've listed
-the files which require python, perl and bash in each commit message.
-
-> (issue raised before, see
-> http://lists.openembedded.org/pipermail/openembedded-core/2013-December/087160.html
-> http://lists.openembedded.org/pipermail/openembedded-core/2013-December/087161.html
-> )
->
-> I think that if some sources do contain specific perl or python script
-> these should be packaged separately.
-
-That should be the next work if we really need remove the bashism or
-package it separately, they can't work without the bash/perl/python
-installed on the target image at the moment (if you use ipkg or dpkg).
-I don't think that we have to remove bashsim or packaged separately for
-each one.
-
-// Robert
-
-> Bashism should also be avoided in shell scripts: if just a few it is
-> maybe better to patch the script so it can be run by i.e. busybox sh.
->
-> That said, please check out the sources to see if the dependency is
-> real and verify the runtime deps with i.e. packages.debian.org.
->
-> Thanks again,
->
-> Andrea
->
->
 
