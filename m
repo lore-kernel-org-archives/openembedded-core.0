@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FA99705A8
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E0BC70676
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 14:06:32 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id i50so7026011qgf.6
+	Tue, 22 Jul 2014 15:05:26 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id bs8so6203736wib.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 07:06:33 -0700 (PDT)
+	Tue, 22 Jul 2014 08:05:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tWnitOPyxAWZRv5uXH5uLCv59bvyZfIo9sbxt6WFx98=;
-	b=eyvirHfVcqHj0Iko0szb2WfhGeaVnsxlihCr1ynhL7UPbkqeuCuPJ7alqoG1QpMvPp
-	9dgJG78FqnvwEXB7+iUfZjhFDE01KZx3sdcGqCzSBJUwOs4aBr4DR/80qqtvStn48XAa
-	J6ocwKkyG0bfDFiDzTtYGkVyTudV1ErbDjEaRfJHn8JMO1pNu14og5uj7w619VxU990/
-	XyKilIqwSyIMhW98zXhOAfEEVG50x0otcFMEBiHebzpC59mWVwxhbKixXxnuOmCQbcgi
-	q8WXyfF0rUAHC8npgmjEC3JG1dZfZI/tt2hiw40CpEI6/3oNHnZJ6K82t3bPl/jnTTwq
-	a5NQ==
-X-Gm-Message-State: ALoCoQmwbzvMsahGZs72AfYp93oOMRfEn1ZekZigIEP+4hnFXwtO/YyZnB1p64JVCyakTNzgm87A
-X-Received: by 10.140.91.66 with SMTP id y60mr50380662qgd.58.1406037993275;
-	Tue, 22 Jul 2014 07:06:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Tue, 22 Jul 2014 07:06:13 -0700 (PDT)
-In-Reply-To: <1406034680-5710-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1406034680-5710-1-git-send-email-jukka.rissanen@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Jul 2014 15:06:13 +0100
-Message-ID: <CAJTo0LYvQW8xT0=uw4TaNAqZGe6Yg-5=Z9=Yr4r_h7zwAd9UDg@mail.gmail.com>
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] connman: Fix PPTP VPN plugin QA issue
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JTfvfeHzc6ZT16Za7u+p0lW5KP9Kmt63A/3BB4gMLhQ=;
+	b=RGt+pI8V9iBL3t07Vqf4cmYNF3s1Mn5LOsm85uRNvOg/5QiemRhQFAmVvAyzXHkID5
+	gdEmFuyzD5OQ2++ssrGYk4WonUXpPjexD6vJkqraBP1i+GRD6PAvmqrR0D4OpuwyC47n
+	6Hbt6DDlQguvudVi3uOXY6wE3E+NWycqjPFlc97fJitqe7zyjCX9VTcRezxQUMRcvxOy
+	CHjkhcMD6ltJPl8SbpGxxQfe54hiEk5xjG+jSC9uc7RVdXTYIJ5ty4g7s0lnb8+DI4KD
+	+z9htoHPHtCVRAFkYU4jN6Hx2tp1oDXA2S2bXdj42X73nTQLFr9ZVbNgVjKLda5XW2H7
+	n9Mw==
+X-Gm-Message-State: ALoCoQkIb0sTnPjClLmjH+FudF6mVzDssxwpRWYFGuMYsY4cdS6865o6jDyk7Gwshia/YmYoxFtW
+X-Received: by 10.180.104.42 with SMTP id gb10mr15538741wib.65.1406041526900; 
+	Tue, 22 Jul 2014 08:05:26 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id kr5sm1594058wjc.27.2014.07.22.08.05.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Jul 2014 08:05:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Jul 2014 16:05:13 +0100
+Message-Id: <1406041513-9294-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] package_rpm: only claim ownership of empty directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,100 +43,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 14:06:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 22 Jul 2014 15:05:34 -0000
 
-Acked-by: Ross Burton <ross.burton@intel.com>
+Previous every package claimed ownership via %dir of every directory, which lead
+to e.g. every package claiming to own /usr.  This destroys the concept of
+directory ownership, so instead only use %dir to ensure empty directories are
+packaged.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/package_rpm.bbclass |   45 +++++++++++++++++++++-----------------
+ 1 file changed, 25 insertions(+), 20 deletions(-)
 
-On 22 July 2014 14:11, Jukka Rissanen <jukka.rissanen@linux.intel.com> wrote:
-> This error was seen when building ConnMan. Fixed by not
-> building ConnMan pptp plugin with module versioning info.
->
-> ERROR: QA Issue: non -dev/-dbg/-nativesdk package contains symlink .so: connman-plugin-vpn-pptp path '/work/core2-32-oe-linux/connman/1.24+gitAUTOINC+42779cd63c-r20/packages-split/connman-plugin-vpn-pptp/usr/lib/connman/scripts/libppp-plugin.so' [dev-so]
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
->
-> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-> ---
->  ...ild-libppp-plugin-without-versioning-info.patch | 48 ++++++++++++++++++++++
->  meta/recipes-connectivity/connman/connman_1.24.bb  |  1 +
->  2 files changed, 49 insertions(+)
->  create mode 100644 meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
->
-> diff --git a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
-> new file mode 100644
-> index 0000000..0cb43b6
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
-> @@ -0,0 +1,48 @@
-> +Upstream-Status: Accepted [Fixed in Version 1.25]
-> +Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-> +
-> +From c1b9fc4cefb82892f6debe607f5e50ba5fc6aa96 Mon Sep 17 00:00:00 2001
-> +From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-> +Date: Tue, 22 Jul 2014 15:39:39 +0300
-> +Subject: [PATCH] scripts: Build libppp-plugin without versioning information
-> +
-> +There is no need to have module versioning for libppp-plugin.so file
-> +so build the plugin same way as other vpn plugins.
-> +
-> +This issue was seen when building ConnMan for Yocto.
-> +---
-> + Makefile.plugins | 7 ++-----
-> + 1 file changed, 2 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/Makefile.plugins b/Makefile.plugins
-> +index 294cae0..e90ad19 100644
-> +--- a/Makefile.plugins
-> ++++ b/Makefile.plugins
-> +@@ -3,9 +3,6 @@ plugin_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
-> +                                       @DBUS_CFLAGS@ @GLIB_CFLAGS@
-> + plugin_ldflags = -no-undefined -module -avoid-version
-> +
-> +-script_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
-> +-                                      @DBUS_CFLAGS@
-> +-
-> + if LOOPBACK
-> + builtin_modules += loopback
-> + builtin_sources += plugins/loopback.c
-> +@@ -156,12 +153,12 @@ endif
-> +
-> + if PPTP
-> + script_LTLIBRARIES += scripts/libppp-plugin.la
-> +-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
-> ++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
-> + scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
-> + else
-> + if L2TP
-> + script_LTLIBRARIES += scripts/libppp-plugin.la
-> +-scripts_libppp_plugin_la_LDFLAGS = $(script_cflags) @DBUS_CFLAGS@
-> ++scripts_libppp_plugin_la_LDFLAGS = $(plugin_ldflags)
-> + scripts_libppp_plugin_la_LIBADD = @DBUS_LIBS@
-> + endif
-> + endif
-> +--
-> +1.8.3.1
-> +
-> diff --git a/meta/recipes-connectivity/connman/connman_1.24.bb b/meta/recipes-connectivity/connman/connman_1.24.bb
-> index 66a8c58..29e239c 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.24.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.24.bb
-> @@ -4,6 +4,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->              file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->              file://add_xuser_dbus_permission.patch \
->              file://connman \
-> +            file://build-libppp-plugin-without-versioning-info.patch \
->              "
->  SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
->  SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
-> --
-> 1.8.3.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 0a32b3e..9e6b103 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -186,28 +186,33 @@ python write_specfile () {
+                     array.append("%s: %s" % (tag, dep))
+ 
+     def walk_files(walkpath, target, conffiles):
+-        # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
+-        # when packaging. We just ignore these files which are created in 
+-        # packages-split/ and not package/
+-        # We have the odd situation where the CONTROL/DEBIAN directory can be removed in the middle of
+-        # of the walk, the isdir() test would then fail and the walk code would assume its a file
+-        # hence we check for the names in files too.
+         for rootpath, dirs, files in os.walk(walkpath):
+-            path = rootpath.replace(walkpath, "")
+-            if path.endswith("DEBIAN") or path.endswith("CONTROL"):
+-                continue
+-            for dir in dirs:
+-                if dir == "CONTROL" or dir == "DEBIAN":
+-                    continue
+-                # All packages own the directories their files are in...
+-                target.append('%dir "' + path + '/' + dir + '"')
+-            for file in files:
+-                if file == "CONTROL" or file == "DEBIAN":
+-                    continue
+-                if conffiles.count(path + '/' + file):
+-                    target.append('%config "' + path + '/' + file + '"')
++            # Ignore the CONTROL and DEBIAN directories, created by ipkg and
++            # dpkg during packaging.  As they can be removed while this is
++            # running (and so the isdir() test fails) ignore both files and
++            # directories.
++            for n in ("CONTROL", "DEBIAN"):
++                try:
++                    dirs.remove(n)
++                    files.remove(n)
++                except ValueError:
++                    pass
++
++            # When rootpath is walkpath the replace will return "" so handle
++            # that and set path to /.
++            path = rootpath.replace(walkpath, "") or "/"
++
++            # Packages own only empty directories, but handle / specially as we
++            # don't want empty packages to contain a %dir / entry.
++            if (path != '/' and not files and not dirs):
++                target.append('%dir "' + path + '"')
++
++            for f in files:
++                f = os.path.join(path, f)
++                if f in conffiles:
++                    target.append('%config "' + f + '"')
+                 else:
+-                    target.append('"' + path + '/' + file + '"')
++                    target.append('"' + f + '"')
+ 
+     # Prevent the prerm/postrm scripts from being run during an upgrade
+     def wrap_uninstall(scriptvar):
+-- 
+1.7.10.4
+
 
