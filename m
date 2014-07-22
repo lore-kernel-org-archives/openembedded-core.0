@@ -1,26 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D2685705A4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D243165DEF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 07:47:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6M7l6cx015128
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Jul 2014 08:23:01 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id v10so6104043qac.40
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 00:47:06 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 22 Jul 2014 00:47:05 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Jul 2014 15:46:51 +0800
-Message-ID: <e3542dedef8da099d35db8e55fd75dc7f4382532.1406015054.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 22 Jul 2014 01:23:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0HU7cm3Ds/C5S2p/yfziD9ILAlDoDtYn7MTA/4qDXks=;
+	b=hGyft6H4PdeG6Ue93kb1sZqNY0JHOJNjBGRwXbUK+/EGyoPmpiMKGOgwKlaSHU877U
+	LtGg7AZsQux0weH0/FeLYWPmtGNbis6yXgWa5t4R7EjgJbU3J7waWzJZcOCM3268z5B/
+	cEfk1PovPHaValVywJRKHtkJJS4KoVwOfLRsI2LpMNXPbGBT9li4xCBlr3zIDYGmkqZ+
+	FJgsF1T6Ly/iNcrxvfyHlrAqKw6vXuO21nEUS2IjzyCPSnzN1YdbZjmioa4RAVdv2XLp
+	uvtzH57Eab6OpU8qlK35+TBpg5BaA+iRCGRMwLQlE4gZlRG4aSOMlvay+Y9ltYDBjEdG
+	RpfA==
+X-Gm-Message-State: ALoCoQlMO19RpQs7Ew4VccMTfpn62oNSCUog6ybZtlAQzDGkotWXpqrtiDLrmPNRvVy6Kquz1Laf
+X-Received: by 10.224.43.77 with SMTP id v13mr51565449qae.34.1406017382054;
+	Tue, 22 Jul 2014 01:23:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Tue, 22 Jul 2014 01:22:41 -0700 (PDT)
 In-Reply-To: <cover.1406015054.git.rongqing.li@windriver.com>
 References: <cover.1406015054.git.rongqing.li@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 16/16] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6617
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Jul 2014 09:22:41 +0100
+Message-ID: <CAJTo0LZCtnBuZrWBuBmxdO8Z5SYRFbO1tYR2_GUCp4TNet9Ugg@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/16 v2] merge 16 CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 07:47:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Jul 2014 08:23:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Yue Tao <Yue.Tao@windriver.com>
+On 22 July 2014 08:46,  <rongqing.li@windriver.com> wrote:
+> Yue Tao (16):
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0866
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0875
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0860
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3934
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3946
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7023
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7009
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0855
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-4351
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0848
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3944
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7010
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3941
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0846
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6618
+>   gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6617
 
-The prepare_sdp_description function in ffserver.c in FFmpeg before
-1.0.2 allows remote attackers to cause a denial of service (crash) via
-vectors related to the rtp format.
+As there's no benefit in being able to bisect this, I think it would
+be neater if these were squashed into a single commit.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6617
-
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../0001-ffserver-set-oformat.patch                |   36 ++++++++++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-ffserver-set-oformat.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-ffserver-set-oformat.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-ffserver-set-oformat.patch
-new file mode 100644
-index 0000000..80325db
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-ffserver-set-oformat.patch
-@@ -0,0 +1,36 @@
-+gst-ffmpeg: ffserver: set oformat
-+
-+Fix Ticket1986
-+
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+(cherry picked from commit cbe43e62c9ac7d4aefdc13476f6f691bd626525f)
-+
-+Upstream-Status: Backport 
-+
-+---
-+ ffserver.c |    4 +++-
-+ 1 files changed, 3 insertions(+), 1 deletions(-)
-+
-+diff --git a/ffserver.c b/ffserver.c
-+index 4044d0f..8740140 100644
-+--- a/gst-libs/ext/libav/ffserver.c
-++++ b/gst-libs/ext/libav/ffserver.c
-+@@ -2937,12 +2937,14 @@ static int prepare_sdp_description(FFStream *stream, uint8_t **pbuffer,
-+ {
-+     AVFormatContext *avc;
-+     AVStream *avs = NULL;
-++    AVOutputFormat *rtp_format = av_guess_format("rtp", NULL, NULL);
-+     int i;
-+ 
-+     avc =  avformat_alloc_context();
-+-    if (avc == NULL) {
-++    if (avc == NULL || !rtp_format) {
-+         return -1;
-+     }
-++    avc->oformat = rtp_format;
-+     av_dict_set(&avc->metadata, "title",
-+                stream->title[0] ? stream->title : "No Title", 0);
-+     avc->nb_streams = stream->nb_streams;
-+-- 
-+1.7.5.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 10bf36c..e26b267 100644
---- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -52,6 +52,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-error-concealment-initialize-block-index.patch \
-            file://0001-qdm2-check-array-index-before-use-fix-out-of-array-a.patch \
-            file://0001-lavf-compute-probe-buffer-size-more-reliably.patch \
-+           file://0001-ffserver-set-oformat.patch \
- "
- 
- SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
--- 
-1.7.10.4
-
+Ross
 
