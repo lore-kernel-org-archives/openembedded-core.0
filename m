@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B303B705FC
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 15:32:24 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id k15so6631060qaq.41
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 08:32:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wWRjeRMfdIsqeehrfW1z9KYkW0kGE2IQ2tIQa6F91/Y=;
-	b=K38Wr09ozYeYqtjOWMLHraU5pqxacb0l5qxybfgCeURax87aPyWXxs2Z4d+Bo59Etf
-	ifYgDAJt52goZ56jHev+So9ihcdP5mFkLTyeiM0I9vn81vLGcWuLkhFdgc2ynjOcOtV8
-	VzgYOm+X/wW/NM0ACbykkKpxyZBG26FSrjg5oyi8QADZYn/uMFpOJzdMI0BknvibpePe
-	NHfCxCo1s5HU+FFGtxIgBkOWNEykkTgOyUD7Y6ddkwRUXgves21MJ0Ds63s6PlE8geoc
-	hLs5XfmEwnljAd/8gXg6VrDDXjigQx0Lx6f8ZBnwJzBlpZcc1tdGoZiK2Uup7YHSRWNJ
-	UQjA==
-X-Gm-Message-State: ALoCoQnku5mUcqbPaAG0INlQcDwUW+YdNmRNXkZLnZNhW+lYXb9Q3W2Xg1SaP5TesnA/+rKsEj+l
-X-Received: by 10.140.19.100 with SMTP id 91mr39500339qgg.32.1406043146237;
-	Tue, 22 Jul 2014 08:32:26 -0700 (PDT)
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DE0470691;
+	Tue, 22 Jul 2014 15:38:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2014 08:38:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,710,1400050800"; d="scan'208";a="573674576"
+Received: from unknown (HELO [10.255.13.17]) ([10.255.13.17])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2014 08:38:54 -0700
+Message-ID: <53CE858E.9080706@linux.intel.com>
+Date: Tue, 22 Jul 2014 08:38:54 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Tue, 22 Jul 2014 08:32:06 -0700 (PDT)
-In-Reply-To: <eb52483d72008b797160d1423aa289b1e111dac8.1406037471.git.roxana.ciobanu@intel.com>
-References: <cover.1406037471.git.roxana.ciobanu@intel.com>
-	<eb52483d72008b797160d1423aa289b1e111dac8.1406037471.git.roxana.ciobanu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Jul 2014 16:32:06 +0100
-Message-ID: <CAJTo0LbVemTY0dhc-4SBh1h0+SpzNmhwYT5jhykJp82jh8sZnw@mail.gmail.com>
-To: Roxana Ciobanu <roxana.ciobanu@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bitbake.conf: move BB_NUMBER_THREADS and PARALLEL_MAKE to bitbake.conf
+To: Ben Shelton <ben.shelton@ni.com>, 
+ Martin Jansa <martin.jansa@gmail.com>
+References: <20140721182515.CD7355015A@opal.openembedded.org>	<20140722091803.GO22875@jama>
+	<20140722153012.GA30289@bshelton-desktop>
+In-Reply-To: <20140722153012.GA30289@bshelton-desktop>
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Tollerton : bootlogd: ensure /var/log/boot is created in volatiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 15:32:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 22 Jul 2014 15:38:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22 July 2014 14:58, Roxana Ciobanu <roxana.ciobanu@intel.com> wrote:
-> +BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+On 07/22/2014 08:30 AM, Ben Shelton wrote:
+> On 07/22, Martin Jansa wrote:
+>> On Mon, Jul 21, 2014 at 06:25:15PM +0000, git@git.openembedded.org wrote:
+>>> Module: openembedded-core.git
+>>> Branch: master-next
+>>> Commit: 6f963d761fa2916711b0d7808351515383bd5298
+>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=6f963d761fa2916711b0d7808351515383bd5298
+>>>
+>>> Author: Richard Tollerton <rich.tollerton@ni.com>
+>>> Date:   Mon Jul 21 10:50:56 2014 -0500
+>>>
+>>> bootlogd: ensure /var/log/boot is created in volatiles
+>>
+>> subject usually starts with recipe/bbclass name, so it should be
+>> sysvinit not bootlogd.
+>>
+>>
+>> Please don't mix tabs and spaces for indentation, only spaces should be used
+>> in multi-line variables.
+>>
+>
+> Sorry about that -- do we need to resubmit the patch, or has it already
+> been merged?
+>
+It has not been merged yet, so please resubmit a v2 with fixed white space.
 
-Thinking about this some more we probably need the assignments in
-bitbake.conf to be ??=, or to be moved further down the file to after
-local.conf has been evaluated (there's a section marked Weak
-Assignments, for exactly this situation).
+Sau!
 
-The reasoning being that existing local.conf files will likely have
-e.g. BB_NUMBER_THREADS ?= 8 and the expectation is that this
-assignment will work.  If bitbake.conf before local.conf has been
-loaded uses ?= then it will assign as the value hasn't been set, so
-then when local.conf is parsed the value has already been assigned and
-that assignment won't have an effect.
-
-For consistency with the other variables that have moved to
-bitbake.conf, I think we should move it to the weak variables section
-in bitbake.conf and keep using ?=.
-
-Ross
+> Thanks,
+> Ben
+>
+>>
+>> --
+>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+>
 
