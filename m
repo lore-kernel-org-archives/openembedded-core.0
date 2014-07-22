@@ -1,32 +1,37 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A4D7570656
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 19961707BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 22:26:31 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6MMQWB9014169 for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 17:26:32 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072217263243-107754 ;
-	Tue, 22 Jul 2014 17:26:32 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 17:26:15 -0500
-Message-Id: <1406067975-7402-1-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/22/2014 05:26:32 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/22/2014 05:26:32 PM,
-	Serialize complete at 07/22/2014 05:26:32 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-22_07:2014-07-22, 2014-07-22,
-	1970-01-01 signatures=0
-Subject: [PATCH] squashfs-tools: Add nativesdk in BBCLASSEXTEND
+	Tue, 22 Jul 2014 22:27:01 +0000 (UTC)
+Received: by mail-qa0-f44.google.com with SMTP id f12so383529qad.17
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 15:27:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=XTHyWBVYdBRY7NLc1CWnuXG51MocHmW+3rnS+WvZ6H4=;
+	b=G4fZRXBg+zHVPw2snFDhvcuEI+M9ul2N1s7Z2Qm0N97B6Rs6mAd2mSxTODWfUJR7SJ
+	q8lNg5haF/39Ce9B4nIyVCl4YDs7smgHmNHxzGMdMsucPzTrcY0ZU4qxi1c/h4rji8aM
+	AFPQZHehLJLtQuwNoee4DrBQcqkK4G5Pr/PzqaiLU4i0Squ4jbunKeAz1EXBha1qonES
+	n13BaPHPei/qzd+7XZbE4lN5fGgTRFIiu++VstCd+kvQ0NznfoJkiawoV33GwkXg8CL/
+	NN5csjweapOGXgTLMeorOkufHg9jjbMEBDCHQhNGb/OtztPbX7AcW7Lx1reQmSAurCQr
+	ZeBQ==
+X-Gm-Message-State: ALoCoQn0x9v6mTw3tvm2X/Q3hg4laD6FkvK6jzdnYb6VirHf5wmqmJC0r76G+45xCJ5SCAW07Jw8
+X-Received: by 10.140.109.164 with SMTP id l33mr56013113qgf.72.1406068022375; 
+	Tue, 22 Jul 2014 15:27:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Tue, 22 Jul 2014 15:26:41 -0700 (PDT)
+In-Reply-To: <1406011764-4955-6-git-send-email-b50113@freescale.com>
+References: <1406011764-4955-1-git-send-email-b50113@freescale.com>
+	<1406011764-4955-6-git-send-email-b50113@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Jul 2014 23:26:41 +0100
+Message-ID: <CAJTo0LZ7GxHDhgrjoAEB+NOBkM-tS_MQBT0O7zNCa8J2_LnZNA@mail.gmail.com>
+To: Wang Zidan <b50113@freescale.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-base: get caps from src pad when query caps in gsttagdemux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,29 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 22:26:40 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 22:27:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Richard Tollerton <rich.tollerton@ni.com>
+On 22 July 2014 07:49, Wang Zidan <b50113@freescale.com> wrote:
+> +https://bugzilla.gnome.org/show_bug.cgi?id=728312
+> +
+> +Upstream Status: Pending
 
-Necessary for including it in meta-toolchain.
+Shouldn't you be attaching the patch to that bug, and setting
+Upstream-Status: Submitted?
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-index e0c69ab..54fd3bb 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-@@ -35,4 +35,4 @@ do_install () {
- 
- ARM_INSTRUCTION_SET = "arm"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.0.2
-
+Ross
 
