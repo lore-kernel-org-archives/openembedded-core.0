@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 648C070734
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 22BEF60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 17:04:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6MH44OB002405
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Jul 2014 18:38:29 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id f8so6554120wiw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 10:04:05 -0700 (PDT)
-Received: from msp-dhcp53.wrs.com (172.25.34.53) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 22 Jul 2014 10:04:04 -0700
-Message-ID: <53CE9984.3090106@windriver.com>
-Date: Tue, 22 Jul 2014 12:04:04 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <alpine.LFD.2.11.1407221229210.8547@localhost>	<CABcZAN=XYZTXYRuR1AdaD_NdeYwzDv8DyvrQaSnyqbtLC_OC7A@mail.gmail.com>
-	<alpine.LFD.2.11.1407221250500.9028@localhost>
-In-Reply-To: <alpine.LFD.2.11.1407221250500.9028@localhost>
-Subject: Re: why conditional assignment of DEPLOY_DIR_IMAGE in bitbake.conf?
+	Tue, 22 Jul 2014 11:38:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=QXQopZiHM7jHZP/rXhnPTNzz7Q7zkaaiFrJnovsuf9I=;
+	b=fRsD+WIVvUdLv7LuTxRF7n1aHLu3mCuBoRaO9eS0sCqOdfAedgULxpX9HVZgjgCm9t
+	Ve88K3M9mE8fJ6fUmO+HQUqzPNSHpde5LyassXiq2NFmOXV1ukaVIaiV9PRtKNqcgjBJ
+	+2I3NYza71aFS1kxdwXQBUwcXX74HXTQ5oSxpsuVNoKEDHOHfxxOSckB0g4BzOUCBnyP
+	vQ0G6HNyPE6kvVHuX4gJj4BcAhQ085FAI+HS58p7pBke1P+RVYwLvBjRPCo4ne85ewY/
+	4FhICVvhbkw1ZVclzwupEVjLvtpllD1bWGPxo3ijLmymXPwRUmW257H+38RJ0FvuTRbD
+	MNwA==
+X-Gm-Message-State: ALoCoQlbeWeZjqiIHEp8nbhCYSx5dv6EoGk3D54VKsLSxLBvxDKKq0shCKgbaAcmsqdr8dlapDiN
+X-Received: by 10.180.210.239 with SMTP id mx15mr14014228wic.65.1406054310141; 
+	Tue, 22 Jul 2014 11:38:30 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id jy8sm2847638wjc.7.2014.07.22.11.38.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Jul 2014 11:38:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Jul 2014 19:38:11 +0100
+Message-Id: <1406054301-9027-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 01/11] fontsproto: upgrade to 2.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 17:04:06 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Jul 2014 18:38:31 -0000
 
-On 7/22/14, 11:53 AM, Robert P. J. Day wrote:
-> On Tue, 22 Jul 2014, Christopher Larson wrote:
->
->>
->> On Tue, Jul 22, 2014 at 9:36 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->>          quite possibly another silly question, but i'm perusing poky's
->>        version of bitbake.conf and i see this:
->>
->>        DEPLOY_DIR ?= "${TMPDIR}/deploy"
->>        DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
->>        DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
->>        DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
->>        DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
->>        DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
->>        DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
->>
->>          now, what is the value of using "?=" to set DEPLOY_DIR_IMAGE, rather
->>        than just "=". i know what "?=" represents, but i normally expect to
->>        see it in a context where someone might have set it earlier to some
->>        other value, but this is in bitbake.conf, before any of the "include"
->>        or "require" directives to pull in any of the other .conf files. so in
->>        the midst of all those other DEPLOY_DIR_* hard assignments, why is the
->>        images directory a conditional install?
->>
->>
->> s/install/define/
->
->    um, quite so. :-P
->
->> If there's a ?= done before any includes in bitbake.conf, either its
->> position in the file has changed, or it's set that way to allow the
->> user to add those variables to the env whitelist and set them in the
->> environment, as the env is set before bitbake.conf is parsed.
->
->    ah, gotcha. so the obvious question is, who decides which variables
-> merit this sort of behaviour and which don't? why two variables out of
-> the DEPLOY_DIR_* variables and not the rest? seems sort of arbitrary.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../xorg-proto/{fontsproto_2.1.2.bb => fontsproto_2.1.3.bb}        |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{fontsproto_2.1.2.bb => fontsproto_2.1.3.bb} (76%)
 
-Who, whoever sends patches with a need.
-
-I know I've used both the DEPLOY_DIR and DEPLOY_DIR_IMAGE before to simplify a 
-few things on the command line.. (but I don't use them regularly).
-
-The others being based on those have not caused me problems the few times I've 
-wanted to override it from the command line.
-
---Mark
-
-> rday
->
->
->
+diff --git a/meta/recipes-graphics/xorg-proto/fontsproto_2.1.2.bb b/meta/recipes-graphics/xorg-proto/fontsproto_2.1.3.bb
+similarity index 76%
+rename from meta/recipes-graphics/xorg-proto/fontsproto_2.1.2.bb
+rename to meta/recipes-graphics/xorg-proto/fontsproto_2.1.3.bb
+index 4b9101a..27fc281 100644
+--- a/meta/recipes-graphics/xorg-proto/fontsproto_2.1.2.bb
++++ b/meta/recipes-graphics/xorg-proto/fontsproto_2.1.3.bb
+@@ -14,5 +14,5 @@ PE = "1"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-SRC_URI[md5sum] = "c5f4f1fb4ba7766eedbc9489e81f3be2"
+-SRC_URI[sha256sum] = "869c97e5a536a8f3c9bc8b9923780ff1f062094bab935e26f96df3d6f1aa68a9"
++SRC_URI[md5sum] = "36934d00b00555eaacde9f091f392f97"
++SRC_URI[sha256sum] = "259046b0dd9130825c4a4c479ba3591d6d0f17a33f54e294b56478729a6e5ab8"
+-- 
+1.7.10.4
 
 
