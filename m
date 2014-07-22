@@ -1,38 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A265E70791
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CFBF60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 18:38:33 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id b13so52195wgh.22
+	Tue, 22 Jul 2014 18:38:34 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id d1so959709wiv.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 11:38:34 -0700 (PDT)
+	Tue, 22 Jul 2014 11:38:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=a8t443dhfayuOBJqIYD1PxtDm5LO12AzhMEIKzvokaY=;
-	b=a7Rt1Nl8ldc3sqUFmYf2E2BSNxfXaRMnMu9xzcWB99k66bjxLozYQxwDJ4pQaYZPML
-	E9kNjBkVLrWhdIGbPDE+jv/NnaAgCxmlv5ymqLgLGca6KYPxZiX9+gBgTD/eOh3aItHv
-	7K+BVUe04fm11RJ7QX6FLq9MzSW13+c+dqY+pEkjWHXKCT/3UeXw3apiTDfrnY23gfr3
-	U/XUYDc/usaCeBYa2tOmCy3iL8na4RPBdA1e+RCq0/WxCVa9G7MT9+W52xYEESQIflob
-	I1KzTl/EhZ99NnEaWbCCNUl+K9sa9UzPveDIdr7bMmsb4eKzzgceU+U7hP7Q5akzuJcC
-	RM5w==
-X-Gm-Message-State: ALoCoQn4Y9I/a0WSpMbnNgMz9aRWVFEgDrR9I5XHOGpPig55yWsQ5e1p1/J/hEzua0uGG+4ACv1g
-X-Received: by 10.180.14.5 with SMTP id l5mr17546086wic.50.1406054314665;
-	Tue, 22 Jul 2014 11:38:34 -0700 (PDT)
+	bh=K3+/r+EPBSKJQnrSL/IMX7idzaEEzRoVMwP4si5VPzY=;
+	b=b1EHPaNmkY8wCQ+xa3GdWDyZYAVpJ3l81Tj9NGqfXmM23zrCt9i+X2K6YW2hu5KDpC
+	Vcrxh4VtZyyk1NR5PlUPcsK9Wo0SoQhuLkMLu6erNN5Oii9QMEbLXA3we2PK6ULMlW9m
+	tNuQxlURLAn0akO2Re4wc97tsPjV2AZE7QQUyCk1XbGlwqEI4HiGuInwHom41xoYcotZ
+	6/H/h0fqCJ3KMR+JmeS90J9da0Vj4giHOzHTqMNIyDRSvKuU5xq0+nCwRwXTtWsmyZ6U
+	u/iiNAg/adb+Y8VD3yD42gv4fI9ishzpcFzRcQkIUJLbhYkws8bz5lCJ0lv5I7H5U5Ma
+	RvNQ==
+X-Gm-Message-State: ALoCoQmHcVvd4QiUzTQIMN7EgSad38eUrI1lgjn7qR3Ck+qfsg2fohOQ0cEDtzuSMvnB8eV3f1v3
+X-Received: by 10.180.72.234 with SMTP id g10mr17344724wiv.52.1406054315749;
+	Tue, 22 Jul 2014 11:38:35 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id jy8sm2847638wjc.7.2014.07.22.11.38.33
+	by mx.google.com with ESMTPSA id jy8sm2847638wjc.7.2014.07.22.11.38.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Jul 2014 11:38:34 -0700 (PDT)
+	Tue, 22 Jul 2014 11:38:35 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Jul 2014 19:38:15 +0100
-Message-Id: <1406054301-9027-5-git-send-email-ross.burton@intel.com>
+Date: Tue, 22 Jul 2014 19:38:16 +0100
+Message-Id: <1406054301-9027-6-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1406054301-9027-1-git-send-email-ross.burton@intel.com>
 References: <1406054301-9027-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 05/11] gnome-common: upgrade to 3.12.0
+Subject: [PATCH 06/11] libice: upgrade to 1.0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +50,25 @@ X-List-Received-Date: Tue, 22 Jul 2014 18:38:37 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../gnome/{gnome-common_3.7.4.bb => gnome-common_3.12.0.bb}        |    4 ++--
+ .../recipes-graphics/xorg-lib/{libice_1.0.8.bb => libice_1.0.9.bb} |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gnome/{gnome-common_3.7.4.bb => gnome-common_3.12.0.bb} (73%)
+ rename meta/recipes-graphics/xorg-lib/{libice_1.0.8.bb => libice_1.0.9.bb} (81%)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-common_3.7.4.bb b/meta/recipes-gnome/gnome/gnome-common_3.12.0.bb
-similarity index 73%
-rename from meta/recipes-gnome/gnome/gnome-common_3.7.4.bb
-rename to meta/recipes-gnome/gnome/gnome-common_3.12.0.bb
-index 1fd2d83..d3b6683 100644
---- a/meta/recipes-gnome/gnome/gnome-common_3.7.4.bb
-+++ b/meta/recipes-gnome/gnome/gnome-common_3.12.0.bb
-@@ -10,8 +10,8 @@ inherit gnomebase allarch
+diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.8.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-lib/libice_1.0.8.bb
+rename to meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+index ce6a194..314d281 100644
+--- a/meta/recipes-graphics/xorg-lib/libice_1.0.8.bb
++++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+@@ -20,5 +20,5 @@ XORG_PN = "libICE"
  
- GNOME_COMPRESS_TYPE = "xz"
+ BBCLASSEXTEND = "native"
  
--SRC_URI[archive.md5sum] = "974cd54626f1d1787481288ef26bd4ba"
--SRC_URI[archive.sha256sum] = "2af2d97010d2a9aeb3b99dd2ce07d1ef023e15a27b412ffe4f067f016ff7117b"
-+SRC_URI[archive.md5sum] = "da903a1c89b0a24e062227fa97d42fe7"
-+SRC_URI[archive.sha256sum] = "18712bc2df6b2dd88a11b9f7f874096d1c0c6e7ebc9cfc0686ef963bd590e1d8"
- 
- EXTRA_AUTORECONF = ""
- DEPENDS = ""
+-SRC_URI[md5sum] = "471b5ca9f5562ac0d6eac7a0bf650738"
+-SRC_URI[sha256sum] = "24a991284d02ff0c789bc8d11ad2e4dffe144cb70f24e28f9ce3e8b1ee08b71e"
++SRC_URI[md5sum] = "addfb1e897ca8079531669c7c7711726"
++SRC_URI[sha256sum] = "8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202"
 -- 
 1.7.10.4
 
