@@ -1,26 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C202704FC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A9D870209
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 06:16:24 +0000 (UTC)
+	Tue, 22 Jul 2014 06:16:20 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6M6GPiG003777
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6M6GL23024400
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 23:16:25 -0700 (PDT)
+	Mon, 21 Jul 2014 23:16:22 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 21 Jul 2014 23:16:25 -0700
+	14.3.174.1; Mon, 21 Jul 2014 23:16:21 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Jul 2014 14:16:10 +0800
-Message-ID: <1ab4e3a922b0b3cad9f2715ded61f95d63de5b9b.1406006666.git.rongqing.li@windriver.com>
+Date: Tue, 22 Jul 2014 14:16:07 +0800
+Message-ID: <9ed6ce996aaab4f1f43a99726cd2ae9846323917.1406006666.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1406006666.git.rongqing.li@windriver.com>
 References: <cover.1406006666.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/16] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-4351
+Subject: [PATCH 06/16] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7023
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 06:16:24 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 06:16:25 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
-Buffer overflow in FFmpeg before 0.5.6, 0.6.x before 0.6.4, 0.7.x before
-0.7.8, and 0.8.x before 0.8.8 allows remote attackers to execute
-arbitrary code via unspecified vectors.
+The ff_combine_frame function in libavcodec/parser.c in FFmpeg before
+2.1 does not properly handle certain memory-allocation errors, which
+allows remote attackers to cause a denial of service (out-of-bounds
+array access) or possibly have unspecified other impact via crafted
+data.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-4351
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7023
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../0001-qdm2dec-fix-buffer-overflow.patch         |   58 ++++++++++++++++++++
+ ...c-parser-reset-indexes-on-realloc-failure.patch |   50 ++++++++++++++++++++
  .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-qdm2dec-fix-buffer-overflow.patch
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-parser-reset-indexes-on-realloc-failure.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-qdm2dec-fix-buffer-overflow.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-qdm2dec-fix-buffer-overflow.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-parser-reset-indexes-on-realloc-failure.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-parser-reset-indexes-on-realloc-failure.patch
 new file mode 100644
-index 0000000..d1e370d
+index 0000000..12ba4e1
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-qdm2dec-fix-buffer-overflow.patch
-@@ -0,0 +1,58 @@
-+gst-ffmpeg: qdm2dec: fix buffer overflow. Fixes NGS00144
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-parser-reset-indexes-on-realloc-failure.patch
+@@ -0,0 +1,50 @@
++gst-ffmpeg: avcodec/parser: reset indexes on realloc failure
 +
-+This also adds a few lines of code from master that are needed for this fix.
++Fixes Ticket2982
 +
-+Thanks to Phillip for suggestions to improve the patch.
-+Found-by: Phillip Langlois
++Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++(cherry picked from commit f31011e9abfb2ae75bb32bc44e2c34194c8dc40a)
++
++Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
 +
 +Upstream-Status: Pending
 +
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+---
-+ libavcodec/qdm2.c |    9 +++++++--
-+ 1 files changed, 7 insertions(+), 2 deletions(-)
++Signed-off-by: Yue Tao <yue.tao@windriver.com>
 +
-+diff --git a/libavcodec/qdm2.c b/libavcodec/qdm2.c
-+index 3aa9e5b..e000df8 100644
-+--- a/gst-libs/ext/libav/libavcodec/qdm2.c
-++++ b/gst-libs/ext/libav/libavcodec/qdm2.c
-+@@ -76,6 +76,7 @@ do { \
-+ #define SAMPLES_NEEDED_2(why) \
-+      av_log (NULL,AV_LOG_INFO,"This file triggers some missing code. Please contact the developers.\nPosition: %s\n",why);
++---
++ libavcodec/parser.c |   10 +++++++---
++ 1 files changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/libavcodec/parser.c b/libavcodec/parser.c
++index 2c6de6e..66eca06 100644
++--- a/gst-libs/ext/libav/libavcodec/parser.c
+++++ b/gst-libs/ext/libav/libavcodec/parser.c
++@@ -241,8 +241,10 @@ int ff_combine_frame(ParseContext *pc, int next, const uint8_t **buf, int *buf_s
++     if(next == END_NOT_FOUND){
++         void* new_buffer = av_fast_realloc(pc->buffer, &pc->buffer_size, (*buf_size) + pc->index + FF_INPUT_BUFFER_PADDING_SIZE);
 + 
-++#define QDM2_MAX_FRAME_SIZE 512
-+ 
-+ typedef int8_t sb_int8_array[2][30][64];
-+ 
-+@@ -168,7 +169,7 @@ typedef struct {
-+     /// I/O data
-+     const uint8_t *compressed_data;
-+     int compressed_size;
-+-    float output_buffer[1024];
-++    float output_buffer[QDM2_MAX_FRAME_SIZE * MPA_MAX_CHANNELS * 2];
-+ 
-+     /// Synthesis filter
-+     MPADSPContext mpadsp;
-+@@ -1819,6 +1820,9 @@ static av_cold int qdm2_decode_init(AVCodecContext *avctx)
-+     s->group_order = av_log2(s->group_size) + 1;
-+     s->frame_size = s->group_size / 16; // 16 iterations per super block
-+ 
-++    if (s->frame_size > QDM2_MAX_FRAME_SIZE)
-++        return AVERROR_INVALIDDATA;
-++
-+     s->sub_sampling = s->fft_order - 7;
-+     s->frequency_range = 255 / (1 << (2 - s->sub_sampling));
-+ 
-+@@ -1887,6 +1891,9 @@ static int qdm2_decode (QDM2Context *q, const uint8_t *in, int16_t *out)
-+     int ch, i;
-+     const int frame_size = (q->frame_size * q->channels);
-+ 
-++    if((unsigned)frame_size > FF_ARRAY_ELEMS(q->output_buffer)/2)
-++        return -1;
-++
-+     /* select input buffer */
-+     q->compressed_data = in;
-+     q->compressed_size = q->checksum_size;
++-        if(!new_buffer)
+++        if(!new_buffer) {
+++            pc->index = 0;
++             return AVERROR(ENOMEM);
+++        }
++         pc->buffer = new_buffer;
++         memcpy(&pc->buffer[pc->index], *buf, *buf_size);
++         pc->index += *buf_size;
++@@ -255,9 +257,11 @@ int ff_combine_frame(ParseContext *pc, int next, const uint8_t **buf, int *buf_s
++     /* append to buffer */
++     if(pc->index){
++         void* new_buffer = av_fast_realloc(pc->buffer, &pc->buffer_size, next + pc->index + FF_INPUT_BUFFER_PADDING_SIZE);
++-
++-        if(!new_buffer)
+++        if(!new_buffer) {
+++            pc->overread_index =
+++            pc->index = 0;
++             return AVERROR(ENOMEM);
+++        }
++         pc->buffer = new_buffer;
++         if (next > -FF_INPUT_BUFFER_PADDING_SIZE)
++             memcpy(&pc->buffer[pc->index], *buf,
 +-- 
 +1.7.5.4
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index c276184..345086e 100644
+index ad4dd34..138b660 100644
 --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -45,6 +45,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-avcodec-parser-reset-indexes-on-realloc-failure.patch \
-            file://0001-avcodec-rpza-Perform-pointer-advance-and-checks-befo.patch \
-            file://gst-ffmpeg-CVE-2013-0855.patch \
-+           file://0001-qdm2dec-fix-buffer-overflow.patch \
+@@ -42,6 +42,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0001-vp3-fix-oob-read-for-negative-tokens-and-memleaks-on.patch \
+            file://0001-vp3-Copy-all-3-frames-for-thread-updates.patch \
+            file://0001-h264_sei-Fix-infinite-loop.patch \
++           file://0001-avcodec-parser-reset-indexes-on-realloc-failure.patch \
  "
  
  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
