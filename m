@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 56CC870436
+	by mail.openembedded.org (Postfix) with ESMTP id 27ED06B876
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Jul 2014 02:32:05 +0000 (UTC)
+	Tue, 22 Jul 2014 02:44:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6M2W7KJ023321
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6M2iup0023380
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Jul 2014 19:32:07 -0700 (PDT)
+	Mon, 21 Jul 2014 19:44:56 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Mon, 21 Jul 2014 19:32:06 -0700
+	14.3.169.1; Mon, 21 Jul 2014 19:44:55 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Jul 2014 10:32:15 +0800
-Message-ID: <3777fcb67381393b494ac5fcb042ba8bc9fa8acb.1405996037.git.Qi.Chen@windriver.com>
+Date: Tue, 22 Jul 2014 10:45:04 +0800
+Message-ID: <e507facc9bf56040f966942677f550f4ee321baf.1405996967.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1405996037.git.Qi.Chen@windriver.com>
-References: <cover.1405996037.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1405996967.git.Qi.Chen@windriver.com>
+References: <cover.1405996967.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] shadow: fix the behavior of su
+Subject: [PATCH 1/1] systemd: change dependency relationships
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 02:32:07 -0000
+X-List-Received-Date: Tue, 22 Jul 2014 02:44:57 -0000
 Content-Type: text/plain
 
-In systems where bash is not installed and /bin/sh is provided by
-busybox. Commands like `su -l -c '/home/root/test' xuser' would fail
-complaining the the 'su' applet could not be found.
+When building out a systemd based image, the udev-hwdb postinstall
+script always fails at rootfs time. This is because that the 'udevadm'
+command used in udev-hwdb postinstall script is now in the udev
+package and udev recommends udev-hwdb.
 
-This patch references the old version of shadow to keep the behaviour
-the way it was in old version so that we would avoid the problem mentioned
-above.
+Instead of letting udev recommends udev-hwdb, we let systemd do it
+and make udev-hwdb rdepend on udev.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../0001-su.c-fix-to-exec-command-correctly.patch  |   25 ++++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc            |    1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch
+ meta/recipes-core/systemd/systemd_213.bb |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch b/meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch
-new file mode 100644
-index 0000000..31337de
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/0001-su.c-fix-to-exec-command-correctly.patch
-@@ -0,0 +1,25 @@
-+Upstream-Status: Pending
-+
-+Subject: su.c: fix to exec command correctly
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/su.c |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/su.c b/src/su.c
-+index 3704217..bc4f2ac 100644
-+--- a/src/su.c
-++++ b/src/su.c
-+@@ -1156,7 +1156,7 @@ int main (int argc, char **argv)
-+ 		 * Use the shell and create an argv
-+ 		 * with the rest of the command line included.
-+ 		 */
-+-		argv[-1] = cp;
-++		argv[-1] = shellstr;
-+ 		execve_shell (shellstr, &argv[-1], environ);
-+ 		err = errno;
-+ 		(void) fprintf (stderr,
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 66541f4..84d1f86 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -14,6 +14,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
-            file://shadow-4.1.3-dots-in-usernames.patch \
-            file://usermod-fix-compilation-failure-with-subids-disabled.patch \
-            file://fix-installation-failure-with-subids-disabled.patch \
-+           file://0001-su.c-fix-to-exec-command-correctly.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            "
+diff --git a/meta/recipes-core/systemd/systemd_213.bb b/meta/recipes-core/systemd/systemd_213.bb
+index 28cc4cb..5de7cdc 100644
+--- a/meta/recipes-core/systemd/systemd_213.bb
++++ b/meta/recipes-core/systemd/systemd_213.bb
+@@ -244,7 +244,7 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
  
+ RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+ 
+-RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
++RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+                       util-linux-agetty \
+                       util-linux-fsck e2fsprogs-e2fsck \
+                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
+@@ -255,7 +255,8 @@ PACKAGES =+ "udev-dbg udev udev-hwdb"
+ FILES_udev-dbg += "/lib/udev/.debug"
+ 
+ RPROVIDES_udev = "hotplug"
+-RRECOMMENDS_udev += "udev-hwdb"
++
++RDEPENDS_udev-hwdb += "udev"
+ 
+ FILES_udev += "${base_sbindir}/udevd \
+                ${rootlibexecdir}/systemd/systemd-udevd \
 -- 
 1.7.9.5
 
