@@ -1,39 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A4B170660;
-	Tue, 22 Jul 2014 16:25:55 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u56so9409859wes.0
-	for <multiple recipients>; Tue, 22 Jul 2014 09:25:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=IZl3I/ExIvqUHVC7aNN4bg+hzQ44NN+tjqQ8qpwKaDA=;
-	b=cvVKccQsRMEaiA1TPQQpZkNc/Y0PIXMrn/zfJHi64dPcrJXsDvUNj2xn8eHWaYNBiX
-	hI2PSjcTId7ARvz9KedfhcLX8zAWT/t3dHhmcHnqWRAcMwVd+hLK8J11KoJ+Y5DsREVY
-	cTzAUgS04yRepEmYKtApCSHEn7ZKEsCPIlWgqN35Y9JVQX8uttDQVlrddyNvXj66Am59
-	9Zy9GzlwNulAuwI7JYlVIBu0HBF8ClVxQVq67PbqVy9Q7bef7wo+OHhkROLFhRosxYp2
-	seT4XtHOa9HLk7J8edNJvwxzrDofZ/yGQntgQGzykUnNEjb8fgzUpyqLQAJ5xaXfdHxz
-	XWTQ==
-X-Received: by 10.194.82.106 with SMTP id h10mr36135047wjy.115.1406046355045; 
-	Tue, 22 Jul 2014 09:25:55 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ft17sm2081750wjc.14.2014.07.22.09.25.53 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Jul 2014 09:25:53 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 22 Jul 2014 18:26:10 +0200
-To: openembedded-core@lists.openembedded.org,
-	Ross Burton <ross.burton@intel.com>
-Message-ID: <20140722162610.GV22875@jama>
-References: <20140710164012.3BE7C503BE@opal.openembedded.org>
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D26870632
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 16:33:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6MGXYjo003395
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 09:33:34 -0700 (PDT)
+Received: from msp-dhcp53.wrs.com (172.25.34.53) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 22 Jul 2014 09:33:33 -0700
+Message-ID: <53CE925D.4000503@windriver.com>
+Date: Tue, 22 Jul 2014 11:33:33 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-In-Reply-To: <20140710164012.3BE7C503BE@opal.openembedded.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: debian.bbclass doesn't work in some setups Was: [oe-commits] Ross Burton : package.bbclass: add a stub implementation of package_name_hook
+To: <openembedded-core@lists.openembedded.org>
+References: <1406041513-9294-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1406041513-9294-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH] package_rpm: only claim ownership of empty directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,158 +35,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jul 2014 16:26:02 -0000
-X-Groupsio-MsgNum: 55373
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zAZKrYjO7GRpkTOs"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 22 Jul 2014 16:33:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---zAZKrYjO7GRpkTOs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/22/14, 10:05 AM, Ross Burton wrote:
+> Previous every package claimed ownership via %dir of every directory, which lead
+> to e.g. every package claiming to own /usr.  This destroys the concept of
+> directory ownership, so instead only use %dir to ensure empty directories are
+> packaged.
 
-On Thu, Jul 10, 2014 at 04:40:12PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: f6eb8e4e44b66217e4ada9f830a058c5ba120932
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Df6eb8e4e44b66217e4ada9f830a058c5ba120932
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Tue Jul  1 16:56:53 2014 +0100
->=20
-> package.bbclass: add a stub implementation of package_name_hook
->=20
-> do_package() calls package_name_hook so that e.g. debian-style renaming t=
-hrough
-> debian.bbclass can happen.  If there is no class providing a package_name=
-_hook
-> then this causes "WARNING: Function package_name_hook doesn't exist" ever=
-y time
-> do_package() is executed.
->=20
-> Silence this warning by providing an empty package_name_hook in package.b=
-bclass.
->=20
+This was intentional.
+
+RPM5 has a feature where all of the directories are 'dependencies' of the files 
+automatically.  This ensures that the directories are all owned and have 
+suitable base permissions.  Otherwise what happens, if a directory is NOT owned, 
+it gets a default root root 0755, which is often incorrect!
+
+In the Fedora world, they resolve this by having a specific "filesystem" package 
+that is installed first, it lays down the default LSB style filesystem and sets 
+the base system permissions.  Then each package is responsible for owning the 
+directories that it adds on top of the default filesystem configuration.
+
+Since we don't have any equivalent to the default filesystem package, the 
+alternative was to sync up the filesystem directory permissions (in part of 
+do_package) -- and then have each package own each directory it uses.  This is 
+what actually PRESERVES the concept of the directory ownership and permissions 
+syncing across the system.
+
+By doing this we don't end up with empty LSB style directories, but instead we 
+have a compact filesystem where all of the files are owned, packages can be 
+removed and added and the filesystem directory permissions are maintained 
+accordingly.
+
+Making this change will break the system behavior -- the only alternative is to 
+create a base filesystem package, seed it with the base system directories -- 
+and then only have the packages provide the directories outside of the base 
+filesystem package.  This was rejected back when it was suggested a few years back.
+
+So I strongly suggest a NAK on this.
+
+--Mark
+
 > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-
-We've discussed this on Friday, so just for reference and people who
-weren't in #yocto channel
-
-13:52 < JaMa> RP: it seems that debian.bbclass doesn't work with recent cha=
-nges
-13:53 < JaMa> RP: all packagenames lost .so version suffix
-13:54 < JaMa> maybe package_name_hook exported from package.bbclass now som=
-ehow conflicts with the same function exported by debian.bbclass?
-13:54 < JaMa> rburton: ^
-13:56 < JaMa> tmp-eglibc/work/arm920tt-oe-linux-gnueabi/libgcc/4.9.0-r0/tem=
-p/run.package_name_hook.14013:
-13:56 < JaMa> tmp-eglibc/work/arm920tt-oe-linux-gnueabi/libgcc/4.9.0-r0/tem=
-p/run.package_package_name_hook.14013:
-13:56 < JaMa> both show just empty function
-
-15:03 < rburton> JaMa:  whaaaa
-15:03 < rburton> i bloody tested that and it bloody worked :(
-
-16:21 < JaMa> rburton: bitbake -e libgcc: http://bpaste.net/show/475166/
-
-16:27 < rburton> JaMa: how interesting
-16:28 < pev> Hm, when do you need to set IMAGE_BASENAME? Ive seen it done a=
- couple of times but not sure why/when?
-16:28 < rburton> JaMa: python package_name_hook () {
-16:28 < rburton>     bb.build.exec_func('debian_package_name_hook', d)
-16:28 < rburton> }
-16:28 < rburton> is what i hae
-16:28 < rburton> inherit order?
-16:29 < rburton> JaMa: how do you enable debian.bbclass?
-16:29 < rburton> poky does INHERIT_DISTRO=3Ddebian blaa blaa
-
-16:30 < JaMa> rburton: the same without your patch http://bpaste.net/show/4=
-75181/
-16:31 < JaMa> env.libgcc:INHERIT=3D" buildhistory buildstats buildstats-sum=
-mary blacklist debian shr-mirrors package_ipk  debian devshell sstate licen=
-se blacklist sanity"
-16:31 < JaMa> env.libgcc2:INHERIT=3D" buildhistory buildstats buildstats-su=
-mmary blacklist debian shr-mirrors package_ipk  debian devshell sstate lice=
-nse blacklist sanity"
-16:31 < JaMa> $ grep -A 1 "^python package_name_hook" env.libgcc*
-16:31 < JaMa> env.libgcc:python package_name_hook () {
-16:31 < JaMa> env.libgcc-    bb.build.exec_func('package_package_name_hook'=
-, d)
-16:31 < JaMa> --
-16:31 < JaMa> env.libgcc2:python package_name_hook () {
-16:31 < JaMa> env.libgcc2-    bb.build.exec_func('debian_package_name_hook'=
-, d)
-16:32 < JaMa> and enabled by:
-16:32 < JaMa> #   append /OE/build/shr-core/meta-smartphone/meta-shr-distro=
-/conf/distro/shr.conf:70
-16:32 < JaMa> #     "debian"
-16:35 < rburton> maybe this is a distro-inherit vs inherit thing
-16:36 < rburton> try using DISTRO_INHERIT for that?
-16:36 < rburton> INHERIT_DISTRO even
-16:36 < rburton> oh, that's just a variable that gets passed to INHERIT
-16:36 < rburton> hm
-
-16:42 < rburton> JaMa: try moving debian after package_ipk
-16:43 < rburton> (maybe we need an inherit package in debian)?
-
-16:45 < JaMa> sorry, I've already started different build
-
-16:46 < rburton> np
-16:47 < rburton> easily tested outside of a build, i'll have a go in a bit
-
-since then I'm building with this change reverted
-
->  meta/classes/package.bbclass | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 7358376..26a20d1 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1119,6 +1119,18 @@ python package_fixsymlinks () {
->          d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commase=
-p=3DFalse))
->  }
-> =20
+> ---
+>   meta/classes/package_rpm.bbclass |   45 +++++++++++++++++++++-----------------
+>   1 file changed, 25 insertions(+), 20 deletions(-)
+>
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 0a32b3e..9e6b103 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -186,28 +186,33 @@ python write_specfile () {
+>                       array.append("%s: %s" % (tag, dep))
+>
+>       def walk_files(walkpath, target, conffiles):
+> -        # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
+> -        # when packaging. We just ignore these files which are created in
+> -        # packages-split/ and not package/
+> -        # We have the odd situation where the CONTROL/DEBIAN directory can be removed in the middle of
+> -        # of the walk, the isdir() test would then fail and the walk code would assume its a file
+> -        # hence we check for the names in files too.
+>           for rootpath, dirs, files in os.walk(walkpath):
+> -            path = rootpath.replace(walkpath, "")
+> -            if path.endswith("DEBIAN") or path.endswith("CONTROL"):
+> -                continue
+> -            for dir in dirs:
+> -                if dir == "CONTROL" or dir == "DEBIAN":
+> -                    continue
+> -                # All packages own the directories their files are in...
+> -                target.append('%dir "' + path + '/' + dir + '"')
+> -            for file in files:
+> -                if file == "CONTROL" or file == "DEBIAN":
+> -                    continue
+> -                if conffiles.count(path + '/' + file):
+> -                    target.append('%config "' + path + '/' + file + '"')
+> +            # Ignore the CONTROL and DEBIAN directories, created by ipkg and
+> +            # dpkg during packaging.  As they can be removed while this is
+> +            # running (and so the isdir() test fails) ignore both files and
+> +            # directories.
+> +            for n in ("CONTROL", "DEBIAN"):
+> +                try:
+> +                    dirs.remove(n)
+> +                    files.remove(n)
+> +                except ValueError:
+> +                    pass
 > +
-> +python package_package_name_hook() {
-> +    """
-> +    A package_name_hook function can be used to rewrite the package name=
-s by
-> +    changing PKG.  For an example, see debian.bbclass.
-> +    """
-> +    pass
-> +}
+> +            # When rootpath is walkpath the replace will return "" so handle
+> +            # that and set path to /.
+> +            path = rootpath.replace(walkpath, "") or "/"
 > +
-> +EXPORT_FUNCTIONS package_name_hook
+> +            # Packages own only empty directories, but handle / specially as we
+> +            # don't want empty packages to contain a %dir / entry.
+> +            if (path != '/' and not files and not dirs):
+> +                target.append('%dir "' + path + '"')
 > +
-> +
->  PKGDESTWORK =3D "${WORKDIR}/pkgdata"
-> =20
->  python emit_pkgdata() {
->=20
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+> +            for f in files:
+> +                f = os.path.join(path, f)
+> +                if f in conffiles:
+> +                    target.append('%config "' + f + '"')
+>                   else:
+> -                    target.append('"' + path + '/' + file + '"')
+> +                    target.append('"' + f + '"')
+>
+>       # Prevent the prerm/postrm scripts from being run during an upgrade
+>       def wrap_uninstall(scriptvar):
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---zAZKrYjO7GRpkTOs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPOkKIACgkQN1Ujt2V2gBwgPQCgt8VTOWyVeF7S3hY07FsEDgTK
-S4MAn1lKo6FDui2Z/AeXrD+z8hDq9581
-=X/hN
------END PGP SIGNATURE-----
-
---zAZKrYjO7GRpkTOs--
