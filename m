@@ -1,26 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CE07C707F9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 03:33:19 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 03A38707F8;
+	Wed, 23 Jul 2014 03:43:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6N3XKYT007005
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6N3hal3007032
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jul 2014 20:33:20 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Tue, 22 Jul 2014 20:33:19 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Jul 2014 11:33:01 +0800
-Message-ID: <d36bfea1e3c7402098ff8913d473900c8b11eb71.1406085105.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1406085105.git.hongxu.jia@windriver.com>
-References: <cover.1406085105.git.hongxu.jia@windriver.com>
+	Tue, 22 Jul 2014 20:43:36 -0700 (PDT)
+Received: from server.local (128.224.20.108) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 22 Jul 2014 20:43:35 -0700
+Message-ID: <53CF2F66.7040103@windriver.com>
+Date: Tue, 22 Jul 2014 23:43:34 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] insane: add checking to standardize how .bbappend files do FILESEXTRAPATHS
+To: Gabriel Barbu <gabriel.barbu@enea.com>, Martin Jansa
+	<martin.jansa@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20140618094425.8523A504AA@opal.openembedded.org>	<20140720140213.GA12193@jama>
+	<53CE6C67.4000405@windriver.com> <53CE8676.5000104@enea.com>
+	<53CE8723.5050608@windriver.com>
+In-Reply-To: <53CE8723.5050608@windriver.com>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Bruce Ashfield : lttng-modules: update to 2.4.1-stable latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,79 +36,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 03:33:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Jul 2014 03:43:50 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When adding patches or config files from bbappend files, it requires
-the use of FILESEXTRAPATHS, which has been an issue and failure point
-for people starting to work with bitbake and oe-core.
+On 2014-07-22, 11:45 AM, Bruce Ashfield wrote:
+> On 14-07-22 11:42 AM, Gabriel Barbu wrote:
+>> On 7/22/2014 4:51 PM, Bruce Ashfield wrote:
+>>> On 14-07-20 10:02 AM, Martin Jansa wrote:
+>>>> On Wed, Jun 18, 2014 at 09:44:25AM +0000, git@git.openembedded.org
+>>>> wrote:
+>>>>> Module: openembedded-core.git
+>>>>> Branch: master
+>>>>> Commit: bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
+>>>>> URL:
+>>>>> http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>>>> Date:   Tue Jun 17 21:29:51 2014 -0400
+>>>>>
+>>>>> lttng-modules: update to 2.4.1-stable latest
+>>>>>
+>>>>> The 3.15, and 3.14.5+ kernels introduced a change to
+>>>>> trace_block_rq_complete,
+>>>>> which triggers the following build error:
+>>>>>
+>>>>>
+>>>>> probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
+>>>>>
+>>>>>
+>>>>>
+>>>>>      error: conflicting types for 'trace_block_rq_complete'
+>>>>>      |  void trace_##_name(_proto);
+>>>>>      |       ^
+>>>>>      |
+>>>>>
+>>>>> probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
+>>>>>
+>>>>>
+>>>>>
+>>>>>      note: in expansion of macro 'DEFINE_EVENT_MAP'
+>>>>>      |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto),
+>>>>> PARAMS(args))
+>>>>>      |   ^
+>>>>>      |
+>>>>>
+>>>>> probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
+>>>>>
+>>>>>
+>>>>>
+>>>>>      note: in expansion of macro 'DEFINE_EVENT'
+>>>>>      |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
+>>>>>
+>>>>> The lttng 2.4.x-stable branch contains the fix (and several other
+>>>>> small fixes), so
+>>>>> we bump the SRCREV to import the change.
+>>>>
+>>>> We still have lttng-modules 2.3.3 in oe-core which still suffers from
+>>>> this issue, can you please drop or fix them?
+>>>
+>>> I'm currently fighting with 3.16 and lttng .. once I survive my current
+>>> battle, I'll see about sorting this out as well.
+>>>
+>>> Cheers,
+>>>
+>>> Bruce
+>>
+>> The reason for which we use the 2.3.3 version is that lttng-modules has
+>> blacklisted arm as it was not working with gcc 4.8.
+>> However, by implementation it was blacklisted for any gcc version and it
+>> still is, even if we are now using gcc 4.9.
+>> So I think the solution here would be to remove the blacklist and thus
+>> also move to 2.4.1.
+>>
+>> I tried it for qemuarm and it worked.
+>
+> I have a 2.4.2 update that also works here, as well as a 2.5, since I
+> needed
+> to update to get 3.16 working.
 
-We add checking to standardize how to use FILESEXTRAPATHS. Only the
-format of:
-  FILESEXTRAPATHS_append := ":${THISDIR}/Your_Files_Path" or
-  FILESEXTRAPATHS_prepend := "${THISDIR}/Your_Files_Path:"
-is acceptable.
+I've confirmed the lttng I have here works for ARM, so I'll submit
+that on Thursday. I would have sent it tonight, but it looks like we
+can get some 3.16 patches from upstream if I hold for a little while ..
+so I'll do that, and send during the day if I don't hear anything :)
 
-[YOCTO #5412]
+Cheers,
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/insane.bbclass | 13 +++++++++++++
- meta/classes/utils.bbclass  |  2 ++
- meta/conf/bitbake.conf      |  2 ++
- 3 files changed, 17 insertions(+)
+Bruce
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b26216e..6b1c9ad 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1022,6 +1022,19 @@ python () {
-     # Check various variables
-     ###########################################################################
- 
-+    # Checking ${FILESEXTRAPATHS}
-+    extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
-+    if '__default' not in extrapaths.split(":"):
-+        msg = "FILESEXTRAPATHS-variable, must always use _prepend (or _append)\n"
-+        msg += "type of assignment, and don't forget the colon.\n"
-+        msg += "Please assign it with the format of:\n"
-+        msg += "  FILESEXTRAPATHS_append := \":${THISDIR}/Your_Files_Path\" or\n"
-+        msg += "  FILESEXTRAPATHS_prepend := \"${THISDIR}/Your_Files_Path:\"\n"
-+        msg += "in your bbappend file\n\n"
-+        msg += "Your incorrect assignment is:\n"
-+        msg += "%s\n" % extrapaths
-+        bb.fatal(msg)
-+
-     if d.getVar('do_stage', True) is not None:
-         bb.fatal("Legacy staging found for %s as it has a do_stage function. This will need conversion to a do_install or often simply removal to work with OE-core" % d.getVar("FILE", True))
- 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 0ee13e0..0f2a484 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -312,6 +312,8 @@ def explode_deps(s):
- def base_set_filespath(path, d):
-     filespath = []
-     extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
-+    # Remove default flag which was used for checking
-+    extrapaths = extrapaths.replace("__default:", "")
-     # Don't prepend empty strings to the path list
-     if extrapaths != "":
-         path = extrapaths.split(":") + path
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index f4870d5..6a0cf7a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -311,6 +311,8 @@ FILES_${PN}-locale = "${datadir}/locale"
- FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
- # FILESPATH is set in base.bbclass
- #FILESPATH = "${FILE_DIRNAME}/${PF}:${FILE_DIRNAME}/${P}:${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/${BP}:${FILE_DIRNAME}/${BPN}:${FILE_DIRNAME}/files:${FILE_DIRNAME}"
-+# This default was only used for checking
-+FILESEXTRAPATHS ?= "__default:"
- 
- ##################################################################
- # General work and output directories for the build system.
--- 
-1.8.1.2
+>
+> Either way works for me, but I'll be submitting a patch over top of
+> anything else shortly.
+>
+> Cheers,
+>
+> Bruce
+>
+>> If you agree I could submit a patch.
+>>
+>> Best regards,
+>>
+>> Gabriel
+>>
+>>>
+>>>>
+>>>> 2.3.3 is used by default for qemuarm, because of this in 2.4.1:
+>>>> # lttng currently blacklists arm with gcc-4.8
+>>>> COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+>>>>
+>>>> The issue was already reported 7 times in world status builds.
+>>>>
+>>>> |   CC [M]
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o
+>>>>
+>>>>
+>>>>
+>>>> | In file included from
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/define_trace.h:148:0,
+>>>>
+>>>>
+>>>>
+>>>> |                  from
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/block.h:932,
+>>>>
+>>>>
+>>>>
+>>>> |                  from
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:41:
+>>>>
+>>>>
+>>>>
+>>>> |
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
+>>>>
+>>>>
+>>>> error: conflicting types for 'trace_block_rq_complete'
+>>>> |  void trace_##_name(_proto);
+>>>> |       ^
+>>>> |
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
+>>>>
+>>>>
+>>>> note: in expansion of macro 'DEFINE_EVENT_MAP'
+>>>> |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto), PARAMS(args))
+>>>> |   ^
+>>>> |
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
+>>>>
+>>>>
+>>>> note: in expansion of macro 'DEFINE_EVENT'
+>>>> |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
+>>>> |  ^
+>>>> | In file included from include/linux/module.h:18:0,
+>>>> |                  from
+>>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:23:
+>>>>
+>>>>
+>>>>
+>>>> | include/linux/tracepoint.h:168:21: note: previous definition of
+>>>> 'trace_block_rq_complete' was here
+>>>> |   static inline void trace_##name(proto)    \
+>>>> |                      ^
+>>>> | include/linux/tracepoint.h:265:3: note: in expansion of macro
+>>>> '__DECLARE_TRACE'
+>>>> |    __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
+>>>> |    ^
+>>>> | include/linux/tracepoint.h:399:2: note: in expansion of macro
+>>>> 'DECLARE_TRACE'
+>>>> |   DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+>>>> |   ^
+>>>> | include/trace/events/block.h:143:1: note: in expansion of macro
+>>>> 'TRACE_EVENT'
+>>>> |  TRACE_EVENT(block_rq_complete,
+>>>> |  ^
+>>>> | make[3]: ***
+>>>> [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o]
+>>>>
+>>>>
+>>>> Error 1
+>>>> | make[2]: ***
+>>>> [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes]
+>>>>
+>>>>
+>>>> Error 2
+>>>> | make[1]: ***
+>>>> [_module_/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git]
+>>>>
+>>>>
+>>>> Error 2
+>>>> | make[1]: Leaving directory
+>>>> `/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemuarm/usr/src/kernel'
+>>>>
+>>>>
+>>>>
+>>>> | make: *** [default] Error 2
+>>>>
+>>>>>
+>>>>> Build tested against 3.14 and 3.10.
+>>>>>
+>>>>> [YOCTO #6459]
+>>>>>
+>>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>>>
+>>>>> ---
+>>>>>
+>>>>>   meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb | 2 +-
+>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>>>>> b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>>>>> index 4ef74dd..5e05ffc 100644
+>>>>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>>>>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
+>>>>> @@ -10,7 +10,7 @@ DEPENDS = "virtual/kernel"
+>>>>>
+>>>>>   inherit module
+>>>>>
+>>>>> -SRCREV = "afdc6b155161f209fcfadc5288dc017ceab56353"
+>>>>> +SRCREV = "a0383def517e3aebbbcebae61fe2bcfb50d31e71"
+>>>>>   PV = "2.4.1"
+>>>>>
+>>>>>   # lttng currently blacklists arm with gcc-4.8
+>>>>>
+>>>>> --
+>>>>> _______________________________________________
+>>>>> Openembedded-commits mailing list
+>>>>> Openembedded-commits@lists.openembedded.org
+>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>>>>
+>>>
+>>
+>
 
 
