@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 49ABB707A1
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 649456FE76
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:07:43 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id n3so8579819wiv.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 15:07:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=XbaAqs1NCso4aAo1PxSdnIZAjOU11puU66cPJyQsnnA=;
-	b=kBQGJ35NW1o6JgnnCHdmrR2pegsZaUIww6kdmEpx89p1QFVqsCqsgcL93V5mivdT7o
-	TWnX2VSdYZFWQr1p/yafKp7wp5FJzNMC3LvA7exi+SUQ4dg6TojI013RhT5divU0Q8V3
-	BwI1J2eZ0fhorYU5AKOKU28xXlvJkl+cbYHj7j1Cu+1yM+OEDs9sQckgnEWSizg8Keyb
-	kkwyo9LT1g11jop0R6zjqzo5aMTVLp9+nwzUST1N0yFoyPUKLRCY6Z/CST/fiEBy3qVd
-	g74MhfckHdf9EqfkZ3tVW9ZimZ7YJy7bkkXrCiXKFxVVFVD7tERo1J7zoQAa6Uv0v3Bn
-	cQRg==
-X-Gm-Message-State: ALoCoQkg9X190GTWcU9jlsHpMHUbue9CuLh4Pfq8YQekAR6aaSO1HQmEluSiUG07K/a36o4AZFH1
-X-Received: by 10.180.92.134 with SMTP id cm6mr7215526wib.72.1406153264653;
-	Wed, 23 Jul 2014 15:07:44 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id ch5sm9833562wjb.18.2014.07.23.15.07.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Jul 2014 15:07:43 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jul 2014 23:07:22 +0100
-Message-Id: <1406153243-12346-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [RFC][PATCH 1/2] ptest-gnome: add ptest helper for GNOME packages
+	Wed, 23 Jul 2014 22:28:35 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1XA51Y-0003F1-On from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Jul 2014 15:28:36 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 23 Jul 2014 15:28:36 -0700
+Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
+	SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) with mapi id
+	14.02.0247.003; Wed, 23 Jul 2014 15:28:36 -0700
+From: "Moseley, Drew" <drew_moseley@mentor.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] libomxil-0.9.3: Updated CORE_NAME to drop .0
+	extension.
+Thread-Index: AQHPprnH6XslJANmyE2/UMpdcrLggZuussaA
+Date: Wed, 23 Jul 2014 22:28:35 +0000
+Message-ID: <D4601E2D-F5E9-4AD3-AB6A-A67B0D4FD4E4@mentor.com>
+References: <1406149462-14828-1-git-send-email-drew_moseley@mentor.com>
+In-Reply-To: <1406149462-14828-1-git-send-email-drew_moseley@mentor.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.34.91.1]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 23 Jul 2014 22:28:36.0644 (UTC)
+	FILETIME=[71E20640:01CFA6C5]
+Subject: Re: [PATCH] libomxil-0.9.3: Updated CORE_NAME to drop .0	extension.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 22:07:48 -0000
+X-List-Received-Date: Wed, 23 Jul 2014 22:28:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <727014FE9F70734492BDC67AE3AC3227@mentor.com>
+Content-Transfer-Encoding: quoted-printable
 
-Many GNOME packages are using their InstalledTests pattern, where the test suite
-can be trivially installed.  To avoid repeating the same logic over and over,
-add a class to encapsulate this.
+On Jul 23, 2014, at 5:04 PM, Drew Moseley <drew_moseley@mentor.com> wrote:
+> As a result of commit 0ef3734c2f279bf463ba4d1aef5241cd4882d483 the ".0"
+> extension for GSTREAMER_1_0_OMX_CORE_NAME is no longer needed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/ptest-gnome.bbclass |    8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 meta/classes/ptest-gnome.bbclass
+Ignore this patch.  I think the previous fix went too far in adding the avo=
+id-version option.  I'm working on a proper fix to only avoid the versionin=
+g on the ${libdir}/bellagio/* files.
 
-diff --git a/meta/classes/ptest-gnome.bbclass b/meta/classes/ptest-gnome.bbclass
-new file mode 100644
-index 0000000..b2949af
---- /dev/null
-+++ b/meta/classes/ptest-gnome.bbclass
-@@ -0,0 +1,8 @@
-+inherit ptest
-+
-+EXTRA_OECONF_append_class-target = " ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-installed-tests', '--disable-installed-tests', d)}"
-+
-+FILES_${PN}-ptest += "${libexecdir}/installed-tests/ \
-+                      ${datadir}/installed-tests/"
-+
-+RDEPENDS_${PN}-ptest += "gnome-desktop-testing"
--- 
-1.7.10.4
+Drew
 
 
