@@ -1,33 +1,25 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 5219C65C93
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 73A5E7018F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:41:46 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6NMflLA024804 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 17:41:47 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072317414762-160562 ;
-	Wed, 23 Jul 2014 17:41:47 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jul 2014 17:41:30 -0500
-Message-Id: <1406155290-25903-1-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/23/2014 05:41:47 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/23/2014 05:41:47 PM,
-	Serialize complete at 07/23/2014 05:41:47 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-23_07:2014-07-23, 2014-07-23,
-	1970-01-01 signatures=0
-Cc: Brad Mouring <brad.mouring@ni.com>
-Subject: [PATCH] eglibc: Make ld.so.conf more flexible
+	Wed, 23 Jul 2014 23:46:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Jul 2014 16:46:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,720,1400050800"; d="scan'208";a="574490359"
+Received: from unknown (HELO [10.255.13.66]) ([10.255.13.66])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2014 16:46:55 -0700
+Message-ID: <53D0496F.3070205@linux.intel.com>
+Date: Wed, 23 Jul 2014 16:46:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Ben Shelton <ben.shelton@ni.com>, openembedded-core@lists.openembedded.org
+References: <1406154587-30052-1-git-send-email-ben.shelton@ni.com>
+	<1406154587-30052-2-git-send-email-ben.shelton@ni.com>
+In-Reply-To: <1406154587-30052-2-git-send-email-ben.shelton@ni.com>
+Subject: Re: [PATCH 2/2] util-linux: break out new package util-linux-findfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 22:41:49 -0000
+X-List-Received-Date: Wed, 23 Jul 2014 23:47:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Brad Mouring <brad.mouring@ni.com>
+On 07/23/2014 03:29 PM, Ben Shelton wrote:
+> From: Richard Tollerton <rich.tollerton@ni.com>
+>
 
-Most modern distros will include conf files in /etc/ld.so.conf.d/
-when generating the ld.so cache. This change will bring that flexibility.
+For both this and the prior patch, can you explain why you are break 
+these out.  I assume because you want finer grain control, but explain 
+it in the commit messages please.
 
-Signed-off-by: Brad Mouring <brad.mouring@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
-Acked-by: Ken Sharp <ken.sharp@ni.com>
-Acked-by: Rich Tollerton <rich.tollerton@ni.com>
----
- meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf | 1 +
- 1 file changed, 1 insertion(+)
+Sau!
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf b/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf
-index e69de29..83327c0 100644
---- a/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf
-+++ b/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf
-@@ -0,0 +1 @@
-+include /etc/ld.so.conf.d/*.conf
--- 
-2.0.2
 
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+> ---
+>   meta/recipes-core/util-linux/util-linux.inc | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index d640a5f..ffb84c4 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -36,7 +36,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+>                util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
+>                util-linux-mkfs util-linux-mcookie util-linux-reset \
+>                util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+> -             util-linux-partx ${PN}-bash-completion util-linux-hwclock"
+> +             util-linux-partx ${PN}-bash-completion util-linux-hwclock \
+> +             util-linux-findfs"
+>
+>   SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+>                          --disable-makeinstall-chown \
+> @@ -79,6 +80,7 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
+>   FILES_util-linux-reset = "${base_bindir}/reset"
+>   FILES_util-linux-partx = "${sbindir}/partx"
+>   FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+> +FILES_util-linux-findfs = "${sbindir}/findfs"
+>
+>   FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
+>   FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
+>
 
