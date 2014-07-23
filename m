@@ -1,26 +1,28 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 921E565CE7
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CAC465CAD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 20:39:19 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 23 Jul 2014 13:39:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,719,1400050800"; d="scan'208";a="460583187"
-Received: from unknown (HELO [10.255.12.245]) ([10.255.12.245])
-	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2014 13:39:19 -0700
-Message-ID: <1406147959.6335.44.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: maciej.borzecki@open-rnd.pl
-Date: Wed, 23 Jul 2014 15:39:19 -0500
-In-Reply-To: <1406147614.32507.1.camel@localhost.localdomain>
-References: <1406111837-4287-1-git-send-email-maciej.borzecki@open-rnd.pl>
-	<1406146879.6335.38.camel@empanada>
-	<1406147614.32507.1.camel@localhost.localdomain>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: squashfs partition support
+	Wed, 23 Jul 2014 21:04:25 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XA3i6-0003jS-1B from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 Jul 2014 14:04:26 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 23 Jul 2014 14:04:25 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-04.mgc.mentorg.com (147.34.97.41) with Microsoft SMTP
+	Server id 14.2.247.3; Wed, 23 Jul 2014 14:04:25 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Jul 2014 17:04:22 -0400
+Message-ID: <1406149462-14828-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-OriginalArrivalTime: 23 Jul 2014 21:04:25.0848 (UTC)
+	FILETIME=[AF5FB780:01CFA6B9]
+Subject: [PATCH] libomxil-0.9.3: Updated CORE_NAME to drop .0 extension.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,92 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 20:39:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 23 Jul 2014 21:04:28 -0000
+Content-Type: text/plain
 
-On Wed, 2014-07-23 at 22:33 +0200, Maciek Borzecki wrote:
-> On śro, 2014-07-23 at 15:21 -0500, Tom Zanussi wrote:
-> > Hi, please include a description for this.
-> Ok, will update with the rest of the patches.
-> 
-> > 
-> > Also, it looks like this is missing the empty_partition() part?
-> That's intentional. Squashfs, being read-only, is not really useful for
-> a partition that is empty. You wouldn't be able to create files nor
-> actually use it in a meaningful manner, unless it's combined with one of
-> the merging filesystems like {union/au/overlay}fs. In this case the
-> whole fs setup would be described in fstab.
-> 
-> Though, it might make sense to raise a warning at least.
-> 
+As a result of commit 0ef3734c2f279bf463ba4d1aef5241cd4882d483 the ".0"
+extension for GSTREAMER_1_0_OMX_CORE_NAME is no longer needed.
 
-Yeah, makes sense, please do add a warning in that case.
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-
-Tom
-
-> 
-> > 
-> > Thanks,
-> > 
-> > Tom
-> > 
-> > On Wed, 2014-07-23 at 12:37 +0200, Maciej Borzecki wrote:
-> > > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-> > > ---
-> > >  .../lib/mic/kickstart/custom_commands/partition.py | 26 ++++++++++++++++++++++
-> > >  1 file changed, 26 insertions(+)
-> > > 
-> > > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > > index d0f1b78..c4d0113 100644
-> > > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > > @@ -192,6 +192,10 @@ class Wic_PartData(Mic_PartData):
-> > >              return self.prepare_rootfs_vfat(cr_workdir, oe_builddir,
-> > >                                              rootfs_dir, native_sysroot,
-> > >                                              pseudo)
-> > > +        elif self.fstype.startswith("squashfs"):
-> > > +            return self.prepare_rootfs_squashfs(cr_workdir, oe_builddir,
-> > > +                                                rootfs_dir, native_sysroot,
-> > > +                                                pseudo)
-> > >  
-> > >      def prepare_rootfs_ext(self, cr_workdir, oe_builddir, rootfs_dir,
-> > >                             native_sysroot, pseudo):
-> > > @@ -324,6 +328,28 @@ class Wic_PartData(Mic_PartData):
-> > >          self.set_size(rootfs_size)
-> > >          self.set_source_file(rootfs)
-> > >  
-> > > +    def prepare_rootfs_squashfs(self, cr_workdir, oe_builddir, rootfs_dir,
-> > > +                                native_sysroot, pseudo):
-> > > +        """
-> > > +        Prepare content for a squashfs rootfs partition.
-> > > +        """
-> > > +        image_rootfs = rootfs_dir
-> > > +        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
-> > > +
-> > > +        squashfs_cmd = "mksquashfs %s %s -noappend" % \
-> > > +                       (image_rootfs, rootfs)
-> > > +        rc, out = exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
-> > > +
-> > > +        # get the rootfs size in the right units for kickstart (Mb)
-> > > +        du_cmd = "du -Lbms %s" % rootfs
-> > > +        rc, out = exec_cmd(du_cmd)
-> > > +        rootfs_size = out.split()[0]
-> > > +
-> > > +        self.size = rootfs_size
-> > > +        self.source_file = rootfs
-> > > +
-> > > +        return 0
-> > > +
-> > >      def prepare_empty_partition(self, cr_workdir, oe_builddir, native_sysroot):
-> > >          """
-> > >          Prepare an empty partition.
-> > 
-> > 
-> 
-> 
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+index b423863..9085acc 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+@@ -13,7 +13,7 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+ PR = "r1"
+ 
+ GSTREAMER_1_0_OMX_TARGET ?= "bellagio"
+-GSTREAMER_1_0_OMX_CORE_NAME ?= "${libdir}/libomxil-bellagio.so.0"
++GSTREAMER_1_0_OMX_CORE_NAME ?= "${libdir}/libomxil-bellagio.so"
+ 
+ EXTRA_OECONF += "--disable-valgrind --with-omx-target=${GSTREAMER_1_0_OMX_TARGET}"
+ 
+-- 
+1.9.1
 
 
