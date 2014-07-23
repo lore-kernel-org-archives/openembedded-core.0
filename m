@@ -1,34 +1,39 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 183F8707D5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 11DFB704E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:29:59 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6NMU1gu021071 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 17:30:01 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072317300128-160288 ;
-	Wed, 23 Jul 2014 17:30:01 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jul 2014 17:29:47 -0500
-Message-Id: <1406154587-30052-2-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-In-Reply-To: <1406154587-30052-1-git-send-email-ben.shelton@ni.com>
-References: <1406154587-30052-1-git-send-email-ben.shelton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/23/2014 05:30:01 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/23/2014 05:30:01 PM,
-	Serialize complete at 07/23/2014 05:30:01 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-23_07:2014-07-23, 2014-07-23,
-	1970-01-01 signatures=0
-Subject: [PATCH 2/2] util-linux: break out new package util-linux-findfs
+	Wed, 23 Jul 2014 22:33:15 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id q108so2302015qgd.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jul 2014 15:33:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=kTqBCK6SVzgzTJATBqAJ/sjYUM+YESDH6phRxumJiRc=;
+	b=Dh3Lz71TDnVyx2IbpaSvncyC5G/2ZUBE8vcKQiqN1Tvb/M2AH2oPYTsdK71tQecO8f
+	j7MCAREZA/AZNH4o1I9ean9eFOO+gj9kPX4Mb6oKv+S/quJ/bal6+1yLajB2Yx1o5QTm
+	r7uZv4znYNxi6zmxN1ODFUL2ALqaurjmrFjox7+uKj7J+OoNx4xGU6wzy5lXoWVd6rt4
+	hnxa/OfaDKXPwm9H85ALJCCYPJS4/dwCdewEgRuW51ZlwB9wjQ2tWah06U5zQdpkdxhg
+	+WJuejR456MskjxZeyujUlQ6nJg8ZaO2TLVVl+Qddc48JHJrERt76TLzX640k6eqjrF9
+	ldVg==
+X-Gm-Message-State: ALoCoQnlzRq0EP6awJrPUiPKgfwNJPito5k8Ak7A138BWaLCZWXmk8jdVYyCKu4lQV0Esak0haAJ
+X-Received: by 10.224.111.195 with SMTP id t3mr254163qap.17.1406154796671;
+	Wed, 23 Jul 2014 15:33:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Wed, 23 Jul 2014 15:32:56 -0700 (PDT)
+In-Reply-To: <20140722162610.GV22875@jama>
+References: <20140710164012.3BE7C503BE@opal.openembedded.org>
+	<20140722162610.GV22875@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Jul 2014 23:32:56 +0100
+Message-ID: <CAJTo0LYjVnD_3UUuUeSGiNN1XJT8cTw9uCd9ND4P8_ZOKHo3yA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: debian.bbclass doesn't work in some setups Was: [oe-commits] Ross Burton : package.bbclass: add a stub implementation of package_name_hook
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,39 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 22:30:00 -0000
+X-List-Received-Date: Wed, 23 Jul 2014 22:33:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Richard Tollerton <rich.tollerton@ni.com>
+On 22 July 2014 17:26, Martin Jansa <martin.jansa@gmail.com> wrote:
+> 16:42 < rburton> JaMa: try moving debian after package_ipk
+> 16:43 < rburton> (maybe we need an inherit package in debian)?
+>
+> 16:45 < JaMa> sorry, I've already started different build
+>
+> 16:46 < rburton> np
+> 16:47 < rburton> easily tested outside of a build, i'll have a go in a bit
+>
+> since then I'm building with this change reverted
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Moving debian to before package_ipkg does indeed replicate the problem
+with an otherwise pure oe-core.  Adding "inherit package" to the top
+of debian.bbclass appears to fix it - presumably because in your case
+with the inherit order of debian and then package_ipk the second
+definition of package_package_name_hook wins.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index d640a5f..ffb84c4 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -36,7 +36,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
--             util-linux-partx ${PN}-bash-completion util-linux-hwclock"
-+             util-linux-partx ${PN}-bash-completion util-linux-hwclock \
-+             util-linux-findfs"
- 
- SHARED_EXTRA_OECONF = "--disable-use-tty-group \
-                        --disable-makeinstall-chown \
-@@ -79,6 +80,7 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
- FILES_util-linux-reset = "${base_bindir}/reset"
- FILES_util-linux-partx = "${sbindir}/partx"
- FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
-+FILES_util-linux-findfs = "${sbindir}/findfs"
- 
- FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
- FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
--- 
-2.0.2
+(export_functions isn't very nice, is it)
 
+Patch incoming.
+
+Ross
 
