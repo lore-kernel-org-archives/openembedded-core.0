@@ -1,40 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D68D6707EA
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id EC5F0707EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 21:58:26 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id d1so8628410wiv.1
+	Wed, 23 Jul 2014 21:58:23 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id n3so8591210wiv.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 14:58:27 -0700 (PDT)
+	Wed, 23 Jul 2014 14:58:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=9H+wyCSQ/6bNQHuVSrdioOI5Nc6hZIh99meqR4nr3hE=;
-	b=YV+Rvxj6Ou0V4RJkX+zPHJYvgZsb+Hn098ne5lmKPvY5g2/qHp1/OcLILKa9KDPPQ2
-	mGPeZJc6IpSrYY/8tUq3+1w98XjYS8R8Nqh43SOPgCE6dc3JNhbb63445735h1my0ioL
-	yjn4cdbtsAES+U9soH65+H3f17TXMULCs1Wg21QxHq0GUxel7+9WW3W7wJ4EwMl1imHe
-	DLi4ZvQDwAlyzTnnOkACg3G4FeglxydMYX4vOVQxzRuFxosckxyTn3pT5228OGGWgXmb
-	Rl9x096Y2wc/ipKh6RTjvQPBz1tO54lB54IQUN24CKzL2i+/Vl4vkmZ5CxzquuEyFLzL
-	tATA==
-X-Gm-Message-State: ALoCoQmtmSnbyxhm+XkhWgW3gaJfFEEF6UrbtOY+wWoC9aZ+6VwSaOrGB5PZxArP97wLKq8E2J2T
-X-Received: by 10.180.7.230 with SMTP id m6mr6908725wia.3.1406152707074;
-	Wed, 23 Jul 2014 14:58:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=364JAyhR/ReX/WFpc5eb4xfcT5e9leKVaDRHQ8ttoqQ=;
+	b=WcxlKZrjA/HEvitc5Khzg0YFpfGQFqmxjmo5mzTNh2EX8lVwxlC5D6NowYrKUn9vop
+	69xr6Cq5KCTnhVZF9gP8BpMhIyVhyyOPLAdA+cGWiIjo68MUIpS8rJbrAjK4W9hp9SLZ
+	+OZpWfCMm5+2MBWzhw9NBAS1ujJwJsWOomp002j0w3eA/Fuvj1mGX0FK0i3pV6C6+WCT
+	CQjAoaLXnldHABYmnTsJF8C6wyDbTgJA19cy5AYoT7oOBGAgip86DF3LYuWa3FZw6shT
+	9MsRDriE++hPzCc4MZ/GyV6lZC5CV+Z4YjncjdsDW4THB3NZ5sy1E4GexBodlOs/j93E
+	ArfQ==
+X-Gm-Message-State: ALoCoQmcIHe1+kgrz4YJEo5NA51Xkpkv4/oxPkyzUZO/rDtSR9aklOWSewHdwDNACnaKYgJPuoTj
+X-Received: by 10.180.36.238 with SMTP id t14mr7253407wij.38.1406152704723;
+	Wed, 23 Jul 2014 14:58:24 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	pl1sm14090074wic.17.2014.07.23.14.58.25
+	pl1sm14090074wic.17.2014.07.23.14.58.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Jul 2014 14:58:26 -0700 (PDT)
+	Wed, 23 Jul 2014 14:58:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jul 2014 22:58:13 +0100
-Message-Id: <1406152694-6242-3-git-send-email-ross.burton@intel.com>
+Date: Wed, 23 Jul 2014 22:58:11 +0100
+Message-Id: <1406152694-6242-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1406152694-6242-1-git-send-email-ross.burton@intel.com>
-References: <1406152694-6242-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/4] xf86-video-evdev: upgrade to 2.9.0
+Subject: [PATCH 1/4] libxi: upgrade to 1.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,32 +46,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 23 Jul 2014 21:58:28 -0000
 
-Build-dependency on libevdev added.
+Also remove outdated (~1.2.99.5) git recipe that was never used.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../{xf86-input-evdev_2.8.2.bb => xf86-input-evdev_2.9.0.bb}     |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.8.2.bb => xf86-input-evdev_2.9.0.bb} (80%)
+ .../xorg-lib/{libxi_1.7.2.bb => libxi_1.7.4.bb}      |    4 ++--
+ meta/recipes-graphics/xorg-lib/libxi_git.bb          |   18 ------------------
+ 2 files changed, 2 insertions(+), 20 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.2.bb => libxi_1.7.4.bb} (81%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxi_git.bb
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.8.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.9.0.bb
-similarity index 80%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.8.2.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.9.0.bb
-index 6cbe165..4ab6ad1 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.8.2.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.9.0.bb
-@@ -14,7 +14,7 @@ xorg.conf for each input device that will use this driver. "
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.7.2.bb b/meta/recipes-graphics/xorg-lib/libxi_1.7.4.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-lib/libxi_1.7.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxi_1.7.4.bb
+index 0ae98e0..07033a3 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.7.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.7.4.bb
+@@ -17,5 +17,5 @@ PE = "1"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=fefe33b1cf0cacba0e72e3b0fa0f0e16"
+ XORG_PN = "libXi"
  
--DEPENDS += "mtdev"
-+DEPENDS += "mtdev libevdev"
- 
--SRC_URI[md5sum] = "be7f91905c41bb3c3a0eb54063c7e4bf"
--SRC_URI[sha256sum] = "750461749a83bdee7771592aa5c0db5e267b18d847078a4b8622f55b04797eb3"
-+SRC_URI[md5sum] = "9076ae2646f7aeb30963056e0bbfccf0"
-+SRC_URI[sha256sum] = "0c0c4aa393cb027a2304967944867a21a340bcad2e5efe630291b6906c3abc35"
+-SRC_URI[md5sum] = "f4df3532b1af1dcc905d804f55b30b4a"
+-SRC_URI[sha256sum] = "df24781dc63645e2b561cd0b20bd8a0e7aff02e426a8d2a7641159004d4cb20e"
++SRC_URI[md5sum] = "9c4a69c34b19ec1e4212e849549544cb"
++SRC_URI[sha256sum] = "2cffc2686618dc1803725636cd92b36342c512dc60a7a35cba34bf7192a42244"
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_git.bb b/meta/recipes-graphics/xorg-lib/libxi_git.bb
+deleted file mode 100644
+index c17c1f7..0000000
+--- a/meta/recipes-graphics/xorg-lib/libxi_git.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-require xorg-lib-common.inc
+-
+-SUMMARY = "XI: X Input extension library"
+-
+-DESCRIPTION = "libxi is an extension to the X11 protocol to support \
+-input devices other than the core X keyboard and pointer.  It allows \
+-client programs to select input from these devices independently from \
+-each other and independently from the core devices."
+-
+-DEPENDS += "libxext inputproto"
+-SRCREV = "d0326fe8cdbb08d4f52d79fd3fd4e1b2a0951d5e"
+-PE = "1"
+-PV = "1.2.99.5+gitr${SRCPV}"
+-
+-XORG_PN = "libXi"
+-
+-SRC_URI = "git://anongit.freedesktop.org/git/xorg/lib/${XORG_PN}"
+-S = "${WORKDIR}/git"
 -- 
 1.7.10.4
 
