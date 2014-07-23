@@ -1,25 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 73A5E7018F
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E7CC57018F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 23:46:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jul 2014 16:46:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,720,1400050800"; d="scan'208";a="574490359"
-Received: from unknown (HELO [10.255.13.66]) ([10.255.13.66])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2014 16:46:55 -0700
-Message-ID: <53D0496F.3070205@linux.intel.com>
-Date: Wed, 23 Jul 2014 16:46:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Wed, 23 Jul 2014 23:51:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6NNpBWK027438
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jul 2014 16:51:11 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 23 Jul 2014 16:51:10 -0700
+Date: Wed, 23 Jul 2014 18:50:52 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20140723185052.74ad39d3@e6410-2>
+In-Reply-To: <1406155290-25903-1-git-send-email-ben.shelton@ni.com>
+References: <1406155290-25903-1-git-send-email-ben.shelton@ni.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-To: Ben Shelton <ben.shelton@ni.com>, openembedded-core@lists.openembedded.org
-References: <1406154587-30052-1-git-send-email-ben.shelton@ni.com>
-	<1406154587-30052-2-git-send-email-ben.shelton@ni.com>
-In-Reply-To: <1406154587-30052-2-git-send-email-ben.shelton@ni.com>
-Subject: Re: [PATCH 2/2] util-linux: break out new package util-linux-findfs
+Subject: Re: [PATCH] eglibc: Make ld.so.conf more flexible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 23:47:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 23 Jul 2014 23:51:12 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On 07/23/2014 03:29 PM, Ben Shelton wrote:
-> From: Richard Tollerton <rich.tollerton@ni.com>
->
+On Wed, 23 Jul 2014 17:41:30 -0500
+Ben Shelton <ben.shelton@ni.com> wrote:
 
-For both this and the prior patch, can you explain why you are break 
-these out.  I assume because you want finer grain control, but explain 
-it in the commit messages please.
+> Most modern distros will include conf files in /etc/ld.so.conf.d/
+> when generating the ld.so cache. This change will bring that flexibility.
 
-Sau!
+I was just looking at a patch to do roughly this. Mine added a
+USE_LDCONFIG_CONF_D flag, and then had eglibc's install create the directory
+and append that line to ld.so.conf if the flag was set. I'm not sure whether
+the extra functionality justifies the effort. I would suggest that, if
+this is going to be unconditionally present, the directory should be too.
 
-
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> Signed-off-by: Ben Shelton <ben.shelton@ni.com>
-> ---
->   meta/recipes-core/util-linux/util-linux.inc | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index d640a5f..ffb84c4 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -36,7 +36,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
->                util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
->                util-linux-mkfs util-linux-mcookie util-linux-reset \
->                util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-> -             util-linux-partx ${PN}-bash-completion util-linux-hwclock"
-> +             util-linux-partx ${PN}-bash-completion util-linux-hwclock \
-> +             util-linux-findfs"
->
->   SHARED_EXTRA_OECONF = "--disable-use-tty-group \
->                          --disable-makeinstall-chown \
-> @@ -79,6 +80,7 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
->   FILES_util-linux-reset = "${base_bindir}/reset"
->   FILES_util-linux-partx = "${sbindir}/partx"
->   FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
-> +FILES_util-linux-findfs = "${sbindir}/findfs"
->
->   FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
->   FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
->
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
