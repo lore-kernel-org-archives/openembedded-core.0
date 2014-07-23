@@ -1,28 +1,28 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CAAB9707CB
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A3D2707EC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 01:32:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6N1WDEI024063
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jul 2014 18:32:13 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 22 Jul 2014 18:32:12 -0700
-Message-ID: <53CF10A2.7000402@windriver.com>
-Date: Wed, 23 Jul 2014 09:32:18 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Wed, 23 Jul 2014 02:35:06 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1X9mOZ-0002Sj-VA from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 22 Jul 2014 19:35:07 -0700
+Received: from SVR-ORW-FEM-06.mgc.mentorg.com ([147.34.97.120]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Tue, 22 Jul 2014 19:35:07 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	SVR-ORW-FEM-06.mgc.mentorg.com (147.34.97.120) with Microsoft SMTP
+	Server id 14.2.247.3; Tue, 22 Jul 2014 19:35:05 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Jul 2014 22:35:03 -0400
+Message-ID: <1406082903-19787-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1406015054.git.rongqing.li@windriver.com>
-	<CAJTo0LZCtnBuZrWBuBmxdO8Z5SYRFbO1tYR2_GUCp4TNet9Ugg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZCtnBuZrWBuBmxdO8Z5SYRFbO1tYR2_GUCp4TNet9Ugg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/16 v2] merge 16 CVE patches
+X-OriginalArrivalTime: 23 Jul 2014 02:35:07.0787 (UTC)
+	FILETIME=[B7AD95B0:01CFA61E]
+Subject: [PATCH RFC] gstreamer: Set DEPENDS dynamically for plugins-ugly and plugins-bad
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 01:32:14 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Jul 2014 02:35:14 -0000
+Content-Type: text/plain
 
+Only add plugins-ugly or plugins-bad to the DEPENDS if they are
+added to the COMMERCIAL_AUDIO_PLUGINS or COMMERCIAL_VIDEO_PLUGINS.
 
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb     | 7 ++++++-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb | 5 ++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-On 07/22/2014 04:22 PM, Burton, Ross wrote:
-> On 22 July 2014 08:46,  <rongqing.li@windriver.com> wrote:
->> Yue Tao (16):
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0866
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0875
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0860
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3934
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3946
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7023
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7009
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0855
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-4351
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0848
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3944
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7010
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3941
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0846
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6618
->>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6617
->
-> As there's no benefit in being able to bisect this, I think it would
-> be neater if these were squashed into a single commit.
->
-
-I am fine, Saul can squash them when merge
-
--Roy
-
-> Ross
->
->
-
+diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+index 518ab72..039abe1 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+@@ -1,6 +1,11 @@
+ SUMMARY = "GStreamer package groups"
+ LICENSE = "MIT"
+-DEPENDS = "gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad"
++
++COMMERCIAL_PLUGINS = "${COMMERCIAL_AUDIO_PLUGINS} ${COMMERCIAL_VIDEO_PLUGINS}"
++DEPENDS_UGLY="${@'gst-plugins-ugly' if 'ugly' in COMMERCIAL_PLUGINS.split('-') else ''}"
++DEPENDS_BAD="${@'gst-plugins-bad' if 'bad' in COMMERCIAL_PLUGINS.split('-') else ''}"
++DEPENDS = "gstreamer gst-plugins-base gst-plugins-good ${DEPENDS_UGLY} ${DEPENDS_BAD}"
++
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+index a703d9b..3ef10c3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+@@ -3,7 +3,10 @@ LICENSE = "MIT"
+ 
+ inherit packagegroup
+ 
+-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
++COMMERCIAL_PLUGINS = "${COMMERCIAL_AUDIO_PLUGINS} ${COMMERCIAL_VIDEO_PLUGINS}"
++DEPENDS_UGLY="${@'gstreamer1.0-plugins-ugly' if 'ugly' in COMMERCIAL_PLUGINS.split('-') else ''}"
++DEPENDS_BAD="${@'gstreamer1.0-plugins-bad' if 'bad' in COMMERCIAL_PLUGINS.split('-') else ''}"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good ${DEPENDS_UGLY} ${DEPENDS_BAD}"
+ 
+ PACKAGES = "\
+     gstreamer1.0-meta-base \
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.1
+
 
