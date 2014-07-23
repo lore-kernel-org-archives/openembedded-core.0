@@ -1,32 +1,32 @@
 Return-Path: <ben.shelton@ni.com>
 Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D64B77077E
+	by mail.openembedded.org (Postfix) with ESMTP id 499B76A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 16:22:56 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
+	Wed, 23 Jul 2014 17:13:20 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
 	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6NGMvEF005554 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 11:22:57 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072311225788-142474 ;
-	Wed, 23 Jul 2014 11:22:57 -0500 
+	s6NHDLGd026913; Wed, 23 Jul 2014 12:13:21 -0500
+Received: from localhost ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072312132105-145966 ;
+	Wed, 23 Jul 2014 12:13:21 -0500 
+Date: Wed, 23 Jul 2014 12:13:12 -0500
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jul 2014 11:22:44 -0500
-Message-Id: <1406132564-32476-1-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/23/2014 11:22:57 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/23/2014 11:22:58 AM,
-	Serialize complete at 07/23/2014 11:22:58 AM
+Message-ID: <20140723171312.GA6118@bshelton-desktop>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/23/2014 12:13:21 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/23/2014 12:13:21 PM,
+	Serialize complete at 07/23/2014 12:13:21 PM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
 	0.0.0000
 	definitions=2014-07-23_06:2014-07-23, 2014-07-23,
 	1970-01-01 signatures=0
-Subject: [PATCH v2] initscripts: fix bashism in bootmisc.sh
+Subject: util-linux hwclock ALTERNATIVE_PRIORITY set to 10 for meta-nslu2 -- still needed?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +39,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 16:23:08 -0000
+X-List-Received-Date: Wed, 23 Jul 2014 17:13:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In the commit 'initscripts: save /etc/timestamp with seconds accuracy',
-a bashism was introduced in the bootmisc.sh script in the code to set
-the current date from the stored value in /etc/timestamp.  This causes
-that operation to fail with the following message when /bin/sh is not
-bash:
+Hi all,
 
-/etc/init.d/rc: /etc/rcS.d/S55bootmisc.sh: line 73: syntax error: bad substitution
+In meta/recipes-core/util-linux/util-linux.inc, there exists the
+following:
 
-Fixed by using pattern matching removal rather than bash-specific
-substring expansion.
+# There seems to be problem, atleast on nslu2, with these, untill they are
+# fixed the busybox ones have higher priority
+ALTERNATIVE_PRIORITY[hwclock] = "10"
 
-[YOCTO #6566]
+Is this still necessary?  Right now, we're carrying a commit in our
+local repo to change this to ALTERNATIVE_PRIORITY[hwclock] ?= "100" so
+we can use the util-linux version of hwclock rather than the busybox one
+(as Saul had proposed at one point, so meta-nslu2 could override it).
 
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-index ccc7f9f..df553bc 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-@@ -70,7 +70,11 @@ then
- 	read TIMESTAMP < /etc/timestamp
- 	if [ ${TIMESTAMP} -gt $SYSTEMDATE ]; then
- 		# format the timestamp as date expects it (2m2d2H2M4Y.2S)
--		date -u ${TIMESTAMP:4:8}${TIMESTAMP:0:4}.${TIMESTAMP:(-2)}
-+		TS_YR=${TIMESTAMP%??????????}
-+		TS_SEC=${TIMESTAMP#????????????}
-+		TS_FIRST12=${TIMESTAMP%??}
-+		TS_MIDDLE8=${TS_FIRST12#????}
-+		date -u ${TS_MIDDLE8}${TS_YR}.${TS_SEC}
- 		test -x /etc/init.d/hwclock.sh && /etc/init.d/hwclock.sh stop
- 	fi
- fi
--- 
-2.0.2
-
+Thanks,
+Ben
 
