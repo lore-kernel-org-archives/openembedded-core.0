@@ -1,37 +1,30 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C42176A9C4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 47F146AC9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 13:51:26 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id n3so7832731wiv.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 06:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=i6sChGKqPlyeBpBa3q5KgShEZjPgfX3BzIFY73/FpW0=;
-	b=GgraC4od3hZiTCW46hpVLM7D2BDftOYrqqI8ZWDEt/nbe0FFozUzsH9pQ2cQnWUMN8
-	+1j2hhptuO/oFNQYfoCs3jVJfGbQI1T3UIfQQAomn1RngJx1j5xm5IhEAjpfGSsHWCKg
-	kUymkzVLLZqZQDev1kY1MKf2RSBSjpR5zMVCuHP6Q/Yt0WasRy+M4MUC9B+sSgK4fbOD
-	U6ZsAhWLsHm4NOy+TFduEsQV2xm2JJdm01v6OO/L6d00D5So7OHcCXDA+1JyylZlVxXA
-	8Z2xrG4bm2sfZVdcD4ydzCk4IkA79Ei/cnei4bWXdG2T97IvO27QaUToDLEvISaQsYA8
-	dgaw==
-X-Received: by 10.194.185.238 with SMTP id ff14mr2084267wjc.9.1406123486865;
-	Wed, 23 Jul 2014 06:51:26 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id w10sm9443668wie.22.2014.07.23.06.51.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Jul 2014 06:51:26 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Wed, 23 Jul 2014 13:51:23 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: OE Core <openembedded-core@lists.openembedded.org>
-Message-ID: <20140723135123.GA32767@gmail.com>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: gpgme-config
+	Wed, 23 Jul 2014 14:31:29 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6NEVTxU026560; Wed, 23 Jul 2014 15:31:29 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hLHLgR3MVSYV; Wed, 23 Jul 2014 15:31:29 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6NEVNPZ026280
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 23 Jul 2014 15:31:25 +0100
+Message-ID: <1406125883.22985.121.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 23 Jul 2014 15:31:23 +0100
+In-Reply-To: <20140723135123.GA32767@gmail.com>
+References: <20140723135123.GA32767@gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: gpgme-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,73 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 13:51:33 -0000
-X-Groupsio-MsgNum: 55423
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Jul 2014 14:31:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---XsQoSWH+UP9D9v3l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2014-07-23 at 13:51 +0000, Paul Barker wrote:
+> I'm trying to build opkg with 'gpg' added to PACKAGECONFIG on the master branch
+> of OE. The gpg support for opkg is provided by gpgme, which uses 'gpgme-config'
+> to determine CFLAGS and LIBS when building. After recent changes, the
+> gpgme-config script is now just a dummy and doesn't do anything.
+> 
+> Upstream gpgme do not provide a pkg-config file and an upstream issue about this
+> raised in 2012 was resolved WONTFIX (https://bugs.g10code.com/gnupg/issue1414).
+> 
+> Our options are:
+> 
+> 1) Add a .pc file to gpgme and maintain it within OE as it is very unlikely to
+>    be accepted upstream. Then I need to modify configure.ac in opkg to support
+>    both this pkg-config file (for OE) and the gpgme-config utility (for all
+>    other users of opkg).
 
-Hi all,
+There are a set of applications, all gpg related which we've done this
+for. Its rather sad upstream have this as WONTFIX and I'd love them to
+reconsider this.
 
-I'm trying to build opkg with 'gpg' added to PACKAGECONFIG on the master br=
-anch
-of OE. The gpg support for opkg is provided by gpgme, which uses 'gpgme-con=
-fig'
-to determine CFLAGS and LIBS when building. After recent changes, the
-gpgme-config script is now just a dummy and doesn't do anything.
+How does opkg's configure.ac use gpgme? Does it use the macros from
+gpgme.m4 (or can it)? If it does, we can just patch that m4 file and
+opkg will "just work", this is what happened with the majority of the
+other gpg recipes. The patches tend just to delete a lot of code and are
+relatively simple, hence the overhead isn't so bad.
 
-Upstream gpgme do not provide a pkg-config file and an upstream issue about=
- this
-raised in 2012 was resolved WONTFIX (https://bugs.g10code.com/gnupg/issue14=
-14).
+> 
+> 2) Make an exception to the policy on -config scripts for gpgme.
+> 
+> I haven't really followed the discussion on why -config scripts needed to be
+> removed so I'll put this question to other OE developers. Would option (2) cause
+> more problems in the long run? If so, is it worth the extra effort to follow
+> option (1)?
 
-Our options are:
+If you look at what binconfig.bbclass does, its pretty horrific.
+pkg-config is a much saner way of doing things in a cross compile
+environment that doesn't mean we need to hack the -config scripts each
+time we want to use a different sysroot.
 
-1) Add a .pc file to gpgme and maintain it within OE as it is very unlikely=
- to
-   be accepted upstream. Then I need to modify configure.ac in opkg to supp=
-ort
-   both this pkg-config file (for OE) and the gpgme-config utility (for all
-   other users of opkg).
+There are only a small minority of recipes that don't support pkg-config
+and the plan is just to patch those so they do, regardless of the
+upstream.
 
-2) Make an exception to the policy on -config scripts for gpgme.
+> I'll probably need someone to bounce a few autoconf and pkg-config questions off
+> if I implement option (1) as I'm not very familiar with either system.
 
-I haven't really followed the discussion on why -config scripts needed to be
-removed so I'll put this question to other OE developers. Would option (2) =
-cause
-more problems in the long run? If so, is it worth the extra effort to follow
-option (1)?
+Happy to help. Looking at the other pkgconfig.patch to the other gpg
+pieces would be a good starting point.
 
-I'll probably need someone to bounce a few autoconf and pkg-config question=
-s off
-if I implement option (1) as I'm not very familiar with either system.
+Cheers,
 
-Thanks,
+Richard
 
---=20
-Paul Barker
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---XsQoSWH+UP9D9v3l
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBAgAGBQJTz73bAAoJEBwoJlo7UPQDeoAH/2xqzHBDpF/DIokOj2ljeEp9
-N60h322Yvwhis5d9d5N/SCtpvVuBP513/l+TL6mfi9SNnffhDH+AWfJtVTIziNs2
-d/1LoCQ7BSTfL0o53rsyU1mV+1p9sR3AVjDRWdzTRz9gIky/ObR99qjMPNuZibpM
-xc3URBa9mF8WWYpPMu2PEUbQ4vUChaSFMN+yepwRdXHRXrFLc6UGz0F/Cdnd0oky
-z+5jmHuQy6LSU4tOB/CoC6TVAMd0jsMse/YvhZ4DGHtVlhYPyk5RTyHVOLqlQj8D
-m8baxBUwfv3mNrILQct/nBvAD3+cifcF4KBvbOXmtdOAinVTAUbr4QkJ84vDunE=
-=7bgv
------END PGP SIGNATURE-----
-
---XsQoSWH+UP9D9v3l--
