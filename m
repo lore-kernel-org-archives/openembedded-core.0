@@ -1,39 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 11DFB704E6
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 28DA465D5F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:33:15 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id q108so2302015qgd.9
+	Wed, 23 Jul 2014 22:35:51 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id u56so1923591wes.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 15:33:16 -0700 (PDT)
+	Wed, 23 Jul 2014 15:35:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=kTqBCK6SVzgzTJATBqAJ/sjYUM+YESDH6phRxumJiRc=;
-	b=Dh3Lz71TDnVyx2IbpaSvncyC5G/2ZUBE8vcKQiqN1Tvb/M2AH2oPYTsdK71tQecO8f
-	j7MCAREZA/AZNH4o1I9ean9eFOO+gj9kPX4Mb6oKv+S/quJ/bal6+1yLajB2Yx1o5QTm
-	r7uZv4znYNxi6zmxN1ODFUL2ALqaurjmrFjox7+uKj7J+OoNx4xGU6wzy5lXoWVd6rt4
-	hnxa/OfaDKXPwm9H85ALJCCYPJS4/dwCdewEgRuW51ZlwB9wjQ2tWah06U5zQdpkdxhg
-	+WJuejR456MskjxZeyujUlQ6nJg8ZaO2TLVVl+Qddc48JHJrERt76TLzX640k6eqjrF9
-	ldVg==
-X-Gm-Message-State: ALoCoQnlzRq0EP6awJrPUiPKgfwNJPito5k8Ak7A138BWaLCZWXmk8jdVYyCKu4lQV0Esak0haAJ
-X-Received: by 10.224.111.195 with SMTP id t3mr254163qap.17.1406154796671;
-	Wed, 23 Jul 2014 15:33:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Wed, 23 Jul 2014 15:32:56 -0700 (PDT)
-In-Reply-To: <20140722162610.GV22875@jama>
-References: <20140710164012.3BE7C503BE@opal.openembedded.org>
-	<20140722162610.GV22875@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Jul 2014 23:32:56 +0100
-Message-ID: <CAJTo0LYjVnD_3UUuUeSGiNN1XJT8cTw9uCd9ND4P8_ZOKHo3yA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: debian.bbclass doesn't work in some setups Was: [oe-commits] Ross Burton : package.bbclass: add a stub implementation of package_name_hook
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=/lfj3rlW30g895e+iaPFPstB7y0lQ3t4ZCJt2P1Ozkk=;
+	b=k3KFVlJyjWWbUbg2CQQHFMVLPi/1mh7nB/aJnGHuktirTfeuaYrXtbunqjXrMstU8C
+	OPNDP7q2yKBp7fHzVL9DoqYBMVfb7qjukB6iULMiaJaVYrkGlrvhnb8wX0Qa9IEpY8/n
+	lufyhhjMdGgmc0yq70FMbJGiN+U55Kug0pmpUmAwNsCsX9gAK7BCJ2T5PoBfOVepvEez
+	ZPeEG3w2rwCqUNetuRhXNlVH2nA6hr4skivTutW7k6WSodJQg98fMasu82kzX2IR5SpR
+	AX5HcJqvk/mx/5qhl1IPsThYH+/cyiQzk4GLSHuM3gK6OeH0pc9VXwkKRfV30475Qftv
+	hPPg==
+X-Gm-Message-State: ALoCoQn3ntOgIWeVQJckT7rl6N9XZhEb62pe8V/xKUYDyoS8VDKyB/igR6Ey8cQlyMLG0nA1O3tv
+X-Received: by 10.180.7.230 with SMTP id m6mr7125117wia.3.1406154952570;
+	Wed, 23 Jul 2014 15:35:52 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	fs17sm10025970wjc.6.2014.07.23.15.35.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Jul 2014 15:35:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Jul 2014 23:35:42 +0100
+Message-Id: <1406154942-15571-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] debian.bbclass: inherit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 22:33:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Jul 2014 22:36:01 -0000
 
-On 22 July 2014 17:26, Martin Jansa <martin.jansa@gmail.com> wrote:
-> 16:42 < rburton> JaMa: try moving debian after package_ipk
-> 16:43 < rburton> (maybe we need an inherit package in debian)?
->
-> 16:45 < JaMa> sorry, I've already started different build
->
-> 16:46 < rburton> np
-> 16:47 < rburton> easily tested outside of a build, i'll have a go in a bit
->
-> since then I'm building with this change reverted
+This class defines a package_name_hook implementation but as EXPORT_FUNCTIONS is
+order-dependent it needs to inherit package.bbclass first to ensure that the
+"base" definition in there is defined first, otherwise with a suitable inherit
+order of debian and then a packaging class can result in the stub
+package_name_hook being incorrectly used.
 
-Moving debian to before package_ipkg does indeed replicate the problem
-with an otherwise pure oe-core.  Adding "inherit package" to the top
-of debian.bbclass appears to fix it - presumably because in your case
-with the inherit order of debian and then package_ipk the second
-definition of package_package_name_hook wins.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/debian.bbclass |    3 +++
+ 1 file changed, 3 insertions(+)
 
-(export_functions isn't very nice, is it)
+diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
+index d7ea151..1ddb56f 100644
+--- a/meta/classes/debian.bbclass
++++ b/meta/classes/debian.bbclass
+@@ -8,6 +8,9 @@
+ #
+ # Better expressed as ensure all RDEPENDS package before we package
+ # This means we can't have circular RDEPENDS/RRECOMMENDS
++
++inherit package
++
+ DEBIANRDEP = "do_packagedata"
+ do_package_write_ipk[rdeptask] = "${DEBIANRDEP}"
+ do_package_write_deb[rdeptask] = "${DEBIANRDEP}"
+-- 
+1.7.10.4
 
-Patch incoming.
-
-Ross
 
