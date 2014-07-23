@@ -1,29 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 03A38707F8;
-	Wed, 23 Jul 2014 03:43:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6N3hal3007032
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jul 2014 20:43:36 -0700 (PDT)
-Received: from server.local (128.224.20.108) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.169.1;
-	Tue, 22 Jul 2014 20:43:35 -0700
-Message-ID: <53CF2F66.7040103@windriver.com>
-Date: Tue, 22 Jul 2014 23:43:34 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+Return-Path: <ting.liu@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1blp0190.outbound.protection.outlook.com [207.46.163.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 99CF3707F6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jul 2014 04:01:59 +0000 (UTC)
+Received: from BY2PR03CA034.namprd03.prod.outlook.com (10.242.234.155) by
+	BL2PR03MB148.namprd03.prod.outlook.com (10.255.230.27) with Microsoft
+	SMTP Server (TLS) id 15.0.990.7; Wed, 23 Jul 2014 04:01:59 +0000
+Received: from BN1AFFO11FD047.protection.gbl (2a01:111:f400:7c10::158) by
+	BY2PR03CA034.outlook.office365.com (2a01:111:e400:2c2c::27) with
+	Microsoft
+	SMTP Server (TLS) id 15.0.990.7 via Frontend Transport; Wed, 23 Jul 2014
+	04:01:58 +0000
+Received: from az84smr01.freescale.net (192.88.158.2) by
+	BN1AFFO11FD047.mail.protection.outlook.com (10.58.53.62) with Microsoft
+	SMTP Server (TLS) id 15.0.980.11 via Frontend Transport;
+	Wed, 23 Jul 2014 04:01:58 +0000
+Received: from neptune.ap.freescale.net (neptune.ap.freescale.net
+	[10.192.208.77])
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s6N41r3U017726;
+	Tue, 22 Jul 2014 21:01:56 -0700
+From: <ting.liu@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Jul 2014 11:58:57 +0800
+Message-ID: <1406087937-32112-2-git-send-email-ting.liu@freescale.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1406087937-32112-1-git-send-email-ting.liu@freescale.com>
+References: <1406087937-32112-1-git-send-email-ting.liu@freescale.com>
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:CAL; IPV:NLI;
+	EFV:NLI; SFV:NSPM;
+	SFS:(6009001)(189002)(199002)(20776003)(104016003)(46102001)(33646002)(87286001)(50226001)(106466001)(85306003)(19580395003)(48376002)(19580405001)(50466002)(80022001)(229853001)(77156001)(83322001)(86362001)(93916002)(68736004)(87936001)(4396001)(44976005)(64706001)(97736001)(31966008)(107046002)(47776003)(74662001)(2351001)(74502001)(84676001)(81156004)(89996001)(81342001)(102836001)(62966002)(86152002)(77982001)(6806004)(83072002)(76176999)(95666004)(79102001)(26826002)(99396002)(69596002)(88136002)(85852003)(76482001)(92566001)(36756003)(104166001)(92726001)(110136001)(21056001)(50986999)(81542001);
+	DIR:OUT; SFP:; SCL:1; SRVR:BL2PR03MB148;
+	H:az84smr01.freescale.net; FPR:; MLV:ovrnspm;
+	PTR:InfoDomainNonexistent; MX:1; LANG:en; 
 MIME-Version: 1.0
-To: Gabriel Barbu <gabriel.barbu@enea.com>, Martin Jansa
-	<martin.jansa@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20140618094425.8523A504AA@opal.openembedded.org>	<20140720140213.GA12193@jama>
-	<53CE6C67.4000405@windriver.com> <53CE8676.5000104@enea.com>
-	<53CE8723.5050608@windriver.com>
-In-Reply-To: <53CE8723.5050608@windriver.com>
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : lttng-modules: update to 2.4.1-stable latest
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:
+X-Forefront-PRVS: 028166BF91
+Received-SPF: TempError (: error in processing during lookup of freescale.com:
+	DNS Timeout)
+Authentication-Results: spf=temperror (sender IP is 192.88.158.2)
+	smtp.mailfrom=ting.liu@freescale.com; 
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 2/2] serf: specify LIBDIR to avoid install issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,240 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 03:43:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Jul 2014 04:02:02 -0000
+Content-Type: text/plain
 
-On 2014-07-22, 11:45 AM, Bruce Ashfield wrote:
-> On 14-07-22 11:42 AM, Gabriel Barbu wrote:
->> On 7/22/2014 4:51 PM, Bruce Ashfield wrote:
->>> On 14-07-20 10:02 AM, Martin Jansa wrote:
->>>> On Wed, Jun 18, 2014 at 09:44:25AM +0000, git@git.openembedded.org
->>>> wrote:
->>>>> Module: openembedded-core.git
->>>>> Branch: master
->>>>> Commit: bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
->>>>> URL:
->>>>> http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=bb304f306c0f6ee496a75a67c0bb8a6c1e41ddf2
->>>>>
->>>>>
->>>>>
->>>>>
->>>>> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>> Date:   Tue Jun 17 21:29:51 2014 -0400
->>>>>
->>>>> lttng-modules: update to 2.4.1-stable latest
->>>>>
->>>>> The 3.15, and 3.14.5+ kernels introduced a change to
->>>>> trace_block_rq_complete,
->>>>> which triggers the following build error:
->>>>>
->>>>>
->>>>> probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
->>>>>
->>>>>
->>>>>
->>>>>      error: conflicting types for 'trace_block_rq_complete'
->>>>>      |  void trace_##_name(_proto);
->>>>>      |       ^
->>>>>      |
->>>>>
->>>>> probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
->>>>>
->>>>>
->>>>>
->>>>>      note: in expansion of macro 'DEFINE_EVENT_MAP'
->>>>>      |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto),
->>>>> PARAMS(args))
->>>>>      |   ^
->>>>>      |
->>>>>
->>>>> probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
->>>>>
->>>>>
->>>>>
->>>>>      note: in expansion of macro 'DEFINE_EVENT'
->>>>>      |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
->>>>>
->>>>> The lttng 2.4.x-stable branch contains the fix (and several other
->>>>> small fixes), so
->>>>> we bump the SRCREV to import the change.
->>>>
->>>> We still have lttng-modules 2.3.3 in oe-core which still suffers from
->>>> this issue, can you please drop or fix them?
->>>
->>> I'm currently fighting with 3.16 and lttng .. once I survive my current
->>> battle, I'll see about sorting this out as well.
->>>
->>> Cheers,
->>>
->>> Bruce
->>
->> The reason for which we use the 2.3.3 version is that lttng-modules has
->> blacklisted arm as it was not working with gcc 4.8.
->> However, by implementation it was blacklisted for any gcc version and it
->> still is, even if we are now using gcc 4.9.
->> So I think the solution here would be to remove the blacklist and thus
->> also move to 2.4.1.
->>
->> I tried it for qemuarm and it worked.
->
-> I have a 2.4.2 update that also works here, as well as a 2.5, since I
-> needed
-> to update to get 3.16 working.
+From: Ting Liu <ting.liu@freescale.com>
 
-I've confirmed the lttng I have here works for ARM, so I'll submit
-that on Thursday. I would have sent it tonight, but it looks like we
-can get some 3.16 patches from upstream if I hold for a little while ..
-so I'll do that, and send during the day if I don't hear anything :)
+LIBDIR defaults to ${prefix}/lib, use ${libdir} to avoid issue on
+64bit platforms.
 
-Cheers,
+Signed-off-by: Ting Liu <ting.liu@freescale.com>
+---
+ meta/recipes-support/serf/serf_1.3.6.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Bruce
-
->
-> Either way works for me, but I'll be submitting a patch over top of
-> anything else shortly.
->
-> Cheers,
->
-> Bruce
->
->> If you agree I could submit a patch.
->>
->> Best regards,
->>
->> Gabriel
->>
->>>
->>>>
->>>> 2.3.3 is used by default for qemuarm, because of this in 2.4.1:
->>>> # lttng currently blacklists arm with gcc-4.8
->>>> COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
->>>>
->>>> The issue was already reported 7 times in world status builds.
->>>>
->>>> |   CC [M]
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o
->>>>
->>>>
->>>>
->>>> | In file included from
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/define_trace.h:148:0,
->>>>
->>>>
->>>>
->>>> |                  from
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/block.h:932,
->>>>
->>>>
->>>>
->>>> |                  from
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:41:
->>>>
->>>>
->>>>
->>>> |
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:151:6:
->>>>
->>>>
->>>> error: conflicting types for 'trace_block_rq_complete'
->>>> |  void trace_##_name(_proto);
->>>> |       ^
->>>> |
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/lttng-events.h:117:2:
->>>>
->>>>
->>>> note: in expansion of macro 'DEFINE_EVENT_MAP'
->>>> |   DEFINE_EVENT_MAP(template, name, name, PARAMS(proto), PARAMS(args))
->>>> |   ^
->>>> |
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/../instrumentation/events/lttng-module/../../../probes/../instrumentation/events/lttng-module/block.h:235:1:
->>>>
->>>>
->>>> note: in expansion of macro 'DEFINE_EVENT'
->>>> |  DEFINE_EVENT(block_rq_with_error, block_rq_complete,
->>>> |  ^
->>>> | In file included from include/linux/module.h:18:0,
->>>> |                  from
->>>> /home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.c:23:
->>>>
->>>>
->>>>
->>>> | include/linux/tracepoint.h:168:21: note: previous definition of
->>>> 'trace_block_rq_complete' was here
->>>> |   static inline void trace_##name(proto)    \
->>>> |                      ^
->>>> | include/linux/tracepoint.h:265:3: note: in expansion of macro
->>>> '__DECLARE_TRACE'
->>>> |    __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args), 1, \
->>>> |    ^
->>>> | include/linux/tracepoint.h:399:2: note: in expansion of macro
->>>> 'DECLARE_TRACE'
->>>> |   DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
->>>> |   ^
->>>> | include/trace/events/block.h:143:1: note: in expansion of macro
->>>> 'TRACE_EVENT'
->>>> |  TRACE_EVENT(block_rq_complete,
->>>> |  ^
->>>> | make[3]: ***
->>>> [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes/lttng-probe-block.o]
->>>>
->>>>
->>>> Error 1
->>>> | make[2]: ***
->>>> [/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git/probes]
->>>>
->>>>
->>>> Error 2
->>>> | make[1]: ***
->>>> [_module_/home/jenkins/oe/world/shr-core/tmp-eglibc/work/qemuarm-oe-linux-gnueabi/lttng-modules/2.3.3-r0/git]
->>>>
->>>>
->>>> Error 2
->>>> | make[1]: Leaving directory
->>>> `/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemuarm/usr/src/kernel'
->>>>
->>>>
->>>>
->>>> | make: *** [default] Error 2
->>>>
->>>>>
->>>>> Build tested against 3.14 and 3.10.
->>>>>
->>>>> [YOCTO #6459]
->>>>>
->>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>>
->>>>> ---
->>>>>
->>>>>   meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb | 2 +-
->>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>>> b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>>> index 4ef74dd..5e05ffc 100644
->>>>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.1.bb
->>>>> @@ -10,7 +10,7 @@ DEPENDS = "virtual/kernel"
->>>>>
->>>>>   inherit module
->>>>>
->>>>> -SRCREV = "afdc6b155161f209fcfadc5288dc017ceab56353"
->>>>> +SRCREV = "a0383def517e3aebbbcebae61fe2bcfb50d31e71"
->>>>>   PV = "2.4.1"
->>>>>
->>>>>   # lttng currently blacklists arm with gcc-4.8
->>>>>
->>>>> --
->>>>> _______________________________________________
->>>>> Openembedded-commits mailing list
->>>>> Openembedded-commits@lists.openembedded.org
->>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->>>>
->>>
->>
->
+diff --git a/meta/recipes-support/serf/serf_1.3.6.bb b/meta/recipes-support/serf/serf_1.3.6.bb
+index 9893cb7..08b04d3 100644
+--- a/meta/recipes-support/serf/serf_1.3.6.bb
++++ b/meta/recipes-support/serf/serf_1.3.6.bb
+@@ -21,7 +21,7 @@ do_compile() {
+ }
+ 
+ do_install() {
+-	${STAGING_BINDIR_NATIVE}/scons PREFIX=${D}${prefix} install
++	${STAGING_BINDIR_NATIVE}/scons PREFIX=${D}${prefix} LIBDIR=${D}${libdir} install
+ }
+ 
+-BBCLASSEXTEND = "native"
+\ No newline at end of file
++BBCLASSEXTEND = "native"
+-- 
+1.8.3.2
 
 
