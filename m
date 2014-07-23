@@ -1,47 +1,24 @@
-Return-Path: <ting.liu@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2lp0210.outbound.protection.outlook.com [207.46.163.210])
-	by mail.openembedded.org (Postfix) with ESMTP id E837E707F6
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 43D877058C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 04:01:57 +0000 (UTC)
-Received: from CH1PR03CA009.namprd03.prod.outlook.com (10.255.156.154) by
-	BL2PR03MB145.namprd03.prod.outlook.com (10.255.230.13) with Microsoft
-	SMTP Server (TLS) id 15.0.995.14; Wed, 23 Jul 2014 04:01:57 +0000
-Received: from BN1AFFO11FD039.protection.gbl (10.255.156.132) by
-	CH1PR03CA009.outlook.office365.com (10.255.156.154) with Microsoft SMTP
-	Server (TLS) id 15.0.990.7 via Frontend Transport;
-	Wed, 23 Jul 2014 04:01:56 +0000
-Received: from az84smr01.freescale.net (192.88.158.2) by
-	BN1AFFO11FD039.mail.protection.outlook.com (10.58.52.243) with
-	Microsoft SMTP Server (TLS) id 15.0.980.11 via Frontend Transport;
-	Wed, 23 Jul 2014 04:01:56 +0000
-Received: from neptune.ap.freescale.net (neptune.ap.freescale.net
-	[10.192.208.77])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s6N41r3T017726;
-	Tue, 22 Jul 2014 21:01:54 -0700
-From: <ting.liu@freescale.com>
+	Wed, 23 Jul 2014 06:59:26 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6N6xRpM008110
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Jul 2014 23:59:27 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 22 Jul 2014 23:59:27 -0700
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Jul 2014 11:58:56 +0800
-Message-ID: <1406087937-32112-1-git-send-email-ting.liu@freescale.com>
-X-Mailer: git-send-email 1.8.3.2
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:CAL; IPV:NLI;
-	EFV:NLI; SFV:NSPM;
-	SFS:(6009001)(189002)(199002)(85306003)(4396001)(50226001)(106466001)(83072002)(105606002)(81156004)(50466002)(48376002)(46102001)(95666004)(76482001)(104016003)(77982001)(62966002)(107046002)(36756003)(110136001)(229853001)(83322001)(85852003)(77156001)(86152002)(79102001)(102836001)(92726001)(2351001)(44976005)(92566001)(19580395003)(68736004)(31966008)(104166001)(87286001)(81342001)(88136002)(74662001)(81542001)(20776003)(84676001)(97736001)(74502001)(87936001)(80022001)(64706001)(99396002)(33646002)(47776003)(26826002)(19580405001)(93916002)(21056001)(69596002)(6806004)(86362001)(50986999)(89996001);
-	DIR:OUT; SFP:; SCL:1; SRVR:BL2PR03MB145;
-	H:az84smr01.freescale.net; FPR:; MLV:ovrnspm;
-	PTR:InfoDomainNonexistent; MX:1; LANG:en; 
+Date: Wed, 23 Jul 2014 02:59:25 -0400
+Message-ID: <1406098765-27347-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:
-X-Forefront-PRVS: 028166BF91
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.158.2 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.158.2)
-	smtp.mailfrom=ting.liu@freescale.com; 
-X-OriginatorOrg: freescale.com
-Subject: [PATCH 1/2] perf: remove CFLAGS override
+Subject: [PATCH] net-tools: ifconfig interface:0 del <IP> will remove the aliased IP on IA64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 04:02:04 -0000
+X-List-Received-Date: Wed, 23 Jul 2014 06:59:29 -0000
 Content-Type: text/plain
 
-From: Ting Liu <ting.liu@freescale.com>
+From: Yong Zhang <yong.zhang@windriver.com>
 
-definition of __SANE_USERSPACE_TYPES__ was added in kernel source by
-commit e3541ec75219819d3235f80125a1a75d798ff6e1
-perf tools, powerpc: Fix compile warnings in tests/attr.c
-
-Overriding the CFLAGS makes it impossible for kernel build system to
-append to it, thus making the build fail in various ways as:
-
-|     CC /.../perf/1.0-r9/perf-1.0/perf.o
-| In file included from builtin.h:4:0,
-|                  from perf.c:9:
-| util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
-|  #include <lk/debugfs.h>
-|                         ^
-| compilation terminated.
-
-Signed-off-by: Ting Liu <ting.liu@freescale.com>
+Signed-off-by: Yong Zhang <yong.zhang@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 7 -------
- 1 file changed, 7 deletions(-)
+ ...terface-0-del-IP-will-remove-the-aliased-.patch | 32 ++++++++++++++++++++++
+ .../net-tools/net-tools_1.60-25.bb                 |  4 ++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/ifconfig-interface-0-del-IP-will-remove-the-aliased-.patch
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 20968f9..222ae83 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -92,13 +92,6 @@ EXTRA_OEMAKE += "\
- 	'infodir=${@os.path.relpath(infodir, prefix)}' \
- "
+diff --git a/meta/recipes-extended/net-tools/net-tools/ifconfig-interface-0-del-IP-will-remove-the-aliased-.patch b/meta/recipes-extended/net-tools/net-tools/ifconfig-interface-0-del-IP-will-remove-the-aliased-.patch
+new file mode 100644
+index 0000000..06f8142
+--- /dev/null
++++ b/meta/recipes-extended/net-tools/net-tools/ifconfig-interface-0-del-IP-will-remove-the-aliased-.patch
+@@ -0,0 +1,32 @@
++From 81814dc2b14843009193efd307d814c26baa61f0 Mon Sep 17 00:00:00 2001
++From: Jiri Popelka <jpopelka@redhat.com>
++Date: Wed, 7 Dec 2011 19:14:09 +0100
++Subject: [PATCH] ifconfig interface:0 del <IP> will remove the aliased IP on IA64
++
++Upstream-Status: Backport
++
++commit 81814dc2b14843009193efd307d814c26baa61f0 from
++git://git.code.sf.net/p/net-tools/code
++
++---
++ ifconfig.c |    4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/ifconfig.c b/ifconfig.c
++index bc405c6..dae8922 100644
++--- a/ifconfig.c
+++++ b/ifconfig.c
++@@ -890,7 +890,9 @@ int main(int argc, char **argv)
++ 		    continue;
++ 		}
++ 		
++-		memcpy(&ip, &sin.sin_addr.s_addr, sizeof(unsigned long));
+++		/* Clear "ip" in case sizeof(unsigned long) > sizeof(sin.sin_addr.s_addr) */
+++		ip = 0;
+++		memcpy(&ip, &sin.sin_addr.s_addr, sizeof(sin.sin_addr.s_addr));
++ 		
++ 		if (get_nmbc_parent(ifr.ifr_name, &nm, &bc) < 0) {
++ 		    fprintf(stderr, _("Interface %s not initialized\n"),
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-25.bb b/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
+index 5a7b307..02826a0 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
+@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+ SRC_URI = "${DEBIAN_MIRROR}/main/n/net-tools/net-tools_1.60.orig.tar.gz;name=tarball \
+            ${DEBIAN_MIRROR}/main/n/net-tools/${BPN}_${PV}.diff.gz;apply=no;name=patch \
+            file://net-tools-config.h \
+-           file://net-tools-config.make" 
++           file://net-tools-config.make \
++           file://ifconfig-interface-0-del-IP-will-remove-the-aliased-.patch \
++	   "
  
--# PPC64 uses long long for u64 in the kernel, but powerpc's asm/types.h
--# prevents 64-bit userland from seeing this definition, instead defaulting
--# to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get 
--# int-ll64.h included. And MIPS64 has the same issue.
--EXTRA_OEMAKE_append_powerpc64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
--EXTRA_OEMAKE_append_mips64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
--
- PARALLEL_MAKE = ""
+ S = "${WORKDIR}/net-tools-1.60"
  
- do_compile() {
 -- 
-1.8.3.2
+2.0.0
 
 
