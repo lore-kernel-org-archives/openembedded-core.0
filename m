@@ -1,37 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 28DA465D5F
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 5219C65C93
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:35:51 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u56so1923591wes.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 15:35:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=/lfj3rlW30g895e+iaPFPstB7y0lQ3t4ZCJt2P1Ozkk=;
-	b=k3KFVlJyjWWbUbg2CQQHFMVLPi/1mh7nB/aJnGHuktirTfeuaYrXtbunqjXrMstU8C
-	OPNDP7q2yKBp7fHzVL9DoqYBMVfb7qjukB6iULMiaJaVYrkGlrvhnb8wX0Qa9IEpY8/n
-	lufyhhjMdGgmc0yq70FMbJGiN+U55Kug0pmpUmAwNsCsX9gAK7BCJ2T5PoBfOVepvEez
-	ZPeEG3w2rwCqUNetuRhXNlVH2nA6hr4skivTutW7k6WSodJQg98fMasu82kzX2IR5SpR
-	AX5HcJqvk/mx/5qhl1IPsThYH+/cyiQzk4GLSHuM3gK6OeH0pc9VXwkKRfV30475Qftv
-	hPPg==
-X-Gm-Message-State: ALoCoQn3ntOgIWeVQJckT7rl6N9XZhEb62pe8V/xKUYDyoS8VDKyB/igR6Ey8cQlyMLG0nA1O3tv
-X-Received: by 10.180.7.230 with SMTP id m6mr7125117wia.3.1406154952570;
-	Wed, 23 Jul 2014 15:35:52 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	fs17sm10025970wjc.6.2014.07.23.15.35.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Jul 2014 15:35:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 23 Jul 2014 22:41:46 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6NMflLA024804 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Jul 2014 17:41:47 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072317414762-160562 ;
+	Wed, 23 Jul 2014 17:41:47 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Jul 2014 23:35:42 +0100
-Message-Id: <1406154942-15571-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] debian.bbclass: inherit package
+Date: Wed, 23 Jul 2014 17:41:30 -0500
+Message-Id: <1406155290-25903-1-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/23/2014 05:41:47 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/23/2014 05:41:47 PM,
+	Serialize complete at 07/23/2014 05:41:47 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-23_07:2014-07-23, 2014-07-23,
+	1970-01-01 signatures=0
+Cc: Brad Mouring <brad.mouring@ni.com>
+Subject: [PATCH] eglibc: Make ld.so.conf more flexible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 22:36:01 -0000
+X-List-Received-Date: Wed, 23 Jul 2014 22:41:49 -0000
 
-This class defines a package_name_hook implementation but as EXPORT_FUNCTIONS is
-order-dependent it needs to inherit package.bbclass first to ensure that the
-"base" definition in there is defined first, otherwise with a suitable inherit
-order of debian and then a packaging class can result in the stub
-package_name_hook being incorrectly used.
+From: Brad Mouring <brad.mouring@ni.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Most modern distros will include conf files in /etc/ld.so.conf.d/
+when generating the ld.so cache. This change will bring that flexibility.
+
+Signed-off-by: Brad Mouring <brad.mouring@ni.com>
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+Acked-by: Ken Sharp <ken.sharp@ni.com>
+Acked-by: Rich Tollerton <rich.tollerton@ni.com>
 ---
- meta/classes/debian.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-index d7ea151..1ddb56f 100644
---- a/meta/classes/debian.bbclass
-+++ b/meta/classes/debian.bbclass
-@@ -8,6 +8,9 @@
- #
- # Better expressed as ensure all RDEPENDS package before we package
- # This means we can't have circular RDEPENDS/RRECOMMENDS
-+
-+inherit package
-+
- DEBIANRDEP = "do_packagedata"
- do_package_write_ipk[rdeptask] = "${DEBIANRDEP}"
- do_package_write_deb[rdeptask] = "${DEBIANRDEP}"
+diff --git a/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf b/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf
+index e69de29..83327c0 100644
+--- a/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf
++++ b/meta/recipes-core/eglibc/eglibc-2.19/etc/ld.so.conf
+@@ -0,0 +1 @@
++include /etc/ld.so.conf.d/*.conf
 -- 
-1.7.10.4
+2.0.2
 
 
