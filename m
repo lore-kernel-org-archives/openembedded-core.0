@@ -1,38 +1,28 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 261D6707C9
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CAAB9707CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 00:21:52 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20140723002152880
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 00:21:52 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [64.134.185.139] (port=58443 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1X9kJW-0001ET-Q3 for openembedded-core@lists.openembedded.org;
-	Tue, 22 Jul 2014 20:21:46 -0400
-Date: Tue, 22 Jul 2014 20:21:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1407222018550.25203@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Wed, 23 Jul 2014 01:32:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6N1WDEI024063
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Jul 2014 18:32:13 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Tue, 22 Jul 2014 18:32:12 -0700
+Message-ID: <53CF10A2.7000402@windriver.com>
+Date: Wed, 23 Jul 2014 09:32:18 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: if a layer doesn't provide any conf/ or classes/ files, any need for BBPATH?
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1406015054.git.rongqing.li@windriver.com>
+	<CAJTo0LZCtnBuZrWBuBmxdO8Z5SYRFbO1tYR2_GUCp4TNet9Ugg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZCtnBuZrWBuBmxdO8Z5SYRFbO1tYR2_GUCp4TNet9Ugg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/16 v2] merge 16 CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Jul 2014 00:21:57 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 23 Jul 2014 01:32:14 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-  i just noticed that the meta-oe/meta-filesystems layer provides no
-(additional) conf/ files or classes/ files. so in a case like that, is
-there any need to add that layer info to BBPATH in its layer.conf
-file?
 
-  conversely, if a layer contains no .bb or .bbappend files, does it
-need to be included in BBFILES?
+On 07/22/2014 04:22 PM, Burton, Ross wrote:
+> On 22 July 2014 08:46,  <rongqing.li@windriver.com> wrote:
+>> Yue Tao (16):
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0866
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0875
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0860
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3934
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3946
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7023
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7009
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0855
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-4351
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0848
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3944
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-7010
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2011-3941
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0846
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6618
+>>    gst-ffmpeg: Security Advisory - ffmpeg - CVE-2012-6617
+>
+> As there's no benefit in being able to bisect this, I think it would
+> be neater if these were squashed into a single commit.
+>
 
-rday
+I am fine, Saul can squash them when merge
+
+-Roy
+
+> Ross
+>
+>
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Best Reagrds,
+Roy | RongQing Li
 
