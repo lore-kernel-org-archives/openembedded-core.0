@@ -1,26 +1,34 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B4BDC707B6
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 495 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 24 Jul 2014 07:52:51 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.102])
+	by mail.openembedded.org (Postfix) with ESMTP id B32B665CD8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 05:55:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6O5tMqc021126
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 24 Jul 2014 07:52:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kmu-office.ch (Postfix) with ESMTP id 3C69E4267DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:55:22 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 23 Jul 2014 22:55:21 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 01:55:16 -0400
-Message-ID: <84ab99f5395e31f0434b29dd578051d1fcb61c9f.1406181188.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
-In-Reply-To: <cover.1406181188.git.jackie.huang@windriver.com>
-References: <cover.1406181188.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] gstreamer1.0-plugins-good: add missing dependency on libcap
+	Thu, 24 Jul 2014 09:44:28 +0200 (CEST)
+X-Virus-Scanned: by amavisd-new at kmu-office.ch
+Received: from mail.kmu-office.ch ([127.0.0.1])
+	by localhost (mail.kmu-office.ch [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EbDE0bDOalqs
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 09:44:28 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kmu-office.ch (Postfix) with ESMTP id 21775426A31
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 09:44:28 +0200 (CEST)
+Received: from trochilidae.toradex.int (unknown [46.140.72.82])
+	(Authenticated sender: stefan@agner.ch)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id F1C944267DC;
+	Thu, 24 Jul 2014 09:44:27 +0200 (CEST)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Jul 2014 09:44:22 +0200
+Message-Id: <1406187862-2819-1-git-send-email-stefan@agner.ch>
+X-Mailer: git-send-email 2.0.2
+Subject: [PATCH] shadow-securetty: add freescale lpuart
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +41,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 05:55:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Jul 2014 07:52:54 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Add Freescale lpuart tty's (ttyLPx) to securetty. Freescale Vybrid
+devices running upstream kernel use this driver.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Stefan Agner <stefan@agner.ch>
 ---
- .../gstreamer/gstreamer1.0-plugins-good.inc        |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/shadow/files/securetty | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index b73bcd0..4e76a33 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -3,7 +3,7 @@ require gstreamer1.0-plugins.inc
- LICENSE = "GPLv2+ & LGPLv2.1+"
+diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+index 0b1629f..d919993 100644
+--- a/meta/recipes-extended/shadow/files/securetty
++++ b/meta/recipes-extended/shadow/files/securetty
+@@ -137,6 +137,14 @@ ttymxc3
+ ttymxc4
+ ttymxc5
  
- # libid3tag
--DEPENDS += "gstreamer1.0-plugins-base zlib bzip2"
-+DEPENDS += "gstreamer1.0-plugins-base zlib bzip2 libcap"
- 
- inherit gettext
- 
++# Freescale lpuart ports
++ttyLP0
++ttyLP1
++ttyLP2
++ttyLP3
++ttyLP4
++ttyLP5
++
+ # Standard serial ports, with devfs
+ tts/0
+ tts/1
 -- 
-1.7.9.5
+2.0.2
 
 
