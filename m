@@ -1,34 +1,31 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CA4EE707A8
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CFDF707E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 14:32:41 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6OEWha3025300 for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 09:32:43 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072409324344-189228 ;
-	Thu, 24 Jul 2014 09:32:43 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jul 2014 09:32:26 -0500
-Message-Id: <1406212346-25553-2-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.2
-In-Reply-To: <1406212346-25553-1-git-send-email-ben.shelton@ni.com>
-References: <1406212346-25553-1-git-send-email-ben.shelton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/24/2014 09:32:43 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/24/2014 09:32:43 AM,
-	Serialize complete at 07/24/2014 09:32:43 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-24_03:2014-07-24, 2014-07-24,
-	1970-01-01 signatures=0
-Subject: [PATCH v2 2/2] util-linux: break out new package util-linux-findfs
+	Thu, 24 Jul 2014 14:59:15 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1XAKUG-0000xa-SF from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jul 2014 07:59:16 -0700
+Received: from SVR-ORW-FEM-06.mgc.mentorg.com ([147.34.97.120]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 24 Jul 2014 07:59:16 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	SVR-ORW-FEM-06.mgc.mentorg.com (147.34.97.120) with Microsoft SMTP
+	Server id 14.2.247.3; Thu, 24 Jul 2014 07:59:15 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Jul 2014 10:59:11 -0400
+Message-ID: <1406213951-11347-2-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1406213951-11347-1-git-send-email-drew_moseley@mentor.com>
+References: <D4601E2D-F5E9-4AD3-AB6A-A67B0D4FD4E4@mentor.com>
+	<1406213951-11347-1-git-send-email-drew_moseley@mentor.com>
+MIME-Version: 1.0
+X-OriginalArrivalTime: 24 Jul 2014 14:59:16.0687 (UTC)
+	FILETIME=[D6E8CDF0:01CFA74F]
+Subject: [PATCH V2 2/2] libomxil-0.9.3: Remove versioning for bellagio .so files.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,43 +38,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 14:32:44 -0000
+X-List-Received-Date: Thu, 24 Jul 2014 14:59:19 -0000
+Content-Type: text/plain
 
-From: Richard Tollerton <rich.tollerton@ni.com>
+The so files installed under ${libdir}/bellagio are not versioned and should
+be installed without version-based symlinks so that omxregister-bellagio
+can properly find and register them.
 
-We'd like to include the util-linux version of findfs in images without
-having to include all of util-linux. To make this possible, break out
-findfs into its own package.
-
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../libomxil-0.9.3/disable-so-versioning.patch     | 36 ++++++++++++++++++++++
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 10 ++++--
+ 2 files changed, 43 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index d640a5f..ffb84c4 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -36,7 +36,8 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
--             util-linux-partx ${PN}-bash-completion util-linux-hwclock"
-+             util-linux-partx ${PN}-bash-completion util-linux-hwclock \
-+             util-linux-findfs"
+diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
+new file mode 100644
+index 0000000..f408e4a
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
+@@ -0,0 +1,36 @@
++Disable so versioning since they are really not a versioned shared lib.
++
++Upstream-Status: Submitted @ https://sourceforge.net/p/omxil/bugs/59/
++
++Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
++
++diff -rub libomxil-bellagio-0.9.3-orig/src/components/audio_effects/Makefile.am libomxil-bellagio-0.9.3/src/components/audio_effects/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/components/audio_effects/Makefile.am	2014-07-20 15:22:00.858425234 -0400
+++++ libomxil-bellagio-0.9.3/src/components/audio_effects/Makefile.am	2014-07-20 15:25:42.687525225 -0400
++@@ -10,4 +10,5 @@
++ libomxaudio_effects_la_CFLAGS = -I$(top_srcdir)/include \
++ 				-I$(top_srcdir)/src \
++ 				-I$(top_srcdir)/src/base
+++libomxaudio_effects_la_LDFLAGS = -avoid-version
++ 
++diff -rub libomxil-bellagio-0.9.3-orig/src/components/clocksrc/Makefile.am libomxil-bellagio-0.9.3/src/components/clocksrc/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/components/clocksrc/Makefile.am	2014-07-20 15:22:00.858425234 -0400
+++++ libomxil-bellagio-0.9.3/src/components/clocksrc/Makefile.am	2014-07-20 15:24:49.151259753 -0400
++@@ -10,4 +10,4 @@
++                              -I$(top_srcdir)/include \
++                              -I$(top_srcdir)/src \
++                              -I$(top_srcdir)/src/base
++-
+++libomxclocksrc_la_LDFLAGS = -avoid-version
++diff -rub libomxil-bellagio-0.9.3-orig/src/components/videoscheduler/Makefile.am libomxil-bellagio-0.9.3/src/components/videoscheduler/Makefile.am
++--- libomxil-bellagio-0.9.3-orig/src/components/videoscheduler/Makefile.am	2014-07-20 15:22:00.862425254 -0400
+++++ libomxil-bellagio-0.9.3/src/components/videoscheduler/Makefile.am	2014-07-20 15:22:36.462601786 -0400
++@@ -6,7 +6,7 @@
++ 								library_entry_point.c
++ 
++ libomxvideosched_la_LIBADD = $(top_builddir)/src/libomxil-bellagio.la
++-libomxvideosched_la_LDFLAGS = 
+++libomxvideosched_la_LDFLAGS = -avoid-version
++ libomxvideosched_la_CFLAGS = -I$(top_srcdir)/include \
++ 			-I$(top_srcdir)/src \
++ 			-I$(top_srcdir)/src/base
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index 103d789..40d6df8 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -12,7 +12,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
+            file://configure-fix.patch \
+            file://parallel-make.patch \
+            file://makefile-docdir-fix.patch \
+-           file://dynamicloader-linking.patch"
++           file://dynamicloader-linking.patch \
++           file://disable-so-versioning.patch"
  
- SHARED_EXTRA_OECONF = "--disable-use-tty-group \
-                        --disable-makeinstall-chown \
-@@ -79,6 +80,7 @@ FILES_util-linux-uuidd = "${sbindir}/uuidd"
- FILES_util-linux-reset = "${base_bindir}/reset"
- FILES_util-linux-partx = "${sbindir}/partx"
- FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
-+FILES_util-linux-findfs = "${sbindir}/findfs"
+ SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
+ SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
+@@ -23,12 +24,15 @@ inherit autotools
  
- FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
- FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
+ EXTRA_OECONF += "--disable-doc --disable-Werror"
+ 
+-FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
++#
++# The .so files under ${libdir}/bellagio are not intended to be versioned and symlinked.
++# Make sure they get packaged in the main package.
++#
++FILES_${PN} += "${libdir}/bellagio/*.so \
+                 ${libdir}/omxloaders/*${SOLIBS}"
+ FILES_${PN}-staticdev += "${libdir}/bellagio/*.a \
+                           ${libdir}/omxloaders/*.a"
+ FILES_${PN}-dev += "${libdir}/bellagio/*.la \
+-                    ${libdir}/bellagio/*${SOLIBSDEV} \
+                     ${libdir}/omxloaders/*.la \
+                     ${libdir}/omxloaders/*${SOLIBSDEV}"
+ FILES_${PN}-dbg += "${libdir}/bellagio/.debug/ \
 -- 
-2.0.2
+1.9.1
 
 
