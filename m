@@ -1,37 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CE59707E1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id F2450705D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 13:42:49 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id u57so2783425wes.24
+	Thu, 24 Jul 2014 13:47:38 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id f51so3244745qge.18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 06:42:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Qa9t2kCPaG7UXqlu3FKbiNKpi1p6OaWiGDkoF1M0nrE=;
-	b=x3KfXHvrdy1IEHQBnHN0e+9hyqt4cByXbljAP7mNs1PBZCigHs7dU59lb2YTX34eBq
-	NFc8vQDZ8ReNsZx5C1ugLGhg0Dl7Htq2ijz3kDi/kwSWLu4fKCXBU9u4YTpZnhrJUZV+
-	bB7vBZTIvuiVPAtygq+JqzOEMCyUsyTa/V72UU3DCfxzgmmEc6ymKymLrjA/aRDy9g0x
-	9X2f/lEdnB7i5PL1bfmqS3/cBPnXjl209ZBzZazvr5NCpv9u9uAM4GfAHw3Ch8DdxcTe
-	wag4iJJuMW72xKmg8Q8vthdItFtNKUlZz4bLagGma0uHW1Jpobb3UgaCD0s6tHlPtxOl
-	0Hlw==
-X-Received: by 10.194.90.228 with SMTP id bz4mr12442886wjb.65.1406209370362;
-	Thu, 24 Jul 2014 06:42:50 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	eo4sm23217154wid.4.2014.07.24.06.42.49 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Jul 2014 06:42:49 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jul 2014 15:42:59 +0200
-Message-Id: <1406209379-1662-4-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.2
-In-Reply-To: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
+	Thu, 24 Jul 2014 06:47:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=fVkipx/d5a31BoYjJyimTrTHS8jCqnWt9KQP3zaPyF0=;
+	b=fF4yefPJvfRXVVQh+YqUAOKqZvEpYExa/LXcW5sAy3fj4F6v45GxWVulw3hpyjClPj
+	vbYPDIdhIVo3l3P5wSOI1mySiDzWqOTwZewY6RoecM0aUsZmCQhwQKXzyaGL1GwVoSFG
+	xNQGsvx3p22qt5ZGHoI3C2ZQgwoE/9XtqRx0OUoTPJOCU6Mh/vHI/kRubRwYvRwtmN3A
+	cVowR1EjWNCh1m9NOfoZuAZaSyIIQSOJllMa4vAFm/QpE+UuZFLtYnRYetEF9d3Og3I9
+	sCNruwPcz24Bv7VP4MMUIYYW0QvmY8wMCdWvs4r9EBKFd+TOUGAcSsDTKHnnZwFu1b2N
+	WiNA==
+X-Gm-Message-State: ALoCoQmV1o5abd52Kd4ZozD3feYUtt2Q5qgEIFaINpJkuXHPrdlbk8Du4EyL80FwwulF12SCdK1h
+X-Received: by 10.140.19.100 with SMTP id 91mr14935302qgg.32.1406209659585;
+	Thu, 24 Jul 2014 06:47:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.86.99 with HTTP; Thu, 24 Jul 2014 06:47:19 -0700 (PDT)
+In-Reply-To: <1406209379-1662-3-git-send-email-Martin.Jansa@gmail.com>
 References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 4/4] recipes-qt: add x11 to required DISTRO_FEATURES
+	<1406209379-1662-3-git-send-email-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jul 2014 14:47:19 +0100
+Message-ID: <CAJTo0LYLswjg2WOSFDadNNgLXeJQ4PqYPBLEpypqVBZAxzgTWg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] xorg-driver: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,74 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 13:42:51 -0000
+X-List-Received-Date: Thu, 24 Jul 2014 13:47:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* it's not complete, but recipes depending on virtual/libx11 are easiest
-  to spot, I've long list of PNBLACKLIST for all recipes which cannot
-  be built in distro without x11 in DISTRO_FEATURES
+On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+> +# depends on virtual/libx11
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/qt4x11.bbclass                                       | 5 ++++-
- meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb | 4 ++++
- meta/recipes-qt/qt4/qt4-x11-free.inc                              | 5 ++++-
- 3 files changed, 12 insertions(+), 2 deletions(-)
+I think these comments are fairly redundant - it's an X11 driver, of
+course it depends on X11. :)
 
-diff --git a/meta/classes/qt4x11.bbclass b/meta/classes/qt4x11.bbclass
-index 65d196a..bdbfc4a 100644
---- a/meta/classes/qt4x11.bbclass
-+++ b/meta/classes/qt4x11.bbclass
-@@ -1,7 +1,10 @@
- QT4DEPENDS ?= "qt4-x11 "
- DEPENDS_prepend = "${QT4DEPENDS}"
- 
--inherit qmake2
-+# depends on qt4-x11
-+REQUIRED_DISTRO_FEATURES = "x11"
-+
-+inherit qmake2 distro_features_check
- 
- QT_BASE_NAME = "qt4"
- QT_DIR_NAME = "qt4"
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
-index 0e7c800..772c151 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
-+++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
-@@ -4,6 +4,10 @@ QTLIBPREFIX = ""
- 
- require packagegroup-qt-toolchain-target.inc
- 
-+inherit distro_features_check
-+# depends on qt4-x11-free
-+REQUIRED_DISTRO_FEATURES = "x11"
-+
- RDEPENDS_${PN} += " \
-         qt4-x11-free-dev \
-         ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'libqtopengl4-dev', '', d)} \
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index 3b1e0fe..b621f8e 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -8,6 +8,9 @@ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender li
- PROVIDES += "qt4-x11"
- QT4DEPENDS = ""
- 
-+# depends on virtual/libx11
-+REQUIRED_DISTRO_FEATURES = "x11"
-+
- INC_PR = "r50"
- 
- QT_GLFLAGS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
-@@ -21,7 +24,7 @@ QT_BASE_LIB  ?= "libqt"
- QT_KDE_FLAGS ?= "-accessibility -sm"
- QT_DISTRO_FLAGS ?= "${QT_KDE_FLAGS}"
- 
--inherit qt4x11
-+inherit qt4x11 distro_features_check
- 
- do_install_append() {
-   # fix pkgconfig, libtool and prl files
--- 
-2.0.2
-
+Ross
 
