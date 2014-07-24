@@ -1,41 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 868D270194
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 55FFA6FECD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 15:22:02 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id m15so2874131wgh.15
+	Thu, 24 Jul 2014 15:26:18 +0000 (UTC)
+Received: by mail-ig0-f169.google.com with SMTP id r2so6649928igi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 08:22:03 -0700 (PDT)
+	Thu, 24 Jul 2014 08:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=+3cqe0GFwy2mYxJyLAV/oTdDo9Uut+jqdgfNATq5VlM=;
-	b=v7Z+WekG8GI0pdhU5KPaCdymXwylQaolgkE0QOiNBS6nx4IsgGbqIYqgoCUvzHAEub
-	f2x2P3iAMeUiIzthDwDq7c9BgoPm1BOhsGV+sgpvMJq2JhE6AoXHWAu4t7OF+mSz+QZM
-	N6zRihL9J+IiQTn5CILEDwhRc36w5Nn30pqmFwNQ+tseUR5i95ZvByEf41xUSlxJ2RHI
-	YX/6QGCWdo7thoRGweU1LGDYL65onwgCwKl3znm5AJSKuu1PkE4IAe+K9FHzMlDMkyvS
-	/70kn2YCZsH8iyxP3rLena2uDgWTMdOip/ijQQakTYeuGZpgqDrhs16ReCjlC4yRrEcd
-	afYg==
-X-Received: by 10.180.11.135 with SMTP id q7mr13910944wib.67.1406215323179;
-	Thu, 24 Jul 2014 08:22:03 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	10sm16697253wjx.26.2014.07.24.08.22.01 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Jul 2014 08:22:01 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 24 Jul 2014 17:22:18 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20140724152218.GM2492@jama>
-References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
-	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=2jd8PgloVkydhswfWTKm9Hh+us97589iABCWLzCEsWc=;
+	b=Fr2K1aLXmtXP8tdnrFDQzOhfMOl1Q0BM+n6IWu2X4YjeYEJlUPWVq9Bgj3c90DYqW2
+	u5A5xuydbEAtTkbcgyO+qLZT/RLPWLnm4mHouc6tc/GTLFb6Jz9mXRzjIbCYsCnt9PWR
+	TTopKXy/hXRZCRXAOay7Vw65ZQl60m0TOG4bc3Nkdfhkwmdae111N5VjLlXY6VkOy2B4
+	D4p/NXxTg/cfhRMM2jFDu9B1K1O+EmbPFHjNWgdN/enbZs/B4LQed5n4GyAVKMuvJ6Fm
+	Bt8njr0ABgeiead+f88zaJYNJGYL1zoomgkVXcizA7/CykVgfzHnohNpSVjqOU/JcsJE
+	8WAA==
+X-Received: by 10.50.25.71 with SMTP id a7mr39716254igg.17.1406215579420; Thu,
+	24 Jul 2014 08:26:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
+Received: by 10.50.78.105 with HTTP; Thu, 24 Jul 2014 08:25:49 -0700 (PDT)
+In-Reply-To: <53D09B99.2030301@windriver.com>
+References: <53D09B99.2030301@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 24 Jul 2014 08:25:49 -0700
+Message-ID: <CAMKF1spOer0K3cq-XvzEDPoZ0U5-N9q2CLNU2s3_mfjrFwSZWw@mail.gmail.com>
+To: Liu Jian <jian.liu@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] archiver: delete the tail slash in directory name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,71 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 15:22:07 -0000
-X-Groupsio-MsgNum: 55511
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="c2gYorpyS4gG0T74"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Jul 2014 15:26:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
---c2gYorpyS4gG0T74
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jul 23, 2014 at 10:37 PM, Liu Jian <jian.liu@windriver.com> wrote:
+> local = fetch.localpath(url)
+> + local = local.rstrip("/")
 
-On Thu, Jul 24, 2014 at 02:52:45PM +0100, Burton, Ross wrote:
-> On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > +REQUIRED_DISTRO_FEATURES =3D "x11"
->=20
-> Now I'm wondering why this is the solution.
->=20
-> If you attempt to build e.g. gnome-desktop explicitly without the x11
-> distro feature you understandably get an error message, because
-> gnome-desktop depends on libx11 which sanity checks the distro
-> features.  This seems correct.
->=20
-> Presumably you're problem is that you're running world builds and
-> they're producing errors on gnome-desktop because they can't satisfy a
-> dependency on libx11.  It seems that bubbling up the
-> REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
-> can't SkipPackage be handled specially, so if you do bitbake -k world
-> and libx11 emits SkipPackage, anything that has unsatisfiable
-> dependencies because of this is also skipped?
+may be you could just do local = fetch.localpath(url).rstrip("/") in
+the same line
 
-We discussed this many months ago and IIRC the conclusion was that user
-should explicitly say that he wants to skip the recipes which depend on
-something skipped (so that he is aware of what he is missing).
-
-At that time there wasn't REQUIRED_DISTRO_FEATURES support, so I've
-created huge list of PNBLACKLISTs to blacklist everything not available
-in our setup - so I can do world builds without ERRORs at the beginning.
-
-REQUIRED_DISTRO_FEATURES seems to me like reasonable compromise, that's
-why I've sent this patchset to replace small part of my huge blacklist.
-
-This is the list:
-https://github.com/openwebos/meta-webos/blob/master/conf/distro/include/web=
-os-recipe-blacklist-world.inc
-
-If someone has time to improve SkipPackage and we really want to skip
-all depending packages, I would be glad to test such patch (because it
-allows to easily drop all those blacklists for "depends-on-broken"
-components)
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---c2gYorpyS4gG0T74
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPRJKoACgkQN1Ujt2V2gBw1LACffhDhYCpw4O2TC4B6SCiFgsnd
-RZQAnjMNG0FgiqQrDCDtR+T5NjJgTqhb
-=iM6P
------END PGP SIGNATURE-----
-
---c2gYorpyS4gG0T74--
