@@ -1,41 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id E097265D03
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id D058F7066B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 09:18:26 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20140724091825604
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 09:18:25 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [64.134.185.139] (port=51367 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XAFAJ-0006uy-UQ; Thu, 24 Jul 2014 05:18:20 -0400
-Date: Thu, 24 Jul 2014 05:18:17 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
-Message-ID: <alpine.LFD.2.11.1407240517330.1252@localhost>
-References: <alpine.LFD.2.11.1407240509150.1086@localhost>
-	<CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Thu, 24 Jul 2014 09:39:51 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,722,1400018400"; d="scan'208";a="55431525"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 24 Jul 2014 11:39:50 +0200
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
+	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Thu, 24 Jul 2014 11:39:49 +0200
+Received: from u56.usr.ingenico.loc (10.23.7.56) by
+	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
+	id 14.3.174.1; Thu, 24 Jul 2014 11:39:49 +0200
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Jul 2014 11:39:43 +0200
+Message-ID: <1406194783-29393-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.9.2
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Mention package_tar packaging in local.conf.sample
+Subject: [PATCH] autotools.bbclass: Enhance sed regexp to avoid extra subshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 09:18:31 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 24 Jul 2014 09:39:59 -0000
+Content-Type: text/plain
 
-On Thu, 24 Jul 2014, Burton, Ross wrote:
+head -n1 can be done using sed.
 
-> On 24 July 2014 10:10, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > +#  - 'package_tar' for tarball packages
-> > +# E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk package_tar"
->
-> package_tar is pretty limited (no dependencies, so images don't work)
-> - is there a good reason to keep it around?  If we're going to delete
-> it, now is the time to do it...
+Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+---
+ meta/classes/autotools.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  i'm fine with that, just trying to be consistent. i'm always a big
-fan of throwing stuff away.
-
-rday
-
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 19edc54..afca760 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -195,7 +195,7 @@ autotools_do_configure() {
+ 		else
+ 			acpaths="${acpaths}"
+ 		fi
+-		AUTOV=`automake --version |head -n 1 |sed "s/.* //;s/\.[0-9]\+$//"`
++		AUTOV=`automake --version | sed -e '1{s/.* //;s/\.[0-9]\+$//};q'`
+ 		automake --version
+ 		echo "AUTOV is $AUTOV"
+ 		if [ -d ${STAGING_DATADIR_NATIVE}/aclocal-$AUTOV ]; then
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.0.0
 
 
