@@ -1,34 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D888465D03
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id E097265D03
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 09:16:23 +0000 (UTC)
-Received: by mail-qa0-f43.google.com with SMTP id w8so2570013qac.2
+	Thu, 24 Jul 2014 09:18:26 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20140724091825604
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 02:16:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=1UEQHWkNM8Ht8U//En2cVUUZeHrPDVeeRVHVa0dBh5g=;
-	b=bDGavWbtpKGWpeu3HMx8l5aWAvOXpSFZcdGtnc2O9fOh/eYool4XlYF1xO9nnC+gDK
-	++4CTxEdH6WaSe7KSgi8b9465emQEbzonDND8nhUmGuYUWmCfmpazBP/47Kh1DCQnAxZ
-	R2Wp13qskuGdx95qglYxADogNOHZlcEelEZOug2AnBc34mWpbRrbMI35knUZEeDlcLp0
-	T0zq+85x6Sxqt3EAJAhDo7gbZ0MTwajArsoupYAuZ5es+zRnvbCYaWEzKH5JXe6crL8H
-	Vr06Dey0poV6IW/djfVtjyyYVz4wzt/i5ZATdnNuRnWEIQP/9p8oxb6fiGt/VGZJlf5/
-	ArhA==
-X-Gm-Message-State: ALoCoQmmo/VubKOHfvzIw9hP9trCWnFtoetZC4a2B31OQTRjELfa7IgbLY1+NI07DRvEn9Pub2KS
-X-Received: by 10.224.167.136 with SMTP id q8mr12502139qay.35.1406193383629;
-	Thu, 24 Jul 2014 02:16:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Thu, 24 Jul 2014 02:16:02 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.11.1407240509150.1086@localhost>
+	Thu, 24 Jul 2014 09:18:25 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [64.134.185.139] (port=51367 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XAFAJ-0006uy-UQ; Thu, 24 Jul 2014 05:18:20 -0400
+Date: Thu, 24 Jul 2014 05:18:17 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
+Message-ID: <alpine.LFD.2.11.1407240517330.1252@localhost>
 References: <alpine.LFD.2.11.1407240509150.1086@localhost>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Jul 2014 10:16:02 +0100
-Message-ID: <CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+	<CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Mention package_tar packaging in local.conf.sample
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,16 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 09:16:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Jul 2014 09:18:31 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 24 July 2014 10:10, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> +#  - 'package_tar' for tarball packages
-> +# E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk package_tar"
+On Thu, 24 Jul 2014, Burton, Ross wrote:
 
-package_tar is pretty limited (no dependencies, so images don't work)
-- is there a good reason to keep it around?  If we're going to delete
-it, now is the time to do it...
+> On 24 July 2014 10:10, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > +#  - 'package_tar' for tarball packages
+> > +# E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk package_tar"
+>
+> package_tar is pretty limited (no dependencies, so images don't work)
+> - is there a good reason to keep it around?  If we're going to delete
+> it, now is the time to do it...
 
-Ross
+  i'm fine with that, just trying to be consistent. i'm always a big
+fan of throwing stuff away.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
