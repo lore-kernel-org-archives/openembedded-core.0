@@ -1,25 +1,23 @@
 Return-Path: <georgex.l.musat@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E14970620
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E193707A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 12:44:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jul 2014 05:39:16 -0700
+	Thu, 24 Jul 2014 12:45:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 24 Jul 2014 05:45:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,724,1400050800"; d="scan'208";a="578254052"
+X-IronPort-AV: E=Sophos;i="5.01,724,1400050800"; d="scan'208";a="548379383"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jul 2014 05:44:56 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Jul 2014 05:44:53 -0700
 Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id DB5D16A4007;
-	Thu, 24 Jul 2014 05:44:20 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 3AC2E6A4007;
+	Thu, 24 Jul 2014 05:44:18 -0700 (PDT)
 From: Lucian Musat <georgex.l.musat@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jul 2014 15:41:25 +0300
-Message-Id: <1406205685-7685-2-git-send-email-georgex.l.musat@intel.com>
+Date: Thu, 24 Jul 2014 15:41:24 +0300
+Message-Id: <1406205685-7685-1-git-send-email-georgex.l.musat@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1406205685-7685-1-git-send-email-georgex.l.musat@intel.com>
-References: <1406205685-7685-1-git-send-email-georgex.l.musat@intel.com>
-Subject: [PATCH 2/2] oeqa/runtime: Added skipModule import for test modules that use it.
+Subject: [PATCH 1/2] oeqa: Refactor test skipping decorators to use the unittest result object
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,123 +30,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 12:45:01 -0000
+X-List-Received-Date: Thu, 24 Jul 2014 12:45:22 -0000
 
-The modules that use skipModule should import it themselves and not rely on somebody else to import it.
+In order to make the test skipping decorators independent of the oeTest object we rely on the unittest result object to construct skip, fail and error lists used by these decorators.
+Created a new object getResults that analyses upper frames and retrieves the unittest result object instance, then return a list of failed, skipped and error tests.
+Also removed the oetest import from decorators.py because it was no longer required.
 
 Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
 ---
- meta/lib/oeqa/runtime/buildcvs.py      | 2 +-
- meta/lib/oeqa/runtime/buildiptables.py | 2 +-
- meta/lib/oeqa/runtime/buildsudoku.py   | 2 +-
- meta/lib/oeqa/runtime/ldd.py           | 2 +-
- meta/lib/oeqa/runtime/pam.py           | 8 ++++----
- meta/lib/oeqa/runtime/skeletoninit.py  | 2 +-
- meta/lib/oeqa/runtime/smart.py         | 2 +-
- meta/lib/oeqa/runtime/vnc.py           | 2 +-
- 8 files changed, 11 insertions(+), 11 deletions(-)
+ meta/lib/oeqa/oetest.py           | 17 -----------------
+ meta/lib/oeqa/utils/decorators.py | 40 +++++++++++++++++++++++++++++++++------
+ 2 files changed, 34 insertions(+), 23 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/buildcvs.py b/meta/lib/oeqa/runtime/buildcvs.py
-index f1fbf19..6201ed1 100644
---- a/meta/lib/oeqa/runtime/buildcvs.py
-+++ b/meta/lib/oeqa/runtime/buildcvs.py
-@@ -1,4 +1,4 @@
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
- from oeqa.utils.targetbuild import TargetBuildProject
- 
-diff --git a/meta/lib/oeqa/runtime/buildiptables.py b/meta/lib/oeqa/runtime/buildiptables.py
-index f6061a7..c77b114 100644
---- a/meta/lib/oeqa/runtime/buildiptables.py
-+++ b/meta/lib/oeqa/runtime/buildiptables.py
-@@ -1,4 +1,4 @@
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
- from oeqa.utils.targetbuild import TargetBuildProject
- 
-diff --git a/meta/lib/oeqa/runtime/buildsudoku.py b/meta/lib/oeqa/runtime/buildsudoku.py
-index a754f1d..f51af92 100644
---- a/meta/lib/oeqa/runtime/buildsudoku.py
-+++ b/meta/lib/oeqa/runtime/buildsudoku.py
-@@ -1,4 +1,4 @@
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
- from oeqa.utils.targetbuild import TargetBuildProject
- 
-diff --git a/meta/lib/oeqa/runtime/ldd.py b/meta/lib/oeqa/runtime/ldd.py
-index 4374530..079130f 100644
---- a/meta/lib/oeqa/runtime/ldd.py
-+++ b/meta/lib/oeqa/runtime/ldd.py
-@@ -1,5 +1,5 @@
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 0db6cb8..ecb8e53 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -11,7 +11,6 @@ import os, re, mmap
  import unittest
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
+ import inspect
  
- def setUpModule():
-diff --git a/meta/lib/oeqa/runtime/pam.py b/meta/lib/oeqa/runtime/pam.py
-index cc5c1bd..c26e6ea 100644
---- a/meta/lib/oeqa/runtime/pam.py
-+++ b/meta/lib/oeqa/runtime/pam.py
-@@ -2,7 +2,7 @@
- # Note that the image under test must have "pam" in DISTRO_FEATURES
+-
+ def loadTests(tc):
  
- import unittest
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
+     # set the context object passed from the test class
+@@ -36,24 +35,9 @@ def runTests(tc):
  
- def setUpModule():
-@@ -17,8 +17,8 @@ class PamBasicTest(oeRuntimeTest):
-         (status, output) = self.target.run('login --help')
-         self.assertEqual(status, 1, msg = "login command does not work as expected. Status and output:%s and %s" %(status, output))
-         (status, output) = self.target.run('passwd --help')
--        self.assertEqual(status, 0, msg = "passwd command does not work as expected. Status and output:%s and %s" %(status, output))
-+        self.assertEqual(status, 6, msg = "passwd command does not work as expected. Status and output:%s and %s" %(status, output))
-         (status, output) = self.target.run('su --help')
--        self.assertEqual(status, 0, msg = "su command does not work as expected. Status and output:%s and %s" %(status, output))
-+        self.assertEqual(status, 2, msg = "su command does not work as expected. Status and output:%s and %s" %(status, output))
-         (status, output) = self.target.run('useradd --help')
--        self.assertEqual(status, 0, msg = "useradd command does not work as expected. Status and output:%s and %s" %(status, output))
-+        self.assertEqual(status, 2, msg = "useradd command does not work as expected. Status and output:%s and %s" %(status, output))
-diff --git a/meta/lib/oeqa/runtime/skeletoninit.py b/meta/lib/oeqa/runtime/skeletoninit.py
-index 557e715..ddcad20 100644
---- a/meta/lib/oeqa/runtime/skeletoninit.py
-+++ b/meta/lib/oeqa/runtime/skeletoninit.py
-@@ -2,7 +2,7 @@
- # Note that the image under test must have meta-skeleton layer in bblayers and IMAGE_INSTALL_append = " service" in local.conf
+     return result
  
- import unittest
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
+-
+ class oeTest(unittest.TestCase):
  
- def setUpModule():
-diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime/smart.py
-index 195f117..3130373 100644
---- a/meta/lib/oeqa/runtime/smart.py
-+++ b/meta/lib/oeqa/runtime/smart.py
-@@ -1,6 +1,6 @@
- import unittest
- import re
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModule
- from oeqa.utils.decorators import *
- from oeqa.utils.httpserver import HTTPService
+     longMessage = True
+-    testFailures = []
+-    testSkipped = []
+-    testErrors = []
+-
+-    def run(self, result=None):
+-        super(oeTest, self).run(result)
+-
+-        # we add to our own lists the results, we use those for decorators
+-        if len(result.failures) > len(oeTest.testFailures):
+-            oeTest.testFailures.append(str(result.failures[-1][0]).split()[0])
+-        if len(result.skipped) > len(oeTest.testSkipped):
+-            oeTest.testSkipped.append(str(result.skipped[-1][0]).split()[0])
+-        if len(result.errors) > len(oeTest.testErrors):
+-            oeTest.testErrors.append(str(result.errors[-1][0]).split()[0])
  
-diff --git a/meta/lib/oeqa/runtime/vnc.py b/meta/lib/oeqa/runtime/vnc.py
-index 5ed1072..1b4652b 100644
---- a/meta/lib/oeqa/runtime/vnc.py
-+++ b/meta/lib/oeqa/runtime/vnc.py
-@@ -1,4 +1,4 @@
--from oeqa.oetest import oeRuntimeTest
-+from oeqa.oetest import oeRuntimeTest, skipModuleUnless
- from oeqa.utils.decorators import *
- import re
+     @classmethod
+     def hasPackage(self, pkg):
+@@ -71,7 +55,6 @@ class oeTest(unittest.TestCase):
+         else:
+             return False
  
+-
+ class oeRuntimeTest(oeTest):
+ 
+     def __init__(self, methodName='runTest'):
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index a0d94e6..439e80a 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -6,9 +6,34 @@
+ # Most useful is skipUnlessPassed which can be used for
+ # creating dependecies between two test methods.
+ 
+-from oeqa.oetest import *
+ import logging
+ import sys
++import unittest
++
++#get the "result" object from one of the upper frames provided that one of these upper frames is a unittest.case frame
++class getResults(object):
++    def __init__(self):
++        #dynamically determine the unittest.case frame and use it to get the name of the test method
++        upperf = sys._current_frames().values()[0]
++        while (upperf.f_globals['__name__'] != 'unittest.case'):
++            upperf = upperf.f_back
++        self.faillist = [ seq[0]._testMethodName for seq in upperf.f_locals['result'].failures ]
++        self.errorlist = [ seq[0]._testMethodName for seq in upperf.f_locals['result'].errors ]
++        #ignore the _ErrorHolder objects from the skipped tests list
++        self.skiplist = []
++        for seq in upperf.f_locals['result'].skipped:
++            try:
++                self.skiplist.append(seq[0]._testMethodName)
++            except: pass
++
++    def getFailList(self):
++        return self.faillist
++
++    def getErrorList(self):
++        return self.errorlist
++
++    def getSkipList(self):
++        return self.skiplist
+ 
+ class skipIfFailure(object):
+ 
+@@ -17,7 +42,8 @@ class skipIfFailure(object):
+ 
+     def __call__(self,f):
+         def wrapped_f(*args):
+-            if self.testcase in (oeTest.testFailures or oeTest.testErrors):
++            res = getResults()
++            if self.testcase in (res.getFailList() or res.getErrorList()):
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+             return f(*args)
+         wrapped_f.__name__ = f.__name__
+@@ -30,7 +56,8 @@ class skipIfSkipped(object):
+ 
+     def __call__(self,f):
+         def wrapped_f(*args):
+-            if self.testcase in oeTest.testSkipped:
++            res = getResults()
++            if self.testcase in res.getSkipList():
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+             return f(*args)
+         wrapped_f.__name__ = f.__name__
+@@ -43,9 +70,10 @@ class skipUnlessPassed(object):
+ 
+     def __call__(self,f):
+         def wrapped_f(*args):
+-            if self.testcase in oeTest.testSkipped or \
+-                    self.testcase in  oeTest.testFailures or \
+-                    self.testcase in oeTest.testErrors:
++            res = getResults()
++            if self.testcase in res.getSkipList() or \
++                    self.testcase in res.getFailList() or \
++                    self.testcase in res.getErrorList():
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+             return f(*args)
+         wrapped_f.__name__ = f.__name__
 -- 
 1.9.1
 
