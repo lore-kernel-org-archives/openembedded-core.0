@@ -1,37 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DB0070799
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CE7DD705D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 13:53:04 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id i50so3256084qgf.6
+	Thu, 24 Jul 2014 14:03:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6OE3EqB027198
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 06:53:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=r6SBYVSWA194EXgOe/RK9lN91fsN25yU0DIOz37HXoc=;
-	b=FatOahKXaMDytqf12QOJJ+R8wtZaRme+vbVgyXyrYy+TrIWLxFX4Px1nMduYRkqhOB
-	CXDlBD6kIs8UNYVNDJqDF6Bc6lx4+8VOE8r9/JOsAHWJF3A+VR/ruOzWnesIdsBSMlQf
-	4gYRHC8tU24EfVXq9QDQWAwGjopfaVaK+HiEJ7+DgiZr/447SyydmKZzHGyGrs2UR1eB
-	8LRhQbcGAK/pCHBdLGasX3qcCCQx5V9NjRiaPvP/f4pXFJkS8GBah9VXFBAlT2ZiFfFy
-	EWGzxv5X3YkThHaj9MrF4WhS1CrOWnS85IFFAPl1X/qCNHwd7sb8lloNDLETHx4npLYs
-	wg1A==
-X-Gm-Message-State: ALoCoQkVhAtQmPcOcfHFV9aqGRv0qlk1XwcLFYAVlzpHgEKmiUvCLpcoKGygVT0j1Dy3pQ9a+z3+
-X-Received: by 10.224.54.136 with SMTP id q8mr15375865qag.79.1406209985298;
-	Thu, 24 Jul 2014 06:53:05 -0700 (PDT)
+	Thu, 24 Jul 2014 07:03:14 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 24 Jul 2014 07:03:13 -0700
+Message-ID: <53D11221.9070704@windriver.com>
+Date: Thu, 24 Jul 2014 09:03:13 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Thu, 24 Jul 2014 06:52:45 -0700 (PDT)
-In-Reply-To: <1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
-References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
-	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Jul 2014 14:52:45 +0100
-Message-ID: <CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
+To: <openembedded-core@lists.openembedded.org>
+References: <1406187862-2819-1-git-send-email-stefan@agner.ch>
+In-Reply-To: <1406187862-2819-1-git-send-email-stefan@agner.ch>
+Subject: Re: [PATCH] shadow-securetty: add freescale lpuart
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 13:53:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Jul 2014 14:03:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
-> +REQUIRED_DISTRO_FEATURES = "x11"
+We should probably be setting up the securetty file in a machine specific way.
 
-Now I'm wondering why this is the solution.
+Doing it generically just pollutes the file with more stuff a specific user 
+won't want.
 
-If you attempt to build e.g. gnome-desktop explicitly without the x11
-distro feature you understandably get an error message, because
-gnome-desktop depends on libx11 which sanity checks the distro
-features.  This seems correct.
+(Note, you aren't the first to do this.. so right now it's probably the best 
+answer, but we should fix this in the future.)
 
-Presumably you're problem is that you're running world builds and
-they're producing errors on gnome-desktop because they can't satisfy a
-dependency on libx11.  It seems that bubbling up the
-REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
-can't SkipPackage be handled specially, so if you do bitbake -k world
-and libx11 emits SkipPackage, anything that has unsatisfiable
-dependencies because of this is also skipped?
+--Mark
 
-Ross
+On 7/24/14, 2:44 AM, Stefan Agner wrote:
+> Add Freescale lpuart tty's (ttyLPx) to securetty. Freescale Vybrid
+> devices running upstream kernel use this driver.
+>
+> Signed-off-by: Stefan Agner <stefan@agner.ch>
+> ---
+>   meta/recipes-extended/shadow/files/securetty | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+> index 0b1629f..d919993 100644
+> --- a/meta/recipes-extended/shadow/files/securetty
+> +++ b/meta/recipes-extended/shadow/files/securetty
+> @@ -137,6 +137,14 @@ ttymxc3
+>   ttymxc4
+>   ttymxc5
+>
+> +# Freescale lpuart ports
+> +ttyLP0
+> +ttyLP1
+> +ttyLP2
+> +ttyLP3
+> +ttyLP4
+> +ttyLP5
+> +
+>   # Standard serial ports, with devfs
+>   tts/0
+>   tts/1
+>
+
 
