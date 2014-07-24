@@ -1,26 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5899B706FE
+	by mail.openembedded.org (Postfix) with ESMTP id 59E32707B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 05:55:19 +0000 (UTC)
+	Thu, 24 Jul 2014 05:55:16 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6O5tKLX021750
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6O5tIgi021747
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:55:20 -0700 (PDT)
+	Wed, 23 Jul 2014 22:55:18 -0700 (PDT)
 Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 23 Jul 2014 22:55:20 -0700
+	14.3.174.1; Wed, 23 Jul 2014 22:55:17 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 01:55:15 -0400
-Message-ID: <80e1098d15f2292b17c7987579776a867d33328c.1406181188.git.jackie.huang@windriver.com>
+Date: Thu, 24 Jul 2014 01:55:13 -0400
+Message-ID: <cover.1406181188.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.0.0
-In-Reply-To: <cover.1406181188.git.jackie.huang@windriver.com>
-References: <cover.1406181188.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] gst-plugins-good: add missing dependency on libcap
+Subject: [PATCH 0/3] Add missing dependency on licap for 3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,24 +36,26 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--
+The following changes since commit 58f08a96764094189b5aaf3cc8b4cc0c95e23409:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index 4ccdec0..495bb17 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -22,7 +22,7 @@ PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
- PACKAGECONFIG[x11] = "--enable-x,--disable-x,virtual/libx11 libxfixes libxdamage"
- 
- DEPENDS += "gst-plugins-base gconf cairo libpng zlib libid3tag flac \
--            speex libsoup-2.4"
-+            speex libsoup-2.4 libcap"
- 
- inherit gettext gconf
- 
+  gst-ffmpeg: Add CVE patches (2014-07-23 21:57:04 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib jhuang0/r_depend_140724_0
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_depend_140724_0
+
+Jackie Huang (3):
+  pulseaudio: add missing dependency on libcap
+  gst-plugins-good: add missing dependency on libcap
+  gstreamer1.0-plugins-good: add missing dependency on libcap
+
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
+ .../gstreamer/gstreamer1.0-plugins-good.inc        |    2 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
 -- 
 1.7.9.5
 
