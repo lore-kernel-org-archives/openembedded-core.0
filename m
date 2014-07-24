@@ -1,31 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BE2A86ACE5
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA616ACE5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 21:12:05 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6OLC17S025451 for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 22:12:01 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 28k81NhIt166
+	Thu, 24 Jul 2014 21:22:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6OLM71D025573
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 22:12:01 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6OLBur7025447
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 22:11:57 +0100
-Message-ID: <1406236311.27697.21.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 22:11:51 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] binutils-cross-canadian: Explicitly DEPEND on nativesdk-flex, we require it anyway
+	Thu, 24 Jul 2014 14:22:07 -0700 (PDT)
+Received: from msp-dhcp5.wrs.com (172.25.34.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Thu, 24 Jul 2014 14:22:06 -0700
+Message-ID: <53D178FE.6000400@windriver.com>
+Date: Thu, 24 Jul 2014 16:22:06 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1406236149.27697.16.camel@ted>
+In-Reply-To: <1406236149.27697.16.camel@ted>
+Subject: Re: [PATCH] populate_sdk_base: Extend TOOLCHAIN_TARGET_TASK to include multilib variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 21:12:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 24 Jul 2014 21:22:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On 7/24/14, 4:09 PM, Richard Purdie wrote:
+> Most people expect the toolchain from a multilib build to contain multilib
+> components. This change makes that happen and is easy for users to override
+> should they want something different.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-index 52c573e..ae14642 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-@@ -4,7 +4,7 @@ SUMMARY = "GNU binary utilities (cross-canadian for ${TARGET_ARCH} target)"
- PN = "binutils-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "binutils"
- 
--DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext"
-+DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
- EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
-                 "
- 
+I tested this (with ipk works, with rpm doesn't work any less then it did before...)
 
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
+
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index 0df98db..4b489a6 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -32,7 +32,10 @@ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+>
+>   TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
+>   TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
+> -TOOLCHAIN_TARGET_TASK ?= "packagegroup-core-standalone-sdk-target packagegroup-core-standalone-sdk-target-dbg"
+> +TOOLCHAIN_TARGET_TASK ?= " \
+> +    ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
+> +    ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target-dbg')} \
+> +    "
+>   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+>   TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+>
+>
+>
 
 
