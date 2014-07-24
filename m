@@ -1,23 +1,37 @@
-Return-Path: <Daniel.Bornaz@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 5BACA705D9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DB0070799
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 13:51:54 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 24 Jul 2014 15:51:50 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4483)	id 723E0288F33;
-	Thu, 24 Jul 2014 15:51:50 +0200 (CEST)
-From: Daniel BORNAZ <daniel.bornaz@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 15:51:44 +0200
-Message-ID: <1406209904-14203-1-git-send-email-daniel.bornaz@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 24 Jul 2014 13:53:04 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id i50so3256084qgf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 06:53:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=r6SBYVSWA194EXgOe/RK9lN91fsN25yU0DIOz37HXoc=;
+	b=FatOahKXaMDytqf12QOJJ+R8wtZaRme+vbVgyXyrYy+TrIWLxFX4Px1nMduYRkqhOB
+	CXDlBD6kIs8UNYVNDJqDF6Bc6lx4+8VOE8r9/JOsAHWJF3A+VR/ruOzWnesIdsBSMlQf
+	4gYRHC8tU24EfVXq9QDQWAwGjopfaVaK+HiEJ7+DgiZr/447SyydmKZzHGyGrs2UR1eB
+	8LRhQbcGAK/pCHBdLGasX3qcCCQx5V9NjRiaPvP/f4pXFJkS8GBah9VXFBAlT2ZiFfFy
+	EWGzxv5X3YkThHaj9MrF4WhS1CrOWnS85IFFAPl1X/qCNHwd7sb8lloNDLETHx4npLYs
+	wg1A==
+X-Gm-Message-State: ALoCoQkVhAtQmPcOcfHFV9aqGRv0qlk1XwcLFYAVlzpHgEKmiUvCLpcoKGygVT0j1Dy3pQ9a+z3+
+X-Received: by 10.224.54.136 with SMTP id q8mr15375865qag.79.1406209985298;
+	Thu, 24 Jul 2014 06:53:05 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: daniel.bornaz@enea.com does not
-	designate permitted sender hosts)
-Cc: Benjamin Peterson <benjamin@python.org>
-Subject: [PATCH 1/1] python: fix _json module arbitrary process memory read vulnerability
+Received: by 10.140.86.99 with HTTP; Thu, 24 Jul 2014 06:52:45 -0700 (PDT)
+In-Reply-To: <1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
+References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
+	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Jul 2014 14:52:45 +0100
+Message-ID: <CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,102 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 13:51:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Jul 2014 13:53:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-http://bugs.python.org/issue21529
+On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+> +REQUIRED_DISTRO_FEATURES = "x11"
 
-Python 2 and 3 are susceptible to arbitrary process memory reading by
-a user or adversary due to a bug in the _json module caused by
-insufficient bounds checking.
+Now I'm wondering why this is the solution.
 
-The sole prerequisites of this attack are that the attacker is able to
-control or influence the two parameters of the default scanstring
-function: the string to be decoded and the index.
+If you attempt to build e.g. gnome-desktop explicitly without the x11
+distro feature you understandably get an error message, because
+gnome-desktop depends on libx11 which sanity checks the distro
+features.  This seems correct.
 
-The bug is caused by allowing the user to supply a negative index
-value. The index value is then used directly as an index to an array
-in the C code; internally the address of the array and its index are
-added to each other in order to yield the address of the value that is
-desired. However, by supplying a negative index value and adding this
-to the address of the array, the processor's register value wraps
-around and the calculated value will point to a position in memory
-which isn't within the bounds of the supplied string, causing the
-function to access other parts of the process memory.
+Presumably you're problem is that you're running world builds and
+they're producing errors on gnome-desktop because they can't satisfy a
+dependency on libx11.  It seems that bubbling up the
+REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
+can't SkipPackage be handled specially, so if you do bitbake -k world
+and libx11 emits SkipPackage, anything that has unsatisfiable
+dependencies because of this is also skipped?
 
-Signed-off-by: Benjamin Peterson <benjamin@python.org>
-
-Applied to python-native recipe in order to fix the above mentioned
-vulnerability.
-
-Upstream-Status: Submitted
-
-Signed-off-by: Daniel BORNAZ <daniel.bornaz@enea.com>
----
- .../recipes-devtools/python/python-native_2.7.3.bb |  1 +
- .../python/python/json-flaw-fix.patch              | 27 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- 3 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/json-flaw-fix.patch
-
-diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
-index 0571d3a..827654d 100644
---- a/meta/recipes-devtools/python/python-native_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
-@@ -19,6 +19,7 @@ SRC_URI += "\
-            file://parallel-makeinst-create-bindir.patch \
-            file://python-fix-build-error-with-Readline-6.3.patch \
-            file://gcc-4.8-fix-configure-Wformat.patch \
-+           file://json-flaw-fix.patch \
-            "
- S = "${WORKDIR}/Python-${PV}"
- 
-diff --git a/meta/recipes-devtools/python/python/json-flaw-fix.patch b/meta/recipes-devtools/python/python/json-flaw-fix.patch
-new file mode 100644
-index 0000000..e9a6cca
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/json-flaw-fix.patch
-@@ -0,0 +1,27 @@
-+
-+python: fix _json module arbitrary process memory read vulnerability
-+
-+Upstream-Status: submitted
-+
-+Signed-off-by: Daniel BORNAZ <daniel.bornaz@enea.com>
-+
-+--- a/Modules/_json.c	2014-07-15 15:37:17.151046356 +0200
-++++ b/Modules/_json.c	2014-07-15 15:38:37.335605042 +0200
-+@@ -1491,7 +1491,7 @@ scan_once_str(PyScannerObject *s, PyObje
-+     PyObject *res;
-+     char *str = PyString_AS_STRING(pystr);
-+     Py_ssize_t length = PyString_GET_SIZE(pystr);
-+-    if (idx >= length) {
-++    if ( idx < 0 || idx >= length) {
-+         PyErr_SetNone(PyExc_StopIteration);
-+         return NULL;
-+     }
-+@@ -1578,7 +1578,7 @@ scan_once_unicode(PyScannerObject *s, Py
-+     PyObject *res;
-+     Py_UNICODE *str = PyUnicode_AS_UNICODE(pystr);
-+     Py_ssize_t length = PyUnicode_GET_SIZE(pystr);
-+-    if (idx >= length) {
-++    if ( idx < 0 || idx >= length) {
-+         PyErr_SetNone(PyExc_StopIteration);
-+         return NULL;
-+     }
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index 0d64172..5be9073 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -36,6 +36,7 @@ SRC_URI += "\
-   file://python-2.7.3-CVE-2013-1752-smtplib-fix.patch \
-   file://python-fix-build-error-with-Readline-6.3.patch \
-   file://python-2.7.3-CVE-2014-1912.patch \
-+  file://json-flaw-fix.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.9.1
-
+Ross
 
