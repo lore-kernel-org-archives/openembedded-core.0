@@ -1,36 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 29FDC70668;
-	Thu, 24 Jul 2014 10:59:51 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id n3so3763470wiv.7
-	for <multiple recipients>; Thu, 24 Jul 2014 03:59:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=7xXgiUWPDO/calyfzJT3yzNsLqmCvCFlx+qGjG8ltaA=;
-	b=XDsrheW5JwkJejHuRQfC25YDReYGu1Vdx25hQSGr09v41ebOoIi4rx8rc2ie5om0M9
-	BWKJznJRIybhdB0vEPgUynKUY+VuGeS5SpGbV+TPeZYR6q/0UMBkKZaBzF6uyK0V7ffW
-	fmXb28vWXQnYPRFivXyDkAZVLXp8no8iSYaS+Ssku8X7vKy9FL5aFucXUDq5xX2VbBsE
-	rQhozy2Dfx07oAh+Yv51eLb7Nn0IOfVWm9fZWrhbG6Y+pmdaC1bmQ2iG/k/j+6EXxYj6
-	lu2OHZNOx3/jTgBooDsgT0BDCKFbdMPdA2sg892tBbz4+gq6Sbu2yJOAC/NZEPZBr23j
-	ERvg==
-X-Received: by 10.195.13.79 with SMTP id ew15mr10451507wjd.19.1406199589189;
-	Thu, 24 Jul 2014 03:59:49 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	hc4sm14914724wjc.9.2014.07.24.03.59.47 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Jul 2014 03:59:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 24 Jul 2014 13:00:05 +0200
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140724110005.GF2492@jama>
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id C507F65FE5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 11:13:22 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20140724111321793
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 11:13:21 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [64.102.254.33] (port=9325 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XAGxX-000735-L9 for openembedded-core@lists.openembedded.org;
+	Thu, 24 Jul 2014 07:13:15 -0400
+Date: Thu, 24 Jul 2014 07:13:12 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1407240709110.8468@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-07-24
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: simple dependency question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,137 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 10:59:53 -0000
-X-Groupsio-MsgNum: 55486
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MP5ln1Rcf9Bvi+ZW"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Jul 2014 11:13:27 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---MP5ln1Rcf9Bvi+ZW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+  i realize that "DEPENDS" represents build-time dependencies, as in
+... all of the DEPENDS recipes must build *completely* before this
+recipe can *begin* to build, is that correct?
 
-mkvtoolnix is review for new version, it builds fine on 2/3 builders I     =
-                                                                           =
-       =20
-have access too, I'll investigate before merging it                        =
-                                                                           =
-       =20
-                                                                           =
-                                                                           =
-       =20
-firefox is probably fixed by                                               =
-                                                                           =
-       =20
-http://patchwork.openembedded.org/patch/75173/                             =
-                                                                           =
-       =20
-I'll include this work around in my next world builds                      =
-                                                                           =
-       =20
-                                                                           =
-                                                                           =
-       =20
-monkey issue is in new review and looked at by submitter                   =
-                                                                           =
-       =20
-                                                                           =
-                                                                           =
-       =20
-lttng-modules issue was reported on ML and it seems that we can expect     =
-                                                                           =
-       =20
-upgrade to newer version soon                                              =
-                                                                           =
-       =20
-                                                                           =
-                                                                           =
-       =20
-openal-soft, gst-ffmpeg aren't compatible with libav-9 now used by world   =
-                                                                           =
-       =20
-builds.                                                                    =
-                                                                           =
-       =20
+  however, in something like module.bbclass where one finds:
 
-python-efl and llvm* were fixed just before qemux86_64 and qemuarm
+do_make_scripts[deptask] = "do_populate_sysroot"
 
-=3D=3D Failed tasks 2014-07-24 =3D=3D
+does that now *override* the normal build-time dependency to say only
+that this recipe's do_make_scripts task need only wait until all of
+the "DEPENDS" recipes have completed their do_populate_sysroot tasks?
 
-=3D=3D=3D common (5) =3D=3D=3D
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * meta-openembedded/meta-multimedia/recipes-mkv/mkvtoolnix/mkvtoolnix_7=
-=2E0.0.bb, do_configure
-    * meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-so=
-ft_1.15.1.bb, do_compile
-    * meta-openembedded/meta-webserver/recipes-httpd/monkey/monkey_1.5.1.bb=
-, do_package_write_ipk
-    * openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.1=
-3.bb, do_compile
+  in other words, the instant i define an inter-task dependency, does
+that relax the normal strong build dependency? since, if it didn't,
+this wouldn't make any sense.
 
-=3D=3D=3D common-x86 (4) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_c=
-ompile
-    * meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tin=
-y-kexecboot_3.10.bb, do_package_qa
-    * meta-openembedded/meta-networking/recipes-connectivity/snort/snort_2.=
-9.6.0.bb, do_configure
-    * meta-openembedded/meta-oe/recipes-devtools/concurrencykit/concurrency=
-kit_git.bb, do_compile
+rday
 
-=3D=3D=3D qemuarm (3) =3D=3D=3D
-    * meta-openembedded/meta-xfce/recipes-apps/xfce4-screenshooter/xfce4-sc=
-reenshooter_1.8.1.bb, do_compile
-    * meta-smartphone/meta-shr/recipes-shr/games/mokomaze_0.5.5.bb, do_conf=
-igure
-    * openembedded-core/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb, d=
-o_compile
+-- 
 
-=3D=3D=3D qemux86 (4) =3D=3D=3D
-    * meta-openembedded/meta-efl/recipes-devtools/python/python-efl_1.10.0.=
-bb, do_compile
-    * meta-openembedded/meta-networking/recipes-support/lksctp-tools/lksctp=
--tools_1.0.16.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-core/llvm/llvm2.9_2.9.bb, do_packag=
-e_qa
-    * meta-openembedded/meta-oe/recipes-core/llvm/llvm3.3_3.3.bb, do_packag=
-e_qa
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-=3D=3D=3D qemux86_64 (2) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
-_git.bb, do_compile
-    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb, do_compile
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||8     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140723_074225.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/1417/
-|-
-||qemux86       ||13    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140721_190633.log/||
-|-
-||qemux86_64    ||12    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140722_123448.log/||
-|}
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---MP5ln1Rcf9Bvi+ZW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPQ5zUACgkQN1Ujt2V2gBwo3ACfXZk+WN6k5Ji4aj113QhersV+
-fwgAni2810YJPY+ezJi3ZHNMLiC9qoSC
-=TTmB
------END PGP SIGNATURE-----
-
---MP5ln1Rcf9Bvi+ZW--
