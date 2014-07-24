@@ -1,28 +1,28 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA616ACE5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C5296ACE5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 21:22:05 +0000 (UTC)
+	Thu, 24 Jul 2014 21:22:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6OLM71D025573
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6OLMqrg001714
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 14:22:07 -0700 (PDT)
+	Thu, 24 Jul 2014 14:22:52 -0700 (PDT)
 Received: from msp-dhcp5.wrs.com (172.25.34.5) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
-	Thu, 24 Jul 2014 14:22:06 -0700
-Message-ID: <53D178FE.6000400@windriver.com>
-Date: Thu, 24 Jul 2014 16:22:06 -0500
+	Thu, 24 Jul 2014 14:22:30 -0700
+Message-ID: <53D17916.8060704@windriver.com>
+Date: Thu, 24 Jul 2014 16:22:30 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1406236149.27697.16.camel@ted>
-In-Reply-To: <1406236149.27697.16.camel@ted>
-Subject: Re: [PATCH] populate_sdk_base: Extend TOOLCHAIN_TARGET_TASK to include multilib variants
+References: <1406236178.27697.17.camel@ted>
+In-Reply-To: <1406236178.27697.17.camel@ted>
+Subject: Re: [PATCH] cross-canadian: Copy target_ definitions from cross.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 21:22:06 -0000
+X-List-Received-Date: Thu, 24 Jul 2014 21:22:53 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 7/24/14, 4:09 PM, Richard Purdie wrote:
-> Most people expect the toolchain from a multilib build to contain multilib
-> components. This change makes that happen and is easy for users to override
-> should they want something different.
+> A while back we fixed the cross definitions to work better in multilib
+> configurations, apply the same fixes to cross-candian.bbclass
 >
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I tested this (with ipk works, with rpm doesn't work any less then it did before...)
+Tested this
 
 Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index 0df98db..4b489a6 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -32,7 +32,10 @@ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+> diff --git a/meta/classes/cross-canadian.bbclass
+> b/meta/classes/cross-canadian.bbclass
+> index e536118..6da43fe 100644
+> --- a/meta/classes/cross-canadian.bbclass
+> +++ b/meta/classes/cross-canadian.bbclass
+> @@ -84,11 +84,12 @@ EXTRANATIVEPATH += "chrpath-native"
+>   # Path mangling needed by the cross packaging
+>   # Note that we use := here to ensure that libdir and includedir are
+>   # target paths.
+> -target_libdir := "${libdir}"
+> -target_includedir := "${includedir}"
+> -target_base_libdir := "${base_libdir}"
+> +target_base_prefix := "${base_prefix}"
+>   target_prefix := "${prefix}"
+>   target_exec_prefix := "${exec_prefix}"
+> +target_base_libdir = "${target_base_prefix}/${baselib}"
+> +target_libdir = "${target_exec_prefix}/${baselib}"
+> +target_includedir := "${includedir}"
 >
->   TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
->   TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
-> -TOOLCHAIN_TARGET_TASK ?= "packagegroup-core-standalone-sdk-target packagegroup-core-standalone-sdk-target-dbg"
-> +TOOLCHAIN_TARGET_TASK ?= " \
-> +    ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
-> +    ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target-dbg')} \
-> +    "
->   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
->   TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
->
+>   # Change to place files in SDKPATH
+>   base_prefix = "${SDKPATHNATIVE}"
 >
 >
 
