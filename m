@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 81BFC70789
+	by mail.openembedded.org (Postfix) with ESMTP id 82A767078D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 20:42:16 +0000 (UTC)
+	Thu, 24 Jul 2014 20:42:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6OKgFEs001362
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6OKgCIV001356
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 Jul 2014 13:42:15 -0700 (PDT)
+	Thu, 24 Jul 2014 13:42:13 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Thu, 24 Jul 2014 13:42:15 -0700
+	14.3.169.1; Thu, 24 Jul 2014 13:42:12 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 24 Jul 2014 16:41:50 -0400
-Message-ID: <a2203c27a84c25e8e62fde8b24e5c829ca212fe2.1406234258.git.bruce.ashfield@windriver.com>
+Date: Thu, 24 Jul 2014 16:41:46 -0400
+Message-ID: <cover.1406234258.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1406234258.git.bruce.ashfield@windriver.com>
-References: <cover.1406234258.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/8] linux-yocto-dev: bump to v3.16+
+Subject: [PATCH 0/8] kernel: linux-yocto 3.14, linux-yocto-dev 3.16 and dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +34,72 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 24 Jul 2014 20:42:19 -0000
 Content-Type: text/plain
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Richard/Saul,
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 9b49eee87651..10f3d234ed25 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -36,7 +36,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${K
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- 
--LINUX_VERSION ?= "3.14+"
-+LINUX_VERSION ?= "3.16+"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+Here are my consolidated changes for kernel updates.
+
+For 3.14:
+
+  linux-yocto/3.14: vexpress and MVM firmware support                                                                                                                               
+  linux-yocto: x86_64: expand kernel stack to 16K                                                                                                                                   
+  linux-yocto/3.14: libata and generic CPU modalias handling                                                                                                                        
+
+For linux-yocto-dev:
+
+  linux-yocto-dev: bump to v3.16+                                                                                                                                                   
+  lttng-modules: update to 2.5.0                                                                                                                                                    
+  kernel: don't copy .so.dbg files into kernel source install                                                                                                                       
+  kern-tools: adjust to full history meta-data                                                                                                                                      
+
+And for lttng on ARM:
+
+  lttng-modules: re-enable ARM builds                                                                                                                                               
+
+I've built and booted 3.16 on all the architectures, and also build my
+kernel-dev image type (which includes package that often break with
+kernel updates, and which I'll submit to oe-core separately). That's
+where the .so.db change for kernel.bbclass and the lttng update 
+have come from.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 8b7116d25ed6255a03895d835e5a0560858ab496:
+
+  bitbake: Updated the the example 'bitbake -h' output to match the actual output, which has been recently patched to fix the '-S SIGNATURE_HANDLER, --dump-signatures=SIGNATURE_HANDLER' option. (2014-07-22 08:33:25 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (8):
+  linux-yocto/3.14: vexpress and MVM firmware support
+  lttng-modules: update to 2.5.0
+  linux-yocto: x86_64: expand kernel stack to 16K
+  linux-yocto-dev: bump to v3.16+
+  kernel: don't copy .so.dbg files into kernel source install
+  lttng-modules: re-enable ARM builds
+  linux-yocto/3.14: libata and generic CPU modalias handling
+  kern-tools: adjust to full history meta-data
+
+ meta/classes/kernel.bbclass                        |  2 +-
+ .../kern-tools/kern-tools-native_git.bb            |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 +-
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++---
+ ...compaction-instrumentation-to-3.16-kernel.patch | 83 ++++++++++++++++++++++
+ ...ate-vmscan-instrumentation-to-3.16-kernel.patch | 70 ++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb   | 36 ----------
+ ...tng-modules_2.4.1.bb => lttng-modules_2.5.0.bb} | 10 +--
+ 10 files changed, 174 insertions(+), 57 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-compaction-instrumentation-to-3.16-kernel.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-vmscan-instrumentation-to-3.16-kernel.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.4.1.bb => lttng-modules_2.5.0.bb} (80%)
+
 -- 
 1.8.1.2
 
