@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 912A56FC43
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DDDE70675
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 09:59:27 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 24 Jul 2014 02:59:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,723,1400050800"; d="scan'208";a="460808149"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.122.44])
-	by azsmga001.ch.intel.com with ESMTP; 24 Jul 2014 02:59:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	"Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Thu, 24 Jul 2014 10:59:20 +0100
-Message-ID: <2044916.qXQu2pyie7@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.4-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
-References: <alpine.LFD.2.11.1407240509150.1086@localhost>
-	<CAJTo0LZOnTtA_mrFMMTR-TtXwUeQYSECQ2utjwzkNZdMWXCrtA@mail.gmail.com>
+	Thu, 24 Jul 2014 10:25:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6OAPZXK025691
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 03:25:35 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.169.1; Thu, 24 Jul 2014 03:25:34 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Jul 2014 18:25:31 +0800
+Message-ID: <1406197531-8298-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Mention package_tar packaging in local.conf.sample
+Subject: [PATCH] kernel.bbclass: don't install initramfs bundled kernel image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 09:59:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 24 Jul 2014 10:25:36 -0000
+Content-Type: text/plain
 
-On Thursday 24 July 2014 10:16:02 Burton, Ross wrote:
-> On 24 July 2014 10:10, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > +#  - 'package_tar' for tarball packages
-> > +# E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk
-> > package_tar"
-> package_tar is pretty limited (no dependencies, so images don't work)
-> - is there a good reason to keep it around?  If we're going to delete
-> it, now is the time to do it...
+There is no dependency relationship between the tasks bundle_initramfs
+and package so far, therefore we never should install the bundled image
+anyway, otherwise we will end up with a implicit kernel-image package
+that sometimes it contains the initramfs bundled image or it doesn't at
+other times.
 
-I've really not heard of anyone using it recently. I have at least kept it 
-working over the last little while, and it might possibly be useful on a 
-limited basis if you want the output of certain recipes to be in the form of a 
-tarball; without dependencies though as you say it's of no use beyond that. 
-I'd be fine with dropping it as well if it's simply not going to be used.
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/classes/kernel.bbclass | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b2e9d4c..bb19b5c 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -135,10 +135,6 @@ do_bundle_initramfs () {
+ 		kernel_do_compile
+ 		mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+ 		mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+-		# Update install area
+-		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+-		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+-		echo "${B}/${KERNEL_OUTPUT}.initramfs"
+ 	fi
+ }
+ 
 -- 
+1.8.4.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
