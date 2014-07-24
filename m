@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E13670734
+	by mail.openembedded.org (Postfix) with ESMTP id BE2A86ACE5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 21:11:27 +0000 (UTC)
+	Thu, 24 Jul 2014 21:12:05 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6OLBNrv025424 for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 22:11:23 +0100
+	s6OLC17S025451 for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 22:12:01 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AvD3p8J1pnuL
+	with LMTP id 28k81NhIt166
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 22:11:23 +0100 (BST)
+	Thu, 24 Jul 2014 22:12:01 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6OLBKMB025420
+	s6OLBur7025447
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 22:11:22 +0100
-Message-ID: <1406236275.27697.20.camel@ted>
+	Thu, 24 Jul 2014 22:11:57 +0100
+Message-ID: <1406236311.27697.21.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 22:11:15 +0100
+Date: Thu, 24 Jul 2014 22:11:51 +0100
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] qemu: Use PACKAGECONFIG for libusb to avoid floating dependency
+Subject: [PATCH] binutils-cross-canadian: Explicitly DEPEND on nativesdk-flex, we require it anyway
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,24 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 21:11:28 -0000
+X-List-Received-Date: Thu, 24 Jul 2014 21:12:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index ccd7908..3cb8536 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -100,6 +100,7 @@ PACKAGECONFIG[gtk+] = "--enable-gtk,--disable-gtk,gtk+ libvte,"
- PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
- PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl,"
- PACKAGECONFIG[ssh2] = "--enable-libssh2,--disable-libssh2,libssh2,"
-+PACKAGECONFIG[libusb] = "--enable-libusb,--disable-libusb,libusb1"
+diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+index 52c573e..ae14642 100644
+--- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
++++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+@@ -4,7 +4,7 @@ SUMMARY = "GNU binary utilities (cross-canadian for ${TARGET_ARCH} target)"
+ PN = "binutils-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ BPN = "binutils"
  
- # Qemu target will not build in world build for ARM or Mips
- BROKEN_qemuarm = "1"
+-DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext"
++DEPENDS = "flex-native bison-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
+ EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
+                 "
+ 
 
 
 
