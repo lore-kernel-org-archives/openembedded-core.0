@@ -1,27 +1,30 @@
-Return-Path: <mcrowe@brightsign.biz>
-X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 24 Jul 2014 11:45:09 UTC
-Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 562977052B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D2A27054E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 11:45:09 +0000 (UTC)
-Received: from [86.30.57.232] (HELO elite.brightsigndigital.co.uk)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.0.9)
-	with ESMTPS id 419893883; Thu, 24 Jul 2014 07:30:07 -0400
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1XAHDk-0004Xh-1F; Thu, 24 Jul 2014 12:30:00 +0100
-Received: from mac by chuckie with local (Exim 4.82_1-5b7a7c0-XX)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1XAHDk-0000RM-0R; Thu, 24 Jul 2014 12:30:00 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Jul 2014 12:24:53 +0100
-Message-Id: <1406201093-1546-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 2.0.1
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] allarch: Generate same package for MIPS and non-MIPS targets
+	Thu, 24 Jul 2014 12:07:54 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6OC6afb006063; Thu, 24 Jul 2014 13:06:36 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GvWKZLZcc3jl; Thu, 24 Jul 2014 13:06:35 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6OC6V7f006040
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 24 Jul 2014 13:06:33 +0100
+Message-ID: <1406203585.27697.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Thu, 24 Jul 2014 13:06:25 +0100
+In-Reply-To: <alpine.LFD.2.11.1407240709110.8468@localhost>
+References: <alpine.LFD.2.11.1407240709110.8468@localhost>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: simple dependency question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 11:45:10 -0000
+X-List-Received-Date: Thu, 24 Jul 2014 12:08:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-LINKER_HASH_STYLE differs between MIPS and non-MIPS targets. This means
-that LDFLAGS differs too. LDFLAGS is exported so it influences all task
-hashes. Unfortunately this means that packages with architecture "all"
-differ depending on whether they are built for a MIPS or non-MIPS target.
-This causes a lot of unnecessary churn in the ipk/all directory when
-switching build targets.
+On Thu, 2014-07-24 at 07:13 -0400, Robert P. J. Day wrote:
+>   i realize that "DEPENDS" represents build-time dependencies, as in
+> ... all of the DEPENDS recipes must build *completely* before this
+> recipe can *begin* to build, is that correct?
+> 
+>   however, in something like module.bbclass where one finds:
+> 
+> do_make_scripts[deptask] = "do_populate_sysroot"
+> 
+> does that now *override* the normal build-time dependency to say only
+> that this recipe's do_make_scripts task need only wait until all of
+> the "DEPENDS" recipes have completed their do_populate_sysroot tasks?
 
-The simplest way to fix this is to ensure that LDFLAGS stays the same for
-architecture "all" packages by clearing it. It shouldn't being used by such
-packages anyway.
+The original DEPENDS meaning remains unchanged and applies to the
+configure task. The behaviour of DEPENDS comes from:
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/allarch.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+do_configure[deptask] = "do_populate_sysroot"
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index d41dd4b..c953e7c 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -28,6 +28,11 @@ python () {
-         d.setVar("SDK_ARCH", "none")
-         d.setVar("SDK_CC_ARCH", "none")
- 
-+        # Avoid this being unnecessarily different due to nuances of
-+        # the target machine that aren't important for "all" arch
-+        # packages.
-+        d.setVar("LDFLAGS", "")
-+
-         # No need to do shared library processing or debug symbol handling
-         d.setVar("EXCLUDE_FROM_SHLIBS", "1")
-         d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
--- 
-2.0.1
+which means the configure task waits for all the populate_sysroot tasks
+of DEPENDS to complete before executing this task.
+
+do_make_scripts[deptask] = "do_populate_sysroot"
+
+Adds constraints to the make_scripts task where it also must wait until
+all DEPENDS populate_sysroot have run before it can.
+
+>   in other words, the instant i define an inter-task dependency, does
+> that relax the normal strong build dependency? since, if it didn't,
+> this wouldn't make any sense.
+
+and hence no, it doesn't relax other rules.
+
+Cheers,
+
+Richard
 
 
