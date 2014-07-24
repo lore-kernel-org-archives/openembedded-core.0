@@ -1,26 +1,41 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5000D70588
+Return-Path: <eric.yu@ni.com>
+X-Greylist: delayed 2728 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 24 Jul 2014 17:25:44 UTC
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id B72366FE41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 17:13:48 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Jul 2014 10:13:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,725,1400050800"; d="scan'208";a="574938727"
-Received: from unknown (HELO [10.255.13.66]) ([10.255.13.66])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2014 10:13:06 -0700
-Message-ID: <53D13EA1.4070707@linux.intel.com>
-Date: Thu, 24 Jul 2014 10:13:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Thu, 24 Jul 2014 17:25:44 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6OGeHEB028549 for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 11:40:17 -0500
+Received: from US-AUS-MAIL1.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072411401736-195827 ;
+	Thu, 24 Jul 2014 11:40:17 -0500 
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1406187862-2819-1-git-send-email-stefan@agner.ch>
-	<53D11221.9070704@windriver.com>
-In-Reply-To: <53D11221.9070704@windriver.com>
-Subject: Re: [PATCH] shadow-securetty: add freescale lpuart
+X-KeepSent: B06A1739:284B2F26-86257D1F:005B1696;
+	type=4; flags=0; name=$KeepSent
+X-Mailer: Lotus Notes Release 8.5.3FP3 November 16, 2012
+From: Eric Yu <eric.yu@ni.com>
+Message-ID: <OFB06A1739.284B2F26-ON86257D1F.005B1696-86257D1F.005B94CC@ni.com>
+Date: Thu, 24 Jul 2014 11:40:17 -0500
+X-MIMETrack: Serialize by Router on US-AUS-MAIL1/AUS/M/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/24/2014 11:40:17 AM,
+	Serialize complete at 07/24/2014 11:40:17 AM,
+	Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/24/2014 11:40:17 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/24/2014 11:40:17 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-24_04:2014-07-24, 2014-07-24,
+	1970-01-01 signatures=0
+Cc: Alejandro del Castillo <alejandro.delcastillo@ni.com>,
+	Bill Pittman <bill.pittman@ni.com>
+Subject: ptest formatting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +48,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 17:13:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Jul 2014 17:25:49 -0000
+Content-Type: multipart/alternative;
+	boundary="=_alternative 005B94A886257D1F_="
 
-On 07/24/2014 07:03 AM, Mark Hatle wrote:
-> We should probably be setting up the securetty file in a machine
-> specific way.
->
-> Doing it generically just pollutes the file with more stuff a specific
-> user won't want.
->
-> (Note, you aren't the first to do this.. so right now it's probably the
-> best answer, but we should fix this in the future.)
->
+--=_alternative 005B94A886257D1F_=
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
 
-Mark,
+SGVsbG8sDQogICAgICAgIE15IG5hbWUgaXMgRXJpYyBZdSwgYW5kIEkgYW0gYW4gaW50ZXJuIGF0
+IE5hdGlvbmFsIEluc3RydW1lbnRzIGZvciANCnRoaXMgc3VtbWVyLiBUaGUgcHJvamVjdCBJIGFt
+IGN1cnJlbnRseSB3b3JraW5nIG9uIGludm9sdmVzIGludGVncmF0aW5nIA0KcHRlc3Qgd2l0aCBv
+dXIgY3VycmVudCBhdXRvbWF0ZWQgdGVzdGluZyBmcmFtZXdvcmsgdG8gaGVscCB0ZXN0IG91ciAN
+Cm9wZW4tZW1iZWRkZWQgZGlzdHJpYnV0aW9ucy4gT24gdGhlIFlvY3RvIFByb2plY3Qgd2lraSwg
+aXQgc3RhdGVzIHRoYXQgb25lIA0KbWFqb3IgcG9pbnQgb2YgcHRlc3QgaXMgdG8gY29uc29saWRh
+dGUgdGhlIG91dHB1dCBvZiBkaWZmZXJlbnQgcGFja2FnZSANCnRlc3RzIGluIGEgY29tbW9uIOKA
+nDxyZXN1bHQ+OiA8dGVzdG5hbWU+4oCdIGZvcm1hdC4gSSB3YXMgaG9waW5nIHRoYXQgdGhpcyAN
+CmNvbW1vbiBmb3JtYXQgd291bGQgYWxsb3cgcHRlc3QgcmVzdWx0cyB0byBiZSBlYXNpbHkgbWFj
+aGluZSBwYXJzZWQgYW5kIA0KaW50ZWdyYXRlZCB3aXRoIG91ciBjdXJyZW50IHRlc3RpbmcgZnJh
+bWV3b3JrLiBIb3dldmVyLCBhZnRlciBlbmFibGluZyBhbmQgDQpydW5uaW5nIHRoZSBwdGVzdHMs
+IEkgZGlzY292ZXJlZCB0aGF0IHRoZSBmb3JtYXR0aW5nIG9mIHRoZSByZXN1bHRzIHdhcyANCm5v
+dCBhcyBmcmllbmRseSB0byBhdXRvbWF0aW9uIGFzIEkgaGFkIGhvcGVkLg0KIEl0IGFwcGVhcnMg
+dGhhdCBlYWNoIHNlcGFyYXRlIHBhY2thZ2UgcHJpbnRzIG91dCBpdHMgb3duIGVycm9ycywgDQp3
+YXJuaW5ncywgYW5kIG90aGVyIG91dHB1dCBhbG9uZyB3aXRoIHRoZXNlIHRlc3QgcmVzdWx0cywg
+YnVyeWluZyB0aGUgDQpjb21tb24gb3V0cHV0IGluIGxvdHMgb2Ygb3RoZXIgdGV4dC4gQWxzbywg
+b25lIHBhY2thZ2UgKGdkay1waXhidWZmKSB1c2VkIA0K4oCcRkFJTEVE4oCdIHdoZW4gcmVwb3J0
+aW5nIHJlc3VsdHMgcmF0aGVyIHRoYW4gdGhlIGV4cGVjdGVkIOKAnEZBSUzigJ0uIA0KSW4gdGhl
+IGJhc2ggcHRlc3RzLCBzZXZlcmFsIHRlc3RzIHByaW50IHdhcm5pbmdzIHNheWluZyB0byBpZ25v
+cmUgZmFpbHVyZXMgDQp3aGVyZSB0aGUgb3V0cHV0IGRpZmZlcnMgb25seSBieSB3aGl0ZXNwYWNl
+LiBUaGlzIHNlZW1zIHRvIGJlIGJhZCBwcmFjdGljZSANCmZvciB0ZXN0IHdyaXRpbmcgYW5kIGlz
+IG5vdCBmcmllbmRseSB0byBhdXRvbWF0ZWQgYW5hbHlzaXMgb2YgdGVzdCANCnJlc3VsdHMuIA0K
+QXQgdGhlIGNvbmNsdXNpb24gb2YgZWFjaCBwdGVzdCwgc29tZSBwYWNrYWdlcyBnaXZlIGEgc3Vt
+bWFyeSBvZiBob3cgbWFueSANCnRlc3RzIHdlcmUgcGFzc2VkLCBza2lwcGVkLCBhbmQgZmFpbGVk
+LCB3aGlsZSBvdGhlcnMgZG8gbm90LiBJIGZpbmQgdGhhdCANCmhhdmluZyB0aGVzZSBzdW1tYXJp
+ZXMgZ2l2ZXMgYSB1c2VmdWwgb3ZlcnZpZXcgb2YgaG93IHRoZSB0ZXN0IHdlbnQgDQpvdmVyYWxs
+IGFuZCBpcyBhIGdvb2QgcmVmZXJlbmNlIGluIGNhc2Ugc29tZSB0ZXN0cyBmYWlsIHRvIHByb2R1
+Y2UgdGhlIA0KY29tbW9uICDigJw8cmVzdWx0PjogPHRlc3RuYW1lPuKAnSBvdXRwdXQuDQpJIHVu
+ZGVyc3RhbmQgdGhhdCBtdWNoIG9mIHRoaXMgaXMgZHVlIHRvIHRoZSBmYWN0IHRoYXQgc2VwYXJh
+dGUgZGV2ZWxvcGVycyANCndyaXRlIHRoZSB0ZXN0cyBmb3IgZGlmZmVyZW50IHBhY2thZ2VzLCBi
+dXQgaXQgd291bGQgYmUgYmVuZWZpY2lhbCBpZiANCnB0ZXN0IHdhcyBmcmllbmRsaWVyIHRvIGF1
+dG9tYXRlZCBwYXJzaW5nIGFuZCBhbmFseXNpcyBvZiB0ZXN0IHJlc3VsdHMuIA0KQ3VycmVudGx5
+LCBJIGhhdmUgYWRkcmVzc2VkIHNvbWUgb2YgdGhlc2Ugb2JzdGFjbGVzIGJ5IHdyaXRpbmcgYSBz
+aW1wbGUgDQpzY3JpcHQgdGhhdCBwYXJzZXMgdGhlIG91dHB1dCBvZiBlYWNoIHB0ZXN0IGFuZCBv
+bmx5IG91dHB1dHMgb25seSB0aGUgDQrigJw8cmVzdWx0PjogPHRlc3RuYW1lPuKAnSAgcmVzdWx0
+cyB3aGlsZSBhY2NvdW50aW5nIGZvciBib3RoIOKAnEZBSUzigJ0gYW5kIA0K4oCcRkFJTEVE4oCd
+LiBUaGUgc2NyaXB0IGtlZXBzIGEgcnVubmluZyBjb3VudCBvZiBob3cgbWFueSB0ZXN0cyB3ZXJl
+IHJlcG9ydGVkIA0KYXMgZmFpbGVkLCBza2lwcGVkIG9yIHBhc3NlZCwgYW5kIGF0IHRoZSBjb25j
+bHVzaW9uIG9mIGVhY2ggcHRlc3QsIHRoZSANCnNjcmlwdCBwcmludHMgYSBzdW1tYXJ5IGluY2x1
+ZGluZyB0aGUgbnVtYmVyIG9mIHRlc3RzIHBhc3NlZCwgc2tpcHBlZCwgYW5kIA0KZmFpbGVkIGFs
+b25nIHdpdGggYSB0b3RhbCBudW1iZXIgb2YgdGVzdHMgcnVuLiBXaGlsZSB0aGlzIHdvcmtzIHdp
+dGggdGhlIA0KY3VycmVudCBzZXQgb2YgcHRlc3RzLCBhcyBtb3JlIGFuZCBtb3JlIHBhY2thZ2Vz
+IGFkZCBwdGVzdCBmdW5jdGlvbmFsaXR5LCANCnRoaXMgc2NyaXB0IG1heSBub3Qgc2NhbGUgd2Vs
+bCBpZiBtb3JlIGluY29uc2lzdGVuY2llcyBpbiBmb3JtYXR0aW5nIGFyZSANCmludHJvZHVjZWQu
+IFRoZXJlZm9yZSwgSSBiZWxpZXZlIGl0IHdvdWxkIGJlIGEgZ29vZCBpZGVhIHRvIGVuZm9yY2Ug
+YSBtb3JlIA0KY29uc2lzdGVudCBmb3JtYXR0aW5nIG9mIHB0ZXN0IHJlc3VsdHMgdG8gYXNzaXN0
+IGluIHRoZSB1c2Ugb2YgcHRlc3QgZm9yIA0KYXV0b21hdGVkIHRlc3RpbmcuIEFyZSB0aGVyZSBh
+bnkgcGxhbnMgdG8gZnVydGhlciBjb25zb2xpZGF0ZSB0aGUgcHRlc3QgDQpyZXN1bHQgZm9ybWF0
+IHN1Y2ggdGhhdCBpdCBpcyBtb3JlIGFjY2Vzc2libGUgZm9yIGF1dG9tYXRlZCB0ZXN0aW5nPw0K
 
-can you please file a bug to track this, I will mark it as an unassigned 
-future / low for someone to pick up.
+--=_alternative 005B94A886257D1F_=
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset="UTF-8"
 
-Sau!
+PGZvbnQgc2l6ZT0yIGZhY2U9InNhbnMtc2VyaWYiPkhlbGxvLDxicj4NCiAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDtNeSBuYW1lIGlzIEVyaWMgWXUsIGFuZCBJIGFtIGFuIGludGVybg0KYXQg
+TmF0aW9uYWwgSW5zdHJ1bWVudHMgZm9yIHRoaXMgc3VtbWVyLiBUaGUgcHJvamVjdCBJIGFtIGN1
+cnJlbnRseSB3b3JraW5nDQpvbiBpbnZvbHZlcyBpbnRlZ3JhdGluZyBwdGVzdCB3aXRoIG91ciBj
+dXJyZW50IGF1dG9tYXRlZCB0ZXN0aW5nIGZyYW1ld29yaw0KdG8gaGVscCB0ZXN0IG91ciBvcGVu
+LWVtYmVkZGVkIGRpc3RyaWJ1dGlvbnMuIE9uIHRoZSBZb2N0byBQcm9qZWN0IHdpa2ksDQppdCBz
+dGF0ZXMgdGhhdCBvbmUgbWFqb3IgcG9pbnQgb2YgcHRlc3QgaXMgdG8gY29uc29saWRhdGUgdGhl
+IG91dHB1dCBvZg0KZGlmZmVyZW50IHBhY2thZ2UgdGVzdHMgaW4gYSBjb21tb24g4oCcJmx0O3Jl
+c3VsdCZndDs6ICZsdDt0ZXN0bmFtZSZndDvigJ0NCmZvcm1hdC4gSSB3YXMgaG9waW5nIHRoYXQg
+dGhpcyBjb21tb24gZm9ybWF0IHdvdWxkIGFsbG93IHB0ZXN0IHJlc3VsdHMNCnRvIGJlIGVhc2ls
+eSBtYWNoaW5lIHBhcnNlZCBhbmQgaW50ZWdyYXRlZCB3aXRoIG91ciBjdXJyZW50IHRlc3Rpbmcg
+ZnJhbWV3b3JrLg0KSG93ZXZlciwgYWZ0ZXIgZW5hYmxpbmcgYW5kIHJ1bm5pbmcgdGhlIHB0ZXN0
+cywgSSBkaXNjb3ZlcmVkIHRoYXQgdGhlIGZvcm1hdHRpbmcNCm9mIHRoZSByZXN1bHRzIHdhcyBu
+b3QgYXMgZnJpZW5kbHkgdG8gYXV0b21hdGlvbiBhcyBJIGhhZCBob3BlZC48L2ZvbnQ+DQo8cD48
+Zm9udCBzaXplPTIgZmFjZT0ic2Fucy1zZXJpZiI+Jm5ic3A7SXQgYXBwZWFycyB0aGF0IGVhY2gg
+c2VwYXJhdGUgcGFja2FnZQ0KcHJpbnRzIG91dCBpdHMgb3duIGVycm9ycywgd2FybmluZ3MsIGFu
+ZCBvdGhlciBvdXRwdXQgYWxvbmcgd2l0aCB0aGVzZQ0KdGVzdCByZXN1bHRzLCBidXJ5aW5nIHRo
+ZSBjb21tb24gb3V0cHV0IGluIGxvdHMgb2Ygb3RoZXIgdGV4dC4gQWxzbywgb25lDQpwYWNrYWdl
+IChnZGstcGl4YnVmZikgdXNlZCDigJxGQUlMRUTigJ0gd2hlbiByZXBvcnRpbmcgcmVzdWx0cyBy
+YXRoZXIgdGhhbg0KdGhlIGV4cGVjdGVkIOKAnEZBSUzigJ0uIDwvZm9udD4NCjxwPjxmb250IHNp
+emU9MiBmYWNlPSJzYW5zLXNlcmlmIj5JbiB0aGUgYmFzaCBwdGVzdHMsIHNldmVyYWwgdGVzdHMg
+cHJpbnQNCndhcm5pbmdzIHNheWluZyB0byBpZ25vcmUgZmFpbHVyZXMgd2hlcmUgdGhlIG91dHB1
+dCBkaWZmZXJzIG9ubHkgYnkgd2hpdGVzcGFjZS4NClRoaXMgc2VlbXMgdG8gYmUgYmFkIHByYWN0
+aWNlIGZvciB0ZXN0IHdyaXRpbmcgYW5kIGlzIG5vdCBmcmllbmRseSB0byBhdXRvbWF0ZWQNCmFu
+YWx5c2lzIG9mIHRlc3QgcmVzdWx0cy4gPC9mb250Pg0KPHA+PGZvbnQgc2l6ZT0yIGZhY2U9InNh
+bnMtc2VyaWYiPkF0IHRoZSBjb25jbHVzaW9uIG9mIGVhY2ggcHRlc3QsIHNvbWUNCnBhY2thZ2Vz
+IGdpdmUgYSBzdW1tYXJ5IG9mIGhvdyBtYW55IHRlc3RzIHdlcmUgcGFzc2VkLCBza2lwcGVkLCBh
+bmQgZmFpbGVkLA0Kd2hpbGUgb3RoZXJzIGRvIG5vdC4gSSBmaW5kIHRoYXQgaGF2aW5nIHRoZXNl
+IHN1bW1hcmllcyBnaXZlcyBhIHVzZWZ1bA0Kb3ZlcnZpZXcgb2YgaG93IHRoZSB0ZXN0IHdlbnQg
+b3ZlcmFsbCBhbmQgaXMgYSBnb29kIHJlZmVyZW5jZSBpbiBjYXNlIHNvbWUNCnRlc3RzIGZhaWwg
+dG8gcHJvZHVjZSB0aGUgY29tbW9uICZuYnNwO+KAnCZsdDtyZXN1bHQmZ3Q7OiAmbHQ7dGVzdG5h
+bWUmZ3Q74oCdDQpvdXRwdXQuPC9mb250Pg0KPHA+PGZvbnQgc2l6ZT0yIGZhY2U9InNhbnMtc2Vy
+aWYiPkkgdW5kZXJzdGFuZCB0aGF0IG11Y2ggb2YgdGhpcyBpcyBkdWUNCnRvIHRoZSBmYWN0IHRo
+YXQgc2VwYXJhdGUgZGV2ZWxvcGVycyB3cml0ZSB0aGUgdGVzdHMgZm9yIGRpZmZlcmVudCBwYWNr
+YWdlcywNCmJ1dCBpdCB3b3VsZCBiZSBiZW5lZmljaWFsIGlmIHB0ZXN0IHdhcyBmcmllbmRsaWVy
+IHRvIGF1dG9tYXRlZCBwYXJzaW5nDQphbmQgYW5hbHlzaXMgb2YgdGVzdCByZXN1bHRzLiBDdXJy
+ZW50bHksIEkgaGF2ZSBhZGRyZXNzZWQgc29tZSBvZiB0aGVzZQ0Kb2JzdGFjbGVzIGJ5IHdyaXRp
+bmcgYSBzaW1wbGUgc2NyaXB0IHRoYXQgcGFyc2VzIHRoZSBvdXRwdXQgb2YgZWFjaCBwdGVzdA0K
+YW5kIG9ubHkgb3V0cHV0cyBvbmx5IHRoZSDigJwmbHQ7cmVzdWx0Jmd0OzogJmx0O3Rlc3RuYW1l
+Jmd0O+KAnSAmbmJzcDtyZXN1bHRzDQp3aGlsZSBhY2NvdW50aW5nIGZvciBib3RoIOKAnEZBSUzi
+gJ0gYW5kIOKAnEZBSUxFROKAnS4gVGhlIHNjcmlwdCBrZWVwcyBhIHJ1bm5pbmcNCmNvdW50IG9m
+IGhvdyBtYW55IHRlc3RzIHdlcmUgcmVwb3J0ZWQgYXMgZmFpbGVkLCBza2lwcGVkIG9yIHBhc3Nl
+ZCwgYW5kDQphdCB0aGUgY29uY2x1c2lvbiBvZiBlYWNoIHB0ZXN0LCB0aGUgc2NyaXB0IHByaW50
+cyBhIHN1bW1hcnkgaW5jbHVkaW5nDQp0aGUgbnVtYmVyIG9mIHRlc3RzIHBhc3NlZCwgc2tpcHBl
+ZCwgYW5kIGZhaWxlZCBhbG9uZyB3aXRoIGEgdG90YWwgbnVtYmVyDQpvZiB0ZXN0cyBydW4uIFdo
+aWxlIHRoaXMgd29ya3Mgd2l0aCB0aGUgY3VycmVudCBzZXQgb2YgcHRlc3RzLCBhcyBtb3JlDQph
+bmQgbW9yZSBwYWNrYWdlcyBhZGQgcHRlc3QgZnVuY3Rpb25hbGl0eSwgdGhpcyBzY3JpcHQgbWF5
+IG5vdCBzY2FsZSB3ZWxsDQppZiBtb3JlIGluY29uc2lzdGVuY2llcyBpbiBmb3JtYXR0aW5nIGFy
+ZSBpbnRyb2R1Y2VkLiBUaGVyZWZvcmUsIEkgYmVsaWV2ZQ0KaXQgd291bGQgYmUgYSBnb29kIGlk
+ZWEgdG8gZW5mb3JjZSBhIG1vcmUgY29uc2lzdGVudCBmb3JtYXR0aW5nIG9mIHB0ZXN0DQpyZXN1
+bHRzIHRvIGFzc2lzdCBpbiB0aGUgdXNlIG9mIHB0ZXN0IGZvciBhdXRvbWF0ZWQgdGVzdGluZy4g
+QXJlIHRoZXJlDQphbnkgcGxhbnMgdG8gZnVydGhlciBjb25zb2xpZGF0ZSB0aGUgcHRlc3QgcmVz
+dWx0IGZvcm1hdCBzdWNoIHRoYXQgaXQgaXMNCm1vcmUgYWNjZXNzaWJsZSBmb3IgYXV0b21hdGVk
+IHRlc3Rpbmc/PC9mb250Pg0K
 
-> --Mark
->
-> On 7/24/14, 2:44 AM, Stefan Agner wrote:
->> Add Freescale lpuart tty's (ttyLPx) to securetty. Freescale Vybrid
->> devices running upstream kernel use this driver.
->>
->> Signed-off-by: Stefan Agner <stefan@agner.ch>
->> ---
->>   meta/recipes-extended/shadow/files/securetty | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/meta/recipes-extended/shadow/files/securetty
->> b/meta/recipes-extended/shadow/files/securetty
->> index 0b1629f..d919993 100644
->> --- a/meta/recipes-extended/shadow/files/securetty
->> +++ b/meta/recipes-extended/shadow/files/securetty
->> @@ -137,6 +137,14 @@ ttymxc3
->>   ttymxc4
->>   ttymxc5
->>
->> +# Freescale lpuart ports
->> +ttyLP0
->> +ttyLP1
->> +ttyLP2
->> +ttyLP3
->> +ttyLP4
->> +ttyLP5
->> +
->>   # Standard serial ports, with devfs
->>   tts/0
->>   tts/1
->>
->
-
+--=_alternative 005B94A886257D1F_=--
