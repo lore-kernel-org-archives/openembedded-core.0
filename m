@@ -1,35 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 55FFA6FECD
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5000D70588
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 15:26:18 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id r2so6649928igi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 08:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=2jd8PgloVkydhswfWTKm9Hh+us97589iABCWLzCEsWc=;
-	b=Fr2K1aLXmtXP8tdnrFDQzOhfMOl1Q0BM+n6IWu2X4YjeYEJlUPWVq9Bgj3c90DYqW2
-	u5A5xuydbEAtTkbcgyO+qLZT/RLPWLnm4mHouc6tc/GTLFb6Jz9mXRzjIbCYsCnt9PWR
-	TTopKXy/hXRZCRXAOay7Vw65ZQl60m0TOG4bc3Nkdfhkwmdae111N5VjLlXY6VkOy2B4
-	D4p/NXxTg/cfhRMM2jFDu9B1K1O+EmbPFHjNWgdN/enbZs/B4LQed5n4GyAVKMuvJ6Fm
-	Bt8njr0ABgeiead+f88zaJYNJGYL1zoomgkVXcizA7/CykVgfzHnohNpSVjqOU/JcsJE
-	8WAA==
-X-Received: by 10.50.25.71 with SMTP id a7mr39716254igg.17.1406215579420; Thu,
-	24 Jul 2014 08:26:19 -0700 (PDT)
+	Thu, 24 Jul 2014 17:13:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Jul 2014 10:13:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,725,1400050800"; d="scan'208";a="574938727"
+Received: from unknown (HELO [10.255.13.66]) ([10.255.13.66])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2014 10:13:06 -0700
+Message-ID: <53D13EA1.4070707@linux.intel.com>
+Date: Thu, 24 Jul 2014 10:13:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Thu, 24 Jul 2014 08:25:49 -0700 (PDT)
-In-Reply-To: <53D09B99.2030301@windriver.com>
-References: <53D09B99.2030301@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 24 Jul 2014 08:25:49 -0700
-Message-ID: <CAMKF1spOer0K3cq-XvzEDPoZ0U5-N9q2CLNU2s3_mfjrFwSZWw@mail.gmail.com>
-To: Liu Jian <jian.liu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] archiver: delete the tail slash in directory name
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1406187862-2819-1-git-send-email-stefan@agner.ch>
+	<53D11221.9070704@windriver.com>
+In-Reply-To: <53D11221.9070704@windriver.com>
+Subject: Re: [PATCH] shadow-securetty: add freescale lpuart
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,13 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 15:26:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Jul 2014 17:13:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 23, 2014 at 10:37 PM, Liu Jian <jian.liu@windriver.com> wrote:
-> local = fetch.localpath(url)
-> + local = local.rstrip("/")
+On 07/24/2014 07:03 AM, Mark Hatle wrote:
+> We should probably be setting up the securetty file in a machine
+> specific way.
+>
+> Doing it generically just pollutes the file with more stuff a specific
+> user won't want.
+>
+> (Note, you aren't the first to do this.. so right now it's probably the
+> best answer, but we should fix this in the future.)
+>
 
-may be you could just do local = fetch.localpath(url).rstrip("/") in
-the same line
+Mark,
+
+can you please file a bug to track this, I will mark it as an unassigned 
+future / low for someone to pick up.
+
+Sau!
+
+> --Mark
+>
+> On 7/24/14, 2:44 AM, Stefan Agner wrote:
+>> Add Freescale lpuart tty's (ttyLPx) to securetty. Freescale Vybrid
+>> devices running upstream kernel use this driver.
+>>
+>> Signed-off-by: Stefan Agner <stefan@agner.ch>
+>> ---
+>>   meta/recipes-extended/shadow/files/securetty | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/meta/recipes-extended/shadow/files/securetty
+>> b/meta/recipes-extended/shadow/files/securetty
+>> index 0b1629f..d919993 100644
+>> --- a/meta/recipes-extended/shadow/files/securetty
+>> +++ b/meta/recipes-extended/shadow/files/securetty
+>> @@ -137,6 +137,14 @@ ttymxc3
+>>   ttymxc4
+>>   ttymxc5
+>>
+>> +# Freescale lpuart ports
+>> +ttyLP0
+>> +ttyLP1
+>> +ttyLP2
+>> +ttyLP3
+>> +ttyLP4
+>> +ttyLP5
+>> +
+>>   # Standard serial ports, with devfs
+>>   tts/0
+>>   tts/1
+>>
+>
 
