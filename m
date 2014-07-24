@@ -1,24 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 59E32707B6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B4CFA707C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 05:55:16 +0000 (UTC)
+	Thu, 24 Jul 2014 05:55:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6O5tIgi021747
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6O5tJ4U021123
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Jul 2014 22:55:18 -0700 (PDT)
+	Wed, 23 Jul 2014 22:55:19 -0700 (PDT)
 Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 23 Jul 2014 22:55:17 -0700
+	14.3.174.1; Wed, 23 Jul 2014 22:55:18 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 01:55:13 -0400
-Message-ID: <cover.1406181188.git.jackie.huang@windriver.com>
+Date: Thu, 24 Jul 2014 01:55:14 -0400
+Message-ID: <6927f701c7047d15cee6e19edf6fa1007895fef9.1406181188.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.0.0
+In-Reply-To: <cover.1406181188.git.jackie.huang@windriver.com>
+References: <cover.1406181188.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Add missing dependency on licap for 3 recipes
+Subject: [PATCH 1/3] pulseaudio: add missing dependency on libcap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +38,24 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
---
-The following changes since commit 58f08a96764094189b5aaf3cc8b4cc0c95e23409:
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  gst-ffmpeg: Add CVE patches (2014-07-23 21:57:04 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib jhuang0/r_depend_140724_0
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_depend_140724_0
-
-Jackie Huang (3):
-  pulseaudio: add missing dependency on libcap
-  gst-plugins-good: add missing dependency on libcap
-  gstreamer1.0-plugins-good: add missing dependency on libcap
-
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
- .../gstreamer/gstreamer1.0-plugins-good.inc        |    2 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 195a982..db144a9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
++DEPENDS += "json-c gdbm speex libxml-parser-perl-native libcap"
+ 
+ inherit autotools pkgconfig useradd gettext perlnative
+ 
 -- 
 1.7.9.5
 
