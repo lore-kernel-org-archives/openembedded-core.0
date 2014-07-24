@@ -1,30 +1,41 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C16970620
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 868D270194
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Jul 2014 14:59:15 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1XAKUF-0000xR-FW from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Jul 2014 07:59:15 -0700
-Received: from SVR-ORW-FEM-06.mgc.mentorg.com ([147.34.97.120]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 24 Jul 2014 07:59:15 -0700
-Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
-	SVR-ORW-FEM-06.mgc.mentorg.com (147.34.97.120) with Microsoft SMTP
-	Server id 14.2.247.3; Thu, 24 Jul 2014 07:59:14 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Jul 2014 10:59:10 -0400
-Message-ID: <1406213951-11347-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <D4601E2D-F5E9-4AD3-AB6A-A67B0D4FD4E4@mentor.com>
-References: <D4601E2D-F5E9-4AD3-AB6A-A67B0D4FD4E4@mentor.com>
+	Thu, 24 Jul 2014 15:22:02 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id m15so2874131wgh.15
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 08:22:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+3cqe0GFwy2mYxJyLAV/oTdDo9Uut+jqdgfNATq5VlM=;
+	b=v7Z+WekG8GI0pdhU5KPaCdymXwylQaolgkE0QOiNBS6nx4IsgGbqIYqgoCUvzHAEub
+	f2x2P3iAMeUiIzthDwDq7c9BgoPm1BOhsGV+sgpvMJq2JhE6AoXHWAu4t7OF+mSz+QZM
+	N6zRihL9J+IiQTn5CILEDwhRc36w5Nn30pqmFwNQ+tseUR5i95ZvByEf41xUSlxJ2RHI
+	YX/6QGCWdo7thoRGweU1LGDYL65onwgCwKl3znm5AJSKuu1PkE4IAe+K9FHzMlDMkyvS
+	/70kn2YCZsH8iyxP3rLena2uDgWTMdOip/ijQQakTYeuGZpgqDrhs16ReCjlC4yRrEcd
+	afYg==
+X-Received: by 10.180.11.135 with SMTP id q7mr13910944wib.67.1406215323179;
+	Thu, 24 Jul 2014 08:22:03 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	10sm16697253wjx.26.2014.07.24.08.22.01 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Jul 2014 08:22:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 24 Jul 2014 17:22:18 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20140724152218.GM2492@jama>
+References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
+	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 24 Jul 2014 14:59:15.0323 (UTC)
-	FILETIME=[D618ACB0:01CFA74F]
-Subject: [PATCH V2 1/2] Revert "libomxil-0.9.3: Remove versioning for .so files."
+In-Reply-To: <CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,132 +48,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Jul 2014 14:59:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Jul 2014 15:22:07 -0000
+X-Groupsio-MsgNum: 55511
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="c2gYorpyS4gG0T74"
+Content-Disposition: inline
 
-The previous version of this fix was too aggressive and removed
-versioning from too many of the .so files in the libomxil package.
+--c2gYorpyS4gG0T74
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 0ef3734c2f279bf463ba4d1aef5241cd4882d483.
----
- .../libomxil-0.9.3/disable-so-versioning.patch     | 69 ----------------------
- meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb | 17 ++----
- 2 files changed, 6 insertions(+), 80 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
+On Thu, Jul 24, 2014 at 02:52:45PM +0100, Burton, Ross wrote:
+> On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > +REQUIRED_DISTRO_FEATURES =3D "x11"
+>=20
+> Now I'm wondering why this is the solution.
+>=20
+> If you attempt to build e.g. gnome-desktop explicitly without the x11
+> distro feature you understandably get an error message, because
+> gnome-desktop depends on libx11 which sanity checks the distro
+> features.  This seems correct.
+>=20
+> Presumably you're problem is that you're running world builds and
+> they're producing errors on gnome-desktop because they can't satisfy a
+> dependency on libx11.  It seems that bubbling up the
+> REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
+> can't SkipPackage be handled specially, so if you do bitbake -k world
+> and libx11 emits SkipPackage, anything that has unsatisfiable
+> dependencies because of this is also skipped?
 
-diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
-deleted file mode 100644
-index 9c63b4d..0000000
---- a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/disable-so-versioning.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--Disable so versioning since they are really not a versioned shared lib.
--
--Upstream-Status: Submitted @ https://sourceforge.net/p/omxil/bugs/59/
--
--Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
--
--diff -rub libomxil-bellagio-0.9.3-orig/src/components/audio_effects/Makefile.am libomxil-bellagio-0.9.3/src/components/audio_effects/Makefile.am
----- libomxil-bellagio-0.9.3-orig/src/components/audio_effects/Makefile.am	2014-07-20 15:22:00.858425234 -0400
--+++ libomxil-bellagio-0.9.3/src/components/audio_effects/Makefile.am	2014-07-20 15:25:42.687525225 -0400
--@@ -10,4 +10,5 @@
-- libomxaudio_effects_la_CFLAGS = -I$(top_srcdir)/include \
-- 				-I$(top_srcdir)/src \
-- 				-I$(top_srcdir)/src/base
--+libomxaudio_effects_la_LDFLAGS = -avoid-version
-- 
--diff -rub libomxil-bellagio-0.9.3-orig/src/components/clocksrc/Makefile.am libomxil-bellagio-0.9.3/src/components/clocksrc/Makefile.am
----- libomxil-bellagio-0.9.3-orig/src/components/clocksrc/Makefile.am	2014-07-20 15:22:00.858425234 -0400
--+++ libomxil-bellagio-0.9.3/src/components/clocksrc/Makefile.am	2014-07-20 15:24:49.151259753 -0400
--@@ -10,4 +10,4 @@
--                              -I$(top_srcdir)/include \
--                              -I$(top_srcdir)/src \
--                              -I$(top_srcdir)/src/base
---
--+libomxclocksrc_la_LDFLAGS = -avoid-version
--diff -rub libomxil-bellagio-0.9.3-orig/src/components/videoscheduler/Makefile.am libomxil-bellagio-0.9.3/src/components/videoscheduler/Makefile.am
----- libomxil-bellagio-0.9.3-orig/src/components/videoscheduler/Makefile.am	2014-07-20 15:22:00.862425254 -0400
--+++ libomxil-bellagio-0.9.3/src/components/videoscheduler/Makefile.am	2014-07-20 15:22:36.462601786 -0400
--@@ -6,7 +6,7 @@
-- 								library_entry_point.c
-- 
-- libomxvideosched_la_LIBADD = $(top_builddir)/src/libomxil-bellagio.la
---libomxvideosched_la_LDFLAGS = 
--+libomxvideosched_la_LDFLAGS = -avoid-version
-- libomxvideosched_la_CFLAGS = -I$(top_srcdir)/include \
-- 			-I$(top_srcdir)/src \
-- 			-I$(top_srcdir)/src/base
--diff -rub libomxil-bellagio-0.9.3-orig/src/dynamic_loader/Makefile.am libomxil-bellagio-0.9.3/src/dynamic_loader/Makefile.am
----- libomxil-bellagio-0.9.3-orig/src/dynamic_loader/Makefile.am	2014-07-20 15:22:00.862425254 -0400
--+++ libomxil-bellagio-0.9.3/src/dynamic_loader/Makefile.am	2014-07-20 15:22:36.462601786 -0400
--@@ -3,7 +3,7 @@
-- omxdynamicloader_LTLIBRARIES = libomxdynamicloader.la
-- libomxdynamicloader_la_SOURCES = ste_dynamic_component_loader.c ste_dynamic_component_loader.h
-- 
---libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs
--+libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs -avoid-version
-- libomxdynamicloader_la_CFLAGS = -I$(top_srcdir)/include \
-- 			-I$(top_srcdir)/src \
-- 			-I$(top_srcdir)/src/base \
--diff -rub libomxil-bellagio-0.9.3-orig/src/Makefile.am libomxil-bellagio-0.9.3/src/Makefile.am
----- libomxil-bellagio-0.9.3-orig/src/Makefile.am	2014-07-20 15:22:00.862425254 -0400
--+++ libomxil-bellagio-0.9.3/src/Makefile.am	2014-07-20 15:22:36.462601786 -0400
--@@ -8,7 +8,7 @@
-- omxregister_bellagio_CFLAGS = -DOMXILCOMPONENTSPATH=\"$(plugindir)/\" \
-- 			      -I$(top_srcdir)/include
-- omxregister_bellagio_LDADD = $(lib_LTLIBRARIES)
---omxregister_bellagio_LDFLAGS = -lomxil-bellagio -L$(builddir)
--+omxregister_bellagio_LDFLAGS = -lomxil-bellagio -L$(builddir) -avoid-version
-- 
-- lib_LTLIBRARIES = libomxil-bellagio.la
-- libomxil_bellagio_la_SOURCES = component_loader.h \
--@@ -29,7 +29,7 @@
-- libomxil_bellagio_la_CFLAGS = -I$(top_srcdir)/include -I$(srcdir)/base -I$(srcdir)/core_extensions \
--                               -DINSTALL_PATH_STR=\"$(plugindir)\" -DOMX_LOADERS_DIRNAME=\"$(libdir)/omxloaders\/\"
-- libomxil_bellagio_la_LIBADD = base/libomxbase.la core_extensions/libomxcoreext.la -lpthread
---libomxil_bellagio_la_LDFLAGS = -version-info @SHARED_VERSION_INFO@
--+libomxil_bellagio_la_LDFLAGS = -avoid-version
-- 
-- include_extradir = $(includedir)/bellagio
-- 
-diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-index ba3d491..103d789 100644
---- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-+++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
-@@ -12,8 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
-            file://configure-fix.patch \
-            file://parallel-make.patch \
-            file://makefile-docdir-fix.patch \
--           file://dynamicloader-linking.patch \
--           file://disable-so-versioning.patch"
-+           file://dynamicloader-linking.patch"
- 
- SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
- SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
-@@ -24,17 +23,13 @@ inherit autotools
- 
- EXTRA_OECONF += "--disable-doc --disable-Werror"
- 
--#
--# The .so files populated by libomxil are not intended to be versioned and symlinked.
--# Make sure they get packaged in the main package.
--#
--FILES_SOLIBSDEV = ""
--FILES_${PN} += "${libdir}/*.so \
--                ${libdir}/bellagio/*.so \
--                ${libdir}/omxloaders/*.so"
-+FILES_${PN} += "${libdir}/bellagio/*${SOLIBS} \
-+                ${libdir}/omxloaders/*${SOLIBS}"
- FILES_${PN}-staticdev += "${libdir}/bellagio/*.a \
-                           ${libdir}/omxloaders/*.a"
- FILES_${PN}-dev += "${libdir}/bellagio/*.la \
--                    ${libdir}/omxloaders/*.la"
-+                    ${libdir}/bellagio/*${SOLIBSDEV} \
-+                    ${libdir}/omxloaders/*.la \
-+                    ${libdir}/omxloaders/*${SOLIBSDEV}"
- FILES_${PN}-dbg += "${libdir}/bellagio/.debug/ \
-                     ${libdir}/omxloaders/.debug/"
--- 
-1.9.1
+We discussed this many months ago and IIRC the conclusion was that user
+should explicitly say that he wants to skip the recipes which depend on
+something skipped (so that he is aware of what he is missing).
 
+At that time there wasn't REQUIRED_DISTRO_FEATURES support, so I've
+created huge list of PNBLACKLISTs to blacklist everything not available
+in our setup - so I can do world builds without ERRORs at the beginning.
 
+REQUIRED_DISTRO_FEATURES seems to me like reasonable compromise, that's
+why I've sent this patchset to replace small part of my huge blacklist.
+
+This is the list:
+https://github.com/openwebos/meta-webos/blob/master/conf/distro/include/web=
+os-recipe-blacklist-world.inc
+
+If someone has time to improve SkipPackage and we really want to skip
+all depending packages, I would be glad to test such patch (because it
+allows to easily drop all those blacklists for "depends-on-broken"
+components)
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--c2gYorpyS4gG0T74
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPRJKoACgkQN1Ujt2V2gBw1LACffhDhYCpw4O2TC4B6SCiFgsnd
+RZQAnjMNG0FgiqQrDCDtR+T5NjJgTqhb
+=iM6P
+-----END PGP SIGNATURE-----
+
+--c2gYorpyS4gG0T74--
