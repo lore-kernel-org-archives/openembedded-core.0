@@ -1,32 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A58FD60703
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C65765E48
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 16:23:06 +0000 (UTC)
-Received: by mail-ie0-f173.google.com with SMTP id tr6so3960879ieb.18
+	Fri, 25 Jul 2014 16:28:18 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id j15so4750921qaq.15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 09:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=N9TP3yUtSZIqkv0O42ZwimBNZRHwm3SqV7jIK39x4Ck=;
-	b=RFXAAYliGRH8BpzfzK6AQW2wOzETDCNBF+M0KzDCVxq88gd1mfLoQCNmceD0dFvVG6
-	1fXdognsPS/xMNCh49G5Cmvwm4Z6GacsmRoLRrKhwT/9iNJCRQrgujilT7+Q5Y60ctPn
-	5IANoDkPEI7NCDVKn4hPQb8zz6Go8R1ThKAuyuIA8RVqpG/dmlbyN0DYpUl6w89dtVYh
-	TlucmtZ2yyeKsBCELfasX9ClK5EFneEC5SbUoJeXSfFYuMMpDnnkjz+2r50hY2F/ZIeW
-	Fy2UMOk3WH2+0RmWbgzOSgii9KWGHQoAwAAGyu7eQCrEC3ko/B21x+a2FVUnTYR92fK2
-	Eg1w==
-X-Received: by 10.50.13.102 with SMTP id g6mr7292379igc.20.1406305387078; Fri,
-	25 Jul 2014 09:23:07 -0700 (PDT)
+	Fri, 25 Jul 2014 09:28:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nN25Qnons2wwCE2YcXX7rGNlEYDZUTY5Koii54co5IU=;
+	b=YqeLWwPIY+20cMC2M4Ej+ZPCaWF/pL7S69rkB7HjbQdMcSehkDmQNisvWAVS3wGidd
+	x6ylJ8/Fk2FF02d/bnNK07E4TvNxDJhLuxVfAQXvltXwJAvOmOnTedjpXPxcDH3z1u7a
+	vJWoP9qZBIRqpoPTKJDPyCYq6ihHjc823/xmZ+qsqM6evyhQjAGt7wLC7bcdVmJuX318
+	opmpxbRSmLh+rsULKZfBcVLQuxllaH6EtpbcgYVrqcFJVCdeahiEcZtVOfLcMyRzGMSq
+	wNKM5Lr3ZRaTEIK75xPE+2pS5ggDrq8W8W7++HcXgmCQZ9/TcnixjScKeIK/ngHvQzST
+	dzQg==
+X-Gm-Message-State: ALoCoQnBQ8ZclzqgnX24ooWIuySSz3RP4QW2SKewTCT9WKqsv+t40RmgZfnBDRVHTl7ASeuTqZ+O
+X-Received: by 10.224.167.136 with SMTP id q8mr28317764qay.35.1406305699363;
+	Fri, 25 Jul 2014 09:28:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Fri, 25 Jul 2014 09:22:36 -0700 (PDT)
-In-Reply-To: <1402915976-12506-1-git-send-email-ross.burton@intel.com>
+Received: by 10.140.86.99 with HTTP; Fri, 25 Jul 2014 09:27:59 -0700 (PDT)
+In-Reply-To: <CAMKF1so3=BnFtOS988XY9pNmGZCx9Cgg7sALnomE=bvoYOZv=Q@mail.gmail.com>
 References: <1402915976-12506-1-git-send-email-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 25 Jul 2014 09:22:36 -0700
-Message-ID: <CAMKF1so3=BnFtOS988XY9pNmGZCx9Cgg7sALnomE=bvoYOZv=Q@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+	<CAMKF1so3=BnFtOS988XY9pNmGZCx9Cgg7sALnomE=bvoYOZv=Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Jul 2014 17:27:59 +0100
+Message-ID: <CAJTo0LbsgfEXhTqBvX_mdQnGHfa6CobYqa3ddguZo7JrS88Bqg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] wget: use GnuTLS instead of OpenSSL
@@ -42,55 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 16:23:10 -0000
+X-List-Received-Date: Fri, 25 Jul 2014 16:28:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 16, 2014 at 3:52 AM, Ross Burton <ross.burton@intel.com> wrote:
-> OpenSSL has license complications and GnuTLS is preferred, so although the
-> license complications don't impact wget use GnuTLS for consistency.
->
-> Also add a recommendation on ca-certificates so that https: URLs work.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-extended/wget/wget.inc |    7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-> index a778bca..642d502 100644
-> --- a/meta/recipes-extended/wget/wget.inc
-> +++ b/meta/recipes-extended/wget/wget.inc
-> @@ -3,15 +3,16 @@ HOMEPAGE = "https://www.gnu.org/software/wget/"
->  SECTION = "console/network"
->  LICENSE = "GPLv3"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> -DEPENDS = "openssl zlib libpcre"
-> +DEPENDS = "gnutls zlib libpcre"
+On 25 July 2014 17:22, Khem Raj <raj.khem@gmail.com> wrote:
+> it would be nice if this was either virtual/ssh or some sort of
+> PACKAGECONFIG so folks who
+> have ssl on the system dont need to pull gnutls as well.
 
-it would be nice if this was either virtual/ssh or some sort of
-PACKAGECONFIG so folks who
-have ssl on the system dont need to pull gnutls as well.
+There's API differences so it would have to be a PACKAGECONFIG but
+agreed.  For what it's worth I'm planning on doing a PACKAGECONFIG for
+xserver as it supports three crypto libraries for SHA and pulling in
+gnutls just for that is madness.
 
->
->  INC_PR = "r16"
->
->  inherit autotools gettext texinfo update-alternatives
->
-> -EXTRA_OECONF = "--enable-ipv6 --with-libssl-prefix=${STAGING_DIR_HOST} \
-> -                --with-ssl=openssl --disable-rpath --disable-iri \
-> +EXTRA_OECONF = "--enable-ipv6 --with-ssl=gnutls --disable-rpath --disable-iri \
->                  ac_cv_header_uuid_uuid_h=no"
->
->  ALTERNATIVE_${PN} = "wget"
->  ALTERNATIVE_PRIORITY = "100"
-> +
-> +RRECOMMENDS_${PN} += "ca-certificates"
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
