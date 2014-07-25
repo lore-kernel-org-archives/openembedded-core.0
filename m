@@ -1,38 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C65765E48
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CEA765E48
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 16:28:18 +0000 (UTC)
-Received: by mail-qa0-f42.google.com with SMTP id j15so4750921qaq.15
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 09:28:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=nN25Qnons2wwCE2YcXX7rGNlEYDZUTY5Koii54co5IU=;
-	b=YqeLWwPIY+20cMC2M4Ej+ZPCaWF/pL7S69rkB7HjbQdMcSehkDmQNisvWAVS3wGidd
-	x6ylJ8/Fk2FF02d/bnNK07E4TvNxDJhLuxVfAQXvltXwJAvOmOnTedjpXPxcDH3z1u7a
-	vJWoP9qZBIRqpoPTKJDPyCYq6ihHjc823/xmZ+qsqM6evyhQjAGt7wLC7bcdVmJuX318
-	opmpxbRSmLh+rsULKZfBcVLQuxllaH6EtpbcgYVrqcFJVCdeahiEcZtVOfLcMyRzGMSq
-	wNKM5Lr3ZRaTEIK75xPE+2pS5ggDrq8W8W7++HcXgmCQZ9/TcnixjScKeIK/ngHvQzST
-	dzQg==
-X-Gm-Message-State: ALoCoQnBQ8ZclzqgnX24ooWIuySSz3RP4QW2SKewTCT9WKqsv+t40RmgZfnBDRVHTl7ASeuTqZ+O
-X-Received: by 10.224.167.136 with SMTP id q8mr28317764qay.35.1406305699363;
-	Fri, 25 Jul 2014 09:28:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Fri, 25 Jul 2014 09:27:59 -0700 (PDT)
-In-Reply-To: <CAMKF1so3=BnFtOS988XY9pNmGZCx9Cgg7sALnomE=bvoYOZv=Q@mail.gmail.com>
-References: <1402915976-12506-1-git-send-email-ross.burton@intel.com>
-	<CAMKF1so3=BnFtOS988XY9pNmGZCx9Cgg7sALnomE=bvoYOZv=Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 25 Jul 2014 17:27:59 +0100
-Message-ID: <CAJTo0LbsgfEXhTqBvX_mdQnGHfa6CobYqa3ddguZo7JrS88Bqg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wget: use GnuTLS instead of OpenSSL
+	Fri, 25 Jul 2014 16:30:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6PGTtD4031004; Fri, 25 Jul 2014 17:29:55 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id c-gqlOefv0zU; Fri, 25 Jul 2014 17:29:55 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6PGTphA030987
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 25 Jul 2014 17:29:52 +0100
+Message-ID: <1406305785.27697.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Fri, 25 Jul 2014 17:29:45 +0100
+In-Reply-To: <1962350.z6r6hkHnKy@peggleto-mobl5.ger.corp.intel.com>
+References: <1406205685-7685-1-git-send-email-georgex.l.musat@intel.com>
+	<1406205685-7685-2-git-send-email-georgex.l.musat@intel.com>
+	<1962350.z6r6hkHnKy@peggleto-mobl5.ger.corp.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] oeqa/runtime: Added skipModule import for test modules that use it.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,18 +39,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 16:28:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 25 Jul 2014 16:30:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 25 July 2014 17:22, Khem Raj <raj.khem@gmail.com> wrote:
-> it would be nice if this was either virtual/ssh or some sort of
-> PACKAGECONFIG so folks who
-> have ssl on the system dont need to pull gnutls as well.
+On Fri, 2014-07-25 at 17:16 +0100, Paul Eggleton wrote:
+> Stefan pointed out to me that this contains a seemingly unintentional revert 
+> of the following earlier change:
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/lib/oeqa/runtime/pam.py?id=14735be703de1b1e173d444b51df7aad902428d5
 
-There's API differences so it would have to be a PACKAGECONFIG but
-agreed.  For what it's worth I'm planning on doing a PACKAGECONFIG for
-xserver as it supports three crypto libraries for SHA and pulling in
-gnutls just for that is madness.
+Thanks, I've fixed that.
 
-Ross
+Cheers,
+
+Richard
+
 
