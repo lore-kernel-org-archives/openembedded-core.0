@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D52B77067A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D2307067B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 10:13:57 +0000 (UTC)
+	Fri, 25 Jul 2014 10:14:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6PADqmh021100
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6PADscH008797
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 25 Jul 2014 03:13:52 -0700 (PDT)
+	Fri, 25 Jul 2014 03:13:54 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 25 Jul 2014 03:13:51 -0700
+	14.3.174.1; Fri, 25 Jul 2014 03:13:53 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Jul 2014 18:13:31 +0800
-Message-ID: <cover.1406275654.git.hongxu.jia@windriver.com>
+Date: Fri, 25 Jul 2014 18:13:32 +0800
+Message-ID: <9744f54022b591228ed2566f8d5fa3b3c97f6ca9.1406275654.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1406275654.git.hongxu.jia@windriver.com>
+References: <cover.1406275654.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH V2 0/1] gcc-4.9.inc: fix parallel building failure
+Subject: [PATCH 1/1] gcc-4.9.inc: fix parallel building failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +36,112 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 25 Jul 2014 10:14:08 -0000
 Content-Type: text/plain
 
-Change in V2:
+The gcc-ar.o, gcc-nm.o, gcc-ranlib.o and errors.o included
+config.h which was a generated file. But no explicity rule
+to clarify the dependency. There was potential building
+failure while parallel make.
 
-As the upstream of gcc suggested:
-- The previous fix is too hack;
-- Use '$(ALL_HOST_OBJS) : | $(generated_files)' rule to
-  handle the dependency.
+For gcc-ar.o, gcc-nm.o and gcc-ranlib.o, they were compiled from one C
+source file gcc-ar.c, we add them to ALL_HOST_BACKEND_OBJS, so the
+'$(ALL_HOST_OBJS) : | $(generated_files)' rule could work for these
+objects.
 
-Test Steps:
+For errors.o, it is part of gengtype, and the gengtype generator program
+is special: Two versions are built. One is for the build machine, and one
+is for the host. We refered what gengtype-parse.o did (which also is part
+of gengtype).
 
-1. For reproducing the issue every time, manually modify
-gcc/Makefile.in to delay the generation of config.h:
-...
-diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-index c4daf69..c502898 100644
---- gcc-4.9.0/gcc/Makefile.in
-+++ gcc-4.9.0/gcc/Makefile.in
-@@ -1622,9 +1622,12 @@ tm.h: cs-tm.h ; @true
- tm_p.h: cs-tm_p.h ; @true
- 
- cs-config.h: Makefile
-+   @echo "start to generate config.h `date`"
-+   sleep 10
-    TARGET_CPU_DEFAULT="" \
-    HEADERS="$(host_xm_include_list)" DEFINES="$(host_xm_defines)" \
-    $(SHELL) $(srcdir)/mkconfig.sh config.h
-+   @echo "config.h generated `date`"
- 
- cs-bconfig.h: Makefile
-    TARGET_CPU_DEFAULT="" \
-...
+[YOCTO #6568]
 
-2. bitbake gcc-cross-arm
-
-//Hongxu
-
-
-The following changes since commit 1306f263ed7b3de4e85c6dc8b377e5c05afd6bf0:
-
-  package_ipk.bbclass: Support hierarchical feed (2014-07-23 22:06:10 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-gcc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-gcc
-
-Hongxu Jia (1):
-  gcc-4.9.inc: fix parallel building failure
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
  ...Makefile.in-fix-parallel-building-failure.patch | 64 ++++++++++++++++++++++
  2 files changed, 65 insertions(+)
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index cbf1355..10bd5d5 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -67,6 +67,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+            file://0051-eabispe.patch \
+            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
+            file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
++           file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+ 	  "
+ SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
+ SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch b/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
+new file mode 100644
+index 0000000..6277bec
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
+@@ -0,0 +1,64 @@
++From 5a50cebd00930930e609e978331ede690f34512b Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Fri, 25 Jul 2014 14:35:17 +0800
++Subject: [PATCH] gcc/Makefile.in: fix parallel building failure
++
++The gcc-ar.o, gcc-nm.o, gcc-ranlib.o and errors.o included
++config.h which was a generated file. But no explicity rule
++to clarify the dependency. There was potential building
++failure while parallel make.
++
++For gcc-ar.o, gcc-nm.o and gcc-ranlib.o, they were compiled from one C
++source file gcc-ar.c, we add them to ALL_HOST_BACKEND_OBJS, so the
++'$(ALL_HOST_OBJS) : | $(generated_files)' rule could work for these
++objects.
++
++For errors.o, it is part of gengtype, and the gengtype generator program
++is special: Two versions are built. One is for the build machine, and one
++is for the host. We refered what gengtype-parse.o did (which also is part
++of gengtype).
++
++[GCC #61899]
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61899
++
++Upstream-Status: Send to gcc-patches@gcc.gnu.org mailing list
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ gcc/Makefile.in | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/gcc/Makefile.in b/gcc/Makefile.in
++index 6475cba..56e50bb 100644
++--- a/gcc/Makefile.in
+++++ b/gcc/Makefile.in
++@@ -1481,13 +1481,16 @@ OBJS-libcommon-target = $(common_out_object_file) prefix.o params.o \
++ 	opts.o opts-common.o options.o vec.o hooks.o common/common-targhooks.o \
++ 	hash-table.o file-find.o
++ 
+++# Objects compiled from one C source file gcc-ar.c
+++OBJS-gcc-ar = gcc-ar.o gcc-nm.o gcc-ranlib.o
+++
++ # This lists all host objects for the front ends.
++ ALL_HOST_FRONTEND_OBJS = $(foreach v,$(CONFIG_LANGUAGES),$($(v)_OBJS))
++ 
++ ALL_HOST_BACKEND_OBJS = $(GCC_OBJS) $(OBJS) $(OBJS-libcommon) \
++   $(OBJS-libcommon-target) @TREEBROWSER@ main.o c-family/cppspec.o \
++   $(COLLECT2_OBJS) $(EXTRA_GCC_OBJS) $(GCOV_OBJS) $(GCOV_DUMP_OBJS) \
++-  lto-wrapper.o
+++  lto-wrapper.o $(OBJS-gcc-ar)
++ 
++ # This lists all host object files, whether they are included in this
++ # compilation or not.
++@@ -2437,6 +2440,8 @@ gengtype-parse.o: $(CONFIG_H)
++ CFLAGS-build/gengtype-parse.o += -DGENERATOR_FILE
++ build/gengtype-parse.o: $(BCONFIG_H)
++ 
+++errors.o : $(CONFIG_H)
+++
++ gengtype-state.o build/gengtype-state.o: gengtype-state.c $(SYSTEM_H) \
++   gengtype.h errors.h double-int.h version.h $(HASHTAB_H) $(OBSTACK_H) \
++   $(XREGEX_H)
++-- 
++1.8.1.2
++
 -- 
 1.8.1.2
 
