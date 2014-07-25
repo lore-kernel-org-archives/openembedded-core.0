@@ -1,41 +1,41 @@
 Return-Path: <gary.robertson@linaro.org>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E640706C6
+Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
+	[209.85.219.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 975C7706C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 22:21:05 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id e131so3908210oig.40
+	Fri, 25 Jul 2014 22:21:07 +0000 (UTC)
+Received: by mail-oa0-f51.google.com with SMTP id o6so6309299oag.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 15:21:07 -0700 (PDT)
+	Fri, 25 Jul 2014 15:21:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=PULX4Cgx64rKqq6OwUljeyhietlULvRms6fW/A8DPrc=;
-	b=HxIiqxnhJyCPEo4cqgIkXlMFYhSgeCwfRD3cHTCdA85F6JypphEvHZMCmxuLfDEKXu
-	EI/kSTT+OoVCCCCqwCi1tIyA3M+5w+F9OXveZ5Q+jBGuldMXu/4sCQht260xCMEwYmt0
-	SSOlEaGmhrZPe/n5AQ7YdeKPk/vCyfklJm/tcDmSNYrqaHIfOW8xbDxZDELVmY3wuz+m
-	GvYSNDEVBajOd2GPLJ8DYUVpntvbSCpKlvuj6Po/aoo9+wjtlU0DJXz23MEyrMgr3TqT
-	2wn4ax3BpZcxi/JVm57j0ZQbFUy4MdElu3CU3bZoU+FjKLkSJKgzdcKT++6OS7zsghLL
-	6Sxg==
-X-Gm-Message-State: ALoCoQmWR/RpfzwhmZpkPWnKcyVrg+V33M82jPYggc/UAwt55yDSp5fzY3UCWwn7ivlIowrnGpP3
-X-Received: by 10.182.199.5 with SMTP id jg5mr26954240obc.75.1406326866932;
-	Fri, 25 Jul 2014 15:21:06 -0700 (PDT)
+	bh=ph9C8Penl08pQguflz8HEGooESInI4H3nHoxKLj5yfY=;
+	b=jEMpKvNcPtyOW9+4tQARN+WUZniqiLb6TIr4ZuEKP9bSXIhQMBklvm3suH04cO4VdA
+	VAPLHRKDzH16jze1yywH+hSbknWUiESrVEs6+7NlpPLSD2kGE+vOGnaq3m4XzfkEKv/R
+	ywzJr+uyD+YqsLgqfdqtcT4VkyqMprkLcxkHT5OaQ30B0yuxAOMulsDqy1vaX4l5Eif4
+	qzq4jopXU+L3xB2FsNSINiiS3NCAwi9phcuRcfT9JJARexi3xI2+nV2SxS55zSWAMnKw
+	BCgR1wr7f3cvkRkS2op1WxqGsG9U9BdDBvOYYzOMS7xmqUhTJz2Smtg26fI+Xn8iAcfZ
+	R0Vw==
+X-Gm-Message-State: ALoCoQkoJg4mvYX/dCQqdqTNSNBFvC2O1ZGayfF42DFOhdZ0LrUV9muISJZDDdm73KfCsFIMUjQ7
+X-Received: by 10.60.52.115 with SMTP id s19mr26920111oeo.21.1406326868353;
+	Fri, 25 Jul 2014 15:21:08 -0700 (PDT)
 Received: from honkintosh.cybertech.lan (65-120-133-114.dia.static.qwest.net.
 	[65.120.133.114])
-	by mx.google.com with ESMTPSA id q3sm40881371oei.3.2014.07.25.15.21.06
+	by mx.google.com with ESMTPSA id q3sm40881371oei.3.2014.07.25.15.21.07
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 25 Jul 2014 15:21:06 -0700 (PDT)
+	Fri, 25 Jul 2014 15:21:07 -0700 (PDT)
 From: "Gary S. Robertson" <gary.robertson@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Jul 2014 17:20:43 -0500
-Message-Id: <1406326845-17506-2-git-send-email-gary.robertson@linaro.org>
+Date: Fri, 25 Jul 2014 17:20:45 -0500
+Message-Id: <1406326845-17506-4-git-send-email-gary.robertson@linaro.org>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
 References: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
 Cc: mike.holmes@linaro.org
-Subject: [PATCH 1/3] LTP: Realtime tests - Allow-mutex-initialization-without-PI-configured
+Subject: [PATCH 3/3] LTP: prio-wake- eliminate deprecated usleep calls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,102 +52,65 @@ X-List-Received-Date: Fri, 25 Jul 2014 22:21:12 -0000
 
 From: "Gary S. Robertson" <gary.robertson@linaro.org>
 
-In the OE build environment the features on the build host
-may not match those of the runtime host -so- the conditional
-compilation clauses were deleted which required the presence
-of priority inheriting mutexes in order to compile initialization
-of a mutex with priority inheritance.  This allows this code to
-execute and fail if the runtime host lacks priority inheritance,
-while eliminating any dependence on PI mutexes in the build host.
+Minor cleanup on realtime test prio-wake.
+Replaced deprecated usleep calls with calls to rt_nanosleep,
+which has no potentially adverse interactions with signals.
 
 Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
 ---
- ...utex-initialization-without-PI-configured.patch |   66 ++++++++++++++++++++
+ ...io-wake-eliminate-deprecated-usleep-calls.patch |   33 ++++++++++++++++++++
  meta/recipes-extended/ltp/ltp_20140422.bb          |    1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Allow-mutex-initialization-without-PI-configured.patch
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-prio-wake-eliminate-deprecated-usleep-calls.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Allow-mutex-initialization-without-PI-configured.patch b/meta/recipes-extended/ltp/ltp/0001-Allow-mutex-initialization-without-PI-configured.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0001-prio-wake-eliminate-deprecated-usleep-calls.patch b/meta/recipes-extended/ltp/ltp/0001-prio-wake-eliminate-deprecated-usleep-calls.patch
 new file mode 100644
-index 0000000..2de6e22
+index 0000000..4a43703
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Allow-mutex-initialization-without-PI-configured.patch
-@@ -0,0 +1,66 @@
-+From 62dfb25fa3b6e71650bc3fff9a4a0eaec0f5ac8e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/ltp/ltp/0001-prio-wake-eliminate-deprecated-usleep-calls.patch
+@@ -0,0 +1,33 @@
++From 38283c837a56d64f3d23b57e082956916fe085b2 Mon Sep 17 00:00:00 2001
 +From: "Gary S. Robertson" <gary.robertson@linaro.org>
-+Date: Fri, 25 Jul 2014 09:25:13 -0500
-+Subject: [PATCH] Allow mutex initialization without PI configured
++Date: Fri, 25 Jul 2014 09:50:35 -0500
++Subject: [PATCH] prio-wake: eliminate deprecated usleep calls
 +
-+LTP is primarily intended to be built and run on the same machine,
-+and uses autotools / autoconf to determine the features of the host
-+machine's environment prior to compilation.  However in the OE
-+environment, LTP may get built into a generic filesystem image
-+which will be used with a variety of different kernels later...
-+so for the OE environment it is better not to disable features
-+based on the compile-time environment.  This patch removes
-+compile-time dependencies on priority-inheriting mutexes and
-+allows the code to attempt initialization of PI mutexes even
-+if the runtime environment lacks that feature... in which case
-+the associated test should fail.
++Replaced deprecated usleep calls with calls to rt_nanosleep,
++which has no potentially adverse interactions with signals.
 +
 +Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
 +---
-+ testcases/realtime/lib/librttest.c            |    2 --
-+ testcases/realtime/stress/pi-tests/testpi-3.c |    2 --
-+ 2 files changed, 4 deletions(-)
++ testcases/realtime/func/prio-wake/prio-wake.c |    4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/testcases/realtime/lib/librttest.c b/testcases/realtime/lib/librttest.c
-+index 0dd6019..9f37d08 100644
-+--- a/testcases/realtime/lib/librttest.c
-++++ b/testcases/realtime/lib/librttest.c
-+@@ -586,7 +586,6 @@ void *busy_work_us(int us)
++diff --git a/testcases/realtime/func/prio-wake/prio-wake.c b/testcases/realtime/func/prio-wake/prio-wake.c
++index 18c0405..f34ae30 100644
++--- a/testcases/realtime/func/prio-wake/prio-wake.c
+++++ b/testcases/realtime/func/prio-wake/prio-wake.c
++@@ -108,10 +108,10 @@ void *master_thread(void *arg)
 + 
-+ void init_pi_mutex(pthread_mutex_t * m)
-+ {
-+-#if HAVE_DECL_PTHREAD_PRIO_INHERIT
-+ 	pthread_mutexattr_t attr;
-+ 	int ret;
-+ 	int protocol;
-+@@ -609,7 +608,6 @@ void init_pi_mutex(pthread_mutex_t * m)
-+ 	if ((ret = pthread_mutex_init(m, &attr)) != 0) {
-+ 		printf("Failed to init mutex: %d (%s)\n", ret, strerror(ret));
-+ 	}
-+-#endif
++ 	/* make sure children are started */
++ 	while (running_threads < rt_threads)
++-		usleep(1000);
+++		rt_nanosleep(1000000);
++ 	/* give the worker threads a chance to get to sleep in the kernel
++ 	 * in the unlocked broadcast case. */
++-	usleep(1000);
+++	rt_nanosleep(1000000);
 + 
-+ 	/* FIXME: does any of this need to be destroyed ? */
-+ }
-+diff --git a/testcases/realtime/stress/pi-tests/testpi-3.c b/testcases/realtime/stress/pi-tests/testpi-3.c
-+index 30f38f6..807c9cc 100644
-+--- a/testcases/realtime/stress/pi-tests/testpi-3.c
-++++ b/testcases/realtime/stress/pi-tests/testpi-3.c
-+@@ -365,7 +365,6 @@ int main(int argc, char *argv[])
++ 	start = rt_gettime() - beginrun;
 + 
-+ 	printf("Start %s\n", argv[0]);
-+ 
-+-#if HAVE_DECL_PTHREAD_PRIO_INHERIT
-+ 	if (!nopi) {
-+ 		pthread_mutexattr_t mutexattr;
-+ 		int protocol;
-+@@ -386,7 +385,6 @@ int main(int argc, char *argv[])
-+ 			printf("Failed to init mutex: %d\n", retc);
-+ 		}
-+ 	}
-+-#endif
-+ 
-+ 	startThread(&arg1);
-+ 	startThread(&arg2);
 +-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
-index 30761fd..2ac2187 100644
+index f86a195..77c79f5 100644
 --- a/meta/recipes-extended/ltp/ltp_20140422.bb
 +++ b/meta/recipes-extended/ltp/ltp_20140422.bb
-@@ -26,6 +26,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
-     file://ltp-Do-not-link-against-libfl.patch \
+@@ -28,6 +28,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
      file://automake-foreign.patch \
-+    file://0001-Allow-mutex-initialization-without-PI-configured.patch \
+     file://0001-Allow-mutex-initialization-without-PI-configured.patch \
+     file://0001-pthread_cond_many-fix-uninitialized-return-in-option.patch \
++    file://0001-prio-wake-eliminate-deprecated-usleep-calls.patch \
  "
  
  S = "${WORKDIR}/git"
