@@ -1,40 +1,34 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A85E70478
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 45173706D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 13:14:31 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id pv20so3065968lab.1
+	Fri, 25 Jul 2014 13:15:23 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id l18so4074871wgh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 06:14:31 -0700 (PDT)
+	Fri, 25 Jul 2014 06:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=z1rL3DaLSGLamE7nwXjaIsZrJ3KVojDEfQ12SqXbNig=;
-	b=G2F8MISi7gPmboiWpednceB8beCNAOkUHNC/qXc27AwZZeCi+X0wZQK6K+zyXB1lKV
-	lChliHd+ldmKm2gwHqJ8cE+vMB0jb6OP5AWCNnXLU3pQhltnSplQ+PGRWzD0shGFHNw6
-	07wfLkfXhB3+nG8RYOVWErzoa9rU1325/uz9RqBrusLSa5+KtfG3EgLmvm1OEFlx4JB1
-	kYblTKM4tOFasyc0ZGMWFMUUG83DKk5/R1lY0cO1sqCHt4bj8pPTY6ojS7TAtuRh74La
-	c2cTYiKWBugoas7GC0mni5HA5IW01yoODZHw1waOb0YSAbx+KiYKfEfb1lvWi4ryPi9a
-	cvEw==
-MIME-Version: 1.0
-X-Received: by 10.112.160.105 with SMTP id xj9mr15295235lbb.2.1406294071841;
-	Fri, 25 Jul 2014 06:14:31 -0700 (PDT)
-Received: by 10.112.124.137 with HTTP; Fri, 25 Jul 2014 06:14:31 -0700 (PDT)
-In-Reply-To: <CADkTA4MsNBb7aqtNRZE1d+qVO4Oy=0DJjeb3j3dgiwXJ68QY0g@mail.gmail.com>
-References: <cover.1406234258.git.bruce.ashfield@windriver.com>
-	<67ae6f8074e50a768143cac6a40fd8d16e2f5965.1406234258.git.bruce.ashfield@windriver.com>
-	<20140724220210.GO2492@jama>
-	<CADkTA4MwiR8v_MAV=To-o-OPhDKT7kXESryCacathmZqNPhpEg@mail.gmail.com>
-	<20140725095325.GR2492@jama>
-	<CADkTA4MsNBb7aqtNRZE1d+qVO4Oy=0DJjeb3j3dgiwXJ68QY0g@mail.gmail.com>
-Date: Fri, 25 Jul 2014 09:14:31 -0400
-Message-ID: <CADkTA4MhKzkwTMyGZw8vrKXDzzY+LtkC7ULUHqJ-7zK-5MZfJw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] lttng-modules: re-enable ARM builds
+	h=from:to:cc:subject:date:message-id;
+	bh=/TiV6svdlErk+ZM8CXMVTKv5qzdbvWGHNzm9ghy2sj4=;
+	b=nY8QjtCQMKkAEk/unXzBTtKqRTJwabeNUbuYKpyCunftlHuwbl/EeXbP7hLOoitDnW
+	Hgsduia29U0RrbISGBsrtjgytFTeEn70qPJYB5Rb9gqQ1BKrCuXpWGX/acn+hDrop8F6
+	+F3HrmfBUFKS7iWc7D3BZGN0diw02Kh2on/O73FvobIotg8jmjU2XYbghxCkJxk0Ghs/
+	wEW3sp127LMQ++wqKGnkTe3SWoya4qdvRvL6hC9ti15PxEoaDOeduvhHF0oqdX8zopiA
+	DATGsFjSxAw4wdXxWDhqHdVaOLDCc0cenlnxQHqvJ5exuhiVj2HWQiD4ZgyWdFFwyksz
+	pqHw==
+X-Received: by 10.194.221.6 with SMTP id qa6mr21338056wjc.39.1406294122461;
+	Fri, 25 Jul 2014 06:15:22 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	o2sm5812651wij.24.2014.07.25.06.15.21 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Jul 2014 06:15:21 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Jul 2014 15:15:38 +0200
+Message-Id: <1406294138-31362-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.0.2
+Subject: [PATCH] buildhistory: rename build-id to build-id.txt and add more info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,117 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 13:14:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 25 Jul 2014 13:15:24 -0000
 
-On Fri, Jul 25, 2014 at 9:00 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Fri, Jul 25, 2014 at 5:53 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> On Thu, Jul 24, 2014 at 11:10:50PM -0400, Bruce Ashfield wrote:
->>> On Thu, Jul 24, 2014 at 6:02 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->>> > On Thu, Jul 24, 2014 at 04:41:52PM -0400, Bruce Ashfield wrote:
->>> >> With lttng 2.4.2 and gcc 4.9, we can now enable lttng-modules for ARM.
->>> >>
->>> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>> >> ---
->>> >>  meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb | 3 +--
->>> >>  1 file changed, 1 insertion(+), 2 deletions(-)
->>> >>
->>> >> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
->>> >> index 5a99a5adae8b..d87374163556 100644
->>> >> --- a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
->>> >> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
->>> >> @@ -12,8 +12,7 @@ inherit module
->>> >>
->>> >>  SRCREV = "789fd1d06d07aeb9a403bdce1b3318560cfc6eca"
->>> >>
->>> >> -# lttng currently blacklists arm with gcc-4.8
->>> >> -COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
->>> >> +COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|arm).*-linux'
->>> >
->>> > Please squash this to 2/8 otherwise there is no arm version between 2/8
->>> > and 6/8.
->>>
->>> I'd rather not, since they are separate activities. I updated to 2.5,
->>> and then enable
->>> ARM. One isolated change per commit. Bisectability in a small series is one
->>> thing, but also is the isolation of changes.
->>
->> 2/8 commit message says:
->>
->> We also drop the older 2.3.3 lttng-modules, since it is no longer
->> required to support ARM builds.
->>
->> Which isn't true at that time and it means that these changes aren't
->> separate activities.
->>
->> To keep them separate, remove 2.3.3 in this commit, not in upgrade to
->> 2.5.0. (or with more work involved, enable arm in 2.4* together with
->> 2.3.3 removal as someone reported arm+2.4* also working now).
->
-> That'll work, but not on tap for me today. I've got a whole set of backed up
-> change behind my 3.16 work.
->
-> If Richard or Saul care,  won't object to any splitting or squashing they
-> want to do.
+* use .txt extension like other reports (e.g. image-info.txt) it's
+  also useful when looking at the file from web server which doesn't
+  have text/plain as default content-type
+* include whole BUILDCFG_HEADER/BUILDCFG_FUNCS instead of just layer
+  info
+* this makes it easier for distro to include more fields without the
+  need to modify buildhistory.bbclass
+* currently it adds following fields:
+  Build Configuration:
+  BB_VERSION        = "1.23.1"
+  BUILD_SYS         = "x86_64-linux"
+  NATIVELSBSTRING   = "Gentoo-2.2"
+  TARGET_SYS        = "x86_64-oe-linux"
+  MACHINE           = "qemux86-64"
+  DISTRO            = "shr"
+  DISTRO_VERSION    = "2013.07-next-20140725"
+  TUNE_FEATURES     = "m64 core2"
+  TARGET_FPU        = ""
 
-And I of course hit send to soon. There was supposed to be a second
-sentence here.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/buildhistory.bbclass | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
- ".. before I can split and retest over the weekend".
-
-*sigh*. Off to get a coffee.
-
-Bruce
-
->
-> Bruce
->
->>
->>> Richard can squash on merge is he wants, but I'm going to leave it as is.
->>>
->>> Bruce
->>>
->>> >
->>> >>  SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.5 \
->>> >>             file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
->>> >> --
->>> >> 1.8.1.2
->>> >>
->>> >> --
->>> >> _______________________________________________
->>> >> Openembedded-core mailing list
->>> >> Openembedded-core@lists.openembedded.org
->>> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>> >
->>> > --
->>> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->>> >
->>> > --
->>> > _______________________________________________
->>> > Openembedded-core mailing list
->>> > Openembedded-core@lists.openembedded.org
->>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>> >
->>>
->>>
->>>
->>> --
->>> "Thou shalt not follow the NULL pointer, for chaos and madness await
->>> thee at its end"
->>
->> --
->> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-
-
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 20382ce..479e460 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -461,10 +461,10 @@ END
+ 	echo "IMAGESIZE = $imagesize" >> ${BUILDHISTORY_DIR_IMAGE}/image-info.txt
+ 
+ 	# Add some configuration information
+-	echo "${MACHINE}: ${IMAGE_BASENAME} configured for ${DISTRO} ${DISTRO_VERSION}" > ${BUILDHISTORY_DIR_IMAGE}/build-id
++	echo "${MACHINE}: ${IMAGE_BASENAME} configured for ${DISTRO} ${DISTRO_VERSION}" > ${BUILDHISTORY_DIR_IMAGE}/build-id.txt
+ 
+-	cat >> ${BUILDHISTORY_DIR_IMAGE}/build-id <<END
+-${@buildhistory_get_layers(d)}
++	cat >> ${BUILDHISTORY_DIR_IMAGE}/build-id.txt <<END
++${@buildhistory_get_build_id(d)}
+ END
+ }
+ 
+@@ -498,11 +498,21 @@ POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host ;
+ 
+ SDK_POSTPROCESS_COMMAND += "buildhistory_get_sdkinfo ; "
+ 
+-def buildhistory_get_layers(d):
+-    if d.getVar('BB_WORKERCONTEXT', True) != '1':
+-        return ""
+-    layertext = "Configured metadata layers:\n%s\n" % '\n'.join(get_layers_branch_rev(d))
+-    return layertext
++def buildhistory_get_build_id(d):
++    localdata = bb.data.createCopy(d)
++    bb.data.update_data(localdata)
++    statuslines = []
++    for func in oe.data.typed_value('BUILDCFG_FUNCS', localdata):
++        g = globals()
++        if func not in g:
++            bb.warn("Build configuration function '%s' does not exist" % func)
++        else:
++            flines = g[func](localdata)
++            if flines:
++                statuslines.extend(flines)
++
++    statusheader = d.getVar('BUILDCFG_HEADER', True)
++    return('\n%s\n%s\n' % (statusheader, '\n'.join(statuslines)))
+ 
+ def buildhistory_get_metadata_revs(d):
+     # We want an easily machine-readable format here, so get_layers_branch_rev isn't quite what we want
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.0.2
+
 
