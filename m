@@ -1,26 +1,43 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D2307067B
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E06DD60C19
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 10:14:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6PADscH008797
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 25 Jul 2014 03:13:54 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 25 Jul 2014 03:13:53 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Jul 2014 18:13:32 +0800
-Message-ID: <9744f54022b591228ed2566f8d5fa3b3c97f6ca9.1406275654.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1406275654.git.hongxu.jia@windriver.com>
-References: <cover.1406275654.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] gcc-4.9.inc: fix parallel building failure
+	Fri, 25 Jul 2014 10:42:38 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id n3so747656wiv.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Jul 2014 03:42:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=dHwlRHKy/lhYkNuWi5HAaOZQw7bJ1oCKzla87gpa61c=;
+	b=Q7T53NPOLzpCu2+s0B40kT2Ze23zsxYFGYyMPWABlv8UUcoJ/b/wtsRX1EqLLjvc9E
+	TqoAVNgnuWhUO4jFNu4tc8NKzFGatKSGo04CWiajXibxI6ohetXrQXnb99pNrrYssSuV
+	Lbr3H4s3sM0j27KK9CjnoJ5XnAO4+RGzDYuJ0SHVrYPHn7EExnZFiZLf7nT6l9wwIxpW
+	85w1TbBX4OPB6tyt5H9pMFgVskwgVqX8wG5fbCN3DFHbeqWCgCvZ+IZ5V4tAdljmpjKQ
+	Ck4tx9Od5pFvyGRZbYpoOCtHgBxAOl7DOkuUzM8x6GvjhadPNc3A3P2es8dJaZq3vz7b
+	8ZWA==
+X-Gm-Message-State: ALoCoQn6Y62Bukgw/v8gFbYv0DXRacl/TPpRJRW7NxW+JjRtae/Z1cqQ4PR1aOnfU2Vd/R8gVmuM
+X-Received: by 10.180.39.33 with SMTP id m1mr4018544wik.82.1406284959440;
+	Fri, 25 Jul 2014 03:42:39 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::6c83:8eb5:d127:d6a8?
+	([2001:610:612:0:6c83:8eb5:d127:d6a8])
+	by mx.google.com with ESMTPSA id
+	ut2sm24150875wjc.49.2014.07.25.03.42.37 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 25 Jul 2014 03:42:38 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <53B66F26.5000800@communistcode.co.uk>
+Date: Fri, 25 Jul 2014 12:42:35 +0200
+Message-Id: <CD45798B-163C-401D-8CEF-63773E06BF12@dominion.thruhere.net>
+References: <1402915976-12506-1-git-send-email-ross.burton@intel.com>
+	<53B66F26.5000800@communistcode.co.uk>
+To: ml@communistcode.co.uk
+X-Mailer: Apple Mail (2.1878.6)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wget: use GnuTLS instead of OpenSSL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,116 +50,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 10:14:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Jul 2014 10:42:43 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The gcc-ar.o, gcc-nm.o, gcc-ranlib.o and errors.o included
-config.h which was a generated file. But no explicity rule
-to clarify the dependency. There was potential building
-failure while parallel make.
 
-For gcc-ar.o, gcc-nm.o and gcc-ranlib.o, they were compiled from one C
-source file gcc-ar.c, we add them to ALL_HOST_BACKEND_OBJS, so the
-'$(ALL_HOST_OBJS) : | $(generated_files)' rule could work for these
-objects.
+Op 4 jul. 2014, om 11:08 heeft Jack Mitchell <ml@communistcode.co.uk> =
+het volgende geschreven:
 
-For errors.o, it is part of gengtype, and the gengtype generator program
-is special: Two versions are built. One is for the build machine, and one
-is for the host. We refered what gengtype-parse.o did (which also is part
-of gengtype).
+> On 16/06/14 11:52, Ross Burton wrote:
+>> OpenSSL has license complications and GnuTLS is preferred, so =
+although the
+>> license complications don't impact wget use GnuTLS for consistency.
+>>=20
+>> Also add a recommendation on ca-certificates so that https: URLs =
+work.
+>>=20
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>> meta/recipes-extended/wget/wget.inc |    7 ++++---
+>> 1 file changed, 4 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-extended/wget/wget.inc =
+b/meta/recipes-extended/wget/wget.inc
+>> index a778bca..642d502 100644
+>> --- a/meta/recipes-extended/wget/wget.inc
+>> +++ b/meta/recipes-extended/wget/wget.inc
+>> @@ -3,15 +3,16 @@ HOMEPAGE =3D "https://www.gnu.org/software/wget/"
+>> SECTION =3D "console/network"
+>> LICENSE =3D "GPLv3"
+>> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae504"
+>> -DEPENDS =3D "openssl zlib libpcre"
+>> +DEPENDS =3D "gnutls zlib libpcre"
+>>=20
+>> INC_PR =3D "r16"
+>>=20
+>> inherit autotools gettext texinfo update-alternatives
+>>=20
+>> -EXTRA_OECONF =3D "--enable-ipv6 =
+--with-libssl-prefix=3D${STAGING_DIR_HOST} \
+>> -                --with-ssl=3Dopenssl --disable-rpath --disable-iri \
+>> +EXTRA_OECONF =3D "--enable-ipv6 --with-ssl=3Dgnutls --disable-rpath =
+--disable-iri \
+>>                 ac_cv_header_uuid_uuid_h=3Dno"
+>>=20
+>> ALTERNATIVE_${PN} =3D "wget"
+>> ALTERNATIVE_PRIORITY =3D "100"
+>> +
+>> +RRECOMMENDS_${PN} +=3D "ca-certificates"
+>>=20
+>=20
+> Ross,
+>=20
+> I've just pulled this in today after being on holiday for a while and =
+it
+> causes a breakage on my system.
+>=20
+> | checking for libgnutls... no
+> | configure: error: --with-ssl=3Dgnutls was given, but GNUTLS is not
+> available.
+> | Configure failed. The contents of all config.log files follows to =
+aid
+> debugging
+>=20
+> log: http://ix.io/dfO
+>=20
+> I would have expected gnutls to have been pulled in through the =
+depends
+> but it obviously hasn't, or the system hasn't managed to find it...
 
-[YOCTO #6568]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
- ...Makefile.in-fix-parallel-building-failure.patch | 64 ++++++++++++++++++++++
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index cbf1355..10bd5d5 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -67,6 +67,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
-            file://0051-eabispe.patch \
-            file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
-            file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
-+           file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
- 	  "
- SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
- SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch b/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
-new file mode 100644
-index 0000000..6277bec
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
-@@ -0,0 +1,64 @@
-+From 5a50cebd00930930e609e978331ede690f34512b Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 25 Jul 2014 14:35:17 +0800
-+Subject: [PATCH] gcc/Makefile.in: fix parallel building failure
-+
-+The gcc-ar.o, gcc-nm.o, gcc-ranlib.o and errors.o included
-+config.h which was a generated file. But no explicity rule
-+to clarify the dependency. There was potential building
-+failure while parallel make.
-+
-+For gcc-ar.o, gcc-nm.o and gcc-ranlib.o, they were compiled from one C
-+source file gcc-ar.c, we add them to ALL_HOST_BACKEND_OBJS, so the
-+'$(ALL_HOST_OBJS) : | $(generated_files)' rule could work for these
-+objects.
-+
-+For errors.o, it is part of gengtype, and the gengtype generator program
-+is special: Two versions are built. One is for the build machine, and one
-+is for the host. We refered what gengtype-parse.o did (which also is part
-+of gengtype).
-+
-+[GCC #61899]
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61899
-+
-+Upstream-Status: Send to gcc-patches@gcc.gnu.org mailing list
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ gcc/Makefile.in | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-+index 6475cba..56e50bb 100644
-+--- a/gcc/Makefile.in
-++++ b/gcc/Makefile.in
-+@@ -1481,13 +1481,16 @@ OBJS-libcommon-target = $(common_out_object_file) prefix.o params.o \
-+ 	opts.o opts-common.o options.o vec.o hooks.o common/common-targhooks.o \
-+ 	hash-table.o file-find.o
-+ 
-++# Objects compiled from one C source file gcc-ar.c
-++OBJS-gcc-ar = gcc-ar.o gcc-nm.o gcc-ranlib.o
-++
-+ # This lists all host objects for the front ends.
-+ ALL_HOST_FRONTEND_OBJS = $(foreach v,$(CONFIG_LANGUAGES),$($(v)_OBJS))
-+ 
-+ ALL_HOST_BACKEND_OBJS = $(GCC_OBJS) $(OBJS) $(OBJS-libcommon) \
-+   $(OBJS-libcommon-target) @TREEBROWSER@ main.o c-family/cppspec.o \
-+   $(COLLECT2_OBJS) $(EXTRA_GCC_OBJS) $(GCOV_OBJS) $(GCOV_DUMP_OBJS) \
-+-  lto-wrapper.o
-++  lto-wrapper.o $(OBJS-gcc-ar)
-+ 
-+ # This lists all host object files, whether they are included in this
-+ # compilation or not.
-+@@ -2437,6 +2440,8 @@ gengtype-parse.o: $(CONFIG_H)
-+ CFLAGS-build/gengtype-parse.o += -DGENERATOR_FILE
-+ build/gengtype-parse.o: $(BCONFIG_H)
-+ 
-++errors.o : $(CONFIG_H)
-++
-+ gengtype-state.o build/gengtype-state.o: gengtype-state.c $(SYSTEM_H) \
-+   gengtype.h errors.h double-int.h version.h $(HASHTAB_H) $(OBSTACK_H) \
-+   $(XREGEX_H)
-+-- 
-+1.8.1.2
-+
--- 
-1.8.1.2
-
+FWIW, I'm seeing the same problem.=
 
