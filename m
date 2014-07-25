@@ -1,29 +1,26 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id AEC90701E4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD5065E03
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 19:02:31 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 558D3F811E2; Fri, 25 Jul 2014 13:02:32 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 2D84BF811DC;
-	Fri, 25 Jul 2014 13:02:30 -0600 (MDT)
-Message-ID: <53D2A9CD.9080205@mlbassoc.com>
-Date: Fri, 25 Jul 2014 13:02:37 -0600
-From: Gary Thomas <gary@mlbassoc.com>
+	Fri, 25 Jul 2014 20:07:21 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2014 13:07:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,733,1400050800"; d="scan'208";a="575540459"
+Received: from gmacartn-mobl.ger.corp.intel.com (HELO [10.255.13.3])
+	([10.255.13.3])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2014 13:07:22 -0700
+Message-ID: <53D2B8F9.60809@linux.intel.com>
+Date: Fri, 25 Jul 2014 13:07:21 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1406085105.git.hongxu.jia@windriver.com>	<d36bfea1e3c7402098ff8913d473900c8b11eb71.1406085105.git.hongxu.jia@windriver.com>	<53D2930C.8090709@mlbassoc.com>
-	<1406313325.27697.42.camel@ted>
-In-Reply-To: <1406313325.27697.42.camel@ted>
-Subject: Re: [PATCH 1/1] insane: add checking to standardize how .bbappend files do FILESEXTRAPATHS
+To: Zidan Wang <b50113@freescale.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1406181217-15706-1-git-send-email-b50113@freescale.com>
+In-Reply-To: <1406181217-15706-1-git-send-email-b50113@freescale.com>
+Subject: Re: [PATCH] gstreamer1.0-plugins-base: get caps from src pad when query caps in gsttagdemux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,64 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 19:02:34 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Fri, 25 Jul 2014 20:07:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2014-07-25 12:35, Richard Purdie wrote:
-> On Fri, 2014-07-25 at 11:25 -0600, Gary Thomas wrote:
->> On 2014-07-22 21:33, Hongxu Jia wrote:
->>> When adding patches or config files from bbappend files, it requires
->>> the use of FILESEXTRAPATHS, which has been an issue and failure point
->>> for people starting to work with bitbake and oe-core.
->>>
->>> We add checking to standardize how to use FILESEXTRAPATHS. Only the
->>> format of:
->>>     FILESEXTRAPATHS_append := ":${THISDIR}/Your_Files_Path" or
->>>     FILESEXTRAPATHS_prepend := "${THISDIR}/Your_Files_Path:"
->>> is acceptable.
->>>
->>> [YOCTO #5412]
->>>
->>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> ---
->>>    meta/classes/insane.bbclass | 13 +++++++++++++
->>>    meta/classes/utils.bbclass  |  2 ++
->>>    meta/conf/bitbake.conf      |  2 ++
->>>    3 files changed, 17 insertions(+)
->>>
->>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->>> index b26216e..6b1c9ad 100644
->>> --- a/meta/classes/insane.bbclass
->>> +++ b/meta/classes/insane.bbclass
->>> @@ -1022,6 +1022,19 @@ python () {
->>>        # Check various variables
->>>        ###########################################################################
->>>
->>> +    # Checking ${FILESEXTRAPATHS}
->>> +    extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
->>> +    if '__default' not in extrapaths.split(":"):
->>> +        msg = "FILESEXTRAPATHS-variable, must always use _prepend (or _append)\n"
->>> +        msg += "type of assignment, and don't forget the colon.\n"
->>> +        msg += "Please assign it with the format of:\n"
->>> +        msg += "  FILESEXTRAPATHS_append := \":${THISDIR}/Your_Files_Path\" or\n"
->>> +        msg += "  FILESEXTRAPATHS_prepend := \"${THISDIR}/Your_Files_Path:\"\n"
->>> +        msg += "in your bbappend file\n\n"
->>> +        msg += "Your incorrect assignment is:\n"
->>> +        msg += "%s\n" % extrapaths
->>> +        bb.fatal(msg)
->>
->> It sure would have been nice (even polite?) to make this a warning when first
->> added.  As is, it's going to break a lot of builds and it will be very tedious
->> to fix since the parser will die on the first one it finds :-(
+On 07/23/2014 10:53 PM, Zidan Wang wrote:
+> From: Wang Zidan <b50113@freescale.com>
 >
-> Agreed, I'll change this to a warning.
+This and your other patch need to be rebased against master please.
 
-Thanks :-)
+Sau!
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+> Signed-off-by: Wang Zidan <b50113@freescale.com>
+> ---
+>   .../get-caps-from-src-pad-when-query-caps.patch    |   44 ++++++++++++++++++++
+>   .../gstreamer/gstreamer1.0-plugins-base_1.2.4.bb   |    1 +
+>   2 files changed, 45 insertions(+)
+>   create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
+> new file mode 100644
+> index 0000000..0fc561c
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
+> @@ -0,0 +1,44 @@
+> +From af0dac26f62aaceb4bf266720911953793e0fc5d Mon Sep 17 00:00:00 2001
+> +From: zhouming <b42586@freescale.com>
+> +Date: Wed, 14 May 2014 10:16:20 +0800
+> +Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
+> +
+> +https://bugzilla.gnome.org/show_bug.cgi?id=728312
+> +
+> +Upstream Status: Submitted
+> +
+> +Signed-off-by: zhouming <b42586@freescale.com>
+> +---
+> + gst-libs/gst/tag/gsttagdemux.c |   13 +++++++++++++
+> + 1 file changed, 13 insertions(+)
+> + mode change 100644 => 100755 gst-libs/gst/tag/gsttagdemux.c
+> +
+> +diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
+> +old mode 100644
+> +new mode 100755
+> +index 9b6c478..ae2294a
+> +--- a/gst-libs/gst/tag/gsttagdemux.c
+> ++++ b/gst-libs/gst/tag/gsttagdemux.c
+> +@@ -1708,6 +1708,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
+> +       }
+> +       break;
+> +     }
+> ++    case GST_QUERY_CAPS:
+> ++    {
+> ++
+> ++      /* We can hijack caps query if we typefind already */
+> ++      if (demux->priv->src_caps) {
+> ++        gst_query_set_caps_result (query, demux->priv->src_caps);
+> ++        res = TRUE;
+> ++      } else {
+> ++        res = gst_pad_query_default (pad, parent, query);
+> ++      }
+> ++      break;
+> ++    }
+> ++
+> +     default:
+> +       res = gst_pad_query_default (pad, parent, query);
+> +       break;
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
+> index 6e3d8f9..dee0894 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
+> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+>                      "
+>
+>   SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+> +            file://get-caps-from-src-pad-when-query-caps.patch \
+>   "
+>
+>   SRC_URI[md5sum] = "278e0a1872ecb981e91830b2cb7f3e98"
+>
 
