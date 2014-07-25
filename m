@@ -1,26 +1,40 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ECD5065E03
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C76F60D67
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 20:07:21 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2014 13:07:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,733,1400050800"; d="scan'208";a="575540459"
-Received: from gmacartn-mobl.ger.corp.intel.com (HELO [10.255.13.3])
-	([10.255.13.3])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2014 13:07:22 -0700
-Message-ID: <53D2B8F9.60809@linux.intel.com>
-Date: Fri, 25 Jul 2014 13:07:21 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Fri, 25 Jul 2014 20:12:43 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id d1so1601315wiv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Jul 2014 13:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=i5WWSN4X9m2EQAeHu5Jxc+lQqw6fdzr1UtAgYntCydQ=;
+	b=XmYbuGqA5VASaAGm4rZ7uk3z6FSAIrMDBbKQIv7QcOuaPmHMmmPeMVV2rvKP1SxuA8
+	RDVw7e6r7in0pT+ebKmfwPzy7XaHt7vX7zVjw2J2RvClVD46sN9Tgv8/Ukf9Ck2qw72S
+	My0r4syttlRZq0snZvhUoldCbZzjCAkCmPoGFr/NwFhBxvrZLu3XnK1KbFzbsNfggmc1
+	T3djDAuL8L90PRS6DvDT9BJ1kiuiU01HbnE/cf3OpYAzxj3ARjDDKt9P77gGVxFeZ91q
+	9tkrobhF4gzRumsbaS4x6VpjwBwbPXZCXc2kKOtWw7n6z26cTASCe+c59i83edvMuhyZ
+	t5Ww==
+X-Received: by 10.194.122.73 with SMTP id lq9mr6879697wjb.133.1406319164906;
+	Fri, 25 Jul 2014 13:12:44 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ey16sm9790773wid.14.2014.07.25.13.12.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Jul 2014 13:12:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 25 Jul 2014 22:13:01 +0200
+To: Stefan sat <stefansat@telenet.be>
+Message-ID: <20140725201301.GX2492@jama>
+References: <53D2A234.60303@telenet.be>
 MIME-Version: 1.0
-To: Zidan Wang <b50113@freescale.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1406181217-15706-1-git-send-email-b50113@freescale.com>
-In-Reply-To: <1406181217-15706-1-git-send-email-b50113@freescale.com>
-Subject: Re: [PATCH] gstreamer1.0-plugins-base: get caps from src pad when query caps in gsttagdemux
+In-Reply-To: <53D2A234.60303@telenet.be>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Subversion does not support http protocol anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,85 +47,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 20:07:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Jul 2014 20:12:49 -0000
+X-Groupsio-MsgNum: 55591
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="PAKmkkBo0+rTwAqJ"
+Content-Disposition: inline
 
-On 07/23/2014 10:53 PM, Zidan Wang wrote:
-> From: Wang Zidan <b50113@freescale.com>
->
-This and your other patch need to be rebased against master please.
+--PAKmkkBo0+rTwAqJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+On Fri, Jul 25, 2014 at 08:30:12PM +0200, Stefan sat wrote:
+> Hello since a certain time native subversion build of=20
+> openembedded-oe-core does not support http protocol anymore.
+>=20
+> I found out that it is just the missing neon-config script file.
+>=20
+> Whitout this the subversion_1.7.10.bb builds whitout neon support.
+>=20
+> It was just ok by removing binconfig-disabled by=20
+> meta/recipes-support/neon/neon_0.30.0.bb
+>=20
+> Then rebuild neon and subversion.
+>=20
+> Included git patch file
 
-> Signed-off-by: Wang Zidan <b50113@freescale.com>
+Wasn't it fixed recently by adding serf to oe-core?
+
+> From 23996da1c500a6851e98f93706b09dd819f17312 Mon Sep 17 00:00:00 2001
+> From: Christophe Van Reusel <christophe@stefan2l>
+> Date: Fri, 25 Jul 2014 19:01:28 +0200
+> Subject: [PATCH] Changed neon bb file to not inherit binconfig-disabled
+>=20
+> neon-config script file needed to compile subversion with http support.
+>=20
+>  Committer: Christophe Van Reusel <stefansat@telenet.be>
+>=20
+>  Changes to be committed:
+>=20
+> 	modified:   meta/recipes-support/neon/neon_0.30.0.bb
 > ---
->   .../get-caps-from-src-pad-when-query-caps.patch    |   44 ++++++++++++++++++++
->   .../gstreamer/gstreamer1.0-plugins-base_1.2.4.bb   |    1 +
->   2 files changed, 45 insertions(+)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
-> new file mode 100644
-> index 0000000..0fc561c
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
-> @@ -0,0 +1,44 @@
-> +From af0dac26f62aaceb4bf266720911953793e0fc5d Mon Sep 17 00:00:00 2001
-> +From: zhouming <b42586@freescale.com>
-> +Date: Wed, 14 May 2014 10:16:20 +0800
-> +Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-> +
-> +https://bugzilla.gnome.org/show_bug.cgi?id=728312
-> +
-> +Upstream Status: Submitted
-> +
-> +Signed-off-by: zhouming <b42586@freescale.com>
-> +---
-> + gst-libs/gst/tag/gsttagdemux.c |   13 +++++++++++++
-> + 1 file changed, 13 insertions(+)
-> + mode change 100644 => 100755 gst-libs/gst/tag/gsttagdemux.c
-> +
-> +diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
-> +old mode 100644
-> +new mode 100755
-> +index 9b6c478..ae2294a
-> +--- a/gst-libs/gst/tag/gsttagdemux.c
-> ++++ b/gst-libs/gst/tag/gsttagdemux.c
-> +@@ -1708,6 +1708,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
-> +       }
-> +       break;
-> +     }
-> ++    case GST_QUERY_CAPS:
-> ++    {
-> ++
-> ++      /* We can hijack caps query if we typefind already */
-> ++      if (demux->priv->src_caps) {
-> ++        gst_query_set_caps_result (query, demux->priv->src_caps);
-> ++        res = TRUE;
-> ++      } else {
-> ++        res = gst_pad_query_default (pad, parent, query);
-> ++      }
-> ++      break;
-> ++    }
-> ++
-> +     default:
-> +       res = gst_pad_query_default (pad, parent, query);
-> +       break;
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
-> index 6e3d8f9..dee0894 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
-> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
->                      "
->
->   SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
-> +            file://get-caps-from-src-pad-when-query-caps.patch \
->   "
->
->   SRC_URI[md5sum] = "278e0a1872ecb981e91830b2cb7f3e98"
->
+>  meta/recipes-support/neon/neon_0.30.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-support/neon/neon_0.30.0.bb b/meta/recipes-supp=
+ort/neon/neon_0.30.0.bb
+> index 61bd7d9..c257215 100644
+> --- a/meta/recipes-support/neon/neon_0.30.0.bb
+> +++ b/meta/recipes-support/neon/neon_0.30.0.bb
+> @@ -16,7 +16,7 @@ SRC_URI[sha256sum] =3D "2962cfcb5d30f3272e3d2fa0e473434=
+419770a3801afe3d46e5d165078
+> =20
+>  BINCONFIG =3D "${bindir}/neon-config"
+> =20
+> -inherit autotools binconfig-disabled lib_package pkgconfig
+> +inherit autotools lib_package pkgconfig
+> =20
+>  EXTRA_OECONF =3D "--with-ssl=3Dgnutls --with-libxml2 --with-expat --enab=
+le-shared"
+>  EXTRA_OECONF +=3D "--without-gssapi"
+> --=20
+> 1.9.1
+>=20
 
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--PAKmkkBo0+rTwAqJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPSuk0ACgkQN1Ujt2V2gBwrnACfSImNBF3a2NmNSyDjTKC6qx4d
+mT4Anix3ib4k3EBq1P/Ia9cg9ygROesv
+=bGOk
+-----END PGP SIGNATURE-----
+
+--PAKmkkBo0+rTwAqJ--
