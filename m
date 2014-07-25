@@ -1,29 +1,38 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 7077570523
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 45B047029E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 17:25:26 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id C1EB4F8120E; Fri, 25 Jul 2014 11:25:27 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id A677AF811DD;
-	Fri, 25 Jul 2014 11:25:25 -0600 (MDT)
-Message-ID: <53D2930C.8090709@mlbassoc.com>
-Date: Fri, 25 Jul 2014 11:25:32 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Fri, 25 Jul 2014 18:28:06 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 25 Jul 2014 11:28:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,732,1400050800"; d="scan'208";a="461463205"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2014 11:28:06 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.251]) by
+	ORSMSX106.amr.corp.intel.com ([169.254.5.245]) with mapi id
+	14.03.0123.003; Fri, 25 Jul 2014 11:28:06 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [Patch v4 4/6] image-ucode.bbclass: a new bbclass for
+	initramfs images
+Thread-Index: AQHPouY7Mv7DW1Uhw0uVCRI25wBCkpurY8GAgAXAe4A=
+Date: Fri, 25 Jul 2014 18:28:05 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C7CE72CCB@ORSMSX103.amr.corp.intel.com>
+References: <cover.1405728594.git.nitin.a.kamble@intel.com>
+	<8153ac4d137126ac86039128af8ad464af2d21e3.1405728594.git.nitin.a.kamble@intel.com>
+	<CAJTo0LbN=VXEp2t+mBm9a8A4XHz6P+N4zAbV63a=6t6ojka7zw@mail.gmail.com>
+In-Reply-To: <CAJTo0LbN=VXEp2t+mBm9a8A4XHz6P+N4zAbV63a=6t6ojka7zw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1406085105.git.hongxu.jia@windriver.com>
-	<d36bfea1e3c7402098ff8913d473900c8b11eb71.1406085105.git.hongxu.jia@windriver.com>
-In-Reply-To: <d36bfea1e3c7402098ff8913d473900c8b11eb71.1406085105.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 1/1] insane: add checking to standardize how .bbappend files do FILESEXTRAPATHS
+Cc: "meta-intel@yoctoproject.org" <meta-intel@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Hart,
+	Darren" <darren.hart@intel.com>
+Subject: Re: [Patch v4 4/6] image-ucode.bbclass: a new bbclass for initramfs images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,90 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 17:25:29 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Jul 2014 18:28:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2014-07-22 21:33, Hongxu Jia wrote:
-> When adding patches or config files from bbappend files, it requires
-> the use of FILESEXTRAPATHS, which has been an issue and failure point
-> for people starting to work with bitbake and oe-core.
->
-> We add checking to standardize how to use FILESEXTRAPATHS. Only the
-> format of:
->    FILESEXTRAPATHS_append := ":${THISDIR}/Your_Files_Path" or
->    FILESEXTRAPATHS_prepend := "${THISDIR}/Your_Files_Path:"
-> is acceptable.
->
-> [YOCTO #5412]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/classes/insane.bbclass | 13 +++++++++++++
->   meta/classes/utils.bbclass  |  2 ++
->   meta/conf/bitbake.conf      |  2 ++
->   3 files changed, 17 insertions(+)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index b26216e..6b1c9ad 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -1022,6 +1022,19 @@ python () {
->       # Check various variables
->       ###########################################################################
->
-> +    # Checking ${FILESEXTRAPATHS}
-> +    extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
-> +    if '__default' not in extrapaths.split(":"):
-> +        msg = "FILESEXTRAPATHS-variable, must always use _prepend (or _append)\n"
-> +        msg += "type of assignment, and don't forget the colon.\n"
-> +        msg += "Please assign it with the format of:\n"
-> +        msg += "  FILESEXTRAPATHS_append := \":${THISDIR}/Your_Files_Path\" or\n"
-> +        msg += "  FILESEXTRAPATHS_prepend := \"${THISDIR}/Your_Files_Path:\"\n"
-> +        msg += "in your bbappend file\n\n"
-> +        msg += "Your incorrect assignment is:\n"
-> +        msg += "%s\n" % extrapaths
-> +        bb.fatal(msg)
-
-It sure would have been nice (even polite?) to make this a warning when first
-added.  As is, it's going to break a lot of builds and it will be very tedious
-to fix since the parser will die on the first one it finds :-(
-
-> +
->       if d.getVar('do_stage', True) is not None:
->           bb.fatal("Legacy staging found for %s as it has a do_stage function. This will need conversion to a do_install or often simply removal to work with OE-core" % d.getVar("FILE", True))
->
-> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> index 0ee13e0..0f2a484 100644
-> --- a/meta/classes/utils.bbclass
-> +++ b/meta/classes/utils.bbclass
-> @@ -312,6 +312,8 @@ def explode_deps(s):
->   def base_set_filespath(path, d):
->       filespath = []
->       extrapaths = (d.getVar("FILESEXTRAPATHS", True) or "")
-> +    # Remove default flag which was used for checking
-> +    extrapaths = extrapaths.replace("__default:", "")
->       # Don't prepend empty strings to the path list
->       if extrapaths != "":
->           path = extrapaths.split(":") + path
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index f4870d5..6a0cf7a 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -311,6 +311,8 @@ FILES_${PN}-locale = "${datadir}/locale"
->   FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
->   # FILESPATH is set in base.bbclass
->   #FILESPATH = "${FILE_DIRNAME}/${PF}:${FILE_DIRNAME}/${P}:${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/${BP}:${FILE_DIRNAME}/${BPN}:${FILE_DIRNAME}/files:${FILE_DIRNAME}"
-> +# This default was only used for checking
-> +FILESEXTRAPATHS ?= "__default:"
->
->   ##################################################################
->   # General work and output directories for the build system.
->
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
+YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIEp1bHkgMjEsIDIw
+MTQgMTI6MzAgUE0NCj4gVG86IEthbWJsZSwgTml0aW4gQQ0KPiBDYzogWmFudXNzaSwgVG9tOyBI
+YXJ0LCBEYXJyZW47IFB1cmRpZSwgUmljaGFyZDsgbWV0YS1pbnRlbEB5b2N0b3Byb2plY3Qub3Jn
+DQo+IFN1YmplY3Q6IFJlOiBbUGF0Y2ggdjQgNC82XSBpbWFnZS11Y29kZS5iYmNsYXNzOiBhIG5l
+dyBiYmNsYXNzIGZvciBpbml0cmFtZnMNCj4gaW1hZ2VzDQo+IA0KPiBPbiAxOSBKdWx5IDIwMTQg
+MDE6MTgsICA8bml0aW4uYS5rYW1ibGVAaW50ZWwuY29tPiB3cm90ZToNCj4gPiArSU1BR0VfVFlQ
+RVMgKz0gImNwaW8uZ3oudWNvZGUiDQo+ID4gK0NPTVBSRVNTSU9OVFlQRVMgKz0gImd6LnVjb2Rl
+Ig0KPiA+ICtDT01QUkVTU19DTURfZ3oudWNvZGUgPSAiJHtDT01QUkVTU19DTURfZ3p9OyBjYXQN
+Cj4gJHtFQVJMWV9VQ09ERV9DUElPfSAke0lNQUdFX05BTUV9LnJvb3Rmcy4ke3R5cGV9Lmd6ID4N
+Cj4gJHtJTUFHRV9OQU1FfS5yb290ZnMuJHt0eXBlfS5nei51Y29kZSINCj4gPiArQ09NUFJFU1Nf
+REVQRU5EU19nei51Y29kZSA9ICIke0NPTVBSRVNTX0RFUEVORFNfZ3p9IGludGVsLQ0KPiBtaWNy
+b2NvZGUiDQo+IA0KPiBTb21ldGhpbmcgYWJvdXQgdGhpcyBoYXMgYWx3YXlzIGJ1Z2dlZCBtZSBh
+bmQgSSBqdXN0IHJlYWxpc2VkIHdoYXQgaXQgaXMuICBBcyBJDQo+IHVuZGVyc3RhbmQgaXQgdGhl
+IGtlcm5lbCBhbGxvd3MgYW4gYXJiaXRyYXJ5IG51bWJlciBvZiBjcGlvIGFyY2hpdmVzIHRvIGJl
+DQo+IGFwcGVuZGVkIHRvIHRoZSBrZXJuZWwsIGJ1dCBvdXIgaW1hZ2UgY3JlYXRpb24gY29kZSBl
+eHBlY3RzIG9uZS4gIFRoaXMgY2xhc3MNCj4gaXMgYmFzaWNhbGx5IHdvcmtpbmcgYXJvdW5kIHRo
+YXQgbGltaXRhdGlvbiBieSBiZWluZyBhIHNwZWNpYWxpc2VkIGltYWdlIHR5cGUNCj4gdGhhdCBh
+cHBlbmRzIGFub3RoZXIgaGFyZC1jb2RlZCBmaWxlLg0KPiANCj4gSWYgdGhlIGltYWdlIGNyZWF0
+aW9uIGNvZGUgd2FzIGNoYW5nZWQgdG8gZXhwZWN0IGEgbGlzdCwgdGhlbiB3ZSB3b3VsZG4ndA0K
+PiBuZWVkIHRoaXMgY2xhc3MgYXQgYWxsIGJ1dCBjb3VsZCBzaW1wbHkgZG8gSU5JVFJEICs9ICQo
+RUFSTFlfVUNPREVfQ1BJTykuDQoNCkFzIHRoaXMgY2hhbmdlIHdpbGwgYmUgaW4gb2Vjb3JlIGxh
+eWVyLCBhZGRpbmcgb2Vjb3JlIG1haWxpbmcgbGlzdCB0byB0aGlzIHRocmVhZC4NCg0KVGhlIElO
+SVRSRCB2YXJpYWJsZSBpcyB1c2VkIGF0IGRpZmZlcmVudCBwbGFjZXMgbGlrZSBncnViLWVmaS5i
+YmNsYXNzLCBzeXNsaW51eC5iYmNsYXNzLCBib290aW1nLmJiY2xhc3MsIGd1bW15Ym9vdC5iYmNs
+YXNzLCBib290LWRpcmVjdGRpc2suYmJjbGFzcywgaW1hZ2UtbGl2ZS5iYmNsYXNzIC4gU28gZXh0
+ZW5kaW5nIElOSVRSRCB2YXIgaXMgZ29pbmcgdG8gYmUgYml0IGludmFzaXZlLiBMZXQgbWUgc2Vl
+IGlmIHRoaXMgY2FuIGJlIGhhbmRsZWQgaW4gbGVzcyBpbnZhc2l2ZSB3YXkuDQoNCk5pdGluDQog
+DQo+IA0KPiBSb3NzDQo=
 
