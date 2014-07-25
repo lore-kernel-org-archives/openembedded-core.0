@@ -1,22 +1,37 @@
-Return-Path: <stefansat@telenet.be>
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
-	[195.130.132.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 07ABF6AC82
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
+	[209.85.160.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B268065F0F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 22:55:14 +0000 (UTC)
-Received: from [192.168.65.2] ([84.198.230.176])
-	by baptiste.telenet-ops.be with bizsmtp
-	id WmvE1o0053p0LaU01mvEPo; Sat, 26 Jul 2014 00:55:14 +0200
-Message-ID: <53D2E051.2000503@telenet.be>
-Date: Sat, 26 Jul 2014 00:55:13 +0200
-From: Stefan sat <stefansat@telenet.be>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Fri, 25 Jul 2014 23:06:26 +0000 (UTC)
+Received: by mail-yk0-f169.google.com with SMTP id 131so3264057ykp.28
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Jul 2014 16:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=uV24bmKoV26H9xd0sGu5KLD2n2d8lpcziOv9piu3eMc=;
+	b=RPzsbLvU8TtfyPVbXXn6uOV26t8cwwRBoMRV8KavE/DSbxCmOWJNt2oPyMH+IPb0Sj
+	3vwgj19ZFk0jpjKdSKwOtQvBjgbRhLPCDKSA7uENtk2X63rOjzveF1oPx8wgJzUnPpW9
+	kQcHbvqSkiolb0zWBeBOJpNWQeNnvK1QH8AxiLOkvlJtJmYiLVVGYmDwPImDTzKpxVHM
+	9mz1mTl6eM1NPRXYvHiLC9j2iB987maHxbQXGH/SAH0YT8ad7rFgkcCajgmmRjPnfseH
+	tGYh3irfoZU+7B8g1UioXilxDVlJoTGUGJGyRCqjtuDSF0fBoWTYeXfACr22+YJiPVq0
+	uAQw==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <53D2A234.60303@telenet.be> <53D2BE03.5060805@linux.intel.com>
-In-Reply-To: <53D2BE03.5060805@linux.intel.com>
-Subject: Re: Subversion does not support http protocol anymore
+X-Received: by 10.236.223.229 with SMTP id v95mr27867036yhp.128.1406329587359; 
+	Fri, 25 Jul 2014 16:06:27 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Fri, 25 Jul 2014 16:06:27 -0700 (PDT)
+In-Reply-To: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
+References: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
+Date: Fri, 25 Jul 2014 20:06:27 -0300
+X-Google-Sender-Auth: _zYH8HHoD3rRkkHYL6jyUSLQF8w
+Message-ID: <CAP9ODKrEFg31WOHO3GyY-sQf2x5i24yLp5CNa3bxSp6H74YarQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Gary S. Robertson" <gary.robertson@linaro.org>
+Cc: mike.holmes@linaro.org, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] LTP: Realtime test fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,51 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 22:55:25 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Jul 2014 23:06:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Op 25-07-14 om 22:28 schreef Saul Wold:
-> On 07/25/2014 11:30 AM, Stefan sat wrote:
->> Hello since a certain time native subversion build of
->> openembedded-oe-core does not support http protocol anymore.
->>
->> I found out that it is just the missing neon-config script file.
->>
->> Whitout this the subversion_1.7.10.bb builds whitout neon support.
->>
->> It was just ok by removing binconfig-disabled by
->> meta/recipes-support/neon/neon_0.30.0.bb
->>
->> Then rebuild neon and subversion.
->>
->> Included git patch file
->>
->
-> Richard recently updated subversion to 1.8.9, which uses serf instead 
-> of neon.  If this patch is for Daisy, please update it as mentioned here.
->
-> Can you please add a Signed-off-by: and use git format-patch, also 
-> look at this wiki:
->
-> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> Please format the commit message correctly and then re-submit with a 
-> [daisy] tag if appropriate.
->
-> Thanks
->     Sau!
->
->> Thank's
->>
->>
->
-I just saw that the used openembedded-core in openpli-4.0 is not up to 
-date with the current master, and so still has the head rev where 
-subversion_1.7.10 was used . But by neon the binconfig-disabled was 
-inherited. No with 1.8.9 neon is not needed any more
+Hello Gary,
 
-sorry, disregard the patch
+On Fri, Jul 25, 2014 at 7:20 PM, Gary S. Robertson
+<gary.robertson@linaro.org> wrote:
+> The following series of patches addresses several bugs which were preventing
+> some of the LTP realtime tests from running or completing in our OE-based
+> test environments.  The patches themselves are being separately submitted
+> to the upstream LTP maintainers for consideration, and are offered here
+> in hopes of addressing these issues in the OE LTP package until such time
+> as they can be obtained from a subsequent upstream LTP release.
 
-Thanks anyway.
+Please prepare a v2 including the Upstream-Status[1] field in the inner patches.
+
+1. http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Headers_and_Commit_Messages
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
