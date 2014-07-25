@@ -1,25 +1,40 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AC06F7077E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id DD7126FE7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 00:01:32 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jul 2014 16:55:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,727,1400050800"; d="scan'208";a="548710103"
-Received: from unknown (HELO [10.255.12.245]) ([10.255.12.245])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jul 2014 17:00:55 -0700
-Message-ID: <1406246456.6205.11.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Date: Thu, 24 Jul 2014 19:00:56 -0500
-In-Reply-To: <1406203910-16569-1-git-send-email-maciej.borzecki@open-rnd.pl>
-References: <1406147959.6335.44.camel@empanada>
-	<1406203910-16569-1-git-send-email-maciej.borzecki@open-rnd.pl>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] wic: squashfs partition support
+	Fri, 25 Jul 2014 00:16:26 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id hi2so135234wib.17
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Jul 2014 17:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=L/yhWX1grFh0aCvJ0Ws4ncRjjjQ6D6TggI0vE4qM5XM=;
+	b=xQ5y97epXOHMxadTtic67iaXXVMKbQEvxoF2nmagL0ghb9GHIAZA+k4Q6CEqg8sZYQ
+	S4CfrjjM6ZkOlBwdzUEZMjynqLMTPM2y+UOaOB6i5UWtlC/mzqch9xa47qgmKKXmNEiG
+	eSEUq1VkjuG889If1om+d1wu91bvLoasc/ZrpZvLXiciHPwdr4gZFOoP2l+WE7WMZBnt
+	pAwVz3Z0i3mSg9DuMBnrxOZgcn8hUYgzIsfLts0qDCs5KDdBX33ZMaxFWQbh8EZWTjcH
+	qkEJJJ++yZIoMK0vUUfxGX+q/YrNfu9A1+OeJoS8+A7FHBa3FyPlBkm3BqhY/NXi/hDn
+	Stag==
+X-Received: by 10.194.92.148 with SMTP id cm20mr17107479wjb.57.1406247387670; 
+	Thu, 24 Jul 2014 17:16:27 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ft17sm20216730wjc.14.2014.07.24.17.16.26 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Jul 2014 17:16:26 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 25 Jul 2014 02:16:45 +0200
+To: openembedded-core@lists.openembedded.org,
+	Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140725001645.GQ2492@jama>
+References: <1405638999-9737-1-git-send-email-Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1405638999-9737-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [dora][PATCHv2] gcc-4.8: backport fix for ICE when building opus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,124 +47,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 00:01:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Jul 2014 00:16:37 -0000
+X-Groupsio-MsgNum: 55539
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="kbZGpL0ScFxCd8mt"
+Content-Disposition: inline
 
-On Thu, 2014-07-24 at 14:11 +0200, Maciej Borzecki wrote:
-> It is possible to instruct wic to create a squashfs partition by setting
-> --fstype=squashfs in *.wks. For now this is only useable for rootfs
-> partitions (note that you must have squashfs support in the kernel). An
-> attempt to create an empty partition will produce a warning.
-> 
-> Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+--kbZGpL0ScFxCd8mt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Tom Zanussi <tom.zanussi@intel.com>
+On Fri, Jul 18, 2014 at 01:16:39AM +0200, Martin Jansa wrote:
+> From: Martin Jansa <martin.jansa@lge.com>
+>=20
+> * backported from 4.8.2, so daisy isn't affected
 
+Robert, any eta on this one? If we cannot expect this to be merged in
+dora in next few days, let me know and I'll temporary add it to
+=2Ebbappends in our layers.
+
+Regards,
+
+> Signed-off-by: Martin Jansa <martin.jansa@lge.com>
 > ---
->  .../lib/mic/kickstart/custom_commands/partition.py | 61 ++++++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> index d0f1b78..ce90aa1 100644
-> --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> @@ -25,6 +25,8 @@
->  #
->  
->  import shutil
-> +import os
-> +import tempfile
->  
->  from pykickstart.commands.partition import *
->  from mic.utils.oe.misc import *
-> @@ -192,6 +194,10 @@ class Wic_PartData(Mic_PartData):
->              return self.prepare_rootfs_vfat(cr_workdir, oe_builddir,
->                                              rootfs_dir, native_sysroot,
->                                              pseudo)
-> +        elif self.fstype.startswith("squashfs"):
-> +            return self.prepare_rootfs_squashfs(cr_workdir, oe_builddir,
-> +                                                rootfs_dir, native_sysroot,
-> +                                                pseudo)
->  
->      def prepare_rootfs_ext(self, cr_workdir, oe_builddir, rootfs_dir,
->                             native_sysroot, pseudo):
-> @@ -324,6 +330,28 @@ class Wic_PartData(Mic_PartData):
->          self.set_size(rootfs_size)
->          self.set_source_file(rootfs)
->  
-> +    def prepare_rootfs_squashfs(self, cr_workdir, oe_builddir, rootfs_dir,
-> +                                native_sysroot, pseudo):
-> +        """
-> +        Prepare content for a squashfs rootfs partition.
-> +        """
-> +        image_rootfs = rootfs_dir
-> +        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+>  meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
+>  .../gcc-4.8/0001-fix-ICE-when-building-opus.patch  | 121 +++++++++++++++=
+++++++
+>  2 files changed, 122 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-b=
+uilding-opus.patch
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtool=
+s/gcc/gcc-4.8.inc
+> index f1260af..ac205de 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> @@ -79,6 +79,7 @@ SRC_URI =3D "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.=
+bz2 \
+>  	   file://0047-repomembug.patch \
+>  	   file://0048-PR57532.patch \
+>  	   file://0048-PR58854_fix_arm_apcs_epilogue.patch \
+> +           file://0001-fix-ICE-when-building-opus.patch \
+>  	  "
+>  SRC_URI[md5sum] =3D "3b2386c114cd74185aa3754b58a79304"
+>  SRC_URI[sha256sum] =3D "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d=
+45da9fa01bb05813"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building=
+-opus.patch b/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-=
+opus.patch
+> new file mode 100644
+> index 0000000..9d3aeaa
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0001-fix-ICE-when-building-opus.p=
+atch
+> @@ -0,0 +1,121 @@
+> +From 22228d8ba86c70381f7c34c22ac6994234d0f3e7 Mon Sep 17 00:00:00 2001
+> +From: xguo <xguo@138bc75d-0d04-0410-961f-82ee72b054a4>
+> +Date: Fri, 9 Aug 2013 06:59:01 +0000
+> +Subject: [PATCH] gcc/ChangeLog:
 > +
-> +        squashfs_cmd = "mksquashfs %s %s -noappend" % \
-> +                       (image_rootfs, rootfs)
-> +        rc, out = exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
+> +        Backport from mainline:
+> +        2013-08-09  Zhenqiang Chen  <zhenqiang.chen@linaro.org>
 > +
-> +        # get the rootfs size in the right units for kickstart (Mb)
-> +        du_cmd = "du -Lbms %s" % rootfs
-> +        rc, out = exec_cmd(du_cmd)
-> +        rootfs_size = out.split()[0]
+> +        * config/arm/neon.md (vcond): Fix floating-point vector
+> +        comparisons against 0.
 > +
-> +        self.size = rootfs_size
-> +        self.source_file = rootfs
+> +gcc/testsuite/ChangeLog:
 > +
-> +        return 0
+> +        Backport from mainline:
+> +        2013-08-09  Zhenqiang Chen  <zhenqiang.chen@linaro.org>
 > +
->      def prepare_empty_partition(self, cr_workdir, oe_builddir, native_sysroot):
->          """
->          Prepare an empty partition.
-> @@ -337,6 +365,9 @@ class Wic_PartData(Mic_PartData):
->          elif self.fstype.startswith("vfat"):
->              return self.prepare_empty_partition_vfat(cr_workdir, oe_builddir,
->                                                       native_sysroot)
-> +        elif self.fstype.startswith("squashfs"):
-> +            return self.prepare_empty_partition_squashfs(cr_workdir, oe_builddir,
-> +                                                         native_sysroot)
->  
->      def prepare_empty_partition_ext(self, cr_workdir, oe_builddir,
->                                      native_sysroot):
-> @@ -398,6 +429,36 @@ class Wic_PartData(Mic_PartData):
->  
->          return 0
->  
-> +    def prepare_empty_partition_squashfs(self, cr_workdir, oe_builddir,
-> +                                         native_sysroot):
-> +        """
-> +        Prepare an empty squashfs partition.
-> +        """
-> +        msger.warning("Creating of an empty squashfs %s partition was attempted. " \
-> +                      "Proceeding as requested." % self.mountpoint)
+> +        * gcc.target/arm/lp1189445.c: New testcase.
 > +
-> +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+> +Upstream-Status: Backport from 4.8.2
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > +
-> +        # it is not possible to create a squashfs without source data,
-> +        # thus prepare an empty temp dir that is used as source
-> +        tmpdir = tempfile.mkdtemp()
+> +More details in:
+> +http://gcc.1065356.n5.nabble.com/PATCH-ARM-Fix-unrecognizable-vector-com=
+parisons-td947064.html
 > +
-> +        squashfs_cmd = "mksquashfs %s %s -noappend" % \
-> +                       (tmpdir, fs)
-> +        rc, out = exec_native_cmd(squashfs_cmd, native_sysroot)
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-4_8-branch@201620=
+ 138bc75d-0d04-0410-961f-82ee72b054a4
+> +---
+> + gcc/ChangeLog                            |  8 ++++++++
+> + gcc/config/arm/neon.md                   | 34 +++++++++++++++++++++++++=
+++-----
+> + gcc/testsuite/ChangeLog                  |  7 +++++++
+> + gcc/testsuite/gcc.target/arm/lp1189445.c | 18 +++++++++++++++++
+> + 4 files changed, 62 insertions(+), 5 deletions(-)
+> + create mode 100644 gcc/testsuite/gcc.target/arm/lp1189445.c
 > +
-> +        os.rmdir(tmpdir)
+> +diff --git a/gcc/config/arm/neon.md b/gcc/config/arm/neon.md
+> +index d8d4202..86a5932 100644
+> +--- a/gcc/config/arm/neon.md
+> ++++ b/gcc/config/arm/neon.md
+> +@@ -1732,6 +1732,7 @@
+> + 			     ? 3 : 1;
+> +   rtx magic_rtx =3D GEN_INT (magic_word);
+> +   int inverse =3D 0;
+> ++  int use_zero_form =3D 0;
+> +   int swap_bsl_operands =3D 0;
+> +   rtx mask =3D gen_reg_rtx (<V_cmp_result>mode);
+> +   rtx tmp =3D gen_reg_rtx (<V_cmp_result>mode);
+> +@@ -1742,12 +1743,16 @@
+> +   switch (GET_CODE (operands[3]))
+> +     {
+> +     case GE:
+> ++    case GT:
+> +     case LE:
+> ++    case LT:
+> +     case EQ:
+> +-      if (!REG_P (operands[5])
+> +-	  && (operands[5] !=3D CONST0_RTX (<MODE>mode)))
+> +-	operands[5] =3D force_reg (<MODE>mode, operands[5]);
+> +-      break;
+> ++      if (operands[5] =3D=3D CONST0_RTX (<MODE>mode))
+> ++	{
+> ++	  use_zero_form =3D 1;
+> ++	  break;
+> ++	}
+> ++      /* Fall through.  */
+> +     default:
+> +       if (!REG_P (operands[5]))
+> + 	operands[5] =3D force_reg (<MODE>mode, operands[5]);
+> +@@ -1798,7 +1803,26 @@
+> + 	 a GT b -> a GT b
+> + 	 a LE b -> b GE a
+> + 	 a LT b -> b GT a
+> +-	 a EQ b -> a EQ b  */
+> ++	 a EQ b -> a EQ b
+> ++	 Note that there also exist direct comparison against 0 forms,
+> ++	 so catch those as a special case.  */
+> ++      if (use_zero_form)
+> ++	{
+> ++	  inverse =3D 0;
+> ++	  switch (GET_CODE (operands[3]))
+> ++	    {
+> ++	    case LT:
+> ++	      base_comparison =3D gen_neon_vclt<mode>;
+> ++	      break;
+> ++	    case LE:
+> ++	      base_comparison =3D gen_neon_vcle<mode>;
+> ++	      break;
+> ++	    default:
+> ++	      /* Do nothing, other zero form cases already have the correct
+> ++		 base_comparison.  */
+> ++	      break;
+> ++	    }
+> ++	}
+> +=20
+> +       if (!inverse)
+> + 	emit_insn (base_comparison (mask, operands[4], operands[5], magic_rtx)=
+);
+> +diff --git a/gcc/testsuite/gcc.target/arm/lp1189445.c b/gcc/testsuite/gc=
+c.target/arm/lp1189445.c
+> +new file mode 100644
+> +index 0000000..766748e
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/arm/lp1189445.c
+> +@@ -0,0 +1,18 @@
+> ++/* { dg-do compile } */
+> ++/* { dg-require-effective-target arm_neon } */
+> ++/* { dg-add-options arm_neon } */
+> ++/* { dg-options "-O3" } */
+> ++
+> ++int id;
+> ++int
+> ++test (const long int *data)
+> ++{
+> ++  int i, retval;
+> ++  retval =3D id;
+> ++  for (i =3D 0; i < id; i++)
+> ++    {
+> ++      retval &=3D (data[i] <=3D 0);
+> ++    }
+> ++
+> ++  return (retval);
+> ++}
+> +--=20
+> +2.0.0
 > +
-> +        # get the rootfs size in the right units for kickstart (Mb)
-> +        du_cmd = "du -Lbms %s" % fs
-> +        rc, out = exec_cmd(du_cmd)
-> +        fs_size = out.split()[0]
-> +
-> +        self.size = fs_size
-> +        self.source_file = fs
-> +
-> +        return 0
-> +
->      def prepare_swap_partition(self, cr_workdir, oe_builddir, native_sysroot):
->          """
->          Prepare a swap partition.
+> --=20
+> 2.0.0
+>=20
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--kbZGpL0ScFxCd8mt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPRoe0ACgkQN1Ujt2V2gBwKgQCeKQk0t79NN8PfBH+M/RJeOip5
+QGAAmwXZpuBdXYtbM8eBbQ/Xe3vAJ88f
+=f032
+-----END PGP SIGNATURE-----
+
+--kbZGpL0ScFxCd8mt--
