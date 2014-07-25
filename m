@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E7EE70688
+	by mail.openembedded.org (Postfix) with ESMTP id D52B77067A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 10:05:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6PA5cD3016954
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 03:05:38 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.169.1; Fri, 25 Jul 2014 03:05:37 -0700
-From: <jackie.huang@windriver.com>
+	Fri, 25 Jul 2014 10:13:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6PADqmh021100
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 25 Jul 2014 03:13:52 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 25 Jul 2014 03:13:51 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Jul 2014 06:05:36 -0400
-Message-ID: <1406282736-30238-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+Date: Fri, 25 Jul 2014 18:13:31 +0800
+Message-ID: <cover.1406275654.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH] alsa-lib: remove non PN based -dev packages
+Cc: saul.wold@intel.com
+Subject: [PATCH V2 0/1] gcc-4.9.inc: fix parallel building failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 10:05:39 -0000
+X-List-Received-Date: Fri, 25 Jul 2014 10:14:08 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Change in V2:
 
-All dev related items should be packaged in the core
-PN-dev package not in seperate packages.
+As the upstream of gcc suggested:
+- The previous fix is too hack;
+- Use '$(ALL_HOST_OBJS) : | $(generated_files)' rule to
+  handle the dependency.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Test Steps:
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-index cbe0448..9132072 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-@@ -31,14 +31,13 @@ EXTRA_OECONF = "--disable-python"
+1. For reproducing the issue every time, manually modify
+gcc/Makefile.in to delay the generation of config.h:
+...
+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
+index c4daf69..c502898 100644
+--- gcc-4.9.0/gcc/Makefile.in
++++ gcc-4.9.0/gcc/Makefile.in
+@@ -1622,9 +1622,12 @@ tm.h: cs-tm.h ; @true
+ tm_p.h: cs-tm_p.h ; @true
  
- EXTRA_OECONF_append_libc-uclibc = " --with-versioned=no "
+ cs-config.h: Makefile
++   @echo "start to generate config.h `date`"
++   sleep 10
+    TARGET_CPU_DEFAULT="" \
+    HEADERS="$(host_xm_include_list)" DEFINES="$(host_xm_defines)" \
+    $(SHELL) $(srcdir)/mkconfig.sh config.h
++   @echo "config.h generated `date`"
  
--PACKAGES =+ "alsa-server libasound alsa-conf-base alsa-conf alsa-doc alsa-dev"
-+PACKAGES =+ "alsa-server libasound alsa-conf-base alsa-conf alsa-doc"
- FILES_${PN} += "${libdir}/${BPN}/smixer/*.so"
- FILES_${PN}-dbg += "${libdir}/${BPN}/smixer/.debug"
- FILES_${PN}-dev += "${libdir}/${BPN}/smixer/*.la"
- FILES_libasound = "${libdir}/libasound.so.*"
- FILES_alsa-server = "${bindir}/*"
- FILES_alsa-conf = "${datadir}/alsa/"
--FILES_alsa-dev += "${libdir}/pkgconfig/ ${includedir}/alsa ${datadir}/aclocal/*"
- FILES_alsa-conf-base = "\
- ${datadir}/alsa/alsa.conf \
- ${datadir}/alsa/cards/aliases.conf \
+ cs-bconfig.h: Makefile
+    TARGET_CPU_DEFAULT="" \
+...
+
+2. bitbake gcc-cross-arm
+
+//Hongxu
+
+
+The following changes since commit 1306f263ed7b3de4e85c6dc8b377e5c05afd6bf0:
+
+  package_ipk.bbclass: Support hierarchical feed (2014-07-23 22:06:10 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-gcc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-gcc
+
+Hongxu Jia (1):
+  gcc-4.9.inc: fix parallel building failure
+
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ ...Makefile.in-fix-parallel-building-failure.patch | 64 ++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
+
 -- 
-2.0.0
+1.8.1.2
 
 
