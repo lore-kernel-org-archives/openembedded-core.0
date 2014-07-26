@@ -1,37 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B268065F0F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E21D65D9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 23:06:26 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 131so3264057ykp.28
+	Sat, 26 Jul 2014 03:03:19 +0000 (UTC)
+Received: by mail-ie0-f174.google.com with SMTP id rp18so4402848iec.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Jul 2014 16:06:27 -0700 (PDT)
+	Fri, 25 Jul 2014 20:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=uV24bmKoV26H9xd0sGu5KLD2n2d8lpcziOv9piu3eMc=;
-	b=RPzsbLvU8TtfyPVbXXn6uOV26t8cwwRBoMRV8KavE/DSbxCmOWJNt2oPyMH+IPb0Sj
-	3vwgj19ZFk0jpjKdSKwOtQvBjgbRhLPCDKSA7uENtk2X63rOjzveF1oPx8wgJzUnPpW9
-	kQcHbvqSkiolb0zWBeBOJpNWQeNnvK1QH8AxiLOkvlJtJmYiLVVGYmDwPImDTzKpxVHM
-	9mz1mTl6eM1NPRXYvHiLC9j2iB987maHxbQXGH/SAH0YT8ad7rFgkcCajgmmRjPnfseH
-	tGYh3irfoZU+7B8g1UioXilxDVlJoTGUGJGyRCqjtuDSF0fBoWTYeXfACr22+YJiPVq0
-	uAQw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=o4s6S+FJK+JBLPXvEvdAUHCRRlKXGTSKwVZHCR+TP9Y=;
+	b=Rz+meXw0H6PnTvmE0fAL1EKHZ20Um1B0kN2VMjDbaE0lzrTfEJYWwFavhbTmulF8Bq
+	ar35cxcvIolR55hWn81flUGDUfNwRK0J9uc2MlcoHHUsQc1ae/DytpZoCxRw+ghRW5pX
+	PhZQ9hK7wqeIcjNN7l+A+FT8NwgaTFmgfjYIfWZw1eoW1xv8ldA1yh3Ihg/koWDCli/H
+	3JJ/bgIYVCnoC/3C/sc3ZT6Vp0CyXY557Y4isxAUp0Yvi2YJwIp/bDxRS0kSb/Ux9a99
+	xY2osnns1dolWmBCoLOWI8vUnDHWpzS7jRe8Zk/oPoitB5j8r7gu677fR/STi/gv0LF3
+	dNBg==
+X-Received: by 10.50.43.134 with SMTP id w6mr10816044igl.17.1406343800374;
+	Fri, 25 Jul 2014 20:03:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.236.223.229 with SMTP id v95mr27867036yhp.128.1406329587359; 
-	Fri, 25 Jul 2014 16:06:27 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Fri, 25 Jul 2014 16:06:27 -0700 (PDT)
-In-Reply-To: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
-References: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
-Date: Fri, 25 Jul 2014 20:06:27 -0300
-X-Google-Sender-Auth: _zYH8HHoD3rRkkHYL6jyUSLQF8w
-Message-ID: <CAP9ODKrEFg31WOHO3GyY-sQf2x5i24yLp5CNa3bxSp6H74YarQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Gary S. Robertson" <gary.robertson@linaro.org>
-Cc: mike.holmes@linaro.org, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] LTP: Realtime test fixes
+Received: by 10.50.78.105 with HTTP; Fri, 25 Jul 2014 20:02:50 -0700 (PDT)
+In-Reply-To: <53D2DE13.9010007@mvista.com>
+References: <53D2DE13.9010007@mvista.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 25 Jul 2014 20:02:50 -0700
+Message-ID: <CAMKF1son3T9fsuF9X0Px4hirfk7Ezguy4s5Zit6-0JvfmXDV5A@mail.gmail.com>
+To: akuster <akuster@mvista.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: libpcap-ng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jul 2014 23:06:36 -0000
+X-List-Received-Date: Sat, 26 Jul 2014 03:03:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hello Gary,
+On Fri, Jul 25, 2014 at 3:45 PM, akuster <akuster@mvista.com> wrote:
+> Meta-security and Meta-selinux both have libcap-ng. Instead of maintaining
+> the same package in both places, can we get it into OE where libcap resides?
 
-On Fri, Jul 25, 2014 at 7:20 PM, Gary S. Robertson
-<gary.robertson@linaro.org> wrote:
-> The following series of patches addresses several bugs which were preventing
-> some of the LTP realtime tests from running or completing in our OE-based
-> test environments.  The patches themselves are being separately submitted
-> to the upstream LTP maintainers for consideration, and are offered here
-> in hopes of addressing these issues in the OE LTP package until such time
-> as they can be obtained from a subsequent upstream LTP release.
-
-Please prepare a v2 including the Upstream-Status[1] field in the inner patches.
-
-1. http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Headers_and_Commit_Messages
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I think at very least you can propose it for meta-oe if not or-core.
+But I also wonder why meta-selinux is not a sub-layer under
+meta-security,
 
