@@ -1,34 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC577018F
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jul 2014 16:33:45 +0000 (UTC)
-Received: by mail-ie0-f171.google.com with SMTP id at1so4985371iec.30
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jul 2014 09:33:46 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B58AA6AC9D
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Jul 2014 20:09:47 +0000 (UTC)
+Received: by mail-vc0-f175.google.com with SMTP id ik5so489333vcb.20
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Jul 2014 13:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=EEuDQNOhkSVWm+lFU/eO52VjcwZFOT4WEouFozZbFcg=;
-	b=xFm05BS98EBajmiJLuELPuyO/PM5TM6JZIVsVKC5jn3N7uYcXPmHVqxSgnGXUIlWM4
-	JfRbisnHmkU0ehRBXq2rSwK7QtxPiViWWhsXXA5R4haoPCQhSIhbG/BP7pVbN9BYMgnR
-	PYPv3gCSnIhlHnpcRhfriOk5D83mRaCQFR/DYNO3DMnjBph2msoIZ5CRbSeA5YnEoGZJ
-	wzKYhVttAOhyxTEMOWzaw4Vd3dmXWAxkyVg4SIhnf3IrP98lOrq84TSnLMfvAAXRB1Vr
-	uWykg/XLdzsKCo9q2ZDbm2LIB3c/eXej1ejTE8AUyDdxJSuw0jY+rtDzlyVsb1G5uSG8
-	xPrQ==
-X-Received: by 10.50.13.102 with SMTP id g6mr16149726igc.20.1406392426271;
-	Sat, 26 Jul 2014 09:33:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Sat, 26 Jul 2014 09:33:16 -0700 (PDT)
-In-Reply-To: <CAAQYJAt1sQtz_sb=5NdWG2Ypkwgz+BRYAYiRWgA+hh9EaszT8Q@mail.gmail.com>
-References: <CAAQYJAt1sQtz_sb=5NdWG2Ypkwgz+BRYAYiRWgA+hh9EaszT8Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 26 Jul 2014 09:33:16 -0700
-Message-ID: <CAMKF1sp=PD0RfP4_Un49N=QJex77UubaQv3BjFv5JX2Na-VhsA@mail.gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Cc: openembedded-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] libgcrypt.so.20.0.1' has relocations in .text [textrel]
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=+mz4XZT3CvUjou5q9XV2G8c/N+2SeNFid6cf+Mvj3ks=;
+	b=aC9YcrgQeXeIFXmNSv53EEmbD7QkV4Uw246KdBMlGJukmhpbIfszyEEd5rQgDLwFf1
+	UQn7lDK1juVo+BRA//X1EtsJlJldvTxNCfaZZsvzCWPolYj1dFqMaQJrIjuz2pyrc+RL
+	auqJZS2sERxa6vVL8F/XvJrmsYvgEFq6q9/Dc0VWvoHopsCNx8tR9In2+eE/B79VUoeN
+	kCMphvW5FdC5yJYuCaODU1K2QX2u7i2ufNoVlmdvdBhdBXhrdWri+oHPGdvBl+aaAWIo
+	IfIb1Q+5CF7z1FTN8q5rACgxJe5sirVqm6HE50C4mkZptXZqcb9y3NjNIxiY7OD9elCl
+	oOCA==
+X-Received: by 10.220.81.194 with SMTP id y2mr3182758vck.29.1406405388933;
+	Sat, 26 Jul 2014 13:09:48 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.35.70.10])
+	by mx.google.com with ESMTPSA id
+	sc19sm3584796veb.13.2014.07.26.13.09.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 26 Jul 2014 13:09:48 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 7C6031C1FB0B1; Sat, 26 Jul 2014 17:09:44 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sat, 26 Jul 2014 17:09:43 -0300
+Message-Id: <1406405383-13462-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.0.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] directfb-examples: Fix building with new autoconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,74 +46,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jul 2014 16:33:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 26 Jul 2014 20:09:50 -0000
 
-On Fri, Jul 25, 2014 at 3:21 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
-> Hi, somehow this QA is repeatedly here:
->
-> andrea@mizar:/oe/oe-core/build$ bitbake core-image-base
-> Loading cache: 100% |###########################################| ETA:  00:00:00
-> Loaded 2519 entries from dependency cache.
-> Parsing recipes: 100% |#########################################| Time: 00:00:07
-> Parsing of 2066 .bb files complete (2065 cached, 1 parsed). 2519
-> targets, 115 skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION        = "1.23.1"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Ubuntu-14.04"
-> TARGET_SYS        = "arm-oe-linux-gnueabi"
-> MACHINE           = "poodle"
-> DISTRO            = "nodistro"
-> DISTRO_VERSION    = "nodistro.0"
-> TUNE_FEATURES     = "arm armv5 thumb dsp"
-> TARGET_FPU        = "soft"
-> meta              = "master:188545ba82119d75f80dde322a73712ce1f0f762"
-> meta-initramfs    = "master:1060b4a157c5854f071f0dd7b48d55faeef3f818"
-> meta-handheld     = "master:b61b450a0639aaac6f17ec4656950e28545c90e0"
-> meta-oe
-> meta-networking   = "master:1060b4a157c5854f071f0dd7b48d55faeef3f818"
-> meta-opie         = "master:369016695601cea46915fe47de1d86d31dd9acd7"
->
-> NOTE: Preparing runqueue
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> NOTE: validating kernel config, see log.do_kernel_configcheck for details
-> WARNING: QA Issue: ELF binary
-> '/oe/oe-core/build/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libgcrypt/1.6.1-r0/packages-split/libgcrypt/usr/lib/libgcrypt.so.20.0.1'
-> has relocations in .text [textrel]
-> NOTE: Tasks Summary: Attempted 2368 tasks of which 1071 didn't need to
-> be rerun and all succeeded.
->
-> A quick inspection of the configurations shows th elibs are compiled
-> -fPIC -DPIC  so one common cause seems ruled out.
->
-> But I'm confused after reading
-> http://lists.gnupg.org/pipermail/gnupg-devel/2014-January/028163.html
->
+This fixes the following build error:
 
-Generally you use -fpic thats sufficient and optimal in most cases and
-on most architectures, in some cases when GOT is really larger than
-ABI limits you can use -fPIC it makes difference on architectures like
-ppc
-where it will use 3 instructions to access larger GOT whereas -fpic
-will use 1 instruction.
+,----
+| .../configure: line 4229: syntax error near unexpected token `DIRECTFB,'
+| .../configure: line 4229: `PKG_CHECK_MODULES(DIRECTFB, directfb >= $DIRECTFB_REQUIRED_VERSION, WATER=`$PKG_CONFIG --variable=water directfb` ,'
+`----
 
-For this case it could be that there is some assembly file which is
-not getting the right flags, try adding --enable-noexecstack thru
-EXTRA_OECONF and see if that helps.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../configure.in-Fix-string-argument-syntax.patch  | 28 ++++++++++++++++++++++
+ .../directfb/directfb-examples_1.7.0.bb            |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-graphics/directfb/directfb-examples/configure.in-Fix-string-argument-syntax.patch
 
+diff --git a/meta/recipes-graphics/directfb/directfb-examples/configure.in-Fix-string-argument-syntax.patch b/meta/recipes-graphics/directfb/directfb-examples/configure.in-Fix-string-argument-syntax.patch
+new file mode 100644
+index 0000000..0717ea6
+--- /dev/null
++++ b/meta/recipes-graphics/directfb/directfb-examples/configure.in-Fix-string-argument-syntax.patch
+@@ -0,0 +1,28 @@
++From 88077ed156a714f32bb408f422278d61611ffd41 Mon Sep 17 00:00:00 2001
++From: Otavio Salvador <otavio@ossystems.com.br>
++Date: Sat, 26 Jul 2014 16:57:46 -0300
++Subject: [PATCH] configure.in: Fix string argument syntax
++
++Upstream-Status: Submitted
++
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ configure.in |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.in b/configure.in
++index bfe1b82..e939bbd 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -65,7 +65,7 @@ fi)
++ 
++ DIRECTFB_REQUIRED_VERSION=1.4.14
++ 
++-PKG_CHECK_MODULES(DIRECTFB, directfb >= $DIRECTFB_REQUIRED_VERSION,[ WATER=`$PKG_CONFIG --variable=water directfb` ],
+++PKG_CHECK_MODULES([DIRECTFB], directfb >= $DIRECTFB_REQUIRED_VERSION,[ WATER=`$PKG_CONFIG --variable=water directfb` ],
++ 	AC_MSG_ERROR([$DIRECTFB_PKG_ERRORS
++ *** DirectFB $DIRECTFB_REQUIRED_VERSION or newer is required. The latest version
++ *** of DirectFB is available from http://www.directfb.org/.]))
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-graphics/directfb/directfb-examples_1.7.0.bb b/meta/recipes-graphics/directfb/directfb-examples_1.7.0.bb
+index 6057596..9c3e8bf 100644
+--- a/meta/recipes-graphics/directfb/directfb-examples_1.7.0.bb
++++ b/meta/recipes-graphics/directfb/directfb-examples_1.7.0.bb
+@@ -8,6 +8,7 @@ LICENSE = "MIT"
+ 
+ SRC_URI = " \
+            http://www.directfb.org/downloads/Extras/DirectFB-examples-${PV}.tar.gz \
++           file://configure.in-Fix-string-argument-syntax.patch \
+           "
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ecf6fd2b19915afc4da56043926ca18f"
+-- 
+2.0.0
 
-> Worth opening a bug?
->
-> Cheers
->
-> Andrea
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
