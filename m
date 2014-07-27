@@ -1,36 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D0250706D8
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id BC50970620
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jul 2014 22:15:57 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id c1so2887191igq.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jul 2014 15:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=UItFV4pMUB2LEjgekpasE24XL5dKpCSg2izw8MpM47w=;
-	b=d+neq4hswJ9PkKj1sJtpq0zujmHg0CIH1BwKeUGx+dUW3VTWCoC2IqgWW1sihH6QmA
-	pN1zdk21I6V1VC9zIbxaD4RD7tMQ6dr+XTzzDEv2k2iySTP9bj7OgIelwNBiMTX2GgPW
-	3w9DtfrvJ/FHZDj+WuJXe6fz1u9LitAts1PHpvK0sIDY7B6Mzkskfm2I56bfE1WXzt7w
-	I0KjcypVra/GaNa31LdWMr9f4FqLbRdvo7/2TqKOupgUwnyvmfv3Z/fpWzR4tj0dr0M0
-	f7qRaCXzqxd0bWnD0KaYKxsT+2jkcV0QOY4zBazTlqE6xesPBTe7OFO47g4tCcF9s/2y
-	EFIg==
-X-Received: by 10.50.25.71 with SMTP id a7mr24642348igg.17.1406499358612; Sun,
-	27 Jul 2014 15:15:58 -0700 (PDT)
+	Sun, 27 Jul 2014 23:06:01 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1XBXVy-000192-LW from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Sun, 27 Jul 2014 16:06:02 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Sun, 27 Jul 2014 16:06:02 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
+	Server id 14.2.247.3; Sun, 27 Jul 2014 16:06:01 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 27 Jul 2014 19:05:57 -0400
+Message-ID: <1406502357-17590-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Sun, 27 Jul 2014 15:15:28 -0700 (PDT)
-In-Reply-To: <CAH21_vFKch78Ez+jxcdDCSYHAY_kHcLYXjcz6XjO9fnUW=tq7A@mail.gmail.com>
-References: <mailman.1097.1406462291.1406.openembedded-core@lists.openembedded.org>
-	<CAH21_vFKch78Ez+jxcdDCSYHAY_kHcLYXjcz6XjO9fnUW=tq7A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 27 Jul 2014 15:15:28 -0700
-Message-ID: <CAMKF1srR9zYyuRTrRhAGf1x61akA1zJFQUcp+LjOvbswXjK6wQ@mail.gmail.com>
-To: atulkumar singh <atul.singh008@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Aarch64 support needed
+X-OriginalArrivalTime: 27 Jul 2014 23:06:02.0543 (UTC)
+	FILETIME=[563203F0:01CFA9EF]
+Subject: [PATCH] libx11: Add missing NULL check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +35,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Jul 2014 22:16:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 27 Jul 2014 23:06:08 -0000
+Content-Type: text/plain
 
-On Sun, Jul 27, 2014 at 5:04 AM, atulkumar singh
-<atul.singh008@gmail.com> wrote:
-> BBLAYERS ?= " \
->    /home/atulk/yocto/poky-master/meta \
->    /home/atulk/yocto/poky-master/meta-yocto \
->   /home/atulk/yocto/poky-master/meta-yocto-bsp \
->   /home/atulk/yocto/poky-master/meta-aarch64 \
->   /home/atulk/yocto/poky-master/meta-linaro \
->   /home/atulk/yocto/poky-master/meta-linaro-toolchain \
->   /home/atulk/yocto/poky-master/meta-openembedded/meta-networking \
-> /home/atulk/yocto/poky-master/meta-openembedded/meta-oe \
-> "
->
-> Please let me know with your valuable suggestions.
+Add a check for NULL on dereferencing the xim pointer.
+Using mplayer with the x11 backend will trigger this and result
+in a segfault.
 
-You have to specify the path correctly for layers under meta-linaro umbrella
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ .../libx11/libX11-Add-missing-NULL-check.patch     | 72 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb     |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
 
-/home/atulk/yocto/poky-master/meta-linaro/meta-aarch64
-/home/atulk/yocto/poky-master/meta-linaro/meta-linaro-toolchain
-.....
-and so on
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch b/meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
+new file mode 100644
+index 0000000..3068620
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
+@@ -0,0 +1,72 @@
++From 4d85d5f3bd8afac893738fd88e19d8cb5cf998ff Mon Sep 17 00:00:00 2001
++From: Drew Moseley <drew_moseley@mentor.com>
++Date: Sun, 27 Jul 2014 13:10:07 -0400
++Subject: [PATCH] libX11: Add missing NULL check on im and im->methods
++
++Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=81822]
++
++Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
++---
++ src/xlibi18n/ICWrap.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff -ru libX11-1.6.2-orig/src/xlibi18n/ICWrap.c libX11-1.6.2/src/xlibi18n/ICWrap.c
++--- libX11-1.6.2-orig/src/xlibi18n/ICWrap.c	2014-07-27 13:38:29.586666449 -0400
+++++ libX11-1.6.2/src/xlibi18n/ICWrap.c	2014-07-27 13:41:39.671609030 -0400
++@@ -169,7 +169,7 @@
++     va_list var;
++     int     total_count;
++     XIMArg *args;
++-    char   *ret;
+++    char   *ret = NULL;
++ 
++     /*
++      * so count the stuff dangling here
++@@ -185,7 +185,8 @@
++     _XIMVaToNestedList(var, total_count, &args);
++     va_end(var);
++ 
++-    ret = (*im->methods->set_values) (im, args);
+++    if (im && im->methods)
+++	ret = (*im->methods->set_values) (im, args);
++     if (args) Xfree(args);
++     return ret;
++ }
++@@ -196,7 +197,7 @@
++     va_list var;
++     int     total_count;
++     XIMArg *args;
++-    char   *ret;
+++    char   *ret = NULL;
++ 
++     /*
++      * so count the stuff dangling here
++@@ -212,7 +213,8 @@
++     _XIMVaToNestedList(var, total_count, &args);
++     va_end(var);
++ 
++-    ret = (*im->methods->get_values) (im, args);
+++    if (im && im->methods)
+++	ret = (*im->methods->get_values) (im, args);
++     if (args) Xfree(args);
++     return ret;
++ }
++@@ -228,7 +230,7 @@
++     va_list var;
++     int     total_count;
++     XIMArg *args;
++-    XIC     ic;
+++    XIC     ic = NULL;
++ 
++     /*
++      * so count the stuff dangling here
++@@ -244,7 +246,8 @@
++     _XIMVaToNestedList(var, total_count, &args);
++     va_end(var);
++ 
++-    ic = (XIC) (*im->methods->create_ic) (im, args);
+++    if (im && im->methods)
+++	ic = (XIC) (*im->methods->create_ic) (im, args);
++     if (args) Xfree(args);
++     if (ic) {
++ 	ic->core.next = im->core.ic_chain;
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
+index 700bc36..a722648 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
+@@ -5,6 +5,7 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI += "file://disable_tests.patch \
+             file://nls-always-use-XCOMM-instead-of-for-comments-in-Comp.patch \
++            file://libX11-Add-missing-NULL-check.patch \
+            "
+ 
+ SRC_URI[md5sum] = "c35d6ad95b06635a524579e88622fdb5"
+-- 
+1.9.1
 
--Khem
 
