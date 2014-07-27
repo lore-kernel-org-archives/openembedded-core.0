@@ -1,37 +1,34 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A6B965F81
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jul 2014 22:42:06 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id gl10so4167802lab.21
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 26 Jul 2014 15:42:07 -0700 (PDT)
+Return-Path: <atul.singh008@gmail.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 308BC65E1A
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Jul 2014 12:04:46 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id h3so2535974igd.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Jul 2014 05:04:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=6JgySTlwpYm70mz/CbkZRag5oJP4F6Nl/0/wDC4TcYA=;
-	b=KU+P2vrKWnCr547nz5jOSroyQ1WYSiY0HKsofE83svpFCaTfCHgrHubfkX0DCIMQ4K
-	qPxRvtM/xfoMIxXt3ZDtyUwgSb4eTnRLYJo3CQ8k1eO55gJNFkLXFeJSBc5V40Nyyz7s
-	jjABU6zjtGwKJac8dItNh3/ONMzbm1hMMbuyFVaQXZOGAqlehFV5I0k6EKyAWr2ywJHX
-	+c4gFXjJ6R53pAOnzLV66fxOMJGhjQYEYzWaoD97NrD5MNrMet9/SGoLQdGWELFKDR2F
-	6dD8caaeaMVHoLVKQK8k+N+vfdU09VfskSCBH7A8W3MeATgzT91hIW80FGpElFgtXR0x
-	xQWg==
+	:content-type; bh=wxWCcQJuuTvb3eQzk0/nZZeAXh2d/8+bFaJ9a6WBbtw=;
+	b=g+CqyG/USQnnaea7K1eTuQgDs6mdgiz7eEcQehCp7N5AvSvumEW9jMAPcn0/DMe4H0
+	/udP3WOiCcf2sRL1AYK5dEvefBaXctdzvIYcS5oh61XVFVoNKhkAYkrOVEI/fkPOjie9
+	Eqtq1Mgnr9DAR+bl7FUZqTCaAEFMScxIRe99NwtZCvEVkc7D2wxaZjZNQ4Ql8liISRgr
+	5/nFkI6f4wiELtGg2ybAmaPpleObMvLoBs0FeGwVkc8xJb66KSa4kbvNgUdZTbXvjmh7
+	ZOxBEj8J84LfVOgCsnKDYsK2Bm6EfI3hzJtbEYZQcEac2E/w6UuatnlhkhBv5N4zOmNP
+	lQPg==
 MIME-Version: 1.0
-X-Received: by 10.152.26.39 with SMTP id i7mr22043482lag.14.1406414527075;
-	Sat, 26 Jul 2014 15:42:07 -0700 (PDT)
-Received: by 10.112.207.9 with HTTP; Sat, 26 Jul 2014 15:42:06 -0700 (PDT)
-In-Reply-To: <CAAQYJAuGMJjJBZccqh=rusHu2ttOVSBsgtmOPSWrL9i3uXtv1A@mail.gmail.com>
-References: <CAAQYJAt1sQtz_sb=5NdWG2Ypkwgz+BRYAYiRWgA+hh9EaszT8Q@mail.gmail.com>
-	<CAMKF1sp=PD0RfP4_Un49N=QJex77UubaQv3BjFv5JX2Na-VhsA@mail.gmail.com>
-	<CAAQYJAu=uESMPjgfBBNSCEne5tHq6D_5r67AYFKabcFx7qQB2Q@mail.gmail.com>
-	<CAAQYJAuGMJjJBZccqh=rusHu2ttOVSBsgtmOPSWrL9i3uXtv1A@mail.gmail.com>
-Date: Sun, 27 Jul 2014 00:42:06 +0200
-Message-ID: <CAAQYJAu9bQPx_H8wt81RcWoS9Dk9PUDR5BFuZUfyVi7FtpWm4A@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] libgcrypt.so.20.0.1' has relocations in .text [textrel]
+X-Received: by 10.50.80.116 with SMTP id q20mr22565772igx.22.1406462687615;
+	Sun, 27 Jul 2014 05:04:47 -0700 (PDT)
+Received: by 10.64.86.225 with HTTP; Sun, 27 Jul 2014 05:04:47 -0700 (PDT)
+Received: by 10.64.86.225 with HTTP; Sun, 27 Jul 2014 05:04:47 -0700 (PDT)
+In-Reply-To: <mailman.1097.1406462291.1406.openembedded-core@lists.openembedded.org>
+References: <mailman.1097.1406462291.1406.openembedded-core@lists.openembedded.org>
+Date: Sun, 27 Jul 2014 17:34:47 +0530
+Message-ID: <CAH21_vFKch78Ez+jxcdDCSYHAY_kHcLYXjcz6XjO9fnUW=tq7A@mail.gmail.com>
+From: atulkumar singh <atul.singh008@gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Aarch64 support needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,249 +41,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Jul 2014 22:42:12 -0000
+X-List-Received-Date: Sun, 27 Jul 2014 12:04:48 -0000
+Content-Type: multipart/alternative; boundary=089e01536682e2a32704ff2b9c20
+
+--089e01536682e2a32704ff2b9c20
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Jul 27, 2014 at 12:26 AM, Andrea Adami <andrea.adami@gmail.com> wrote:
-> On Sat, Jul 26, 2014 at 11:30 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
->> On Sat, Jul 26, 2014 at 6:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Fri, Jul 25, 2014 at 3:21 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
->>>> Hi, somehow this QA is repeatedly here:
->>>>
->>>> andrea@mizar:/oe/oe-core/build$ bitbake core-image-base
->>>> Loading cache: 100% |###########################################| ETA:  00:00:00
->>>> Loaded 2519 entries from dependency cache.
->>>> Parsing recipes: 100% |#########################################| Time: 00:00:07
->>>> Parsing of 2066 .bb files complete (2065 cached, 1 parsed). 2519
->>>> targets, 115 skipped, 0 masked, 0 errors.
->>>> NOTE: Resolving any missing task queue dependencies
->>>>
->>>> Build Configuration:
->>>> BB_VERSION        = "1.23.1"
->>>> BUILD_SYS         = "x86_64-linux"
->>>> NATIVELSBSTRING   = "Ubuntu-14.04"
->>>> TARGET_SYS        = "arm-oe-linux-gnueabi"
->>>> MACHINE           = "poodle"
->>>> DISTRO            = "nodistro"
->>>> DISTRO_VERSION    = "nodistro.0"
->>>> TUNE_FEATURES     = "arm armv5 thumb dsp"
->>>> TARGET_FPU        = "soft"
->>>> meta              = "master:188545ba82119d75f80dde322a73712ce1f0f762"
->>>> meta-initramfs    = "master:1060b4a157c5854f071f0dd7b48d55faeef3f818"
->>>> meta-handheld     = "master:b61b450a0639aaac6f17ec4656950e28545c90e0"
->>>> meta-oe
->>>> meta-networking   = "master:1060b4a157c5854f071f0dd7b48d55faeef3f818"
->>>> meta-opie         = "master:369016695601cea46915fe47de1d86d31dd9acd7"
->>>>
->>>> NOTE: Preparing runqueue
->>>> NOTE: Executing SetScene Tasks
->>>> NOTE: Executing RunQueue Tasks
->>>> NOTE: validating kernel config, see log.do_kernel_configcheck for details
->>>> WARNING: QA Issue: ELF binary
->>>> '/oe/oe-core/build/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libgcrypt/1.6.1-r0/packages-split/libgcrypt/usr/lib/libgcrypt.so.20.0.1'
->>>> has relocations in .text [textrel]
->>>> NOTE: Tasks Summary: Attempted 2368 tasks of which 1071 didn't need to
->>>> be rerun and all succeeded.
->>>>
->>>> A quick inspection of the configurations shows th elibs are compiled
->>>> -fPIC -DPIC  so one common cause seems ruled out.
->>>>
->>>> But I'm confused after reading
->>>> http://lists.gnupg.org/pipermail/gnupg-devel/2014-January/028163.html
->>>>
->>>
->>> Generally you use -fpic thats sufficient and optimal in most cases and
->>> on most architectures, in some cases when GOT is really larger than
->>> ABI limits you can use -fPIC it makes difference on architectures like
->>> ppc
->>> where it will use 3 instructions to access larger GOT whereas -fpic
->>> will use 1 instruction.
->>>
->>> For this case it could be that there is some assembly file which is
->>> not getting the right flags, try adding --enable-noexecstack thru
->>> EXTRA_OECONF and see if that helps.
->>>
->>>
->>
->>
->> Thanks for the hint but that doesn't help.
->>
->> I think we have a bug in the check in insane.bbclass: it matches
->> TEXTREL              0x00000000
->> in the output of objdump -p
->>
->
-> The check is valid!
-> Seems there are problems with the sources:
->
-> root@poodle:/# ./scanelf ./libgcrypt.so.20.0.1
->  TYPE   FILE
-> ET_DYN ./libgcrypt.so.20.0.1
-> root@poodle:/# ./scanelf -lpqt ./libgcrypt.so.20.0.1
-> TEXTREL  ./libgcrypt.so.20.0.1
-> root@poodle:/# ./scanelf -qT ./libgcrypt.so.20.0.1
->   libgcrypt.so.20.0.1: (memory/data?) [0x25D70] in (optimized out:
-> previous $a) [0x25878]
->   libgcrypt.so.20.0.1: (memory/data?) [0x26270] in (optimized out:
-> previous _gcry_cast5_arm_decrypt_block) [0x25D78]
->   libgcrypt.so.20.0.1: (memory/data?) [0x26B4C] in (optimized out:
-> previous _gcry_cast5_arm_enc_blk2) [0x26278]
->   libgcrypt.so.20.0.1: (memory/data?) [0x277E0] in (optimized out:
-> previous _gcry_cast5_arm_dec_blk2) [0x26F10]
->   libgcrypt.so.20.0.1: (memory/data?) [0x2CE18] in (optimized out:
-> previous $a) [0x2C4B0]
->   libgcrypt.so.20.0.1: (memory/data?) [0x2DFC0] in (optimized out:
-> previous _gcry_aes_arm_decrypt_block) [0x2D658]
->   libgcrypt.so.20.0.1: (memory/data?) [0x3F624] in (optimized out:
-> previous $a) [0x3EA50]
->   libgcrypt.so.20.0.1: (memory/data?) [0x4063C] in (optimized out:
-> previous _gcry_camellia_arm_decrypt_block) [0x3FA70]
->   ./libgcrypt.so.20.0.1
-> root@poodle:/#
->
->
-> Dissection with objdump:
->
-> 00025878 <_gcry_cast5_arm_encrypt_block>:
->    25878:       e92d5ff2        push    {r1, r4, r5, r6, r7, r8, r9,
-> sl, fp, ip, lr}
->    2587c:       e59f74ec        ldr     r7, [pc, #1260] ; 25d70
-> <_gcry_cast5_arm_encrypt_block+0x4f8>
->    25880:       e3a0bfff        mov     fp, #1020       ; 0x3fc
->
->
-> 00025d78 <_gcry_cast5_arm_decrypt_block>:
->    25d78:       e92d5ff2        push    {r1, r4, r5, r6, r7, r8, r9,
-> sl, fp, ip, lr}
->    25d7c:       e59f74ec        ldr     r7, [pc, #1260] ; 26270
-> <_gcry_cast5_arm_decrypt_block+0x4f8>
->    25d80:       e3a0bfff        mov     fp, #1020       ; 0x3fc
->
-> 00026278 <_gcry_cast5_arm_enc_blk2>:
->    26278:       e52de004        push    {lr}            ; (str lr, [sp, #-4]!)
->    2627c:       e59f78c8        ldr     r7, [pc, #2248] ; 26b4c
-> <_gcry_cast5_arm_enc_blk2+0x8d4>
->    26280:       e3a0bfff        mov     fp, #1020       ; 0x3fc
->
-> 00026f10 <_gcry_cast5_arm_dec_blk2>:
->    26f10:       e59f78c8        ldr     r7, [pc, #2248] ; 277e0
-> <_gcry_cast5_arm_dec_blk2+0x8d0>
->    26f14:       e3a0bfff        mov     fp, #1020       ; 0x3fc
->
-> 0002c4b0 <_gcry_aes_arm_encrypt_block>:
->    2c4b0:       e92d5ff0        push    {r4, r5, r6, r7, r8, r9, sl, fp, ip, lr}
->    2c4b4:       e3120003        tst     r2, #3
->    2c4b8:       0a00001c        beq     2c530 <_gcry_aes_arm_encrypt_block+0x80>
->    2c4bc:       e5d24000        ldrb    r4, [r2]
->
-> 0002d658 <_gcry_aes_arm_decrypt_block>:
->    2d658:       e92d5ff0        push    {r4, r5, r6, r7, r8, r9, sl, fp, ip, lr}
->    2d65c:       e3120003        tst     r2, #3
->    2d660:       0a00001c        beq     2d6d8 <_gcry_aes_arm_decrypt_block+0x80>
->
-> 0003ea50 <_gcry_camellia_arm_encrypt_block>:
->    3ea50:       e92d5ff2        push    {r1, r4, r5, r6, r7, r8, r9,
-> sl, fp, ip, lr}
->    3ea54:       e59fcbc8        ldr     ip, [pc, #3016] ; 3f624
-> <_gcry_camellia_arm_encrypt_block+0xbd4>
->    3ea58:       e3a0e0ff        mov     lr, #255        ; 0xff
->
-> 0003fa70 <_gcry_camellia_arm_decrypt_block>:
->    3fa70:       e92d5ff2        push    {r1, r4, r5, r6, r7, r8, r9,
-> sl, fp, ip, lr}
->    3fa74:       e59fcbc0        ldr     ip, [pc, #3008] ; 4063c
-> <_gcry_camellia_arm_decrypt_block+0xbcc>
->    3fa78:       e3a0e0ff        mov     lr, #255        ; 0xff
->
->
-> Any idea? Seems there is smthg wrong with cast5, aes, camellia
->
-> Cheers
->
-> Andrea
->
->
->
->> andrea@mizar:/oe/oe-core/build$ ./arm-oe-linux-gnueabi-objdump -p
->> ./libgcrypt.so.20.0.1
->>
->> ./libgcrypt.so.20.0.1:     file format elf32-littlearm
->>
->> Program Header:
->> 0x70000001 off    0x00091450 vaddr 0x00091450 paddr 0x00091450 align 2**2
->>          filesz 0x00000008 memsz 0x00000008 flags r--
->>     LOAD off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**15
->>          filesz 0x0009145c memsz 0x0009145c flags r-x
->>     LOAD off    0x0009145c vaddr 0x0009945c paddr 0x0009945c align 2**15
->>          filesz 0x00004618 memsz 0x00004904 flags rw-
->>  DYNAMIC off    0x00091a28 vaddr 0x00099a28 paddr 0x00099a28 align 2**2
->>          filesz 0x00000110 memsz 0x00000110 flags rw-
->>     NOTE off    0x000000f4 vaddr 0x000000f4 paddr 0x000000f4 align 2**2
->>          filesz 0x00000024 memsz 0x00000024 flags r--
->>    STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**4
->>          filesz 0x00000000 memsz 0x00000000 flags rwx
->>
->> Dynamic Section:
->>   NEEDED               libgpg-error.so.0
->>   NEEDED               libcap.so.2
->>   NEEDED               libc.so.6
->>   SONAME               libgcrypt.so.20
->>   INIT                 0x00004c00
->>   FINI                 0x00073660
->>   INIT_ARRAY           0x0009945c
->>   INIT_ARRAYSZ         0x00000004
->>   FINI_ARRAY           0x00099460
->>   FINI_ARRAYSZ         0x00000004
->>   GNU_HASH             0x00000118
->>   STRTAB               0x00001ce0
->>   SYMTAB               0x00000b70
->>   STRSZ                0x000010d7
->>   SYMENT               0x00000010
->>   PLTGOT               0x00099b38
->>   PLTRELSZ             0x00000238
->>   PLTREL               0x00000011
->>   JMPREL               0x000049c8
->>   REL                  0x00003040
->>   RELSZ                0x00001988
->>   RELENT               0x00000008
->>   TEXTREL              0x00000000
->>   VERDEF               0x00002fe8
->>   VERDEFNUM            0x00000002
->>   VERNEED              0x00003020
->>   VERNEEDNUM           0x00000001
->>   VERSYM               0x00002db8
->>   RELCOUNT             0x00000329
->>
->> Version definitions:
->> 1 0x01 0x0f84f3d0 libgcrypt.so.20
->> 2 0x00 0x0e5e9c66 GCRYPT_1.6
->>
->> Version References:
->>   required from libc.so.6:
->>     0x0d696914 0x00 03 GLIBC_2.4
->> private flags = 5000202: [Version5 EABI] [soft-float ABI] [has entry point]
->>
->> andrea@mizar:/oe/oe-core/build$
->>
->>
->>
->>>> Worth opening a bug?
->>>>
->>>> Cheers
->>>>
->>>> Andrea
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Hi All,
 
+Is there support for Aarch64(64 bit ARMv8) available right now?
+If so then what i need to mention as a MACHINE in local.conf.
+Also please note that i tried adding meta-linaro layer which has
+meta-aarch64 into it.
+But it has lot more dependency like it ask for linaro,  linaro-toolchain,
+networking(meta-opembedded) layers.
+So accordingly i added all this into my source directory also i updated the
+bblayer.conf file regarding the same.
+But still it's not supporting the same has dependency issues.
+My bblayer.conf looks something like below:-
+BBLAYERS ?= " \
+   /home/atulk/yocto/poky-master/meta \
+   /home/atulk/yocto/poky-master/meta-yocto \
+  /home/atulk/yocto/poky-master/meta-yocto-bsp \
+  /home/atulk/yocto/poky-master/meta-aarch64 \
+  /home/atulk/yocto/poky-master/meta-linaro \
+  /home/atulk/yocto/poky-master/meta-linaro-toolchain \
+  /home/atulk/yocto/poky-master/meta-openembedded/meta-networking \
+/home/atulk/yocto/poky-master/meta-openembedded/meta-oe \
+"
 
-Seems fixed upstream
-http://lists.gnupg.org/pipermail/gnupg-commits/2014-May/010496.html
+Please let me know with your valuable suggestions.
 
+Thanks and regards,
+Atul
 
-Cheers
+--089e01536682e2a32704ff2b9c20
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Andrea
+<p><br>
+Hi All,</p>
+<p>Is there support for Aarch64(64 bit ARMv8) available right now?<br>
+If so then what i need to mention as a MACHINE in local.conf.<br>
+Also please note that i tried adding meta-linaro layer which has meta-aarch=
+64 into it.<br>
+But it has lot more dependency like it ask for linaro,=C2=A0 linaro-toolcha=
+in, networking(meta-opembedded) layers.<br>
+So accordingly i added all this into my source directory also i updated the=
+ bblayer.conf file regarding the same.<br>
+But still it&#39;s not supporting the same has dependency issues.<br>
+My bblayer.conf looks something like below:-<br>
+BBLAYERS ?=3D &quot; \<br>
+=C2=A0=C2=A0 /home/atulk/yocto/poky-master/meta \<br>
+=C2=A0=C2=A0 /home/atulk/yocto/poky-master/meta-yocto \<br>
+=C2=A0 /home/atulk/yocto/poky-master/meta-yocto-bsp \<br>
+=C2=A0 /home/atulk/yocto/poky-master/meta-aarch64 \<br>
+=C2=A0 /home/atulk/yocto/poky-master/meta-linaro \<br>
+=C2=A0 /home/atulk/yocto/poky-master/meta-linaro-toolchain \<br>
+=C2=A0 /home/atulk/yocto/poky-master/meta-openembedded/meta-networking \<br=
+>
+/home/atulk/yocto/poky-master/meta-openembedded/meta-oe \<br>
+&quot;</p>
+<p>Please let me know with your valuable suggestions.</p>
+<p>Thanks and regards,<br>
+Atul</p>
 
+--089e01536682e2a32704ff2b9c20--
