@@ -1,37 +1,35 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 546E07085C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D30C70892
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 17:25:23 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6SHPM6q008071; Mon, 28 Jul 2014 12:25:22 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072812252210-324194 ;
-	Mon, 28 Jul 2014 12:25:22 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: openembedded-core@lists.openembedded.org
-In-Reply-To: <1404424826-12023-2-git-send-email-rich.tollerton@ni.com>
-References: <1404424826-12023-1-git-send-email-rich.tollerton@ni.com>
-	<1404424826-12023-2-git-send-email-rich.tollerton@ni.com>
-User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
-	(x86_64-unknown-linux-gnu)
-Date: Mon, 28 Jul 2014 12:25:22 -0500
-Message-ID: <87ppgppf99.fsf@weregild.amer.corp.natinst.com>
+	Mon, 28 Jul 2014 17:25:58 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id rd18so6740708iec.23
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 10:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=vMSHBMw5dSeF9x95WOr60lUJ+CZ+pEZqNP+H+/918w8=;
+	b=pV8NaMOq2uwDaEQ1VVmrJQILA+Z7on4/qOHs2W/McexS4bPFIaTZX8AIiOKTjd2roS
+	+i2P0pN3y7569umVWkDXtZUANozxurtssg6yhuuUIkExj5URmg4ZPndB0tnkIcMoJzOZ
+	7kIeuPK3e10Bfp2E9YT3sL00zD2IliqfA4EzY4TMBd7+dmpXx75jVS8JVrfUumRs6Do9
+	jota0rIf5raU4RqP6U8CIQgnQw35KMYAftMQLGIKraGyBWRmMiZkG2pSu7/X83WgarKx
+	DfIAfBxg1z3I32E7chdaqWnrFOIbCtrmSMDDgnA2Y0jgP5efQMuT2MTgu7+WIQEghE4g
+	EUlg==
+X-Received: by 10.42.82.6 with SMTP id b6mr41622862icl.51.1406568358914; Mon,
+	28 Jul 2014 10:25:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/28/2014 12:25:22 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/28/2014 12:25:22 PM,
-	Serialize complete at 07/28/2014 12:25:22 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-28_03:2014-07-28, 2014-07-28,
-	1970-01-01 signatures=0
-Cc: ken.sharp@ni.com
-Subject: Re: [PATCH 1/2] gcc-cross-canadian: Adjust $prefix to fix sysroot autodetect
+Received: by 10.50.78.105 with HTTP; Mon, 28 Jul 2014 10:25:28 -0700 (PDT)
+In-Reply-To: <1406545263-7393-1-git-send-email-rongqing.li@windriver.com>
+References: <1406545263-7393-1-git-send-email-rongqing.li@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Jul 2014 10:25:28 -0700
+Message-ID: <CAMKF1soxPmXjX6bbcto=c1qHvJB1bgdJdgTpz8dA-ibBp-7Tgg@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gmp: redefine a function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,59 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 17:25:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Jul 2014 17:26:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Bump?
-
-Richard Tollerton <rich.tollerton@ni.com> writes:
-
-> Currently, using gcc-cross-canadian often requires --sysroot to be
-> specified at compile time, because the default sysroot is hardcoded to
-> e.g. /opt/poky/1.6.1/sysroots/core2-64-poky-linux. If you didn't install
-> the toolchain in precisely that location, the default sysroot won't work.
->
-> But that isn't actually necessary -- gcc is actually capable of
-> discovering the sysroot location itself. If the default
-> sysroot (--with-sysroot=) is underneath the prefix (--prefix=), then gcc
-> rewrites the sysroot at runtime based on the actual location of gcc in
-> the filesystem. (cf gcc/gcc.c:process_command() in the
-> defined(TARGET_SYSTEM_ROOT_RELOCATABLE), and
-> libiberty/make-relative-prefix.c, in the gcc sources.)
->
-> We can effect this by moving prefix up a few directories.
-> Currently it's effectively set to ${SDKPATH}/sysroots/${SDK_SYS}/usr,
-> via nativesdk.bbclass. So instead, set it to ${SDKPATH}/sysroots.
-> This breaks nothing, because autotools.bbclass already sets
-> exec_prefix, bindir, etc. so that this change should not actually affect
-> where files get installed.
->
-> Natinst-ReviewBoard-ID: 52189
-> Acked-by: Gratian Crisan <gratian.crisan@ni.com>
-> Acked-by: David Curtiss <david.curtiss@ni.com>
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> index 63adae8..1a826ec 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> @@ -37,6 +37,9 @@ export RANLIB_FOR_TARGET = "${TARGET_PREFIX}ranlib"
->  export STRIP_FOR_TARGET = "${TARGET_PREFIX}strip"
->  export WINDRES_FOR_TARGET = "${TARGET_PREFIX}windres"
->  
-> +# Ensure that the target sysroot is under the prefix
-> +prefix = "${SDKPATH}/sysroots"
+On Mon, Jul 28, 2014 at 4:01 AM,  <rongqing.li@windriver.com> wrote:
+> +[PATCH] reimplement umul_ppmm to make it be able to building on mips64 64bit ABI
 > +
->  #
->  # We need to override this and make sure the compiler can find staging
->  #
-> -- 
-> 2.0.1
->
+> +Upstream-Status: Pending[This version was not maintained by upstream, larger versions have been fixed]
+> +
 
--- 
-Richard Tollerton <rich.tollerton@ni.com>
+if you mean newer release have been fixed then this patch should be
+marked 'Backport'
 
