@@ -1,37 +1,34 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F073965EEF
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id E1AAB702AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 09:43:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6S9gagP028939
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Jul 2014 02:42:36 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
-	Mon, 28 Jul 2014 02:42:35 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Koen Kooi
-	<koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH] alsa-lib: remove non PN based -dev packages
-Thread-Index: AQHPqkXCKIyvdfCz3EaH61lhnxGUrJu1OkkQ
-Date: Mon, 28 Jul 2014 09:42:35 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC06B1@ALA-MBA.corp.ad.wrs.com>
-References: <1406282736-30238-1-git-send-email-jackie.huang@windriver.com>
-	<FE5CD361-F77F-4383-B608-E216734EDB6E@dominion.thruhere.net>
-	<1B858668EC6A94408DCA5225FDFA85AABCAC0413@ALA-MBA.corp.ad.wrs.com>
-	<3EFC00D1-B81F-4618-AC38-B3557430D4EE@dominion.thruhere.net>
-	<1406539481.13346.6.camel@ted>
-In-Reply-To: <1406539481.13346.6.camel@ted>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.142]
-MIME-Version: 1.0
-Cc: "RIFENBARK, SCOTT" <scott.m.rifenbark@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-lib: remove non PN based -dev packages
+	Mon, 28 Jul 2014 09:55:36 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id d1so4079830wiv.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 02:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=c/gy40RgTNiemscW+Dt3HFTaet2SoPtOHUVx+g1Fpso=;
+	b=VVqNRGHLnq+ROgZOXDt+OsoneEAGFdN6fsZnxjBO+xStM6w9+D04BbGFGM96GhTFY7
+	DJZe6qWHrankboKYADVJZ6SmJmAdsnRDuISgJ/IWFo81DkxV+u6o0K8WHJh/nbmm6Bt3
+	jaUieHXkEhux7HV7CzFLTbPuIAiMIFGl2GbhgV2FCVWzxbi0tUmOwqmOed7yf8d/IYGN
+	tVZ/c/1dWMvjufCy3aVb/TNyIdZFvnmcKuK9f+oLq43X8Qzzp+bEP7HdqkV1iAkokbZi
+	4J2ed0COLs4obgCOZaAxSdUB4XO1v20b9yDkewWSpgWLAgr4pXnA6UlsOSZDcLeiz4m1
+	RdNw==
+X-Received: by 10.180.207.105 with SMTP id lv9mr11529008wic.23.1406541334336; 
+	Mon, 28 Jul 2014 02:55:34 -0700 (PDT)
+Received: from crde-port-20.cahors.local ([195.101.177.85])
+	by mx.google.com with ESMTPSA id 10sm48269529wjx.26.2014.07.28.02.55.33
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 28 Jul 2014 02:55:33 -0700 (PDT)
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Jul 2014 11:55:04 +0200
+Message-Id: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] barebox: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +41,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 09:43:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 28 Jul 2014 09:55:38 -0000
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBNb25k
-YXksIEp1bHkgMjgsIDIwMTQgNToyNSBQTQ0KPiBUbzogS29lbiBLb29pDQo+IENjOiBIdWFuZywg
-SmllIChKYWNraWUpOyBPRS1jb3JlOyBSSUZFTkJBUkssIFNDT1RUDQo+IFN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gW1BBVENIXSBhbHNhLWxpYjogcmVtb3ZlIG5vbiBQTiBiYXNlZCAtZGV2IHBhY2th
-Z2VzDQo+IA0KPiBPbiBNb24sIDIwMTQtMDctMjggYXQgMTA6NTEgKzAyMDAsIEtvZW4gS29vaSB3
-cm90ZToNCj4gPiBPcCAyOCBqdWwuIDIwMTQsIG9tIDA4OjQ5IGhlZWZ0IEh1YW5nLCBKaWUgKEph
-Y2tpZSkgPEphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tPiBoZXQgdm9sZ2VuZGUNCj4gZ2VzY2hy
-ZXZlbjoNCj4gPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4+IEZyb206IEtv
-ZW4gS29vaSBbbWFpbHRvOmtvZW5AZG9taW5pb24udGhydWhlcmUubmV0XQ0KPiA+ID4+IFNlbnQ6
-IE1vbmRheSwgSnVseSAyOCwgMjAxNCAyOjMwIFBNDQo+ID4gPj4gVG86IEh1YW5nLCBKaWUgKEph
-Y2tpZSkNCj4gPiA+PiBDYzogT0UtY29yZTsgUmljaGFyZCBQdXJkaWUNCj4gPiA+PiBTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYWxzYS1saWI6IHJlbW92ZSBub24gUE4gYmFzZWQgLWRl
-dg0KPiA+ID4+IHBhY2thZ2VzDQo+ID4gPj4NCj4gPiA+Pg0KPiA+ID4+IE9wIDI1IGp1bC4gMjAx
-NCwgb20gMTI6MDUgaGVlZnQgamFja2llLmh1YW5nQHdpbmRyaXZlci5jb20gaGV0IHZvbGdlbmRl
-IGdlc2NocmV2ZW46DQo+ID4gPj4NCj4gPiA+Pj4gRnJvbTogSmFja2llIEh1YW5nIDxqYWNraWUu
-aHVhbmdAd2luZHJpdmVyLmNvbT4NCj4gPiA+Pj4NCj4gPiA+Pj4gQWxsIGRldiByZWxhdGVkIGl0
-ZW1zIHNob3VsZCBiZSBwYWNrYWdlZCBpbiB0aGUgY29yZSBQTi1kZXYNCj4gPiA+Pj4gcGFja2Fn
-ZSBub3QgaW4gc2VwZXJhdGUgcGFja2FnZXMuDQo+ID4gPj4NCj4gPiA+PiBXaGF0J3MgdGhlIHVw
-Z3JhZGUgcGF0aCBoZXJlIGZvciBpbWFnZSBhbmQgdXNlcnMgdGhhdCBoYXZlDQo+ID4gPj4gJ2Fs
-c2EtZGV2JyBpbnN0YWxsZWQ/IExvb2tzIGxpa2UgdGhlcmUgYXJlDQo+ID4gPg0KPiA+ID4gTXkg
-cGF0Y2ggaXMgcmVtb3ZpbmcgJ2Fsc2EtZGV2JyBhbmQgYWxsIHJlbGF0ZWQgZmlsZXMgZ29lcyBp
-bnRvDQo+ID4gPiAnJHtQTn0tZGV2JyAoUE49YWxzYS1saWIgaGVyZSksIHNvIHVzZXJzIG5lZWQg
-dG8gaW5zdGFsbCBhbHNhLWxpYi1kZXYgaW5zdGVhZCBvZiBhbHNhLWRldi4NCj4gPg0KPiA+ICpz
-aWdoKiBTbyB5b3UgaGF2ZSBubyB1cGdyYWRlIHBhdGggZm9yIHNpdHVhdGlvbnMgd2hlcmUgJ2Fs
-c2EtZGV2JyBpcw0KPiA+IGFscmVhZHkgaW5zdGFsbGVkIG9yIGxpc3RlZCBpbiBhIHBhY2thZ2Vn
-cm91cCBvciBpbWFnZS4gV29yc2UsIHlvdQ0KPiA+IGRvbid0IGV2ZW4gdW5kZXJzdGFuZCB0aGUg
-cHJvYmxlbSA6Lw0KPiA+DQo+ID4gPg0KPiA+ID4+IG5vdyAyIGNvbmZsaWN0aW5nIHBhY2thZ2Vz
-LCAnYWxzYS1kZXYnIGluIHRoZSBmZWVkcyBhbmQNCj4gPiA+PiAnYWxzYS1saWItZGV2JyBvbiBP
-RSwgd2l0aG91dCBhbmQNCj4gPiA+DQo+ID4gPiBPbmx5ICdhbHNhLWxpYi1kZXYnIG5vdyB3aXRo
-IG15IHBhdGNoLCBzbyBubyBjb25mbGljdHMuDQo+ID4NCj4gPiBIYWhhaGFoYWhhaGEgeW91IGFy
-ZSByZWFsbHkgZnVubnkuDQo+IA0KPiBJIGFwcHJlY2lhdGUgdGhlcmUgaXMgYSBwcm9ibGVtIGhl
-cmUgYW5kIHdlIG5lZWQgdG8gZml4IHRoYXQuIFRoZXJlIGlzIGFsc28gYW4gZWR1Y2F0aW9uIGlz
-c3VlLCBwZW9wbGUNCj4gd2hvIGRvbid0IGtub3cgbXVjaCBhYm91dCBpdCBkb24ndCBhcHByZWNp
-YXRlIHRoZSBzdHJ1Z2dsZXMgb2Ygc29tZW9uZSBtYWludGFpbmluZyBwYWNrYWdlIGZlZWRzLg0K
-DQpTb3JyeSB0aGF0IEkgZ290IG1pc3VuZGVyc3RhbmRpbmcgYWJvdXQgdGhlIGNvbW1ldHMgc2lu
-Y2UgSSBkaWRuJ3Qga25vdyBtdWNoIHRoZSBpc3N1ZSwgSSBhcHByZWNpYXRlIHRoYXQNCmFuZCB3
-aWxsIHNlbmQgYW5vdGhlciBwYXRjaCB0byBmaXggaXQgc2luY2UgdGhpcyBvbmUgaXMgYWxyZWFk
-eSBtZXJnZWQuDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiBQZXJoYXBzIHNvbWVvbmUgY291
-bGQgd3JpdGUgYSBzaG9ydCBzZWN0aW9uIGZvciB0aGUgZG9jcyBhYm91dCB0aGUgaXNzdWVzIGhl
-cmU/IEluIGZ1dHVyZSB3aGVuIHRoaXMNCj4ga2luZCBvZiBwcm9ibGVtIGNvbWVzIHVwLCB3ZSBj
-YW4gdGhlbiBhdCBsZWFzdCBwb2ludCBhdCB0aGUgbWFudWFsIHNlY3Rpb24gdG8gZXhwbGFpbiBp
-dC4NCj4gDQo+IEN1cnJlbnRseSwgbW9zdCBkb2NzIGNvbWUgZnJvbSB0aGUgInNhbWUgb2xkIHBl
-b3BsZSIsIEknbSBwYXJ0bHkgd3JpdGluZyB0aGlzIHRvIHJlbWluZCBwZW9wbGUgdGhhdA0KPiBv
-dGhlcnMgY2FuIHN1Ym1pdCB0aGVtIGFuZCB0aGF0IHRoZXkgY2FuIGhlbHAgbWFzc2l2ZWx5IGlu
-IGVkdWNhdGluZyBwZW9wbGUuDQo+IA0KPiBUaGV5IGRvbid0IGV2ZW4gbmVlZCB0byBiZSBwcm9w
-ZXIgcGF0Y2hlcyBhZ2FpbnN0IHRoZSBkb2NzLCBqdXN0IHdyaXRlIGEgZmV3IHBhcmFncmFwaHMs
-IHNlbmQgaXQgU2NvdHQNCj4gUmlmZW5iYXJrJ3Mgd2F5IGFuZCBoZSBjYW4gdXN1YWxseSBkbyBz
-b21ldGhpbmcgd2l0aCBpdC4gSGUgdGVuZHMgdG8gcmV3b3JkIHRoaW5ncyBzbyB0aGUgbWFudWFs
-IGhhcw0KPiBhIGNvbnNpc3RlbnQgdG9uZSBhbmQgc3R5bGUgYW55d2F5IHNvIGl0IG5lZWRuJ3Qg
-YmUgd29yZCBwZXJmZWN0IGVpdGhlciwgaXRzIHRoZSBjb250ZW50IHRoYXQgbWF0dGVycw0KPiAo
-YW5kIHRoYXQgaXMgdGhlIHBhcnQgU2NvdHQgY2Fubm90IGRvKS4NCj4gDQo+IENoZWVycywNCj4g
-DQo+IFJpY2hhcmQNCg0K
+barebox (formerly known as u-boot-v2) is a bootloader that inherits the
+best of U-Boot and the Linux kernel. This commit adds the possibility to
+use it as a virtual/bootloader instead of U-Boot.
+
+Signed-off-by: David Vincent <freesilicon@gmail.com>
+---
+ meta/recipes-bsp/barebox/barebox.inc          |   73 +++++++++++++++++++++++++
+ meta/recipes-bsp/barebox/barebox_2014.07.0.bb |   15 +++++
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+ create mode 100644 meta/recipes-bsp/barebox/barebox_2014.07.0.bb
+
+diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/barebox/barebox.inc
+new file mode 100644
+index 0000000..68aeb68
+--- /dev/null
++++ b/meta/recipes-bsp/barebox/barebox.inc
+@@ -0,0 +1,73 @@
++SUMMARY = "The Barebox Bootloader"
++DESCRIPTION = "Barebox (formerly known as u-boot-v2) is a bootloader that inherits the best of U-Boot and the Linux kernel: The size and look-and-feel of u-boot, with driver model and lots of design concepts from the kernel."
++HOMEPAGE = "http://www.barebox.org"
++SECTION = "bootloaders"
++PROVIDES = "virtual/bootloader"
++
++inherit cml1 deploy kernel-arch
++
++EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
++
++BAREBOX_BINARY ?= "barebox.bin"
++BAREBOX_IMAGE ?= "barebox-${MACHINE}-${PV}-${PR}.bin"
++BAREBOX_SYMLINK ?= "barebox-${MACHINE}.bin"
++
++do_configure () {
++	# Copy defconfig to .config if .config does not exist. This allows
++	# recipes to manage the .config themselves in do_configure_prepend().
++	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
++		cp "${WORKDIR}/defconfig" "${B}/.config"
++	fi
++
++	# Use board default defconfig if .config does not exist. This allows
++	# recipes to manage the .config themselves in do_configure_prepend().
++	if [ ! -f "${B}/.config" ]; then
++		oe_runmake_call ${BAREBOX_TARGET}
++	fi
++
++	cml1_do_configure
++}
++
++do_compile () {
++	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
++		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/Makefile
++	fi
++
++	unset CFLAGS CPPFLAGS LDFLAGS
++	oe_runmake
++}
++
++do_install () {
++	install -d ${D}/boot
++	install ${S}/barebox-flash-image ${D}/boot/${BAREBOX_IMAGE}
++	ln -sf ${BAREBOX_IMAGE} ${D}/boot/${BAREBOX_BINARY}
++
++	# Install target tools if available
++	install -d ${D}${sbindir}
++
++	if [ -e ${WORKDIR}/scripts/bareboxenv-target ]; then
++		install -m 0755 ${WORKDIR}/scripts/bareboxenv-target ${D}${sbindir}/bareboxenv
++	fi
++
++	if [ -e ${WORKDIR}/scripts/bareboxcrc32-target ]; then
++		install -m 0755 ${WORKDIR}/scripts/bareboxcrc32-target ${D}${sbindir}/bareboxcrc32
++	fi
++
++	if [ -e ${WORKDIR}/scripts/kernel-install-target ]; then
++		install -m 0755 ${WORKDIR}/scripts/kernel-install-target ${D}${sbindir}/kernel-install
++	fi
++}
++
++FILES_${PN} = "/boot ${sbindir}"
++
++do_deploy () {
++	install -d ${DEPLOYDIR}
++	install ${S}/barebox-flash-image ${DEPLOYDIR}/${BAREBOX_IMAGE}
++
++	cd ${DEPLOYDIR}
++	rm -f ${BAREBOX_BINARY} ${BAREBOX_SYMLINK}
++	ln -sf ${BAREBOX_IMAGE} ${BAREBOX_SYMLINK}
++	ln -sf ${BAREBOX_IMAGE} ${BAREBOX_BINARY}
++}
++
++addtask deploy before do_build after do_compile
+diff --git a/meta/recipes-bsp/barebox/barebox_2014.07.0.bb b/meta/recipes-bsp/barebox/barebox_2014.07.0.bb
+new file mode 100644
+index 0000000..6adbff4
+--- /dev/null
++++ b/meta/recipes-bsp/barebox/barebox_2014.07.0.bb
+@@ -0,0 +1,15 @@
++require barebox.inc
++
++# To build barebox for your machine, provide the following lines in your machine
++# config, replacing the assignments as appropriate for your machine.
++# BAREBOX_MACHINE = "sandbox"
++# BAREBOX_TARGET = "sandbox_defconfig"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=057bf9e50e1ca857d0eb97bfe4ba8e5d"
++
++SRC_URI = "http://www.barebox.org/download/${PN}-${PV}.tar.bz2"
++SRC_URI[md5sum] = "f3a93950777916d4b1c2cd366aec8d91"
++SRC_URI[sha256sum] = "6dca5c78de8565a15aaa404edbf1bc4663415f0dc69e094f3b621636876285f2"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
+-- 
+1.7.10.4
+
 
