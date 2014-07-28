@@ -1,32 +1,32 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C56060167
+	by mail.openembedded.org (Postfix) with ESMTP id 600A565F01
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 06:40:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S6e4m2009774
+	Mon, 28 Jul 2014 06:49:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S6nH9r011052
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 27 Jul 2014 23:40:04 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 27 Jul 2014 23:40:03 -0700
-Message-ID: <53D5F055.2030803@windriver.com>
-Date: Mon, 28 Jul 2014 14:40:21 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
+	Sun, 27 Jul 2014 23:49:17 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
+	Sun, 27 Jul 2014 23:49:17 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1406279934.git.Qi.Chen@windriver.com>
-	<f11514aea79be9f009030d3acb5964de15a26223.1406279934.git.Qi.Chen@windriver.com>
-	<33866F61-B200-4CA4-AC52-69BD3EB109A1@dominion.thruhere.net>
-	<53D5B441.4050902@windriver.com>
-	<DC28F4FA-9701-404C-9192-A61B9FD968E9@dominion.thruhere.net>
-In-Reply-To: <DC28F4FA-9701-404C-9192-A61B9FD968E9@dominion.thruhere.net>
-X-Originating-IP: [128.224.162.187]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: upgrade to 215
+Thread-Topic: [OE-core] [PATCH] alsa-lib: remove non PN based -dev packages
+Thread-Index: AQHPqi1rKIyvdfCz3EaH61lhnxGUrJu1Cjrg
+Date: Mon, 28 Jul 2014 06:49:16 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC0413@ALA-MBA.corp.ad.wrs.com>
+References: <1406282736-30238-1-git-send-email-jackie.huang@windriver.com>
+	<FE5CD361-F77F-4383-B608-E216734EDB6E@dominion.thruhere.net>
+In-Reply-To: <FE5CD361-F77F-4383-B608-E216734EDB6E@dominion.thruhere.net>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.142]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-lib: remove non PN based -dev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,66 +39,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 06:40:15 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jul 2014 06:49:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 07/28/2014 02:31 PM, Koen Kooi wrote:
-> Op 28 jul. 2014, om 04:24 heeft ChenQi <Qi.Chen@windriver.com> het volgende geschreven:
->
->> On 07/25/2014 06:56 PM, Koen Kooi wrote:
->>> Op 25 jul. 2014, om 11:20 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
->>>
->>>> Upgrade systemd from 213 to 215.
->>>>
->>>> systemd-older-kernel.patch is removed as it's fixed in 215.
->>> NAK! This will drop libraries and and leave files unpackages, you need something like this:
->>>
->>> @@ -146,7 +146,9 @@ do_install_ptest () {
->>>     python populate_packages_prepend (){
->>>       systemdlibdir = d.getVar("rootlibdir", True)
->>> +    prefixlibdir = d.getVar("libdir", True)
->>>       do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
->>> +    do_split_packages(d, prefixlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
->>>   }
->>>   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
->>>   @@ -198,7 +200,10 @@ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts"
->>>   CONFFILES_${PN} = "${sysconfdir}/systemd/journald.conf \
->>>                   ${sysconfdir}/systemd/logind.conf \
->>>                   ${sysconfdir}/systemd/system.conf \
->>> -                ${sysconfdir}/systemd/user.conf"
->>> +                ${sysconfdir}/systemd/user.conf \
->>> +                ${libdir}/sysusers.d/systemd.conf \
->>> +                ${libdir}/sysusers.d/basic.conf \
->>> +                "
->>>     FILES_${PN} = " ${base_bindir}/* \
->>>                   ${datadir}/bash-completion \
->>> @@ -218,7 +223,8 @@ FILES_${PN} = " ${base_bindir}/* \
->>>                   ${rootlibexecdir}/systemd/* \
->>>                   ${systemd_unitdir}/* \
->>>                   ${base_libdir}/security/*.so \
->>> -                ${libdir}/libnss_myhostname.so.2 \
->>> +                ${libdir}/libnss_*.so.* \
->>> +                ${libdir}/sysusers.d \
->>>                   /cgroup \
->>>                   ${bindir}/systemd* \
->>>                   ${bindir}/busctl \
->>>
->>>
->>> lib*udev have moved, 2 nss plugins were added and the sysusers files should be added to CONFFILES.
->>>
->> Hi Koen,
->>
->> Which files are not packaged? I don't see any 'installed-not-shipped' error after upgrading.
->>
->> Note the I've added ${exec_prefix}/lib/sysusers.d to FILES_${PN}.
->> And I don't think files under /lib should be added to CONFFILES.
-> System config files need to be in CONFFILES, even if they aren't placed in /etc
->
 
-OK.
-I'll send out a V2.
-Thanks for your advice.
 
-//Chen Qi
+> -----Original Message-----
+> From: Koen Kooi [mailto:koen@dominion.thruhere.net]
+> Sent: Monday, July 28, 2014 2:30 PM
+> To: Huang, Jie (Jackie)
+> Cc: OE-core; Richard Purdie
+> Subject: Re: [OE-core] [PATCH] alsa-lib: remove non PN based -dev package=
+s
+>=20
+>=20
+> Op 25 jul. 2014, om 12:05 heeft jackie.huang@windriver.com het volgende g=
+eschreven:
+>=20
+> > From: Jackie Huang <jackie.huang@windriver.com>
+> >
+> > All dev related items should be packaged in the core PN-dev package
+> > not in seperate packages.
+>=20
+> What's the upgrade path here for image and users that have 'alsa-dev' ins=
+talled? Looks like there are
+
+My patch is removing 'alsa-dev' and all related files goes into '${PN}-dev'=
+ (PN=3Dalsa-lib here), so users need to install
+alsa-lib-dev instead of alsa-dev.
+
+> now 2 conflicting packages, 'alsa-dev' in the feeds and 'alsa-lib-dev' on=
+ OE, without and
+
+Only 'alsa-lib-dev' now with my patch, so no conflicts.
+
+Thanks,
+Jackie
+
+> RREPLACES/RPROVIDES in place.
 
