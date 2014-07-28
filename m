@@ -1,27 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CDCED70872
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 19DD765FDC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 16:55:11 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s6SGtB4g000877; Mon, 28 Jul 2014 17:55:12 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TUwUdBzpIbcv; Mon, 28 Jul 2014 17:55:11 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s6SGt6S1000608
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 28 Jul 2014 17:55:08 +0100
-Message-ID: <1406566505.13346.24.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Jul 2014 17:55:05 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] populate_sdk_base: Fix grep command usage on old hosts
+	Mon, 28 Jul 2014 17:02:03 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s6SH209a021843
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 19:02:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1406566924;
+	bh=oqby51cRQwJI5mt/RQvKsfipScokFK9OOl1c3a9Q7+o=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
+	b=l/ROoNToDrd8gQoNBjkHBZQslveNitWhAPxJiVfYZZ1wzTY95z+EL3xo0llwdn5gt
+	HiL9YP1kfpPOwwdFcMHJ0WM0eXyNyB/asGi9Rt7hmRHroJaauONcngwU8KePVqOZXU
+	qH7flkECC8DiV+lGZ4Zw9PBxKU6KVplGilNakW4c=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s6SH1oKh020695
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 19:01:55 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XBoJ4-0000w4-RY
+	for openembedded-core@lists.openembedded.org;
+	Mon, 28 Jul 2014 19:01:50 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 28 Jul 2014 19:01:50 +0200
+Message-ID: <lymwbtto1t.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: SELinux support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 16:55:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jul 2014 17:02:13 -0000
+Content-Type: text/plain
 
-"man grep" on centos:
+[ https://bugzilla.yoctoproject.org/show_bug.cgi?id=6580 ]
 
-       -R, -r, --recursive
-              Read all files under each directory, recursively; this is equivalent to the -d recurse option.
+Hi,
 
-"man grep" on a more recent ubuntu system:
+after upgrade to recent pseudo 1.6+, oe-core stops to build as a
+confined SELinux now.  This happens because SELinux provides more
+than the xattr file api and 'pseudo' does not intercept e.g. writing
+into '/proc/self/attr/fscreate'.
 
-       -r, --recursive
-              Read all files under each directory, recursively, following symbolic links only if they are on the command line.  This
-              is equivalent to the -d recurse option.
+IMO, turning off every SELinux related operation in do_install() (which
+is wrapped by 'pseudo') is a clean way to fix and improve building.  If
+OE supports SELinux for targets sometime, the file relabeling should be
+done in do_rootfs() by using a chroot aware 'restorecon' (e.g. which
+reads the file context policy from the chroot but not from system wide
+/etc/selinux).
 
-So we have an issue when the SDK installer (even with
-buildtools-tarball) is used on old hosts since it may try and
-dereference paths which it should not. This is caused by differences in
-the behaviour of grep -r on older systems. 
+Unfortunately, I do not know a way to make applications think they are
+running without SELinux.  But patching 'pseudo' to return faked values
+for 'is_selinux_enabled()' seems to be a good solution.
 
-The fix is to wrap this in find so that only real files are found (as
-elsewhere in the script.
-
-[YOCTO #6577]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 893afbb..06112dc 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -285,7 +285,7 @@ done
- 
- # find out all perl scripts in $native_sysroot and modify them replacing the
- # host perl with SDK perl.
--for perl_script in $($SUDO_EXEC grep "^#!.*perl" -rl $native_sysroot); do
-+for perl_script in $($SUDO_EXEC find $native_sysroot -type f -exec grep "^#!.*perl" -l '{}' \;); do
- 	$SUDO_EXEC sed -i -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" -e \
- 		"s: /usr/bin/perl: /usr/bin/env perl:g" $perl_script
- done
+Bug #6580 mentioned at the beginning contains some discussion and a
+patch.  What do other people think about it?
 
 
+
+Enrico
 
