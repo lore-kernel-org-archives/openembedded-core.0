@@ -1,30 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 22DB8704E6
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BB1FA702EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 02:23:47 +0000 (UTC)
+	Mon, 28 Jul 2014 02:58:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6S2NiO0025247
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S2wuWO022164
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 27 Jul 2014 19:23:44 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 27 Jul 2014 19:23:43 -0700
-Message-ID: <53D5B441.4050902@windriver.com>
-Date: Mon, 28 Jul 2014 10:24:01 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Sun, 27 Jul 2014 19:58:56 -0700 (PDT)
+Received: from yow-dellw-pg2.corp.ad.wrs.com (128.224.56.7) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 27 Jul 2014 19:58:55 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sun, 27 Jul 2014 22:58:33 -0400
+Message-ID: <1406516316-30111-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.0.1
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1406279934.git.Qi.Chen@windriver.com>
-	<f11514aea79be9f009030d3acb5964de15a26223.1406279934.git.Qi.Chen@windriver.com>
-	<33866F61-B200-4CA4-AC52-69BD3EB109A1@dominion.thruhere.net>
-In-Reply-To: <33866F61-B200-4CA4-AC52-69BD3EB109A1@dominion.thruhere.net>
-X-Originating-IP: [128.224.162.187]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: upgrade to 215
+Subject: [PATCH 0/3] base-files/fs-perms.txt fix up odd perm inconsistencies.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 02:23:48 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Jul 2014 02:59:00 -0000
+Content-Type: text/plain
 
-On 07/25/2014 06:56 PM, Koen Kooi wrote:
-> Op 25 jul. 2014, om 11:20 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
->
->> Upgrade systemd from 213 to 215.
->>
->> systemd-older-kernel.patch is removed as it's fixed in 215.
-> NAK! This will drop libraries and and leave files unpackages, you need something like this:
->
-> @@ -146,7 +146,9 @@ do_install_ptest () {
->   
->   python populate_packages_prepend (){
->       systemdlibdir = d.getVar("rootlibdir", True)
-> +    prefixlibdir = d.getVar("libdir", True)
->       do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
-> +    do_split_packages(d, prefixlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
->   }
->   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
->   
-> @@ -198,7 +200,10 @@ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts"
->   CONFFILES_${PN} = "${sysconfdir}/systemd/journald.conf \
->                   ${sysconfdir}/systemd/logind.conf \
->                   ${sysconfdir}/systemd/system.conf \
-> -                ${sysconfdir}/systemd/user.conf"
-> +                ${sysconfdir}/systemd/user.conf \
-> +                ${libdir}/sysusers.d/systemd.conf \
-> +                ${libdir}/sysusers.d/basic.conf \
-> +                "
->   
->   FILES_${PN} = " ${base_bindir}/* \
->                   ${datadir}/bash-completion \
-> @@ -218,7 +223,8 @@ FILES_${PN} = " ${base_bindir}/* \
->                   ${rootlibexecdir}/systemd/* \
->                   ${systemd_unitdir}/* \
->                   ${base_libdir}/security/*.so \
-> -                ${libdir}/libnss_myhostname.so.2 \
-> +                ${libdir}/libnss_*.so.* \
-> +                ${libdir}/sysusers.d \
->                   /cgroup \
->                   ${bindir}/systemd* \
->                   ${bindir}/busctl \
->
->
-> lib*udev have moved, 2 nss plugins were added and the sysusers files should be added to CONFFILES.
->
+Originally I was aiming to fix YOCTO #6579 -- where we had drwxr-sr-x set
+for /home for no particular reason (other than historical reasons; see the
+commit log for details).  In doing so I also uncovered a couple other small
+inconsistencies that could use a cleanup, as follows:
 
-Hi Koen,
+ -the group we called dir2775 we were chmod'ing as 2755 (7 vs 5)
 
-Which files are not packaged? I don't see any 'installed-not-shipped' 
-error after upgrading.
+ -the /var/mail from the lsb additions was incorrect perms and group
 
-Note the I've added ${exec_prefix}/lib/sysusers.d to FILES_${PN}.
-And I don't think files under /lib should be added to CONFFILES.
+ -the grouping headings given for the lsb dirs (e.g. "dir4775") were
+  completely misleading; it appears the original author used the 1st
+  digit ("4") as a group counter and not part of the perms.
 
-Chen Qi
+The last two lsb related items are in both in the last commit below,
+since they end up touching the same lines.
+
+Build tested with MACHINE="intel-corei7-64" from meta-intel with the
+core-image-sato.  We can see /home does not have "s" set anymore.
+
+poky$ls -ld build/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/home/
+drwxr-xr-x 4 paul paul 4096 Jul 25 20:27 build/tmp/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/home/
+poky$
+
+Bug:
+	https://bugzilla.yoctoproject.org/show_bug.cgi?id=6579
+
+Paul.
+---
+
+Paul Gortmaker (3):
+  base-files: actually install 2775 dirs as 2775, not 2755
+  base-files: remove strange 2775 perms from dirs like /home
+  base-files: fix up misleading dir grouping names for lsb dirs
+
+ meta/files/fs-perms.txt                           | 16 +++++++--------
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 24 ++++++++++++-----------
+ 2 files changed, 21 insertions(+), 19 deletions(-)
+
+-- 
+2.0.1
 
 
