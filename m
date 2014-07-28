@@ -1,32 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 600A565F01
+	by mail.openembedded.org (Postfix) with ESMTP id 95A7D7025E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 06:49:18 +0000 (UTC)
+	Mon, 28 Jul 2014 06:50:42 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S6nH9r011052
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 27 Jul 2014 23:49:17 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Sun, 27 Jul 2014 23:49:17 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH] alsa-lib: remove non PN based -dev packages
-Thread-Index: AQHPqi1rKIyvdfCz3EaH61lhnxGUrJu1Cjrg
-Date: Mon, 28 Jul 2014 06:49:16 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC0413@ALA-MBA.corp.ad.wrs.com>
-References: <1406282736-30238-1-git-send-email-jackie.huang@windriver.com>
-	<FE5CD361-F77F-4383-B608-E216734EDB6E@dominion.thruhere.net>
-In-Reply-To: <FE5CD361-F77F-4383-B608-E216734EDB6E@dominion.thruhere.net>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.142]
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S6oiNv011313
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Jul 2014 23:50:44 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 27 Jul 2014 23:50:43 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Jul 2014 02:50:42 -0400
+Message-ID: <1406530242-12620-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-lib: remove non PN based -dev packages
+Subject: [PATCH] nss: CVE-2013-5606
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +31,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 06:49:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 28 Jul 2014 06:50:42 -0000
+Content-Type: text/plain
 
+From: Li Wang <li.wang@windriver.com>
 
+the patch comes from:
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-5606
+https://bugzilla.mozilla.org/show_bug.cgi?id=910438
+http://hg.mozilla.org/projects/nss/rev/d29898e0981c
 
-> -----Original Message-----
-> From: Koen Kooi [mailto:koen@dominion.thruhere.net]
-> Sent: Monday, July 28, 2014 2:30 PM
-> To: Huang, Jie (Jackie)
-> Cc: OE-core; Richard Purdie
-> Subject: Re: [OE-core] [PATCH] alsa-lib: remove non PN based -dev package=
-s
->=20
->=20
-> Op 25 jul. 2014, om 12:05 heeft jackie.huang@windriver.com het volgende g=
-eschreven:
->=20
-> > From: Jackie Huang <jackie.huang@windriver.com>
-> >
-> > All dev related items should be packaged in the core PN-dev package
-> > not in seperate packages.
->=20
-> What's the upgrade path here for image and users that have 'alsa-dev' ins=
-talled? Looks like there are
+The CERT_VerifyCert function in lib/certhigh/certvfy.c in
+Mozilla Network Security Services (NSS) 3.15 before 3.15.3 provides
+an unexpected return value for an incompatible key-usage certificate
+when the CERTVerifyLog argument is valid, which might allow remote
+attackers to bypass intended access restrictions via a crafted certificate.
 
-My patch is removing 'alsa-dev' and all related files goes into '${PN}-dev'=
- (PN=3Dalsa-lib here), so users need to install
-alsa-lib-dev instead of alsa-dev.
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../nss/files/nss-CVE-2013-5606.patch              | 48 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss.inc                   |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-CVE-2013-5606.patch
 
-> now 2 conflicting packages, 'alsa-dev' in the feeds and 'alsa-lib-dev' on=
- OE, without and
+diff --git a/meta/recipes-support/nss/files/nss-CVE-2013-5606.patch b/meta/recipes-support/nss/files/nss-CVE-2013-5606.patch
+new file mode 100644
+index 0000000..f30475b
+--- /dev/null
++++ b/meta/recipes-support/nss/files/nss-CVE-2013-5606.patch
+@@ -0,0 +1,48 @@
++nss: CVE-2013-5606
++
++Upstream-Status: Backport
++
++the patch comes from:
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-5606
++https://bugzilla.mozilla.org/show_bug.cgi?id=910438
++http://hg.mozilla.org/projects/nss/rev/d29898e0981c
++
++The CERT_VerifyCert function in lib/certhigh/certvfy.c in
++Mozilla Network Security Services (NSS) 3.15 before 3.15.3 provides
++an unexpected return value for an incompatible key-usage certificate
++when the CERTVerifyLog argument is valid, which might allow remote
++attackers to bypass intended access restrictions via a crafted certificate.
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ nss/lib/certhigh/certvfy.c |    7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/nss/lib/certhigh/certvfy.c b/nss/lib/certhigh/certvfy.c
++index f364ceb..f450205 100644
++--- a/nss/lib/certhigh/certvfy.c
+++++ b/nss/lib/certhigh/certvfy.c
++@@ -1312,7 +1312,7 @@ CERT_VerifyCert(CERTCertDBHandle *handle, CERTCertificate *cert,
++ 	PORT_SetError(SEC_ERROR_UNTRUSTED_CERT);
++ 	LOG_ERROR_OR_EXIT(log,cert,0,flags);
++     } else if (trusted) {
++-	goto winner;
+++	goto done;
++     }
++ 
++ 
++@@ -1340,7 +1340,10 @@ CERT_VerifyCert(CERTCertDBHandle *handle, CERTCertificate *cert,
++ 	}
++     }
++ 
++-winner:
+++done:
+++    if (log && log->head) {
+++        return SECFailure;
+++    }
++     return(SECSuccess);
++ 
++ loser:
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index cc9e7b9..ce7d4a4 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://nss-CVE-2014-1492.patch \
+     file://nss-CVE-2013-1740.patch \
+     file://nss-3.15.1-fix-CVE-2013-1739.patch \
++    file://nss-CVE-2013-5606.patch \
+ "
+ SRC_URI_append_class-target = "\
+     file://nss.pc.in \
+-- 
+2.0.0
 
-Only 'alsa-lib-dev' now with my patch, so no conflicts.
-
-Thanks,
-Jackie
-
-> RREPLACES/RPROVIDES in place.
 
