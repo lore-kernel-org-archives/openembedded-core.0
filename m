@@ -1,48 +1,37 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 19DD765FDC
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 546E07085C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 17:02:03 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s6SH209a021843
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 19:02:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1406566924;
-	bh=oqby51cRQwJI5mt/RQvKsfipScokFK9OOl1c3a9Q7+o=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
-	b=l/ROoNToDrd8gQoNBjkHBZQslveNitWhAPxJiVfYZZ1wzTY95z+EL3xo0llwdn5gt
-	HiL9YP1kfpPOwwdFcMHJ0WM0eXyNyB/asGi9Rt7hmRHroJaauONcngwU8KePVqOZXU
-	qH7flkECC8DiV+lGZ4Zw9PBxKU6KVplGilNakW4c=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s6SH1oKh020695
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 19:01:55 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XBoJ4-0000w4-RY
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Jul 2014 19:01:50 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 28 Jul 2014 17:25:23 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s6SHPM6q008071; Mon, 28 Jul 2014 12:25:22 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014072812252210-324194 ;
+	Mon, 28 Jul 2014 12:25:22 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 28 Jul 2014 19:01:50 +0200
-Message-ID: <lymwbtto1t.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+In-Reply-To: <1404424826-12023-2-git-send-email-rich.tollerton@ni.com>
+References: <1404424826-12023-1-git-send-email-rich.tollerton@ni.com>
+	<1404424826-12023-2-git-send-email-rich.tollerton@ni.com>
+User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
+	(x86_64-unknown-linux-gnu)
+Date: Mon, 28 Jul 2014 12:25:22 -0500
+Message-ID: <87ppgppf99.fsf@weregild.amer.corp.natinst.com>
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: SELinux support
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/28/2014 12:25:22 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 07/28/2014 12:25:22 PM,
+	Serialize complete at 07/28/2014 12:25:22 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
+	0.0.0000
+	definitions=2014-07-28_03:2014-07-28, 2014-07-28,
+	1970-01-01 signatures=0
+Cc: ken.sharp@ni.com
+Subject: Re: [PATCH 1/2] gcc-cross-canadian: Adjust $prefix to fix sysroot autodetect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 17:02:13 -0000
+X-List-Received-Date: Mon, 28 Jul 2014 17:25:27 -0000
 Content-Type: text/plain
 
-[ https://bugzilla.yoctoproject.org/show_bug.cgi?id=6580 ]
+Bump?
 
-Hi,
+Richard Tollerton <rich.tollerton@ni.com> writes:
 
-after upgrade to recent pseudo 1.6+, oe-core stops to build as a
-confined SELinux now.  This happens because SELinux provides more
-than the xattr file api and 'pseudo' does not intercept e.g. writing
-into '/proc/self/attr/fscreate'.
+> Currently, using gcc-cross-canadian often requires --sysroot to be
+> specified at compile time, because the default sysroot is hardcoded to
+> e.g. /opt/poky/1.6.1/sysroots/core2-64-poky-linux. If you didn't install
+> the toolchain in precisely that location, the default sysroot won't work.
+>
+> But that isn't actually necessary -- gcc is actually capable of
+> discovering the sysroot location itself. If the default
+> sysroot (--with-sysroot=) is underneath the prefix (--prefix=), then gcc
+> rewrites the sysroot at runtime based on the actual location of gcc in
+> the filesystem. (cf gcc/gcc.c:process_command() in the
+> defined(TARGET_SYSTEM_ROOT_RELOCATABLE), and
+> libiberty/make-relative-prefix.c, in the gcc sources.)
+>
+> We can effect this by moving prefix up a few directories.
+> Currently it's effectively set to ${SDKPATH}/sysroots/${SDK_SYS}/usr,
+> via nativesdk.bbclass. So instead, set it to ${SDKPATH}/sysroots.
+> This breaks nothing, because autotools.bbclass already sets
+> exec_prefix, bindir, etc. so that this change should not actually affect
+> where files get installed.
+>
+> Natinst-ReviewBoard-ID: 52189
+> Acked-by: Gratian Crisan <gratian.crisan@ni.com>
+> Acked-by: David Curtiss <david.curtiss@ni.com>
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index 63adae8..1a826ec 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -37,6 +37,9 @@ export RANLIB_FOR_TARGET = "${TARGET_PREFIX}ranlib"
+>  export STRIP_FOR_TARGET = "${TARGET_PREFIX}strip"
+>  export WINDRES_FOR_TARGET = "${TARGET_PREFIX}windres"
+>  
+> +# Ensure that the target sysroot is under the prefix
+> +prefix = "${SDKPATH}/sysroots"
+> +
+>  #
+>  # We need to override this and make sure the compiler can find staging
+>  #
+> -- 
+> 2.0.1
+>
 
-IMO, turning off every SELinux related operation in do_install() (which
-is wrapped by 'pseudo') is a clean way to fix and improve building.  If
-OE supports SELinux for targets sometime, the file relabeling should be
-done in do_rootfs() by using a chroot aware 'restorecon' (e.g. which
-reads the file context policy from the chroot but not from system wide
-/etc/selinux).
-
-Unfortunately, I do not know a way to make applications think they are
-running without SELinux.  But patching 'pseudo' to return faked values
-for 'is_selinux_enabled()' seems to be a good solution.
-
-Bug #6580 mentioned at the beginning contains some discussion and a
-patch.  What do other people think about it?
-
-
-
-Enrico
+-- 
+Richard Tollerton <rich.tollerton@ni.com>
 
