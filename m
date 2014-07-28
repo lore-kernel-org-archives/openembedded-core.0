@@ -1,28 +1,30 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id BC50970620
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 22DB8704E6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jul 2014 23:06:01 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1XBXVy-000192-LW from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Jul 2014 16:06:02 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Sun, 27 Jul 2014 16:06:02 -0700
-Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
-	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
-	Server id 14.2.247.3; Sun, 27 Jul 2014 16:06:01 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Jul 2014 19:05:57 -0400
-Message-ID: <1406502357-17590-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 28 Jul 2014 02:23:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6S2NiO0025247
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 27 Jul 2014 19:23:44 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sun, 27 Jul 2014 19:23:43 -0700
+Message-ID: <53D5B441.4050902@windriver.com>
+Date: Mon, 28 Jul 2014 10:24:01 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-OriginalArrivalTime: 27 Jul 2014 23:06:02.0543 (UTC)
-	FILETIME=[563203F0:01CFA9EF]
-Subject: [PATCH] libx11: Add missing NULL check
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <cover.1406279934.git.Qi.Chen@windriver.com>
+	<f11514aea79be9f009030d3acb5964de15a26223.1406279934.git.Qi.Chen@windriver.com>
+	<33866F61-B200-4CA4-AC52-69BD3EB109A1@dominion.thruhere.net>
+In-Reply-To: <33866F61-B200-4CA4-AC52-69BD3EB109A1@dominion.thruhere.net>
+X-Originating-IP: [128.224.162.187]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: upgrade to 215
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,111 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Jul 2014 23:06:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Jul 2014 02:23:48 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a check for NULL on dereferencing the xim pointer.
-Using mplayer with the x11 backend will trigger this and result
-in a segfault.
+On 07/25/2014 06:56 PM, Koen Kooi wrote:
+> Op 25 jul. 2014, om 11:20 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
+>
+>> Upgrade systemd from 213 to 215.
+>>
+>> systemd-older-kernel.patch is removed as it's fixed in 215.
+> NAK! This will drop libraries and and leave files unpackages, you need something like this:
+>
+> @@ -146,7 +146,9 @@ do_install_ptest () {
+>   
+>   python populate_packages_prepend (){
+>       systemdlibdir = d.getVar("rootlibdir", True)
+> +    prefixlibdir = d.getVar("libdir", True)
+>       do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
+> +    do_split_packages(d, prefixlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
+>   }
+>   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
+>   
+> @@ -198,7 +200,10 @@ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts"
+>   CONFFILES_${PN} = "${sysconfdir}/systemd/journald.conf \
+>                   ${sysconfdir}/systemd/logind.conf \
+>                   ${sysconfdir}/systemd/system.conf \
+> -                ${sysconfdir}/systemd/user.conf"
+> +                ${sysconfdir}/systemd/user.conf \
+> +                ${libdir}/sysusers.d/systemd.conf \
+> +                ${libdir}/sysusers.d/basic.conf \
+> +                "
+>   
+>   FILES_${PN} = " ${base_bindir}/* \
+>                   ${datadir}/bash-completion \
+> @@ -218,7 +223,8 @@ FILES_${PN} = " ${base_bindir}/* \
+>                   ${rootlibexecdir}/systemd/* \
+>                   ${systemd_unitdir}/* \
+>                   ${base_libdir}/security/*.so \
+> -                ${libdir}/libnss_myhostname.so.2 \
+> +                ${libdir}/libnss_*.so.* \
+> +                ${libdir}/sysusers.d \
+>                   /cgroup \
+>                   ${bindir}/systemd* \
+>                   ${bindir}/busctl \
+>
+>
+> lib*udev have moved, 2 nss plugins were added and the sysusers files should be added to CONFFILES.
+>
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- .../libx11/libX11-Add-missing-NULL-check.patch     | 72 ++++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb     |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
+Hi Koen,
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch b/meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
-new file mode 100644
-index 0000000..3068620
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/libX11-Add-missing-NULL-check.patch
-@@ -0,0 +1,72 @@
-+From 4d85d5f3bd8afac893738fd88e19d8cb5cf998ff Mon Sep 17 00:00:00 2001
-+From: Drew Moseley <drew_moseley@mentor.com>
-+Date: Sun, 27 Jul 2014 13:10:07 -0400
-+Subject: [PATCH] libX11: Add missing NULL check on im and im->methods
-+
-+Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=81822]
-+
-+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
-+---
-+ src/xlibi18n/ICWrap.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff -ru libX11-1.6.2-orig/src/xlibi18n/ICWrap.c libX11-1.6.2/src/xlibi18n/ICWrap.c
-+--- libX11-1.6.2-orig/src/xlibi18n/ICWrap.c	2014-07-27 13:38:29.586666449 -0400
-++++ libX11-1.6.2/src/xlibi18n/ICWrap.c	2014-07-27 13:41:39.671609030 -0400
-+@@ -169,7 +169,7 @@
-+     va_list var;
-+     int     total_count;
-+     XIMArg *args;
-+-    char   *ret;
-++    char   *ret = NULL;
-+ 
-+     /*
-+      * so count the stuff dangling here
-+@@ -185,7 +185,8 @@
-+     _XIMVaToNestedList(var, total_count, &args);
-+     va_end(var);
-+ 
-+-    ret = (*im->methods->set_values) (im, args);
-++    if (im && im->methods)
-++	ret = (*im->methods->set_values) (im, args);
-+     if (args) Xfree(args);
-+     return ret;
-+ }
-+@@ -196,7 +197,7 @@
-+     va_list var;
-+     int     total_count;
-+     XIMArg *args;
-+-    char   *ret;
-++    char   *ret = NULL;
-+ 
-+     /*
-+      * so count the stuff dangling here
-+@@ -212,7 +213,8 @@
-+     _XIMVaToNestedList(var, total_count, &args);
-+     va_end(var);
-+ 
-+-    ret = (*im->methods->get_values) (im, args);
-++    if (im && im->methods)
-++	ret = (*im->methods->get_values) (im, args);
-+     if (args) Xfree(args);
-+     return ret;
-+ }
-+@@ -228,7 +230,7 @@
-+     va_list var;
-+     int     total_count;
-+     XIMArg *args;
-+-    XIC     ic;
-++    XIC     ic = NULL;
-+ 
-+     /*
-+      * so count the stuff dangling here
-+@@ -244,7 +246,8 @@
-+     _XIMVaToNestedList(var, total_count, &args);
-+     va_end(var);
-+ 
-+-    ic = (XIC) (*im->methods->create_ic) (im, args);
-++    if (im && im->methods)
-++	ic = (XIC) (*im->methods->create_ic) (im, args);
-+     if (args) Xfree(args);
-+     if (ic) {
-+ 	ic->core.next = im->core.ic_chain;
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
-index 700bc36..a722648 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
-@@ -5,6 +5,7 @@ BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI += "file://disable_tests.patch \
-             file://nls-always-use-XCOMM-instead-of-for-comments-in-Comp.patch \
-+            file://libX11-Add-missing-NULL-check.patch \
-            "
- 
- SRC_URI[md5sum] = "c35d6ad95b06635a524579e88622fdb5"
--- 
-1.9.1
+Which files are not packaged? I don't see any 'installed-not-shipped' 
+error after upgrading.
+
+Note the I've added ${exec_prefix}/lib/sysusers.d to FILES_${PN}.
+And I don't think files under /lib should be added to CONFFILES.
+
+Chen Qi
 
 
