@@ -1,35 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D30C70892
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A47027089C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 17:25:58 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id rd18so6740708iec.23
+	Mon, 28 Jul 2014 17:39:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6SHdUR3026944
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 10:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vMSHBMw5dSeF9x95WOr60lUJ+CZ+pEZqNP+H+/918w8=;
-	b=pV8NaMOq2uwDaEQ1VVmrJQILA+Z7on4/qOHs2W/McexS4bPFIaTZX8AIiOKTjd2roS
-	+i2P0pN3y7569umVWkDXtZUANozxurtssg6yhuuUIkExj5URmg4ZPndB0tnkIcMoJzOZ
-	7kIeuPK3e10Bfp2E9YT3sL00zD2IliqfA4EzY4TMBd7+dmpXx75jVS8JVrfUumRs6Do9
-	jota0rIf5raU4RqP6U8CIQgnQw35KMYAftMQLGIKraGyBWRmMiZkG2pSu7/X83WgarKx
-	DfIAfBxg1z3I32E7chdaqWnrFOIbCtrmSMDDgnA2Y0jgP5efQMuT2MTgu7+WIQEghE4g
-	EUlg==
-X-Received: by 10.42.82.6 with SMTP id b6mr41622862icl.51.1406568358914; Mon,
-	28 Jul 2014 10:25:58 -0700 (PDT)
+	Mon, 28 Jul 2014 10:39:30 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 28 Jul 2014 10:39:30 -0700
+Message-ID: <53D68AD1.2010401@windriver.com>
+Date: Mon, 28 Jul 2014 12:39:29 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Mon, 28 Jul 2014 10:25:28 -0700 (PDT)
-In-Reply-To: <1406545263-7393-1-git-send-email-rongqing.li@windriver.com>
-References: <1406545263-7393-1-git-send-email-rongqing.li@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 28 Jul 2014 10:25:28 -0700
-Message-ID: <CAMKF1soxPmXjX6bbcto=c1qHvJB1bgdJdgTpz8dA-ibBp-7Tgg@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gmp: redefine a function
+To: <openembedded-core@lists.openembedded.org>, "Seebach, Peter"
+	<Peter.Seebach@windriver.com>
+References: <lymwbtto1t.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lymwbtto1t.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Subject: Re: PSEUDO - SELinux support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,15 +36,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 17:26:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Jul 2014 17:39:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 28, 2014 at 4:01 AM,  <rongqing.li@windriver.com> wrote:
-> +[PATCH] reimplement umul_ppmm to make it be able to building on mips64 64bit ABI
-> +
-> +Upstream-Status: Pending[This version was not maintained by upstream, larger versions have been fixed]
-> +
+On 7/28/14, 12:01 PM, Enrico Scholz wrote:
+> [ https://bugzilla.yoctoproject.org/show_bug.cgi?id=6580 ]
+>
+> Hi,
+>
+> after upgrade to recent pseudo 1.6+, oe-core stops to build as a
+> confined SELinux now.  This happens because SELinux provides more
+> than the xattr file api and 'pseudo' does not intercept e.g. writing
+> into '/proc/self/attr/fscreate'.
 
-if you mean newer release have been fixed then this patch should be
-marked 'Backport'
+The issue is that there are two ways to set the selinux values.  One is via 
+xattr, which we do capture in pseudo -- specifically to allow components to set 
+xattrs [including security attributes].  The other is via some random proc file 
+entry.  This was previously unknown to me.  There is a slight chance we can 
+attempt to capture access to that file as well and act on it within the pseudo 
+context.  (This may be more difficult though.)
+
+> IMO, turning off every SELinux related operation in do_install() (which
+> is wrapped by 'pseudo') is a clean way to fix and improve building.  If
+> OE supports SELinux for targets sometime, the file relabeling should be
+> done in do_rootfs() by using a chroot aware 'restorecon' (e.g. which
+> reads the file context policy from the chroot but not from system wide
+> /etc/selinux).
+
+My feeling is that the security contexts set when pseudo is running should never 
+make it to the 'real' filesystem, and should only be stored internally.
+
+If we have programs that are setting security contexts on the system, as a 
+host-tool -- this will end up being host-contamination as well.
+
+As for the restorecon, there are otherways of setting security contexts as well. 
+  Look at the 'Tizen' smack stuff as an example.  During the package installs 
+they run through a series of rpm(4) plugins that evaluate what was installed and 
+assign an appropriate security context.  While these are not selinux contexts, 
+the interface is similar.
+
+> Unfortunately, I do not know a way to make applications think they are
+> running without SELinux.  But patching 'pseudo' to return faked values
+> for 'is_selinux_enabled()' seems to be a good solution.
+
+This could work, but I think it's only part of the solution.  We need to tell 
+applications to stop spewing contexts that have nothing to do with the (virtual) 
+filesystem we're working with.  We also need to get a reasonable way to make 
+sure pseudo is capturing all of the contexts it can.
+
+My other concern with the is_selinux_enabled is that it's not an API within the 
+libc functions.  So would defining this cause any issues?  I'm not sure either way.
+
+At a minimum, telling a pseudo running session that selinux is not enabled (at 
+the host level) is probably the correct behavior.
+
+Intercepting xattr is needed, and potentially access to the special proc files 
+may also be needed... [once we intercept though, what do we do with the data?]
+
+> Bug #6580 mentioned at the beginning contains some discussion and a
+> patch.  What do other people think about it?
+
+We definitely need input on this for people's use cases so that we can come up 
+with a reasonable solution.
+
+As mentioned in the bug, pseudo was not originally designed to work in any type 
+of selinux enforcing mode.  If it happened to work, great -- but we didn't do 
+any engineering there.  We knew that some levels of selinux support and grsec 
+support would cause pseudo to not be able to LD_PRELOAD, which would fail.
+
+The recommendation has always been to put your build machines behind a firewall, 
+and put selinux into permissive mode (or disable it).  But if we can try to make 
+the level of accidental functionality continue to work, I'm all for it.
+
+--Mark
+
 
