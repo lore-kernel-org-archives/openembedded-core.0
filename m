@@ -1,23 +1,24 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3466C70668
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 319EC70675
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 13:54:19 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jul 2014 06:54:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,749,1400050800"; d="scan'208";a="550145064"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2014 06:54:20 -0700
-Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 1FCD56A4007;
-	Mon, 28 Jul 2014 06:53:43 -0700 (PDT)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jul 2014 18:59:19 +0300
-Message-Id: <1406563159-3717-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] selftest/buildoptions.py: fix QA_WARN test and add more output when failing
+	Mon, 28 Jul 2014 14:19:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6SEJbdm018911
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 07:19:38 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 28 Jul 2014 07:19:37 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Jul 2014 10:19:36 -0400
+Message-ID: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
+MIME-Version: 1.0
+Subject: [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 13:54:20 -0000
+X-List-Received-Date: Mon, 28 Jul 2014 14:19:39 -0000
+Content-Type: text/plain
 
-The -ccleansstate should be done before building the package for the second time.
-Also printing the command output when failing.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+previous commit removes non PN based -dev packages
+but lack of upgrade path for alsa-dev, add RPROVIDES
+for this.
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/lib/oeqa/selftest/buildoptions.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index 27fc452..ec541e5 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -74,15 +74,15 @@ class SanityOptionsTest(oeSelfTest):
-         self.write_recipeinc('xcursor-transparent-theme', 'PACKAGES += \"${PN}-dbg\"')
-         res = bitbake("xcursor-transparent-theme", ignore_status=True)
-         self.delete_recipeinc('xcursor-transparent-theme')
--        self.assertTrue("ERROR: QA Issue: xcursor-transparent-theme-dbg is listed in PACKAGES multiple times, this leads to packaging errors." in res.output)
-+        self.assertTrue("ERROR: QA Issue: xcursor-transparent-theme-dbg is listed in PACKAGES multiple times, this leads to packaging errors." in res.output, msg=res.output)
-         self.assertEqual(res.status, 1)
-         self.write_recipeinc('xcursor-transparent-theme', 'PACKAGES += \"${PN}-dbg\"')
-         self.append_config('ERROR_QA_remove = "packages-list"')
-         self.append_config('WARN_QA_append = " packages-list"')
--        res = bitbake("xcursor-transparent-theme")
-         bitbake("xcursor-transparent-theme -ccleansstate")
-+        res = bitbake("xcursor-transparent-theme")
-         self.delete_recipeinc('xcursor-transparent-theme')
--        self.assertTrue("WARNING: QA Issue: xcursor-transparent-theme-dbg is listed in PACKAGES multiple times, this leads to packaging errors." in res.output)
-+        self.assertTrue("WARNING: QA Issue: xcursor-transparent-theme-dbg is listed in PACKAGES multiple times, this leads to packaging errors." in res.output, msg=res.output)
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
+index 9132072..996d78b 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
+@@ -46,3 +46,4 @@ ${datadir}/alsa/pcm/dmix.conf \
+ ${datadir}/alsa/pcm/dsnoop.conf"
  
-     def test_sanity_userspace_dependency(self):
-         self.append_config('WARN_QA_append = " unsafe-references-in-binaries unsafe-references-in-scripts"')
+ RDEPENDS_libasound = "alsa-conf-base"
++RPROVIDES_${PN}-dev = "alsa-dev"
 -- 
-1.8.3.2
+1.7.9.5
 
 
