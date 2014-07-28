@@ -1,36 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B4FAF65D5E
+Return-Path: <eric@eukrea.com>
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 4237B701BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 11:51:38 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id q107so8228053qgd.40
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 04:51:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=shl2bCDcn6bK3BatqWn9eqWLvOuZ4K7ctODz5CQjEps=;
-	b=JtYV2hQ4x8P6kRsJNW34FziG4J6SPTBJHQnvNuMTD3FwcsyBwMBC+e0bOx9tD7pmGT
-	sbKdpWlOENxTvRxpCH91RSYx1SvDWGACfvsM3RftrZdESHIjbVr4QFrgzGTG3XOsfOQS
-	1LPPoztxgZIJT7h/5NaAul+zWQsNwEWC2+kxAWzyCsP11B0KWfBV46NArQORezL6liLu
-	s3/tFVopKcSbhJcD0mFCdeFT/IiksX5/OtufaYbfs2Y0TOi/UqAdqQqGf93jLdfJRs96
-	1MF0D0adtmw7/M7Nj9S9y/NvGzR0Oglm1p5fJGZAFC6fg6CD/1EqZt1KYa9z3enkTWPt
-	2+Ag==
-X-Gm-Message-State: ALoCoQl9qQWnoVOjj8Xmej+XMKRxE18IYa/v3XM99bACsmmqtuufjhjnjBdWyjQwQefuXVI5MXS4
-X-Received: by 10.224.43.77 with SMTP id v13mr3040319qae.34.1406548299881;
-	Mon, 28 Jul 2014 04:51:39 -0700 (PDT)
+	Mon, 28 Jul 2014 11:58:54 +0000 (UTC)
+Received: from e6520eb (unknown [88.170.243.169])
+	(Authenticated sender: eukrea)
+	by smtp5-g21.free.fr (Postfix) with ESMTPSA id B358CD4809A;
+	Mon, 28 Jul 2014 13:58:53 +0200 (CEST)
+Date: Mon, 28 Jul 2014 13:58:53 +0200
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: David Vincent <freesilicon@gmail.com>
+Message-ID: <20140728135853.35af7ee0@e6520eb>
+In-Reply-To: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
+References: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.10.1 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 28 Jul 2014 04:51:19 -0700 (PDT)
-In-Reply-To: <1406502357-17590-1-git-send-email-drew_moseley@mentor.com>
-References: <1406502357-17590-1-git-send-email-drew_moseley@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Jul 2014 12:51:19 +0100
-Message-ID: <CAJTo0LZMnnoU62S5Xsc6kvH4-Yu8v+mqN2wJK9udGfW1eO=sbg@mail.gmail.com>
-To: Drew Moseley <drew_moseley@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libx11: Add missing NULL check
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] barebox: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +30,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 11:51:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Jul 2014 11:58:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 28 July 2014 00:05, Drew Moseley <drew_moseley@mentor.com> wrote:
-> +Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=81822]
+Hi David,
 
-FWIW you generally get better responses from Xorg if you mail the list
-with patches.  If the patch goes nowhere then I suggest mailing the
-patch to the list directly instead.
+Le Mon, 28 Jul 2014 11:55:04 +0200,
+David Vincent <freesilicon@gmail.com> a =E9crit :
 
-Also XOpenIM documentation says "XOpenIM returns NULL if no input
-method could be opened" so arguably this should be fixed in mplayer
-(and guarded in libX11).
+>=20
+> barebox (formerly known as u-boot-v2) is a bootloader that inherits the
+> best of U-Boot and the Linux kernel. This commit adds the possibility to
+> use it as a virtual/bootloader instead of U-Boot.
+>=20
+> Signed-off-by: David Vincent <freesilicon@gmail.com>
+> ---
+>  meta/recipes-bsp/barebox/barebox.inc          |   73 +++++++++++++++++++=
+++++++
+>  meta/recipes-bsp/barebox/barebox_2014.07.0.bb |   15 +++++
+>  2 files changed, 88 insertions(+)
+>  create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+>  create mode 100644 meta/recipes-bsp/barebox/barebox_2014.07.0.bb
+>=20
+> diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/bare=
+box/barebox.inc
+> new file mode 100644
+> index 0000000..68aeb68
+> --- /dev/null
+> +++ b/meta/recipes-bsp/barebox/barebox.inc
+> @@ -0,0 +1,73 @@
+> +SUMMARY =3D "The Barebox Bootloader"
+> +DESCRIPTION =3D "Barebox (formerly known as u-boot-v2) is a bootloader t=
+hat inherits the best of U-Boot and the Linux kernel: The size and look-and=
+-feel of u-boot, with driver model and lots of design concepts from the ker=
+nel."
+> +HOMEPAGE =3D "http://www.barebox.org"
+> +SECTION =3D "bootloaders"
+> +PROVIDES =3D "virtual/bootloader"
+> +
+> +inherit cml1 deploy kernel-arch
+> +
+> +EXTRA_OEMAKE =3D 'CROSS_COMPILE=3D${TARGET_PREFIX} CC=3D"${TARGET_PREFIX=
+}gcc ${TOOLCHAIN_OPTIONS}"'
+> +
+> +BAREBOX_BINARY ?=3D "barebox.bin"
+> +BAREBOX_IMAGE ?=3D "barebox-${MACHINE}-${PV}-${PR}.bin"
+> +BAREBOX_SYMLINK ?=3D "barebox-${MACHINE}.bin"
+> +
+> +do_configure () {
+> +	# Copy defconfig to .config if .config does not exist. This allows
+> +	# recipes to manage the .config themselves in do_configure_prepend().
+> +	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
+> +		cp "${WORKDIR}/defconfig" "${B}/.config"
+> +	fi
+> +
+> +	# Use board default defconfig if .config does not exist. This allows
+> +	# recipes to manage the .config themselves in do_configure_prepend().
+> +	if [ ! -f "${B}/.config" ]; then
+> +		oe_runmake_call ${BAREBOX_TARGET}
+> +	fi
+> +
+> +	cml1_do_configure
+> +}
+> +
+> +do_compile () {
+> +	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold=
+', '', d)}" =3D "ld-is-gold" ] ; then
+> +		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/Makefile
+> +	fi
+> +
+I had to add that a few year ago : is that still needed ?
 
-Ross
+> +	unset CFLAGS CPPFLAGS LDFLAGS
+> +	oe_runmake
+> +}
+> +
+> +do_install () {
+> +	install -d ${D}/boot
+> +	install ${S}/barebox-flash-image ${D}/boot/${BAREBOX_IMAGE}
+> +	ln -sf ${BAREBOX_IMAGE} ${D}/boot/${BAREBOX_BINARY}
+> +
+> +	# Install target tools if available
+> +	install -d ${D}${sbindir}
+> +
+> +	if [ -e ${WORKDIR}/scripts/bareboxenv-target ]; then
+> +		install -m 0755 ${WORKDIR}/scripts/bareboxenv-target ${D}${sbindir}/ba=
+reboxenv
+> +	fi
+> +
+> +	if [ -e ${WORKDIR}/scripts/bareboxcrc32-target ]; then
+> +		install -m 0755 ${WORKDIR}/scripts/bareboxcrc32-target ${D}${sbindir}/=
+bareboxcrc32
+> +	fi
+> +
+> +	if [ -e ${WORKDIR}/scripts/kernel-install-target ]; then
+> +		install -m 0755 ${WORKDIR}/scripts/kernel-install-target ${D}${sbindir=
+}/kernel-install
+> +	fi
+> +}
+> +
+> +FILES_${PN} =3D "/boot ${sbindir}"
+
+Why not splitting the tools in their own package so that we can have
+the tools on the target without having the binary in /boot ?
+
+> +
+> +do_deploy () {
+> +	install -d ${DEPLOYDIR}
+> +	install ${S}/barebox-flash-image ${DEPLOYDIR}/${BAREBOX_IMAGE}
+> +
+Why don't you use $BAREBOX_BINARY instead of hardcoding
+barebox-flash-image which won't work on old versions of barebox where
+barebox's binary is named barebox.bin ?
+
+Best regards,
+Eric
 
