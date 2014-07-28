@@ -1,24 +1,36 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 319EC70675
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 6619870732
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 14:19:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6SEJbdm018911
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 28 Jul 2014 14:24:16 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id a108so8285299qge.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 07:19:38 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 28 Jul 2014 07:19:37 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Jul 2014 10:19:36 -0400
-Message-ID: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Mon, 28 Jul 2014 07:24:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LSBaJrgry+WUZEDfOLa/FebNMJ9hX5WZdt7P9L7ZpGg=;
+	b=ApKIpXQQOz4NBY4KhBILNkSlIYo6fHbZmvwyljMXL2QCyf9CX2Vy/jmG+MGDA03kEk
+	4t7tg0ecGUip/e6Q9Axtn3dYjaE72zRfm6ILgyVxnbU2qEnOnQZB60p/xFjDOJhmm9WE
+	Rw90RPb6w8s7Eh0Hi9JvUAbAf3f98gtarOYW/qD9HtQqWfcKzXBn94O7HiXenmYzZTAm
+	MYmLdmyo2uQKZRx0/lIGD/yx2ChpdftWDISb7hQK/3lbI7Ej3tPoQslzZhVJkJLmqtak
+	TKKSsU+cpsaWI1O4N3dy/VmBFep7ZyFrbEviCbVtoZb1EstziwJ6StljmqmYOimWO/6M
+	5zOQ==
+X-Gm-Message-State: ALoCoQmmCw2uYul0BGcI9nN4rC66vBLCXJuKbHjqfQX0YJbguOPedaIMAeIzPahjXvib8enWw7dB
+X-Received: by 10.140.109.136 with SMTP id l8mr270971qgf.72.1406557457242;
+	Mon, 28 Jul 2014 07:24:17 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
+Received: by 10.140.86.99 with HTTP; Mon, 28 Jul 2014 07:23:56 -0700 (PDT)
+In-Reply-To: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
+References: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Jul 2014 15:23:56 +0100
+Message-ID: <CAJTo0Lbn+=irRyET=k0XHF4=BAbrQCin4=Uqrg9TKk78ezLdBw@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +43,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 14:19:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Jul 2014 14:24:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On 28 July 2014 15:19,  <jackie.huang@windriver.com> wrote:
+> +RPROVIDES_${PN}-dev = "alsa-dev"
 
-previous commit removes non PN based -dev packages
-but lack of upgrade path for alsa-dev, add RPROVIDES
-for this.
+I believe you'll want replaces and conflicts too, so that alsa-dev gets removed.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-index 9132072..996d78b 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-@@ -46,3 +46,4 @@ ${datadir}/alsa/pcm/dmix.conf \
- ${datadir}/alsa/pcm/dsnoop.conf"
- 
- RDEPENDS_libasound = "alsa-conf-base"
-+RPROVIDES_${PN}-dev = "alsa-dev"
--- 
-1.7.9.5
-
+Ross
 
