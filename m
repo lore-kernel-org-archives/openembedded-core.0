@@ -1,24 +1,36 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 95A7D7025E
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 98CE160DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 06:50:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S6oiNv011313
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Jul 2014 23:50:44 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 27 Jul 2014 23:50:43 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Jul 2014 02:50:42 -0400
-Message-ID: <1406530242-12620-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Mon, 28 Jul 2014 06:57:48 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Jul 2014 23:57:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,747,1400050800"; d="scan'208";a="462158285"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2014 23:57:48 -0700
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.54]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.104]) with mapi id
+	14.03.0123.003; Mon, 28 Jul 2014 07:56:44 +0100
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 2/2] oeqa/runtime: Added skipModule import
+	for	test modules that use it.
+Thread-Index: AQHPpz0kL3BOwfbICki+BUc9ler5A5uw6FMAgAQrIRA=
+Date: Mon, 28 Jul 2014 06:56:43 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B23C0EDDA@IRSMSX103.ger.corp.intel.com>
+References: <1406205685-7685-1-git-send-email-georgex.l.musat@intel.com>
+	<1406205685-7685-2-git-send-email-georgex.l.musat@intel.com>
+	<1962350.z6r6hkHnKy@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1962350.z6r6hkHnKy@peggleto-mobl5.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
 MIME-Version: 1.0
-Subject: [PATCH] nss: CVE-2013-5606
+Subject: Re: [PATCH 2/2] oeqa/runtime: Added skipModule import for	test modules that use it.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,97 +43,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 06:50:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Jul 2014 06:58:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Li Wang <li.wang@windriver.com>
+Yes, thank you! This slipped through our fingers.
 
-the patch comes from:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-5606
-https://bugzilla.mozilla.org/show_bug.cgi?id=910438
-http://hg.mozilla.org/projects/nss/rev/d29898e0981c
-
-The CERT_VerifyCert function in lib/certhigh/certvfy.c in
-Mozilla Network Security Services (NSS) 3.15 before 3.15.3 provides
-an unexpected return value for an incompatible key-usage certificate
-when the CERTVerifyLog argument is valid, which might allow remote
-attackers to bypass intended access restrictions via a crafted certificate.
-
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../nss/files/nss-CVE-2013-5606.patch              | 48 ++++++++++++++++++++++
- meta/recipes-support/nss/nss.inc                   |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/nss-CVE-2013-5606.patch
-
-diff --git a/meta/recipes-support/nss/files/nss-CVE-2013-5606.patch b/meta/recipes-support/nss/files/nss-CVE-2013-5606.patch
-new file mode 100644
-index 0000000..f30475b
---- /dev/null
-+++ b/meta/recipes-support/nss/files/nss-CVE-2013-5606.patch
-@@ -0,0 +1,48 @@
-+nss: CVE-2013-5606
-+
-+Upstream-Status: Backport
-+
-+the patch comes from:
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-5606
-+https://bugzilla.mozilla.org/show_bug.cgi?id=910438
-+http://hg.mozilla.org/projects/nss/rev/d29898e0981c
-+
-+The CERT_VerifyCert function in lib/certhigh/certvfy.c in
-+Mozilla Network Security Services (NSS) 3.15 before 3.15.3 provides
-+an unexpected return value for an incompatible key-usage certificate
-+when the CERTVerifyLog argument is valid, which might allow remote
-+attackers to bypass intended access restrictions via a crafted certificate.
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ nss/lib/certhigh/certvfy.c |    7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/nss/lib/certhigh/certvfy.c b/nss/lib/certhigh/certvfy.c
-+index f364ceb..f450205 100644
-+--- a/nss/lib/certhigh/certvfy.c
-++++ b/nss/lib/certhigh/certvfy.c
-+@@ -1312,7 +1312,7 @@ CERT_VerifyCert(CERTCertDBHandle *handle, CERTCertificate *cert,
-+ 	PORT_SetError(SEC_ERROR_UNTRUSTED_CERT);
-+ 	LOG_ERROR_OR_EXIT(log,cert,0,flags);
-+     } else if (trusted) {
-+-	goto winner;
-++	goto done;
-+     }
-+ 
-+ 
-+@@ -1340,7 +1340,10 @@ CERT_VerifyCert(CERTCertDBHandle *handle, CERTCertificate *cert,
-+ 	}
-+     }
-+ 
-+-winner:
-++done:
-++    if (log && log->head) {
-++        return SECFailure;
-++    }
-+     return(SECSuccess);
-+ 
-+ loser:
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index cc9e7b9..ce7d4a4 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -21,6 +21,7 @@ SRC_URI = "\
-     file://nss-CVE-2014-1492.patch \
-     file://nss-CVE-2013-1740.patch \
-     file://nss-3.15.1-fix-CVE-2013-1739.patch \
-+    file://nss-CVE-2013-5606.patch \
- "
- SRC_URI_append_class-target = "\
-     file://nss.pc.in \
--- 
-2.0.0
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Paul Eggleton
+> Sent: Friday, July 25, 2014 7:16 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 2/2] oeqa/runtime: Added skipModule import
+> for test modules that use it.
+>=20
+> On Thursday 24 July 2014 15:41:25 Lucian Musat wrote:
+> > The modules that use skipModule should import it themselves and not
+> > rely on somebody else to import it.
+> >
+> > Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
+> > ---
+> >  meta/lib/oeqa/runtime/buildcvs.py      | 2 +-
+> >  meta/lib/oeqa/runtime/buildiptables.py | 2 +-
+> >  meta/lib/oeqa/runtime/buildsudoku.py   | 2 +-
+> >  meta/lib/oeqa/runtime/ldd.py           | 2 +-
+> >  meta/lib/oeqa/runtime/pam.py           | 8 ++++----
+> >  meta/lib/oeqa/runtime/skeletoninit.py  | 2 +-
+> >  meta/lib/oeqa/runtime/smart.py         | 2 +-
+> >  meta/lib/oeqa/runtime/vnc.py           | 2 +-
+> >  8 files changed, 11 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/meta/lib/oeqa/runtime/buildcvs.py
+> > b/meta/lib/oeqa/runtime/buildcvs.py index f1fbf19..6201ed1 100644
+> > --- a/meta/lib/oeqa/runtime/buildcvs.py
+> > +++ b/meta/lib/oeqa/runtime/buildcvs.py
+> > @@ -1,4 +1,4 @@
+> > -from oeqa.oetest import oeRuntimeTest
+> > +from oeqa.oetest import oeRuntimeTest, skipModule
+> >  from oeqa.utils.decorators import *
+> >  from oeqa.utils.targetbuild import TargetBuildProject
+> >
+> > diff --git a/meta/lib/oeqa/runtime/buildiptables.py
+> > b/meta/lib/oeqa/runtime/buildiptables.py index f6061a7..c77b114 100644
+> > --- a/meta/lib/oeqa/runtime/buildiptables.py
+> > +++ b/meta/lib/oeqa/runtime/buildiptables.py
+> > @@ -1,4 +1,4 @@
+> > -from oeqa.oetest import oeRuntimeTest
+> > +from oeqa.oetest import oeRuntimeTest, skipModule
+> >  from oeqa.utils.decorators import *
+> >  from oeqa.utils.targetbuild import TargetBuildProject
+> >
+> > diff --git a/meta/lib/oeqa/runtime/buildsudoku.py
+> > b/meta/lib/oeqa/runtime/buildsudoku.py index a754f1d..f51af92 100644
+> > --- a/meta/lib/oeqa/runtime/buildsudoku.py
+> > +++ b/meta/lib/oeqa/runtime/buildsudoku.py
+> > @@ -1,4 +1,4 @@
+> > -from oeqa.oetest import oeRuntimeTest
+> > +from oeqa.oetest import oeRuntimeTest, skipModule
+> >  from oeqa.utils.decorators import *
+> >  from oeqa.utils.targetbuild import TargetBuildProject
+> >
+> > diff --git a/meta/lib/oeqa/runtime/ldd.py
+> > b/meta/lib/oeqa/runtime/ldd.py index 4374530..079130f 100644
+> > --- a/meta/lib/oeqa/runtime/ldd.py
+> > +++ b/meta/lib/oeqa/runtime/ldd.py
+> > @@ -1,5 +1,5 @@
+> >  import unittest
+> > -from oeqa.oetest import oeRuntimeTest
+> > +from oeqa.oetest import oeRuntimeTest, skipModule
+> >  from oeqa.utils.decorators import *
+> >
+> >  def setUpModule():
+> > diff --git a/meta/lib/oeqa/runtime/pam.py
+> > b/meta/lib/oeqa/runtime/pam.py index cc5c1bd..c26e6ea 100644
+> > --- a/meta/lib/oeqa/runtime/pam.py
+> > +++ b/meta/lib/oeqa/runtime/pam.py
+> > @@ -2,7 +2,7 @@
+> >  # Note that the image under test must have "pam" in DISTRO_FEATURES
+> >
+> >  import unittest
+> > -from oeqa.oetest import oeRuntimeTest
+> > +from oeqa.oetest import oeRuntimeTest, skipModule
+> >  from oeqa.utils.decorators import *
+> >
+> >  def setUpModule():
+> > @@ -17,8 +17,8 @@ class PamBasicTest(oeRuntimeTest):
+> >          (status, output) =3D self.target.run('login --help')
+> >          self.assertEqual(status, 1, msg =3D "login command does not
+> > work as expected. Status and output:%s and %s" %(status, output))
+> > (status, output) =3D self.target.run('passwd --help')
+> > -        self.assertEqual(status, 0, msg =3D "passwd command does not w=
+ork as
+> > expected. Status and output:%s and %s" %(status, output)) +
+> > self.assertEqual(status, 6, msg =3D "passwd command does not work as
+> > expected. Status and output:%s and %s" %(status, output)) (status,
+> > output) =3D self.target.run('su --help')
+> > -        self.assertEqual(status, 0, msg =3D "su command does not work =
+as
+> > expected. Status and output:%s and %s" %(status, output)) +
+> > self.assertEqual(status, 2, msg =3D "su command does not work as expect=
+ed.
+> > Status and output:%s and %s" %(status, output)) (status, output) =3D
+> > self.target.run('useradd --help')
+> > -        self.assertEqual(status, 0, msg =3D "useradd command does not =
+work as
+> > expected. Status and output:%s and %s" %(status, output)) +
+> > self.assertEqual(status, 2, msg =3D "useradd command does not work as
+> > expected. Status and output:%s and %s" %(status, output))
+>=20
+> Stefan pointed out to me that this contains a seemingly unintentional rev=
+ert
+> of the following earlier change:
+>=20
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/lib/oeqa/runti
+> me/pam.py?id=3D14735be703de1b1e173d444b51df7aad902428d5
+>=20
+> Cheers,
+> Paul
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
