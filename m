@@ -1,26 +1,31 @@
 Return-Path: <Matthieu.CRAPET@ingenico.com>
 Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id E7E72701BF
+	by mail.openembedded.org (Postfix) with ESMTP id 8C7E0701BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 12:07:01 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,748,1400018400"; d="scan'208";a="55617922"
+	Mon, 28 Jul 2014 12:10:18 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,748,1400018400"; d="scan'208";a="55618144"
 Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 28 Jul 2014 14:07:02 +0200
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Mon, 28 Jul 2014 14:07:00 +0200
-Received: from u56.usr.ingenico.loc (10.23.7.56) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.3.174.1; Mon, 28 Jul 2014 14:07:00 +0200
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Jul 2014 14:06:53 +0200
-Message-ID: <1406549213-4532-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.9.2
-In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050BA8B29DEA@COSNADEXC13.usr.ingenico.loc>
+	by antispam1.usr.ingenico.loc with ESMTP; 28 Jul 2014 14:10:20 +0200
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.78]) by
+	COSNADEXC21.usr.ingenico.loc ([10.31.4.221]) with mapi id
+	14.03.0174.001; Mon, 28 Jul 2014 14:10:19 +0200
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] libav: fix PACKAGECONFIG for theora and
+	libvorbis
+Thread-Index: AQHPqlzlU75rx/gXOkaxCAMln+URzQ==
+Date: Mon, 28 Jul 2014 12:10:18 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050BAA13359C@COSNADEXC13.usr.ingenico.loc>
 References: <8672BB614B4CCA40A6B3BDD6FD82050BA8B29DEA@COSNADEXC13.usr.ingenico.loc>
+	<1406549213-4532-1-git-send-email-Matthieu.Crapet@ingenico.com>
+In-Reply-To: <1406549213-4532-1-git-send-email-Matthieu.Crapet@ingenico.com>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-Subject: [PATCH] libav: fix PACKAGECONFIG for theora and libvorbis
+Subject: Re: [PATCH] libav: fix PACKAGECONFIG for theora and libvorbis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +38,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 12:07:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Jul 2014 12:10:25 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Switches must not be in EXTRA_OECONF anymore.
+Hi,
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/recipes-multimedia/libav/libav.inc | 2 --
- 1 file changed, 2 deletions(-)
+Please take this bugfix patch first, then we could arrange the LICENSE chan=
+ge issue later.
 
-diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-index 1d617a2..5c327df 100644
---- a/meta/recipes-multimedia/libav/libav.inc
-+++ b/meta/recipes-multimedia/libav/libav.inc
-@@ -60,8 +60,6 @@ EXTRA_OECONF = " \
-     --enable-avserver \
-     --enable-avplay \
-     --ld="${CCLD}" \
--    --enable-libtheora  \
--    --enable-libvorbis \
-     --arch=${TARGET_ARCH} \
-     --target-os="linux" \
-     --enable-cross-compile \
--- 
-2.0.0
-
+Regards,
+Matthieu
 
