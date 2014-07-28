@@ -1,33 +1,36 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 625AA701D0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F073965EEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 09:35:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6S9ZgSB002753
+	Mon, 28 Jul 2014 09:43:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6S9gagP028939
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Jul 2014 02:35:42 -0700 (PDT)
+	Mon, 28 Jul 2014 02:42:36 -0700 (PDT)
 Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Mon, 28 Jul 2014 02:35:41 -0700
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
+	Mon, 28 Jul 2014 02:42:35 -0700
 From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Koen Kooi
+	<koen@dominion.thruhere.net>
 Thread-Topic: [OE-core] [PATCH] alsa-lib: remove non PN based -dev packages
-Thread-Index: AQHPqi1rKIyvdfCz3EaH61lhnxGUrJu1CjrggACZFgD//5EyIA==
-Date: Mon, 28 Jul 2014 09:35:41 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC0697@ALA-MBA.corp.ad.wrs.com>
+Thread-Index: AQHPqkXCKIyvdfCz3EaH61lhnxGUrJu1OkkQ
+Date: Mon, 28 Jul 2014 09:42:35 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC06B1@ALA-MBA.corp.ad.wrs.com>
 References: <1406282736-30238-1-git-send-email-jackie.huang@windriver.com>
 	<FE5CD361-F77F-4383-B608-E216734EDB6E@dominion.thruhere.net>
 	<1B858668EC6A94408DCA5225FDFA85AABCAC0413@ALA-MBA.corp.ad.wrs.com>
 	<3EFC00D1-B81F-4618-AC38-B3557430D4EE@dominion.thruhere.net>
-In-Reply-To: <3EFC00D1-B81F-4618-AC38-B3557430D4EE@dominion.thruhere.net>
+	<1406539481.13346.6.camel@ted>
+In-Reply-To: <1406539481.13346.6.camel@ted>
 Accept-Language: en-US, zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [128.224.162.142]
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Cc: "RIFENBARK, SCOTT" <scott.m.rifenbark@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] alsa-lib: remove non PN based -dev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,63 +44,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 09:35:55 -0000
+X-List-Received-Date: Mon, 28 Jul 2014 09:43:12 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-
-
->=20
-> Op 28 jul. 2014, om 08:49 heeft Huang, Jie (Jackie) <Jackie.Huang@windriv=
-er.com> het volgende
-> geschreven:
->=20
-> >
-> >
-> >> -----Original Message-----
-> >> From: Koen Kooi [mailto:koen@dominion.thruhere.net]
-> >> Sent: Monday, July 28, 2014 2:30 PM
-> >> To: Huang, Jie (Jackie)
-> >> Cc: OE-core; Richard Purdie
-> >> Subject: Re: [OE-core] [PATCH] alsa-lib: remove non PN based -dev
-> >> packages
-> >>
-> >>
-> >> Op 25 jul. 2014, om 12:05 heeft jackie.huang@windriver.com het volgend=
-e geschreven:
-> >>
-> >>> From: Jackie Huang <jackie.huang@windriver.com>
-> >>>
-> >>> All dev related items should be packaged in the core PN-dev package
-> >>> not in seperate packages.
-> >>
-> >> What's the upgrade path here for image and users that have 'alsa-dev'
-> >> installed? Looks like there are
-> >
-> > My patch is removing 'alsa-dev' and all related files goes into
-> > '${PN}-dev' (PN=3Dalsa-lib here), so users need to install alsa-lib-dev=
- instead of alsa-dev.
->=20
-> *sigh* So you have no upgrade path for situations where 'alsa-dev' is alr=
-eady installed or listed in a
-> packagegroup or image. Worse, you don't even understand the problem :/
-
-I see your point, I did grep on oe-core and meta-oe and didn't find any evi=
-dence that 'alsa-dev' is installed or listed
-In a packagegroup or image, so I thought it's safe to remove without RREPLA=
-CES/RPROVIDES in place, sorry that I did
-a wrong assumption, I will add a RPROVIDES for this, thanks!
-
-Thanks,
-Jackie
-
->=20
-> >
-> >> now 2 conflicting packages, 'alsa-dev' in the feeds and
-> >> 'alsa-lib-dev' on OE, without and
-> >
-> > Only 'alsa-lib-dev' now with my patch, so no conflicts.
->=20
-> Hahahahahaha you are really funny.
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
+W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBNb25k
+YXksIEp1bHkgMjgsIDIwMTQgNToyNSBQTQ0KPiBUbzogS29lbiBLb29pDQo+IENjOiBIdWFuZywg
+SmllIChKYWNraWUpOyBPRS1jb3JlOyBSSUZFTkJBUkssIFNDT1RUDQo+IFN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIXSBhbHNhLWxpYjogcmVtb3ZlIG5vbiBQTiBiYXNlZCAtZGV2IHBhY2th
+Z2VzDQo+IA0KPiBPbiBNb24sIDIwMTQtMDctMjggYXQgMTA6NTEgKzAyMDAsIEtvZW4gS29vaSB3
+cm90ZToNCj4gPiBPcCAyOCBqdWwuIDIwMTQsIG9tIDA4OjQ5IGhlZWZ0IEh1YW5nLCBKaWUgKEph
+Y2tpZSkgPEphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tPiBoZXQgdm9sZ2VuZGUNCj4gZ2VzY2hy
+ZXZlbjoNCj4gPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4+IEZyb206IEtv
+ZW4gS29vaSBbbWFpbHRvOmtvZW5AZG9taW5pb24udGhydWhlcmUubmV0XQ0KPiA+ID4+IFNlbnQ6
+IE1vbmRheSwgSnVseSAyOCwgMjAxNCAyOjMwIFBNDQo+ID4gPj4gVG86IEh1YW5nLCBKaWUgKEph
+Y2tpZSkNCj4gPiA+PiBDYzogT0UtY29yZTsgUmljaGFyZCBQdXJkaWUNCj4gPiA+PiBTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYWxzYS1saWI6IHJlbW92ZSBub24gUE4gYmFzZWQgLWRl
+dg0KPiA+ID4+IHBhY2thZ2VzDQo+ID4gPj4NCj4gPiA+Pg0KPiA+ID4+IE9wIDI1IGp1bC4gMjAx
+NCwgb20gMTI6MDUgaGVlZnQgamFja2llLmh1YW5nQHdpbmRyaXZlci5jb20gaGV0IHZvbGdlbmRl
+IGdlc2NocmV2ZW46DQo+ID4gPj4NCj4gPiA+Pj4gRnJvbTogSmFja2llIEh1YW5nIDxqYWNraWUu
+aHVhbmdAd2luZHJpdmVyLmNvbT4NCj4gPiA+Pj4NCj4gPiA+Pj4gQWxsIGRldiByZWxhdGVkIGl0
+ZW1zIHNob3VsZCBiZSBwYWNrYWdlZCBpbiB0aGUgY29yZSBQTi1kZXYNCj4gPiA+Pj4gcGFja2Fn
+ZSBub3QgaW4gc2VwZXJhdGUgcGFja2FnZXMuDQo+ID4gPj4NCj4gPiA+PiBXaGF0J3MgdGhlIHVw
+Z3JhZGUgcGF0aCBoZXJlIGZvciBpbWFnZSBhbmQgdXNlcnMgdGhhdCBoYXZlDQo+ID4gPj4gJ2Fs
+c2EtZGV2JyBpbnN0YWxsZWQ/IExvb2tzIGxpa2UgdGhlcmUgYXJlDQo+ID4gPg0KPiA+ID4gTXkg
+cGF0Y2ggaXMgcmVtb3ZpbmcgJ2Fsc2EtZGV2JyBhbmQgYWxsIHJlbGF0ZWQgZmlsZXMgZ29lcyBp
+bnRvDQo+ID4gPiAnJHtQTn0tZGV2JyAoUE49YWxzYS1saWIgaGVyZSksIHNvIHVzZXJzIG5lZWQg
+dG8gaW5zdGFsbCBhbHNhLWxpYi1kZXYgaW5zdGVhZCBvZiBhbHNhLWRldi4NCj4gPg0KPiA+ICpz
+aWdoKiBTbyB5b3UgaGF2ZSBubyB1cGdyYWRlIHBhdGggZm9yIHNpdHVhdGlvbnMgd2hlcmUgJ2Fs
+c2EtZGV2JyBpcw0KPiA+IGFscmVhZHkgaW5zdGFsbGVkIG9yIGxpc3RlZCBpbiBhIHBhY2thZ2Vn
+cm91cCBvciBpbWFnZS4gV29yc2UsIHlvdQ0KPiA+IGRvbid0IGV2ZW4gdW5kZXJzdGFuZCB0aGUg
+cHJvYmxlbSA6Lw0KPiA+DQo+ID4gPg0KPiA+ID4+IG5vdyAyIGNvbmZsaWN0aW5nIHBhY2thZ2Vz
+LCAnYWxzYS1kZXYnIGluIHRoZSBmZWVkcyBhbmQNCj4gPiA+PiAnYWxzYS1saWItZGV2JyBvbiBP
+RSwgd2l0aG91dCBhbmQNCj4gPiA+DQo+ID4gPiBPbmx5ICdhbHNhLWxpYi1kZXYnIG5vdyB3aXRo
+IG15IHBhdGNoLCBzbyBubyBjb25mbGljdHMuDQo+ID4NCj4gPiBIYWhhaGFoYWhhaGEgeW91IGFy
+ZSByZWFsbHkgZnVubnkuDQo+IA0KPiBJIGFwcHJlY2lhdGUgdGhlcmUgaXMgYSBwcm9ibGVtIGhl
+cmUgYW5kIHdlIG5lZWQgdG8gZml4IHRoYXQuIFRoZXJlIGlzIGFsc28gYW4gZWR1Y2F0aW9uIGlz
+c3VlLCBwZW9wbGUNCj4gd2hvIGRvbid0IGtub3cgbXVjaCBhYm91dCBpdCBkb24ndCBhcHByZWNp
+YXRlIHRoZSBzdHJ1Z2dsZXMgb2Ygc29tZW9uZSBtYWludGFpbmluZyBwYWNrYWdlIGZlZWRzLg0K
+DQpTb3JyeSB0aGF0IEkgZ290IG1pc3VuZGVyc3RhbmRpbmcgYWJvdXQgdGhlIGNvbW1ldHMgc2lu
+Y2UgSSBkaWRuJ3Qga25vdyBtdWNoIHRoZSBpc3N1ZSwgSSBhcHByZWNpYXRlIHRoYXQNCmFuZCB3
+aWxsIHNlbmQgYW5vdGhlciBwYXRjaCB0byBmaXggaXQgc2luY2UgdGhpcyBvbmUgaXMgYWxyZWFk
+eSBtZXJnZWQuDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiBQZXJoYXBzIHNvbWVvbmUgY291
+bGQgd3JpdGUgYSBzaG9ydCBzZWN0aW9uIGZvciB0aGUgZG9jcyBhYm91dCB0aGUgaXNzdWVzIGhl
+cmU/IEluIGZ1dHVyZSB3aGVuIHRoaXMNCj4ga2luZCBvZiBwcm9ibGVtIGNvbWVzIHVwLCB3ZSBj
+YW4gdGhlbiBhdCBsZWFzdCBwb2ludCBhdCB0aGUgbWFudWFsIHNlY3Rpb24gdG8gZXhwbGFpbiBp
+dC4NCj4gDQo+IEN1cnJlbnRseSwgbW9zdCBkb2NzIGNvbWUgZnJvbSB0aGUgInNhbWUgb2xkIHBl
+b3BsZSIsIEknbSBwYXJ0bHkgd3JpdGluZyB0aGlzIHRvIHJlbWluZCBwZW9wbGUgdGhhdA0KPiBv
+dGhlcnMgY2FuIHN1Ym1pdCB0aGVtIGFuZCB0aGF0IHRoZXkgY2FuIGhlbHAgbWFzc2l2ZWx5IGlu
+IGVkdWNhdGluZyBwZW9wbGUuDQo+IA0KPiBUaGV5IGRvbid0IGV2ZW4gbmVlZCB0byBiZSBwcm9w
+ZXIgcGF0Y2hlcyBhZ2FpbnN0IHRoZSBkb2NzLCBqdXN0IHdyaXRlIGEgZmV3IHBhcmFncmFwaHMs
+IHNlbmQgaXQgU2NvdHQNCj4gUmlmZW5iYXJrJ3Mgd2F5IGFuZCBoZSBjYW4gdXN1YWxseSBkbyBz
+b21ldGhpbmcgd2l0aCBpdC4gSGUgdGVuZHMgdG8gcmV3b3JkIHRoaW5ncyBzbyB0aGUgbWFudWFs
+IGhhcw0KPiBhIGNvbnNpc3RlbnQgdG9uZSBhbmQgc3R5bGUgYW55d2F5IHNvIGl0IG5lZWRuJ3Qg
+YmUgd29yZCBwZXJmZWN0IGVpdGhlciwgaXRzIHRoZSBjb250ZW50IHRoYXQgbWF0dGVycw0KPiAo
+YW5kIHRoYXQgaXMgdGhlIHBhcnQgU2NvdHQgY2Fubm90IGRvKS4NCj4gDQo+IENoZWVycywNCj4g
+DQo+IFJpY2hhcmQNCg0K
 
