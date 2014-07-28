@@ -1,32 +1,24 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 64CF96B7BF
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 786996B7BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 18:26:57 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s6SIQwM2005932 for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 13:26:58 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014072813265853-326838 ;
-	Mon, 28 Jul 2014 13:26:58 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Jul 2014 13:26:30 -0500
-Message-Id: <1406571990-4821-1-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.3
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/28/2014 01:26:58 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 07/28/2014 01:26:58 PM,
-	Serialize complete at 07/28/2014 01:26:58 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.14,
-	0.0.0000
-	definitions=2014-07-28_03:2014-07-28, 2014-07-28,
-	1970-01-01 signatures=0
-Subject: [PATCH] packagegroup-core-standalone-sdk-target: include static libs
+	Mon, 28 Jul 2014 18:33:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6SIXiRl023304
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 11:33:44 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 28 Jul 2014 11:33:43 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Jul 2014 13:39:08 -0500
+Message-ID: <cover.1406572002.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] add USE_LDCONFIG_CONF_D
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 18:27:03 -0000
+X-List-Received-Date: Mon, 28 Jul 2014 18:33:50 -0000
+Content-Type: text/plain
 
-From: Richard Tollerton <rich.tollerton@ni.com>
+It'd be nice to support ld.so.conf.d, but it'd also be nice
+if it were optional. I made the default be zero because I don't want
+to change behavior on people without warning. Lightly tested, but
+since I don't actually have a use case for this lying around I
+can't promise it solves all the things.
 
-meta-toolchain ought to include static libs.  This fixes an issue we saw
-where a compile against libsupc++.a failed due to the missing library.
+The main intended benefit is that packages can install files
+in ld.so.conf without stepping on each other.
 
-Acked-by: Gratian Crisan <gratian.crisan@ni.com>
-Acked-by: Brad Mouring <brad.mouring@ni.com>
-Acked-by: Ken Sharp <ken.sharp@ni.com>
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- .../packagegroups/packagegroup-core-standalone-sdk-target.bb             | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit 91ca6b1b2e009381d8e813906654c0958eee7efc:
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-index 5d1ce97..da57b36 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-@@ -9,6 +9,7 @@ RDEPENDS_${PN} = "\
-     libgcc-dev \
-     libstdc++ \
-     libstdc++-dev \
-+    libstdc++-staticdev \
-     ${LIBC_DEPENDENCIES} \
-     qemuwrapper-cross \
-     "
--- 
-2.0.3
+  lib/oe/rootfs: Improve error message whitespace (2014-07-28 12:20:56 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/ldsoconfd
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/ldsoconfd
+
+Peter Seebach (1):
+  Add support for ld.so.conf.d
+
+ meta/recipes-core/eglibc/eglibc-package.inc |   10 +++++++++-
+ 1 files changed, 9 insertions(+), 1 deletions(-)
 
 
