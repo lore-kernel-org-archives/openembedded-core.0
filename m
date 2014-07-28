@@ -1,36 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 6619870732
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 044FF60703
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 14:24:16 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id a108so8285299qge.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 07:24:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LSBaJrgry+WUZEDfOLa/FebNMJ9hX5WZdt7P9L7ZpGg=;
-	b=ApKIpXQQOz4NBY4KhBILNkSlIYo6fHbZmvwyljMXL2QCyf9CX2Vy/jmG+MGDA03kEk
-	4t7tg0ecGUip/e6Q9Axtn3dYjaE72zRfm6ILgyVxnbU2qEnOnQZB60p/xFjDOJhmm9WE
-	Rw90RPb6w8s7Eh0Hi9JvUAbAf3f98gtarOYW/qD9HtQqWfcKzXBn94O7HiXenmYzZTAm
-	MYmLdmyo2uQKZRx0/lIGD/yx2ChpdftWDISb7hQK/3lbI7Ej3tPoQslzZhVJkJLmqtak
-	TKKSsU+cpsaWI1O4N3dy/VmBFep7ZyFrbEviCbVtoZb1EstziwJ6StljmqmYOimWO/6M
-	5zOQ==
-X-Gm-Message-State: ALoCoQmmCw2uYul0BGcI9nN4rC66vBLCXJuKbHjqfQX0YJbguOPedaIMAeIzPahjXvib8enWw7dB
-X-Received: by 10.140.109.136 with SMTP id l8mr270971qgf.72.1406557457242;
-	Mon, 28 Jul 2014 07:24:17 -0700 (PDT)
+	Mon, 28 Jul 2014 14:34:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6SEXbjp020945
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 28 Jul 2014 07:33:37 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 28 Jul 2014 07:33:36 -0700
+Message-ID: <53D65F40.7010701@windriver.com>
+Date: Mon, 28 Jul 2014 09:33:36 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.86.99 with HTTP; Mon, 28 Jul 2014 07:23:56 -0700 (PDT)
-In-Reply-To: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
-References: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Jul 2014 15:23:56 +0100
-Message-ID: <CAJTo0Lbn+=irRyET=k0XHF4=BAbrQCin4=Uqrg9TKk78ezLdBw@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
+To: Khem Raj <raj.khem@gmail.com>, akuster <akuster@mvista.com>
+References: <53D2DE13.9010007@mvista.com>
+	<CAMKF1son3T9fsuF9X0Px4hirfk7Ezguy4s5Zit6-0JvfmXDV5A@mail.gmail.com>
+In-Reply-To: <CAMKF1son3T9fsuF9X0Px4hirfk7Ezguy4s5Zit6-0JvfmXDV5A@mail.gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: libpcap-ng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,13 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 14:24:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Jul 2014 14:34:03 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 28 July 2014 15:19,  <jackie.huang@windriver.com> wrote:
-> +RPROVIDES_${PN}-dev = "alsa-dev"
+On 7/25/14, 10:02 PM, Khem Raj wrote:
+> On Fri, Jul 25, 2014 at 3:45 PM, akuster <akuster@mvista.com> wrote:
+>> Meta-security and Meta-selinux both have libcap-ng. Instead of maintaining
+>> the same package in both places, can we get it into OE where libcap resides?
+>
+> I think at very least you can propose it for meta-oe if not or-core.
+> But I also wonder why meta-selinux is not a sub-layer under
+> meta-security,
+>
 
-I believe you'll want replaces and conflicts too, so that alsa-dev gets removed.
+meta-selinux existed first... no other reason.
 
-Ross
+
+The last time I looked at meta-security (well over a year ago), it wasn't 
+terribly useful.  It was just a random collection of security-like packages, 
+some worked, some didn't.
+
+If it has grown since then to be more of a cohesive set of packages, then 
+meta-selinux being part of it may make sense.
+
+--Mark
 
