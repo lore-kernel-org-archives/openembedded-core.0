@@ -1,23 +1,34 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 4237B701BF
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id DF91C701BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 11:58:54 +0000 (UTC)
-Received: from e6520eb (unknown [88.170.243.169])
-	(Authenticated sender: eukrea)
-	by smtp5-g21.free.fr (Postfix) with ESMTPSA id B358CD4809A;
-	Mon, 28 Jul 2014 13:58:53 +0200 (CEST)
-Date: Mon, 28 Jul 2014 13:58:53 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: David Vincent <freesilicon@gmail.com>
-Message-ID: <20140728135853.35af7ee0@e6520eb>
-In-Reply-To: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
-References: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.10.1 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+	Mon, 28 Jul 2014 12:02:31 +0000 (UTC)
+Received: by mail-yh0-f45.google.com with SMTP id 29so4738594yhl.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 05:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=zspy1DGqLUiS4mCKuAGQ1vg89eTgvhJ7zt5BYLtmlDw=;
+	b=gXRXn5uLL+GxhhzaUAOXGUtIFPuf27REeJp3h6TCs7NQkvUtRcqSOE7c44QraYmVAr
+	jtVBKQKYV6wy+RvHQfIlfaZqRVbWzM0owU8kY2zfny7kORWCO6pXHsV3lcXvoYQnHuiF
+	ZDZVabAP3lMOJG+9gm8/hEdqA8THweffe3D1VEKRezWUOoMM3UTz+Xlh0cvnS2nc8AqF
+	YdUmt8W0R0F/99aYiyjiCddiwVnxO24+MgBdOaek4dzSe87ZpwQ2qZkJDonWTRUIENid
+	Wl2RTrgYfH14wyvWzMiJsOOPL45xPInG1RLihWIxz779glxiIeAowyuUbRrBjiWTAxJf
+	SvSA==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] barebox: Add recipe
+X-Received: by 10.236.228.40 with SMTP id e38mr50594364yhq.76.1406548953026;
+	Mon, 28 Jul 2014 05:02:33 -0700 (PDT)
+Received: by 10.170.123.210 with HTTP; Mon, 28 Jul 2014 05:02:32 -0700 (PDT)
+In-Reply-To: <CAKRNOGwGr3BM8FTMoqjNQ+p0tFKUj55RdyL+0wemf_7f1r1UcQ@mail.gmail.com>
+References: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
+	<1406543035.13346.11.camel@ted>
+	<CAKRNOGwGr3BM8FTMoqjNQ+p0tFKUj55RdyL+0wemf_7f1r1UcQ@mail.gmail.com>
+Date: Mon, 28 Jul 2014 14:02:32 +0200
+Message-ID: <CAKRNOGxP5isqEkHOrZh8BAP9VvgwMyWy8pawpBX5SZrEueFhtA@mail.gmail.com>
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] barebox: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,120 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 11:58:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 28 Jul 2014 12:02:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi David,
+Sorry, the patch alone was maybe a little harsh, I should have
+submitted it as a RFC.
+For me, this recipe was needed because I don't use u-boot as the
+bootloader for my custom board but barebox. More generically, I know
+that the meta-fsl-arm has also a recipe for barebox and since my board
+was not based on a Freescale MPU but an Atmel one, I thought that the
+work could be shared by the two layers in oe-core or, at least, in
+meta-oe instead of being also redeveloped in meta-atmel or another BSP
+layer.
 
-Le Mon, 28 Jul 2014 11:55:04 +0200,
-David Vincent <freesilicon@gmail.com> a =E9crit :
+Since barebox also supports many architectures like ARM, MIPS,
+Blackfin,... and many vendors like Atmel, Freescale, TI,... I think it
+provides a good alternative for the 'virtual/bootloader' task. People
+who want to use it should not put more effort than what they need to
+do for u-boot currently.
 
->=20
-> barebox (formerly known as u-boot-v2) is a bootloader that inherits the
-> best of U-Boot and the Linux kernel. This commit adds the possibility to
-> use it as a virtual/bootloader instead of U-Boot.
->=20
-> Signed-off-by: David Vincent <freesilicon@gmail.com>
-> ---
->  meta/recipes-bsp/barebox/barebox.inc          |   73 +++++++++++++++++++=
-++++++
->  meta/recipes-bsp/barebox/barebox_2014.07.0.bb |   15 +++++
->  2 files changed, 88 insertions(+)
->  create mode 100644 meta/recipes-bsp/barebox/barebox.inc
->  create mode 100644 meta/recipes-bsp/barebox/barebox_2014.07.0.bb
->=20
-> diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/bare=
-box/barebox.inc
-> new file mode 100644
-> index 0000000..68aeb68
-> --- /dev/null
-> +++ b/meta/recipes-bsp/barebox/barebox.inc
-> @@ -0,0 +1,73 @@
-> +SUMMARY =3D "The Barebox Bootloader"
-> +DESCRIPTION =3D "Barebox (formerly known as u-boot-v2) is a bootloader t=
-hat inherits the best of U-Boot and the Linux kernel: The size and look-and=
--feel of u-boot, with driver model and lots of design concepts from the ker=
-nel."
-> +HOMEPAGE =3D "http://www.barebox.org"
-> +SECTION =3D "bootloaders"
-> +PROVIDES =3D "virtual/bootloader"
-> +
-> +inherit cml1 deploy kernel-arch
-> +
-> +EXTRA_OEMAKE =3D 'CROSS_COMPILE=3D${TARGET_PREFIX} CC=3D"${TARGET_PREFIX=
-}gcc ${TOOLCHAIN_OPTIONS}"'
-> +
-> +BAREBOX_BINARY ?=3D "barebox.bin"
-> +BAREBOX_IMAGE ?=3D "barebox-${MACHINE}-${PV}-${PR}.bin"
-> +BAREBOX_SYMLINK ?=3D "barebox-${MACHINE}.bin"
-> +
-> +do_configure () {
-> +	# Copy defconfig to .config if .config does not exist. This allows
-> +	# recipes to manage the .config themselves in do_configure_prepend().
-> +	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
-> +		cp "${WORKDIR}/defconfig" "${B}/.config"
-> +	fi
-> +
-> +	# Use board default defconfig if .config does not exist. This allows
-> +	# recipes to manage the .config themselves in do_configure_prepend().
-> +	if [ ! -f "${B}/.config" ]; then
-> +		oe_runmake_call ${BAREBOX_TARGET}
-> +	fi
-> +
-> +	cml1_do_configure
-> +}
-> +
-> +do_compile () {
-> +	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold=
-', '', d)}" =3D "ld-is-gold" ] ; then
-> +		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/Makefile
-> +	fi
-> +
-I had to add that a few year ago : is that still needed ?
+I've cc'ed the barebox mailing list for more technical details if needed.
 
-> +	unset CFLAGS CPPFLAGS LDFLAGS
-> +	oe_runmake
-> +}
-> +
-> +do_install () {
-> +	install -d ${D}/boot
-> +	install ${S}/barebox-flash-image ${D}/boot/${BAREBOX_IMAGE}
-> +	ln -sf ${BAREBOX_IMAGE} ${D}/boot/${BAREBOX_BINARY}
-> +
-> +	# Install target tools if available
-> +	install -d ${D}${sbindir}
-> +
-> +	if [ -e ${WORKDIR}/scripts/bareboxenv-target ]; then
-> +		install -m 0755 ${WORKDIR}/scripts/bareboxenv-target ${D}${sbindir}/ba=
-reboxenv
-> +	fi
-> +
-> +	if [ -e ${WORKDIR}/scripts/bareboxcrc32-target ]; then
-> +		install -m 0755 ${WORKDIR}/scripts/bareboxcrc32-target ${D}${sbindir}/=
-bareboxcrc32
-> +	fi
-> +
-> +	if [ -e ${WORKDIR}/scripts/kernel-install-target ]; then
-> +		install -m 0755 ${WORKDIR}/scripts/kernel-install-target ${D}${sbindir=
-}/kernel-install
-> +	fi
-> +}
-> +
-> +FILES_${PN} =3D "/boot ${sbindir}"
+Greetings,
 
-Why not splitting the tools in their own package so that we can have
-the tools on the target without having the binary in /boot ?
+David
 
-> +
-> +do_deploy () {
-> +	install -d ${DEPLOYDIR}
-> +	install ${S}/barebox-flash-image ${DEPLOYDIR}/${BAREBOX_IMAGE}
-> +
-Why don't you use $BAREBOX_BINARY instead of hardcoding
-barebox-flash-image which won't work on old versions of barebox where
-barebox's binary is named barebox.bin ?
-
-Best regards,
-Eric
+2014-07-28 12:23 GMT+02:00 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Mon, 2014-07-28 at 11:55 +0200, David Vincent wrote:
+>> barebox (formerly known as u-boot-v2) is a bootloader that inherits the
+>> best of U-Boot and the Linux kernel. This commit adds the possibility to
+>> use it as a virtual/bootloader instead of U-Boot.
+>>
+>> Signed-off-by: David Vincent <freesilicon@gmail.com>
+>> ---
+>>  meta/recipes-bsp/barebox/barebox.inc          |   73 +++++++++++++++++++++++++
+>>  meta/recipes-bsp/barebox/barebox_2014.07.0.bb |   15 +++++
+>>  2 files changed, 88 insertions(+)
+>>  create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+>>  create mode 100644 meta/recipes-bsp/barebox/barebox_2014.07.0.bb
+>
+> I have to admit I don't know a lot about this. To make it into OE-Core
+> we need some kind of story about why its necessary and commonly used.
+> Are there a number of BSPs using this? Can you give some background to
+> why this is needed?
+>
+> Cheers,
+>
+> Richard
+>
 
