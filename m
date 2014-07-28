@@ -1,36 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A4AF765EEF;
-	Mon, 28 Jul 2014 10:42:25 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x48so7275154wes.33
-	for <multiple recipients>; Mon, 28 Jul 2014 03:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=QotyzI2zNP5wvF4MQ+mB2PXubXPHWxC2Bw3bm536jn0=;
-	b=kCZ++oKoxPptyJBQ0eRW8noDzsqb5BpJ91+TFMCc4SojwhTPl0aFNG/XusR4G6Hl13
-	C+5pugiufBtCKR1ImYMYurc8GyBOFnf/wFK6lfUOYMp7Fq6JswBZQwy0yS0e1fwBj9m0
-	DxXbUFu9sUI+IHUmbLWuL4lYxcT+obOnow5sjGYDaxCHdzofJKBRXRBlozUKs+LJSBI3
-	HEp+EFr7SQy76kNwNUEDUwrGpwyi8hZH9ABER8yBDrfg0PaecJJY4kZANtiTcwb6tN2C
-	BWCg2KuxMXHKkCjgQMItE67XwXoJMTzz2pV/pxz0cQ02b6qCqUB8ewwy1ivAOJjc5kJR
-	VOKA==
-X-Received: by 10.194.87.97 with SMTP id w1mr48361560wjz.42.1406544146460;
-	Mon, 28 Jul 2014 03:42:26 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	r1sm28752090wia.21.2014.07.28.03.42.25 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Jul 2014 03:42:25 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 28 Jul 2014 12:42:47 +0200
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140728104247.GC16445@jama>
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 127C8701CD
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 11:01:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s6SB12xf002206
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 04:01:03 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 28 Jul 2014 04:01:02 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Jul 2014 19:01:03 +0800
+Message-ID: <1406545263-7393-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-07-28
+Subject: [PATCH] gmp: redefine a function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,86 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jul 2014 10:42:28 -0000
-X-Groupsio-MsgNum: 55637
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vv4Sf/kQfcwinyKX"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 28 Jul 2014 11:01:12 -0000
+Content-Type: text/plain
 
---vv4Sf/kQfcwinyKX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Roy Li <rongqing.li@windriver.com>
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+redefine a function to make it be able to work on mips64 64BIT ABI
 
-This time it was building without any sstate-cache, so we have complete qa.=
-log files
-(they are included in log dir)
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../gmp/gmp-4.2.1/reimplement_umul_ppmm.patch      |   39 ++++++++++++++++++++
+ meta/recipes-support/gmp/gmp_4.2.1.bb              |    1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/reimplement_umul_ppmm.patch
 
-Here are some stats:
-$ cat log.world.2014072*/qa.log | sort -u | grep -c 'build-deps'
-166
-$ cat log.world.2014072*/qa.log | sort -u | grep -c 'textrel'
-18
-$ cat log.world.2014072*/qa.log | sort -u | grep -c 'unknown-configure-opti=
-on'
-21
-$ cat log.world.2014072*/qa.log | sort -u | grep -c 'already-stripped'
-4
-$ cat log.world.2014072*/qa.log | sort -u | grep -c 'version-going-backward=
-s'
-23
+diff --git a/meta/recipes-support/gmp/gmp-4.2.1/reimplement_umul_ppmm.patch b/meta/recipes-support/gmp/gmp-4.2.1/reimplement_umul_ppmm.patch
+new file mode 100644
+index 0000000..739d88a
+--- /dev/null
++++ b/meta/recipes-support/gmp/gmp-4.2.1/reimplement_umul_ppmm.patch
+@@ -0,0 +1,39 @@
++[PATCH] reimplement umul_ppmm to make it be able to building on mips64 64bit ABI
++
++Upstream-Status: Pending[This version was not maintained by upstream, larger versions have been fixed]
++
++Signed-off-by: Roy.Li <rongqing.li@windriver.com>
++---
++ longlong.h | 14 ++++++++++++--
++ 1 file changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/longlong.h b/longlong.h
++index b53fbee..faa845a 100644
++--- a/longlong.h
+++++ b/longlong.h
++@@ -1024,10 +1024,20 @@ extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
++ #endif /* __mips */
++ 
++ #if (defined (__mips) && __mips >= 3) && W_TYPE_SIZE == 64
++-#if __GNUC__ > 2 || __GNUC_MINOR__ >= 7
+++#if __GMP_GNUC_PREREQ (4,4)
+++#define umul_ppmm(w1, w0, u, v) \
+++  do {						\
+++    typedef unsigned int __ll_UTItype __attribute__((mode(TI)));	\
+++    __ll_UTItype __ll = (__ll_UTItype)(u) * (v);	\
+++    w1 = __ll >> 64;					\
+++    w0 = __ll;						\
+++  } while (0)
+++#endif
+++#if !defined (umul_ppmm) && __GMP_GNUC_PREREQ (2,7)
++ #define umul_ppmm(w1, w0, u, v) \
++   __asm__ ("dmultu %2,%3" : "=l" (w0), "=h" (w1) : "d" (u), "d" (v))
++-#else
+++#endif
+++#if !defined (umul_ppmm)
++ #define umul_ppmm(w1, w0, u, v) \
++   __asm__ ("dmultu %2,%3\n\tmflo %0\n\tmfhi %1"				\
++ 	   : "=d" (w0), "=d" (w1) : "d" (u), "d" (v))
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
+index 69ad0ca..216ee41 100644
+--- a/meta/recipes-support/gmp/gmp_4.2.1.bb
++++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
+@@ -12,6 +12,7 @@ PR = "r2"
+ SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
+            file://disable-stdc.patch \
+            file://gmp_fix_for_automake-1.12.patch \
++           file://reimplement_umul_ppmm.patch \
+            "
+ 
+ SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
+-- 
+1.7.10.4
 
-=3D=3D Failed tasks 2014-07-28 =3D=3D
 
-=3D=3D=3D common (2) =3D=3D=3D
-    * meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-so=
-ft_1.15.1.bb, do_compile
-    * openembedded-core/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.1=
-3.bb, do_compile
-
-=3D=3D=3D common-x86 (3) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_c=
-ompile
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-devtools/concurrencykit/concurrency=
-kit_git.bb, do_compile
-
-=3D=3D=3D qemuarm (0) =3D=3D=3D
-
-=3D=3D=3D qemux86 (0) =3D=3D=3D
-
-=3D=3D=3D qemux86_64 (1) =3D=3D=3D
-    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb, do_compile
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||2     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140725_170016.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/1474/
-|-
-||qemux86       ||5     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140726_131244.log/||
-|-
-||qemux86_64    ||6     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140727_084254.log/||
-|}
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---vv4Sf/kQfcwinyKX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPWKScACgkQN1Ujt2V2gBwRPgCfeOBmUrgzRbXK4K5vwBc0ja/L
-PaUAn0KrcDIDmHIjgl6ynfim/P7hAN/O
-=rqSN
------END PGP SIGNATURE-----
-
---vv4Sf/kQfcwinyKX--
