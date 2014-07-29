@@ -1,36 +1,23 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DC7907091D
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 6491F65ED3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 09:02:45 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id a108so9797954qge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 02:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=R7PGTc+1q1bcr1fsxY1cmIkNVtLqEYHVKGC2Jxo/HlY=;
-	b=Rtq1dGjRT0YLLkaSO7RdT9NrActu1tDooiK5rtpm4KfrHvx9UK+t9zlewyZVhsCE6j
-	ZKfqVbpmjVhhVh9YqmtFuo/lp3sDtaTgVhA54XlWUmmcWrosQaebUDmhw4A3vOXRScy/
-	kgZgaI5DWV+MjgRPuHiG7vd3Bm+ImK7KOaobArS4KM8c0WG08oqXEmtUEk8kqfGNTExg
-	+nreQrDjt0iCG6Vpy9LZyf70sfyhp9DmGh+ImEI0YtJ3OsS8wllXDB/azgfKKZHMdqbr
-	bn1aogQrO5XC/ZU2mciQijhyJfHjwxbyu/ovRTAOdKfsl26S4MzW60o4DKtLQPhk1Ydr
-	GVVQ==
+	Tue, 29 Jul 2014 11:27:29 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Tue, 29 Jul 2014 13:27:25 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 153F4288F33;
+	Tue, 29 Jul 2014 13:27:26 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Jul 2014 13:27:22 +0200
+Message-ID: <1406633242-28359-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.140.19.176 with SMTP id 45mr1261218qgh.46.1406624566978;
-	Tue, 29 Jul 2014 02:02:46 -0700 (PDT)
-Received: by 10.140.50.198 with HTTP; Tue, 29 Jul 2014 02:02:46 -0700 (PDT)
-In-Reply-To: <4190240.9FhIxat4L9@peggleto-mobl5.ger.corp.intel.com>
-References: <CADV-EXGEW1dQb1x6+20myn3X4JfUjPRfkBj2hon8kuX35ap91g@mail.gmail.com>
-	<4190240.9FhIxat4L9@peggleto-mobl5.ger.corp.intel.com>
-Date: Tue, 29 Jul 2014 12:02:46 +0300
-Message-ID: <CADV-EXF9VUC64uKywLgRuOE794E-6soX1DsaVPTCcpGefC7_Lg@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Specifying MACHINE inside distro config only
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] i2c-tools: Uprev to 3.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,97 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 09:02:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 29 Jul 2014 11:27:31 -0000
+Content-Type: text/plain
 
-Hi Paul,
+1. Updated the SRC_URI to http://dl.lm-sensors.org/i2c-tools/
+2. Corrected the License to GPLv2+ as the "COPYING" file include these
+   statements:
+   "This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version."
 
-2014-07-29 11:25 GMT+03:00 Paul Eggleton <paul.eggleton@linux.intel.com>:
-> Hi Yevhen,
->
-> On Tuesday 29 July 2014 09:55:20 Yevhen Kyriukha wrote:
->> I have several distro config files. I bind each of them to single machine
->> like this:
->>
->> # cat conf/distro/mydistro.conf
->>
->> DISTRO = "mydistro"
->> DISTRO_NAME = "My Distro"
->> DISTRO_VERSION = "1.01"
->> MACHINE = "cedartrail"
->> ...
->>
->> I also created "conf/auto.conf" file with following content:
->> DISTRO = "mydistro"
->> to specify distro to build.
->>
->> The problem is that without specifying MACHINE in "conf/auto.conf" I get
->> following error:
->>
->> ERROR:  OE-core's config sanity checker detected a potential
->> misconfiguration.
->>     Either fix the cause of this error or at your own risk disable the
->> checker (see sanity.conf).
->>     Following is the list of potential problems / advisories:
->>
->>     TUNE_ARCH is unset. Please ensure your MACHINE configuration includes a
->> valid tune configuration file which will set this correctly.
->> Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
->> ().Toolchain tunings invalid:
->> No tuning found for default multilib.
->>
->>
->> I use a script to change distro (in "auto.conf") and each distro knows its
->> machine to build for. So specifying MACHINE in "auto.conf" isn't desirable.
->>
->> Can someone tell what did I miss?
->
-> This is caused by a subtlety in the way that we have structured the
-> configuration files. Here's a snippet from meta/conf/bitbake.conf (which aside
-> from bblayers.conf is the only file that BitBake knows to look at by itself):
->
-> ---------------- snip ----------------
-> ##################################################################
-> # Include the rest of the config files.
-> ##################################################################
->
-> require conf/abi_version.conf
-> include conf/site.conf
-> include conf/auto.conf
-> include conf/local.conf
-> include conf/build/${BUILD_SYS}.conf
-> include conf/target/${TARGET_SYS}.conf
-> include conf/machine/${MACHINE}.conf
-> include conf/machine-sdk/${SDKMACHINE}.conf
-> include conf/distro/${DISTRO}.conf
-> include conf/distro/defaultsetup.conf
-> include conf/documentation.conf
-> include conf/licenses.conf
-> require conf/sanity.conf
-> ---------------- snip ----------------
->
-> These statements are parsed in order; thus, by the time the distro config has
-> been parsed, it's too late to include the right machine config file, that's
-> already happened. (These lines are in this order deliberately; the reason
-> being we want to allow the distro config to easily override things that are
-> specified in the machine configuration if desired.)
->
-> So the answer is you simply can't do what you're trying to do with the way
-> that OE is set up. You need to set the MACHINE value from local.conf /
-> auto.conf, or the external environment.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ .../i2c-tools/{i2c-tools-3.1.0 => i2c-tools-3.1.1}/Module.mk      | 0
+ .../i2c-tools/{i2c-tools_3.1.0.bb => i2c-tools_3.1.1.bb}          | 8 ++++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/i2c-tools/{i2c-tools-3.1.0 => i2c-tools-3.1.1}/Module.mk (100%)
+ rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.0.bb => i2c-tools_3.1.1.bb} (65%)
 
-
-Thanks for your clarification.
-
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk b/meta/recipes-devtools/i2c-tools/i2c-tools-3.1.1/Module.mk
+similarity index 100%
+rename from meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk
+rename to meta/recipes-devtools/i2c-tools/i2c-tools-3.1.1/Module.mk
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
+similarity index 65%
+rename from meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
+rename to meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
+index b8be9ed..3980cf4 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
+@@ -1,15 +1,15 @@
+ SUMMARY = "Set of i2c tools for linux"
+ SECTION = "base"
+-LICENSE = "GPLv2"
++LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ RDEPENDS_${PN} += "perl"
+ 
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/i2c-tools/i2c-tools-3.1.0.tar.bz2/f15019e559e378c6e9d5d6299a00df21/i2c-tools-${PV}.tar.bz2 \
++SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${PN}-${PV}.tar.bz2 \
+            file://Module.mk \
+ "
+-SRC_URI[md5sum] = "f15019e559e378c6e9d5d6299a00df21"
+-SRC_URI[sha256sum] = "960023f61de292c6dd757fcedec4bffa7dd036e8594e24b26a706094ca4c142a"
++SRC_URI[md5sum] = "0fdbff53ebd0b8d9249256d6c56480b1"
++SRC_URI[sha256sum] = "14d4d7d60d1c12e43f2befe239c682a5c44c27682f153d4b58c1e392d2db1700"
+ 
+ inherit autotools-brokensep
+ 
 -- 
-Best regards,
-Yevhen
+1.9.1
+
 
