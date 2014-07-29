@@ -1,24 +1,33 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C85F6AC74
+	by mail.openembedded.org (Postfix) with ESMTP id 7F5A26AC74
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 02:12:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T2CCLZ026988
+	Tue, 29 Jul 2014 02:20:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T2K3s0028042
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 19:12:12 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 28 Jul 2014 19:12:11 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Jul 2014 10:12:31 +0800
-Message-ID: <cover.1406599885.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon, 28 Jul 2014 19:20:03 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
+	Mon, 28 Jul 2014 19:20:03 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
+Thread-Index: AQHPqm+hjUt8q6ZL/0C1/rLaAktxupu2TIng
+Date: Tue, 29 Jul 2014 02:20:02 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC24D3@ALA-MBA.corp.ad.wrs.com>
+References: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
+	<CAJTo0Lbn+=irRyET=k0XHF4=BAbrQCin4=Uqrg9TKk78ezLdBw@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbn+=irRyET=k0XHF4=BAbrQCin4=Uqrg9TKk78ezLdBw@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.142]
 MIME-Version: 1.0
-Subject: [PATCH V3 0/1] systemd: upgrade to 215
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +40,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 02:12:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Jul 2014 02:20:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The following changes since commit 58f08a96764094189b5aaf3cc8b4cc0c95e23409:
-
-  gst-ffmpeg: Add CVE patches (2014-07-23 21:57:04 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd_215
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd_215
-
-Chen Qi (1):
-  systemd: upgrade to 215
-
- .../systemd/systemd/systemd-older-kernel.patch     |   56 --------------------
- .../systemd/{systemd_213.bb => systemd_215.bb}     |    8 +--
- 2 files changed, 4 insertions(+), 60 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
- rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (99%)
-
--- 
-1.7.9.5
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
+YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIEp1bHkgMjgsIDIw
+MTQgMTA6MjQgUE0NCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gQ2M6IE9FLWNvcmUNCj4g
+U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGFsc2EtbGliOiBBZGQgUlBST1ZJREVTIGZv
+ciBhbHNhLWRldg0KPiANCj4gT24gMjggSnVseSAyMDE0IDE1OjE5LCAgPGphY2tpZS5odWFuZ0B3
+aW5kcml2ZXIuY29tPiB3cm90ZToNCj4gPiArUlBST1ZJREVTXyR7UE59LWRldiA9ICJhbHNhLWRl
+diINCj4gDQo+IEkgYmVsaWV2ZSB5b3UnbGwgd2FudCByZXBsYWNlcyBhbmQgY29uZmxpY3RzIHRv
+bywgc28gdGhhdCBhbHNhLWRldiBnZXRzIHJlbW92ZWQuDQoNClRoYW5rcyBmb3IgcG9pbnRpbmcg
+dGhpcywgYnV0IEkgdGhpbmsgSSdtIHN0aWxsIG5vdCBmdWxseSB1bmRlcnN0YW5kIHdoYXQncyBy
+ZXF1aXJlZCB0byBnZXQgYSBwYWNrYWdlDQpyZW1vdmVkLCBJIHJlZmVycmVkIHRvIHRoZSBjb21t
+aXQgIiA0YmFjMTFmIHV0aWwtbGludXg6IHJlbW92ZSBub24gUE4gYmFzZWQgLWRldiBwYWNrYWdl
+cyINCmFuZCB0aG91Z2h0IGFkZGluZyB0aGUgUlBST1ZJREVTIGlzIGVub3VnaCwgd291bGQgeW91
+IG1pbmQgZXhwbGFpbmluZyBhIGxpdHRsZSBtb3JlPw0KDQpUaGFua3MsDQpKYWNraWUNCg0KPiAN
+Cj4gUm9zcw0K
 
