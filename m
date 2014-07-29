@@ -1,33 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F5A26AC74
+	by mail.openembedded.org (Postfix) with ESMTP id 1A1396ACA0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 02:20:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T2K3s0028042
+	Tue, 29 Jul 2014 03:08:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T38CqE002125
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 19:20:03 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
-	Mon, 28 Jul 2014 19:20:03 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
-Thread-Index: AQHPqm+hjUt8q6ZL/0C1/rLaAktxupu2TIng
-Date: Tue, 29 Jul 2014 02:20:02 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAC24D3@ALA-MBA.corp.ad.wrs.com>
-References: <1406557176-29200-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0Lbn+=irRyET=k0XHF4=BAbrQCin4=Uqrg9TKk78ezLdBw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbn+=irRyET=k0XHF4=BAbrQCin4=Uqrg9TKk78ezLdBw@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.142]
+	Mon, 28 Jul 2014 20:08:12 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 28 Jul 2014 20:08:12 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Jul 2014 11:08:30 +0800
+Message-ID: <cover.1406603221.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-lib: Add RPROVIDES for alsa-dev
+Subject: [PATCH V2 0/3] Support 'read-only-rootfs' IMAGE_FEATURES for systemd based systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,23 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 02:20:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 29 Jul 2014 03:08:20 -0000
+Content-Type: text/plain
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
-YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIEp1bHkgMjgsIDIw
-MTQgMTA6MjQgUE0NCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gQ2M6IE9FLWNvcmUNCj4g
-U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGFsc2EtbGliOiBBZGQgUlBST1ZJREVTIGZv
-ciBhbHNhLWRldg0KPiANCj4gT24gMjggSnVseSAyMDE0IDE1OjE5LCAgPGphY2tpZS5odWFuZ0B3
-aW5kcml2ZXIuY29tPiB3cm90ZToNCj4gPiArUlBST1ZJREVTXyR7UE59LWRldiA9ICJhbHNhLWRl
-diINCj4gDQo+IEkgYmVsaWV2ZSB5b3UnbGwgd2FudCByZXBsYWNlcyBhbmQgY29uZmxpY3RzIHRv
-bywgc28gdGhhdCBhbHNhLWRldiBnZXRzIHJlbW92ZWQuDQoNClRoYW5rcyBmb3IgcG9pbnRpbmcg
-dGhpcywgYnV0IEkgdGhpbmsgSSdtIHN0aWxsIG5vdCBmdWxseSB1bmRlcnN0YW5kIHdoYXQncyBy
-ZXF1aXJlZCB0byBnZXQgYSBwYWNrYWdlDQpyZW1vdmVkLCBJIHJlZmVycmVkIHRvIHRoZSBjb21t
-aXQgIiA0YmFjMTFmIHV0aWwtbGludXg6IHJlbW92ZSBub24gUE4gYmFzZWQgLWRldiBwYWNrYWdl
-cyINCmFuZCB0aG91Z2h0IGFkZGluZyB0aGUgUlBST1ZJREVTIGlzIGVub3VnaCwgd291bGQgeW91
-IG1pbmQgZXhwbGFpbmluZyBhIGxpdHRsZSBtb3JlPw0KDQpUaGFua3MsDQpKYWNraWUNCg0KPiAN
-Cj4gUm9zcw0K
+This patchset mainly comes from https://github.com/MentorEmbedded/meta-ro-rootfs with only a little
+modification.
+
+//Chen Qi
+
+The following changes since commit 3f7fcbc167c13bdaa6c12a81c7851530d72f02e0:
+
+  directfb-examples: Fix building with new autoconf (2014-07-27 08:30:13 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd_readonly
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd_readonly
+
+Chen Qi (3):
+  volatile-binds: add recipe
+  systemd: add volatile-binds to RDEPENDS
+  image.bbclass: tweak read_only_rootfs_hook to also support systemd
+    based systems
+
+ meta/classes/image.bbclass                         |    5 +-
+ meta/recipes-core/systemd/systemd_213.bb           |    1 +
+ meta/recipes-core/volatile-binds/files/COPYING.MIT |   17 +++++
+ .../volatile-binds/files/mount-copybind            |   34 ++++++++++
+ .../volatile-binds/files/volatile-binds.service.in |   19 ++++++
+ meta/recipes-core/volatile-binds/volatile-binds.bb |   69 ++++++++++++++++++++
+ 6 files changed, 143 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/volatile-binds/files/COPYING.MIT
+ create mode 100755 meta/recipes-core/volatile-binds/files/mount-copybind
+ create mode 100644 meta/recipes-core/volatile-binds/files/volatile-binds.service.in
+ create mode 100644 meta/recipes-core/volatile-binds/volatile-binds.bb
+
+-- 
+1.7.9.5
+
 
