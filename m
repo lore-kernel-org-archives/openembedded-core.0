@@ -1,26 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id F416770908
+Return-Path: <ting.liu@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2lp0236.outbound.protection.outlook.com [207.46.163.236])
+	by mail.openembedded.org (Postfix) with ESMTP id 81D4E65D9B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 08:25:21 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Jul 2014 01:25:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,755,1400050800"; d="scan'208";a="550562120"
-Received: from cfitzsim-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.251])
-	by orsmga001.jf.intel.com with ESMTP; 29 Jul 2014 01:25:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-Date: Tue, 29 Jul 2014 09:25:20 +0100
-Message-ID: <4190240.9FhIxat4L9@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.6-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <CADV-EXGEW1dQb1x6+20myn3X4JfUjPRfkBj2hon8kuX35ap91g@mail.gmail.com>
-References: <CADV-EXGEW1dQb1x6+20myn3X4JfUjPRfkBj2hon8kuX35ap91g@mail.gmail.com>
+	Tue, 29 Jul 2014 09:01:08 +0000 (UTC)
+Received: from BY2PR03CA072.namprd03.prod.outlook.com (10.141.249.45) by
+	BLUPR03MB151.namprd03.prod.outlook.com (10.255.212.25) with Microsoft
+	SMTP Server (TLS) id 15.0.995.14; Tue, 29 Jul 2014 09:01:07 +0000
+Received: from BN1AFFO11FD046.protection.gbl (2a01:111:f400:7c10::199) by
+	BY2PR03CA072.outlook.office365.com (2a01:111:e400:2c5d::45) with
+	Microsoft SMTP Server (TLS) id 15.0.995.14 via Frontend Transport;
+	Tue, 29 Jul 2014 09:01:06 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BN1AFFO11FD046.mail.protection.outlook.com (10.58.53.61) with Microsoft
+	SMTP Server (TLS) id 15.0.990.10 via Frontend Transport;
+	Tue, 29 Jul 2014 09:01:06 +0000
+Received: from b28495.ap.freescale.net (b28495.ap.freescale.net [10.193.20.99])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	s6T912bc013841; Tue, 29 Jul 2014 02:01:04 -0700
+From: <ting.liu@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Jul 2014 17:03:43 +0800
+Message-ID: <1406624623-25774-1-git-send-email-ting.liu@freescale.com>
+X-Mailer: git-send-email 1.7.3.4
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:CAL; IPV:NLI;
+	EFV:NLI; SFV:NSPM;
+	SFS:(6009001)(189002)(199002)(84676001)(88136002)(102836001)(85306003)(106466001)(92726001)(89996001)(104166001)(99396002)(68736004)(87286001)(87936001)(26826002)(92566001)(33646002)(50986999)(229853001)(105606002)(107046002)(21056001)(110136001)(104016003)(79102001)(95666004)(2351001)(85852003)(97736001)(48376002)(50226001)(6806004)(36756003)(77982001)(46102001)(76482001)(4396001)(83322001)(81342001)(74502001)(80022001)(20776003)(93916002)(81542001)(31966008)(83072002)(86152002)(62966002)(86362001)(50466002)(77156001)(64706001)(44976005)(19580405001)(19580395003)(74662001)(47776003);
+	DIR:OUT; SFP:; SCL:1; SRVR:BLUPR03MB151;
+	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
+	PTR:InfoDomainNonexistent; MX:1; LANG:en; 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Specifying MACHINE inside distro config only
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:
+X-Forefront-PRVS: 0287BBA78D
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=ting.liu@freescale.com; 
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] base-files: set dynamic COLUMNS via resize command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 08:25:29 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 29 Jul 2014 09:01:08 -0000
+Content-Type: text/plain
 
-Hi Yevhen,
+From: Ting Liu <ting.liu@freescale.com>
 
-On Tuesday 29 July 2014 09:55:20 Yevhen Kyriukha wrote:
-> I have several distro config files. I bind each of them to single machine
-> like this:
-> 
-> # cat conf/distro/mydistro.conf
-> 
-> DISTRO = "mydistro"
-> DISTRO_NAME = "My Distro"
-> DISTRO_VERSION = "1.01"
-> MACHINE = "cedartrail"
-> ...
-> 
-> I also created "conf/auto.conf" file with following content:
-> DISTRO = "mydistro"
-> to specify distro to build.
-> 
-> The problem is that without specifying MACHINE in "conf/auto.conf" I get
-> following error:
-> 
-> ERROR:  OE-core's config sanity checker detected a potential
-> misconfiguration.
->     Either fix the cause of this error or at your own risk disable the
-> checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
-> 
->     TUNE_ARCH is unset. Please ensure your MACHINE configuration includes a
-> valid tune configuration file which will set this correctly.
-> Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
-> ().Toolchain tunings invalid:
-> No tuning found for default multilib.
-> 
-> 
-> I use a script to change distro (in "auto.conf") and each distro knows its
-> machine to build for. So specifying MACHINE in "auto.conf" isn't desirable.
-> 
-> Can someone tell what did I miss?
+By default, COLUMNS is set to 80. If possible, run 'resize' to
+determine what the current dimensions are. This avoids the final
+part of long lines overlap the start of the same line.
 
-This is caused by a subtlety in the way that we have structured the 
-configuration files. Here's a snippet from meta/conf/bitbake.conf (which aside 
-from bblayers.conf is the only file that BitBake knows to look at by itself):
+Signed-off-by: Ting Liu <ting.liu@freescale.com>
+---
+ meta/recipes-core/base-files/base-files/profile |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
----------------- snip ----------------
-##################################################################
-# Include the rest of the config files.
-##################################################################
-
-require conf/abi_version.conf
-include conf/site.conf
-include conf/auto.conf
-include conf/local.conf
-include conf/build/${BUILD_SYS}.conf
-include conf/target/${TARGET_SYS}.conf
-include conf/machine/${MACHINE}.conf
-include conf/machine-sdk/${SDKMACHINE}.conf
-include conf/distro/${DISTRO}.conf
-include conf/distro/defaultsetup.conf
-include conf/documentation.conf
-include conf/licenses.conf
-require conf/sanity.conf
----------------- snip ----------------
-
-These statements are parsed in order; thus, by the time the distro config has 
-been parsed, it's too late to include the right machine config file, that's 
-already happened. (These lines are in this order deliberately; the reason 
-being we want to allow the distro config to easily override things that are 
-specified in the machine configuration if desired.)
-
-So the answer is you simply can't do what you're trying to do with the way 
-that OE is set up. You need to set the MACHINE value from local.conf / 
-auto.conf, or the external environment.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index 0b2d9d7..88ab8d8 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -26,6 +26,10 @@ if [ -d /etc/profile.d ]; then
+   unset i
+ fi
+ 
++if [ -x /usr/bin/resize ];then
++  /usr/bin/resize >/dev/null
++fi
++
+ export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+ 
+ umask 022
 -- 
+1.7.3.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
