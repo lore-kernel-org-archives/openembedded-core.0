@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id EBD097089B
+	by mail.openembedded.org (Postfix) with ESMTP id EC8837089C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 29 Jul 2014 21:00:18 +0000 (UTC)
 Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id CE962331A2
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 75AEA3313D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 22:53:33 +0200 (CEST)
+	Tue, 29 Jul 2014 22:53:32 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jul 2014 22:53:23 +0200
-Message-Id: <1406667203-14914-7-git-send-email-dv@pseudoterminal.org>
+Date: Tue, 29 Jul 2014 22:53:18 +0200
+Message-Id: <1406667203-14914-2-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1406667203-14914-1-git-send-email-dv@pseudoterminal.org>
 References: <1406667203-14914-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 7/7] gstreamer1.0-omx: upgrade to 1.2.0
+Subject: [PATCH 2/7] gstreamer1.0-plugins-base: upgrade to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 21:00:21 -0000
+X-List-Received-Date: Tue, 29 Jul 2014 21:00:22 -0000
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../{gstreamer1.0-omx_1.0.0.bb => gstreamer1.0-omx_1.2.0.bb}          | 4 ++--
+ ...er1.0-plugins-base_1.2.4.bb => gstreamer1.0-plugins-base_1.4.0.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.0.0.bb => gstreamer1.0-omx_1.2.0.bb} (69%)
+ rename recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.2.4.bb => gstreamer1.0-plugins-base_1.4.0.bb} (78%)
 
-diff --git a/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.0.0.bb b/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
-similarity index 69%
-rename from recipes-multimedia/gstreamer/gstreamer1.0-omx_1.0.0.bb
-rename to recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
-index f5956c6..fe7c91c 100644
---- a/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.0.0.bb
-+++ b/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb b/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.0.bb
+similarity index 78%
+rename from recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
+rename to recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.0.bb
+index dee0894..968f092 100644
+--- a/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2.4.bb
++++ b/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.0.bb
+@@ -9,6 +9,6 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+             file://get-caps-from-src-pad-when-query-caps.patch \
+ "
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "bb34b5742223267298bcffc209104a92"
--SRC_URI[sha256sum] = "7a1d8d28d70dacc6bd3c7ee7d7e40df6d5a1d38d7c256d5c9c5c8ef15c005014"
-+SRC_URI[md5sum] = "d24e8c0153c35dfefee3e26b1c2c35f8"
-+SRC_URI[sha256sum] = "0b4874961e6488ad9e5808114bd486ea981c540907262caab1419355fd82d745"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
- 
+-SRC_URI[md5sum] = "278e0a1872ecb981e91830b2cb7f3e98"
+-SRC_URI[sha256sum] = "4d6273dc3f5a94bcc53ccfe0711cfddd49e31371d1136bf62fa1ecc604fc6550"
++SRC_URI[md5sum] = "1ff06280b03b9098a706d1290d8bb3bd"
++SRC_URI[sha256sum] = "5daed4b983b64e4e3fbe9cd29063e4302812cd03ba685a15b06a790911d04c1e"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
 -- 
 1.8.3.2
 
