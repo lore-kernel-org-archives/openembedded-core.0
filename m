@@ -1,31 +1,26 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 79E19708D7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9838965CE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 06:55:19 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id q107so9935706qgd.28
+	Tue, 29 Jul 2014 07:05:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T755xl017720
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Jul 2014 23:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=7FjVBCqQPVRLrDYrBJ1kuPHAxzwrKSdpNftv6BeCsOA=;
-	b=uK2SId6lEMHzt5WnQu2N907xG3DnyvSOQSU3fz2St2g0h7GJNghBUZSotH8D0ykzmx
-	Xe8ksMYTtGm1cbgBAqHc8p8hraa7h3JlegcZUAnSFngajxwH9Z3pzw9hiP3/Z/e2cuYU
-	bTkuQMAuN88LkESAISXa3KpQwz5pbHhAwG3cKyrCcrsywKR8CKGB5JOyYzqOn1evNHzK
-	tSPCIOLvolvlnRJirf6pAXF3Pp060WlG9tRWhUPJy7xDZvTf47PEBRt66PelrzVxL3nR
-	1Ud5Q3MtW3ML7sD4wpgykNeeqOm5KuAQcQirjo8vGog7gGR2BtEiJUv0TiBwE0bZhksc
-	w4jw==
+	Tue, 29 Jul 2014 00:05:05 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 29 Jul 2014 00:05:05 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Jul 2014 00:05:04 -0700
+Message-ID: <c0ff1bfc20e5ddbcc7f253f3cedfe9251fa1cc78.1406617454.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1406617454.git.liezhi.yang@windriver.com>
+References: <cover.1406617454.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.224.156.145 with SMTP id x17mr30666qaw.49.1406616920153;
-	Mon, 28 Jul 2014 23:55:20 -0700 (PDT)
-Received: by 10.140.50.198 with HTTP; Mon, 28 Jul 2014 23:55:20 -0700 (PDT)
-Date: Tue, 29 Jul 2014 09:55:20 +0300
-Message-ID: <CADV-EXGEW1dQb1x6+20myn3X4JfUjPRfkBj2hon8kuX35ap91g@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Specifying MACHINE inside distro config only
+Subject: [PATCH 1/1] image-vmdk.bbclass: use sda rather than hda
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,79 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 06:55:28 -0000
-Content-Type: multipart/alternative; boundary=089e0158c74edc889404ff4f859f
+X-List-Received-Date: Tue, 29 Jul 2014 07:05:06 -0000
+Content-Type: text/plain
 
---089e0158c74edc889404ff4f859f
-Content-Type: text/plain; charset=ISO-8859-1
+The modern kernels may not support IDE (CONFIG_IDE=y), but it should
+support SCSI in most of the cases. The boot-directdisk.bbclass uses
+sda, too.
 
-I have several distro config files. I bind each of them to single machine
-like this:
+Remove an extra space from image-live.bbclass and image-vmdk.bbclass to
+not confuse the user.
 
-# cat conf/distro/mydistro.conf
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/image-live.bbclass |    2 +-
+ meta/classes/image-vmdk.bbclass |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-DISTRO = "mydistro"
-DISTRO_NAME = "My Distro"
-DISTRO_VERSION = "1.01"
-MACHINE = "cedartrail"
-...
-
-I also created "conf/auto.conf" file with following content:
-DISTRO = "mydistro"
-to specify distro to build.
-
-The problem is that without specifying MACHINE in "conf/auto.conf" I get
-following error:
-
-ERROR:  OE-core's config sanity checker detected a potential
-misconfiguration.
-    Either fix the cause of this error or at your own risk disable the
-checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
-
-    TUNE_ARCH is unset. Please ensure your MACHINE configuration includes a
-valid tune configuration file which will set this correctly.
-Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH
-().Toolchain tunings invalid:
-No tuning found for default multilib.
-
-
-I use a script to change distro (in "auto.conf") and each distro knows its
-machine to build for. So specifying MACHINE in "auto.conf" isn't desirable.
-
-Can someone tell what did I miss?
-
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index c7e6937..7b770fb 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -2,7 +2,7 @@
+ AUTO_SYSLINUXCFG = "1"
+ INITRD_IMAGE ?= "core-image-minimal-initramfs"
+ INITRD ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}.cpio.gz"
+-SYSLINUX_ROOT = "root=/dev/ram0 "
++SYSLINUX_ROOT = "root=/dev/ram0"
+ SYSLINUX_TIMEOUT ?= "10"
+ SYSLINUX_LABELS ?= "boot install"
+ LABELS_append = " ${SYSLINUX_LABELS} "
+diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
+index 703c00e..77b7fac 100644
+--- a/meta/classes/image-vmdk.bbclass
++++ b/meta/classes/image-vmdk.bbclass
+@@ -1,7 +1,7 @@
+ 
+ #NOISO = "1"
+ 
+-SYSLINUX_ROOT = "root=/dev/hda2 "
++SYSLINUX_ROOT ?= "root=/dev/sda2"
+ SYSLINUX_PROMPT ?= "0"
+ SYSLINUX_TIMEOUT ?= "10"
+ SYSLINUX_LABELS = "boot"
 -- 
-Best regards,
-Yevhen
+1.7.9.5
 
---089e0158c74edc889404ff4f859f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div>I have several distro config files. I bind each =
-of them to single machine like this:<br><br></div><div># cat conf/distro/my=
-distro.conf<br><br></div><div>DISTRO =3D &quot;mydistro&quot;<br>DISTRO_NAM=
-E =3D &quot;My Distro&quot;<br>
-DISTRO_VERSION =3D &quot;1.01&quot;<br>MACHINE =3D &quot;cedartrail&quot;<b=
-r>...<br><br></div>I also created &quot;conf/auto.conf&quot; file with foll=
-owing content:<br>DISTRO =3D &quot;mydistro&quot;<br></div><div></div>to sp=
-ecify distro to build.<br clear=3D"all">
-<div><div><div><br></div><div>The problem is that without specifying MACHIN=
-E in &quot;conf/auto.conf&quot; I get following error:<br><br>ERROR:=A0 OE-=
-core&#39;s config sanity checker detected a potential misconfiguration.<br>
-=A0=A0=A0 Either fix the cause of this error or at your own risk disable th=
-e checker (see sanity.conf).<br>=A0=A0=A0 Following is the list of potentia=
-l problems / advisories:<br><br>=A0=A0=A0 TUNE_ARCH is unset. Please ensure=
- your MACHINE configuration includes a valid tune configuration file which =
-will set this correctly.<br>
-Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH ().Toolchai=
-n tunings invalid:<br>No tuning found for default multilib.<br></div><div><=
-br><br></div><div>I use a script to change distro (in &quot;auto.conf&quot;=
-) and each distro knows its machine to build for. So specifying MACHINE in =
-&quot;auto.conf&quot; isn&#39;t desirable.<br>
-<br></div><div>Can someone tell what did I miss?<br></div><br><div>-- <br>B=
-est regards,<br>Yevhen
-</div></div></div></div>
-
---089e0158c74edc889404ff4f859f--
