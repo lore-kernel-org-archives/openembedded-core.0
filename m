@@ -1,28 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 16F9365E2E
+Return-Path: <darcy.watkins@inmotiontechnology.com>
+X-Greylist: delayed 381 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 29 Jul 2014 16:19:33 UTC
+Received: from maui.inmotion.gotdns.com (gw.inmotiontechnology.com
+	[184.71.143.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 63AF36A359
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 13:43:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6TDhSfh006783
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 06:43:28 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 29 Jul 2014 06:43:28 -0700
-Message-ID: <53D7A4FF.2080303@windriver.com>
-Date: Tue, 29 Jul 2014 08:43:27 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1406624623-25774-1-git-send-email-ting.liu@freescale.com>
-In-Reply-To: <1406624623-25774-1-git-send-email-ting.liu@freescale.com>
-Subject: Re: [PATCH] base-files: set dynamic COLUMNS via resize command
+	Tue, 29 Jul 2014 16:19:33 +0000 (UTC)
+Received: from kihei.inmotion.gotdns.com (kihei.inmotion.gotdns.com
+	[192.168.3.163])
+	by maui.inmotion.gotdns.com (Postfix) with ESMTP id 32A79B6221C;
+	Tue, 29 Jul 2014 09:13:13 -0700 (PDT)
+Received: by kihei.inmotion.gotdns.com (Postfix, from userid 1029)
+	id 1E287E0450; Tue, 29 Jul 2014 09:13:13 -0700 (PDT)
+From: Darcy Watkins <dwatkins@sierrawireless.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Jul 2014 09:13:05 -0700
+Message-Id: <1406650385-23946-1-git-send-email-dwatkins@sierrawireless.com>
+X-Mailer: git-send-email 1.7.12.4
+Subject: [daisy][PATCH] binutils: Add fix for recent patch on older gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +30,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 13:43:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Jul 2014 16:19:42 -0000
 
-On 7/29/14, 4:03 AM, ting.liu@freescale.com wrote:
-> From: Ting Liu <ting.liu@freescale.com>
->
-> By default, COLUMNS is set to 80. If possible, run 'resize' to
-> determine what the current dimensions are. This avoids the final
-> part of long lines overlap the start of the same line.
->
-> Signed-off-by: Ting Liu <ting.liu@freescale.com>
-> ---
->   meta/recipes-core/base-files/base-files/profile |    4 ++++
->   1 files changed, 4 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-> index 0b2d9d7..88ab8d8 100644
-> --- a/meta/recipes-core/base-files/base-files/profile
-> +++ b/meta/recipes-core/base-files/base-files/profile
-> @@ -26,6 +26,10 @@ if [ -d /etc/profile.d ]; then
->     unset i
->   fi
->
-> +if [ -x /usr/bin/resize ];then
-> +  /usr/bin/resize >/dev/null
-> +fi
-> +
+From: Darcy Watkins <dwatkins>
 
-Not sure how useful this is -- but -- the code should dynamically check for 
-${bindir} instead of hard code /usr/bin here.  On many systems people collapse 
-'bindir' down to just '/bin'.
+The recent bintuils patch update breaks on older gccs such as CentOS 6.
+Backport a patch to address this.
 
-So my suggestion would be an accompanying do_install step that corrects this 
-reference if necessary.. something perhaps like:
+(From master: 540b7a196a00c4dc1bf8f7c87e68e80ab310756e)
+(From OE-Core rev: 76f65e73081f52cea718ef164f9d1d7a5c65d537)
 
-if [ "/usr/bin" != "${bindir}" ]; then
-     sed -i /usr/bin/resize -e "s,/usr/bin/resize,${bindir}/resize,"
-fi
+Signed-off-by: Darcy Watkins <dwatkins@sierrawireless.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.24.inc   |  1 +
+ .../binutils/binutils-uninitialised-warning.patch  | 50 ++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.patch
 
-I'll leave it to others to discuss the merit of adding resize.  (I don't object 
-BTW).
-
->   export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
->
->   umask 022
->
+diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc b/meta/recipes-devtools/binutils/binutils-2.24.inc
+index ef6a4eb..8f3216f 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.24.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
+@@ -31,6 +31,7 @@ SRC_URI = "\
+      file://fix-pr16428.patch \
+      file://replace_macros_with_static_inline.patch \
+      file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch \
++     file://binutils-uninitialised-warning.patch \
+      "
+ 
+ SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
+diff --git a/meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.patch b/meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.patch
+new file mode 100644
+index 0000000..2feb80c
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.patch
+@@ -0,0 +1,50 @@
++From f9c316c4d75be236bbaa8464ef803ed2d3859d6d Mon Sep 17 00:00:00 2001
++From: H.J. Lu <hjl.tools@gmail.com>
++Date: Wed, 15 Jan 2014 07:43:19 -0800
++Subject: [PATCH 1/1] Silence uninitialized warning on ehdr_start_save
++
++Older GCC, like 4.1/4.2, will issue an uninitialized warning on
++ehdr_start_save.  This patch silences by using
++
++struct bfd_link_hash_entry ehdr_start_save = ehdr_start_save;
++
++	* emultempl/elf32.em (gld${EMULATION_NAME}_before_allocation):
++	Silence uninitialized warning on ehdr_start_save with older
++	GCC.
++
++Upstream-Status: Backport
++---
++ ld/ChangeLog          |    6 ++++++
++ ld/emultempl/elf32.em |    2 +-
++ 2 files changed, 7 insertions(+), 1 deletions(-)
++
++#diff --git a/ld/ChangeLog b/ld/ChangeLog
++#index eaa6b93..91055de 100644
++#--- a/ld/ChangeLog
++#+++ b/ld/ChangeLog
++#@@ -1,3 +1,9 @@
++#+2014-01-15  H.J. Lu  <hongjiu.lu@intel.com>
++#+
++#+	* emultempl/elf32.em (gld${EMULATION_NAME}_before_allocation):
++#+	Silence uninitialized warning on ehdr_start_save with older
++#+	GCC.
++#+
++# 2014-01-15  Alan Modra  <amodra@gmail.com>
++# 
++# 	* emultempl/elf32.em (gld${EMULATION_NAME}_before_allocation): Define
++diff --git a/ld/emultempl/elf32.em b/ld/emultempl/elf32.em
++index 13f86f0..569c7f7 100644
++--- a/ld/emultempl/elf32.em
+++++ b/ld/emultempl/elf32.em
++@@ -1481,7 +1481,7 @@ gld${EMULATION_NAME}_before_allocation (void)
++   asection *sinterp;
++   bfd *abfd;
++   struct elf_link_hash_entry *ehdr_start = NULL;
++-  struct bfd_link_hash_entry ehdr_start_save;
+++  struct bfd_link_hash_entry ehdr_start_save = ehdr_start_save;
++ 
++   if (is_elf_hash_table (link_info.hash))
++     {
++-- 
++1.7.1
++
+-- 
+1.7.12.4
 
 
