@@ -1,26 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A0E17018D
+	by mail.openembedded.org (Postfix) with ESMTP id 2193E708F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 02:02:26 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T22RRh026231
+	Tue, 29 Jul 2014 02:05:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T2589s026472
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Jul 2014 19:02:27 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 28 Jul 2014 19:02:26 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Jul 2014 10:02:02 +0800
-Message-ID: <b5103e89a62dd2e17056cd3e459f094502e0c4bc.1406598828.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1406598828.git.hongxu.jia@windriver.com>
-References: <cover.1406598828.git.hongxu.jia@windriver.com>
+	Mon, 28 Jul 2014 19:05:09 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 28 Jul 2014 19:05:08 -0700
+Message-ID: <53D70167.5030606@windriver.com>
+Date: Tue, 29 Jul 2014 10:05:27 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] gcc-4.9.inc: fix parallel building failure
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1406525420.git.Qi.Chen@windriver.com>	
+	<441004b90226e88ca148d267d4474c7d54853819.1406525420.git.Qi.Chen@windriver.com>
+	<1406553715.13346.18.camel@ted>
+In-Reply-To: <1406553715.13346.18.camel@ted>
+X-Originating-IP: [128.224.162.187]
+Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] systemd: add volatile-binds to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,135 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 02:02:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Jul 2014 02:05:11 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The gcc-ar.o, gcc-nm.o, gcc-ranlib.o and errors.o included
-config.h which was a generated file. But no explicity rule
-to clarify the dependency. There was potential building
-failure while parallel make.
+On 07/28/2014 09:21 PM, Richard Purdie wrote:
+> On Mon, 2014-07-28 at 13:34 +0800, Chen Qi wrote:
+>> ---
+>>   meta/recipes-core/systemd/systemd_213.bb |    1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_213.bb b/meta/recipes-core/systemd/systemd_213.bb
+>> index 5de7cdc..4fb7ffc 100644
+>> --- a/meta/recipes-core/systemd/systemd_213.bb
+>> +++ b/meta/recipes-core/systemd/systemd_213.bb
+>> @@ -243,6 +243,7 @@ FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_uni
+>>   FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+>>   
+>>   RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+>> +RDEPENDS_${PN} += "volatile-binds"
+>>   
+>>   RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+>>                         util-linux-agetty \
+> Do we always need/want to include this? Does this have any implications
+> for rw systems? I couldn't immediately see how this triggers on a ro
+> system...
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
-For gcc-ar.o, gcc-nm.o and gcc-ranlib.o, they were compiled from one C
-source file gcc-ar.c, we add them to ALL_HOST_BACKEND_OBJS, so the
-'$(ALL_HOST_OBJS) : | $(generated_files)' rule could work for these
-objects.
+Hi Richard,
 
-For errors.o, it is part of gengtype, and the gengtype generator program
-is special: Two versions are built. One is for the build machine, and one
-is for the host. We refered what gengtype-parse.o did (which also is part
-of gengtype).
+Take var-lib-volatile.service as an example.
+In the service file, we have:
 
-[YOCTO #6568]
+ConditionPathIsReadWrite=!/var/lib
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...Makefile.in-fix-parallel-building-failure.patch | 79 ++++++++++++----------
- 1 file changed, 42 insertions(+), 37 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch b/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
-index 213820a..4c98ca2 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0054-gcc-Makefile.in-fix-parallel-building-failure.patch
-@@ -1,56 +1,61 @@
- gcc/Makefile.in: fix parallel building failure
- 
--Most C source files included config.h which was generated by a rule.
--But no related prerequisites was added to the C source compiling rule.
--There was potential building failure while makefile enabled parallel.
-+The gcc-ar.o, gcc-nm.o, gcc-ranlib.o and errors.o included
-+config.h which was a generated file. But no explicity rule
-+to clarify the dependency. There was potential building
-+failure while parallel make.
- 
--The C source compiling rule used suffix rule '.c.o', but the suffix
--rule doesn't support prerequisites.
--https://www.gnu.org/software/make/manual/html_node/Suffix-Rules.html
-+For gcc-ar.o, gcc-nm.o and gcc-ranlib.o, they were compiled from one C
-+source file gcc-ar.c, we add them to ALL_HOST_BACKEND_OBJS, so the
-+'$(ALL_HOST_OBJS) : | $(generated_files)' rule could work for these
-+objects.
- 
--We used the pattern rule '%.o : %.c' to instead, and add the config.h
--as its prerequisite
-+For errors.o, it is part of gengtype, and the gengtype generator program
-+is special: Two versions are built. One is for the build machine, and one
-+is for the host. We refered what gengtype-parse.o did (which also is part
-+of gengtype).
- 
--We also moved the '%.o : %.c' rule down to the 'build/%.o :' rule, which
--makes '%.o : %.c' rule doesn't override 'build/%.o :'.
-+[GCC #61899]
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61899
- 
--Upstream-Status: Pending
-+Upstream-Status: Send to gcc-patches@gcc.gnu.org mailing list
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-- gcc/Makefile.in | 12 ++++++++----
-- 1 file changed, 8 insertions(+), 4 deletions(-)
-+ gcc/Makefile.in | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
- 
- diff --git a/gcc/Makefile.in b/gcc/Makefile.in
--index 6475cba..04889fe 100644
-+index 6475cba..56e50bb 100644
- --- a/gcc/Makefile.in
- +++ b/gcc/Makefile.in
--@@ -1054,10 +1054,6 @@ COMPILE = source='$<' object='$@' libtool=no \
-- POSTCOMPILE =
-- endif
-+@@ -1481,13 +1481,16 @@ OBJS-libcommon-target = $(common_out_object_file) prefix.o params.o \
-+ 	opts.o opts-common.o options.o vec.o hooks.o common/common-targhooks.o \
-+ 	hash-table.o file-find.o
-  
---.cc.o .c.o:
---	$(COMPILE) $<
---	$(POSTCOMPILE)
---
-- #
-- # Support for additional languages (other than C).
-- # C can be supported this way too (leave for later).
--@@ -2342,6 +2338,14 @@ build/%.o :  # dependencies provided by explicit rule later
-- 	$(COMPILER_FOR_BUILD) -c $(BUILD_COMPILERFLAGS) $(BUILD_CPPFLAGS) \
-- 		-o $@ $<
-- 
--+%.o: %.c $(CONFIG_H)
--+	$(COMPILE) $<
--+	$(POSTCOMPILE)
-++# Objects compiled from one C source file gcc-ar.c
-++OBJS-gcc-ar = gcc-ar.o gcc-nm.o gcc-ranlib.o
- +
--+%.o: %.cc $(CONFIG_H)
--+	$(COMPILE) $<
--+	$(POSTCOMPILE)
-+ # This lists all host objects for the front ends.
-+ ALL_HOST_FRONTEND_OBJS = $(foreach v,$(CONFIG_LANGUAGES),$($(v)_OBJS))
-+ 
-+ ALL_HOST_BACKEND_OBJS = $(GCC_OBJS) $(OBJS) $(OBJS-libcommon) \
-+   $(OBJS-libcommon-target) @TREEBROWSER@ main.o c-family/cppspec.o \
-+   $(COLLECT2_OBJS) $(EXTRA_GCC_OBJS) $(GCOV_OBJS) $(GCOV_DUMP_OBJS) \
-+-  lto-wrapper.o
-++  lto-wrapper.o $(OBJS-gcc-ar)
-+ 
-+ # This lists all host object files, whether they are included in this
-+ # compilation or not.
-+@@ -2437,6 +2440,8 @@ gengtype-parse.o: $(CONFIG_H)
-+ CFLAGS-build/gengtype-parse.o += -DGENERATOR_FILE
-+ build/gengtype-parse.o: $(BCONFIG_H)
-+ 
-++errors.o : $(CONFIG_H)
- +
-- ## build/version.o is compiled by the $(COMPILER_FOR_BUILD) but needs
-- ## several C macro definitions, just like version.o
-- build/version.o:  version.c version.h \
-+ gengtype-state.o build/gengtype-state.o: gengtype-state.c $(SYSTEM_H) \
-+   gengtype.h errors.h double-int.h version.h $(HASHTAB_H) $(OBSTACK_H) \
-+   $(XREGEX_H)
- -- 
- 1.8.1.2
- 
--- 
-1.8.1.2
+So if /var/lib is rw, the service is not started. On a ro system, 
+/var/lib is read-only, and the service is started.
 
+
+I just realized that I didn't put comments in these patches.
+I'll send out a V2.
+
+Best Regards,
+Chen Qi
 
