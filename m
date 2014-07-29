@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id ED84770897
+	by mail.openembedded.org (Postfix) with ESMTP id E130570181
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 29 Jul 2014 21:05:33 +0000 (UTC)
 Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id E4311331A0
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id A718233193
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 29 Jul 2014 23:05:34 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jul 2014 23:05:20 +0200
-Message-Id: <1406667922-15716-5-git-send-email-dv@pseudoterminal.org>
+Date: Tue, 29 Jul 2014 23:05:19 +0200
+Message-Id: <1406667922-15716-4-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1406667922-15716-1-git-send-email-dv@pseudoterminal.org>
 References: <1406667922-15716-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH v2 5/7] gstreamer1.0-plugins-ugly: upgrade to 1.4.0
+Subject: [PATCH v2 4/7] gstreamer1.0-plugins-bad: upgrade to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +31,113 @@ X-List-Received-Date: Tue, 29 Jul 2014 21:05:34 -0000
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- ...er1.0-plugins-ugly_1.2.4.bb => gstreamer1.0-plugins-ugly_1.4.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.2.4.bb => gstreamer1.0-plugins-ugly_1.4.0.bb} (66%)
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         | 29 ++++++++++++----------
+ ..._1.2.4.bb => gstreamer1.0-plugins-bad_1.4.0.bb} |  4 +--
+ 2 files changed, 18 insertions(+), 15 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.2.4.bb => gstreamer1.0-plugins-bad_1.4.0.bb} (75%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.0.bb
-similarity index 66%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.0.bb
-index dd5cb4e..9035d2d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.0.bb
-@@ -2,7 +2,7 @@ include gstreamer1.0-plugins-ugly.inc
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index ceb2de1..8ecc2aa 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -11,16 +11,16 @@ inherit gettext
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
--SRC_URI[md5sum] = "c87a27db498bb736f6c266198657ea74"
--SRC_URI[sha256sum] = "4ef6f76a47d57b8385d457c7b620b4c28fc041ab1d7c2e3e2f5f05b12b988ea8"
-+SRC_URI[md5sum] = "558146cb5ec8b313afe2113aafc3da85"
-+SRC_URI[sha256sum] = "5314bb60f13d1a7b9c6317df73813af5f3f15a62c7c186b816b0024b5c61744d"
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'eglgles', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-    orc curl uvch264 neon \
++    orc curl uvch264 neon sndfile \
+     hls sbc dash bz2 smoothstreaming \
+     "
+ # dash = Dynamic Adaptive Streaming over HTTP
+ PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
+ PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
+-PACKAGECONFIG[eglgles]         = "--enable-eglgles,--disable-eglgles,virtual/egl virtual/libgles2"
++PACKAGECONFIG[gl]              = "--enable-gl,--disable-gl,virtual/egl virtual/libgles2"
+ PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
+ PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
+ PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
+@@ -43,18 +43,25 @@ PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
+ PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
+ PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez4"
+ PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
++PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
++PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
+ 
+ # these plugins have not been ported to 1.0 (yet):
+-#   directdraw vcd apexsink cdaudio dc1394 lv2 linsys musepack mythtv
+-#   nas timidity teletextdec sdl sndfile xvid wininet acm gsettings
+-#   sndio cdxaparse dccp faceoverlay hdvparse ivfparse jp2kdecimator
+-#   linsys mve nuvdemux osx_video patchdetect quicktime real sdi stereo
+-#   tta videomeasure videosignal vmnc
++#   directdraw vcd apexsink dc1394 lv2 linsys musepack mythtv
++#   nas timidity teletextdec sdl xvid wininet acm gsettings
++#   sndio qtwrapper cdxaparse dccp faceoverlay hdvparse tta
++#   mve nuvdemux osx_video patchdetect quicktime real sdi
++#   videomeasure gsettings
++
++# these plugins have no corresponding library in OE-core or meta-openembedded:
++#   openni2 winks direct3d directdraw directsound winscreencap osx_video
++#   apple_media android_media avc chromaprint daala dts gme gsm kate ladspa mimic
++#   mpeg2enc mplex ofa openjpeg opensles pvr resindvd rtmp soundtouch spandsp spc
++#   srtp vdpau voaacenc voamrwbenc wasapi zbar
+ 
+ EXTRA_OECONF += " \
+     --enable-dvb \
+     --enable-shm \
+-    --enable-mfc \
+     --enable-fbdev \
+     --enable-decklink \
+     --disable-acm \
+@@ -62,13 +69,11 @@ EXTRA_OECONF += " \
+     --disable-apexsink \
+     --disable-apple_media \
+     --disable-avc \
+-    --disable-cdaudio \
+     --disable-chromaprint \
+     --disable-daala \
+     --disable-dc1394 \
+     --disable-direct3d \
+     --disable-directdraw \
+-    --disable-directshow \
+     --disable-directsound \
+     --disable-dts \
+     --disable-gme \
+@@ -94,7 +99,6 @@ EXTRA_OECONF += " \
+     --disable-rtmp \
+     --disable-sdl \
+     --disable-sdltest \
+-    --disable-sndfile \
+     --disable-sndio \
+     --disable-soundtouch \
+     --disable-spandsp \
+@@ -107,7 +111,6 @@ EXTRA_OECONF += " \
+     --disable-voaacenc \
+     --disable-voamrwbenc \
+     --disable-wasapi \
+-    --disable-webp \
+     --disable-wildmidi \
+     --disable-wininet \
+     --disable-winscreencap \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb
+similarity index 75%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb
+index c57c98f..e6edb26 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
+                     file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a \
+                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
+-SRC_URI[md5sum] = "16c2050716383926909664aa6c6aca2b"
+-SRC_URI[sha256sum] = "984c133ec9d5d705e313d9e2bbd1472b93c6567460602a9a316578925ffe2eca"
++SRC_URI[md5sum] = "3bc0fcfe8d16ad1295f0454c1fcb4ba3"
++SRC_URI[sha256sum] = "ff2cb754f7725b205aec66002b1406e440f3a03194b6cad2d126ef5cd00902f9"
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
  
 -- 
 1.8.3.2
