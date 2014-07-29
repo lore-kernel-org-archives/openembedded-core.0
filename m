@@ -1,28 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93F06708B3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6848E708DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 00:53:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s6T0rK2O021095
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 28 Jul 2014 17:53:20 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 28 Jul 2014 17:53:19 -0700
-Message-ID: <53D6F081.5080200@windriver.com>
-Date: Tue, 29 Jul 2014 08:53:21 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Tue, 29 Jul 2014 00:56:23 +0000 (UTC)
+Received: by mail-ie0-f173.google.com with SMTP id tr6so7685357ieb.18
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Jul 2014 17:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=t58oe8710D8QcK2YNoay4xKEbcXAjnK/f7e5TUu5W1I=;
+	b=SLpcdTmuzoMDcumkWaMxaWbFot+qaviUNbOYWzWpODPz/ZyDo/ENSKi4RRXImQWYBU
+	lZNFLrot/8xs5vlD0MuqYRuxLE4hhgmIg8HqQ0S6R1Mq6EgnjrcnvTQYOHlCZD73zujn
+	utXe8MRcf8F/oU+l2hPvMdNewwQNpjFcS5pomefeRx04umpIUzD8qDWvBWzExlrg/ol2
+	FOzmbJbrDneU1hf+oPOhOz3FCT/7Y5IYALKLN9aFi7ufADA5MlGHCHOZisMZBGn0SN75
+	i8tcjIhbj4IFox4JSLZ1QISAiBKPPDf6j9EvSbNTAz93SlcyH+BbDu1+6tOJ+8xO6TDW
+	LxGg==
+X-Received: by 10.50.134.136 with SMTP id pk8mr38181124igb.20.1406595384969;
+	Mon, 28 Jul 2014 17:56:24 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
+Received: by 10.50.78.105 with HTTP; Mon, 28 Jul 2014 17:55:54 -0700 (PDT)
+In-Reply-To: <53D6F081.5080200@windriver.com>
 References: <1406545263-7393-1-git-send-email-rongqing.li@windriver.com>
 	<CAMKF1soxPmXjX6bbcto=c1qHvJB1bgdJdgTpz8dA-ibBp-7Tgg@mail.gmail.com>
 	<53D6EC88.1000001@windriver.com>
 	<CAMKF1so6G_mGW0jMXYS6Mf+PFVXQV8Vt=fkb=55Gc6p4LsRoTA@mail.gmail.com>
-In-Reply-To: <CAMKF1so6G_mGW0jMXYS6Mf+PFVXQV8Vt=fkb=55Gc6p4LsRoTA@mail.gmail.com>
+	<53D6F081.5080200@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Jul 2014 17:55:54 -0700
+Message-ID: <CAMKF1sr=3wcExsbu+CjeyxGRzQP-efoHhSXSbOa6qFQLdrd_5Q@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gmp: redefine a function
@@ -38,58 +46,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 00:53:23 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Jul 2014 00:56:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Mon, Jul 28, 2014 at 5:53 PM, Rongqing Li <rongqing.li@windriver.com> wrote:
+> But If the author do not like to release it under GPLv2, what should I do?
 
-
-On 07/29/2014 08:43 AM, Khem Raj wrote:
-> On Mon, Jul 28, 2014 at 5:36 PM, Rongqing Li <rongqing.li@windriver.com> wrote:
->>
->>
->> On 07/29/2014 01:25 AM, Khem Raj wrote:
->>>
->>> On Mon, Jul 28, 2014 at 4:01 AM,  <rongqing.li@windriver.com> wrote:
->>>>
->>>> +[PATCH] reimplement umul_ppmm to make it be able to building on mips64
->>>> 64bit ABI
->>>> +
->>>> +Upstream-Status: Pending[This version was not maintained by upstream,
->>>> larger versions have been fixed]
->>>> +
->>>
->>>
->>> if you mean newer release have been fixed then this patch should be
->>> marked 'Backport'
->>>
->>
->>
->> newer releases are GPLv3, we can not backport patch from them
->
-> I see. So you did a clean room implementation then ? if not then
-> you could request the original patch author to release it under GPLv2
-> license for back portability
->
-
-Ok, I will ask;
-But If the author do not like to release it under GPLv2, what should I do?
-
--Roy
-
-
->>
->> -R
->>
->>>
->>
->> --
->> Best Reagrds,
->> Roy | RongQing Li
->
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+it has to then be a clean room implementation.
 
