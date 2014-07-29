@@ -1,27 +1,22 @@
-Return-Path: <tom.zanussi@intel.com>
-X-Greylist: delayed 622 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 29 Jul 2014 19:51:06 UTC
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 848E27089F
+Return-Path: <dv@pseudoterminal.org>
+X-Greylist: delayed 407 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 29 Jul 2014 21:00:16 UTC
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 132A270861
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 19:51:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Jul 2014 12:33:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,759,1400050800"; d="scan'208";a="569069691"
-Received: from unknown (HELO localhost) ([10.255.12.245])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2014 12:40:20 -0700
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+	Tue, 29 Jul 2014 21:00:16 +0000 (UTC)
+Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 4D460331A0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jul 2014 22:53:33 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Jul 2014 14:40:09 -0500
-Message-Id: <2745180a096fee9975cfa183f57c9dc483d73278.1406662652.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <fb6a0829b1970aff4f3affc2693fd5af3cc37f37.1406662652.git.tom.zanussi@linux.intel.com>
-References: <fb6a0829b1970aff4f3affc2693fd5af3cc37f37.1406662652.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1406662652.git.tom.zanussi@linux.intel.com>
-References: <cover.1406662652.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 2/4] wic: Add documentation for --fsoptions
+Date: Tue, 29 Jul 2014 22:53:21 +0200
+Message-Id: <1406667203-14914-5-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1406667203-14914-1-git-send-email-dv@pseudoterminal.org>
+References: <1406667203-14914-1-git-send-email-dv@pseudoterminal.org>
+Subject: [PATCH 5/7] gstreamer1.0-plugins-ugly: upgrade to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 19:51:13 -0000
+X-List-Received-Date: Tue, 29 Jul 2014 21:00:21 -0000
 
---fsoptions support was recently added to wic, so document it.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- scripts/lib/image/help.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ ...er1.0-plugins-ugly_1.2.4.bb => gstreamer1.0-plugins-ugly_1.4.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.2.4.bb => gstreamer1.0-plugins-ugly_1.4.0.bb} (66%)
 
-diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index 913947c..6d613e2 100644
---- a/scripts/lib/image/help.py
-+++ b/scripts/lib/image/help.py
-@@ -721,6 +721,13 @@ DESCRIPTION
-              btrfs
-              swap
+diff --git a/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.4.bb b/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.0.bb
+similarity index 66%
+rename from recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.4.bb
+rename to recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.0.bb
+index dd5cb4e..9035d2d 100644
+--- a/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.4.bb
++++ b/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.0.bb
+@@ -2,7 +2,7 @@ include gstreamer1.0-plugins-ugly.inc
  
-+         --fsoptions: Specifies a free-form string of options to be
-+                      used when mounting the filesystem. This string
-+                      will be copied into the /etc/fstab file of the
-+                      installed system and should be enclosed in
-+                      quotes.  If not specified, the default string is
-+                      "defaults".
-+
-          --label label: Specifies the label to give to the filesystem
-                         to be made on the partition. If the given
-                         label is already in use by another filesystem,
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
+-SRC_URI[md5sum] = "c87a27db498bb736f6c266198657ea74"
+-SRC_URI[sha256sum] = "4ef6f76a47d57b8385d457c7b620b4c28fc041ab1d7c2e3e2f5f05b12b988ea8"
++SRC_URI[md5sum] = "558146cb5ec8b313afe2113aafc3da85"
++SRC_URI[sha256sum] = "5314bb60f13d1a7b9c6317df73813af5f3f15a62c7c186b816b0024b5c61744d"
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
 -- 
-1.8.3.1
+1.8.3.2
 
 
