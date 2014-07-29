@@ -1,21 +1,26 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 17D6F7017F
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 18:30:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Jul 2014 11:30:08 -0700
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 39C31705E1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Jul 2014 19:34:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Jul 2014 12:34:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,758,1400050800"; d="scan'208";a="550845232"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
-	by orsmga001.jf.intel.com with ESMTP; 29 Jul 2014 11:30:07 -0700
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org, darren.hart@intel.com,
-	ross.burton@intel.com, richard.purdie@linuxfoundation.org
-Date: Tue, 29 Jul 2014 11:34:37 -0700
-Message-Id: <cover.1406658528.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH 0/1] A commit to extend the INITRD variable
+X-IronPort-AV: E=Sophos;i="5.01,759,1400050800"; d="scan'208";a="577274714"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO [10.255.12.249])
+	([10.255.12.249])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2014 12:34:08 -0700
+Message-ID: <53D7F730.3040102@linux.intel.com>
+Date: Tue, 29 Jul 2014 12:34:08 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Max Eliaser <max.eliaser@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1406657048.git.max.eliaser@intel.com>
+In-Reply-To: <cover.1406657048.git.max.eliaser@intel.com>
+Subject: Re: [PATCH 0/2] Upstream recipe for bootchart2 from WebOS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jul 2014 18:31:01 -0000
+X-List-Received-Date: Tue, 29 Jul 2014 19:35:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On 07/29/2014 11:07 AM, Max Eliaser wrote:
+> Hello list,
+>
+> This series adds a recipe for the bootchart2 daemon (a fork of the original
+> bootchart.) It's based on a recipe from Meta-WebOS, but with extensive
+> modifications.
+>
+> It is intended that bootchart2 will supersede the other bootchart daemons
+> kicking around in oe-core/meta-oe. See bug 5893. [1]
+>
+Once this is merged, will you be sending another patch around to remove 
+bootchart from OE-Core and possibly move it into meta-oe if appropriate?
 
-This commit extends the INITRD variable, so that it can accommodate multiple
-filesystems as expected by the Linux kernel.
+You should also add the [YOCTO #5893] to the 2/2 patch commit message.
 
-Thanks to Ross Burton for this suggestion to simplify the early microcode
-loading support in the meta-intel Layer.
+Thanks
 
-Thanks,
-Nitin
+Sau!
 
-The following changes since commit 2d1660112e54653f7bb763939d0416472c49fe01:
-
-  populate_sdk_base: Fix grep command usage on old hosts (2014-07-29 09:58:27 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib nitin/misc
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-
-Nitin A Kamble (1):
-  INITRD var: make it a list of filesystem images
-
- documentation/ref-manual/ref-classes.xml   |  4 ++--
- documentation/ref-manual/ref-variables.xml |  2 +-
- meta/classes/boot-directdisk.bbclass       | 13 ++++++++++---
- meta/classes/bootimg.bbclass               | 27 ++++++++++++++++++++++-----
- meta/classes/grub-efi.bbclass              |  2 +-
- meta/classes/syslinux.bbclass              |  2 +-
- meta/conf/documentation.conf               |  2 +-
- 7 files changed, 38 insertions(+), 14 deletions(-)
-
--- 
-1.8.1.4
-
+> Regards,
+> -Max Eliaser
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=5893
+> The following changes since commit 5452824960e8e77005a25ac11fd069d927523d3e:
+>
+>    default-distrovars.inc: Remove unused variable 'LIMIT_BUILT_LOCALES' (2014-06-13 13:08:44 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib meliaser/bootchart2
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/bootchart2
+>
+> Max Eliaser (2):
+>    python: python-pycairo: add python-pycairo-native
+>    bootchart2: create recipe for bootchart2
+>
+>   .../bootchart2/bootchart2/bootchartd_stop.sh       |  18 +++
+>   meta/recipes-devtools/bootchart2/bootchart2_git.bb | 135 +++++++++++++++++++++
+>   .../python/python-pycairo_1.10.0.bb                |   2 +
+>   3 files changed, 155 insertions(+)
+>   create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh
+>   create mode 100644 meta/recipes-devtools/bootchart2/bootchart2_git.bb
+>
 
