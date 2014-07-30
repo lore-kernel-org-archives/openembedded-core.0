@@ -1,38 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A129570746;
-	Wed, 30 Jul 2014 14:04:45 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id d1so2343501wiv.9
-	for <multiple recipients>; Wed, 30 Jul 2014 07:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=GUeA5r52alU4Ml0SmCrGd3EwMrTf+Un61BPYt9Mkdf0=;
-	b=J0RF1wUFmymRabESSpJG3EUShkM5iPdIVih6s4Dc6UonyxOZIASDalSpiBp+zZVHWr
-	l9MaykU3MjGkLSRWTZE8nRxcPupizJ73MKlo7hC/d0QkpDX4i7AD+e6svM7pvThZrDl4
-	fK5cUGDJ5FnTGc7nA6OjFf2Q0eZRk85NGVSHI2tirJLoBezyFaPzSAlkQxf8mvXSAcXA
-	mRaAMbTxxufP/yKAQtGdZJvuiY0VUBC63shCB/x+cClXiVUrQ/sQKHVUrLCT0EUqsSY/
-	7/A1Jn3usFSEY2wO9cnQy9sORak3/EYxkcurifRbgdumSUC8KMethoPIU5G0CbhcMzfW
-	/uLQ==
-X-Received: by 10.180.182.67 with SMTP id ec3mr6444787wic.21.1406729082485;
-	Wed, 30 Jul 2014 07:04:42 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id 19sm5807776wjz.3.2014.07.30.07.04.39
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jul 2014 07:04:40 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 30 Jul 2014 16:05:02 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140730140502.GP16445@jama>
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 031EE70246;
+	Wed, 30 Jul 2014 14:12:07 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6UEC4aM020677; Wed, 30 Jul 2014 15:12:04 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eF9YLRD1zPcd; Wed, 30 Jul 2014 15:12:03 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6UEBxmx020479
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 30 Jul 2014 15:12:01 +0100
+Message-ID: <1406729519.13346.145.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 30 Jul 2014 15:11:59 +0100
+In-Reply-To: <20140730140502.GP16445@jama>
 References: <20140703164708.452165036A@opal.openembedded.org>
 	<20140718205012.GT2433@jama> <20140730093244.GK16445@jama>
-	<1406726908.13346.135.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1406726908.13346.135.camel@ted>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<1406726908.13346.135.camel@ted> <20140730140502.GP16445@jama>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-commits@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [oe-commits] Cristian Iorga : qemu: fix qemu-native pkg-config paths
@@ -48,87 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 14:04:49 -0000
-X-Groupsio-MsgNum: 55763
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="84mZ5ifxO1MoKVCL"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Jul 2014 14:12:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---84mZ5ifxO1MoKVCL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2014-07-30 at 16:05 +0200, Martin Jansa wrote:
+> On Wed, Jul 30, 2014 at 02:28:28PM +0100, Richard Purdie wrote:
+> > On Wed, 2014-07-30 at 11:32 +0200, Martin Jansa wrote:
+> > 
+> > I'm assuming in your case, you probably either don't have or care about
+> > SDL at all, or you have sdl-config available?
+> 
+> Correct, it's just build server where I'll never use runqemu to run the
+> image, but I need to build usable qemu-native to generate read-only
+> images (e.g. for fontcache.bbclass).
 
-On Wed, Jul 30, 2014 at 02:28:28PM +0100, Richard Purdie wrote:
-> On Wed, 2014-07-30 at 11:32 +0200, Martin Jansa wrote:
-> > On Fri, Jul 18, 2014 at 10:50:12PM +0200, Martin Jansa wrote:
-> > > On Thu, Jul 03, 2014 at 04:47:08PM +0000, git@git.openembedded.org wr=
-ote:
-> > > > Module: openembedded-core.git
-> > > > Branch: master
-> > > > Commit: 68a5ed337f8f7ee8e5bf55542ec82d786eb754db
-> > > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3D=
-commit;h=3D68a5ed337f8f7ee8e5bf55542ec82d786eb754db
-> > > >=20
-> > > > Author: Cristian Iorga <cristian.iorga@intel.com>
-> > > > Date:   Thu Jul  3 15:57:32 2014 +0300
-> > > >=20
-> > > > qemu: fix qemu-native pkg-config paths
-> > > >=20
-> > > > For qemu-native, the pkg-config paths do not
-> > > > include build host paths.
-> > >=20
-> > > This breaks qemu-native builds on hosts without pkg-config.
-> > >=20
-> > > pkg-config isn't in sanity.bbclass's SANITY_REQUIRED_UTILITIES
-> > > and this is first recipe which cannot use pkgconfig-native.
-> > >=20
-> > > Please add test that it exists before forcing recipe to use it.
-> >=20
-> > PING
-> >=20
-> > This is broken for almost a month, please at least revert it until it's
-> > fixed correctly.
->=20
-> Well, if I revert this, I'd then need to revert other things and it
-> turns into a dependency chain nightmare. So the reality is this needs to
-> get fixed.
->=20
-> I'm assuming in your case, you probably either don't have or care about
-> SDL at all, or you have sdl-config available?
+Ok, fair enough. We should be able to make this work then.
 
-Correct, it's just build server where I'll never use runqemu to run the
-image, but I need to build usable qemu-native to generate read-only
-images (e.g. for fontcache.bbclass).
+> > So what really needs to happen here is that running the command needs to
+> > become non-fatal as far as I can tell?
+> 
+> Yes, non-fatal and if possible deterministic (AFAIK this whole block could be
+> included in PACKAGECONFIG contains "sdl" conditional and applied only
+> when /bin/pkg-config or /usr/bin/pkg-config exists)
 
-> So what really needs to happen here is that running the command needs to
-> become non-fatal as far as I can tell?
+That is a step beyond the patch I've sent, it would be a nice
+improvement though.
 
-Yes, non-fatal and if possible deterministic (AFAIK this whole block could =
-be
-included in PACKAGECONFIG contains "sdl" conditional and applied only
-when /bin/pkg-config or /usr/bin/pkg-config exists)
+> There was also request to provide libsdl-native
+> http://patchwork.openembedded.org/patch/63477/
+> 
+> then qemu-native could just build this libsdl-native as dependency for
+> PACKAGECONFIG sdl instead of assuming that the host system has
+> undeclared libsdl-native dependency. 
 
-There was also request to provide libsdl-native
-http://patchwork.openembedded.org/patch/63477/
+Its very hard to make a libsdl-native work properly when you consider
+things like GL which is why I'd really prefer to ignore libsdl-native if
+we can. I certainly do not want the bugs about GL support being broken
+in it which are where this leads :(
 
-then qemu-native could just build this libsdl-native as dependency for
-PACKAGECONFIG sdl instead of assuming that the host system has
-undeclared libsdl-native dependency.=20
+Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---84mZ5ifxO1MoKVCL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPY+44ACgkQN1Ujt2V2gBwzpwCgqN8gHTx4edOW35oGYVVh5Esi
-tt0An2+BFAKvjfXbKSta0tPusujoXeji
-=+tGC
------END PGP SIGNATURE-----
-
---84mZ5ifxO1MoKVCL--
