@@ -1,46 +1,40 @@
-Return-Path: <ting.liu@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2lp0205.outbound.protection.outlook.com [207.46.163.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E2E465EEF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7845065CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 10:20:57 +0000 (UTC)
-Received: from BY2PR03CA066.namprd03.prod.outlook.com (10.141.249.39) by
-	BL2PR03MB147.namprd03.prod.outlook.com (10.255.230.19) with Microsoft
-	SMTP Server (TLS) id 15.0.995.14; Wed, 30 Jul 2014 10:20:56 +0000
-Received: from BY2FFO11FD052.protection.gbl (2a01:111:f400:7c0c::153) by
-	BY2PR03CA066.outlook.office365.com (2a01:111:e400:2c5d::39) with
-	Microsoft SMTP Server (TLS) id 15.0.995.14 via Frontend Transport;
-	Wed, 30 Jul 2014 10:20:56 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD052.mail.protection.outlook.com (10.1.15.189) with Microsoft
-	SMTP Server (TLS) id 15.0.990.10 via Frontend Transport;
-	Wed, 30 Jul 2014 10:20:55 +0000
-Received: from b28495.ap.freescale.net (b28495.ap.freescale.net [10.193.20.99])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	s6UAKqA0006920; Wed, 30 Jul 2014 03:20:53 -0700
-From: <ting.liu@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jul 2014 18:23:41 +0800
-Message-ID: <1406715821-2892-1-git-send-email-ting.liu@freescale.com>
-X-Mailer: git-send-email 1.7.3.4
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:CAL; IPV:NLI;
-	EFV:NLI; SFV:NSPM;
-	SFS:(6009001)(189002)(199002)(4396001)(95666004)(104166001)(77982001)(86362001)(26826002)(102836001)(105606002)(74662001)(31966008)(79102001)(44976005)(36756003)(68736004)(81342001)(106466001)(110136001)(77156001)(87286001)(80022001)(74502001)(47776003)(97736001)(46102001)(20776003)(33646002)(84676001)(99396002)(50466002)(89996001)(50226001)(104016003)(87936001)(19580405001)(83072002)(64706001)(85852003)(92726001)(2351001)(88136002)(93916002)(19580395003)(81542001)(85306003)(83322001)(62966002)(76482001)(21056001)(229853001)(92566001)(48376002)(107046002)(50986999)(86152002)(6806004);
-	DIR:OUT; SFP:; SCL:1; SRVR:BL2PR03MB147;
-	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
-	PTR:InfoDomainNonexistent; MX:1; LANG:en; 
+	Wed, 30 Jul 2014 10:48:36 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id ho1so7277903wib.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jul 2014 03:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=nXbGe1iSYneFeXOKiAZ+UnMBJMQ44ltLWag5E71OABs=;
+	b=N/zgD0AeZoolX01rfcKQpU6n7ULgXZtxJJvo3YQuZTqTsDn/FxqZf+ylNpwGkcpFeI
+	nLNokuoH78wNQiLlhKF1qOkM8I+JsCaMNkT9T4P3Bvhwwz5G0JtTWJaGM69YsRqR9Ym5
+	8SzCQQK94cNogetMeP6Mc1tFOK+sljWOi44OzJhyZcNoMunta7vn+Y5rClNCYB7LH7HB
+	HpT9ujbL964riu+pgvzLMQ69ZLPfqUEQcLM7lqUNyxuTBUFWqbgQo6aLFR2P6m0qBAC4
+	aZgxJPgPb4ePes//f+KhQEhOGX1AKdXp94yaZEInNz2K3El8RKRI5MshkEgAl6riTmfF
+	jYXg==
+X-Received: by 10.194.58.199 with SMTP id t7mr5220155wjq.14.1406717316860;
+	Wed, 30 Jul 2014 03:48:36 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	n2sm4606225wjf.40.2014.07.30.03.48.35 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 Jul 2014 03:48:35 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 30 Jul 2014 12:48:59 +0200
+To: ting.liu@freescale.com
+Message-ID: <20140730104859.GL16445@jama>
+References: <1406715821-2892-1-git-send-email-ting.liu@freescale.com>
 MIME-Version: 1.0
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:
-X-Forefront-PRVS: 0288CD37D9
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=ting.liu@freescale.com; 
-X-OriginatorOrg: freescale.com
-Subject: [PATCH v2] base-files: set dynamic COLUMNS via resize command
+In-Reply-To: <1406715821-2892-1-git-send-email-ting.liu@freescale.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] base-files: set dynamic COLUMNS via resize command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +47,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 10:21:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Jul 2014 10:48:38 -0000
+X-Groupsio-MsgNum: 55757
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="citGix+cyBYE+lqp"
+Content-Disposition: inline
 
-From: Ting Liu <ting.liu@freescale.com>
+--citGix+cyBYE+lqp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-By default, COLUMNS is set to 80. If possible, run 'resize' to
-determine what the current dimensions are. This avoids the final
-part of long lines overlap the start of the same line.
+On Wed, Jul 30, 2014 at 06:23:41PM +0800, ting.liu@freescale.com wrote:
+> From: Ting Liu <ting.liu@freescale.com>
+>=20
+> By default, COLUMNS is set to 80. If possible, run 'resize' to
+> determine what the current dimensions are. This avoids the final
+> part of long lines overlap the start of the same line.
+>=20
+> Signed-off-by: Ting Liu <ting.liu@freescale.com>
+> ---
+> changes in v2:
+> * dynamically check for ${bindir} instead of hard code /usr/bin
+>=20
+>  meta/recipes-core/base-files/base-files/profile   |    4 ++++
+>  meta/recipes-core/base-files/base-files_3.0.14.bb |    4 ++++
+>  2 files changed, 8 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recip=
+es-core/base-files/base-files/profile
+> index 0b2d9d7..88ab8d8 100644
+> --- a/meta/recipes-core/base-files/base-files/profile
+> +++ b/meta/recipes-core/base-files/base-files/profile
+> @@ -26,6 +26,10 @@ if [ -d /etc/profile.d ]; then
+>    unset i
+>  fi
+> =20
+> +if [ -x /usr/bin/resize ];then
+> +  /usr/bin/resize >/dev/null
+> +fi
+> +
+>  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+> =20
+>  umask 022
+> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/rec=
+ipes-core/base-files/base-files_3.0.14.bb
+> index 30b1bf4..e6109dd 100644
+> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> @@ -102,6 +102,10 @@ do_install () {
+>  	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
+>  	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
+> =20
+> +    if [ "/usr/bin" !=3D "${bindir}" ]; then
+> +        sed -i "s,/usr/bin/resize,${bindir}/resize," ${D}${sysconfdir}/p=
+rofile
+> +    fi
+> +
 
-Signed-off-by: Ting Liu <ting.liu@freescale.com>
----
-changes in v2:
-* dynamically check for ${bindir} instead of hard code /usr/bin
+Please use consistent whitespace for indentation (I know it's hard with
+inconsistent styleguide, but please don't mix tabs and spaces for
+indentation).
 
- meta/recipes-core/base-files/base-files/profile   |    4 ++++
- meta/recipes-core/base-files/base-files_3.0.14.bb |    4 ++++
- 2 files changed, 8 insertions(+), 0 deletions(-)
+>  	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
+>  }
+> =20
+> --=20
+> 1.7.3.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index 0b2d9d7..88ab8d8 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -26,6 +26,10 @@ if [ -d /etc/profile.d ]; then
-   unset i
- fi
- 
-+if [ -x /usr/bin/resize ];then
-+  /usr/bin/resize >/dev/null
-+fi
-+
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
- 
- umask 022
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 30b1bf4..e6109dd 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -102,6 +102,10 @@ do_install () {
- 	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
- 	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
- 
-+    if [ "/usr/bin" != "${bindir}" ]; then
-+        sed -i "s,/usr/bin/resize,${bindir}/resize," ${D}${sysconfdir}/profile
-+    fi
-+
- 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
- }
- 
--- 
-1.7.3.4
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--citGix+cyBYE+lqp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPYzZsACgkQN1Ujt2V2gBwr5gCfakh9sNM1t7855NUslse+DTEs
+oOoAniuZQJMb4IcsEc11ikzUAzIBJZXV
+=dN+D
+-----END PGP SIGNATURE-----
+
+--citGix+cyBYE+lqp--
