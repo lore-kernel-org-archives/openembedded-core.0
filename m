@@ -1,25 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A100A65CD4
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C5D7370955
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 16:30:29 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2014 09:30:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,765,1400050800"; d="scan'208";a="577770242"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO [10.255.12.249])
-	([10.255.12.249])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2014 09:30:08 -0700
-Message-ID: <53D91D90.3020505@linux.intel.com>
-Date: Wed, 30 Jul 2014 09:30:08 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Wed, 30 Jul 2014 16:36:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6UGabf1026035
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jul 2014 09:36:37 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 30 Jul 2014 09:36:37 -0700
+Date: Wed, 30 Jul 2014 11:36:35 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20140730113635.41d88bc5@e6410-2>
+In-Reply-To: <53D68AD1.2010401@windriver.com>
+References: <lymwbtto1t.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<53D68AD1.2010401@windriver.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-To: Patrice B <pbfwdlist@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1406714692.31179.9.camel@localhost.localdomain>
-In-Reply-To: <1406714692.31179.9.camel@localhost.localdomain>
-Subject: Re: [PATCH] psmisc: Typo in fuser makes -M on all the time (backport)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: PSEUDO - SELinux support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,101 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 16:30:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 30 Jul 2014 16:36:39 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On 07/30/2014 03:04 AM, Patrice B wrote:
-> I encountered this bug in psmisc 22.21. Since it is fixed in main
-> stream, I proposed this patch created from psmisc git.
->
-> More info here :
-> http://sourceforge.net/p/psmisc/code/ci/3638cc55b4d08851faba46635d737b24d016665b/
->
->
-> "Brad found that fuser had the -M option on all the time.
-> A simple but significant typo caused this, thanks the patch.
->
-> Bug-Debian: http://bugs.debian.org/740275"
->
-> Signed-off-by: Patrice B <pbfwdlist@gmail.com>
->
->
-> ---
->   ...001-Typo-in-fuser-makes-M-on-all-the-time.patch | 44 ++++++++++++++++++++++
->   meta/recipes-extended/psmisc/psmisc_22.21.bb       |  2 +
->   2 files changed, 46 insertions(+)
->   create mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
->
-> diff --git a/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch b/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
-> new file mode 100644
-> index 0000000..3a4c9a9
-> --- /dev/null
-> +++ b/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
-> @@ -0,0 +1,44 @@
-> +From 3638cc55b4d08851faba46635d737b24d016665b Mon Sep 17 00:00:00 2001
-> +From: Brad Jorsch <anomie@users.sourceforge.net>
-> +Date: Fri, 28 Feb 2014 21:55:02 +1100
-> +Subject: [PATCH] Typo in fuser makes -M on all the time
-> +
-> +Brad found that fuser had the -M option on all the time.
-> +A simple but significant typo caused this, thanks the the patch.
-> +
-> +Bug-Debian: http://bugs.debian.org/740275
-> +
+On Mon, 28 Jul 2014 12:39:29 -0500
+Mark Hatle <mark.hatle@windriver.com> wrote:
 
-Sorry about not being clear here, you need an Upstream-Status: Tag in 
-this patch file.
+> Intercepting xattr is needed, and potentially access to the special proc files 
+> may also be needed... [once we intercept though, what do we do with the data?]
 
-Please see the wiki link below for more details:
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+This is pretty much where the problem comes in. The reason for the xattr
+support is to make it mechanically possible to create things which would have
+extended attributes such as security.selinux values. But if we are picking up
+such values from the host, and they make it into our rootfs, that's host
+contamination.
 
-Thanks
-	Sau!
+For modes, we can do a decent job of making things work by just setting
+reasonably plausible inferred modes which won't cause problems in the
+underlying filesystem, and storing the target rootfs modes in the database.
 
-> +Signed-off-by: Craig Small <csmall@enc.com.au>
-> +---
-> + ChangeLog   | 4 ++++
-> + src/fuser.c | 2 +-
-> + 2 files changed, 5 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/ChangeLog b/ChangeLog
-> +index fd1cccf..e5f784c 100644
-> +--- a/ChangeLog
-> ++++ b/ChangeLog
-> +@@ -1,3 +1,7 @@
-> ++Changes in 22.22
-> ++================
-> ++	* Fixed typo in fuser which has -M on Debian #740275
-> ++
-> + Changes in 22.21
-> + ================
-> + 	* Missing comma in fuser(1) added Debian #702391
-> +diff --git a/src/fuser.c b/src/fuser.c
-> +index b485f65..389b302 100644
-> +--- a/src/fuser.c
-> ++++ b/src/fuser.c
-> +@@ -1174,7 +1174,7 @@ int main(int argc, char *argv[])
-> + 		usage(_("No process specification given"));
-> +
-> + 	/* Check if -M flag was used and if so check mounts */
-> +-	if (opts * OPT_ISMOUNTPOINT) {
-> ++	if (opts & OPT_ISMOUNTPOINT) {
-> + 	    check_mountpoints(&mounts, &names_head, &names_tail);
-> + 	}
-> +
-> +--
-> +1.8.4.2
-> +
-> diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb b/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> index 22f65c5..9f328bb 100644
-> --- a/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> +++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
-> @@ -4,3 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
->
->   SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
->   SRC_URI[sha256sum] = "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
-> +
-> +SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch"
->
+For xattrs, I don't think we can do that, really. The problem is that there's
+no generic way to tell whether a given proposed selinux attribute is coming
+from logic relating to the target filesystem, or from the host's filesystem.
+
+If we hypothetically intercepted proc/self/attr/fscreate writes, that might
+help some. I was originally concerned about it being written outside the
+pseudo environment, but it occurs to me that if it were, that would also
+imply that whatever value was written probably got derived from things that
+were read outside the pseudo environment, so basically we'd be rendering
+unto SELinux that which is SELinux's, and it wouldn't affect our rootfs
+choices either way. I think.
+
+I am not at all sure whether we can patch is_selinux_enabled(). I also don't
+know that this would work for the other use cases, because some things that
+want xattr support may not try to write selinux attributes if that returns
+false, but we might want them to write those attributes.
+
+I will say that, in general, running in an actual selinux environment is
+probably going to break sometimes, because pseudo depends on doing things
+that should absolutely be prohibited in any sort of secure environment. The
+entire concept behind things like fakeroot and pseudo is to create a runtime
+environment which is broken in a useful way.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
