@@ -1,22 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 71D0A70961
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CFA2370961
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 18:08:22 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2014 11:08:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,765,1400050800"; d="scan'208";a="577820047"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO [10.255.12.249])
-	([10.255.12.249])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2014 11:07:12 -0700
-Message-ID: <53D93450.4070503@linux.intel.com>
-Date: Wed, 30 Jul 2014 11:07:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+	Wed, 30 Jul 2014 18:09:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6UI9saR027203
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 Jul 2014 11:09:54 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 30 Jul 2014 11:09:53 -0700
+Message-ID: <53D934F1.2030807@windriver.com>
+Date: Wed, 30 Jul 2014 13:09:53 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Leah <leah@wolfssl.com>, openembedded-core@lists.openembedded.org
+To: Leah <leah@wolfssl.com>, <openembedded-core@lists.openembedded.org>
 References: <CAL0pqZ0w0qmwPUhtEOfc6DCMggH6t_ELWOxhpWPSCxETta-u9A@mail.gmail.com>
 	<CAL0pqZ2VaH_mCrNkXQvUOWNC_eWSTUUk-Gyp1eX06XL17EvLQA@mail.gmail.com>
 In-Reply-To: <CAL0pqZ2VaH_mCrNkXQvUOWNC_eWSTUUk-Gyp1eX06XL17EvLQA@mail.gmail.com>
@@ -33,36 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 18:08:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 30 Jul 2014 18:10:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/30/2014 10:53 AM, Leah wrote:
+On 7/30/14, 12:53 PM, Leah wrote:
 > Hi,
 >
-> I have a recipe - cyassl_3.1.0.bb, a lightweight ssl library that I would
-> like to add to openembedded. I am not sure as to the best location, perhaps
-> recipes-connectivity? Do I need to submit this recipe the same way I would
-> submit a layer?
->
-THis might be better suited for the meta-openembedded collection of 
-layers, possibly under meta-networking, you can send it to the 
-openembedded-devel@lists.openembedded.org list as a patch.
+> I have a recipe - cyassl_3.1.0.bb <http://cyassl_3.1.0.bb>, a lightweight ssl
+> library that I would like to add to openembedded. I am not sure as to the best
+> location, perhaps recipes-connectivity? Do I need to submit this recipe the same
+> way I would submit a layer?
 
+Usually we say meta-oe first -- unless the item shows a significant reason to be 
+in oe-core.  (The gating factor for oe-core is it really does need to be a core 
+piece of functionality, and something the maintainers are willing to promise to 
+fix if it brakes.  Due to limited resources, it's currently difficult for any of 
+the maintainers to promise that.. thus meta-oe first.)
 
-> Also, is there a way to edit my current layer's information(meta-wolfssl)
-> on the openembedded layer index?
->
-It appears that Chris Conlon has already submitted meta-wolfssl, see
+> Also, is there a way to edit my current layer's information(meta-wolfssl) on the
+> openembedded layer index?
 
-http://layers.openembedded.org/layerindex/branch/master/layer/meta-wolfssl/
+A number of us have access to edit the layer information (myself included). 
+Feel free to send me an email with the edits.
 
-Sau!
+--Mark
 
 > Thanks,
 >
 > Leah
 >
+> --
+>
+> Leah Thompson
+> www.wolfssl.com <http://www.wolfssl.com>
+> leah@wolfssl.com <mailto:leah@wolfssl.com>
+> 406-570-1389 <tel:406-570-1389>
+> Skype: lchristina26
 >
 >
+>
+>
+>
+> --
+>
+> Leah Thompson
+> www.wolfssl.com <http://www.wolfssl.com>
+> leah@wolfssl.com <mailto:leah@wolfssl.com>
+> 406-570-1389
+> Skype: lchristina26
+>
+>
+>
+>
+
 
