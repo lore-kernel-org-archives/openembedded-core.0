@@ -1,35 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E2A5E65CAD
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A100A65CD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 16:04:21 +0000 (UTC)
-Received: by mail-we0-f180.google.com with SMTP id w61so1418075wes.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 09:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=QOzrNVAKMsnADhxUwAZCvMKFWgSVa399cQRI8dBv/2s=;
-	b=ZHt8v3559NV7sgG98S/T7+aD9ierz7qPHPzMHYg1/V15ZNMgIs2cM28+ecl+P61Cj9
-	rLw6rkyBqUOqMOXEbFj3yW+AccDUuqhG9iCxdLP/kPVmkaDJqDjACcVMVzK4tqpgsOsv
-	iBQ0Gj7f32vNHwBQTkukHBRhy9AbmytIupngWwe/6yQECrzJaYGtkkkzQ9xAeBdEeuVT
-	B6rm18+HS9gMSAY+EZdkF33E0zQ28mwvpueNcuaY0t5Sw6sHLCzCih6snSn9LQGwJ/3V
-	+8qLLLzL0G0+0g3IH50V3CbfUnm1Wbi2jJu0nfOpUIcnwW4NHLvjvqKxuA4mlV3o+3aC
-	4kkw==
-X-Received: by 10.180.36.238 with SMTP id t14mr7598356wij.38.1406736258426;
-	Wed, 30 Jul 2014 09:04:18 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	w10sm11004646wie.22.2014.07.30.09.04.17 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jul 2014 09:04:17 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jul 2014 18:04:36 +0200
-Message-Id: <1406736276-25623-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.2
-Subject: [RFC][PATCH] qemu.bbclass: add -r ${OLDEST_KERNEL} parameter
+	Wed, 30 Jul 2014 16:30:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2014 09:30:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,765,1400050800"; d="scan'208";a="577770242"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO [10.255.12.249])
+	([10.255.12.249])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2014 09:30:08 -0700
+Message-ID: <53D91D90.3020505@linux.intel.com>
+Date: Wed, 30 Jul 2014 09:30:08 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: Patrice B <pbfwdlist@gmail.com>, openembedded-core@lists.openembedded.org
+References: <1406714692.31179.9.camel@localhost.localdomain>
+In-Reply-To: <1406714692.31179.9.camel@localhost.localdomain>
+Subject: Re: [PATCH] psmisc: Typo in fuser makes -M on all the time (backport)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,72 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 16:04:22 -0000
+X-List-Received-Date: Wed, 30 Jul 2014 16:30:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* in some cases (e.g. with external toolchain which doesn't respect our
-  reasonably old version set in OLDEST_KERNEL) it's possible to have libc
-  which requires newer kernel than what we have on builders, qemu supports
-  -r param to use different uname than what's returned by host system.
-* change qemu_run_binary to pass -r ${OLDEST_KERNEL} and add the same to
-  QEMU_OPTIONS which are used by qemuwrapper-cross
-* maybe we should eventually convert all qemu_run_binary usages always include
-  qemuwrapper-cross dependency and always call qemu through that (it
-  seems very strange that qemu_target_binary is called from qemuwrapper
-  and for allarch recipes it can return qemu-allarch as qemu binary).
+On 07/30/2014 03:04 AM, Patrice B wrote:
+> I encountered this bug in psmisc 22.21. Since it is fixed in main
+> stream, I proposed this patch created from psmisc git.
+>
+> More info here :
+> http://sourceforge.net/p/psmisc/code/ci/3638cc55b4d08851faba46635d737b24d016665b/
+>
+>
+> "Brad found that fuser had the -M option on all the time.
+> A simple but significant typo caused this, thanks the patch.
+>
+> Bug-Debian: http://bugs.debian.org/740275"
+>
+> Signed-off-by: Patrice B <pbfwdlist@gmail.com>
+>
+>
+> ---
+>   ...001-Typo-in-fuser-makes-M-on-all-the-time.patch | 44 ++++++++++++++++++++++
+>   meta/recipes-extended/psmisc/psmisc_22.21.bb       |  2 +
+>   2 files changed, 46 insertions(+)
+>   create mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+>
+> diff --git a/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch b/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+> new file mode 100644
+> index 0000000..3a4c9a9
+> --- /dev/null
+> +++ b/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+> @@ -0,0 +1,44 @@
+> +From 3638cc55b4d08851faba46635d737b24d016665b Mon Sep 17 00:00:00 2001
+> +From: Brad Jorsch <anomie@users.sourceforge.net>
+> +Date: Fri, 28 Feb 2014 21:55:02 +1100
+> +Subject: [PATCH] Typo in fuser makes -M on all the time
+> +
+> +Brad found that fuser had the -M option on all the time.
+> +A simple but significant typo caused this, thanks the the patch.
+> +
+> +Bug-Debian: http://bugs.debian.org/740275
+> +
 
-  qemu_run_binary is used by:
-  meta/classes/gtk-immodules-cache.bbclass:            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
-  meta/classes/qemu.bbclass:def qemu_run_binary(data, rootfs_path, binary):
-  meta/recipes-core/systemd/systemd_213.bb:         ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-  meta/recipes-graphics/pango/pango.inc:    ${@qemu_run_binary(d, '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
+Sorry about not being clear here, you need an Upstream-Status: Tag in 
+this patch file.
 
-  and qemuwrapper directly by:
-  scripts/postinst-intercepts/update_font_cache:PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
-  scripts/postinst-intercepts/update_pixbuf_cache:PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
+Please see the wiki link below for more details:
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/qemu.bbclass | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+Thanks
+	Sau!
 
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index abee8aa..b2cf85d 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -29,19 +29,20 @@ def qemu_run_binary(data, rootfs_path, binary):
- 
-     libdir = rootfs_path + data.getVar("libdir", False)
-     base_libdir = rootfs_path + data.getVar("base_libdir", False)
-+    oldest_kernel = data.getVar("OLDEST_KERNEL", True)
- 
--    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -L " + rootfs_path\
-+    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -r " + oldest_kernel + " -L " + rootfs_path\
-             + " -E LD_LIBRARY_PATH=" + libdir + ":" + base_libdir + " "\
-             + rootfs_path + binary
- 
--QEMU_OPTIONS = ""
--QEMU_OPTIONS_iwmmxt    = "-cpu pxa270-c5"
--QEMU_OPTIONS_armv6     = "-cpu arm1136"
--QEMU_OPTIONS_armv7a    = "-cpu cortex-a8"
--QEMU_OPTIONS_e500v2    = "-cpu e500v2"
--QEMU_OPTIONS_e500mc    = "-cpu e500mc"
--QEMU_OPTIONS_e5500     = "-cpu e5500"
--QEMU_OPTIONS_e5500-64b = "-cpu e5500"
--QEMU_OPTIONS_e6500     = "-cpu e6500"
--QEMU_OPTIONS_e6500-64b = "-cpu e6500"
--QEMU_OPTIONS_ppc7400   = "-cpu 7400"
-+QEMU_OPTIONS = "-r ${OLDEST_KERNEL}"
-+QEMU_OPTIONS_append_iwmmxt    = " -cpu pxa270-c5"
-+QEMU_OPTIONS_append_armv6     = " -cpu arm1136"
-+QEMU_OPTIONS_append_armv7a    = " -cpu cortex-a8"
-+QEMU_OPTIONS_append_e500v2    = " -cpu e500v2"
-+QEMU_OPTIONS_append_e500mc    = " -cpu e500mc"
-+QEMU_OPTIONS_append_e5500     = " -cpu e5500"
-+QEMU_OPTIONS_append_e5500-64b = " -cpu e5500"
-+QEMU_OPTIONS_append_e6500     = " -cpu e6500"
-+QEMU_OPTIONS_append_e6500-64b = " -cpu e6500"
-+QEMU_OPTIONS_append_ppc7400   = " -cpu 7400"
--- 
-2.0.2
-
+> +Signed-off-by: Craig Small <csmall@enc.com.au>
+> +---
+> + ChangeLog   | 4 ++++
+> + src/fuser.c | 2 +-
+> + 2 files changed, 5 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/ChangeLog b/ChangeLog
+> +index fd1cccf..e5f784c 100644
+> +--- a/ChangeLog
+> ++++ b/ChangeLog
+> +@@ -1,3 +1,7 @@
+> ++Changes in 22.22
+> ++================
+> ++	* Fixed typo in fuser which has -M on Debian #740275
+> ++
+> + Changes in 22.21
+> + ================
+> + 	* Missing comma in fuser(1) added Debian #702391
+> +diff --git a/src/fuser.c b/src/fuser.c
+> +index b485f65..389b302 100644
+> +--- a/src/fuser.c
+> ++++ b/src/fuser.c
+> +@@ -1174,7 +1174,7 @@ int main(int argc, char *argv[])
+> + 		usage(_("No process specification given"));
+> +
+> + 	/* Check if -M flag was used and if so check mounts */
+> +-	if (opts * OPT_ISMOUNTPOINT) {
+> ++	if (opts & OPT_ISMOUNTPOINT) {
+> + 	    check_mountpoints(&mounts, &names_head, &names_tail);
+> + 	}
+> +
+> +--
+> +1.8.4.2
+> +
+> diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> index 22f65c5..9f328bb 100644
+> --- a/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> +++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+> @@ -4,3 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+>
+>   SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
+>   SRC_URI[sha256sum] = "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
+> +
+> +SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch"
+>
 
