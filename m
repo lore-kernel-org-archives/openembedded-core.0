@@ -1,40 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BB8F465D9B;
-	Wed, 30 Jul 2014 09:32:27 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id f8so1967933wiw.12
-	for <multiple recipients>; Wed, 30 Jul 2014 02:32:28 -0700 (PDT)
+Return-Path: <freesilicon@gmail.com>
+Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
+	[209.85.160.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BDE8A70900
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jul 2014 09:40:40 +0000 (UTC)
+Received: by mail-yk0-f181.google.com with SMTP id q200so515003ykb.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jul 2014 02:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7nuZBDR4JWf3Oa2HYlF9Q8/XmVBriPcIbr25g1Y/YaI=;
-	b=AHAQvVgmHNn/m+RnONrRbtkBl1Vm9rvoKwsTGaWODCId8fmnIdMu6FX6DUb0119YPF
-	9iQtg0AmjsGo2t9g+LoMjP5y4RM+HSETjQx3leKJfkkHNMEhl+z+4dKnTTpDmTr7KqAY
-	o7o1cuFnOVG/HFd2dqpk/oS8Z8EiGbbOLIxSghlow3rulQ4TZFSbZywANlGy6RVYiyB2
-	89FymdtWYjJKJ5cUd0xLT50dkdaT5ZZI3JeAGJACQa/QlKxgY7wVPZZzUMIHTtIDT27V
-	XjMjEjafXwfSiGz2nViD50GFXsZKj5JJY7CAiPbGNw6DcpNrT79X85m4uD8TCskCqv0T
-	SyFQ==
-X-Received: by 10.194.5.103 with SMTP id r7mr4349879wjr.41.1406712747951;
-	Wed, 30 Jul 2014 02:32:27 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ko8sm4192867wjc.11.2014.07.30.02.32.21 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jul 2014 02:32:21 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 30 Jul 2014 11:32:44 +0200
-To: openembedded-core@lists.openembedded.org,
-	Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20140730093244.GK16445@jama>
-References: <20140703164708.452165036A@opal.openembedded.org>
-	<20140718205012.GT2433@jama>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=7nCzcCoy0rLGDIj+n//Laqkbo+SRnFSfYPtRynYrIAA=;
+	b=0KY2pxxocUQBf6keQQ37NEVvoAt/3yB0GNhCo6sj/C/4PLf+LWvWRTN6wyoMcMfDS4
+	GvLYKNQ8osNjz/NS7SrqXQM5ri6nhdb5ho8hGObv+WKk3YnN13WHjz9T5HWk8qBMK8hi
+	V1rNny5JnteK+jO+v3I/FtFhhE4jhhEMsOOi68uOimg6QiKs3/qYLvIn6C3mqoynhmr3
+	yA6pNgGfJrPadTCGmOWgE8oPMdvq0rz0UGEOzdp9+HPOHrHJImEm3eJQZ2BPLM+6JZvZ
+	IlQv/oaOGT0jh7Ftt6sevBalXJEzMsTEAJD7L2saE3Lr7hBpVgzkt0e3QZPQoyoO02+r
+	D4JA==
 MIME-Version: 1.0
-In-Reply-To: <20140718205012.GT2433@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Cristian Iorga : qemu: fix qemu-native pkg-config paths
+X-Received: by 10.236.60.201 with SMTP id u49mr4912502yhc.166.1406713241987;
+	Wed, 30 Jul 2014 02:40:41 -0700 (PDT)
+Received: by 10.170.123.210 with HTTP; Wed, 30 Jul 2014 02:40:41 -0700 (PDT)
+In-Reply-To: <20140728164200.55019693@e6520eb>
+References: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
+	<20140728135853.35af7ee0@e6520eb>
+	<CAKRNOGx_e_cNLuzhETFuL2k12fhGsHBPdYT9ND8uP_F67=VA7A@mail.gmail.com>
+	<20140728164200.55019693@e6520eb>
+Date: Wed, 30 Jul 2014 11:40:41 +0200
+Message-ID: <CAKRNOGzHyDxDd09=fUHSPm5Gj9Tt8ZhG+oF_4TfHjBYHqFMewg@mail.gmail.com>
+From: David Vincent <freesilicon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] barebox: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,114 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 09:32:35 -0000
-X-Groupsio-MsgNum: 55753
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EE8jvUPYYQjJtG7J"
-Content-Disposition: inline
-
---EE8jvUPYYQjJtG7J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Jul 2014 09:40:45 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 18, 2014 at 10:50:12PM +0200, Martin Jansa wrote:
-> On Thu, Jul 03, 2014 at 04:47:08PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 68a5ed337f8f7ee8e5bf55542ec82d786eb754db
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D68a5ed337f8f7ee8e5bf55542ec82d786eb754db
-> >=20
-> > Author: Cristian Iorga <cristian.iorga@intel.com>
-> > Date:   Thu Jul  3 15:57:32 2014 +0300
-> >=20
-> > qemu: fix qemu-native pkg-config paths
-> >=20
-> > For qemu-native, the pkg-config paths do not
-> > include build host paths.
->=20
-> This breaks qemu-native builds on hosts without pkg-config.
->=20
-> pkg-config isn't in sanity.bbclass's SANITY_REQUIRED_UTILITIES
-> and this is first recipe which cannot use pkgconfig-native.
->=20
-> Please add test that it exists before forcing recipe to use it.
+Hi all,
 
-PING
+Sorry to come back on this subject, but what is the current status of
+this request?
 
-This is broken for almost a month, please at least revert it until it's
-fixed correctly.
+Do you need more background? Are you waiting for more opinions or a
+vote on this subject? Should I submit a v2 of this patch with what we
+have discussed to make it more polished for OE-Core (or another
+layer)?
 
-> > This is an issue for libsdl for example, where SDL is
-> > used by qemu, but for qemu-native libsdl-native is not
-> > built, but assumed to be provided by the build host.
-> > Because pkg-config do not search for libsdl config files
-> > on the build host sysroot, the configure stage of qemu-native
-> > will fail because it will not find SDL as being installed.
-> > Usually, the isssue is masked by a functional sdl-config that
-> > will be interogated instead of pkg-config. However, on Build
-> > Appliance, sdl-config is deliberately made non-functional,
-> > so the issue manifests itself.
-> >=20
-> > The fix will create an extended PKG_CONFIG_PATH, which does
-> > include the build host sysroot paths for pkg-config.
-> >=20
-> > Fix for [YOCTO #6495].
-> >=20
-> > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >=20
-> > ---
-> >=20
-> >  meta/recipes-devtools/qemu/qemu.inc | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtool=
-s/qemu/qemu.inc
-> > index 076e8ad..611ee61 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -33,6 +33,10 @@ EXTRA_OECONF_class-nativesdk =3D "--target-list=3D${=
-@get_qemu_target_list(d)} --disa
-> >  export LIBTOOL=3D"${HOST_SYS}-libtool"
-> > =20
-> >  do_configure_prepend_class-native() {
-> > +	# Append build host pkg-config paths for native target since the host=
- may provide sdl
-> > +	BHOST_PKGCONFIG_PATH=3D$(PATH=3D/usr/bin:/bin pkg-config --variable p=
-c_path pkg-config)
-> > +	export PKG_CONFIG_PATH=3D$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
-> > +
-> >  	# Undo the -lX11 added by linker-flags.patch, don't assume that host =
-has libX11 installed
-> >  	sed -i 's/-lX11//g' Makefile.target
-> >  }
-> >=20
-> > --=20
-> > _______________________________________________
-> > Openembedded-commits mailing list
-> > Openembedded-commits@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Again, sorry for the noise!
 
+Greetings,
+David
 
+2014-07-28 16:42 GMT+02:00 Eric B=C3=A9nard <eric@eukrea.com>:
+> Hi David,
+>
+> Le Mon, 28 Jul 2014 14:15:12 +0200,
+> David Vincent <freesilicon@gmail.com> a =C3=A9crit :
+>> > Why don't you use $BAREBOX_BINARY instead of hardcoding
+>> > barebox-flash-image which won't work on old versions of barebox where
+>> > barebox's binary is named barebox.bin ?
+>>
+>> I didn't know that, but I am not sure I can use $BAREBOX_BINARY since
+>> this variable is used in $DEPLOY_DIR. I tried to mimic u-boot recipe
+>> behavior as much as possible.
+>>
+> you can use the variable as it's defined upper. u-boot recipe does it
+> this way :
+> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-bsp/u-bo=
+ot/u-boot.inc#n19
+> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-bsp/u-bo=
+ot/u-boot.inc#n63
+>
+> FWIW you can find here the initial barebox recipe we have in
+> meta-fsl-arm :
+> https://github.com/Freescale/meta-fsl-arm/tree/master/recipes-bsp/barebox
+>
+> Best regards,
+> Eric
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EE8jvUPYYQjJtG7J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPYu7wACgkQN1Ujt2V2gBw0zACcDpmBV7FnFVkmLTs3Q+WCh94f
-SEkAnjGvyffCDVJ+2VwHcrgS4rnUlnT5
-=8aK2
------END PGP SIGNATURE-----
-
---EE8jvUPYYQjJtG7J--
