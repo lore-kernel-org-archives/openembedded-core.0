@@ -1,36 +1,37 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BDE8A70900
+Return-Path: <pbfwdlist@gmail.com>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E0D4165CFF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 09:40:40 +0000 (UTC)
-Received: by mail-yk0-f181.google.com with SMTP id q200so515003ykb.26
+	Wed, 30 Jul 2014 10:05:11 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id k48so942358wev.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 02:40:42 -0700 (PDT)
+	Wed, 30 Jul 2014 03:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=7nCzcCoy0rLGDIj+n//Laqkbo+SRnFSfYPtRynYrIAA=;
-	b=0KY2pxxocUQBf6keQQ37NEVvoAt/3yB0GNhCo6sj/C/4PLf+LWvWRTN6wyoMcMfDS4
-	GvLYKNQ8osNjz/NS7SrqXQM5ri6nhdb5ho8hGObv+WKk3YnN13WHjz9T5HWk8qBMK8hi
-	V1rNny5JnteK+jO+v3I/FtFhhE4jhhEMsOOi68uOimg6QiKs3/qYLvIn6C3mqoynhmr3
-	yA6pNgGfJrPadTCGmOWgE8oPMdvq0rz0UGEOzdp9+HPOHrHJImEm3eJQZ2BPLM+6JZvZ
-	IlQv/oaOGT0jh7Ftt6sevBalXJEzMsTEAJD7L2saE3Lr7hBpVgzkt0e3QZPQoyoO02+r
-	D4JA==
-MIME-Version: 1.0
-X-Received: by 10.236.60.201 with SMTP id u49mr4912502yhc.166.1406713241987;
-	Wed, 30 Jul 2014 02:40:41 -0700 (PDT)
-Received: by 10.170.123.210 with HTTP; Wed, 30 Jul 2014 02:40:41 -0700 (PDT)
-In-Reply-To: <20140728164200.55019693@e6520eb>
-References: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
-	<20140728135853.35af7ee0@e6520eb>
-	<CAKRNOGx_e_cNLuzhETFuL2k12fhGsHBPdYT9ND8uP_F67=VA7A@mail.gmail.com>
-	<20140728164200.55019693@e6520eb>
-Date: Wed, 30 Jul 2014 11:40:41 +0200
-Message-ID: <CAKRNOGzHyDxDd09=fUHSPm5Gj9Tt8ZhG+oF_4TfHjBYHqFMewg@mail.gmail.com>
-From: David Vincent <freesilicon@gmail.com>
+	h=message-id:subject:from:to:date:content-type:mime-version
+	:content-transfer-encoding;
+	bh=zuCdWosT4fkren0sqhk2YeB7y0cs3t8UzFLRNDaqhb8=;
+	b=rDUdeA3tk8IU6Bomh9eksavB5OGfzZHjuaxhrRdt6Dgdjzr1ZJ0Ab1r9057/Q22Ika
+	KMrYO66fBLvtGnD3f8GNRXdZ+zyjOvgM2NuyT1bmQIitoMomGmpqvz3KP0YwmL2DmYH/
+	hYbPGFlpVB2vAGSINJEwDL6UU5s/mi+hPb3mt8IlMAv7EMPi/75VXwBRInLSjpcG3k5G
+	xHxtgQzwJknu7J45jmW0YNdkEsK+8FuLaWjkip+XzhKYPjkcFxScADDg3T01GLQeW+BN
+	L0FZ+fpN4gqUhkurG6OQvGLgpH66ZaMsZ8Ci5mB6+FiDnpmEEfGIHiVTmr0vXSoSoRjC
+	EM/A==
+X-Received: by 10.180.212.113 with SMTP id nj17mr1617115wic.46.1406714712459; 
+	Wed, 30 Jul 2014 03:05:12 -0700 (PDT)
+Received: from [127.0.0.1] (laf42-1-88-166-73-101.fbx.proxad.net.
+	[88.166.73.101])
+	by mx.google.com with ESMTPSA id fs17sm4385387wjc.6.2014.07.30.03.05.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=SSLv3 cipher=RC4-SHA bits=128/128);
+	Wed, 30 Jul 2014 03:05:12 -0700 (PDT)
+Message-ID: <1406714692.31179.9.camel@localhost.localdomain>
+From: Patrice B <pbfwdlist@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] barebox: Add recipe
+Date: Wed, 30 Jul 2014 12:04:52 +0200
+X-Mailer: Evolution 3.4.4 (3.4.4-2.fc17) 
+Mime-Version: 1.0
+Subject: [PATCH] psmisc: Typo in fuser makes -M on all the time (backport)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +44,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 09:40:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 Jul 2014 10:05:15 -0000
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+I encountered this bug in psmisc 22.21. Since it is fixed in main
+stream, I proposed this patch created from psmisc git.
 
-Sorry to come back on this subject, but what is the current status of
-this request?
+More info here :
+http://sourceforge.net/p/psmisc/code/ci/3638cc55b4d08851faba46635d737b24d016665b/
 
-Do you need more background? Are you waiting for more opinions or a
-vote on this subject? Should I submit a v2 of this patch with what we
-have discussed to make it more polished for OE-Core (or another
-layer)?
 
-Again, sorry for the noise!
+"Brad found that fuser had the -M option on all the time.
+A simple but significant typo caused this, thanks the patch.
 
-Greetings,
-David
+Bug-Debian: http://bugs.debian.org/740275"
 
-2014-07-28 16:42 GMT+02:00 Eric B=C3=A9nard <eric@eukrea.com>:
-> Hi David,
->
-> Le Mon, 28 Jul 2014 14:15:12 +0200,
-> David Vincent <freesilicon@gmail.com> a =C3=A9crit :
->> > Why don't you use $BAREBOX_BINARY instead of hardcoding
->> > barebox-flash-image which won't work on old versions of barebox where
->> > barebox's binary is named barebox.bin ?
->>
->> I didn't know that, but I am not sure I can use $BAREBOX_BINARY since
->> this variable is used in $DEPLOY_DIR. I tried to mimic u-boot recipe
->> behavior as much as possible.
->>
-> you can use the variable as it's defined upper. u-boot recipe does it
-> this way :
-> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-bsp/u-bo=
-ot/u-boot.inc#n19
-> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-bsp/u-bo=
-ot/u-boot.inc#n63
->
-> FWIW you can find here the initial barebox recipe we have in
-> meta-fsl-arm :
-> https://github.com/Freescale/meta-fsl-arm/tree/master/recipes-bsp/barebox
->
-> Best regards,
-> Eric
+Signed-off-by: Patrice B <pbfwdlist@gmail.com>
+
+
+---
+ ...001-Typo-in-fuser-makes-M-on-all-the-time.patch | 44 ++++++++++++++++++++++
+ meta/recipes-extended/psmisc/psmisc_22.21.bb       |  2 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+
+diff --git a/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch b/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+new file mode 100644
+index 0000000..3a4c9a9
+--- /dev/null
++++ b/meta/recipes-extended/psmisc/files/0001-Typo-in-fuser-makes-M-on-all-the-time.patch
+@@ -0,0 +1,44 @@
++From 3638cc55b4d08851faba46635d737b24d016665b Mon Sep 17 00:00:00 2001
++From: Brad Jorsch <anomie@users.sourceforge.net>
++Date: Fri, 28 Feb 2014 21:55:02 +1100
++Subject: [PATCH] Typo in fuser makes -M on all the time
++
++Brad found that fuser had the -M option on all the time.
++A simple but significant typo caused this, thanks the the patch.
++
++Bug-Debian: http://bugs.debian.org/740275
++
++Signed-off-by: Craig Small <csmall@enc.com.au>
++---
++ ChangeLog   | 4 ++++
++ src/fuser.c | 2 +-
++ 2 files changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index fd1cccf..e5f784c 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,7 @@
+++Changes in 22.22
+++================
+++	* Fixed typo in fuser which has -M on Debian #740275
+++
++ Changes in 22.21
++ ================
++ 	* Missing comma in fuser(1) added Debian #702391
++diff --git a/src/fuser.c b/src/fuser.c
++index b485f65..389b302 100644
++--- a/src/fuser.c
+++++ b/src/fuser.c
++@@ -1174,7 +1174,7 @@ int main(int argc, char *argv[])
++ 		usage(_("No process specification given"));
++ 
++ 	/* Check if -M flag was used and if so check mounts */
++-	if (opts * OPT_ISMOUNTPOINT) {
+++	if (opts & OPT_ISMOUNTPOINT) {
++ 	    check_mountpoints(&mounts, &names_head, &names_tail);
++ 	}
++ 
++-- 
++1.8.4.2
++
+diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+index 22f65c5..9f328bb 100644
+--- a/meta/recipes-extended/psmisc/psmisc_22.21.bb
++++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+@@ -4,3 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ 
+ SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
+ SRC_URI[sha256sum] = "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
++
++SRC_URI += "file://0001-Typo-in-fuser-makes-M-on-all-the-time.patch"
+-- 
+1.8.4.2
+
+
+
+
+
+
 
