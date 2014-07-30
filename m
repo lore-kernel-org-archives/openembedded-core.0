@@ -1,23 +1,20 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 45F9F65E2D
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 597B2708BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 08:47:26 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Wed, 30 Jul 2014 10:47:20 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id F0AF0288F33;
-	Wed, 30 Jul 2014 10:47:20 +0200 (CEST)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jul 2014 10:47:12 +0200
-Message-ID: <1406710032-58205-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH v2] i2c-tools: Uprev to 3.1.1
+	Wed, 30 Jul 2014 08:57:41 +0000 (UTC)
+Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id D4F34331BB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jul 2014 10:57:42 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Jul 2014 10:57:31 +0200
+Message-Id: <1406710655-6778-3-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1406710655-6778-1-git-send-email-dv@pseudoterminal.org>
+References: <1406710655-6778-1-git-send-email-dv@pseudoterminal.org>
+Subject: [PATCH v3 3/7] gstreamer1.0-plugins-good: upgrade to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,57 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 08:47:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Jul 2014 08:57:43 -0000
 
-1. Updated the SRC_URI to http://dl.lm-sensors.org/i2c-tools/
-2. Corrected the License to GPLv2+ as the "COPYING" file include these
-   statements:
-   "This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version."
+* xvideo options removed, since the V4L2 XV support never became upstream
+  and is pretty much dead now
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../i2c-tools/{i2c-tools-3.1.0 => i2c-tools-3.1.1}/Module.mk      | 0
- .../i2c-tools/{i2c-tools_3.1.0.bb => i2c-tools_3.1.1.bb}          | 8 ++++----
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc       | 4 ++--
+ ...er1.0-plugins-good_1.2.4.bb => gstreamer1.0-plugins-good_1.4.0.bb} | 4 ++--
  2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/i2c-tools/{i2c-tools-3.1.0 => i2c-tools-3.1.1}/Module.mk (100%)
- rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.0.bb => i2c-tools_3.1.1.bb} (65%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.2.4.bb => gstreamer1.0-plugins-good_1.4.0.bb} (73%)
 
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk b/meta/recipes-devtools/i2c-tools/i2c-tools-3.1.1/Module.mk
-similarity index 100%
-rename from meta/recipes-devtools/i2c-tools/i2c-tools-3.1.0/Module.mk
-rename to meta/recipes-devtools/i2c-tools/i2c-tools-3.1.1/Module.mk
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-similarity index 65%
-rename from meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
-rename to meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-index b8be9ed..4605414 100644
---- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.0.bb
-+++ b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-@@ -1,15 +1,15 @@
- SUMMARY = "Set of i2c tools for linux"
- SECTION = "base"
--LICENSE = "GPLv2"
-+LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+index 4e76a33..223e790 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+@@ -15,8 +15,8 @@ PACKAGECONFIG ??= " \
+     "
  
- RDEPENDS_${PN} += "perl"
- 
--SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/i2c-tools/i2c-tools-3.1.0.tar.bz2/f15019e559e378c6e9d5d6299a00df21/i2c-tools-${PV}.tar.bz2 \
-+SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${BP}.tar.bz2 \
-            file://Module.mk \
- "
--SRC_URI[md5sum] = "f15019e559e378c6e9d5d6299a00df21"
--SRC_URI[sha256sum] = "960023f61de292c6dd757fcedec4bffa7dd036e8594e24b26a706094ca4c142a"
-+SRC_URI[md5sum] = "0fdbff53ebd0b8d9249256d6c56480b1"
-+SRC_URI[sha256sum] = "14d4d7d60d1c12e43f2befe239c682a5c44c27682f153d4b58c1e392d2db1700"
- 
- inherit autotools-brokensep
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+-X11ENABLEOPTS = "--enable-x --enable-xvideo --enable-xshm"
+-X11DISABLEOPTS = "--disable-x --disable-xvideo --disable-xshm"
++X11ENABLEOPTS = "--enable-x --enable-xshm"
++X11DISABLEOPTS = "--disable-x --disable-xshm"
+ PACKAGECONFIG[x11]        = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
+ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.0.bb
+similarity index 73%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.0.bb
+index 93813a0..33a75bd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.0.bb
+@@ -3,7 +3,7 @@ include gstreamer1.0-plugins-good.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607 \
+                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+-SRC_URI[md5sum] = "8aac024ee0cd98b67a3066ad31d8c677"
+-SRC_URI[sha256sum] = "c9c90368393c2e5e78387e95c02ce7b19f48e793bba6d8547f2c4b51c6f420d3"
++SRC_URI[md5sum] = "8007d57a38f6b2882961b2547fa4597c"
++SRC_URI[sha256sum] = "48a62e7987fffa289a091dfc8ccc80b401d110632b8fc1adce5b82fc092f2685"
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
  
 -- 
-1.9.1
+1.8.3.2
 
 
