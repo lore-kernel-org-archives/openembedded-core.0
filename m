@@ -1,40 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7845065CC9
+Return-Path: <s.mueller-klieser@phytec.de>
+Received: from root.phytec.de (mail.phycore.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D08165D34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 10:48:36 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id ho1so7277903wib.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 03:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=nXbGe1iSYneFeXOKiAZ+UnMBJMQ44ltLWag5E71OABs=;
-	b=N/zgD0AeZoolX01rfcKQpU6n7ULgXZtxJJvo3YQuZTqTsDn/FxqZf+ylNpwGkcpFeI
-	nLNokuoH78wNQiLlhKF1qOkM8I+JsCaMNkT9T4P3Bvhwwz5G0JtTWJaGM69YsRqR9Ym5
-	8SzCQQK94cNogetMeP6Mc1tFOK+sljWOi44OzJhyZcNoMunta7vn+Y5rClNCYB7LH7HB
-	HpT9ujbL964riu+pgvzLMQ69ZLPfqUEQcLM7lqUNyxuTBUFWqbgQo6aLFR2P6m0qBAC4
-	aZgxJPgPb4ePes//f+KhQEhOGX1AKdXp94yaZEInNz2K3El8RKRI5MshkEgAl6riTmfF
-	jYXg==
-X-Received: by 10.194.58.199 with SMTP id t7mr5220155wjq.14.1406717316860;
-	Wed, 30 Jul 2014 03:48:36 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	n2sm4606225wjf.40.2014.07.30.03.48.35 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jul 2014 03:48:35 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 30 Jul 2014 12:48:59 +0200
-To: ting.liu@freescale.com
-Message-ID: <20140730104859.GL16445@jama>
-References: <1406715821-2892-1-git-send-email-ting.liu@freescale.com>
+	Wed, 30 Jul 2014 11:46:52 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id E83CABF092;
+	Wed, 30 Jul 2014 13:46:51 +0200 (CEST)
+Received: from [172.16.10.21] ([172.16.10.21])
+	by idefix.phytec.de (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014073013465158-3878 ;
+	Wed, 30 Jul 2014 13:46:51 +0200 
+Message-ID: <53D8DB24.2070409@phytec.de>
+Date: Wed, 30 Jul 2014 13:46:44 +0200
+From: =?windows-1252?Q?Stefan_M=FCller-Klieser?= <s.mueller-klieser@phytec.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-In-Reply-To: <1406715821-2892-1-git-send-email-ting.liu@freescale.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	David Vincent <freesilicon@gmail.com>
+References: <1406541304-18741-1-git-send-email-freesilicon@gmail.com>
+	<1406543035.13346.11.camel@ted>
+In-Reply-To: <1406543035.13346.11.camel@ted>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 8.5.3FP6|November
+	21, 2013) at 30.07.2014 13:46:51,
+	Serialize by Router on Idefix/Phytec(Release 8.5.3FP6|November 21,
+	2013) at 30.07.2014 13:46:51,
+	Serialize complete at 30.07.2014 13:46:51
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] base-files: set dynamic COLUMNS via resize command
+Subject: Re: [PATCH] barebox: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,93 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 10:48:38 -0000
-X-Groupsio-MsgNum: 55757
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="citGix+cyBYE+lqp"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Jul 2014 11:46:53 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=windows-1252; format=flowed
 
---citGix+cyBYE+lqp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello everybody,
 
-On Wed, Jul 30, 2014 at 06:23:41PM +0800, ting.liu@freescale.com wrote:
-> From: Ting Liu <ting.liu@freescale.com>
->=20
-> By default, COLUMNS is set to 80. If possible, run 'resize' to
-> determine what the current dimensions are. This avoids the final
-> part of long lines overlap the start of the same line.
->=20
-> Signed-off-by: Ting Liu <ting.liu@freescale.com>
-> ---
-> changes in v2:
-> * dynamically check for ${bindir} instead of hard code /usr/bin
->=20
->  meta/recipes-core/base-files/base-files/profile   |    4 ++++
->  meta/recipes-core/base-files/base-files_3.0.14.bb |    4 ++++
->  2 files changed, 8 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recip=
-es-core/base-files/base-files/profile
-> index 0b2d9d7..88ab8d8 100644
-> --- a/meta/recipes-core/base-files/base-files/profile
-> +++ b/meta/recipes-core/base-files/base-files/profile
-> @@ -26,6 +26,10 @@ if [ -d /etc/profile.d ]; then
->    unset i
->  fi
-> =20
-> +if [ -x /usr/bin/resize ];then
-> +  /usr/bin/resize >/dev/null
-> +fi
-> +
->  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
-> =20
->  umask 022
-> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/rec=
-ipes-core/base-files/base-files_3.0.14.bb
-> index 30b1bf4..e6109dd 100644
-> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> @@ -102,6 +102,10 @@ do_install () {
->  	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
->  	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
-> =20
-> +    if [ "/usr/bin" !=3D "${bindir}" ]; then
-> +        sed -i "s,/usr/bin/resize,${bindir}/resize," ${D}${sysconfdir}/p=
-rofile
-> +    fi
-> +
+it happened that I am also preparing our barebox recipe for OE-core. I 
+started similar to David but it evolved already. I added support for 
+packages, configuration fragments and an the ipl, needed for some SoCs. 
+I will send it to the list for comments. Even if it will not be 
+accepted, it might be useful for some people. I will provide an 
+explanation for the maintainer.
 
-Please use consistent whitespace for indentation (I know it's hard with
-inconsistent styleguide, but please don't mix tabs and spaces for
-indentation).
+Regards, Stefan
 
->  	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
->  }
-> =20
-> --=20
-> 1.7.3.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 28.07.2014 12:23, Richard Purdie wrote:
+> On Mon, 2014-07-28 at 11:55 +0200, David Vincent wrote:
+>> barebox (formerly known as u-boot-v2) is a bootloader that inherits the
+>> best of U-Boot and the Linux kernel. This commit adds the possibility to
+>> use it as a virtual/bootloader instead of U-Boot.
+>>
+>> Signed-off-by: David Vincent <freesilicon@gmail.com>
+>> ---
+>>   meta/recipes-bsp/barebox/barebox.inc          |   73 +++++++++++++++++++++++++
+>>   meta/recipes-bsp/barebox/barebox_2014.07.0.bb |   15 +++++
+>>   2 files changed, 88 insertions(+)
+>>   create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+>>   create mode 100644 meta/recipes-bsp/barebox/barebox_2014.07.0.bb
+>
+> I have to admit I don't know a lot about this. To make it into OE-Core
+> we need some kind of story about why its necessary and commonly used.
+> Are there a number of BSPs using this? Can you give some background to
+> why this is needed?
+>
+> Cheers,
+>
+> Richard
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---citGix+cyBYE+lqp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPYzZsACgkQN1Ujt2V2gBwr5gCfakh9sNM1t7855NUslse+DTEs
-oOoAniuZQJMb4IcsEc11ikzUAzIBJZXV
-=dN+D
------END PGP SIGNATURE-----
-
---citGix+cyBYE+lqp--
