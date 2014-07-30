@@ -1,25 +1,37 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 829C56AC95
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 06:29:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s6U6TYls014891
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Jul 2014 23:29:34 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Tue, 29 Jul 2014 23:29:33 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jul 2014 14:26:27 +0800
-Message-ID: <1406701587-23581-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3265A60DD7;
+	Wed, 30 Jul 2014 07:17:43 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id x13so715311wgg.31
+	for <multiple recipients>; Wed, 30 Jul 2014 00:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=VS/3BzCQpuSfe3qOHoH2XkEjVXieWRSBO3ttZ5yV/ZA=;
+	b=JD4eJyulQNv8kK/y91JezFVs07Tkt0ZdqUe/os3PphyXXloeKGyOro2jfNFLS94ANO
+	DDFZlICkQhqJgyIs/JVU5E8Km0/mtLkpj3kVkTbke5hUWjo9raunpNaGo2hQM9qjS4JJ
+	CTQBq+AIAzXBytswXhyavY3Habxtf2k/DgYI26/weuN/ANsnvEqhRDaLgKSswnV0bfan
+	Or3ZII33Jyf4wFwg5vCQLmr4Gn29snud1GcTb8E98cOBdFc/D8mxSj9sxYxcCkB+E3ex
+	i6HXJ0TTEB1dqssStCsiRD4Aaw3e0PfMnu1ywQYpC4VxTWzcDUlDC7Lp3ballGLO203z
+	I5dg==
+X-Received: by 10.194.60.240 with SMTP id k16mr3120529wjr.109.1406704664515;
+	Wed, 30 Jul 2014 00:17:44 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	v17sm3375903wjr.33.2014.07.30.00.17.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 Jul 2014 00:17:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 30 Jul 2014 09:18:05 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140730071805.GE16445@jama>
+References: <20140724105336.GE2492@jama>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Subject: [PATCH] python-smartpm: fix option typo of command channel
+In-Reply-To: <20140724105336.GE2492@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: State of bitbake world, test-dependencies 2014-07-24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 06:29:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Jul 2014 07:17:49 -0000
+X-Groupsio-MsgNum: 55739
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yQbNiKLmgenwUfTN"
+Content-Disposition: inline
 
-When run smart, it fails:
+--yQbNiKLmgenwUfTN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-root@qemu1:~# smart channel --remove-all
-error: No action specified for command 'channel'
+On Thu, Jul 24, 2014 at 12:53:36PM +0200, Martin Jansa wrote:
+> So it looks like we're again in better shape, but something is strange
+> with this new insane_qa check for build dependencies, since it was
+> introduced in master-next it finds more issues than test-dependencies.sh
+> did and vice-versa test-dependencies.sh now doesn't report some issues
+> which IIRC weren't properly fixed yet. So we need to double check why.
 
-If no default value of arg 'dest' is provided in method add_option() of
-optparse.OptionParser, it replaces hyphen('-') in new added option with
-underscore('_') as dest.
+I've found an issue in test-dependencies.sh script, it wasn't properly
+reporting all recipes with found issues in last "failed-recipes.log" list.
 
-In function ensure_action() it checks action strings with options from
-optparse.OptionParser. So it is 'remove_all' which need to be checked
-rather than 'remove-all'.
+With that fixed there is only couple of recipes where insane-qa and
+test-dependencies results differ.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../python/python-smartpm/smart-improve-error-reporting.patch           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We can ignore gst-ffmpeg and openal-soft which are in list because they
+don't build at all (because of libav-9).
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch b/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
-index fece5b9..2ca0f6d 100644
---- a/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
-@@ -24,7 +24,7 @@ index aa76f91..63fbb35 100644
- +    opts.check_args_of_option("edit", 0)
- +    opts.check_args_of_option("enable", -1)
- +    opts.check_args_of_option("disable", -1)
--+    opts.ensure_action("channel", ["add", "set", "remove", "remove-all",
-++    opts.ensure_action("channel", ["add", "set", "remove", "remove_all",
- +                       "list", "show", "yaml", "enable", "disable"])
- +    opts.check_remaining_args()
- +
--- 
-1.9.1
+So it leaves 10 recipes where insane_qa is stricter than test-dependencies.sh.
 
+I'll include them all in next test-dependencies build to confirm that there was
+no difference in metadata.
 
+diff -uN failed-recipes/failed-recipes-2014-07-28 failed-recipes/failed-recipes-2014-07-28.insane_qa
+--- failed-recipes/failed-recipes-2014-07-28    2014-07-30 07:11:46.956282771 +0000
++++ failed-recipes/failed-recipes-2014-07-28.insane_qa  2014-07-30 07:08:10.735494787 +0000
+@@ -1,24 +1,30 @@
++dconf
+ directfb
+ engrave
+ epiphany
++evopedia
+ expedite
+ gd
++gimp
+ gmtk
+ gnome-disk-utility
+-gst-ffmpeg
++gtksourceview2
+ guile
++kernelshark
+ leptonica
+ libarchive
++libextutils-helpers-perl
+ libmicrohttpd
+ libmikmod
++libmodule-build-tiny-perl
+ libungif
+ libwebp
++libxklavier
+ ltrace
+ midori
+ mpd
+ mpeg2dec
+ mpg123
+-openal-soft
+ oscam
+ perf
+ piglit
+@@ -31,4 +37,6 @@
+ synergy
+ tesseract
+ tracker
++ttf-mplus
++webmin
+ wireshark
+
+--yQbNiKLmgenwUfTN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPYnC0ACgkQN1Ujt2V2gBzaDgCePAd4LnTrc/39oEoYzWrreJ10
+7wgAnR51lDKoPMbpi8f6zDbOBWe+jN8W
+=+3DH
+-----END PGP SIGNATURE-----
+
+--yQbNiKLmgenwUfTN--
