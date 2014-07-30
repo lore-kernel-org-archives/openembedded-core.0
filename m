@@ -1,25 +1,39 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id B4D0E70982
+Return-Path: <gary.robertson@linaro.org>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A69A970964
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 22:54:55 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 30 Jul 2014 15:54:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,768,1400050800"; d="scan'208";a="463358292"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	swold-linux.amr.corp.intel.com) ([10.255.12.249])
-	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2014 15:54:52 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jul 2014 15:54:47 -0700
-Message-Id: <5dc93ae3e8b68ff11f5af316e7615449aaedbb40.1406760824.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1406760824.git.sgw@linux.intel.com>
-References: <cover.1406760824.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1406760824.git.sgw@linux.intel.com>
-References: <cover.1406760824.git.sgw@linux.intel.com>
-Subject: [PATCH 2/4] lsbinitscripts: Upgrade to 9.55
+	Wed, 30 Jul 2014 23:41:53 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id ij19so3056848vcb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Jul 2014 16:41:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=rIDdEae+jn0HyPyX3tfAPZECZgj4CueoszwerpRSWBE=;
+	b=abcgQXeb7Sjy0rhkm2l2YPlrTJCkWdIlxrwWwrUF70ZeRAQRG3zcgmUfamaIduCNpE
+	owCnkgks13jOPJP/XkbE+iQIkJOB1VEut+7mYoJnWiTDtEH0ZBD3EqP5Ejn/AsKjxP4s
+	EHHwoB1RZxZcbelJrYTsDZyeawxknKHVkzvMmZZjOjgOSBA8P/mS2ldpN4/h2SB7D2p4
+	ks6RqZqiZzQ0BDrA1+ZXXKlnGuu6znGY4M59UpODKMkvBBKyEknjBLV+MGy33BObTrTE
+	DXxaSsnz3dCJTNkxa+t5a7JSPEnccY1koBxZ1cw62NgXCjZM1+SHsHdEab0iiydrrMef
+	0ylQ==
+X-Gm-Message-State: ALoCoQmIslBaUErBLZEOJBaG7ek2KjjLy9lT8Yj7k7zhTGDQkODgLIg7M12GhSnyIlH92Ij8ITXC
+MIME-Version: 1.0
+X-Received: by 10.52.137.2 with SMTP id qe2mr6920935vdb.11.1406763714112; Wed,
+	30 Jul 2014 16:41:54 -0700 (PDT)
+Received: by 10.58.197.136 with HTTP; Wed, 30 Jul 2014 16:41:54 -0700 (PDT)
+In-Reply-To: <CAP9ODKrEFg31WOHO3GyY-sQf2x5i24yLp5CNa3bxSp6H74YarQ@mail.gmail.com>
+References: <1406326845-17506-1-git-send-email-gary.robertson@linaro.org>
+	<CAP9ODKrEFg31WOHO3GyY-sQf2x5i24yLp5CNa3bxSp6H74YarQ@mail.gmail.com>
+Date: Wed, 30 Jul 2014 18:41:54 -0500
+Message-ID: <CAF7YWnxfkyGqObsMTC=poUBsxg170_8LC2w62TZ1G1+oUdNyvw@mail.gmail.com>
+From: Gary Robertson <gary.robertson@linaro.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Mike Holmes <mike.holmes@linaro.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] LTP: Realtime test fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +46,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 22:54:59 -0000
+X-List-Received-Date: Wed, 30 Jul 2014 23:41:59 -0000
+Content-Type: multipart/alternative; boundary=bcaec51b161b768d0404ff71b3ba
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../lsb/{lsbinitscripts_9.54.bb => lsbinitscripts_9.55.bb}          | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/lsb/{lsbinitscripts_9.54.bb => lsbinitscripts_9.55.bb} (78%)
+--bcaec51b161b768d0404ff71b3ba
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.54.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.55.bb
-similarity index 78%
-rename from meta/recipes-extended/lsb/lsbinitscripts_9.54.bb
-rename to meta/recipes-extended/lsb/lsbinitscripts_9.55.bb
-index 29ec702..6ab52e3 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.54.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.55.bb
-@@ -6,12 +6,12 @@ DEPENDS = "popt glib-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
- 
- S="${WORKDIR}/initscripts-${PV}"
--SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.54.tar.bz2/cf63862785d224394053f081865eb853/initscripts-9.54.tar.bz2 \
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.55.tar.bz2/0672f648a9ee8607a2df65835c54f5e5/initscripts-9.55.tar.bz2 \
-            file://functions.patch \
-           " 
- 
--SRC_URI[md5sum] = "cf63862785d224394053f081865eb853"
--SRC_URI[sha256sum] = "686a9aa4d265fc26f134163b2ceb02d421b72c49d97197c285f39087753b0b19"
-+SRC_URI[md5sum] = "0672f648a9ee8607a2df65835c54f5e5"
-+SRC_URI[sha256sum] = "546d4403a4efa3c4fa6de06a195013d4e64738799c2c779e56d900e7b232a9fa"
- 
- inherit update-alternatives
- 
--- 
-1.8.3.1
+Otavio,
+
+I am currently in the process of review for a couple of these patches with
+the LTP maintainers, and will re-submit once the dust settles at LTP.
+
+Thanks,
+
+Gary R.
 
 
+On Fri, Jul 25, 2014 at 6:06 PM, Otavio Salvador <otavio@ossystems.com.br>
+wrote:
+
+> Hello Gary,
+>
+> On Fri, Jul 25, 2014 at 7:20 PM, Gary S. Robertson
+> <gary.robertson@linaro.org> wrote:
+> > The following series of patches addresses several bugs which were
+> preventing
+> > some of the LTP realtime tests from running or completing in our OE-based
+> > test environments.  The patches themselves are being separately submitted
+> > to the upstream LTP maintainers for consideration, and are offered here
+> > in hopes of addressing these issues in the OE LTP package until such time
+> > as they can be obtained from a subsequent upstream LTP release.
+>
+> Please prepare a v2 including the Upstream-Status[1] field in the inner
+> patches.
+>
+> 1.
+> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Headers_and_Commit_Messages
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
+
+--bcaec51b161b768d0404ff71b3ba
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div>Otavio,<br><br></div>I am currently in the =
+process of review for a couple of these patches with the LTP maintainers, a=
+nd will re-submit once the dust settles at LTP.<br><br></div>Thanks,<br><br=
+>
+</div>Gary R.<br></div><div class=3D"gmail_extra"><br><br><div class=3D"gma=
+il_quote">On Fri, Jul 25, 2014 at 6:06 PM, Otavio Salvador <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@o=
+ssystems.com.br</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Hello Gary,<br>
+<div class=3D""><br>
+On Fri, Jul 25, 2014 at 7:20 PM, Gary S. Robertson<br>
+&lt;<a href=3D"mailto:gary.robertson@linaro.org">gary.robertson@linaro.org<=
+/a>&gt; wrote:<br>
+&gt; The following series of patches addresses several bugs which were prev=
+enting<br>
+&gt; some of the LTP realtime tests from running or completing in our OE-ba=
+sed<br>
+&gt; test environments. =C2=A0The patches themselves are being separately s=
+ubmitted<br>
+&gt; to the upstream LTP maintainers for consideration, and are offered her=
+e<br>
+&gt; in hopes of addressing these issues in the OE LTP package until such t=
+ime<br>
+&gt; as they can be obtained from a subsequent upstream LTP release.<br>
+<br>
+</div>Please prepare a v2 including the Upstream-Status[1] field in the inn=
+er patches.<br>
+<br>
+1. <a href=3D"http://www.openembedded.org/wiki/Commit_Patch_Message_Guideli=
+nes#Patch_Headers_and_Commit_Messages" target=3D"_blank">http://www.openemb=
+edded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Headers_and_Commit_Mes=
+sages</a><br>
+
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
+ems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.=
+com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>
+Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
+">+55 (53) 9981-7854</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: <=
+a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
+903-9750</a><br>
+</font></span></blockquote></div><br></div>
+
+--bcaec51b161b768d0404ff71b3ba--
