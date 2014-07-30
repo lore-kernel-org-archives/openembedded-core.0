@@ -1,24 +1,27 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B4592708FA
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 8305A65ED3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 07:54:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6U7sivs018119
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 00:54:44 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 30 Jul 2014 00:54:44 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jul 2014 03:54:43 -0400
-Message-ID: <1406706883-15375-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Wed, 30 Jul 2014 08:31:57 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Wed, 30 Jul 2014 10:31:52 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 68499288F33;
+	Wed, 30 Jul 2014 10:31:52 +0200 (CEST)
+Date: Wed, 30 Jul 2014 10:31:52 +0200
+From: "Maxin B. John" <maxin.john@enea.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20140730083152.GA57938@sestofb10.enea.se>
+References: <1406633242-28359-1-git-send-email-maxin.john@enea.com>
+	<CAMKF1socScY49GgMLArdeD-D3Au_DPYw+mR75MeaOBaWwTSnrg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] ghostscript: add missing dependencies on libgcrypt and libgpg-error
+In-Reply-To: <CAMKF1socScY49GgMLArdeD-D3Au_DPYw+mR75MeaOBaWwTSnrg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] i2c-tools: Uprev to 3.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +34,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jul 2014 07:54:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Jul 2014 08:32:05 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Hi Khem,
 
-Fix error:
-tmp/sysroots/x86_64-linux/usr/libexec/x86_64-wrs-linux/gcc/x86_64-wrs-linux/4.9.0/ld: cannot find -lgcrypt
-tmp/sysroots/x86_64-linux/usr/libexec/x86_64-wrs-linux/gcc/x86_64-wrs-linux/4.9.0/ld: cannot find -lgpg-error
+On Tue, Jul 29, 2014 at 10:55:06PM -0700, Khem Raj wrote:
+> On Tue, Jul 29, 2014 at 4:27 AM, Maxin B. John <maxin.john@enea.com> wrote:
+> > +SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${PN}-${PV}.tar.bz2 \
+> 
+> use BP instead of PN-PV
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../ghostscript/ghostscript_9.14.bb                |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the review. I will update it and send a v2.
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.14.bb b/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
-index e14e656..fbec6ce 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
-@@ -15,7 +15,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=aad21ea85123608e6a0a58d54ee23567"
- 
--DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
-+DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libgcrypt libgpg-error"
- DEPENDS_class-native = ""
- 
- SRC_URI_BASE = "http://downloads.ghostscript.com/public/ghostscript-${PV}.tar.gz"
--- 
-1.7.9.5
-
+Best Regards,
+Maxin
 
