@@ -1,35 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B31927089F
+Return-Path: <s.mueller-klieser@phytec.de>
+Received: from root.phytec.de (mail.x-arc.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C9B17097F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 06:51:59 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id lj1so3034761pab.33
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 23:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=TmpnB+GsK8HiQIGdv8dyNJqk8YC2RS76FN3V7ZUz8z4=;
-	b=KRLGnmsFx+Bajb2+3njiYoKH61xYZe0vgeMSaP2QIwYPtYmSm+0gZsxUvmicQQyMhD
-	tAxCP0ppohiUUyDpuYKBTxqC/+NP1VhjPwaCY8/0kqooRnN1/vi0EUtu2t/prWUADKW8
-	pYr2NV8zPB65dzLuhwO1Edyg4Mq/hQOgF8vM/wyI0/TicsNrwstXbtb1YpOfC+mgSMNh
-	wAJm3+u66LZ3qmawC8dfSPmcExk50exZKoxIgtraUkCVbAijuie5KHaPr/FtlqtZuj2C
-	IyaHXts+fF5FaI7pVIDWMnSO0LaBUPV/5i2qE66Zt5VgVYTf/HA1HMrLQqJwNijOOk3h
-	G5+g==
-X-Received: by 10.68.138.13 with SMTP id qm13mr632600pbb.46.1406789520481;
-	Wed, 30 Jul 2014 23:52:00 -0700 (PDT)
-Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218])
-	by mx.google.com with ESMTPSA id f16sm6724680pdm.43.2014.07.30.23.51.59
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 30 Jul 2014 23:51:59 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Jul 2014 23:55:21 -0700
-Message-Id: <1406789721-6769-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] gcc: Upgrade 4.9.0 -> 4.9.1
+	Thu, 31 Jul 2014 07:04:25 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 808B7BF08C;
+	Thu, 31 Jul 2014 09:04:25 +0200 (CEST)
+Received: from [172.16.10.21] ([172.16.10.21])
+	by idefix.phytec.de (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014073109042547-4301 ;
+	Thu, 31 Jul 2014 09:04:25 +0200 
+Message-ID: <53D9EA71.8010308@phytec.de>
+Date: Thu, 31 Jul 2014 09:04:17 +0200
+From: =?UTF-8?B?U3RlZmFuIE3DvGxsZXItS2xpZXNlcg==?=
+	<s.mueller-klieser@phytec.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1406720953-30774-1-git-send-email-s.mueller-klieser@phytec.de>
+	<53D92310.9090308@linux.intel.com>
+In-Reply-To: <53D92310.9090308@linux.intel.com>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 8.5.3FP6|November
+	21, 2013) at 31.07.2014 09:04:25,
+	Serialize by Router on Idefix/Phytec(Release 8.5.3FP6|November 21,
+	2013) at 31.07.2014 09:04:25
+Subject: Re: [RFC 1/1] add support for the barebox bootloader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,155 +38,305 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 06:52:07 -0000
+X-List-Received-Date: Thu, 31 Jul 2014 07:04:32 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Drop patches which are already available in 4.9.1
+On 30.07.2014 18:53, Saul Wold wrote:
+> On 07/30/2014 04:49 AM, Stefan M=C3=BCller-Klieser wrote:
+>> Barebox is a bootloader that inherits the best of U-Boot and the Linux
+>> kernel. The barebox uses kconfig and kbuild mechanisms similar to the
+>> Linux kernel. This is reflected in the recipe. As soon as this
+>> functionality gets more abstraction in classes, the barebox recipe can
+>> be simplified. The recipe supports: kconfig handling, kconfig fragments,
+>> packages for dev tools and support for the initial program loader
+>> creation.
+>>
+>> Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+>> ---
+>>   meta/recipes-bsp/barebox/barebox-ipl.inc          |  37 +++++
+>>   meta/recipes-bsp/barebox/barebox-ipl=5F2014.07.0.bb |   4 +
+>>   meta/recipes-bsp/barebox/barebox.inc              | 161
+>> ++++++++++++++++++++++
+>>   meta/recipes-bsp/barebox/barebox=5F2014.07.0.bb     |   4 +
+>>   4 files changed, 206 insertions(+)
+>>   create mode 100644 meta/recipes-bsp/barebox/barebox-ipl.inc
+>>   create mode 100644 meta/recipes-bsp/barebox/barebox-ipl=5F2014.07.0.bb
+>>   create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+>>   create mode 100644 meta/recipes-bsp/barebox/barebox=5F2014.07.0.bb
+>>
+>> diff --git a/meta/recipes-bsp/barebox/barebox-ipl.inc
+>> b/meta/recipes-bsp/barebox/barebox-ipl.inc
+>> new file mode 100644
+>> index 0000000..f388522
+>> --- /dev/null
+>> +++ b/meta/recipes-bsp/barebox/barebox-ipl.inc
+>> @@ -0,0 +1,37 @@
+>> +# Copyright (C) 2014 Stefan Mueller-Klieser
+>> <s.mueller-klieser@phytec.de> \
+>> +# PHYTEC Messtechnik GmbH
+>> +# Recipe released under the GPL-3.0 license
+>> +
+> Before I review this much further, I have to ask why are you licensing
+> the recipe meta-data as GPL-3.0?  All the rest of the meta-data is MIT.
+>   I also note that barebox itself is GPL-2.0.
+>
+> Thanks
+>      Sau!
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-4.9.inc              |    9 +-
- ...-E500-SPE-errors-with-the-_Decimal64-type.patch |   98 --------------------
- 2 files changed, 4 insertions(+), 103 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch
+Thats our default license. GPL3 is modern and better compatible with the=20
+huge number of other free licenses. I can easily remove the line for=20
+upstream work, so it will be MIT too.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 10bd5d5..d1be67d 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -2,11 +2,11 @@ require gcc-common.inc
- 
- # Third digit in PV should be incremented after a minor release
- 
--PV = "4.9.0"
-+PV = "4.9.1"
- 
- # BINV should be incremented to a revision after a minor gcc release
- 
--BINV = "4.9.0"
-+BINV = "4.9.1"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
- 
-@@ -65,12 +65,11 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
- 	   file://0050-Revert-Use-dbx_reg_number-for-spanning-registers.patch \
-            file://0051-eabispe.patch \
--           file://0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch \
-            file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
-            file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
- 	  "
--SRC_URI[md5sum] = "9709b49ae0e904cbb0a6a1b62853b556"
--SRC_URI[sha256sum] = "b9b047a97bade9c1c89970bc8e211ff57b7b8998a1730a80a653d329f8ed1257"
-+SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
-+SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch b/meta/recipes-devtools/gcc/gcc-4.9/0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch
-deleted file mode 100644
-index b4be18e..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.9/0052-Fix-GCC-targeting-E500-SPE-errors-with-the-_Decimal64-type.patch
-+++ /dev/null
-@@ -1,98 +0,0 @@
--From e44a6d438db4848c2a555be773568a3cf7994206 Mon Sep 17 00:00:00 2001
--From: Alexandru-Cezar Sardan <alexandru.sardan-KZfg59tc24xl57MIdRCFDg@public.gmane.org>
--Date: Mon, 26 May 2014 12:11:13 +0300
--Subject: [PATCH] Fix E500 with SPE errors with the _Decimal64 type
--
--[gcc]
--2014-04-21 Michael Meissner  <meissner-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
--
--	PR target/60735
--	* config/rs6000/rs6000.md (mov<mode>_softfloat32, FMOVE64 case):
--	If mode is DDmode and TARGET_E500_DOUBLE allow move.
--
--	* config/rs6000/rs6000.c (rs6000_debug_reg_global): Print some
--	more debug information for E500 if -mdebug=reg.
--
--[gcc/testsuite]
--2014-04-21  Michael Meissner  <meissner-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
--
--	PR target/60735
--	* gcc.target/powerpc/pr60735.c: New test.  Insure _Decimal64 does
--	not cause errors if -mspe.
--
--Upstream status: Accepted
--
--This solves upstream bug 60735 
--(https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60735).
--
--Patch taken from https://gcc.gnu.org/viewcvs/gcc?view=revision&revision=209664
-----
-- gcc/config/rs6000/rs6000.c                 |   18 ++++++++++++++++++
-- gcc/config/rs6000/rs6000.md                |    3 ++-
-- gcc/testsuite/gcc.target/powerpc/pr60735.c |   11 +++++++++++
-- 3 files changed, 31 insertions(+), 1 deletion(-)
-- create mode 100644 gcc/testsuite/gcc.target/powerpc/pr60735.c
--
--diff --git a/gcc/config/rs6000/rs6000.c b/gcc/config/rs6000/rs6000.c
--index 494efc5..6dcf440 100644
----- a/gcc/config/rs6000/rs6000.c
--+++ b/gcc/config/rs6000/rs6000.c
--@@ -2283,6 +2283,24 @@ rs6000_debug_reg_global (void)
--   if (rs6000_float_gprs)
--     fprintf (stderr, DEBUG_FMT_S, "float_gprs", "true");
-- 
--+  fprintf (stderr, DEBUG_FMT_S, "fprs",
--+	   (TARGET_FPRS ? "true" : "false"));
--+
--+  fprintf (stderr, DEBUG_FMT_S, "single_float",
--+	   (TARGET_SINGLE_FLOAT ? "true" : "false"));
--+
--+  fprintf (stderr, DEBUG_FMT_S, "double_float",
--+	   (TARGET_DOUBLE_FLOAT ? "true" : "false"));
--+
--+  fprintf (stderr, DEBUG_FMT_S, "soft_float",
--+	   (TARGET_SOFT_FLOAT ? "true" : "false"));
--+
--+  fprintf (stderr, DEBUG_FMT_S, "e500_single",
--+	   (TARGET_E500_SINGLE ? "true" : "false"));
--+
--+  fprintf (stderr, DEBUG_FMT_S, "e500_double",
--+	   (TARGET_E500_DOUBLE ? "true" : "false"));
--+
--   if (TARGET_LINK_STACK)
--     fprintf (stderr, DEBUG_FMT_S, "link_stack", "true");
-- 
--diff --git a/gcc/config/rs6000/rs6000.md b/gcc/config/rs6000/rs6000.md
--index 64c9e7c..9cefe15 100644
----- a/gcc/config/rs6000/rs6000.md
--+++ b/gcc/config/rs6000/rs6000.md
--@@ -9395,7 +9395,8 @@
-- 	(match_operand:FMOVE64 1 "input_operand" "r,Y,r,G,H,F"))]
--   "! TARGET_POWERPC64 
--    && ((TARGET_FPRS && TARGET_SINGLE_FLOAT) 
---       || TARGET_SOFT_FLOAT || TARGET_E500_SINGLE)
--+       || TARGET_SOFT_FLOAT || TARGET_E500_SINGLE
--+       || (<MODE>mode == DDmode && TARGET_E500_DOUBLE))
--    && (gpc_reg_operand (operands[0], <MODE>mode)
--        || gpc_reg_operand (operands[1], <MODE>mode))"
--   "#"
--diff --git a/gcc/testsuite/gcc.target/powerpc/pr60735.c b/gcc/testsuite/gcc.target/powerpc/pr60735.c
--new file mode 100644
--index 0000000..9bac30b
----- /dev/null
--+++ b/gcc/testsuite/gcc.target/powerpc/pr60735.c
--@@ -0,0 +1,11 @@
--+/* { dg-do compile } */
--+/* { dg-options "-mcpu=8548 -mspe -mabi=spe -O2" } */
--+/* { dg-skip-if "not an SPE target" { ! powerpc_spe_nocache } { "*" } { "" } } */
--+
--+/* In PR60735, the type _Decimal64 generated an insn not found message.  */
--+
--+void
--+pr60735 (_Decimal64 *p, _Decimal64 *q)
--+{
--+  *p = *q;
--+}
---- 
--1.7.9.5
--
--- 
-1.7.10.4
-
+>
+>> +require barebox.inc
+>> +
+>> +DESCRIPTION =3D "Barebox IPL Inintial Program Loader: some machines nee=
+d \
+>> +               a pre-bootloader. This one gets build by the barebox."
+>> +PROVIDES =3D "barebox-ipl"
+>> +S =3D "${WORKDIR}/barebox-${PV}"
+>> +
+>> +# Pre Bootloader
+>> +BAREBOX=5FIPL=5FBIN ?=3D "barebox.bin"
+>> +BAREBOX=5FIPL=5FBIN=5FDEPLOY ?=3D "IPL-${MACHINE}-${PV}-${PR}.bin"
+>> +BAREBOX=5FIPL=5FBIN=5FSYMLINK ?=3D "IPL"
+>> +BAREBOX=5FIPL=5FDEFAULT=5FDEFCONFIG ?=3D "am335x=5Fmlo=5Fdefconfig"
+>> +
+>> +do=5Fdefault=5Fdefconfig () {
+>> +    bbnote "generating .config for target
+>> ${BAREBOX=5FIPL=5FDEFAULT=5FDEFCONFIG}"
+>> +    unset CFLAGS LDFLAGS
+>> +    oe=5Frunmake ${BAREBOX=5FIPL=5FDEFAULT=5FDEFCONFIG}
+>> +}
+>> +
+>> +do=5Finstall () {
+>> +    bbnote "Installing barebox-ipl image on target rootfs"
+>> +    install -d ${D}${base=5Fbootdir}
+>> +    install ${S}/${BAREBOX=5FIPL=5FBIN}
+>> ${D}${base=5Fbootdir}/${BAREBOX=5FIPL=5FBIN=5FDEPLOY}
+>> +    ln -sf ${BAREBOX=5FIPL=5FBIN=5FDEPLOY}
+>> ${D}${base=5Fbootdir}/${BAREBOX=5FIPL=5FBIN=5FSYMLINK}
+>> +}
+>> +FILES=5F${PN} =3D ""
+>> +FILES=5F${PN} =3D "${base=5Fbootdir}"
+>> +
+>> +do=5Fdeploy () {
+>> +    bbnote "Deploying barebox ipl"
+>> +    install ${S}/${BAREBOX=5FIPL=5FBIN}
+>> ${DEPLOYDIR}/${BAREBOX=5FIPL=5FBIN=5FDEPLOY}
+>> +    ln -sf ${BAREBOX=5FIPL=5FBIN=5FDEPLOY}
+>> ${DEPLOYDIR}/${BAREBOX=5FIPL=5FBIN=5FSYMLINK}
+>> +}
+>> diff --git a/meta/recipes-bsp/barebox/barebox-ipl=5F2014.07.0.bb
+>> b/meta/recipes-bsp/barebox/barebox-ipl=5F2014.07.0.bb
+>> new file mode 100644
+>> index 0000000..372828a
+>> --- /dev/null
+>> +++ b/meta/recipes-bsp/barebox/barebox-ipl=5F2014.07.0.bb
+>> @@ -0,0 +1,4 @@
+>> +require barebox-ipl.inc
+>> +
+>> +SRC=5FURI[md5sum] =3D "f3a93950777916d4b1c2cd366aec8d91"
+>> +SRC=5FURI[sha256sum] =3D
+>> "6dca5c78de8565a15aaa404edbf1bc4663415f0dc69e094f3b621636876285f2"
+>> diff --git a/meta/recipes-bsp/barebox/barebox.inc
+>> b/meta/recipes-bsp/barebox/barebox.inc
+>> new file mode 100644
+>> index 0000000..b7885df
+>> --- /dev/null
+>> +++ b/meta/recipes-bsp/barebox/barebox.inc
+>> @@ -0,0 +1,161 @@
+>> +# Copyright (C) 2014 Stefan Mueller-Klieser
+>> <s.mueller-klieser@phytec.de>
+>> +# PHYTEC Messtechnik GmbH
+>> +# Recipe released under the GPL-3.0 license
+>> +#
+>> +# TODO: see if there is some development towards moving all kconfig
+>> +#       funcionality into the kconfig-frontends package and adjust
+>> +#       the recipe accordingly.
+>> +#
+>> +
+>> +SUMMARY =3D "The Barebox Bootloader"
+>> +DESCRIPTION =3D "Barebox (formerly known as u-boot-v2) is a bootloader
+>> that \
+>> +               inherits the best of U-Boot and the Linux kernel: The
+>> size and \
+>> +           look-and-feel of u-boot, with driver model and lots of
+>> design \
+>> +           concepts from the kernel. \
+>> +           The bb recipe adds config fragment support and kconfig \
+>> +           command handling using the yocto kern-tools-native."
+>> +HOMEPAGE =3D "http://www.barebox.org"
+>> +SECTION =3D "bootloaders"
+>> +PROVIDES =3D "virtual/bootloader barebox"
+>> +LICENSE =3D "GPL-2.0"
+>> +LIC=5FFILES=5FCHKSUM =3D "file://COPYING;md5=3D057bf9e50e1ca857d0eb97bf=
+e4ba8e5d"
+>> +SRC=5FURI =3D "http://barebox.org/download/barebox-${PV}.tar.bz2"
+>> +
+>> +inherit kernel-arch cml1 deploy
+>> +DEPENDS +=3D "kern-tools-native"
+>> +PACKAGE=5FARCH =3D "${MACHINE=5FARCH}"
+>> +# verbose build 0/1
+>> +VERBOSE=5FBUILD ?=3D "0"
+>> +EXTRA=5FOEMAKE =3D 'V=3D${VERBOSE=5FBUILD} CROSS=5FCOMPILE=3D${TARGET=
+=5FPREFIX}
+>> CC=3D"${TARGET=5FPREFIX}gcc ${TOOLCHAIN=5FOPTIONS}"'
+>> +# target rootfs boot directory
+>> +base=5Fbootdir =3D "/boot"
+>> +
+>> +# these variables need to be assigned in the machine.conf
+>> +# name of the image created by barebox Makefile
+>> +BAREBOX=5FBIN ?=3D "barebox.bin"
+>> +# filename of file to be deployed by this recipe
+>> +BAREBOX=5FBIN=5FDEPLOY ?=3D "barebox-${MACHINE}-${PV}-${PR}.bin"
+>> +BAREBOX=5FBIN=5FSYMLINK ?=3D "barebox.bin"
+>> +BAREBOX=5FDEFAULT=5FDEFCONFIG ?=3D ""
+>> +# barebox environment
+>> +BAREBOX=5FENV ?=3D "defaultenv/barebox=5Fdefault=5Fenv"
+>> +BAREBOX=5FENV=5FDEPLOY ?=3D "bareboxenv-${MACHINE}-${PV}-${PR}"
+>> +BAREBOX=5FENV=5FSYMLINK ?=3D "barebox.env"
+>> +
+>> +# returns .scc and .cfg filenames from SRC=5FURI
+>> +def find=5Fsccs(d):
+>> +    sources=3Dsrc=5Fpatches(d, True)
+>> +    sources=5Flist=3D[]
+>> +    for s in sources:
+>> +        base, ext =3D os.path.splitext(os.path.basename(s))
+>> +        if ext and ext in [".scc", ".cfg"]:
+>> +            sources=5Flist.append(s)
+>> +    return sources=5Flist
+>> +
+>> +# uses kern-tools-native to merge the config fragments
+>> +python do=5Fprepare=5Fconfigure() {
+>> +    import shutil, subprocess
+>> +    workdir =3D d.getVar('WORKDIR', True)
+>> +    S =3D d.getVar('S', True)
+>> +    defconfig =3D os.path.join(workdir , 'defconfig')
+>> +    if not os.path.isfile(defconfig):
+>> +        bb.note("No defconfig file provided for the barebox recipe")
+>> +        config =3D os.path.join(S, '.config')
+>> +        if not os.path.isfile(config):
+>> +            bb.note("barebox is not configured")
+>> +            bb.build.exec=5Ffunc("do=5Fdefault=5Fdefconfig",d)
+>> +        bb.build.exec=5Ffunc("do=5Fsavedefconfig",d)
+>> +        defconfig =3D os.path.join(workdir , 'defconfig.temp')
+>> +    os.chdir(workdir)
+>> +    fragments =3D find=5Fsccs(d)
+>> +    if not fragments:
+>> +        bb.note("no config fragments will be merged")
+>> +    else:
+>> +        bb.note("combining kconfig fragments into .config for barebox")
+>> +        cmd =3D 'merge=5Fconfig.sh -m -O %s %s %s' % (S, defconfig, '
+>> '.join(map(str,fragments)))
+>> +        subprocess.call(cmd, shell=3DTrue)
+>> +    localversion =3D "-${DISTRO}-${DISTRO=5FVERSION}"
+>> +    bb.note("Setting LOCALVERSION in .config to %s" % localversion)
+>> +    bareboxconfig =3D os.path.join(S, '.config')
+>> +    cmd =3D 'kconfig-tweak --file %s --set-str LOCALVERSION %s' %
+>> (bareboxconfig, localversion)
+>> +    subprocess.call(cmd,shell=3DTrue)
+>> +}
+>> +do=5Fconfigure[prefuncs] +=3D "do=5Fprepare=5Fconfigure"
+>> +
+>> +do=5Fdefault=5Fdefconfig () {
+>> +    bbnote "generating .config for target ${BAREBOX=5FDEFAULT=5FDEFCONF=
+IG}"
+>> +    unset CFLAGS LDFLAGS
+>> +    oe=5Frunmake ${BAREBOX=5FDEFAULT=5FDEFCONFIG}
+>> +}
+>> +
+>> +do=5Fsavedefconfig() {
+>> +    bbplain "saving defconfig to ${WORKDIR}/defconfig.temp"
+>> +    oe=5Frunmake savedefconfig
+>> +    install -m 644 ${S}/defconfig ${WORKDIR}/defconfig.temp
+>> +}
+>> +addtask savedefconfig after do=5Fconfigure
+>> +
+>> +do=5Fcompile () {
+>> +    unset CFLAGS LDFLAGS
+>> +    oe=5Frunmake all
+>> +}
+>> +
+>> +do=5Finstall () {
+>> +    bbnote "Installing barebox image on target rootfs"
+>> +    install -d ${D}${base=5Fbootdir}
+>> +    install ${S}/${BAREBOX=5FBIN}
+>> ${D}${base=5Fbootdir}/${BAREBOX=5FBIN=5FDEPLOY}
+>> +    ln -sf ${BAREBOX=5FBIN=5FDEPLOY}
+>> ${D}${base=5Fbootdir}/${BAREBOX=5FBIN=5FSYMLINK}
+>> +
+>> +    if [ -e ${S}/${BAREBOX=5FENV} ] ; then
+>> +        bbnote "Installing barebox-env on target rootfs"
+>> +        install ${S}/${BAREBOX=5FENV}
+>> ${D}${base=5Fbootdir}/${BAREBOX=5FENV=5FDEPLOY}
+>> +        ln -sf ${BAREBOX=5FENV=5FDEPLOY}
+>> ${D}${base=5Fbootdir}/${BAREBOX=5FENV=5FSYMLINK}
+>> +    fi
+>> +
+>> +    if [ -e ${S}/scripts/bareboxenv-target ] ; then
+>> +        bbnote "Installing target env tool"
+>> +        install -d ${D}${base=5Fsbindir}
+>> +        install -m 744 ${S}/scripts/bareboxenv-target
+>> ${D}${base=5Fsbindir}/bareboxenv
+>> +    fi
+>> +
+>> +    if [ -e ${S}/scripts/bareboxcrc32-target ] ; then
+>> +        bbnote "Installing target crc32 tool"
+>> +        install -d ${D}${base=5Fsbindir}
+>> +        install -m 744 ${S}/scripts/bareboxcrc32-target
+>> ${D}${base=5Fsbindir}/bareboxcrc32
+>> +    fi
+>> +
+>> +    if [ -e ${S}/scripts/kernel-install-target ] ; then
+>> +        bbnote "Installing target kernel-install tool"
+>> +        install -d ${D}${base=5Fsbindir}
+>> +        install -m 744 ${S}/scripts/kernel-install-target
+>> ${D}${base=5Fsbindir}/barebox-kernel-install
+>> +    fi
+>> +}
+>> +FILES=5F${PN} =3D ""
+>> +FILES=5F${PN} +=3D "${base=5Fbootdir}"
+>> +FILES=5F${PN}-dev =3D ""
+>> +RDEPENDS=5F${PN}-dev =3D ""
+>> +FILES=5F${PN}-dev +=3D "${base=5Fsbindir}"
+>> +
+>> +
+>> +do=5Fdeploy () {
+>> +    bbnote "Deploying barebox"
+>> +    install -d ${DEPLOYDIR}
+>> +    install ${S}/${BAREBOX=5FBIN} ${DEPLOYDIR}/${BAREBOX=5FBIN=5FDEPLOY}
+>> +    cd ${DEPLOYDIR}
+>> +    rm -f ${BAREBOX=5FBIN=5FSYMLINK}
+>> +    ln -sf ${BAREBOX=5FBIN=5FDEPLOY} ${BAREBOX=5FBIN=5FSYMLINK}
+>> +
+>> +    if [ -e ${S}/${BAREBOX=5FENV} ] ; then
+>> +        bbnote "Deploying barebox env"
+>> +        install ${S}/${BAREBOX=5FENV} ${DEPLOYDIR}/${BAREBOX=5FENV=5FDE=
+PLOY}
+>> +        cd ${DEPLOYDIR}
+>> +        rm -f ${BAERBOX=5FENV=5FSYMLINK}
+>> +        ln -sf ${BAREBOX=5FENV=5FDEPLOY} ${BAREBOX=5FENV=5FSYMLINK}
+>> +    fi
+>> +
+>> +    bbnote "Installing host barebox toolset"
+>> +    install -d ${STAGING=5FBINDIR=5FNATIVE}
+>> +    cd ${S}
+>> +    install -m 755 scripts/bareboxenv ${STAGING=5FBINDIR=5FNATIVE}/
+>> +}
+>> +addtask deploy before do=5Fbuild after do=5Fcompile
+>> diff --git a/meta/recipes-bsp/barebox/barebox=5F2014.07.0.bb
+>> b/meta/recipes-bsp/barebox/barebox=5F2014.07.0.bb
+>> new file mode 100644
+>> index 0000000..a311ca9
+>> --- /dev/null
+>> +++ b/meta/recipes-bsp/barebox/barebox=5F2014.07.0.bb
+>> @@ -0,0 +1,4 @@
+>> +require barebox.inc
+>> +
+>> +SRC=5FURI[md5sum] =3D "f3a93950777916d4b1c2cd366aec8d91"
+>> +SRC=5FURI[sha256sum] =3D
+>> "6dca5c78de8565a15aaa404edbf1bc4663415f0dc69e094f3b621636876285f2"
+>>
 
