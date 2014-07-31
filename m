@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42BF7708FC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD6270993
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 08:15:18 +0000 (UTC)
+	Thu, 31 Jul 2014 08:15:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6V8FK28005653
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s6V8FKZN029970
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 31 Jul 2014 01:15:20 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 31 Jul 2014 01:15:19 -0700
+	Thu, 31 Jul 2014 01:15:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Jul 2014 01:15:18 -0700
-Message-ID: <03c7d8231db167463fa1e24e0ff52be226aab492.1406794207.git.liezhi.yang@windriver.com>
+Date: Thu, 31 Jul 2014 01:15:19 -0700
+Message-ID: <989bf32313d1405858f7839e5474fe9be93fd182.1406794207.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1406794207.git.liezhi.yang@windriver.com>
 References: <cover.1406794207.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] package_manager.py: set preferred ABI for rpm
+Subject: [PATCH 2/2] local.conf.sample.extended: update for preferred ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 08:15:21 -0000
+X-List-Received-Date: Thu, 31 Jul 2014 08:15:24 -0000
 Content-Type: text/plain
-
-When using the RPM packaging backend to generate a rootfs there needs to
-be a way to configure the preferred ABI to resolve ELF file conflicts.
-
-Currently RPM resolves ELF file conflicts with the last-installed wins.
-Using SMART it's difficult to know what the last installed will be.
-
-There are three specific policies that can be selected:
-1: ELF32 wins
-2: ELF64 wins
-3: ELF64 N32 wins (mips64 or mips64el only)
-
-Another option "0" is uncontrollable, which means that if two are being
-installed at once Elf64 is preferred, but if they're being installed in
-two different transactions, last in wins, so we don't document it.
-
-Add RPM_PREFER_COLOR to let the user config the preferred ABI.
 
 [YOCTO #4073]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oe/package_manager.py |   16 ++++++++++++++++
- meta/lib/oe/rootfs.py          |    3 ++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ meta/conf/local.conf.sample.extended |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 5444422..a0984c4 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -821,6 +821,22 @@ class RpmPM(PackageManager):
-         self._invoke_smart('config --set rpm-extra-macros._var=%s' %
-                            self.d.getVar('localstatedir', True))
-         cmd = 'config --set rpm-extra-macros._tmppath=/install/tmp'
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 89b80a6..8ad7b6f 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -145,6 +145,13 @@
+ #MULTILIBS = "multilib:lib32"
+ #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+ 
++# Set RPM_PREFER_COLOR to configure preferred ABI when using rpm packaging
++# backend to generate a rootfs, choices are:
++# 1: ELF32 wins
++# 2: ELF64 wins
++# 3: ELF64 N32 wins (for mips64 or mips64el only)
++#RPM_PREFER_COLOR ?= "2"
 +
-+        prefer_color = self.d.getVar('RPM_PREFER_COLOR', True)
-+        if prefer_color:
-+            if prefer_color not in ['0', '1', '2', '3']:
-+                bb.fatal("Invalid RPM_PREFER_COLOR: %s, it should be one of:\n"
-+                        "\t1: ELF32 wins\n"
-+                        "\t2: ELF64 wins\n"
-+                        "\t3: ELF64 N32 wins (mips64 or mips64el only)" %
-+                        prefer_color)
-+            if prefer_color == "3" and self.d.getVar("TUNE_ARCH", True) not in \
-+                                    ['mips64', 'mips64el']:
-+                bb.fatal("RPM_PREFER_COLOR = \"3\" is for mips64 or mips64el "
-+                         "only.")
-+            self._invoke_smart('config --set rpm-extra-macros._prefer_color=%s'
-+                        % prefer_color)
+ # The network based PR service host and port
+ # Uncomment the following lines to enable PRservice.
+ # Set PRSERV_HOST to 'localhost:0' to automatically
+@@ -354,3 +361,11 @@
+ # feed layout is used where package files are placed in <outdir>/<arch>/.
+ #
+ #IPK_HIERARCHICAL_FEED = "1"
 +
-         self._invoke_smart(cmd)
- 
-         # Write common configuration for host and target usage
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 90a98b4..0424a01 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -329,7 +329,8 @@ class RpmRootfs(Rootfs):
- 
-     @staticmethod
-     def _depends_list():
--        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS', 'RPM_POSTPROCESS_COMMANDS']
-+        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS',
-+                'RPM_POSTPROCESS_COMMANDS', 'RPM_PREFER_COLOR']
- 
-     def _get_delayed_postinsts(self):
-         postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/rpm-postinsts")
++# Checks the kernel image size against KERNEL_IMAGE_MAXSIZE (The unit is
++# Kbytes)
++#KERNEL_IMAGE_MAXSIZE = "8192"
++#
++# Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (The unit is
++# Kbytes)
++#IMAGE_ROOTFS_MAXSIZE = "65536"
 -- 
 1.7.9.5
 
