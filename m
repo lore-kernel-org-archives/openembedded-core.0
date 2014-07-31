@@ -1,24 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B44977093C
+	by mail.openembedded.org (Postfix) with ESMTP id 42BF7708FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 08:07:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6V87f7e005578
+	Thu, 31 Jul 2014 08:15:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6V8FK28005653
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 01:07:41 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 31 Jul 2014 01:07:40 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Thu, 31 Jul 2014 01:15:20 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 31 Jul 2014 01:15:19 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Jul 2014 16:08:04 +0800
-Message-ID: <cover.1406793899.git.Qi.Chen@windriver.com>
+Date: Thu, 31 Jul 2014 01:15:18 -0700
+Message-ID: <03c7d8231db167463fa1e24e0ff52be226aab492.1406794207.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1406794207.git.liezhi.yang@windriver.com>
+References: <cover.1406794207.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V5 0/1] systemd: upgrade to 215
+Subject: [PATCH 1/2] package_manager.py: set preferred ABI for rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 08:07:45 -0000
+X-List-Received-Date: Thu, 31 Jul 2014 08:15:21 -0000
 Content-Type: text/plain
 
-The following changes since commit 7986adeac16550b33f65fded39a55f668e0e543f:
+When using the RPM packaging backend to generate a rootfs there needs to
+be a way to configure the preferred ABI to resolve ELF file conflicts.
 
-  populate_sdk_base: Fix grep command usage on old hosts (2014-07-29 09:57:54 +0100)
+Currently RPM resolves ELF file conflicts with the last-installed wins.
+Using SMART it's difficult to know what the last installed will be.
 
-are available in the git repository at:
+There are three specific policies that can be selected:
+1: ELF32 wins
+2: ELF64 wins
+3: ELF64 N32 wins (mips64 or mips64el only)
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd_215
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd_215
+Another option "0" is uncontrollable, which means that if two are being
+installed at once Elf64 is preferred, but if they're being installed in
+two different transactions, last in wins, so we don't document it.
 
-Chen Qi (1):
-  systemd: upgrade to 215
+Add RPM_PREFER_COLOR to let the user config the preferred ABI.
 
- ...k-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch |  116 ++++++++++++++++++++
- ...icitly-include-endian.h-wherever-we-want-.patch |   52 +++++++++
- .../systemd/systemd/systemd-older-kernel.patch     |   56 ----------
- .../systemd/{systemd_213.bb => systemd_215.bb}     |   10 +-
- 4 files changed, 174 insertions(+), 60 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
- rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (97%)
+[YOCTO #4073]
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oe/package_manager.py |   16 ++++++++++++++++
+ meta/lib/oe/rootfs.py          |    3 ++-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 5444422..a0984c4 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -821,6 +821,22 @@ class RpmPM(PackageManager):
+         self._invoke_smart('config --set rpm-extra-macros._var=%s' %
+                            self.d.getVar('localstatedir', True))
+         cmd = 'config --set rpm-extra-macros._tmppath=/install/tmp'
++
++        prefer_color = self.d.getVar('RPM_PREFER_COLOR', True)
++        if prefer_color:
++            if prefer_color not in ['0', '1', '2', '3']:
++                bb.fatal("Invalid RPM_PREFER_COLOR: %s, it should be one of:\n"
++                        "\t1: ELF32 wins\n"
++                        "\t2: ELF64 wins\n"
++                        "\t3: ELF64 N32 wins (mips64 or mips64el only)" %
++                        prefer_color)
++            if prefer_color == "3" and self.d.getVar("TUNE_ARCH", True) not in \
++                                    ['mips64', 'mips64el']:
++                bb.fatal("RPM_PREFER_COLOR = \"3\" is for mips64 or mips64el "
++                         "only.")
++            self._invoke_smart('config --set rpm-extra-macros._prefer_color=%s'
++                        % prefer_color)
++
+         self._invoke_smart(cmd)
+ 
+         # Write common configuration for host and target usage
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 90a98b4..0424a01 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -329,7 +329,8 @@ class RpmRootfs(Rootfs):
+ 
+     @staticmethod
+     def _depends_list():
+-        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS', 'RPM_POSTPROCESS_COMMANDS']
++        return ['DEPLOY_DIR_RPM', 'INC_RPM_IMAGE_GEN', 'RPM_PREPROCESS_COMMANDS',
++                'RPM_POSTPROCESS_COMMANDS', 'RPM_PREFER_COLOR']
+ 
+     def _get_delayed_postinsts(self):
+         postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/rpm-postinsts")
 -- 
 1.7.9.5
 
