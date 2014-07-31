@@ -1,26 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CAF170983
+	by mail.openembedded.org (Postfix) with ESMTP id A681160424
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 01:16:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6V1GU74001621
+	Thu, 31 Jul 2014 05:20:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6V5KLV2003395
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Jul 2014 18:16:30 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 30 Jul 2014 18:16:29 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
+	Wed, 30 Jul 2014 22:20:21 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 30 Jul 2014 22:20:20 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jul 2014 20:16:25 -0500
-Message-ID: <08049828f89080256784461ab0ccb3327d626a10.1406769215.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1406769215.git.mark.hatle@windriver.com>
-References: <cover.1406769215.git.mark.hatle@windriver.com>
+Date: Thu, 31 Jul 2014 13:20:43 +0800
+Message-ID: <cover.1406783853.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 1/3] gcc: Fix gcc-multilib-config comparison
+Subject: [PATCH V4 0/1] systemd: upgrade to 215
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 01:16:30 -0000
+X-List-Received-Date: Thu, 31 Jul 2014 05:20:26 -0000
 Content-Type: text/plain
 
-Fix an issue on a multilib configuration that contains more then 1 multilib.
+The following changes since commit 7986adeac16550b33f65fded39a55f668e0e543f:
 
-I.e. on MIPS64:
+  populate_sdk_base: Fix grep command usage on old hosts (2014-07-29 09:57:54 +0100)
 
-DEFAULTTUNE = "mips64"
-MULTILIBS = "lib32n:mips64_n32 lib32:mips32"
+are available in the git repository at:
 
-While normally you'd use 'libn32', the above is legal.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd_215
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd_215
 
-With the startswith code, the system will look to expand the 'lib32' element
-and find the 'lib32n' instead, and will result in a warning:
+Chen Qi (1):
+  systemd: upgrade to 215
 
-lib32 doesn't have a corresponding tune. Skipping...
+ .../0001-Fix-compilation-error-for-ppc.patch       |   41 ++++++++++++++
+ .../systemd/systemd/systemd-older-kernel.patch     |   56 --------------------
+ .../systemd/{systemd_213.bb => systemd_215.bb}     |    9 ++--
+ 3 files changed, 46 insertions(+), 60 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Fix-compilation-error-for-ppc.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
+ rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (98%)
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-index b8c705a..6134097 100644
---- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -152,7 +152,7 @@ python gcc_multilib_setup() {
-     if mlprefix:
-         mlindex = 0
-         for ml in multilibs:
--            if mlprefix.startswith(ml):
-+            if mlprefix == ml + '-':
-                 break
-             mlindex += 1
- 
 -- 
-1.9.3
+1.7.9.5
 
 
