@@ -1,32 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B89570884
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2BE70200
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 15:42:30 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id at20so3984632iec.39
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 08:42:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=RTUKBsPk6HmcYRcnbOzUJQGL543AAhWqUIijyIcXtnI=;
-	b=hz8sOgAH9vqlNqa5eOXgPrfMZuIqSiQc/qDG8EDU5IEkFo/3txMAy5+i8P/n8/aWYX
-	TciFl9Knm8KzQA3jWVn6YowcI8ITw8aOaDD/nZ0zqGYR1UxHXIK3TXeuk2jPr/3fNBbY
-	jcLnYBUlO5CT5bsAnSUvJe/hdF5KjKjCtFnNF9dfvRs6W/VeIo1GPKDW8CEHXX+liCwl
-	QVNz94qn9dNTNHI4ywLIlAtiKZPS2nIwB2lxYZMyT9GrBqWmRVP70EmbzBBArjND4taA
-	Ip/nH1pVBJpxZXsoaBtqT/MK2plECZyUAkg8Nkwapgn2/KOt2EMB/D/W14z/d8Czc6Cn
-	94lQ==
-X-Received: by 10.42.90.74 with SMTP id j10mr16306972icm.29.1406821351442;
-	Thu, 31 Jul 2014 08:42:31 -0700 (PDT)
+	Thu, 31 Jul 2014 15:48:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6VFmEhW012750
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 31 Jul 2014 08:48:14 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 31 Jul 2014 08:48:14 -0700
+Message-ID: <53DA653D.2050305@windriver.com>
+Date: Thu, 31 Jul 2014 10:48:13 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.50.78.105 with HTTP; Thu, 31 Jul 2014 08:42:01 -0700 (PDT)
-In-Reply-To: <1406818740-17681-1-git-send-email-sujith.h@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, Sujith H <sujith.h@gmail.com>
 References: <1406818740-17681-1-git-send-email-sujith.h@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 31 Jul 2014 08:42:01 -0700
-Message-ID: <CAMKF1sqJGzLrLBpXpb7H6g8WgYZFbn6h-9=bZ1V1K_ox066Lcg@mail.gmail.com>
-To: Sujith H <sujith.h@gmail.com>
+	<CAMKF1sqJGzLrLBpXpb7H6g8WgYZFbn6h-9=bZ1V1K_ox066Lcg@mail.gmail.com>
+In-Reply-To: <CAMKF1sqJGzLrLBpXpb7H6g8WgYZFbn6h-9=bZ1V1K_ox066Lcg@mail.gmail.com>
 Cc: Sujith H <Sujith_Haridasan@mentor.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -43,12 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 15:42:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 31 Jul 2014 15:48:38 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 31, 2014 at 7:59 AM, Sujith H <sujith.h@gmail.com> wrote:
-> +       echo 127.0.1.1 "             "${MACHINE} >> ${D}${sysconfdir}/hosts
+On 7/31/14, 10:42 AM, Khem Raj wrote:
+> On Thu, Jul 31, 2014 at 7:59 AM, Sujith H <sujith.h@gmail.com> wrote:
+>> +       echo 127.0.1.1 "             "${MACHINE} >> ${D}${sysconfdir}/hosts
+>
+> recipe will become MACHNE specific. Can this be done via post
+> processing funcs instead ?
+>
 
-recipe will become MACHNE specific. Can this be done via post
-processing funcs instead ?
+I had the same comment.  We don't want to do this in the recipe itself.  Instead 
+we want to likely add a rootfs/image configuration step, like the 
+zap_root_password and similar actions.
+
+This way it can be enabled/disabled more easily based on user requirements.
+
+--Mark
 
