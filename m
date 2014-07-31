@@ -1,28 +1,30 @@
 Return-Path: <drew_moseley@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F6A07097F
+	by mail.openembedded.org (Postfix) with ESMTP id 6E63C70963
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 31 Jul 2014 00:49:33 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
 	by relay1.mentorg.com with esmtp 
-	id 1XCeYo-0001M5-0p from drew_moseley@mentor.com 
+	id 1XCeYp-0001M9-1U from drew_moseley@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Jul 2014 17:49:34 -0700
+	Wed, 30 Jul 2014 17:49:35 -0700
 Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 30 Jul 2014 17:49:33 -0700
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 30 Jul 2014 17:49:34 -0700
 Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
 	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
-	Server id 14.2.247.3; Wed, 30 Jul 2014 17:49:33 -0700
+	Server id 14.2.247.3; Wed, 30 Jul 2014 17:49:34 -0700
 From: Drew Moseley <drew_moseley@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Jul 2014 20:49:30 -0400
-Message-ID: <1406767772-7963-1-git-send-email-drew_moseley@mentor.com>
+Date: Wed, 30 Jul 2014 20:49:31 -0400
+Message-ID: <1406767772-7963-2-git-send-email-drew_moseley@mentor.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1406767772-7963-1-git-send-email-drew_moseley@mentor.com>
+References: <1406767772-7963-1-git-send-email-drew_moseley@mentor.com>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 31 Jul 2014 00:49:33.0913 (UTC)
-	FILETIME=[4BB31C90:01CFAC59]
-Subject: [PATCH 1/3] init-install-efi.sh: Verify /sys based files exist before displaying them
+X-OriginalArrivalTime: 31 Jul 2014 00:49:34.0882 (UTC)
+	FILETIME=[4C46F820:01CFAC59]
+Subject: [PATCH 2/3] init-install: Strip partition number from live_dev_name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +40,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 31 Jul 2014 00:49:35 -0000
 Content-Type: text/plain
 
-Some mmc cards do not have all the data files in /sys/block
-populated.  Check for existence before displaying the files
-to avoid erroring out of the install process.
+This is needed in case the boot disk was created with mkdiskimage.
+In that case the parameter passed is a variant of /dev/sda4 which
+includes the partition number.  Without this change this install script
+will offer to install onto the live media.
 
 Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
 ---
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 1 +
+ meta/recipes-core/initrdscripts/files/init-install.sh     | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index fcf21cd..b142ed4 100644
+index b142ed4..70a2ee6 100644
 --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
 +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -47,9 +47,14 @@ for hdname in $hdnamelist; do
- 	echo -n "VENDOR="
- 	cat /sys/block/$hdname/device/vendor
-     fi
--    echo -n "MODEL="
--    cat /sys/block/$hdname/device/model
--    cat /sys/block/$hdname/device/uevent
-+    if [ -r /sys/block/$hdname/device/model ]; then
-+        echo -n "MODEL="
-+        cat /sys/block/$hdname/device/model
-+    fi
-+    if [ -r /sys/block/$hdname/device/uevent ]; then
-+        echo -n "UEVENT="
-+        cat /sys/block/$hdname/device/uevent
-+    fi
-     echo
-     # Get user choice
-     while true; do
+@@ -17,6 +17,7 @@ swap_ratio=5
+ # Get a list of hard drives
+ hdnamelist=""
+ live_dev_name=${1%%/*}
++live_dev_name=${live_dev_name%%[0-9]*}
+ 
+ echo "Searching for hard drives ..."
+ 
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 486c9f2..29587b0 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -16,6 +16,7 @@ swap_ratio=5
+ # Get a list of hard drives
+ hdnamelist=""
+ live_dev_name=${1%%/*}
++live_dev_name=${live_dev_name%%[0-9]*}
+ 
+ echo "Searching for hard drives ..."
+ 
 -- 
 1.9.1
 
