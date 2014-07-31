@@ -1,28 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C2A7D708FC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6096570975
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 08:18:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s6V8Ixc6005687
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 01:18:59 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 31 Jul 2014 01:18:58 -0700
-Message-ID: <53D9FBF1.3050900@windriver.com>
-Date: Thu, 31 Jul 2014 16:18:57 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Thu, 31 Jul 2014 09:05:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Jul 2014 02:05:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,770,1400050800"; d="scan'208";a="578115090"
+Received: from sawijeko-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.98])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2014 02:05:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Leah <leah@wolfssl.com>
+Date: Thu, 31 Jul 2014 10:05:14 +0100
+Message-ID: <23852972.XdYKTrkO3Z@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.6-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <CAL0pqZ2VaH_mCrNkXQvUOWNC_eWSTUUk-Gyp1eX06XL17EvLQA@mail.gmail.com>
+References: <CAL0pqZ0w0qmwPUhtEOfc6DCMggH6t_ELWOxhpWPSCxETta-u9A@mail.gmail.com>
+	<CAL0pqZ2VaH_mCrNkXQvUOWNC_eWSTUUk-Gyp1eX06XL17EvLQA@mail.gmail.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1406794207.git.liezhi.yang@windriver.com>
-	<989bf32313d1405858f7839e5474fe9be93fd182.1406794207.git.liezhi.yang@windriver.com>
-In-Reply-To: <989bf32313d1405858f7839e5474fe9be93fd182.1406794207.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 2/2] local.conf.sample.extended: update for preferred ABI
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Add recipe to openembedded, adjust layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 08:19:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Jul 2014 09:05:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+Hi Leah,
 
+On Wednesday 30 July 2014 11:53:34 Leah wrote:
+> I have a recipe - cyassl_3.1.0.bb, a lightweight ssl library that I would
+> like to add to openembedded. I am not sure as to the best location, perhaps
+> recipes-connectivity? Do I need to submit this recipe the same way I would
+> submit a layer?
+> 
+> Also, is there a way to edit my current layer's information(meta-wolfssl)
+> on the openembedded layer index?
 
-On 07/31/2014 04:15 PM, Robert Yang wrote:
-> [YOCTO #4073]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/conf/local.conf.sample.extended |   15 +++++++++++++++
->   1 file changed, 15 insertions(+)
->
-> diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-> index 89b80a6..8ad7b6f 100644
-> --- a/meta/conf/local.conf.sample.extended
-> +++ b/meta/conf/local.conf.sample.extended
-> @@ -145,6 +145,13 @@
->   #MULTILIBS = "multilib:lib32"
->   #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->
-> +# Set RPM_PREFER_COLOR to configure preferred ABI when using rpm packaging
-> +# backend to generate a rootfs, choices are:
-> +# 1: ELF32 wins
-> +# 2: ELF64 wins
-> +# 3: ELF64 N32 wins (for mips64 or mips64el only)
-> +#RPM_PREFER_COLOR ?= "2"
-> +
->   # The network based PR service host and port
->   # Uncomment the following lines to enable PRservice.
->   # Set PRSERV_HOST to 'localhost:0' to automatically
-> @@ -354,3 +361,11 @@
->   # feed layout is used where package files are placed in <outdir>/<arch>/.
->   #
->   #IPK_HIERARCHICAL_FEED = "1"
+You can edit a layer's information if you are a maintainer of that layer; you 
+simply create an account with the same email address as in the maintainer 
+entry and then once logged in there will be an edit button on the top right of 
+the layer index page.
 
+Alternatively we're happy to make edits on request (including adding / 
+replacing maintainers) if needed.
 
-I removed the lines below in the git repo, they should be in another patch.
+Cheers,
+Paul
 
-> +
-> +# Checks the kernel image size against KERNEL_IMAGE_MAXSIZE (The unit is
-> +# Kbytes)
-> +#KERNEL_IMAGE_MAXSIZE = "8192"
-> +#
-> +# Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (The unit is
-> +# Kbytes)
-> +#IMAGE_ROOTFS_MAXSIZE = "65536"
->
+-- 
 
-// Robert
+Paul Eggleton
+Intel Open Source Technology Centre
 
