@@ -1,24 +1,32 @@
-Return-Path: <roxana.ciobanu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 268D070988
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E934070675
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 10:29:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2014 03:23:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,771,1400050800"; d="scan'208";a="551757066"
-Received: from roxana-optiplex-9010.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2014 03:29:06 -0700
-From: Roxana Ciobanu <roxana.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jul 2014 13:29:24 +0300
-Message-Id: <a6a9bbd35ef333407ed5ea297effba0ae596450a.1406802531.git.roxana.ciobanu@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1406802531.git.roxana.ciobanu@intel.com>
-References: <cover.1406802531.git.roxana.ciobanu@intel.com>
-In-Reply-To: <cover.1406802531.git.roxana.ciobanu@intel.com>
-References: <cover.1406802531.git.roxana.ciobanu@intel.com>
-Subject: [PATCH 1/1] SRC_URI parameter: "subdir" does not work for local files
+	Thu, 31 Jul 2014 13:45:32 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s6VDjVHi011168; Thu, 31 Jul 2014 14:45:31 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 758cUCtt-tNH; Thu, 31 Jul 2014 14:45:31 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s6VDjQUo010935
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 31 Jul 2014 14:45:28 +0100
+Message-ID: <1406814326.13346.179.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 31 Jul 2014 14:45:26 +0100
+In-Reply-To: <53D9FBF1.3050900@windriver.com>
+References: <cover.1406794207.git.liezhi.yang@windriver.com>
+	<989bf32313d1405858f7839e5474fe9be93fd182.1406794207.git.liezhi.yang@windriver.com>
+	<53D9FBF1.3050900@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] local.conf.sample.extended: update for preferred ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 10:29:17 -0000
+X-List-Received-Date: Thu, 31 Jul 2014 13:45:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Check if the 'subdir' parameter exists and assign it to 'destdir' so that
-files are copied in ${WORKDIR}/destdir.
+On Thu, 2014-07-31 at 16:18 +0800, Robert Yang wrote:
+> 
+> On 07/31/2014 04:15 PM, Robert Yang wrote:
+> > [YOCTO #4073]
+> >
+> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > ---
+> >   meta/conf/local.conf.sample.extended |   15 +++++++++++++++
+> >   1 file changed, 15 insertions(+)
+> >
+> > diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+> > index 89b80a6..8ad7b6f 100644
+> > --- a/meta/conf/local.conf.sample.extended
+> > +++ b/meta/conf/local.conf.sample.extended
+> > @@ -145,6 +145,13 @@
+> >   #MULTILIBS = "multilib:lib32"
+> >   #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> >
+> > +# Set RPM_PREFER_COLOR to configure preferred ABI when using rpm packaging
+> > +# backend to generate a rootfs, choices are:
+> > +# 1: ELF32 wins
+> > +# 2: ELF64 wins
+> > +# 3: ELF64 N32 wins (for mips64 or mips64el only)
+> > +#RPM_PREFER_COLOR ?= "2"
+> > +
 
-Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
----
- bitbake/lib/bb/fetch2/__init__.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Is x86 x32 also color 3?
 
-diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
-index df2f2b0..68c8329 100644
---- a/bitbake/lib/bb/fetch2/__init__.py
-+++ b/bitbake/lib/bb/fetch2/__init__.py
-@@ -1265,7 +1265,10 @@ class FetchMethod(object):
-                     if urldata.type == "file" and urldata.path.find("/") != -1:
-                        destdir = urldata.path.rsplit("/", 1)[0]
-                     else:
--                       destdir = "."
-+                       if urldata.parm.get('subdir') != None:
-+                          destdir = urldata.parm.get('subdir')
-+                       else:
-+                          destdir = "."
-                     bb.utils.mkdirhier("%s/%s" % (rootdir, destdir))
-                     cmd = 'cp -f %s %s/%s/' % (file, rootdir, destdir)
- 
--- 
-1.9.1
+Cheers,
+
+Richard
 
 
