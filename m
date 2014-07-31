@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EDD6270993
+	by mail.openembedded.org (Postfix) with ESMTP id F02D57099C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 08:15:19 +0000 (UTC)
+	Thu, 31 Jul 2014 08:15:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s6V8FKZN029970
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s6V8FJ2N029952
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 01:15:20 -0700 (PDT)
+	Thu, 31 Jul 2014 01:15:19 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 31 Jul 2014 01:15:20 -0700
+	Thu, 31 Jul 2014 01:15:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Jul 2014 01:15:19 -0700
-Message-ID: <989bf32313d1405858f7839e5474fe9be93fd182.1406794207.git.liezhi.yang@windriver.com>
+Date: Thu, 31 Jul 2014 01:15:17 -0700
+Message-ID: <cover.1406794207.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1406794207.git.liezhi.yang@windriver.com>
-References: <cover.1406794207.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] local.conf.sample.extended: update for preferred ABI
+Subject: [PATCH 0/2] package_manager.py: set preferred ABI for rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +34,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 31 Jul 2014 08:15:24 -0000
 Content-Type: text/plain
 
-[YOCTO #4073]
+Test info:
+* Set these in local.conf:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+IMAGE_INSTALL_append = " bash lib32-bash"
+
+1) Set RPM_PREFER_COLOR = "1" in local.conf
+$ bitbke core-image-minimal
+$ file tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/bin/bash
+tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/bin/bash: ELF 32-bit LSB executable, Intel 80386
+### 32bit wins
+
+2) Set RPM_PREFER_COLOR = "2" in local.conf
+$ bitbke core-image-minimal
+$ file tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/bin/bash
+tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/bin/bash: ELF 64-bit LSB executable, x86-64
+### 64bit wins
+
+// Robert
+
+The following changes since commit 7986adeac16550b33f65fded39a55f668e0e543f:
+
+  populate_sdk_base: Fix grep command usage on old hosts (2014-07-29 09:57:54 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib robert/rpm
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rpm
+
+Robert Yang (2):
+  package_manager.py: set preferred ABI for rpm
+  local.conf.sample.extended: update for preferred ABI
+
  meta/conf/local.conf.sample.extended |   15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/lib/oe/package_manager.py       |   16 ++++++++++++++++
+ meta/lib/oe/rootfs.py                |    3 ++-
+ 3 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 89b80a6..8ad7b6f 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -145,6 +145,13 @@
- #MULTILIBS = "multilib:lib32"
- #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
- 
-+# Set RPM_PREFER_COLOR to configure preferred ABI when using rpm packaging
-+# backend to generate a rootfs, choices are:
-+# 1: ELF32 wins
-+# 2: ELF64 wins
-+# 3: ELF64 N32 wins (for mips64 or mips64el only)
-+#RPM_PREFER_COLOR ?= "2"
-+
- # The network based PR service host and port
- # Uncomment the following lines to enable PRservice.
- # Set PRSERV_HOST to 'localhost:0' to automatically
-@@ -354,3 +361,11 @@
- # feed layout is used where package files are placed in <outdir>/<arch>/.
- #
- #IPK_HIERARCHICAL_FEED = "1"
-+
-+# Checks the kernel image size against KERNEL_IMAGE_MAXSIZE (The unit is
-+# Kbytes)
-+#KERNEL_IMAGE_MAXSIZE = "8192"
-+#
-+# Check the rootfs size against IMAGE_ROOTFS_MAXSIZE (The unit is
-+# Kbytes)
-+#IMAGE_ROOTFS_MAXSIZE = "65536"
 -- 
 1.7.9.5
 
