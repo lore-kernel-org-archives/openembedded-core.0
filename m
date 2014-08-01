@@ -1,23 +1,38 @@
-Return-Path: <georgex.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C56C7038D
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 7259670200
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Aug 2014 14:53:38 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Aug 2014 07:53:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,780,1400050800"; d="scan'208";a="578770096"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2014 07:53:39 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 813226A4007;
-	Fri,  1 Aug 2014 07:53:02 -0700 (PDT)
-From: Lucian Musat <georgex.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Aug 2014 17:49:53 +0300
-Message-Id: <1406904593-24517-1-git-send-email-georgex.l.musat@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] oeqa/runtime: Automatic test for parsing the logs on a machine and search for certain error keywords.
+	Fri,  1 Aug 2014 15:44:31 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20140801154431203
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Aug 2014 15:44:31 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=33314 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XDF0L-0002W8-M3 for openembedded-core@lists.openembedded.org;
+	Fri, 01 Aug 2014 11:44:25 -0400
+Date: Fri, 1 Aug 2014 11:44:22 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1408011143200.22226@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: [PATCH] formfactor: Grammar fix in recipe comment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,148 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Aug 2014 14:53:41 -0000
+X-List-Received-Date: Fri, 01 Aug 2014 15:44:33 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Also it has machine dependent ignore filters.
 
-Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+
 ---
- meta/lib/oeqa/runtime/parselogs.py | 124 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 124 insertions(+)
- create mode 100755 meta/lib/oeqa/runtime/parselogs.py
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-new file mode 100755
-index 0000000..1a71079
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -0,0 +1,124 @@
-+import os
-+import unittest
-+from oeqa.oetest import oeRuntimeTest
-+from oeqa.utils.decorators import *
-+
-+#in the future these lists could be moved outside of module
-+errors = ["error", "cannot", "can\'t", "failed"]
-+
-+ignore_errors = { "genericx86-64": ["mmci-pl18x", "error changing net interface name", "dma timeout"], \
-+                "genericx86": ["mmci-pl18x", "error changing net interface name", "dma timeout"] }
-+
-+log_locations = ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"]
-+
-+class ParseLogsTest(oeRuntimeTest):
-+
-+    @classmethod
-+    def setUpClass(self):
-+        self.errors = errors
-+        self.ignore_errors = ignore_errors
-+        self.log_locations = log_locations
-+        self.msg = ""
-+
-+    def getMachine(self):
-+        (status, output) = self.target.run("uname -n")
-+        return output
-+
-+    #get some information on the CPU of the machine to display at the beginning of the output. This info might be useful in some cases.
-+    def getHardwareInfo(self):
-+        hwi = ""
-+        (status, cpu_name) = self.target.run("cat /proc/cpuinfo | grep \"model name\" | head -n1 | awk 'BEGIN{FS=\":\"}{print $2}'")
-+        (status, cpu_physical_cores) = self.target.run("cat /proc/cpuinfo | grep \"cpu cores\" | head -n1 | awk {'print $4'}")
-+        (status, cpu_logical_cores) = self.target.run("cat /proc/cpuinfo | grep \"processor\" | wc -l")
-+        (status, cpu_arch) = self.target.run("uname -m")
-+        hwi += "Machine information: \n"
-+        hwi += "*******************************\n"
-+        hwi += "Machine name: "+self.getMachine()+"\n"
-+        hwi += "CPU: "+str(cpu_name)+"\n"
-+        hwi += "Arch: "+str(cpu_arch)+"\n"
-+        hwi += "Physical cores: "+str(cpu_physical_cores)+"\n"
-+        hwi += "Logical cores: "+str(cpu_logical_cores)+"\n"
-+        hwi += "*******************************\n"
-+        return hwi
-+
-+    #go through the log locations provided and if it's a folder create a list with all the .log files in it, if it's a file just add 
-+    #it to that list
-+    def getLogList(self, log_locations):
-+        logs = []
-+        for location in log_locations:
-+            (status, output) = self.target.run("test -f "+str(location))
-+            if (status == 0):
-+                logs.append(str(location))
-+            else:
-+                (status, output) = self.target.run("test -d "+str(location))
-+                if (status == 0):
-+                    (status, output) = self.target.run("find "+str(location)+"/*.log -maxdepth 1 -type f")
-+                    output = output.splitlines()
-+                    for logfile in output:
-+                        logs.append(os.path.join(location,str(logfile)))
-+        return logs
-+
-+    #build the grep command to be used with filters and exclusions
-+    def build_grepcmd(self, errors, ignore_errors, log):
-+        grepcmd = "grep "
-+        grepcmd +="-i -E \""
-+        for error in errors:
-+            grepcmd += error+"|"
-+        grepcmd = grepcmd[:-1]
-+        grepcmd += "\" "+str(log)+" | grep -Ev \""
-+        try:
-+            errorlist = ignore_errors[self.getMachine()]
-+        except KeyError:
-+            self.msg += "No ignore list found for this machine, using generic\n"
-+            errorlist = ignore_errors['genericx86']
-+        for ignore_error in errorlist:
-+            grepcmd += ignore_error+"|"
-+        grepcmd = grepcmd[:-1]
-+        grepcmd += "\""
-+        return grepcmd
-+
-+    #grep only the errors so that their context could be collected. Default context is 10 lines before and after the error itself
-+    def parse_logs(self, errors, ignore_errors, logs, lines_before = 10, lines_after = 10):
-+        results = {}
-+        rez = []
-+        for log in logs:
-+            thegrep = self.build_grepcmd(errors, ignore_errors, log)
-+            try:
-+                (status, result) = self.target.run(thegrep)
-+            except:
-+                pass
-+            if result:
-+                results[log] = {}
-+                rez = result.splitlines()
-+                for xrez in rez:
-+                    command = "grep \"\\"+str(xrez)+"\" -B "+str(lines_before)+" -A "+str(lines_after)+" "+str(log)
-+                    try:
-+                        (status, yrez) = self.target.run(command)
-+                    except:
-+                        pass
-+                    results[log][xrez]=yrez
-+        return results
-+
-+    #get the output of dmesg and write it in a file. This file is added to log_locations.
-+    def write_dmesg(self):
-+        (status, dmesg) = self.target.run("dmesg")
-+        (status, dmesg2) = self.target.run("echo \""+str(dmesg)+"\" > /tmp/dmesg_output.log")
-+
-+    @skipUnlessPassed('test_ssh')
-+    def test_parselogs(self):
-+        self.write_dmesg()
-+        log_list = self.getLogList(self.log_locations)
-+        result = self.parse_logs(self.errors, self.ignore_errors, log_list)
-+        self.getHardwareInfo()
-+        errcount = 0
-+        for log in result:
-+            self.msg += "Log: "+log+"\n"
-+            self.msg += "-----------------------\n"
-+            for error in result[log]:
-+                errcount += 1
-+                self.msg += "Central error: "+str(error)+"\n"
-+                self.msg +=  "***********************\n"
-+                self.msg +=  result[str(log)][str(error)]+"\n"
-+                self.msg +=  "***********************\n"
-+        self.msg += "%s errors found in logs." % errcount
-+        self.assertEqual(errcount, 0, msg=self.msg)
-\ No newline at end of file
+diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
+index d1ae2a2..5c30bd5 100644
+--- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
++++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
+@@ -12,7 +12,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ INHIBIT_DEFAULT_DEPS = "1"
+
+ do_install() {
+-	# Only install file if it has a contents
++	# Install file only if it has contents
+         install -d ${D}${sysconfdir}/formfactor/
+         install -m 0644 ${S}/config ${D}${sysconfdir}/formfactor/
+ 	if [ -s "${S}/machconfig" ]; then
+
 -- 
-1.9.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
