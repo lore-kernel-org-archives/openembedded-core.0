@@ -1,37 +1,27 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A49BD65CD4
+Return-Path: <zhengjunling@huawei.com>
+X-Greylist: delayed 381 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 01 Aug 2014 12:29:59 UTC
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [119.145.14.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C6552706CE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Aug 2014 11:04:16 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id p10so4157068wes.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Aug 2014 04:04:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cJ6uVri9PQtnNbLPwD/TDzOTJTV7agZ1lmEQgplWm50=;
-	b=JLzuPRAhtoeOfzj8+GSi5NABYAEJ/yDx6h+6nZ5cxw0jey07fXrI7umXjKp4AWLfm7
-	FxJQzlqMwK7zvapD6m7PylCiAmuuLOxHlkif1mOgwIAle1+xdl2L63olKsMonT/E8qP5
-	yvaxDfe08g32MEb9MmWnR1nIeqC2D75H31w3BJAm5m9CKre1xFIzNoKO3KoV59rmOAms
-	mF1/QBO9k9UlY3nAJ+q0qzV0akU0DInx+a5kiq7XEiu7yG4KtF14TEDE8ISPMJLRTlYP
-	4GNkcUp4jSX055QHYZNh1/zhhkUH3TQOX5Qld1qXKxf0zkv+jOPXPok+NSUk4CzOjpWb
-	WqBA==
-X-Gm-Message-State: ALoCoQkadK4Izvqb4J6ahf2UMqIcuBlG9Z8vLxz5f1HSrRhZxnHHBBBMtXnuDmWP103xlEK9PbNH
-X-Received: by 10.180.212.12 with SMTP id ng12mr5849876wic.9.1406891055897;
-	Fri, 01 Aug 2014 04:04:15 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:beee:7bff:fe9e:ae56])
-	by mx.google.com with ESMTPSA id
-	rw4sm20127360wjb.44.2014.08.01.04.04.14 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 01 Aug 2014 04:04:14 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Aug 2014 13:04:00 +0200
-Message-Id: <1406891040-8738-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] cups: fix host contamination issue
+	Fri,  1 Aug 2014 12:29:59 +0000 (UTC)
+Received: from 172.24.2.119 (EHLO szxeml450-hub.china.huawei.com)
+	([172.24.2.119])
+	by szxrg02-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
+	with ESMTP id BXL22268; Fri, 01 Aug 2014 20:23:33 +0800 (CST)
+Received: from Patch-Test.huawei (10.107.197.245) by
+	szxeml450-hub.china.huawei.com (10.82.67.193) with Microsoft SMTP
+	Server id 14.3.158.1; Fri, 1 Aug 2014 20:23:27 +0800
+From: Zheng Junling <zhengjunling@huawei.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 1 Aug 2014 12:10:46 +0000
+Message-ID: <1406895046-18513-1-git-send-email-zhengjunling@huawei.com>
+X-Mailer: git-send-email 1.8.3.4
+MIME-Version: 1.0
+X-Originating-IP: [10.107.197.245]
+X-CFilter-Loop: Reflected
+Cc: peifeiyue@huawei.com
+Subject: [PATCH] slang 2.2.4: fix the iconv existence checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,64 +34,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Aug 2014 11:04:22 -0000
+X-List-Received-Date: Fri, 01 Aug 2014 12:30:01 -0000
+Content-Type: text/plain
 
--I/usr/include would end up in CFLAGS if /usr/bin/gcrypt-config is
-present on the host systemd.
+When checking whether there is iconv, the configure file always check
+the host env.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Now we make it working properly by adding correct prefix for cross-
+compiling environment.
+
+Signed-off-by: Zheng Junling <zhengjunling@huawei.com>
 ---
- ...crypt-config-from-the-host-it-leads-to-SS.patch | 28 ++++++++++++++++++++++
- meta/recipes-extended/cups/cups_1.7.4.bb           |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/0001-don-t-use-gcrypt-config-from-the-host-it-leads-to-SS.patch
+ .../slang-fix-the-iconv-existence-checking.patch   | 116 +++++++++++++++++++++
+ meta/recipes-extended/slang/slang_2.2.4.bb         |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch
 
-diff --git a/meta/recipes-extended/cups/cups/0001-don-t-use-gcrypt-config-from-the-host-it-leads-to-SS.patch b/meta/recipes-extended/cups/cups/0001-don-t-use-gcrypt-config-from-the-host-it-leads-to-SS.patch
+diff --git a/meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch b/meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch
 new file mode 100644
-index 0000000..c37fd0c
+index 0000000..958fe98
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/0001-don-t-use-gcrypt-config-from-the-host-it-leads-to-SS.patch
-@@ -0,0 +1,28 @@
-+From bfcc8b85fd1b204a3bb50d7246b3adb6da57da00 Mon Sep 17 00:00:00 2001
-+From: Koen Kooi <koen@dominion.thruhere.net>
-+Date: Fri, 1 Aug 2014 12:59:38 +0200
-+Subject: [PATCH] don't use gcrypt-config from the host, it leads to  SSLFLAGS=-I/usr/include
++++ b/meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch
+@@ -0,0 +1,116 @@
++From 4588f4a0287787788eb86fb16f326cbaa7454e1d Mon Sep 17 00:00:00 2001
++From: Zheng Junling <zhengjunling@huawei.com>
++Date: Mon, 16 Jun 2014 12:51:25 +0000
++Subject: [PATCH] slang: fix the iconv existence checking
 +
-+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-+Upstream-status: Inapprotiate [OE-specific]
++When checking whether there is iconv, the configure file always check 
++the host env.
++
++Now we make it working properly by adding correct prefix for cross-
++compiling environment.
++
++When enabling iconv-module, we see a QA warning because rpaths hardcoded
++into the build. And rpaths are not needed, so let's turn this off.
++
++This patch is generated by referencing the existing "fix-check-pcre"
++patch.
++
++Upstream-Status: Inappropriate
++
++Signed-off-by: Zheng Junling <zhengjunling@huawei.com>
 +---
-+ configure | 3 ---
-+ 1 file changed, 3 deletions(-)
++ configure | 60 ++++++------------------------------------------------------
++ 1 file changed, 6 insertions(+), 54 deletions(-)
 +
 +diff --git a/configure b/configure
-+index 7d1e31d..01cda33 100755
++index 7a96256..91632f3 100755
 +--- a/configure
 ++++ b/configure
-+@@ -8411,9 +8411,6 @@ fi
-+             if $PKGCONFIG --exists gcrypt; then
-+ 	        SSLLIBS="$SSLLIBS `$PKGCONFIG --libs gcrypt`"
-+ 	        SSLFLAGS="$SSLFLAGS `$PKGCONFIG --cflags gcrypt`"
-+-	    elif test "x$LIBGCRYPTCONFIG" != x; then
-+-	        SSLLIBS="$SSLLIBS `$LIBGCRYPTCONFIG --libs`"
-+-	        SSLFLAGS="$SSLFLAGS `$LIBGCRYPTCONFIG --cflags`"
-+ 	    fi
-+ 	fi
++@@ -7909,6 +7909,7 @@ $as_echo_n "checking for the iconv library and header files ... " >&6; }
++ 	 /usr/include/iconv,/usr/lib \
++ 	 /usr/iconv/include,/usr/iconv/lib \
++ 	 /usr/include,/usr/lib \
+++	 /usr/include,/usr/lib64 \
++ 	 /opt/include/iconv,/opt/lib \
++ 	 /opt/iconv/include,/opt/iconv/lib \
++ 	 /opt/include,/opt/lib"
++@@ -7939,14 +7940,14 @@ $as_echo_n "checking for the iconv library and header files ... " >&6; }
++         xincdir=`echo $include_and_lib | tr ',' ' ' | awk '{print $1}'`
++ 	xlibdir=`echo $include_and_lib | tr ',' ' ' | awk '{print $2}'`
++ 	found=0
++-	if test -r $xincdir/$xincfile
+++	if test -r $PKG_CONFIG_SYSROOT_DIR/$xincdir/$xincfile
++ 	then
++ 	  for E in $exts
++ 	  do
++-	    if test -r "$xlibdir/$xlibfile.$E"
+++	    if test -r "$PKG_CONFIG_SYSROOT_DIR/$xlibdir/$xlibfile.$E"
++ 	    then
++-	      jd_iconv_include_dir="$xincdir"
++-	      jd_iconv_library_dir="$xlibdir"
+++	      jd_iconv_include_dir="$PKG_CONFIG_SYSROOT_DIR/$xincdir"
+++	      jd_iconv_library_dir="$PKG_CONFIG_SYSROOT_DIR/$xlibdir"
++ 	      jd_with_iconv_library="yes"
++ 	      found=1
++ 	      break
++@@ -7972,56 +7973,7 @@ $as_echo "yes: $jd_iconv_library_dir and $jd_iconv_include_dir" >&6; }
++     then
++       ICONV_LIB=""
++     else
++-
++-if test "X$jd_iconv_library_dir" != "X"
++-then
++-  if test "X$RPATH" = "X"
++-  then
++-
++-case "$host_os" in
++-  *linux*|*solaris* )
++-    if test "X$GCC" = Xyes
++-    then
++-      if test "X$ac_R_nospace" = "Xno"
++-      then
++-        RPATH="-Wl,-R,"
++-      else
++-        RPATH="-Wl,-R"
++-      fi
++-    else
++-      if test "X$ac_R_nospace" = "Xno"
++-      then
++-        RPATH="-R "
++-      else
++-	RPATH="-R"
++-      fi
++-    fi
++-  ;;
++-  *osf*|*openbsd*)
++-    if test "X$GCC" = Xyes
++-    then
++-      RPATH="-Wl,-rpath,"
++-    else
++-      RPATH="-rpath "
++-    fi
++-  ;;
++-  *netbsd*)
++-    if test "X$GCC" = Xyes
++-    then
++-      RPATH="-Wl,-R"
++-    fi
++-  ;;
++-esac
++-
++-    if test "X$RPATH" != "X"
++-    then
++-      RPATH="$RPATH$jd_iconv_library_dir"
++-    fi
++-  else
++-    RPATH="$RPATH:$jd_iconv_library_dir"
++-  fi
++-fi
++-
+++      RPATH=""
 +     fi
++ 
++     ICONV_INC=-I$jd_iconv_include_dir
 +-- 
-+1.9.0
++1.8.3.4
 +
-diff --git a/meta/recipes-extended/cups/cups_1.7.4.bb b/meta/recipes-extended/cups/cups_1.7.4.bb
-index 9dae986..c15facb 100644
---- a/meta/recipes-extended/cups/cups_1.7.4.bb
-+++ b/meta/recipes-extended/cups/cups_1.7.4.bb
-@@ -2,5 +2,6 @@ require cups.inc
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 90ed2d0..f3003c9 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -21,6 +21,7 @@ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
+            file://fix-check-pcre.patch \
+            file://change-char-type-to-signed-char-in-macros.patch \
+            file://sprintf-bug-concerning-8-bit-characters.patch \
++           file://slang-fix-the-iconv-existence-checking.patch \
+           "
  
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5e50cb4b8f24b04636b719683a9102d"
- 
-+SRC_URI += "file://0001-don-t-use-gcrypt-config-from-the-host-it-leads-to-SS.patch"
- SRC_URI[md5sum] = "1a2295c2b2d2f422db2e50f40ed2fb99"
- SRC_URI[sha256sum] = "358fc7f22395a9ba07efcfc0d34a057ab5e9182b6e3297f71263a6b68fb41378"
+ inherit autotools-brokensep
 -- 
-1.9.0
+1.8.3.4
 
 
