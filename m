@@ -1,26 +1,24 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 229A47070C
+	by mail.openembedded.org (Postfix) with ESMTP id 21AB765FE5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Aug 2014 07:18:18 +0000 (UTC)
+	Fri,  1 Aug 2014 07:18:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s717IJo1022751
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s717IGtT022713
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Aug 2014 00:18:19 -0700 (PDT)
+	Fri, 1 Aug 2014 00:18:17 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 1 Aug 2014 00:18:19 -0700
+	14.3.174.1; Fri, 1 Aug 2014 00:18:16 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Aug 2014 15:15:07 +0800
-Message-ID: <75b2e993c6b899ab108e47b9b02d9610af972ff9.1406876955.git.Chong.Lu@windriver.com>
+Date: Fri, 1 Aug 2014 15:15:05 +0800
+Message-ID: <cover.1406876955.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1406876955.git.Chong.Lu@windriver.com>
-References: <cover.1406876955.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] oelint.bbclass: add patch checking
+Subject: [PATCH 0/3] oelint.bbclass: make oelint bbclass work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +34,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 01 Aug 2014 07:18:21 -0000
 Content-Type: text/plain
 
-Check that all patches have Signed-off-by and Upstream-Status.
+In conf/local.conf, add 'INHERIT += "oelint"' to test.
+We can get many warnings, like following:
 
-[YOCTO #5427]
+WARNING: diffutils: HOMEPAGE is not set
+WARNING: sed: DESCRIPTION is not set
+WARNING: perl: DESCRIPTION is not set
+WARNING: perl: debian/cpan_definstalldirs.diff doesn't have Signed-off-by
+WARNING: perl: debian/cpan_definstalldirs.diff doesn't have Upstream-Status
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/classes/oelint.bbclass | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+The following changes since commit 2d1660112e54653f7bb763939d0416472c49fe01:
 
-diff --git a/meta/classes/oelint.bbclass b/meta/classes/oelint.bbclass
-index 1c6f4b8..0bed74a 100644
---- a/meta/classes/oelint.bbclass
-+++ b/meta/classes/oelint.bbclass
-@@ -27,4 +27,39 @@ python do_lint() {
-         bb.warn("${PN}: SECTION is not set")
-     elif not s.islower():
-         bb.warn("${PN}: SECTION should only use lower case")
-+
-+
-+    ##############################
-+    # Check that all patches have Signed-off-by and Upstream-Status
-+    #
-+    s = d.getVar("SRC_URI").split()
-+    fpaths = (d.getVar('FILESPATH', True) or '').split(':')
-+
-+    def findPatch(patchname):
-+        for dir in fpaths:
-+            patchpath = dir + patchname
-+            if os.path.exists(patchpath):
-+                 return patchpath
-+
-+    def findKey(path, key):
-+        ret = True
-+        f = file('%s' % path, mode = 'r')
-+        line = f.readline()
-+        while line:
-+            if line.find(key) != -1:
-+                ret = False
-+            line = f.readline()
-+        f.close()
-+        return ret
-+
-+    length = len("file://")
-+    for item in s:
-+        if item.startswith("file://"):
-+            item = item[length:]
-+            if item.endswith(".patch") or item.endswith(".diff"):
-+                path = findPatch(item)
-+                if findKey(path, "Signed-off-by"):
-+                    bb.warn("${PN}: %s doesn't have Signed-off-by" % item)
-+                if findKey(path, "Upstream-Status"):
-+                    bb.warn("${PN}: %s doesn't have Upstream-Status" % item)
- }
+  populate_sdk_base: Fix grep command usage on old hosts (2014-07-29 09:58:27 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/oelint
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/oelint
+
+Chong Lu (3):
+  oelint.bbclass: make oelint bbclass work
+  oelint.bbclass: add patch checking
+  oelint.bbclass: Check for ${PN} or ${P} usage
+
+ meta/classes/oelint.bbclass | 251 ++++++++++++++------------------------------
+ 1 file changed, 81 insertions(+), 170 deletions(-)
+
 -- 
 1.9.1
 
