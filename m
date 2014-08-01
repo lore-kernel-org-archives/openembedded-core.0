@@ -1,35 +1,29 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 35F5F70478
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 36115701CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 21:38:12 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id ho1so327081wib.10
+	Fri,  1 Aug 2014 00:20:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s710KvNX018895
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Jul 2014 14:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=J4DxR6lcpDmjZYCn/DTCyq5W3z905X/27qQd3GCLxco=;
-	b=y/68FseyhUSdomgw6u4viaADV4n/X8ywm9PaGKkhDBlKT8lo9uJzMZQkd9YozrKgSX
-	Z6V0cFKOK4hbqMRUE1VW8P4qAaQVEa7KqsrbL1LXqiN+vCI5TE/adxx6RNaWaEkrUU6X
-	j67FOXfIYO6hgtxrN78S1YcDV3b5VJg1WvPQWaY0GFS+cNCHDLBBpnKu6fjI6HOjIuDA
-	EwvoI4Q+PTS4QZT1MsZAzhOAzZnGa7a0OTk0BnaJKbV5zGuwPYhYZiMs6KU8txEhMEXr
-	fjj6NThZpMD9SmRh16GHoDTENNPVQhFkTP/KrkHDujF11Vl3thaAnYcKxw9lXWpXZKiH
-	4NjA==
-X-Received: by 10.180.221.172 with SMTP id qf12mr762705wic.18.1406842693057;
-	Thu, 31 Jul 2014 14:38:13 -0700 (PDT)
-Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id
-	wu6sm16048465wjb.46.2014.07.31.14.38.11 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 31 Jul 2014 14:38:12 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Jul 2014 21:38:00 +0000
-Message-Id: <1406842681-21669-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 2.0.3
-Subject: [PATCH] opkg-utils: Update SRCREV
+	Thu, 31 Jul 2014 17:20:57 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 31 Jul 2014 17:20:56 -0700
+Message-ID: <53DADD68.8070008@windriver.com>
+Date: Thu, 31 Jul 2014 19:20:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1406818740-17681-1-git-send-email-sujith.h@gmail.com>	<ly8un9biuj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAP9ODKpYgA9jQ2u4Nwh2=+NoQJcZiydtZdkDu0-jvnKfZxHvvg@mail.gmail.com>
+In-Reply-To: <CAP9ODKpYgA9jQ2u4Nwh2=+NoQJcZiydtZdkDu0-jvnKfZxHvvg@mail.gmail.com>
+Subject: Re: [PATCH] netbase: Adding loop back for machine name in hosts file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,19 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Jul 2014 21:38:22 -0000
+X-List-Received-Date: Fri, 01 Aug 2014 00:21:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This update is needed so that the patch for opkg-utils sent by Tom Ingleby at
-the beginning of June takes effect in OpenEmbedded. Sorry I lost this and forgot
-to push the SRCREV update, many thanks to Saul for reminding me!
+On 7/31/14, 3:44 PM, Otavio Salvador wrote:
+> On Thu, Jul 31, 2014 at 1:20 PM, Enrico Scholz
+> <enrico.scholz@sigma-chemnitz.de> wrote:
+>> Sujith H <sujith.h-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>>
+>>> +     echo 127.0.1.1 "             "${MACHINE} >> ${D}${sysconfdir}/hosts
+>>
+>> This is a very questionable setup which causes a lot of harm.  When
+>> really wanted, it should be made optional and not the default.
+>
+> What kind of harm you see?
+>
+> I think moving this to postinst works for me and does not cause
+> problems I think.
+>
 
-Paul Barker (1):
-  opkg-utils: Update SRCREV
+The only default configuration for 127.0.0.1 (not 1.1) should be localhost. 
+Anything after that is installation independent and should be configured outside 
+of the 'package' scope...
 
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I recommend ROOTFS_POSTINSTALL_COMMAND...
 
--- 
-2.0.3
-
+--Mark
 
