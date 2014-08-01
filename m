@@ -1,27 +1,35 @@
-Return-Path: <zhengjunling@huawei.com>
-X-Greylist: delayed 381 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 01 Aug 2014 12:29:59 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [119.145.14.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C6552706CE
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 624217089E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Aug 2014 12:29:59 +0000 (UTC)
-Received: from 172.24.2.119 (EHLO szxeml450-hub.china.huawei.com)
-	([172.24.2.119])
-	by szxrg02-dlp.huawei.com (MOS 4.3.7-GA FastPath queued)
-	with ESMTP id BXL22268; Fri, 01 Aug 2014 20:23:33 +0800 (CST)
-Received: from Patch-Test.huawei (10.107.197.245) by
-	szxeml450-hub.china.huawei.com (10.82.67.193) with Microsoft SMTP
-	Server id 14.3.158.1; Fri, 1 Aug 2014 20:23:27 +0800
-From: Zheng Junling <zhengjunling@huawei.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Aug 2014 12:10:46 +0000
-Message-ID: <1406895046-18513-1-git-send-email-zhengjunling@huawei.com>
-X-Mailer: git-send-email 1.8.3.4
-MIME-Version: 1.0
-X-Originating-IP: [10.107.197.245]
-X-CFilter-Loop: Reflected
-Cc: peifeiyue@huawei.com
-Subject: [PATCH] slang 2.2.4: fix the iconv existence checking
+	Fri,  1 Aug 2014 13:20:26 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id eu11so5817865pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Aug 2014 06:20:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=/2QAISKwrtPN4zNEbAzj5gDODA77mZ0WFEzNWiL9Uf4=;
+	b=eIqpEmHasu+nVbOPP8y7NRR4TLtV3OVEkOz2Z/NhWqzuvVBCUNpTJzxAb8IvfKKXkO
+	crC5Ndb2bbT5GQ/esJ5GQyapsptYthIuwwJm3x2+btAv8pmOJZA9t3/exx39NuyNb4dS
+	IZ/JMmmfknsd1qw/X64Um8joHrkJJco5OGjzyah3kGJvUKz1O33Wv6i0RP8V1Ahwm6Kq
+	aS+VNys0v3heRrtbKn5N2Lp4ZhCNQUoB8UICLi+bzYGNljKVgizYGnDlZIEK4GwuOTol
+	beDQUL+UtSzLivKu70NhHbQjRe3zZpC5MxSCyTut2EvAZxZjf9/lAKJh8EjgSUTCUC+1
+	IQZA==
+X-Received: by 10.70.103.204 with SMTP id fy12mr5946551pdb.144.1406899227929; 
+	Fri, 01 Aug 2014 06:20:27 -0700 (PDT)
+Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
+	by mx.google.com with ESMTPSA id p9sm2251486pdl.21.2014.08.01.06.20.25
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Aug 2014 06:20:27 -0700 (PDT)
+From: Sujith H <sujith.h@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Aug 2014 18:46:41 +0530
+Message-Id: <1406899001-3870-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Cc: Sujith H <Sujith_Haridasan@mentor.com>
+Subject: [PATCH] os-release: Adding a new recipe for operating system identification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,157 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Aug 2014 12:30:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 01 Aug 2014 13:20:31 -0000
 
-When checking whether there is iconv, the configure file always check
-the host env.
+From: Sujith H <Sujith_Haridasan@mentor.com>
 
-Now we make it working properly by adding correct prefix for cross-
-compiling environment.
+The /etc/os-release will have the operating system identification data.
+Tested on target with systemd enabled. Here is the sample file looks
+in the file:
 
-Signed-off-by: Zheng Junling <zhengjunling@huawei.com>
+ID=poky-ivi-systemd
+NAME=Yocto GENIVI Baseline (Poky/meta-ivi)
+VERSION=6.0+snapshot-20140721 (daisy)
+VERSION_ID=6.0+snapshot-20140721
+PRETTY_NAME=Yocto GENIVI Baseline (Poky/meta-ivi) 6.0+snapshot-20140721 (daisy)
+
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
 ---
- .../slang-fix-the-iconv-existence-checking.patch   | 116 +++++++++++++++++++++
- meta/recipes-extended/slang/slang_2.2.4.bb         |   1 +
- 2 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch
+ meta/recipes-core/os-release/os-release.bb | 36 ++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 meta/recipes-core/os-release/os-release.bb
 
-diff --git a/meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch b/meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
 new file mode 100644
-index 0000000..958fe98
+index 0000000..33e9581
 --- /dev/null
-+++ b/meta/recipes-extended/slang/slang/slang-fix-the-iconv-existence-checking.patch
-@@ -0,0 +1,116 @@
-+From 4588f4a0287787788eb86fb16f326cbaa7454e1d Mon Sep 17 00:00:00 2001
-+From: Zheng Junling <zhengjunling@huawei.com>
-+Date: Mon, 16 Jun 2014 12:51:25 +0000
-+Subject: [PATCH] slang: fix the iconv existence checking
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -0,0 +1,36 @@
++inherit allarch
 +
-+When checking whether there is iconv, the configure file always check 
-+the host env.
++SUMMARY = "Operating system identification"
++DESCRIPTION = "The /etc/os-release file contains operating system identification data."
++LICENSE = "MIT"
++INHIBIT_DEFAULT_DEPS = "1"
 +
-+Now we make it working properly by adding correct prefix for cross-
-+compiling environment.
++do_fetch[noexec] = "1"
++do_unpack[noexec] = "1"
++do_patch[noexec] = "1"
++do_configure[noexec] = "1"
 +
-+When enabling iconv-module, we see a QA warning because rpaths hardcoded
-+into the build. And rpaths are not needed, so let's turn this off.
++# Other valid fields: BUILD_ID ID_LIKE ANSI_COLOR CPE_NAME
++#                     HOME_URL SUPPORT_URL BUG_REPORT_URL
++OS_RELEASE_FIELDS = "ID ID_LIKE NAME VERSION VERSION_ID PRETTY_NAME"
 +
-+This patch is generated by referencing the existing "fix-check-pcre"
-+patch.
++ID = "${DISTRO}"
++NAME = "${DISTRO_NAME}"
++VERSION = "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if 'DISTRO_CODENAME' in d else ''}"
++VERSION_ID = "${DISTRO_VERSION}"
++PRETTY_NAME = "${DISTRO_NAME} ${VERSION}"
++BUILD_ID ?= "${DATETIME}"
 +
-+Upstream-Status: Inappropriate
++python do_compile () {
++    with open(d.expand('${B}/os-release'), 'w') as f:
++        for field in d.getVar('OS_RELEASE_FIELDS', True).split():
++            value = d.getVar(field, True)
++            if value:
++                f.write('{0}={1}\n'.format(field, value))
++}
++do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
 +
-+Signed-off-by: Zheng Junling <zhengjunling@huawei.com>
-+---
-+ configure | 60 ++++++------------------------------------------------------
-+ 1 file changed, 6 insertions(+), 54 deletions(-)
-+
-+diff --git a/configure b/configure
-+index 7a96256..91632f3 100755
-+--- a/configure
-++++ b/configure
-+@@ -7909,6 +7909,7 @@ $as_echo_n "checking for the iconv library and header files ... " >&6; }
-+ 	 /usr/include/iconv,/usr/lib \
-+ 	 /usr/iconv/include,/usr/iconv/lib \
-+ 	 /usr/include,/usr/lib \
-++	 /usr/include,/usr/lib64 \
-+ 	 /opt/include/iconv,/opt/lib \
-+ 	 /opt/iconv/include,/opt/iconv/lib \
-+ 	 /opt/include,/opt/lib"
-+@@ -7939,14 +7940,14 @@ $as_echo_n "checking for the iconv library and header files ... " >&6; }
-+         xincdir=`echo $include_and_lib | tr ',' ' ' | awk '{print $1}'`
-+ 	xlibdir=`echo $include_and_lib | tr ',' ' ' | awk '{print $2}'`
-+ 	found=0
-+-	if test -r $xincdir/$xincfile
-++	if test -r $PKG_CONFIG_SYSROOT_DIR/$xincdir/$xincfile
-+ 	then
-+ 	  for E in $exts
-+ 	  do
-+-	    if test -r "$xlibdir/$xlibfile.$E"
-++	    if test -r "$PKG_CONFIG_SYSROOT_DIR/$xlibdir/$xlibfile.$E"
-+ 	    then
-+-	      jd_iconv_include_dir="$xincdir"
-+-	      jd_iconv_library_dir="$xlibdir"
-++	      jd_iconv_include_dir="$PKG_CONFIG_SYSROOT_DIR/$xincdir"
-++	      jd_iconv_library_dir="$PKG_CONFIG_SYSROOT_DIR/$xlibdir"
-+ 	      jd_with_iconv_library="yes"
-+ 	      found=1
-+ 	      break
-+@@ -7972,56 +7973,7 @@ $as_echo "yes: $jd_iconv_library_dir and $jd_iconv_include_dir" >&6; }
-+     then
-+       ICONV_LIB=""
-+     else
-+-
-+-if test "X$jd_iconv_library_dir" != "X"
-+-then
-+-  if test "X$RPATH" = "X"
-+-  then
-+-
-+-case "$host_os" in
-+-  *linux*|*solaris* )
-+-    if test "X$GCC" = Xyes
-+-    then
-+-      if test "X$ac_R_nospace" = "Xno"
-+-      then
-+-        RPATH="-Wl,-R,"
-+-      else
-+-        RPATH="-Wl,-R"
-+-      fi
-+-    else
-+-      if test "X$ac_R_nospace" = "Xno"
-+-      then
-+-        RPATH="-R "
-+-      else
-+-	RPATH="-R"
-+-      fi
-+-    fi
-+-  ;;
-+-  *osf*|*openbsd*)
-+-    if test "X$GCC" = Xyes
-+-    then
-+-      RPATH="-Wl,-rpath,"
-+-    else
-+-      RPATH="-rpath "
-+-    fi
-+-  ;;
-+-  *netbsd*)
-+-    if test "X$GCC" = Xyes
-+-    then
-+-      RPATH="-Wl,-R"
-+-    fi
-+-  ;;
-+-esac
-+-
-+-    if test "X$RPATH" != "X"
-+-    then
-+-      RPATH="$RPATH$jd_iconv_library_dir"
-+-    fi
-+-  else
-+-    RPATH="$RPATH:$jd_iconv_library_dir"
-+-  fi
-+-fi
-+-
-++      RPATH=""
-+     fi
-+ 
-+     ICONV_INC=-I$jd_iconv_include_dir
-+-- 
-+1.8.3.4
-+
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index 90ed2d0..f3003c9 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -21,6 +21,7 @@ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
-            file://fix-check-pcre.patch \
-            file://change-char-type-to-signed-char-in-macros.patch \
-            file://sprintf-bug-concerning-8-bit-characters.patch \
-+           file://slang-fix-the-iconv-existence-checking.patch \
-           "
- 
- inherit autotools-brokensep
++do_install () {
++    install -d ${D}${sysconfdir}
++    install -m 0644 os-release ${D}${sysconfdir}/
++}
 -- 
-1.8.3.4
+1.8.4
 
 
