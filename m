@@ -1,38 +1,23 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 7259670200
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-05.prod.phx3.secureserver.net
+	(p3plsmtpa07-05.prod.phx3.secureserver.net [173.201.192.234])
+	by mail.openembedded.org (Postfix) with ESMTP id 10F796FA62
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Aug 2014 15:44:31 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20140801154431203
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Aug 2014 15:44:31 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=33314 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XDF0L-0002W8-M3 for openembedded-core@lists.openembedded.org;
-	Fri, 01 Aug 2014 11:44:25 -0400
-Date: Fri, 1 Aug 2014 11:44:22 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408011143200.22226@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Sat,  2 Aug 2014 01:07:44 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa07-05.prod.phx3.secureserver.net with 
+	id Zd7i1o00Y1mTNtu01d7jxa; Fri, 01 Aug 2014 18:07:44 -0700
+Message-ID: <53DC39DE.5020105@pabigot.com>
+Date: Fri, 01 Aug 2014 20:07:42 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] formfactor: Grammar fix in recipe comment.
+To: OE-core <openembedded-core@lists.openembedded.org>
+References: <53C3A130.4000900@pabigot.com>
+In-Reply-To: <53C3A130.4000900@pabigot.com>
+Subject: Re: patchwork client problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +30,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Aug 2014 15:44:33 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 02 Aug 2014 01:07:47 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/14/2014 04:21 AM, Peter A. Bigot wrote:
+> I'm finding attempts to use pwclient on 
+> http://patches.openembedded.org/xmlrpc/ produce an ExpatError because 
+> the returned document is always empty (per a wireshark trace of the 
+> transaction).  Can somebody confirm that the server for the 
+> command-line client is working properly?  Thanks.
+>
+> Peter
+>
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+I've downloaded a fresh copy of pwclient from 
+http://patches.openembedded.org/help/pwclient/
 
----
+I've verified my .pwclientrc is exactly what the project info tells me 
+it should be:
 
-diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-index d1ae2a2..5c30bd5 100644
---- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-+++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-@@ -12,7 +12,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- INHIBIT_DEFAULT_DEPS = "1"
+[base]
+url: http://patches.openembedded.org/xmlrpc/
+project: oe-core
 
- do_install() {
--	# Only install file if it has a contents
-+	# Install file only if it has contents
-         install -d ${D}${sysconfdir}/formfactor/
-         install -m 0644 ${S}/config ${D}${sysconfdir}/formfactor/
- 	if [ -s "${S}/machconfig" ]; then
+I've verified that pwclient works with other servers.
 
--- 
+And I still get empty documents back from the OE patchwork server for 
+every pwclient command I try.
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Anybody have any idea what's going wrong?
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Thanks.
+
+Peter
+
+llc[40]$ /tmp/pwclient projects
+Traceback (most recent call last):
+   File "/tmp/pwclient", line 500, in <module>
+     main()
+   File "/tmp/pwclient", line 439, in main
+     action_projects(rpc)
+   File "/tmp/pwclient", line 213, in action_projects
+     projects = rpc.project_list("", 0)
+   File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
+     return self.__send(self.__name, args)
+   File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
+     verbose=self.__verbose
+   File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
+     return self.single_request(host, handler, request_body, verbose)
+   File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in single_request
+     return self.parse_response(response)
+   File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in parse_response
+     p.close()
+   File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
+     self._parser.Parse("", 1) # end of data
+xml.parsers.expat.ExpatError: no element found: line 1, column 0
 
 
