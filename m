@@ -1,25 +1,25 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id D57006A44D
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id F3D9660196
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Aug 2014 10:38:58 +0000 (UTC)
+	Sat,  2 Aug 2014 12:18:29 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20140802103858060
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20140802121829441
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Aug 2014 10:38:58 +0000
+	Sat, 02 Aug 2014 12:18:29 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
 X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=49795 helo=crashcourse.ca)
+Received: from [99.240.204.5] (port=51273 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XDWiD-0001bn-AX for openembedded-core@lists.openembedded.org;
-	Sat, 02 Aug 2014 06:38:53 -0400
-Date: Sat, 2 Aug 2014 06:38:49 -0400 (EDT)
+	id 1XDYGW-0004oq-BJ for openembedded-core@lists.openembedded.org;
+	Sat, 02 Aug 2014 08:18:24 -0400
+Date: Sat, 2 Aug 2014 08:18:20 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408020637180.17148@localhost>
+Message-ID: <alpine.LFD.2.11.1408020815500.20890@localhost>
 User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -32,7 +32,7 @@ X-Source:
 X-Source-Args: 
 X-Source-Dir: 
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] nss*: Replace hardcoded "/etc" with "${sysconfdir}"
+Subject: does pkg_preinst_* not run at image creation time?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,53 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Aug 2014 10:39:00 -0000
+X-List-Received-Date: Sat, 02 Aug 2014 12:18:32 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+  reading yocto dev manual, on post-installation scripts, and there's
+this note:
 
----
-  not build-tested, but bitbake parse tested, seemed pretty straight
-forward.
+"Equivalent support for pre-install, pre-uninstall, and post-uninstall
+scripts exist by way of pkg_preinst, pkg_prerm, and pkg_postrm,
+respectively. These scrips work in exactly the same way as does
+pkg_postinst with the exception that they run at different times.
+Also, because of when they run, they are not applicable to being run
+at image creation time like pkg_postinst."
 
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-index 540f223..d8ec863 100644
---- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-@@ -16,11 +16,11 @@ inherit autotools
- pkg_postinst_${PN} () {
- 	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
- 		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
--		-i $D/etc/nsswitch.conf
-+		-i ${D}${sysconfdir}/nsswitch.conf
- }
+  i would have thought that pkg_preinst_* would still be run at image
+creation time, no? or am i misunderstanding something?
 
- pkg_prerm_${PN} () {
- 	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
- 		-e '/^hosts:/s/\s*myhostname//' \
--		-i $D/etc/nsswitch.conf
-+		-i ${D}${sysconfdir}/nsswitch.conf
- }
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index ce7d4a4..69f98b5 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -169,10 +169,10 @@ do_install_append_class-target() {
-     sed -i s:OEINCDIR:${includedir}/nss3:g ${D}${libdir}/pkgconfig/nss.pc
-
-     # Create a blank certificate
--    mkdir -p ${D}/etc/pki/nssdb/
-+    mkdir -p ${D}${sysconfdir}/pki/nssdb/
-     touch ./empty_password
--    certutil -N -d ${D}/etc/pki/nssdb/ -f ./empty_password
--    chmod 644 ${D}/etc/pki/nssdb/*.db
-+    certutil -N -d ${D}${sysconfdir}/pki/nssdb/ -f ./empty_password
-+    chmod 644 ${D}${sysconfdir}/pki/nssdb/*.db
-     rm ./empty_password
- }
-
-
+rday
 
 -- 
 
