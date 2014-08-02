@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D0714609C0
+	by mail.openembedded.org (Postfix) with ESMTP id 1B1AD65C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Aug 2014 08:54:58 +0000 (UTC)
+	Sat,  2 Aug 2014 10:13:54 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s728swFu025144 for <openembedded-core@lists.openembedded.org>;
-	Sat, 2 Aug 2014 09:54:59 +0100
+	s72ADiR6027204; Sat, 2 Aug 2014 11:13:44 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BAEll4tahQ1D
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Aug 2014 09:54:58 +0100 (BST)
+	with LMTP id q3kue76s_pXv; Sat,  2 Aug 2014 11:13:44 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s728ssXk024903
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 2 Aug 2014 09:54:55 +0100
-Message-ID: <1406969694.6981.22.camel@ted>
+	s72ADf70027085
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sat, 2 Aug 2014 11:13:42 +0100
+Message-ID: <1406974421.6981.24.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 02 Aug 2014 09:54:54 +0100
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Sat, 02 Aug 2014 11:13:41 +0100
+In-Reply-To: <alpine.LFD.2.11.1408020410230.13352@localhost>
+References: <alpine.LFD.2.11.1408020410230.13352@localhost>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH RFC] pixbufcache: Use sceneQueueComplete event to simplify usage
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: any subtle uses for hardcoded /etc instead of ${sysconfdir}?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,85 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Aug 2014 08:55:08 -0000
+X-List-Received-Date: Sat, 02 Aug 2014 10:14:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-[This is an RFC which depends on a patch to bitbake to operate]
+On Sat, 2014-08-02 at 04:13 -0400, Robert P. J. Day wrote:
+>   occasionally, i run across stuff like this (here, under
+> recipes-support):
+> 
+> $ grep -r "/etc" nss*
+> nss/files/nss-CVE-2013-1740.patch:+ *
+> (SSL_ForceHandshake/PR_Recv/PR_Send/etc.) needed to finish the handshake.
+> nss/nss.inc:    mkdir -p ${D}/etc/pki/nssdb/
+> nss/nss.inc:    certutil -N -d ${D}/etc/pki/nssdb/ -f ./empty_password
+> nss/nss.inc:    chmod 644 ${D}/etc/pki/nssdb/*.db
+> nss-myhostname/nss-myhostname_0.3.bb:		-i $D/etc/nsswitch.conf
+> nss-myhostname/nss-myhostname_0.3.bb:		-i $D/etc/nsswitch.conf
+> $
+> 
+>   is there any reason for hard-coding "/etc" into those filenames,
+> rather than "${sysconfdir}"? i can submit a quick patch to tweak that,
+> but i always wonder if there's something subtle going on underneath
+> that i'm unaware of.
 
-Currently, we have a mess of dependencies for pixbufcache and even then
-it breaks since they might be controlled by PACKAGECONFIG.
+Not that I can think of offhand.
 
-Instead, this patch proposes an alternative approach where we allow
-"fixups" from a sceneQueueComplete() event at the end of the setscene
-process. We signal the need for these using simply stamp files.
+Cheers,
 
-The one downside is that the processing code needs to be in a global
-event handler like base.bbclass rather than pixbufcache.bbclass but this
-is probably a price worth paying to avoid the dependency mess?
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 4972a98..cd4debe 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -284,8 +284,10 @@ def buildcfg_neededvars(d):
-         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
- 
- addhandler base_eventhandler
--base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise"
-+base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete"
- python base_eventhandler() {
-+    import bb.runqueue
-+
-     if isinstance(e, bb.event.ConfigParsed):
-         e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
-         e.data.setVar('BB_VERSION', bb.__version__)
-@@ -324,6 +326,15 @@ python base_eventhandler() {
-             e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++")
-             e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs")
- 
-+    if isinstance(e, bb.runqueue.sceneQueueComplete):
-+        pbfile = e.data.expand("${STAGING_DIR}/needpixbuf")
-+        if os.path.exists(pbfile):
-+            bb.build.exec_func("gdkpixbuf_complete", e.data)
-+            os.remove(pbfile)
-+}
-+
-+gdkpixbuf_complete() {
-+	GDK_PIXBUF_FATAL_LOADER=1 ${STAGING_BINDIR_NATIVE}/gdk-pixbuf-query-loaders --update-cache || exit 1
- }
- 
- addtask configure after do_patch
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index b8d75bd..19b4982 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -52,21 +52,10 @@ python populate_packages_append() {
- #
- SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
- 
-+# See base.bbclass for the other half of this
- pixbufcache_sstate_postinst() {
- 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
- 	then
--		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache || exit 1
-+		touch ${STAGING_DIR}/needpixbuf
- 	fi
- }
--
--# Add all of the dependencies of gdk-pixbuf as dependencies of
--# do_populate_sysroot_setscene so that pixbufcache_sstate_postinst can work
--# (otherwise gdk-pixbuf-query-loaders may not exist or link). Only add
--# gdk-pixbuf-native if we're not building gdk-pixbuf itself.
--#
--# Packages that use this class should extend this variable with their runtime
--# dependencies.
--PIXBUFCACHE_SYSROOT_DEPS = ""
--PIXBUFCACHE_SYSROOT_DEPS_class-native = "${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene"
--do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
--do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene','')}"
-
+Richard
 
 
