@@ -1,38 +1,31 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 648816FE76
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A0F5609C0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Aug 2014 08:13:41 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20140802081342032
+	Sat,  2 Aug 2014 08:44:17 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s728iHqQ025491 for <openembedded-core@lists.openembedded.org>;
+	Sat, 2 Aug 2014 09:44:17 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id LtQk15USJHGG
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Aug 2014 08:13:42 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=47917 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XDURc-0005g1-8Y for openembedded-core@lists.openembedded.org;
-	Sat, 02 Aug 2014 04:13:36 -0400
-Date: Sat, 2 Aug 2014 04:13:32 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408020410230.13352@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: any subtle uses for hardcoded /etc instead of ${sysconfdir}?
+	Sat,  2 Aug 2014 09:44:17 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s728iCO1025269
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 2 Aug 2014 09:44:14 +0100
+Message-ID: <1406969052.6981.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 02 Aug 2014 09:44:12 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] bdwgc: Upgrade 7.2d -> 7.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,38 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Aug 2014 08:13:45 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 02 Aug 2014 08:44:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+Update the SRC_URI to the new site, same as HOMEPAGE. The libatomic
+pieces were removed and some of the READMEs, allowing simplification
+of the project license which is clear now.
+    
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-  occasionally, i run across stuff like this (here, under
-recipes-support):
-
-$ grep -r "/etc" nss*
-nss/files/nss-CVE-2013-1740.patch:+ *
-(SSL_ForceHandshake/PR_Recv/PR_Send/etc.) needed to finish the handshake.
-nss/nss.inc:    mkdir -p ${D}/etc/pki/nssdb/
-nss/nss.inc:    certutil -N -d ${D}/etc/pki/nssdb/ -f ./empty_password
-nss/nss.inc:    chmod 644 ${D}/etc/pki/nssdb/*.db
-nss-myhostname/nss-myhostname_0.3.bb:		-i $D/etc/nsswitch.conf
-nss-myhostname/nss-myhostname_0.3.bb:		-i $D/etc/nsswitch.conf
-$
-
-  is there any reason for hard-coding "/etc" into those filenames,
-rather than "${sysconfdir}"? i can submit a quick patch to tweak that,
-but i always wonder if there's something subtle going on underneath
-that i'm unaware of.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+diff --git a/meta/recipes-support/bdwgc/bdwgc_7.2d.bb b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+similarity index 71%
+rename from meta/recipes-support/bdwgc/bdwgc_7.2d.bb
+rename to meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+index 2e1a0e5..23ec954 100644
+--- a/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
++++ b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+@@ -16,17 +16,15 @@ DESCRIPTION = "The Boehm-Demers-Weiser conservative garbage collector can be\
+  by replacing malloc with GC_malloc calls, replacing realloc with GC_realloc\
+  calls, and removing free calls."
+ 
+-HOMEPAGE = "http://www.hpl.hp.com/personal/Hans_Boehm/gc/"
++HOMEPAGE = "http://www.hboehm.info/gc/"
+ SECTION = "devel"
+-LICENSE = "MIT & FSF-Unlimited & GPL-2.0"
+-LIC_FILES_CHKSUM = "file://README.QUICK;md5=9b9dd874f6940641b6ab19893ee8f1cc \
+-                    file://doc/README;md5=92e7dd0334d1f672b699cd0aca08bef0 \
+-                    file://libatomic_ops/doc/LICENSING.txt;md5=607073e04548eac7d1f763e480477bab"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://README.QUICK;md5=55f5088f90a982fed7af9a4897047ef7"
+ 
+-SRC_URI = "http://www.hpl.hp.com/personal/Hans_Boehm/gc/gc_source/gc-${PV}.tar.gz"
++SRC_URI = "http://www.hboehm.info/gc/gc_source/gc-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "91340b28c61753a789eb6077675d87d2"
+-SRC_URI[sha256sum] = "d9fe0ae8650d43746a48bfb394cab01a319f3809cee19f8ebd16aa985b511c5e"
++SRC_URI[md5sum] = "12c05fd2811d989341d8c6d81f66af87"
++SRC_URI[sha256sum] = "63320ad7c45460e4a40e03f5aa4c6893783f21a16416c3282b994f933312afa2"
+ FILES_${PN}-doc = "/usr/share"
+ 
+ REAL_PV = "${@[d.getVar('PV',1)[:-1], d.getVar('PV',1)][(d.getVar('PV',1)[-1]).isdigit()]}"
 
 
