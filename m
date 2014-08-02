@@ -1,38 +1,34 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id A107960017
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A486C65E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Aug 2014 16:34:59 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20140802163459107
+	Sat,  2 Aug 2014 17:50:27 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id h18so3240927igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Aug 2014 16:34:59 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=53930 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XDcGj-00033j-MC for openembedded-core@lists.openembedded.org;
-	Sat, 02 Aug 2014 12:34:53 -0400
-Date: Sat, 2 Aug 2014 12:34:50 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408021229180.24061@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Sat, 02 Aug 2014 10:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=BVnYbmJxTXCWa76Rbh9bH8A15QLMixZw3SMrE0aqtNM=;
+	b=c7qMNi7UJMGaOCC/W9cenFgVkBKRP7fVauQb/KIYeyDzvHyUKt3m6WCG9NaRMNyh59
+	NSRYFxkJQptPRsth3Df2QwfuDQ+6oNm1/CSobrjO0QFZGdpNYLK3ZjAc2dK8COBmSibB
+	j6dRCueeclcDIvN87QKYZl9EIDmXfp/NV7ifoKWolsk/ttp36PsjBlhh1Mxg3PJXbDgr
+	hO7s9EO/YHfbBAy0zwFiVVX5+2Td0Uqv4hZ/6izLHOsJC9YpQh6r5grJms3FlVMiSug7
+	y2iFX4bfuLSV/LHR+7SacrghDNIJsUn7KGOXaKZIsK7v6AOmhqsZdbhyfy3d9AbmZe9O
+	OJ8A==
+X-Received: by 10.51.17.2 with SMTP id ga2mr20454731igd.2.1407001828209; Sat,
+	02 Aug 2014 10:50:28 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: can pkg_{pre, post}rm functions be run at all for image creation?
+Received: by 10.50.78.105 with HTTP; Sat, 2 Aug 2014 10:49:58 -0700 (PDT)
+In-Reply-To: <1406969187.6981.13.camel@ted>
+References: <1406969187.6981.13.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 2 Aug 2014 10:49:58 -0700
+Message-ID: <CAMKF1sogzpvfA199VsW3PkY5kcrWYTRH=yAvM4xrvtpjpsdZJg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate: Allow switching between linux and non0-linux SDK builds within the same tmpdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Aug 2014 16:35:04 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 02 Aug 2014 17:50:34 -0000
+Content-Type: text/plain; charset=UTF-8
+
+On Sat, Aug 2, 2014 at 1:46 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Currently if you try and switch between linux/darwin/mingw SDK builds in the
+> same TMPDIR, things break. This is due to sstate not reflecting the SDK_OS in
+> the manifest names.
+>
+> Since they are different, reflect this in the manifest naming and allow
+> this to work.
 
 
-  followup to earlier note, is it true that the pkg_prerm and
-pkg_postrm functions cannot be run at all during image creation, but
-only on the actual running target? this would seem reasonable as it
-doesn't seem to make sense to be running any sort of removal code
-during image creation.
+typo in the subject otherwise good.
 
-  (i'm assuming that it is never the case that any sort of package
-removal is done during image creation, and that the creation process
-will install *only* those packages that should be part of the final
-image, is that correct?)
-
-  however, if the above is correct, then it would make sense that all,
-say, pkg_prerm() functions would never be written with respect to the
-variable ${D}, which would be relevant only during image creation. but
-i can see things like this in sysklogd.inc:
-
-pkg_prerm_${PN} () {
-        if test "x$D" = "x"; then
-        if test "$1" = "upgrade" -o "$1" = "remove"; then
-                /etc/init.d/syslog stop
-        fi
-        fi
-}
-
-so what does that mean?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+> index c678968..2136504 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -186,7 +186,7 @@ python autotools_copy_aclocals () {
+>          if c.endswith("-native"):
+>              manifest = d.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}-%s.populate_sysroot" % c)
+>          elif c.startswith("nativesdk-"):
+> -            manifest = d.expand("${SSTATE_MANIFESTS}/manifest-${SDK_ARCH}-%s.populate_sysroot" % c)
+> +            manifest = d.expand("${SSTATE_MANIFESTS}/manifest-${SDK_ARCH}_${SDK_OS}-%s.populate_sysroot" % c)
+>          elif "-cross-" in c or "-crosssdk-" in c:
+>              continue
+>          else:
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 9011973..0d3940e 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -45,11 +45,11 @@ python () {
+>      if bb.data.inherits_class('native', d):
+>          d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH'))
+>      elif bb.data.inherits_class('crosssdk', d):
+> -        d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${SDK_ARCH}"))
+> +        d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"))
+>      elif bb.data.inherits_class('cross', d):
+>          d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${TARGET_ARCH}"))
+>      elif bb.data.inherits_class('nativesdk', d):
+> -        d.setVar('SSTATE_PKGARCH', d.expand("${SDK_ARCH}"))
+> +        d.setVar('SSTATE_PKGARCH', d.expand("${SDK_ARCH}_${SDK_OS}"))
+>      elif bb.data.inherits_class('cross-canadian', d):
+>          d.setVar('SSTATE_PKGARCH', d.expand("${SDK_ARCH}_${PACKAGE_ARCH}"))
+>      elif bb.data.inherits_class('allarch', d) and d.getVar("PACKAGE_ARCH", True) == "all":
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
