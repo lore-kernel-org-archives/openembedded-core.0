@@ -1,38 +1,28 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id B143B65CD4
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 501 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 03 Aug 2014 13:33:43 UTC
+Received: from smtp08.online.nl (smtp08.online.nl [194.134.42.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 29DC965CD8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 12:01:07 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20140803120107448
+	Sun,  3 Aug 2014 13:33:43 +0000 (UTC)
+Received: from smtp08.online.nl (localhost [127.0.0.1])
+	by smtp08.online.nl (Postfix) with ESMTP id 1ABD6664B2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Aug 2014 12:01:07 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=36303 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XDuTG-00066k-Gp for openembedded-core@lists.openembedded.org;
-	Sun, 03 Aug 2014 08:01:02 -0400
-Date: Sun, 3 Aug 2014 08:00:59 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408030759190.20963@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Sun,  3 Aug 2014 15:25:22 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp08.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  3 Aug 2014 15:25:22 +0200 (CEST)
+Message-ID: <53DE3841.2000305@topic.nl>
+Date: Sun, 03 Aug 2014 15:25:21 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: what is the purpose of "DISTRO =" *inside* a distro conf file?
+To: openembedded-core@lists.openembedded.org
+X-Online-Scanned: by Cloudmark authority (on smtp08.online.nl)
+Subject: What does "QA Issue: ... rdepends on .. but its not a build dependency?" mean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 12:01:12 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 03 Aug 2014 13:33:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+I'm getting lots of warnings like this:
 
-  perusing the distro conf files in the meta-yocto layer and noticed
-that all of them have a line of the form
+"""
+WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends on 
+wireless-tools but its not a build dependency? [build-deps]
+"""
 
-  DISTRO = "poky-lsb"
+What does it actually mean? What does it want me to provide here?
 
-or what have you. what is the purpose of that line inside the distro
-conf file of the same name? is it required?
+The message in itself is correct. The package only has a runtime 
+dependency. It does not require the wireless-tools package to be built 
+or otherwise present on the build system. But what is the QA issue here 
+and how do I get rid of the message?
 
-rday
+Apart from that, there's a spelling error in there (its -> it's) because 
+it's "it's" when it's "it is" and it's "its" when it's its property.
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Mike Looijmans
 
