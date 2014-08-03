@@ -1,34 +1,34 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 77D7965C70
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B66665D53
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 16:58:29 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id b13so6569957wgh.30
+	Sun,  3 Aug 2014 16:59:00 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id n12so6453244wgh.21
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Aug 2014 09:58:30 -0700 (PDT)
+	Sun, 03 Aug 2014 09:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
 	bh=EGtDe6k7J5J/ODr1t3hOPh6lOOHX4ptJIyJ2ze720lc=;
-	b=dQ6aE8umei7rRX9GozlhQosugox7wC9Dd5f2lIODzaVtTrg4313xryAHdekY8thVkj
-	HP+QknkgGnYmizGKb/dtzMFb8Yu5jMMYFw0Y9Tc495TM0BHc/6x8S3NeutgzJUB6k1lq
-	Une6U1NZczw7Il/aPfRF0FIo//HntgjBk34cLAZVIKWXWg5HyAwa9T6sw10xOnflXqwS
-	jSqJGU+T7303fqwnl9xXYV53rDJWt5rhdKzb/vr72rN8MClEIeI3sri+55SARBwGRN1B
-	pbX7rhDPlqkgWilxjCDUiANZ8srM3y6ueSuZuGoTtnCs38WRNW2VXV/lpngTeHGsJv6x
-	+vNg==
-X-Received: by 10.180.107.65 with SMTP id ha1mr22349465wib.59.1407085110404;
-	Sun, 03 Aug 2014 09:58:30 -0700 (PDT)
+	b=LeGugVGq22WS/1v70RTFZfIOrIzsy8R6bec/U7OKvxIJDogib99lxwIRPB40dYuWmb
+	r4+qybm7kDTzpq5kPgDUU2MHS8Ecgtex8dcxksheDpXuu/1OCyJFwBIDPtq086Mv3kAN
+	cBzjKREfR8L2uH3eOotJhMV0yGyo1iRd4il/0CZI/Q5LzV2GGGOjMErHPNIHvwp2z7Jd
+	bPuMtMqiWsChotA/D84ZThNtfuDp/FGRoYbyWUOZQq0w9/G6/ZkXwZ0n8D0/YUm7UB43
+	2Sm1wHQ/9VYc8QiDzwpWPjxNGu9fEjzjEiL4ptW1I/3OZlH51veFwxJ+M86etcjWiiiN
+	mmVg==
+X-Received: by 10.180.187.6 with SMTP id fo6mr23013210wic.58.1407085141960;
+	Sun, 03 Aug 2014 09:59:01 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	19sm37061180wjz.3.2014.08.03.09.58.29 for <multiple recipients>
+	bt9sm1741481wjc.40.2014.08.03.09.59.01 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 03 Aug 2014 09:58:29 -0700 (PDT)
+	Sun, 03 Aug 2014 09:59:01 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Aug 2014 18:58:55 +0200
-Message-Id: <1407085135-6491-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun,  3 Aug 2014 18:59:26 +0200
+Message-Id: <1407085166-7860-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.0.2
-Subject: [PATCH] cairo: explicitly disable LTO support by backporting patch which removes it
+Subject: [for-daisy][PATCH] cairo: explicitly disable LTO support by backporting patch which removes it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 16:58:31 -0000
+X-List-Received-Date: Sun, 03 Aug 2014 16:59:02 -0000
 
 * cairo-native was failing to build in gentoo with gcc-4.9 and LTO
   enabled, more details in upstream bug
