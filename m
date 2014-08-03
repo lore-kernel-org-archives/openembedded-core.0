@@ -1,26 +1,29 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp08.online.nl (smtp08.online.nl [194.134.42.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E7DC70246
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id BD87F605BD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 14:02:43 +0000 (UTC)
-Received: from smtp08.online.nl (localhost [127.0.0.1])
-	by smtp08.online.nl (Postfix) with ESMTP id 1D2D4664B8;
-	Sun,  3 Aug 2014 16:02:44 +0200 (CEST)
-Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp08.online.nl (Postfix) with ESMTP;
-	Sun,  3 Aug 2014 16:02:44 +0200 (CEST)
-Message-ID: <53DE4103.5090906@topic.nl>
-Date: Sun, 03 Aug 2014 16:02:43 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-References: <53DE3841.2000305@topic.nl> <53DE3E5C.5020303@dynamicdevices.co.uk>
-In-Reply-To: <53DE3E5C.5020303@dynamicdevices.co.uk>
-X-Online-Scanned: by Cloudmark authority (on smtp08.online.nl)
-Cc: OE <openembedded-core@lists.openembedded.org>
+	Sun,  3 Aug 2014 16:07:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s73G7RWH022272; Sun, 3 Aug 2014 17:07:27 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lJ27Xrapi5bw; Sun,  3 Aug 2014 17:07:27 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s73G7L4x021976
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 3 Aug 2014 17:07:23 +0100
+Message-ID: <1407082041.6981.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Sun, 03 Aug 2014 17:07:21 +0100
+In-Reply-To: <53DE3841.2000305@topic.nl>
+References: <53DE3841.2000305@topic.nl>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: What does "QA Issue: ... rdepends on .. but its not a build dependency?" mean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,44 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 14:02:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sun, 03 Aug 2014 16:07:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/03/2014 03:51 PM, Alex J Lennon wrote:
->
-> On 03/08/2014 14:25, Mike Looijmans wrote:
->> I'm getting lots of warnings like this:
->>
->> """
->> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends
->> on wireless-tools but its not a build dependency? [build-deps]
->> """
->>
->> What does it actually mean? What does it want me to provide here?
->>
->> The message in itself is correct. The package only has a runtime
->> dependency. It does not require the wireless-tools package to be built
->> or otherwise present on the build system. But what is the QA issue
->> here and how do I get rid of the message?
->>
->
-> Surely if package B has a non-optional runtime dependency on package A
-> then package A must be built and present on the target ?
+On Sun, 2014-08-03 at 15:25 +0200, Mike Looijmans wrote:
+> I'm getting lots of warnings like this:
+> 
+> """
+> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends on 
+> wireless-tools but its not a build dependency? [build-deps]
+> """
+> 
+> What does it actually mean? What does it want me to provide here?
+> 
+> The message in itself is correct. The package only has a runtime 
+> dependency. It does not require the wireless-tools package to be built 
+> or otherwise present on the build system. But what is the QA issue here 
+> and how do I get rid of the message?
 
-Yes, I agree.
+The issue is that if you built an image that just depends on whichever
+recipe builds enigma2-plugin-systemplugins-wirelesslan and you try and
+install that into an image without something else depending on
+wireless-tools, the build will fail.
 
-But that does not help me understand the message. What does it want me 
-to do here?
+Sometimes (like this case) these are genuine runtime dependencies and
+you therefore just need to make the dependency visible to bitbake.
+Sometimes these can be floating autodetected dependencies which should
+wither have been in DEPENDS or turned off with PACKAGECONFIG.
 
-The message seems to suggest that package A must be in the DEPENDS list 
-for package B, which is definitely not the case here. Package B contains 
-some scripts and config files, and has an architecture of "all" and can 
-be built even way before the compiler and C libraries are present on the 
-build host. Package A however needs lots of other things, and will 
-likely start building much later than that.
+In this case I'm going to guess that the plugin is part of a
+PACKAGES_DYNAMIC and hence bitbake can't see the dependency until its
+too late (once the package is built).
+
+Adding the package name to PACKAGES would probably allow bitbake to
+"see" it and avoid the problem.
+
+Yes, bitbake could in theory go though all the RDEPENDS/RRECOMMENDS_*
+variables and try and guess which ones to look at however it would kill
+parsing time :/.
+
+Cheers,
+
+Richard
 
 
--- 
-Mike Looijmans
+
 
