@@ -1,34 +1,34 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B66665D53
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DDA665D57
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 16:59:00 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id n12so6453244wgh.21
+	Sun,  3 Aug 2014 16:59:12 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id l18so6403332wgh.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Aug 2014 09:59:02 -0700 (PDT)
+	Sun, 03 Aug 2014 09:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=EGtDe6k7J5J/ODr1t3hOPh6lOOHX4ptJIyJ2ze720lc=;
-	b=LeGugVGq22WS/1v70RTFZfIOrIzsy8R6bec/U7OKvxIJDogib99lxwIRPB40dYuWmb
-	r4+qybm7kDTzpq5kPgDUU2MHS8Ecgtex8dcxksheDpXuu/1OCyJFwBIDPtq086Mv3kAN
-	cBzjKREfR8L2uH3eOotJhMV0yGyo1iRd4il/0CZI/Q5LzV2GGGOjMErHPNIHvwp2z7Jd
-	bPuMtMqiWsChotA/D84ZThNtfuDp/FGRoYbyWUOZQq0w9/G6/ZkXwZ0n8D0/YUm7UB43
-	2Sm1wHQ/9VYc8QiDzwpWPjxNGu9fEjzjEiL4ptW1I/3OZlH51veFwxJ+M86etcjWiiiN
-	mmVg==
-X-Received: by 10.180.187.6 with SMTP id fo6mr23013210wic.58.1407085141960;
-	Sun, 03 Aug 2014 09:59:01 -0700 (PDT)
+	bh=sM5i4sPWkZIdhGkgr4WVrpjm8+t4oi7ymvkAsUmIIFw=;
+	b=lGHSJFxtUjmDppGZtTXAXOPgATTWBMJNIrfIWinrFQCnQXB6IJ0ri06FeH3v9clRy+
+	Xz0KSvxyAm9O5x1ooXMO922A/DQ02jnJxKeZxahUcdebbjqdIL2kfO+IrIb+D/1NPjAs
+	1yHtuF+0xDGWf8aFxY8HnO12nn+mS+bp9DRyzWNEHi3QxucDdQaI63FOxXvMDNyn+Nzi
+	OZ2PkXeC3wwEcnF6OXZdgaIltq7Dew4HOu7/ddqp9xPKrnpUADXE5VDF8NGg0q1aPfNd
+	Q6ViW0xypxeLF2hZQvcOXLm6RQ3Whrhj6LBZL0ualNLYpegOG0kG0BeMsa30PLw7v7+/
+	PuKw==
+X-Received: by 10.180.12.239 with SMTP id b15mr22488035wic.75.1407085153339;
+	Sun, 03 Aug 2014 09:59:13 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	bt9sm1741481wjc.40.2014.08.03.09.59.01 for <multiple recipients>
+	ko8sm37059811wjc.11.2014.08.03.09.59.12 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 03 Aug 2014 09:59:01 -0700 (PDT)
+	Sun, 03 Aug 2014 09:59:12 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Aug 2014 18:59:26 +0200
-Message-Id: <1407085166-7860-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun,  3 Aug 2014 18:59:39 +0200
+Message-Id: <1407085179-8247-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.0.2
-Subject: [for-daisy][PATCH] cairo: explicitly disable LTO support by backporting patch which removes it
+Subject: [for-dora][PATCH] cairo: explicitly disable LTO support by backporting patch which removes it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 16:59:02 -0000
+X-List-Received-Date: Sun, 03 Aug 2014 16:59:15 -0000
 
 * cairo-native was failing to build in gentoo with gcc-4.9 and LTO
   enabled, more details in upstream bug
@@ -50,7 +50,7 @@ X-List-Received-Date: Sun, 03 Aug 2014 16:59:02 -0000
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
  .../cairo/cairo/0001-Remove-LTO-support.patch      | 60 ++++++++++++++++++++++
- meta/recipes-graphics/cairo/cairo_1.12.16.bb       |  4 +-
+ meta/recipes-graphics/cairo/cairo_1.12.14.bb       |  4 +-
  2 files changed, 63 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-graphics/cairo/cairo/0001-Remove-LTO-support.patch
 
@@ -120,21 +120,21 @@ index 0000000..87297b2
 +-- 
 +2.0.2
 +
-diff --git a/meta/recipes-graphics/cairo/cairo_1.12.16.bb b/meta/recipes-graphics/cairo/cairo_1.12.16.bb
-index 246bd0b..42f7682 100644
---- a/meta/recipes-graphics/cairo/cairo_1.12.16.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.12.16.bb
-@@ -2,7 +2,9 @@ require cairo.inc
+diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+index 40aa169..87b7656 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ PR = "r0"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
- 
--SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
-+SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+-           file://png.patch"
 +    file://0001-Remove-LTO-support.patch \
++    file://png.patch \
 +"
  
- SRC_URI[md5sum] = "a1304edcdc99282f478b995ee5f8f854"
- SRC_URI[sha256sum] = "2505959eb3f1de3e1841023b61585bfd35684b9733c7b6a3643f4f4cbde6d846"
+ SRC_URI[md5sum] = "27b634113d0f52152d60ae8e2ec7daa7"
+ SRC_URI[sha256sum] = "96d0d1e3f9b74d2ca3469ff187c5e5f25649b1ad35cf06f4f3a83847dff4ac13"
 -- 
 2.0.2
 
