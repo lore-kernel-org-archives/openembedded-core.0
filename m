@@ -1,35 +1,25 @@
-Return-Path: <ajlennon@dynamicdevices.co.uk>
-X-Greylist: delayed 565 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 03 Aug 2014 14:00:52 UTC
-Received: from www.dynamicdevices.co.uk (www.dynamicdevices.co.uk
-	[89.200.136.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 80A8265E33
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp08.online.nl (smtp08.online.nl [194.134.42.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E7DC70246
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 14:00:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by www.dynamicdevices.co.uk (Postfix) with ESMTP id 7087527E060;
-	Sun,  3 Aug 2014 13:51:27 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at lennoab2.miniserver.com
-Received: from www.dynamicdevices.co.uk ([127.0.0.1])
-	by localhost (www.dynamicdevices.co.uk [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 8gTdVqeqi8R8; Sun,  3 Aug 2014 13:51:26 +0000 (UTC)
-Received: from [127.0.0.1] (cpc32-live22-2-0-cust59.17-2.cable.virginm.net
-	[82.36.253.60])
-	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by www.dynamicdevices.co.uk (Postfix) with ESMTPSA id 9D04627E04C;
-	Sun,  3 Aug 2014 13:51:26 +0000 (UTC)
-Message-ID: <53DE3E5C.5020303@dynamicdevices.co.uk>
-Date: Sun, 03 Aug 2014 14:51:24 +0100
-From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
+	Sun,  3 Aug 2014 14:02:43 +0000 (UTC)
+Received: from smtp08.online.nl (localhost [127.0.0.1])
+	by smtp08.online.nl (Postfix) with ESMTP id 1D2D4664B8;
+	Sun,  3 Aug 2014 16:02:44 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp08.online.nl (Postfix) with ESMTP;
+	Sun,  3 Aug 2014 16:02:44 +0200 (CEST)
+Message-ID: <53DE4103.5090906@topic.nl>
+Date: Sun, 03 Aug 2014 16:02:43 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: mike.looijmans@topic.nl
-References: <53DE3841.2000305@topic.nl>
-In-Reply-To: <53DE3841.2000305@topic.nl>
-X-Enigmail-Version: 1.6
+To: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+References: <53DE3841.2000305@topic.nl> <53DE3E5C.5020303@dynamicdevices.co.uk>
+In-Reply-To: <53DE3E5C.5020303@dynamicdevices.co.uk>
+X-Online-Scanned: by Cloudmark authority (on smtp08.online.nl)
 Cc: OE <openembedded-core@lists.openembedded.org>
 Subject: Re: What does "QA Issue: ... rdepends on .. but its not a build dependency?" mean
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,44 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 14:01:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 03 Aug 2014 14:02:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-On 03/08/2014 14:25, Mike Looijmans wrote:
-> I'm getting lots of warnings like this:
+On 08/03/2014 03:51 PM, Alex J Lennon wrote:
 >
-> """
-> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends
-> on wireless-tools but its not a build dependency? [build-deps]
-> """
+> On 03/08/2014 14:25, Mike Looijmans wrote:
+>> I'm getting lots of warnings like this:
+>>
+>> """
+>> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends
+>> on wireless-tools but its not a build dependency? [build-deps]
+>> """
+>>
+>> What does it actually mean? What does it want me to provide here?
+>>
+>> The message in itself is correct. The package only has a runtime
+>> dependency. It does not require the wireless-tools package to be built
+>> or otherwise present on the build system. But what is the QA issue
+>> here and how do I get rid of the message?
+>>
 >
-> What does it actually mean? What does it want me to provide here?
->
-> The message in itself is correct. The package only has a runtime
-> dependency. It does not require the wireless-tools package to be built
-> or otherwise present on the build system. But what is the QA issue
-> here and how do I get rid of the message?
->
+> Surely if package B has a non-optional runtime dependency on package A
+> then package A must be built and present on the target ?
 
-Surely if package B has a non-optional runtime dependency on package A
-then package A must be built and present on the target ?
+Yes, I agree.
 
-> Apart from that, there's a spelling error in there (its -> it's)
-> because it's "it's" when it's "it is" and it's "its" when it's its
-> property.
->
+But that does not help me understand the message. What does it want me 
+to do here?
 
-It is a spelling error in a superficial sense perhaps, but at a deeper
-level I suspect it is more accurately characterised as a grammatical error.
-
-Perhaps somebody was having trouble with string terminations and decided
-to avoid trouble?
-
-Cheers,
-
-Alex
+The message seems to suggest that package A must be in the DEPENDS list 
+for package B, which is definitely not the case here. Package B contains 
+some scripts and config files, and has an architecture of "all" and can 
+be built even way before the compiler and C libraries are present on the 
+build host. Package A however needs lots of other things, and will 
+likely start building much later than that.
 
 
+-- 
+Mike Looijmans
 
