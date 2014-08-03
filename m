@@ -1,28 +1,36 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp07.online.nl (smtp07.online.nl [194.134.42.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 337EA65CA8
+Return-Path: <ajlennon@dynamicdevices.co.uk>
+Received: from www.dynamicdevices.co.uk (www.dynamicdevices.co.uk
+	[89.200.136.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 123D260DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 17:48:35 +0000 (UTC)
-Received: from smtp07.online.nl (localhost [127.0.0.1])
-	by smtp07.online.nl (Postfix) with ESMTP id EF37698031
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 19:48:34 +0200 (CEST)
-Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp07.online.nl (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 19:48:34 +0200 (CEST)
-Message-ID: <53DE75F2.5070107@topic.nl>
-Date: Sun, 03 Aug 2014 19:48:34 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Sun,  3 Aug 2014 19:23:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by www.dynamicdevices.co.uk (Postfix) with ESMTP id 34AFE27E060;
+	Sun,  3 Aug 2014 19:23:03 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at lennoab2.miniserver.com
+Received: from www.dynamicdevices.co.uk ([127.0.0.1])
+	by localhost (www.dynamicdevices.co.uk [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id vp-vnim5dIWj; Sun,  3 Aug 2014 19:23:02 +0000 (UTC)
+Received: from [127.0.0.1] (cpc32-live22-2-0-cust59.17-2.cable.virginm.net
+	[82.36.253.60])
+	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by www.dynamicdevices.co.uk (Postfix) with ESMTPSA id 4F00027E04C;
+	Sun,  3 Aug 2014 19:23:02 +0000 (UTC)
+Message-ID: <53DE8C14.1030602@dynamicdevices.co.uk>
+Date: Sun, 03 Aug 2014 20:23:00 +0100
+From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <53DE3841.2000305@topic.nl> <1407082041.6981.42.camel@ted>
-	<53DE72CF.5080303@topic.nl>
-In-Reply-To: <53DE72CF.5080303@topic.nl>
-X-Online-Scanned: by Cloudmark authority (on smtp07.online.nl)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <53DE3841.2000305@topic.nl>	
+	<53DE3E5C.5020303@dynamicdevices.co.uk>
+	<1407082617.6981.44.camel@ted>
+In-Reply-To: <1407082617.6981.44.camel@ted>
+X-Enigmail-Version: 1.6
+Cc: mike.looijmans@topic.nl, OE <openembedded-core@lists.openembedded.org>
 Subject: Re: What does "QA Issue: ... rdepends on .. but its not a build dependency?" mean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,63 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 17:48:38 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Sun, 03 Aug 2014 19:23:07 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/03/2014 07:35 PM, Mike Looijmans wrote:
-> On 08/03/2014 06:07 PM, Richard Purdie wrote:
->> On Sun, 2014-08-03 at 15:25 +0200, Mike Looijmans wrote:
+
+On 03/08/2014 17:16, Richard Purdie wrote:
+> On Sun, 2014-08-03 at 14:51 +0100, Alex J Lennon wrote:
+>> On 03/08/2014 14:25, Mike Looijmans wrote:
 >>> I'm getting lots of warnings like this:
 >>>
 >>> """
->>> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends on
->>> wireless-tools but its not a build dependency? [build-deps]
+>>> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends
+>>> on wireless-tools but its not a build dependency? [build-deps]
 >>> """
 >>>
 >>> What does it actually mean? What does it want me to provide here?
 >>>
 >>> The message in itself is correct. The package only has a runtime
 >>> dependency. It does not require the wireless-tools package to be built
->>> or otherwise present on the build system. But what is the QA issue here
->>> and how do I get rid of the message?
->>
->> The issue is that if you built an image that just depends on whichever
->> recipe builds enigma2-plugin-systemplugins-wirelesslan and you try and
->> install that into an image without something else depending on
->> wireless-tools, the build will fail.
->>
->> Sometimes (like this case) these are genuine runtime dependencies and
->> you therefore just need to make the dependency visible to bitbake.
->> Sometimes these can be floating autodetected dependencies which should
->> wither have been in DEPENDS or turned off with PACKAGECONFIG.
->>
->> In this case I'm going to guess that the plugin is part of a
->> PACKAGES_DYNAMIC and hence bitbake can't see the dependency until its
->> too late (once the package is built).
->>
->> Adding the package name to PACKAGES would probably allow bitbake to
->> "see" it and avoid the problem.
->>
->> Yes, bitbake could in theory go though all the RDEPENDS/RRECOMMENDS_*
->> variables and try and guess which ones to look at however it would kill
->> parsing time :/.
+>>> or otherwise present on the build system. But what is the QA issue
+>>> here and how do I get rid of the message?
+>>>
+>> Surely if package B has a non-optional runtime dependency on package A
+>> then package A must be built and present on the target ?
+> Its the "built" part that is the issue, bitbake can't see the
+> dependency, hence the warning.
 >
-> And in this particular case, even that would not help - the dependencies
-> are being calculated after the "install" task has completed. There's
-> code in the recipe that parses the output of the plugins and then sets a
-> bunch of RDEPENDS and similar values for the package.
+>>> Apart from that, there's a spelling error in there (its -> it's)
+>>> because it's "it's" when it's "it is" and it's "its" when it's its
+>>> property.
+>>>
+>> It is a spelling error in a superficial sense perhaps, but at a deeper
+>> level I suspect it is more accurately characterised as a grammatical error.
+>>
+>> Perhaps somebody was having trouble with string terminations and decided
+>> to avoid trouble?
+> Somebody was concentrating on the correctness of the code generating the
+> warning rather than the grammar. The latter is easily fixed, patches
+> welcome.
 >
-> I think the easy workaround here would be to just add it to the DEPENDS
-> list - this particular recipe has been ported along from ancient OE, and
-> it already has to wait for tons of other things, because it builds about
-> a hundres useless plugins. The newer plugin recipes tend to have a
-> recipe each, so they don't cause this kind of problems.
 
-Hmm, that did NOT work. I added everything it warned about to the 
-DEPENDS list, but it did not make a difference. I still got the warnings.
+I stand corrected :)
 
+Cheers, Alex
 
--- 
-Mike Looijmans
 
