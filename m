@@ -1,21 +1,21 @@
 Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 24103701D0
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CBF416AC9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 18:41:39 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s74Iff47020184 for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Aug 2014 18:41:43 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s74IfftX016916 for <openembedded-core@lists.openembedded.org>;
 	Mon, 4 Aug 2014 13:41:41 -0500
 Received: from bshelton-desktop.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014080413414097-622914 ;
-	Mon, 4 Aug 2014 13:41:40 -0500 
+	with ESMTP id 2014080413414141-622918 ;
+	Mon, 4 Aug 2014 13:41:41 -0500 
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 4 Aug 2014 13:40:54 -0500
-Message-Id: <fc01be5e8f383a4507faab858274548624ecfc8a.1407177403.git.ben.shelton@ni.com>
+Date: Mon, 4 Aug 2014 13:40:58 -0500
+Message-Id: <6eee11939b5e229740cca413eaa741bfc85689c7.1407177403.git.ben.shelton@ni.com>
 X-Mailer: git-send-email 2.0.4
 In-Reply-To: <cover.1407177403.git.ben.shelton@ni.com>
 References: <cover.1407177403.git.ben.shelton@ni.com>
@@ -28,7 +28,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
 	0.0.0000
 	definitions=2014-08-04_03:2014-08-04, 2014-08-04,
 	1970-01-01 signatures=0
-Subject: [PATCH 02/20] udev-cache: choose a more descriptive cache filename
+Subject: [PATCH 06/20] udev-cache: Remove superfluous subshell on extract
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,32 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 18:41:42 -0000
+X-List-Received-Date: Mon, 04 Aug 2014 18:41:44 -0000
 
 From: Richard Tollerton <rich.tollerton@ni.com>
 
-"/etc/dev.tar.gz" doesn't adequately imply that udev-cache
-maintains it. Instead, call it "/etc/udev-cache.tar.gz".
+tar -C exists in both GNU and busybox tar, so use that instead of
+(cd /; tar ...). This allows the subshell to be removed.
 
 Natinst-Rally-ID: TA44427
 Acked-by: Gratian Crisan <gratian.crisan@ni.com>
 Natinst-ReviewBoard-ID: 58620
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 ---
- meta/recipes-core/udev/udev/udev-cache.default | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/udev/udev/init       | 2 +-
+ meta/recipes-core/udev/udev/udev-cache | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/udev/udev/udev-cache.default b/meta/recipes-core/udev/udev/udev-cache.default
-index 909ec87..a3b7326 100644
---- a/meta/recipes-core/udev/udev/udev-cache.default
-+++ b/meta/recipes-core/udev/udev/udev-cache.default
-@@ -1,5 +1,5 @@
- # Default for /etc/init.d/udev
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index a96309d..bcb9040 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -69,7 +69,7 @@ case "$1" in
+ 		    readfiles /etc/udev/cache.data
+ 		    OLDDATA="$READDATA"
+ 		    if [ "$OLDDATA" = "$NEWDATA" ]; then
+-                            (cd /; tar xzf $DEVCACHE --exclude=log)
++                            tar xzf $DEVCACHE -C / --exclude=log
+                             not_first_boot=1
+                             [ "$VERBOSE" != "no" ] && echo "udev: using cache file $DEVCACHE"
+                             [ -e /dev/shm/udev.cache ] && rm -f /dev/shm/udev.cache
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index 154d2ad..11c5f0e 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -25,7 +25,7 @@ fi
  
- # Comment this out to disable device cache
--DEVCACHE="/etc/dev.tar.gz"
-+DEVCACHE="/etc/udev-cache.tar.gz"
- PROBE_PLATFORM_BUS="yes"
+ if [ "$DEVCACHE" != "" -a -e /dev/shm/udev.cache ]; then
+ 	[ "${VERBOSE}" != "no" ] && echo "Populating dev cache"
+-	(cd /; tar czf "$DEVCACHE" dev)
++	tar czf "$DEVCACHE" dev -C / --exclude=log
+ 	mv /dev/shm/udev.cache /etc/udev/cache.data
+ fi
+ 
 -- 
 2.0.4
 
