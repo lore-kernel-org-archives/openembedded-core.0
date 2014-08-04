@@ -1,25 +1,40 @@
-Return-Path: <roxana.ciobanu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8650460DF7
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id B345460703
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 11:07:22 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Aug 2014 04:00:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="367604368"
-Received: from unknown (HELO roxana-OptiPlex-9010.rb.intel.com)
-	([10.237.105.58])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Aug 2014 04:04:01 -0700
-From: Roxana Ciobanu <roxana.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Aug 2014 14:07:45 +0300
-Message-Id: <7f58ec97929b7272c20bc4affaa6dc92927d8bbd.1407150413.git.roxana.ciobanu@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1407150413.git.roxana.ciobanu@intel.com>
-References: <cover.1407150413.git.roxana.ciobanu@intel.com>
-In-Reply-To: <cover.1407150413.git.roxana.ciobanu@intel.com>
-References: <cover.1407150413.git.roxana.ciobanu@intel.com>
-Subject: [PATCH 1/1] error page/search result page: Display submission date/time information
+	Mon,  4 Aug 2014 11:19:58 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20140804111958036
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Aug 2014 11:19:58 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=60507 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XEGIz-0008Ut-B3 for openembedded-core@lists.openembedded.org;
+	Mon, 04 Aug 2014 07:19:53 -0400
+Date: Mon, 4 Aug 2014 07:19:49 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+In-Reply-To: <alpine.LFD.2.11.1408040630210.6237@localhost>
+Message-ID: <alpine.LFD.2.11.1408040716390.7019@localhost>
+References: <alpine.LFD.2.11.1408040630210.6237@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: Re: a few questions on the proper use of TEMPLATECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,137 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 11:07:22 -0000
+X-List-Received-Date: Mon, 04 Aug 2014 11:20:02 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323328-13654955-1407151192=:7019"
 
-Show the submission date and time for an error in the search
-results page as a table column and in the the error page as
-a definition list item in the "Error details" section.
+--8323328-13654955-1407151192=:7019
+Content-Type: TEXT/PLAIN; charset=ISO-8859-7
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
----
- Post/createStatistics.py      |  4 ++++
- Post/getInfo.py               |  3 +++
- Post/parser.py                |  3 ++-
- templates/error-details.html  |  2 ++
- templates/home.html           | 13 +++++++++++++
- templates/search-details.html |  2 ++
- 6 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/Post/createStatistics.py b/Post/createStatistics.py
-index e4d9e3f..1df3e51 100644
---- a/Post/createStatistics.py
-+++ b/Post/createStatistics.py
-@@ -39,6 +39,10 @@ class Statistics:
-     def chart_statistics(self, string):
-         startdate = datetime.now()
-         enddate = startdate - timedelta(days=30)
-+        if string == "DATE":
-+            date = Build.objects.filter(DATE__range=[enddate, startdate]).values('DATE').annotate(dcount=Count('DATE'))
-+            items = list(date)
-+            return self.create_statistic(items, "DATE")
-         if string == "MACHINE":
-             machines = Build.objects.filter(DATE__range=[enddate, startdate]).values('MACHINE').annotate(dcount=Count('MACHINE'))
-             items = list(machines)
-diff --git a/Post/getInfo.py b/Post/getInfo.py
-index 3e9936d..5f0c3eb 100644
---- a/Post/getInfo.py
-+++ b/Post/getInfo.py
-@@ -68,6 +68,9 @@ class Info:
-                 except:
-                     pass
- 
-+            if category == "DATE":
-+                build = Build.objects.filter(DATE__icontains = string)
-+                results.append(self.getBuildFailures(build))
-             if category == "MACHINE":
-                 build = Build.objects.filter(MACHINE__icontains = string)
-                 results.append(self.getBuildFailures(build))
-diff --git a/Post/parser.py b/Post/parser.py
-index 35325f1..fae9194 100644
---- a/Post/parser.py
-+++ b/Post/parser.py
-@@ -10,6 +10,7 @@
- import sys, os, json, re
- from Post.models import Build, BuildFailure
- from django.conf import settings
-+from django.utils import timezone
- from datetime import datetime
- 
- class Parser:
-@@ -30,7 +31,7 @@ class Parser:
-         NAME = str(jsondata['username'])
-         EMAIL = str(jsondata['email'])
-         g = re.match(r'(.*): (.*)', str(BRANCH_COMMIT))
--        b=Build(DATE = datetime.now(), MACHINE = MACHINE_NAME, BRANCH = g.group(1), COMMIT = str(g.group(2)), TARGET = COMPONENT, DISTRO = DISTRO, NATIVELSBSTRING = NATIVELSBSTRING, BUILD_SYS = BUILD_SYS, TARGET_SYS = TARGET_SYS, NAME = NAME, EMAIL = EMAIL)
-+        b=Build(DATE = timezone.now(), MACHINE = MACHINE_NAME, BRANCH = g.group(1), COMMIT = str(g.group(2)), TARGET = COMPONENT, DISTRO = DISTRO, NATIVELSBSTRING = NATIVELSBSTRING, BUILD_SYS = BUILD_SYS, TARGET_SYS = TARGET_SYS, NAME = NAME, EMAIL = EMAIL)
-         b.save()
-         failures = jsondata['failures']
-         for fail in failures:
-diff --git a/templates/error-details.html b/templates/error-details.html
-index 0de5f46..f2dc010 100644
---- a/templates/error-details.html
-+++ b/templates/error-details.html
-@@ -21,6 +21,8 @@
- 					<div class="well">
- 						<h2>Error details</h2>
- 						<dl class="dl-vertical">
-+							<dt>Submitted on:</dt>
-+							<dd>{{ detail.BUILD.DATE|date:"d/m/y H:i"}}</dd>
- 							<dt>Task:</dt>
- 							<dd>{{ detail.TASK }}</dd>
- 							<dt>Recipe:</dt>
-diff --git a/templates/home.html b/templates/home.html
-index 6c8a1e7..77c31d9 100644
---- a/templates/home.html
-+++ b/templates/home.html
-@@ -25,6 +25,13 @@
- 						{% include_container "r" %}
- 					</div>
- 				</li>
-+				<li class="span6">
-+					<h2>By date</h2>
-+					<div class="thumbnail">
-+						<p style="display:none">{% load_chart charttype chartdata "r"%}</p>
-+						{% include_container "r" %}
-+					</div>
-+				</li>
- 			</ul>
- 			</div>
- 			<div class="row-fluid">
-@@ -160,6 +167,12 @@
- 
- 					
- 					if ($("#m").text() == ""){
-+						$.get('{% url statistics "DATE" %}', function(data){
-+						draw = modify_chart(data, "By date", "m");
-+						$("#m").html(draw);
-+					})
-+					}
-+					if ($("#m").text() == ""){
- 						$.get('{% url statistics "MACHINE" %}', function(data){
- 						draw = modify_chart(data, "By machine", "m");
- 						$("#m").html(draw);
-diff --git a/templates/search-details.html b/templates/search-details.html
-index cf57507..3941a1f 100644
---- a/templates/search-details.html
-+++ b/templates/search-details.html
-@@ -16,6 +16,7 @@
- 					<table class="table table-bordered table-hover">
- 						<thead>
- 							<tr>
-+								<th>Submitted on</th>
- 								<th>Recipe</th>
- 								<th>Recipe version</th>
- 								<th>Task</th>
-@@ -31,6 +32,7 @@
- 						<tbody>
- 							{%for detail in details %}
- 								<tr>
-+									<td><a href="{% url id detail.id details.number items d %}">{{ detail.BUILD.DATE|date:"d/m/y H:i"}}</a></td>
- 									<td><a href="{% url id detail.id details.number items d %}">{{ detail.RECIPE }}</a></td>
- 									<td><a href="{% url id detail.id details.number items d %}">{{ detail.RECIPE_VERSION }}</a></td>
- 									<td><a href="{% url id detail.id details.number items d %}">{{ detail.TASK }}</a></td>
+  short followup to my earlier post ... it seems like
+oe-setup-builddir doesn't do a whole lot of input validation. for fun,
+i tried to define a new project using /tmp for TEMPLATECONF, knowing
+there was nothing valid there to be used as sample files, and here's
+what i got (in part):
+
+cp: cannot stat ¡/tmp/local.conf.sample¢: No such file or directory
+You had no conf/bblayers.conf file. The configuration file has been
+created for
+you with some default values. To add additional metadata layers into
+your
+configuration please add entries to this file.
+
+The Yocto Project has extensive documentation about OE including a
+reference manual
+which can be found at:
+    http://yoctoproject.org/documentation
+
+For more information about OpenEmbedded see their website:
+    http://www.openembedded.org/
+
+sed: can't read /tmp/bblayers.conf.sample: No such file or directory
+
+  in the end, despite the obviously fatal errors, i got a new build
+directory with no local.conf, and an empty bblayers.conf. that doesn't
+really match what the error messages were telling me above.
+
+rday
+
 -- 
-1.9.1
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-13654955-1407151192=:7019--
