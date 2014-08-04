@@ -1,32 +1,38 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id AF8A860DF7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B7B1F65C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 18:56:17 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s74IuInI003313 for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Aug 2014 13:56:18 -0500
-Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014080413561798-622840 ;
-	Mon, 4 Aug 2014 13:56:17 -0500 
-From: Ben Shelton <ben.shelton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 4 Aug 2014 13:55:49 -0500
-Message-Id: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
-X-Mailer: git-send-email 2.0.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/04/2014 01:56:18 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/04/2014 01:56:18 PM,
-	Serialize complete at 08/04/2014 01:56:18 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-04_03:2014-08-04, 2014-08-04,
-	1970-01-01 signatures=0
-Subject: [PATCH] create-pull-request: Fix error on 2.0 versions of git
+	Mon,  4 Aug 2014 19:29:44 +0000 (UTC)
+Received: by mail-yh0-f47.google.com with SMTP id f10so4599716yha.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Aug 2014 12:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=2zlW4sb/hS3sqtSrcaDQscb9L2TH9L2Gp8e8qmudgBw=;
+	b=WhD1LzaVvCApxuU9IMlldiz9oFo8w7562GZKUDaVugBXSBlRrA3JoydQFU1nHQcNgd
+	jte+MIOgmI2N6GOIVYHdYPCxDhGiLofrA0G8i4luFyBvwCvWJiwo/r2Cq0RDcOktPVac
+	hB1gRNo3AUfdxgZv9+60DLajEiKVLjVnh0fzl7ofdXJ2SnQWmRE2pbcZujSk9Rd9nzae
+	W6tMht3dLQ6GK+J6UlKqMdt2AfsA4EpeRBDaGtXGsdo2pFuJuzcMljbpsX44O9es07Xy
+	lsrgEUJd3uGY3Ahf5eEUNGkoQulNeVHOlHQgFf/JkHyWbJGOZvd+++a8AGvr5my/plUc
+	g7PQ==
+MIME-Version: 1.0
+X-Received: by 10.236.29.171 with SMTP id i31mr42444335yha.37.1407180585563;
+	Mon, 04 Aug 2014 12:29:45 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Mon, 4 Aug 2014 12:29:45 -0700 (PDT)
+In-Reply-To: <78fc1827553729a69ee665bf4ef7e33495d9de0b.1407177403.git.ben.shelton@ni.com>
+References: <cover.1407177403.git.ben.shelton@ni.com>
+	<78fc1827553729a69ee665bf4ef7e33495d9de0b.1407177403.git.ben.shelton@ni.com>
+Date: Mon, 4 Aug 2014 16:29:45 -0300
+X-Google-Sender-Auth: we0nKtp3GG7EdB2uVovSbbsiqHs
+Message-ID: <CAP9ODKpQLwLf4r2JSvvYEcT6hGd-a6sY2Uoa4dCPgNFp8FhOcw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ben Shelton <ben.shelton@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/20] udev-cache: Compress the cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 18:56:20 -0000
+X-List-Received-Date: Mon, 04 Aug 2014 19:29:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2.0 versions of git, the create-pull-request script exits with the
-warning "No match for commit... Are you sure you pushed 'HEAD' there?".
+On Mon, Aug 4, 2014 at 3:40 PM, Ben Shelton <ben.shelton@ni.com> wrote:
+> From: Richard Tollerton <rich.tollerton@ni.com>
+>
+> $DEVCACHE is observed to be 100k uncompressed; compressing it reduces
+> its size to ~5k.
+>
+> Natinst-Rally-ID: TA44427
+> Acked-by: Gratian Crisan <gratian.crisan@ni.com>
+> Natinst-ReviewBoard-ID: 58620
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 
-This is due to a change in behavior where git used to guess the branch
-you meant, but no longer does.  See the thread at
-http://www.spinics.net/lists/git/msg233050.html for more information.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-To accommodate the new behavior, if the COMMIT_ID is set to the default
-of "HEAD", make it point explicitly to $BRANCH instead.
-
-Signed-off-by: Ben Shelton <ben.shelton@ni.com>
----
- scripts/create-pull-request | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 503248b..2bf5eb5 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -125,6 +125,10 @@ if [ -z "$BRANCH" ]; then
- 	echo "NOTE: Assuming remote branch '$BRANCH', use -b to override."
- fi
- 
-+if [ "$COMMIT_ID" == "HEAD" ]; then
-+	COMMIT_ID="$BRANCH"
-+fi
-+
- if [ -z "$REMOTE_URL" ]; then
- 	echo "ERROR: Missing parameter -u, no git remote!"
- 	usage
 -- 
-2.0.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
