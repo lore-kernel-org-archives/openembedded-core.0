@@ -1,41 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 353D162252
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f42.google.com (mail-yh0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A1E9062252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 19:43:29 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id u57so8381860wes.10
+	Mon,  4 Aug 2014 19:44:18 +0000 (UTC)
+Received: by mail-yh0-f42.google.com with SMTP id a41so4653117yho.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 12:43:30 -0700 (PDT)
+	Mon, 04 Aug 2014 12:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=yyqWwoElZXAxFwY23scxaSsFXs8ZRIpCJI8blBJRU+w=;
-	b=mPU9qMjBNDijmhT4vefLqYbT3HTXde6LEFtashs/ICjJYYuK+ZnFftuVR15bOY8NAa
-	6vSn5b/g85Z/Zej0MbTMdbMTtc9n057bkhfEC4GvJrRq69LO78KQUXskvtMFQ3mUIJ7w
-	k2xAR9WVKipx7y08+bf9FtCVS8FctT4fOOl1FdcAMqChCFV4M5lM5sbA7AbH1yWpKQ/J
-	av0UaQKv/yH2Ry12CobWPCuRDfyDpIO85ZhoQeWlq1gzNApbEcV4yJsu+CRO2UhkjZJ5
-	qnzSLxzrBzfSr0KW+jv3/bKM+LU0fq8E0yf5PxnWgLT4C/0t3r13jhYiLv9zF0qs2Y3k
-	FB6g==
-X-Received: by 10.180.89.161 with SMTP id bp1mr18390264wib.49.1407181410812;
-	Mon, 04 Aug 2014 12:43:30 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	kr5sm45671247wjc.27.2014.08.04.12.43.29 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Aug 2014 12:43:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 4 Aug 2014 21:43:57 +0200
-To: Ben Shelton <ben.shelton@ni.com>
-Message-ID: <20140804194357.GF2465@jama>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<bee86f48e59ad65ffe1256fa967ac83eb0ac111e.1407177403.git.ben.shelton@ni.com>
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=iTyWBDPiEFrCE9+RU1orMEj6xGRnPuFGc9Etwy7ebgA=;
+	b=BrB65/v2jIe/VrbHqRjw89yccaQmzrf6+2fAoAlo+9ABil69Qfyd6I3QDmJ4ZMGdxE
+	ak8kHJ9EFuvdMQOn2IRx4TYAWYh65tdQHlDKYRAfs6xDeh6TiGWuBS2xApW/qLFXsbdA
+	gMxpqA6+op6sfCiDvkJSRx6YL8kwOmOP78bY9I0+2mOKTNukciOFPKMbOyAOTUUI8Ayb
+	uZgCS2T6BE69FhFoABQPcxR+F0+CEjJuX0RpMw5UkAA7x2ZCcO3h275AjL7LknsOGDgc
+	bSsjruoVpZDiyBHL5tvEePYV1eKbQ3ybKXnSRyIahrxXI6FVowobixsZzfG4vRddnR8Z
+	RupQ==
 MIME-Version: 1.0
-In-Reply-To: <bee86f48e59ad65ffe1256fa967ac83eb0ac111e.1407177403.git.ben.shelton@ni.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 18/20] udev: Make build MACHINE-specific
+X-Received: by 10.236.162.7 with SMTP id x7mr40152355yhk.6.1407181459641; Mon,
+	04 Aug 2014 12:44:19 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Mon, 4 Aug 2014 12:44:19 -0700 (PDT)
+In-Reply-To: <17ffe840a21d09f0dcb1cdfeb13d9d21331055f9.1407177403.git.ben.shelton@ni.com>
+References: <cover.1407177403.git.ben.shelton@ni.com>
+	<17ffe840a21d09f0dcb1cdfeb13d9d21331055f9.1407177403.git.ben.shelton@ni.com>
+Date: Mon, 4 Aug 2014 16:44:19 -0300
+X-Google-Sender-Auth: 0WZB8TX-Mq8OwVV7CWnRAGlNw5k
+Message-ID: <CAP9ODKqkaSZde6TuXw=VdverfKWP-o03=5VmLgfRNUias50gxg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ben Shelton <ben.shelton@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/20] udev-cache: parametrize sysconf file paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,80 +45,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 19:43:36 -0000
-X-Groupsio-MsgNum: 55957
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4f28nU6agdXSinmL"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Aug 2014 19:44:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
---4f28nU6agdXSinmL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 04, 2014 at 01:41:10PM -0500, Ben Shelton wrote:
+On Mon, Aug 4, 2014 at 3:41 PM, Ben Shelton <ben.shelton@ni.com> wrote:
 > From: Richard Tollerton <rich.tollerton@ni.com>
->=20
-> For space reasons, udev needs to be configured differently depending on
-> MACHINE_FEATURES. So set PACKAGE_ARCH accordingly.
->=20
+>
+> The udev-cache facility uses files that represent system states, to
+> ensure that the cache tarball is valid to apply. These paths were
+> hardcoded in several places; collect them into DEVCACHE_SYSCONF and
+> DEVCACHE_CURRENT_SYSCONF in the defaults file.
+>
 > Natinst-Rally-ID: TA44427
 > Acked-by: Gratian Crisan <gratian.crisan@ni.com>
-> Natinst-ReviewBoard-ID: 58621
+> Natinst-ReviewBoard-ID: 58620
 > Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 > ---
->  meta/recipes-core/udev/udev.inc | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/ude=
-v.inc
-> index 11204aa..8394064 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -15,6 +15,12 @@ LDFLAGS +=3D "-lrt"
->  DEPENDS =3D "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-=
-native util-linux"
->  RPROVIDES_${PN} =3D "hotplug"
-> =20
-> +#
-> +# packages which content depend on MACHINE_FEATURES/COMBINED_FEATURES ne=
-ed to be MACHINE_ARCH
-> +#
-> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+...
+> --- a/meta/recipes-core/udev/udev/udev-cache
+> +++ b/meta/recipes-core/udev/udev/udev-cache
+> @@ -23,12 +23,12 @@ if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
+>      exit 0
+>  fi
+>
+> -if [ "$DEVCACHE" != "" -a -e /dev/shm/udev.cache ]; then
+> +if [ "$DEVCACHE" != "" -a -e "$DEVCACHE_CURRENT_SYSCONF" ]; then
+>         [ "${VERBOSE}" != "no" ] && echo "Populating dev cache"
+>         (
+>                 tar czf "${DEVCACHE}.tmp" dev -C / --exclude=log
+>                 mv -f "${DEVCACHE}.tmp" "$DEVCACHE"
+> -               mv /dev/shm/udev.cache /etc/udev/cache.data
+> +               mv "$DEVCACHE_CURRENT_SYSCONF" "$DEVCACHE_SYSCONF"
+>         ) &
+>  fi
+>
+> diff --git a/meta/recipes-core/udev/udev/udev-cache.default b/meta/recipes-core/udev/udev/udev-cache.default
+> index 656c2a4..7f39a68 100644
+> --- a/meta/recipes-core/udev/udev/udev-cache.default
+> +++ b/meta/recipes-core/udev/udev/udev-cache.default
+> @@ -2,4 +2,8 @@
+>
+>  # Comment this out to disable device cache
+>  DEVCACHE="/etc/udev-cache.tar.gz"
+> +
+> +DEVCACHE_SYSCONF="/etc/udev/cache.data"
+> +DEVCACHE_CURRENT_SYSCONF="/dev/shm/udev.cache"
+> +
+>  PROBE_PLATFORM_BUS="yes"
+> --
 
-A lot of recipes are depending on udev and aren't MACHINE_ARCH (this
-would make them effectively MACHINE_ARCH).
+Most users won't need to change this so I think this should have a
+default value in the script and don't be added in the default.
 
-e.g. bluez4, ofono, clutter, mesa, pulseaudio, ... and everything
-depending on them as well.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
->  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.t=
-ar.gz \
->             file://0001-Fixing-keyboard_force_release.sh-shell-script-pat=
-h.patch \
->             file://avoid-mouse-autosuspend.patch \
-> --=20
-> 2.0.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---4f28nU6agdXSinmL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPf4n0ACgkQN1Ujt2V2gBzPGQCggSDN8H0afxUEy23ki3NjeSoM
-/ukAoLefQjGIDn5/yk8SOGBRfro9sAE2
-=WNp0
------END PGP SIGNATURE-----
-
---4f28nU6agdXSinmL--
