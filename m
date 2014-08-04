@@ -1,40 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 77D9660EFA
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 6031760DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 10:49:58 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id p10so7537274wes.30
+	Mon,  4 Aug 2014 10:54:42 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20140804105424908
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 03:49:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:content-type:content-transfer-encoding
-	:subject:message-id:date:to:mime-version;
-	bh=2goF1SRbfKDvXFb93X8ZeYTw6Q1JZcLbFiMRLHLy/Sc=;
-	b=a++iYltN5Ded0NBktjmnuY+lDXmqyzcaPVpWORB/U8uJoaEfaDZvl7EmuI+Z4IihwA
-	U7/uOq8sVOpp9FGqyVTAOzVayxvcZ2Yu+sye8+L/hgysSlR4yrTzu1eV4N9DvbhnhWJZ
-	yKckA+eLwSV8gvK4e4v+CbWP3IbNccRUxy3h7x1c03vjywV1RXHwP5Gfy+eMbZN54U9i
-	kBHPsIbTN4i6s4kRCOmsMM7njzQvgvYPQOdpcXO2qxiSDT+DCIgWmNg6riEOQSaLf8y+
-	vS3pLUULMzit6mThhP1Ywc5KlRJ6KuaoxXK2GBkiK76F//qHJr12QQ6RE0VPWrHFpDu1
-	a4qw==
-X-Gm-Message-State: ALoCoQmL10sIWXOYd5W+UnI6pcm4Bow1P3NRZcm9IKRcQIRyPWpKz6O76EYWCn91HLoztzQKPn8/
-X-Received: by 10.180.205.212 with SMTP id li20mr28374560wic.2.1407149398893; 
-	Mon, 04 Aug 2014 03:49:58 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::8185:a1a:1d8f:6e6f?
-	([2001:610:612:0:8185:a1a:1d8f:6e6f])
-	by mx.google.com with ESMTPSA id
-	lk7sm42654130wjb.24.2014.08.04.03.49.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Aug 2014 03:49:57 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Message-Id: <08CDE0F5-F24D-4E80-AF2A-327B292D89FE@dominion.thruhere.net>
-Date: Mon, 4 Aug 2014 12:49:55 +0200
-To: OE-core <openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-X-Mailer: Apple Mail (2.1878.6)
-Subject: perform_packagecopy can't handle bindir==base_bindir and errors out
+	Mon, 04 Aug 2014 10:54:24 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=59441 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XEFuF-0007qU-OP for openembedded-core@lists.openembedded.org;
+	Mon, 04 Aug 2014 06:54:19 -0400
+Date: Mon, 4 Aug 2014 06:54:15 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1408040630210.6237@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: a few questions on the proper use of TEMPLATECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,171 +45,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 10:50:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I'm currently trying to combine {base_}{lib,bin}dir and have set =
-base_prefix to /usr and redefined some other vars:
-
-+# Try to move distro stuff under /usr
-+# Keep /etc and friend in /
-+base_prefix =3D "/usr"
-+nonarch_base_libdir =3D "/lib"
-+sysconfdir =3D "/etc"
-+servicedir =3D "/srv"
-+sharedstatedir =3D "/com"
-+localstatedir =3D "/var"
-
-This hits a few problems (see tcpwrapper patch), but a bigger problem is =
-with perform_packagecopy and kmod:
-
-ERROR: Error executing a python function in =
-/build/scratch/angstrom-v2014.12/sources/openembedded-core/meta/recipes-ke=
-rnel/kmod/kmod_git.bb:
-
-The stack trace of python calls that resulted in this exception/failure =
-was:
-File: 'perform_packagecopy', lineno: 89, function: <module>
-     0085:                else:
-     0086:                    bb.warn('%s: Unable to resolve dangling =
-symlink: %s' % (pn, alt_target))
-     0087:
-     0088:
- *** 0089:perform_packagecopy(d)
-     0090:
-File: 'perform_packagecopy', lineno: 71, function: perform_packagecopy
-     0067:        for alt_target in link_rename:
-     0068:            src =3D '%s/%s' % (pkgdest, alt_target)
-     0069:            dest =3D '%s/%s' % (pkgdest, =
-link_rename[alt_target])
-     0070:            link =3D os.readlink(src)
- *** 0071:            link_target =3D oe.path.realpath(src, pkgdest, =
-True)
-     0072:
-     0073:            if os.path.lexists(link_target):
-     0074:                # Ok, the link_target exists, we can rename
-     0075:                bb.note('%s: Rename (link) %s -> %s' % (pn, =
-alt_target, link_rename[alt_target]))
-File: =
-'/build/scratch/angstrom-v2014.12/sources/openembedded-core/meta/lib/oe/pa=
-th.py', lineno: 229, function: realpath
-     0225:        raise OSError(errno.EINVAL, "file '%s' is not below =
-root" % file)
-     0226:
-     0227:    try:
-     0228:        if use_physdir:
- *** 0229:            file =3D __realpath_rel(root, file[(len(root) - =
-1):], root, loop_cnt, assume_dir)
-     0230:        else:
-     0231:            file =3D __realpath(file, root, loop_cnt, =
-assume_dir)[0]
-     0232:    except OSError as e:
-     0233:        if e.errno =3D=3D errno.ELOOP:
-File: =
-'/build/scratch/angstrom-v2014.12/sources/openembedded-core/meta/lib/oe/pa=
-th.py', lineno: 180, function: __realpath_rel
-     0176:                # emit warning?
-     0177:                pass
-     0178:        else:
-     0179:            (start, have_dir) =3D =
-__realpath(os.path.join(start, d),
- *** 0180:                                           root, loop_cnt, =
-assume_dir)
-     0181:
-     0182:        assert(__is_path_below(start, root))
-     0183:
-     0184:    return start
-File: =
-'/build/scratch/angstrom-v2014.12/sources/openembedded-core/meta/lib/oe/pa=
-th.py', lineno: 200, function: __realpath
-     0196:            assert(__is_path_below(tdir, root))
-     0197:        else:
-     0198:            tdir =3D root
-     0199:
- *** 0200:        file =3D __realpath_rel(tdir, target, root, loop_cnt, =
-assume_dir)
-     0201:
-     0202:    try:
-     0203:        is_dir =3D os.path.isdir(file)
-     0204:    except:
-File: =
-'/build/scratch/angstrom-v2014.12/sources/openembedded-core/meta/lib/oe/pa=
-th.py', lineno: 169, function: __realpath_rel
-     0165:    have_dir =3D True
-     0166:
-     0167:    for d in rel_path.split(os.path.sep):
-     0168:        if not have_dir and not assume_dir:
- *** 0169:            raise OSError(errno.ENOENT, "no such directory %s" =
-% start)
-     0170:
-     0171:        if d =3D=3D os.path.pardir: # '..'
-     0172:            if len(start) >=3D len(root):
-     0173:                # do not follow '..' before root
-Exception: OSError: [Errno 2] no such directory =
-/build/scratch/angstrom-v2014.12/build/tmp-angstrom_next-eglibc/work/armv5=
-te-angstrom-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/package/usr/usr=
+X-List-Received-Date: Mon, 04 Aug 2014 10:54:44 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-ERROR: Function failed: perform_packagecopy
-ERROR: Logfile of failure stored in: =
-/build/scratch/angstrom-v2014.12/build/tmp-angstrom_next-eglibc/work/armv5=
-te-angstrom-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/temp/log.do_pac=
-kage.2519
-ERROR: Task 801 =
-(/build/scratch/angstrom-v2014.12/sources/openembedded-core/meta/recipes-k=
-ernel/kmod/kmod_git.bb, do_package) failed with exit code '1'
+  first time perusing all that templateconf stuff, so some admittedly
+simple questions.
 
-The contents of that dir:
+  i'm looking at oe-setup-builddir, which is where the initialization
+of the new build dir is done, so let's start at the top:
 
-koen@beast:/build/scratch/angstrom-v2014.12$ cd =
-/build/scratch/angstrom-v2014.12/build/tmp-angstrom_next-eglibc/work/armv5=
-te-angstrom-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/package/
-=
-koen@beast:/build/scratch/angstrom-v2014.12/build/tmp-angstrom_next-eglibc=
-/work/armv5te-angstrom-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/pack=
-age$ find .
-.
-./etc
-./etc/depmod.d
-./etc/modprobe.d
-./usr
-./usr/lib
-./usr/lib/libkmod.so
-./usr/lib/libkmod.so.2
-./usr/lib/depmod.d
-./usr/lib/depmod.d/search.conf
-./usr/lib/modprobe.d
-./usr/lib/libkmod.so.2.2.8
-./usr/lib/pkgconfig
-./usr/lib/pkgconfig/libkmod.pc
-./usr/lib/libkmod.la
-./usr/include
-./usr/include/libkmod.h
-./usr/bin
-./usr/bin/kmod
-./usr/bin/lsmod
-./usr/sbin
-./usr/sbin/modprobe
-./usr/sbin/rmmod
-./usr/sbin/modinfo
-./usr/sbin/insmod
-./usr/sbin/depmod
-./usr/share
-./usr/share/bash-completion
-./usr/share/bash-completion/completions
-./usr/share/bash-completion/completions/kmod
-=
-koen@beast:/build/scratch/angstrom-v2014.12/build/tmp-angstrom_next-eglibc=
-/work/armv5te-angstrom-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/pack=
-age$=20
+  if [ -z "$BUILDDIR" ]; then
+    echo >&2 "Error: The build directory (BUILDDIR) must be set!"
+    exit 1
+  fi
 
-I can't figure out why packagecopy wants to go into '/usr/usr', the kmod =
-recipe itself seems fine.
+  mkdir -p $BUILDDIR/conf
 
-regards,
+  if [ ! -d "$BUILDDIR" ]; then
+    echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
+    exit 1
+  fi
 
-Koen=
+  if [ ! -w "$BUILDDIR" ]; then
+    echo >&2 "Error: Cannot write to $BUILDDIR, perhaps try sourcing with a writable path? i.e. . oe-init-build-env ~/my-build"
+    exit 1
+  fi
+
+  cd "$BUILDDIR"
+
+so, at that point, i have either a new project, or i've simply reset
+my working environment into an existing project. so far, so good. the
+next few lines are just a bit puzzling:
+
+  if [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
+    TEMPLATECONF=$(cat $BUILDDIR/conf/templateconf.cfg)
+  fi
+
+  . $OEROOT/.templateconf
+
+could that not have been written with an "else" clause?
+
+  if [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
+    TEMPLATECONF=$(cat $BUILDDIR/conf/templateconf.cfg)
+  else
+    . $OEROOT/.templateconf
+  fi
+
+after all, if you have an existing templateconf.cfg and use that to
+set TEMPLATECONF, what is the point of subsequently sourcing the
+OEROOT .templateconf file, which will simply realize it's been set and
+do nothing? (yes, i realize it doesn't hurt, but i firmly believe in
+not invoking code that clearly has no value -- it's just confusing for
+people who want to RTFS. :-)
+
+  next, i assume that while it's natural to put overriding conf files
+in a layer/conf file, they can be placed anywhere, correct?
+
+  also, there appear to be a few typos in that script. here:
+
+echo >&2 "Error: '$TEMPLATECONF' must be a directory containing local.conf & bblayers.conf"
+
+  i assume those names should be local.conf.sample and
+bblayers.conf.sample, yes? and a couple other minor typos in comments.
+
+  thoughts?
+
+rday
+
+p.s. oh, one more observation. at the end of oe-setup-builddir:
+
+  if [ -z "$OECORENOTESCONF" ]; then
+    OECORENOTESCONF="$OEROOT/meta/conf/conf-notes.txt"
+  fi
+
+given that poky uses "meta-yocto/conf" as the default basis for the
+sample files, why is this code explicitly using "meta/conf"? i notice
+that there are two files with that name under the poky checkout:
+
+[poky]$ find . -name conf-notes.txt
+./meta-yocto/conf/conf-notes.txt
+./meta/conf/conf-notes.txt
+$
+
+  do you really want to mixing those references? yes, the files appear
+to be identical, but it's still potentially confusing.
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
