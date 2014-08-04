@@ -1,38 +1,42 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A7A3609B1
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 29A226FDE1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 21:40:46 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s74Lelnj005308; Mon, 4 Aug 2014 16:40:48 -0500
-Received: from localhost ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014080416404776-628820 ;
-	Mon, 4 Aug 2014 16:40:47 -0500 
-Date: Mon, 4 Aug 2014 16:40:28 -0500
-From: Ben Shelton <ben.shelton@ni.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20140804214028.GB10174@bshelton-desktop>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<8823f277843a307b6ddd3c46b4b57c9efc54bf64.1407177403.git.ben.shelton@ni.com>
-	<CAP9ODKqdVF5_PJVbxGmn472y+meMdQi6y7H1uMUSfnq7oYrXEQ@mail.gmail.com>
+	Mon,  4 Aug 2014 21:41:00 +0000 (UTC)
+Received: by mail-yh0-f54.google.com with SMTP id v1so33397yhn.27
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Aug 2014 14:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=aF3N0mXfrdMzWVOXSwyjQqMIaXeGlNXbT3gHrxnkfI4=;
+	b=JCJ7WejQ2wsbK61TSDx8TIk7P+HgVVM/EZjY8rHcrrn/dVSVblnpm/JYROTvPshOsC
+	XL8aqrnPFTL9u3lel8Os7oIMSuqOyYJ/rM2RJNLparXDidfNEL+aUh2TRaXugXLyqK69
+	PwRF9FMVXklQLTHxdW3RRS4pGNV70o6Xvvc8W5AI0DJvvbi/GoK9/SG4e7pxISXsz+mI
+	R4HuSBoQEOv1DLTb6/ia6bB+lJNuUS9/vBsfyq//YGT6Odvs4pschfPf7gb6mr81fuDr
+	ZUFGROW63sz7Mh+0bVa1o850XOJp4m+1QtVGZj/brwXuZp1yzu0/kXo/5kanHMkjiX1a
+	aZOA==
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKqdVF5_PJVbxGmn472y+meMdQi6y7H1uMUSfnq7oYrXEQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/04/2014 04:40:47 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/04/2014 04:40:47 PM,
-	Serialize complete at 08/04/2014 04:40:47 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-04_04:2014-08-04, 2014-08-04,
-	1970-01-01 signatures=0
+X-Received: by 10.236.216.16 with SMTP id f16mr42419515yhp.90.1407188461255;
+	Mon, 04 Aug 2014 14:41:01 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Mon, 4 Aug 2014 14:41:01 -0700 (PDT)
+In-Reply-To: <87vbq8vsvy.fsf@weregild.amer.corp.natinst.com>
+References: <cover.1407177403.git.ben.shelton@ni.com>
+	<13060467d5be9274cbe18b3791bbf10f5a2d7abb.1407177403.git.ben.shelton@ni.com>
+	<CAP9ODKrG3dvq5JZo7jRXuwvdVxADXXVgq4vkR-nLwJThko42yA@mail.gmail.com>
+	<87zjfkvtrj.fsf@weregild.amer.corp.natinst.com>
+	<CAP9ODKogEJndSRNm0EgX4KzVt7=Fej10fT1yKZBFwU-+jk2PAw@mail.gmail.com>
+	<87vbq8vsvy.fsf@weregild.amer.corp.natinst.com>
+Date: Mon, 4 Aug 2014 18:41:01 -0300
+X-Google-Sender-Auth: jUnQRnUkztlvPNltRIi3keryzac
+Message-ID: <CAP9ODKpfNPDebFZyzv-w0EFLkjJYe-njKQoF_FYpGdfb2rS+Uw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Tollerton <rich.tollerton@ni.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/20] udev-cache: parametrize tar options
+Subject: Re: [PATCH 08/20] udev-cache: Create cache asynchronously
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +49,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 21:40:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Aug 2014 21:41:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/04, Otavio Salvador wrote:
-> On Mon, Aug 4, 2014 at 3:41 PM, Ben Shelton <ben.shelton@ni.com> wrote:
-> > From: Richard Tollerton <rich.tollerton@ni.com>
-> >
-> > The options to pass to `tar` for cache create/extract are likely to
-> > change due to system configuration circumstances (e.g. using busybox tar
-> > instead of GNU tar). So move the more detailed options into
-> > the defaults file to allow for easier overrides.
-> >
-> > Natinst-Rally-ID: TA44427
-> > Acked-by: Gratian Crisan <gratian.crisan@ni.com>
-> > Natinst-ReviewBoard-ID: 58620
-> > Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> 
-> Same comment as 10/20.
-> 
+On Mon, Aug 4, 2014 at 6:37 PM, Richard Tollerton <rich.tollerton@ni.com> wrote:
+> Otavio Salvador <otavio@ossystems.com.br> writes:
+>
+>> On Mon, Aug 4, 2014 at 6:18 PM, Richard Tollerton <rich.tollerton@ni.com> wrote:
+>>> Otavio Salvador <otavio@ossystems.com.br> writes:
+>>>
+>>>> I am not sure about this one. I see the value you are adding here but
+>>>> I worry how often something can be connected during this process and
+>>>> change the contents along the way. Did you see something as that
+>>>> during your tests?
+>>>
+>>> No, but point taken. I didn't really test "physical" hotplug during
+>>> bootup -- and in particular, for this to be a persisting issue, the
+>>> added/removed device must be removed/added during this boot -- but I
+>>> suppose that is totally possible.
+>>>
+>>> This reflects an underlying race condition, starting at the computation
+>>> of NEWDATA/OLDDATA in the udev initscript, and ending in the tarball
+>>> creation in udev-cache. I suppose that we can mitigate this by spinning
+>>> in udev-cache until the devcache stops changing...? Cheesy, untested,
+>>> dirty RFC follows:
+>>
+>> You need to check the list of files taken by 'tar' and compare. This
+>> mitigates it but does not really solves the issue.
+>
+> Hmm, I'm confused. If we relied entirely on /dev contents, how would we
+> detect (and correct for) if a device was removed between the execution
+> of udev and of udev-cache?
+>
+>> Maybe we could "copy" the nodes to a tmp area and use this as a
+>> snapshot? The copy should be fast and makes it mostly "atomic".
+>
+> I agree that the copy of the contents of /dev needs to be as fast as
+> possible -- your about using tmpfs as a staging area is well taken. But
+> beyond that, it seems to me that the root issue you articulated is about
+> ensuring adequate synchronization of udev.cache and the tarball;
+> rereading CMP_FILE_LIST in udev-cache thus seems unavoidable.
 
-In this one, I'm OK with setting the default in the scripts themselves,
-since each environment variable is only used in one of the scripts.
+Yes, that's why I think we need:
 
-Ben
+ - copy contents to a staging area
+ - generate the tarball
 
-> -- 
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+This way we avoid the following steps:
+
+ - generate the list of contents
+ - generate the tarball
+ - generate tarball's contents
+ - compare, loop if does not match.
+
+Makes sense?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
