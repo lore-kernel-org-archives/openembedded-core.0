@@ -1,52 +1,33 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id D424C61585
+Return-Path: <ben.shelton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id B294460EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 15:35:54 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s74FZoQl007164
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Aug 2014 17:35:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1407166553;
-	bh=Qa4qmbsxIkI9gS6AKwrux7ESPN3CLtbT4InLJSOIiYM=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=BAZxbsOCXFGqT9cdPCUEX/wBIBdRs0csuLGqEtYtPKT2mfLLV32QSEnx8HLspOHxe
-	kDYAsJaa5WpXRz/KXHk8NVZ98ZwXY7c5JjLuqq8oX6jDrOeR+QfWx2EiLTKKMP2Aha
-	BJOxaMp0YEYM5Gzb6qwnT69kQ0GG2derFVJclI8U=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s74FZjMT011025
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Aug 2014 17:35:47 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XEKIb-0008Rz-IQ
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Aug 2014 17:35:45 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon,  4 Aug 2014 15:41:42 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s74FfhnO024785 for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Aug 2014 10:41:43 -0500
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014080410414381-615739 ;
+	Mon, 4 Aug 2014 10:41:43 -0500 
+From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-References: <1407160628-30775-1-git-send-email-sujith.h@gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 04 Aug 2014 17:35:45 +0200
-In-Reply-To: <1407160628-30775-1-git-send-email-sujith.h@gmail.com> (Sujith
-	H.'s message of "Mon, 4 Aug 2014 19:27:08 +0530")
-Message-ID: <lyoaw09sj2.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: Re: [PATCH] image.bbclass: Adding loop back for machine name in hosts file
+Date: Mon, 4 Aug 2014 10:40:30 -0500
+Message-Id: <1407166830-3981-1-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.0.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/04/2014 10:41:43 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/04/2014 10:41:43 AM,
+	Serialize complete at 08/04/2014 10:41:43 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
+	0.0.0000
+	definitions=2014-08-04_02:2014-08-04, 2014-08-04,
+	1970-01-01 signatures=0
+Cc: Gratian Crisan <gratian.crisan@ni.com>, Scot Salmon <scot.salmon@ni.com>
+Subject: [PATCH] sysvinit: allow stack size configuration from rcS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 15:36:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Aug 2014 15:41:46 -0000
 
-Sujith H <sujith.h-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+From: Scot Salmon <scot.salmon@ni.com>
 
-> If hostname is not added to /etc/hosts file then rpcinfo command fails
-> when hostname is passed as argument.
-> ...
-> root@mx6q:~# rpcinfo -s mx6q
-> rpcinfo: can't contact rpcbind: RPC: (unknown error code)
+For certain swap/overcommit settings (e.g. when overcommit is disabled
+on a real-time system), we need to limit the stack size used by
+initscripts.  When the STACK_SIZE environment variable is set (usually
+in /etc/default/rcS), ulimit the stack size to the value specified.
 
-Is this really a common/valid use case?  'rpcinfo' is a debug tool and
-when you want information about the local host, you can execute
+Make the stack size ulimit a soft limit, which allows the user to
+increase the stack size where required without having to run the
+respective application as root.
 
-# rpcinfo -s localhost
+Signed-off-by: Scot Salmon <scot.salmon@ni.com>
+Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
+Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+Acked-by: Rich Tollerton <rich.tollerton@ni.com>
+Acked-by: Brad Mouring <brad.mouring@ni.com>
+Acked-by: Bill Pittman <bill.pittman@ni.com>
+---
+ meta/recipes-core/sysvinit/sysvinit/rc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-IMHO, when using network related functionality, you have to setup
-networking.  This means:
+diff --git a/meta/recipes-core/sysvinit/sysvinit/rc b/meta/recipes-core/sysvinit/sysvinit/rc
+index 1f400d9..7ca41ae 100755
+--- a/meta/recipes-core/sysvinit/sysvinit/rc
++++ b/meta/recipes-core/sysvinit/sysvinit/rc
+@@ -65,6 +65,9 @@ startup() {
+   # Set onlcr to avoid staircase effect.
+   stty onlcr 0>&1
+ 
++  # Limit stack size for startup scripts
++  [ "$STACK_SIZE" == "" ] || ulimit -S -s $STACK_SIZE
++
+   # Now find out what the current and what the previous runlevel are.
+ 
+   runlevel=$RUNLEVEL
+-- 
+2.0.4
 
-- setup the hostname; using ${MACHINE} is ambiguous with more than one
-  device and the string can contain chars forbidden by DNS ('_')
-
-- setup name resolving; this can be done by ordinary DNS, (unambiguous)
-  /etc/hosts, mDNS
-
-
-When DNS mapping of ${MACHINE} (or better `hostname`) without working
-DNS is really required, 'systemd' contains 'libnss_myhostname.so' (which
-is to be registered in /etc/nsswitch) which returns '127.0.0.2' as a
-fallback.
-
-
-Enrico
 
