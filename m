@@ -1,42 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B977A65D54
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 56F68610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 22:14:59 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id lj1so95767pab.33
+	Mon,  4 Aug 2014 22:36:29 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id eu11so127559pac.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 15:15:01 -0700 (PDT)
+	Mon, 04 Aug 2014 15:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BR+BTqDLPhr0C6sFGZdiS9XPe1M13if0x6YUVJCtnpA=;
-	b=ZjffKECdCS06BLUhqgSYzyEpOU58Ou7YsGmMOJO2aenDO9s1IAtG02Cm+3zOv6wSyS
-	spMRI00neZpHVq6TFqNN3kQ+e1N3m952GZxJus77JdQhe0xmtHTQ1EUBe1kQS89V4DN0
-	I/zbrKGVy371KIxC7Odm+WoeOjVdjv0ApD5ZDkPEyc/29O/Lsnypdt/NdsnkfnervF3c
-	iqQhLnCOLxlMVCo0MzvUpBmPBd5PuBvdvkRasMslMf1UB1Suvp/ZqngNZgGuxXdnyxpM
-	4UAAApiP1CTXA3rRNXYOF1MWGe0s4alWW6cCsBd+PfuH8L8IloY9dLu3+j67vh71jIFs
-	ie/g==
-X-Received: by 10.68.68.131 with SMTP id w3mr11131206pbt.90.1407190501197;
-	Mon, 04 Aug 2014 15:15:01 -0700 (PDT)
+	bh=OovNFFXaK4Qv0HQpdmBOSCu7eREoyQE67QCwjfkHaJ0=;
+	b=vWvbCO2vrEQ3erdmUaeiwGW1de7NyeHhPqa5arrovFsBki2fZPdhbyYXKre5TYmUoG
+	HgvHgvxZNrdqiEbuh0pqjfRJQySRNIEMliyLGsz1wjmSygeBLT1CrDwVxjxPqVXl5bWO
+	xzttGtng/MUK3po1cA7UElk19o+2tSYeU2WCelgp7ooEBxQ+DidDHDSwJfDjjitdLdoM
+	ieA4qNjiAQHKYhqKdeweSsI1LGkp1MK+SJ8fBVeA+64Gae/cL/IOuo7HYoZU9DosL4RS
+	75UuKZjHAZzyn3XnUpYo6E1PKUPaxyDygzIrRmEPfFb/0+e7s3Q4BOLArZYs1K9OiOMs
+	QeWw==
+X-Received: by 10.66.174.107 with SMTP id br11mr6237696pac.105.1407191790720; 
+	Mon, 04 Aug 2014 15:36:30 -0700 (PDT)
 Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id
-	ec10sm67311243pad.33.2014.08.04.15.14.59 for <multiple recipients>
+	by mx.google.com with ESMTPSA id ki8sm7712252pdb.89.2014.08.04.15.36.29
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Aug 2014 15:15:00 -0700 (PDT)
-Date: Mon, 4 Aug 2014 15:18:18 -0700
+	Mon, 04 Aug 2014 15:36:30 -0700 (PDT)
+Date: Mon, 4 Aug 2014 15:39:48 -0700
 From: Khem Raj <raj.khem@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140804221818.GB11951@haswell>
-References: <1407160628-30775-1-git-send-email-sujith.h@gmail.com>
-	<1418636.H30RBdXEMU@peggleto-mobl5.ger.corp.intel.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Message-ID: <20140804223948.GC11951@haswell>
+References: <53DF9F25.1060404@pabigot.com>
 MIME-Version: 1.0
-In-Reply-To: <1418636.H30RBdXEMU@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <53DF9F25.1060404@pabigot.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Sujith H <Sujith_Haridasan@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image.bbclass: Adding loop back for machine name in hosts file
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: blocking pie in recipes that build shared object files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,58 +46,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 22:15:06 -0000
+X-List-Received-Date: Mon, 04 Aug 2014 22:36:31 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On 14-08-04 15:18:05, Paul Eggleton wrote:
-> Hi Sujith,
+On 14-08-04 09:56:37, Peter A. Bigot wrote:
+> I've now hit two recipes in meta-openembedded that fail on armv7-a because
+> SECURITY_CFLAGS has -pie as an option that leaks into a link command
+> building a shared object file.  This produces:
 > 
-> On Monday 04 August 2014 19:27:08 Sujith H wrote:
-> > From: Sujith H <Sujith_Haridasan@mentor.com>
-> > 
-> > If hostname is not added to /etc/hosts file then rpcinfo
-> > command fails when hostname is passed as argument. This was
-> > observed when rpcinfo command was tested on freescale target.
-> > Below was the output observed without this change.
-> > 
-> > root@mx6q:~# rpcinfo -s mx6q
-> > rpcinfo: can't contact rpcbind: RPC: (unknown error code)
-> > 
-> > Below is the output after this change:
-> > root@mx6q:~# rpcinfo -s mx6q
-> >    program version(s) netid(s)                         service     owner
-> >     100000  2,3,4     local,udp,tcp,udp6,tcp6          portmapper  superuser
-> > root@mx6q:~#
-> > 
-> > Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-> > ---
-> >  meta/classes/image.bbclass | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 82605f2..7a5a5c1 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -341,6 +341,14 @@ ssh_disable_dns_lookup () {
-> >  	fi
-> >  }
-> > 
-> > +ROOTFS_POSTPROCESS_COMMAND += "add_machine_name_loop_back;"
-> > +
-> > +add_machine_name_loop_back() {
-> > +    if [ -n ${MACHINE} ]; then
-> > +         echo 127.0.1.1 "       "${MACHINE} >>
-> > ${IMAGE_ROOTFS}${sysconfdir}/hosts +    fi
-> > +}
-> > +
+> |
+> /prj/oe/omap/build-beaglebone-master/tmp/sysroots/beaglebone/usr/lib/Scrt1.o:
+> In function `_start':
+> | /prj/oe/omap/build-beaglebone-master/tmp/work/cortexa8hf-vfp-neon-poky-linux-gnueabi/eglibc/2.19-r0/eglibc-2.19/libc/csu/../ports/sysdeps/arm/start.S:128:
+> undefined reference to `main'
+> | collect2: error: ld returned 1 exit status
+> | error: command 'arm-poky-linux-gnueabi-gcc' failed with exit status 1
 > 
-> I think in the earlier discussion the conclusion was that we do not want this 
-> enabled by default, which the above will do.
+> In openembedded-core meta/conf/distro/include/security_flags.inc provides a
+> bunch of package-specific overrides to use SECURITY_NO_PIE_CFLAGS for this
+> sort of package.
 > 
-> The question I have is, if this isn't a good idea, is there a better solution?
+> It's not clear to me how that should be accomplished for recipes that are
+> not part of openembedded-core.  For
+> http://patches.openembedded.org/patch/77165/ for python-smbus in meta-python
+> I chose to override it in the bb file.
+> 
+> What is the best-practices solution to this problem?
 
-These things belong to first time install/commissioning of the device
-IMO. They are necessary operations but we do not have first time boot
-scenario
+may be add SECURITY_CFLAGS_pn-blah = "${SECURITY_NO_PIE_CFLAGS}"
+to layer.conf of given layer where recipe resides
 
