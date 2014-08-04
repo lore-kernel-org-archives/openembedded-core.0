@@ -1,37 +1,29 @@
-Return-Path: <ajlennon@dynamicdevices.co.uk>
-Received: from www.dynamicdevices.co.uk (www.dynamicdevices.co.uk
-	[89.200.136.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 123D260DD7
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43DCC6059A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Aug 2014 19:23:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by www.dynamicdevices.co.uk (Postfix) with ESMTP id 34AFE27E060;
-	Sun,  3 Aug 2014 19:23:03 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at lennoab2.miniserver.com
-Received: from www.dynamicdevices.co.uk ([127.0.0.1])
-	by localhost (www.dynamicdevices.co.uk [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id vp-vnim5dIWj; Sun,  3 Aug 2014 19:23:02 +0000 (UTC)
-Received: from [127.0.0.1] (cpc32-live22-2-0-cust59.17-2.cable.virginm.net
-	[82.36.253.60])
-	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by www.dynamicdevices.co.uk (Postfix) with ESMTPSA id 4F00027E04C;
-	Sun,  3 Aug 2014 19:23:02 +0000 (UTC)
-Message-ID: <53DE8C14.1030602@dynamicdevices.co.uk>
-Date: Sun, 03 Aug 2014 20:23:00 +0100
-From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Mon,  4 Aug 2014 02:14:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s742ELfe000315
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 3 Aug 2014 19:14:21 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 3 Aug 2014 19:14:20 -0700
+Message-ID: <53DEEC83.6070704@windriver.com>
+Date: Mon, 4 Aug 2014 10:14:27 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <53DE3841.2000305@topic.nl>	
-	<53DE3E5C.5020303@dynamicdevices.co.uk>
-	<1407082617.6981.44.camel@ted>
-In-Reply-To: <1407082617.6981.44.camel@ted>
-X-Enigmail-Version: 1.6
-Cc: mike.looijmans@topic.nl, OE <openembedded-core@lists.openembedded.org>
-Subject: Re: What does "QA Issue: ... rdepends on .. but its not a build dependency?" mean
+To: Khem Raj <raj.khem@gmail.com>
+References: <86wqaw5000.fsf@shell.gmplib.org> <53DA0C70.50403@windriver.com>
+	<CAMKF1spmDkT6SOBRZjs7SGxnR72fJwdM4iJMxuoVRDw=4hZ-9A@mail.gmail.com>
+In-Reply-To: <CAMKF1spmDkT6SOBRZjs7SGxnR72fJwdM4iJMxuoVRDw=4hZ-9A@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: backport patches for gmp-4.x.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Aug 2014 19:23:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Aug 2014 02:14:33 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On 03/08/2014 17:16, Richard Purdie wrote:
-> On Sun, 2014-08-03 at 14:51 +0100, Alex J Lennon wrote:
->> On 03/08/2014 14:25, Mike Looijmans wrote:
->>> I'm getting lots of warnings like this:
->>>
->>> """
->>> WARNING: QA Issue: enigma2-plugin-systemplugins-wirelesslan rdepends
->>> on wireless-tools but its not a build dependency? [build-deps]
->>> """
->>>
->>> What does it actually mean? What does it want me to provide here?
->>>
->>> The message in itself is correct. The package only has a runtime
->>> dependency. It does not require the wireless-tools package to be built
->>> or otherwise present on the build system. But what is the QA issue
->>> here and how do I get rid of the message?
->>>
->> Surely if package B has a non-optional runtime dependency on package A
->> then package A must be built and present on the target ?
-> Its the "built" part that is the issue, bitbake can't see the
-> dependency, hence the warning.
+
+On 07/31/2014 11:38 PM, Khem Raj wrote:
+> On Thu, Jul 31, 2014 at 2:29 AM, Rongqing Li <rongqing.li@windriver.com> wrote:
+>> Use GMP 6.0.0 or later of you dual-licensing is important.
 >
->>> Apart from that, there's a spelling error in there (its -> it's)
->>> because it's "it's" when it's "it is" and it's "its" when it's its
->>> property.
->>>
->> It is a spelling error in a superficial sense perhaps, but at a deeper
->> level I suspect it is more accurately characterised as a grammatical error.
->>
->> Perhaps somebody was having trouble with string terminations and decided
->> to avoid trouble?
-> Somebody was concentrating on the correctness of the code generating the
-> warning rather than the grammar. The latter is easily fixed, patches
-> welcome.
+> OK so you have a way forward now.
+>
 >
 
-I stand corrected :)
 
-Cheers, Alex
+I like to uprev it to 6.0.0, which is using the dual licensing,
+and its README says these two license are OR relation.
 
+
+
+Copyright 1991, 1996, 1999, 2000, 2007 Free Software Foundation, Inc.
+
+This file is part of the GNU MP Library.
+
+The GNU MP Library is free software; you can redistribute it and/or modify
+it under the terms of either:
+
+   * the GNU Lesser General Public License as published by the Free
+     Software Foundation; either version 3 of the License, or (at your
+     option) any later version.
+
+or
+
+   * the GNU General Public License as published by the Free Software
+     Foundation; either version 2 of the License, or (at your option) any
+     later version.
+
+or both in parallel, as here.
+
+
+
+
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
