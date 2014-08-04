@@ -1,46 +1,35 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 37D8E60559
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5506560559
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 13:56:28 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20140804135628710
+	Mon,  4 Aug 2014 13:57:55 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id j107so8787513qga.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 13:56:28 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=33051 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XEIkR-0000i1-Cy; Mon, 04 Aug 2014 09:56:23 -0400
-Date: Mon, 4 Aug 2014 09:56:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1407160384.6981.57.camel@ted>
-Message-ID: <alpine.LFD.2.11.1408040955530.9154@localhost>
-References: <alpine.LFD.2.11.1408021229180.24061@localhost>
-	<20140802200959.GA22882@haswell>
-	<alpine.LFD.2.11.1408030254520.10897@localhost>
-	<14511164.eDDSBeL19z@peggleto-mobl5.ger.corp.intel.com>
-	<alpine.LFD.2.11.1408040933500.8919@localhost>
-	<1407160384.6981.57.camel@ted>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Mon, 04 Aug 2014 06:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=KkIorwNDwNGG+uUTJUTbfemqJu7//DPelg8/tmMFX+Y=;
+	b=o2vkf6AaVDscj/TS7JA+T6b1WLlvPsM20RBauGz4N5Sskq2ylMX40whkk3kbb0wh0q
+	V/YppnVzUUlz35HGM18v61McqNGzA7SQ8XDEGU2QJByCZt/XeiL2FFVyqD4XE2uM7eyV
+	IHoWGFriijCRt4+XGJtgt09OIXcIRA/s9ZiCbvgJLXGKIMCBL9EgFmHuZb0J+bDRFwHS
+	uVTfqx6IMcSVw4yiVXhbtmOfKm9m1adXnE3psvcYoc0l3LvZqxzpWhuE1dW+IY/w2L+/
+	dk9CHnpu4RvF93qNrOR+BRwYi0OGWsxlLHObgvaJDkGQJCC816gVT5oBFaxZHpJb4Gzh
+	3LrA==
+X-Received: by 10.140.103.74 with SMTP id x68mr34646913qge.34.1407160676547;
+	Mon, 04 Aug 2014 06:57:56 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: can pkg_{pre, post}rm functions be run at all for image creation?
+Received: by 10.140.41.148 with HTTP; Mon, 4 Aug 2014 06:57:36 -0700 (PDT)
+In-Reply-To: <lyy4v8imyg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <1406818740-17681-1-git-send-email-sujith.h@gmail.com>
+	<ly8un9biuj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAP9ODKpYgA9jQ2u4Nwh2=+NoQJcZiydtZdkDu0-jvnKfZxHvvg@mail.gmail.com>
+	<lyy4v8imyg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: sujith h <sujith.h@gmail.com>
+Date: Mon, 4 Aug 2014 19:27:36 +0530
+Message-ID: <CADyYWLk3B5kRpwZ4kEYH7n5M_73uW02iC2+y+hqJXJE3M4su5A@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] netbase: Adding loop back for machine name in hosts file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +42,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 13:56:30 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 04 Aug 2014 13:57:56 -0000
+Content-Type: multipart/alternative; boundary=001a1134eda844843f04ffce20ce
 
-On Mon, 4 Aug 2014, Richard Purdie wrote:
+--001a1134eda844843f04ffce20ce
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> On Mon, 2014-08-04 at 09:42 -0400, Robert P. J. Day wrote:
-> >   oooooh ... that's still kind of weaselly terminology. :-) i'm not
-> > *trying* to be annoyingly pedantic, but this is just the kind of thing
-> > that students tend to ask about, which is why i want to nail the
-> > details.
+Hi,
+
+I will post the new patch with ROOTFS_POSTPROCESS_COMMAND.
+
+Thanks for the feedback.
+
+
+
+On Fri, Aug 1, 2014 at 2:52 PM, Enrico Scholz <
+enrico.scholz@sigma-chemnitz.de> wrote:
+
+> Otavio Salvador <otavio-fKevB0iiKLMBZ+LybsDmbA@public.gmane.org> writes:
+>
+> >>> +     echo 127.0.1.1 "             "${MACHINE} >>
+> ${D}${sysconfdir}/hosts
+> >>
+> >> This is a very questionable setup which causes a lot of harm.  When
+> >> really wanted, it should be made optional and not the default.
 > >
-> >   the current docs state that pkg_*rm routines are *not* run during
-> > image creation, and i'm going to accept that. that means that if a
-> > pkg_*rm routine *is* written with reference to ${D}, as long as that's
-> > run on the target, it won't make a difference. so the references to
-> > ${D} in that context don't *hurt*, they're just unnecessary. and
-> > potentially confusing, which is why i'm trying to clarify this. (every
-> > pkg_*rm routine i've seen, *if* it tests the value of ${D}, bailed if
-> > it was set, which makes sense if they should never, ever be invoked at
-> > image creation time.)
+> > What kind of harm you see?
 >
-> In the interests of being pedantic since I know you value correctness,
-> they test $D. If they used ${D}, it would get expanded by bitbake at
-> build time which is not what you want.
+> e.g. in sshd_config
 >
-> >   WRT stuff run at rootfs postprocessing time, sure, you could always
-> > run a package removal command, but clarify this for me -- once you're
-> > into rootfs postprocessing, you're running in a "pseudo" environment
-> > such that you are *effectively* running inside that rootfs, no? so in
-> > that case, all filename references would be full names WRT to the root
-> > filesystem -- no references to ${D}. is that correct? or am i just
-> > confused?
+> | ListenAddress <hostname>
 >
-> Pseudo environment means you can perform operations as root, its not a
-> chroot. You could be in a pseudo chroot of course but our image
-> generation isn't.
+>
+> When Fedora had such a setup, I had a lot of trouble with KRB5ized
+> NFS4. See [1] for examples. Generally, external and internal DNS should
+> be consistent.
+>
+> Beside this... afaik ${MACHINE} can contain '_' and '.' which are either
+> forbidden ('_') or have special meanings in DNS.
+>
+>
+> Enrico
+>
+> Footnotes:
+> [1]  https://bugzilla.redhat.com/show_bug.cgi?id=3D648725
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-  ok, i think i've got it, thanks, both of you.
+Thanks,
 
-rday
+Sujith H
 
--- 
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--001a1134eda844843f04ffce20ce
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+<div dir=3D"ltr"><div>Hi,<br><br></div>I will post the new patch with ROOTF=
+S_POSTPROCESS_COMMAND.<br><br>Thanks for the feedback.<br><br><div><div><di=
+v><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Fri, Aug=
+ 1, 2014 at 2:52 PM, Enrico Scholz <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enrico.scholz@sigma-chem=
+nitz.de</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"">Otavio Salvador &lt;<a href=
+=3D"mailto:otavio-fKevB0iiKLMBZ%2BLybsDmbA@public.gmane.org">otavio-fKevB0i=
+iKLMBZ+LybsDmbA@public.gmane.org</a>&gt; writes:<br>
 
 
+<br>
+&gt;&gt;&gt; + =C2=A0 =C2=A0 echo 127.0.1.1 &quot; =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;${MACHINE} &gt;&gt; ${D}${sysconfdir}/hosts<br>
+&gt;&gt;<br>
+&gt;&gt; This is a very questionable setup which causes a lot of harm. =C2=
+=A0When<br>
+&gt;&gt; really wanted, it should be made optional and not the default.<br>
+&gt;<br>
+&gt; What kind of harm you see?<br>
+<br>
+</div>e.g. in sshd_config<br>
+<br>
+| ListenAddress &lt;hostname&gt;<br>
+<br>
+<br>
+When Fedora had such a setup, I had a lot of trouble with KRB5ized<br>
+NFS4. See [1] for examples. Generally, external and internal DNS should<br>
+be consistent.<br>
+<br>
+Beside this... afaik ${MACHINE} can contain &#39;_&#39; and &#39;.&#39; whi=
+ch are either<br>
+forbidden (&#39;_&#39;) or have special meanings in DNS.<br>
+<br>
+<br>
+Enrico<br>
+<br>
+Footnotes:<br>
+[1] =C2=A0<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D648725" =
+target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D648725</a><=
+br>
+<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+</div></div></blockquote></div><br></div><div class=3D"gmail_extra">Thanks,=
+<br><br></div><div class=3D"gmail_extra">Sujith H<br clear=3D"all"></div><d=
+iv class=3D"gmail_extra"><br>-- <br>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=
+=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=
+=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&gt;Contributor to KDE project<b=
+r>
+
+<a href=3D"http://fci.wikia.com/wiki/Anti-DRM-Campaign" target=3D"_blank">h=
+ttp://fci.wikia.com/wiki/Anti-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"h=
+ttp://sujithh.info" target=3D"_blank">http://sujithh.info</a><br>
+</div></div></div></div></div>
+
+--001a1134eda844843f04ffce20ce--
