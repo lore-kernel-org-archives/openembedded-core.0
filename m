@@ -1,43 +1,42 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DBFED6059A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B977A65D54
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 22:07:02 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s74M73dM022792; Mon, 4 Aug 2014 17:07:03 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014080417070362-629640 ;
-	Mon, 4 Aug 2014 17:07:03 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-In-Reply-To: <CAP9ODKpfNPDebFZyzv-w0EFLkjJYe-njKQoF_FYpGdfb2rS+Uw@mail.gmail.com>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<13060467d5be9274cbe18b3791bbf10f5a2d7abb.1407177403.git.ben.shelton@ni.com>
-	<CAP9ODKrG3dvq5JZo7jRXuwvdVxADXXVgq4vkR-nLwJThko42yA@mail.gmail.com>
-	<87zjfkvtrj.fsf@weregild.amer.corp.natinst.com>
-	<CAP9ODKogEJndSRNm0EgX4KzVt7=Fej10fT1yKZBFwU-+jk2PAw@mail.gmail.com>
-	<87vbq8vsvy.fsf@weregild.amer.corp.natinst.com>
-	<CAP9ODKpfNPDebFZyzv-w0EFLkjJYe-njKQoF_FYpGdfb2rS+Uw@mail.gmail.com>
-User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
-	(x86_64-unknown-linux-gnu)
-Date: Mon, 04 Aug 2014 17:07:03 -0500
-Message-ID: <87silbx62g.fsf@weregild.amer.corp.natinst.com>
+	Mon,  4 Aug 2014 22:14:59 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id lj1so95767pab.33
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Aug 2014 15:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=BR+BTqDLPhr0C6sFGZdiS9XPe1M13if0x6YUVJCtnpA=;
+	b=ZjffKECdCS06BLUhqgSYzyEpOU58Ou7YsGmMOJO2aenDO9s1IAtG02Cm+3zOv6wSyS
+	spMRI00neZpHVq6TFqNN3kQ+e1N3m952GZxJus77JdQhe0xmtHTQ1EUBe1kQS89V4DN0
+	I/zbrKGVy371KIxC7Odm+WoeOjVdjv0ApD5ZDkPEyc/29O/Lsnypdt/NdsnkfnervF3c
+	iqQhLnCOLxlMVCo0MzvUpBmPBd5PuBvdvkRasMslMf1UB1Suvp/ZqngNZgGuxXdnyxpM
+	4UAAApiP1CTXA3rRNXYOF1MWGe0s4alWW6cCsBd+PfuH8L8IloY9dLu3+j67vh71jIFs
+	ie/g==
+X-Received: by 10.68.68.131 with SMTP id w3mr11131206pbt.90.1407190501197;
+	Mon, 04 Aug 2014 15:15:01 -0700 (PDT)
+Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
+	by mx.google.com with ESMTPSA id
+	ec10sm67311243pad.33.2014.08.04.15.14.59 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Aug 2014 15:15:00 -0700 (PDT)
+Date: Mon, 4 Aug 2014 15:18:18 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20140804221818.GB11951@haswell>
+References: <1407160628-30775-1-git-send-email-sujith.h@gmail.com>
+	<1418636.H30RBdXEMU@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/04/2014 05:07:03 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/04/2014 05:07:03 PM,
-	Serialize complete at 08/04/2014 05:07:03 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-04_04:2014-08-04, 2014-08-04,
-	1970-01-01 signatures=0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/20] udev-cache: Create cache asynchronously
+In-Reply-To: <1418636.H30RBdXEMU@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	Sujith H <Sujith_Haridasan@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image.bbclass: Adding loop back for machine name in hosts file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,72 +49,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 22:07:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Aug 2014 22:15:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Otavio Salvador <otavio@ossystems.com.br> writes:
+On 14-08-04 15:18:05, Paul Eggleton wrote:
+> Hi Sujith,
+> 
+> On Monday 04 August 2014 19:27:08 Sujith H wrote:
+> > From: Sujith H <Sujith_Haridasan@mentor.com>
+> > 
+> > If hostname is not added to /etc/hosts file then rpcinfo
+> > command fails when hostname is passed as argument. This was
+> > observed when rpcinfo command was tested on freescale target.
+> > Below was the output observed without this change.
+> > 
+> > root@mx6q:~# rpcinfo -s mx6q
+> > rpcinfo: can't contact rpcbind: RPC: (unknown error code)
+> > 
+> > Below is the output after this change:
+> > root@mx6q:~# rpcinfo -s mx6q
+> >    program version(s) netid(s)                         service     owner
+> >     100000  2,3,4     local,udp,tcp,udp6,tcp6          portmapper  superuser
+> > root@mx6q:~#
+> > 
+> > Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> > ---
+> >  meta/classes/image.bbclass | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index 82605f2..7a5a5c1 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -341,6 +341,14 @@ ssh_disable_dns_lookup () {
+> >  	fi
+> >  }
+> > 
+> > +ROOTFS_POSTPROCESS_COMMAND += "add_machine_name_loop_back;"
+> > +
+> > +add_machine_name_loop_back() {
+> > +    if [ -n ${MACHINE} ]; then
+> > +         echo 127.0.1.1 "       "${MACHINE} >>
+> > ${IMAGE_ROOTFS}${sysconfdir}/hosts +    fi
+> > +}
+> > +
+> 
+> I think in the earlier discussion the conclusion was that we do not want this 
+> enabled by default, which the above will do.
+> 
+> The question I have is, if this isn't a good idea, is there a better solution?
 
-> On Mon, Aug 4, 2014 at 6:37 PM, Richard Tollerton <rich.tollerton@ni.com> wrote:
->> Otavio Salvador <otavio@ossystems.com.br> writes:
->>
->>> On Mon, Aug 4, 2014 at 6:18 PM, Richard Tollerton <rich.tollerton@ni.com> wrote:
->>>> Otavio Salvador <otavio@ossystems.com.br> writes:
->>>>
->>>>> I am not sure about this one. I see the value you are adding here but
->>>>> I worry how often something can be connected during this process and
->>>>> change the contents along the way. Did you see something as that
->>>>> during your tests?
->>>>
->>>> No, but point taken. I didn't really test "physical" hotplug during
->>>> bootup -- and in particular, for this to be a persisting issue, the
->>>> added/removed device must be removed/added during this boot -- but I
->>>> suppose that is totally possible.
->>>>
->>>> This reflects an underlying race condition, starting at the computation
->>>> of NEWDATA/OLDDATA in the udev initscript, and ending in the tarball
->>>> creation in udev-cache. I suppose that we can mitigate this by spinning
->>>> in udev-cache until the devcache stops changing...? Cheesy, untested,
->>>> dirty RFC follows:
->>>
->>> You need to check the list of files taken by 'tar' and compare. This
->>> mitigates it but does not really solves the issue.
->>
->> Hmm, I'm confused. If we relied entirely on /dev contents, how would we
->> detect (and correct for) if a device was removed between the execution
->> of udev and of udev-cache?
->>
->>> Maybe we could "copy" the nodes to a tmp area and use this as a
->>> snapshot? The copy should be fast and makes it mostly "atomic".
->>
->> I agree that the copy of the contents of /dev needs to be as fast as
->> possible -- your about using tmpfs as a staging area is well taken. But
->> beyond that, it seems to me that the root issue you articulated is about
->> ensuring adequate synchronization of udev.cache and the tarball;
->> rereading CMP_FILE_LIST in udev-cache thus seems unavoidable.
->
-> Yes, that's why I think we need:
->
->  - copy contents to a staging area
->  - generate the tarball
->
-> This way we avoid the following steps:
->
->  - generate the list of contents
->  - generate the tarball
->  - generate tarball's contents
->  - compare, loop if does not match.
->
-> Makes sense?
-
-Yes, with one friendly amendment: "copy contents" means copying
-$CMP_FILE_LIST in addition to /dev. Then we rebuild cache.data from
-that.
-
-> -- 
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
--- 
-Richard Tollerton <rich.tollerton@ni.com>
+These things belong to first time install/commissioning of the device
+IMO. They are necessary operations but we do not have first time boot
+scenario
 
