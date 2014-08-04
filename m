@@ -1,35 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E798E65C7C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id A185262252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 19:38:18 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id uq10so69303igb.17
+	Mon,  4 Aug 2014 19:39:37 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id p10so8298277wes.30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 12:38:19 -0700 (PDT)
+	Mon, 04 Aug 2014 12:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=omV6fxXh7y+lPDxaB5k6PbA6NEXZAXVENlQ96tzr6hA=;
-	b=D34AN8ACn2pXXwfchlr0NF9htUCeGpGriFAJQF3yEaMlL7QYSPgQAPEvAC7nWM1M6P
-	ZJpA3vo/wsjJ3Pjhv8JZkdJmiAALVQDOlbILMumNl4FE3fV9UXyc3ciR1mylzMQWWHyD
-	h4suKhOGcreeEEUmDrrSsy1XSWUlWlfg93M6bEhCWEnMnuT2uL2BWCf0L/S9kamM7gOD
-	FBSTX1ihHtnqh3vZME9Texmk2BChuPK9JCQ1thBeSJQGo7SwktRsYzhkF5C5RSlbspGi
-	PnkwvL1GbwhCLsmAh4juIlboDXzvGua1V9zZZkXQXabu/CPR2s/JmBkCv+QyhvvizwGo
-	llyA==
-X-Received: by 10.42.65.200 with SMTP id m8mr11360348ici.29.1407181099125;
-	Mon, 04 Aug 2014 12:38:19 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=rSM+a6DQ12AfP8ZTdBJc3k96JS+SJWQgAmqADzsOMBg=;
+	b=D1zTzfmiGPZTH7qnToxCuOqLINJobD8TQNWkcvsTQ1xooUIca9I4apA3NVmPC+gkQA
+	i3L4VGBGlOlKqd3aLA0vwMYGsDgxcG6rbBqijo22gPVp+gAt4BaDiVoM35S13ncvklfe
+	LaBb510AsH6RUftj1drn9z0bevujLd/p+1su7QoPuGg0S5Jdw25rMyX4qBIePKe/jDgg
+	EAp4wqe0v6A59eFjFTonD7vnOj2e4MLJXDC/0kWvLMYYP8cBUUGH/C2x9ALD/ngs+vx/
+	xDp7MXoJ6ORZdhb6llEMK39DiRfs2C1jPu78UKynY/aytOrTy3yNsPxrC+j39VHNr/CE
+	TwBQ==
+X-Received: by 10.180.183.36 with SMTP id ej4mr32169677wic.77.1407181178046;
+	Mon, 04 Aug 2014 12:39:38 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id eh10sm47022wic.0.2014.08.04.12.39.36
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Aug 2014 12:39:37 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 4 Aug 2014 21:40:05 +0200
+To: Ben Shelton <ben.shelton@ni.com>
+Message-ID: <20140804194005.GD2465@jama>
+References: <cover.1407177403.git.ben.shelton@ni.com>
+	<9288a31de2b502a43e9d0067ff9c1378133d00a4.1407177403.git.ben.shelton@ni.com>
 MIME-Version: 1.0
-Received: by 10.50.126.103 with HTTP; Mon, 4 Aug 2014 12:37:49 -0700 (PDT)
-In-Reply-To: <1407143720-1213-1-git-send-email-yaoxp@cn.fujitsu.com>
-References: <1407143720-1213-1-git-send-email-yaoxp@cn.fujitsu.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Aug 2014 12:37:49 -0700
-Message-ID: <CAMKF1sobWSsxUU+tFP4erdxYYo+xcLN9yu1xnDF44_Roh5zDKw@mail.gmail.com>
-To: Yao Xinpan <yaoxp@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tcp-wrappers: install /etc/hosts.allow and /etc/hosts.deny
+In-Reply-To: <9288a31de2b502a43e9d0067ff9c1378133d00a4.1407177403.git.ben.shelton@ni.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 20/20] udev: don't halt if devtmpfs can't be mounted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,18 +48,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 19:38:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Aug 2014 19:39:41 -0000
+X-Groupsio-MsgNum: 55953
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="F8dlzb82+Fcn6AgP"
+Content-Disposition: inline
 
-On Mon, Aug 4, 2014 at 2:15 AM, Yao Xinpan <yaoxp@cn.fujitsu.com> wrote:
-> +
-> +       install -d ${D}${sysconfdir}
-> +       touch ${D}${sysconfdir}/hosts.allow
-> +       touch ${D}${sysconfdir}/hosts.deny
->  }
->
-> +FILES_${PN} += "${sysconfdir}/hosts.allow ${sysconfdir}/hosts.deny"
+--F8dlzb82+Fcn6AgP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-these are dynamic files I dont think its the right place to put them.
-probably a image post processing function would be ok
+On Mon, Aug 04, 2014 at 01:41:12PM -0500, Ben Shelton wrote:
+> From: Richard Tollerton <rich.tollerton@ni.com>
+>=20
+> Halting if udev cannot start is problematic for a couple reasons.
+> - Compared to a reboot loop, halting is much more difficult to recover
+>   from in remote deployments.
+> - If the rootfs has a prepopulated /dev (which happens somewhat often),
+>   the system may be able to boot up just fine, or at least fine enough
+>   for the administrator to log in and fix things.
+>=20
+> Instead of halting, just exit, and let the administrator deal with the
+> potential reboot loop.
+>=20
+> Natinst-Rally-ID: TA44427
+> Acked-by: Gratian Crisan <gratian.crisan@ni.com>
+> Acked-by: Scot Salmon <scot.salmon@ni.com>
+> Natinst-ReviewBoard-ID: 58623
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> ---
+>  meta/recipes-core/udev/udev/init | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/ud=
+ev/init
+> index 6caf7d5..f6a8391 100644
+> --- a/meta/recipes-core/udev/udev/init
+> +++ b/meta/recipes-core/udev/udev/init
+> @@ -45,8 +45,7 @@ case "$1" in
+>      if ! grep -q devtmpfs /proc/filesystems
+>      then
+>          echo "Missing devtmpfs, which is required for udev to run";
+> -        echo "Halting..."
+> -        halt
+> +	exit 1
 
+Please use spaces for indentation like previous lines.
+
+>      fi
+>      # mount the devtmpfs on /dev, if not already done
+>      LANG=3DC awk '$2 =3D=3D "/dev" && ($3 =3D=3D "devtmpfs") { exit 1 }'=
+ /proc/mounts && {
+> --=20
+> 2.0.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--F8dlzb82+Fcn6AgP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPf4ZUACgkQN1Ujt2V2gBxRdgCfRfabrHbsBQHsKFgx4AkuzRxk
+XqUAmgJr7H4TFwWpiHR4Uyh3uCvGxywJ
+=zOYP
+-----END PGP SIGNATURE-----
+
+--F8dlzb82+Fcn6AgP--
