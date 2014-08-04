@@ -1,37 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
-	[209.85.213.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C5DC617B8
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 84F4F609AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 20:16:43 +0000 (UTC)
-Received: by mail-yh0-f53.google.com with SMTP id c41so4648182yho.26
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 13:16:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=SJqtNLKv1wv/tTn/YBiunBojt6ebbV52kNcRxWnaFLg=;
-	b=0/TJhtwmIAFZ/7Ud5jh6JGFvfqdgVjhavZ9rO0vJO/a+884HNm3/q6b5dKAlq9mIzg
-	pMLuqsMgQcxoYr9wRE8N7i/KA7aAjIoGf4r4PPAmpy+kgjpONl5xaIGzbfKtwh1/+b0i
-	zgEH8CPn5W5alqw4NpPMpCMGKANQlDThhyBPlhX1swa9k2jv7eKiUbNIN9qZPH/VbJTL
-	o42erUSu9VbKryrEdJ4nCCfBeBbpdn6ww5Q95wuOTydUAJNAOR/7RiEys3wXPd+ag+Uo
-	qyXLjfgiqDs4fceLvlP7gZWdx8QMnLhELWTe7Whuck1q0kO7ukldBjmaBkl98Rds/vCi
-	89ow==
+	Mon,  4 Aug 2014 20:41:58 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1XEP4x-0006bd-Ek from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 04 Aug 2014 13:41:59 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 4 Aug 2014 13:41:59 -0700
+Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
+	Server id 14.2.247.3; Mon, 4 Aug 2014 13:41:59 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Aug 2014 16:41:56 -0400
+Message-ID: <1407184916-17679-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.236.103.135 with SMTP id f7mr41649231yhg.102.1407183405248; 
-	Mon, 04 Aug 2014 13:16:45 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Mon, 4 Aug 2014 13:16:45 -0700 (PDT)
-In-Reply-To: <53DC39DE.5020105@pabigot.com>
-References: <53C3A130.4000900@pabigot.com>
-	<53DC39DE.5020105@pabigot.com>
-Date: Mon, 4 Aug 2014 17:16:45 -0300
-X-Google-Sender-Auth: OUJAAj7e6ByCdL0Cfo52SfTxw4g
-Message-ID: <CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Peter A. Bigot" <pab@pabigot.com>, Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork client problems
+X-OriginalArrivalTime: 04 Aug 2014 20:41:59.0330 (UTC)
+	FILETIME=[89BE6020:01CFB024]
+Subject: [PATCH] gstreamer1.0-omx: Remove unnecessary dependency on plugins-bad.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,69 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 20:16:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Aug 2014 20:42:02 -0000
+Content-Type: text/plain
 
-On Fri, Aug 1, 2014 at 10:07 PM, Peter A. Bigot <pab@pabigot.com> wrote:
-> On 07/14/2014 04:21 AM, Peter A. Bigot wrote:
->>
->> I'm finding attempts to use pwclient on
->> http://patches.openembedded.org/xmlrpc/ produce an ExpatError because the
->> returned document is always empty (per a wireshark trace of the
->> transaction).  Can somebody confirm that the server for the command-line
->> client is working properly?  Thanks.
->>
->> Peter
->>
->
-> I've downloaded a fresh copy of pwclient from
-> http://patches.openembedded.org/help/pwclient/
->
-> I've verified my .pwclientrc is exactly what the project info tells me it
-> should be:
->
-> [base]
-> url: http://patches.openembedded.org/xmlrpc/
-> project: oe-core
->
-> I've verified that pwclient works with other servers.
->
-> And I still get empty documents back from the OE patchwork server for every
-> pwclient command I try.
->
-> Anybody have any idea what's going wrong?
->
-> Thanks.
->
-> Peter
->
-> llc[40]$ /tmp/pwclient projects
-> Traceback (most recent call last):
->   File "/tmp/pwclient", line 500, in <module>
->     main()
->   File "/tmp/pwclient", line 439, in main
->     action_projects(rpc)
->   File "/tmp/pwclient", line 213, in action_projects
->     projects = rpc.project_list("", 0)
->   File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
->     return self.__send(self.__name, args)
->   File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
->     verbose=self.__verbose
->   File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
->     return self.single_request(host, handler, request_body, verbose)
->   File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in single_request
->     return self.parse_response(response)
->   File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in parse_response
->     p.close()
->   File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
->     self._parser.Parse("", 1) # end of data
-> xml.parsers.expat.ExpatError: no element found: line 1, column 0
+This also corrects an erroneous overwriting of the dependencies
+from the inc file.
 
-I have same error; I am adding Khem who I know has access to the
-server and can know more about it.
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb
+index 11c77ae..a390205 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb
+@@ -2,8 +2,6 @@ DEFAULT_PREFERENCE = "-1"
+ 
+ include gstreamer1.0-omx.inc
+ 
+-DEPENDS = "gstreamer1.0-plugins-bad"
+-
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.1
+
 
