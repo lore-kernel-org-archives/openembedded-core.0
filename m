@@ -1,38 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B301B65C7C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E798E65C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 19:35:11 +0000 (UTC)
-Received: by mail-yk0-f170.google.com with SMTP id 9so4410716ykp.15
+	Mon,  4 Aug 2014 19:38:18 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id uq10so69303igb.17
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 12:35:12 -0700 (PDT)
+	Mon, 04 Aug 2014 12:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=AAZGyl+w6bDueb0yyVnC2BMAt7UuoTC73q8XwQdcn9I=;
-	b=ewq1ukCgfvFXVacQPHFtiWOgsxuR9EGDwbbSwB2zCV2FQUv55jhdkULwetoGG8kfkB
-	rKNcSXdI82k/lI7SNnjuWe31A0jpiaZbE/z1OqiYpOAyyi77oDHjxKBwxt/hzUemrAQH
-	PsHzwmoiks1EWKHBVFH7xtiB7kFZH/ONQimpsUyaW6fh5uNqXN2RFAXqvuKlpKue1A2W
-	esLQxgsqgyULyAHyl12YjQjnaS6NBhQooctLZmwF1QKJ9GMCdzkfPoxrHpIU1WSGc+dV
-	siF1Tkth0rb8Ka8QdPYbUhgRrdJysggdVBeG675ofM63o2M+DhqNDT0Dst/JmaHIKMl1
-	tBSg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=omV6fxXh7y+lPDxaB5k6PbA6NEXZAXVENlQ96tzr6hA=;
+	b=D34AN8ACn2pXXwfchlr0NF9htUCeGpGriFAJQF3yEaMlL7QYSPgQAPEvAC7nWM1M6P
+	ZJpA3vo/wsjJ3Pjhv8JZkdJmiAALVQDOlbILMumNl4FE3fV9UXyc3ciR1mylzMQWWHyD
+	h4suKhOGcreeEEUmDrrSsy1XSWUlWlfg93M6bEhCWEnMnuT2uL2BWCf0L/S9kamM7gOD
+	FBSTX1ihHtnqh3vZME9Texmk2BChuPK9JCQ1thBeSJQGo7SwktRsYzhkF5C5RSlbspGi
+	PnkwvL1GbwhCLsmAh4juIlboDXzvGua1V9zZZkXQXabu/CPR2s/JmBkCv+QyhvvizwGo
+	llyA==
+X-Received: by 10.42.65.200 with SMTP id m8mr11360348ici.29.1407181099125;
+	Mon, 04 Aug 2014 12:38:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.236.103.135 with SMTP id f7mr41327159yhg.102.1407180912257; 
-	Mon, 04 Aug 2014 12:35:12 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Mon, 4 Aug 2014 12:35:12 -0700 (PDT)
-In-Reply-To: <02ffdae63da4c286825773a18ab377d8027ae6c0.1407177403.git.ben.shelton@ni.com>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<02ffdae63da4c286825773a18ab377d8027ae6c0.1407177403.git.ben.shelton@ni.com>
-Date: Mon, 4 Aug 2014 16:35:12 -0300
-X-Google-Sender-Auth: a_zKVWbQr-uySOmlwlapoopbrak
-Message-ID: <CAP9ODKoqCVWrg4deaqFDCN+DKaevkyPtwtgiCHO5b2BoqmYcHA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ben Shelton <ben.shelton@ni.com>
+Received: by 10.50.126.103 with HTTP; Mon, 4 Aug 2014 12:37:49 -0700 (PDT)
+In-Reply-To: <1407143720-1213-1-git-send-email-yaoxp@cn.fujitsu.com>
+References: <1407143720-1213-1-git-send-email-yaoxp@cn.fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 4 Aug 2014 12:37:49 -0700
+Message-ID: <CAMKF1sobWSsxUU+tFP4erdxYYo+xcLN9yu1xnDF44_Roh5zDKw@mail.gmail.com>
+To: Yao Xinpan <yaoxp@cn.fujitsu.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 07/20] udev-cache: Update cache tarball atomically
+Subject: Re: [PATCH] tcp-wrappers: install /etc/hosts.allow and /etc/hosts.deny
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 19:35:13 -0000
+X-List-Received-Date: Mon, 04 Aug 2014 19:38:22 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Aug 4, 2014 at 3:40 PM, Ben Shelton <ben.shelton@ni.com> wrote:
-> From: Richard Tollerton <rich.tollerton@ni.com>
+On Mon, Aug 4, 2014 at 2:15 AM, Yao Xinpan <yaoxp@cn.fujitsu.com> wrote:
+> +
+> +       install -d ${D}${sysconfdir}
+> +       touch ${D}${sysconfdir}/hosts.allow
+> +       touch ${D}${sysconfdir}/hosts.deny
+>  }
 >
-> Overwriting the tarball in-place could cause a partial write, if the
-> system stops at an inopportune time. This is mitigated by first writing to a
-> temporary file, then moving that file on top of the final location.
->
-> Natinst-Rally-ID: TA44427
-> Acked-by: Gratian Crisan <gratian.crisan@ni.com>
-> Natinst-ReviewBoard-ID: 58620
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> +FILES_${PN} += "${sysconfdir}/hosts.allow ${sysconfdir}/hosts.deny"
 
-
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
-As an improvement, this could be written in tmpfs so it avoid
-duplicated writting. For NAND devices without much free space this
-might matter.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+these are dynamic files I dont think its the right place to put them.
+probably a image post processing function would be ok
 
