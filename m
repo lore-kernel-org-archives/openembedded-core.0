@@ -1,21 +1,21 @@
 Return-Path: <ben.shelton@ni.com>
 Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 171886FDE1
+	by mail.openembedded.org (Postfix) with ESMTP id 1708E6FA94
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  4 Aug 2014 18:41:40 +0000 (UTC)
 Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
 	[130.164.19.135])
 	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s74IfftV016916 for <openembedded-core@lists.openembedded.org>;
+	s74Iff9A016927 for <openembedded-core@lists.openembedded.org>;
 	Mon, 4 Aug 2014 13:41:41 -0500
 Received: from bshelton-desktop.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014080413414118-622915 ;
+	with ESMTP id 2014080413414171-622924 ;
 	Mon, 4 Aug 2014 13:41:41 -0500 
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 4 Aug 2014 13:40:55 -0500
-Message-Id: <d358027b2a45a24ce326fb34499b16ef9fb896a5.1407177403.git.ben.shelton@ni.com>
+Date: Mon, 4 Aug 2014 13:41:04 -0500
+Message-Id: <17dc769adb9aef8b1cdb1f298874d482f0337ad3.1407177403.git.ben.shelton@ni.com>
 X-Mailer: git-send-email 2.0.4
 In-Reply-To: <cover.1407177403.git.ben.shelton@ni.com>
 References: <cover.1407177403.git.ben.shelton@ni.com>
@@ -28,7 +28,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
 	0.0.0000
 	definitions=2014-08-04_03:2014-08-04, 2014-08-04,
 	1970-01-01 signatures=0
-Subject: [PATCH 03/20] udev-cache: Honor VERBOSE for bootup message
+Subject: [PATCH 12/20] udev-cache: fix timestamp errors on systems lacking an RTC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +45,35 @@ X-List-Received-Date: Mon, 04 Aug 2014 18:41:41 -0000
 
 From: Richard Tollerton <rich.tollerton@ni.com>
 
+If the system lacks an RTC, the time will typically start from the
+epoch, and may get set to the "correct" time later (if at all).
+In this circumstance, the timestamps in the cache tarball will always be
+in the future. gnutar complains bitterly about this.
+
+To work around this, use `tar -m` to strip mtimes during extract.
+
 Natinst-Rally-ID: TA44427
 Acked-by: Gratian Crisan <gratian.crisan@ni.com>
 Natinst-ReviewBoard-ID: 58620
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 ---
- meta/recipes-core/udev/udev/udev-cache | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/udev/udev/udev-cache.default | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
-index 3769062..154d2ad 100644
---- a/meta/recipes-core/udev/udev/udev-cache
-+++ b/meta/recipes-core/udev/udev/udev-cache
-@@ -24,7 +24,7 @@ if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
- fi
+diff --git a/meta/recipes-core/udev/udev/udev-cache.default b/meta/recipes-core/udev/udev/udev-cache.default
+index 30d7faa..554142a 100644
+--- a/meta/recipes-core/udev/udev/udev-cache.default
++++ b/meta/recipes-core/udev/udev/udev-cache.default
+@@ -7,7 +7,8 @@ DEVCACHE_SYSCONF="/etc/udev/cache.data"
+ DEVCACHE_CURRENT_SYSCONF="/dev/shm/udev.cache"
  
- if [ "$DEVCACHE" != "" -a -e /dev/shm/udev.cache ]; then
--	echo "Populating dev cache"
-+	[ "${VERBOSE}" != "no" ] && echo "Populating dev cache"
- 	(cd /; tar czf "$DEVCACHE" dev)
- 	mv /dev/shm/udev.cache /etc/udev/cache.data
- fi
+ # - Avoid /dev/log because it's a pipe.
+-DEVCACHE_EXTRACT_OPTS="--exclude=log"
++# - Don't restore mtimes. Avoids errors on systems lacking an RTC.
++DEVCACHE_EXTRACT_OPTS="--exclude=log -m"
+ DEVCACHE_CREATE_OPTS="--exclude=log"
+ 
+ PROBE_PLATFORM_BUS="yes"
 -- 
 2.0.4
 
