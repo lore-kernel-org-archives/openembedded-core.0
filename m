@@ -1,40 +1,25 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id B345460703
+Return-Path: <roxana.ciobanu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 52BD565D58
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 11:19:58 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20140804111958036
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 11:19:58 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=60507 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XEGIz-0008Ut-B3 for openembedded-core@lists.openembedded.org;
-	Mon, 04 Aug 2014 07:19:53 -0400
-Date: Mon, 4 Aug 2014 07:19:49 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-In-Reply-To: <alpine.LFD.2.11.1408040630210.6237@localhost>
-Message-ID: <alpine.LFD.2.11.1408040716390.7019@localhost>
-References: <alpine.LFD.2.11.1408040630210.6237@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: Re: a few questions on the proper use of TEMPLATECONF
+	Mon,  4 Aug 2014 12:16:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 04 Aug 2014 05:10:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,798,1400050800"; d="scan'208";a="553396851"
+Received: from unknown (HELO roxana-OptiPlex-9010.rb.intel.com)
+	([10.237.105.58])
+	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2014 05:16:15 -0700
+From: Roxana Ciobanu <roxana.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Aug 2014 15:16:39 +0300
+Message-Id: <fa6233e6804b85850496876aac25009533d9a6e5.1407154577.git.roxana.ciobanu@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1407154577.git.roxana.ciobanu@intel.com>
+References: <cover.1407154577.git.roxana.ciobanu@intel.com>
+In-Reply-To: <cover.1407154577.git.roxana.ciobanu@intel.com>
+References: <cover.1407154577.git.roxana.ciobanu@intel.com>
+Subject: [PATCH 1/1] scripts/send-error-report: fetch /Errors/ instead of /.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,51 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 11:20:02 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323328-13654955-1407151192=:7019"
+X-List-Received-Date: Mon, 04 Aug 2014 12:16:17 -0000
 
---8323328-13654955-1407151192=:7019
-Content-Type: TEXT/PLAIN; charset=ISO-8859-7
-Content-Transfer-Encoding: 8BIT
+If HTTP_PROXY or http_proxy is set when the send-error-report script
+is run, it will check to see if fetching / on the specified server
+returns 200 without the proxy set. If it does it will assume that the
+proxy is not needed. However this check can never work because
+fetching / always redirects to /Errors/ in the current code and
+thus returns code 301. This is fixed by fetching /Errors/ instead of /.
 
+[YOCTO #YB6576]
 
-  short followup to my earlier post ... it seems like
-oe-setup-builddir doesn't do a whole lot of input validation. for fun,
-i tried to define a new project using /tmp for TEMPLATECONF, knowing
-there was nothing valid there to be used as sample files, and here's
-what i got (in part):
+Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
+---
+ scripts/send-error-report | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-cp: cannot stat ¡/tmp/local.conf.sample¢: No such file or directory
-You had no conf/bblayers.conf file. The configuration file has been
-created for
-you with some default values. To add additional metadata layers into
-your
-configuration please add entries to this file.
-
-The Yocto Project has extensive documentation about OE including a
-reference manual
-which can be found at:
-    http://yoctoproject.org/documentation
-
-For more information about OpenEmbedded see their website:
-    http://www.openembedded.org/
-
-sed: can't read /tmp/bblayers.conf.sample: No such file or directory
-
-  in the end, despite the obviously fatal errors, i got a new build
-directory with no local.conf, and an empty bblayers.conf. that doesn't
-really match what the error messages were telling me above.
-
-rday
-
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index 48d983b..c99d387 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -20,7 +20,7 @@ def handle_connection(server, data):
+         # we need to check that the server isn't a local one, as in no_proxy
+         try:
+             temp = httplib.HTTPConnection(server, strict=True, timeout=5)
+-            temp.request("GET", "/")
++            temp.request("GET", "/Errors/")
+             tempres = temp.getresponse()
+             if tempres.status == 200:
+                 proxyrequired = False
 -- 
+1.9.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-13654955-1407151192=:7019--
