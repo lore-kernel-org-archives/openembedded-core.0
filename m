@@ -1,35 +1,39 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 881E365DB3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 15:50:45 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id j107so8952843qga.22
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Aug 2014 08:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=TAlicwrD3J5UCS5r1XngCbFGLxZEYJOJ97NiXwqtnuo=;
-	b=kSvq4ZN4ZWqna8H9k5Koiz2jj+/qOKslwk7uOjb+muAIeg+ykx8tBhF28SaHJJtMLR
-	oAFa9HqQtWzwJYJupOzqcLy15cId0nqEe2unDon11W3KHxnr7v6523RZk5tBrRRw4X67
-	9Nt5OdoFWPzNbvmgIKYuNTY0stcR7tItHk6B1pch8UnrpeBuTE3/yx35Fl+iR5Y244ns
-	qhlM6sVkM3+oSYSR5Wmt6O8c2Ujog6l1MTko8+S0ap/4dU0qntqq8ewsVpNC6BDoTy7C
-	ZtHcQwK9e0C5lFZbpJkGrfcceFePXpItTrHaF0/BNNVCxZWpE1qbeAIMXePhOhEgITsZ
-	JOMQ==
-X-Received: by 10.140.97.117 with SMTP id l108mr35760880qge.29.1407167447101; 
-	Mon, 04 Aug 2014 08:50:47 -0700 (PDT)
+Return-Path: <darren.hart@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A270C6084E
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon,  4 Aug 2014 16:38:37 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2014 09:38:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="367717789"
+Received: from fmsmsx107.amr.corp.intel.com ([10.19.9.54])
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Aug 2014 09:35:40 -0700
+Received: from fmsmsx102.amr.corp.intel.com (10.18.124.200) by
+	FMSMSX107.amr.corp.intel.com (10.19.9.54) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Mon, 4 Aug 2014 09:38:27 -0700
+Received: from fmsmsx118.amr.corp.intel.com ([169.254.1.224]) by
+	FMSMSX102.amr.corp.intel.com ([169.254.2.252]) with mapi id
+	14.03.0123.003; Mon, 4 Aug 2014 09:38:26 -0700
+From: "Hart, Darren" <darren.hart@intel.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [PATCH 1/1] INITRD var: make it a list of filesystem images
+Thread-Index: AQHPq1so0wNiYZq5p0CU9Wax1JRNMJvArl8A
+Date: Mon, 4 Aug 2014 16:38:26 +0000
+Message-ID: <D005011E.9F32A%darren.hart@intel.com>
+References: <cover.1406658528.git.nitin.a.kamble@intel.com>
+	<b60eac03f169389484bcc40fdfc3e4e12cb7934b.1406658528.git.nitin.a.kamble@intel.com>
+In-Reply-To: <b60eac03f169389484bcc40fdfc3e4e12cb7934b.1406658528.git.nitin.a.kamble@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.24.5.3]
 MIME-Version: 1.0
-Received: by 10.140.41.148 with HTTP; Mon, 4 Aug 2014 08:50:27 -0700 (PDT)
-In-Reply-To: <lyoaw09sj2.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1407160628-30775-1-git-send-email-sujith.h@gmail.com>
-	<lyoaw09sj2.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: sujith h <sujith.h@gmail.com>
-Date: Mon, 4 Aug 2014 21:20:27 +0530
-Message-ID: <CADyYWLkmXS4O=nRNmTzXPwxX+y_cWY0NM1OeFsrHS=LeYj7f3A@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image.bbclass: Adding loop back for machine name in hosts file
+Subject: Re: [PATCH 1/1] INITRD var: make it a list of filesystem images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,139 +46,299 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 15:50:48 -0000
-Content-Type: multipart/alternative; boundary=001a113941d6d2fadf04ffcfb30d
-
---001a113941d6d2fadf04ffcfb30d
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Aug 2014 16:38:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <135CBC473F846048B2DDDD784083A9A7@intel.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 4, 2014 at 9:05 PM, Enrico Scholz <
-enrico.scholz@sigma-chemnitz.de> wrote:
+On 7/29/14, 11:34, "Kamble, Nitin A" <nitin.a.kamble@intel.com> wrote:
 
-> Sujith H <sujith.h-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->
-> > If hostname is not added to /etc/hosts file then rpcinfo command fails
-> > when hostname is passed as argument.
-> > ...
-> > root@mx6q:~# rpcinfo -s mx6q
-> > rpcinfo: can't contact rpcbind: RPC: (unknown error code)
->
-> Is this really a common/valid use case?  'rpcinfo' is a debug tool and
-> when you want information about the local host, you can execute
->
-> # rpcinfo -s localhost
->
-> IMHO, when using network related functionality, you have to setup
-> networking.  This means:
->
-> - setup the hostname; using ${MACHINE} is ambiguous with more than one
->   device and the string can contain chars forbidden by DNS ('_')
->
-> - setup name resolving; this can be done by ordinary DNS, (unambiguous)
->   /etc/hosts, mDNS
->
->
-> When DNS mapping of ${MACHINE} (or better `hostname`) without working
-> DNS is really required, 'systemd' contains 'libnss_myhostname.so' (which
-> is to be registered in /etc/nsswitch) which returns '127.0.0.2' as a
-> fallback.
->
->
-Is it ok to read from /etc/hostname and then have that in the /etc/hosts
-file, rather than using ${MACHINE}?
+>From: Nitin A Kamble <nitin.a.kamble@intel.com>
+
+Hi Nitin,
+
+Generally speaking this looks like a good improvement. I don't have any
+major technical concerns, but we do need to address some grammatical
+issues in the commit and the docs below to make sure people can follow the
+intent here.
 
 >
-> Enrico
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>The initrd image used by the Linux kernel is list of file system images
+>concatenated together and presented as a single initrd file at boot time.
+>
+>So far the initrd is a single filesystem image. But in cases like to
+>support
+>early microcode loading, the initrd image need to have multiple filesystem
+>images concatenated together.
+
+Consider:
+
+Currently, the INITRD variable is a single filesystem image. For optional
+early boot features, such as microcode loading, a modular approach would
+provide the most flexibility and is minimally invasive. Converting INITRD
+to a list of images to be concatenated accomplishes this.
+
+>
+>This commit is extending the INITRD variable from a single filesystem
+>image
+>to a list of filesystem images to satisfy the need mentioned above.
+
+Can now drop this paragraph.
+
+>
+>Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>---
+> documentation/ref-manual/ref-classes.xml   |  4 ++--
+> documentation/ref-manual/ref-variables.xml |  2 +-
+> meta/classes/boot-directdisk.bbclass       | 13 ++++++++++---
+> meta/classes/bootimg.bbclass               | 27
+>++++++++++++++++++++++-----
+> meta/classes/grub-efi.bbclass              |  2 +-
+> meta/classes/syslinux.bbclass              |  2 +-
+> meta/conf/documentation.conf               |  2 +-
+> 7 files changed, 38 insertions(+), 14 deletions(-)
+>
+>diff --git a/documentation/ref-manual/ref-classes.xml
+>b/documentation/ref-manual/ref-classes.xml
+>index e7e9942..0bf3546 100644
+>--- a/documentation/ref-manual/ref-classes.xml
+>+++ b/documentation/ref-manual/ref-classes.xml
+>@@ -881,7 +881,7 @@
+>         <itemizedlist>
+>             <listitem><para>
+>                 <link
+>linkend=3D'var-INITRD'><filename>INITRD</filename></link>:
+>-                Indicates a filesystem image to use as an initrd
+>(optional).
+>+                Indicates list of filesystem images to concatenate and
+>use as an initrd (optional).
+
+
+Missing article:            ^ a
+
+
+>                 </para></listitem>
+>             <listitem><para>
+>                 <link
+>linkend=3D'var-ROOTFS'><filename>ROOTFS</filename></link>:
+>@@ -2864,7 +2864,7 @@
+>         The class supports the following variables:
+>         <itemizedlist>
+>             <listitem><para><emphasis><link
+>linkend=3D'var-INITRD'><filename>INITRD</filename></link>:</emphasis>
+>-                Indicates a filesystem image to use as an initial RAM
+>disk
+>+                Indicates list of filesystem images to concatenate and
+>use as an initial RAM disk
+
+Missing article:             ^ a
+
+>                 (initrd).
+>                 This variable is optional.</para></listitem>
+>             <listitem><para><emphasis><link
+>linkend=3D'var-ROOTFS'><filename>ROOTFS</filename></link>:</emphasis>
+>diff --git a/documentation/ref-manual/ref-variables.xml
+>b/documentation/ref-manual/ref-variables.xml
+>index b4d6e71..16e3ed6 100644
+>--- a/documentation/ref-manual/ref-variables.xml
+>+++ b/documentation/ref-manual/ref-variables.xml
+>@@ -4020,7 +4020,7 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR =
+=3D
+>"${INC_PR}.3"
+>         <glossentry id=3D'var-INITRD'><glossterm>INITRD</glossterm>
+>             <glossdef>
+>                 <para>
+>-                    Indicates a filesystem image to use as an initial RAM
+>+                    Indicates list of filesystem images to concatenate
+>and use as an initial RAM
+
+ditto
+
+>                     disk (<filename>initrd</filename>).
+>                 </para>
+>=20
+>diff --git a/meta/classes/boot-directdisk.bbclass
+>b/meta/classes/boot-directdisk.bbclass
+>index 0da9932..995d3e7 100644
+>--- a/meta/classes/boot-directdisk.bbclass
+>+++ b/meta/classes/boot-directdisk.bbclass
+>@@ -71,10 +71,17 @@ boot_direct_populate() {
+> 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to
+>use.
+> 	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage $dest/vmlinuz
+>=20
+>-	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
+>-		install -m 0644 ${INITRD} $dest/initrd
+>+	# initrd is made of concatenation of multiple filesystem images
+
+# Assemble the initrd from the list of filesystem images
+
+>+	if [ -n "${INITRD}" ]; then
+>+		rm -f $dest/initrd
+>+		for fs in ${INITRD}
+>+		do
+>+			if [ -n "${fs}" ] && [ -s "${fs}" ]; then
+
+
+The -n test is unnecessary here. How would "for fs in ${INITRD}" result in
+an fs of "" ?
+
+
+>+				cat ${fs} >> $dest/ignited
+>+			fi
+
+Some kind of a warning at least is warranted if a file appears in the
+INITRD list but is either 0-size or non-existent.
+
+>+		done
+>+		chmod 0644 $dest/initrd
+> 	fi
+>-
+> }
+>=20
+> build_boot_dd() {
+>diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+>index d52aace..7b3ce65 100644
+>--- a/meta/classes/bootimg.bbclass
+>+++ b/meta/classes/bootimg.bbclass
+>@@ -18,7 +18,7 @@
+> # an hdd)
+>=20
+> # External variables (also used by syslinux.bbclass)
+>-# ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+>+# ${INITRD} - indicates a list of filesystem images to concatenate and
+>use as an initrd (optional)
+> # ${COMPRESSISO} - Transparent compress ISO, reduce size ~40% if set to 1
+> # ${NOISO}  - skip building the ISO image if set to 1
+> # ${NOHDD}  - skip building the HDD image if set to 1
+>@@ -67,9 +67,17 @@ populate() {
+>=20
+> 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to
+>use.
+> 	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
+>-
+>-	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
+>-		install -m 0644 ${INITRD} ${DEST}/initrd
+>+=09
+>+	# initrd is made of concatenation of multiple filesystem images
+>+	if [ -n "${INITRD}" ]; then
+>+		rm -f ${DEST}/initrd
+>+		for fs in ${INITRD}
+>+		do
+>+			if [ -s "${fs}" ]; then
+>+				cat ${fs} >> ${DEST}/initrd
+>+			fi
+>+		done
+
+Same test commentary here.
+
+>+		chmod 0644 ${DEST}/initrd
+> 	fi
+>=20
+> 	if [ -n "${ROOTFS}" ] && [ -s "${ROOTFS}" ]; then
+>@@ -80,10 +88,19 @@ populate() {
+>=20
+> build_iso() {
+> 	# Only create an ISO if we have an INITRD and NOISO was not set
+>-	if [ -z "${INITRD}" ] || [ ! -s "${INITRD}" ] || [ "${NOISO}" =3D "1" ];
+>then
+>+	if [ -z "${INITRD}" ] || [ "${NOISO}" =3D "1" ]; then
+> 		bbnote "ISO image will not be created."
+> 		return
+> 	Fi
+
+Perhaps the -s test should be replaced with a -s of $dest/initrd?
+
+>+	# ${INITRD} is a list of multiple filesystem images
+>+	for fs in ${INITRD}
+>+	do
+>+		if [ ! -s "${fs}" ]; then
+>+			bbnote "ISO image will not be created. ${fs} is invalid."
+>+			return
+>+		fi
+>+	done
+
+This additional loop could be eliminated by including this test above.
+Right? Or am I missing something subtle here?
+
+>+
+>=20
+> 	populate ${ISODIR}
+>=20
+>diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+>index 505d032..47bd35e 100644
+>--- a/meta/classes/grub-efi.bbclass
+>+++ b/meta/classes/grub-efi.bbclass
+>@@ -7,7 +7,7 @@
+> # Provide grub-efi specific functions for building bootable images.
+>=20
+> # External variables
+>-# ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+>+# ${INITRD} - indicates a list of filesystem images to concatenate and
+>use as an initrd (optional)
+
+Used the "a" here, good :-)
+
+> # ${ROOTFS} - indicates a filesystem image to include as the root
+>filesystem (optional)
+> # ${GRUB_GFXSERIAL} - set this to 1 to have graphics and serial in the
+>boot menu
+> # ${LABELS} - a list of targets for the automatic config
+>diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+>index b9701bf..d6498d9 100644
+>--- a/meta/classes/syslinux.bbclass
+>+++ b/meta/classes/syslinux.bbclass
+>@@ -5,7 +5,7 @@
+> # Provide syslinux specific functions for building bootable images.
+>=20
+> # External variables
+>-# ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+>+# ${INITRD} - indicates a list of filesystem images to concatenate and
+>use as an initrd (optional)
+> # ${ROOTFS} - indicates a filesystem image to include as the root
+>filesystem (optional)
+> # ${AUTO_SYSLINUXMENU} - set this to 1 to enable creating an automatic
+>menu
+> # ${LABELS} - a list of targets for the automatic config
+>diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+>index 7fa3f31..31fbd6c 100644
+>--- a/meta/conf/documentation.conf
+>+++ b/meta/conf/documentation.conf
+>@@ -225,7 +225,7 @@ INHIBIT_PACKAGE_STRIP[doc] =3D "If set to "1", causes
+>the build to not strip binar
+> INHERIT[doc] =3D "Causes the named class to be inherited at this point
+>during parsing. The variable is only valid in configuration files."
+> INHERIT_DISTRO[doc] =3D "Lists classes that will be inherited at the
+>distribution level. It is unlikely that you want to edit this variable."
+> INITRAMFS_FSTYPES[doc] =3D "Defines the format for the output image of an
+>initial RAM disk (initramfs), which is used during boot."
+>-INITRD[doc] =3D "Indicates a filesystem image to use as an initial RAM
+>disk (initrd)."
+>+INITRD[doc] =3D "Indicates list of filesystem images to concatenate and
+>use as an initial RAM disk (initrd)."
+
+"a list"
+
+> INITSCRIPT_NAME[doc] =3D "The filename of the initialization script as
+>installed to ${sysconfdir}/init.d."
+> INITSCRIPT_PACKAGES[doc] =3D "A list of the packages that contain
+>initscripts. This variable is used in recipes when using
+>update-rc.d.bbclass. The variable is optional and defaults to the PN
+>variable."
+> INITSCRIPT_PARAMS[doc] =3D "Specifies the options to pass to update-rc.d.
+>The variable is mandatory and is used in recipes when using
+>update-rc.d.bbclass."
+>--=20
+>1.8.1.4
+>
 >
 
-
+Thanks,
 
 --=20
-=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
-=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
-Bangalore
-<Project>Contributor to KDE project
-http://fci.wikia.com/wiki/Anti-DRM-Campaign
-<Blog> http://sujithh.info
-
---001a113941d6d2fadf04ffcfb30d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Mon, Aug 4, 2014 at 9:05 PM, Enrico Scholz <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enric=
-o.scholz@sigma-chemnitz.de</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"">Sujith H &lt;<a href=3D"mail=
-to:sujith.h-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org">sujith.h-Re5JQEeQqe8Av=
-xtiuMwx3w@public.gmane.org</a>&gt; writes:<br>
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
 
 
-<br>
-&gt; If hostname is not added to /etc/hosts file then rpcinfo command fails=
-<br>
-&gt; when hostname is passed as argument.<br>
-</div>&gt; ...<br>
-<div class=3D"">&gt; root@mx6q:~# rpcinfo -s mx6q<br>
-&gt; rpcinfo: can&#39;t contact rpcbind: RPC: (unknown error code)<br>
-<br>
-</div>Is this really a common/valid use case? =C2=A0&#39;rpcinfo&#39; is a =
-debug tool and<br>
-when you want information about the local host, you can execute<br>
-<br>
-# rpcinfo -s localhost<br>
-<br>
-IMHO, when using network related functionality, you have to setup<br>
-networking. =C2=A0This means:<br>
-<br>
-- setup the hostname; using ${MACHINE} is ambiguous with more than one<br>
-=C2=A0 device and the string can contain chars forbidden by DNS (&#39;_&#39=
-;)<br>
-<br>
-- setup name resolving; this can be done by ordinary DNS, (unambiguous)<br>
-=C2=A0 /etc/hosts, mDNS<br>
-<br>
-<br>
-When DNS mapping of ${MACHINE} (or better `hostname`) without working<br>
-DNS is really required, &#39;systemd&#39; contains &#39;libnss_myhostname.s=
-o&#39; (which<br>
-is to be registered in /etc/nsswitch) which returns &#39;127.0.0.2&#39; as =
-a<br>
-fallback.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br></font></span></blockquo=
-te><div><br></div><div>Is it ok to read from /etc/hostname and then have th=
-at in the /etc/hosts file, rather than using ${MACHINE}? <br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">
 
-<span class=3D"HOEnZb"><font color=3D"#888888">
-<br>
-Enrico<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br>=E0=B4=B8=
-=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=
-=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&g=
-t;Contributor to KDE project<br><a href=3D"http://fci.wikia.com/wiki/Anti-D=
-RM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign<=
-/a><br>
-
-&lt;Blog&gt; <a href=3D"http://sujithh.info" target=3D"_blank">http://sujit=
-hh.info</a><br>
-</div></div>
-
---001a113941d6d2fadf04ffcfb30d--
