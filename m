@@ -1,29 +1,30 @@
-Return-Path: <yaoxp@cn.fujitsu.com>
-X-Greylist: delayed 633 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 04 Aug 2014 09:26:42 UTC
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A085465C7C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BA3A65DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Aug 2014 09:26:42 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,260,1406563200"; d="scan'208";a="34143159"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Aug 2014 17:13:16 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id s749G3gd001411
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Aug 2014 17:16:03 +0800
-Received: from localhost.localdomain (10.167.226.250) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 4 Aug 2014 17:16:05 +0800
-From: Yao Xinpan <yaoxp@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Aug 2014 17:15:20 +0800
-Message-ID: <1407143720-1213-1-git-send-email-yaoxp@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.3
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.250]
-Subject: [PATCH] tcp-wrappers: install /etc/hosts.allow and /etc/hosts.deny
+	Mon,  4 Aug 2014 09:47:21 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s749kuRq008344; Mon, 4 Aug 2014 10:46:56 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8xBo8t9Y8JUQ; Mon,  4 Aug 2014 10:46:56 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s749kr3d008181
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 4 Aug 2014 10:46:54 +0100
+Message-ID: <1407145613.6981.48.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 04 Aug 2014 10:46:53 +0100
+In-Reply-To: <1406891040-8738-1-git-send-email-koen@dominion.thruhere.net>
+References: <1406891040-8738-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cups: fix host contamination issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +37,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Aug 2014 09:26:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Aug 2014 09:47:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Yao Xinpan <yaoxp@cn.fujitsu.com>
----
- meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+On Fri, 2014-08-01 at 13:04 +0200, Koen Kooi wrote:
+> -I/usr/include would end up in CFLAGS if /usr/bin/gcrypt-config is
+> present on the host systemd.
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  ...crypt-config-from-the-host-it-leads-to-SS.patch | 28 ++++++++++++++++++++++
+>  meta/recipes-extended/cups/cups_1.7.4.bb           |  1 +
+>  2 files changed, 29 insertions(+)
+>  create mode 100644 meta/recipes-extended/cups/cups/0001-don-t-use-gcrypt-config-from-the-host-it-leads-to-SS.patch
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index c7954e7..034b33b 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -117,5 +117,10 @@ do_install () {
- 
- 	install -d ${D}${includedir}
- 	install -m 0644 tcpd.h ${D}${includedir}/
-+
-+	install -d ${D}${sysconfdir}
-+	touch ${D}${sysconfdir}/hosts.allow
-+	touch ${D}${sysconfdir}/hosts.deny
- }
- 
-+FILES_${PN} += "${sysconfdir}/hosts.allow ${sysconfdir}/hosts.deny"
--- 
-1.9.3
+Does the patch "cups: regen configure so cups-no-gcrypt.patch has an
+effect" obsolete the need for this change?
+
+Cheers,
+
+Richard
 
 
