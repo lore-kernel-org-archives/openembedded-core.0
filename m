@@ -1,35 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id CEF9D60017
+Return-Path: <dmtkatsa@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 47B8360DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 14:47:13 +0000 (UTC)
-Received: by mail-ie0-f176.google.com with SMTP id tr6so1174574ieb.35
+	Tue,  5 Aug 2014 15:11:35 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id e131so205997oig.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Aug 2014 07:47:14 -0700 (PDT)
+	Tue, 05 Aug 2014 08:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=es24JAMz1+LHvKQ8japrzReRSCL+kaE2Hj/FOU48Gyc=;
-	b=seeCSZwXDZfiveOQ4Io97bE7sW0OFKc0u3Y7RHteM/NXHo6JA9zpYa8jWw+QbRr72q
-	1+MMhr9TurNQ4pUneT8aOLylYmK0Px5S38JjdDrINAsw8AuKUE43czZtObFWEU8e9M0+
-	fa1HEp8+VqV+98GVAicZXlpANaGzjNoBAhO3S6EeCmn2eI3cXDIYizGow81cYI0LBxFv
-	ICem2wRr0ElKINku4JzuGv7eviGC6b2ilEXs0UWKhWAJQ5PvPrgkw1PfZRsuLOHENI+C
-	YhYQKCN/M5NY5eh0mn4jME5GaYabNWZDF5hlZXcxZgBsDnTE75FJzvuDjDiiBlLvoKl3
-	+MNA==
+	bh=VkYmq4U4w5Dncu0Q0pRjNcWLoHlUMtXroYaDymOWwQ4=;
+	b=Ehah2/DOqTZOWGC4jZIT+qPiQhaRfjtPLys1bYzo+4+YLLpA0LNrDetVJEXjs5OWfN
+	So/xsRnbs7gJ/zmBy3fumDnSaJpT/806qO+XxrZLgaJgArAjvLXaZYtcfr08OXlWJ7U2
+	S+wAUcq1OOXMbyGyXrv6N2jYGLpwVtUlwdamQbIkt6mz9LtxxIURSRUmCvASqrsF3btb
+	Q/4d/764Fo1wuO0EEWmmMxUJHEtljgqVd+ruqt/X9s+uxrO2+7+HbJFmNpWZmPPu7F6H
+	McaifzFgnEFKI8IqxxXZMsoh6P9pS/b1/DGjXaJt0ps7ucTXuIeb7UKWDZQpVwiRk/u5
+	ZDxg==
 MIME-Version: 1.0
-X-Received: by 10.42.82.6 with SMTP id b6mr6089928icl.51.1407250034689; Tue,
-	05 Aug 2014 07:47:14 -0700 (PDT)
-Received: by 10.50.126.103 with HTTP; Tue, 5 Aug 2014 07:47:14 -0700 (PDT)
-In-Reply-To: <53E0A45C.4070507@pabigot.com>
-References: <53DF9F25.1060404@pabigot.com> <20140804223948.GC11951@haswell>
-	<53E0A45C.4070507@pabigot.com>
-Date: Tue, 5 Aug 2014 07:47:14 -0700
-Message-ID: <CAMKF1sqOf9mcRkwyfktXxZQ9SHLMLxb6zp2StvLjeCmbHGFGOw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: blocking pie in recipes that build shared object files
+X-Received: by 10.60.60.167 with SMTP id i7mr6570960oer.41.1407251496233; Tue,
+	05 Aug 2014 08:11:36 -0700 (PDT)
+Received: by 10.182.18.202 with HTTP; Tue, 5 Aug 2014 08:11:36 -0700 (PDT)
+In-Reply-To: <1406759278-3258-1-git-send-email-dmtkatsa@gmail.com>
+References: <1406759278-3258-1-git-send-email-dmtkatsa@gmail.com>
+Date: Tue, 5 Aug 2014 17:11:36 +0200
+Message-ID: <CA+8T1ZbzFZ8_ihCs7EeEmWXBUc-J3eicgfaXru5A5x+dC-=CpA@mail.gmail.com>
+From: Dimitrios Katsaros <dmtkatsa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Dimitrios Katsaros <dmtkatsa@gmail.com>
+Subject: Re: [PATCH] PR_Service: Improvement of persistance of PR service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,170 +41,230 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 14:47:17 -0000
-Content-Type: multipart/alternative; boundary=485b397dd7016d8a9004ffe2ee77
+X-List-Received-Date: Tue, 05 Aug 2014 15:11:44 -0000
+Content-Type: multipart/alternative; boundary=089e0158bab48aef4904ffe34583
 
---485b397dd7016d8a9004ffe2ee77
+--089e0158bab48aef4904ffe34583
 Content-Type: text/plain; charset=UTF-8
 
-On Tuesday, August 5, 2014, Peter A. Bigot <pab@pabigot.com> wrote:
-
-> On 08/04/2014 05:39 PM, Khem Raj wrote:
->
->> On 14-08-04 09:56:37, Peter A. Bigot wrote:
->>
->>> I've now hit two recipes in meta-openembedded that fail on armv7-a
->>> because
->>> SECURITY_CFLAGS has -pie as an option that leaks into a link command
->>> building a shared object file.  This produces:
->>>
->>> |
->>> /prj/oe/omap/build-beaglebone-master/tmp/sysroots/
->>> beaglebone/usr/lib/Scrt1.o:
->>> In function `_start':
->>> | /prj/oe/omap/build-beaglebone-master/tmp/work/cortexa8hf-
->>> vfp-neon-poky-linux-gnueabi/eglibc/2.19-r0/eglibc-2.19/
->>> libc/csu/../ports/sysdeps/arm/start.S:128:
->>> undefined reference to `main'
->>> | collect2: error: ld returned 1 exit status
->>> | error: command 'arm-poky-linux-gnueabi-gcc' failed with exit status 1
->>>
->>> In openembedded-core meta/conf/distro/include/security_flags.inc
->>> provides a
->>> bunch of package-specific overrides to use SECURITY_NO_PIE_CFLAGS for
->>> this
->>> sort of package.
->>>
->>> It's not clear to me how that should be accomplished for recipes that are
->>> not part of openembedded-core.  For
->>> http://patches.openembedded.org/patch/77165/ for python-smbus in
->>> meta-python
->>> I chose to override it in the bb file.
->>>
->>> What is the best-practices solution to this problem?
->>>
->> may be add SECURITY_CFLAGS_pn-blah = "${SECURITY_NO_PIE_CFLAGS}"
->> to layer.conf of given layer where recipe resides
->>
->
-> Could do that.  Is there precedent?
+I just realised that there is a different mailing list and repo for
+bitbake, I will be posting a new post with the corrected patch.
 
 
-Don't think so. But you can compare to things like how package blacklisting
-is done in meta-OE.
+On Thu, Jul 31, 2014 at 12:27 AM, Dimitrios Katsaros <dmtkatsa@gmail.com>
+wrote:
 
+> The current implementation only commits database changes
+> after database exceptions or daemon shutdown. This patch adds
+> a delayed commit after every request finish, defaulting to 20 seconds.
+> I chose to make the sync on the consumer thread rather than the
+> producer. This is to avoid simultaneous access to the database.
+> I chose to use a separate timeout than the timeout defined for
+> handle_request
+> in work_forever. This is because the consumer thread would reach the
+> handle_request before the quit flag was set. Thus for long timeouts
+> the stop_daemon function would have to wait for an equally long
+> amount of time.
 >
-> Looking into this more, the reason I'm hitting this is I'm using
-> DISTRO=poky-lsb, which gives me oe-core's conf/distro/include/security_flags.inc
-> automatically.
+> This solution is based on this discussion :
 >
-> Now that I know more I'm uncomfortable about putting a distro-specific
-> workaround in each recipe patch I submit, and more uncomfortable about
-> creating new precedent by putting distro-specific workarounds in layer.conf
-> files. Updates to python-smbus in meta-python and rrdtool in meta-oe are
-> affected by this, plus the 42 package exceptions already listed in
-> security_flags.inc.
+> https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg52932.html
+>
+> Signed-off-by: Dimitrios Katsaros <dmtkatsa@gmail.com>
+> ---
+>  bitbake/lib/prserv/serv.py | 22 ++++++++++++++++++----
+>  1 file changed, 18 insertions(+), 4 deletions(-)
+>
+> diff --git a/bitbake/lib/prserv/serv.py b/bitbake/lib/prserv/serv.py
+> index 1e170ce..9c37339 100644
+> --- a/bitbake/lib/prserv/serv.py
+> +++ b/bitbake/lib/prserv/serv.py
+> @@ -1,4 +1,4 @@
+> -import os,sys,logging
+> +import os,sys,logging, time
+>  import signal, time, atexit, threading
+>  from SimpleXMLRPCServer import SimpleXMLRPCServer,
+> SimpleXMLRPCRequestHandler
+>  import xmlrpclib
+> @@ -36,7 +36,7 @@ singleton = None
 >
 >
-I don't think it's so distro related. Security flags is a general OE
-feature.  So layers have to deal with it in distro independent way and IMO
-it's best place to dictate what recipes in a given layer can support, you
-can also add this to recipe itself and if numbers of recipes to deal with
-are less. It's similar to blacklisting feature.
-
-I'm going to stop using poky-lsb for now to hide the problem, but for the
-> future we need guidance on how to make recipes/layers compatible with
-> distros that want to enable security_flags.inc.
-
-
-> Peter
+>  class PRServer(SimpleXMLRPCServer):
+> -    def __init__(self, dbfile, logfile, interface, daemon=True):
+> +    def __init__(self, dbfile, logfile, interface, daemon=True,
+> sync_timeout=20):
+>          ''' constructor '''
+>          SimpleXMLRPCServer.__init__(self, interface,
+>                                      logRequests=False, allow_none=True)
+> @@ -46,6 +46,8 @@ class PRServer(SimpleXMLRPCServer):
+>          self.working_thread=None
+>          self.host, self.port = self.socket.getsockname()
+>          self.pidfile=PIDPREFIX % (self.host, self.port)
+> +        self.dirty = False
+> +        self.sync_timeout = sync_timeout
+>
+>          self.register_function(self.getPR, "getPR")
+>          self.register_function(self.quit, "quit")
+> @@ -70,8 +72,13 @@ class PRServer(SimpleXMLRPCServer):
+>          while True:
+>              (request, client_address) = self.requestqueue.get()
+>              try:
+> -                self.finish_request(request, client_address)
+> -                self.shutdown_request(request)
+> +                if request == "Sync":
+> +                    self.table.sync()
+> +                else:
+> +                    self.finish_request(request, client_address)
+> +                    self.shutdown_request(request)
+> +                    self.time_from_dirty = time.time()
+> +                    self.dirty = True
+>              except:
+>                  self.handle_error(request, client_address)
+>                  self.shutdown_request(request)
+> @@ -126,6 +133,13 @@ class PRServer(SimpleXMLRPCServer):
+>          self.server_close()
+>          return
+>
+> +    def handle_timeout(self):
+> +        if self.dirty:
+> +            # making the consumer thead perform sync to ensure thread
+> safty
+> +            if time.time() - self.time_from_dirty > self.sync_timeout:
+> +                self.requestqueue.put(("Sync", None))
+> +                self.dirty = False
+> +
+>      def start(self):
+>          pid = self.daemonize()
+>          # Ensure both the parent sees this and the child from the
+> work_forever log entry above
+> --
+> 1.9.1
+>
 >
 
---485b397dd7016d8a9004ffe2ee77
+--089e0158bab48aef4904ffe34583
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Tuesday, August 5, 2014, Peter A. Bigot &lt;<a href=3D"mailto:pa=
-b@pabigot.com">pab@pabigot.com</a>&gt; wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">
-On 08/04/2014 05:39 PM, Khem Raj wrote:<br>
+<div dir=3D"ltr">I just realised that there is a different mailing list and=
+ repo for bitbake, I will be posting a new post with the corrected patch.<b=
+r></div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Th=
+u, Jul 31, 2014 at 12:27 AM, Dimitrios Katsaros <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:dmtkatsa@gmail.com" target=3D"_blank">dmtkatsa@gmail.com</a>&g=
+t;</span> wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On 14-08-04 09:56:37, Peter A. Bigot wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-I&#39;ve now hit two recipes in meta-openembedded that fail on armv7-a beca=
-use<br>
-SECURITY_CFLAGS has -pie as an option that leaks into a link command<br>
-building a shared object file. =C2=A0This produces:<br>
+x #ccc solid;padding-left:1ex">The current implementation only commits data=
+base changes<br>
+after database exceptions or daemon shutdown. This patch adds<br>
+a delayed commit after every request finish, defaulting to 20 seconds.<br>
+I chose to make the sync on the consumer thread rather than the<br>
+producer. This is to avoid simultaneous access to the database.<br>
+I chose to use a separate timeout than the timeout defined for handle_reque=
+st<br>
+in work_forever. This is because the consumer thread would reach the<br>
+handle_request before the quit flag was set. Thus for long timeouts<br>
+the stop_daemon function would have to wait for an equally long<br>
+amount of time.<br>
 <br>
-|<br>
-/prj/oe/omap/build-beaglebone-<u></u>master/tmp/sysroots/<u></u>beaglebone/=
-usr/lib/Scrt1.o:<br>
-In function `_start&#39;:<br>
-| /prj/oe/omap/build-beaglebone-<u></u>master/tmp/work/cortexa8hf-<u></u>vf=
-p-neon-poky-linux-gnueabi/<u></u>eglibc/2.19-r0/eglibc-2.19/<u></u>libc/csu=
-/../ports/sysdeps/arm/<u></u>start.S:128:<br>
-undefined reference to `main&#39;<br>
-| collect2: error: ld returned 1 exit status<br>
-| error: command &#39;arm-poky-linux-gnueabi-gcc&#39; failed with exit stat=
-us 1<br>
+This solution is based on this discussion :<br>
+<a href=3D"https://www.mail-archive.com/openembedded-core@lists.openembedde=
+d.org/msg52932.html" target=3D"_blank">https://www.mail-archive.com/openemb=
+edded-core@lists.openembedded.org/msg52932.html</a><br>
 <br>
-In openembedded-core meta/conf/distro/include/<u></u>security_flags.inc pro=
-vides a<br>
-bunch of package-specific overrides to use SECURITY_NO_PIE_CFLAGS for this<=
-br>
-sort of package.<br>
+Signed-off-by: Dimitrios Katsaros &lt;<a href=3D"mailto:dmtkatsa@gmail.com"=
+>dmtkatsa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0bitbake/lib/prserv/serv.py | 22 ++++++++++++++++++----<br>
+=C2=A01 file changed, 18 insertions(+), 4 deletions(-)<br>
 <br>
-It&#39;s not clear to me how that should be accomplished for recipes that a=
-re<br>
-not part of openembedded-core. =C2=A0For<br>
-<a href=3D"http://patches.openembedded.org/patch/77165/" target=3D"_blank">=
-http://patches.openembedded.<u></u>org/patch/77165/</a> for python-smbus in=
- meta-python<br>
-I chose to override it in the bb file.<br>
+diff --git a/bitbake/lib/prserv/serv.py b/bitbake/lib/prserv/serv.py<br>
+index 1e170ce..9c37339 100644<br>
+--- a/bitbake/lib/prserv/serv.py<br>
++++ b/bitbake/lib/prserv/serv.py<br>
+@@ -1,4 +1,4 @@<br>
+-import os,sys,logging<br>
++import os,sys,logging, time<br>
+=C2=A0import signal, time, atexit, threading<br>
+=C2=A0from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCReques=
+tHandler<br>
+=C2=A0import xmlrpclib<br>
+@@ -36,7 +36,7 @@ singleton =3D None<br>
 <br>
-What is the best-practices solution to this problem?<br>
-</blockquote>
-may be add SECURITY_CFLAGS_pn-blah =3D &quot;${SECURITY_NO_PIE_CFLAGS}&quot=
-;<br>
-to layer.conf of given layer where recipe resides<br>
-</blockquote>
 <br>
-Could do that. =C2=A0Is there precedent?</blockquote><div><br></div><div>Do=
-n&#39;t think so.=C2=A0But you can compare to things like how package black=
-listing is done in meta-OE.</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+=C2=A0class PRServer(SimpleXMLRPCServer):<br>
+- =C2=A0 =C2=A0def __init__(self, dbfile, logfile, interface, daemon=3DTrue=
+):<br>
++ =C2=A0 =C2=A0def __init__(self, dbfile, logfile, interface, daemon=3DTrue=
+, sync_timeout=3D20):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;&#39;&#39; constructor &#39;&#39;&#3=
+9;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SimpleXMLRPCServer.__init__(self, interfa=
+ce,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logRequests=3DFa=
+lse, allow_none=3DTrue)<br>
+@@ -46,6 +46,8 @@ class PRServer(SimpleXMLRPCServer):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.working_thread=3DNone<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.host, self.port =3D self.socket.gets=
+ockname()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.pidfile=3DPIDPREFIX % (self.host, se=
+lf.port)<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.dirty =3D False<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0self.sync_timeout =3D sync_timeout<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.register_function(self.getPR, &quot;=
+getPR&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.register_function(self.quit, &quot;q=
+uit&quot;)<br>
+@@ -70,8 +72,13 @@ class PRServer(SimpleXMLRPCServer):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while True:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(request, client_address) =
+=3D self.requestqueue.get()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.finish_reques=
+t(request, client_address)<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.shutdown_requ=
+est(request)<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if request =3D=3D =
+&quot;Sync&quot;:<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self=
+.table.sync()<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self=
+.finish_request(request, client_address)<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self=
+.shutdown_request(request)<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self=
+.time_from_dirty =3D time.time()<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self=
+.dirty =3D True<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.handle_e=
+rror(request, client_address)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.shutdown=
+_request(request)<br>
+@@ -126,6 +133,13 @@ class PRServer(SimpleXMLRPCServer):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.server_close()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+<br>
++ =C2=A0 =C2=A0def handle_timeout(self):<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.dirty:<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# making the consumer thead perf=
+orm sync to ensure thread safty<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if time.time() - self.time_from_=
+dirty &gt; self.sync_timeout:<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.requestqueue.=
+put((&quot;Sync&quot;, None))<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.dirty =3D Fal=
+se<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0def start(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pid =3D self.daemonize()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Ensure both the parent sees this and th=
+e child from the work_forever log entry above<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+</font></span></blockquote></div><br></div>
 
-<br>
-Looking into this more, the reason I&#39;m hitting this is I&#39;m using DI=
-STRO=3Dpoky-lsb, which gives me oe-core&#39;s conf/distro/include/security_=
-<u></u>flags.inc automatically.<br>
-<br>
-Now that I know more I&#39;m uncomfortable about putting a distro-specific =
-workaround in each recipe patch I submit, and more uncomfortable about crea=
-ting new precedent by putting distro-specific workarounds in layer.conf fil=
-es. Updates to python-smbus in meta-python and rrdtool in meta-oe are affec=
-ted by this, plus the 42 package exceptions already listed in security_flag=
-s.inc.<br>
-
-<br></blockquote><div><br></div><div>I don&#39;t think it&#39;s so distro r=
-elated. Security flags is a general OE feature.=C2=A0=C2=A0So layers have t=
-o deal with it in distro independent way and IMO it&#39;s best place to dic=
-tate what recipes in a given layer can support, you can also add this to re=
-cipe itself and if numbers of recipes to deal with are less. It&#39;s simil=
-ar to blacklisting feature.=C2=A0</div>
-<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">
-I&#39;m going to stop using poky-lsb for now to hide the problem, but for t=
-he future we need guidance on how to make recipes/layers compatible with di=
-stros that want to enable security_flags.inc.=C2=A0</blockquote><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">
-
-<br>
-Peter<br>
-</blockquote>
-
---485b397dd7016d8a9004ffe2ee77--
+--089e0158bab48aef4904ffe34583--
