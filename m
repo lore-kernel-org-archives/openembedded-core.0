@@ -1,37 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B7F660424
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id B964C6AC9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 11:19:22 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id w61so814598wes.23
+	Tue,  5 Aug 2014 11:22:33 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s75BMVlH029035
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Aug 2014 04:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UcopPCwftqixM/liChc1lDEcGurKM8FFseBE36ZyoXE=;
-	b=UO+zFCg0YM0CYVKjJgFy2sJnRJbM9S9tNIBR8RtxyKJBxLx3vGv1Td7UvjEeyPDBj3
-	QYpuOONFDN3VUryewEq+bkdJhuXolH0ulHmCQHsfP3jXTgojabnK0vyd65hAItzFe2R3
-	kmQ2E0H6C2njfpseOTexU1nO+21o9reHjHRtIUjEMEgXwbcckpDvjyML7RbJxwN06Foi
-	MlrMI6ZyraVpZRrU7g9X1MTbfVJd8aHHoHti+haY6K3BUKv38KQyLtpK5gIq1fkIvnH1
-	WnxNa5+YbxFkvT1Z6Xv9Slw8APgIzhK1EkYvZGo+c6LgEvzga64PFLhWiq8BaB536XYt
-	QA5Q==
-X-Received: by 10.194.59.42 with SMTP id w10mr4808462wjq.15.1407237559274;
-	Tue, 05 Aug 2014 04:19:19 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ej10sm6797326wib.12.2014.08.05.04.19.18 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Aug 2014 04:19:18 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Tue, 5 Aug 2014 13:22:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1407237753;
+	bh=gStX2ng7RlZZdoCfii8owuBZM37Ze923maG2Gq2IA5o=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=cBork+6SHEtYTibk6tcnW/jncihREnlG8TNhpPEnc7q6QTH21mqZjQJIx+GKT5PBi
+	jAgxCnS2Ps4L/cZpVK3A4ks3Y2b+zZHeMx7ScOLmVfZsfoyvPKJT1OEAEfOsCNguy1
+	ldGnARTsMAhP9GORR04f0smRIHNtNq4YwOGHw8D4=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s75BMPDh008281
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Aug 2014 13:22:27 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XEcoz-0001R6-Q3
+	for openembedded-core@lists.openembedded.org;
+	Tue, 05 Aug 2014 13:22:25 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Aug 2014 13:19:40 +0200
-Message-Id: <1407237580-701-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.4
-In-Reply-To: <1407237580-701-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1407237580-701-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] perf: fix indentation
+References: <1407160628-30775-1-git-send-email-sujith.h@gmail.com>
+	<lyoaw09sj2.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CADyYWLkmXS4O=nRNmTzXPwxX+y_cWY0NM1OeFsrHS=LeYj7f3A@mail.gmail.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 05 Aug 2014 13:22:25 +0200
+In-Reply-To: <CADyYWLkmXS4O=nRNmTzXPwxX+y_cWY0NM1OeFsrHS=LeYj7f3A@mail.gmail.com>
+	(sujith h.'s message of "Mon, 4 Aug 2014 21:20:27 +0530")
+Message-ID: <lywqancham.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: [PATCH] image.bbclass: Adding loop back for machine name in hosts file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,93 +61,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 11:19:25 -0000
+X-List-Received-Date: Tue, 05 Aug 2014 11:22:50 -0000
+Content-Type: text/plain
 
-* multiline variables should use spaces not tabs for indentation
-* do_configure is also using wrong indentation, but I'm not fixing
-  this one (still hoping that we'll eventually fix styleguide to
-  use 4 spaces everywhere)
+sujith h <sujith.h-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 54 ++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+> Is it ok to read from /etc/hostname and then have that in the /etc/hosts
+> file, rather than using ${MACHINE}?
+> ...
+> +         echo 127.0.1.1 "       "${MACHINE} >> ${IMAGE_ROOTFS}${sysconfdir}/hosts
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index ea8599a..bfd210c 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -22,13 +22,13 @@ TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
- SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
- 
- DEPENDS = "virtual/kernel \
--           virtual/${MLPREFIX}libc \
--           ${MLPREFIX}elfutils \
--           ${MLPREFIX}binutils \
--           ${TUI_DEPENDS} \
--           ${SCRIPTING_DEPENDS} \
--           bison flex \
--          "
-+    virtual/${MLPREFIX}libc \
-+    ${MLPREFIX}elfutils \
-+    ${MLPREFIX}binutils \
-+    ${TUI_DEPENDS} \
-+    ${SCRIPTING_DEPENDS} \
-+    bison flex \
-+"
- 
- PROVIDES = "virtual/perf"
- 
-@@ -68,28 +68,28 @@ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
- # supported kernel.
- LDFLAGS="-ldl -lutil"
- 
--EXTRA_OEMAKE = \
--		'-C ${S}/tools/perf \
--		O=${B} \
--		CROSS_COMPILE=${TARGET_PREFIX} \
--		ARCH=${ARCH} \
--		CC="${CC}" \
--		AR="${AR}" \
--		perfexecdir=${libexecdir} \
--		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
--		'
-+EXTRA_OEMAKE = '\
-+    -C ${S}/tools/perf \
-+    O=${B} \
-+    CROSS_COMPILE=${TARGET_PREFIX} \
-+    ARCH=${ARCH} \
-+    CC="${CC}" \
-+    AR="${AR}" \
-+    perfexecdir=${libexecdir} \
-+    NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
-+'
- 
- EXTRA_OEMAKE += "\
--	'prefix=${prefix}' \
--	'bindir=${bindir}' \
--	'sharedir=${datadir}' \
--	'sysconfdir=${sysconfdir}' \
--	'perfexecdir=${libexecdir}/perf-core' \
--	\
--	'ETC_PERFCONFIG=${@os.path.relpath(sysconfdir, prefix)}' \
--	'sharedir=${@os.path.relpath(datadir, prefix)}' \
--	'mandir=${@os.path.relpath(mandir, prefix)}' \
--	'infodir=${@os.path.relpath(infodir, prefix)}' \
-+    'prefix=${prefix}' \
-+    'bindir=${bindir}' \
-+    'sharedir=${datadir}' \
-+    'sysconfdir=${sysconfdir}' \
-+    'perfexecdir=${libexecdir}/perf-core' \
-+    \
-+    'ETC_PERFCONFIG=${@os.path.relpath(sysconfdir, prefix)}' \
-+    'sharedir=${@os.path.relpath(datadir, prefix)}' \
-+    'mandir=${@os.path.relpath(mandir, prefix)}' \
-+    'infodir=${@os.path.relpath(infodir, prefix)}' \
- "
- 
- PARALLEL_MAKE = ""
--- 
-2.0.4
+I do not see how this can be done while building the image or the
+packages.  Both the hostname and the ip address can be configured at
+runtime.  As this can happen dynamically e.g. by DHCP and can change
+at every boot or even at runtime, there is no generic way (e.g. by
+firstboot mechanisms) to add such entries.
 
+
+Enrico
 
