@@ -1,24 +1,24 @@
-Return-Path: <Yasir_Khan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 13971609B1
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa12-04.prod.phx3.secureserver.net
+	(p3plsmtpa12-04.prod.phx3.secureserver.net [68.178.252.233])
+	by mail.openembedded.org (Postfix) with ESMTP id B640A610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 09:03:44 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1XEaeo-0006NS-EA from Yasir_Khan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Aug 2014 02:03:46 -0700
-Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 5 Aug 2014 02:03:46 -0700
-From: Yasir Khan <yasir_khan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Aug 2014 14:02:21 +0500
-Message-Id: <1407229341-15578-1-git-send-email-yasir_khan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-X-OriginalArrivalTime: 05 Aug 2014 09:03:46.0338 (UTC)
-	FILETIME=[29FCD820:01CFB08C]
-Subject: [PATCH] wpa-supplicant: use PACKAGECONFIG for ssl selection
+	Tue,  5 Aug 2014 09:31:10 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa12-04.prod.phx3.secureserver.net with 
+	id axX81o00K1mTNtu01xX9VL; Tue, 05 Aug 2014 02:31:09 -0700
+Message-ID: <53E0A45C.4070507@pabigot.com>
+Date: Tue, 05 Aug 2014 04:31:08 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <53DF9F25.1060404@pabigot.com> <20140804223948.GC11951@haswell>
+In-Reply-To: <20140804223948.GC11951@haswell>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: blocking pie in recipes that build shared object files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 09:03:51 -0000
+X-List-Received-Date: Tue, 05 Aug 2014 09:31:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Yasir-Khan <yasir_khan@mentor.com>
+On 08/04/2014 05:39 PM, Khem Raj wrote:
+> On 14-08-04 09:56:37, Peter A. Bigot wrote:
+>> I've now hit two recipes in meta-openembedded that fail on armv7-a because
+>> SECURITY_CFLAGS has -pie as an option that leaks into a link command
+>> building a shared object file.  This produces:
+>>
+>> |
+>> /prj/oe/omap/build-beaglebone-master/tmp/sysroots/beaglebone/usr/lib/Scrt1.o:
+>> In function `_start':
+>> | /prj/oe/omap/build-beaglebone-master/tmp/work/cortexa8hf-vfp-neon-poky-linux-gnueabi/eglibc/2.19-r0/eglibc-2.19/libc/csu/../ports/sysdeps/arm/start.S:128:
+>> undefined reference to `main'
+>> | collect2: error: ld returned 1 exit status
+>> | error: command 'arm-poky-linux-gnueabi-gcc' failed with exit status 1
+>>
+>> In openembedded-core meta/conf/distro/include/security_flags.inc provides a
+>> bunch of package-specific overrides to use SECURITY_NO_PIE_CFLAGS for this
+>> sort of package.
+>>
+>> It's not clear to me how that should be accomplished for recipes that are
+>> not part of openembedded-core.  For
+>> http://patches.openembedded.org/patch/77165/ for python-smbus in meta-python
+>> I chose to override it in the bb file.
+>>
+>> What is the best-practices solution to this problem?
+> may be add SECURITY_CFLAGS_pn-blah = "${SECURITY_NO_PIE_CFLAGS}"
+> to layer.conf of given layer where recipe resides
 
-Select between openssl or gnutls as ssl implementation via
-PACKAGECONFIG instead of explicitly adding both via DEPENDS.
+Could do that.  Is there precedent?
 
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
----
- .../wpa-supplicant/wpa-supplicant.inc              |   17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Looking into this more, the reason I'm hitting this is I'm using 
+DISTRO=poky-lsb, which gives me oe-core's 
+conf/distro/include/security_flags.inc automatically.
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-index d9c6532..3bbe832 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-@@ -6,9 +6,13 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
-                     file://README;beginline=1;endline=56;md5=a07250b28e857455336bb59fc31cb845 \
-                     file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=e8e021e30f3a6ab7c341b66b86626a5a"
--DEPENDS = "gnutls dbus libnl openssl libgcrypt"
-+DEPENDS = "dbus libnl libgcrypt"
- RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
- 
-+PACKAGECONFIG[defaultval] += "gnutls"
-+PACKAGECONFIG[gnutls] = ",,gnutls"
-+PACKAGECONFIG[ssl] = ",,openssl"
-+
- inherit systemd
- 
- SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
-@@ -36,6 +40,17 @@ CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
- do_configure () {
- 	install -m 0755 ${WORKDIR}/defconfig-gnutls wpa_supplicant/.config
- 	echo "CFLAGS +=\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.config
-+	
-+	sed -i '/CONFIG_TLS/d' wpa_supplicant/.config
-+	if echo "${PACKAGECONFIG}" | grep -qw "ssl"; then
-+        	ssl=openssl
-+	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
-+        	ssl=gnutls
-+	fi
-+	if [ -n "$ssl" ]; then
-+        	echo "CONFIG_TLS = $ssl" >>wpa_supplicant/.config
-+	fi
-+
- }
- 
- export EXTRA_CFLAGS = "${CFLAGS}"
--- 
-1.7.9.5
+Now that I know more I'm uncomfortable about putting a distro-specific 
+workaround in each recipe patch I submit, and more uncomfortable about 
+creating new precedent by putting distro-specific workarounds in 
+layer.conf files. Updates to python-smbus in meta-python and rrdtool in 
+meta-oe are affected by this, plus the 42 package exceptions already 
+listed in security_flags.inc.
 
+I'm going to stop using poky-lsb for now to hide the problem, but for 
+the future we need guidance on how to make recipes/layers compatible 
+with distros that want to enable security_flags.inc.
+
+Peter
 
