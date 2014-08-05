@@ -1,24 +1,38 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa12-04.prod.phx3.secureserver.net
-	(p3plsmtpa12-04.prod.phx3.secureserver.net [68.178.252.233])
-	by mail.openembedded.org (Postfix) with ESMTP id B640A610F5
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 1284265E2E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 09:31:10 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa12-04.prod.phx3.secureserver.net with 
-	id axX81o00K1mTNtu01xX9VL; Tue, 05 Aug 2014 02:31:09 -0700
-Message-ID: <53E0A45C.4070507@pabigot.com>
-Date: Tue, 05 Aug 2014 04:31:08 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Tue,  5 Aug 2014 09:46:09 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20140805094609464
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Aug 2014 09:46:09 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=42708 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XEbJj-0003pN-Af for openembedded-core@lists.openembedded.org;
+	Tue, 05 Aug 2014 05:46:03 -0400
+Date: Tue, 5 Aug 2014 05:45:59 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1408050543490.25857@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <53DF9F25.1060404@pabigot.com> <20140804223948.GC11951@haswell>
-In-Reply-To: <20140804223948.GC11951@haswell>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: blocking pie in recipes that build shared object files
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: [PATCH] Add doc entry for "ptest-pkgs" in IMAGE_FEATURES list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 09:31:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Aug 2014 09:46:15 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 08/04/2014 05:39 PM, Khem Raj wrote:
-> On 14-08-04 09:56:37, Peter A. Bigot wrote:
->> I've now hit two recipes in meta-openembedded that fail on armv7-a because
->> SECURITY_CFLAGS has -pie as an option that leaks into a link command
->> building a shared object file.  This produces:
->>
->> |
->> /prj/oe/omap/build-beaglebone-master/tmp/sysroots/beaglebone/usr/lib/Scrt1.o:
->> In function `_start':
->> | /prj/oe/omap/build-beaglebone-master/tmp/work/cortexa8hf-vfp-neon-poky-linux-gnueabi/eglibc/2.19-r0/eglibc-2.19/libc/csu/../ports/sysdeps/arm/start.S:128:
->> undefined reference to `main'
->> | collect2: error: ld returned 1 exit status
->> | error: command 'arm-poky-linux-gnueabi-gcc' failed with exit status 1
->>
->> In openembedded-core meta/conf/distro/include/security_flags.inc provides a
->> bunch of package-specific overrides to use SECURITY_NO_PIE_CFLAGS for this
->> sort of package.
->>
->> It's not clear to me how that should be accomplished for recipes that are
->> not part of openembedded-core.  For
->> http://patches.openembedded.org/patch/77165/ for python-smbus in meta-python
->> I chose to override it in the bb file.
->>
->> What is the best-practices solution to this problem?
-> may be add SECURITY_CFLAGS_pn-blah = "${SECURITY_NO_PIE_CFLAGS}"
-> to layer.conf of given layer where recipe resides
 
-Could do that.  Is there precedent?
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-Looking into this more, the reason I'm hitting this is I'm using 
-DISTRO=poky-lsb, which gives me oe-core's 
-conf/distro/include/security_flags.inc automatically.
+---
 
-Now that I know more I'm uncomfortable about putting a distro-specific 
-workaround in each recipe patch I submit, and more uncomfortable about 
-creating new precedent by putting distro-specific workarounds in 
-layer.conf files. Updates to python-smbus in meta-python and rrdtool in 
-meta-oe are affected by this, plus the 42 package exceptions already 
-listed in security_flags.inc.
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 1b36cba..67e11bf 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -30,6 +30,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
+ # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
+ # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
+ # - doc-pkgs            - documentation packages for all installed packages in the rootfs
++# - ptest-pkgs          - ptest packages for all ptest-enabled recipes
+ # - read-only-rootfs    - tweaks an image to support read-only rootfs
+ #
+ FEATURE_PACKAGES_x11 = "packagegroup-core-x11"
 
-I'm going to stop using poky-lsb for now to hide the problem, but for 
-the future we need guidance on how to make recipes/layers compatible 
-with distros that want to enable security_flags.inc.
+-- 
 
-Peter
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
