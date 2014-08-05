@@ -1,26 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BB4786AC6C
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 13971609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 08:37:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s758bFda015453
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Aug 2014 01:37:16 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 5 Aug 2014 01:37:15 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Aug 2014 16:33:46 +0800
-Message-ID: <a7f4e445d762d3fe0c91840b0dc9c1ab625689fd.1407227521.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1407227521.git.Chong.Lu@windriver.com>
-References: <cover.1407227521.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/3] perl: fix the output format of all tests
+	Tue,  5 Aug 2014 09:03:44 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XEaeo-0006NS-EA from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 05 Aug 2014 02:03:46 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 5 Aug 2014 02:03:46 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Aug 2014 14:02:21 +0500
+Message-Id: <1407229341-15578-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 05 Aug 2014 09:03:46.0338 (UTC)
+	FILETIME=[29FCD820:01CFB08C]
+Subject: [PATCH] wpa-supplicant: use PACKAGECONFIG for ssl selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 08:37:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Aug 2014 09:03:51 -0000
 
-We should use "PASS:|FAIL:|SKIP: testname" to output results of ptest.
+From: Yasir-Khan <yasir_khan@mentor.com>
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+Select between openssl or gnutls as ssl implementation via
+PACKAGECONFIG instead of explicitly adding both via DEPENDS.
+
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
 ---
- meta/recipes-devtools/perl/perl-5.20.0/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../wpa-supplicant/wpa-supplicant.inc              |   17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl-5.20.0/run-ptest b/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
-index ed59b4b..1e2dd1b 100644
---- a/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
-+++ b/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
-@@ -1,2 +1,2 @@
- #!/bin/sh
--cd t && ./TEST | sed -u -e 's/^\([^. \t]*\)\.\.\.\+ok/PASS: \1/' -e 's/^\([^. \t]*\)\.\.\.\+skipped/SKIP: \1/' -e 's/^\([^. \t]*\)\.\.\.\+\(.*\)/FAIL: \1\n\2/'
-+cd t && ./TEST | sed -u -e 's|\(.*\) .* ok$|PASS: \1|' -e 's|\(.*\) .* skipped|SKIP: \1|' -e 's|\(.*\) \.\(.*\)|FAIL: \1|'
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+index d9c6532..3bbe832 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+@@ -6,9 +6,13 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
+                     file://README;beginline=1;endline=56;md5=a07250b28e857455336bb59fc31cb845 \
+                     file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=e8e021e30f3a6ab7c341b66b86626a5a"
+-DEPENDS = "gnutls dbus libnl openssl libgcrypt"
++DEPENDS = "dbus libnl libgcrypt"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+ 
++PACKAGECONFIG[defaultval] += "gnutls"
++PACKAGECONFIG[gnutls] = ",,gnutls"
++PACKAGECONFIG[ssl] = ",,openssl"
++
+ inherit systemd
+ 
+ SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
+@@ -36,6 +40,17 @@ CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+ do_configure () {
+ 	install -m 0755 ${WORKDIR}/defconfig-gnutls wpa_supplicant/.config
+ 	echo "CFLAGS +=\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.config
++	
++	sed -i '/CONFIG_TLS/d' wpa_supplicant/.config
++	if echo "${PACKAGECONFIG}" | grep -qw "ssl"; then
++        	ssl=openssl
++	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
++        	ssl=gnutls
++	fi
++	if [ -n "$ssl" ]; then
++        	echo "CONFIG_TLS = $ssl" >>wpa_supplicant/.config
++	fi
++
+ }
+ 
+ export EXTRA_CFLAGS = "${CFLAGS}"
 -- 
-1.9.1
+1.7.9.5
 
 
