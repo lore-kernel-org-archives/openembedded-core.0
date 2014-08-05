@@ -1,27 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E88465E3D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 600F57089E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 10:17:04 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2014 03:11:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,804,1400050800"; d="scan'208";a="553912298"
-Received: from tskannan-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.122])
-	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2014 03:16:43 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Tue, 05 Aug 2014 11:16:42 +0100
-Message-ID: <11929449.z4kUDgkS6n@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.7-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <53E0ACF6.1040107@windriver.com>
-References: <cover.1407227521.git.Chong.Lu@windriver.com>
-	<1407232384.6981.75.camel@ted> <53E0ACF6.1040107@windriver.com>
+	Tue,  5 Aug 2014 10:17:11 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id k48so749022wev.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Aug 2014 03:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=syL52BSd7tu9MjcYY7kdzvGWzp9XY+/m5wudZOQ+Ans=;
+	b=pnFotTILGX9nomjMD4tsvBiJClHR0uEsaiDqwqoKJrCYdv47wrdR9AZ+h1/mC2qSp8
+	SKK9VXS7xtGYzAM8P4m9CnSVGyeprjij+8mTfF54/ylFwTjkxvbmiz3VWxvG2xn95sdv
+	xZhVh+PoimnIJJCUdYwwaXID4RbINoYnqD1sPbElo7K4tQ45LpX3v4rcWOEDzEkmd0li
+	OCq5QOQFhUblkNeYgjJKG3m8Ol4hOQ4VJd7vM9zRBzArYW4wQOtNxAos1olRO/nxdOCE
+	JysEMFVzUnTnUrjNtjS0FZOjIgXzsBYiLBLReetfwf4LZ4DxqzokhRhSbC2noZ0c2kT1
+	LzxA==
+X-Received: by 10.180.95.68 with SMTP id di4mr18706598wib.60.1407233828884;
+	Tue, 05 Aug 2014 03:17:08 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ex4sm6341388wic.2.2014.08.05.03.17.07 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Aug 2014 03:17:08 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 5 Aug 2014 12:17:37 +0200
+To: Yasir Khan <yasir_khan@mentor.com>
+Message-ID: <20140805101737.GH2465@jama>
+References: <1407229341-15578-1-git-send-email-yasir_khan@mentor.com>
 MIME-Version: 1.0
+In-Reply-To: <1407229341-15578-1-git-send-email-yasir_khan@mentor.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] dbus: fix ptest issue
+Subject: Re: [PATCH] wpa-supplicant: use PACKAGECONFIG for ssl selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +47,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 10:17:06 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 05 Aug 2014 10:17:12 -0000
+X-Groupsio-MsgNum: 55994
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6lXr1rPCNTf1w0X8"
+Content-Disposition: inline
 
-On Tuesday 05 August 2014 18:07:50 Chong Lu wrote:
-> On 08/05/2014 05:53 PM, Richard Purdie wrote:
-> > On Tue, 2014-08-05 at 16:33 +0800, Chong Lu wrote:
-> >> We use PTEST_ENABLED to decide whether build ptest package, so inherit
-> >> ptest.bbclass in dbus.inc in order to using PTEST_ENABLED variable.
-> >> Remove PACKAGES and ALLOW_EMPTY, since they have been defined in
-> >> ptest.bbclass.
-> >> 
-> >> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> >> ---
-> >> 
-> >>   meta/recipes-core/dbus/dbus.inc | 7 +++++--
-> >>   1 file changed, 5 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git a/meta/recipes-core/dbus/dbus.inc
-> >> b/meta/recipes-core/dbus/dbus.inc index d38ba7e..6268103 100644
-> >> --- a/meta/recipes-core/dbus/dbus.inc
-> >> +++ b/meta/recipes-core/dbus/dbus.inc
-> >> @@ -8,10 +8,13 @@ LIC_FILES_CHKSUM =
-> >> "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \>> 
-> >>   DEPENDS = "expat virtual/libintl"
-> >>   RDEPENDS_dbus_class-native = ""
-> >>   RDEPENDS_dbus_class-nativesdk = ""
-> >> 
-> >> -PACKAGES += "${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus-ptest',
-> >> '', d)}" -ALLOW_EMPTY_dbus-ptest = "1"
-> > 
-> > I don't think you've understood what this is doing, its conditionally
-> > building the separate dbus-ptest recipe, if ptest is enabled.
-> > 
-> > Why is it separate? dbus-ptest needs glib and glib needs dbus. Your
-> > patch doesn't seem to account for any of that.
-> > 
-> > "fix ptest issue" is far too vague as a summary of this patch too.
-> > 
-> > Cheers,
-> > 
-> > Richard
-> 
-> Hi Richard,
-> 
-> Previously, we use DISTRO_FEATURES to decide whether build ptest, but we
-> use PTEST_ENABLED now.
-> PTEST_ENABLED defined in ptest.bbclass. we did't inherit ptest in dbus
-> recipes, this cause we can't build dbus-ptest package.
-> Based on above reason, I just send this patch to fix this issue. Or do
-> you have a better way?
+--6lXr1rPCNTf1w0X8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If you mean that you're setting PTEST_ENABLED globally, you shouldn't be doing 
-that. PTEST_ENABLED is supposed to be used for recipes to *detect* whether 
-ptest should be enabled, so that e.g. we can disable it for the native class.
+On Tue, Aug 05, 2014 at 02:02:21PM +0500, Yasir Khan wrote:
+> From: Yasir-Khan <yasir_khan@mentor.com>
+>=20
+> Select between openssl or gnutls as ssl implementation via
+> PACKAGECONFIG instead of explicitly adding both via DEPENDS.
+>=20
+> Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+> ---
+>  .../wpa-supplicant/wpa-supplicant.inc              |   17 ++++++++++++++=
+++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> index d9c6532..3bbe832 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> @@ -6,9 +6,13 @@ LICENSE =3D "BSD"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dab87f20cd7e8c0d0a6539b34d3791=
+d0e \
+>                      file://README;beginline=3D1;endline=3D56;md5=3Da0725=
+0b28e857455336bb59fc31cb845 \
+>                      file://wpa_supplicant/wpa_supplicant.c;beginline=3D1=
+;endline=3D12;md5=3De8e021e30f3a6ab7c341b66b86626a5a"
+> -DEPENDS =3D "gnutls dbus libnl openssl libgcrypt"
+> +DEPENDS =3D "dbus libnl libgcrypt"
+>  RRECOMMENDS_${PN} =3D "wpa-supplicant-passphrase wpa-supplicant-cli"
+> =20
+> +PACKAGECONFIG[defaultval] +=3D "gnutls"
 
-Cheers,
-Paul
+What is defaultval varflag?
 
--- 
+We normally use PACKAGECONFIG ?=3D "gnutls"
 
-Paul Eggleton
-Intel Open Source Technology Centre
+> +PACKAGECONFIG[gnutls] =3D ",,gnutls"
+> +PACKAGECONFIG[ssl] =3D ",,openssl"
+> +
+>  inherit systemd
+> =20
+>  SYSTEMD_SERVICE_${PN} =3D "wpa_supplicant.service wpa_supplicant-nl80211=
+@.service wpa_supplicant-wired@.service"
+> @@ -36,6 +40,17 @@ CONFFILES_${PN} +=3D "${sysconfdir}/wpa_supplicant.con=
+f"
+>  do_configure () {
+>  	install -m 0755 ${WORKDIR}/defconfig-gnutls wpa_supplicant/.config
+>  	echo "CFLAGS +=3D\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.con=
+fig
+> +=09
+> +	sed -i '/CONFIG_TLS/d' wpa_supplicant/.config
+> +	if echo "${PACKAGECONFIG}" | grep -qw "ssl"; then
+> +        	ssl=3Dopenssl
+> +	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
+> +        	ssl=3Dgnutls
+> +	fi
+> +	if [ -n "$ssl" ]; then
+> +        	echo "CONFIG_TLS =3D $ssl" >>wpa_supplicant/.config
+> +	fi
 
+Why don't you rename defconfig-gnutls to something generic and add
+something like "CONFIG_TLS =3D %ssl%" there to replace it with one sed
+call here based on selected implementation.
+
+> +
+>  }
+> =20
+>  export EXTRA_CFLAGS =3D "${CFLAGS}"
+> --=20
+> 1.7.9.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--6lXr1rPCNTf1w0X8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPgr0EACgkQN1Ujt2V2gBzMUACffdQeZUAx8/n6ToDZBedTfYw0
+vVwAoJztsVByIbuO0sj/0EzC4E5D14xd
+=DTKW
+-----END PGP SIGNATURE-----
+
+--6lXr1rPCNTf1w0X8--
