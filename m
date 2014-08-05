@@ -1,30 +1,21 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1AAE6084E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 20:35:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s75KZXX0028334
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Aug 2014 13:35:33 -0700 (PDT)
-Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 5 Aug 2014 13:35:33 -0700
-Message-ID: <53E14013.1000301@windriver.com>
-Date: Tue, 5 Aug 2014 16:35:31 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1407177403.git.ben.shelton@ni.com>	<78fc1827553729a69ee665bf4ef7e33495d9de0b.1407177403.git.ben.shelton@ni.com>	<53E129D4.3050402@windriver.com>
-	<CAP9ODKqt79-1XkYDi01Wn-ZT5f13e4s=BhF08=zj8B==Hcjkpg@mail.gmail.com>
-In-Reply-To: <CAP9ODKqt79-1XkYDi01Wn-ZT5f13e4s=BhF08=zj8B==Hcjkpg@mail.gmail.com>
-X-Originating-IP: [128.224.56.84]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/20] udev-cache: Compress the cache
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D99161FE4
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue,  5 Aug 2014 21:35:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2014 14:30:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,807,1400050800"; d="scan'208";a="583883598"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
+	by orsmga002.jf.intel.com with ESMTP; 05 Aug 2014 14:35:48 -0700
+From: nitin.a.kamble@intel.com
+To: richard.purdie@linuxfoundation.org, saul.wold@intel.com,
+	darren.hart@intel.com, Openembedded-core@lists.openembedded.org
+Date: Tue,  5 Aug 2014 14:39:50 -0700
+Message-Id: <cover.1407274547.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/2] INITRD commit feedback changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 20:35:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Aug 2014 21:35:50 -0000
 
-On 14-08-05 04:09 PM, Otavio Salvador wrote:
-> On Tue, Aug 5, 2014 at 4:00 PM, Randy MacLeod
-> <randy.macleod@windriver.com> wrote:
->> On 14-08-04 02:40 PM, Ben Shelton wrote:
->>>
->>> From: Richard Tollerton <rich.tollerton@ni.com>
->>>
->>> $DEVCACHE is observed to be 100k uncompressed; compressing it reduces
->>> its size to ~5k.
->>>
->>> Natinst-Rally-ID: TA44427
->>> Acked-by: Gratian Crisan <gratian.crisan@ni.com>
->>> Natinst-ReviewBoard-ID: 58620
->>
->>
->>
->> This is a good series of patches; thanks for sending them.
->>
->> It would be nice if you could remove your company's ID tags
->> from the commit log. For example, you create and use could use
->> a YP bugzilla ID ( https://bugzilla.yoctoproject.org/ ) and
->> then match that up in your internal process.
->
-> I don't think we should ask for this. I saw several of us to include
-> Id tags in past commits (I also did) and I think it is fine. We
-> shouldn't ask an extra step for people to be able to track it (open a
-> YP bugzilla ID issue for example).
->
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Wind River patches used to include a "CQID" tag but we've changed
-our process to avoid needing such internal tags. If National
-Instruments can do so as well, that'd be best.
+Here are couple of commits which enhances the code and documentation referring
+the recently changed INITRD variable. It is based on the feedback received from
+Darren Hart.
 
-I did check my oe-core email list history and this seems like the
-first patch from NI that has the tags included so I thought
-I'd reply and see if we can get the tags dropped.
+Thanks,
+Nitin
 
-Ben, what's the story?
+The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
+
+  local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib nitin/misc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (2):
+  INITRD var: documentation changes
+  code cleanup for INITRD variable handing
+
+ documentation/ref-manual/ref-classes.xml   | 4 ++--
+ documentation/ref-manual/ref-variables.xml | 2 +-
+ meta/classes/boot-directdisk.bbclass       | 4 +++-
+ meta/classes/bootimg.bbclass               | 2 ++
+ meta/conf/documentation.conf               | 2 +-
+ 5 files changed, 9 insertions(+), 5 deletions(-)
 
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
+1.8.1.4
+
 
