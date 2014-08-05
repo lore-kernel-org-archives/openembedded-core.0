@@ -1,38 +1,35 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id C9D5360144
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7772B6AC9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Aug 2014 10:57:41 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20140805105741202
+	Tue,  5 Aug 2014 11:19:13 +0000 (UTC)
+Received: by mail-we0-f175.google.com with SMTP id t60so834263wes.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Aug 2014 10:57:41 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=43813 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XEcQy-0007ff-HJ for openembedded-core@lists.openembedded.org;
-	Tue, 05 Aug 2014 06:57:36 -0400
-Date: Tue, 5 Aug 2014 06:57:33 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408050651560.10340@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: still some remnants of allegedly removed "do_package_write" task
+	Tue, 05 Aug 2014 04:19:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ErqM6fgpt+BHfG9oRm8GSLtVmpjX14kCFqKXTTofM3A=;
+	b=cpC/JGFmxgNxDcMsnh4vs25hTDEcR10yGp8gnGP7OWBMiAENeGpwJ3O+8JpZMV4IMz
+	k/cGr2iGB+nysvh+1/t7VHUYch/WRpydodoF/2040UlclJpxunHN9BPCciNCaFnyjE3/
+	CxeiyRV3yf/QVW141A0nf2Ax2mpIIZDc6N+pt+IQVhz9nzPXEbkYAWJOeX7LoHvYFDVb
+	V6ZrFI6bfcr3Rd8g4UmpA+e1c5QfCipuqxgicBhzR30qKddXif3FSBqZONm5df1pDK+6
+	oPCQ09U8T17zK9UujXCywYDwCeWxScN+9rcHUy6Y/WO/VPnSqm0/169nY0hfQfH4IAOC
+	7yFA==
+X-Received: by 10.194.48.103 with SMTP id k7mr4817373wjn.68.1407237554890;
+	Tue, 05 Aug 2014 04:19:14 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	gi15sm3518367wjc.20.2014.08.05.04.19.14 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Aug 2014 04:19:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Aug 2014 13:19:39 +0200
+Message-Id: <1407237580-701-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.0.4
+Subject: [PATCH 1/2] perf: explicitly disable libunwind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Aug 2014 10:57:43 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 05 Aug 2014 11:19:17 -0000
 
+* it's not included in DEPENDS and it's detected from sysroot
 
-  yocto ref manual, 5.5.13 (Tasks), claims:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-"The do_package_write task has been removed. The task is no longer
-needed."
-
-but there still appear to be a few lingering references to it in
-oe-core:
-
-$ grep -rw do_package_write meta
-meta/classes/rm_work.bbclass:            *do_package_write*)
-meta/recipes-core/meta/meta-ide-support.bb:do_populate_ide_support[recrdeptask]
-= "do_package_write"
-meta/recipes-core/meta/package-index.bb:do_package_write[noexec] = "1"
-meta/recipes-devtools/installer/adt-installer_1.0.bb:do_package_write[noexec]
-= "1"
-meta/conf/documentation.conf:do_package_write[doc] = "Creates the
-actual packages and places them in the Package Feed area"
-$
-
-  assuming all packaging is now handled by the packaging-specific
-tasks like do_package_write_{ipk,rpm,deb}, can those last few
-references be deleted? (not the one in rm_work.bbclass, though, given
-that it's a wildcard.)
-
-rday
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 222ae83..ea8599a 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -76,7 +76,7 @@ EXTRA_OEMAKE = \
+ 		CC="${CC}" \
+ 		AR="${AR}" \
+ 		perfexecdir=${libexecdir} \
+-		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
++		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
+ 		'
+ 
+ EXTRA_OEMAKE += "\
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.0.4
 
 
