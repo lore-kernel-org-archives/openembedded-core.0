@@ -1,24 +1,36 @@
-Return-Path: <Yasir_Khan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 46DF46FE7E
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C493065DAC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 12:52:56 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1XF0i9-0000jZ-SP from Yasir_Khan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Aug 2014 05:52:57 -0700
-Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 6 Aug 2014 05:52:57 -0700
-From: Yasir Khan <yasir_khan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Aug 2014 17:52:36 +0500
-Message-Id: <1407329556-18643-1-git-send-email-yasir_khan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-X-OriginalArrivalTime: 06 Aug 2014 12:52:57.0742 (UTC)
-	FILETIME=[58E052E0:01CFB175]
-Subject: [PATCH v3] wpa-supplicant: use PACKAGECONFIG for ssl selection
+	Wed,  6 Aug 2014 13:28:31 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id a108so2696403qge.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Aug 2014 06:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=4Q0q54RLIEuUEgIGAzswifMq1HUn+HxwA9UhDsahNr4=;
+	b=MTJTgNTuqY1QgNsqctCFTv4bXwRLiue/Lkg7m/pJ7r1Fu9DPurbK/7Ke/VDyC2WkMs
+	R7yJ2MaNEsX2sYZtB4yNfHwYxTJZgMniB/WElM9vhkh2yD54a0xhMuT/K9WgsMwtTYph
+	4Wb+6+gruQn2q0OO6fFRt3NxilBJnHxnrpvMDNxulkKdM4B2p5Ll5orwvkMBaW6nuzxI
+	V06ifhGPBM2fiYpe2X+s98V3yXPKkqeNsBWqgzxjjPtN39mCopLZuDhIST2V5EIPmsXf
+	mcR2iFdGC0zPCn21RLsqpZ2sGRk4pdcv5yGjPje5wemF2MsdO7ctlfaHNUNbxCTdA57O
+	N+xA==
+X-Received: by 10.224.128.9 with SMTP id i9mr17208719qas.50.1407331712015;
+	Wed, 06 Aug 2014 06:28:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.148 with HTTP; Wed, 6 Aug 2014 06:28:11 -0700 (PDT)
+In-Reply-To: <11634411.QS1iMaReBX@peggleto-mobl5.ger.corp.intel.com>
+References: <1407326649-7117-1-git-send-email-sujith.h@gmail.com>
+	<11634411.QS1iMaReBX@peggleto-mobl5.ger.corp.intel.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Wed, 6 Aug 2014 18:58:11 +0530
+Message-ID: <CADyYWLmvBukjOops+sxjbSB_zMj0B8qZu42bwiEAQXVn+xgPzw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Sujith H <Sujith_Haridasan@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] opkg-utils: allow disabling update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,84 +43,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 12:52:57 -0000
+X-List-Received-Date: Wed, 06 Aug 2014 13:28:34 -0000
+Content-Type: multipart/alternative; boundary=001a11c2cafcc6a5df04fff5f297
 
-From: Yasir-Khan <yasir_khan@mentor.com>
+--001a11c2cafcc6a5df04fff5f297
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Select between openssl or gnutls as ssl implementation via
-PACKAGECONFIG instead of explicitly adding both via DEPENDS.
+On Wed, Aug 6, 2014 at 6:08 PM, Paul Eggleton <paul.eggleton@linux.intel.co=
+m
+> wrote:
 
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
----
- .../wpa-supplicant/wpa-supplicant.inc              |   20 +++++++++++++++++---
- .../wpa-supplicant/{defconfig-gnutls => defconfig} |    2 +-
- 2 files changed, 18 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/{defconfig-gnutls => defconfig} (99%)
+> On Wednesday 06 August 2014 17:34:09 Sujith H wrote:
+> > From: Sujith H <Sujith_Haridasan@mentor.com>
+> >
+> > This is needed to deal with the situation where we're using ipk
+> packaging,
+> > so opkg-utils must be built regardless of what update-alternatives
+> provider
+> > we prefer. The downside to the current implementation is the need to
+> adjust
+> > PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit th=
+at
+> > way.
+> >
+> > Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> > Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> > ---
+> >  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> > b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb index
+> 693c216..952fce4
+> > 100644
+> > --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> > +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> > @@ -19,11 +19,17 @@ TARGET_CC_ARCH +=3D "${LDFLAGS}"
+> >  PYTHONRDEPS =3D "python python-shell python-io python-math python-cryp=
+t
+> > python-logging python-fcntl python-subprocess python-pickle
+> > python-compression python-textutils python-stringold"
+> > PYTHONRDEPS_class-native =3D ""
+> >
+> > -PACKAGECONFIG =3D "python"
+> > +PACKAGECONFIG =3D "python update-alternatives"
+> >  PACKAGECONFIG[python] =3D ",,,${PYTHONRDEPS}"
+> > +PACKAGECONFIG[update-alternatives] =3D ",,,"
+> > +
+> > +PROVIDES_remove =3D "${@'virtual/update-alternatives' if
+> > 'update-alternatives' not in PACKAGECONFIG.split() else ''}"
+>
+> If we have to do this, rather than using _remove here could we simply mak=
+e
+> adding it conditional?
+>
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-index d9c6532..3a1cce0 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-@@ -6,16 +6,20 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
-                     file://README;beginline=1;endline=56;md5=a07250b28e857455336bb59fc31cb845 \
-                     file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=e8e021e30f3a6ab7c341b66b86626a5a"
--DEPENDS = "gnutls dbus libnl openssl libgcrypt"
-+DEPENDS = "dbus libnl libgcrypt"
- RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
- 
-+PACKAGECONFIG ??= "gnutls"
-+PACKAGECONFIG[gnutls] = ",,gnutls"
-+PACKAGECONFIG[openssl] = ",,openssl"
-+
- inherit systemd
- 
- SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
- SYSTEMD_AUTO_ENABLE = "disable"
- 
- SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
--           file://defconfig-gnutls \
-+           file://defconfig \
-            file://wpa-supplicant.sh \
-            file://wpa_supplicant.conf \
-            file://wpa_supplicant.conf-sane \
-@@ -34,8 +38,18 @@ FILES_${PN} += "${datadir}/dbus-1/system-services/*"
- CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
- 
- do_configure () {
--	install -m 0755 ${WORKDIR}/defconfig-gnutls wpa_supplicant/.config
-+	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
- 	echo "CFLAGS +=\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.config
-+	
-+	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
-+        	ssl=openssl
-+	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
-+        	ssl=gnutls
-+	fi
-+	if [ -n "$ssl" ]; then
-+        	sed -i "s/%ssl%/$ssl/" wpa_supplicant/.config
-+	fi
-+
- }
- 
- export EXTRA_CFLAGS = "${CFLAGS}"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-similarity index 99%
-rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
-rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-index 92ef823..f04e398 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-@@ -453,7 +453,7 @@ CONFIG_CTRL_IFACE_DBUS_NEW=y
- #LIBS_p += -lbfd -liberty -lz
- #LIBS_c += -lbfd -liberty -lz
- 
--CONFIG_TLS = gnutls
-+CONFIG_TLS = %ssl%
- CONFIG_CTRL_IFACE_DBUS=y
- CONFIG_CTRL_IFACE_DBUS_NEW=y
- 
--- 
-1.7.9.5
+Isn't _remove itself conditional? Pardon me if my understanding is wrong.
 
 
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>
+
+
+
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
+
+--001a11c2cafcc6a5df04fff5f297
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Wed, Aug 6, 2014 at 6:08 PM, Paul Eggleton <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eg=
+gleton@linux.intel.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On W=
+ednesday 06 August 2014 17:34:09 Sujith H wrote:<br>
+&gt; From: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com">Suji=
+th_Haridasan@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; This is needed to deal with the situation where we&#39;re using ipk pa=
+ckaging,<br>
+&gt; so opkg-utils must be built regardless of what update-alternatives pro=
+vider<br>
+&gt; we prefer. The downside to the current implementation is the need to a=
+djust<br>
+&gt; PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit t=
+hat<br>
+&gt; way.<br>
+&gt;<br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:kergoth@gmail.=
+com">kergoth@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.=
+com">Sujith_Haridasan@mentor.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_gi=
+t.bb" target=3D"_blank">opkg-utils_git.bb</a> | 8 +++++++-<br>
+&gt; =C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-u=
+tils_git.bb" target=3D"_blank">opkg-utils_git.bb</a><br>
+&gt; b/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_git.bb=
+" target=3D"_blank">opkg-utils_git.bb</a> index 693c216..952fce4<br>
+&gt; 100644<br>
+&gt; --- a/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_gi=
+t.bb" target=3D"_blank">opkg-utils_git.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_gi=
+t.bb" target=3D"_blank">opkg-utils_git.bb</a><br>
+&gt; @@ -19,11 +19,17 @@ TARGET_CC_ARCH +=3D &quot;${LDFLAGS}&quot;<br>
+&gt; =C2=A0PYTHONRDEPS =3D &quot;python python-shell python-io python-math =
+python-crypt<br>
+&gt; python-logging python-fcntl python-subprocess python-pickle<br>
+&gt; python-compression python-textutils python-stringold&quot;<br>
+&gt; PYTHONRDEPS_class-native =3D &quot;&quot;<br>
+&gt;<br>
+&gt; -PACKAGECONFIG =3D &quot;python&quot;<br>
+&gt; +PACKAGECONFIG =3D &quot;python update-alternatives&quot;<br>
+&gt; =C2=A0PACKAGECONFIG[python] =3D &quot;,,,${PYTHONRDEPS}&quot;<br>
+&gt; +PACKAGECONFIG[update-alternatives] =3D &quot;,,,&quot;<br>
+&gt; +<br>
+&gt; +PROVIDES_remove =3D &quot;${@&#39;virtual/update-alternatives&#39; if=
+<br>
+&gt; &#39;update-alternatives&#39; not in PACKAGECONFIG.split() else &#39;&=
+#39;}&quot;<br>
+<br>
+</div></div>If we have to do this, rather than using _remove here could we =
+simply make<br>
+adding it conditional?<br></blockquote><div><br></div><div>Isn&#39;t _remov=
+e itself conditional? Pardon me if my understanding is wrong.<br>=C2=A0<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">
+
+
+<br>
+Cheers,<br>
+Paul<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+<br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br>=E0=B4=B8=
+=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=
+=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&g=
+t;Contributor to KDE project<br><a href=3D"http://fci.wikia.com/wiki/Anti-D=
+RM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign<=
+/a><br>
+
+&lt;Blog&gt; <a href=3D"http://sujithh.info" target=3D"_blank">http://sujit=
+hh.info</a><br>
+</div></div>
+
+--001a11c2cafcc6a5df04fff5f297--
