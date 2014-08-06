@@ -1,39 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 44B2865CC1
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B0DA0617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 09:03:29 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id b13so2307345wgh.30
+	Wed,  6 Aug 2014 10:07:52 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id g10so3012513pdj.26
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Aug 2014 02:03:30 -0700 (PDT)
+	Wed, 06 Aug 2014 03:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=J31e01Ew5b37Z5NNnNPc+0PytAnx+iNxPpJrWcswkWw=;
-	b=jFsOY8eN4F6BRRmOwgZKSncMCxwbnn5gOfqSrLwOINnDOXjmUJRIzFkm38mq5+0aD7
-	jthV8YWr3/rGKaEcs+54MiXm3z0Et0nWIWAeXX7/V3Ahjx4rrgU9RlfXvRr3Pchip1OG
-	4K2vr+2h5dKdpkIBV6e8f5/fanA9LawyY2uSAIFc1B3YQJ2txFi18bHHBxw+CvRbBqbA
-	q5K10+JGShh99zWK2x9XoZNH9yAOp8XT+07PAjmrEs2uo1MvQqWIcQqaYDdQdVD0vfhJ
-	QOFV9ZG60yANYCziti1wnBWLZa0tob+lklLZ40PbNazikOKxo83pA4wA4mFqTS2j/g8C
-	zlaw==
-X-Received: by 10.194.84.69 with SMTP id w5mr14399728wjy.0.1407315810818;
-	Wed, 06 Aug 2014 02:03:30 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	o2sm16206139wij.24.2014.08.06.02.03.28 for <multiple recipients>
+	h=from:to:cc:subject:date:message-id;
+	bh=ZxCMrsksl5D7IYVs4WZS8VOhHTVbAYbZYO83RQwqpeQ=;
+	b=qiam1Zr0nwunqTGtYwGjd7EHaZWhE9jDqvKPHewx4ANByZ+H+rvSjkR21/V3qreFD8
+	IMkBu6s9srNM051Qm2LxRFNml+pJZ0urLhLPFhSnCH+T9Cm7WUW+FNU8oN3mhTDGvg/M
+	5d7iLEsR3U4qeczlLpxTp22UT8pgzTU0cyHh1K4E4DS5Y+bJE7DTyNTGmIzuUEih8xjo
+	Bn16wTopnA+w3zcJtdBe2yWNV9aKVlRfZ9jli4mjMCS3FYDmSRQy3fVy47obtNy/q24Y
+	KONhcdifqHPM8CFyNIyLSPMWqLcflOUGJJBXJPc5MyRpDo8q5bDBPbosv8e48OS94/qN
+	bYog==
+X-Received: by 10.66.182.69 with SMTP id ec5mr10296703pac.125.1407319673825;
+	Wed, 06 Aug 2014 03:07:53 -0700 (PDT)
+Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
+	by mx.google.com with ESMTPSA id v5sm1019625pdc.7.2014.08.06.03.07.51
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Aug 2014 02:03:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 6 Aug 2014 11:03:59 +0200
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20140806090359.GD14848@jama>
-References: <alpine.LFD.2.11.1408060435001.1524@localhost>
-MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.11.1408060435001.1524@localhost>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what is the proper way to define a blacklist?
+	Wed, 06 Aug 2014 03:07:52 -0700 (PDT)
+From: Sujith H <sujith.h@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Aug 2014 15:34:26 +0530
+Message-Id: <1407319466-5066-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Cc: Sujith H <Sujith_Haridasan@mentor.com>
+Subject: [PATCH] systemd: Adding RRECOMMENDS for os-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,75 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 09:03:37 -0000
-X-Groupsio-MsgNum: 56038
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="hoZxPH4CaxYzWscb"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 06 Aug 2014 10:07:58 -0000
 
---hoZxPH4CaxYzWscb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Sujith H <Sujith_Haridasan@mentor.com>
 
-On Wed, Aug 06, 2014 at 04:39:29AM -0400, Robert P. J. Day wrote:
->=20
->   from blacklist.bbclass:
->=20
-> # To use the blacklist, a distribution should include this
-> # class in the INHERIT_DISTRO
->=20
->   the only way i see that class being inherited is with the simpler
-> form:
->=20
->   INHERIT +=3D "blacklist"
->=20
-> even in distro conf files, except in defaultsetup.conf, which uses:
->=20
->   INHERIT_BLACKLIST =3D "blacklist"
->=20
-> so should that comment be adjusted? what should it say?
+Systemd depends on the os-release hence adding
+RRECOMMENDS for the systemd package.
 
-That it's included by default.
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+---
+ meta/recipes-core/systemd/systemd_213.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-see oe-core/74e377eeb6de606b99ed0ff840922261f4a27abc
+diff --git a/meta/recipes-core/systemd/systemd_213.bb b/meta/recipes-core/systemd/systemd_213.bb
+index 4fb7ffc..b5ac1c3 100644
+--- a/meta/recipes-core/systemd/systemd_213.bb
++++ b/meta/recipes-core/systemd/systemd_213.bb
+@@ -248,7 +248,7 @@ RDEPENDS_${PN} += "volatile-binds"
+ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+                       util-linux-agetty \
+                       util-linux-fsck e2fsprogs-e2fsck \
+-                      kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
++                      kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 os-release \
+ "
+ 
+ PACKAGES =+ "udev-dbg udev udev-hwdb"
+-- 
+1.8.4
 
->=20
-> rday
->=20
-> --=20
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->=20
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---hoZxPH4CaxYzWscb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPh738ACgkQN1Ujt2V2gBxw5ACaA1uKozKMYgW5F68dnLmSsT98
-xCEAn2o5gAKGtMqQdpTjrgFxtxWRzVsU
-=nIcX
------END PGP SIGNATURE-----
-
---hoZxPH4CaxYzWscb--
