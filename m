@@ -1,41 +1,24 @@
-Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 41AFC60DF7
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id EA80565D5F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 02:08:24 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s7628PHd007231; Tue, 5 Aug 2014 21:08:25 -0500
-Received: from localhost ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014080521082522-687319 ;
-	Tue, 5 Aug 2014 21:08:25 -0500 
-Date: Tue, 5 Aug 2014 21:08:04 -0500
-From: Ben Shelton <ben.shelton@ni.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <20140806020804.GA16858@bshelton-desktop>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<78fc1827553729a69ee665bf4ef7e33495d9de0b.1407177403.git.ben.shelton@ni.com>
-	<53E129D4.3050402@windriver.com>
-	<CAP9ODKqt79-1XkYDi01Wn-ZT5f13e4s=BhF08=zj8B==Hcjkpg@mail.gmail.com>
-	<53E14013.1000301@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <53E14013.1000301@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/05/2014 09:08:25 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/05/2014 09:08:25 PM,
-	Serialize complete at 08/05/2014 09:08:25 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-06_01:2014-08-05, 2014-08-06,
-	1970-01-01 signatures=0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/20] udev-cache: Compress the cache
+	Wed,  6 Aug 2014 06:36:04 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 05 Aug 2014 23:36:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,810,1400050800"; d="scan'208";a="465481733"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by azsmga001.ch.intel.com with ESMTP; 05 Aug 2014 23:35:44 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Aug 2014 09:35:38 +0300
+Message-Id: <1d9570364f7f466c4e389ddf99708339164f1885.1407306890.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1407306890.git.cristian.iorga@intel.com>
+References: <cover.1407306890.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1407306890.git.cristian.iorga@intel.com>
+References: <cover.1407306890.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] qemu: upgrade to 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,59 +31,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 02:08:26 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 06 Aug 2014 06:36:11 -0000
 
-On 08/05, Randy MacLeod wrote:
-> On 14-08-05 04:09 PM, Otavio Salvador wrote:
-> >On Tue, Aug 5, 2014 at 4:00 PM, Randy MacLeod
-> ><randy.macleod@windriver.com> wrote:
-> >>On 14-08-04 02:40 PM, Ben Shelton wrote:
-> >>>
-> >>>From: Richard Tollerton <rich.tollerton@ni.com>
-> >>>
-> >>>$DEVCACHE is observed to be 100k uncompressed; compressing it reduces
-> >>>its size to ~5k.
-> >>>
-> >>>Natinst-Rally-ID: TA44427
-> >>>Acked-by: Gratian Crisan <gratian.crisan@ni.com>
-> >>>Natinst-ReviewBoard-ID: 58620
-> >>
-> >>
-> >>
-> >>This is a good series of patches; thanks for sending them.
-> >>
-> >>It would be nice if you could remove your company's ID tags
-> >>from the commit log. For example, you create and use could use
-> >>a YP bugzilla ID ( https://bugzilla.yoctoproject.org/ ) and
-> >>then match that up in your internal process.
-> >
-> >I don't think we should ask for this. I saw several of us to include
-> >Id tags in past commits (I also did) and I think it is fine. We
-> >shouldn't ask an extra step for people to be able to track it (open a
-> >YP bugzilla ID issue for example).
-> >
-> 
-> Wind River patches used to include a "CQID" tag but we've changed
-> our process to avoid needing such internal tags. If National
-> Instruments can do so as well, that'd be best.
-> 
-> I did check my oe-core email list history and this seems like the
-> first patch from NI that has the tags included so I thought
-> I'd reply and see if we can get the tags dropped.
-> 
-> Ben, what's the story?
+QEMU 2.1 comes with fixes and improvements.
+See http://wiki.qemu.org/ChangeLog/2.1 for details.
+- Add gnutls as a build dependency, because this can be a
+runtime dependency for VNC support.
+- pcie_better_hotplug_support.patch removed,
+integrated upstream.
+- Qemu-Arm-versatilepb-Add-memory-size-checking.patch updated
+to 2.1 source code.
+- no-strip.patch removed, no longer necessary due to code changes.
 
-In the past, I've stripped the tags before posting the patches.  Looks
-like I forgot this time -- I'll remove the tags when I submit v2 of the
-patch set.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ ...-Arm-versatilepb-Add-memory-size-checking.patch |  2 +-
+ .../qemu/files/pcie_better_hotplug_support.patch   | 74 ----------------------
+ meta/recipes-devtools/qemu/qemu.inc                |  3 +-
+ meta/recipes-devtools/qemu/qemu/no-strip.patch     | 15 -----
+ .../qemu/{qemu_2.0.0.bb => qemu_2.1.0.bb}          |  7 +-
+ 5 files changed, 4 insertions(+), 97 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/no-strip.patch
+ rename meta/recipes-devtools/qemu/{qemu_2.0.0.bb => qemu_2.1.0.bb} (81%)
 
-Thanks,
-Ben
+diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+index 3834aed..7f1c5a9 100644
+--- a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
++++ b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+@@ -32,7 +32,7 @@ index b48d84c..ad2cd5a 100644
+ +                ((unsigned int)ram_size / (1 << 20)));
+ +        exit(1);
+ +    }
+-     memory_region_init_ram(ram, NULL, "versatile.ram", args->ram_size);
++     memory_region_init_ram(ram, NULL, "versatile.ram", machine->ram_size);
+      vmstate_register_ram_global(ram);
+      /* ??? RAM should repeat to fill physical memory space.  */
+ -- 
+diff --git a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+deleted file mode 100644
+index c7035b2..0000000
+--- a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-The current code is broken: it does surprise removal which crashes guests.
+-
+-Reimplemented the steps:
+- - Hotplug triggers both 'present detect change' and
+-   'attention button pressed'.
+-
+- - Hotunplug starts by triggering 'attention button pressed',
+-   then waits for the OS to power off the device and only
+-   then detaches it.
+-
+-Fixes CVE-2014-3471.
+-
+-Originated-by: Marcel Apfelbaum <address@hidden>
+-Updated-by: Daniel BORNAZ <daniel.bornaz@enea.com>
+-
+---- a/hw/pci/pcie.c	2014-04-17 15:44:44.000000000 +0200
+-+++ b/hw/pci/pcie.c	2014-07-15 13:03:16.905070562 +0200
+-@@ -258,7 +258,8 @@ void pcie_cap_slot_hotplug_cb(HotplugHan
+- 
+-     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+-                                PCI_EXP_SLTSTA_PDS);
+--    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+-+    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
+-+                        PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
+- }
+- 
+- void pcie_cap_slot_hot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+-@@ -268,10 +269,7 @@ void pcie_cap_slot_hot_unplug_cb(Hotplug
+- 
+-     pcie_cap_slot_hotplug_common(PCI_DEVICE(hotplug_dev), dev, &exp_cap, errp);
+- 
+--    object_unparent(OBJECT(dev));
+--    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+--                                 PCI_EXP_SLTSTA_PDS);
+--    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+-+    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
+- }
+- 
+- /* pci express slot for pci express root/downstream port
+-@@ -352,6 +350,11 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+-     hotplug_event_update_event_status(dev);
+- }
+- 
+-+static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
+-+{
+-+    object_unparent(OBJECT(dev));
+-+}
+-+
+- void pcie_cap_slot_write_config(PCIDevice *dev,
+-                                 uint32_t addr, uint32_t val, int len)
+- {
+-@@ -376,6 +379,22 @@ void pcie_cap_slot_write_config(PCIDevic
+-                         sltsta);
+-     }
+- 
+-+    /*
+-+     * If the slot is polulated, power indicator is off and power
+-+     * controller is off, it is safe to detach the devices.
+-+     */
+-+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+-+        ((val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF)) {
+-+            PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+-+            pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+-+                                pcie_unplug_device, NULL);
+-+
+-+            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+-+                                         PCI_EXP_SLTSTA_PDS);
+-+            pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+-+                                       PCI_EXP_SLTSTA_PDC);
+-+    }
+-+
+-     hotplug_event_notify(dev);
+- 
+-     /* 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 84330ae..0cdeeb4 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -1,7 +1,7 @@
+ SUMMARY = "Fast open source processor emulator"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+-DEPENDS = "glib-2.0 zlib alsa-lib pixman dtc libsdl \
++DEPENDS = "glib-2.0 zlib gnutls alsa-lib pixman dtc libsdl \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
+ DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
+ DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+@@ -17,7 +17,6 @@ QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
+ 
+ SRC_URI = "\
+     file://powerpc_rom.bin \
+-    file://no-strip.patch \
+     file://larger_default_ram_size.patch \
+     file://disable-grabs.patch \
+     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu/no-strip.patch b/meta/recipes-devtools/qemu/qemu/no-strip.patch
+deleted file mode 100644
+index d6a4377..0000000
+--- a/meta/recipes-devtools/qemu/qemu/no-strip.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: qemu-0.14.0/Makefile
+-===================================================================
+---- qemu-0.14.0.orig/Makefile
+-+++ qemu-0.14.0/Makefile
+-@@ -235,7 +235,7 @@ install-sysconfig:
+- install: all $(if $(BUILD_DOCS),install-doc) install-sysconfig
+- 	$(INSTALL_DIR) "$(DESTDIR)$(bindir)"
+- ifneq ($(TOOLS),)
+--	$(INSTALL_PROG) $(STRIP_OPT) $(TOOLS) "$(DESTDIR)$(bindir)"
+-+	$(INSTALL_PROG) $(TOOLS) "$(DESTDIR)$(bindir)"
+- endif
+- ifneq ($(BLOBS),)
+- 	$(INSTALL_DIR) "$(DESTDIR)$(datadir)"
+diff --git a/meta/recipes-devtools/qemu/qemu_2.0.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+similarity index 81%
+rename from meta/recipes-devtools/qemu/qemu_2.0.0.bb
+rename to meta/recipes-devtools/qemu/qemu_2.1.0.bb
+index 9a530a6..abf8dfc 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+@@ -5,14 +5,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ 
+ SRC_URI += "file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+-            file://pcie_better_hotplug_support.patch \
+             "
+ 
+-
+-
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "2790f44fd76da5de5024b4aafeb594c2"
+-SRC_URI[sha256sum] = "60cc1aa0cad39cec891f970bed60ca8a484f071adad4943123599ac223543a3b"
++SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
++SRC_URI[sha256sum] = "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e97e6fd2f31e8f8802"
+ 
+ COMPATIBLE_HOST_class-target_mips64 = "null"
+ 
+-- 
+1.9.1
 
-> 
-> -- 
-> # Randy MacLeod. SMTS, Linux, Wind River
-> Direct: 613.963.1350
 
